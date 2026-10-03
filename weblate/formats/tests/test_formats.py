@@ -102,7 +102,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Generator, Iterable
 
     from lxml.etree import _Element
 
@@ -1100,7 +1100,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     @contextmanager
     def temporary_file_format_param(
         self, key: FileFormatParamKey, value: str | int | bool
-    ) -> Iterator[None]:
+    ) -> Generator[None, None, None]:
         """Temporarily set a file format parameter for the duration of the context."""
         if key in self.FILE_FORMAT_PARAMS:
             previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]

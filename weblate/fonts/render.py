@@ -28,7 +28,7 @@ from weblate.utils.data import data_path
 from weblate.utils.icons import find_static_file
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Generator, Iterable
 
     from matplotlib.backend_bases import RendererBase
     from matplotlib.figure import Figure
@@ -119,7 +119,7 @@ _NO_BREAK_CHARACTERS = frozenset(
 
 
 @contextmanager
-def rendering_lock() -> Iterator[None]:
+def rendering_lock() -> Generator[None, None, None]:
     """Serialize access to Matplotlib's process-global font state."""
     with _RENDER_LOCK:
         yield

@@ -39,7 +39,7 @@ from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from django.db.models import Field, Model
 
@@ -375,7 +375,7 @@ class LanguageMoveTest(LanguageMoveFixtures):
 
 
 @contextmanager
-def norwegian_alias_data() -> Iterator[None]:
+def norwegian_alias_data() -> Generator[None, None, None]:
     """Simulate a coherent reversal without changing the shipped dataset."""
 
     def rename(rows: tuple) -> tuple:

@@ -80,7 +80,7 @@ from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from unittest.mock import Mock
 
 
@@ -91,7 +91,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str) -> Iterator[None]:
+def remove_file_after(filename: str) -> Generator[None, None, None]:
     try:
         yield
     finally:

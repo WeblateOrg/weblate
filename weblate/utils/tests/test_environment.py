@@ -34,11 +34,11 @@ from weblate.utils.files import remove_tree
 from weblate.utils.unittest import tempdir_setting
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Callable, Generator
 
 
 @contextmanager
-def cleaned_environment(cleanup: Callable[[], None]) -> Iterator[None]:
+def cleaned_environment(cleanup: Callable[[], None]) -> Generator[None, None, None]:
     cleanup()
     try:
         yield

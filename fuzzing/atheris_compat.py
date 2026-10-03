@@ -7,7 +7,7 @@ from contextlib import contextmanager
 from typing import TYPE_CHECKING, TypeVar, cast
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator, Sequence
+    from collections.abc import Callable, Generator, Sequence
 
 _ValueT = TypeVar("_ValueT")
 
@@ -76,7 +76,7 @@ class FuzzedDataProvider:
 
 
 @contextmanager
-def instrument_imports() -> Iterator[None]:
+def instrument_imports() -> Generator[None, None, None]:
     if _atheris is None:
         yield
         return
