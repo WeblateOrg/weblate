@@ -28,7 +28,8 @@ The backup can be restored when creating a project (see
    Project backups can also be created, listed, and downloaded through the
    :ref:`api` since version 2026.7;
 
-The backups currently do not include access control information and history.
+The backups include project-scoped teams and their memberships, but do not
+include history.
 
 Missing repository directories are skipped while component and translation
 data are still backed up. Repository maintenance failures are logged, and the

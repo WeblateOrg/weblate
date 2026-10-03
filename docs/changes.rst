@@ -13,6 +13,7 @@ Weblate 2026.10.1
 
 * Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
 * Prevented sitemaps from disclosing restricted component and translation URLs.
+* Prevented project backup imports from granting site-wide permissions through restored project teams.
 
 .. rubric:: Bug fixes
 

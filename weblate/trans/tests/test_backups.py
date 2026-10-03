@@ -29,8 +29,8 @@ from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
-from weblate.auth.data import SELECTION_MANUAL
-from weblate.auth.models import AutoGroup, Group, Role, TeamMembership
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import AutoGroup, Group, Permission, Role, TeamMembership, User
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
@@ -77,7 +77,7 @@ from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
-from weblate.workspaces.models import Workspace
+from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -293,6 +293,39 @@ class BackupsTest(ViewTestCase):
                 if item.filename == "weblate-backup.json":
                     project_data = json.loads(data.decode("utf-8"))
                     project_data["project"].update(updates)
+                    data = json.dumps(project_data).encode("utf-8")
+                target_zip.writestr(item, data)
+
+        return temp_name
+
+    def write_tampered_team_backup(self, *, role: str, member: str) -> str:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with (
+            ZipFile(backup.filename, "r") as source_zip,
+            ZipFile(temp_name, "w") as target_zip,
+        ):
+            for item in source_zip.infolist():
+                data = source_zip.read(item.filename)
+                if item.filename == "weblate-backup.json":
+                    project_data = json.loads(data.decode("utf-8"))
+                    project_data["teams"].append(
+                        {
+                            "name": "Escalation",
+                            "roles": [role],
+                            "components": [],
+                            "language_selection": SELECTION_ALL,
+                            "languages": [],
+                            "admins": [],
+                            "enforced_2fa": False,
+                            "members": [member],
+                            "autogroups": [],
+                        }
+                    )
                     data = json.dumps(project_data).encode("utf-8")
                 target_zip.writestr(item, data)
 
@@ -1758,6 +1791,35 @@ class BackupsTest(ViewTestCase):
 
         self.assertFalse(team.user_set.filter(pk=user.pk).exists())
 
+    def test_restore_rejects_global_role_in_project_team(self) -> None:
+        attacker = User.objects.create_user(
+            "backup-role-attacker", "backup-role-attacker@example.com"
+        )
+        role = Role.objects.create(name="Backup global role")
+        role.permissions.add(Permission.objects.get(codename="user.edit"))
+        temp_name = self.write_tampered_team_backup(
+            role=role.name, member=attacker.username
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            with self.assertRaises(ValidationError) as error:
+                restore.restore(
+                    project_name="Escalation",
+                    project_slug="escalation",
+                    user=attacker,
+                )
+
+        self.assertIn(
+            "Referenced role cannot be assigned to a project team.",
+            str(error.exception),
+        )
+        self.assertFalse(Project.objects.filter(slug="escalation").exists())
+        attacker.refresh_from_db()
+        attacker.clear_permissions_cache()
+        self.assertFalse(attacker.has_perm("user.edit"))
+
     def test_restore_rejects_invalid_autogroup_expression(self) -> None:
         with self.assertRaises(ValidationError):
             ProjectBackup.validate_model_data(
@@ -2992,6 +3054,50 @@ class BackupsTest(ViewTestCase):
             self.assertContains(response, "Project backup import in progress")
             project = Project.objects.get(slug="import-test")
             self.assertEqual(project.component_set.count(), 2)
+
+    def test_workspace_project_creator_cannot_import_global_role(self) -> None:
+        attacker = User.objects.create_user(
+            "workspace-importer",
+            "workspace-importer@example.com",
+            "testpassword",
+        )
+        workspace = Workspace.objects.create(name="Import workspace")
+        attacker.add_team(
+            None, workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        attacker.clear_permissions_cache()
+        self.assertFalse(attacker.has_perm("project.add"))
+        self.assertFalse(attacker.has_perm("workspace.add"))
+
+        temp_name = self.write_tampered_team_backup(
+            role="Add new projects", member=attacker.username
+        )
+        self.client.login(username=attacker.username, password="testpassword")
+        with remove_file_after(temp_name):
+            with open(temp_name, "rb") as handle:
+                response = self.client.post(
+                    reverse("create-project-import"),
+                    {"zipfile": handle, "workspace": workspace.pk},
+                    follow=True,
+                )
+            self.assertEqual(response.status_code, 200)
+
+            with self.assertRaises(ValidationError):
+                self.client.post(
+                    reverse("create-project-import"),
+                    {
+                        "name": "Escalation import",
+                        "slug": "escalation-import",
+                        "workspace": workspace.pk,
+                    },
+                    follow=True,
+                )
+
+        self.assertFalse(Project.objects.filter(slug="escalation-import").exists())
+        attacker.refresh_from_db()
+        attacker.clear_permissions_cache()
+        self.assertFalse(attacker.has_perm("project.add"))
+        self.assertFalse(attacker.has_perm("workspace.add"))
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
