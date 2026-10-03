@@ -2314,6 +2314,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "suggestion_voting",
             "suggestion_autoaccept",
             "push_on_commit",
+            "push_on_update",
             "commit_pending_age",
             "auto_lock_error",
             "language_regex",

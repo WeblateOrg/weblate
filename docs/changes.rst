@@ -99,6 +99,7 @@ Weblate 2026.10
 * :ref:`Automatic translation <auto-translation>` across components now prefers matching source text and context. The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, or translated strings when reviews are disabled.
 * Improved checks, fixes, glossary matching, and machine translation for :ref:`multivalue alternatives <format-multivalue>`.
 * :ref:`TBX glossaries <tbx>` now support independent term alternatives and scoped metadata, preserved on export.
+* Added :ref:`component-push_on_update` to push only after committing translations, not after upstream updates.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` add-ons now support bundled XML rules and project-local ITS directories.
 * Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
 * Translation file uploads through the API accept form field content without a filename.

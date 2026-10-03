@@ -357,6 +357,30 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
 
+    def test_backup_restore_push_on_update(self) -> None:
+        self.component.push_on_update = False
+        self.component.save(update_fields=["push_on_update"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertIs(component_data["component"]["push_on_update"], False)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored push on update",
+            project_slug="restored-push-on-update",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertIs(restored_component.push_on_update, False)
+
     def test_backup_restore_repoweb_translations(self) -> None:
         repoweb_translations = (
             "https://example.com/{{branch}}/{{filename|parentdir}}#L{{line}}"

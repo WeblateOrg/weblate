@@ -129,6 +129,7 @@ COMPONENT_BACKUP_FIELDS = (
     "key_filter",
     "secondary_language",
     "repoweb_translations",
+    "push_on_update",
     *INHERITABLE_COMPONENT_FLAGS,
 )
 CATEGORY_BACKUP_FIELDS = (
