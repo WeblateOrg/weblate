@@ -256,8 +256,10 @@ class HgRepository(Repository):
 
     def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
+        if filenames == []:
+            return False
         cmd = ["status", "--"]
-        if filenames:
+        if filenames is not None:
             cmd.extend(filenames)
         status = self.execute(cmd, remote_op="none", needs_lock=False)
         return bool(status)
@@ -351,6 +353,8 @@ class HgRepository(Repository):
         files: list[str] | None = None,
     ) -> bool:
         """Create new revision."""
+        if files == []:
+            return False
         # Build the commit command
         cmd = ["commit", "--message", message]
         if author is not None:

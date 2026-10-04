@@ -13,6 +13,7 @@ import os.path
 import random
 import re
 import shlex
+import stat
 import sys
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
@@ -729,20 +730,52 @@ class GitRepository(Repository):
         raise RepositoryInternalError(0, "repository_redirect_too_many") from error
 
     @staticmethod
-    def cleanup_stale_lock(lock: Path) -> bool:
+    def resolve_lock_path(lock: Path, git_dir: Path) -> tuple[Path, Path] | None:
+        """Resolve a lock path and bind it to the expected Git directory."""
+        if ".." in lock.parts:
+            return None
         try:
-            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                lock.unlink(missing_ok=True)
+            resolved_git_dir = git_dir.resolve(strict=True)
+        except OSError:
+            return None
+        if not resolved_git_dir.is_dir() or lock.is_symlink():
+            return None
+        try:
+            lock_stat = lock.lstat()
+            if not stat.S_ISREG(lock_stat.st_mode):
+                return None
+            resolved_lock = lock.resolve(strict=True)
+            relative_lock = resolved_lock.relative_to(resolved_git_dir)
+        except (OSError, ValueError):
+            return None
+        if not relative_lock.parts or resolved_lock.suffix != ".lock":
+            return None
+        return resolved_lock, relative_lock
+
+    @classmethod
+    def cleanup_stale_lock(cls, lock: Path, git_dir: Path) -> bool:
+        validated_lock = cls.resolve_lock_path(lock, git_dir)
+        if validated_lock is None:
+            return False
+        resolved_lock, _ = validated_lock
+        try:
+            if time() - resolved_lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                resolved_lock.unlink(missing_ok=True)
                 return True
         except OSError:
             pass
         return False
 
-    @staticmethod
-    def should_retry_popen(errormessage: str) -> bool:
+    @classmethod
+    def should_retry_popen(cls, errormessage: str, *, cwd: str | None = None) -> bool:
+        if cwd is None:
+            return False
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
-            return GitRepository.cleanup_stale_lock(Path(locks[0]))
+            lock = Path(locks[0])
+            if not lock.is_absolute():
+                lock = Path(cwd) / lock
+            return cls.cleanup_stale_lock(lock, Path(cwd) / ".git")
         return False
 
     @classmethod
@@ -1183,10 +1216,10 @@ class GitRepository(Repository):
 
     def is_recoverable_abort_lock(self, lock: Path) -> bool:
         git_dir = self.get_git_file_path("")
-        try:
-            relative_lock = lock.relative_to(git_dir)
-        except ValueError:
+        validated_lock = self.resolve_lock_path(lock, git_dir)
+        if validated_lock is None:
             return False
+        _, relative_lock = validated_lock
         if len(relative_lock.parts) == 1:
             return relative_lock.name in RECOVERABLE_ABORT_LOCKS
         return (
@@ -1204,7 +1237,7 @@ class GitRepository(Repository):
         lock = Path(lock_paths[0])
         if not self.is_recoverable_abort_lock(lock):
             return False
-        if not self.cleanup_stale_lock(lock):
+        if not self.cleanup_stale_lock(lock, self.get_git_file_path("")):
             return False
         self.add_breadcrumb(
             "cleanup interrupted git abort lock",
@@ -1307,8 +1340,10 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
+        if filenames == []:
+            return False
         cmd = ["--no-optional-locks", "status", "--porcelain"]
-        if filenames:
+        if filenames is not None:
             cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
         with self.lock:
@@ -1395,9 +1430,11 @@ class GitRepository(Repository):
         files: list[str] | None = None,
     ) -> bool:
         """Create new revision."""
+        if files == []:
+            return False
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
-        if files:
+        if files is not None:
             for name in files:
                 try:
                     # Resolving symlinks is needed for symlinks in directory structure
