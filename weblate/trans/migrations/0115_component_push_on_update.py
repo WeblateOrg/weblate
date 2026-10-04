@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0111_component_pull_request_url"),
+        ("trans", "0114_alter_project_public_sharing"),
     ]
 
     operations = [
