@@ -502,6 +502,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
 
+        response = self.client.get(reverse("profile"))
+        self.assertRedirects(
+            response,
+            f"{reverse('login')}?next={reverse('profile')}",
+            fetch_redirect_response=False,
+        )
+
     def test_login_support_badge(self) -> None:
         cases = (
             ("community", True, "dedicated.example", "Expired"),

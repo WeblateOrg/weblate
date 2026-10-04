@@ -11,6 +11,7 @@ Weblate 2026.10.1
 
 .. rubric:: Security fixes
 
+* Added restrictive cache controls to authenticated HTML responses to prevent previously viewed content from being restored after logout.
 * Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
 * Prevented sitemaps from disclosing restricted component and translation URLs.
 * Restricted stale Git lock cleanup to the repository running the failed command and prevented empty file lists from committing unrelated changes.
