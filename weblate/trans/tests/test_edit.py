@@ -587,6 +587,16 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
 
+    def test_editor_cache_control(self) -> None:
+        for url in (
+            self.translate_url,
+            reverse("zen", kwargs=self.kw_translation),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("no-store", response.headers["Cache-Control"])
+
     def test_plurals(self) -> None:
         """Test plural editing."""
         if not self.has_plurals:
@@ -899,6 +909,19 @@ class EditTest(ViewTestCase):
 
 
 class EditAccessTest(ViewTestCase):
+    def test_private_editor_access_after_logout(self) -> None:
+        self.make_manager()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        url = reverse("translate", kwargs=self.kw_translation)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
     def create_restricted_matching_unit(self) -> tuple[Component, Unit, Unit]:
         restricted = self.create_link_existing(
             name="Restricted", slug="restricted", allow_translation_propagation=False
