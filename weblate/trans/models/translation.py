@@ -1581,6 +1581,8 @@ class Translation(
         signals=True,
         template: str | None = None,
         store_hash: bool = True,
+        *,
+        files: list[str] | None = None,
     ) -> bool:
         """Commit translation to git."""
         repository = self.component.repository
@@ -1597,6 +1599,8 @@ class Translation(
                 store_hash=store_hash,
             )
 
+            if files is None:
+                files = self.filenames
             # Do actual commit with git lock
             if self.component.commit_files(
                 template=template,
@@ -1604,11 +1608,11 @@ class Translation(
                 timestamp=timestamp,
                 skip_push=skip_push,
                 signals=signals,
-                files=self.filenames + self.addon_commit_files,
+                files=files + self.addon_commit_files,
                 extra_context={"translation": self},
                 store_hash=store_hash,
             ):
-                self.log_info("committed %s as %s", self.filenames, author)
+                self.log_info("committed %s as %s", files, author)
                 self.change_set.create(
                     action=ActionEvents.COMMIT, user=user, author=user
                 )
@@ -2156,9 +2160,13 @@ class Translation(
         request: AuthenticatedHttpRequest,
         author: User,
         change_action: ActionEvents,
+        *,
+        files: list[str] | None = None,
     ) -> None:
         component = self.component
-        if not component.repository.needs_commit(self.filenames):
+        if files is None:
+            files = self.filenames
+        if not component.repository.needs_commit(files):
             return
 
         self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
@@ -2173,6 +2181,7 @@ class Translation(
             author=author.get_author_name(),
             store_hash=False,
             signals=False,
+            files=files,
         )
 
         self.handle_store_change(
@@ -2304,19 +2313,22 @@ class Translation(
                         file_format_params=component.file_format_params,
                         repo_temp_dir=repo_temp_dir,
                     )
-                    filenames.append(filename)
+                    filenames.extend(translation.filenames)
             finally:
                 if os.path.exists(temp.name):
-                    if component.new_base:
-                        filename = component.get_new_base_filename()
+                    filename = component.get_new_base_filename()
+                    if filename is not None:
                         os.replace(temp.name, filename)
                         filenames.append(filename)
                     else:
                         os.unlink(temp.name)
 
-            # Commit changes
+            # Virtual sources have no files of their own.
             self.handle_upload_store_change(
-                request, author, change_action=ActionEvents.SOURCE_UPLOAD
+                request,
+                author,
+                change_action=ActionEvents.SOURCE_UPLOAD,
+                files=filenames,
             )
         return (0, 0, count, count)
 

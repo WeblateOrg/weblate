@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-02 12:20+0200\n"
-"PO-Revision-Date: 2026-10-02 17:13+0000\n"
+"PO-Revision-Date: 2026-10-03 19:01+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 msgid "Access control"
@@ -155,6 +155,10 @@ msgid ""
 "rest of the project public. Public sharing is disabled by default for these "
 "projects."
 msgstr ""
+"Bei privaten und benutzerdefinierten Projekten können die Beteiligungsseiten "
+"unter :ref:`project-public_sharing` sowie Status-Widgets anonym zugänglich "
+"gemacht werden, ohne dass der Rest des Projekts öffentlich zugänglich ist. "
+"Die öffentliche Freigabe ist bei diesen Projekten standardmäßig deaktiviert."
 
 msgid ""
 "Aggregate statistics include `Private` projects and :ref:`restricted "
@@ -341,10 +345,8 @@ msgstr ""
 msgid "This is useful in case you want to build self-governed teams."
 msgstr "Dies ist nützlich, wenn Sie selbstverwaltete Teams bilden möchten."
 
-#, fuzzy
-#| msgid "Site-wide permission management"
 msgid "Site-wide team management"
-msgstr "Plattformweite Rechteverwaltung"
+msgstr "Plattformweite Teamverwaltung"
 
 msgid ""
 "Site-wide team management is controlled by the global ``group.edit`` "
@@ -2867,7 +2869,7 @@ msgstr ""
 "werden nicht auf Benutzer angewendet, die diese nicht konfiguriert haben."
 
 msgid "Automation reference and cookbook"
-msgstr ""
+msgstr "Referenz und Kochbuch zur Automatisierung"
 
 msgid ""
 "The :ref:`addon-weblate.automation.automation` add-on runs declarative "
@@ -2976,10 +2978,8 @@ msgid ""
 "not store the full unit ID lists."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation context"
 msgid "Execution context"
-msgstr "Übersetzungskontext"
+msgstr "Ausführungskontext"
 
 msgid ""
 "CEL conditions can access the following fields. Context is captured when the "
@@ -3003,43 +3003,35 @@ msgstr "Bedeutung"
 msgid "integer"
 msgstr "Ganzzahl"
 
-#, fuzzy
-#| msgid "A component alert was triggered."
 msgid "Target component ID; always present."
-msgstr "Eine Komponentenwarnung wurde ausgelöst."
+msgstr "Zielkomponenten-ID; immer vorhanden."
 
 msgid "string"
 msgstr "Zeichenkette"
 
-#, fuzzy
-#| msgid "Component slug"
 msgid "Target component slug."
-msgstr "Komponenten-Slug"
+msgstr "Zielkomponenten-Slug."
 
-#, fuzzy
-#| msgid "Project slug, see :ref:`project-slug`."
 msgid "Project slug, not a project object."
-msgstr "Projekt-Slug, siehe :ref:`project-slug`."
+msgstr "Projekt-Slug, kein Projektobjekt."
 
 msgid "string or null"
-msgstr ""
+msgstr "Zeichenkette oder Null"
 
-#, fuzzy
-#| msgid "Fixed some API URLs for categorized components."
 msgid "Category slug; null for an uncategorized component."
-msgstr "Einige API-URLs für kategorisierte Komponenten korrigiert."
+msgstr "Kategorie-Slug; Null für eine unkategorisierte Komponente."
 
 msgid "Event language ID, when language is available."
-msgstr ""
+msgstr "Ereignis-Sprachkennung, sofern eine Sprache verfügbar ist."
 
 msgid "Event language code, when language is available."
-msgstr ""
+msgstr "Ereignis-Sprachcode, sofern eine Sprache verfügbar ist."
 
 msgid "Event unit ID, when unit is available."
-msgstr ""
+msgstr "Ereignis-Einheitenkennung, sofern die Einheit verfügbar ist."
 
 msgid "Captured string state; see :ref:`automation-string-states`."
-msgstr ""
+msgstr "Erfasster Zeichenkettenstatus; siehe :ref:`automation-string-states`."
 
 msgid "Source text, truncated to 4,096 characters."
 msgstr "Quelltext, auf 4.096 Zeichen gekürzt."
@@ -3074,7 +3066,7 @@ msgid "Component local revision recorded when scheduled; null if unavailable."
 msgstr ""
 
 msgid "list of integers or null"
-msgstr ""
+msgstr "Liste von Ganzzahlen oder Null"
 
 msgid ""
 "Currently a one-element list when the change references a unit; otherwise "
@@ -3084,10 +3076,8 @@ msgstr ""
 msgid "Source-unit IDs corresponding to ``trigger.unit_ids``; otherwise null."
 msgstr ""
 
-#, fuzzy
-#| msgid "*object*"
 msgid "object"
-msgstr "*object*"
+msgstr "Objekt"
 
 msgid "Initially empty; maps action IDs to successful operation outputs."
 msgstr ""
@@ -3518,10 +3508,8 @@ msgid ""
 "has its own maximum score."
 msgstr ""
 
-#, fuzzy
-#| msgid "Example:"
 msgid "Example"
-msgstr "Beispiel:"
+msgstr "Beispiel"
 
 msgid ""
 "Apply local translation memory matches scoring at least 95 to strings still "
@@ -3762,7 +3750,7 @@ msgid ""
 msgstr ""
 
 msgid "Choose"
-msgstr "Wählen"
+msgstr "Auswahl"
 
 msgid "List of (object); maximum items 100"
 msgstr "Liste von (Objekt); maximal 100 Einträge"
@@ -3800,8 +3788,9 @@ msgid ""
 "outputs."
 msgstr ""
 
+#, fuzzy
 msgid "Cookbook"
-msgstr ""
+msgstr "Kochbuch"
 
 #, fuzzy
 #| msgid "Huge translation memory with machine translation."
@@ -23900,24 +23889,18 @@ msgid ""
 "Docker rate-limit variables still work."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "173?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/172?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"173?closed=1>`__."
+"172?closed=1>`__."
 
 msgid "Weblate 2026.9.1"
 msgstr "Weblate 2026.9.1"
 
-#, fuzzy
-#| msgid "*Released on September 5th 2025.*"
 msgid "*Released on September 8th 2026.*"
-msgstr "*Veröffentlicht am 5. September 2025.*"
+msgstr "*Veröffentlicht am 8. September 2026.*"
 
 msgid ""
 "Added per-user :ref:`notification diagnostics <notifications>` for users and "
@@ -24361,16 +24344,12 @@ msgstr ""
 "um zu verhindern, dass Archive ausführbare Konfigurationen oder Repository-"
 "Dereferenzierung bereitstellen."
 
-#, fuzzy
-#| msgid ""
-#| "Project administrators can no longer remove API tokens belonging to other "
-#| "projects."
 msgid ""
 "Project administrators can no longer remove :ref:`API tokens <api-tokens>` "
 "belonging to other projects."
 msgstr ""
-"Projektadministratoren können keine API-Tokens entfernen, die zu anderen "
-"Projekten gehören."
+"Projektadministratoren können keine :ref:`API-Tokens <api-tokens>` "
+"entfernen, die zu anderen Projekten gehören."
 
 msgid ""
 "User listings and site-wide searches no longer expose project-"
@@ -24378,19 +24357,15 @@ msgid ""
 "or editing permission."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Project and workspace translation memory now respects restricted "
-#| "component access, and restricted components no longer contribute to "
-#| "shared translation memory."
 msgid ""
 "Project and workspace :ref:`translation memory <translation-memory>` now "
 "respects restricted component access, and restricted components no longer "
 "contribute to shared translation memory."
 msgstr ""
-"Projekt- und Arbeitsbereich-Übersetzungsspeicher berücksichtigt nun den "
-"eingeschränkten Zugriff auf Komponenten, und eingeschränkte Komponenten "
-"tragen nicht mehr zum gemeinsamen Übersetzungsspeicher bei."
+"Projekt- und Arbeitsbereich-:ref:`Übersetzungsspeicher <translation-memory>` "
+"berücksichtigt nun den eingeschränkten Zugriff auf Komponenten, und "
+"eingeschränkte Komponenten tragen nicht mehr zum gemeinsamen "
+"Übersetzungsspeicher bei."
 
 msgid ""
 "Webhook target matching no longer falls back to host/path suffix matching. "
@@ -26297,6 +26272,11 @@ msgid ""
 "JUSHUANGHUI LI, Chimwemwe Siyingwa, krisnaparahita, Dr Alex Mitre, Aditi "
 "Tarate, Kartik Ohri, Suleyman Arif Uzun"
 msgstr ""
+"Michal Čihař, Karen Konou, michael\\-smt, Mark Davies, Diptajoy Mistry, "
+"krisna, Metin Kılagöz, MIHAIL N., Claude Sonnet 5, mmustafasenoglu, i4i, "
+"Mustafa Senoglu, anishkun, Anish kunda, Gersona, Magnus Karlsson, "
+"JUSHUANGHUI LI, Chimwemwe Siyingwa, krisnaparahita, Dr Alex Mitre, Aditi "
+"Tarate, Kartik Ohri, Suleyman Arif Uzun"
 
 msgid "Translations contributions"
 msgstr "Beiträge zu Übersetzungen"
@@ -26314,6 +26294,17 @@ msgid ""
 "Ettore Atalan, Massimo Pissarello, Besnik Bleta, Chimwemwe Siyingwa, Nicat, "
 "Sketch6580, Areera"
 msgstr ""
+"hoanghuy309, Watchman89, Adam Havránek, Fjuro, justcontributor, Szafranek13, "
+"Tony Ng, Chloe Wang, VfBFan, Valentin Ljuba, Daniel Nylander, Andrei "
+"Stepanov, Michal Čihař, Matthaiks, Arif Budiman, Любомир Василев, Aindriú "
+"Mac Giolla Eoin, Yaron Shahrabani, Adolfo Jayme Barrientos, Sup\\! 0\\_0, "
+"Lee Vincent, Milo Ivir, Dick Groskamp, Eduard Ereza Martínez, Ricky Tigg, "
+"Mickaël Binos, reducedradius, Artyom Rybakov, Kyotaro Iijima, Jim Kats, "
+"Supaplex, Peter Vančo, Stysusss, Ulrik, Ldm Public, Júlia Rosell Saldaña, "
+"Deleted User, eulalio, Zahid Rizky Fakhri, Takeru Mikenu, 이정희, António "
+"Oliveira, xXx, தமிழ்நேரம், Kaya Zeren, Bone NI, QuietCedar47, Andi Chandler, "
+"Ettore Atalan, Massimo Pissarello, Besnik Bleta, Chimwemwe Siyingwa, Nicat, "
+"Sketch6580, Areera"
 
 msgid "Documentation contributions"
 msgstr "Beiträge zur Dokumentation"
@@ -26325,6 +26316,11 @@ msgid ""
 "krisnaparahita, krisna, Claude Opus 5.5, spatterlight, Dr Alex Mitre, Aditi "
 "Tarate, Kartik Ohri, Suleyman Arif Uzun"
 msgstr ""
+"Michal Čihař, Karen Konou, michael\\-smt, Diptajoy Mistry, Maciej Olko, "
+"MIHAIL N., Claude Sonnet 5, mmustafasenoglu, i4i, Mustafa Senoglu, anishkun, "
+"Anish kunda, Gersona, Magnus Karlsson, JUSHUANGHUI LI, Chimwemwe Siyingwa, "
+"krisnaparahita, krisna, Claude Opus 5.5, spatterlight, Dr Alex Mitre, Aditi "
+"Tarate, Kartik Ohri, Suleyman Arif Uzun"
 
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
 msgstr "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
@@ -26523,16 +26519,12 @@ msgstr ""
 msgid "Michal Čihař, i4i, Kartik Ohri"
 msgstr "Michal Čihař, i4i, Kartik Ohri"
 
-#, fuzzy
-#| msgid ""
-#| "Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
-#| "Besnik Bleta, fahadhewad, Harsha C"
 msgid ""
 "Michal Čihař, Karen Konou, Gersona, Spyder, mmustafasenoglu, Kartik Ohri, "
 "Shweta Singh, Fabian Berg"
 msgstr ""
-"Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
-"Besnik Bleta, fahadhewad, Harsha C"
+"Michal Čihař, Karen Konou, Gersona, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh, Fabian Berg"
 
 msgid ""
 "Yuri Chornoivan, Matthaiks, Steve, hoanghuy309, VfBFan, António Oliveira, "
@@ -26548,29 +26540,40 @@ msgid ""
 "Yauhen, Anucha Hlownonkor, michael0820, Artyom Rybakov, Nhật Nhật, 子悦解说, "
 "Mahdi B. Jahani, ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\)"
 msgstr ""
+"Yuri Chornoivan, Matthaiks, Steve, hoanghuy309, VfBFan, António Oliveira, "
+"Andrei Stepanov, Adam Havránek, Dick Groskamp, Aindriú Mac Giolla Eoin, Andi "
+"Chandler, Lee Vincent, Michal Čihař, Milo Ivir, Ldm Public, Peter Vančo, "
+"Alos \\(bop2039\\), Tarás Lavrentiev, Lito Parra, goeran, Любомир Василев, "
+"Vik, Bone NI, Pierfrancesco Passerini, CYAXXX, Yaron Shahrabani, Pavel "
+"Borecki, حسين نور الإسلام, amano, reducedradius, Fjuro, Frostre\\_, Sup\\! 0\\_"
+"0, Ulrik, xiezhihai, Yoshi, Alexander Gabilondo, Eduard Ereza Martínez, "
+"Watchman89, Kyotaro Iijima, AlexYang, justcontributor, Background update, "
+"Arif Budiman, Harsha Kanaparthi, notlin4, KuroisKitsune, Zahid Rizky Fakhri, "
+"Michal Várady, Massimo Pissarello, HThuren, SeyhaLite, David Wagener, "
+"Yauhen, Anucha Hlownonkor, michael0820, Artyom Rybakov, Nhật Nhật, 子悦解说, "
+"Mahdi B. Jahani, ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\)"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid ""
 "Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
 "Shweta Singh"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr ""
+"Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
 
 msgid ""
 "ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\), Ldm Public, hoanghuy309, Vaclovas Intas \\"
 "(Vac31.\\), Matthaiks, Adam Havránek, VfBFan, reducedradius, Bone NI, Yaron "
 "Shahrabani, Любомир Василев, Fjuro, Andrei Stepanov, Arif Budiman, Watchman89"
 msgstr ""
+"ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\), Ldm Public, hoanghuy309, Vaclovas Intas \\"
+"(Vac31.\\), Matthaiks, Adam Havránek, VfBFan, reducedradius, Bone NI, Yaron "
+"Shahrabani, Любомир Василев, Fjuro, Andrei Stepanov, Arif Budiman, Watchman89"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, michael-smt"
 msgid "Michal Čihař, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, michael-smt"
+msgstr "Michal Čihař, Shweta Singh, michael\\-smt"
 
 msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
@@ -40127,10 +40130,8 @@ msgid ""
 "incompatible."
 msgstr ""
 
-#, fuzzy
-#| msgid "Mobile Kotlin resources"
 msgid "Testing Kotlin SDK resources"
-msgstr "Mobile-Kotlin-Ressourcen"
+msgstr "Kotlin-SDK-Ressourcen testen"
 
 msgid ""
 "Run ``uv run pytest weblate/kotlin_sdk/tests.py`` with the :doc:`test "
@@ -41486,10 +41487,8 @@ msgstr "Abstraktion der Versionsverwaltung."
 msgid "Django admin interface customization."
 msgstr "Anpassen der Django-Adminoberfläche."
 
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation sources"
-msgstr "Übersetzungsrichtlinien"
+msgstr "Übersetzungsquellen"
 
 msgid ""
 "A unit has a canonical file source and may have a translation from another "
@@ -42590,10 +42589,8 @@ msgid ""
 "refreshes dependencies and test assets before running pytest."
 msgstr ""
 
-#, fuzzy
-#| msgid "To display the logs:"
 msgid "To display application logs:"
-msgstr "Um die Protokolle anzuzeigen:"
+msgstr "Um die Anwendungsprotokolle anzuzeigen:"
 
 msgid "To stop only the application profile, retaining its data:"
 msgstr ""
@@ -43628,10 +43625,8 @@ msgid ""
 "project-specific instructions alongside it."
 msgstr ""
 
-#, fuzzy
-#| msgid "Uploading translations"
 msgid "Welcoming translators"
-msgstr "Übersetzungen hochladen"
+msgstr "Übersetzende willkommen heißen"
 
 msgid ""
 "Set :ref:`project-instructions` to explain where to begin, which components "
@@ -47528,10 +47523,8 @@ msgstr ""
 "ordnungsgemäß unterstützt werden. Wählen Sie das native Format Ihrer "
 "Plattform wie :ref:`gettext`, :ref:`aresource` oder :ref:`stringsdict` aus."
 
-#, fuzzy
-#| msgid "File formats"
 msgid "Multivalue formats"
-msgstr "Dateiformate"
+msgstr "Mehrwertige Formate"
 
 msgid ""
 "Multivalue formats, such as :ref:`multivalue-csv` and :ref:`tbx`, store "
@@ -64859,10 +64852,8 @@ msgstr ""
 "Übersetzung verwendet wird, da sonst einige Funktionen möglicherweise nicht "
 "richtig übersetzt werden."
 
-#, fuzzy
-#| msgid "Language selection"
 msgid "Language checking"
-msgstr "Sprachauswahl"
+msgstr "Sprachprüfung"
 
 msgid ""
 "Weblate checks language metadata declared in uploaded files when the format "
@@ -69040,23 +69031,17 @@ msgstr ""
 "Überschreibt den Abschnitt der verwendeten Konfigurationsdatei, "
 "siehe :ref:`wlc-config`."
 
-#, fuzzy
-#| msgid "object name"
 msgid "Object paths"
-msgstr "Objektname"
+msgstr "Objektpfade"
 
 msgid "Commands that operate on an object accept one of these paths:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Project slug"
 msgid "Project slug."
-msgstr "Projekt-Slug"
+msgstr "Projekt-Slug."
 
-#, fuzzy
-#| msgid "Component slug used to construct URL."
 msgid "Component slug, including its project."
-msgstr "Komponenten-Slug, der zum Aufbau der URL verwendet wird."
+msgstr "Komponenten-Slug, einschließlich seines Projekts."
 
 #, fuzzy
 #| msgid "Adding translation projects and components"
@@ -69085,20 +69070,14 @@ msgstr "Die folgenden Befehle sind verfügbar:"
 msgid "Prints the current version."
 msgstr "Gibt die aktuelle Version aus."
 
-#, fuzzy
-#| msgid "Prints the current version."
 msgid "Prints only the version number."
-msgstr "Gibt die aktuelle Version aus."
+msgstr "Gibt nur die Versionsnummer aus."
 
-#, fuzzy
-#| msgid "Lists used languages in Weblate."
 msgid "Lists all languages in Weblate."
-msgstr "Listet die in Weblate verwendeten Sprachen auf."
+msgstr "Listet alle Sprachen in Weblate auf."
 
-#, fuzzy
-#| msgid "Lists projects in Weblate."
 msgid "Lists all projects in Weblate."
-msgstr "Listet die Projekte in Weblate auf."
+msgstr "Listet alle Projekte in Weblate auf."
 
 #, fuzzy
 #| msgid "List components in a component list."
@@ -69114,30 +69093,22 @@ msgid ""
 msgstr ""
 "Gibt eine Liste der Übersetzungsobjekte in der angegebenen Komponente zurück."
 
-#, fuzzy
-#| msgid "Listing of other translations."
 msgid "Lists units in the specified translation."
-msgstr "Auflistung anderer Übersetzungen."
+msgstr "Listet die Einheiten in der angegebenen Übersetzung auf."
 
 msgid "Filters units using the :doc:`search query syntax </user/search>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Workspace, project, component, and translation flags are merged."
 msgid "Shows a project, component, translation, or unit."
 msgstr ""
-"Arbeitsbereichs-, Projekt-, Komponenten- und Übersetzungsmarkierungen werden "
-"zusammengeführt."
+"Zeigt ein Projekt, eine Komponente, eine Übersetzung oder eine Einheit an."
 
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid ""
 "Deletes a project, component, translation, or unit without a confirmation "
 "prompt."
 msgstr ""
-"API erweitert, um Projekte, Komponenten und Übersetzungen zu entfernen/"
-"erstellen."
+"Löscht ein Projekt, eine Komponente, eine Übersetzung oder eine Einheit ohne "
+"Sicherheitsabfrage."
 
 #, fuzzy
 #| msgid ""
@@ -69198,10 +69169,8 @@ msgstr ""
 "Zeigt detaillierte Statistiken für ein bestimmtes Weblate-Objekt an "
 "(Übersetzung, Komponente oder Projekt)."
 
-#, fuzzy
-#| msgid "Displays lock status."
 msgid "Displays the lock status of a component."
-msgstr "Zeigt den Sperrstatus an."
+msgstr "Zeigt den Sperrstatus einer Komponente an."
 
 msgid "Locks component from further translation in Weblate."
 msgstr "Sperrt die Komponente vor weiterer Übersetzung in Weblate."
