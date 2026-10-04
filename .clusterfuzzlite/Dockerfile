@@ -1,7 +1,7 @@
 # Copyright © Weblate contributors
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-FROM ghcr.io/weblateorg/dev:2026.40.0@sha256:110a3dc88846ae15e7ddf17e63c7f1137a075ae7b65b7ed31ce96bf0ba788c8f
+FROM ghcr.io/weblateorg/dev:2026.41.0@sha256:de1c63281ccc219a1a6292bf59dca93513872a8a7760e42a31f6bff797b16e46
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python
