@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - weblate-*
     - dependabot/**
     - copilot/**
     - codex/**
@@ -37,7 +38,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.12.19
+        version: 0.12.23
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Used versions
@@ -60,7 +61,7 @@ jobs:
       run: client/node_modules/.bin/redocly lint --extends recommended-strict --format github-actions docs/specs/openapi.yaml
     - name: Verify OpenAPI spec is up to date
       run: git diff --exit-code
-    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+    - uses: pre-commit-ci/lite-action@062bca0919bc9d6e66755cc05074b70c77e111fc # v1.2.0
       if: always()
       with:
         msg: 'chore(docs): update OpenAPI schema'

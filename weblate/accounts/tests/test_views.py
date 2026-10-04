@@ -12,6 +12,7 @@ from unittest import mock
 
 from asgiref.sync import async_to_sync
 from django.conf import settings
+from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.cache import cache
 from django.test.utils import modify_settings, override_settings
@@ -25,6 +26,7 @@ from social_core.exceptions import (
     AuthFailed,
     AuthForbidden,
     AuthMissingParameter,
+    AuthReauthenticationRequired,
     AuthStateMissing,
     AuthTokenError,
     InvalidEmail,
@@ -38,7 +40,8 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
-from weblate.accounts.views import log_handled_auth_failure
+from weblate.accounts.pipeline import EmailAlreadyAssociated
+from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
@@ -499,6 +502,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
 
+        response = self.client.get(reverse("profile"))
+        self.assertRedirects(
+            response,
+            f"{reverse('login')}?next={reverse('profile')}",
+            fetch_redirect_response=False,
+        )
+
     def test_login_support_badge(self) -> None:
         cases = (
             ("community", True, "dedicated.example", "Expired"),
@@ -681,11 +691,120 @@ class ViewTest(RepoTestCase):
             reportable=True,
         )
 
+    def test_auth_token_error_guidance(self) -> None:
+        backend = self.get_backend()
+        verification = (
+            "The authentication response could not be verified. "
+            "Please try signing in again."
+        )
+        fallback = (
+            "Please try signing in again. "
+            "If the problem persists, contact the administrator."
+        )
+        cases = [
+            (AuthTokenError(backend, reason), verification)
+            for reason in (
+                "Incorrect id_token: nonce",
+                "Missing csrf token from response",
+                "csrf token from cookie and response does not match",
+            )
+        ]
+        cases.extend(
+            [
+                (
+                    AuthTokenError(backend, "Signature has expired"),
+                    (
+                        "The authentication response has expired. "
+                        "Please try signing in again."
+                    ),
+                ),
+                (
+                    AuthReauthenticationRequired(backend),
+                    "Please authenticate with the provider again.",
+                ),
+                (AuthTokenError(backend), fallback),
+                (AuthTokenError(backend, ValueError("Invalid signature")), fallback),
+                *[
+                    (AuthTokenError(backend, reason), fallback)
+                    for reason in (
+                        "Incorrect id_token: iat",
+                        "Incorrect id_token: nbf",
+                        "Missing unauthorized token",
+                        "Token tenant does not match configured tenant",
+                        "Invalid signature",
+                        "Invalid key/secret, perhaps expired",
+                        "Unknown token failure",
+                        "Incorrect id_token: nonce extra detail",
+                    )
+                ],
+            ]
+        )
+        for error, guidance in cases:
+            with self.subTest(error=error):
+                self.assertEqual(
+                    auth_token_error_message(error),
+                    f"Authentication failed: {error} {guidance}",
+                )
+
+    def test_social_complete_token_error_preserves_session(self) -> None:
+        user = self.get_user()
+        for authenticated in (False, True):
+            with self.subTest(authenticated=authenticated):
+                if authenticated:
+                    self.client.force_login(user)
+                session = self.client.session
+                session["token_error_test"] = "preserved"
+                session.save()
+                error = AuthTokenError(self.get_backend(), "Incorrect id_token: nonce")
+                with (
+                    mock.patch("weblate.accounts.views.complete", side_effect=error),
+                    mock.patch("weblate.accounts.views.report_error") as report,
+                    mock.patch(
+                        "weblate.accounts.views.log_handled_auth_failure"
+                    ) as handled,
+                ):
+                    response = self.client.get(
+                        reverse("social:complete", args=("github",))
+                    )
+                self.assertRedirects(
+                    response, reverse("login"), fetch_redirect_response=False
+                )
+                self.assertEqual(
+                    [str(message) for message in get_messages(response.wsgi_request)],
+                    [auth_token_error_message(error)],
+                )
+                report.assert_called_once_with("Could not authenticate")
+                handled.assert_not_called()
+                self.assertEqual(self.client.session["token_error_test"], "preserved")
+                if authenticated:
+                    self.assertEqual(int(self.client.session["_auth_user_id"]), user.pk)
+                    self.assertRedirects(
+                        self.client.get(reverse("login")), reverse("profile")
+                    )
+                else:
+                    self.assertNotIn("_auth_user_id", self.client.session)
+                    self.assertEqual(self.client.get(reverse("login")).status_code, 200)
+
     def test_social_complete_reports_auth_forbidden(self) -> None:
         self.assert_social_complete_result(
             AuthForbidden(self.get_backend()),
             expected_text="The server does not allow authentication.",
             reportable=True,
+        )
+
+    def test_social_complete_preserves_registration_guidance(self) -> None:
+        error = EmailAlreadyAssociated(self.get_backend())
+        with mock.patch("weblate.accounts.views.complete", side_effect=error):
+            response = self.client.get(
+                reverse("social:complete", args=("github",)), follow=True
+            )
+        self.assertContains(response, "Could not complete registration.")
+        self.assertContains(
+            response, "Please check if you have already registered an account."
+        )
+        self.assertContains(
+            response,
+            "You can also request a new password, if you have lost your credentials.",
         )
 
     def test_social_complete_reports_provider_http_error(self) -> None:

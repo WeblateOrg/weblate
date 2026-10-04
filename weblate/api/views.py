@@ -8,7 +8,7 @@ from __future__ import annotations
 import os.path
 from collections import Counter
 from collections.abc import Mapping
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
 
@@ -71,6 +71,7 @@ from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
 from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
+from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
@@ -132,6 +133,7 @@ from weblate.api.serializers import (
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
+    UnitScreenshotAssociationSerializer,
     UnitSerializer,
     UnitSourceSerializer,
     UnitWriteSerializer,
@@ -139,6 +141,7 @@ from weblate.api.serializers import (
     UploadResultSerializer,
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
+    WorkflowSettingSerializer,
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
@@ -181,8 +184,10 @@ from weblate.trans.models import (
     Suggestion,
     SuggestionAddResult,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
+from weblate.trans.models.source import source_project_gate
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.repository import (
     RepositoryOperation,
@@ -1146,11 +1151,27 @@ def get_delete_memory_option(request: Request) -> bool:
 @extend_schema_view(
     list=extend_schema(
         description=(
-            "List users. Users with user.view or user.edit permission can see all "
-            "users and filter by email; other users see only themselves and "
-            "cannot filter by email."
+            "List users. Unauthenticated users receive no results. Authenticated "
+            "users without user.view or user.edit permission see only themselves "
+            "unless they search by a username prefix of at least two characters "
+            "after trimming surrounding whitespace; "
+            "such searches return basic information about matching non-bot users. "
+            "Users with either permission can list all users and receive detailed "
+            "information."
         ),
         parameters=[
+            OpenApiParameter(
+                "username",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter by username prefix. Authenticated users without "
+                    "user.view or user.edit permission must supply at least two "
+                    "characters after trimming surrounding whitespace; their "
+                    "searches exclude bot accounts other than "
+                    "their own account."
+                ),
+            ),
             OpenApiParameter(
                 "email",
                 str,
@@ -1167,6 +1188,7 @@ def get_delete_memory_option(request: Request) -> bool:
                 description="Rank contributors to the given unit first.",
             ),
         ],
+        responses=USER_RESPONSE_SERIALIZER,
     ),
     retrieve=extend_schema(
         description="Return information about users.",
@@ -1221,9 +1243,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-        List of users if you have permissions to see manage users.
+        List users according to the caller's permissions.
 
-        Without a permission you get to see only your own details.
+        Unprivileged authenticated users see themselves without a username filter
+        and can search non-bot users with a username prefix of at least two
+        characters after trimming surrounding whitespace. Privileged users can
+        list all users with detailed information.
         """
         # Copy of rest_framework.mixins.ListModelMixin.list with additional
         # filtering based on user permissions. We limit listing of user to
@@ -1240,7 +1265,7 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = User.objects.filter(pk=user.pk).order_by("id")
         elif (
             not (user.has_perm("user.edit") or user.has_perm("user.view"))
-            and len(request.GET.get(self.lookup_field, "")) < 2
+            and len(request.GET.get(self.lookup_field, "").strip()) < 2
         ):
             # Avoid too short matching, the length matches autocomplete setting in the UI
             queryset = User.objects.none()
@@ -2230,6 +2255,88 @@ class ProjectViewSet(
     lookup_field = "slug"
     request: AuthenticatedRequest  # type: ignore[assignment]
 
+    @extend_schema(
+        parameters=[OpenApiParameter("language", str, OpenApiParameter.PATH)],
+        request=WorkflowSettingSerializer,
+        responses={
+            HTTP_200_OK: WorkflowSettingSerializer,
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="Multiple project-language workflow overrides exist."
+            ),
+        },
+        methods=["GET", "PATCH"],
+    )
+    @extend_schema(
+        parameters=[OpenApiParameter("language", str, OpenApiParameter.PATH)],
+        responses={
+            HTTP_204_NO_CONTENT: None,
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="Multiple project-language workflow overrides exist."
+            ),
+        },
+        methods=["DELETE"],
+    )
+    @action(
+        detail=True,
+        methods=["get", "patch", "delete"],
+        url_path=r"languages/(?P<language>[^/.]+)/workflow",
+    )
+    def language_workflow(self, request: Request, language: str, **kwargs):
+        project = self.get_object()
+        language_obj = get_object_or_404(Language, code=language)
+        if request.method != "GET" and not request.user.has_perm(
+            "project.edit", project
+        ):
+            self.permission_denied(
+                request, "Project management permission is required."
+            )
+        with (
+            source_project_gate([project.pk], exclusive=True)
+            if request.method != "GET"
+            else nullcontext()
+        ):
+            instances = list(
+                project.workflowsetting_set.filter(language=language_obj)[:2]
+            )
+            if len(instances) > 1:
+                return Response(
+                    {
+                        "detail": "Multiple workflows exist for this project and language."
+                    },
+                    status=HTTP_409_CONFLICT,
+                )
+            instance = instances[0] if instances else None
+            if request.method == "DELETE":
+                if instance:
+                    instance.delete()
+                return Response(status=HTTP_204_NO_CONTENT)
+            if instance is None:
+                inherited = project.project_languages[language_obj].workflow_settings
+                defaults = {"translation_review": project.translation_review}
+                if inherited is not None:
+                    defaults = {
+                        field: getattr(inherited, field)
+                        for field in WorkflowSettingSerializer.Meta.fields
+                        if field not in {"language", "source_language"}
+                    }
+                    defaults["translation_review"] &= project.enable_review
+                instance = WorkflowSetting(
+                    project=project,
+                    language=language_obj,
+                    **defaults,
+                )
+            if request.method == "PATCH":
+                serializer = WorkflowSettingSerializer(
+                    instance, data=request.data, partial=True
+                )
+                serializer.is_valid(raise_exception=True)
+                try:
+                    serializer.save()
+                except DjangoValidationError as error:
+                    raise ValidationError(error.message_dict) from error
+                return Response(serializer.data)
+            return Response(WorkflowSettingSerializer(instance).data)
+
     def get_create_workspaces(self, request: Request):
         user = get_request_user(request)
         workspaces = user.workspaces_with_perm("workspace.add_project")
@@ -2308,17 +2415,25 @@ class ProjectViewSet(
         if request.method == "POST":
             if not request.user.has_perm("project.edit", obj):
                 self.permission_denied(request, "Can not create components")
-            with transaction.atomic():
-                serializer = ComponentSerializer(
-                    data=request.data, context={"request": request, "project": obj}
-                )
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-                component = serializer.instance
-                if component is None:
-                    msg = "Component serializer did not produce an instance"
-                    raise RuntimeError(msg)
-                component.post_create(self.request.user, origin="api")
+            serializer = ComponentSerializer(
+                data=request.data, context={"request": request, "project": obj}
+            )
+            created = False
+            try:
+                with transaction.atomic():
+                    serializer.is_valid(raise_exception=True)
+                    serializer.save()
+                    component = serializer.instance
+                    if component is None:
+                        msg = "Component serializer did not produce an instance"
+                        raise RuntimeError(msg)
+                    component.post_create(self.request.user, origin="api")
+                created = True
+            finally:
+                if created:
+                    serializer.preserve_uploaded_repository()
+                else:
+                    serializer.cleanup_uploaded_repository()
 
             data = serializer.data
             return Response(
@@ -3865,7 +3980,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         detail=True,
         methods=["get", "put", "post"],
         parser_classes=(
-            parsers.MultiPartParser,
+            TranslationFileMultiPartParser,
             parsers.FormParser,
             parsers.FileUploadParser,
         ),
@@ -4342,9 +4457,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             UnitSerializer(unit, context=self.get_serializer_context()).data
         )
 
-    @transaction.atomic
-    # ruff: ignore[complex-structure]
     def perform_update(self, serializer) -> None:
+        from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
+
+        with source_operation(serializer.instance.translation.component):
+            self._perform_unit_update(serializer)
+
+    # ruff: ignore[complex-structure]
+    def _perform_unit_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "explanation" in data or "labels" in data
@@ -4490,6 +4610,104 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return Response(serializer.data)
 
     @extend_schema(
+        description="List screenshots associated with a unit.",
+        methods=["get"],
+        responses=ScreenshotSerializer(many=True),
+    )
+    @extend_schema(
+        description="Associate screenshot with unit.",
+        methods=["post"],
+        responses=ScreenshotSerializer,
+    )
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        serializer_class=UnitScreenshotAssociationSerializer,
+    )
+    @transaction.atomic
+    def screenshots(self, request: Request, **kwargs):
+        unit = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("screenshot.edit", unit.translation):
+                raise PermissionDenied
+
+            # Validate through the serializer (not a manual int() coercion) so a
+            # non-integral value such as 5.7 is rejected instead of silently
+            # truncated to 5.
+            request_serializer = self.get_serializer(data=request.data)
+            request_serializer.is_valid(raise_exception=True)
+            screenshot_id = request_serializer.validated_data["screenshot_id"]
+
+            try:
+                # select_for_update() serializes concurrent requests for the same
+                # screenshot, so two racing POSTs can't both observe "not yet
+                # associated" and both record a SCREENSHOT_ADDED change.
+                screenshot = (
+                    Screenshot.objects.filter_access(request.user)
+                    .select_for_update(of=("self",))
+                    .get(translation=unit.translation, pk=screenshot_id)
+                )
+            except Screenshot.DoesNotExist as error:
+                msg = "screenshot_id"
+                raise not_found_validation_error(msg, "Screenshot") from error
+
+            # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
+            # when the association already exists (for example on a client retry).
+            if not screenshot.units.filter(pk=unit.pk).exists():
+                screenshot.add_unit(unit, user=request.user)
+            serializer = ScreenshotSerializer(screenshot, context={"request": request})
+
+            return Response(serializer.data, status=HTTP_200_OK)
+
+        queryset = (
+            Screenshot.objects.filter_access(request.user)
+            .filter(units=unit)
+            .select_related("translation__component__project", "translation__language")
+            .prefetch_related("units")
+            .order_by("id")
+        )
+        page = self.paginate_queryset(queryset)
+        serializer = ScreenshotSerializer(page, many=True, context={"request": request})
+        return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Remove screenshot association with unit.",
+        methods=["delete"],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="screenshots/(?P<screenshot_id>[0-9]+)",
+        serializer_class=ScreenshotSerializer,
+    )
+    @transaction.atomic
+    def delete_screenshots(self, request: Request, pk, screenshot_id):
+        unit = self.get_object()
+        if not request.user.has_perm("screenshot.edit", unit.translation):
+            raise PermissionDenied
+
+        try:
+            # select_for_update() serializes concurrent requests for the same
+            # screenshot; see the screenshots() action above.
+            screenshot = (
+                Screenshot.objects.filter_access(request.user)
+                .select_for_update(of=("self",))
+                .get(translation=unit.translation, pk=screenshot_id)
+            )
+        except Screenshot.DoesNotExist as error:
+            msg = "Screenshot"
+            raise not_found_http404(msg) from error
+
+        # Idempotent: only record SCREENSHOT_REMOVED when the unit was
+        # actually associated, avoiding a false audit trail entry for a
+        # no-op removal.
+        if not screenshot.units.filter(pk=unit.pk).exists():
+            return Response(status=HTTP_204_NO_CONTENT)
+        screenshot.remove_unit(unit, user=request.user)
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(
         description="Add a comment to the unit.",
         methods=["post"],
         request=CommentSerializer,
@@ -4517,6 +4735,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 },
             )
             serializer.is_valid(raise_exception=True)
+            if serializer.validated_data["scope"] == "report" and (
+                unit.effective_source_unit is None
+                or not user.has_perm(
+                    "comment.add", unit.effective_source_unit.translation
+                )
+            ):
+                self.permission_denied(request)
 
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)

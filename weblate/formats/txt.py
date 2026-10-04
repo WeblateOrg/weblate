@@ -88,7 +88,7 @@ class MultiParser(BaseStore):
     filenames: tuple[tuple[str, str], ...] = ()
     units: list[TextItem]
 
-    def __init__(self, storefile) -> None:
+    def __init__(self, storefile, file_validator: Callable[[str], str]) -> None:
         if not isinstance(storefile, str):
             msg = "Needs string as a storefile!"
             raise TypeError(msg)
@@ -97,6 +97,7 @@ class MultiParser(BaseStore):
             raise ValueError(gettext("Should be a directory with metadata files!"))
 
         self.base = storefile
+        self.file_validator = file_validator
         self.parsers = self.load_parser()
         self.units = list(
             chain.from_iterable(parser.units for parser in self.parsers.values())
@@ -114,6 +115,7 @@ class MultiParser(BaseStore):
                 if match in result:
                     continue
                 try:
+                    match = self.file_validator(match)
                     result[match] = TextParser(
                         match, os.path.relpath(match, self.base), flags
                     )
@@ -210,6 +212,7 @@ class AppStoreFormat(TranslationFormat):
     simple_filename = False
     language_format = "googleplay"
     create_style = "directory"
+    parse_version = 1
     store: AppStoreParser
 
     def load(
@@ -217,7 +220,10 @@ class AppStoreFormat(TranslationFormat):
         storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
     ) -> AppStoreParser:
-        return AppStoreParser(storefile)
+        if self.file_validator is None:
+            msg = gettext("File validation is required for directory-based formats.")
+            raise ValueError(msg)
+        return AppStoreParser(storefile, self.file_validator)
 
     def create_unit(
         self,
@@ -277,13 +283,24 @@ class AppStoreFormat(TranslationFormat):
         fast: bool = False,
         # ruff: ignore[unused-class-method-argument]
         file_format_params: FileFormatParams | None = None,
+        file_validator: Callable[[str], str] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
             return True
+        if file_validator is None:
+            if errors is not None:
+                errors.append(
+                    ValueError(
+                        gettext(
+                            "File validation is required for directory-based formats."
+                        )
+                    )
+                )
+            return False
         try:
             if not fast:
-                AppStoreParser(base)
+                AppStoreParser(base, file_validator)
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)

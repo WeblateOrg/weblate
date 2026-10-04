@@ -39,8 +39,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 08:11+0000\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-02 21:22+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -50,7 +50,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -2169,6 +2169,9 @@ msgstr "По файлу"
 msgid "Per author"
 msgstr "По автору"
 
+msgid "Per author and language"
+msgstr "По автору и языку"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Добавлять завершители в конец сообщения уплотнённого коммита"
 
@@ -3031,6 +3034,14 @@ msgstr "Команда с таким именем уже существует в
 msgid "Cannot change this on a scoped team."
 msgstr "Невозможно изменить это в команде с ограниченной областью действия."
 
+msgid "Inherit enforced checks from the workspace."
+msgstr "Наследовать принудительные проверки из рабочего пространства."
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+"Наследовать принудительные проверки из проекта, категории или рабочего "
+"пространства."
+
 msgid "You do not have permission to access this component."
 msgstr "У вас нет разрешения на доступ к этому компоненту."
 
@@ -3084,6 +3095,11 @@ msgstr "Перевод слишком длинный!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ваше предложение уже существует!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
+"Наследовать принудительные проверки из родительской категории, проекта или "
+"рабочего пространства."
 
 msgid "Weblate's REST API"
 msgstr "API REST для Weblate"
@@ -5820,6 +5836,9 @@ msgstr "Должен быть каталог с файлами метаданн�
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Файлы метаданных магазина приложений"
+
+msgid "File validation is required for directory-based formats."
+msgstr "Для форматов на основе каталогов требуется проверка файлов."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8787,11 +8806,12 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
-"Исходное сообщение коммита сохраняется, но теряется информация об авторстве, "
-"если не выбрано «По автору» или сообщение коммита явно не изменено, чтобы "
-"включить её."
+"Исходные сообщения коммитов сохраняются, но информация об авторстве "
+"теряется, если не выбрано «По автору» или «По автору и языку», либо "
+"сообщение коммита не настроено на включение её."
 
 msgid "HTTP Response"
 msgstr "HTTP-ответ"
@@ -9034,14 +9054,8 @@ msgstr "Недоступно"
 msgid "No invoices found."
 msgstr "Инвойсов не найдено."
 
-msgid "Event details"
-msgstr "О событии"
-
-msgid "Actions"
-msgstr "Действия"
-
-msgid "Download"
-msgstr "Скачать"
+msgid "View all"
+msgstr "Показать все"
 
 msgid "Libre hosting"
 msgstr "Хостинг для свободного ПО"
@@ -9076,6 +9090,21 @@ msgstr "В настоящее время нет прикреплённых пр�
 
 msgid "View"
 msgstr "Просмотреть"
+
+msgid "Event details"
+msgstr "О событии"
+
+msgid "Actions"
+msgstr "Действия"
+
+msgid "Download"
+msgstr "Скачать"
+
+msgid "No audit log entries found."
+msgstr "Записи журнала аудита не найдены."
+
+msgid "Audit log pagination"
+msgstr "Постраничная навигация по журналу аудита"
 
 msgid "Confirm merge"
 msgstr "Подтвердить слияние"
@@ -11539,6 +11568,10 @@ msgid "Add label"
 msgstr "Добавить метку"
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Скачать переводы в формате %(format_name)s в ZIP-файле"
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr "Управление: %(team)s"
 
@@ -11741,6 +11774,12 @@ msgstr "строки"
 msgid "words"
 msgstr "слова"
 
+msgid "Bulk edit selected strings"
+msgstr "Массовая правка выбранных строк"
+
+msgid "No strings selected"
+msgstr "Строки не выбраны"
+
 msgid "No matching strings found."
 msgstr "Соответствующие строки не найдены."
 
@@ -11832,9 +11871,18 @@ msgstr ""
 "Такое может случиться, если какие-то из выставленных счетов просрочены, или "
 "превышены пределы тарифного плана."
 
+msgid "Select all strings on this page"
+msgstr "Выбрать все строки на этой странице"
+
+msgid "Select string for bulk edit"
+msgstr "Выбрать строку для массовой правки"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Можно изменить состояние сразу всех строк, соответствующих указанному типу."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr "Операция применяется к строкам, выбранным в списке выше."
 
 msgid "Translation quality filter"
 msgstr "Фильтр качества перевода"
@@ -11987,6 +12035,12 @@ msgstr "URL (адрес) репозитория скопирован в буфе
 
 msgid "Repository branch"
 msgstr "Ветка репозитория"
+
+msgid "Pull request"
+msgstr "Запрос на извлечение"
+
+msgid "Pull request URL copied to clipboard."
+msgstr "URL-адрес запроса на извлечение скопирован в буфер обмена."
 
 msgid "Last remote commit"
 msgstr "Последний внешний коммит"
@@ -12340,6 +12394,10 @@ msgstr "Создать перевод"
 
 msgid "Cannot add translation right now"
 msgstr "Невозможно добавить перевод прямо сейчас"
+
+#, python-format
+msgid "Source: %(language)s"
+msgstr "Источник: %(language)s"
 
 msgid "Customized workflow"
 msgstr "Индивидуальный рабочий процесс"
@@ -13697,19 +13755,23 @@ msgstr "Удаляемый язык проекта"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Это действие нельзя отменить. Компонент %(object)s и всё связанное с ним "
-"содержимое будет безвозвратно удалено."
+"Это действие нельзя отменить. Категория %(object)s и непосредственно "
+"связанное с ней содержимое будут безвозвратно удалены. Память переводов "
+"обрабатывается отдельно ниже."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
-"Если это действие удаляет компоненты с ограниченным доступом, сохранённая "
-"память переводов из них станет доступной в соответствии с правилами доступа "
-"к памяти переводов проекта и рабочего пространства, если вы не удалите её."
+"Память переводов по умолчанию сохраняется. Если эта категория содержит "
+"компоненты с ограниченным доступом, сохранённые записи из них могут стать "
+"видимыми другим участникам проекта или рабочего пространства. Выберите "
+"параметр удаления памяти переводов ниже, чтобы удалить эти записи."
 
 msgid "The following translation components will be removed:"
 msgstr "Следующие компоненты перевода будут удалены:"
@@ -13723,16 +13785,36 @@ msgstr "Удаляемый проект"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Это действие нельзя отменить. Компонент %(object)s и всё связанное с ним "
-"содержимое будет безвозвратно удалено."
+"Это действие нельзя отменить. Компонент %(object)s и непосредственно "
+"связанное с ним содержимое будут безвозвратно удалены. Память переводов "
+"обрабатывается отдельно ниже."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
+"Память переводов по умолчанию сохраняется. Если этот компонент имеет "
+"ограниченный доступ, сохранённые записи могут стать видимыми другим "
+"участникам проекта или рабочего пространства. Выберите параметр удаления "
+"памяти переводов ниже, чтобы удалить эти записи."
 
 msgid "Component to remove"
 msgstr "Удаляемые компоненты"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Я осознаю последствия. Удалить этот перевод"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Это действие нельзя отменить. Компонент %(object)s и всё связанное с ним "
+"содержимое будет безвозвратно удалено."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14003,6 +14085,13 @@ msgstr "Промежуточный язык"
 
 msgid "Explanation"
 msgstr "Пояснение"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
+"Настроенная исходная строка отсутствует. Перевод заблокирован до тех пор, "
+"пока она не станет доступной."
 
 msgid "Report issue with the source string"
 msgstr "Сообщить о проблеме с исходной строкой"
@@ -14890,6 +14979,9 @@ msgstr "Править в однострочном режиме"
 
 msgid "Exit Zen"
 msgstr "Выйти из «Дзен»"
+
+msgid "Show suggestions"
+msgstr "Показать предложения"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Файл перевода синхронизирован с его репозиторием."
@@ -15930,6 +16022,9 @@ msgstr "Предыдущий перевод"
 msgid "State: %(state)s"
 msgstr "Состояние: %(state)s"
 
+msgid "Previous source"
+msgstr "Предыдущий источник"
+
 msgid "Suggestions pending"
 msgstr "Предложения для рассмотрения"
 
@@ -16962,6 +17057,9 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "У вас нет прав для создания терминологии."
 
+msgid "Invalid string selection!"
+msgstr "Недействительный выбор строк!"
+
 msgid "State to set"
 msgstr "Задаваемое состояние"
 
@@ -16994,6 +17092,9 @@ msgstr "Добавляемые метки — все языки"
 msgid "Labels to remove — all languages"
 msgstr "Удаляемые метки — все языки"
 
+msgid "Select strings to edit or enter a search query."
+msgstr "Выберите строки для правки или введите поисковый запрос."
+
 msgid "I accept the contributor license agreement"
 msgstr "Я принимаю лицензионное соглашение участника"
 
@@ -17011,11 +17112,14 @@ msgid "Delete translation memory created from this component"
 msgstr "Удалить память переводов, созданную из этого компонента"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
-"Записи памяти переводов проекта, рабочего пространства и общие записи будут "
-"удалены. Личные и загруженные записи будут сохранены."
+"Выберите это, чтобы удалить записи памяти переводов проекта, рабочего "
+"пространства и общие записи, созданные из этого компонента. Оставьте "
+"невыбранным, чтобы сохранить их. Личные и загруженные записи всегда "
+"сохраняются."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Введите полный идентификатор компонента для подтверждения."
@@ -17025,6 +17129,16 @@ msgstr "Введите идентификатор проекта для подт
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Удалить память переводов, созданную из компонентов в этой категории"
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Выберите это, чтобы удалить записи памяти переводов проекта, рабочего "
+"пространства и общие записи, созданные из компонентов в этой категории. "
+"Оставьте невыбранным, чтобы сохранить их. Личные и загруженные записи всегда "
+"сохраняются."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Пожалуйста, введите название категории для подтверждения."
@@ -17231,6 +17345,20 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Дополнительные флаги, (разделенные запятыми) для влияния на поведение "
 "Weblate."
+
+msgid "Enforced checks"
+msgstr "Принудительная проверка"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Список проверок, которые не могут быть отклонены."
+
+msgid "Inherit enforced checks"
+msgstr "Наследовать принудительные проверки"
+
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Использовать принудительные проверки из родительской категории, проекта или "
+"рабочего пространства."
 
 msgid "Inherit translation license"
 msgstr "Наследовать лицензию перевода"
@@ -17500,6 +17628,21 @@ msgstr ""
 "соответственно. Возможно, вы захотите отделить ведущую директорию, используя "
 "{{filename|parentdir}}."
 
+msgid "Repository browser for translations"
+msgstr "Обозреватель репозитория для переводов"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Ссылка на обозреватель репозитория для файлов перевода; используйте {"
+"{branch}} для ветки, {{filename}} и {{line}} как заполнители имени файла и "
+"строки. Если оставить пустым, будет использоваться обозреватель репозитория "
+"выше. Возможно, вы захотите отсечь ведущий каталог с помощью {"
+"{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL экспортированного репозитория"
 
@@ -17634,11 +17777,10 @@ msgstr ""
 "Автоматически принимать советы с данным числом голосов, используйте 0 для "
 "отключения."
 
-msgid "Enforced checks"
-msgstr "Принудительная проверка"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Список проверок, которые не могут быть отклонены."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
+"Использовать принудительные проверки из проекта, категории или рабочего "
+"пространства."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "Использовать лицензию перевода, настроенную в категории или проекте."
@@ -18346,6 +18488,9 @@ msgstr ""
 "Разделенный запятыми список сопоставлений кодов языка, например: "
 "en_GB:en,en_US:en"
 
+msgid "Use enforced checks from the workspace."
+msgstr "Использовать принудительные проверки из рабочего пространства."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Использовать лицензию перевода, настроенную в рабочем пространстве."
 
@@ -18494,9 +18639,9 @@ msgid ""
 "translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
 "anyway."
 msgstr ""
-"Язык загруженного файла (%(language)s) не соответствует текущему переводу (%"
-"(expected)s). Включите «Игнорировать несоответствие языка», чтобы загрузить "
-"его всё равно."
+"Язык загруженного файла (%(language)s) не соответствует текущему переводу "
+"(%(expected)s). Включите «Игнорировать несоответствие языка», чтобы "
+"загрузить его всё равно."
 
 #, python-format
 msgid "Could not parse uploaded file: %s"
@@ -18589,6 +18734,13 @@ msgstr "Пометить как «терминологию» для всех я�
 msgid "Unmark as terminology for all languages"
 msgstr "Снять метку «терминология» для всех языков"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+"Переводить с этого языка. Оставьте пустым, чтобы использовать исходный язык "
+"компонента."
+
 msgid "Restrict direct editing"
 msgstr "Ограничить прямое редактирование"
 
@@ -18598,6 +18750,21 @@ msgid ""
 msgstr ""
 "Только пользователи с разрешением «Редактировать строку, когда предложения "
 "обязательны» могут вносить прямые изменения."
+
+msgid "Please turn on reviews on the project first."
+msgstr "Пожалуйста, сначала включите рецензирование в проекте."
+
+msgid "This language already has a project workflow."
+msgstr "Для этого языка уже настроен рабочий процесс проекта."
+
+msgid "Select a source language in a project workflow."
+msgstr "Выберите исходный язык в рабочем процессе проекта."
+
+msgid "The source language must exist in this project."
+msgstr "Исходный язык должен существовать в этом проекте."
+
+msgid "Source languages cannot form a cycle."
+msgstr "Исходные языки не могут образовывать цикл."
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "Исходная строка изменилась. Перезагрузите её перед редактированием."
@@ -18931,6 +19098,13 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Не удалось разобрать флаги: %s"
+
+msgid "Enforced checks has to be a list."
+msgstr "Принудительные проверки должны быть списком."
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr "Неподдерживаемая принудительная проверка: %s"
 
 #, python-format
 msgid ""

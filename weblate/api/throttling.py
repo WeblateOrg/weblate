@@ -25,6 +25,10 @@ class RateOverrideThrottle(SimpleRateThrottle):
 
     override_key: str | None = None
 
+    def get_ident(self, request: Request) -> str:
+        """Use the client address resolved by Weblate's proxy middleware."""
+        return request.META.get("REMOTE_ADDR", "")
+
     def get_rate(self) -> str | None:
         policies = get_rate_policies()
         return policies.anon.rate if self.scope == "anon" else policies.user.rate

@@ -36,7 +36,8 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
-from rest_framework.test import APITestCase
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
@@ -60,6 +61,7 @@ from weblate.api.docs import (
     VCS_ENUM_SCHEMA_NAME,
     document_all_static_vcs_choices,
 )
+from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     CategorySerializer,
     CommentSerializer,
@@ -157,6 +159,85 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+def encode_multipart_form_field(boundary: str, content: str | bytes) -> bytes:
+    if isinstance(content, str):
+        content = content.encode()
+    return b"\r\n".join(
+        [
+            f"--{boundary}".encode(),
+            b'Content-Disposition: form-data; name="file"',
+            b"",
+            content,
+            f"--{boundary}--".encode(),
+            b"",
+        ]
+    )
+
+
+def encode_multipart_form(
+    boundary: str,
+    *,
+    file_content: bytes,
+    fields: dict[str, bytes] | None = None,
+) -> bytes:
+    parts: list[bytes] = [
+        f"--{boundary}".encode(),
+        b'Content-Disposition: form-data; name="file"',
+        b"",
+        file_content,
+    ]
+    for key, value in (fields or {}).items():
+        parts.extend(
+            [
+                f"--{boundary}".encode(),
+                f'Content-Disposition: form-data; name="{key}"'.encode(),
+                b"",
+                value,
+            ]
+        )
+    parts.extend([f"--{boundary}--".encode(), b""])
+    return b"\r\n".join(parts)
+
+
+class TranslationFileMultiPartParserTest(SimpleTestCase):
+    def parse_multipart(self, body: bytes) -> Request:
+        factory = APIRequestFactory()
+        return Request(
+            factory.post("/", body, content_type=MULTIPART_CONTENT),
+            parsers=[TranslationFileMultiPartParser()],
+        )
+
+    def test_preserves_non_utf8_file_field(self) -> None:
+        raw_bytes = "Ahoj světe".encode("iso-8859-2")
+        request = self.parse_multipart(
+            encode_multipart_form(BOUNDARY, file_content=raw_bytes)
+        )
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, "upload")
+        self.assertEqual(upload.read(), raw_bytes)
+
+    def test_redecodes_other_fields(self) -> None:
+        request = self.parse_multipart(
+            encode_multipart_form(
+                BOUNDARY,
+                file_content=b"content",
+                fields={"author_name": "Jiří".encode()},
+            )
+        )
+        self.assertEqual(request.data["author_name"], "Jiří")
+
+    def test_preserves_non_ascii_filename(self) -> None:
+        raw_bytes = b'msgid ""\nmsgstr ""\n'
+        filename = "tést.po"
+        body = encode_multipart(
+            BOUNDARY, {"file": SimpleUploadedFile(filename, raw_bytes)}
+        )
+        request = self.parse_multipart(body)
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, filename)
+        self.assertEqual(upload.read(), raw_bytes)
 
 
 class SettingsAPIFieldsTest(APITestCase):
@@ -694,6 +775,13 @@ class UserAPITest(APIBaseTest):
         # Short search should return no results
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 0)
+        # Surrounding whitespace cannot bypass the minimum prefix length.
+        for prefix in ("  ", " a "):
+            with self.subTest(prefix=prefix):
+                response = self.client.get(
+                    reverse("api:user-list"), {"username": prefix}
+                )
+                self.assertEqual(response.data["count"], 0)
 
     def test_filter_bot_user(self) -> None:
         """Unprivileged searches do not list bot users."""
@@ -4196,6 +4284,165 @@ class ProjectAPITest(APIBaseTest):
         translation_path.write_bytes(Path(TEST_PO).read_bytes())
         return translation
 
+    def test_language_workflow_source_language(self) -> None:
+        self.authenticate(True)
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+        response = self.client.patch(url, {"source_language": "de"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["source_language"], "de")
+        self.assertEqual(
+            self.project.workflowsetting_set.get(
+                language__code="cs"
+            ).source_language_id,
+            Language.objects.get(code="de").pk,
+        )
+        response = self.client.patch(url, {"enable_suggestions": True})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["source_language"], "de")
+        self.assertTrue(response.data["enable_suggestions"])
+        child = self.component.translation_set.get(
+            language_code="cs"
+        ).unit_set.order_by("pk")[0]
+        child.refresh_from_db()
+        self.assertIsNotNone(child.translation_parent_id)
+        parent_url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "de"},
+        )
+        self.assertEqual(
+            self.client.patch(parent_url, {"source_language": "cs"}).status_code, 400
+        )
+        response = self.client.patch(url, {"source_language": "cs"})
+        self.assertEqual(response.status_code, 400)
+        response = self.client.patch(url, {"source_language": "af"})
+        self.assertEqual(response.status_code, 400)
+        response = self.client.patch(url, {"source_language": None}, format="json")
+        self.assertEqual(response.status_code, 200)
+        child.refresh_from_db()
+        self.assertIsNone(child.translation_parent_id)
+        self.assertFalse(child.translation_parent_blocked)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(self.client.delete(url).status_code, 204)
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+
+    def test_language_workflow_inherits_site_settings(self) -> None:
+        self.authenticate(True)
+        inherited_values = {
+            "translation_review": True,
+            "enable_suggestions": False,
+            "restrict_direct_editing": True,
+            "suggestion_voting": True,
+            "suggestion_autoaccept": 3,
+        }
+        inherited = WorkflowSetting.objects.create(
+            language=Language.objects.get(code="cs"), **inherited_values
+        )
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        for review_enabled in (False, True):
+            with self.subTest(review_enabled=review_enabled):
+                self.project.translation_review = review_enabled
+                self.project.source_review = False
+                self.project.save()
+                expected = {
+                    **inherited_values,
+                    "translation_review": review_enabled,
+                }
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                for field, value in expected.items():
+                    self.assertEqual(response.data[field], value)
+                self.assertFalse(self.project.workflowsetting_set.exists())
+                response = self.client.patch(url, {"source_language": "de"})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["source_language"], "de")
+                override = self.project.workflowsetting_set.get()
+                for field, value in expected.items():
+                    self.assertEqual(response.data[field], value)
+                    self.assertEqual(getattr(override, field), value)
+                self.assertEqual(self.client.delete(url).status_code, 204)
+                inherited.refresh_from_db()
+                self.assertIsNone(inherited.project_id)
+                for field, value in inherited_values.items():
+                    self.assertEqual(getattr(inherited, field), value)
+
+    def test_language_workflow_review_requires_project_reviews(self) -> None:
+        self.authenticate(True)
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        response = self.client.patch(url, {"translation_review": True})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "translation_review")
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(
+            self.client.patch(url, {"translation_review": False}).status_code, 200
+        )
+        response = self.client.patch(url, {"translation_review": True})
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(self.project.workflowsetting_set.get().translation_review)
+        for field in ("translation_review", "source_review"):
+            with self.subTest(field=field):
+                self.project.translation_review = field == "translation_review"
+                self.project.source_review = field == "source_review"
+                self.project.save()
+                response = self.client.patch(url, {"translation_review": True})
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(
+                    self.project.workflowsetting_set.get().translation_review
+                )
+
+    def test_language_workflow_requires_project_management(self) -> None:
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        self.authenticate(False)
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertEqual(self.client.delete(url).status_code, 403)
+        self.assertEqual(
+            self.client.patch(url, {"source_language": "de"}).status_code, 403
+        )
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+
+    def test_language_workflow_ambiguous_legacy_settings(self) -> None:
+        self.authenticate(True)
+        language = Language.objects.get(code="cs")
+        WorkflowSetting.objects.bulk_create(
+            [
+                WorkflowSetting(project=self.project, language=language),
+                WorkflowSetting(project=self.project, language=language),
+            ]
+        )
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        for method in (self.client.get, self.client.patch, self.client.delete):
+            with self.subTest(method=method.__name__):
+                self.assertEqual(method(url).status_code, 409)
+        self.assertEqual(
+            self.project.workflowsetting_set.filter(language=language).count(), 2
+        )
+
     def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -6774,6 +7021,11 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
 
     def test_create_component_docfile_mask_outside(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Local project",
+            slug="local-project",
+        ).full_path
         with open(TEST_DOC, "rb") as handle:
             self.do_request(
                 "api:project-components",
@@ -6791,6 +7043,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(Component.objects.count(), 2)
+        self.assertFalse(os.path.exists(repo_path))
 
     def test_create_component_docfile_missing(self) -> None:
         with open(TEST_DOC, "rb") as handle:
@@ -6881,6 +7134,143 @@ class ProjectAPITest(APIBaseTest):
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
+        self.assertTrue(
+            os.path.isdir(Component.objects.get(slug="local-project").full_path)
+        )
+
+    def test_create_component_zipfile_validation_cleanup(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Invalid local project",
+            slug="invalid-local-project",
+        ).full_path
+        with open(TEST_ZIP, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Invalid local project",
+                    "slug": "invalid-local-project",
+                    "filemask": "*.po",
+                    "template": "project.pot",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+        self.assertIn(
+            "You can not use a base file for bilingual translation.",
+            str(response.data),
+        )
+        self.assertFalse(
+            Component.objects.filter(slug="invalid-local-project").exists()
+        )
+        self.assertFalse(os.path.exists(repo_path))
+
+    def test_create_component_zipfile_post_create_cleanup(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Failed local project",
+            slug="failed-local-project",
+        ).full_path
+        self.authenticate(superuser=True)
+        with (
+            open(TEST_ZIP, "rb") as handle,
+            patch.object(Component, "post_create", side_effect=RuntimeError("failed")),
+            self.assertRaisesRegex(RuntimeError, "failed"),
+        ):
+            self.client.post(
+                reverse("api:project-components", kwargs=self.project_kwargs),
+                {
+                    "zipfile": handle,
+                    "name": "Failed local project",
+                    "slug": "failed-local-project",
+                    "filemask": "*.po",
+                    "new_base": "project.pot",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+                format="multipart",
+            )
+        self.assertFalse(Component.objects.filter(slug="failed-local-project").exists())
+        self.assertFalse(os.path.exists(repo_path))
+
+    def prepare_uploaded_repository_cleanup(
+        self, slug: str
+    ) -> tuple[ComponentSerializer, Component, Path]:
+        component = Component(
+            project=self.project,
+            name=slug,
+            slug=slug,
+            vcs="local",
+            repo="local:",
+            branch="main",
+        )
+        path = Path(component.full_path)
+        path.mkdir(parents=True, exist_ok=True)
+        (path / "sentinel").touch()
+        serializer = ComponentSerializer()
+        serializer.track_uploaded_repository(component)
+        return serializer, component, path
+
+    def test_uploaded_repository_cleanup_preserves_category_path(self) -> None:
+        Category.objects.create(
+            project=self.project,
+            name="concurrent-category",
+            slug="concurrent-category",
+        )
+        serializer, _component, path = self.prepare_uploaded_repository_cleanup(
+            "concurrent-category"
+        )
+        child_path = path / "child" / ".git"
+        child_path.mkdir(parents=True)
+
+        serializer.cleanup_uploaded_repository()
+
+        self.assertTrue((path / "sentinel").exists())
+        self.assertTrue(child_path.exists())
+
+    def test_uploaded_repository_cleanup_uses_exact_slug(self) -> None:
+        serializer, component, path = self.prepare_uploaded_repository_cleanup(
+            self.component.slug.upper()
+        )
+        self.assertFalse(serializer.uploaded_repository_is_owned(component))
+        lock = component.repository.lock.lock_object
+
+        def assert_locked(_component: Component) -> bool:
+            self.assertTrue(lock.is_locked)
+            return False
+
+        with patch.object(
+            serializer,
+            "uploaded_repository_is_owned",
+            side_effect=assert_locked,
+        ):
+            serializer.cleanup_uploaded_repository()
+
+        self.assertFalse(path.exists())
+
+    def test_uploaded_repository_cleanup_retries_database_error(self) -> None:
+        serializer, _component, path = self.prepare_uploaded_repository_cleanup(
+            "cleanup-retry"
+        )
+        with (
+            patch.object(
+                serializer,
+                "uploaded_repository_is_owned",
+                side_effect=DatabaseError("failed"),
+            ),
+            self.assertLogs("weblate.api", level="ERROR"),
+        ):
+            serializer.cleanup_uploaded_repository()
+        self.assertTrue(path.exists())
+
+        serializer.cleanup_uploaded_repository()
+
+        self.assertFalse(path.exists())
 
     @override_settings(COMPONENT_ZIP_UPLOAD_MAX_SIZE=1)
     def test_create_component_zipfile_too_big(self) -> None:
@@ -7993,6 +8383,10 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.component.project.add_user(self.user, "Administration")
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(self.component))
 
         response = self.do_request(
             "api:project-backups",
@@ -13015,16 +13409,31 @@ class TranslationAPITest(APIBaseTest):
     @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
     def test_upload_too_big(self) -> None:
         self.authenticate()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle},
+        content = Path(TEST_PO).read_bytes()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as file_handle:
+            uploads: tuple[tuple[str, object], ...] = (
+                ("file", file_handle),
+                ("bytes", content),
             )
+            for upload_name, upload in uploads:
+                with self.subTest(upload=upload_name):
+                    if upload_name == "bytes":
+                        response = self.client.generic(
+                            "PUT",
+                            url,
+                            encode_multipart_form_field(BOUNDARY, upload),  # type: ignore[arg-type]
+                            content_type=MULTIPART_CONTENT,
+                        )
+                    else:
+                        response = self.client.put(url, {"file": upload})
 
-        self.assertEqual(response.status_code, 400)
-        self.assertContains(
-            response, "Uploaded translation file is too big.", status_code=400
-        )
+                    self.assertEqual(response.status_code, 400)
+                    self.assertContains(
+                        response,
+                        "Uploaded translation file is too big.",
+                        status_code=400,
+                    )
 
     def test_upload_parse_error(self) -> None:
         self.authenticate()
@@ -13200,12 +13609,12 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {
-                "accepted": 4,
-                "count": 4,
+                "accepted": 3,
+                "count": 3,
                 "not_found": 0,
                 "result": True,
                 "skipped": 0,
-                "total": 4,
+                "total": 3,
             },
         )
         translation = self.component.translation_set.get(language_code="cs")
@@ -13241,11 +13650,51 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_content(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs),
-            {"file": Path(TEST_PO).read_bytes()},
+        content = Path(TEST_PO).read_bytes()
+        expected = {
+            "accepted": 1,
+            "count": 4,
+            "not_found": 0,
+            "result": True,
+            "skipped": 0,
+            "total": 4,
+        }
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        translation = self.component.translation_set.get(language_code="cs")
+        for upload_name, upload in (("str", content.decode()), ("bytes", content)):
+            with self.subTest(upload=upload_name):
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                unit.target = ""
+                unit.state = STATE_EMPTY
+                unit.save()
+                changes_start = self.component.change_set.count()
+                if isinstance(upload, str):
+                    response = self.client.put(url, {"file": upload})
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        encode_multipart_form_field(BOUNDARY, upload),
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.data, expected)
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                self.assertEqual(unit.target, "Ahoj světe!\n")
+                self.assertEqual(unit.state, STATE_TRANSLATED)
+                self.assertEqual(self.component.project.stats.suggestions, 0)
+                self.check_upload_changes(changes_start, 2)
+
+    def test_upload_content_empty(self) -> None:
+        self.authenticate()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        response = self.client.generic(
+            "PUT",
+            url,
+            encode_multipart_form_field(BOUNDARY, b""),
+            content_type=MULTIPART_CONTENT,
         )
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "file")
 
     def test_upload_conflicts(self) -> None:
         self.authenticate()
@@ -13371,10 +13820,32 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs)
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        cases: tuple[tuple[str, dict[str, object] | None, bytes | None], ...] = (
+            ("missing", None, None),
+            ("empty_str", {"file": ""}, None),
+            ("empty_bytes", None, encode_multipart_form_field(BOUNDARY, b"")),
         )
-        self.assertEqual(response.status_code, 400)
+        for case_name, data, body in cases:
+            with self.subTest(case=case_name):
+                if body is None:
+                    response = self.client.put(url, data)
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        body,
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.status_code, 400)
+                if case_name == "missing":
+                    continue
+                self.assertEqual(response.data["errors"][0]["attr"], "file")
+                self.assertEqual(response.data["errors"][0]["code"], "empty")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "The submitted file is empty.",
+                )
 
     def test_upload_error(self) -> None:
         self.authenticate()
@@ -14344,6 +14815,98 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
+    def test_report_requires_effective_parent_permission(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Parent source", STATE_TRANSLATED)
+        self.project.source_review = True
+        self.project.save(update_fields=["source_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        self.user.groups.clear()
+        self.grant_perm_to_user(
+            "comment.add", group_name="Child comments", component=self.component
+        )
+        membership = TeamMembership.objects.get(
+            user=self.user, group__name="Child comments"
+        )
+        membership.limit_languages.add(unit.translation.language)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("comment.add", unit.translation))
+        self.assertFalse(self.user.has_perm("comment.add", parent.translation))
+        url = reverse("api:unit-comments", kwargs={"pk": unit.pk})
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=403,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_TRANSLATED)
+        self.assertFalse(parent.comment_set.exists())
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "translation", "comment": "Child comment"},
+            code=201,
+        )
+        membership.limit_languages.add(parent.translation.language)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=201,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_NEEDS_REWRITING)
+        self.assertTrue(parent.comment_set.filter(comment="Parent issue").exists())
+
+    def test_custom_source_language(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Hallo, Welt!", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        response = self.do_request(
+            "api:unit-detail", kwargs={"pk": unit.pk}, method="get", code=200
+        )
+        self.assertEqual(response.data["source"], [unit.source])
+        self.assertEqual(response.data["effective_source"], parent.get_target_plurals())
+        self.assertEqual(response.data["effective_source_language"], "de")
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "target": ["Ahoj"],
+                "state": STATE_TRANSLATED,
+                "translation_parent": None,
+                "effective_source": ["Changed"],
+                "effective_previous_source": ["Forged previous source"],
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        self.assertEqual(unit.effective_source, parent.target)
+        self.assertEqual(unit.effective_previous_source, "")
+
     def test_list_units(self) -> None:
         response = self.client.get(reverse("api:unit-list"))
         self.assertEqual(response.data["count"], 16)
@@ -14360,6 +14923,204 @@ class UnitAPITest(APIBaseTest):
         self.assertIn("translation", response.data)
         self.assertIn("language_code", response.data)
         self.assertEqual(response.data["source"], ["Hello, world!\n"])
+
+    def test_unit_screenshots(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        shot.add_unit(unit)
+        response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
+        self.assertIn(str(unit.pk), response.data["screenshots_url"])
+
+        response = self.client.get(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk})
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertIn(str(shot.pk), response.data["results"][0]["url"])
+
+    def test_head_unit_screenshots(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        shot.add_unit(unit)
+        unassociated = Screenshot.objects.create(
+            name="Other screenshot", translation=self.component.source_translation
+        )
+        url = reverse("api:unit-screenshots", kwargs={"pk": unit.pk})
+        changes = Change.objects.count()
+        for superuser in (False, True):
+            self.authenticate(superuser)
+            if not superuser:
+                self.user.groups.clear()
+            self.user.clear_permissions_cache()
+            self.assertEqual(
+                bool(self.user.has_perm("screenshot.edit", unit.translation)), superuser
+            )
+            get_response = self.client.get(url)
+            self.assertEqual(get_response.status_code, 200)
+            for body in ("", json.dumps({"screenshot_id": unassociated.pk})):
+                with self.subTest(superuser=superuser, body=body):
+                    response = self.client.generic(
+                        "HEAD", url, body, content_type="application/json"
+                    )
+                    self.assertEqual(response.status_code, get_response.status_code)
+                    self.assertEqual(response.content, b"")
+                    for header in ("Content-Type", "Content-Length", "Allow", "Vary"):
+                        self.assertEqual(response.get(header), get_response.get(header))
+                    self.assertEqual(list(shot.units.all()), [unit])
+                    self.assertFalse(unassociated.units.exists())
+                    self.assertEqual(Change.objects.count(), changes)
+
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.head(url).status_code, 404)
+
+    def test_unit_add_screenshot_denied(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_unit_add_screenshot_invalid(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": -1},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Screenshot not found.", status_code=400)
+
+    def test_unit_add_screenshot_mismatched_translation(self) -> None:
+        """Adding a screenshot from another translation must be rejected."""
+        self.authenticate(True)
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(shot.units.count(), 0)
+
+    def test_unit_add_screenshot(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(str(shot.pk), response.data["url"])
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
+
+    def test_unit_delete_screenshot(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": 100000},
+            ),
+        )
+        self.assertEqual(response.status_code, 404)
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": shot.pk},
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(shot.units.count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+
+    def test_unit_add_screenshot_idempotent(self) -> None:
+        """
+        Adding an already-associated screenshot must be a no-op.
+
+        A retried POST for an already-associated screenshot must not
+        create a duplicate SCREENSHOT_ADDED audit entry.
+        """
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        for _ in range(2):
+            response = self.client.post(
+                reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+                {"screenshot_id": shot.pk},
+            )
+            self.assertEqual(response.status_code, 200)
+        self.assertEqual(shot.units.count(), 1)
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+
+    def test_unit_delete_screenshot_noop_no_audit(self) -> None:
+        """
+        Removing a non-associated screenshot must be a no-op.
+
+        Deleting a screenshot that is not associated with the unit must
+        not create a false SCREENSHOT_REMOVED audit entry.
+        """
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": shot.pk},
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 0)
 
     def test_get_plural_unit(self) -> None:
         unit = Unit.objects.get(
@@ -16975,6 +17736,34 @@ class ComponentListAPITest(APIBaseTest):
 
 
 class AddonAPITest(APIBaseTest):
+    def test_autotranslate_configuration_accepts_restricted_source(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automatic translation source",
+            slug="restricted-automatic-translation-source",
+            allow_translation_propagation=False,
+        )
+        source.restricted = True
+        source.save(update_fields=["restricted"])
+        self.grant_perm_to_user("component.edit", component=self.component)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(source))
+
+        response = self.create_addon(
+            superuser=False,
+            name="weblate.autotranslate.autotranslate",
+            configuration={
+                "component": source.pk,
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+
+        addon = self.component.addon_set.get(pk=response.data["id"])
+        self.assertEqual(addon.configuration["component"], source.pk)
+
     def test_ai_quality_configuration(self) -> None:
         project = self.component.project
         project.machinery_settings = {"openai": {"key": "test", "model": "auto"}}
@@ -18005,6 +18794,19 @@ class LabelAPITest(APIBaseTest):
             },
             code=403,
         )
+
+    def test_create_label_requires_color(self) -> None:
+        response = self.do_request(
+            "api:project-labels",
+            kwargs={"slug": self.component.project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "L1"},
+            code=400,
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "color")
+        self.assertEqual(response.data["errors"][0]["code"], "required")
+        self.assertFalse(self.component.project.label_set.filter(name="L1").exists())
 
     def test_delete_label(self) -> None:
         """Test deleting a label from a project."""

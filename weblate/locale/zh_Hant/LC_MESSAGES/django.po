@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 14:58+0000\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-03 05:21+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1969,6 +1969,9 @@ msgstr "每個檔案"
 msgid "Per author"
 msgstr "每位作者"
 
+msgid "Per author and language"
+msgstr "依作者與語言分組"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 "在將多個提交壓縮（squash）為一個提交時，將某些特定的詮釋資料（trailers）附加"
@@ -2778,6 +2781,12 @@ msgstr "此工作空間中已有同名團隊。"
 msgid "Cannot change this on a scoped team."
 msgstr "無法在限定範圍的團隊中變更此項設定。"
 
+msgid "Inherit enforced checks from the workspace."
+msgstr "繼承工作空間的強制檢查。"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "繼承專案、類別或工作空間的強制檢查。"
+
 msgid "You do not have permission to access this component."
 msgstr "您無權存取此組件。"
 
@@ -2831,6 +2840,9 @@ msgstr "翻譯文字過長！"
 
 msgid "Your suggestion already exists!"
 msgstr "您的建議內容已經存在！"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "繼承上層類別、專案或工作空間的強制檢查。"
 
 msgid "Weblate's REST API"
 msgstr "Weblate 的 REST API"
@@ -5427,6 +5439,9 @@ msgstr "應該是包含詮釋資料檔案的目錄！"
 msgid "App store metadata files"
 msgstr "App Store 詮釋資料檔案"
 
+msgid "File validation is required for directory-based formats."
+msgstr "以目錄為單位的格式必須驗證檔案。"
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -8009,7 +8024,8 @@ msgstr "請使用以下值設定 Kotlin SDK Gradle 外掛："
 msgid ""
 "Replace the placeholder with a project-scoped API token that can edit this "
 "component. Keep the token in the build environment."
-msgstr "請將預留位置替換為可編輯此組件的專案範圍 API 權杖，並將權杖儲存在建置環境中。"
+msgstr ""
+"請將預留位置替換為可編輯此組件的專案範圍 API 權杖，並將權杖儲存在建置環境中。"
 
 msgid "Create a project token"
 msgstr "建立專案權杖"
@@ -8120,10 +8136,11 @@ msgstr "來自此儲存庫內組件的 Weblate 提交將會壓縮成一個提交
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
-"會保留原本的提交訊息，但除非選取「每位作者」，或者提交訊息已自訂包括原作者，"
-"否則原作者資訊會遺失。"
+"會保留原始提交訊息，但除非選擇「每位作者」或「依作者與語言分組」，或在自訂提"
+"交訊息中加入作者資訊，否則作者資訊會遺失。"
 
 msgid "HTTP Response"
 msgstr "HTTP 回應"
@@ -8359,14 +8376,8 @@ msgstr "不可用"
 msgid "No invoices found."
 msgstr "查無收據。"
 
-msgid "Event details"
-msgstr "事件詳細資訊"
-
-msgid "Actions"
-msgstr "動作"
-
-msgid "Download"
-msgstr "下載"
+msgid "View all"
+msgstr "檢視全部"
 
 msgid "Libre hosting"
 msgstr "自由軟體託管"
@@ -8399,6 +8410,21 @@ msgstr "目前沒有指派專案！"
 
 msgid "View"
 msgstr "檢視"
+
+msgid "Event details"
+msgstr "事件詳細資訊"
+
+msgid "Actions"
+msgstr "動作"
+
+msgid "Download"
+msgstr "下載"
+
+msgid "No audit log entries found."
+msgstr "找不到任何稽核紀錄。"
+
+msgid "Audit log pagination"
+msgstr "稽核紀錄分頁"
 
 msgid "Confirm merge"
 msgstr "確認合併"
@@ -9122,7 +9148,8 @@ msgstr "適合用於要以上游為翻譯權威來源的情況。"
 msgid ""
 "Only the configured branch is reset. Other local branches are kept; use "
 "Cleanup to remove them."
-msgstr "只會重設已設定的分支，其他本機分支會保留；如要移除，請使用「清理」功能。"
+msgstr ""
+"只會重設已設定的分支，其他本機分支會保留；如要移除，請使用「清理」功能。"
 
 msgid "Reset and reapply"
 msgstr "重設並重新套用"
@@ -9157,8 +9184,8 @@ msgid ""
 "For Git repositories, it also deletes all local branches other than the "
 "configured branch, including any commits that have not been pushed."
 msgstr ""
-"若是 Git 儲存庫，系統也會刪除已設定分支以外的所有本機分支，包括尚未推送的提交"
-"。"
+"若是 Git 儲存庫，系統也會刪除已設定分支以外的所有本機分支，包括尚未推送的提"
+"交。"
 
 msgid ""
 "If switching to a branch with rewritten upstream history fails, switch to a "
@@ -10644,6 +10671,10 @@ msgid "Add label"
 msgstr "加入標籤"
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "將翻譯以 %(format_name)s 格式下載為 ZIP 檔案"
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr "管理 %(team)s"
 
@@ -10835,6 +10866,12 @@ msgstr "字串"
 msgid "words"
 msgstr "單字"
 
+msgid "Bulk edit selected strings"
+msgstr "批次編輯選取的字串"
+
+msgid "No strings selected"
+msgstr "未選取任何字串"
+
 msgid "No matching strings found."
 msgstr "找不到符合的字串。"
 
@@ -10910,8 +10947,17 @@ msgid ""
 "limits."
 msgstr "這可能是您的帳單資料到期或超過上限而失效。"
 
+msgid "Select all strings on this page"
+msgstr "選取此頁所有字串"
+
+msgid "Select string for bulk edit"
+msgstr "選取字串以進行批次編輯"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "您可以一次變更所有符合指定類型的字串狀態。"
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr "此操作會套用到上方清單中選取的字串。"
 
 msgid "Translation quality filter"
 msgstr "翻譯品質過濾器"
@@ -11045,6 +11091,12 @@ msgstr "已將儲存庫 URL 複製至剪貼簿。"
 
 msgid "Repository branch"
 msgstr "儲存庫分支"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request URL copied to clipboard."
+msgstr "Pull request 網址已複製到剪貼簿。"
 
 msgid "Last remote commit"
 msgstr "上次遠端提交"
@@ -11380,6 +11432,10 @@ msgstr "建立翻譯"
 
 msgid "Cannot add translation right now"
 msgstr "現在還不能加入翻譯"
+
+#, python-format
+msgid "Source: %(language)s"
+msgstr "來源語言：%(language)s"
 
 msgid "Customized workflow"
 msgstr "自訂工作流程"
@@ -11893,8 +11949,8 @@ msgid ""
 "service in the add-on configuration, or restore the service in Automatic "
 "suggestions settings."
 msgstr ""
-"目前無法使用已設定的評估服務。請在附加元件設定中選取已設定的 LLM 服務，或在「"
-"自動建議」設定中還原該服務。"
+"目前無法使用已設定的評估服務。請在附加元件設定中選取已設定的 LLM 服務，或在"
+"「自動建議」設定中還原該服務。"
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "翻譯語言的檔案所使用的語言代碼有歧義。"
@@ -12584,16 +12640,21 @@ msgstr "要移除的專案語言"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
-msgstr "這個動作無法取消。這會永久刪除 %(object)s 類別及其所有相關內容。"
+"category and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+"此操作無法復原。這會永久刪除 %(object)s 類別及直接相關的內容。翻譯記憶另由下"
+"方選項處理。"
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
-"如果此操作會移除受限組件，除非您同時刪除這些組件所保留的翻譯記憶，否則這些翻"
-"譯記憶將依照專案與工作空間的翻譯記憶存取規則開放使用。"
+"預設會保留翻譯記憶。如果此類別包含限制存取的組件，從這些組件保留的條目可能會"
+"讓專案或工作空間中的其他成員看見。若要刪除這些條目，請勾選下方的翻譯記憶刪除"
+"選項。"
 
 msgid "The following translation components will be removed:"
 msgstr "將會移除下列翻譯組件："
@@ -12607,14 +12668,31 @@ msgstr "要移除的專案"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
-msgstr "這個動作無法取消。這會永久刪除 %(object)s 組件及其所有相關內容。"
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+"此操作無法復原。這會永久刪除 %(object)s 組件及直接相關的內容。翻譯記憶另由下"
+"方選項處理。"
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
+"預設會保留翻譯記憶。如果此組件限制存取，從此組件保留的條目可能會讓專案或工作"
+"空間中的其他成員看見。若要刪除這些條目，請勾選下方的翻譯記憶刪除選項。"
 
 msgid "Component to remove"
 msgstr "要移除的組件"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "我瞭解所有後果，確認刪除此翻譯"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr "這個動作無法取消。這會永久刪除 %(object)s 類別及其所有相關內容。"
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -12850,6 +12928,11 @@ msgstr "中間語言"
 
 msgid "Explanation"
 msgstr "解釋"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr "找不到設定的來源字串。在該字串可用前無法翻譯。"
 
 msgid "Report issue with the source string"
 msgstr "報告來源字串的問題"
@@ -13648,6 +13731,9 @@ msgstr "在單一字串模式中編輯"
 
 msgid "Exit Zen"
 msgstr "退出禪譯模式"
+
+msgid "Show suggestions"
+msgstr "顯示建議"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "翻譯檔案已與其儲存庫同步。"
@@ -14665,6 +14751,9 @@ msgstr "先前的翻譯"
 msgid "State: %(state)s"
 msgstr "狀態：%(state)s"
 
+msgid "Previous source"
+msgstr "先前的來源字串"
+
 msgid "Suggestions pending"
 msgstr "建議未決"
 
@@ -14931,9 +15020,9 @@ msgid ""
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
-"控制是否將 XLIFF 字串中的內嵌 XML 元素保留為可編輯的可置入項目。「僅限純文字"
-"」會跳脫 XML 標記，並將內容視為一般文字。若支援可置入項目，<x id=\"name\" \\"
-"=\"\"> 或 </x>"
+"控制是否將 XLIFF 字串中的內嵌 XML 元素保留為可編輯的可置入項目。「僅限純文"
+"字」會跳脫 XML 標記，並將內容視為一般文字。若支援可置入項目，<x id=\"name\" "
+"\\=\"\"> 或 </x>"
 
 msgid "FlatXML Root name"
 msgstr "FlatXML 根元素名稱"
@@ -15615,6 +15704,9 @@ msgstr "若句子應與來源語言保持相同，不應變更，請核取此選
 msgid "You do not have permission to create terminology."
 msgstr "您無權建立專有名詞。"
 
+msgid "Invalid string selection!"
+msgstr "選取的字串無效！"
+
 msgid "State to set"
 msgstr "要設定的狀態"
 
@@ -15645,6 +15737,9 @@ msgstr "要新增的標籤 — 所有語言"
 msgid "Labels to remove — all languages"
 msgstr "要移除的標籤 — 所有語言"
 
+msgid "Select strings to edit or enter a search query."
+msgstr "請選取要編輯的字串，或輸入搜尋條件。"
+
 msgid "I accept the contributor license agreement"
 msgstr "我接受貢獻者授權協議"
 
@@ -15661,9 +15756,12 @@ msgid "Delete translation memory created from this component"
 msgstr "刪除由此組件建立的翻譯記憶"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
-msgstr "將刪除專案、工作空間及共享翻譯記憶中的條目。個人及上傳的條目則會保留。"
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
+msgstr ""
+"勾選此選項即可刪除專案、工作空間及共享翻譯記憶中從此組件建立的條目。不勾選則"
+"會保留這些條目。個人條目及上傳的條目一律保留。"
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "請輸入組件的完整 slug 以供確認。"
@@ -15673,6 +15771,14 @@ msgstr "請輸入專案的 slug 以供確認。"
 
 msgid "Delete translation memory created from components in this category"
 msgstr "刪除由此類別中組件建立的翻譯記憶"
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"勾選此選項即可刪除專案、工作空間及共享翻譯記憶中從此類別內的組件建立的條目。"
+"不勾選則會保留這些條目。個人條目及上傳的條目一律保留。"
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "請輸入類別的 slug 以供確認。"
@@ -15859,6 +15965,18 @@ msgstr "翻譯旗標"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "額外以逗號分隔的旗標影響 Weblate 行為。"
+
+msgid "Enforced checks"
+msgstr "強制檢查"
+
+msgid "List of checks which can not be dismissed."
+msgstr "不能忽略的檢查清單。"
+
+msgid "Inherit enforced checks"
+msgstr "繼承強制檢查"
+
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "使用上層類別、專案或工作空間的強制檢查。"
 
 msgid "Inherit translation license"
 msgstr "繼承翻譯授權"
@@ -16090,6 +16208,19 @@ msgstr ""
 "儲存庫瀏覽器的連結。請使用 {{branch}} 作為分支名，{{filename}} 和 {{line}} 作"
 "為檔案名稱和列號定位處。您或許會想使用 {{filename|parentdir}} 除掉前置目錄。"
 
+msgid "Repository browser for translations"
+msgstr "翻譯檔案的儲存庫瀏覽器"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"翻譯檔案的儲存庫瀏覽器連結。以 {{branch}} 代表分支、{{filename}} 代表檔案名稱"
+"、{{line}} 代表行號。若留白，會使用上方「儲存庫瀏覽器」的設定。如需移除路徑開"
+"頭的目錄，可使用 {{filename|parentdir}}。"
+
 msgid "Exported repository URL"
 msgstr "已匯出儲存庫 URL"
 
@@ -16207,11 +16338,8 @@ msgid ""
 "off."
 msgstr "建議翻譯取得此票數後自動接受；設為 0 可停用。"
 
-msgid "Enforced checks"
-msgstr "強制檢查"
-
-msgid "List of checks which can not be dismissed."
-msgstr "不能忽略的檢查清單。"
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "使用專案、類別或工作空間的強制檢查。"
 
 msgid "Use the translation license configured in the category or project."
 msgstr "使用類別或專案中設定的翻譯授權。"
@@ -16790,6 +16918,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr "以逗號分隔的語言代碼映射清單，例如：en_GB:en,en_US:en"
 
+msgid "Use enforced checks from the workspace."
+msgstr "使用工作空間的強制檢查。"
+
 msgid "Use the translation license configured in the workspace."
 msgstr "使用工作空間中設定的翻譯授權。"
 
@@ -17002,6 +17133,11 @@ msgstr "將所有語言標記為術語"
 msgid "Unmark as terminology for all languages"
 msgstr "取消所有語言的術語標記"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr "以此語言作為翻譯來源。留白則使用組件的來源語言。"
+
 msgid "Restrict direct editing"
 msgstr "限制直接編輯"
 
@@ -17010,6 +17146,21 @@ msgid ""
 "can make direct changes."
 msgstr ""
 "只有具備「強制使用建議時仍可直接編輯字串」權限的使用者，才能直接修改翻譯。"
+
+msgid "Please turn on reviews on the project first."
+msgstr "請先啟用此專案的審核功能。"
+
+msgid "This language already has a project workflow."
+msgstr "此語言已有專案工作流程。"
+
+msgid "Select a source language in a project workflow."
+msgstr "請在專案工作流程中選擇來源語言。"
+
+msgid "The source language must exist in this project."
+msgstr "此專案中必須已有這個來源語言。"
+
+msgid "Source languages cannot form a cycle."
+msgstr "來源語言之間不能形成循環相依。"
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "來源字串已變更，請重新載入後再編輯。"
@@ -17310,6 +17461,13 @@ msgstr "將值設成 1 即不允許自動接受，若開啟此功能則允許使
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "解析旗標失敗：%s"
+
+msgid "Enforced checks has to be a list."
+msgstr "強制檢查必須以清單格式提供。"
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr "不支援的強制檢查：%s"
 
 #, python-format
 msgid ""

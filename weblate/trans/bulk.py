@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from itertools import batched
 from typing import TYPE_CHECKING
 
 from django.db import transaction
@@ -12,6 +13,7 @@ from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import propagate_parent_change, source_operation
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -23,6 +25,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
+    from weblate.addons.ai import EvaluatedUnitSnapshot
     from weblate.auth.models import User
     from weblate.trans.models import Label, Project
     from weblate.trans.models.unit import UnitQuerySet
@@ -34,6 +37,52 @@ EDITABLE_STATES = {
     STATE_TRANSLATED,
     STATE_APPROVED,
 }
+
+
+def exclude_stale_evaluations(
+    units: UnitQuerySet,
+    snapshots: dict[int, EvaluatedUnitSnapshot],
+) -> UnitQuerySet:
+    """
+    Lock and retain targets whose evaluated target and source are unchanged.
+
+    This deliberately guarantees only that the target and source content used by
+    AI quality evaluation still match immediately before approval. It does not
+    hold locks during the provider request or version every mutable prompt input.
+    """
+    from weblate.addons.ai import evaluation_snapshot  # ruff: ignore[import-outside-top-level]
+
+    selected_ids = set(
+        units.exclude(pk=F("source_unit_id")).values_list("pk", flat=True)
+    )
+    relevant = {pk: snapshots[pk] for pk in selected_ids & snapshots.keys()}
+    locked: dict[int, Unit] = {}
+    lock_ids = {
+        item_id
+        for pk, snapshot in relevant.items()
+        for item_id in (pk, snapshot.source_unit_id)
+    }
+    # Bound each lock query for large result scopes while retaining all acquired
+    # row locks until the surrounding bulk-operation transaction commits.
+    for chunk in batched(sorted(lock_ids), 1000):
+        locked.update(
+            (unit.pk, unit)
+            for unit in Unit.objects.filter(pk__in=chunk)
+            .order_by("pk")
+            .select_related("translation")
+            .select_for_update()
+        )
+    valid_ids = {
+        pk
+        for pk, snapshot in relevant.items()
+        if pk in locked
+        and snapshot.source_unit_id in locked
+        and locked[pk].source_unit_id == snapshot.source_unit_id
+        and evaluation_snapshot(locked[pk]).fingerprint == snapshot.unit.fingerprint
+        and evaluation_snapshot(locked[snapshot.source_unit_id]).fingerprint
+        == snapshot.source_unit.fingerprint
+    }
+    return units.filter(pk__in=valid_ids)
 
 
 # ruff: ignore[complex-structure, too-many-arguments]
@@ -53,6 +102,7 @@ def bulk_perform(
     remove_translation_flags: str | Flags = "",
     affected_unit_ids: set[int] | None = None,
     affected_source_unit_ids: set[int] | None = None,
+    expected_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
 ) -> int:
     matching = unit_set.search(query, project=project)
     if components is None:
@@ -60,8 +110,7 @@ def bulk_perform(
             id__in=matching.values_list("translation__component_id", flat=True)
         )
 
-    if isinstance(target_state, str):
-        target_state = int(target_state)
+    target_state = int(target_state)
     if isinstance(add_flags, str):
         add_flags = FlagsValidator(add_flags)
     if isinstance(remove_flags, str):
@@ -75,8 +124,12 @@ def bulk_perform(
     for component in components:
         prev_updated = updated
         component.start_batched_checks()
-        with transaction.atomic():
+        with transaction.atomic(), source_operation(component):
             component_units = matching.filter(translation__component=component)
+            if target_state == STATE_APPROVED and expected_unit_snapshots is not None:
+                component_units = exclude_stale_evaluations(
+                    component_units, expected_unit_snapshots
+                )
 
             # Snapshot matching translations before state/source changes alter the query.
             translation_unit_ids = (
@@ -156,6 +209,8 @@ def bulk_perform(
                     ],
                     batch_size=500,
                 )
+                for unit in to_update:
+                    propagate_parent_change(unit.translation, unit.pk, user)
                 # Fire source_change event in bulk for source units
                 for unit in source_units:
                     # The change is already done in the database, we

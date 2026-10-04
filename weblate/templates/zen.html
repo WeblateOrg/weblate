@@ -5,7 +5,12 @@
 {% block extra_script %}
   <script defer src="{% static 'editor/base.js' %}"></script>
   <script defer src="{% static 'editor/zen.js' %}"></script>
+  <script defer src="{% static 'js/bulk-accept-suggestions.js' %}"></script>
 {% endblock extra_script %}
+
+{% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}" />
+{% endblock extra_styles %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
@@ -35,7 +40,16 @@
     <a href="{% url 'translate' path=object.get_url_path %}{% querystring query_params %}"
        data-params="{{ search_url }}"
        title="{% translate "Edit in single string mode" %}"
-       class="btn btn-link">{% icon "close.svg" %} {% translate "Exit Zen" %}</a>
+       class="btn btn-link">{% icon "close.svg" %} <span class="d-none d-md-inline">{% translate "Exit Zen" %}</span></a>
+
+    <button type="button"
+            class="btn btn-link"
+            id="zen-toggle-suggestions"
+            title="{% translate "Show suggestions" %}"
+            aria-label="{% translate "Show suggestions" %}">
+      {% icon "suggest.svg" %}
+      <span id="zen-toggle-suggestions-label" class="d-none d-md-inline">{% translate "Show suggestions" %}</span>
+    </button>
 
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
@@ -51,7 +65,7 @@
     </form>
   </div>
 
-  <table class="zen table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
+  <table class="zen zen-hide-suggestions table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
     {% include "zen-units.html" %}
     <tfoot>
       <tr>

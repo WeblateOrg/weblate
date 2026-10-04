@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -13,8 +16,32 @@ from social_django.strategy import DjangoStrategy
 from weblate.accounts.flows import PASSWORD_RESET_EMAIL_SESSION
 from weblate.utils.site import get_site_url
 
+if TYPE_CHECKING:
+    from django.http import HttpRequest
+    from social_core.backends.base import BaseAuth
+    from social_core.storage import UserProtocol
+    from social_core.strategy import HttpResponseProtocol
+
 
 class WeblateStrategy(DjangoStrategy):
+    def authenticate(
+        self, backend: BaseAuth, *args: object, **kwargs: object
+    ) -> UserProtocol | HttpResponseProtocol | None:
+        # social-auth-app-django passes the HTTP request to Django's
+        # authenticate(), which otherwise replaces the saved partial request
+        # data needed to validate an e-mail confirmation link.
+        if isinstance(request_data := kwargs.get("request"), dict):
+            kwargs["weblate_request_data"] = request_data
+        return super().authenticate(backend, *args, **kwargs)
+
+    def clean_authenticate_args(
+        self, request: HttpRequest, *args: object, **kwargs: object
+    ) -> tuple[tuple[object, ...], dict[str, object]]:
+        args, kwargs = super().clean_authenticate_args(request, *args, **kwargs)
+        if "weblate_request_data" in kwargs:
+            kwargs["request"] = kwargs.pop("weblate_request_data")
+        return args, kwargs
+
     @cached_property
     def _site_url(self):
         return urlparse(get_site_url())

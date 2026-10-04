@@ -20,10 +20,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 04:09+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-03 04:38+0000\n"
+"Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -31,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -2099,6 +2098,11 @@ msgstr "파일별"
 msgid "Per author"
 msgstr "작성자별"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "언어별"
+
 msgid "Append trailers to squashed commit message"
 msgstr "스쿼시된 커밋 메시지에 트레일러 추가"
 
@@ -3013,6 +3017,16 @@ msgstr "이 이름의 팀이 이 작업공간에 이미 있습니다."
 msgid "Cannot change this on a scoped team."
 msgstr "범위를 지정한 팀에서는 이 항목을 변경할 수 없습니다."
 
+#, fuzzy
+#| msgid "Inherit from %(scope)s"
+msgid "Inherit enforced checks from the workspace."
+msgstr "%(scope)s에서 상속"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "프로젝트 또는 작업공간 중 하나를 선택하세요."
+
 msgid "You do not have permission to access this component."
 msgstr "이 구성요소에 접근할 권한이 없습니다."
 
@@ -3072,6 +3086,11 @@ msgstr "번역 텍스트가 너무 깁니다!"
 
 msgid "Your suggestion already exists!"
 msgstr "제안이 이미 존재합니다!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "프로젝트 또는 작업공간 중 하나를 선택하세요."
 
 msgid "Weblate's REST API"
 msgstr "Weblate의 REST API"
@@ -5815,6 +5834,9 @@ msgstr "메타데이터 파일이 있는 디렉터리여야 합니다!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "앱 스토어 메타데이터 파일"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8638,9 +8660,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "이 저장소 내 구성요소의 Weblate 커밋이 스쿼시됩니다."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "원본 커밋 메시지는 유지되지만, \"작성자별\"을 선택하거나 커밋 메시지에 작성자"
 "를 포함하도록 수정하지 않는 한 작성자 정보는 사라집니다."
@@ -8886,14 +8913,10 @@ msgstr "사용 불가"
 msgid "No invoices found."
 msgstr "청구서를 찾을 수 없습니다."
 
-msgid "Event details"
-msgstr "이벤트 상세"
-
-msgid "Actions"
-msgstr "작업"
-
-msgid "Download"
-msgstr "다운로드"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "자세한 내용 보기"
 
 msgid "Libre hosting"
 msgstr "Libre 호스팅"
@@ -8928,6 +8951,25 @@ msgstr "현재 지정된 프로젝트가 없습니다!"
 
 msgid "View"
 msgstr "보기"
+
+msgid "Event details"
+msgstr "이벤트 상세"
+
+msgid "Actions"
+msgstr "작업"
+
+msgid "Download"
+msgstr "다운로드"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "일치하는 문자열이 없습니다."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "저장소 초기화"
 
 msgid "Confirm merge"
 msgstr "병합 확인"
@@ -9864,11 +9906,8 @@ msgstr "저장소 변경사항"
 msgid "Browse all repository changes"
 msgstr "저장소의 모든 변경사항 보기"
 
-#, fuzzy
-#| msgctxt "Number of strings"
-#| msgid "Waiting for review"
 msgid "Nothing to preview."
-msgstr "검토 대기 중"
+msgstr "미리볼 것이 없습니다."
 
 msgid "Shortcut"
 msgstr "단축키"
@@ -11333,6 +11372,11 @@ msgstr "레이블이 지정된 원문 문자열"
 msgid "Add label"
 msgstr "레이블 추가"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "번역을 ZIP 파일의 CSV 형식으로 다운로드"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "%(team)s 관리"
@@ -11552,6 +11596,14 @@ msgstr "문자열"
 msgid "words"
 msgstr "단어"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "문자열 일괄 편집"
+
+msgid "No strings selected"
+msgstr "선택한 문자열 없음"
+
 msgid "No matching strings found."
 msgstr "일치하는 문자열이 없습니다."
 
@@ -11634,9 +11686,22 @@ msgid ""
 "limits."
 msgstr "일부 청구가 기한을 초과하거나 한도를 초과하여 발생한 것일 수 있습니다."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "모든 원문 문자열 선택"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "편집 필요로 표시된 문자열"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "지정된 유형과 일치하는 모든 문자열의 상태를 한 번에 변경할 수 있습니다."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "번역 품질 필터"
@@ -11800,6 +11865,16 @@ msgstr "저장소 URL이 클립보드에 복사되었습니다."
 
 msgid "Repository branch"
 msgstr "저장소 브랜치"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea 풀 리퀘스트"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "저장소 URL이 클립보드에 복사되었습니다."
 
 msgid "Last remote commit"
 msgstr "최근 원격 커밋"
@@ -12145,6 +12220,11 @@ msgstr "번역 생성"
 
 msgid "Cannot add translation right now"
 msgstr "지금은 번역을 추가할 수 없습니다"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "원문 언어"
 
 msgid "Customized workflow"
 msgstr "사용자 정의 워크플로"
@@ -13463,18 +13543,23 @@ msgstr "다음 번역이 제거됩니다:"
 msgid "Project language to remove"
 msgstr "제거할 프로젝트 언어"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "이 작업은 되돌릴 수 없습니다. %(object)s 카테고리와 모든 관련 콘텐츠가 영구적"
 "으로 삭제됩니다."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -13486,19 +13571,37 @@ msgstr "다음 번역 카테고리가 제거됩니다:"
 msgid "Project to remove"
 msgstr "제거할 프로젝트"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "이 작업은 되돌릴 수 없습니다. %(object)s 구성요소와 모든 관련 콘텐츠가 영구적"
 "으로 삭제됩니다."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "제거할 구성요소"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "결과를 이해했으며, 이 번역을 삭제합니다"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"이 작업은 되돌릴 수 없습니다. %(object)s 카테고리와 모든 관련 콘텐츠가 영구적"
+"으로 삭제됩니다."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13749,6 +13852,11 @@ msgstr "중간 언어"
 
 msgid "Explanation"
 msgstr "설명"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "원문 문자열 문제 신고"
@@ -14624,6 +14732,9 @@ msgstr "단일 문자열 모드에서 편집"
 
 msgid "Exit Zen"
 msgstr "Zen 모드 종료"
+
+msgid "Show suggestions"
+msgstr "제안 보이기"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -15897,6 +16008,11 @@ msgstr "이전 번역"
 msgid "State: %(state)s"
 msgstr "상태: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "이전 섹션"
+
 msgid "Suggestions pending"
 msgstr "보류 중인 제안"
 
@@ -16917,6 +17033,11 @@ msgstr "원문 언어 그대로 유지해야 하는 문장에 이 옵션을 표�
 msgid "You do not have permission to create terminology."
 msgstr "용어를 생성할 권한이 없습니다."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "잘못된 제안!"
+
 msgid "State to set"
 msgstr "지정할 상태"
 
@@ -16957,6 +17078,9 @@ msgstr "모든 언어"
 msgid "Labels to remove — all languages"
 msgstr "제거할 레이블"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "기여자 라이선스 계약에 동의합니다"
 
@@ -16975,8 +17099,9 @@ msgid "Delete translation memory created from this component"
 msgstr "이 구성요소 파일 마스크에 대한 번역을 찾을 수 없습니다."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -16986,6 +17111,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "확인하려면 프로젝트의 슬러그를 입력하세요."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -17178,6 +17309,23 @@ msgstr "번역 플래그"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Weblate 동작에 영향을 주는 쉼표로 구분된 추가 플래그입니다."
+
+msgid "Enforced checks"
+msgstr "강제 검사"
+
+msgid "List of checks which can not be dismissed."
+msgstr "무시할 수 없는 검사 목록입니다."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "미사용 강제 검사."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "상위 카테고리 또는 프로젝트에 구성된 번역 라이선스를 사용합니다."
 
 msgid "Inherit translation license"
 msgstr "번역 라이선스 상속"
@@ -17427,6 +17575,26 @@ msgstr ""
 "에는 {{filename}}과 {{line}}을 사용합니다. {{filename|parentdir}}을 사용하여 "
 "선행 디렉터리를 제거할 수 있습니다."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "번역할 저장소 브랜치"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"저장소 브라우저 링크입니다. 브랜치에는 {{branch}}, 파일 이름과 줄 자리 표시자"
+"에는 {{filename}}과 {{line}}을 사용합니다. {{filename|parentdir}}을 사용하여 "
+"선행 디렉터리를 제거할 수 있습니다."
+
 msgid "Exported repository URL"
 msgstr "내보내기된 저장소 URL"
 
@@ -17556,11 +17724,10 @@ msgstr ""
 "이 투표 수에 도달한 제안을 자동으로 수락합니다. 0으로 설정하면 비활성화됩니"
 "다."
 
-msgid "Enforced checks"
-msgstr "강제 검사"
-
-msgid "List of checks which can not be dismissed."
-msgstr "무시할 수 없는 검사 목록입니다."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "프로젝트 또는 작업공간 중 하나를 선택하세요."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "카테고리 또는 프로젝트에 구성된 번역 라이선스를 사용합니다."
@@ -18192,6 +18359,11 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr "쉼표로 구분된 언어 코드 매핑 목록입니다. 예: en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "미사용 강제 검사."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "작업공간에 구성된 번역 라이선스를 사용합니다."
 
@@ -18449,6 +18621,11 @@ msgstr "용어로 표시"
 msgid "Unmark as terminology for all languages"
 msgstr "용어 표시 해제"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -18456,6 +18633,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "확인하려면 프로젝트의 슬러그를 입력하세요."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "해당 언어가 이미 존재합니다."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "프로젝트 또는 구성요소에 정의된 보조 언어"
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "이 프로젝트에서 사용자가 차단되지 않았습니다."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "원문 언어 텍스트"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -18809,6 +19012,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "플래그를 파싱할 수 없습니다: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "강제 검사"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "미사용 강제 검사."
 
 #, python-format
 msgid ""

@@ -527,9 +527,6 @@ class DeepLTranslation(
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_tsv
-
         if unit is None:
             return None
 
@@ -538,7 +535,7 @@ class DeepLTranslation(
         if not self.is_glossary_supported(source_language, target_language):
             return None
 
-        glossary_tsv = get_glossary_tsv(translation)
+        glossary_tsv = self.get_glossary_tsv(source_language, unit)
         if not glossary_tsv:
             return None
 

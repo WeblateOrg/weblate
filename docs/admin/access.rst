@@ -183,6 +183,27 @@ Each team can have team administrators, who can add and remove users within the 
 
 This is useful in case you want to build self-governed teams.
 
+.. _site-wide-team-management:
+
+Site-wide team management
++++++++++++++++++++++++++
+
+Site-wide team management is controlled by the global ``group.edit``
+permission. This is a trusted administrative permission which allows creating,
+editing, and deleting site-wide teams, including changing their roles and
+project, component, component list, and language selections.
+
+Project and component assignments are not limited to projects the team manager
+can access directly. A team manager can therefore grant existing team members
+access to a private project without gaining direct access to that project.
+
+Treat ``group.edit`` as instance-wide access management, not as permission to
+manage only teams or projects already visible to the user. To delegate access
+management within a narrower scope, use a project `Administration` team,
+workspace administration, or a :ref:`team administrator <team-admins>`. Team
+administrators can add and remove users, but cannot change the team's access
+scope.
+
 .. _invite-user:
 
 Inviting new users
@@ -539,6 +560,23 @@ the following rules:
   update operations. They are not required for Weblate's normal background
   commit and push of translation changes made through an authorized component.
 
+- The :guilabel:`Edit project settings` permission authorizes persistent
+  administration across the project. Project backups contain all components,
+  including restricted ones. Project and category add-ons also operate on all
+  compatible components in their configured scope. Grant this permission only
+  to users trusted with the complete project data and these administrative
+  effects, even when restricted components remain hidden from their ordinary
+  component listings.
+
+- Add-on configuration is stored system configuration rather than a delegation
+  from the account which saved it. Component add-ons can consume inputs outside
+  the destination component when the add-on documents such a source scope. The
+  available configuration and the meaning of options such as all compatible
+  components do not vary with the administrator who last saved the add-on. The
+  add-on continues to run if the configuring user's permissions or account
+  later change; review or remove the configuration separately during access
+  revocation.
+
 .. hint::
 
    Use :guilabel:`All languages` or :guilabel:`Project selection`
@@ -627,9 +665,11 @@ set of permissions.
 
    Site-wide privileges are not granted to any default role. Treat custom roles
    containing them as trusted administrative access because some are
-   effectively equivalent to superuser status. For example, ``user.edit``
-   allows users to change their own team memberships and grant themselves
-   superuser status.
+   effectively equivalent to superuser status. For example, ``group.edit``
+   allows changing team scope to grant access to private projects, and
+   ``user.edit`` allows users to change their own team memberships and grant
+   themselves superuser status. See :ref:`site-wide-team-management` and
+   :ref:`site-wide user management <site-wide-user-management>` for details.
 
 .. include:: /snippets/roles.rst
 

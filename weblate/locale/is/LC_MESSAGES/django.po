@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2289,6 +2289,11 @@ msgstr "á hverja skrá"
 msgid "Per author"
 msgstr "Á hvern höfund"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Á hvert tungumál"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Bættu viðskeyti við samsteypt innleggsskilaboð"
 
@@ -3219,6 +3224,14 @@ msgstr "Notandi með þetta notandanafn er þegar til."
 msgid "Cannot change this on a scoped team."
 msgstr "Get ekki breytt þessu í innbyggðu teymi."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Erfð flögg"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Þú hefur ekki heimildir til að vinna með þennan þýðingarhluta."
 
@@ -3280,6 +3293,9 @@ msgstr "Þýðingartexti er of langur!"
 
 msgid "Your suggestion already exists!"
 msgstr "Tillagan þín er þegar til staðar!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "Weblate REST API-kerfisviðmót"
@@ -6129,6 +6145,9 @@ msgstr "Ætti að vera mappa með lýsigagnaskrám!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Lýsigagnaskrá App Store forritaverslunar"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9091,7 +9110,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9347,14 +9367,8 @@ msgstr "Engir reikningar fundust."
 
 #, fuzzy
 #| msgid "View details"
-msgid "Event details"
+msgid "View all"
 msgstr "Skoða nánar"
-
-msgid "Actions"
-msgstr "Aðgerðir"
-
-msgid "Download"
-msgstr "Sækja"
 
 msgid "Libre hosting"
 msgstr "Frjáls hýsing"
@@ -9389,6 +9403,27 @@ msgstr "Engin verkefni eru núna úthlutuð!"
 
 msgid "View"
 msgstr "Skoða"
+
+#, fuzzy
+#| msgid "View details"
+msgid "Event details"
+msgstr "Skoða nánar"
+
+msgid "Actions"
+msgstr "Aðgerðir"
+
+msgid "Download"
+msgstr "Sækja"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Engir samsvarandi strengir fundust."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Frumstilling gagnasafns"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -11804,6 +11839,11 @@ msgid "Add label"
 msgstr "Bæta við merkingu"
 
 #, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Ná í þýðingaskrár sem CSV í ZIP-skrá"
+
+#, fuzzy, python-format
 #| msgid "Manage teams"
 msgid "Manage %(team)s"
 msgstr "Sýsla með teymi"
@@ -12041,6 +12081,16 @@ msgstr "strengir"
 msgid "words"
 msgstr "orð"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Breyta strengjum"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Engir strengir til að þýða"
+
 msgid "No matching strings found."
 msgstr "Engir samsvarandi strengir fundust."
 
@@ -12114,7 +12164,20 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all strings on this page"
+msgstr "Merktir upprunastrengir"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Strengir merktir til breytinga"
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 msgid "Translation quality filter"
@@ -12285,6 +12348,16 @@ msgstr "URL-slóð gagnasafns afrituð á klippispjaldið."
 
 msgid "Repository branch"
 msgstr "Grein gagnasafns"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea-inndráttarbeiðni"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "URL-slóð gagnasafns afrituð á klippispjaldið."
 
 msgid "Last remote commit"
 msgstr "Síðasta fjartengda innsending"
@@ -12629,6 +12702,11 @@ msgstr "Búa til þýðingu"
 
 msgid "Cannot add translation right now"
 msgstr "Ekki er hægt að bæta við þýðingu í augnablikinu"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Upprunatungumál"
 
 msgid "Customized workflow"
 msgstr "Sérsniðið verkferli"
@@ -13893,18 +13971,23 @@ msgstr "Eftirfarandi þýðingar verða fjarlægðar:"
 msgid "Project language to remove"
 msgstr "Tungumál verkefnis sem á að fjarlægja"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Það er ekki hægt að afturkalla við þessa aðgerð. Þetta mun eyða endanlega "
 "%(object)s flokknum ásamt öllu tengdu efni."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -13916,19 +13999,37 @@ msgstr "Eftirfarandi þýðingaflokkar verða fjarlægðir:"
 msgid "Project to remove"
 msgstr "Verkefni sem á að fjarlægja"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Það er ekki hægt að afturkalla við þessa aðgerð. Þetta mun eyða endanlega "
 "%(object)s þýðingarhlutanum ásamt öllu tengdu efni."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Þýðingarhluti sem á að fjarlægja"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Ég skil afleiðingarnar, eyða þessari þýðingu"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Það er ekki hægt að afturkalla við þessa aðgerð. Þetta mun eyða endanlega "
+"%(object)s flokknum ásamt öllu tengdu efni."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14169,6 +14270,11 @@ msgstr "Millistigs-tungumál"
 
 msgid "Explanation"
 msgstr "Útskýring"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Tilkynna um vandamál með upprunastrenginn"
@@ -15070,6 +15176,11 @@ msgstr "Breyta í eins-strengs ham"
 
 msgid "Exit Zen"
 msgstr "Hætta í Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Tillögur"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16407,6 +16518,11 @@ msgid "State: %(state)s"
 msgstr "Staða: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Fyrri hluti"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Kosið um tillögu"
@@ -17475,6 +17591,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Þú hefur ekki leyfi til að búa til hugtakasafn."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Ógild tillaga!"
+
 msgid "State to set"
 msgstr ""
 
@@ -17515,6 +17636,9 @@ msgstr "Fyrir öll tungumál"
 msgid "Labels to remove — all languages"
 msgstr "Merking sem á að fjarlægja"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Ég samþykki skilmála vegna framlags"
 
@@ -17533,8 +17657,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Engir strengir voru fluttir inn úr innsendu skránni."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -17544,6 +17669,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr ""
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -17735,6 +17866,22 @@ msgstr "Flögg á þýðingar"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr "Þvingaðar prófanir"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Listi yfir prófanir sem ekki er hægt að hunsa."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Ónotaðar þvingaðar prófanir."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Fara á síðustu þýðingu í fyrirliggjandi leit."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18003,6 +18150,26 @@ msgstr ""
 "{{lína}} sem ígildi skráarheitis og línu. Hægt er að fjarlægja yfirskrá með "
 "því að nota {{skráarheiti|yfirskrá}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Grein gagnasafns sem á að þýða"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Hlekkur á hirsluvafra, notaðu {{grein}} fyrir grein, {{skráarheiti}} og "
+"{{lína}} sem ígildi skráarheitis og línu. Hægt er að fjarlægja yfirskrá með "
+"því að nota {{skráarheiti|yfirskrá}}."
+
 msgid "Exported repository URL"
 msgstr "Flutti út slóð á gagnasafn"
 
@@ -18125,11 +18292,8 @@ msgstr ""
 "Samþykkja sjálfkrafa tillögur sem ná þessum fjölda atkvæða, notaðu 0 til að "
 "slökkva á þessu."
 
-msgid "Enforced checks"
-msgstr "Þvingaðar prófanir"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Listi yfir prófanir sem ekki er hægt að hunsa."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -18748,6 +18912,11 @@ msgstr ""
 "Listi yfir vensl tungumálakóða, aðskilda með kommum. Dæmi: en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Ónotaðar þvingaðar prófanir."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "Þýðingin verður uppfærð í bakgrunni."
@@ -19038,6 +19207,11 @@ msgstr "Merkja sem hugtak"
 msgid "Unmark as terminology for all languages"
 msgstr "Taka úr merktum hugtökum"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19045,6 +19219,30 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+msgid "Please turn on reviews on the project first."
+msgstr ""
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Uppgefið tungumál er þegar til."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Aukatungumál skráð í verkefni eða þýðingarhluta"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Notandinn hefur verið útilokaður í þessu verkefni."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Texti á upprunatungumáli"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -19414,6 +19612,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Mistókst að þátta flögg: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Þvingaðar prófanir"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Ónotaðar þvingaðar prófanir."
 
 #, python-format
 msgid ""

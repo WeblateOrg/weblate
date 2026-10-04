@@ -7189,12 +7189,14 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
-        self.create_ts(
+        restricted = self.create_ts(
             name="TS",
             new_lang="add",
             new_base="ts/cs.ts",
             project=self.project,
         )
+        restricted.restricted = True
+        restricted.save(update_fields=["restricted"])
 
         preview = self.get_preview_addon(
             project=self.project
@@ -7814,6 +7816,39 @@ class GitSquashAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
 
+    def test_author_language(self) -> None:
+        self.test_squash("author-language", 4)
+
+    def test_get_commit_language(self) -> None:
+        addon = self.create("author-language")
+        repository = self.component.repository
+        filename_languages = {"cs.po": "cs", "de.po": "de"}
+
+        cases = {
+            # A commit touching a single language is grouped by that language.
+            "cs.po": "cs",
+            # A commit spanning multiple languages stays in its own group.
+            "cs.po\nde.po": "commit-sha",
+            # A translation file mixed with a non-translation file is not
+            # attributed to the language and stays separate.
+            "cs.po\nREADME.rst": "commit-sha",
+            # A commit touching only non-translation files stays separate.
+            "README.rst": "commit-sha",
+            # An empty commit stays separate.
+            "": "commit-sha",
+        }
+        for diff_output, expected in cases.items():
+            with (
+                self.subTest(diff_output=diff_output),
+                patch.object(repository, "execute", return_value=diff_output),
+            ):
+                self.assertEqual(
+                    addon.get_commit_language(
+                        repository, "commit-sha", filename_languages
+                    ),
+                    expected,
+                )
+
     def test_multiple_authors_on_same_file(self) -> None:
         self.test_squash("author", 3, repeated=True)
 
@@ -8229,6 +8264,34 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_category_source_scope(self) -> None:
+        category = self.create_category(self.project)
+        outside_project = self.create_project(name="Outside", slug="outside")
+        outside_project.contribute_shared_tm = False
+        outside_project.save(update_fields=["contribute_shared_tm"])
+        outside_component = self.create_po(
+            name="Restricted outside source",
+            slug="restricted-outside-source",
+            project=outside_project,
+            restricted=True,
+        )
+        addon = AutoTranslateAddon(Addon(category=category))
+        configuration = {
+            "component": outside_component.pk,
+            "q": "state:empty",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "translated",
+        }
+
+        form = AutoAddonForm(self.user, addon, data=configuration)
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("component", form.errors)
+        self.assertIn(self.component, form.components)
+        self.assertNotIn(outside_component, form.components)
+
     def test_approved_mode_configuration(self) -> None:
         configuration = {
             "component": "",

@@ -107,13 +107,16 @@ def download_multi(
             raise Http404(msg) from exc
 
         for translation in translations:
-            exporter = exporter_cls(translation=translation)
-            filename = exporter.get_filename()
             if not exporter_cls.supports(translation):
+                filename = (
+                    f"{'-'.join(translation.get_url_path())}.{exporter_cls.extension}"
+                )
                 extra[f"{filename}.skipped"] = (
                     "File format is not compatible with this translation"
                 )
             else:
+                exporter = exporter_cls(translation=translation)
+                filename = exporter.get_filename()
                 units = translation.unit_set.prefetch_full().order_by("position")
                 exporter.add_units(units)
                 extra[filename] = exporter.serialize()

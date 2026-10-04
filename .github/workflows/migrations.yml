@@ -6,12 +6,9 @@ name: Migrations
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
@@ -61,7 +58,7 @@ jobs:
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.12.19
+        version: 0.12.23
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
@@ -96,6 +93,10 @@ jobs:
       run: ./ci/run-migrate 2026.7
     - name: Migrate from 2026.8
       run: ./ci/run-migrate 2026.8
+    - name: Migrate from 2026.9
+      run: ./ci/run-migrate 2026.9
+    - name: Migrate from 2026.10
+      run: ./ci/run-migrate 2026.10
     - name: Coverage
       run: |
         uv run coverage combine

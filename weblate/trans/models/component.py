@@ -100,9 +100,11 @@ from weblate.trans.models.alert import Alert
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import source_operation_method, source_project_gate
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
+from weblate.trans.removal import defer_alert_update, is_removed_component
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
@@ -530,6 +532,7 @@ class OldComponentSettings(TypedDict):
     check_flags: str
     project_id: int | None
     category_id: int | None
+    source_language_id: int | None
     vcs: str
     push: str
     push_branch: str
@@ -1233,7 +1236,40 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(  # ruff: ignore[complex-structure, too-many-locals]
+    def save(self, *args, **kwargs) -> None:
+        previous_project = self.old_component_settings.get("project_id")
+        previous_source = self.old_component_settings.get("source_language_id")
+        update_fields = kwargs.get("update_fields")
+        source_changed = (
+            previous_source is not None
+            and previous_source != self.source_language_id
+            and (
+                update_fields is None
+                or {"source_language", "source_language_id"}.intersection(update_fields)
+            )
+        )
+        if (
+            self.pk
+            and previous_project is not None
+            and (previous_project != self.project_id or source_changed)
+        ):
+            with (
+                self.repository.lock,
+                source_project_gate(
+                    [previous_project, self.project_id],
+                    using=self._state.db or "default",
+                    exclusive=True,
+                ),
+            ):
+                self._save(*args, **kwargs)
+                if source_changed:
+                    from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+                    reconcile_component_parents(self)
+        else:
+            self._save(*args, **kwargs)
+
+    def _save(  # ruff: ignore[complex-structure, too-many-locals]
         self, *args, **kwargs
     ) -> None:
         """
@@ -1679,6 +1715,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             "check_flags": self.get_old_component_setting("check_flags", current, ""),
             "project_id": self.get_old_component_setting("project_id", current, None),
             "category_id": self.get_old_component_setting("category_id", current, None),
+            "source_language_id": self.get_old_component_setting(
+                "source_language_id", current, None
+            ),
             "vcs": self.get_old_component_setting("vcs", current, ""),
             "push": self.get_old_component_setting("push", current, ""),
             "push_branch": self.get_old_component_setting("push_branch", current, ""),
@@ -4586,6 +4625,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str) -> None:
+        if is_removed_component(self.pk):
+            return
         alert_class = get_alert_class(alert)
         linked_children = list(self.linked_children) if alert_class.link_wide else []
         alert_exists = alert in self.all_alerts
@@ -4638,6 +4679,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.do_lock(user=None, lock=False, auto=True)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        if is_removed_component(self.pk):
+            return
         alert_class = get_alert_class(alert)
         if alert in LOCKING_ALERTS and alert_class.link_wide:
             with transaction.atomic():
@@ -4842,6 +4885,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.start_tracing_span("create_translations"),
             self.repository.lock,
             self.lock,
+            source_project_gate(
+                [
+                    self.project_id,
+                    *(child.project_id for child in self.linked_children),
+                ],
+                using=self._state.db or "default",
+            ),
         ):
             return self._create_translations(
                 force=force,
@@ -4875,6 +4925,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.lock.is_locked:
             self.lock.reacquire()
 
+    @source_operation_method
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
         *,
@@ -5094,7 +5145,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if was_change:
             if self.needs_variants_update:
                 self.update_variants()
-            component_post_update.send(sender=self.__class__, component=self)
+            # Add-ons need the reconciled units and refreshed statistics.
+            transaction.on_commit(
+                lambda: component_post_update.send(
+                    sender=self.__class__, component=self
+                )
+            )
             self.schedule_sync_terminology()
 
         self.unload_sources()
@@ -5190,7 +5246,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def glossary_sources_key(self) -> str:
-        return f"component-glossary-v2-{self.pk}"
+        return f"component-glossary-v3-{self.pk}"
 
     @cached_property
     def glossary_source_index(self):
@@ -5395,6 +5451,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     os.path.join(dir_path, match),
                     self.template_store,
                     file_format_params=self.file_format_params,
+                    file_validator=self.check_file_is_valid,
                 )
                 store.check_valid()
             except Exception as error:
@@ -5434,6 +5491,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             errors,
             fast=fast,
             file_format_params=self.file_format_params,
+            file_validator=self.check_file_is_valid,
         )
 
     def clean_new_lang(self) -> None:
@@ -5470,8 +5528,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             {"new_base": gettext("Unrecognized base file for new translations.")}
         )
 
-    def clean_template(self) -> None:
-        """Validate template value."""
+    def clean_template_settings(self) -> None:
+        """Validate template settings without accessing repository files."""
         # Test for unexpected template usage
         if (
             self.template
@@ -5526,9 +5584,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Using a .pot file as base file is unsupported.")
             raise ValidationError({"template": msg})
 
-        if not self.file_format:
-            return
+        if not self.has_template() and self.file_format_cls.monolingual:
+            msg = gettext(
+                "You can not use a monolingual translation without a base file."
+            )
+            raise ValidationError({"template": msg})
 
+    def clean_template(self) -> None:
+        """Validate template files in the repository."""
         # Validate template loading
         if self.has_template():
             self.create_template_if_missing()
@@ -5553,12 +5616,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "Template language ({0}) does not match source language ({1})!"
                     ).format(lang_code, self.source_language.code)
                     raise ValidationError({"template": msg, "source_language": msg})
-
-        elif self.file_format_cls.monolingual:
-            msg = gettext(
-                "You can not use a monolingual translation without a base file."
-            )
-            raise ValidationError({"template": msg})
 
     def validate_repository_compatibility(self, *, retry: bool = True) -> None:
         """Validate repository URLs without merging remote changes."""
@@ -5657,10 +5714,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.repository_class.validate_component(self)
 
+        self.clean_branches()
+        self.clean_push_branch_settings()
+
         # Validate VCS repo
         try:
             self.set_default_branch()
             self.clean_branches()
+            self.clean_push_branch_settings()
             self.validate_repository_access(validate_worktree=validate_worktree)
         except RepositoryRedirectError as error:
             if redirect_retry and self.stage_repository_redirect("repo", error):
@@ -5693,7 +5754,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        self.clean_push_branch_settings()
         return None
 
     def has_only_push_url_changed(self, old: Component | None) -> bool:
@@ -5933,6 +5993,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                 }
             )
+
+        self.clean_template_settings()
 
     def _clean_repository_settings(self) -> None:
         """Validate component settings that require repository access."""
@@ -6269,6 +6331,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def _update_alerts(self) -> None:
         self._alerts_scheduled = False
+        if defer_alert_update(self.pk):
+            return
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
 
@@ -6284,6 +6348,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 update_alerts(component, {"NoLibreConditions"})
 
     def update_alerts(self) -> None:
+        if defer_alert_update(self.pk):
+            return
         if self._alerts_scheduled:
             return
 
@@ -6430,6 +6496,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
             repo_temp_dir=self.repository.get_repo_temp_dir(),
+            file_validator=self.check_file_is_valid,
         )
 
     @cached_property
@@ -6455,6 +6522,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 is_template=True,
                 file_format_params=self.file_format_params,
                 repo_temp_dir=self.repository.get_repo_temp_dir(),
+                file_validator=self.check_file_is_valid,
             )
 
     @cached_property

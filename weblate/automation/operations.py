@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator
 
 from weblate.addons.ai import (
     AIEvaluationAddon,
+    EvaluatedUnitSnapshot,
     available_evaluation_services,
     effective_evaluator,
     evaluate_component,
@@ -23,12 +24,11 @@ from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.models import MACHINERY
 from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.utils.forms import QueryField
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
-    from weblate.trans.models import Project
 
 
 def object_schema(properties: dict[str, Any], required: list[str]) -> dict[str, Any]:
@@ -177,6 +177,8 @@ class AutomaticTranslationOperation(AutomationOperation):
             "engines": [],
             "threshold": 80,
         } | settings
+        # Workflows are persistent administrative configuration and execute as
+        # the add-on service identity, independently of the editor's later access.
         form = AutoForm(obj=obj, user=None, data=data)
         if scope != "component":
             form.fields["q"].required = False
@@ -205,6 +207,8 @@ class AutomaticTranslationOperation(AutomationOperation):
             component,
             settings,
             user,
+            # The saved workflow, rather than the triggering actor, authorizes
+            # the operation and its documented cross-component sources.
             enforce_permissions=False,
             selection=selection,
             affected=affected,
@@ -290,6 +294,7 @@ class AIQualityOperation(AutomationOperation):
         if settings["q"]:
             units = units.search(settings["q"], project=component.project)
         evaluated: set[int] = set()
+        snapshots: dict[int, EvaluatedUnitSnapshot] = {}
         result = evaluate_component(
             AIEvaluationAddon(evaluator),
             component,
@@ -297,6 +302,7 @@ class AIQualityOperation(AutomationOperation):
             units.values_list("pk", flat=True),
             scheduled=False,
             evaluated_unit_ids=evaluated,
+            evaluated_unit_snapshots=snapshots,
         )
         component.drop_addons_cache()
         current = effective_evaluator(component)
@@ -312,6 +318,7 @@ class AIQualityOperation(AutomationOperation):
             raise ValueError(msg)
         if affected is not None:
             affected.unit_ids = evaluated
+            affected.unit_snapshots = snapshots
         return {"component": component.pk, "evaluated": result["evaluated"]}
 
 

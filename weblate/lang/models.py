@@ -54,8 +54,10 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.fonts.models import FontOverride
     from weblate.trans.models import Project, Unit
     from weblate.trans.models.unit import UnitQuerySet
+    from weblate.trans.models.workflow import WorkflowSetting
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -622,13 +624,13 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
         for accept_lang, _unused in parse_accept_lang_header(accept):
             if accept_lang == "en":
                 continue
-            try:
-                return self.get(code__iexact=accept_lang)
-            except Language.DoesNotExist:
-                try:
-                    return self.filter(code__iexact=accept_lang.replace("-", "_"))[0]
-                except IndexError:
-                    continue
+            language = self.try_get(code__iexact=accept_lang)
+            if language is None:
+                language = self.try_get(code__iexact=accept_lang.replace("-", "_"))
+            if language is None:
+                language = self.aliases_get(accept_lang)
+            if language is not None:
+                return language
         return None
 
     def search(self, query: str):
@@ -878,9 +880,9 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         alias_migrated = False
         removed_languages: list[str] = []
         for code, language in tuple(languages.items()):
-            if (code in ALIASES) and (code not in weblate_data_lang_codes):
+            if (code.lower() in ALIASES) and (code not in weblate_data_lang_codes):
                 alias_migrated = True
-                alias_target = Language.objects.get(code=ALIASES[code])
+                alias_target = Language.objects.get(code=ALIASES[code.lower()])
                 self.move_language(language, alias_target, logger)
 
                 # delete alias language if blank
@@ -904,20 +906,63 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         else:
             self._fixup_plural_types(logger, plurals)
 
+    @transaction.atomic
     def move_language(
         self,
         source: Language,
         target: Language,
         logger: Callable[[str], None] | None = None,
     ) -> None:
-        """Migrate all content from one language to anoother."""
-        if logger is None:
-            logger = dummy_logger
+        from weblate.trans.models.source import source_project_gate  # ruff: ignore[import-outside-top-level]
+
+        projects = set(
+            source.translation_set.values_list("component__project_id", flat=True)
+        )
+        projects.update(source.component_set.values_list("project_id", flat=True))
+        projects.update(
+            source.source_workflow_settings.exclude(project=None).values_list(
+                "project_id", flat=True
+            )
+        )
+        projects.update(
+            source.workflowsetting_set.exclude(project=None).values_list(
+                "project_id", flat=True
+            )
+        )
+        with source_project_gate(projects, using=self.db, exclusive=True):
+            self._move_language(source, target, logger)
+
+    @transaction.atomic
+    def _move_language(
+        self,
+        source: Language,
+        target: Language,
+        logger: Callable[[str], None] | None = None,
+    ) -> None:
+        """Migrate all content unless translations or settings conflict."""
+        logger = logger or dummy_logger
+        if source.pk == target.pk:
+            return
+
+        conflict = source.translation_set.filter(
+            component__translation__language=target
+        ).first()
+        if conflict is not None:
+            logger(
+                f"Skipping language move {source.code} to {target.code}: translation already exists for {conflict.component}"
+            )
+            return
+
+        settings_move = self._prepare_language_settings_move(source, target, logger)
+        if settings_move is None:
+            return
+        settings_to_move, duplicate_settings = settings_move
+
+        affected_projects: set[int | None] = set(
+            source.component_set.values_list("project_id", flat=True)
+        )
         for translation in source.translation_set.iterator():
-            other = translation.component.translation_set.filter(language=target)
-            if other.exists():
-                logger(f"Already exists: {translation}")
-                continue
+            affected_projects.add(translation.component.project_id)
             translation.language = target
             translation.save()
         source.announcement_set.update(language=target)
@@ -933,9 +978,26 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         source.change_set.update(language=target)
 
         source.component_set.update(source_language=target)
+        source.workspace_secondary_languages.update(secondary_language=target)
+        source.project_secondary_languages.update(secondary_language=target)
+        source.category_secondary_languages.update(secondary_language=target)
+        source.component_secondary_languages.update(secondary_language=target)
         for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)
+
+        for membership in source.teammembership_set.iterator():
+            membership.limit_languages.add(target)
+            membership.limit_languages.remove(source)
+        for invitation in source.invitation_set.iterator():
+            invitation.limit_languages.add(target)
+            invitation.limit_languages.remove(source)
+
+        for setting in duplicate_settings:
+            setting.delete()
+        for setting in settings_to_move:
+            setting.language = target
+            setting.save()
 
         for plural in source.plural_set.iterator():
             formulas = target.plural_set.filter(
@@ -959,6 +1021,73 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
+
+        # Save individually to validate the resulting dependency graph and reconcile
+        # units after both translation languages and plural forms have been moved.
+        from weblate.trans.models.source import reconcile_project_parents  # ruff: ignore[import-outside-top-level]
+
+        for workflow in source.source_workflow_settings.select_related("project"):
+            affected_projects.add(workflow.project_id)
+            workflow.source_language = (
+                None if workflow.language_id == target.pk else target
+            )
+            workflow.save(update_fields=["source_language"])
+        for project_id in affected_projects:
+            reconcile_project_parents(project_id, force=True)
+
+    def _prepare_language_settings_move(
+        self,
+        source: Language,
+        target: Language,
+        logger: Callable[[str], None],
+    ) -> (
+        tuple[
+            list[WorkflowSetting | FontOverride], list[WorkflowSetting | FontOverride]
+        ]
+        | None
+    ):
+        """Check scoped settings before moving or consolidating any records."""
+        from weblate.trans.models.workflow import WorkflowSetting  # ruff: ignore[import-outside-top-level]
+
+        settings_to_move: list[WorkflowSetting | FontOverride] = []
+        duplicate_settings: list[WorkflowSetting | FontOverride] = []
+        for queryset, scope in (
+            (source.workflowsetting_set.all(), "project_id"),
+            (source.fontoverride_set.all(), "group_id"),
+        ):
+            seen = {}
+            model = queryset.model
+            # Django exposes its public model metadata through _meta.
+            fields = [
+                field.attname
+                for field in model._meta.concrete_fields  # ruff: ignore[private-member-access]
+                if not field.primary_key and field.name != "language"
+            ]
+            for setting in model.objects.filter(language=target):
+                seen[getattr(setting, scope)] = tuple(
+                    getattr(setting, field) for field in fields
+                )
+            for setting in queryset:
+                if (
+                    isinstance(setting, WorkflowSetting)
+                    and setting.source_language_id == target.pk
+                ):
+                    # Moving a child onto its source collapses the dependency.
+                    setting.source_language = None
+                key = getattr(setting, scope)
+                values = tuple(getattr(setting, field) for field in fields)
+                if key in seen:
+                    if seen[key] != values:
+                        label = model._meta.label  # ruff: ignore[private-member-access]
+                        logger(
+                            f"Skipping language move {source.code} to {target.code}: conflicting {label} ({scope}={key})"
+                        )
+                        return None
+                    duplicate_settings.append(setting)
+                else:
+                    seen[key] = values
+                    settings_to_move.append(setting)
+        return settings_to_move, duplicate_settings
 
     def _fixup_plural_types(
         self,
@@ -1373,9 +1502,34 @@ class Plural(models.Model):
     def __str__(self) -> str:
         return self.get_type_display()
 
+    @transaction.atomic
     def save(self, *args, **kwargs) -> None:
+        previous = None
+        update_fields = kwargs.get("update_fields")
+        if self.pk and (
+            update_fields is None
+            or {"number", "formula", "type"}.intersection(update_fields)
+        ):
+            previous = (
+                type(self)
+                .objects.filter(pk=self.pk)
+                .values_list("number", "formula", "type")
+                .first()
+            )
         self.type = get_plural_type(self.language.base_code, self.formula)
-        super().save(*args, **kwargs)
+        if previous is None or previous == (self.number, self.formula, self.type):
+            super().save(*args, **kwargs)
+            return
+        from weblate.trans.models.source import source_project_gate  # ruff: ignore[import-outside-top-level]
+
+        projects = self.translation_set.values_list(
+            "component__project_id", flat=True
+        ).distinct()
+        with source_project_gate(
+            projects, using=self._state.db or "default", exclusive=True
+        ):
+            super().save(*args, **kwargs)
+            self.reconcile_source_dependents()
 
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
@@ -1388,6 +1542,22 @@ class Plural(models.Model):
             )
         except ValidationError as error:
             raise ValidationError({"formula": error}) from error
+
+    def reconcile_source_dependents(self) -> None:
+        """Apply edited rules to custom sources, including canonical fallbacks."""
+        from weblate.trans.models import Component, Unit  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+        components = Unit.objects.filter(
+            Q(translation_parent__translation__plural=self)
+            | Q(
+                translation_parent__isnull=True,
+                source_unit__translation__plural=self,
+                details__translation_parent__applied__isnull=False,
+            )
+        ).values_list("translation__component_id", flat=True)
+        for component in Component.objects.filter(pk__in=components).order_by("pk"):
+            reconcile_component_parents(component)
 
     @cached_property
     def plural_form(self) -> str:
@@ -1609,7 +1779,7 @@ class PluralMapper:
             return {}
         return {
             other.id_hash: other
-            for other in translation.unit_set.filter(
+            for other in translation.unit_set.exclude_blocked().filter(
                 state__gte=STATE_TRANSLATED,
                 id_hash__in={unit.id_hash for unit in units},
             )

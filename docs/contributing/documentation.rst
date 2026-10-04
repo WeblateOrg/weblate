@@ -40,6 +40,24 @@ The recommended local workflow is:
 The :program:`ci/run-docs` wrapper builds the documentation with warnings
 treated as errors.
 
+CI documentation, release notes, and linkcheck builds reuse cached intersphinx inventories.
+The :guilabel:`Intersphinx inventories` workflow refreshes them daily and can
+also be run manually from GitHub Actions on the default branch. Failed refreshes
+retain the last valid inventories and are reported as workflow failures.
+
+Inventories are stored in :file:`docs/_build/intersphinx`. Builds use upstream
+inventories when a local copy is missing, including after CI cache eviction or
+when adding an inventory URL. Local and Read the Docs builds do not require
+the cache. To refresh local copies for all documentation languages, run:
+
+.. code-block:: sh
+
+   languages=$(uv run --no-project scripts/list-documentation-languages.py)
+   uv run python docs/_ext/intersphinx_cache.py --languages "${languages#languages=}"
+
+The inventory cache does not eliminate network requests for checking destination
+pages during linkcheck builds.
+
 .. hint::
 
    You will also need :program:`graphviz` installed to build the documentation.

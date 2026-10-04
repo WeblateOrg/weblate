@@ -643,6 +643,15 @@ Security properties Weblate provides
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
        enabling force pushes and pull-request behavior through :ref:`vcs_params`.
+       Add-ons are persistent administrative configuration: project and category
+       add-ons operate on compatible restricted descendants, while component
+       add-ons can consume cross-component inputs documented by the add-on.
+       Their service identities and configured authority do not depend on the
+       configuring user's later account or permission state. Project backups
+       similarly contain every component in the project, including restricted
+       components. Consequently, component restrictions protect ordinary direct
+       access but are not an isolation boundary against these documented
+       administrative capabilities.
        Users with management rights for a workspace are trusted to connect and
        remove its GitHub App installations; removing the final workspace
        connection can uninstall the App from GitHub. GitHub App component
@@ -952,7 +961,9 @@ Known misuse patterns
   :doc:`/admin/code-hosting`)
 * Assigning site-wide permissions to roles intended for limited project or
   helpdesk delegation. Site-wide permissions apply across the instance and are
-  not narrowed by the team's project selection. In particular, ``user.edit``
+  not narrowed by the team's project selection. In particular, ``group.edit``
+  permits changing site-wide team scope and granting team members access to
+  private projects the manager cannot access directly, while ``user.edit``
   permits changing team memberships and superuser status for editable accounts,
   including the caller's own account. Delegate permissions through project or
   workspace teams for limited scopes. *(documented)* (source:
@@ -991,6 +1002,13 @@ Known non-findings
   vulnerability when the user has effective ``reports.view`` permission on the
   selected parent scope. That permission intentionally authorizes the complete
   report scope. *(documented)* (source: :doc:`/devel/reporting`,
+  :doc:`/admin/access`)
+* A report that a project administrator can obtain restricted descendants from
+  a complete project backup, or that an add-on manager can configure a core
+  add-on to process its documented restricted descendants or cross-component
+  inputs, is not a vulnerability. These are persistent administrative
+  capabilities and do not inherit the configuring user's direct component
+  visibility. *(documented)* (source: :ref:`addons`, :ref:`projectbackup`,
   :doc:`/admin/access`)
 * A report against third-party add-on behavior is not a Weblate core
   vulnerability unless the report shows Weblate's permission or installation

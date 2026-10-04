@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-26 03:56+0000\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-03 07:16+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1971,6 +1971,9 @@ msgstr "每个文件"
 msgid "Per author"
 msgstr "每位作者"
 
+msgid "Per author and language"
+msgstr "每个作者和语言"
+
 msgid "Append trailers to squashed commit message"
 msgstr "在挤压的提交说明附上尾注"
 
@@ -2776,6 +2779,12 @@ msgstr "该工作区中已存在这个名称的团队。"
 msgid "Cannot change this on a scoped team."
 msgstr "无法对有范围的团队更改此项。"
 
+msgid "Inherit enforced checks from the workspace."
+msgstr "从工作区继承强制的检查。"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "从项目、类别或工作区继承强制的检查。"
+
 msgid "You do not have permission to access this component."
 msgstr "你没有权限访问这个部件。"
 
@@ -2829,6 +2838,9 @@ msgstr "译文文本太长！"
 
 msgid "Your suggestion already exists!"
 msgstr "您的建议已存在！"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "从主类别、项目或工作区继承强制的检查。"
 
 msgid "Weblate's REST API"
 msgstr "Weblate 的 REST API"
@@ -5423,6 +5435,9 @@ msgstr "应该是一个包含元数据文件的目录！"
 msgid "App store metadata files"
 msgstr "应用商店元数据文件"
 
+msgid "File validation is required for directory-based formats."
+msgstr "文件验证对基于目录的格式是必需的。"
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -7993,7 +8008,8 @@ msgstr "用这些值配置 Kotlin SDK Gradle 插件："
 msgid ""
 "Replace the placeholder with a project-scoped API token that can edit this "
 "component. Keep the token in the build environment."
-msgstr "用能编辑这个部件的作用域为项目的 API 令牌替换该占位符。保留构建环境中的令牌。"
+msgstr ""
+"用能编辑这个部件的作用域为项目的 API 令牌替换该占位符。保留构建环境中的令牌。"
 
 msgid "Create a project token"
 msgstr "创建项目令牌"
@@ -8104,10 +8120,11 @@ msgstr "来自该仓库中部件的 Weblate 提交将被挤压成一次提交。
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
-"原始提交说明会保留，但是除非选择“每位作者”或自定义提交说明以包括它，否则作者"
-"身份将丢失。"
+"原始提交说明会保留，但是除非选择“每位作者”或“每个作者和语言”,或是在自定义提交"
+"说明以包括它，否则作者身份将丢失。"
 
 msgid "HTTP Response"
 msgstr "HTTP 响应"
@@ -8343,14 +8360,8 @@ msgstr "不可用"
 msgid "No invoices found."
 msgstr "未找到发票。"
 
-msgid "Event details"
-msgstr "事件详情"
-
-msgid "Actions"
-msgstr "操作"
-
-msgid "Download"
-msgstr "下载"
+msgid "View all"
+msgstr "查看完整信息"
 
 msgid "Libre hosting"
 msgstr "自由软件项目托管"
@@ -8383,6 +8394,21 @@ msgstr "当前没有指派的项目！"
 
 msgid "View"
 msgstr "查看"
+
+msgid "Event details"
+msgstr "事件详情"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Download"
+msgstr "下载"
+
+msgid "No audit log entries found."
+msgstr "未找到审计日志条目。"
+
+msgid "Audit log pagination"
+msgstr "审计日志分页"
 
 msgid "Confirm merge"
 msgstr "确认合并"
@@ -9129,7 +9155,8 @@ msgstr "清理操作会从仓库中删掉所有不被版本控制跟踪的文件
 msgid ""
 "For Git repositories, it also deletes all local branches other than the "
 "configured branch, including any commits that have not been pushed."
-msgstr "对于 Git 仓库，还会删除除已配置分支之外的所有本地分支，包括尚未推送的提交。"
+msgstr ""
+"对于 Git 仓库，还会删除除已配置分支之外的所有本地分支，包括尚未推送的提交。"
 
 msgid ""
 "If switching to a branch with rewritten upstream history fails, switch to a "
@@ -10608,6 +10635,10 @@ msgid "Add label"
 msgstr "添加标签"
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "将译文下载为 ZIP 文件内的 %(format_name)s"
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr "管理 %(team)s"
 
@@ -10798,6 +10829,12 @@ msgstr "字符串"
 msgid "words"
 msgstr "单词"
 
+msgid "Bulk edit selected strings"
+msgstr "批量编辑所选字符串"
+
+msgid "No strings selected"
+msgstr "没有选择的字符串"
+
 msgid "No matching strings found."
 msgstr "未找到匹配的字符串。"
 
@@ -10808,7 +10845,7 @@ msgid ""
 "source files."
 msgstr ""
 "Weblate 是一个带紧密版本控制集成的基于 Web 的翻译工具。它拥有简洁清爽的用户界"
-"面，跨部件翻译同步、质量检查以及自动链接到源文件等功能。"
+"面，跨部件译文传播、质量检查以及自动链接到源文件等功能。"
 
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
@@ -10874,8 +10911,17 @@ msgid ""
 "limits."
 msgstr "这可能是由于你的一些账单过期未付或超过限额。"
 
+msgid "Select all strings on this page"
+msgstr "全选本页的字符串"
+
+msgid "Select string for bulk edit"
+msgstr "选择字符串进行批量编辑"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr "该操作应用到上方列表中所选的字符串。"
 
 msgid "Translation quality filter"
 msgstr "翻译质量筛选器"
@@ -11011,6 +11057,12 @@ msgstr "仓库 URL 已复制到剪贴板。"
 
 msgid "Repository branch"
 msgstr "仓库分支"
+
+msgid "Pull request"
+msgstr "拉取请求"
+
+msgid "Pull request URL copied to clipboard."
+msgstr "拉取请求 URL 已复制到剪贴板。"
 
 msgid "Last remote commit"
 msgstr "最后一次远程提交"
@@ -11344,6 +11396,10 @@ msgstr "创建翻译"
 
 msgid "Cannot add translation right now"
 msgstr "无法立即添加译文"
+
+#, python-format
+msgid "Source: %(language)s"
+msgstr "源语言：%(language)s"
 
 msgid "Customized workflow"
 msgstr "定制的工作流程"
@@ -12549,16 +12605,20 @@ msgstr "要删除的项目语言"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
-msgstr "此操作无法撤销。这将永久删除 %(object)s 类别及其所有相关内容。"
+"category and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+"此操作无法撤销。这将永久删除 %(object)s 类别及其目录相关的内容。翻译记忆库在"
+"下方单独处理。"
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
-"即使此操作删除了受限制的部件，根据项目和工作区的翻译存储访问规则，这些部件已"
-"保留的翻译记忆库也不会不可用，除非你删除了它。"
+"翻译记忆库默认保留。如果这个类别包含受限制部件，那么所保留的这些部件的条目可"
+"能对其他项目或工作区成员可见。在下方选择翻译记忆库删除选项来删除这些条目。"
 
 msgid "The following translation components will be removed:"
 msgstr "以下翻译部件将被删除："
@@ -12572,14 +12632,31 @@ msgstr "要删除的项目"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
-msgstr "此操作无法撤销。这将永久删除 %(object)s 部件及其所有相关内容。"
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+"此操作无法撤销。这将永久删除 %(object)s 部件以及目录相关的内容。翻译记忆库在"
+"下方单独处理。"
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
+"翻译记忆库默认保留。如果这个部件受限制，所保留的条目可能对其他项目或工作区成"
+"员可见。选择下方的翻译记忆库删除选项来删除这些条目。"
 
 msgid "Component to remove"
 msgstr "要删除的部件"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "我明白后果，删除这个翻译"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr "此操作无法撤销。这将永久删除 %(object)s 类别及其所有相关内容。"
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -12810,6 +12887,11 @@ msgstr "中间语言"
 
 msgid "Explanation"
 msgstr "解释"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr "配置的源字符串丢失。除非源字符串可用，翻译操作会被暂停。"
 
 msgid "Report issue with the source string"
 msgstr "报告源字符串问题"
@@ -13601,6 +13683,9 @@ msgstr "在单字符串模式下编辑"
 
 msgid "Exit Zen"
 msgstr "退出极简模式"
+
+msgid "Show suggestions"
+msgstr "显示建议"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "已将翻译文件和其仓库进行同步。"
@@ -14618,6 +14703,9 @@ msgstr "先前的译文"
 msgid "State: %(state)s"
 msgstr "状态：%(state)s"
 
+msgid "Previous source"
+msgstr "先前原文"
+
 msgid "Suggestions pending"
 msgstr "待接受的建议"
 
@@ -15568,6 +15656,9 @@ msgstr "如果句子应与源语言保持相同，没有更改，则标记此选
 msgid "You do not have permission to create terminology."
 msgstr "您没有创建术语的权限。"
 
+msgid "Invalid string selection!"
+msgstr "无效的字符串选择！"
+
 msgid "State to set"
 msgstr "要设置的状态"
 
@@ -15598,6 +15689,9 @@ msgstr "要添加的标签——所有语言"
 msgid "Labels to remove — all languages"
 msgstr "要删除的标签——所有语言"
 
+msgid "Select strings to edit or enter a search query."
+msgstr "选择要编辑或输入搜索查询的字符串。"
+
 msgid "I accept the contributor license agreement"
 msgstr "我接受贡献者许可协议"
 
@@ -15614,10 +15708,12 @@ msgid "Delete translation memory created from this component"
 msgstr "删除由此部件创建的翻译记忆库"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
-"项目、工作区以及共享翻译记忆库的条目将被删除。个人和上传的条目将被保留。"
+"选择这个删除创建自这个部件的项目、工作区和共享的翻译记忆库条目。要保留它们请"
+"不要选中它。始终保留个人和上传的条目。"
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "请输入部件的完整标识符以确认。"
@@ -15627,6 +15723,14 @@ msgstr "请输入项目标识符以确认。"
 
 msgid "Delete translation memory created from components in this category"
 msgstr "删除创建自此类别中部件的翻译记忆库"
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"选中这个删除创建自这个类别中部件的项目、工作区和共享的翻译记忆库条目。要保留"
+"它们请不要选中它。始终保留个人和上传的条目。"
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "请输入类别标识符以确认。"
@@ -15813,6 +15917,18 @@ msgstr "翻译标记"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "影响 Weblate 行为的额外逗号分隔的标记。"
+
+msgid "Enforced checks"
+msgstr "强制检查"
+
+msgid "List of checks which can not be dismissed."
+msgstr "不能忽略的检查列表。"
+
+msgid "Inherit enforced checks"
+msgstr "继承的强制检查"
+
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "使用来自主类别、项目或工作区的强制检查。"
 
 msgid "Inherit translation license"
 msgstr "继承翻译许可证"
@@ -16042,6 +16158,19 @@ msgstr ""
 "仓库浏览器的链接，用 {{branch}} 表示分支、{{filename}} 和 {{line}} 表示文件名"
 "和行号。您可能想要剥除前导文件夹，方法是使用 {{filename|parentdir}}。"
 
+msgid "Repository browser for translations"
+msgstr "译文仓库浏览器"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"翻译文件仓库浏览器的链接，用 {{branch}} 表示分支、{{filename}} 和 {{line}} 表"
+"示文件名和行号。如留空将使用上方的仓库浏览器。您可能想要剥除前导文件夹，方法"
+"是使用 {{filename|parentdir}}。"
+
 msgid "Exported repository URL"
 msgstr "已导出仓库 URL"
 
@@ -16126,7 +16255,7 @@ msgid "Hides the glossary panel in the translation editor."
 msgstr "在翻译编辑器中隐藏术语表面板。"
 
 msgid "Allow translation propagation"
-msgstr "允许同步翻译"
+msgstr "允许译文传播"
 
 msgid ""
 "Whether translation updates in other components will cause automatic "
@@ -16161,11 +16290,8 @@ msgid ""
 "off."
 msgstr "自动接受具有此票数的建议，使用 0 将其关闭。"
 
-msgid "Enforced checks"
-msgstr "强制检查"
-
-msgid "List of checks which can not be dismissed."
-msgstr "不能忽略的检查列表。"
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "使用来自项目、类别或工作区的强制检查。"
 
 msgid "Use the translation license configured in the category or project."
 msgstr "使用类别或项目中配置的翻译许可证。"
@@ -16744,6 +16870,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr "逗号隔开的语言码映射的列表，例如：en_GB:en,en_US:en"
 
+msgid "Use enforced checks from the workspace."
+msgstr "使用来自工作区的强制检查。"
+
 msgid "Use the translation license configured in the workspace."
 msgstr "使用工作区中配置的翻译许可证。"
 
@@ -16957,6 +17086,11 @@ msgstr "在所有语言中标记为专有名词"
 msgid "Unmark as terminology for all languages"
 msgstr "在所有语言中取消标记为专有名词"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr "从这种语言翻译。留空使用部件源语言。"
+
 msgid "Restrict direct editing"
 msgstr "限制直接编辑"
 
@@ -16964,6 +17098,21 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr "仅拥有 “当建议被强制时编辑字符串”权限的用户可以做出直接更改。"
+
+msgid "Please turn on reviews on the project first."
+msgstr "请先打开项目审核。"
+
+msgid "This language already has a project workflow."
+msgstr "这种语言已经有一个项目工作流。"
+
+msgid "Select a source language in a project workflow."
+msgstr "在项目工作流中选择源语言。"
+
+msgid "The source language must exist in this project."
+msgstr "源语言必须存在于该项目中。"
+
+msgid "Source languages cannot form a cycle."
+msgstr "源语言无法形成一个循环过程。"
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "源字符串一更改。编辑前重新加载它。"
@@ -17264,6 +17413,13 @@ msgstr "自动接受不允许将值设置为 1，因为它允许用户对自己�
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "无法解析标记：%s"
+
+msgid "Enforced checks has to be a list."
+msgstr "强制检查必须是一个列表。"
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr "不支持的强制检查：%s"
 
 #, python-format
 msgid ""

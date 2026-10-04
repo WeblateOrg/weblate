@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-26 09:14+0000\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-02 12:45+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -2101,6 +2101,9 @@ msgstr "Podľa súboru"
 msgid "Per author"
 msgstr "Podľa autora"
 
+msgid "Per author and language"
+msgstr "Podľa autora a jazyka"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Pripojiť trailery k správe zlúčeného zápisu"
 
@@ -2960,6 +2963,13 @@ msgstr "Tím s týmto názvom už v tomto pracovnom priestore existuje."
 msgid "Cannot change this on a scoped team."
 msgstr "Toto sa nedá zmeniť na tímoch s obmedzeným prístupom."
 
+msgid "Inherit enforced checks from the workspace."
+msgstr "Zdediť vynútené kontroly z pracovného priestoru."
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+"Zdediť vynútené kontroly z projektu, kategórie alebo pracovného priestoru."
+
 msgid "You do not have permission to access this component."
 msgstr "Nemáte oprávnenie na prístup k tomuto komponentu."
 
@@ -3013,6 +3023,11 @@ msgstr "Text prekladu je príliš dlhý!"
 
 msgid "Your suggestion already exists!"
 msgstr "Váš návrh už existuje!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
+"Zdediť vynútené kontroly z nadradenej kategórie, projektu alebo pracovného "
+"priestoru."
 
 msgid "Weblate's REST API"
 msgstr "REST API Weblate"
@@ -3982,7 +3997,8 @@ msgid "Automation context is too large."
 msgstr "Kontext automatizácie je príliš veľký."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
-msgstr "Validácia alebo vyhodnotenie CEL zlyhalo alebo presiahlo limit zdrojov."
+msgstr ""
+"Validácia alebo vyhodnotenie CEL zlyhalo alebo presiahlo limit zdrojov."
 
 #, python-format
 msgid "Invalid CEL condition: %s"
@@ -5710,6 +5726,9 @@ msgstr "Malo by to byť adresár s metadátovými súbormi!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Metadátové súbory obchodu s aplikáciami"
+
+msgid "File validation is required for directory-based formats."
+msgstr "Overenie súboru je vyžadované pre formáty založené na adresároch."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8650,11 +8669,12 @@ msgstr "Zápisy z komponentov v tomto repozitári budú zlúčené."
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Pôvodné správy zápisov sú zachované, ale autorstvo sa stratí, pokiaľ nie je "
-"vybrané „Podľa autora“ alebo správa zápisu nie je prispôsobená tak, aby ho "
-"obsahovala."
+"vybrané „Podľa autora“ alebo „Podľa autora a jazyka“, alebo nie je správa "
+"zápisu prispôsobená tak, aby ho obsahovala."
 
 msgid "HTTP Response"
 msgstr "HTTP odpoveď"
@@ -8895,14 +8915,8 @@ msgstr "Nie je k dispozícii"
 msgid "No invoices found."
 msgstr "Nenašli sa žiadne faktúry."
 
-msgid "Event details"
-msgstr "Podrobnosti udalosti"
-
-msgid "Actions"
-msgstr "Akcie"
-
-msgid "Download"
-msgstr "Stiahnuť"
+msgid "View all"
+msgstr "Zobraziť všetko"
 
 msgid "Libre hosting"
 msgstr "Libre hosting"
@@ -8937,6 +8951,21 @@ msgstr "V súčasnosti nie sú priradené žiadne projekty!"
 
 msgid "View"
 msgstr "Zobraziť"
+
+msgid "Event details"
+msgstr "Podrobnosti udalosti"
+
+msgid "Actions"
+msgstr "Akcie"
+
+msgid "Download"
+msgstr "Stiahnuť"
+
+msgid "No audit log entries found."
+msgstr "Nenašli sa žiadne záznamy v audítorskom protokole."
+
+msgid "Audit log pagination"
+msgstr "Stránkovanie audítorského protokolu"
 
 msgid "Confirm merge"
 msgstr "Potvrdiť zlúčenie"
@@ -11381,6 +11410,10 @@ msgid "Add label"
 msgstr "Pridať štítok"
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Stiahnuť preklady ako %(format_name)s v súbore ZIP"
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr "Spravovať %(team)s"
 
@@ -11584,6 +11617,12 @@ msgstr "reťazce"
 msgid "words"
 msgstr "slová"
 
+msgid "Bulk edit selected strings"
+msgstr "Hromadne upraviť vybrané reťazce"
+
+msgid "No strings selected"
+msgstr "Nie sú vybrané žiadne reťazce"
+
 msgid "No matching strings found."
 msgstr "Nenašli sa žiadne zodpovedajúce reťazce."
 
@@ -11674,9 +11713,18 @@ msgstr ""
 "Toto môže byť spôsobené tým, že niektoré vaše fakturácie sú po termíne "
 "splatnosti alebo presahujú limity."
 
+msgid "Select all strings on this page"
+msgstr "Vybrať všetky reťazce na tejto stránke"
+
+msgid "Select string for bulk edit"
+msgstr "Vybrať reťazec na hromadnú úpravu"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Môžete zmeniť stav všetkých reťazcov zodpovedajúcich danému typu naraz."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr "Operácia sa aplikuje na reťazce vybrané v zozname vyššie."
 
 msgid "Translation quality filter"
 msgstr "Filter kvality prekladu"
@@ -11828,6 +11876,12 @@ msgstr "URL repozitára skopírovaná do schránky."
 
 msgid "Repository branch"
 msgstr "Vetva repozitára"
+
+msgid "Pull request"
+msgstr "Požiadavka na zlúčenie"
+
+msgid "Pull request URL copied to clipboard."
+msgstr "URL požiadavky na zlúčenie skopírovaná do schránky."
 
 msgid "Last remote commit"
 msgstr "Posledný vzdialený zápis"
@@ -12173,6 +12227,10 @@ msgstr "Vytvoriť preklad"
 
 msgid "Cannot add translation right now"
 msgstr "Nemožno pridať preklad teraz"
+
+#, python-format
+msgid "Source: %(language)s"
+msgstr "Zdroj: %(language)s"
 
 msgid "Customized workflow"
 msgstr "Prispôsobený pracovný postup"
@@ -13526,19 +13584,23 @@ msgstr "Jazyk projektu na odstránenie"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Túto akciu nemožno vrátiť späť. Tým sa trvalo vymaže kategória %(object)s a "
-"všetok súvisiaci obsah."
+"Túto akciu nemožno vrátiť späť. Týmto sa trvalo odstráni kategória %(object)"
+"s a jej priamo súvisiaci obsah. Prekladová pamäť je spracovávaná samostatne "
+"nižšie."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
-"Ak táto akcia odstráni obmedzené komponenty, zachovaná prekladová pamäť z "
-"nich sa stane dostupnou podľa pravidiel prístupu k prekladovej pamäti "
-"projektu a pracovného priestoru, pokiaľ ju tiež neodstránite."
+"Prekladová pamäť je predvolene zachovaná. Ak táto kategória obsahuje "
+"obmedzené komponenty, zachované položky z nich sa môžu stať viditeľnými pre "
+"iných členov projektu alebo pracovného priestoru. Vyberte možnosť "
+"odstránenia prekladovej pamäte nižšie, ak chcete tieto položky odstrániť."
 
 msgid "The following translation components will be removed:"
 msgstr "Nasledujúce prekladové komponenty budú odstránené:"
@@ -13552,16 +13614,36 @@ msgstr "Projekt na odstránenie"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Túto akciu nemožno vrátiť späť. Tým sa trvalo vymaže komponent %(object)s a "
-"všetok súvisiaci obsah."
+"Túto akciu nemožno vrátiť späť. Týmto sa trvalo odstráni komponent %(object)"
+"s a jeho priamo súvisiaci obsah. Prekladová pamäť je spracovávaná samostatne "
+"nižšie."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
+"Prekladová pamäť je predvolene zachovaná. Ak je tento komponent obmedzený, "
+"zachované položky sa môžu stať viditeľnými pre iných členov projektu alebo "
+"pracovného priestoru. Vyberte možnosť odstránenia prekladovej pamäte nižšie, "
+"ak chcete tieto položky odstrániť."
 
 msgid "Component to remove"
 msgstr "Komponent na odstránenie"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Rozumiem dôsledkom, vymazať tento preklad"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Túto akciu nemožno vrátiť späť. Tým sa trvalo vymaže kategória %(object)s a "
+"všetok súvisiaci obsah."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13837,6 +13919,13 @@ msgstr "Medziľahlý jazyk"
 
 msgid "Explanation"
 msgstr "Vysvetlenie"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
+"Nakonfigurovaný zdrojový reťazec chýba. Preklad je zablokovaný, kým nebude "
+"dostupný."
 
 msgid "Report issue with the source string"
 msgstr "Nahlásiť problém so zdrojovým reťazcom"
@@ -14715,6 +14804,9 @@ msgstr "Upraviť v režime jedného reťazca"
 
 msgid "Exit Zen"
 msgstr "Ukončiť Zen"
+
+msgid "Show suggestions"
+msgstr "Zobraziť návrhy"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Prekladový súbor bol synchronizovaný so svojím repozitárom."
@@ -15754,6 +15846,9 @@ msgstr "Predchádzajúci preklad"
 msgid "State: %(state)s"
 msgstr "Stav: %(state)s"
 
+msgid "Previous source"
+msgstr "Predchádzajúci zdroj"
+
 msgid "Suggestions pending"
 msgstr "Čakajúce návrhy"
 
@@ -16038,8 +16133,8 @@ msgid ""
 msgstr ""
 "Ovláda, či sa inline XML prvky vo vnútri reťazcov XLIFF zachovávajú ako "
 "upraviteľné miesta. Iba obyčajný text escapuje XML značkovanie a považuje "
-"obsah za text. Pri podpore miest zostávajú značky ako <x id=\"name\" \\"
-"=\"\"> alebo </x>"
+"obsah za text. Pri podpore miest zostávajú značky ako <x id=\"name\" "
+"\\=\"\"> alebo </x>"
 
 msgid "FlatXML Root name"
 msgstr "Názov koreňa FlatXML"
@@ -16776,6 +16871,9 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nemáte oprávnenie na vytváranie terminológie."
 
+msgid "Invalid string selection!"
+msgstr "Neplatný výber reťazca!"
+
 msgid "State to set"
 msgstr "Stav na nastavenie"
 
@@ -16808,6 +16906,9 @@ msgstr "Štítky na pridanie — všetky jazyky"
 msgid "Labels to remove — all languages"
 msgstr "Štítky na odstránenie — všetky jazyky"
 
+msgid "Select strings to edit or enter a search query."
+msgstr "Vyberte reťazce na úpravu alebo zadajte vyhľadávací dotaz."
+
 msgid "I accept the contributor license agreement"
 msgstr "Súhlasím s licenčnou zmluvou prispievateľa"
 
@@ -16824,11 +16925,14 @@ msgid "Delete translation memory created from this component"
 msgstr "Odstrániť prekladovú pamäť vytvorenú z tohto komponentu"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
-"Položky prekladovej pamäte projektu, pracovného priestoru a zdieľanej "
-"prekladovej pamäte budú odstránené. Osobné a nahrané položky budú zachované."
+"Vyberte túto možnosť na odstránenie položiek prekladovej pamäte projektu, "
+"pracovného priestoru a zdieľanej prekladovej pamäte vytvorených z tohto "
+"komponentu. Ak ich chcete zachovať, ponechajte túto možnosť nevybranú. "
+"Osobné a nahrané položky sú vždy zachované."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Prosím, napíšte celý slug komponentu na potvrdenie."
@@ -16838,6 +16942,16 @@ msgstr "Prosím, napíšte slug projektu na potvrdenie."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Odstrániť prekladovú pamäť vytvorenú z komponentov v tejto kategórii"
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Vyberte túto možnosť na odstránenie položiek prekladovej pamäte projektu, "
+"pracovného priestoru a zdieľanej prekladovej pamäte vytvorených z "
+"komponentov v tejto kategórii. Ak ich chcete zachovať, ponechajte túto "
+"možnosť nevybranú. Osobné a nahrané položky sú vždy zachované."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Prosím, napíšte slug kategórie na potvrdenie."
@@ -17036,6 +17150,20 @@ msgstr "Príznaky prekladu"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Dodatočné čiarkou oddelené príznaky ovplyvňujúce správanie Weblate."
+
+msgid "Enforced checks"
+msgstr "Vynútené kontroly"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Zoznam kontrol, ktoré nie je možné zamietnuť."
+
+msgid "Inherit enforced checks"
+msgstr "Zdediť vynútené kontroly"
+
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Použiť vynútené kontroly z nadradenej kategórie, projektu alebo pracovného "
+"priestoru."
 
 msgid "Inherit translation license"
 msgstr "Zdediť licenciu prekladu"
@@ -17302,6 +17430,20 @@ msgstr ""
 "{{line}} ako zástupné názvy súboru a riadku. Možno budete chcieť odstrániť "
 "vedúci adresár použitím {{filename|parentdir}}."
 
+msgid "Repository browser for translations"
+msgstr "Prehliadač repozitára pre preklady"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Odkaz na prehliadač repozitára pre prekladové súbory, použite {{branch}} pre "
+"vetvu, {{filename}} a {{line}} ako zástupné symboly pre názov súboru a "
+"riadok. Ak zostane prázdne, použije sa vyššie uvedený prehliadač repozitára. "
+"Možno budete chcieť odstrániť vedúci adresár pomocou {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL exportovaného repozitára"
 
@@ -17435,11 +17577,9 @@ msgid ""
 msgstr ""
 "Automaticky prijať návrhy s týmto počtom hlasov, použite 0 na vypnutie."
 
-msgid "Enforced checks"
-msgstr "Vynútené kontroly"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Zoznam kontrol, ktoré nie je možné zamietnuť."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
+"Použiť vynútené kontroly z projektu, kategórie alebo pracovného priestoru."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "Použiť licenciu prekladu nakonfigurovanú v kategórii alebo projekte."
@@ -18140,6 +18280,9 @@ msgid ""
 msgstr ""
 "Čiarkou oddelený zoznam mapovaní kódov jazykov, napríklad: en_GB:en,en_US:en"
 
+msgid "Use enforced checks from the workspace."
+msgstr "Použiť vynútené kontroly z pracovného priestoru."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Použiť licenciu prekladu nakonfigurovanú v pracovnom priestore."
 
@@ -18289,8 +18432,8 @@ msgid ""
 "translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
 "anyway."
 msgstr ""
-"Jazyk nahraného súboru (%(language)s) sa nezhoduje s aktuálnym prekladom (%"
-"(expected)s). Zapnite „Ignorovať nesúlad jazyka“ na jeho nahratie napriek "
+"Jazyk nahraného súboru (%(language)s) sa nezhoduje s aktuálnym prekladom "
+"(%(expected)s). Zapnite „Ignorovať nesúlad jazyka“ na jeho nahratie napriek "
 "tomu."
 
 #, python-format
@@ -18384,6 +18527,13 @@ msgstr "Označiť ako terminológiu pre všetky jazyky"
 msgid "Unmark as terminology for all languages"
 msgstr "Zrušiť označenie ako terminológiu pre všetky jazyky"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+"Prekladať z tohto jazyka. Ponechajte prázdne pre použitie zdrojového jazyka "
+"komponentu."
+
 msgid "Restrict direct editing"
 msgstr "Obmedziť priamu úpravu"
 
@@ -18393,6 +18543,21 @@ msgid ""
 msgstr ""
 "Iba používatelia s oprávnením „Upraviť reťazec, keď sú vynútené návrhy“ môžu "
 "vykonávať priame zmeny."
+
+msgid "Please turn on reviews on the project first."
+msgstr "Najprv prosím zapnite kontroly v projekte."
+
+msgid "This language already has a project workflow."
+msgstr "Tento jazyk už má pracovný postup projektu."
+
+msgid "Select a source language in a project workflow."
+msgstr "Vyberte zdrojový jazyk v pracovnom postupe projektu."
+
+msgid "The source language must exist in this project."
+msgstr "Zdrojový jazyk musí v tomto projekte existovať."
+
+msgid "Source languages cannot form a cycle."
+msgstr "Zdrojové jazyky nemôžu tvoriť cyklus."
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "Zdrojový reťazec sa zmenil. Načítajte ho znova pred úpravou."
@@ -18723,6 +18888,13 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Nepodarilo sa spracovať príznaky: %s"
+
+msgid "Enforced checks has to be a list."
+msgstr "Vynútené kontroly musia byť zoznamom."
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr "Nepodporovaná vynútená kontrola: %s"
 
 #, python-format
 msgid ""

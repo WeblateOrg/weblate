@@ -14,6 +14,11 @@ The project backups all translation content from Weblate (project, components,
 translations, string comments, suggestions or checks). It is suitable for
 transferring a project to another Weblate instance.
 
+The backup includes every component in the project, including restricted
+components which the administrator can not open directly. Creating, listing,
+and downloading these backups requires :guilabel:`Edit project settings`.
+Grant that permission only to users trusted with the complete project contents.
+
 You can perform a project backup in :guilabel:`Operations` ↓ :guilabel:`Backups`.
 The backup can be restored when creating a project (see
 :ref:`adding-projects`).
@@ -23,7 +28,16 @@ The backup can be restored when creating a project (see
    Project backups can also be created, listed, and downloaded through the
    :ref:`api` since version 2026.7;
 
-The backups currently do not include access control information and history.
+The backups include project-scoped teams and their memberships, but do not
+include history.
+
+Missing repository directories are skipped while component and translation
+data are still backed up. Repository maintenance failures are logged, and the
+backup continues with the available repository files.
+Filesystem access and I/O errors cause the backup to fail, and incomplete
+archives are removed. Restoring a backup with missing or invalid repository
+metadata preserves the available files, components, and translation data,
+but the repository must be recovered separately.
 
 The comments and suggestions are backed up with the username of the user who did
 create them. Upon import it is assigned to a matching user. If there is no user

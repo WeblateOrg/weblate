@@ -138,17 +138,40 @@ class BooleanOperatorParserTest(TestCase):
         )
 
 
+def source_query(**lookup: str | int | datetime) -> Q:
+    """Build the expected lookup against the effective source."""
+    return (
+        Q(
+            translation_parent__isnull=True,
+            details__translation_parent__missing__isnull=True,
+        )
+        & Q(**lookup)
+    ) | (
+        Q(translation_parent__isnull=False)
+        & Q(
+            **{
+                key.replace("source__", "translation_parent__target__")
+                .replace("source_unit__state", "translation_parent__state")
+                .replace(
+                    "source_unit__last_updated", "translation_parent__last_updated"
+                ): value
+                for key, value in lookup.items()
+            }
+        )
+    )
+
+
 class UnitQueryParserTest(SearchTestCase):
     def test_simple(self) -> None:
         self.assert_query(
             "hello world",
             (
-                Q(source__substring="hello")
+                source_query(source__substring="hello")
                 | Q(target__substring="hello")
                 | Q(context__substring="hello")
             )
             & (
-                Q(source__substring="world")
+                source_query(source__substring="world")
                 | Q(target__substring="world")
                 | Q(context__substring="world")
             ),
@@ -156,7 +179,7 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_quote(self) -> None:
         expected = (
-            Q(source__substring="hello world")
+            source_query(source__substring="hello world")
             | Q(target__substring="hello world")
             | Q(context__substring="hello world")
         )
@@ -192,52 +215,73 @@ class UnitQueryParserTest(SearchTestCase):
         )
         self.assert_query(
             "source_comment:TEXT",
-            Q(source_unit__comment__comment__substring="TEXT")
-            & Q(source_unit__comment__resolved=False),
+            (
+                Q(source_unit__comment__comment__substring="TEXT")
+                & Q(source_unit__comment__resolved=False)
+            )
+            | (
+                Q(translation_parent__comment__comment__substring="TEXT")
+                & Q(translation_parent__comment__resolved=False)
+            ),
         )
         self.assert_query(
             "resolved_source_comment:TEXT",
-            Q(source_unit__comment__comment__substring="TEXT")
-            & Q(source_unit__comment__resolved=True),
+            (
+                Q(source_unit__comment__comment__substring="TEXT")
+                & Q(source_unit__comment__resolved=True)
+            )
+            | (
+                Q(translation_parent__comment__comment__substring="TEXT")
+                & Q(translation_parent__comment__resolved=True)
+            ),
         )
         self.assert_query(
             "source_comment_author:nijel",
-            Q(source_unit__comment__user__username__iexact="nijel"),
+            Q(source_unit__comment__user__username__iexact="nijel")
+            | Q(translation_parent__comment__user__username__iexact="nijel"),
         )
 
     def test_field(self) -> None:
         self.assert_query(
             "source:hello target:world",
-            Q(source__substring="hello") & Q(target__substring="world"),
+            source_query(source__substring="hello") & Q(target__substring="world"),
         )
         self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
     def test_exact(self) -> None:
-        self.assert_query("source:='hello'", Q(source__exact="hello"))
-        self.assert_query('source:="hello world"', Q(source__exact="hello world"))
-        self.assert_query("source:='hello world'", Q(source__exact="hello world"))
-        self.assert_query("source:=hello", Q(source__exact="hello"))
+        self.assert_query("source:='hello'", source_query(source__exact="hello"))
+        self.assert_query(
+            'source:="hello world"', source_query(source__exact="hello world")
+        )
+        self.assert_query(
+            "source:='hello world'", source_query(source__exact="hello world")
+        )
+        self.assert_query("source:=hello", source_query(source__exact="hello"))
 
     def test_regex(self) -> None:
-        self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
+        self.assert_query('source:r"^hello"', source_query(source__trgm_regex="^hello"))
         # Invalid regex
         with self.assertRaises(SearchQueryError):
-            self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
+            self.assert_query(
+                'source:r"^(hello"', source_query(source__trgm_regex="^(hello")
+            )
         # Not supported regex on PostgreSQL
         with self.assertRaises(SearchQueryError):
             self.assert_query(
-                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                'source:r"^(?i)hello"', source_query(source__trgm_regex="^(?i)hello")
             )
-        self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
+        self.assert_query(
+            'source:r"(?i)^hello"', source_query(source__trgm_regex="(?i)^hello")
+        )
 
     def test_logic(self) -> None:
         self.assert_query(
             "source:hello AND NOT target:world",
-            Q(source__substring="hello") & ~Q(target__substring="world"),
+            source_query(source__substring="hello") & ~Q(target__substring="world"),
         )
         self.assert_query(
             "source:hello OR target:world",
-            Q(source__substring="hello") | Q(target__substring="world"),
+            source_query(source__substring="hello") | Q(target__substring="world"),
         )
 
     def test_empty(self) -> None:
@@ -330,7 +374,9 @@ class UnitQueryParserTest(SearchTestCase):
     def test_source_changed(self) -> None:
         self.assert_query(
             "source_changed:>20190301",
-            Q(source_unit__last_updated__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)),
+            source_query(
+                source_unit__last_updated__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)
+            ),
         )
 
     def test_last_updated(self) -> None:
@@ -355,19 +401,21 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_source_state(self) -> None:
         self.assert_query(
-            "source_state:>=empty", Q(source_unit__state__gte=STATE_EMPTY)
+            "source_state:>=empty", source_query(source_unit__state__gte=STATE_EMPTY)
         )
         self.assert_query(
-            "source_state:>=translated", Q(source_unit__state__gte=STATE_TRANSLATED)
+            "source_state:>=translated",
+            source_query(source_unit__state__gte=STATE_TRANSLATED),
         )
         self.assert_query(
-            "source_state:<translated", Q(source_unit__state__lt=STATE_TRANSLATED)
+            "source_state:<translated",
+            source_query(source_unit__state__lt=STATE_TRANSLATED),
         )
         self.assert_query(
-            "source_state:translated", Q(source_unit__state=STATE_TRANSLATED)
+            "source_state:translated", source_query(source_unit__state=STATE_TRANSLATED)
         )
         self.assert_query(
-            "source_state:needs-editing", Q(source_unit__state=STATE_FUZZY)
+            "source_state:needs-editing", source_query(source_unit__state=STATE_FUZZY)
         )
 
     def test_position(self) -> None:
@@ -383,12 +431,18 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "state:translated AND ( source:hello OR source:bar )",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__substring="hello") | Q(source__substring="bar")),
+            & (
+                source_query(source__substring="hello")
+                | source_query(source__substring="bar")
+            ),
         )
         self.assert_query(
             "state:translated AND (source:hello OR source:bar)",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__substring="hello") | Q(source__substring="bar")),
+            & (
+                source_query(source__substring="hello")
+                | source_query(source__substring="bar")
+            ),
         )
 
     def test_priorities(self) -> None:
@@ -464,23 +518,30 @@ class UnitQueryParserTest(SearchTestCase):
     def test_html(self) -> None:
         self.assert_query(
             "<b>bold</b>",
-            Q(source__substring="<b>bold</b>")
+            source_query(source__substring="<b>bold</b>")
             | Q(target__substring="<b>bold</b>")
             | Q(context__substring="<b>bold</b>"),
         )
 
     def test_has(self) -> None:
-        self.assert_query("has:plural", Q(source__trgm_search=PLURAL_SEPARATOR))
+        self.assert_query(
+            "has:plural", source_query(source__trgm_search=PLURAL_SEPARATOR)
+        )
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
         self.assert_query("has:note", ~Q(note=""))
         self.assert_query("has:location", ~Q(location=""))
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
-        self.assert_query("has:source-comment", Q(source_unit__comment__resolved=False))
-        self.assert_query("has:source_comment", Q(source_unit__comment__resolved=False))
+        source_comment = Q(source_unit__comment__resolved=False) | Q(
+            translation_parent__comment__resolved=False
+        )
+        self.assert_query("has:source-comment", source_comment)
+        self.assert_query("has:source_comment", source_comment)
         self.assert_query(
-            "has:resolved-source-comment", Q(source_unit__comment__resolved=True)
+            "has:resolved-source-comment",
+            Q(source_unit__comment__resolved=True)
+            | Q(translation_parent__comment__resolved=True),
         )
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
@@ -616,17 +677,17 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "[one to other]",
             (
-                Q(source__substring="[one")
+                source_query(source__substring="[one")
                 | Q(target__substring="[one")
                 | Q(context__substring="[one")
             )
             & (
-                Q(source__substring="to")
+                source_query(source__substring="to")
                 | Q(target__substring="to")
                 | Q(context__substring="to")
             )
             & (
-                Q(source__substring="other]")
+                source_query(source__substring="other]")
                 | Q(target__substring="other]")
                 | Q(context__substring="other]")
             ),
@@ -718,12 +779,12 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "to %{_topdir}",
             (
-                Q(source__substring="to")
+                source_query(source__substring="to")
                 | Q(target__substring="to")
                 | Q(context__substring="to")
             )
             & (
-                Q(source__substring="%{_topdir}")
+                source_query(source__substring="%{_topdir}")
                 | Q(target__substring="%{_topdir}")
                 | Q(context__substring="%{_topdir}")
             ),

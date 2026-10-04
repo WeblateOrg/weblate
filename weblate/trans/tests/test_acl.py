@@ -548,10 +548,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             user=second_user, provider="gitlab", uid="verified-two"
         )
         VerifiedEmail.objects.create(
-            social=first_social, email="shared-verified@example.com"
+            social_id=first_social.pk, email="shared-verified@example.com"
         )
         VerifiedEmail.objects.create(
-            social=second_social, email="shared-verified@example.com"
+            social_id=second_social.pk, email="shared-verified@example.com"
         )
 
         response = self.client.post(
@@ -603,7 +603,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         social = UserSocialAuth.objects.create(
             user=invited_user, provider="github", uid="verified-match"
         )
-        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
@@ -629,7 +629,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         social = UserSocialAuth.objects.create(
             user=invited_user, provider="github", uid="same-user"
         )
-        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
@@ -1084,6 +1084,23 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="Spamming").count(), 1)
+
+    def test_blocked_user_email_visibility(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        response = self.client.get(self.access_url)
+        self.assertNotContains(response, self.second_user.email)
+
+        group = self.create_sitewide_project_group()
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        response = self.client.get(self.access_url)
+        self.assertContains(response, self.second_user.email)
 
     def test_block_user_revert_edits(self) -> None:
         self.project.add_user(self.user, "Administration")

@@ -211,7 +211,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     def get_description(self, check_obj: Check):
         unit = check_obj.unit
         result = self.check_target_unit(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
+            unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
         )
         if not result:
             return super().get_description(check_obj)

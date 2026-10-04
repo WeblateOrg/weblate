@@ -6,10 +6,9 @@ name: Distribution
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
+    branches:
+    - main
+    - stable
     tags:
     - weblate-*
   pull_request:
@@ -38,7 +37,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - name: Setup Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
@@ -169,7 +168,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - name: Setup Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       id: setup_python
@@ -269,7 +268,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: dist
@@ -319,7 +318,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
@@ -330,6 +329,12 @@ jobs:
         sudo apt install -y graphviz pandoc
     - name: Install Python dependencies
       run: uv sync --only-group docs --frozen
+    - name: Restore intersphinx inventories
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: docs/_build/intersphinx
+        key: intersphinx-v1-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: intersphinx-v1-
     - name: Sphinx build
       run: |
         . .venv/bin/activate
@@ -372,7 +377,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - run: uv publish --trusted-publishing always
 
   publish_github:

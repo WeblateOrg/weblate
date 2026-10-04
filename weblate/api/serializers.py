@@ -4,7 +4,9 @@
 
 from __future__ import annotations
 
+import logging
 import os
+from contextlib import contextmanager
 from copy import copy, deepcopy
 from dataclasses import dataclass
 from decimal import Decimal
@@ -90,6 +92,7 @@ from weblate.trans.models import (
     SuggestionAddResult,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
@@ -101,6 +104,7 @@ from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
 )
+from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -123,11 +127,14 @@ from weblate.vcs.base import RepositoryError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from uuid import UUID
 
 NEW_UNIT_STATE_CHOICES = tuple(
     choice for choice in StringState.choices if choice[0] != STATE_READONLY
 )
+
+LOGGER = logging.getLogger("weblate.api")
 
 
 def validate_report_component(value: str, user: User | None = None) -> Component:
@@ -2335,6 +2342,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         }
 
     def __init__(self, *args, **kwargs) -> None:
+        self._uploaded_repository_component: Component | None = None
         super().__init__(*args, **kwargs)
 
         project = None
@@ -2345,6 +2353,98 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         if project is not None:
             self.fields["category"].queryset = project.category_set.all()
+
+    def track_uploaded_repository(self, component: Component) -> None:
+        """Track a repository created while processing an upload."""
+        self._uploaded_repository_component = component
+
+    def preserve_uploaded_repository(self) -> None:
+        """Keep the uploaded repository after successful component creation."""
+        self._uploaded_repository_component = None
+
+    @staticmethod
+    def uploaded_repository_is_owned(component: Component) -> bool:
+        """Return whether a component or category owns the upload path."""
+        lookup = {
+            "project": component.project,
+            "category": component.category,
+            "slug": component.slug,
+        }
+        return (
+            Component.objects.filter(**lookup).exists()
+            or Category.objects.filter(**lookup).exists()
+        )
+
+    def cleanup_uploaded_repository(self) -> None:
+        """Remove an uploaded repository not owned by a saved component."""
+        component = self._uploaded_repository_component
+        if component is None:
+            return
+        try:
+            with component.repository.lock.lock_object:
+                if not self.uploaded_repository_is_owned(component):
+                    remove_tree(component.full_path)
+        except FileNotFoundError:
+            pass
+        except Exception:
+            LOGGER.exception(
+                "Could not remove repository from failed component upload: %s",
+                component.full_path,
+            )
+            return
+        self._uploaded_repository_component = None
+
+    @contextmanager
+    def cleanup_uploaded_repository_on_error(self) -> Iterator[None]:
+        try:
+            yield
+        except BaseException:
+            self.cleanup_uploaded_repository()
+            raise
+
+    def create_uploaded_repository(
+        self, attrs, instance: Component, docfile, zipfile
+    ) -> None:
+        instance.clean_unique_together()
+        self.track_uploaded_repository(instance)
+
+        if docfile is not None:
+            fake = create_component_from_doc(attrs, docfile)
+            instance.template = attrs["template"] = fake.template
+            instance.new_base = attrs["new_base"] = fake.template
+            instance.filemask = attrs["filemask"] = fake.filemask
+        if zipfile is not None:
+            try:
+                create_component_from_zip(attrs, zipfile)
+            except (BadZipfile, OSError, RepositoryError) as error:
+                raise serializers.ValidationError(
+                    {"zipfile": "Could not parse uploaded ZIP file."}
+                ) from error
+
+    def validate_component_instance(
+        self, instance: Component, source_component: Component | None
+    ) -> None:
+        if source_component is not None and "repo" not in self.initial_data:
+            self.validate_local_from_component_instance(instance, source_component)
+        else:
+            instance.clean()
+
+    def apply_autoshare(
+        self,
+        attrs,
+        instance: Component,
+        source_component: Component | None,
+        disable_autoshare: bool,
+    ) -> None:
+        if self.instance or disable_autoshare or source_component is not None:
+            return
+        repo = instance.suggest_repo_link()
+        linked_component = self.get_linked_component_or_none(repo)
+        if linked_component is not None and self.context["request"].user.has_perm(
+            "component.edit", linked_component
+        ):
+            attrs["repo"] = instance.repo = repo
+            attrs["branch"] = instance.branch = ""
 
     def validate_enforced_checks(self, value):
         if not isinstance(value, list):
@@ -2705,41 +2805,15 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         self.validate_linked_repository_setting_overrides(attrs, instance)
 
-        if docfile is not None or zipfile is not None:
-            # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
-            # extracting
-            instance.clean_unique_together()
+        with self.cleanup_uploaded_repository_on_error():
+            if docfile is not None or zipfile is not None:
+                self.create_uploaded_repository(attrs, instance, docfile, zipfile)
 
-            # Handle uploaded files
-            if docfile is not None:
-                fake = create_component_from_doc(attrs, docfile)
-                instance.template = attrs["template"] = fake.template
-                instance.new_base = attrs["new_base"] = fake.template
-                instance.filemask = attrs["filemask"] = fake.filemask
-            if zipfile is not None:
-                try:
-                    create_component_from_zip(attrs, zipfile)
-                except (BadZipfile, OSError, RepositoryError) as error:
-                    raise serializers.ValidationError(
-                        {"zipfile": "Could not parse uploaded ZIP file."}
-                    ) from error
-
-        # Call model validation here, DRF does not do that
-        if source_component is not None and "repo" not in self.initial_data:
-            self.validate_local_from_component_instance(instance, source_component)
-        else:
-            instance.clean()
-
-        if not self.instance and not disable_autoshare and source_component is None:
-            repo = instance.suggest_repo_link()
-            linked_component = self.get_linked_component_or_none(repo)
-            if linked_component is not None and self.context["request"].user.has_perm(
-                "component.edit", linked_component
-            ):
-                attrs["repo"] = instance.repo = repo
-                attrs["branch"] = instance.branch = ""
-        if source_component is not None:
-            attrs["from_component"] = source_component
+            # Call model validation here, DRF does not do that
+            self.validate_component_instance(instance, source_component)
+            self.apply_autoshare(attrs, instance, source_component, disable_autoshare)
+            if source_component is not None:
+                attrs["from_component"] = source_component
         return attrs
 
     def create(self, validated_data):
@@ -3684,6 +3758,7 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
         model = Label
         fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
+        extra_kwargs: ClassVar[dict[str, Any]] = {"color": {"required": True}}
 
 
 class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):
@@ -3731,7 +3806,49 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
         return instance.id
 
 
+class WorkflowSettingSerializer(serializers.ModelSerializer):
+    source_language = serializers.SlugRelatedField(
+        slug_field="code",
+        queryset=Language.objects.all(),
+        required=False,
+        allow_null=True,
+    )
+    language = serializers.CharField(source="language.code", read_only=True)
+
+    class Meta:
+        model = WorkflowSetting
+        fields = (
+            "language",
+            "source_language",
+            "translation_review",
+            "enable_suggestions",
+            "restrict_direct_editing",
+            "suggestion_voting",
+            "suggestion_autoaccept",
+        )
+
+    def validate(self, attrs):
+        prospective = copy(cast("WorkflowSetting", self.instance))
+        for key, value in attrs.items():
+            setattr(prospective, key, value)
+        try:
+            prospective.clean()
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
+        return attrs
+
+
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    translation_parent: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, allow_null=True, view_name="api:unit-detail"
+        )
+    )
+    effective_source = PluralField(read_only=True)
+    effective_previous_source = PluralField(read_only=True)
+    effective_source_language = serializers.CharField(
+        source="effective_source_language.code", read_only=True
+    )
     tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -3748,6 +3865,9 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     )
     source_unit: serializers.HyperlinkedRelatedField[Unit] = (
         serializers.HyperlinkedRelatedField(read_only=True, view_name="api:unit-detail")
+    )
+    screenshots_url: serializers.HyperlinkedIdentityField = (
+        serializers.HyperlinkedIdentityField(view_name="api:unit-screenshots")
     )
     source = PluralField()
     target = PluralField()
@@ -3782,6 +3902,11 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "has_failing_check",
             "num_words",
             "source_unit",
+            "screenshots_url",
+            "translation_parent",
+            "effective_source",
+            "effective_previous_source",
+            "effective_source_language",
             "priority",
             "id",
             "web_url",
@@ -3796,6 +3921,12 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:unit-detail"},
         }
+
+
+class UnitScreenshotAssociationSerializer(serializers.Serializer):
+    """Request body for associating a screenshot with a unit."""
+
+    screenshot_id = serializers.IntegerField()
 
 
 class UnitSourceSerializer(serializers.Serializer):
@@ -4475,6 +4606,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 self.check_addon(name, Addon.objects.filter_project(project))
 
         if addon.has_settings() and (not instance or "configuration" in attrs):
+            # Add-on settings are durable administrative configuration, not a
+            # delegation of the request user's direct component visibility.
             if instance:
                 form = addon.get_settings_form(
                     None, data=attrs.get("configuration", {})

@@ -846,7 +846,11 @@ class Repository:
         return False
 
     def finalize_backup_restore(self) -> None:
-        """Recreate derived repository state after backup extraction."""
+        """Verify repository metadata after backup extraction."""
+        if not self.is_valid():
+            raise RepositoryError(
+                1, "Restored repository metadata is missing or invalid."
+            )
 
     def get_repo_temp_dir(self, create: bool = True) -> Path | None:
         metadata_dir = self.get_metadata_dir()
@@ -1004,7 +1008,7 @@ class Repository:
             errormessage: str = cls.sanitize_error_message(
                 process.stdout + (process.stderr or "")
             )
-            if retry and cls.should_retry_popen(errormessage):
+            if retry and cls.should_retry_popen(errormessage, cwd=cwd):
                 return cls._popen(
                     args,
                     cwd=cwd,
@@ -1026,7 +1030,7 @@ class Repository:
 
     @staticmethod
     # ruff: ignore[unused-static-method-argument]
-    def should_retry_popen(errormessage: str) -> bool:
+    def should_retry_popen(errormessage: str, *, cwd: str | None = None) -> bool:
         return False
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
@@ -1497,7 +1501,11 @@ class Repository:
         timestamp: datetime | None = None,
         files: list[str] | None = None,
     ) -> bool:
-        """Create new revision."""
+        """
+        Create new revision, optionally limited to the listed files.
+
+        ``None`` commits the whole working tree, while an empty list is a no-op.
+        """
         raise NotImplementedError
 
     def remove(

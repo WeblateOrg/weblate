@@ -75,7 +75,7 @@
                   <a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a>
                 </td>
                 <td>{{ userblock.user.full_name }}</td>
-                <td>{{ userblock.user.email }}</td>
+                {% if can_edit_user %}<td>{{ userblock.user.email }}</td>{% endif %}
                 <td>
                   {% if userblock.user.last_login %}
                     {{ userblock.user.last_login|naturaltime }}

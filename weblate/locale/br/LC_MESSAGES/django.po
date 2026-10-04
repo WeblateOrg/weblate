@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Fulup Jakez <fulup.jakez@gmail.com>, 2024, 2025, 2026.
-# Florent <florent.grouin+osmand@gmail.com>, 2024, 2025.
+# Florent <florent.grouin+osmand@gmail.com>, 2024, 2025, 2026.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Alexis Launay <yorunohikage@gmail.com>, 2025, 2026.
 # Divarrek <a.guechoum@proton.me>, 2025.
@@ -15,10 +15,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-11 04:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-03 12:25+0000\n"
+"Last-Translator: Florent <florent.grouin+osmand@gmail.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
 "application/br/>\n"
 "Language: br\n"
@@ -30,7 +29,7 @@ msgstr ""
 "&& n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && "
 "(n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 "
 "< 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)));\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -336,10 +335,8 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Lakait ar c'hod adalek an arload"
 
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Project, category, component, or translation path"
-msgstr "Digor eo ar raktres d'an hizivadennoù treiñ bremañ."
+msgstr "Raktres, rummad, parzh, pe treug an droidigezh"
 
 msgid ""
 "Enter slash-separated slugs, for example project/category/component/cs. "
@@ -347,13 +344,11 @@ msgid ""
 "exceptions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Language"
 msgid "Enter a valid object path."
-msgstr "Yezh"
+msgstr "Treug an ergorenn"
 
 msgid "The target does not exist or you cannot access it."
-msgstr ""
+msgstr "N'eus ket eus ar pal pe n'oc'h ket evit e dizhout."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -2219,6 +2214,11 @@ msgstr "Dre restr"
 msgid "Per author"
 msgstr "Dre aozer"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Dre yezh"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 "Ouzhpennañ maeziennoù talbennoù d'ar c'hemennadennoù diellaouiñ gwasket"
@@ -3166,6 +3166,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #, fuzzy
+#| msgid "Checks"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Gwiriadennoù"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "You don't have privileges to display this page."
 msgid "You do not have permission to access this component."
 msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
@@ -3242,6 +3250,9 @@ msgstr "Stad an treiñ"
 #| msgid "Translation"
 msgid "Your suggestion already exists!"
 msgstr "Troidigezh"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "API REST Weblate"
@@ -6654,6 +6665,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9949,9 +9963,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Gwasket e vo dielloù Weblate parzhioù ar c'havlec'h-mañ."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Miret e vez ar c'hemennadennoù diellaouiñ orin, met kollet e vez anv an "
 "aozer nemet pa vez diuzet \"Dre aozer\" pe pa vez personelaet ar gemennadenn "
@@ -10276,17 +10295,9 @@ msgid "No invoices found."
 msgstr "Ger ebet kavet !"
 
 #, fuzzy
-#| msgid "Checks"
-msgid "Event details"
-msgstr "Gwiriadennoù"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Actions"
-msgstr "Ober"
-
-msgid "Download"
-msgstr "Pellgargañ"
+#| msgid "View details"
+msgid "View all"
+msgstr "Diskwel ar munudoù"
 
 #, fuzzy
 #| msgid "hosting"
@@ -10331,6 +10342,29 @@ msgstr "Stag evit ar poent :"
 
 msgid "View"
 msgstr "Gwelout"
+
+#, fuzzy
+#| msgid "Checks"
+msgid "Event details"
+msgstr "Gwiriadennoù"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Actions"
+msgstr "Ober"
+
+msgid "Download"
+msgstr "Pellgargañ"
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "No audit log entries found."
+msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Audit log pagination"
+msgstr "Trezalc'h GIT"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -13211,6 +13245,11 @@ msgid "Add label"
 msgstr "Yezhoù implijet"
 
 #, fuzzy, python-format
+#| msgid "Machine translation"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Treiñ emgefre"
+
+#, fuzzy, python-format
 #| msgid "Manage all glossaries"
 msgid "Manage %(team)s"
 msgstr "Merañ an holl c'heriaouegi"
@@ -13482,6 +13521,16 @@ msgid "words"
 msgstr "Gerioù"
 
 #, fuzzy
+#| msgid "Source strings review"
+msgid "Bulk edit selected strings"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "No strings selected"
+msgstr "Neudennadoù da dreiñ"
+
+#, fuzzy
 #| msgid "No matching strings found!"
 msgid "No matching strings found."
 msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
@@ -13586,7 +13635,20 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Select all strings on this page"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Select string for bulk edit"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -13765,6 +13827,16 @@ msgstr "Trezalc'h GIT"
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Repository branch"
+msgstr "Trezalc'h GIT"
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Pull request"
+msgstr "Yezhoù Songhai"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Pull request URL copied to clipboard."
 msgstr "Trezalc'h GIT"
 
 msgid "Last remote commit"
@@ -14236,6 +14308,11 @@ msgstr "Ho troidigezhioù"
 #| msgid "Start new translation"
 msgid "Cannot add translation right now"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy, python-format
+#| msgid "Source change"
+msgid "Source: %(language)s"
+msgstr "Kemm er vammenn"
 
 msgid "Customized workflow"
 msgstr ""
@@ -15656,18 +15733,23 @@ msgstr "Troidigezh enrollet !"
 msgid "Project language to remove"
 msgstr "Anv ar raktres"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ne c'haller ket dizober an ober-mañ. Dilamet e vo ervat ar rummad %(object)s "
 "ha kement tra zo ennañ."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15685,13 +15767,23 @@ msgstr "Troidigezh enrollet !"
 msgid "Project to remove"
 msgstr "Anv ar raktres"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ne c'haller ket dizober an ober-mañ. Dilamet e vo ervat parzh %(object)s ha "
 "kement tra stag outañ."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 #, fuzzy
 #| msgid "Project name"
@@ -15700,6 +15792,14 @@ msgstr "Anv ar raktres"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Kompren a ran ervat peseurt heuliadoù a vo. Diverkañ an droidigezh-mañ"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Ne c'haller ket dizober an ober-mañ. Dilamet e vo ervat ar rummad %(object)s "
+"ha kement tra zo ennañ."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -15984,6 +16084,11 @@ msgstr "Yezh an etrefas"
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "Troidigezh"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "User registration"
@@ -17011,6 +17116,11 @@ msgstr "Aozañ gant ar mod zen"
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Kinnigoù"
 
 #, fuzzy
 #| msgid "Git repository:"
@@ -18529,6 +18639,11 @@ msgid "State: %(state)s"
 msgstr "Ho troidigezhioù"
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Kent"
+
+#, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestions pending"
 msgstr "Kinnigoù graet"
@@ -19771,6 +19886,11 @@ msgid "You do not have permission to create terminology."
 msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
 #, fuzzy
+#| msgid "Comments"
+msgid "Invalid string selection!"
+msgstr "Evezhiadennoù"
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Reiñ un dra bennak da Weblate"
@@ -19814,6 +19934,9 @@ msgstr "Furchal er c'hemmoù"
 msgid "Labels to remove — all languages"
 msgstr "Kinnigoù graet"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "Source strings review"
 msgid "I accept the contributor license agreement"
@@ -19840,8 +19963,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Titouroù diwar-benn ar raktres"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19855,6 +19979,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Ho troidigezhioù"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -20079,6 +20209,24 @@ msgstr "Troidigezh"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks"
+msgstr "Gwiriadennoù lezet a-gostez"
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Inherit enforced checks"
+msgstr "Gwiriadennoù lezet a-gostez"
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "N'eo ket prennet an treiñ."
 
 #, fuzzy
 #| msgid "Translation license:"
@@ -20372,6 +20520,18 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Git maintenance"
+msgid "Repository browser for translations"
+msgstr "Trezalc'h GIT"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
+#, fuzzy
 #| msgid "Status of repositories"
 msgid "Exported repository URL"
 msgstr "Stad ar c'havlec'hioù"
@@ -20520,12 +20680,7 @@ msgid ""
 "off."
 msgstr ""
 
-#, fuzzy
-#| msgid "Ignored checks"
-msgid "Enforced checks"
-msgstr "Gwiriadennoù lezet a-gostez"
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -21217,6 +21372,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Ignored checks"
+msgid "Use enforced checks from the workspace."
+msgstr "Gwiriadennoù lezet a-gostez"
+
+#, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Use the translation license configured in the workspace."
 msgstr "Troidigezh enrollet !"
@@ -21511,6 +21671,11 @@ msgstr "Furchal er c'hemmoù"
 msgid "Unmark as terminology for all languages"
 msgstr "Furchal er c'hemmoù"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -21518,6 +21683,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Please turn on reviews on the project first."
+msgstr "Ho troidigezhioù"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "This language already has a project workflow."
+msgstr "Troidigezh"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Select a source language in a project workflow."
+msgstr "Kemm er vammenn"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The source language must exist in this project."
+msgstr "Raktresoù"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source languages cannot form a cycle."
+msgstr "Kemm er vammenn"
 
 #, fuzzy
 #| msgid "Source strings review"
@@ -21921,6 +22111,16 @@ msgstr ""
 #| msgid "Start new translation"
 msgid "Could not parse flags: %s"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks has to be a list."
+msgstr "Gwiriadennoù lezet a-gostez"
+
+#, fuzzy, python-format
+#| msgid "Ignored checks"
+msgid "Unsupported enforced check: %s"
+msgstr "Gwiriadennoù lezet a-gostez"
 
 #, fuzzy, python-format
 #| msgid "Start new translation"

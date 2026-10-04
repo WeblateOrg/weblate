@@ -19,7 +19,7 @@ from django.utils import timezone
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
-from weblate.trans.forms import TranslationForm
+from weblate.trans.forms import TranslationForm, WorkflowSettingForm
 from weblate.trans.models import (
     Category,
     ComponentLink,
@@ -36,6 +36,29 @@ from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
 class WorkflowSettingsTestCase(FixtureComponentTestCase):
+    def test_review_form_requires_project_reviews(self) -> None:
+        for source_review, translation_review in product((False, True), repeat=2):
+            with self.subTest(
+                source_review=source_review, translation_review=translation_review
+            ):
+                project = Project.objects.get(pk=self.project.pk)
+                project.source_review = source_review
+                project.translation_review = translation_review
+                form = WorkflowSettingForm(
+                    {
+                        "workflow-enable": True,
+                        "workflow-translation_review": True,
+                        "workflow-suggestion_autoaccept": 0,
+                    },
+                    project=project,
+                    language=self.get_translation().language,
+                )
+                if source_review or translation_review:
+                    self.assertTrue(form.is_valid(), form.errors)
+                else:
+                    self.assertFalse(form.is_valid())
+                    self.assertIn("translation_review", form.errors)
+
     def test_commit_policy_form_help(self) -> None:
         self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
         self.project.translation_review = True

@@ -10,7 +10,6 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import transaction
 from django.utils.translation import gettext
 
 from weblate.formats.base import UnitNotFoundError
@@ -23,6 +22,7 @@ from weblate.formats.source_edit import (
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import source_operation
 from weblate.trans.util import join_plural, split_plural
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -51,7 +51,7 @@ def edit_source(
     explanation: str | None = None,
 ) -> Unit:
     component = unit.translation.component
-    with component.lock, transaction.atomic():
+    with component.lock, source_operation(component):
         source_unit = Unit.objects.select_for_update().get(
             pk=cast("int", unit.source_unit_id)
         )

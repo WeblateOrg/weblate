@@ -27,7 +27,6 @@ NO_SPACE_LANGUAGES = {
 }
 
 UNDERSCORE_EXCEPTIONS = {
-    "nb_NO",
     "zh_Hant",
     "zh_Hans",
     "be_Latn",

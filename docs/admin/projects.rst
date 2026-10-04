@@ -283,12 +283,19 @@ Public sharing exposes project and component names, including restricted
 components, together with translation statistics, languages, and progress. It
 does not grant access to project pages, translations, repositories, or the API.
 
+Changing this setting has no immediate effect while the project is
+:guilabel:`Public` or :guilabel:`Protected`, but the stored value is retained
+and applies if the project is later changed to :guilabel:`Private` or
+:guilabel:`Custom`. Sitemaps for project, component, and translation pages only
+include pages that are directly accessible anonymously. Engage sitemaps follow
+the public sharing setting.
+
 Changing this setting requires the :guilabel:`Manage project access`
 permission. The status widget configuration page continues to use normal
 project access control.
 
 When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
-enabled for anonymous access to engage pages.
+enabled for anonymous access to engage pages and sitemaps.
 
 .. _project-enforced_2fa:
 
@@ -1413,6 +1420,15 @@ granting access to a new user group and putting users in it,
 or using the default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+
+Restricted access controls direct access to component pages, translations,
+files, APIs, and translation memory. It is not an isolation boundary for
+administrative capabilities whose documented scope includes the component. For
+example, project backups contain all project components, and project- or
+category-level add-ons process restricted components in their configured scope.
+Component add-ons can also use cross-component inputs documented by the add-on.
+Grant the corresponding management permissions only to users trusted with
+these effects. See :ref:`perm-check` and :ref:`addons`.
 
 .. hint::
 

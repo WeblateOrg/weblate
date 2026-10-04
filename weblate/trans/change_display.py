@@ -24,6 +24,7 @@ from weblate.trans.formatting import (
 )
 from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.models.project import Project
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.utils.files import FileUploadMethod, get_upload_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.markdown import render_markdown
@@ -682,12 +683,24 @@ class ShowChangeContent(BaseChangeHistoryContext):
                 )
             )
 
+        language = unit.translation.component.source_language
+        plural = unit.source_unit.translation.plural
+        snapshot = change.details.get("source_snapshot")
+        if snapshot:
+            source = SourceSnapshot.from_dict(snapshot)
+            language, plural = source.language, source.plural
+
         # source language field
         self.fields.append(
             self.make_field(
-                str(unit.translation.component.source_language),
+                str(language),
                 self.format_translation(
-                    format_unit_source(unit, value=self.change.get_source())
+                    format_unit_source(
+                        unit,
+                        value=change.get_source(),
+                        language=language,
+                        plural=plural,
+                    )
                 ),
             )
         )
@@ -732,6 +745,35 @@ class ShowChangeSource(BaseChangeHistoryContext):
             raise ValueError(msg)
         unit = change.unit
 
+        language = unit.translation.component.source_language
+        plural = unit.source_unit.translation.plural
+        snapshot = change.details.get("source_snapshot")
+        if snapshot:
+            source = SourceSnapshot.from_dict(snapshot)
+            language, plural = source.language, source.plural
+
+        previous_data = change.details.get("previous_source_snapshot")
+        previous = SourceSnapshot.from_dict(previous_data) if previous_data else None
+        separate_previous = bool(
+            snapshot and previous and previous.rules != source.rules
+        )
+        if separate_previous and previous is not None and change.old:
+            previous_language, previous_plural = previous.language, previous.plural
+            self.fields.append(
+                self.make_field(
+                    str(previous_language),
+                    self.format_translation(
+                        format_unit_source(
+                            unit,
+                            value=change.old,
+                            language=previous_language,
+                            plural=previous_plural,
+                        )
+                    ),
+                    label_badges=[gettext("Previous source")],
+                )
+            )
+
         # source language field
         source_lang_badges: list[StrOrPromise] = [
             self.make_distance_badge(change.get_distance()),
@@ -739,16 +781,22 @@ class ShowChangeSource(BaseChangeHistoryContext):
         if change.show_unit_state():
             source_lang_badges.append(change.get_state_display())
 
-        if change.target:
+        if snapshot or change.target:
             source_lang_content = format_unit_source(
-                unit, value=change.target, diff=change.old
+                unit,
+                value=change.target,
+                diff=None if separate_previous else change.old,
+                language=language,
+                plural=plural,
             )
         else:
-            source_lang_content = format_unit_source(unit)
+            source_lang_content = format_unit_source(
+                unit, value=unit.source, language=language, plural=plural
+            )
 
         self.fields.append(
             self.make_field(
-                str(unit.translation.component.source_language),
+                str(language),
                 self.format_translation(source_lang_content),
                 label_badges=source_lang_badges,
             )

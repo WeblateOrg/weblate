@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2383,6 +2383,11 @@ msgstr "Fitxategiaren arabera"
 msgid "Per author"
 msgstr "Egilearen arabera"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Hizkuntza bakoitzeko"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Gehitu amaierako lerro luzeak batutako balidapenen mezuan"
 
@@ -3305,6 +3310,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Jatorrizko kateak"
 
 #, fuzzy
+#| msgid "Translated languages"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Itzulitako hizkuntzak"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "Tweet this translation"
 msgid "You do not have permission to access this component."
 msgstr "Txiokatu itzulpen hau"
@@ -3374,6 +3387,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6566,6 +6582,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9662,7 +9681,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9967,14 +9987,8 @@ msgstr ""
 msgid "No invoices found."
 msgstr ""
 
-msgid "Event details"
+msgid "View all"
 msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Download"
-msgstr "Deskargatu"
 
 #, fuzzy
 #| msgid "Hosting"
@@ -10017,6 +10031,25 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "Event details"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Download"
+msgstr "Deskargatu"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No audit log entries found."
+msgstr "Itzulpenen jakinarazpenak"
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "Audit log pagination"
+msgstr "Txiokatu itzulpen hau"
 
 #, fuzzy
 #| msgid "Current password"
@@ -12641,6 +12674,11 @@ msgid "Add label"
 msgstr "Itzulitako hizkuntzak"
 
 #, fuzzy, python-format
+#| msgid "Download translation as TMX"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Deskargatu itzulpena TMX gisa"
+
+#, fuzzy, python-format
 #| msgid "Managed projects"
 msgid "Manage %(team)s"
 msgstr "Kudeatu proiektuak"
@@ -12889,6 +12927,16 @@ msgstr "Jatorrizko kateak"
 msgid "words"
 msgstr "Pasahitza"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Bulk edit selected strings"
+msgstr "Jatorrizko kateak"
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "No strings selected"
+msgstr "Txiokatu itzulpen hau"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -12959,7 +13007,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Select all strings on this page"
+msgstr "Jatorrizko kateak"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -13128,6 +13187,16 @@ msgstr "Txiokatu itzulpen hau"
 
 msgid "Repository branch"
 msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Pull request"
+msgstr "Irudi baliogabea!"
+
+#, fuzzy
+#| msgid "Tweet this translation"
+msgid "Pull request URL copied to clipboard."
+msgstr "Txiokatu itzulpen hau"
 
 msgid "Last remote commit"
 msgstr ""
@@ -13547,6 +13616,11 @@ msgstr "Ikuskatutako itzulpenak"
 #| msgid "Watched translations"
 msgid "Cannot add translation right now"
 msgstr "Ikuskatutako itzulpenak"
+
+#, fuzzy, python-format
+#| msgid "Your languages"
+msgid "Source: %(language)s"
+msgstr "Zure hizkuntzak"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14880,13 +14954,15 @@ msgstr "Proiektuaren izena"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14903,7 +14979,14 @@ msgstr "Proiektuaren izena"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -14912,6 +14995,12 @@ msgid "Component to remove"
 msgstr "Osagaien mailako jakinarazpenak"
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -15173,6 +15262,11 @@ msgstr "Interfazearen hizkuntza"
 #| msgid "Translations"
 msgid "Explanation"
 msgstr "Itzulpenak"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
@@ -16112,6 +16206,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Show suggestions"
+msgstr "Ikuskatutako itzulpenak"
 
 #, fuzzy
 #| msgid "Source code repository"
@@ -17551,6 +17650,11 @@ msgid "State: %(state)s"
 msgstr ""
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Aurrekoa"
+
+#, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestions pending"
 msgstr "Egindako proposamenak"
@@ -18693,6 +18797,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Txiokatu itzulpen hau"
 
+#, fuzzy
+#| msgid "Project / Component"
+msgid "Invalid string selection!"
+msgstr "Proiektua / Osagaia"
+
 msgid "State to set"
 msgstr ""
 
@@ -18735,6 +18844,9 @@ msgstr "Itzulitako hizkuntzak"
 msgid "Labels to remove — all languages"
 msgstr "Hizkuntzen muga"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -18759,8 +18871,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Osagaien mailako jakinarazpenak"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18774,6 +18887,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Hautatu zein hizkuntzara itzuli nahi duzun."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18992,6 +19111,22 @@ msgstr "Itzulpen gakoa"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other projects"
+msgid "Inherit enforced checks"
+msgstr "Beste proiektu batzuk"
+
+#, fuzzy
+#| msgid "Keep previous msgids of translated strings"
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Gorde aurrez itzulitako kateen msgids-ak"
 
 #, fuzzy
 #| msgid "Watched translations"
@@ -19276,6 +19411,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translatable strings"
+msgid "Repository browser for translations"
+msgstr "Kate itzulgarriak"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -19399,10 +19546,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -20063,6 +20207,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translatable strings"
+msgid "Use enforced checks from the workspace."
+msgstr "Kate itzulgarriak"
+
+#, fuzzy
+#| msgid "Translatable strings"
 msgid "Use the translation license configured in the workspace."
 msgstr "Kate itzulgarriak"
 
@@ -20344,6 +20493,11 @@ msgstr "Itzulitako hizkuntzak"
 msgid "Unmark as terminology for all languages"
 msgstr "Itzulitako hizkuntzak"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20351,6 +20505,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please choose the language you want to translate to."
+msgid "Please turn on reviews on the project first."
+msgstr "Hautatu zein hizkuntzara itzuli nahi duzun."
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "This language already has a project workflow."
+msgstr "Itzulpen gakoa"
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Select a source language in a project workflow."
+msgstr "Zure hizkuntzak"
+
+#, fuzzy
+#| msgid "All components"
+msgid "The source language must exist in this project."
+msgstr "Osagai guztiak"
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Testua jatorrizko hizkuntzan"
 
 #, fuzzy
 #| msgid "Password has been changed."
@@ -20719,6 +20898,14 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Could not parse flags: %s"
 msgstr "Jatorrizko kateak"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported enforced check: %s"
+msgstr "Onartu gabeko irudi mota: %s"
 
 #, fuzzy, python-format
 #| msgid "Watched translations"
@@ -23997,9 +24184,6 @@ msgstr "Itzulpen gakoa"
 #~| msgid "Source code repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Iturburu kodearen biltegia"
-
-#~ msgid "Your languages"
-#~ msgstr "Zure hizkuntzak"
 
 #, fuzzy
 #~| msgid "Translation key"

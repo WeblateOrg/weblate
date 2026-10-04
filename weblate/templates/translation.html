@@ -298,7 +298,7 @@
           </form>
         </div>
         {% if can_add_plural_units and object.plural.number > 1 %}
-          <div id="new-plural" class="hidden">
+          <div id="new-plural" hidden>
             <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
               <div class="card">
                 <div class="card-header">

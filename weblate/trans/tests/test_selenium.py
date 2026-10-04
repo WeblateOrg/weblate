@@ -71,6 +71,7 @@ from weblate.trans.models import (
     ContributorAgreement,
     Project,
     Report,
+    Suggestion,
     Translation,
     Unit,
 )
@@ -92,6 +93,7 @@ from weblate.trans.widgets import WIDGETS
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.git import LocalRepository
@@ -1063,6 +1065,208 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
+    @contextmanager
+    def capture_authentication_submissions(self) -> Iterator[None]:
+        """Exercise the real login page without navigating to external providers."""
+        script = self.driver.execute_cdp_cmd(
+            "Page.addScriptToEvaluateOnNewDocument",
+            {
+                "source": """
+                window.authenticationSubmissions = [];
+                HTMLFormElement.prototype.submit = function () {
+                    window.authenticationSubmissions.push({
+                        action: this.getAttribute('action'),
+                        params: Array.from(new FormData(this).entries()),
+                    });
+                };
+                """
+            },
+        )
+        try:
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('login')}?"
+                    + urlencode({"next": "/projects/?sort=name"})
+                )
+            yield
+        finally:
+            self.driver.execute_cdp_cmd(
+                "Page.removeScriptToEvaluateOnNewDocument",
+                {"identifier": script["identifier"]},
+            )
+
+    def assert_authentication_submissions(self, count: int, action: str) -> None:
+        submissions = self.driver.execute_script(
+            "return window.authenticationSubmissions;"
+        )
+        self.assertEqual(len(submissions), count)
+        self.assertEqual(submissions[-1]["action"], action)
+        params = submissions[-1]["params"]
+        self.assertEqual(
+            [value for name, value in params if name == "next"],
+            ["/projects/?sort=name"],
+        )
+        self.assertTrue(
+            any(name == "csrfmiddlewaretoken" and value for name, value in params)
+        )
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_auto_submission_guard(self) -> None:
+        with self.capture_authentication_submissions():
+            action = reverse("social:begin", args=("github",))
+            control = self.driver.find_element(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(control.get_attribute("aria-disabled"), "true")
+            # Include a queued/programmatic activation despite disabled styling.
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(1, action)
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: false}));"
+            )
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(1, action)
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));"
+            )
+            self.assertIsNone(control.get_attribute("aria-disabled"))
+            self.assertNotIn("disabled", (control.get_attribute("class") or "").split())
+            self.assert_authentication_submissions(1, action)
+            control.send_keys(Keys.ENTER)
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(2, action)
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "social_core.backends.google.GoogleOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_manual_submission_guard(self) -> None:
+        with self.capture_authentication_submissions():
+            controls = self.driver.find_elements(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(len(controls), 2)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            controls[0].click()
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[1].click();", *controls
+            )
+            self.assert_authentication_submissions(1, action)
+            for control in controls:
+                self.assertEqual(control.get_attribute("aria-disabled"), "true")
+
+            # The shared form remains usable by unrelated POST actions.
+            self.driver.execute_script("""
+                const link = document.createElement('a');
+                link.className = 'link-post';
+                link.dataset.href = '/unrelated-action/';
+                document.body.appendChild(link);
+                link.click();
+                link.click();
+                link.remove();
+            """)
+            self.assert_authentication_submissions(3, "/unrelated-action/")
+
+            self.driver.execute_script("""
+                const link = document.createElement('a');
+                link.className = 'link-post';
+                link.dataset.href = 'https://outside.example/action/';
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            """)
+            self.assert_authentication_submissions(3, "/unrelated-action/")
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));"
+            )
+            self.driver.execute_script("""
+                const form = document.getElementById('link-post');
+                form.submit = () => { throw new Error('Submission failed'); };
+                window.addEventListener('error', (event) => event.preventDefault(), {once: true});
+                document.querySelector('.link-auth').click();
+                delete form.submit;
+            """)
+            for control in controls:
+                self.assertIsNone(control.get_attribute("aria-disabled"))
+            controls[1].send_keys(Keys.ENTER)
+            other_action = controls[1].get_attribute("data-href")
+            assert other_action is not None
+            self.assert_authentication_submissions(4, other_action)
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.email.EmailAuth",
+            "social_core.backends.github.GithubOAuth2",
+            "social_core.backends.google.GoogleOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_submission_guard_covers_registration_and_profile(
+        self,
+    ) -> None:
+        with self.capture_authentication_submissions():
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('register')}?"
+                    + urlencode({"next": "/projects/?sort=name"})
+                )
+            controls = self.driver.find_elements(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(len(controls), 2)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[1].click();",
+                controls[0],
+                controls[1],
+            )
+            submissions = self.driver.execute_script(
+                "return window.authenticationSubmissions;"
+            )
+            self.assertEqual(len(submissions), 1)
+            self.assertEqual(submissions[0]["action"], action)
+            self.assertTrue(
+                any(
+                    name == "csrfmiddlewaretoken" and value
+                    for name, value in submissions[0]["params"]
+                )
+            )
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('login')}")
+        self.do_login()
+        with self.capture_authentication_submissions():
+            with self.wait_for_page_load():
+                self.driver.get(f"{self.live_server_url}{reverse('profile')}")
+            controls = self.driver.find_elements(
+                By.CSS_SELECTOR,
+                ".link-auth[data-href*='/accounts/login/']:not([data-href*='/email/'])",
+            )
+            self.assertGreaterEqual(len(controls), 1)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[0].click();", controls[0]
+            )
+            submissions = self.driver.execute_script(
+                "return window.authenticationSubmissions;"
+            )
+            self.assertEqual(len(submissions), 1)
+            self.assertEqual(submissions[0]["action"], action)
+            self.assertTrue(
+                any(
+                    name == "csrfmiddlewaretoken" and value
+                    for name, value in submissions[0]["params"]
+                )
+            )
+
     def test_support_page_navigation(self) -> None:
         """Keep the purchase offer and its exit accessible on narrow screens."""
         cache.delete(SUPPORT_STATUS_CACHE_KEY)
@@ -1394,6 +1598,38 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             [editor.get_attribute("value") for editor in editors],
             ["", "suggestion", "alternative"],
         )
+
+    def test_new_unit_plural_switch(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="New plural", slug="new-plural")
+        component = fixture.create_po(project=project, manage_units=True)
+        translation = component.translation_set.get(language_code="cs")
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{translation.get_absolute_url()}#new"
+            )
+        singular = self.driver.find_element(By.ID, "new-singular")
+        plural = self.driver.find_element(By.ID, "new-plural")
+        self.assertTrue(singular.is_displayed())
+        self.assertFalse(plural.is_displayed())
+
+        self.click(
+            singular.find_element(
+                By.CSS_SELECTOR, "input[name='new-unit-form-type'][value='plural']"
+            )
+        )
+        self.assertFalse(singular.is_displayed())
+        self.assertTrue(plural.is_displayed())
+
+        self.click(
+            plural.find_element(
+                By.CSS_SELECTOR, "input[name='new-unit-form-type'][value='singular']"
+            )
+        )
+        self.assertTrue(singular.is_displayed())
+        self.assertFalse(plural.is_displayed())
 
     def test_retained_translation_is_unsaved(self) -> None:
         """Retained plural drafts warn on navigation without further input."""
@@ -1789,6 +2025,347 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     && event.defaultPrevented;
                 """
             )
+        )
+
+    def test_zen_suggestions(self) -> None:
+        """Suggestions are handled in place in the Zen editor."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Zen suggestions", slug="zen-suggestions")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        first, _ = Suggestion.objects.add(unit, ["Nazdar svete!\n"], None, user=user)
+        second, _ = Suggestion.objects.add(unit, ["Ahoj svete!\n"], None, user=user)
+        assert first is not None
+        assert second is not None
+
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{zen_url}?{urlencode({'q': 'has:suggestion'})}"
+            )
+        row_selector = f"#row-suggestions-{unit.checksum}"
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+
+        def suggestion_rows() -> list[WebElement]:
+            return self.driver.find_elements(
+                By.CSS_SELECTOR, f"{row_selector} .history-row"
+            )
+
+        def editor() -> WebElement:
+            return self.driver.find_element(
+                By.CSS_SELECTOR,
+                f"#row-edit-{unit.checksum} .translation-editor",
+            )
+
+        def wait_idle() -> None:
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    "unit-state-saving"
+                    not in driver.find_element(
+                        By.ID, f"status-{unit.checksum}"
+                    ).get_attribute("class")
+                )
+            )
+
+        self.assertEqual(len(suggestion_rows()), 2)
+
+        # Suggestions are hidden by default, the choice is remembered
+        def suggestions_row() -> WebElement:
+            return self.driver.find_element(By.CSS_SELECTOR, row_selector)
+
+        def toggle_label() -> str:
+            button = self.driver.find_element(By.ID, "zen-toggle-suggestions")
+            label = self.driver.find_element(By.ID, "zen-toggle-suggestions-label")
+            self.assertEqual(
+                button.get_attribute("aria-label"), label.get_attribute("textContent")
+            )
+            return cast("str", button.get_attribute("aria-label"))
+
+        self.assertFalse(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Show suggestions")
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertTrue(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Hide suggestions")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "shown",
+        )
+        with self.wait_for_page_load():
+            self.driver.refresh()
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+        self.assertTrue(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Hide suggestions")
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertFalse(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Show suggestions")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "hidden",
+        )
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertTrue(suggestions_row().is_displayed())
+
+        # Cloning fills the editor of this unit and marks it as changed
+        next(
+            button
+            for button in self.driver.find_elements(
+                By.CSS_SELECTOR, f"{row_selector} .js-copy-suggestion"
+            )
+            if button.get_attribute("data-text-0") == "Ahoj svete!\n"
+        ).click()
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertIn("has-changes", editor().get_attribute("class") or "")
+
+        # Accepting with pending edits is refused, they are kept intact
+        self.driver.execute_script(
+            """
+            const form = document.querySelector(arguments[0] + " form");
+            form.requestSubmit(form.querySelector('button[name="accept"]'));
+            """,
+            row_selector,
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: (
+                "Save or discard your changes before accepting"
+                in driver.find_element(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-warning-subtle .toast-body"
+                ).get_attribute("textContent")
+            )
+        )
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertEqual(len(suggestion_rows()), 2)
+        self.assertEqual(Suggestion.objects.count(), 2)
+
+        # Discard the pending edit
+        self.driver.execute_script(
+            """
+            const editor = arguments[0];
+            editor.value = "";
+            editor.classList.remove("has-changes");
+            document.querySelector("#unsaved-label")?.remove();
+            """,
+            editor(),
+        )
+
+        # Rejecting uses the reason typed next to the clicked suggestion
+        first_row = self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
+        ).find_element(By.XPATH, "ancestor::div[contains(@class, 'history-row')]")
+        first_row.find_element(By.CSS_SELECTOR, "input[name=rejection]").send_keys(
+            "not good"
+        )
+        first_row.find_element(By.CSS_SELECTOR, 'button[name="delete"]').click()
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: len(suggestion_rows()) == 1
+        )
+        wait_idle()
+        self.assertEqual(
+            list(Suggestion.objects.values_list("pk", flat=True)), [second.pk]
+        )
+        change = Change.objects.get(action=ActionEvents.SUGGESTION_DELETE)
+        self.assertEqual(change.details["rejection_reason"], "not good")
+        # Rejecting leaves the editor alone
+        self.assertEqual(editor().get_attribute("value"), "")
+
+        # Saving refreshes the suggestion diff against the new target, moving
+        # into the suggestions keeps the typed rejection reason and focus
+        def diff_insertions() -> str:
+            return "".join(
+                cast("str", element.get_attribute("textContent"))
+                for element in self.driver.find_elements(
+                    By.CSS_SELECTOR, f"{row_selector} .comment-content ins"
+                )
+            )
+
+        self.assertIn("Ahoj", diff_insertions())
+        editor().send_keys("Ahoj")
+        rejection = self.driver.find_element(
+            By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
+        )
+        rejection.click()
+        rejection.send_keys("typed")
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located(
+                (By.CSS_SELECTOR, f"#row-edit-{unit.checksum}.translation-saved")
+            )
+        )
+        wait_idle()
+        self.assertNotIn("Ahoj", diff_insertions())
+        self.assertIn("svete", diff_insertions())
+        rejection = self.driver.find_element(
+            By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
+        )
+        self.assertEqual(rejection.get_attribute("value"), "typed")
+        self.assertEqual(self.driver.switch_to.active_element, rejection)
+        rejection.clear()
+        # Let the later edit wait for its own save
+        self.driver.execute_script(
+            "arguments[0].classList.remove('translation-saved');",
+            self.driver.find_element(By.ID, f"row-edit-{unit.checksum}"),
+        )
+
+        # Accepting updates the row in place
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until_not(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+        wait_idle()
+        self.assertEqual(Suggestion.objects.count(), 0)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj svete!\n")
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertNotIn("has-changes", editor().get_attribute("class") or "")
+        self.assertEqual(
+            len(self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label")), 0
+        )
+        self.assertIn(
+            "unit-state-translated",
+            self.driver.find_element(By.ID, f"status-{unit.checksum}").get_attribute(
+                "class"
+            ),
+        )
+        self.assertEqual(
+            self.driver.find_element(
+                By.CSS_SELECTOR, f"#row-edit-{unit.checksum} input[name=translationsum]"
+            ).get_attribute("value"),
+            hash_to_checksum(unit.get_target_hash()),
+        )
+        self.assertEqual(
+            len(
+                self.driver.find_elements(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
+                )
+            ),
+            0,
+        )
+
+        # A subsequent edit saves without a stale translationsum conflict
+        editor().clear()
+        editor().send_keys("Upraveno")
+        self.driver.find_element(By.ID, "id_q").click()
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located(
+                (By.CSS_SELECTOR, f"#row-edit-{unit.checksum}.translation-saved")
+            )
+        )
+        wait_idle()
+        self.assertEqual(
+            len(
+                self.driver.find_elements(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
+                )
+            ),
+            0,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Upraveno\n")
+
+    def test_zen_suggestions_indicator(self) -> None:
+        """Suggestions are counted per string, the count toggles them."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Zen suggestions indicator", slug="zen-suggestions-indicator"
+        )
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        first, _ = Suggestion.objects.add(unit, ["Nazdar svete!\n"], None, user=user)
+        assert first is not None
+        Suggestion.objects.add(unit, ["Ahoj svete!\n"], None, user=user)
+
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{zen_url}?{urlencode({'q': 'has:suggestion'})}"
+            )
+        # Start from the default visibility regardless of earlier tests
+        self.driver.execute_script("localStorage.removeItem('zen-suggestions');")
+        with self.wait_for_page_load():
+            self.driver.refresh()
+
+        row_selector = f"#row-suggestions-{unit.checksum}"
+        indicator_selector = f"#row-status-{unit.checksum} .zen-suggestions-indicator"
+
+        def indicator() -> WebElement:
+            return self.driver.find_element(By.CSS_SELECTOR, indicator_selector)
+
+        def indicator_count() -> str | None:
+            return (
+                indicator()
+                .find_element(By.CSS_SELECTOR, ".zen-suggestions-count")
+                .get_attribute("textContent")
+            )
+
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator_count(), "2")
+        self.assertEqual(indicator().get_attribute("title"), "2 suggestions")
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "false")
+
+        # Clicking it shows the suggestions and moves to those of the string
+        indicator().click()
+        self.assertTrue(
+            self.driver.find_element(By.CSS_SELECTOR, row_selector).is_displayed()
+        )
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "true")
+        self.assertEqual(
+            self.driver.switch_to.active_element,
+            self.driver.find_element(By.ID, f"suggestions-{unit.checksum}"),
+        )
+        self.assertEqual(
+            self.driver.find_element(By.ID, "zen-toggle-suggestions").get_attribute(
+                "aria-label"
+            ),
+            "Hide suggestions",
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "shown",
+        )
+
+        # Clicking it again hides them
+        indicator().click()
+        self.assertFalse(
+            self.driver.find_element(By.CSS_SELECTOR, row_selector).is_displayed()
+        )
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "false")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "hidden",
+        )
+        indicator().click()
+
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until(lambda _driver: indicator_count() == "1")
+        self.assertEqual(indicator().get_attribute("title"), "1 suggestion")
+
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until_not(
+            presence_of_element_located((By.CSS_SELECTOR, indicator_selector))
         )
 
     def test_search_preview_scopes_boolean_query(self) -> None:

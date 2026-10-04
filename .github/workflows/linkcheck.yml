@@ -6,12 +6,9 @@ name: Linkcheck
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
     paths:
     - docs/**.rst
     - .github/workflows/linkcheck.yml
@@ -41,13 +38,19 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
       run: uv sync --only-group docs --frozen
+    - name: Restore intersphinx inventories
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: docs/_build/intersphinx
+        key: intersphinx-v1-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: intersphinx-v1-
     - name: Sphinx linkcheck
       run: |
         . .venv/bin/activate

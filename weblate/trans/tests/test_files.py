@@ -56,8 +56,6 @@ from weblate.utils.state import STATE_READONLY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
 TEST_PO = get_test_file("cs.po")
@@ -1413,17 +1411,7 @@ class ImportSourceTest(ImportBaseTest):
             translation.change_set.filter(action=ActionEvents.SOURCE_UPLOAD).exists()
         )
 
-        def run_on_commit(
-            callback: Callable[[], object], *args: object, **kwargs: object
-        ) -> object:
-            del args, kwargs
-            return callback()
-
-        with patch(
-            "django.db.transaction.on_commit",
-            side_effect=run_on_commit,
-        ):
-            response = self.do_import(method="source", follow=True)
+        response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
         messages = list(response.context["messages"])
         self.assertIn(self.expected, messages[0].message)
@@ -1482,6 +1470,98 @@ class ImportSourceTest(ImportBaseTest):
             "#~ msgid",
             get_optional_path(translation.get_filename()).read_text(encoding="utf-8"),
         )
+
+
+class ImportSourceCountTest(ImportBaseTest):
+    test_file = TEST_POT_CHARSET
+
+    def assert_import_commits_only_updated_files(self) -> None:
+        repository = self.component.repository
+        unrelated = Path(self.component.full_path) / "unrelated.txt"
+        unrelated.write_text("Unrelated change", encoding="utf-8")
+        previous_revision = repository.last_revision
+
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.source_translation.handle_upload(
+                self.get_request(), handle, "", method="source"
+            )
+
+        self.assertNotEqual(repository.last_revision, previous_revision)
+        self.assertTrue(repository.needs_commit([str(unrelated)]))
+        for translation in self.component.translation_set.exclude(
+            language=self.component.source_language
+        ):
+            self.assertFalse(repository.needs_commit(translation.filenames))
+            self.assertEqual(translation.unit_set.count(), 3)
+        self.assertEqual(self.component.source_translation.unit_set.count(), 3)
+
+    def test_import_commits_only_updated_files(self) -> None:
+        self.assert_import_commits_only_updated_files()
+
+    def test_import_commits_new_base(self) -> None:
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_base"])
+
+        self.assert_import_commits_only_updated_files()
+
+        filename = self.component.get_new_base_filename()
+        assert filename is not None
+        self.assertFalse(self.component.repository.needs_commit([filename]))
+        self.assertEqual(Path(filename).read_bytes(), Path(self.test_file).read_bytes())
+
+    def test_import_count_before_cleanup(self) -> None:
+        source = self.component.source_translation
+        self.assertEqual(source.unit_set.count(), 4)
+
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            result = source.handle_upload(
+                self.get_request(), handle, "", method="source"
+            )
+            self.assertEqual(result, (0, 0, 3, 3))
+            self.assertEqual(source.unit_set.count(), 4)
+            self.assertEqual(
+                source.change_set.get(action=ActionEvents.FILE_UPLOAD).details,
+                {
+                    "method": "source",
+                    "not_found": 0,
+                    "skipped": 0,
+                    "accepted": 3,
+                    "total": 3,
+                },
+            )
+
+        self.assertEqual(source.unit_set.count(), 3)
+
+    def test_import_ignore_language(self) -> None:
+        source = self.component.source_translation
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+            patch.object(source, "validate_upload_language") as validate_language,
+        ):
+            result = source.handle_upload(
+                self.get_request(), handle, "", method="source", ignore_language=True
+            )
+
+        self.assertEqual(result, (0, 0, 3, 3))
+        validate_language.assert_not_called()
+        self.assertEqual(source.unit_set.count(), 3)
+
+    def test_import_ignore_language_keeps_parse_validation(self) -> None:
+        with self.assertRaises(FileParseError):
+            self.component.source_translation.handle_upload(
+                self.get_request(),
+                NamedBytesIO("test.pot", b"not a PO file"),
+                "",
+                method="source",
+                ignore_language=True,
+            )
 
 
 class ImportAddTest(ImportBaseTest):
@@ -1695,6 +1775,22 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
         )
         self.assert_zip(response, "test-test-cs.csv")
+
+    def test_project_mo_skips_incompatible_translations(self) -> None:
+        self.create_appstore(project=self.project, name="Metadata")
+
+        response = self.client.get(
+            reverse("download", kwargs={"path": self.project.get_url_path()}),
+            {"format": "zip:mo"},
+        )
+
+        with ZipFile(BytesIO(response.content)) as archive:
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("test-test-cs.mo", archive.namelist())
+            self.assertEqual(
+                archive.read("test-metadata-cs.mo.skipped"),
+                b"File format is not compatible with this translation",
+            )
 
     def test_component_with_exporter_disabled(self) -> None:
         # omit CSV exporter

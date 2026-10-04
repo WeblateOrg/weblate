@@ -117,14 +117,26 @@ class ProjectLanguageFactory(UserDict):
 
         pending = {instance.language.id: instance for instance in instances}
 
-        for setting in WorkflowSetting.objects.filter(
-            Q(project=None) | Q(project=self._project),
-            language__in=[instance.language for instance in instances],
-        ).order_by(F("project").desc(nulls_last=True)):
+        source_languages = set()
+        for setting in (
+            WorkflowSetting.objects.filter(
+                Q(project=self._project)
+                | Q(
+                    project=None,
+                    language__in=[instance.language for instance in instances],
+                ),
+            )
+            .select_related("source_language")
+            .order_by(F("project").desc(nulls_last=True))
+        ):
+            if setting.project_id and setting.source_language_id:
+                source_languages.add(setting.source_language_id)
             if setting.language_id not in pending:
                 continue
             pending[setting.language_id].__dict__["workflow_settings"] = setting
             del pending[setting.language_id]
+
+        self._project.cache_translation_parent_language_ids(source_languages)
 
         # Indicate that there is no setting
         for instance in pending.values():
@@ -134,6 +146,18 @@ class ProjectLanguageFactory(UserDict):
 class ProjectQuerySet(QuerySet["Project", "Project"]):
     def order(self) -> Self:
         return self.order_by("name")
+
+    def publicly_shared(self) -> Self:
+        """Return projects whose sharing pages are publicly accessible."""
+        return self.filter(
+            Q(
+                access_control__in=(
+                    Project.ACCESS_PUBLIC,
+                    Project.ACCESS_PROTECTED,
+                )
+            )
+            | Q(public_sharing=True)
+        )
 
     def only(self, *fields: str) -> Self:
         only_fields = set(fields)
@@ -156,14 +180,18 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
     def prefetch_languages(self) -> Self:
         # Bitmap for languages
         language_map = set(
-            self.values_list("id", "component__translation__language_id").distinct()
+            self.values_list("id", "component__translation__language_id").union(
+                self.values_list("id", "shared_components__translation__language_id")
+            )
         )
         # All used languages
-        languages = (
-            Language.objects.filter(translation__component__project__in=self)
-            .order()
-            .distinct()
-        )
+        languages = Language.objects.filter(
+            id__in={
+                language_id
+                for _, language_id in language_map
+                if language_id is not None
+            }
+        ).order()
 
         # Prefetch languages attribute
         for project in self:
@@ -326,7 +354,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=False,
         help_text=gettext_lazy(
             "Allows anonymous access to the engage pages and status widgets "
-            "for Private and Custom projects."
+            "for Private and Custom projects. Public and Protected projects "
+            "are always publicly shared regardless of this setting."
         ),
     )
 
@@ -1365,6 +1394,38 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def source_language_cache_key(self) -> str:
         return f"project-source-language-ids-{self.pk}"
 
+    _translation_parent_cache_generation: ClassVar[int] = 0
+
+    @classmethod
+    def invalidate_translation_parent_cache(cls) -> None:
+        """Invalidate live project instances after a local workflow change."""
+        cls._translation_parent_cache_generation += 1
+
+    def cache_translation_parent_language_ids(self, language_ids: set[int]) -> None:
+        self.__dict__["_translation_parent_language_ids"] = (
+            self._translation_parent_cache_generation,
+            language_ids,
+        )
+
+    @property
+    def translation_parent_language_ids(self) -> set[int]:
+        """Languages whose edits can affect custom translation dependencies."""
+        from weblate.trans.models.source import current_source_workflows  # ruff: ignore[import-outside-top-level]
+
+        workflows = current_source_workflows(self.pk, using=self._state.db or "default")
+        if workflows is not None:
+            return set(workflows.values())
+        cached = self.__dict__.get("_translation_parent_language_ids")
+        if cached is None or cached[0] != self._translation_parent_cache_generation:
+            language_ids = set(
+                self.workflowsetting_set.exclude(source_language=None).values_list(
+                    "source_language_id", flat=True
+                )
+            )
+            self.cache_translation_parent_language_ids(language_ids)
+            return language_ids
+        return cached[1]
+
     def get_glossary_tsv_cache_key(
         self, source_language: Language, language: Language
     ) -> str:
@@ -1449,7 +1510,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         tsv_cache_keys = [
             self.get_glossary_tsv_cache_key(source_language, language)
             for source_language in Language.objects.filter(
-                component__project=self
+                Q(component__project=self) | Q(source_workflow_settings__project=self)
             ).distinct()
             for language in self.languages
         ]

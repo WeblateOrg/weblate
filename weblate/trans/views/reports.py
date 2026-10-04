@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.translator_analysis import analyze_translator_work
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.celery import store_task_metadata
@@ -324,7 +325,7 @@ def get_match_quality(unit: Unit) -> int:
 def add_unit_to_bucket(bucket: dict[str, Any], unit: Unit) -> None:
     bucket["count"] += 1
     bucket["words"] += unit.num_words
-    bucket["chars"] += len(unit.source)
+    bucket["chars"] += len(unit.effective_source)
 
 
 def process_cost_estimate_matches(
@@ -410,7 +411,7 @@ def generate_cost_estimate(
         "threshold": tm_threshold,
         "buckets": [buckets[bucket] for bucket, _rate_field in COST_BUCKETS],
     }
-    seen_sources: set[tuple[int, int, int]] = set()
+    seen_sources: set[tuple] = set()
     match_batches: dict[tuple[int, int, int], list[Unit]] = defaultdict(list)
     service = WeblateMemory(
         {},
@@ -421,15 +422,27 @@ def generate_cost_estimate(
         get_cost_estimate_units(language_code, entity)
         .search(q, parser="unit")
         .prefetch()
+        .prefetch_source()
         .order()
         .iterator(chunk_size=1000)
     ):
         translation = unit.translation
-        component = translation.component
+        if unit.translation_parent_id or unit.missing_source_snapshot:
+            snapshot = unit.source_snapshot
+            source_language_id, source = snapshot.language_id, snapshot.text
+        else:
+            source_language_id = translation.component.source_language_id
+            source = unit.source
+        plural = unit.effective_source_plural
         key = (
-            component.source_language_id,
+            source_language_id,
             translation.language_id,
-            unit.id_hash,
+            source,
+            unit.context,
+            plural.number,
+            plural.formula,
+            plural.type,
+            unit.pk if unit.missing_source_snapshot else None,
         )
         if key in seen_sources:
             add_unit_to_bucket(buckets["repetition"], unit)
@@ -437,7 +450,7 @@ def generate_cost_estimate(
 
         seen_sources.add(key)
         match_key = (
-            component.source_language_id,
+            source_language_id,
             translation.language_id,
             translation.plural_id,
         )
@@ -723,21 +736,25 @@ def generate_counts(
         ActionEvents.APPROVE: "approve",
     }
 
-    base = Change.objects.content().filter(unit__isnull=False)
-    base = base.filter(author=user) if user else base.filter(author__isnull=False)
+    changes = Change.objects.content().filter(unit__isnull=False)
+    changes = (
+        changes.filter(author=user) if user else changes.filter(author__isnull=False)
+    )
     if language_code:
-        base = base.filter(language__code=language_code)
+        changes = changes.filter(language__code=language_code)
 
     category = kwargs.pop("category", None)
     workspace = kwargs.pop("workspace", None)
     if workspace is not None:
         kwargs["project__workspace"] = workspace
-    changes = base.filter(timestamp__range=(start_date, end_date), **kwargs)
+    changes = changes.filter(timestamp__range=(start_date, end_date), **kwargs)
     if category is not None:
         changes = changes.for_category(category)
     if counting_mode == CountsReportsForm.COUNTING_MODE_UNIQUE:
         changes = changes.order_by("-timestamp", "-pk")
-    changes = changes.prefetch_related("author", "language", "unit")
+    changes = changes.prefetch_related(
+        "author", "language", "unit__translation__component__source_language"
+    )
     seen_changes = set()
     for change in changes:
         author = change.author
@@ -765,8 +782,14 @@ def generate_counts(
                 continue
             seen_changes.add(deduplicated_key)
 
-        src_chars = len(unit.source)
-        src_words = unit.num_words
+        if change.details.get("source_snapshot"):
+            snapshot = SourceSnapshot.from_dict(change.details["source_snapshot"])
+            src_chars = len(snapshot.text)
+            src_words = count_words(snapshot.text, snapshot.language)
+        else:
+            source = change.details.get("source", unit.source)
+            src_chars = len(source)
+            src_words = count_words(source, unit.translation.component.source_language)
         tgt_chars = len(change.target)
         tgt_words = count_words(change.target, change.language)
         edits = change.get_distance()

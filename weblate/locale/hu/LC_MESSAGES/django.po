@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2239,6 +2239,11 @@ msgstr "Fájlonként"
 msgid "Per author"
 msgstr "Szerzőnként"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Nyelvenként"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Trailer (záró) sorok hozzáfűzése az összevont véglegesítési üzenethez"
 
@@ -3229,6 +3234,14 @@ msgstr "Egy felhasználó ezzel a felhasználónévvel már létezik."
 msgid "Cannot change this on a scoped team."
 msgstr "Ezt nem lehet megváltoztatni egy beépített csapatnál."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Örökölt jelzők"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Nincs jogosultsága az összetevőhöz való hozzáféréshez."
 
@@ -3289,6 +3302,9 @@ msgstr "A fordítási szöveg túl hosszú!"
 
 msgid "Your suggestion already exists!"
 msgstr "A javaslata már létezik!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "Weblate REST API"
@@ -6230,6 +6246,9 @@ msgstr "Metaadatfájlokkal rendelkező könyvtárnak kell lennie!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "App Store-metaadatfájlok"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9278,9 +9297,14 @@ msgstr ""
 "Ezen tárolón belüli összetevőkből származó Weblate véglegesítések össze "
 "lesznek vonva."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Az eredeti véglegesítésüzenet meg lesz tartva, de a szerzősége elveszik, "
 "hacsak a „Szerzőnként” ki nincs választva, vagy a véglegesítésüzenet "
@@ -9536,14 +9560,10 @@ msgstr "Nem érhető el"
 msgid "No invoices found."
 msgstr "Nem találhatók számlák."
 
-msgid "Event details"
-msgstr "Esemény részletei"
-
-msgid "Actions"
-msgstr "Műveletek"
-
-msgid "Download"
-msgstr "Letöltés"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Részletek megtekintése"
 
 msgid "Libre hosting"
 msgstr "Szabad szoftveres tárhelyszolgáltatás"
@@ -9580,6 +9600,25 @@ msgstr "Jelenleg nincsenek projektek hozzárendelve!"
 
 msgid "View"
 msgstr "Megtekintés"
+
+msgid "Event details"
+msgstr "Esemény részletei"
+
+msgid "Actions"
+msgstr "Műveletek"
+
+msgid "Download"
+msgstr "Letöltés"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Nem találhatók megfelelő szövegek."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Tároló előkészítése"
 
 msgid "Confirm merge"
 msgstr "Összefésülés megerősítése"
@@ -12145,6 +12184,11 @@ msgstr "Címkézett forrásszövegek"
 msgid "Add label"
 msgstr "Címke hozzáadása"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Fordítások letöltése CSV-formátumban ZIP-fájlban"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "%(team)s kezelése"
@@ -12386,6 +12430,16 @@ msgstr "szövegek"
 msgid "words"
 msgstr "szavak"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Szövegek tömeges szerkesztése"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Nincsenek lefordítandó szövegek"
+
 msgid "No matching strings found."
 msgstr "Nem találhatók megfelelő szövegek."
 
@@ -12490,10 +12544,23 @@ msgstr ""
 "Ezt néhány számlázás esedékességének lejárata vagy a korlátok elérése "
 "okozhatja."
 
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all strings on this page"
+msgstr "Címkézett forrásszövegek"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Szerkesztésre megjelölt szövegek"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Megváltoztathatja egyszerre egy adott típusra illeszkedő összes szöveg "
 "állapotát."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Fordításminőség szűrő"
@@ -12667,6 +12734,16 @@ msgstr "A tároló URL a vágólapra másolva."
 
 msgid "Repository branch"
 msgstr "Tároló ág"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea beolvasztási kérés"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "A tároló URL a vágólapra másolva."
 
 msgid "Last remote commit"
 msgstr "Utolsó távoli véglegesítés"
@@ -13026,6 +13103,11 @@ msgstr "Fordítás létrehozása"
 
 msgid "Cannot add translation right now"
 msgstr "Most nem lehet fordítást hozzáadni"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Forrásnyelv"
 
 msgid "Customized workflow"
 msgstr "Személyre szabott munkafolyamat"
@@ -14413,18 +14495,23 @@ msgstr "A következő fordítások lesznek eltávolítva:"
 msgid "Project language to remove"
 msgstr "Eltávolítandó projektnyelv"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ezt a műveletet nem lehet visszavonni. Ez véglegesen törli a(z) %(object)s "
 "kategóriát és az összes kapcsolódó tartalmat."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14436,19 +14523,37 @@ msgstr "A következő fordítási kategóriák lesznek eltávolítva:"
 msgid "Project to remove"
 msgstr "Eltávolítandó projekt"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ezt a műveletet nem lehet visszavonni. Ez véglegesen törli a(z) %(object)s "
 "összetevőt és az összes kapcsolódó tartalmat."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Eltávolítandó összetevő"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Tisztában vagyok a következményekkel, törölje ezt a fordítást"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Ezt a műveletet nem lehet visszavonni. Ez véglegesen törli a(z) %(object)s "
+"kategóriát és az összes kapcsolódó tartalmat."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14712,6 +14817,11 @@ msgstr "Köztes nyelv"
 
 msgid "Explanation"
 msgstr "Magyarázat"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Probléma jelentése a forrásszöveggel kapcsolatban"
@@ -15621,6 +15731,11 @@ msgstr "Szerkesztés egyetlen szöveges módban"
 
 msgid "Exit Zen"
 msgstr "Kilépés a Zen módból"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Javaslatok"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16968,6 +17083,11 @@ msgid "State: %(state)s"
 msgstr "Állapot: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Előző szakasz"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Javaslatok szavazása"
@@ -18083,6 +18203,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nincs jogosultsága terminológia létrehozásához."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Érvénytelen javaslat!"
+
 msgid "State to set"
 msgstr "Beállítandó állapot"
 
@@ -18123,6 +18248,9 @@ msgstr "Az összes nyelvhez"
 msgid "Labels to remove — all languages"
 msgstr "Eltávolítandó címkék"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Elfogadom a közreműködői licencmegállapodást"
 
@@ -18141,8 +18269,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Van néhány riasztás ezen az összetevőn"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -18152,6 +18281,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Írja be a projekt keresőbarát URL-jét a megerősítéshez."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -18357,6 +18492,22 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "További, vesszővel elválasztott jelzők a Weblate viselkedésének "
 "befolyásolásához."
+
+msgid "Enforced checks"
+msgstr "Kényszerített ellenőrzések"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Azon ellenőrzések listája, amelyeket nem lehet elvetni."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Nem használt kényszerített ellenőrzések."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Ugrás az aktuális keresés utolsó fordításához."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18643,6 +18794,27 @@ msgstr ""
 "hogy érdemes kiszűrnie a szülőkönyvtárat a {{filename|parentdir}} "
 "használatával."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Lefordítandó tárolóág"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Hivatkozás a tárolóböngészőre. A {{branch}} használatával hivatkozhat ágra, "
+"{{filename}} és {{line}} helykitöltőkkel pedig fájlnévre és sorra. Lehet, "
+"hogy érdemes kiszűrnie a szülőkönyvtárat a {{filename|parentdir}} "
+"használatával."
+
 msgid "Exported repository URL"
 msgstr "Exportált tároló URL"
 
@@ -18783,11 +18955,8 @@ msgstr ""
 "Ennyi szavazat esetén a javaslatok automatikus elfogadása. Használjon 0 "
 "értéket a kikapcsoláshoz."
 
-msgid "Enforced checks"
-msgstr "Kényszerített ellenőrzések"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Azon ellenőrzések listája, amelyeket nem lehet elvetni."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -19497,6 +19666,11 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Nem használt kényszerített ellenőrzések."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "A fordítás a háttérben lesz frissítve."
@@ -19791,6 +19965,11 @@ msgstr "Megjelölés szakkifejezésként"
 msgid "Unmark as terminology for all languages"
 msgstr "Szakkifejezésként való megjelölés megszüntetése"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19798,6 +19977,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Írja be a projekt keresőbarát URL-jét a megerősítéshez."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "A megadott nyelv már létezik."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "A projektben vagy összetevőben meghatározott másodlagos nyelv"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "A felhasználó tiltva lett ennél a projektnél."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Forrásnyelv szövege"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20182,6 +20387,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Nem sikerült feldolgozni a jelzőket: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Kényszerített ellenőrzések"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Nem használt kényszerített ellenőrzések."
 
 #, python-format
 msgid ""

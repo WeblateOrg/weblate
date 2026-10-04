@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:15+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2306,6 +2306,11 @@ msgstr "Файл буйынса"
 msgid "Per author"
 msgstr "Автор буйынса"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Тел буйынса"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Берләштерелгән коммит хәбәренә трейлерҙар өҫтәргә"
 
@@ -3271,6 +3276,14 @@ msgstr "Был ҡулланыусы исеме менән ҡулланыусы �
 msgid "Cannot change this on a scoped team."
 msgstr "Быны эске командала үҙгәртеп булмай."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Мираҫ итеп алынған флагтар"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Был компонентҡа инергә хоҡуғығыҙ юҡ."
 
@@ -3332,6 +3345,9 @@ msgstr "Тәржемә тексы бигерәк оҙон!"
 
 msgid "Your suggestion already exists!"
 msgstr "Һеҙҙең тәҡдим бар инде!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "Weblate-тың REST API-һы"
@@ -6309,6 +6325,9 @@ msgstr "Мета데이터 файлдары булған каталог булы�
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Ҡушымталар магазинының мета데이터 файлдары"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9343,9 +9362,14 @@ msgstr ""
 "Был репозиторий эсендәге компоненттарҙан яһалған Weblate коммиттары "
 "берләштереләсәк."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Оригинал коммит хәбәрҙәре һаҡлана, ләкин \"Автор буйынса\" һайланмаһа йәки "
 "коммит хәбәре уны индереү өсөн көйләнмәһә, авторлыҡ юғала."
@@ -9614,14 +9638,8 @@ msgstr "Иҫәп-фактуралар табылманы."
 
 #, fuzzy
 #| msgid "View details"
-msgid "Event details"
+msgid "View all"
 msgstr "Ентеклерәк ҡарарға"
-
-msgid "Actions"
-msgstr "Ғәмәлдәр"
-
-msgid "Download"
-msgstr "Күсереп алырға"
 
 msgid "Libre hosting"
 msgstr "Ирекле хостинг"
@@ -9658,6 +9676,27 @@ msgstr "Әлеге ваҡытта билдәләнгән проекттар юҡ
 
 msgid "View"
 msgstr "Ҡарарға"
+
+#, fuzzy
+#| msgid "View details"
+msgid "Event details"
+msgstr "Ентеклерәк ҡарарға"
+
+msgid "Actions"
+msgstr "Ғәмәлдәр"
+
+msgid "Download"
+msgstr "Күсереп алырға"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Тап килгән юлдар табылманы."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Репозиторийҙы башлау"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -12214,6 +12253,11 @@ msgid "Add label"
 msgstr "Билдә өҫтәргә"
 
 #, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Тәржемәләрҙе ZIP-файл эсендә CSV итеп күсереп алырға"
+
+#, fuzzy, python-format
 #| msgid "Manage teams"
 msgid "Manage %(team)s"
 msgstr "Командалар менән идара итергә"
@@ -12455,6 +12499,16 @@ msgstr "юл"
 msgid "words"
 msgstr "һүҙ"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Юлдарҙы үҙгәртергә"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Тәржемә итергә юлдар юҡ"
+
 msgid "No matching strings found."
 msgstr "Тап килгән юлдар табылманы."
 
@@ -12558,9 +12612,22 @@ msgstr ""
 "Был ҡайһы бер түләүҙәрегеҙҙең ваҡыты үтеүе йәки лимиттарҙы ашыуы арҡаһында "
 "булыуы мөмкин."
 
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all strings on this page"
+msgstr "Билдәләнгән сығанаҡ юлдар"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Үҙгәртеү өсөн билдәләнгән юлдар"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Күрһәтелгән төргә тап килгән бөтә юлдарҙың торошон бер юлы үҙгәртә алаһығыҙ."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
@@ -12732,6 +12799,16 @@ msgstr "Репозиторий URL-ы алмашыу буферына күсер
 
 msgid "Repository branch"
 msgstr "Репозиторий ботағы"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea pull-һорауы"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Репозиторий URL-ы алмашыу буферына күсерелде."
 
 msgid "Last remote commit"
 msgstr "Һуңғы тышҡы коммит"
@@ -13092,6 +13169,11 @@ msgstr "Тәржемә булдырырға"
 
 msgid "Cannot add translation right now"
 msgstr "Хәҙер тәржемә өҫтәп булмай"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Сығанаҡ тел"
 
 msgid "Customized workflow"
 msgstr "Көйләнгән эш ағымы"
@@ -14468,18 +14550,23 @@ msgstr "Түбәндәге тәржемәләр юйыласаҡ:"
 msgid "Project language to remove"
 msgstr "Юйыласаҡ проект теле"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Был ғәмәлде кире ҡайтарып булмай. Был %(object)s категорияһын һәм бөтә бәйле "
 "йөкмәткене мәңгегә юясаҡ."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14491,19 +14578,37 @@ msgstr "Түбәндәге тәржемә категориялары юйыла�
 msgid "Project to remove"
 msgstr "Юйыласаҡ проект"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Был ғәмәлде кире ҡайтарып булмай. Был %(object)s компонентын һәм бөтә бәйле "
 "йөкмәткене мәңгегә юясаҡ."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Юйыласаҡ компонент"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Мин эҙемтәләрҙе аңлайым, был тәржемәне юйырға"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Был ғәмәлде кире ҡайтарып булмай. Был %(object)s категорияһын һәм бөтә бәйле "
+"йөкмәткене мәңгегә юясаҡ."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14768,6 +14873,11 @@ msgstr "Аралаш тел"
 
 msgid "Explanation"
 msgstr "Аңлатма"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Сығанаҡ юл менән проблема тураһында хәбәр итергә"
@@ -15675,6 +15785,11 @@ msgstr "Бер юл режимында үҙгәртергә"
 
 msgid "Exit Zen"
 msgstr "Дзендән сығырға"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Тәҡдимдәр"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -17037,6 +17152,11 @@ msgid "State: %(state)s"
 msgstr "Торошо: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Алданғы бүлек"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Тәҡдимдәр өсөн тауыш биреү"
@@ -18131,6 +18251,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Терминология булдырырға хоҡуғығыҙ юҡ."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Дөрөҫ булмаған тәҡдим!"
+
 msgid "State to set"
 msgstr "Ҡуйыласаҡ торош"
 
@@ -18171,6 +18296,9 @@ msgstr "Бөтә телдәр өсөн"
 msgid "Labels to remove — all languages"
 msgstr "Юйыласаҡ билдәләр"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Мин ярҙамсының лицензия килешеүен ҡабул итәм"
 
@@ -18189,8 +18317,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Тейәлгән файлдан юлдар импортланманы."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -18200,6 +18329,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Раҫлау өсөн, зинһар, проекттың слагын яҙығыҙ."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -18401,6 +18536,24 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Weblate-тың үҙ-үҙен тотошона йоғонто яһау өсөн өтөр менән айырылған өҫтәмә "
 "флагтар."
+
+msgid "Enforced checks"
+msgstr "Мотлаҡ тикшереүҙәр"
+
+#, fuzzy
+#| msgid "List of checks which can not be ignored."
+msgid "List of checks which can not be dismissed."
+msgstr "Иғтибарһыҙ ҡалдырып булмаған тикшереүҙәр исемлеге."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Ҡулланылмаған мотлаҡ тикшереүҙәр."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Ағымдағы эҙләүҙәге һуңғы тәржемәгә күсергә."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18700,6 +18853,27 @@ msgstr ""
 "{{filename|parentdir}} ҡулланып, башланғыс каталогты алып ташларға "
 "теләрһегеҙ."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Тәржемә ителәсәк репозиторий ботағы"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Репозиторий ҡараусыға һылтанма, ботаҡ өсөн {{branch}}, файл исеме һәм юл "
+"өсөн {{filename}} һәм {{line}} алмаштырғыстарын ҡулланығыҙ. Һеҙ, бәлки, "
+"{{filename|parentdir}} ҡулланып, башланғыс каталогты алып ташларға "
+"теләрһегеҙ."
+
 msgid "Exported repository URL"
 msgstr "Экспортланған репозиторий URL-ы"
 
@@ -18842,13 +19016,8 @@ msgstr ""
 "Ошо һандағы тауыш менән тәҡдимдәрҙе автоматик ҡабул итергә, һүндереү өсөн 0 "
 "ҡулланығыҙ."
 
-msgid "Enforced checks"
-msgstr "Мотлаҡ тикшереүҙәр"
-
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
-msgid "List of checks which can not be dismissed."
-msgstr "Иғтибарһыҙ ҡалдырып булмаған тикшереүҙәр исемлеге."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -19509,6 +19678,11 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Ҡулланылмаған мотлаҡ тикшереүҙәр."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "Тәржемә фон режимында яңыртыласаҡ."
@@ -19797,6 +19971,11 @@ msgstr "Терминология тип билдәләргә"
 msgid "Unmark as terminology for all languages"
 msgstr "Терминология билдәһен алырға"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19804,6 +19983,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Раҫлау өсөн, зинһар, проекттың слагын яҙығыҙ."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Бирелгән тел бар инде."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Проектта йәки компонентта билдәләнгән икенсел тел"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Ҡулланыусы был проектта бикләнде."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Сығанаҡ тел тексы"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20185,6 +20390,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Флагтарҙы анализлап булманы: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Мотлаҡ тикшереүҙәр"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Ҡулланылмаған мотлаҡ тикшереүҙәр."
 
 #, python-format
 msgid ""

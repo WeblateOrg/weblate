@@ -231,7 +231,12 @@ class RepositoryTest(SimpleTestCase):
             ):
                 repository.finalize_backup_restore()
         execute.assert_called_once_with(
-            ["read-tree", "--reset", "HEAD"], remote_op="none"
+            ["read-tree", "--reset", "HEAD"],
+            remote_op="none",
+            environment={
+                "GIT_DIR": str(Path(repository.path) / ".git"),
+                "GIT_WORK_TREE": repository.path,
+            },
         )
 
     def make_stale_lock(self, lockfile: Path) -> None:
@@ -2677,6 +2682,23 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertTrue(self.repo.needs_commit())
         self.assertTrue(self.repo.needs_commit(["README.md"]))
         self.assertFalse(self.repo.needs_commit(["dummy"]))
+
+    def test_empty_commit_file_list(self) -> None:
+        with Path(self.tempdir, "README.md").open("a", encoding="utf-8") as handle:
+            handle.write("Unrelated change\n")
+        old_revision = self.repo.last_revision
+
+        with self.repo.lock:
+            self.assertFalse(self.repo.commit("Empty file list", files=[]))
+
+        self.assertEqual(self.repo.last_revision, old_revision)
+        self.assertFalse(self.repo.needs_commit([]))
+        self.assertTrue(self.repo.needs_commit())
+
+        with self.repo.lock:
+            self.assertTrue(self.repo.commit("Whole working tree", files=None))
+
+        self.assertNotEqual(self.repo.last_revision, old_revision)
 
     def check_valid_info(self, info) -> None:
         self.assertIn("summary", info)
@@ -5689,21 +5711,84 @@ class VCSLocalTest(VCSGitTest):
     def test_should_retry_popen(self) -> None:
         # This really belongs to the Git class, but we want to test it just once
         with tempfile.TemporaryDirectory() as tempdir_name:
-            tempdir = Path(tempdir_name)
+            tempdir = Path(tempdir_name) / "attacker"
             gitdir = tempdir / ".git"
+            tempdir.mkdir()
             gitdir.mkdir()
             lockfile = gitdir / "HEAD.lock"
             lockfile.touch()
             past_timestamp = time() - 7200
             utime(lockfile, (past_timestamp, past_timestamp))
+
+            # Remote commands without a checkout can not trigger cleanup.
             self.assertFalse(
                 self.repo.should_retry_popen(f"""
-fatal: cannot lock ref 'HEAD': Unable to create '/nonexisting/{lockfile}': File exists.
+fatal: cannot lock ref 'HEAD': Unable to create '{lockfile}': File exists.
 """)
             )
+            self.assertTrue(lockfile.exists())
+
+            victim = Path(tempdir_name) / "victim"
+            victim_gitdir = victim / ".git"
+            victim_gitdir.mkdir(parents=True)
+            victim_lock = victim / "Gemfile.lock"
+            victim_lock.touch()
+            utime(victim_lock, (past_timestamp, past_timestamp))
+            traversal_lock = victim_gitdir / ".." / victim_lock.name
+
+            # A path in another checkout remains outside the failed command scope.
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{traversal_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(victim_lock.exists())
+
+            symlink_lock = gitdir / "symlink.lock"
+            symlink_lock.symlink_to(victim_lock)
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{symlink_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(symlink_lock.is_symlink())
+            self.assertTrue(victim_lock.exists())
+
+            fresh_lock = gitdir / "fresh.lock"
+            fresh_lock.touch()
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{fresh_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(fresh_lock.exists())
+
+            raced_lock = gitdir / "raced.lock"
+            raced_lock.touch()
+            utime(raced_lock, (past_timestamp, past_timestamp))
+
+            def concurrent_unlink(path: Path, *, missing_ok: bool = False) -> None:
+                os.unlink(path)
+                if not missing_ok:
+                    raise FileNotFoundError(path)
+
+            with patch.object(
+                Path, "unlink", autospec=True, side_effect=concurrent_unlink
+            ):
+                self.assertTrue(
+                    self.repo.should_retry_popen(
+                        f"Unable to create '{raced_lock}': File exists",
+                        cwd=str(tempdir),
+                    )
+                )
+            self.assertFalse(raced_lock.exists())
 
             self.assertTrue(
-                self.repo.should_retry_popen(f"""
+                self.repo.should_retry_popen(
+                    f"""
 fatal: cannot lock ref 'HEAD': Unable to create '{lockfile}': File exists.
 
 Another git process seems to be running in this repository, e.g.
@@ -5711,8 +5796,11 @@ an editor opened by 'git commit'. Please make sure all processes
 are terminated then try again. If it still fails, a git process
 may have crashed in this repository earlier:
 remove the file manually to continue.
-""")
+""",
+                    cwd=str(tempdir),
+                )
             )
+            self.assertFalse(lockfile.exists())
 
     def test_from_zip_rejects_symlink_entry(self) -> None:
         archive = BytesIO()
@@ -5739,6 +5827,21 @@ remove the file manually to continue.
             LocalRepository.from_zip(target, archive)
         self.assertFalse(os.path.exists(target))
 
+    def test_from_zip_removes_repository_after_extraction_failure(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("translation.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-extraction-failure")
+
+        with (
+            patch("weblate.vcs.git.extract_zip_member", side_effect=OSError("failed")),
+            self.assertRaisesRegex(OSError, "failed"),
+        ):
+            LocalRepository.from_zip(target, archive)
+
+        self.assertFalse(os.path.exists(target))
+
     def test_from_zip_excludes_casefolded_vcs_metadata(self) -> None:
         metadata_paths = (
             ".svn/entries",
@@ -5763,6 +5866,8 @@ remove the file manually to continue.
             for path in metadata_paths:
                 zipfile.writestr(path, "metadata sentinel")
             zipfile.writestr(".GIT/config", "[casefold]\nsentinel = true\n")
+            zipfile.writestr(".git./config", "[ntfs-dot]\nsentinel = true\n")
+            zipfile.writestr(".git /config", "[ntfs-space]\nsentinel = true\n")
             zipfile.writestr(".HG/hgrc", "casefold sentinel")
             zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
         archive.seek(0)
@@ -5776,6 +5881,8 @@ remove the file manually to continue.
             "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
         )
         self.assertFalse((target / ".hg" / "hgrc").exists())
+        self.assertFalse((target / ".git." / "config").exists())
+        self.assertFalse((target / ".git " / "config").exists())
         for path in metadata_paths:
             with self.subTest(path=path):
                 self.assertFalse((target / path).exists())
@@ -5784,7 +5891,13 @@ remove the file manually to continue.
                 ["ls-tree", "-r", "--name-only", "HEAD"], remote_op="none"
             ).splitlines()
         self.assertIn("locale/cs.po", committed)
-        for path in (*metadata_paths, ".GIT/config", ".HG/hgrc"):
+        for path in (
+            *metadata_paths,
+            ".GIT/config",
+            ".git./config",
+            ".git /config",
+            ".HG/hgrc",
+        ):
             with self.subTest(path=path):
                 self.assertNotIn(path, committed)
 

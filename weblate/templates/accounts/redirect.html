@@ -17,7 +17,7 @@
 
     <div class="col-sm-6 col-xs-12 btn-auth">
       <a href=""
-         class="btn btn-link link-auto link-post"
+         class="btn btn-link link-auto link-post link-auth"
          data-href="{% url 'social:begin' backend %}"
          {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name backend %}</a>
     </div>

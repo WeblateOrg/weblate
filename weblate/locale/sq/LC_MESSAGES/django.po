@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2182,6 +2182,11 @@ msgstr "Për kartelë"
 msgid "Per author"
 msgstr "Për autor"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Për gjuhë"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3116,6 +3121,16 @@ msgstr "Në këtë hapësirë pune ka tashmë një ekip me atë emër."
 msgid "Cannot change this on a scoped team."
 msgstr ""
 
+#, fuzzy
+#| msgid "Inherit from %(scope)s"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Trashëgoje prej %(scope)s"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Zgjidhni ose një projekt, ose një hapësirë pune."
+
 msgid "You do not have permission to access this component."
 msgstr "S’keni leje të hyni te ky përbërës."
 
@@ -3175,6 +3190,11 @@ msgstr "Tekst përkthimi shumë i gjatë!"
 
 msgid "Your suggestion already exists!"
 msgstr "Sugjerimi juaj ekziston tashmë!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Zgjidhni ose një projekt, ose një hapësirë pune."
 
 msgid "Weblate's REST API"
 msgstr "API REST e Weblate-it"
@@ -5972,6 +5992,9 @@ msgstr "Duhet të jetë një drejtori me kartela tejtëdhënash!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Kartela tejtëdhënash shitoreje aplikacionesh"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8961,9 +8984,14 @@ msgstr ""
 "Depozitimet Weblate prej përbërësish brenda kësaj drejtorie do të ngjishen "
 "në një."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Mesazhe origjinale depozitimesh mbahen, por autorësia humb, veç në qoftë "
 "përzgjedhur “Për autor”, ose mesazhi i depozitimit është përshtatur për ta "
@@ -9217,14 +9245,10 @@ msgstr "Jo i passhëm"
 msgid "No invoices found."
 msgstr "S’u gjetën fatura."
 
-msgid "Event details"
-msgstr "Hollësi akti"
-
-msgid "Actions"
-msgstr "Veprime"
-
-msgid "Download"
-msgstr "Shkarkim"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Shihni hollësitë"
 
 msgid "Libre hosting"
 msgstr "Strehim Projektesh të Lirë"
@@ -9259,6 +9283,25 @@ msgstr "S’ka projekte të caktuar!"
 
 msgid "View"
 msgstr "Shiheni"
+
+msgid "Event details"
+msgstr "Hollësi akti"
+
+msgid "Actions"
+msgstr "Veprime"
+
+msgid "Download"
+msgstr "Shkarkim"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "S’u gjetën vargje me përputhje."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Gatitje depoje"
 
 msgid "Confirm merge"
 msgstr "Ripohoni përzierjen"
@@ -11781,6 +11824,11 @@ msgstr "Vargje burim të etiketuar"
 msgid "Add label"
 msgstr "Shtoni etiketë"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Shkarkojini përkthimet si CVS në një kartelë ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Administroni %(team)s"
@@ -12008,6 +12056,16 @@ msgstr "vargje"
 msgid "words"
 msgstr "fjalë"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Të përpunojë vargje në masë"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Pa vargje për përkthim"
+
 msgid "No matching strings found."
 msgstr "S’u gjetën vargje me përputhje."
 
@@ -12098,10 +12156,23 @@ msgstr ""
 "Kjo mund të shkaktohet nga ndonjë faturim i juaji të cilit i ka kaluar afati "
 "ose ka kaluar kufijtë."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Përzgjidhni krejt vargjet burim"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Vargje të shënuar për përpunim"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Mund të ndryshoni menjëherë gjendjen e krejt vargjeve që përputhen me një "
 "lloj të caktuar."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Filtër cilësie përkthimesh"
@@ -12273,6 +12344,16 @@ msgstr "URL-ja e depos u kopjua në të papastër."
 
 msgid "Repository branch"
 msgstr "Degë depoje"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Kërkesë pull në Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "URL-ja e depos u kopjua në të papastër."
 
 msgid "Last remote commit"
 msgstr "Depozitimi i fundit i largët"
@@ -12625,6 +12706,11 @@ msgstr "Krijoni përkthim"
 
 msgid "Cannot add translation right now"
 msgstr "S’mund të shtohet përkthim tani"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Gjuhë burimi"
 
 msgid "Customized workflow"
 msgstr "Rrjedhë pune e përshtatur"
@@ -13990,18 +14076,23 @@ msgstr "Përkthimet vijuese do të hiqen:"
 msgid "Project language to remove"
 msgstr "Gjuhë projekti për t’u hequr"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë "
 "%(object)s dhe krejt lëndën e lidhur me të."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14013,19 +14104,37 @@ msgstr "Kategoritë vijuese të përkthimit do të hiqen:"
 msgid "Project to remove"
 msgstr "Projekt për t’u hequr"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë përbërësin "
 "%(object)s dhe krejt lëndën e lidhur me të."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Përbërës për t’u hequr"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "I kuptoj pasojat, fshijeni këtë përkthim"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Ky veprim s’mund të zhbëhet. Kjo do të fshijë përgjithmonë kategorinë "
+"%(object)s dhe krejt lëndën e lidhur me të."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14285,6 +14394,11 @@ msgstr "Gjuhë ndërmjetëse"
 
 msgid "Explanation"
 msgstr "Shpjegim"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Njoftoni problem me vargun burim"
@@ -15180,6 +15294,11 @@ msgstr "Përpunojeni nën mënyrën njëshe"
 
 msgid "Exit Zen"
 msgstr "Dil nga Zen-i"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Sugjerime"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16459,6 +16578,11 @@ msgstr "Përkthimi i mëparshëm"
 msgid "State: %(state)s"
 msgstr "Gjendje: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Ndarja e mëparshme"
+
 msgid "Suggestions pending"
 msgstr "Sugjerime pezull"
 
@@ -17505,6 +17629,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "S’keni leje për krijim terminologjie."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Sugjerim: i pavlefshëm!"
+
 msgid "State to set"
 msgstr "Gjendje për t’u caktuar"
 
@@ -17545,6 +17674,9 @@ msgstr "Për krejt gjuhët"
 msgid "Labels to remove — all languages"
 msgstr "Etiketa për heqje"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "E pranoj marrëveshjen e licencës për kontribuesit"
 
@@ -17564,8 +17696,9 @@ msgid "Delete translation memory created from this component"
 msgstr "S’u gjetën përkthime për këtë maskë kartelash përbërësi."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -17576,6 +17709,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Ju lutemi, që ta ripohoni, shtypni identifikuesin e projektit."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -17776,6 +17915,24 @@ msgstr "Flamurka përkthimi"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Flamurka shtesë, ndarë me presje, për të ndikuar sjelljen e Weblate."
+
+msgid "Enforced checks"
+msgstr "Kontrolle me detyrim"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Listë kontrollesh që s’mund të hidhen tej."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Kontrolle me detyrim të papërdorur."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Përdorni licencën e përkthimit të formësuar te kategoria apo projekti mëmë."
 
 msgid "Inherit translation license"
 msgstr "Trashëgo licencë përkthimi"
@@ -18041,6 +18198,26 @@ msgstr ""
 "{{filename}} dhe {{line}} për emër kartele dhe rresht. Mund të doni të lini "
 "jashtë drejtorinë kryesuese, duke përdorur {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Degë depoje për përkthim"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Lidhje për shfletuesi i depos, si vendmbajtëse përdorni {{branch}} për degë, "
+"{{filename}} dhe {{line}} për emër kartele dhe rresht. Mund të doni të lini "
+"jashtë drejtorinë kryesuese, duke përdorur {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL depoje të eksportuar"
 
@@ -18178,11 +18355,10 @@ msgstr ""
 "Prano automatikisht sugjerime me këtë numër votash, përdorni 0 për ta "
 "çaktivizuar."
 
-msgid "Enforced checks"
-msgstr "Kontrolle me detyrim"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Listë kontrollesh që s’mund të hidhen tej."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Zgjidhni ose një projekt, ose një hapësirë pune."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "Përdor licencë përkthimesh të formësuar te kategoria apo projekti."
@@ -18891,6 +19067,11 @@ msgstr ""
 "Listë përshoqërimesh kodesh gjuhësh, ndarë me presje, për shembull: "
 "en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Kontrolle me detyrim të papërdorur."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Përdor licencë përkthimi të formësuar te hapësira e punës."
 
@@ -19166,6 +19347,11 @@ msgstr "Vëri shenjë si terminologji"
 msgid "Unmark as terminology for all languages"
 msgstr "Hiqja shenjë si terminologji"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19173,6 +19359,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Ju lutemi, që ta ripohoni, shtypni identifikuesin e projektit."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Gjuha e dhënë ekziston tashmë."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Gjuhë dytësore e përkufizuar në projekt ose përbërës"
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Përdoruesi s’është bllokuar te ky projekt."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Tekst në gjuhën burim"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -19532,6 +19744,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "S’u arrit të përtypeshin flamurka: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Kontrolle me detyrim"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Kontrolle me detyrim të papërdorur."
 
 #, python-format
 msgid ""

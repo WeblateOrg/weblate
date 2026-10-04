@@ -181,6 +181,9 @@ class FilenameTest(SimpleTestCase):
         for path in (
             ".git/config",
             ".GIT/CONFIG",
+            ".git./config",
+            ".git /config",
+            ".git. /config",
             ".hg/hgrc",
         ):
             with self.subTest(path=path), self.assertRaises(ValidationError):
@@ -190,7 +193,9 @@ class FilenameTest(SimpleTestCase):
     def test_prohibited_subdir(self) -> None:
         for path in (
             "path/.git/config",
+            "path/.git./config",
             r"path\.Hg\hgrc",
+            "path\\.Hg \\hgrc",
         ):
             with self.subTest(path=path), self.assertRaises(ValidationError):
                 validate_filename(path)

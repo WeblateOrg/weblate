@@ -1,7 +1,42 @@
+Weblate 2026.10.1
+-----------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
+
+.. rubric:: Security fixes
+
+* Added restrictive cache controls to authenticated HTML responses to prevent previously viewed content from being restored after logout.
+* Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
+* Prevented sitemaps from disclosing restricted component and translation URLs.
+* Restricted stale Git lock cleanup to the repository running the failed command and prevented empty file lists from committing unrelated changes.
+* Prevented project backup imports from granting site-wide permissions through restored project teams.
+
+.. rubric:: Bug fixes
+
+* Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.10.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/176?closed=1>`__.
+
 Weblate 2026.10
 ---------------
 
-*Not yet released.*
+*Released on October 1st 2026.*
 
 .. rubric:: New features
 
@@ -13,6 +48,7 @@ Weblate 2026.10
 * Added language-specific :ref:`string flags <additional-flags>` to the editor, Tools menu, bulk editing, and REST API.
 * Added an inherited :ref:`language creation policy <workflow-language-restrictions>` that allows existing project target languages and requires approval for new ones.
 * Added a guided :ref:`first translation <translator-start>` and advice for :doc:`building a translators community <devel/community>`.
+* Added :ref:`custom source languages <workflow-source-language>` to project-language workflows.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
 * Added :ref:`component-mounted add-on APIs <component-addon-api>`.
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can now produce component-wide locale lists with native language names, text direction, and translation statistics.
@@ -25,6 +61,28 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Component configuration errors are reported before fetching the repository when repository files are not needed for validation.
+* Clarified that site-wide team management can grant access to private projects independently of the team manager's own project access.
+* Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
+
+* Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
+* :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
+
+* :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
+* Aligned :ref:`string search filters <search-strings>` with the status overview's order and colors, and added an :guilabel:`All strings` option to clear the query.
+* Added monthly instance activity to the :ref:`data sent with support integration <support-data>` for activity monitoring and discovery ranking.
+* Improved :ref:`repository maintenance <repository-maintenance>` with disabled push controls when push configuration is missing and direct links to component VCS settings.
+* The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, falling back to translated strings when reviews are disabled for the target language.
+* Added independent term alternatives and scoped metadata to :ref:`TBX glossaries <tbx>`, including metadata-preserving TBX exports.
+
+* Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+* Added a :ref:`font-monospace <custom-checks>` flag to display a string in the translation editor using a monospace font, useful for aligning command-line or terminal output.
+* History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
+* The units API now links to a unit's associated screenshots and supports listing, assigning, and removing them via :http:get:`/api/units/(int:id)/screenshots/`.
+* Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
+* Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
+* Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
+* The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` extraction add-ons now bundle common XML translation rules and support project-local ITS directories for extracting mixed source formats into a shared POT.
 * :ref:`Repository maintenance <repository-maintenance>` now links to the latest pull or merge request opened by Weblate.
 * The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
@@ -38,6 +96,7 @@ Weblate 2026.10
 * Clarified :ref:`translation quality filters <project-commit_policy>` and effective per-language review settings.
 * Improved :ref:`translation memory <translation-memory>` lookup performance and added match context to :ref:`automatic suggestions <machine-translation>`.
 * Reduced aggregation overhead for the :ref:`inconsistent translations check <check-inconsistent>` on large projects.
+* Moved related :ref:`quality check <checks>` updates to background tasks to avoid slow saves when many strings share a source or translation.
 * :ref:`check-md-link` quality check now detects untranslated link titles.
 * :ref:`Automatic translation <auto-translation>` across components now prefers matching source text and context. The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, or translated strings when reviews are disabled.
 * Improved checks, fixes, glossary matching, and machine translation for :ref:`multivalue alternatives <format-multivalue>`.
@@ -45,22 +104,31 @@ Weblate 2026.10
 * Added :ref:`component-push_on_update` to push only after committing translations, not after upstream updates.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` add-ons now support bundled XML rules and project-local ITS directories.
 * Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
+* Translation file uploads through the API accept form field content without a filename.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component, links to VCS settings, and disables unavailable push controls.
 * :ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 addresses in a staggered sequence and report failed addresses and ports.
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
+* :ref:`Suggestions <suggestions>` can be shown in the :ref:`zen-mode` and accepted, rejected, or voted on in place.
 * Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* :ref:`addon-weblate.git.squash` now supports squashing together per author and language.
 * The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 
+* Project administrators can no longer see blocked users' account e-mail addresses without site-wide user management permission.
+* Removed repositories created from rejected component ZIP and document uploads.
+* Prevented App Store metadata files from following symbolic links outside the component repository.
+* Protected translation reverts against cross-site request forgery.
+* Prevented client-supplied forwarded IP headers from bypassing anonymous API rate limits.
+* Prevented whitespace-only username searches from listing users through :http:get:`/api/users/`.
 * Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
-* Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
+* Enforced language-scoped screenshot permissions and restricted component access in translation consistency and direct automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
 * Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
@@ -68,6 +136,10 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* :ref:`Project backups <projectbackup>` now tolerate missing or damaged repositories and preserve available files and translation data during restore.
+* Project MO archive downloads now skip incompatible file formats without failing the download.
+* Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
+* Fixed :wladmin:`move_language` and automatic language alias updates to preserve language-specific settings and permission limits, and detect conflicting translations or settings before moving content.
 * Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
 * Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
@@ -85,6 +157,7 @@ Weblate 2026.10
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
+* Fixed switching between singular and plural forms when :ref:`adding new strings <adding-new-strings>`.
 
 .. rubric:: Compatibility
 
@@ -94,6 +167,7 @@ Weblate 2026.10
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
 * The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
+* Norwegian Bokmål now uses ``nb`` as its built-in language code while preserving ``nb_NO`` support, see :ref:`languages`.
 
 .. rubric:: Upgrading
 

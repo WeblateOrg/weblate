@@ -37,7 +37,7 @@ def translation_from_check(
     """Extract a translation unit, source and target from a Check Model."""
     unit = check_model.unit
     # Do not currently support plurals.
-    return (unit, unit.get_source_plurals()[0], unit.get_target_plurals()[0])
+    return (unit, unit.get_effective_source_plurals()[0], unit.get_target_plurals()[0])
 
 
 def format_html_code(

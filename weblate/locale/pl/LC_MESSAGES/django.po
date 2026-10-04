@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 06:57+0000\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"PO-Revision-Date: 2026-10-02 12:24+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -2147,6 +2147,9 @@ msgstr "Według pliku"
 msgid "Per author"
 msgstr "Według autora"
 
+msgid "Per author and language"
+msgstr "Według autora i języka"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Dołącz zakończenia do opisu zesquashowanego commita"
 
@@ -3013,6 +3016,13 @@ msgstr "Zespół o tej nazwie już istnieje w tym obszarze roboczym."
 msgid "Cannot change this on a scoped team."
 msgstr "Nie można tego zmienić w zespole o ustalonym zakresie."
 
+msgid "Inherit enforced checks from the workspace."
+msgstr "Dziedzicz wymuszone sprawdzenia z obszaru roboczego."
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+"Dziedzicz wymuszone sprawdzenia z projektu, kategorii lub obszaru roboczego."
+
 msgid "You do not have permission to access this component."
 msgstr "Nie masz uprawnień dostępu do tego komponentu."
 
@@ -3066,6 +3076,11 @@ msgstr "Zbyt długi tekst do tłumaczenia!"
 
 msgid "Your suggestion already exists!"
 msgstr "Twoja sugestia już istnieje!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
+"Dziedzicz wymuszone sprawdzenia z kategorii nadrzędnej, projektu lub obszaru "
+"roboczego."
 
 msgid "Weblate's REST API"
 msgstr "REST API Weblate"
@@ -4028,7 +4043,8 @@ msgstr "%(path)s: zakres wyzwalacza wymaga wyłącznie wyzwalaczy zmiany."
 
 #, python-format
 msgid "%(path)s: result scope requires an earlier action ID."
-msgstr "%(path)s: zakres wyniku wymaga wcześniejszego identyfikatora działania."
+msgstr ""
+"%(path)s: zakres wyniku wymaga wcześniejszego identyfikatora działania."
 
 #, python-format
 msgid "%(path)s: not requires exactly one condition."
@@ -5786,6 +5802,10 @@ msgstr "Powinien to być katalog z plikami metadanych!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Pliki metadanych sklepu z aplikacjami"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
+"W przypadku formatów opartych na katalogach wymagana jest walidacja plików."
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8767,11 +8787,12 @@ msgstr "Polecenia Weblate komponentów w tym repozytorium zostaną połączone."
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Oryginalne opisy commitów są zachowywane, ale autorstwo zostaje utracone, "
-"chyba że wybrano opcję „Na autora” lub dostosowano opis commita, aby go "
-"uwzględnić."
+"chyba że wybrano opcję „Na autora” lub „Według autora i języka” bądź "
+"dostosowano opis commita, aby go uwzględnić."
 
 msgid "HTTP Response"
 msgstr "Odpowiedź HTTP"
@@ -9012,14 +9033,8 @@ msgstr "Nie dostępne"
 msgid "No invoices found."
 msgstr "Nie znaleziono faktur."
 
-msgid "Event details"
-msgstr "Szczegóły zdarzenia"
-
-msgid "Actions"
-msgstr "Działania"
-
-msgid "Download"
-msgstr "Pobierz"
+msgid "View all"
+msgstr "Zobacz wszystko"
 
 msgid "Libre hosting"
 msgstr "Darmowy hosting"
@@ -9054,6 +9069,21 @@ msgstr "Brak aktualnie przydzielonych projektów!"
 
 msgid "View"
 msgstr "Zobacz"
+
+msgid "Event details"
+msgstr "Szczegóły zdarzenia"
+
+msgid "Actions"
+msgstr "Działania"
+
+msgid "Download"
+msgstr "Pobierz"
+
+msgid "No audit log entries found."
+msgstr "Nie znaleziono wpisów w dzienniku aktywności."
+
+msgid "Audit log pagination"
+msgstr "Stronicowanie dziennika aktywności"
 
 msgid "Confirm merge"
 msgstr "Potwierdź scalenie"
@@ -11535,6 +11565,10 @@ msgid "Add label"
 msgstr "Dodaj etykietę"
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Pobierz tłumaczenia jako %(format_name)s w pliku ZIP"
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr "Zarządzaj %(team)s"
 
@@ -11741,6 +11775,12 @@ msgstr "ciągi"
 msgid "words"
 msgstr "słowa"
 
+msgid "Bulk edit selected strings"
+msgstr "Edytuj wybrane ciągi zbiorczo"
+
+msgid "No strings selected"
+msgstr "Nie wybrano ciągów"
+
 msgid "No matching strings found."
 msgstr "Nie odnaleziono pasujących ciągów."
 
@@ -11832,9 +11872,18 @@ msgstr ""
 "Może to być spowodowane tym, że niektóre z Twoich rachunków są "
 "przeterminowane lub przekroczyły limity."
 
+msgid "Select all strings on this page"
+msgstr "Wybierz wszystkie ciągi na tej stronie"
+
+msgid "Select string for bulk edit"
+msgstr "Wybierz ciąg do edycji zbiorczej"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Możesz zmienić stan wszystkich ciągów pasujących do danego typu na raz."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr "Operacja jest stosowana do ciągów wybranych na powyższej liście."
 
 msgid "Translation quality filter"
 msgstr "Filtr jakości tłumaczeń"
@@ -11991,6 +12040,12 @@ msgstr "Adres URL repozytorium skopiowany do schowka."
 
 msgid "Repository branch"
 msgstr "Gałąź repozytorium"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request URL copied to clipboard."
+msgstr "Adres URL pull request skopiowany do schowka."
 
 msgid "Last remote commit"
 msgstr "Ostatni zdalny commit"
@@ -12345,6 +12400,10 @@ msgstr "Utwórz tłumaczenie"
 
 msgid "Cannot add translation right now"
 msgstr "Nie można teraz dodać tłumaczenia"
+
+#, python-format
+msgid "Source: %(language)s"
+msgstr "Źródło: %(language)s"
 
 msgid "Customized workflow"
 msgstr "Dostosowany przepływ pracy"
@@ -13457,7 +13516,7 @@ msgid "Please consider removing the component if it is no longer useful."
 msgstr "Rozważ usunięcie komponentu, jeśli nie jest już przydatny."
 
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Następujące wymuszone kontrole nie są nigdzie używane:"
+msgstr "Następujące wymuszone sprawdzenia nie są nigdzie używane:"
 
 #, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
@@ -13704,20 +13763,23 @@ msgstr "Język projektu do usunięcia"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Tego działania nie można cofnąć. Spowoduje to trwałe usunięcie %(object)s "
-"kategorii i wszystkich powiązanych treści."
+"Tego działania nie można cofnąć. Spowoduje ona trwałe usunięcie kategorii %"
+"(object)s oraz bezpośrednio powiązanych z nią treści. Kwestia pamięci "
+"tłumaczeniowej została ujęta oddzielnie poniżej."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
-"Jeśli to działanie spowoduje usunięcie ograniczonych komponentów, zachowana "
-"w nich pamięć tłumaczeniowa stanie się dostępna zgodnie z zasadami dostępu "
-"do pamięci tłumaczeniowej projektu i obszaru roboczego, chyba że ją również "
-"usuniesz."
+"Pamięć tłumaczeniowa jest domyślnie zachowywana. Jeśli ta kategoria zawiera "
+"elementy objęte ograniczeniami dostępu, zachowane w niej wpisy mogą stać się "
+"widoczne dla innych członków projektu lub obszaru roboczego. Wybierz "
+"poniższą opcję usuwania pamięci tłumaczeniowej, aby usunąć te wpisy."
 
 msgid "The following translation components will be removed:"
 msgstr "Następujące komponenty tłumaczeniowe zostaną usunięte:"
@@ -13731,16 +13793,36 @@ msgstr "Projekt do usunięcia"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
-"Tego działania nie można cofnąć. Spowoduje to trwałe usunięcie %(object)s i "
-"wszystkich powiązanych treści."
+"Tej czynności nie można cofnąć. Spowoduje ona trwałe usunięcie składnika %"
+"(object)s oraz bezpośrednio powiązanych z nim treści. Kwestia pamięci "
+"tłumaczeniowej została ujęta oddzielnie poniżej."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
+"Pamięć tłumaczeń jest domyślnie zachowywana. Jeśli dostęp do tego składnika "
+"jest ograniczony, zachowane wpisy mogą stać się widoczne dla innych członków "
+"projektu lub obszaru roboczego. Wybierz poniższą opcję usuwania pamięci "
+"tłumaczeń, aby usunąć te wpisy."
 
 msgid "Component to remove"
 msgstr "Komponent do usunięcia"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Rozumiem konsekwencje, usuń to tłumaczenie"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Tego działania nie można cofnąć. Spowoduje to trwałe usunięcie %(object)s "
+"kategorii i wszystkich powiązanych treści."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14010,6 +14092,13 @@ msgstr "Język pośredni"
 
 msgid "Explanation"
 msgstr "Objaśnienie"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
+"Brakuje skonfigurowanego ciągu źródłowego. Tłumaczenie jest zablokowane do "
+"momentu, gdy stanie się on dostępny."
 
 msgid "Report issue with the source string"
 msgstr "Zgłoś problem z ciągiem źródłowym"
@@ -14903,6 +14992,9 @@ msgstr "Edytuj w trybie pojedynczego ciągu"
 msgid "Exit Zen"
 msgstr "Zakończ tryb Zen"
 
+msgid "Show suggestions"
+msgstr "Pokaż sugestie"
+
 msgid "A translation file was synchronized with its repository."
 msgstr "Plik tłumaczenia został zsynchronizowany ze swoim repozytorium."
 
@@ -15347,11 +15439,11 @@ msgstr "Zakończono tłumaczenie komponentu"
 
 msgid "A translation was marked as needing editing by an enforced check."
 msgstr ""
-"Tłumaczenie zostało oznaczone jako wymagające edycji w wyniku wymuszonej "
-"kontroli."
+"Tłumaczenie zostało oznaczone jako wymagające edycji w wyniku wymuszonego "
+"sprawdzenia."
 
 msgid "Applied enforced check"
-msgstr "Zastosowano wymuszoną kontrolę"
+msgstr "Zastosowano wymuszone sprawdzenie"
 
 msgid "A translation edit was propagated to another matching string."
 msgstr "Edycja tłumaczenia została rozpropagowana do innego pasującego ciągu."
@@ -15635,7 +15727,7 @@ msgid "Does not meet Libre hosting conditions."
 msgstr "Nie spełnia warunków wolnego hostingu."
 
 msgid "Unused enforced checks."
-msgstr "Nieużywane wymuszone kontrole."
+msgstr "Nieużywane wymuszone sprawdzenia."
 
 msgid "Component seems unused."
 msgstr "Komponent wydaje się nieużywany."
@@ -15949,6 +16041,9 @@ msgstr "Poprzednie tłumaczenie"
 msgid "State: %(state)s"
 msgstr "Stan: %(state)s"
 
+msgid "Previous source"
+msgstr "Poprzednie źródło"
+
 msgid "Suggestions pending"
 msgstr "Sugestie oczekujące"
 
@@ -16239,8 +16334,8 @@ msgstr ""
 "Określa, czy elementy XML wbudowane w ciągi XLIFF są zachowywane jako "
 "obiekty do umieszczenia. W przypadku opcji „zwykły tekst” znaczniki XML są "
 "jedynie maskowane, a zawartość traktowana jest jak zwykły tekst. Gdy obsługa "
-"obiektów do umieszczenia jest włączona, znaczniki takie jak <x id=\"name\" \\"
-"=\"\"> czy </x>"
+"obiektów do umieszczenia jest włączona, znaczniki takie jak <x id=\"name\" "
+"\\=\"\"> czy </x>"
 
 msgid "FlatXML Root name"
 msgstr "Nazwa korzenia FlatXML"
@@ -16983,6 +17078,9 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nie masz uprawnienia do tworzenia terminologii."
 
+msgid "Invalid string selection!"
+msgstr "Nieprawidłowy wybór ciągu!"
+
 msgid "State to set"
 msgstr "Stan do ustawienia"
 
@@ -17013,6 +17111,9 @@ msgstr "Etykiety do dodania — wszystkie języki"
 msgid "Labels to remove — all languages"
 msgstr "Etykiety do usunięcia — wszystkie języki"
 
+msgid "Select strings to edit or enter a search query."
+msgstr "Wybierz ciągi do edycji lub wprowadź zapytanie wyszukiwania."
+
 msgid "I accept the contributor license agreement"
 msgstr "Akceptuję umowę licencyjną dla współtwórców"
 
@@ -17030,12 +17131,14 @@ msgid "Delete translation memory created from this component"
 msgstr "Usuń pamięć tłumaczeniową utworzoną z tego komponentu"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
-"Wpisy dotyczące projektu, obszaru roboczego i współdzielonej pamięci "
-"tłumaczeniowej zostaną usunięte. Wpisy osobiste i przesłane zostaną "
-"zachowane."
+"Zaznacz tę opcję, aby usunąć wpisy w pamięci tłumaczeniowej (projektowe, "
+"obszaru roboczego oraz współdzielone) utworzone na podstawie tego "
+"komponentu. Pozostawienie tej opcji niezaznaczonej spowoduje ich zachowanie. "
+"Wpisy osobiste oraz przesłane są zawsze zachowywane."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Wpisz pełną ścieżkę komponentu, aby potwierdzić."
@@ -17045,6 +17148,16 @@ msgstr "Wpisz końcówkę adresu URL projektu, aby potwierdzić."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Usuń pamięć tłumaczeniową utworzoną z komponentów w tej kategorii"
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Zaznacz tę opcję, aby usunąć wpisy w pamięci tłumaczeniowej (dotyczące "
+"projektu, obszaru roboczego i pamięci współdzielonej) utworzone na podstawie "
+"elementów z tej kategorii. Pozostawienie opcji niezaznaczonej spowoduje ich "
+"zachowanie. Wpisy osobiste oraz przesłane są zawsze zachowywane."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Wpisz końcówkę adresu URL kategorii, aby potwierdzić."
@@ -17245,6 +17358,20 @@ msgstr "Flagi tłumaczeń"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Dodatkowe flagi oddzielone przecinkami wpływające na zachowanie Weblate."
+
+msgid "Enforced checks"
+msgstr "Wymuszone sprawdzenia"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Lista sprawdzeń, których nie można odrzucić."
+
+msgid "Inherit enforced checks"
+msgstr "Dziedzicz wymuszone sprawdzenia"
+
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Użyj wymuszonych sprawdzeń z kategorii nadrzędnej, projektu lub obszaru "
+"roboczego."
 
 msgid "Inherit translation license"
 msgstr "Dziedzicz licencję tłumaczenia"
@@ -17513,6 +17640,21 @@ msgstr ""
 "i {{line}} jako nazwy pliku i symboli zastępczych linii. Możesz usunąć "
 "katalog wiodący, używając {{filename|parentdir}}."
 
+msgid "Repository browser for translations"
+msgstr "Przeglądarka repozytorium tłumaczeń"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Link do przeglądarki plików tłumaczeń w repozytorium; użyj {{branch}} dla "
+"gałęzi oraz {{filename}} i {{line}} jako symboli zastępczych dla nazwy pliku "
+"i numeru linii. Jeśli pole pozostanie puste, użyta zostanie przeglądarka "
+"repozytorium wskazana powyżej. Możesz usunąć nazwę katalogu nadrzędnego, "
+"używając {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL repozytorium eksportu"
 
@@ -17650,11 +17792,8 @@ msgid ""
 msgstr ""
 "Automatycznie akceptuj sugestie z taką liczbą głosów, użyj 0, by je wyłączyć."
 
-msgid "Enforced checks"
-msgstr "Wymuszone kontrole"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Lista sprawdzeń, których nie można odrzucić."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Użyj wymuszonych sprawdzeń z projektu, kategorii lub obszaru roboczego."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "Użyj licencji tłumaczenia skonfigurowanej w kategorii lub projekcie."
@@ -18372,6 +18511,9 @@ msgstr ""
 "Rozdzielona przecinkami lista mapowań kodu języka, na przykład: "
 "en_GB:en,en_US:en"
 
+msgid "Use enforced checks from the workspace."
+msgstr "Użyj wymuszonych sprawdzeń z obszaru roboczego."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Użyj licencji tłumaczenia skonfigurowanej w obszarze roboczym."
 
@@ -18616,6 +18758,12 @@ msgstr "Oznacz jako terminologię dla wszystkich języków"
 msgid "Unmark as terminology for all languages"
 msgstr "Odznacz jako terminologię dla wszystkich języków"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+"Tłumacz z tego języka. Pozostaw puste, aby użyć języka źródłowego komponentu."
+
 msgid "Restrict direct editing"
 msgstr "Ogranicz bezpośrednią edycję"
 
@@ -18625,6 +18773,21 @@ msgid ""
 msgstr ""
 "Tylko użytkownicy z uprawnieniem „Edytuj ciąg po wymuszeniu sugestii” mogą "
 "wprowadzać bezpośrednie zmiany."
+
+msgid "Please turn on reviews on the project first."
+msgstr "Najpierw włącz recenzje dla tego projektu."
+
+msgid "This language already has a project workflow."
+msgstr "Ten język ma już przepływ pracy projektu."
+
+msgid "Select a source language in a project workflow."
+msgstr "Wybierz język źródłowy w przepływie pracy projektu."
+
+msgid "The source language must exist in this project."
+msgstr "Język źródłowy musi istnieć w tym projekcie."
+
+msgid "Source languages cannot form a cycle."
+msgstr "Języki źródłowe nie mogą tworzyć cyklu."
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "Ciąg źródłowy uległ zmianie. Załaduj go ponownie przed edycją."
@@ -18961,6 +19124,13 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Nie udało się przeanalizować flag: %s"
+
+msgid "Enforced checks has to be a list."
+msgstr "Wymuszone sprawdzenia muszą mieć postać listy."
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr "Nieobsługiwane wymuszone sprawdzenie: %s"
 
 #, python-format
 msgid ""

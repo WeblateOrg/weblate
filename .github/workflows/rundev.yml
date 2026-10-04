@@ -6,12 +6,9 @@ name: Development containers
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
   pull_request:
 
 concurrency:
@@ -39,7 +36,7 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.19
+        version: 0.12.23
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait

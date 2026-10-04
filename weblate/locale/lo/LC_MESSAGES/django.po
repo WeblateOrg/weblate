@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:15+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2006,6 +2006,11 @@ msgstr "ຕາມໄຟລ໌"
 msgid "Per author"
 msgstr "ຕາມຜູ້ຂຽນ"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "ຕາມພາສາ"
+
 msgid "Append trailers to squashed commit message"
 msgstr "ເພີ່ມສ່ວນທ້າຍ (trailers) ໃສ່ຂໍ້ຄວາມຄອມມິດທີ່ຖືກຮວມ"
 
@@ -2848,6 +2853,16 @@ msgstr "ມີທີມທີ່ໃຊ້ຊື່ນີ້ຢູ່ແລ້ວ
 msgid "Cannot change this on a scoped team."
 msgstr "ບໍ່ສາມາດປ່ຽນແປງສິ່ງນີ້ໃນທີມທີ່ມີການກຳນົດຂອບເຂດ."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "ສືບທອດຈາກພື້ນທີ່ເຮັດວຽກ"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "ເລືອກໂຄງການ ຫຼື ພື້ນທີ່ເຮັດວຽກ (workspace) ຢ່າງໃດຢ່າງໜຶ່ງ."
+
 msgid "You do not have permission to access this component."
 msgstr "ທ່ານບໍ່ມີສິດອະນຸຍາດໃນການເຂົ້າເຖິງສ່ວນປະກອບນີ້."
 
@@ -2901,6 +2916,11 @@ msgstr "ຂໍ້ຄວາມການແປຍາວເກີນໄປ!"
 
 msgid "Your suggestion already exists!"
 msgstr "ຄຳແນະນຳຂອງທ່ານມີຢູ່ແລ້ວ!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "ເລືອກໂຄງການ ຫຼື ພື້ນທີ່ເຮັດວຽກ (workspace) ຢ່າງໃດຢ່າງໜຶ່ງ."
 
 msgid "Weblate's REST API"
 msgstr "REST API ຂອງ Weblate"
@@ -5571,6 +5591,9 @@ msgstr "ຄວນເປັນໂຟນເດີທີ່ມີໄຟລ໌ຂໍ
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "ໄຟລ໌ຂໍ້ມູນເມຕາຂອງ App store"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8323,9 +8346,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Weblate commits ຈາກຄອມໂພເນນພາຍໃນ repository ນີ້ຈະຖືກລວມເຂົ້າກັນ (squash)."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "ຂໍ້ຄວາມຄອມມິດເດີມຈະຖືກເກັບໄວ້, ແຕ່ຂໍ້ມູນຜູ້ຂຽນຈະຫາຍໄປ ຍົກເວັ້ນຈະເລືອກ \"Per author\" ຫຼື "
 "ປັບແຕ່ງຂໍ້ຄວາມຄອມມິດໃຫ້ລວມເອົາຂໍ້ມູນນັ້ນ."
@@ -8564,14 +8592,10 @@ msgstr "ບໍ່ມີຂໍ້ມູນ"
 msgid "No invoices found."
 msgstr "ບໍ່ພົບໃບແຈ້ງໜີ້."
 
-msgid "Event details"
-msgstr "ລາຍລະອຽດເຫດການ"
-
-msgid "Actions"
-msgstr "ການດຳເນີນການ"
-
-msgid "Download"
-msgstr "ດາວໂຫຼດ"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "ເບິ່ງລາຍລະອຽດ"
 
 msgid "Libre hosting"
 msgstr "ໂຮສຕິ້ງແບບເສລີ"
@@ -8604,6 +8628,25 @@ msgstr "ຍັງບໍ່ມີໂຄງການທີ່ຖືກມອບໝ
 
 msgid "View"
 msgstr "ເບິ່ງ"
+
+msgid "Event details"
+msgstr "ລາຍລະອຽດເຫດການ"
+
+msgid "Actions"
+msgstr "ການດຳເນີນການ"
+
+msgid "Download"
+msgstr "ດາວໂຫຼດ"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "ບໍ່ພົບຂໍ້ຄວາມທີ່ກົງກັນ."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "ການແບ່ງໜ້າປະຫວັດລາຍງານ"
 
 msgid "Confirm merge"
 msgstr "ຢືນຢັນການລວມ"
@@ -10892,6 +10935,11 @@ msgstr "ຂໍ້ຄວາມຕົ້ນສະບັບທີ່ຕິດປ້
 msgid "Add label"
 msgstr "ເພີ່ມປ້າຍກຳກັບ"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "ດາວໂຫຼດຄຳແປເປັນ CSV ໃນໄຟລ໌ ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "ຈັດການ %(team)s"
@@ -11095,6 +11143,16 @@ msgstr "ຂໍ້ຄວາມ"
 msgid "words"
 msgstr "ຄຳສັບ"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "ແກ້ໄຂຂໍ້ຄວາມແບບກຸ່ມ"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "ບໍ່ມີຂໍ້ຄວາມໃຫ້ແປ"
+
 msgid "No matching strings found."
 msgstr "ບໍ່ພົບຂໍ້ຄວາມທີ່ກົງກັນ."
 
@@ -11175,8 +11233,21 @@ msgid ""
 "limits."
 msgstr "ນີ້ອາດຈະເກີດຈາກການຮຽກເກັບເງິນບາງລາຍການຂອງທ່ານກາຍກຳນົດ ຫຼື ເກີນຂີດຈຳກັດ."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "ເລືອກຂໍ້ຄວາມຕົ້ນສະບັບທັງໝົດ"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "ຂໍ້ຄວາມທີ່ໝາຍໄວ້ເພື່ອແກ້ໄຂ"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "ທ່ານສາມາດປ່ຽນສະຖານະຂອງຂໍ້ຄວາມທັງໝົດທີ່ກົງກັບປະເພດທີ່ກຳນົດໄດ້ໃນບາດດຽວ."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "ຕົວຕອງຄຸນນະພາບການແປ"
@@ -11325,6 +11396,16 @@ msgstr "ຄັດລອກ URL ຂອງຄັງເກັບຂໍ້ມູນ�
 
 msgid "Repository branch"
 msgstr "ບຣານຊ໌ຂອງຄັງເກັບຂໍ້ມູນ"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "ຄຳຂໍດຶງຂໍ້ມູນ (Pull request) ຂອງ Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "ຄັດລອກ URL ຂອງຄັງເກັບຂໍ້ມູນໄປຍັງຄລິບບອດແລ້ວ."
 
 msgid "Last remote commit"
 msgstr "ຄອມມິດໄລຍະໄກລ້າສຸດ"
@@ -11665,6 +11746,11 @@ msgstr "ສ້າງການແປ"
 
 msgid "Cannot add translation right now"
 msgstr "ບໍ່ສາມາດເພີ່ມການແປໄດ້ໃນຕອນນີ້"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "ພາສາຕົ້ນທາງ"
 
 msgid "Customized workflow"
 msgstr "ຂະບວນການເຮັດວຽກທີ່ກຳນົດເອງ"
@@ -12920,17 +13006,27 @@ msgstr "ການແປຕໍ່ໄປນີ້ຈະຖືກລຶບອອກ
 msgid "Project language to remove"
 msgstr "ພາສາຂອງໂຄງການທີ່ຈະລຶບອອກ"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "ການດຳເນີນການນີ້ບໍ່ສາມາດກັບຄືນໄດ້. ນີ້ຈະລຶບໝວດໝູ່ %(object)s ແລະ ເນື້ອຫາທີ່ກ່ຽວຂ້ອງທັງໝົດຢ່າງຖາວອນ."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "ຖ້າການດຳເນີນການນີ້ລຶບສ່ວນປະກອບທີ່ຖືກຈຳກັດອອກ, "
 "ໜ່ວຍຄວາມຈຳການແປທີ່ເກັບໄວ້ຈາກສ່ວນປະກອບເຫຼົ່ານັ້ນຈະສາມາດໃຊ້ງານໄດ້ຕາມກົດການເຂົ້າເຖິງໜ່ວຍຄວາມຈຳການແປຂອງໂຄງການ "
@@ -12945,19 +13041,36 @@ msgstr "ໝວດໝູ່ການແປຕໍ່ໄປນີ້ຈະຖືກ
 msgid "Project to remove"
 msgstr "ໂຄງການທີ່ຈະລຶບອອກ"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "ການດຳເນີນການນີ້ບໍ່ສາມາດກັບຄືນໄດ້. ນີ້ຈະລຶບສ່ວນປະກອບ %(object)s ແລະ "
 "ເນື້ອຫາທີ່ກ່ຽວຂ້ອງທັງໝົດຢ່າງຖາວອນ."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "ສ່ວນປະກອບທີ່ຈະລຶບອອກ"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "ຂ້ອຍເຂົ້າໃຈຜົນທີ່ຕາມມາ, ລຶບການແປນີ້ເລີຍ"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"ການດຳເນີນການນີ້ບໍ່ສາມາດກັບຄືນໄດ້. ນີ້ຈະລຶບໝວດໝູ່ %(object)s ແລະ ເນື້ອຫາທີ່ກ່ຽວຂ້ອງທັງໝົດຢ່າງຖາວອນ."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13195,6 +13308,11 @@ msgstr "ພາສາກາງ"
 
 msgid "Explanation"
 msgstr "ຄຳອະທິບາຍ"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "ລາຍງານບັນຫາກັບຂໍ້ຄວາມຕົ້ນສະບັບ"
@@ -14014,6 +14132,11 @@ msgstr "ແກ້ໄຂໃນໂໝດຂໍ້ຄວາມດຽວ"
 
 msgid "Exit Zen"
 msgstr "ອອກຈາກໂໝດ Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "ຄຳແນະນຳ"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "ໄຟລ໌ການແປຖືກຊິງໂຄຣໄນກັບຄັງເກັບຂໍ້ມູນແລ້ວ."
@@ -15042,6 +15165,11 @@ msgstr "ການແປກ່ອນໜ້າ"
 msgid "State: %(state)s"
 msgstr "ສະຖານະ: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "ພາກສ່ວນກ່ອນໜ້າ"
+
 msgid "Suggestions pending"
 msgstr "ຄຳແນະນຳທີ່ຄ້າງຢູ່"
 
@@ -16024,6 +16152,11 @@ msgstr "ໝາຍເອົາຕົວເລືອກນີ້ຫາກປະໂ
 msgid "You do not have permission to create terminology."
 msgstr "ທ່ານບໍ່ມີສິດໃນການສ້າງຄຳສັບ."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "ການເລືອກຖັນລາຍການບໍ່ຖືກຕ້ອງ."
+
 msgid "State to set"
 msgstr "ສະຖານະທີ່ຈະກຳນົດ"
 
@@ -16064,6 +16197,9 @@ msgstr "ສຳລັບທຸກພາສາ"
 msgid "Labels to remove — all languages"
 msgstr "ປ້າຍກຳກັບທີ່ຈະລຶບອອກ"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "ຂ້າພະເຈົ້າຍອມຮັບຂໍ້ຕົກລົງອະນຸຍາດຜູ້ປະກອບສ່ວນ"
 
@@ -16079,9 +16215,14 @@ msgstr "ກະລຸນາພິມ slug ເຕັມຂອງການແປເ
 msgid "Delete translation memory created from this component"
 msgstr "ລຶບໜ່ວຍຄວາມຈຳການແປທີ່ສ້າງຂຶ້ນຈາກສ່ວນປະກອບນີ້"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "ລາຍການໜ່ວຍຄວາມຈຳການແປຂອງໂຄງການ, ພື້ນທີ່ເຮັດວຽກ ແລະ ທີ່ໃຊ້ຮ່ວມກັນຈະຖືກລຶບອອກ. "
 "ສ່ວນລາຍການສ່ວນຕົວ ແລະ ທີ່ອັບໂຫຼດຂຶ້ນມາຈະຖືກເກັບໄວ້."
@@ -16094,6 +16235,18 @@ msgstr "ກະລຸນາພິມ slug ຂອງໂຄງການເພື່
 
 msgid "Delete translation memory created from components in this category"
 msgstr "ລຶບໜ່ວຍຄວາມຈຳການແປທີ່ສ້າງຂຶ້ນຈາກສ່ວນປະກອບໃນໝວດໝູ່ນີ້"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"ລາຍການໜ່ວຍຄວາມຈຳການແປຂອງໂຄງການ, ພື້ນທີ່ເຮັດວຽກ ແລະ ທີ່ໃຊ້ຮ່ວມກັນຈະຖືກລຶບອອກ. "
+"ສ່ວນລາຍການສ່ວນຕົວ ແລະ ທີ່ອັບໂຫຼດຂຶ້ນມາຈະຖືກເກັບໄວ້."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "ກະລຸນາພິມ slug ຂອງໝວດໝູ່ເພື່ອຢືນຢັນ."
@@ -16284,6 +16437,23 @@ msgstr "ແຟລັກການແປ"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "ແຟລັກເພີ່ມເຕີມທີ່ຂັ້ນດ້ວຍຈຸດເພື່ອມີຜົນຕໍ່ການເຮັດວຽກຂອງ Weblate."
+
+msgid "Enforced checks"
+msgstr "ການກວດສອບທີ່ບັງຄັບ"
+
+msgid "List of checks which can not be dismissed."
+msgstr "ລາຍການການກວດສອບທີ່ບໍ່ສາມາດຍົກເລີກໄດ້."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "ການກວດສອບແບບບັງຄັບທີ່ບໍ່ໄດ້ໃຊ້."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "ໃຊ້ໃບອະນຸຍາດການແປທີ່ກຳນົດໄວ້ໃນໝວດໝູ່ແມ່ ຫຼື ໂຄງການ."
 
 msgid "Inherit translation license"
 msgstr "ສືບທອດໃບອະນຸຍາດການແປ"
@@ -16516,6 +16686,26 @@ msgstr ""
 "ເປັນບ່ອນວາງຊື່ໄຟລ໌ ແລະ ແຖວ. ທ່ານອາດຈະຕ້ອງການຕັດໂຟນເດີເລີ່ມຕົ້ນອອກໂດຍໃຊ້ {{filename|"
 "parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "ສາຂາຄັງເກັບທີ່ຈະແປ"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"ລິ້ງໄປຫາຕົວເບິ່ງຄັງເກັບ, ໃຊ້ {{branch}} ສຳລັບສາຂາ, {{filename}} ແລະ {{line}} "
+"ເປັນບ່ອນວາງຊື່ໄຟລ໌ ແລະ ແຖວ. ທ່ານອາດຈະຕ້ອງການຕັດໂຟນເດີເລີ່ມຕົ້ນອອກໂດຍໃຊ້ {{filename|"
+"parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL ຄັງເກັບທີ່ສົ່ງອອກ"
 
@@ -16635,11 +16825,10 @@ msgid ""
 "off."
 msgstr "ຍອມຮັບການແນະນຳໂດຍອັດຕະໂນມັດເມື່ອມີຄະແນນສຽງເຖິງຈຳນວນນີ້, ໃຊ້ 0 ເພື່ອປິດການໃຊ້ງານ."
 
-msgid "Enforced checks"
-msgstr "ການກວດສອບທີ່ບັງຄັບ"
-
-msgid "List of checks which can not be dismissed."
-msgstr "ລາຍການການກວດສອບທີ່ບໍ່ສາມາດຍົກເລີກໄດ້."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "ເລືອກໂຄງການ ຫຼື ພື້ນທີ່ເຮັດວຽກ (workspace) ຢ່າງໃດຢ່າງໜຶ່ງ."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "ໃຊ້ໃບອະນຸຍາດການແປທີ່ກຳນົດໄວ້ໃນໝວດໝູ່ ຫຼື ໂຄງການ."
@@ -17235,6 +17424,11 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr "ລາຍການການຈັບຄູ່ລະຫັດພາສາທີ່ຂັ້ນດ້ວຍຈຸດ, ຕົວຢ່າງ: en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "ການກວດສອບແບບບັງຄັບທີ່ບໍ່ໄດ້ໃຊ້."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "ໃຊ້ໃບອະນຸຍາດການແປທີ່ກຳນົດໄວ້ໃນພື້ນທີ່ເຮັດວຽກ."
 
@@ -17473,6 +17667,11 @@ msgstr "ໝາຍເປັນຄຳສັບສະເພາະ"
 msgid "Unmark as terminology for all languages"
 msgstr "ຍົກເລີກການໝາຍເປັນຄຳສັບສະເພາະ"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "ຈຳກັດການແກ້ໄຂໂດຍກົງ"
 
@@ -17482,6 +17681,32 @@ msgid ""
 msgstr ""
 "ສະເພາະຜູ້ໃຊ້ທີ່ມີສິດ \"ແກ້ໄຂຂໍ້ຄວາມເມື່ອມີການບັງຄັບໃຊ້ຄຳແນະນຳ\" "
 "ເທົ່ານັ້ນທີ່ສາມາດເຮັດການປ່ຽນແປງໂດຍກົງໄດ້."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "ກະລຸນາພິມ slug ຂອງໂຄງການເພື່ອຢືນຢັນ."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "ພາສາທີ່ລະບຸມີຢູ່ແລ້ວ."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "ພາສາສຳຮອງທີ່ກຳນົດໄວ້ໃນໂຄງການ ຫຼື ອົງປະກອບ"
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "ຜູ້ໃຊ້ບໍ່ໄດ້ຖືກບລັອກໃນໂຄງການນີ້."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "ຂໍ້ຄວາມພາສາຕົ້ນສະບັບ"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -17810,6 +18035,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "ບໍ່ສາມາດອ່ານວິເຄາະທຸງ (Flags) ໄດ້: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "ການກວດສອບທີ່ບັງຄັບ"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "ການກວດສອບແບບບັງຄັບທີ່ບໍ່ໄດ້ໃຊ້."
 
 #, python-format
 msgid ""

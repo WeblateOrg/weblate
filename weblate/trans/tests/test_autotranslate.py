@@ -44,6 +44,7 @@ from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -78,6 +79,92 @@ class AutoTranslationTest(ViewTestCase):
                 new_base="",
                 allow_translation_propagation=False,
             )
+
+    def test_regular_reuse_keeps_indexed_source_lookup(self) -> None:
+        source = self.get_unit("Hello, world!\n")
+        source.translate(self.user, "Reusable translation", STATE_TRANSLATED)
+        translation = self.component2.translation_set.get(language_code="cs")
+        target = translation.unit_set.get(id_hash=source.id_hash)
+        auto = AutoTranslate(
+            translation=translation,
+            user=self.user,
+            q=f"id:{target.pk}",
+            mode="translate",
+        )
+        with patch.object(
+            auto, "collect_other_translations", wraps=auto.collect_other_translations
+        ) as collect:
+            auto.process_others([self.component.pk])
+        sql = str(collect.call_args.args[0].query).upper()
+        self.assertNotIn("COALESCE(", sql)
+        self.assertNotIn('LEFT OUTER JOIN "TRANS_UNIT"', sql)
+        self.assertNotIn("'BLOCKED'", sql)
+        self.assertIn('MD5(LOWER("TRANS_UNIT"."SOURCE"))', sql)
+        self.assertEqual(auto.updated, 1)
+
+    def test_others_matches_effective_source(self) -> None:
+        source = self.get_unit("Hello, world!\n")
+        target_translation = self.component2.translation_set.get(language_code="cs")
+        target = self.get_unit("Hello, world!\n", translation=target_translation)
+        source_parent = source.source_unit.unit_set.get(
+            translation__language__code="de"
+        )
+        target_parent = target.source_unit.unit_set.get(
+            translation__language__code="de"
+        )
+        source_parent.translate(
+            self.user, "Unrelated source", STATE_TRANSLATED, propagate=False
+        )
+        target_parent.translate(
+            self.user, "Parent source", STATE_TRANSLATED, propagate=False
+        )
+        project_ids = {self.project.pk, self.component2.project_id}
+        for project_id in project_ids:
+            WorkflowSetting.objects.create(
+                project_id=project_id,
+                language=target_translation.language,
+                source_language=source_parent.translation.language,
+            )
+        source.refresh_from_db()
+        source.translate(self.user, "Unrelated translation", STATE_TRANSLATED)
+        auto = AutoTranslate(
+            translation=target_translation,
+            user=self.user,
+            q=f"id:{target.pk}",
+            mode="translate",
+        )
+        auto.process_others([self.component.pk])
+        self.assertEqual(auto.updated, 0)
+        source_parent.translate(
+            self.user, "Parent source", STATE_NEEDS_REWRITING, propagate=False
+        )
+        auto.process_others([self.component.pk])
+        self.assertEqual(auto.updated, 0)
+        source_parent.translate(
+            self.user, "Parent source", STATE_TRANSLATED, propagate=False
+        )
+        source.refresh_from_db()
+        source.translate(self.user, "Matching translation", STATE_TRANSLATED)
+        original_plural = source_parent.translation.plural
+        other_plural = Plural.objects.create(
+            language=original_plural.language,
+            number=original_plural.number,
+            formula="n > 1",
+            type=original_plural.type,
+        )
+        Translation.objects.filter(pk=source_parent.translation_id).update(
+            plural=other_plural
+        )
+        auto.process_others([self.component.pk])
+        self.assertEqual(auto.updated, 0)
+        # Separate rows with the same rules are semantically equivalent.
+        Plural.objects.filter(pk=other_plural.pk).update(
+            formula=original_plural.formula
+        )
+        auto.process_others([self.component.pk])
+        target.refresh_from_db()
+        self.assertEqual(target.target, source.target)
+        self.assertEqual(auto.updated, 1)
 
     def prepare_restricted_source(self) -> tuple[Translation, Unit, Unit, Group]:
         self.user.is_superuser = False
@@ -166,23 +253,36 @@ class AutoTranslationTest(ViewTestCase):
             self.prepare_restricted_source()
         )
         for user, enforce_permissions in ((None, True), (self.user, False)):
-            with self.subTest(user=user, enforce_permissions=enforce_permissions):
-                Unit.objects.filter(pk=target_unit.pk).update(
-                    target="", state=STATE_EMPTY
+            for source_component_ids in (None, [self.component.pk]):
+                source_is_eligible = (
+                    source_component_ids is not None
+                    or self.component.project_id
+                    == target_translation.component.project_id
                 )
-                auto = AutoTranslate(
-                    translation=target_translation,
+                with self.subTest(
                     user=user,
-                    q="state:<translated",
-                    mode="translate",
                     enforce_permissions=enforce_permissions,
-                )
+                    source_component_ids=source_component_ids,
+                ):
+                    Unit.objects.filter(pk=target_unit.pk).update(
+                        target="", state=STATE_EMPTY
+                    )
+                    auto = AutoTranslate(
+                        translation=target_translation,
+                        user=user,
+                        q="state:<translated",
+                        mode="translate",
+                        enforce_permissions=enforce_permissions,
+                    )
 
-                auto.process_others([self.component.pk])
+                    auto.process_others(source_component_ids)
 
-                self.assertEqual(auto.updated, 1)
-                target_unit.refresh_from_db()
-                self.assertEqual(target_unit.target, source_unit.target)
+                    self.assertEqual(auto.updated, int(source_is_eligible))
+                    target_unit.refresh_from_db()
+                    self.assertEqual(
+                        target_unit.target,
+                        source_unit.target if source_is_eligible else "",
+                    )
 
     def test_auto_form_filters_restricted_sources(self) -> None:
         _target_translation, _source_unit, _target_unit, _group = (
@@ -193,22 +293,19 @@ class AutoTranslationTest(ViewTestCase):
         self.project.save(update_fields=["workspace"])
 
         addon = AutoTranslateAddon(Addon(component=self.component2))
-        for obj, addon_form in (
-            (self.component2, False),
-            (self.project, False),
-            (workspace, False),
-            (self.component2, True),
-        ):
-            with self.subTest(scope=type(obj).__name__, addon=addon_form):
-                form = (
-                    AutoAddonForm(self.user, addon)
-                    if addon_form
-                    else AutoForm(obj, self.user)
-                )
+        for obj in (self.component2, self.project, workspace):
+            with self.subTest(scope=type(obj).__name__):
+                form = AutoForm(obj, self.user)
                 self.assertNotIn(
                     self.component.pk,
                     {value for value, _label in form.fields["component"].choices},
                 )
+
+        addon_form = AutoAddonForm(self.user, addon)
+        self.assertIn(
+            self.component.pk,
+            {value for value, _label in addon_form.fields["component"].choices},
+        )
 
         data = {
             "mode": "translate",
@@ -229,6 +326,13 @@ class AutoTranslationTest(ViewTestCase):
                     form = AutoForm(obj, self.user, data | {"component": reference})
                     self.assertFalse(form.is_valid())
                     self.assertIn("component", form.errors)
+
+            addon_form = AutoAddonForm(
+                self.user,
+                addon,
+                data=data | {"component": str(self.component.pk)},
+            )
+            self.assertTrue(addon_form.is_valid(), addon_form.errors)
 
     def test_auto_translation_view_skips_restricted_sources(self) -> None:
         target_translation, _source_unit, target_unit, _group = (
@@ -1337,6 +1441,118 @@ class AutoTranslationTest(ViewTestCase):
 
 class AutoTranslationCrossProjectTest(AutoTranslationTest):
     use_component_id: bool = True
+
+    def test_workspace_matches_effective_source_language(self) -> None:
+        workspace = Workspace.objects.create(name="Custom source workspace")
+        Project.objects.filter(
+            pk__in={self.project.pk, self.component2.project_id}
+        ).update(workspace=workspace)
+        german = Language.objects.get(code="de")
+        self.component.source_language = german
+        self.component.save(update_fields=["source_language"])
+        source = self.get_unit("Hello, world!\n")
+        translation = self.component2.translation_set.get(language_code="cs")
+        target = translation.unit_set.get(id_hash=source.id_hash)
+        parent = target.source_unit.unit_set.get(translation__language=german)
+        parent.translate(self.user, source.source, STATE_TRANSLATED, propagate=False)
+        WorkflowSetting.objects.create(
+            project=self.component2.project,
+            language=translation.language,
+            source_language=german,
+        )
+        # Other units can fall back to English; only the selected unit determines
+        # which donor languages are compatible with this batch.
+        translation.unit_set.exclude(pk=target.pk).update(translation_parent=None)
+        source.translate(self.user, "Matching donor", STATE_TRANSLATED, propagate=False)
+        other_project = Project.objects.create(
+            name="Unrelated", slug="unrelated", workspace=workspace
+        )
+        self.create_po_new_base(name="English donor", project=other_project)
+
+        for selected in (None, self.component.pk):
+            with self.subTest(selected=selected):
+                Unit.objects.filter(pk=target.pk).update(target="", state=STATE_EMPTY)
+                result = auto_translate(
+                    workspace_id=str(workspace.pk),
+                    user_id=self.user.id,
+                    mode="translate",
+                    q=f"id:{target.pk}",
+                    auto_source="others",
+                    source_component_id=selected,
+                    engines=[],
+                    threshold=100,
+                )
+                self.assertEqual(
+                    result["message"],
+                    "Automatic translation completed, 1 string was updated.",
+                )
+                target.refresh_from_db()
+                self.assertEqual(target.target, source.target)
+
+    def test_workspace_skips_missing_custom_source_donor(self) -> None:
+        workspace = Workspace.objects.create(name="Missing custom source workspace")
+        Project.objects.filter(
+            pk__in={self.project.pk, self.component2.project_id}
+        ).update(workspace=workspace)
+        german = Language.objects.get(code="de")
+        source = self.get_unit("Hello, world!\n")
+        parent = self.component.translation_set.get(language=german)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=source.translation.language,
+            source_language=german,
+        )
+        parent.delete()
+        self.component2.source_language = german
+        self.component2.save(update_fields=["source_language"])
+        target = self.component2.translation_set.get(language_code="cs").unit_set.get(
+            id_hash=source.id_hash
+        )
+        original_target = target.target
+        result = auto_translate(
+            workspace_id=str(workspace.pk),
+            user_id=self.user.id,
+            mode="translate",
+            q=f"id:{target.pk}",
+            auto_source="others",
+            source_component_id=self.component.pk,
+            engines=[],
+            threshold=100,
+        )
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        target.refresh_from_db()
+        self.assertEqual(target.target, original_target)
+
+    def test_regular_target_does_not_reuse_custom_donor_canonical_source(self) -> None:
+        source = self.get_unit("Hello, world!\n")
+        parent = source.source_unit.unit_set.get(translation__language__code="de")
+        parent.translate(
+            self.user, "Different effective source", STATE_TRANSLATED, propagate=False
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=source.translation.language,
+            source_language=parent.translation.language,
+        )
+        source.refresh_from_db()
+        source.translate(self.user, "Must not be copied", STATE_TRANSLATED)
+        translation = self.component2.translation_set.get(language_code="cs")
+        target = translation.unit_set.get(id_hash=source.id_hash)
+        original_target = target.target
+        self.assertFalse(translation.component.project.translation_parent_language_ids)
+        auto = AutoTranslate(
+            translation=translation,
+            user=self.user,
+            q=f"id:{target.pk}",
+            mode="translate",
+        )
+        auto.process_others([self.component.pk])
+        target.refresh_from_db()
+        self.assertEqual(target.target, original_target)
+        self.assertEqual(auto.updated, 0)
 
     def create_second_component(self, project: Project | None = None) -> Component:
         project = Project.objects.create(

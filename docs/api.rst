@@ -318,10 +318,15 @@ Users
 
 .. http:get:: /api/users/
 
-    Returns a list of users if you have permissions to see manage users. If not, then you get to see
-    only your own details.
+    Returns no results to unauthenticated users. Authenticated users without the
+    global ``user.view`` or ``user.edit`` permission see only their own basic
+    details when listing without a username filter. They can search for other
+    users by supplying a username prefix of at least two characters after
+    trimming surrounding whitespace; these searches return the user ID,
+    username, and full name of matching non-bot users. Users with either
+    permission can list all users and receive detailed information.
 
-    :query string username: Username to search for
+    :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
@@ -613,6 +618,13 @@ Groups
 ++++++
 
 .. versionadded:: 4.0
+
+Changing a site-wide group's access scope requires the global ``group.edit``
+permission. This trusted administrative permission is not limited by the
+caller's project access: project and component association endpoints can grant
+team members access to private projects the caller cannot access directly. See
+:ref:`site-wide-team-management` for the permission model and narrower
+delegation options.
 
 .. http:get:: /api/groups/
 
@@ -1088,6 +1100,44 @@ Projects
             "web": "https://weblate.org/",
             "web_url": "http://example.com/projects/hello/"
         }
+
+.. http:get:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Return project-language workflow settings. When no project override exists,
+    return inherited site-wide workflow settings, or defaults when none exist,
+    without creating an override. Reviews remain disabled when both project
+    review settings are disabled. The language is identified by its code.
+    Access to the project is required.
+
+    :>json string language: Language code (read-only)
+    :>json string source_language: Custom source language code, or null for the component source; see :ref:`workflow-source-language`
+    :>json boolean translation_review: Enable translation review
+    :>json boolean enable_suggestions: Enable suggestions
+    :>json boolean restrict_direct_editing: Require suggestions instead of direct editing
+    :>json boolean suggestion_voting: Enable voting on suggestions
+    :>json integer suggestion_autoaccept: Number of votes required to accept suggestions, or 0 to disable
+
+.. http:patch:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Create or update a project-language workflow override. Requires permission
+    to edit the project. Accepts the writable fields returned by
+    :http:get:`/api/projects/(string:project)/languages/(string:language)/workflow/`.
+    Omitted fields retain their values, including inherited workflow settings
+    when creating an override. Enabling reviews requires source or translation
+    reviews to be enabled on the project. Set ``source_language`` to null to use
+    the component source. Source languages must exist in the project and must
+    not form a dependency cycle. Changes reconcile affected units before the
+    request completes.
+
+.. http:delete:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Remove the project-language workflow override, restoring inherited settings.
+    Requires permission to edit the project. Returns HTTP 204, including when
+    no override exists.
+
+    All three methods return HTTP 409 if legacy data contains multiple workflow
+    overrides for the same project and language. Resolve the duplicate settings
+    before using this endpoint; the API does not choose or delete them implicitly.
 
 .. http:patch:: /api/projects/(string:project)/
 
@@ -1586,7 +1636,7 @@ Projects
 
    .. versionadded:: 5.3
 
-    Creates a label for a project.
+    Creates a label for a project. The label color is required.
 
     :param project: Project URL slug
     :type project: string
@@ -1745,7 +1795,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Returns a list of :ref:`projectbackup` archives.
+    Returns a list of :ref:`projectbackup` archives. Project backups contain all
+    project components, including restricted components, and require
+    :guilabel:`Edit project settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1769,7 +1821,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Downloads a :ref:`projectbackup` archive.
+    Downloads a :ref:`projectbackup` archive containing all project components,
+    including restricted components. This requires :guilabel:`Edit project
+    settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -2699,7 +2753,7 @@ Translations
     :type language: string
     :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
-    :form file file: Uploaded file
+    :form file file: Uploaded file or file content sent as a form field without a filename
     :form string author_email: Author e-mail
     :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
@@ -2713,6 +2767,18 @@ Translations
             -F file=@strings.xml \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/translations/hello/android/cs/file/
+
+    The ``file`` field can also be sent as form content without a filename, for
+    example when piping data from another command:
+
+    .. code-block:: sh
+
+        curl -X POST \
+            -F 'file=<strings.xml' \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/translations/hello/android/cs/file/
+
+    The content is used as submitted, byte for byte, so any file encoding works.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
@@ -2889,6 +2955,10 @@ and XLIFF.
 
        The ``last_updated`` attribute is now exposed.
 
+    .. versionchanged:: 2026.10
+
+       The ``screenshots_url`` attribute is now exposed.
+
     Returns information about the translation unit.
 
     :param id: Unit ID
@@ -2920,6 +2990,11 @@ and XLIFF.
     :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string screenshots_url: URL to list and manage associated screenshots; see :http:get:`/api/units/(int:id)/screenshots/`
+    :>json string translation_parent: Read-only link to the configured parent unit, or null when using the component source or the configured parent is missing; see :ref:`workflow-source-language`
+    :>json array effective_source: Read-only source text used for translation, including plural forms. The existing ``source`` field continues to contain the canonical file source.
+    :>json array effective_previous_source: Read-only previous source text shown before an effective-source change, including plural forms. The existing ``previous_source`` field retains the canonical file-source value.
+    :>json string effective_source_language: Read-only language code of the effective source, retaining the configured language when its source is missing
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update
@@ -2989,6 +3064,45 @@ and XLIFF.
    .. versionadded:: 5.11
 
    Returns a list of all target translation units for the given source translation unit.
+
+.. http:get:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Returns a paginated list of screenshots associated with the unit.
+
+   :param id: Unit ID
+   :type id: int
+
+   .. seealso::
+
+       Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:post:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Associate screenshot with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :form string screenshot_id: Screenshot ID; the screenshot must belong to the
+       same component and language as the unit
+
+   .. seealso::
+
+       Returns the associated screenshot; see :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:delete:: /api/units/(int:id)/screenshots/(int:screenshot_id)
+
+   .. versionadded:: 2026.10
+
+   Remove screenshot association with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :param screenshot_id: Screenshot ID
+   :type screenshot_id: int
 
 .. http:post:: /api/units/(int:id)/comments/
 

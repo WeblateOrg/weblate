@@ -12,7 +12,14 @@ from unittest.mock import patch
 from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required
-from django.test import AsyncClient, TestCase, modify_settings, override_settings
+from django.http import HttpResponse
+from django.test import (
+    AsyncClient,
+    RequestFactory,
+    TestCase,
+    modify_settings,
+    override_settings,
+)
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.module_loading import import_string
@@ -20,6 +27,7 @@ from sentry_sdk.integrations.django.middleware import (
     _wrap_middleware,  # ruff: ignore[import-private-name]
 )
 
+from weblate.accounts.middleware import AuthenticationMiddleware
 from weblate.auth.models import User, get_anonymous
 from weblate.legal.models import Agreement
 
@@ -98,6 +106,34 @@ class MiddlewareTest(TestCase):
 
         response = self.client.get("/healthz/")
         self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)
+
+    def test_authenticated_html_is_not_cached(self) -> None:
+        response = self.client.get(reverse("about"))
+        self.assertNotIn("Cache-Control", response)
+
+        user = User.objects.create_user(username="testuser", password="testpass")
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+
+        cache_control = response.headers["Cache-Control"]
+        for directive in (
+            "max-age=0",
+            "no-cache",
+            "no-store",
+            "must-revalidate",
+            "private",
+        ):
+            self.assertIn(directive, cache_control)
+
+    def test_authenticated_non_html_cache_control_is_unchanged(self) -> None:
+        user = User.objects.create_user(username="testuser", password="testpass")
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/"))
+        response = HttpResponse(content_type="application/json")
+        response.headers["Cache-Control"] = "private, max-age=3600"
+
+        response = AuthenticationMiddleware.finalize_response(request, response, user)
+
+        self.assertEqual(response.headers["Cache-Control"], "private, max-age=3600")
 
 
 @modify_settings(MIDDLEWARE={"append": "weblate.legal.middleware.RequireTOSMiddleware"})

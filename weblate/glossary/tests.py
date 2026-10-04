@@ -20,6 +20,7 @@ from django.urls import reverse
 from django.utils.translation import override as translation_override
 from lxml import etree
 
+from weblate.checks.glossary import GlossaryCheck
 from weblate.formats.ttkit import TBXFormat, TBXUnit
 from weblate.glossary.models import (
     get_glossary_terms,
@@ -32,10 +33,11 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
+from weblate.machinery.llm import BaseLLMTranslation
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.config import GlossaryStringManagementDisabled
 from weblate.trans.alerts.registry import update_alerts
-from weblate.trans.models import PendingUnitChange, Unit
+from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
@@ -202,6 +204,89 @@ class GlossaryTest(ViewTestCase):
             extra_flags=target_flags,
         )
         self.glossary.invalidate_cache()
+
+    def test_custom_source_glossary_discovery_and_tsv(self) -> None:
+        self.add_term("Hello", "Ahoj")
+        term = self.glossary.unit_set.get(source="Hello")
+        german = Language.objects.get(code="de")
+        parent_translation = self.glossary_component.translation_set.get(
+            language=german
+        )
+        parent = parent_translation.unit_set.create(
+            source=term.source,
+            target="Hallo",
+            context=term.context,
+            source_unit=term.source_unit,
+            id_hash=term.id_hash,
+            position=term.position,
+            state=STATE_TRANSLATED,
+        )
+        edited = self.get_unit()
+        edited_parent = self.component.translation_set.get(
+            language=german
+        ).unit_set.get(id_hash=edited.id_hash)
+        edited_parent.translate(self.user, "Hallo world", STATE_TRANSLATED)
+        with self.captureOnCommitCallbacks(execute=True):
+            WorkflowSetting.objects.create(
+                project=self.project,
+                language=self.glossary.language,
+                source_language=german,
+            )
+            term.refresh_from_db()
+            term.translate(self.user, "Ahoj", STATE_TRANSLATED)
+        edited = Unit.objects.get(pk=edited.pk)
+        matches = get_glossary_terms(edited)
+        self.assertEqual([match.pk for match in matches], [term.pk])
+        self.assertEqual(matches[0].glossary_positions, ((0, 5),))
+        self.assertEqual(
+            [record["text"] for record in matches[0].glossary_sources], ["Hallo"]
+        )
+        self.assertEqual(
+            GlossaryCheck().check_single(edited.effective_source, "Wrong term", edited),
+            {"Hallo"},
+        )
+        self.assertEqual(
+            GlossaryCheck().check_single(edited.effective_source, "Ahoj", edited), set()
+        )
+        self.assertEqual(
+            BaseLLMTranslation._get_glossary_entries(  # ruff: ignore[private-member-access]
+                [edited]
+            )[0]["source"],
+            "Hallo",
+        )
+        self.assertIn(
+            "Hallo\tAhoj", get_glossary_tsv(edited.translation, source_language=german)
+        )
+        self.assertNotIn(
+            "Hello\tAhoj", get_glossary_tsv(edited.translation, source_language=german)
+        )
+        self.assertEqual(list(get_glossary_tuples([term])), [("Hello", "Ahoj")])
+        # Parent edits refresh the index and generated machinery glossary.
+        with self.captureOnCommitCallbacks(execute=True):
+            parent.translate(self.user, "GutenTag", STATE_TRANSLATED)
+            term.refresh_from_db()
+            term.translate(self.user, "Ahoj", STATE_TRANSLATED)
+            edited_parent.translate(self.user, "GutenTag world", STATE_TRANSLATED)
+        edited = Unit.objects.get(pk=edited.pk)
+        matches = get_glossary_terms(edited)
+        self.assertEqual([match.pk for match in matches], [term.pk])
+        self.assertEqual(
+            [record["text"] for record in matches[0].glossary_sources], ["GutenTag"]
+        )
+        self.assertIn(
+            "GutenTag\tAhoj",
+            get_glossary_tsv(edited.translation, source_language=german),
+        )
+        self.assertNotIn(
+            "Hallo\tAhoj", get_glossary_tsv(edited.translation, source_language=german)
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            parent.delete()
+        edited = Unit.objects.get(pk=edited.pk)
+        self.assertEqual(get_glossary_terms(edited), [])
+        self.assertEqual(
+            get_glossary_tsv(edited.translation, source_language=german), ""
+        )
 
     def make_glossary_language_stale(
         self, language_code: str, source: str | None = None

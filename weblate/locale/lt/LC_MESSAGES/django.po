@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -24,8 +24,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || n%100>"
-"=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || "
+"n%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
 "X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
@@ -2257,6 +2257,12 @@ msgstr "Profilis"
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Per author and language"
+msgstr "Arabų kalbos"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3185,6 +3191,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Nebuvo galima pakeisti papildomos eilutės informacijos!"
 
 #, fuzzy
+#| msgid "Translated languages"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Kalbos, į kurias verčiate"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "Watched translations"
 msgid "You do not have permission to access this component."
 msgstr "Stebimi vertimai"
@@ -3254,6 +3268,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6503,6 +6520,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr "Programų parduotuvės metaduomenų failai"
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9677,7 +9697,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9979,14 +10000,8 @@ msgstr ""
 
 #, fuzzy
 #| msgid "View"
-msgid "Event details"
+msgid "View all"
 msgstr "Rodyti"
-
-msgid "Actions"
-msgstr ""
-
-msgid "Download"
-msgstr "Atsisiųsti"
 
 #, fuzzy
 #| msgid "Hosting"
@@ -10029,6 +10044,27 @@ msgstr ""
 
 msgid "View"
 msgstr "Rodyti/Peržiūrėti"
+
+#, fuzzy
+#| msgid "View"
+msgid "Event details"
+msgstr "Rodyti"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Download"
+msgstr "Atsisiųsti"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No audit log entries found."
+msgstr "Pranešimai apie vertimus"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Audit log pagination"
+msgstr "Stebimi vertimai"
 
 #, fuzzy
 #| msgid "Current password"
@@ -12715,6 +12751,11 @@ msgid "Add label"
 msgstr "Kalbos, į kurias verčiate"
 
 #, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Stebimi vertimai"
+
+#, fuzzy, python-format
 #| msgid "Manage roles"
 msgid "Manage %(team)s"
 msgstr "Valdyti roles"
@@ -12969,6 +13010,16 @@ msgstr "Būsena"
 msgid "words"
 msgstr "Žodžiai"
 
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk edit selected strings"
+msgstr "Vardas ir pavardė"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "No strings selected"
+msgstr "Stebimi vertimai"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -13046,7 +13097,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Add new association"
+msgid "Select all strings on this page"
+msgstr "Pridėti naują asociaciją"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -13220,6 +13282,16 @@ msgstr "Stebimi vertimai"
 
 msgid "Repository branch"
 msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Pull request"
+msgstr "Negalimas sveikųjų skaičių sąrašas!"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Pull request URL copied to clipboard."
+msgstr "Stebimi vertimai"
 
 msgid "Last remote commit"
 msgstr ""
@@ -13649,6 +13721,11 @@ msgstr "Stebimi vertimai"
 #| msgid "Watched translations"
 msgid "Cannot add translation right now"
 msgstr "Stebimi vertimai"
+
+#, fuzzy, python-format
+#| msgid "Your languages"
+msgid "Source: %(language)s"
+msgstr "Jūsų kalbos"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14997,13 +15074,15 @@ msgstr "Projekto pavadinimas"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -15020,7 +15099,14 @@ msgstr "Projekto pavadinimas"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15029,6 +15115,12 @@ msgid "Component to remove"
 msgstr "Informacija"
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -15298,6 +15390,11 @@ msgstr "Tarpinė kalba"
 #| msgid "Translations"
 msgid "Explanation"
 msgstr "Vertimai"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "User registration"
@@ -16263,6 +16360,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Show suggestions"
+msgstr "Leidimai"
 
 #, fuzzy
 #| msgid "Status of repositories"
@@ -17735,6 +17837,11 @@ msgid "State: %(state)s"
 msgstr "Weblate kalbos"
 
 #, fuzzy
+#| msgid "Projects"
+msgid "Previous source"
+msgstr "Projektai"
+
+#, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestions pending"
 msgstr "Pateikti pasiūlymai"
@@ -18902,6 +19009,11 @@ msgid "You do not have permission to create terminology."
 msgstr "Stebimi vertimai"
 
 #, fuzzy
+#| msgid "Project / Component"
+msgid "Invalid string selection!"
+msgstr "Projektas / komponentas"
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Paremti Weblate"
@@ -18946,6 +19058,9 @@ msgstr "Arabų kalbos"
 msgid "Labels to remove — all languages"
 msgstr "Kalbos kodas"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -18968,8 +19083,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Informacija"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18983,6 +19099,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19205,6 +19327,22 @@ msgstr "Vertimų būsena"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other projects"
+msgid "Inherit enforced checks"
+msgstr "Kiti projektai"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Vertimų būsena"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -19489,6 +19627,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Add new association"
+msgid "Repository browser for translations"
+msgstr "Pridėti naują asociaciją"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -19617,10 +19767,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -20288,6 +20435,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
+msgid "Use enforced checks from the workspace."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Translation status"
 msgid "Use the translation license configured in the workspace."
 msgstr "Vertimų būsena"
 
@@ -20574,6 +20726,11 @@ msgstr "Arabų kalbos"
 msgid "Unmark as terminology for all languages"
 msgstr "Arabų kalbos"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20581,6 +20738,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Choose languages to which you can translate."
+msgid "Please turn on reviews on the project first."
+msgstr "Pasirinkite kalbas, į kurias galite versti."
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "This language already has a project workflow."
+msgstr "Vertimų būsena"
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Select a source language in a project workflow."
+msgstr "Jūsų kalbos"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "The source language must exist in this project."
+msgstr "Stebimi projektai"
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Source languages cannot form a cycle."
+msgstr "Jūsų kalbos"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -20961,6 +21143,14 @@ msgstr ""
 #| msgid "Add new association"
 msgid "Could not parse flags: %s"
 msgstr "Pridėti naują asociaciją"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported enforced check: %s"
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
 
 #, fuzzy, python-format
 #| msgid "Watched translations"
@@ -24391,9 +24581,6 @@ msgstr "Vertimų būsena"
 #~| msgid "Source code repository"
 #~ msgid "Backup pepository"
 #~ msgstr "Pradinio kodo saugykla"
-
-#~ msgid "Your languages"
-#~ msgstr "Jūsų kalbos"
 
 #, fuzzy
 #~| msgid "translated"
