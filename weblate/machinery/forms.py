@@ -478,18 +478,18 @@ class LLMBasicMachineryForm(BaseMachineryForm):
         ),
         widget=forms.Textarea,
         help_text=gettext_lazy(
-            "Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.”"
+            "Describe the translator’s role or expertise. For example: “You are an experienced medical translator.”"
         ),
         required=False,
     )
     style = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "Translator style",
+            "Translation style",
         ),
         widget=forms.Textarea,
         help_text=gettext_lazy(
-            "Describe the style of translation. For example: “Use informal language.”"
+            "Describe the desired translation style. For example: “Use informal language.”"
         ),
         required=False,
     )
@@ -501,7 +501,7 @@ class LLMBasicMachineryForm(BaseMachineryForm):
         widget=forms.Textarea,
         help_text=(
             gettext_lazy(
-                "JSON object mapping existing target language codes to extra instructions, up to %(limit)d characters each."
+                'Enter a JSON object mapping target language codes recognized by Weblate to additional translation instructions. Each instruction can contain up to %(limit)d characters. For example: {"de": "Use formal address."}'
             )
             % {"limit": LLM_LANGUAGE_INSTRUCTION_LENGTH}
         ),
@@ -606,6 +606,9 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
             "Automatic suggestion service configuration",
             "OpenAI model",
         ),
+        help_text=gettext_lazy(
+            "With ‘Automatic selection’, Weblate selects the first model available through the API from its predefined preference list."
+        ),
         initial="auto",
         choices=MODEL_CHOICES,
     )
@@ -614,7 +617,9 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
             "OpenAI model selection",
             "Custom model name",
         ),
-        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        help_text=gettext_lazy(
+            "Required when ‘Custom model’ is selected. Enter the model identifier used by the API."
+        ),
         required=False,
     )
 
@@ -663,6 +668,9 @@ class MistralMachineryForm(BaseOpenAIMachineryForm):
             "Automatic suggestion service configuration",
             "Mistral model",
         ),
+        help_text=gettext_lazy(
+            "With ‘Automatic selection’, Weblate selects the first model available through the API from its predefined preference list."
+        ),
         initial="auto",
         choices=MODEL_CHOICES,
     )
@@ -671,7 +679,9 @@ class MistralMachineryForm(BaseOpenAIMachineryForm):
             "Mistral model selection",
             "Custom model name",
         ),
-        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        help_text=gettext_lazy(
+            "Required when ‘Custom model’ is selected. Enter the model identifier used by the API."
+        ),
         required=False,
     )
 
@@ -715,7 +725,7 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
     base_url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         help_text=gettext_lazy(
-            "Base URL of the Ollama API, localhost and port 11434 by default."
+            "Base URL of the Ollama API, reachable from the Weblate server. The default is http://localhost:11434; localhost refers to the environment where Weblate runs."
         ),
         initial="http://localhost:11434",
     )
@@ -765,7 +775,9 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
             "Anthropic model selection",
             "Custom model name",
         ),
-        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        help_text=gettext_lazy(
+            "Required when ‘Custom model’ is selected. Enter the model identifier used by the API."
+        ),
         required=False,
     )
     max_tokens = forms.IntegerField(
@@ -773,7 +785,7 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
             "Automatic suggestion service configuration",
             "Max tokens",
         ),
-        help_text=gettext_lazy("Maximum number of tokens to generate in the response."),
+        help_text=gettext_lazy("Maximum number of tokens in the generated response."),
         initial=4096,
         min_value=1,
         max_value=64000,
