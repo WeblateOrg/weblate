@@ -81,7 +81,7 @@ from weblate.wladmin.views import (
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -93,7 +93,7 @@ def get_response_call_body(index: int) -> str:
 
 
 @contextmanager
-def restored_environment(name: str, value: str) -> Iterator[None]:
+def restored_environment(name: str, value: str) -> Generator[None, None, None]:
     try:
         yield
     finally:

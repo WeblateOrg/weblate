@@ -79,7 +79,7 @@ from weblate.utils.tasks import (
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator, Iterator
 
 
 class CleanupTest(ComponentTestCase):
@@ -381,7 +381,7 @@ class TasksTest(ComponentTestCase):
         original_push_if_needed = Component.push_if_needed
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield
@@ -414,7 +414,7 @@ class TasksTest(ComponentTestCase):
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield
@@ -1268,7 +1268,7 @@ class TasksTest(ComponentTestCase):
         events: list[str] = []
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield
