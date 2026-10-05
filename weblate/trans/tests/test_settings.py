@@ -97,6 +97,36 @@ class SettingsTest(ViewTestCase):
         form = ProjectSettingsForm(self.get_request(), instance=self.project)
         self.assertFalse(form.fields["public_sharing"].disabled)
 
+    def test_shared_memory_contribution_warning(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+
+        self.assertIn(
+            "Project access control does not restrict this shared data.",
+            form.fields["contribute_shared_tm"].help_text,
+        )
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(
+            reverse("settings", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertContains(
+            response, "Project access control does not restrict this shared data."
+        )
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_contribution_warning(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+
+        self.assertTrue(form.fields["contribute_shared_tm"].widget.is_hidden)
+        self.assertIn(
+            "regardless of project access control",
+            form.fields["use_shared_tm"].help_text,
+        )
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(
+            reverse("settings", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertContains(response, "regardless of project access control")
+
     @override_settings(OFFER_HOSTING=True)
     def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
         self.component.restricted = True

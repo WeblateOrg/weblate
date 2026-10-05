@@ -3953,7 +3953,9 @@ class ProjectSettingsForm(
             self.fields["contribute_shared_tm"].widget = forms.HiddenInput()
             self.fields["use_shared_tm"].help_text = gettext(
                 "Uses and contributes to the pool of shared translations "
-                "between projects."
+                "between projects. Enabling this publishes source strings, "
+                "translations, and project and component origin regardless of "
+                "project access control."
             )
             self.fields["contribute_workspace_tm"].widget = forms.HiddenInput()
             self.fields["use_workspace_tm"].help_text = gettext(

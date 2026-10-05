@@ -318,7 +318,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Contribute to shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
         help_text=gettext_lazy(
-            "Contributes to the pool of shared translations between projects."
+            "Publishes source strings, translations, and project and component "
+            "origin to the global shared translation memory. Project access "
+            "control does not restrict this shared data."
         ),
     )
     use_workspace_tm = models.BooleanField(
