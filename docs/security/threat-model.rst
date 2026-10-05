@@ -194,6 +194,14 @@ repository state, background tasks, outbound requests, and rendered UI.
        origin excludes the reserved staging directory as required by
        :ref:`cdn-server-security`.
        *(documented)* (source: :ref:`addon-weblate.cdn.kotlin`)
+   * - Projects to global shared translation memory
+     - Enabling contribution deliberately publishes source strings,
+       translations, and project and component origin outside project access
+       controls, including for Private and Custom projects. Restricted
+       components do not contribute. Disabling contribution prevents the
+       project's automatic entries from remaining visible through the shared
+       scope, but cannot revoke copies already observed or downloaded.
+       *(documented)* (source: :ref:`shared-tm`, :ref:`api-memory`)
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
@@ -720,6 +728,7 @@ Security properties Weblate provides
      - Security-critical.
    * - Private project data other than documented generic webhook matching
        diagnostics, metadata published through :ref:`project-public_sharing`,
+       translations explicitly published through :ref:`shared-tm`,
        and translations, build identifiers, and resource mappings explicitly
        published through CDN add-ons,
        user data, credentials, tokens, SSH keys, and 2FA secrets are not
@@ -745,9 +754,13 @@ Security properties Weblate provides
        from that component to unauthenticated CDN clients, including for private
        projects. CDN storage and cached client copies are outside project access
        controls; removing origin files cannot revoke previously downloaded copies.
+       Enabling shared translation memory contribution explicitly publishes
+       source strings, translations, and project and component origin outside
+       project access controls, including for Private and Custom projects.
      - Cross-project data leak not covered by the documented generic webhook
-       diagnostics, public-sharing metadata, explicit CDN publication, or linked-repository trust
-       boundary, credential exposure, or unauthorized export.
+       diagnostics, public-sharing metadata, explicit shared-memory or CDN
+       publication, or linked-repository trust boundary, credential exposure,
+       or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
@@ -998,6 +1011,12 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
+* A report that source strings, translations, or project and component origin
+  from a Private or Custom project are available through shared translation
+  memory is not a vulnerability when an authorized manager explicitly enabled
+  contribution. Shared contribution publishes this data outside project access
+  controls. Restricted components remain excluded. *(documented)* (source:
+  :ref:`shared-tm`, :ref:`api-memory`)
 * A report containing private-project or restricted-component data is not a
   vulnerability when the user has effective ``reports.view`` permission on the
   selected parent scope. That permission intentionally authorizes the complete

@@ -2883,6 +2883,8 @@ Translations
     :type announcement_id: integer
 
 
+.. _api-memory:
+
 Memory
 ++++++
 
@@ -2890,7 +2892,12 @@ Memory
 
 .. http:get:: /api/memory/
 
-    Returns a list of memory results.
+    Returns a paginated list of memory results visible to the authenticated
+    user. When no source filter is supplied, the response enumerates all visible
+    entries, including the global shared translation memory. Shared entries
+    contain their source string, translation, and project and component origin.
+    Project access control does not restrict entries explicitly published to
+    shared translation memory; see :ref:`shared-tm`.
 
     :query source: Case-insensitive substring filter on source text (optional)
     :type source: string
