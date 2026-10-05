@@ -23,6 +23,7 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
+from weblate.vcs.git import GitRepository
 from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
@@ -823,12 +824,14 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
                 "X-Hub-Signature-256": sign_webhook_payload(body, "s3cret"),
             },
         )
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 201, response.content)
 
     def assert_component_repo(self, url: str) -> None:
         self.component.refresh_from_db()
         self.assertEqual(self.component.repo, url)
-        self.assertEqual(self.component.repository.get_config("remote.origin.url"), url)
+        repository = self.component.repository
+        assert isinstance(repository, GitRepository)
+        self.assertEqual(repository.get_config("remote.origin.url"), url)
 
     def test_retargets_renamed_repository(self) -> None:
         self._route_git(self.NEW_URL)
@@ -976,6 +979,99 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
         )
 
         self.assert_component_repo(new_url)
+
+    def test_transfer_from_source_installation_refreshes_destination(self) -> None:
+        new_url = "https://github.com/other-org/old-repo.git"
+        self._route_git(new_url)
+        destination = GitHubInstallation.objects.create(
+            installation_id="67890",
+            target_type="Organization",
+            target_login="other-org",
+            workspace=self.workspace,
+        )
+        http_mock.register(
+            "POST",
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_destination"},
+        )
+        for token, repositories in (
+            ("ghs_test", []),
+            ("ghs_destination", [_api_repository("other-org/old-repo")]),
+        ):
+            match = [http_mock.header_matcher({"Authorization": f"token {token}"})]
+            http_mock.register(
+                "GET",
+                "https://api.github.com/installation/repositories?per_page=100",
+                json={"repositories": repositories},
+                match=match,
+            )
+            http_mock.register(
+                "GET",
+                "https://api.github.com/repos/test-org/old-repo",
+                status_code=200 if repositories else 404,
+                json=_api_repository("other-org/old-repo") if repositories else {},
+                match=match,
+            )
+
+        self._post_repository_event(
+            "transferred", repository=_api_repository("other-org/old-repo")
+        )
+
+        self.installation.refresh_from_db()
+        destination.refresh_from_db()
+        self.assertEqual(self.installation.repositories, [])
+        self.assertEqual(
+            [repo["full_name"] for repo in destination.repositories],
+            ["other-org/old-repo"],
+        )
+        self.assert_component_repo(new_url)
+
+    def test_unsuspend_repairs_other_workspace(self) -> None:
+        other_workspace = Workspace.objects.create(name="Other Refresh Workspace")
+        other_installation = GitHubInstallation.objects.create(
+            installation_id=self.installation.installation_id,
+            target_type="Organization",
+            target_login=self.installation.target_login,
+            workspace=other_workspace,
+            repositories=self.installation.repositories,
+            enabled=False,
+        )
+        self.installation.enabled = False
+        self.installation.save(update_fields=["enabled"])
+        self.project.workspace = other_workspace
+        self.project.save(update_fields=["workspace"])
+        self._route_git(self.NEW_URL)
+        self._register_repositories("test-org/new-repo")
+        self._register_lookup("test-org/old-repo", "test-org/new-repo")
+        body = json.dumps(
+            {"action": "unsuspend", "installation": {"id": 12345, "app_id": 99999}}
+        )
+
+        response = APIClient().post(
+            _integration_url(GITHUB_COM_TOKEN),
+            data=body,
+            content_type="application/json",
+            headers={
+                "X-GitHub-Event": "installation",
+                "X-Hub-Signature-256": sign_webhook_payload(body, "s3cret"),
+            },
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.installation.refresh_from_db()
+        other_installation.refresh_from_db()
+        self.assertTrue(self.installation.enabled)
+        self.assertTrue(other_installation.enabled)
+        self.assertEqual(
+            other_installation.repositories, self.installation.repositories
+        )
+        self.assertEqual(
+            self._api_urls().count(
+                "https://api.github.com/installation/repositories?per_page=100"
+            ),
+            1,
+        )
+        self.assert_component_repo(self.NEW_URL)
 
     def test_redelivered_event_keeps_reused_name(self) -> None:
         # A new repository took over the old name after the rename

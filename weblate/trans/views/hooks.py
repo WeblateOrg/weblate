@@ -46,6 +46,7 @@ from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
     get_github_app_settings,
+    get_github_repository_full_name,
     normalize_github_installation_id,
     verify_webhook_signature,
 )
@@ -451,7 +452,7 @@ def _lookup_github_installation(data: dict, hostname: str | None = None):
 
 
 def _refresh_github_installations(installations) -> None:
-    """Refresh repositories once and copy the result to matching project rows."""
+    """Refresh repositories once and repair components in every workspace."""
     if not installations:
         return
     try:
@@ -461,10 +462,16 @@ def _refresh_github_installations(installations) -> None:
         return
 
     repositories_updated = installations[0].repositories_updated
+    config = get_github_app_settings(installations[0].hostname)
     for installation in installations[1:]:
         installation.repositories = repositories
         installation.repositories_updated = repositories_updated
         installation.save(update_fields=["repositories", "repositories_updated"])
+        if config is not None:
+            try:
+                async_to_sync(installation.repair_moved_components)(config)
+            except Exception:
+                report_error("Failed to repair moved GitHub repositories")
 
 
 def _github_http_host(hostname: str) -> str:
@@ -692,14 +699,28 @@ def _handle_github_repository_event(data: dict, hostname: str) -> None:
     if installation_id is None:
         return
 
-    for pk in GitHubInstallation.objects.filter_for_installation(
-        hostname, installation_id
-    ).values_list("pk", flat=True):
-        refresh_github_installation.delay(pk)
+    accounts = Q(installation_id=installation_id)
+    if data["action"] == "transferred":
+        repository = data.get("repository")
+        full_name = (
+            repository.get("full_name") if isinstance(repository, dict) else None
+        )
+        destination = (
+            get_github_repository_full_name(full_name)
+            if isinstance(full_name, str)
+            else None
+        )
+        if destination is not None:
+            accounts |= Q(
+                target_login__iexact=destination.split("/", 1)[0], enabled=True
+            )
+
+    for item in GitHubInstallation.objects.filter(hostname=hostname).filter(accounts):
+        refresh_github_installation.delay(item.pk)
         LOGGER.info(
             "Scheduled refresh of connected GitHub account %s/%s after repository %s",
             hostname,
-            installation_id,
+            item.installation_id,
             data["action"],
         )
 
