@@ -651,10 +651,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def save(self, *args, **kwargs) -> None:
         self.renamed_teams.clear()
         using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
-        setup_trackers = (
+        save_trackers = (
             self.old_access_control,
             self.old_translation_review,
             self.old_source_review,
+            self.billing_original_workspace_id,
         )
         original_state = (self.pk, self._state.adding, self._state.db)
         renamed_paths: tuple[str, str] | None = None
@@ -689,7 +690,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     self.old_access_control,
                     self.old_translation_review,
                     self.old_source_review,
-                ) = setup_trackers
+                    self.billing_original_workspace_id,
+                ) = save_trackers
                 self.pk, self._state.adding, self._state.db = original_state
                 self.renamed_teams.clear()
                 self.invalidate_path_cache()

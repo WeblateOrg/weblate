@@ -2188,6 +2188,7 @@ class BackupsTest(ViewTestCase):
         for name in ("Translate", "Review"):
             team = restored.defined_groups.get(name=name)
             self.assertTrue(team.internal)
+            self.assertEqual(list(team.projects.all()), [restored])
             teams[name] = team.pk
         self.assertEqual(restore.get_restore_warnings(), [])
         restored.access_control = Project.ACCESS_PRIVATE
@@ -2231,17 +2232,25 @@ class BackupsTest(ViewTestCase):
             "members": [self.user.username],
             "autogroups": [],
         }
-        builtin = {**team, "internal": True, "roles": ["Review strings"], "members": []}
+        builtin = {**team, "internal": True, "roles": ["Review strings"]}
         restore.restore_teams([team, builtin])
         internal = restored.defined_groups.get(name="Review")
         custom = restored.defined_groups.get(name="Review (2)")
         self.assertTrue(internal.internal)
         self.assertFalse(custom.internal)
+        self.assertEqual(list(internal.projects.all()), [restored])
+        self.assertEqual(list(custom.projects.all()), [restored])
         self.assertEqual(list(custom.user_set.all()), [self.user])
         self.assertEqual(
             list(internal.roles.values_list("name", flat=True)), ["Review strings"]
         )
         self.assertEqual(restore.renamed_teams, [("Review", "Review (2)")])
+        restored.translation_review = True
+        restored.save(update_fields=["translation_review"])
+        internal.refresh_from_db()
+        self.assertEqual(restored.defined_groups.get(name="Review").pk, internal.pk)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", restored))
 
     def test_restore_builtin_type_after_earlier_custom_team(self) -> None:
         self.project.translation_review = False

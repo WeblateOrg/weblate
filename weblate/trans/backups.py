@@ -2013,6 +2013,8 @@ class ProjectBackup:
 
     def restore_team(self, team: dict, group: Group | None = None) -> None:
         if group is None:
+            if self.project is None:
+                raise TypeError
             group = Group(
                 name=team["name"],
                 defining_project=self.project,
@@ -2021,6 +2023,7 @@ class ProjectBackup:
                 enforced_2fa=team["enforced_2fa"],
             )
             group = Group.objects.bulk_create([group])[0]
+            group.projects.add(self.project)
 
         group.language_selection = team["language_selection"]
         group.enforced_2fa = team["enforced_2fa"]
