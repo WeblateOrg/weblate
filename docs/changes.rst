@@ -7,6 +7,7 @@ Weblate 2026.10.1
 
 .. rubric:: Improvements
 
+* Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
 * Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
 
 .. rubric:: Security fixes
