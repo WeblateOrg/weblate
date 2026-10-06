@@ -280,6 +280,41 @@ class SeleniumEngineTranslation(DummyTranslation):
         }
 
 
+class SeleniumOriginsTranslation(DummyTranslation):
+    """Dummy machine translation finding a result in many origins."""
+
+    name = "Selenium Origins"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        for index, quality in enumerate((90, 95, 100, 80, 85, 75, 70)):
+            yield {
+                "text": "machinery target",
+                "quality": quality,
+                "service": self.name,
+                "source": text,
+                "show_quality": True,
+                "origin": f"Component {index}",
+            }
+        # The same origin repeated, for example for another plural form
+        yield {
+            "text": "machinery target",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component 2",
+        }
+
+
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.google.GoogleOAuth2",
@@ -2463,6 +2498,54 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @override_settings(
         WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumOriginsTranslation",
+        )
+    )
+    def test_machinery_origins(self) -> None:
+        """Machinery origins are grouped by service and collapsed when many."""
+        self.open_machinery_unit(SeleniumOriginsTranslation.get_identifier())
+        self.wait_for_machinery_rows(1)
+
+        row = self.driver.find_element(
+            By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+        )
+        # The service is named once for all its origins.
+        self.assertEqual(
+            [
+                element.text
+                for element in row.find_elements(
+                    By.CSS_SELECTOR, ".machinery-service-name"
+                )
+            ],
+            [SeleniumOriginsTranslation.name],
+        )
+
+        # Each origin is listed once with its score, the best ones first, and
+        # the ones over the limit are collapsed.
+        details = row.find_element(By.CSS_SELECTOR, ".machinery-origin-more")
+        self.assertIsNone(details.get_attribute("open"))
+        summary = details.find_element(By.TAG_NAME, "summary")
+        self.assertEqual(summary.text, "2 more origins")
+        origins = row.find_elements(By.CSS_SELECTOR, "div.machinery-origin-detail")
+        self.assertEqual(
+            [element.text for element in origins if element.is_displayed()],
+            [
+                "Component 2 (100%)",
+                "Component 1 (95%)",
+                "Component 0 (90%)",
+                "Component 4 (85%)",
+                "Component 3 (80%)",
+            ],
+        )
+
+        summary.click()
+        self.assertEqual(
+            [element.text for element in origins if element.is_displayed()][5:],
+            ["Component 5 (75%)", "Component 6 (70%)"],
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
             "weblate.trans.tests.test_selenium.SeleniumEmptyTranslation",
         )
     )
@@ -2497,7 +2580,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         rows = self.driver.find_elements(
             By.CSS_SELECTOR, "#machinery-translations .machinery-row"
         )
-        # The score is displayed with the service it belongs to, the service
+        # The score is displayed with the origin it belongs to, the service
         # without a score is listed without one.
         self.assertEqual(
             [
@@ -2507,9 +2590,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
             ],
             [
-                f"{SeleniumScoredTranslation.name} (100%)",
+                SeleniumScoredTranslation.name,
                 SeleniumEngineTranslation.name,
             ],
+        )
+        self.assertEqual(
+            [
+                element.text
+                for element in rows[0].find_elements(
+                    By.CSS_SELECTOR, ".machinery-origin-detail"
+                )
+            ],
+            ["Project: WeblateOrg/Django (100%)"],
         )
         self.assertEqual(
             [
