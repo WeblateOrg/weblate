@@ -17329,6 +17329,26 @@ class ChangeAPITest(APIBaseTest):
         self.assertEqual(response.data["details"]["changed_fields"], ["secret"])
         self.assertIsNone(response.data["details"]["configuration"]["secret"])
 
+    def test_addon_link_requires_management_access(self) -> None:
+        addon = Addon.objects.create(
+            component=self.component, name="weblate.gettext.linguas"
+        )
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE,
+            target="weblate.gettext.linguas",
+        )
+        change_url = reverse("api:change-detail", kwargs={"pk": change.pk})
+
+        self.authenticate()
+        response = self.client.get(change_url)
+        self.assertIsNone(response.data["addon"])
+
+        self.authenticate(superuser=True)
+        response = self.client.get(change_url)
+        addon_url = reverse("api:addon-detail", kwargs={"pk": addon.pk})
+        self.assertTrue(response.data["addon"].endswith(addon_url))
+        self.assertEqual(self.client.get(response.data["addon"]).status_code, 200)
+
     def test_legacy_addon_configuration_details_are_hidden(self) -> None:
         change = self.component.change_set.create(
             action=ActionEvents.ADDON_CHANGE,

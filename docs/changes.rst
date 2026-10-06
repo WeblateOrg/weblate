@@ -23,6 +23,7 @@ Weblate 2026.10.1
 
 .. rubric:: Security fixes
 
+* Prevented Automation workflow configuration from disclosing references to restricted components in change history.
 * Clarified that contributing to :ref:`shared translation memory <shared-tm>` publishes strings and their origin outside project access control.
 * Added restrictive cache controls to authenticated HTML responses to prevent previously viewed content from being restored after logout.
 * Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.

@@ -808,6 +808,34 @@ class AutomationTest(ComponentTestCase):
             **(scope or {"component": self.component}),
         )
 
+    def test_change_history_redacts_workflow_and_links_current_addon(self) -> None:
+        addon = self.install(WORKFLOW | {"actions": [AUTO]})
+        addon_id = addon.instance.pk
+        created = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE, target=AutomationAddon.name
+        )
+        self.assertEqual(created.addon_id, addon_id)
+        self.assertEqual(created.details["configuration"], {"workflow": None})
+        self.assertEqual(created.details["redacted_fields"], ["workflow"])
+
+        addon.configure({"workflow": WORKFLOW | {"actions": [BULK]}})
+        changed = self.component.change_set.get(
+            action=ActionEvents.ADDON_CHANGE, target=AutomationAddon.name
+        )
+        self.assertEqual(changed.addon_id, addon_id)
+        self.assertEqual(changed.details["configuration"], {"workflow": None})
+        self.assertEqual(changed.details["changed_fields"], ["workflow"])
+        self.assertEqual(changed.details["redacted_fields"], ["workflow"])
+
+        addon.instance.delete()
+
+        changes = self.component.change_set.filter(target=AutomationAddon.name)
+        self.assertEqual(changes.count(), 3)
+        self.assertFalse(changes.exclude(addon=None).exists())
+        removed = changes.get(action=ActionEvents.ADDON_REMOVE)
+        self.assertEqual(removed.details["configuration"], {"workflow": None})
+        self.assertEqual(removed.details["redacted_fields"], ["workflow"])
+
     def test_subscription_update_and_no_install_run(self) -> None:
         addon = self.install(
             WORKFLOW | {"triggers": [{"trigger": "post_update"}, {"trigger": "daily"}]}
@@ -857,6 +885,51 @@ class AutomationTest(ComponentTestCase):
         )
 
         self.assertEqual(workflow["actions"][0]["settings"]["component"], source.pk)
+
+    def test_restricted_source_is_redacted_from_changes_api(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted audit source",
+            slug="restricted-audit-source",
+            allow_translation_propagation=False,
+        )
+        source.restricted = True
+        source.save(update_fields=["restricted"])
+        self.assertFalse(self.user.can_access_component(source))
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW | {"actions": [AUTO | {"settings": {"component": source.pk}}]}
+            ),
+            self.component,
+        )
+        self.install(workflow)
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE, target=AutomationAddon.name
+        )
+
+        client = APIClient()
+        client.force_authenticate(self.user)
+        urls = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs={"slug": self.project.slug}),
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                response = client.get(url)
+                self.assertEqual(response.status_code, 200, response.data)
+                serialized = next(
+                    item for item in response.data["results"] if item["id"] == change.pk
+                )
+                self.assertIsNone(serialized["addon"])
+                self.assertEqual(
+                    serialized["details"]["configuration"], {"workflow": None}
+                )
+                self.assertEqual(serialized["details"]["redacted_fields"], ["workflow"])
+
+        restricted_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": self.project.slug, "slug": source.slug},
+        )
+        self.assertEqual(client.get(restricted_url).status_code, 404)
 
     def test_default_expanded_size_limit_in_form(self) -> None:
         addon = self.install()

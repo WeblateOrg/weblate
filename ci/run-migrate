@@ -195,6 +195,14 @@ if [ "$source_workflow_gate_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed the Automation audit snapshot affected by the 2026.10 disclosure.
+semver_compare "2026.10" "<=" "$1" && semver_compare "$1" "<" "2026.10.1"
+automation_audit_redaction_migrate=$?
+if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-automation-audit-redaction.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -299,5 +307,10 @@ fi
 
 if [ "$source_workflow_gate_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-source-workflow-gate.py"
+    check
+fi
+
+if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-automation-audit-redaction.py"
     check
 fi

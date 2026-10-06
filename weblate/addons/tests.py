@@ -7998,6 +7998,59 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
 
 
 class AddonChangeDetailsMigrationTest(TestCase):
+    def test_automation_workflows_are_scrubbed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0117_change_addon_redact_automation_workflow"
+        )
+        workflow = {
+            "version": 1,
+            "triggers": [],
+            "actions": [
+                {
+                    "action": "weblate.automatic_translation",
+                    "settings": {"component": 123},
+                }
+            ],
+        }
+        versioned = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.automation.automation",
+            details={
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"workflow": workflow},
+                "changed_fields": ["workflow"],
+                "redacted_fields": [],
+            },
+        )
+        legacy = Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            target="weblate.automation.automation",
+            details={"workflow": workflow},
+        )
+        unrelated = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=WebhookAddon.name,
+            details={"workflow": workflow},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.redact_automation_workflows(apps, schema_editor)
+
+        versioned.refresh_from_db()
+        legacy.refresh_from_db()
+        unrelated.refresh_from_db()
+        self.assertEqual(
+            versioned.details,
+            {
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"workflow": None},
+                "changed_fields": ["workflow"],
+                "redacted_fields": ["workflow"],
+            },
+        )
+        self.assertEqual(legacy.details, {"workflow": None})
+        self.assertEqual(unrelated.details, {"workflow": workflow})
+
     def test_sensitive_addon_details_are_scrubbed(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0098_scrub_addon_change_details"

@@ -615,6 +615,12 @@ class Change(models.Model, UserDisplayMixin):
     alert = models.ForeignKey(
         "trans.Alert", null=True, on_delete=models.deletion.SET_NULL
     )
+    addon = models.ForeignKey(
+        "addons.Addon",
+        null=True,
+        on_delete=models.deletion.SET_NULL,
+        related_name="+",
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
