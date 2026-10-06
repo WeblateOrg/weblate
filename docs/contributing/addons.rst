@@ -71,6 +71,8 @@ List configuration fields that are safe to publish in the form's
 ``public_configuration_fields`` attribute. Fields not explicitly listed are
 kept in the snapshot with a null value and identified as redacted. The default
 is an empty set so that newly added settings are not published accidentally.
+Allowlisting a structured field publishes all its nested values. Only list such
+a field when every value it can contain is safe to publish.
 
 Use ``BaseAddon.get_public_configuration()`` whenever configuration is exposed
 outside trusted add-on management code. Internal operations which intentionally

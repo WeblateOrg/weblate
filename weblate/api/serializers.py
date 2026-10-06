@@ -4356,6 +4356,7 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
 
 class ChangeSerializer(RemovableSerializer[Change]):
     action_name = serializers.CharField(source="get_action_display", read_only=True)
+    addon = serializers.SerializerMethodField()
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -4384,6 +4385,45 @@ class ChangeSerializer(RemovableSerializer[Change]):
         )
     )
     alert = serializers.SerializerMethodField()
+
+    def get_accessible_addon_ids(self, change: Change) -> set[int]:
+        cache_key = "change_accessible_addon_ids"
+        if cache_key in self.context:
+            return self.context[cache_key]
+
+        request = self.context.get("request")
+        if request is None:
+            result: set[int] = set()
+        else:
+            parent_instance = getattr(self.parent, "instance", None)
+            instances = (
+                parent_instance
+                if isinstance(self.parent, serializers.ListSerializer)
+                else (change,)
+            )
+            addon_ids = {
+                item.addon_id for item in instances if item.addon_id is not None
+            }
+            result = set(
+                Addon.objects.filter_access(request.user)
+                .filter(pk__in=addon_ids)
+                .values_list("pk", flat=True)
+            )
+        self.context[cache_key] = result
+        return result
+
+    @extend_schema_field(serializers.URLField(allow_null=True))
+    def get_addon(self, change: Change) -> str | None:
+        if (
+            change.addon_id is None
+            or change.addon_id not in self.get_accessible_addon_ids(change)
+        ):
+            return None
+        return reverse(
+            "api:addon-detail",
+            kwargs={"pk": change.addon_id},
+            request=self.context.get("request"),
+        )
 
     def can_view_alert_details(self) -> bool:
         request = self.context.get("request")
@@ -4452,6 +4492,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "unit",
             "component",
             "translation",
+            "addon",
             "user",
             "author",
             "alert",
