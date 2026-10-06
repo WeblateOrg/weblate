@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING, TypedDict
 from celery.schedules import crontab
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives, get_connection
+from django.core.mail import EmailMultiAlternatives, mailers
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.db import models, transaction
 from django.urls import reverse
@@ -480,7 +480,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
         }
 
     with start_span(op="email.connect"):
-        connection = get_connection()
+        connection = mailers.default
         try:
             connection.open()
         except Exception:
