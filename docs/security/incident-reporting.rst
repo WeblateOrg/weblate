@@ -193,4 +193,4 @@ runbook does not establish that access or exercises are already in place.
   deadlines and calendar-month deadlines across February. Record gaps and
   follow-up actions without sending exercise reports to real recipients.
 
-.. _ENISA Single Reporting Platform guidance: https://www.enisa.europa.eu/topics/product-security/single-reporting-platform-srp
+.. _ENISA Single Reporting Platform guidance: https://www.enisa.europa.eu/topics/product-security/vulnerability-services/eu-incident-response-and-cyber-crisis-management/single-reporting-platform-srp
