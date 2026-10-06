@@ -438,7 +438,8 @@ autodoc_mock_imports = [
 gettext_compact = "docs"
 
 redirects = {
-    "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
+    "devel/third-party": "libraries.html",
+    "devel/thirdparty": "libraries.html",  # codespell:ignore thirdparty
     "contributing/security": "security/index.html",
     "formats/moko": "formats/moko-resources.html",
     "legal": "security/index.html",
