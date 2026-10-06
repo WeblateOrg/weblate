@@ -3175,6 +3175,14 @@ class GithubRepository(GitMergeRequestBase):
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
 
+    @classmethod
+    def add_response_breadcrumb(cls, response: httpx2.Response) -> None:
+        """Keep account lookup responses out of diagnostic breadcrumbs."""
+        if response.request.url.path.rstrip("/") in {"/user", "/api/v3/user"}:
+            cls.add_breadcrumb("http.response", status_code=response.status_code)
+            return
+        super().add_response_breadcrumb(response)
+
     def should_retry_request(
         self, response: httpx2.Response, response_data: dict
     ) -> bool:
@@ -3230,6 +3238,7 @@ class GithubRepository(GitMergeRequestBase):
         self,
         credentials: GitCredentials,
         response: httpx2.Response,
+        fork_remote: str = "",
     ) -> list[RepositoryDiagnosis]:
         """Provide an actionable diagnosis for GitHub pull request failures."""
         if response.status_code != 404:
@@ -3240,10 +3249,13 @@ class GithubRepository(GitMergeRequestBase):
                 "get", credentials, credentials["url"]
             )
         except RepositoryError:
-            return []
+            repository_data = {}
+            repository_response = None
 
         if (
-            repository_response.is_success
+            repository_response is not None
+            and repository_response.is_success
+            and isinstance(repository_data, dict)
             and repository_data.get("pull_request_creation_policy")
             == "collaborators_only"
         ):
@@ -3254,7 +3266,73 @@ class GithubRepository(GitMergeRequestBase):
                 diagnosis["params"] = {"username": credentials["username"]}
             return [diagnosis]
 
-        return []
+        fallback: RepositoryDiagnosis = {
+            "code": "github_pull_request_access_unexplained",
+            "params": {"github_app": "yes" if credentials.get("github_app") else "no"},
+        }
+        if credentials.get("github_app"):
+            return [fallback]
+        user_url = f"{credentials['url'].rsplit('/repos/', 1)[0]}/user"
+        try:
+            user_data, user_response, _user_error = self.request(
+                "get", credentials, user_url
+            )
+        except RepositoryError:
+            return [fallback]
+        if user_response.status_code == 401:
+            return [{"code": "github_api_credentials_rejected"}]
+        login = user_data.get("login") if isinstance(user_data, dict) else None
+        if (
+            user_response.is_success
+            and isinstance(login, str)
+            and login
+            and fork_remote
+            and fork_remote != "origin"
+            and login.casefold() != fork_remote.casefold()
+        ):
+            return [
+                {
+                    "code": "github_pull_request_account_mismatch",
+                    "params": {"username": fork_remote, "authenticated_user": login},
+                },
+                fallback,
+            ]
+        return [fallback]
+
+    def failed_github_pull_request(
+        self,
+        credentials: GitCredentials,
+        fork_remote: str,
+        head: str,
+        base: str,
+        error: str,
+        pr_url: str,
+        response: httpx2.Response,
+        data: dict,
+    ) -> NoReturn:
+        """Record selected support details from the original failed POST."""
+        diagnoses = self.get_pull_request_failure_diagnoses(
+            credentials, response, fork_remote
+        )
+        details = {
+            "status_code": response.status_code,
+            "head": head,
+            "base": base,
+            "diagnoses": [diagnosis["code"] for diagnosis in diagnoses],
+            "headers": {
+                header: response.headers[header]
+                for header in (
+                    "X-GitHub-Request-Id",
+                    "X-OAuth-Scopes",
+                    "X-Accepted-OAuth-Scopes",
+                    "X-Accepted-GitHub-Permissions",
+                )
+                if header in response.headers
+            },
+        }
+        self.add_breadcrumb("github.pull_request_failed", **details)
+        self.log(f"GitHub pull request failure details: {details!r}", logging.WARNING)
+        self.failed_pull_request(error, pr_url, response, data, diagnoses=diagnoses)
 
     def create_pull_request(
         self,
@@ -3287,8 +3365,15 @@ class GithubRepository(GitMergeRequestBase):
                 "post", credentials, pr_url, json=request
             )
         except GitAPIRequestError as error:
-            self.failed_pull_request(
-                error.error, pr_url, error.response, error.response_data
+            self.failed_github_pull_request(
+                credentials,
+                fork_remote,
+                head,
+                origin_branch,
+                error.error,
+                pr_url,
+                error.response,
+                error.response_data,
             )
 
         # Check for an error. If the error has a message saying A pull request already
@@ -3330,13 +3415,15 @@ class GithubRepository(GitMergeRequestBase):
                             retry_fork=False,
                         )
 
-            diagnoses = self.get_pull_request_failure_diagnoses(credentials, response)
-            self.failed_pull_request(
+            self.failed_github_pull_request(
+                credentials,
+                fork_remote,
+                head,
+                origin_branch,
                 error_message,
                 pr_url,
                 response,
                 response_data,
-                diagnoses=diagnoses,
             )
 
         if self.wants_automerge():

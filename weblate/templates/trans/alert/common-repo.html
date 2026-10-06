@@ -81,6 +81,28 @@
   </p>
 {% endif %}
 
+{% if analysis.github_api_credentials_rejected %}
+  <p>{% translate "GitHub rejected the API credentials. Check whether the configured token has expired or been revoked, and replace it if necessary." %} {% documentation_icon "admin/code-hosting" "code-hosting-github-pull-requests" %}</p>
+{% endif %}
+
+{% if analysis.github_pull_request_account_mismatch %}
+  <p>
+    {% blocktranslate with username=analysis.github_pull_request_account_mismatch.username authenticated_user=analysis.github_pull_request_account_mismatch.authenticated_user %}The GitHub API token authenticates as <code>{{ authenticated_user }}</code>, while the pull request uses a fork owned by <code>{{ username }}</code>. Check that the token belongs to the intended account and can access the source branch. This mismatch might explain the failure.{% endblocktranslate %}
+  </p>
+{% endif %}
+
+{% if analysis.github_pull_request_access_unexplained %}
+  <p>
+    {% translate "GitHub returned 404 when creating the pull request. This can indicate an access restriction even when the repository is readable. A successful Git push does not verify API access." %}
+    {% if analysis.github_pull_request_access_unexplained.github_app == "yes" %}
+      {% translate "Check the GitHub App installation's repository access and pull request permissions." %}
+    {% else %}
+      {% translate "Check the API token's pull request permissions, repository selection, resource owner, organization restrictions, and access to the source branch." %}
+    {% endif %}
+    {% documentation_icon "admin/code-hosting" "code-hosting-github-pull-requests" %}
+  </p>
+{% endif %}
+
 {% if analysis.git_lfs_missing_objects %}
   <p>
     {% translate "The repository references Git LFS objects that are missing from the push destination. Weblate does not download or upload Git LFS objects, and files tracked by Git LFS cannot be used as translation files." %} {% documentation_icon "vcs" "git-lfs" %}

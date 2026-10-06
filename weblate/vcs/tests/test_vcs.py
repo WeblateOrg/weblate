@@ -25,6 +25,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import MagicMock, call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
+import httpx2
 from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
@@ -3767,6 +3768,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 "pull_request_creation_policy": pull_request_creation_policy,
             },
         )
+        http_mock.register("GET", "https://api.github.com/user", json={"login": "test"})
         if pr_body is None:
             http_mock.register(
                 "POST",
@@ -3895,6 +3897,9 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             with self.repo.lock:
                 self.assertEqual(self.repo.push(""), html_url)
 
+        http_mock.assert_call_count("https://api.github.com/user", 0)
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 0)
+
     @http_mock.activate
     def test_push_returns_existing_pull_request_url(self) -> None:
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
@@ -3996,7 +4001,42 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 self.assertIn(str(status), message)
                 self.assertIn("Some error", message)
                 self.assertNotIn("Please retry later.", message)
-                self.assertEqual(error.exception.diagnoses, [])
+                self.assertEqual(
+                    error.exception.diagnoses,
+                    [
+                        {
+                            "code": "github_pull_request_access_unexplained",
+                            "params": {"github_app": "no"},
+                        }
+                    ]
+                    if status == 404
+                    else [],
+                )
+                http_mock.assert_call_count(
+                    "https://api.github.com/user", 1 if status == 404 else 0
+                )
+
+    @http_mock.activate
+    def test_pull_request_html_not_found_diagnosed(self) -> None:
+        self.mock_responses(
+            pr_status=404, pr_body="<html>Not Found</html>", pr_content_type="text/html"
+        )
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork"),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            super().test_push("")
+        self.assertIn("404 Not Found", error.exception.get_message())
+        self.assertEqual(
+            error.exception.diagnoses,
+            [
+                {
+                    "code": "github_pull_request_access_unexplained",
+                    "params": {"github_app": "no"},
+                }
+            ],
+        )
+        http_mock.assert_call_count("https://api.github.com/user", 1)
 
     @http_mock.activate
     def test_pull_request_creation_restricted(self) -> None:
@@ -4051,7 +4091,153 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             SimpleNamespace(status_code=404),  # type: ignore[arg-type]
         )
 
-        self.assertEqual(diagnoses, [])
+        self.assertEqual(
+            diagnoses,
+            [
+                {
+                    "code": "github_pull_request_access_unexplained",
+                    "params": {"github_app": "no"},
+                }
+            ],
+        )
+
+    def test_pull_request_account_diagnoses(self) -> None:
+        credentials = self.repo.get_credentials()
+        fallback = {
+            "code": "github_pull_request_access_unexplained",
+            "params": {"github_app": "no"},
+        }
+        for data, status, remote, expected in (
+            ({"login": "TEST"}, 200, "test", [fallback]),
+            (
+                {"login": "other"},
+                200,
+                "test",
+                [
+                    {
+                        "code": "github_pull_request_account_mismatch",
+                        "params": {"username": "test", "authenticated_user": "other"},
+                    },
+                    fallback,
+                ],
+            ),
+            ({"login": "other"}, 200, "origin", [fallback]),
+            ({}, 401, "test", [{"code": "github_api_credentials_rejected"}]),
+            ({}, 403, "test", [fallback]),
+            ([], 200, "test", [fallback]),
+            ({"login": 123}, 200, "test", [fallback]),
+        ):
+            with (
+                self.subTest(data=data, status=status, remote=remote),
+                patch.object(
+                    self.repo,
+                    "request",
+                    side_effect=[
+                        (
+                            {"pull_request_creation_policy": "all"},
+                            httpx2.Response(200),
+                            "",
+                        ),
+                        (data, httpx2.Response(status), ""),
+                    ],
+                ) as request,
+            ):
+                self.assertEqual(
+                    self.repo.get_pull_request_failure_diagnoses(
+                        credentials, httpx2.Response(404), remote
+                    ),
+                    expected,
+                )
+                self.assertEqual(
+                    request.call_args.args,
+                    ("get", credentials, "https://api.github.com/user"),
+                )
+
+    def test_pull_request_diagnostic_lookup_errors(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["url"] = "https://enterprise.example/api/v3/repos/owner/repo"
+        with patch.object(
+            self.repo,
+            "request",
+            side_effect=[
+                ([], httpx2.Response(200), ""),
+                RepositoryError(0, "lookup failed"),
+            ],
+        ) as request:
+            diagnoses = self.repo.get_pull_request_failure_diagnoses(
+                credentials, httpx2.Response(404), "test"
+            )
+        self.assertEqual(diagnoses[0]["code"], "github_pull_request_access_unexplained")
+        self.assertEqual(
+            request.call_args.args[2], "https://enterprise.example/api/v3/user"
+        )
+
+    def test_pull_request_app_diagnosis_skips_user(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["github_app"] = True
+        with patch.object(
+            self.repo, "request", return_value=({}, httpx2.Response(200), "")
+        ) as request:
+            self.assertEqual(
+                self.repo.get_pull_request_failure_diagnoses(
+                    credentials, httpx2.Response(404)
+                ),
+                [
+                    {
+                        "code": "github_pull_request_access_unexplained",
+                        "params": {"github_app": "yes"},
+                    }
+                ],
+            )
+        request.assert_called_once()
+
+    def test_pull_request_account_breadcrumb_omits_profile(self) -> None:
+        response = httpx2.Response(
+            200,
+            json={"login": "test", "email": "private@example.com"},
+            request=httpx2.Request("GET", "https://enterprise.example/api/v3/user"),
+        )
+        with patch.object(GithubRepository, "add_breadcrumb") as breadcrumb:
+            GithubRepository.add_response_breadcrumb(response)
+        breadcrumb.assert_called_once_with("http.response", status_code=200)
+
+    def test_pull_request_failure_support_details(self) -> None:
+        credentials = self.repo.get_credentials()
+        response = httpx2.Response(
+            404,
+            headers={
+                "X-GitHub-Request-Id": "request-id",
+                "X-Accepted-GitHub-Permissions": "pull_requests=write",
+                "Authorization": "secret",
+            },
+        )
+        with (
+            patch.object(
+                self.repo, "get_pull_request_failure_diagnoses", return_value=[]
+            ),
+            patch.object(self.repo, "add_breadcrumb") as breadcrumb,
+            patch.object(self.repo, "log") as log,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.failed_github_pull_request(
+                credentials,
+                "test",
+                "test:branch",
+                "master",
+                "Not Found",
+                credentials["url"] + "/pulls",
+                response,
+                {"message": "Not Found"},
+            )
+        self.assertIn("404 Not Found", error.exception.get_message())
+        self.assertEqual(
+            breadcrumb.call_args.kwargs["headers"],
+            {
+                "X-GitHub-Request-Id": "request-id",
+                "X-Accepted-GitHub-Permissions": "pull_requests=write",
+            },
+        )
+        self.assertNotIn("secret", str(log.call_args_list))
 
     def test_pull_request_creation_restricted_for_github_app(self) -> None:
         credentials = self.repo.get_credentials()

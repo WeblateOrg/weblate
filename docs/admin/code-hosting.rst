@@ -427,6 +427,23 @@ GitHub.com, use
 write repository contents and create pull requests. If Weblate should fork
 private repositories, the token might also need administration access.
 
+If creating a pull request fails with ``404 Not Found``, GitHub can be refusing
+API access even when the repository is readable. Weblate checks the repository's
+pull request creation policy and, for user tokens, the authenticated account.
+The failure alert reports confirmed findings and provides further checks when
+the cause remains unknown. Diagnostic lookup failures preserve the original
+pull request error.
+
+Check that the effective API token belongs to the intended fork owner and allows
+creating pull requests. For fine-grained tokens, check repository selection,
+resource owner, and :guilabel:`Pull requests` write permission. Also check
+organization restrictions and access to the source branch. For GitHub Apps,
+check installation access to the repositories and pull request permissions.
+A successful Git push does not verify API access: pushing can use a separate
+SSH key. The repository log includes GitHub's request ID and permission headers
+when available to help investigate the failure. Accepted permission headers
+describe endpoint requirements, not the permissions granted to the token.
+
 .. _GitHub API: https://docs.github.com/en/rest
 
 .. _code-hosting-gitlab:

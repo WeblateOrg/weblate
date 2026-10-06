@@ -36,7 +36,7 @@ from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.config import BrokenBrowserURL
 from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
-from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
+from weblate.trans.alerts.vcs import PushFailure, RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
@@ -50,6 +50,7 @@ from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
+    RepositoryDiagnosis,
     RepositoryError,
     RepositoryInternalError,
     RepositoryStructuredError,
@@ -2775,6 +2776,52 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             "<code>&lt;integration&gt;</code> as a collaborator",
             rendered,
         )
+
+    def test_github_pull_request_access_diagnoses(self) -> None:
+        component = SimpleNamespace(
+            push="", repo="", vcs="github", merge_style="merge", push_branch=""
+        )
+        diagnoses: list[RepositoryDiagnosis] = [
+            {"code": "github_api_credentials_rejected"},
+            {
+                "code": "github_pull_request_account_mismatch",
+                "params": {"username": "<fork>", "authenticated_user": "<account>"},
+            },
+            {
+                "code": "github_pull_request_access_unexplained",
+                "params": {"github_app": "no"},
+            },
+        ]
+        error = RepositoryInternalError(
+            0,
+            "api_request_failed",
+            params={"service": "GitHub", "status": "404 Not Found"},
+            diagnoses=diagnoses,
+        )
+        component.full_path = Path.cwd()
+        details = Component.get_repository_alert_details(
+            cast("Component", component), error
+        )
+        self.assertEqual(details["diagnoses"], diagnoses)
+        alert = PushFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "Not Found",
+            diagnoses=details["diagnoses"],
+        )
+        rendered = render_to_string(
+            "trans/alert/common-repo.html", {"analysis": alert.get_analysis()}
+        )
+        self.assertIn("GitHub rejected the API credentials", rendered)
+        self.assertIn("&lt;account&gt;", rendered)
+        self.assertIn("&lt;fork&gt;", rendered)
+        self.assertIn("successful Git push does not verify API access", rendered)
+        self.assertIn("code-hosting-github-pull-requests", rendered)
+        analysis = alert.get_analysis()
+        analysis["github_pull_request_access_unexplained"]["github_app"] = "yes"
+        rendered = render_to_string(
+            "trans/alert/common-repo.html", {"analysis": analysis}
+        )
+        self.assertIn("installation's repository access", rendered)
 
     def test_github_app_pull_request_diagnosis_omits_username(self) -> None:
         rendered = render_to_string(
