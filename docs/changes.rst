@@ -5,6 +5,8 @@ Weblate 2026.10.1
 
 .. rubric:: New features
 
+* Added opt-in :ref:`team synchronization from identity providers <sso-team-sync>`, including GitLab group mapping and group-based login restrictions.
+
 .. rubric:: Improvements
 
 * Improved diagnostics for failed :ref:`GitHub pull request creation <code-hosting-github-pull-requests>`.

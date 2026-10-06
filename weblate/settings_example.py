@@ -314,6 +314,7 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
+    "social_core.pipeline.user.sync_groups",
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "social_core.pipeline.disconnect.allowed_to_disconnect",
