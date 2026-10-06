@@ -34,6 +34,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
     create_another_user,
     create_test_user,
     get_test_file,
@@ -119,7 +120,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path if path is None else path,
+                self.format_test_repo_url(self.git_repo_path) if path is None else path,
                 "main",
                 "**/*.po",
                 **kwargs,
@@ -136,7 +137,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "deep/*/locales/*/LC_MESSAGES/**.po",
             )
@@ -160,7 +161,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 main_component=name,
@@ -182,7 +183,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 language_regex="cs",
@@ -197,7 +198,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
             )
@@ -209,7 +210,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
                 name_template="Test name",
@@ -225,7 +226,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<name>[^/-]*)/.*\.po",
             )
@@ -238,7 +239,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<name>[^/-]*",
             )
@@ -249,7 +250,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 file_format="po",
@@ -265,7 +266,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 file_format="INVALID",
@@ -278,7 +279,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/values-*/strings.xml",
                 file_format="aresource",
@@ -292,7 +293,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/values-*/strings.xml",
                 file_format="aresource",
@@ -304,13 +305,21 @@ class ImportProjectTest(RepoTestCase):
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
         self.assertEqual(project.component_set.count(), 5)
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
         self.assertEqual(project.component_set.count(), 5)
 
@@ -320,7 +329,9 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.component_set.count(), 5)
 
         with TemporaryDirectory() as workdir:
-            repository = GitRepository.clone(self.git_repo_path, workdir, "main")
+            repository = GitRepository.clone(
+                self.format_test_repo_url(self.git_repo_path), workdir, "main"
+            )
             translation = Path(workdir, "new-component", "cs.po")
             translation.parent.mkdir()
             translation.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -360,14 +371,24 @@ class ImportProjectTest(RepoTestCase):
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
 
     def test_import_missing_wildcard(self) -> None:
         """Test of correct handling of missing wildcard."""
         self.create_project()
         with self.assertRaises(CommandError):
-            call_command("import_project", "test", self.git_repo_path, "main", "*/*.po")
+            call_command(
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "*/*.po",
+            )
 
     def test_import_wrong_vcs(self) -> None:
         """Test of correct handling of wrong vcs."""
@@ -379,12 +400,13 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 vcs="nonexisting",
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_mercurial(self) -> None:
         """Test importing Mercurial project."""
         if not HgRepository.is_supported():
@@ -401,6 +423,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 5)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_mercurial_mixed(self) -> None:
         """Test importing Mercurial project with mixed component/lang."""
         if not HgRepository.is_supported():

@@ -28,7 +28,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tasks import component_after_save, perform_update
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import REPOWEB_URL
+from weblate.trans.tests.utils import REPOWEB_URL, TEST_VCS_ALLOW_SCHEMES
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -79,7 +79,9 @@ class MultiRepoTest(ViewTestCase):
         super().setUp()
         if self._vcs not in VCS_REGISTRY:
             self.skipTest(f"VCS {self._vcs} not available!")
-        repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
+        repo = push = self.format_test_repo_url(
+            getattr(self, f"{self._vcs}_repo_path"), self._vcs
+        )
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             self.component2 = Component.objects.create(
                 name="Test 2",
@@ -1349,6 +1351,7 @@ class GitBranchMultiRepoTest(MultiRepoTest):
         return self.create_po_branch()
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class MercurialMultiRepoTest(MultiRepoTest):
     _vcs = "mercurial"
     _branch = "default"
@@ -1357,6 +1360,7 @@ class MercurialMultiRepoTest(MultiRepoTest):
         return self.create_po_mercurial()
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class SubversionMultiRepoTest(MultiRepoTest):
     _vcs = "subversion"
     _branch = "master"

@@ -25,6 +25,7 @@ Weblate 2026.10.1
 
 * Prevented Automation workflow configuration from disclosing references to restricted components in change history.
 * Marked access-controlled status widget responses as private to shared caches.
+* Disallowed filesystem paths and the ``file`` scheme for version control repository URLs. Installations with ``file`` in :setting:`VCS_ALLOW_SCHEMES` must remove it before upgrading.
 * Clarified that contributing to :ref:`shared translation memory <shared-tm>` publishes strings and their origin outside project access control.
 * Added restrictive cache controls to authenticated HTML responses to prevent previously viewed content from being restored after logout.
 * Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
@@ -45,6 +46,8 @@ Weblate 2026.10.1
 * Components using the GitHub App now follow renamed or transferred repositories; existing Apps need to subscribe to the ``Repository`` event, see :ref:`code-hosting-github-app-webhook`.
 
 .. rubric:: Compatibility
+
+* The ``file`` scheme is disabled for security reasons and can no longer be included in :setting:`VCS_ALLOW_SCHEMES`. Weblate now fails to start until it is removed from the setting and existing components are migrated to supported repository URLs.
 
 .. rubric:: Upgrading
 

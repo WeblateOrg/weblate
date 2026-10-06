@@ -2934,6 +2934,11 @@ VCS_ALLOW_SCHEMES
 A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
 ``ssh`` are allowed by default.
 
+The ``file`` scheme and bare filesystem paths are disabled for security reasons
+because they could allow component editors to access repositories on the server
+filesystem. Including ``file`` in this setting prevents Weblate from starting
+with an ``ImproperlyConfigured`` error.
+
 .. setting:: VCS_RESTRICT_PRIVATE
 
 VCS_RESTRICT_PRIVATE

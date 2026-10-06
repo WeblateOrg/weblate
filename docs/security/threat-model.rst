@@ -734,7 +734,8 @@ Security properties Weblate provides
        user data, credentials, tokens, SSH keys, and 2FA secrets are not
        disclosed to actors lacking permission. *(documented)* (source:
        :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
-     - Host, database, and storage permissions are intact. Generic webhook
+     - Host, database, and storage permissions are intact. User-configurable
+       repository and push URLs cannot address the server filesystem. Generic webhook
        responses expose only the match counts, project/component slugs, and API
        URLs documented in :ref:`hooks-target-matching`. Public sharing permits
        unauthenticated access to engage pages and rendered status widgets,

@@ -1554,7 +1554,7 @@ Projects
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -1959,7 +1959,7 @@ Components
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2054,7 +2054,7 @@ Components
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2580,7 +2580,7 @@ Translations
                     "web": "https://weblate.org/",
                     "web_url": "http://example.com/projects/hello/"
                 },
-                "repo": "file:///home/nijel/work/weblate-hello",
+                "repo": "https://github.com/WeblateOrg/hello.git",
                 "slug": "weblate",
                 "template": "",
                 "url": "http://example.com/api/components/hello/weblate/",

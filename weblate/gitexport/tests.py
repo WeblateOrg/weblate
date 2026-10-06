@@ -32,6 +32,7 @@ from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.utils.commands import get_clean_env
 
 
 def pkt_line(payload: bytes) -> bytes:
@@ -559,12 +560,22 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def git_command(self, *args: str) -> list[str]:
         # Disable auto-maintenance so temporary clone cleanup does not race
         # detached git housekeeping subprocesses.
-        return ["git", "-c", "maintenance.auto=0", "-c", "gc.auto=0", *args]
+        return [
+            "git",
+            "-c",
+            "maintenance.auto=0",
+            "-c",
+            "gc.auto=0",
+            "-c",
+            "protocol.http.allow=always",
+            *args,
+        ]
 
     def clone_export(self, testdir: str) -> tuple[int, str]:
         with subprocess.Popen(
             self.git_command("clone", self.get_export_url()),
             cwd=testdir,
+            env=get_clean_env(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             stdin=subprocess.PIPE,
@@ -622,17 +633,20 @@ class GitCloneShallowTest(GitCloneTest):
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "upstream"),
                 cwd=testdir,
+                env=get_clean_env(),
                 shell=False,
             )
             upstream_dir = os.path.join(testdir, "upstream")
             subprocess.check_call(
                 self.git_command("config", "user.name", "Test"),
                 cwd=upstream_dir,
+                env=get_clean_env(),
                 shell=False,
             )
             subprocess.check_call(
                 self.git_command("config", "user.email", "test@example.com"),
                 cwd=upstream_dir,
+                env=get_clean_env(),
                 shell=False,
             )
 
@@ -650,17 +664,20 @@ class GitCloneShallowTest(GitCloneTest):
                 subprocess.check_call(
                     self.git_command("add", history_path.name),
                     cwd=upstream_dir,
+                    env=get_clean_env(),
                     shell=False,
                 )
                 subprocess.check_call(
                     self.git_command("commit", "-m", f"upstream {number}"),
                     cwd=upstream_dir,
+                    env=get_clean_env(),
                     shell=False,
                 )
 
             subprocess.check_call(
                 self.git_command("push", "origin", self.component.branch),
                 cwd=upstream_dir,
+                env=get_clean_env(),
                 shell=False,
             )
 
@@ -673,17 +690,20 @@ class GitCloneShallowTest(GitCloneTest):
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "existing"),
                 cwd=testdir,
+                env=get_clean_env(),
                 shell=False,
             )
             existing_dir = os.path.join(testdir, "existing")
             subprocess.check_call(
                 self.git_command("remote", "add", "weblate", self.get_export_url()),
                 cwd=existing_dir,
+                env=get_clean_env(),
                 shell=False,
             )
             with subprocess.Popen(
                 self.git_command("fetch", "weblate"),
                 cwd=existing_dir,
+                env=get_clean_env(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
@@ -692,12 +712,13 @@ class GitCloneShallowTest(GitCloneTest):
             ) as process:
                 output = process.communicate()[0]
                 retcode = process.poll()
+            self.assertEqual(retcode, 0, output)
             fetched_revision = subprocess.check_output(
                 self.git_command("rev-parse", "FETCH_HEAD"),
                 cwd=existing_dir,
+                env=get_clean_env(),
                 shell=False,
                 text=True,
             ).strip()
 
-        self.assertEqual(retcode, 0, output)
         self.assertEqual(fetched_revision, export_revision)

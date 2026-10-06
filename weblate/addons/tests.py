@@ -10177,7 +10177,7 @@ class TargetChangeAddonTest(ComponentTestCase):
         # edit the translation on remote repo
         with tempfile.TemporaryDirectory() as tempdir:
             repo = self.component.repository.__class__.clone(
-                self.format_local_path(self.git_repo_path),
+                self.format_test_repo_url(self.git_repo_path),
                 tempdir,
                 "main",
                 component=self.component,
