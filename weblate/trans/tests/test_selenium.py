@@ -76,6 +76,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.browser import create_browser
+from weblate.trans.tests.github import github_fixture_repositories
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -85,7 +86,6 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
     get_test_file,
-    require_github,
     social_core_override_settings,
 )
 from weblate.trans.views.about import FALLBACK_STATS, DonateView
@@ -359,9 +359,7 @@ PERFORMANCE_REPORT_HEADERS = {
 }
 
 
-# The fixture repositories are known public GitHub repos; allowlisting them
-# avoids flaky runtime DNS checks while keeping the real import path covered.
-@override_settings(STATS_LAZY=False, VCS_ALLOW_HOSTS={"github.com"})
+@override_settings(STATS_LAZY=False)
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -3132,7 +3130,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
@@ -3156,6 +3154,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.clear_project_stats_cache(project)
         return project
+
+    def use_github_fixtures(self) -> None:
+        """Install local GitHub transports once for this test."""
+        if "github_fixtures" not in self.__dict__:
+            self.github_fixtures = self.enterContext(github_fixture_repositories())
 
     def create_glossary(
         self, user: User, project: Project, language: Language
@@ -4527,7 +4530,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
         """Test user adding project and component."""
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         user = self.do_login()
         with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
@@ -4589,7 +4592,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
             self.screenshot("user-add-component-discovery.png")
             discovery_choice = WebDriverWait(self.driver, 30).until(
-                element_to_be_clickable((By.ID, "id_discovery_1"))
+                element_to_be_clickable(
+                    (
+                        By.XPATH,
+                        (
+                            '//label[.//code[text()="weblate/langdata/locale/*/LC_MESSAGES/django.po"]]'
+                            '/preceding-sibling::input[@name="discovery"]'
+                        ),
+                    )
+                )
             )
             discovery_choice.click()
             with self.wait_for_page_load(timeout=1200):
@@ -4614,7 +4625,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
-        require_github("https://github.com/WeblateOrg/test.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         duplicates = Component.objects.create(

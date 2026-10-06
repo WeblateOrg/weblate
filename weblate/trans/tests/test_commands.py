@@ -10,10 +10,7 @@ from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import cast
-from unittest import SkipTest
-from unittest.mock import Mock, patch
 
-import httpx2
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
@@ -29,6 +26,7 @@ from weblate.trans.file_format_params import (
     register_file_format_param,
 )
 from weblate.trans.models import Change, Component, Translation
+from weblate.trans.tests.github import github_fixture_repositories
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
@@ -39,7 +37,6 @@ from weblate.trans.tests.utils import (
     create_another_user,
     create_test_user,
     get_test_file,
-    require_github,
 )
 from weblate.vcs.git import GitRepository
 from weblate.vcs.mercurial import HgRepository
@@ -528,44 +525,11 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 
 class ImportDemoTestCase(TestCase):
     def test_import(self) -> None:
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.enterContext(github_fixture_repositories())
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")
         self.assertEqual(Component.objects.count(), 5)
-
-
-class RequireGitHubTest(SimpleTestCase):
-    repository = "https://github.com/WeblateOrg/demo.git"
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_success(self, fetch_url: Mock) -> None:
-        require_github(self.repository)
-
-        fetch_url.assert_called_once_with("get", self.repository, timeout=1)
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_request_errors(self, fetch_url: Mock) -> None:
-        for exception in (
-            httpx2.ConnectError,
-            httpx2.TimeoutException,
-            httpx2.HTTPError,
-        ):
-            with self.subTest(exception=exception):
-                fetch_url.side_effect = exception("unavailable")
-                with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
-                    require_github(self.repository)
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_http_error(self, fetch_url: Mock) -> None:
-        fetch_url.side_effect = httpx2.HTTPStatusError(
-            "unavailable",
-            request=httpx2.Request("GET", self.repository),
-            response=httpx2.Response(500),
-        )
-
-        with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
-            require_github(self.repository)
 
 
 class CleanupTestCase(TestCase):

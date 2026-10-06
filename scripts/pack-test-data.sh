@@ -17,6 +17,14 @@ cd "$WD"
 # Close bare Git repo
 git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
 cd test-base-repo.git
+# Preserve the general test dataset when refreshing the screenshot fixture.
+TEST_REVISION=22fd7964344214293271d5137eba3bc3654a98ac
+git update-ref refs/heads/main "$TEST_REVISION"
+# Keep screenshot/demo data separate from the general test trees. Pin its
+# revision so regenerating fixtures does not silently change documentation.
+DEMO_REVISION=70013c5596e95ce3a898fa929f060b0c71962ff3
+git fetch --no-tags https://github.com/WeblateOrg/demo.git "$DEMO_REVISION"
+git update-ref refs/fixtures/screenshot-demo FETCH_HEAD
 # Remove origin
 git remote remove origin
 # Delete all tags
