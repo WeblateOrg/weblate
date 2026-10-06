@@ -85,9 +85,8 @@ repository where the build and release automation lives.
        CycloneDX image SBOMs are generated with Syft, and image provenance and
        SBOM attestations are pushed to the registries.
 
-The development Docker files in :file:`dev-docker/` and the fuzzing container
-definitions in :file:`.clusterfuzzlite/` are development and testing
-infrastructure, not production release artifacts.
+The development Docker files in :file:`dev-docker/` are development and
+testing infrastructure, not production release artifacts.
 
 Docker Compose files, including the `Weblate Docker Compose repository`_ and
 local override examples, are example deployment configurations rather than
