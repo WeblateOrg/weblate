@@ -7,6 +7,8 @@ Weblate 2026.10.1
 
 .. rubric:: Improvements
 
+* Improved diagnostics for failed :ref:`GitHub pull request creation <code-hosting-github-pull-requests>`.
+
 * Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of official and third-party :doc:`libraries and SDKs <devel/libraries>`.
 * Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
 * Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
