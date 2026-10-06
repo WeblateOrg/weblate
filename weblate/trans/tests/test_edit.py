@@ -15,7 +15,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import Client
-from django.test.utils import CaptureQueriesContext
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from lxml import html
 
@@ -40,6 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
     cleanup_session,
@@ -1392,6 +1393,7 @@ class EditBranchTest(EditTest):
         return self.create_po_branch()
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class EditMercurialTest(EditTest):
     def create_component(self):
         return self.create_po_mercurial()

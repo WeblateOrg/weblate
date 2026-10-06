@@ -55,7 +55,11 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
+    RepoTestMixin,
+    create_test_user,
+)
 from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -531,7 +535,7 @@ class ComponentTest(RepoTestCase):
 
     def test_direct_create_explicit_license_disables_inheritance(self) -> None:
         project = self.create_project()
-        repo = self.format_local_path(self.git_repo_path)
+        repo = self.format_test_repo_url(self.git_repo_path)
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             component = Component.objects.create(
@@ -775,6 +779,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_srt()
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self.verify_component(component, 4, "cs", 4)
@@ -783,6 +788,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_branch()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self.verify_component(component, 4, "cs", 4)
@@ -791,6 +797,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_push()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_svn(self) -> None:
         component = self.create_po_svn()
         self.verify_component(component, 4, "cs", 4)
@@ -1079,6 +1086,7 @@ class ComponentTest(RepoTestCase):
             component.save()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_switch_branch_mercurial(self) -> None:
         component = self.create_po_mercurial()
         # Switch to translation branch
@@ -1341,10 +1349,12 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_branch()
         self._test_maintenance(component)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_maintenance_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self._test_maintenance(component)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_maintenance_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self._test_maintenance(component)
@@ -2114,7 +2124,7 @@ class ComponentValidationTest(RepoTestCase):
             )
             if branch != GitRepository.default_branch:
                 repository.execute(["branch", branch], remote_op="none")
-        return self.format_local_path(path)
+        return self.format_test_repo_url(path)
 
     def test_repository_url_with_unrelated_history_rejected(self) -> None:
         if self.component.repository.is_shallow():
@@ -2149,7 +2159,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_with_template_change_validates_worktree(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
         self.component.template = "po/base.po"
@@ -2196,7 +2206,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_saved_when_post_save_merge_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
 
@@ -2218,7 +2228,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_saved_when_post_save_fetch_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
 
@@ -2238,7 +2248,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_setup_rescan_skipped_when_post_save_fetch_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
         self.component.template = "po/base.po"
@@ -2432,7 +2442,9 @@ class ComponentPushOnUpdateTest(RepoTestCase):
     def add_upstream_commit(self, *, translation: bool) -> None:
         with TemporaryDirectory() as workdir:
             repository = GitRepository.clone(
-                self.git_repo_path, workdir, self.component.branch
+                self.format_test_repo_url(self.git_repo_path),
+                workdir,
+                self.component.branch,
             )
             if translation:
                 # Changes a file matching the filemask.

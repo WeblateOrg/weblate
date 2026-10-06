@@ -5726,7 +5726,7 @@ class ProjectAPITest(APIBaseTest):
                     "name": "Russian",
                     "direction": "ltr",
                 },
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5747,7 +5747,7 @@ class ProjectAPITest(APIBaseTest):
                     "name": "Russian",
                     "direction": "ltr",
                 },
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5763,7 +5763,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project 2",
                 "slug": "api-project-2",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5800,7 +5800,7 @@ class ProjectAPITest(APIBaseTest):
             "name": "API project",
             "slug": "api-project",
             "source_language": '{"code": "ru"}',
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "new_lang": "none",
@@ -5877,7 +5877,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "push": "https://username:password@github.com/example/push.git",
@@ -5902,7 +5902,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "Other",
                 "slug": "other",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "android/values-*/strings.xml",
                 "file_format": "aresource",
                 "template": "android/values/strings.xml",
@@ -5923,7 +5923,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "Other",
                 "slug": "other",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "android/values-*/strings.xml",
                 "file_format": "aresource",
                 "template": "android/values/strings.xml",
@@ -5944,7 +5944,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "push": "https://username:password@github.com/example/push.git",
@@ -6189,7 +6189,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertFalse(Component.objects.filter(slug="unsafe-repository").exists())
 
     def test_create_component_no_format(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6220,7 +6220,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_link(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6283,7 +6283,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_no_push(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6312,7 +6312,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_empty_push(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6351,7 +6351,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.invalid-po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -7666,7 +7666,7 @@ class ProjectAPITest(APIBaseTest):
         payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "push": "https://username:password@github.com/example/push.git",
@@ -7740,7 +7740,7 @@ class ProjectAPITest(APIBaseTest):
         payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "push": "https://username:password@github.com/example/push.git",

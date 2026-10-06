@@ -61,6 +61,10 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
         config = Path(data_dir("home"), ".config", "git", "config")
         config.parent.mkdir(parents=True, exist_ok=True)
         original = config.read_bytes() if config.exists() else None
+        user_config = Path(data_dir("home"), ".gitconfig")
+        original_user_config = (
+            user_config.read_bytes() if user_config.exists() else None
+        )
 
         def resolve_fixture_hostname(
             hostname: str, *, allow_private_targets: bool = True
@@ -80,6 +84,9 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
                     for url, repository in repositories.items()
                 ),
             )
+            GitRepository.git_config_update(
+                user_config, ('protocol "file"', "allow", "always")
+            )
             with (
                 override_settings(VCS_ALLOW_HOSTS={"github.com"}),
                 patch(
@@ -93,3 +100,7 @@ def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
                 config.unlink(missing_ok=True)
             else:
                 config.write_bytes(original)
+            if original_user_config is None:
+                user_config.unlink(missing_ok=True)
+            else:
+                user_config.write_bytes(original_user_config)

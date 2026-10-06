@@ -739,6 +739,7 @@ class Repository:
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    supports_scp_urls: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     _version_cache: ClassVar[dict[tuple[type, str], str | Exception]] = {}
 
@@ -1172,6 +1173,7 @@ class Repository:
         try:
             target = resolve_repo_url(
                 url,
+                allow_scp_style=cls.supports_scp_urls,
                 ssh_destination_resolver=cls.get_ssh_destination_resolver(),
                 proxy_url=get_environment_proxy(url),
             )

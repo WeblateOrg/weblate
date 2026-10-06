@@ -1420,6 +1420,9 @@ Generic settings
 
    Configures :setting:`VCS_ALLOW_SCHEMES`.
 
+   The ``file`` scheme is disabled for security reasons. Including it prevents
+   Weblate from starting.
+
 .. envvar:: WEBLATE_VCS_RESTRICT_PRIVATE
 
    .. versionadded:: 5.17

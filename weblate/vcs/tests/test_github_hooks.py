@@ -757,7 +757,7 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
             self.addCleanup(self.gitconfig.write_text, self.gitconfig.read_text())
         else:
             self.addCleanup(self.gitconfig.unlink, missing_ok=True)
-        self.local_repo = self.format_local_path(self.git_repo_path)
+        self.local_repo = self.format_file_url(self.git_repo_path)
 
         self.workspace = Workspace.objects.create(name="Refresh Workspace")
         self.project.workspace = self.workspace

@@ -452,6 +452,7 @@ class GitRepository(Repository):
     req_version: ClassVar[str | None] = "2.46"
     # TODO: switch to main with Git 3.0
     default_branch: ClassVar[str] = "master"
+    supports_scp_urls: ClassVar[bool] = True
     ref_to_remote: ClassVar[str] = "..{0}"
     ref_from_remote: ClassVar[str] = "{0}.."
 
@@ -1876,6 +1877,7 @@ class SubversionRepository(GitRepository):
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
+    supports_scp_urls: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
