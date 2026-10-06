@@ -839,6 +839,9 @@
     }
   };
 
+  /* Number of origins listed per service before collapsing the rest */
+  const MACHINERY_VISIBLE_ORIGINS = 5;
+
   class Machinery {
     constructor(_initialState = {}) {
       this.state = {
@@ -870,13 +873,16 @@
       return actions;
     }
 
-    renderTranslation(el, service) {
+    renderTranslation(el, service = null) {
       /* These accumulate while merging, they might be already filled in by it */
       if (typeof el.plural_forms === "undefined") {
         el.plural_forms = [el.plural_form];
       }
       if (typeof el.contexts === "undefined") {
         el.contexts = el.context ? [el.context] : [];
+      }
+      if (typeof el.origins === "undefined") {
+        el.origins = [this.originEntry(el)];
       }
       const row = this.cloneTemplate("machinery-row");
       setRawData(row, el);
@@ -889,8 +895,14 @@
       row.querySelector(".machinery-diff").innerHTML = el.diff;
       row.querySelector(".machinery-source").innerHTML = el.source_diff;
 
-      row.querySelector(".machinery-number").before(service);
+      let origin = service;
+      if (origin === null) {
+        origin = document.createElement("div");
+        origin.classList.add("machinery-origin");
+      }
+      row.querySelector(".machinery-number").before(origin);
 
+      this.renderOrigins(row, el.origins);
       this.renderContext(row, el.contexts);
 
       row.querySelector(".history-data").prepend(this.renderActions(el));
@@ -913,51 +925,130 @@
       row.querySelector(".machinery-context-label").hidden = hidden;
     }
 
-    renderServiceEntry(el) {
+    originEntry(el) {
+      return {
+        service: el.service,
+        quality: el.quality,
+        show_quality: el.show_quality,
+        origin: el.origin,
+        origin_detail: el.origin_detail,
+        origin_url: el.origin_url,
+      };
+    }
+
+    renderOrigin(el) {
+      if (typeof el.origin_detail !== "undefined") {
+        const origin = document.createElement("abbr");
+        origin.textContent = el.origin;
+        origin.setAttribute("title", el.origin_detail);
+        return origin;
+      }
+      if (typeof el.origin_url !== "undefined") {
+        const originUrl = WLT.URLs.getHttpUrl(el.origin_url);
+        if (originUrl !== null) {
+          const origin = document.createElement("a");
+          origin.textContent = el.origin;
+          origin.setAttribute("href", originUrl);
+          return origin;
+        }
+      }
+      return document.createTextNode(String(el.origin));
+    }
+
+    renderOriginDetail(el) {
+      const detail = document.createElement("div");
+      detail.classList.add("machinery-origin-detail", "text-muted");
+      detail.append(this.renderOrigin(el));
+      if (el.show_quality) {
+        detail.append(` (${el.quality}%)`);
+      }
+      return detail;
+    }
+
+    renderServiceEntry(serviceName, entries, expanded) {
       const entry = document.createElement("div");
       entry.classList.add("machinery-service");
 
+      /* The score of results without an origin stays with the service name */
+      const scores = entries
+        .filter((el) => typeof el.origin === "undefined" && el.show_quality)
+        .map((el) => el.quality);
       const name = document.createElement("strong");
       name.classList.add("machinery-service-name");
-      name.textContent = el.show_quality
-        ? `${el.service} (${el.quality}%)`
-        : el.service;
+      name.textContent =
+        scores.length > 0
+          ? `${serviceName} (${Math.max(...scores)}%)`
+          : serviceName;
       entry.append(name);
 
-      if (typeof el.origin !== "undefined") {
-        let origin;
-        if (typeof el.origin_detail !== "undefined") {
-          origin = document.createElement("abbr");
-          origin.textContent = el.origin;
-          origin.setAttribute("title", el.origin_detail);
-        } else if (typeof el.origin_url !== "undefined") {
-          const originUrl = WLT.URLs.getHttpUrl(el.origin_url);
-          if (originUrl === null) {
-            origin = document.createTextNode(String(el.origin));
-          } else {
-            origin = document.createElement("a");
-            origin.textContent = el.origin;
-            origin.setAttribute("href", originUrl);
+      /* List each origin once, the best matching ones first */
+      const seen = new Set();
+      const origins = entries
+        .filter((el) => {
+          if (typeof el.origin === "undefined") {
+            return false;
           }
-        } else {
-          origin = document.createTextNode(String(el.origin));
-        }
-        if (el.delete_url) {
-          this.state.weblateTranslationMemory.add(el.text);
-        }
-        const detail = document.createElement("div");
-        detail.classList.add("machinery-origin-detail", "text-muted");
-        detail.append(origin);
-        entry.append(detail);
+          const key = JSON.stringify(el);
+          if (seen.has(key)) {
+            return false;
+          }
+          seen.add(key);
+          return true;
+        })
+        .sort((a, b) => b.quality - a.quality)
+        .map((el) => this.renderOriginDetail(el));
+
+      entry.append(...origins.slice(0, MACHINERY_VISIBLE_ORIGINS));
+      if (origins.length > MACHINERY_VISIBLE_ORIGINS) {
+        const hidden = origins.slice(MACHINERY_VISIBLE_ORIGINS);
+        const details = document.createElement("details");
+        details.classList.add("machinery-origin-more");
+        details.open = expanded;
+        const summary = document.createElement("summary");
+        summary.classList.add("machinery-origin-detail", "text-muted");
+        summary.textContent = interpolate(
+          ngettext("%s more origin", "%s more origins", hidden.length),
+          [hidden.length],
+        );
+        details.append(summary, ...hidden);
+        entry.append(details);
       }
       return entry;
     }
 
-    renderService(el) {
-      const service = document.createElement("div");
-      service.classList.add("machinery-origin");
-      service.append(this.renderServiceEntry(el));
-      return service;
+    renderOrigins(row, origins) {
+      const container = row.querySelector(".machinery-origin");
+
+      const expanded = new Set(
+        Array.from(
+          container.querySelectorAll(".machinery-origin-more[open]"),
+          (details) => details.closest(".machinery-service").dataset.service,
+        ),
+      );
+
+      const services = new Map();
+      for (const el of origins) {
+        if (!services.has(el.service)) {
+          services.set(el.service, []);
+        }
+        services.get(el.service).push(el);
+      }
+      const bestQuality = (entries) =>
+        Math.max(...entries.map((el) => el.quality));
+
+      container.replaceChildren(
+        ...Array.from(services)
+          .sort((a, b) => bestQuality(b[1]) - bestQuality(a[1]))
+          .map(([serviceName, entries]) => {
+            const entry = this.renderServiceEntry(
+              serviceName,
+              entries,
+              expanded.has(serviceName),
+            );
+            entry.dataset.service = serviceName;
+            return entry;
+          }),
+      );
     }
 
     renderDeleteUrls(text) {
@@ -991,7 +1082,11 @@
     render(translations) {
       const translationsEl = document.getElementById("machinery-translations");
       translations.forEach((translation) => {
-        const service = this.renderService(translation);
+        if (translation.delete_url) {
+          this.state.weblateTranslationMemory.add(translation.text);
+        }
+        const origin = this.originEntry(translation);
+        let service = null;
         let insertBefore = null;
         let done = false;
 
@@ -1014,11 +1109,13 @@
               base.contexts.push(translation.context);
             }
             // Add origin to current ones
-            const current = row.querySelector(".machinery-origin");
+            base.origins.push(origin);
             if (base.quality < translation.quality) {
-              service.append(...current.children);
               translation.plural_forms = base.plural_forms;
               translation.contexts = base.contexts;
+              translation.origins = base.origins;
+              // Reuse the origin column to keep its expanded state
+              service = row.querySelector(".machinery-origin");
               if (!insertBefore) {
                 insertBefore = row.nextElementSibling;
               }
@@ -1026,8 +1123,8 @@
               break;
             }
             setRawData(row, base);
+            this.renderOrigins(row, base.origins);
             this.renderContext(row, base.contexts);
-            current.append(...service.children);
             done = true;
             break;
           }
