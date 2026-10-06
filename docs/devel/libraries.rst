@@ -1,8 +1,21 @@
-Localization libraries and packages
-===================================
+Libraries and SDKs
+==================
 
-Weblate can be integrated into your framework using :doc:`/api`. This page
-lists third-party libraries which integrate Weblate.
+Use these tools to integrate Weblate into your application or build workflow.
+
+Official tools
+--------------
+
+* :doc:`kotlin-sdk` delivers translation updates to Android applications without
+  rebuilding or redistributing the application.
+* :doc:`/python` provides a Python client for :doc:`/api`.
+* :doc:`/wlc` provides command-line access to Weblate.
+
+Third-party integrations
+------------------------
+
+These community-maintained libraries and packages integrate Weblate into other
+frameworks and tools, including through :doc:`/api`.
 
 * `Weblate Translation Provider for Symfony Translation <https://github.com/m2mtech/weblate-translation-provider/>`_
 * `Weblate plugin for Figma <https://www.figma.com/community/plugin/1053050985172660071/weblate-integration>`_

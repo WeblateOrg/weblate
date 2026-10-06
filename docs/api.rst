@@ -10,6 +10,7 @@ Weblate's REST API
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
+See :doc:`devel/libraries` for official tools and community-maintained integrations.
 
 The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, you
 can browse at ``/api/docs/``.
@@ -3418,8 +3419,8 @@ Kotlin SDK builds
 
 .. warning::
 
-   The Kotlin SDK API is in beta. No compatibility is guaranteed until the
-   final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
+   The Kotlin SDK is available as an alpha release. No compatibility is
+   guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
    generated resource formats may change without backward compatibility.
 
 The API contract is also documented in the OpenAPI schema at ``/api/schema/``.
