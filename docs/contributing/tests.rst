@@ -86,6 +86,14 @@ You can use `pytest` to run the test suite locally:
 
    uv run pytest
 
+Property-based tests using :pypi:`hypothesis` run as part of the normal pytest
+suite. They check Markdown output safety, backup archive member paths, and SSH
+URL parsing with bounded generated inputs. Each property runs up to 100
+generated examples deterministically, alongside explicit regression examples.
+Unexpected exceptions fail the test, and Hypothesis minimizes failing inputs.
+Add minimized inputs as explicit regression examples when fixing a failure.
+Timing deadlines are disabled to avoid failures caused by CI load.
+
 Running an individual test file:
 
 .. code-block:: sh
