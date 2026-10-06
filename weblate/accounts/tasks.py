@@ -22,7 +22,7 @@ from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBacken
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils.timezone import now
-from social_django.models import Code, Partial
+from social_django.models import Association, Code, Partial
 
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
@@ -74,13 +74,15 @@ def get_registration_attempt_password_reset_url(activity: str) -> str | None:
 
 @app.task(trail=False)
 def cleanup_social_auth() -> None:
-    """Cleanup expired partial social authentications."""
+    """Clean expired social authentication data and protocol associations."""
     age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
 
     # Delete old partial data
     Partial.objects.filter(timestamp__lt=age).delete()
+
+    Association.cleanup_expired()
 
 
 @app.task(trail=False)

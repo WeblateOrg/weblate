@@ -180,6 +180,20 @@ to properly credit contributions users make.
 
     :doc:`Python Social Auth backend <psa:backends/index>`
 
+Authentication storage cleanup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate removes expired OpenID protocol associations and OpenID Connect login
+nonces in its hourly authentication cleanup task. OIDC login attempts have a
+30-minute nonce lifetime by default; expiry is enforced during login even before
+the next cleanup runs. Linked accounts are preserved. Verification codes and
+partial pipelines retain their existing :setting:`AUTH_TOKEN_VALID` policy.
+
+The social-auth database migration gives existing undated OIDC nonces a
+30-minute grace period from upgrade. Follow the usual upgrade procedure with
+old login-serving processes stopped while applying migrations. For backend
+configuration, see :doc:`psa:backends/oidc`.
+
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
