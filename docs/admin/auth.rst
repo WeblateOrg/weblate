@@ -29,6 +29,105 @@ of other Django-based projects (see :ref:`pootle-migration`).
    :ref:`docker-auth` describes how to configure authentication in the official
    Docker image.
 
+.. _sso-team-sync:
+
+Teams from identity providers
+-----------------------------
+
+Weblate can synchronize selected teams from external group memberships or
+application roles during social authentication. This requires the group API
+in social-auth-core 6 and the strategy integration in social-auth-app-django 7.
+The default native and Docker pipelines include synchronization after
+authentication checks and two-factor authentication. Extraction and assignment
+are disabled until configured. If you use a custom authentication pipeline,
+place ``social_core.pipeline.user.sync_groups`` after all authentication checks,
+including ``weblate.legal.pipeline.tos_confirm`` when terms acceptance is enabled.
+
+Map external identifiers to lists of existing Weblate team IDs. Find team IDs
+in the administration interface URL or the teams REST API. Names can repeat
+across project and workspace scopes, so they are not used as mapping targets.
+
+For Microsoft Entra ID, prefer application roles::
+
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_KEY = "roles"
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_MAP = {
+        "Weblate.Translator": [42],
+        "Weblate.Reviewer": [43],
+    }
+
+Configure the provider to issue these roles. Group identifiers can instead be
+selected with ``GROUPS_KEY = "groups"``. Group overage causes authentication
+to fail; Weblate does not retrieve memberships from Microsoft Graph. Restrict
+the trusted tenant and issuer before granting permissions, especially when
+using a common Azure endpoint.
+
+For generic OpenID Connect or Keycloak, configure a literal claim name::
+
+    SOCIAL_AUTH_OIDC_GROUPS_KEY = "groups"
+    SOCIAL_AUTH_OIDC_GROUPS_MAP = {"translators": [42]}
+
+    SOCIAL_AUTH_KEYCLOAK_GROUPS_KEY = "groups"
+    SOCIAL_AUTH_KEYCLOAK_GROUPS_MAP = {"/organization/reviewers": [43]}
+
+For GitLab, explicitly enable membership retrieval::
+
+    SOCIAL_AUTH_GITLAB_GROUPS_ENABLED = True
+    SOCIAL_AUTH_GITLAB_GROUPS_MAP = {"organization/translators": [42]}
+
+Enabling retrieval automatically requests ``read_api`` unless ``read_api`` or
+``api`` is already requested. Enable the corresponding permission in the GitLab
+OAuth application settings alongside ``read_user``.
+
+GitLab uses full group paths by default. Use stable numeric group IDs instead
+when paths might change or be reused::
+
+    SOCIAL_AUTH_GITLAB_GROUPS_IDENTIFIER = "id"
+    SOCIAL_AUTH_GITLAB_GROUPS_MAP = {"12345": [42]}
+
+For SAML, add the group attribute and mapping to each existing entry in
+``SOCIAL_AUTH_SAML_ENABLED_IDPS``::
+
+    SOCIAL_AUTH_SAML_ENABLED_IDPS["company"].update(
+        {
+            "attr_groups": "https://example.com/claims/groups",
+            "groups_map": {"translators": [42]},
+            "allow_groups": ["translators", "reviewers"],
+        }
+    )
+
+All targets in a mapping become provider-managed teams. Authentication adds
+desired memberships and removes obsolete managed memberships. Unrelated
+teams and existing membership language restrictions are preserved. Changes
+are recorded in the audit log. Manual membership in a managed team is subject
+to replacement at the next authentication. A team may be managed by only one
+configured provider or SAML IdP; conflicting mappings and nonexistent teams
+cause errors before memberships change. No teams are created automatically.
+
+A missing configured claim fails authentication. When a provider omits claims
+for users without assignments, explicitly enable its
+``SOCIAL_AUTH_<BACKEND>_GROUPS_MISSING_AS_EMPTY`` setting. SAML uses
+``groups_missing_as_empty`` in the IdP entry. An empty membership list removes
+all provider-managed memberships. An empty ``GROUPS_MAP`` disables assignment.
+
+Login restrictions are independent of assignment. Configure
+``SOCIAL_AUTH_<BACKEND>_ALLOW_GROUPS`` to require membership in any listed
+external group or role. Unknown identifiers grant nothing, but do not reject
+login unless an allow list is configured. Existing CAS allow lists require no
+new settings or pipeline entries.
+
+Synchronization applies to login, registration, and authentication-method
+linking. Password reset and account removal do not synchronize teams. Updates
+occur only during authentication; this does not deactivate accounts or revoke
+access in the background. Synchronization does not store external membership
+snapshots.
+
+In Docker installations, use :ref:`docker-custom-config` to supply these Python
+settings; there are no dedicated environment variables for team mappings.
+
+.. seealso::
+
+   :doc:`psa:groups`
+
 Social authentication
 ---------------------
 
