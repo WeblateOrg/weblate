@@ -10,9 +10,7 @@ from datetime import timedelta
 from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
-from unittest import SkipTest
 
-import httpx2
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
@@ -32,7 +30,6 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
-from weblate.utils.requests import fetch_url
 from weblate.vcs.models import VCS_REGISTRY
 
 # Directory holding test data
@@ -41,15 +38,6 @@ TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 
 TESTPASSWORD = make_password("testpassword")
-
-
-def require_github(repository: str) -> None:
-    """Skip a test when a required GitHub repository is not reachable."""
-    try:
-        fetch_url("get", repository, timeout=1)
-    except httpx2.HTTPError as error:
-        msg = f"GitHub not reachable: {error}"
-        raise SkipTest(msg) from error
 
 
 def fixup_languages_seq() -> None:

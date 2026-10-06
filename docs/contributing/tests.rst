@@ -44,6 +44,14 @@ real rendered pages so CI catches UI regressions. When a screenshot includes
 volatile runtime data, prefer deterministic server-side test inputs over
 post-render DOM changes.
 
+GitHub repository URLs in these screenshots use local Git transport rewrites.
+The shared Git fixture archive contains the ordinary test data and a separate,
+pinned demo revision, so repository discovery shows only demo content. Regenerate
+the archive with :file:`scripts/pack-test-data.sh`; update its ``DEMO_REVISION``
+when intentionally refreshing the demo data. Runtime tests do not fetch GitHub
+repositories or resolve their hostname. The ``TEST_REVISION`` pin controls the
+ordinary Git, Mercurial, and Subversion data independently.
+
 .. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
