@@ -35,6 +35,8 @@ Weblate 2026.10.1
 
 .. rubric:: Bug fixes
 
+* Fixed acting-user attribution and display for administrative account changes in :doc:`audit logs <security/privacy-compliance>`.
+
 * Removed expired OpenID associations and OIDC login nonces during hourly :doc:`authentication storage cleanup <admin/auth>`.
 
 * Fixed :ref:`projectbackup` restoration of translation file language aliases and duplicate team names, and improved validation error formatting.

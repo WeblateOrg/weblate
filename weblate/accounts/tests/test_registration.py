@@ -1404,8 +1404,12 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_existing(self) -> None:
         """Adding existing mail to existing account should fail."""
-        User.objects.create_user("testuser", "second@example.net", "x")
+        target = User.objects.create_user("testuser", "second@example.net", "x")
         self.test_add_mail(True)
+        audit = target.auditlog_set.get(activity="connect")
+        self.assertNotIn("username", audit.params)
+        self.assertNotIn("Triggered by", str(audit.get_extra_message()))
+        self.assertNotIn("username", mail.outbox[0].body)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_remove_mail(self) -> None:

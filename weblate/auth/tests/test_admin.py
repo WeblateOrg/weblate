@@ -80,6 +80,8 @@ class WeblateUserAdminTest(TestCase):
 
         obj = User.objects.get(pk=self.target.pk)
         obj.is_superuser = True
+        obj.is_active = False
+        obj.full_name = "Edited name"
         form = SimpleNamespace(
             instance=obj, save_m2m=lambda: obj.groups.set([self.viewers_group])
         )
@@ -107,6 +109,10 @@ class WeblateUserAdminTest(TestCase):
             params__username=self.actor.username,
         )
         self.assertEqual(remove_audit.params["username"], self.actor.username)
+        for activity in ("disabled", "full_name"):
+            audit = self.target.auditlog_set.get(activity=activity)
+            self.assertEqual(audit.params["username"], self.actor.username)
+            self.assertIsNone(audit.address)
 
     def test_save_related_keeps_audit_state_per_form(self) -> None:
         second_actor = User.objects.create_user("admin-2", "admin-2@example.com", "x")

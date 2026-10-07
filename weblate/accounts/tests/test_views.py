@@ -18,6 +18,7 @@ from django.core.cache import cache
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from jsonschema import validate
 from rest_framework.authtoken.models import Token
 from social_core.exceptions import (
@@ -1581,7 +1582,7 @@ class EditUserTest(FixtureTestCase):
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_superuser)
         audit = user.auditlog_set.get(activity="superuser-revoked")
-        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertNotIn("username", audit.params)
         # No permissions now
         response = self.client.post(
             self.user.get_absolute_url(),
@@ -1624,6 +1625,62 @@ class EditUserTest(FixtureTestCase):
         response = self.client.get(target.get_absolute_url())
         self.assertContains(response, "No language limit")
 
+    def test_edit_audits_administrator(self) -> None:
+        target = User.objects.create_user("edit-target", "target@example.com", "x")
+        for is_active, activity in ((False, "disabled"), (True, "enabled")):
+            with self.subTest(activity=activity):
+                data = {
+                    "username": "renamed-target",
+                    "full_name": "Edited name",
+                    "email": "edited@example.com",
+                    "is_superuser": "1",
+                }
+                if is_active:
+                    data["is_active"] = "1"
+                response = self.client.post(target.get_absolute_url(), data)
+                target.refresh_from_db()
+                self.assertRedirects(response, target.get_absolute_url())
+                audit = target.auditlog_set.get(activity=activity)
+                self.assertEqual(audit.params["username"], self.user.username)
+                self.assertIsNone(audit.address)
+                self.assertEqual(audit.user_agent, "")
+
+        for activity in ("superuser-granted", "username", "full_name", "email"):
+            audit = target.auditlog_set.get(activity=activity)
+            self.assertEqual(audit.params["username"], self.user.username)
+        del data["is_superuser"]
+        response = self.client.post(target.get_absolute_url(), data)
+        self.assertRedirects(response, target.get_absolute_url())
+        audit = target.auditlog_set.get(activity="superuser-revoked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertEqual(target.auditlog_set.filter(activity="enabled").count(), 1)
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(
+            response, f"Triggered by <code>{self.user.username}</code>."
+        )
+        self.client.force_login(target)
+        response = self.client.get(reverse("profile"))
+        self.assertContains(
+            response, f"Triggered by <code>{self.user.username}</code>."
+        )
+
+    def test_remove_second_factor_audits_administrator(self) -> None:
+        target = User.objects.create_user("2fa-target", "target@example.com", "x")
+        device = TOTPDevice.objects.create(user=target, name="Test device")
+        response = self.client.post(target.get_absolute_url(), {"remove_2fa": "1"})
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        self.assertFalse(TOTPDevice.objects.filter(pk=device.pk).exists())
+        audit = target.auditlog_set.get(activity="twofactor-remove")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+
+    def test_remove_user_audits_administrator(self) -> None:
+        target = User.objects.create_user("remove-target", "target@example.com", "x")
+        self.client.post(target.get_absolute_url(), {"remove_user": "1"})
+        audit = target.auditlog_set.get(activity="removed")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+
     def test_disable_password_regenerates_api_key(self) -> None:
         target = User.objects.create_user(
             username="password-reset-target", password="testpassword"
@@ -1646,6 +1703,9 @@ class EditUserTest(FixtureTestCase):
         token = Token.objects.get(user=target)
         self.assertNotEqual(token.key, old_token)
         self.assertFalse(Token.objects.filter(key=old_token).exists())
+        audit = target.auditlog_set.get(activity="admin-locked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
 
     def test_disable_password_keeps_api_key(self) -> None:
         target = User.objects.create_user(

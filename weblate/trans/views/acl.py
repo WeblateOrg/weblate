@@ -303,7 +303,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
         if created:
             AuditLog.objects.create(
                 user,
-                None,
+                request,
                 "blocked",
                 project=obj.name,
                 username=request.user.username,

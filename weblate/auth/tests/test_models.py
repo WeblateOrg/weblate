@@ -5,20 +5,22 @@
 from __future__ import annotations
 
 from secrets import token_hex
-from typing import Never
+from typing import TYPE_CHECKING, Never, cast
 from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from weblate.auth import permissions as auth_permissions
 from weblate.auth.bots import InternalBot
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
+    Invitation,
     Permission,
     Role,
     TeamMembership,
@@ -34,6 +36,9 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, ComponentLink, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class SkipWeblateAuthMigrationsRouter:
@@ -1215,6 +1220,40 @@ class ModelTest(FixtureComponentTestCase):
 
         with self.assertRaisesMessage(ValueError, "Audit state is already stored!"):
             self.user.store_audit_state()
+
+    def test_unchanged_audit_state(self) -> None:
+        count = self.user.auditlog_set.count()
+        self.user.store_audit_state()
+        self.user.save()
+        self.user.log_audit_state(None)
+        self.assertEqual(self.user.auditlog_set.count(), count)
+
+    def test_expiry_audit_without_actor(self) -> None:
+        self.user.date_expires = timezone.now()
+        self.user.save(update_fields=["date_expires"])
+        self.user.is_active = False
+        self.user.save()
+        audit = self.user.auditlog_set.get(activity="disabled-expiry")
+        self.assertNotIn("username", audit.params)
+        self.assertIsNone(audit.address)
+
+    def test_invitation_superuser_actor(self) -> None:
+        actor = User.objects.create_user("inviter", "inviter@example.com", "x")
+        invitation = Invitation.objects.create(
+            author=actor,
+            user=self.user,
+            group=Group.objects.get(name="Users"),
+            is_superuser=True,
+        )
+        request = RequestFactory().post("/")
+        request.user = self.user
+        invitation.accept(cast("AuthenticatedHttpRequest", request), self.user)
+        audit = self.user.auditlog_set.get(activity="superuser-granted")
+        self.assertEqual(audit.params["username"], actor.username)
+        message = audit.get_extra_message()
+        self.assertIsNotNone(message)
+        assert message is not None
+        self.assertIn("inviter", message)
 
     def test_user(self) -> None:
         # Create user with Django User fields

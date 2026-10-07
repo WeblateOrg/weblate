@@ -238,10 +238,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             raise PermissionDenied
         if change:
             original = User.objects.get(pk=obj.pk)
-            form.instance.store_audit_state(
-                group_ids=set(original.groups.values_list("id", flat=True)),
-                is_superuser=original.is_superuser,
-            )
+            form.instance.store_audit_state(original=original)
 
         super().save_model(request, obj, form, change)
 

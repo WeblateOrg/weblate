@@ -932,13 +932,16 @@ class UserPage(UpdateView):
             for device in user.profile.second_factors:
                 key_name = get_key_name(device)
                 device.delete()
-                AuditLog.objects.create(user, None, "twofactor-remove", device=key_name)
+                AuditLog.objects.create(
+                    user, request, "twofactor-remove", device=key_name
+                )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         if "disable_password" in request.POST:
             lock_user(
                 user,
                 "admin-locked",
+                request,
                 regenerate_api_key="regenerate_api_key" in request.POST,
             )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")

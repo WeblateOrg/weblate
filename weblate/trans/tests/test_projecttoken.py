@@ -146,7 +146,8 @@ class ProjectTokenTest(FixtureTestCase):
         self.assertEqual(audit.params["project"], self.project.name)
         self.assertEqual(audit.params["username"], self.user.username)
         self.assertEqual(
-            audit.get_extra_message(), f"Triggered by {self.user.username}."
+            audit.get_extra_message(),
+            f"Triggered by <code>{self.user.username}</code>.",
         )
 
     def test_use_token(self) -> None:
@@ -235,7 +236,8 @@ class ProjectTokenTest(FixtureTestCase):
             {"project": self.project.name, "username": self.user.username},
         )
         self.assertEqual(
-            audit.get_extra_message(), f"Triggered by {self.user.username}."
+            audit.get_extra_message(),
+            f"Triggered by <code>{self.user.username}</code>.",
         )
 
     def test_revoke_foreign_token_denied(self) -> None:
@@ -419,7 +421,8 @@ class ProjectTokenTest(FixtureTestCase):
             {"project": project_name, "username": self.user.username},
         )
         self.assertEqual(
-            audit.get_extra_message(), f"Triggered by {self.user.username}."
+            audit.get_extra_message(),
+            f"Triggered by <code>{self.user.username}</code>.",
         )
 
     def test_project_removal_keeps_tokens_with_other_projects(self) -> None:
