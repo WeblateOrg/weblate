@@ -1059,6 +1059,14 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="").count(), 1)
+        audit = self.second_user.auditlog_set.get(activity="blocked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+        message = audit.get_extra_message()
+        self.assertIsNotNone(message)
+        assert message is not None
+        self.assertIn("Triggered by", message)
+        self.assertIn("Please contact project maintainers", message)
 
         # Block user, for second time
         response = self.client.post(

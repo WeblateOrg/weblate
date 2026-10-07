@@ -9,9 +9,12 @@ from __future__ import annotations
 from unittest import mock
 
 from django.contrib.admin.sites import AdminSite
+from django.contrib.auth.models import AnonymousUser
+from django.core import mail
 from django.core.exceptions import ValidationError
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
+from django.utils.translation import override
 
 from weblate.accounts.admin import AuditLogAdmin
 from weblate.accounts.models import (
@@ -23,11 +26,33 @@ from weblate.accounts.models import (
     Profile,
     validate_listing_columns,
 )
+from weblate.accounts.tasks import notify_auditlog
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 
 
 class AuditLogTestCase(SimpleTestCase):
+    def test_actor_and_guidance_are_escaped(self) -> None:
+        audit = AuditLog(
+            activity="blocked", params={"username": "<admin>", "project": "Test"}
+        )
+        message = audit.get_extra_message()
+        self.assertIsNotNone(message)
+        assert message is not None
+        self.assertIn("Triggered by <code>&lt;admin&gt;</code>.", message)
+        self.assertIn("Please contact project maintainers", message)
+
+    def test_actor_is_not_repeated(self) -> None:
+        for activity in ("team-add", "sitewide-team-remove", "invited", "accepted"):
+            with self.subTest(activity=activity):
+                audit = AuditLog(activity=activity, params={"username": "admin"})
+                self.assertIsNone(audit.get_extra_message())
+
+    def test_legacy_entry_without_actor(self) -> None:
+        audit = AuditLog(activity="superuser-granted", params={})
+        self.assertIsNone(audit.get_extra_message())
+        self.assertEqual(audit.get_message(), "Superuser privileges granted.")
+
     def test_address_ipv4(self) -> None:
         audit = AuditLog(address="127.0.0.1")
         self.assertEqual(audit.shortened_address, "127.0.0.0")
@@ -91,6 +116,65 @@ class ListingColumnsValidationTestCase(SimpleTestCase):
 
 
 class AuditLogLoggingTestCase(TestCase):
+    def test_request_actor_and_privacy(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("admin", "admin@example.com")
+        request = RequestFactory().post("/", HTTP_USER_AGENT="Admin browser")
+        request.user = actor
+        audit = AuditLog.objects.create(user, request, "admin-locked")
+        self.assertEqual(audit.params["username"], actor.username)
+        self.assertIsNone(audit.address)
+        self.assertEqual(audit.user_agent, "")
+
+        request.user = user
+        audit = AuditLog.objects.create(user, request, "password")
+        self.assertNotIn("username", audit.params)
+        self.assertEqual(audit.address, "127.0.0.1")
+        self.assertEqual(audit.user_agent, "Other / Other / Other")
+
+        request.user = AnonymousUser()
+        audit = AuditLog.objects.create(user, request, "reset-request")
+        self.assertNotIn("username", audit.params)
+        self.assertEqual(audit.address, "127.0.0.1")
+
+        audit = AuditLog.objects.create(user, None, "disabled-expiry")
+        self.assertNotIn("username", audit.params)
+
+    def test_explicit_actor_and_existing_username(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("inviter", "inviter@example.com")
+        request = RequestFactory().post("/")
+        request.user = user
+        audit = AuditLog.objects.create(user, request, "superuser-granted", actor=actor)
+        self.assertEqual(audit.params["username"], actor.username)
+        audit = AuditLog.objects.create(
+            user, request, "accepted", username=actor.username
+        )
+        self.assertEqual(audit.params["username"], actor.username)
+
+    def test_authentication_events_do_not_disclose_request_user(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("requester", "requester@example.com")
+        request = RequestFactory().post("/")
+        request.user = actor
+        for activity in ("connect", "register", "failed-auth", "reset-request"):
+            with self.subTest(activity=activity):
+                audit = AuditLog.objects.create(user, request, activity)
+                self.assertNotIn("username", audit.params)
+                self.assertNotIn("requester", str(audit.get_extra_message()))
+
+    def test_actor_in_notification(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        user.profile.language = "en"
+        user.profile.save(update_fields=["language"])
+        actor = User.objects.create_user("admin", "admin@example.com")
+        audit = AuditLog.objects.create(user, None, "superuser-granted", actor=actor)
+        with override("cs"):
+            notify_auditlog(audit.pk, user.email)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("admin", mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].body.count("Triggered by"), 1)
+
     def test_sitewide_team_add_logged(self) -> None:
         user = User.objects.create_user(
             username="audit-user",

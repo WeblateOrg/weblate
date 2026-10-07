@@ -2128,7 +2128,11 @@ class UserAPITest(APIBaseTest):
             method="patch",
             superuser=True,
             code=200,
-            request={"is_superuser": True},
+            request={
+                "is_superuser": True,
+                "is_active": False,
+                "full_name": "Edited name",
+            },
         )
 
         target.refresh_from_db()
@@ -2136,6 +2140,10 @@ class UserAPITest(APIBaseTest):
         audit = target.auditlog_set.get(activity="superuser-granted")
         self.assertEqual(audit.params["username"], self.user.username)
         self.assertIsNone(audit.address)
+        for activity in ("disabled", "full_name"):
+            audit = target.auditlog_set.get(activity=activity)
+            self.assertEqual(audit.params["username"], self.user.username)
+            self.assertIsNone(audit.address)
 
     def test_patch_self_with_user_view_permission(self) -> None:
         self.grant_perm_to_user("user.view")

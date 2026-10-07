@@ -298,7 +298,10 @@
             {% for log in page_user.auditlog_set.order %}
               <tr>
                 <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
-                <th>{{ log.get_message }}</th>
+                <th>
+                  {{ log.get_message }}
+                  {% if log.get_extra_message %}<div>{{ log.get_extra_message }}</div>{% endif %}
+                </th>
                 <td>{{ log.address }}</td>
                 <td>{{ log.get_user_agent_display }}</td>
               </tr>
