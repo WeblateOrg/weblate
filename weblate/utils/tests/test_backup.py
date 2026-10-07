@@ -41,7 +41,7 @@ from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.wladmin.models import BackupService
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Generator
 
 
 class BackupTest(TransactionTestCase):
@@ -371,7 +371,7 @@ class BackupPreparationTest(SimpleTestCase):
         )
 
         @contextmanager
-        def tracked_lock() -> Iterator[None]:
+        def tracked_lock() -> Generator[None]:
             operations.append("lock-enter")
             try:
                 yield
