@@ -571,8 +571,8 @@ def execute_repository_operation_method(
             raise ValueError(operation)
         perform_component_commit(component, "file-sync", user)
         return True
-    if resume_followup == "pull":
-        component.finish_update(request, user)
+    if resume_followup in {"pull", "pull-skip-push"}:
+        component.finish_update(request, user, push=resume_followup == "pull")
         if operation == "push":
             return component.do_push(request, force_commit=False, do_update=False)
         return True

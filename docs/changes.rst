@@ -19,6 +19,7 @@ Weblate 2026.10.1
 * Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
 
 * Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
+* Added :ref:`component-push_on_update` to push only after committing translations, not after upstream updates.
 
 .. rubric:: Security fixes
 

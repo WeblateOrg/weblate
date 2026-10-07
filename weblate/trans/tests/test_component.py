@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import os
 import pathlib
+import shutil
 from concurrent.futures import ThreadPoolExecutor
+from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
 from typing import cast
@@ -2409,6 +2411,104 @@ class ComponentValidationTest(RepoTestCase):
             component.get_lang_code("po/cs/pages/C_and_C++.po"),
             "cs",
         )
+
+
+class ComponentPushOnUpdateTest(RepoTestCase):
+    """Test pushing after a repository update."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component = self.create_component()
+        self.component.merge_style = "merge"
+        self.component.push_on_commit = True
+        self.component.save()
+        # Weblate commit which is not upstream, as after a squash merge.
+        with self.component.repository.lock:
+            pathlib.Path(self.component.full_path, "README.md").write_text(
+                "Local\n", encoding="utf-8"
+            )
+            self.component.repository.commit("Local", files=["README.md"])
+
+    def add_upstream_commit(self, *, translation: bool) -> None:
+        with TemporaryDirectory() as workdir:
+            repository = GitRepository.clone(
+                self.git_repo_path, workdir, self.component.branch
+            )
+            if translation:
+                # Changes a file matching the filemask.
+                filename = "po/sk.po"
+                shutil.copy(
+                    pathlib.Path(workdir, "po/cs.po"), pathlib.Path(workdir, filename)
+                )
+            else:
+                filename = "upstream"
+                pathlib.Path(workdir, filename).write_text(
+                    "Upstream\n", encoding="utf-8"
+                )
+            with repository.lock:
+                repository.set_committer("Test", "test@example.com")
+                repository.commit(
+                    "Upstream", "Test <test@example.com>", timezone.now(), [filename]
+                )
+                repository.push("")
+
+    def disable_push_on_update(self) -> None:
+        self.component.push_on_update = False
+        self.component.save(update_fields=["push_on_update"])
+
+    def test_pushes_by_default(self) -> None:
+        self.add_upstream_commit(translation=False)
+        self.assertTrue(self.component.do_update())
+        self.assertFalse(self.component.repo_needs_push())
+
+    def test_upstream_change_does_not_push(self) -> None:
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=False)
+        self.assertTrue(self.component.do_update())
+        self.assertTrue(self.component.repo_needs_push())
+
+    def test_upstream_translation_change_does_not_push(self) -> None:
+        # Upstream changes to translation files, such as the squash merge of a
+        # Weblate pull request, make Weblate look for pending changes.
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=True)
+        needs_commit_upstream = self.component.needs_commit_upstream
+        results: list[bool] = []
+
+        def record_needs_commit_upstream() -> bool:
+            results.append(needs_commit_upstream())
+            return results[-1]
+
+        with patch.object(
+            self.component,
+            "needs_commit_upstream",
+            side_effect=record_needs_commit_upstream,
+        ):
+            self.assertTrue(self.component.do_update())
+        self.assertEqual(results, [True])
+        self.assertTrue(self.component.repo_needs_push())
+
+    def test_committed_translations_are_pushed(self) -> None:
+        self.disable_push_on_update()
+        unit = self.component.translation_set.get(language_code="cs").unit_set.all()[0]
+        unit.translate(create_test_user(), "Translated\n", STATE_TRANSLATED)
+        self.add_upstream_commit(translation=True)
+        self.assertTrue(self.component.do_update())
+        self.assertFalse(self.component.repo_needs_push())
+
+    def test_lock_contention_keeps_push_decision(self) -> None:
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=False)
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(
+                self.component, "create_translations", side_effect=lock_timeout
+            ),
+            inline_repository_followups(),
+        ):
+            self.component.do_update()
+        self.assertEqual(raised.exception.followup, "pull-skip-push")
 
 
 class ComponentErrorTest(RepoTestCase):

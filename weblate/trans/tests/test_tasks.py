@@ -42,6 +42,7 @@ from weblate.trans.repository import (
 )
 from weblate.trans.repository_context import (
     RepositoryFollowupLockError,
+    RepositoryOperationFollowup,
     repository_task_deferred_auto_push,
     repository_task_deferred_background_tasks,
     repository_task_suppress_auto_push,
@@ -710,9 +711,16 @@ class TasksTest(ComponentTestCase):
         commit.assert_called_once_with(self.component, "file-sync", self.user)
 
     def test_repository_operation_retries_only_pull_followup(self) -> None:
+        for followup, push in (("pull", True), ("pull-skip-push", False)):
+            with self.subTest(followup=followup):
+                self.assert_pull_followup_retry(followup, push=push)
+
+    def assert_pull_followup_retry(
+        self, followup: RepositoryOperationFollowup, *, push: bool
+    ) -> None:
         task = perform_repository_operation
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
-        followup_error = RepositoryFollowupLockError(lock_timeout, "pull")
+        followup_error = RepositoryFollowupLockError(lock_timeout, followup)
 
         with (
             patch.object(task, "update_state"),
@@ -733,7 +741,7 @@ class TasksTest(ComponentTestCase):
                 "task-id",
             )
 
-        self.assertEqual(raised.exception.resume_followup, "pull")
+        self.assertEqual(raised.exception.resume_followup, followup)
         with (
             patch.object(task, "update_state"),
             patch.object(User, "has_perm", return_value=True),
@@ -754,7 +762,7 @@ class TasksTest(ComponentTestCase):
 
         self.assertTrue(result["result"])
         update.assert_not_called()
-        finish_update.assert_called_once_with(self.component, ANY, self.user)
+        finish_update.assert_called_once_with(self.component, ANY, self.user, push=push)
 
     def test_repository_operation_resumes_push_after_pull_followup(self) -> None:
         task = perform_repository_operation
@@ -801,7 +809,7 @@ class TasksTest(ComponentTestCase):
             )
 
         self.assertTrue(result["result"])
-        finish_update.assert_called_once_with(self.component, ANY, self.user)
+        finish_update.assert_called_once_with(self.component, ANY, self.user, push=True)
         push.assert_called_once_with(
             self.component, ANY, force_commit=False, do_update=False
         )
