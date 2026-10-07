@@ -3285,7 +3285,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         user = self.do_login()
         user.social_auth.create(provider="google-oauth2", uid=user.email)
         user.social_auth.create(provider="github", uid="123456")
-        user.social_auth.create(provider="bitbucket", uid="weblate")
+        user.social_auth.create(provider="bitbucket-oauth2", uid="weblate")
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
