@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0114_alter_project_public_sharing"),
+        ("trans", "0115_alter_project_contribute_shared_tm"),
     ]
 
     operations = [
