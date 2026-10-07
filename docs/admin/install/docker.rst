@@ -1359,6 +1359,31 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
 
+   To use private commit e-mails and names by default, set both opt-in variables
+   to ``False`` in :file:`docker-compose.override.yml`:
+
+   .. code-block:: yaml
+
+      services:
+        weblate:
+          environment:
+            WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN: "False"
+            WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN: "False"
+            WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE: "user-{user_id}@users.noreply.{site_domain}"
+            WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE: "{site_title} user {user_id}"
+
+   The template variables are optional customizations. This e-mail template uses
+   the user ID instead of the username included in the default template.
+   Setting the templates alone leaves private commit identities opt-in.
+
+   These defaults apply to new and existing users without explicit commit
+   identity choices. Users can still select their account identity. Existing
+   commits are unchanged.
+
+   After changing the environment, run ``docker compose up -d`` to recreate the
+   affected containers. Apply the same configuration to separately deployed
+   workers so both web and worker processes use the new defaults.
+
 .. envvar:: WEBLATE_UNUSED_ALERT_DAYS
 
    .. versionadded:: 4.17

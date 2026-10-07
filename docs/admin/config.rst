@@ -809,6 +809,10 @@ DEFAULT_COMMITER_EMAIL
 
 Committer e-mail address, defaulting to ``noreply@weblate.org``.
 
+This identifies Weblate as the committer, separately from the translator recorded
+as the author. To make translators' author e-mail addresses private by default,
+set :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` to ``False``.
+
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_NAME`
@@ -819,6 +823,10 @@ DEFAULT_COMMITER_NAME
 ---------------------
 
 Committer name, defaulting to ``Weblate``.
+
+This identifies Weblate as the committer, separately from the translator recorded
+as the author. To make translators' author names private by default, set
+:setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``.
 
 .. seealso::
 
@@ -1777,11 +1785,17 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 .. versionadded:: 4.15
 
-Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
+Configures whether the private commit e-mail is opt-in or opt-out.
+
+With ``True`` (the default), users use their account e-mail unless they choose a
+private commit e-mail. Set to ``False`` to use
+:setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` by default.
 
 .. hint::
 
-   This setting only applies to users which have not explicitly chosen a commit e-mail.
+   This setting applies to new and existing users who have not explicitly chosen
+   a commit e-mail. Users can still choose their account e-mail in the
+   :ref:`profile-account` settings. Bot accounts do not use the private default.
 
 .. seealso::
 
@@ -1799,7 +1813,12 @@ Template to generate a private commit e-mail for a user. Defaults to ``"{usernam
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
-Set to blank string to disable.
+Set to a blank string to disable private commit e-mails and use the account
+e-mail when no commit e-mail has been explicitly chosen.
+
+The default template includes the username. To avoid including it, use
+``"user-{user_id}@users.noreply.{site_domain}"`` instead. Changing the template
+alone does not make private commit e-mails the default.
 
 .. note::
 
@@ -1814,11 +1833,17 @@ PRIVATE_COMMIT_NAME_OPT_IN
 
 .. versionadded:: 5.16
 
-Configures whether the private commit name is opt-in or opt-out (by default it is opt-in).
+Configures whether the private commit name is opt-in or opt-out.
+
+With ``True`` (the default), users use their account name unless they choose a
+private commit name. Set to ``False`` to use
+:setting:`PRIVATE_COMMIT_NAME_TEMPLATE` by default.
 
 .. hint::
 
-   This setting only applies to users which have not explicitly chosen a commit name.
+   This setting applies to new and existing users who have not explicitly chosen
+   a commit name. Users can still choose their account name in the
+   :ref:`profile-account` settings. Bot accounts use their account name.
 
 .. seealso::
 
@@ -1836,7 +1861,8 @@ Template to generate a private commit name for a user. Defaults to ``"{site_titl
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
-Set to blank string to disable.
+Set to a blank string to disable private commit names and use the account name.
+Changing the template alone does not make private commit names the default.
 
 .. note::
 
