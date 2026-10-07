@@ -102,7 +102,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
@@ -367,7 +367,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     site_domain = ""
 
     @contextmanager
-    def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
+    def wait_for_page_load(self, timeout: int = 30) -> Generator[None, None, None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         success = False
         try:
@@ -663,7 +663,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             component.save(update_fields=("git_export",))
 
     @contextmanager
-    def stable_git_revision(self) -> Iterator[None]:
+    def stable_git_revision(self) -> Generator[None, None, None]:
         """Use deterministic Git revision text in management screenshots."""
         with (
             patch("weblate.wladmin.views.GIT_LINK", SCREENSHOT_GIT_LINK),
@@ -868,7 +868,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
     @contextmanager
-    def stable_performance_report_inputs(self) -> Iterator[None]:
+    def stable_performance_report_inputs(self) -> Generator[None, None, None]:
         """Use deterministic server-side values for the performance screenshot."""
         original_wsgi_request_init = WSGIRequest.__init__
         missing = object()
@@ -1099,7 +1099,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
     @contextmanager
-    def capture_authentication_submissions(self) -> Iterator[None]:
+    def capture_authentication_submissions(self) -> Generator[None, None, None]:
         """Exercise the real login page without navigating to external providers."""
         script = self.driver.execute_cdp_cmd(
             "Page.addScriptToEvaluateOnNewDocument",

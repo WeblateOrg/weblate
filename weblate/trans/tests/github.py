@@ -22,7 +22,7 @@ from weblate.utils.validators import resolve_runtime_hostname
 from weblate.vcs.git import GitRepository
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
 DEMO_URL = "https://github.com/WeblateOrg/demo.git"
 TEST_URL = "https://github.com/WeblateOrg/test.git"
@@ -30,7 +30,7 @@ DEMO_REF = "refs/fixtures/screenshot-demo"
 
 
 @contextmanager
-def github_fixture_repositories() -> Iterator[dict[str, Path]]:
+def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
     """Route GitHub URLs to isolated local copies without changing their display."""
     fixture = RepoTestMixin()
     base = fixture.git_base_repo_path

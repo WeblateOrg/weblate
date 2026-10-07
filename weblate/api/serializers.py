@@ -127,7 +127,7 @@ from weblate.vcs.base import RepositoryError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from uuid import UUID
 
 NEW_UNIT_STATE_CHOICES = tuple(
@@ -2417,7 +2417,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         self._uploaded_repository_component = None
 
     @contextmanager
-    def cleanup_uploaded_repository_on_error(self) -> Iterator[None]:
+    def cleanup_uploaded_repository_on_error(self) -> Generator[None, None, None]:
         try:
             yield
         except BaseException:
