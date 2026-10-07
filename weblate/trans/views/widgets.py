@@ -11,6 +11,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.cache import patch_cache_control
 from django.utils.html import format_html
 from django.utils.translation import gettext
 from django.views.decorators.cache import cache_control
@@ -39,6 +40,24 @@ if TYPE_CHECKING:
 def widgets_sorter(widget):
     """Provide better ordering of widgets."""
     return WIDGETS[widget].order
+
+
+def patch_widget_cache_control(
+    response: HttpResponse,
+    obj: Component | Category | Workspace | Project | Language | None,
+) -> None:
+    """Set shared cache policy based on the widget access scope."""
+    if isinstance(obj, Workspace):
+        publicly_shared = False
+    elif isinstance(obj, Project):
+        publicly_shared = obj.is_publicly_shared
+    elif isinstance(obj, (Component, Category)):
+        publicly_shared = obj.project.is_publicly_shared
+    else:
+        publicly_shared = True
+
+    directive = {"public": True} if publicly_shared else {"private": True}
+    patch_cache_control(response, max_age=3600, **directive)
 
 
 def widgets(request: AuthenticatedHttpRequest, path: list[str]):
@@ -155,7 +174,6 @@ class WidgetRedirectView(RedirectView):
 
 @vary_on_cookie
 @login_not_required
-@cache_control(max_age=3600)
 def render_widget(
     request: AuthenticatedHttpRequest,
     path: list[str],
@@ -213,11 +231,13 @@ def render_widget(
             "color": widget_obj.color,
             "extension": widget_obj.extension,
         }
-        return redirect("widget-image", permanent=True, **kwargs)
+        response = redirect("widget-image", permanent=True, **kwargs)
+    else:
+        # Render widget
+        response = HttpResponse(content_type=widget_obj.content_type)
+        widget_obj.render(request, response)
 
-    # Render widget
-    response = HttpResponse(content_type=widget_obj.content_type)
-    widget_obj.render(request, response)
+    patch_widget_cache_control(response, obj)
     return response
 
 
