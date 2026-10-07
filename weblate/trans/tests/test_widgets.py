@@ -511,6 +511,39 @@ class PublicSharingTest(FixtureTestCase):
         self.project.public_sharing = public_sharing
         self.project.save(update_fields=["access_control", "public_sharing"])
 
+    def assert_widget_cache_control(
+        self, response: ClientResponse, directive: str
+    ) -> None:
+        cache_control = response["Cache-Control"]
+        self.assertIn("max-age=3600", cache_control)
+        self.assertIn(directive, cache_control)
+        self.assertNotIn(
+            "public" if directive == "private" else "private", cache_control
+        )
+
+    def test_widget_cache_control_follows_public_sharing(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        widget_urls = self.get_sharing_urls()[2:]
+
+        for access_control, public_sharing, directive in (
+            (Project.ACCESS_PRIVATE, False, "private"),
+            (Project.ACCESS_CUSTOM, False, "private"),
+            (Project.ACCESS_PUBLIC, False, "public"),
+            (Project.ACCESS_PROTECTED, False, "public"),
+            (Project.ACCESS_PRIVATE, True, "public"),
+            (Project.ACCESS_CUSTOM, True, "public"),
+        ):
+            with self.subTest(
+                access_control=access_control, public_sharing=public_sharing
+            ):
+                self.set_project_access(access_control, public_sharing)
+                for widget_url in widget_urls:
+                    with self.subTest(widget_url=widget_url):
+                        response = self.client.get(widget_url)
+                        self.assertEqual(response.status_code, 200)
+                        self.assert_widget_cache_control(response, directive)
+
     def test_public_and_protected_projects_are_shared(self) -> None:
         self.client.logout()
         for access_control in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
@@ -789,7 +822,11 @@ class WorkspaceWidgetsTest(FixtureTestCase):
 
     def test_public_workspace_widget(self) -> None:
         self.client.logout()
-        self.assert_svg(self.client.get(self.widget_url))
+        response = self.client.get(self.widget_url)
+        self.assert_svg(response)
+        self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertIn("private", response["Cache-Control"])
+        self.assertNotIn("public", response["Cache-Control"])
 
     def test_private_workspace_widget_requires_access(self) -> None:
         self.client.logout()
@@ -805,7 +842,11 @@ class WorkspaceWidgetsTest(FixtureTestCase):
         self.user.clear_permissions_cache()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
-        self.assert_svg(self.client.get(self.widget_url))
+        response = self.client.get(self.widget_url)
+        self.assert_svg(response)
+        self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertIn("private", response["Cache-Control"])
+        self.assertNotIn("public", response["Cache-Control"])
 
     def test_empty_workspace_widget_requires_access(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(workspace=None)
@@ -1033,6 +1074,9 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
         )
 
         self.assert_widget(widget, response)
+        self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertIn("public", response["Cache-Control"])
+        self.assertNotIn("private", response["Cache-Control"])
 
 
 class WidgetsGlobalRenderTest(WidgetsRenderTest):
@@ -1050,6 +1094,9 @@ class WidgetsGlobalRenderTest(WidgetsRenderTest):
         )
 
         self.assert_widget(widget, response)
+        self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertIn("public", response["Cache-Control"])
+        self.assertNotIn("private", response["Cache-Control"])
 
 
 class WidgetsRedirectRenderTest(WidgetsRenderTest):
