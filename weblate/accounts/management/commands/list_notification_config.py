@@ -36,7 +36,7 @@ class Command(DocGeneratorCommand):
         snippets_dir: Path = cast("Path", options["output"])
 
         scope_content = []
-        for scope in NotificationScope:
+        for scope in NotificationScope.configurable():
             scope_content.extend(
                 [f"``{scope.value}``", f"   :guilabel:`{scope.label}`"]
             )

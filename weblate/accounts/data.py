@@ -28,6 +28,10 @@ class NotificationScope(IntegerChoices):
     SCOPE_PROJECT = 30, gettext_lazy("Project")
     SCOPE_COMPONENT = 40, gettext_lazy("Component")
 
+    @classmethod
+    def configurable(cls) -> list[NotificationScope]:
+        return [cls.SCOPE_ALL, cls.SCOPE_WATCHED, cls.SCOPE_ADMIN]
+
 
 def create_default_notifications(user: User) -> None:
     for scope, frequency, notification in settings.DEFAULT_NOTIFICATIONS:

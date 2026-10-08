@@ -89,7 +89,7 @@ def check_notification_settings(
 
                 try:
                     scope = int(scope)
-                    if scope not in NotificationScope.values:
+                    if scope not in [n.value for n in NotificationScope.configurable()]:
                         errors.append(
                             f"{name}: invalid notification scope '{scope}'",
                         )
