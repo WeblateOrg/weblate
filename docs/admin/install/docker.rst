@@ -1209,6 +1209,8 @@ Generic settings
 
 .. envvar:: WEBLATE_DEFAULT_NOTIFICATIONS
 
+   .. versionadded:: 2026.10.1
+
    Configures :setting:`DEFAULT_NOTIFICATIONS`.
 
    **Example:**

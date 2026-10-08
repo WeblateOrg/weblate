@@ -868,6 +868,8 @@ DEFAULT_MERGE_STYLE
 DEFAULT_NOTIFICATIONS
 ---------------------
 
+.. versionadded:: 2026.10.1
+
 Default notification settings for every newly created user.
 
 A list of 3-tuples consisting of notification scope, notification frequency and notification handler.
