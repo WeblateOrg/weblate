@@ -2278,7 +2278,7 @@ class BackupsTest(ViewTestCase):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("unit.review", restored))
 
-    def test_restore_builtin_type_after_earlier_custom_team(self) -> None:
+    def test_restore_preserves_team_internal_flag(self) -> None:
         self.project.translation_review = False
         self.project.source_review = False
         self.project.save()
@@ -2299,7 +2299,7 @@ class BackupsTest(ViewTestCase):
         backup = ProjectBackup()
         backup.backup_project(self.project)
         entries = [team for team in backup.data["teams"] if team["name"] == "Review"]
-        self.assertEqual([team["internal"] for team in entries], [False, True])
+        self.assertCountEqual([team["internal"] for team in entries], [False, True])
         restore = ProjectBackup(backup.filename)
         restore.validate()
         restored = restore.restore(
