@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.db import connection, transaction
@@ -24,14 +25,17 @@ from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import refresh_propagated_checks, schedule_propagated_checks
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Translation, Unit
+from weblate.trans.models import Component, Translation, Unit
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
-    ComponentTestCase,
     FixtureTestCase,
+    ReusableComponentTestCase,
 )
 from weblate.trans.util import join_plural
 from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.trans.tests.test_views import ComponentTestCase
 
 
 class PluralsCheckTest(TestCase):
@@ -154,10 +158,17 @@ class ReusedCheckGuardTest(SimpleTestCase):
         handle_batch.assert_not_called()
 
 
-class ConsistencyCheckTest(ComponentTestCase):
+class ConsistencyCheckTest(ReusableComponentTestCase):
+    _fixture_other_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
+        cls._fixture_other_pk = builder.create_link_existing().pk
+
     def setUp(self) -> None:
         super().setUp()
-        self.other = self.create_link_existing()
+        self.other = Component.objects.get(pk=self._fixture_other_pk)
         self.translation_1 = self.component.translation_set.get(language__code="cs")
         self.translation_2 = self.other.translation_set.get(language__code="cs")
         self._id_hash = 1000

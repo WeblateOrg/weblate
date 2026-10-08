@@ -66,7 +66,7 @@ from weblate.trans.tasks import (
     update_checks,
     update_remotes,
 )
-from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
 from weblate.utils.files import remove_tree
@@ -138,7 +138,7 @@ class CleanupTest(ComponentTestCase):
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
 
-class TasksTest(ComponentTestCase):
+class TasksTest(ReusableComponentTestCase):
     def test_repository_commit_uses_locked_wrapper(self) -> None:
         method = Mock()
 

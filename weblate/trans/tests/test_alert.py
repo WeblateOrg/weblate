@@ -47,7 +47,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.alert import Alert
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
     RepositoryDiagnosis,
@@ -161,7 +161,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
         )
 
 
-class AlertTest(ViewTestCase):
+class AlertTest(ReusableViewTestCase):
     def create_component(self):
         return self._create_component("po", "po-duplicates/*.dpo", manage_units=True)
 

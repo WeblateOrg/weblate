@@ -36,7 +36,7 @@ from weblate.kotlin_sdk.retention import select_retired_builds
 from weblate.kotlin_sdk.translations import LocaleSnapshot, LocaleValues
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Category, Component, Translation, Unit
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -489,7 +489,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
 
 
 @override_settings(LOCALIZE_CDN_URL="https://cdn.example.com/")
-class KotlinSDKTest(ViewTestCase):
+class KotlinSDKTest(ReusableViewTestCase):
     def stage_build(
         self,
         addon: Publication,

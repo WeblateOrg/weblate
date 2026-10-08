@@ -30,7 +30,7 @@ from weblate.gitexport.views import (
 )
 from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.commands import get_clean_env
 
@@ -39,7 +39,7 @@ def pkt_line(payload: bytes) -> bytes:
     return f"{len(payload) + 4:04x}".encode("ascii") + payload
 
 
-class GitExportTest(ViewTestCase):
+class GitExportTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         # We don't want standard Django authentication

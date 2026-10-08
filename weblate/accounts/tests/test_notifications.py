@@ -67,7 +67,7 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
-    ViewTestCase,
+    ReusableViewTestCase,
 )
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.icons import load_icon
@@ -209,7 +209,7 @@ class NotificationHeadersTest(SimpleTestCase):
     TEMPLATES=TEMPLATES_RAISE,
     RATELIMIT_NOTIFICATION_LIMITS=[],
 )
-class NotificationTest(ViewTestCase, RegistrationTestMixin):
+class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.user.email = "noreply+notify@weblate.org"

@@ -46,7 +46,10 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.models import Change, Unit
-from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    ReusableComponentTestCase,
+)
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -483,7 +486,7 @@ class DefinitionTest(SimpleTestCase):
         self.assertEqual(runner.trace[-1]["status"], "error")
 
 
-class AutomationTest(ComponentTestCase):
+class AutomationTest(ReusableComponentTestCase):
     def test_suggestion_result_tracks_created_unit(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         unit = translation.unit_set.all()[0]
