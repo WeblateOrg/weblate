@@ -75,7 +75,11 @@ from weblate.trans.models import (
     Vote,
     WorkflowSetting,
 )
-from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    ReusableViewTestCase,
+    ViewTestCase,
+)
 from weblate.trans.tests.utils import TEST_DATA, RepoTestMixin, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
@@ -1156,7 +1160,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(len(addon.alerts), 1)
 
 
-class GettextAddonTest(ViewTestCase):
+class GettextAddonTest(ReusableViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -6358,7 +6362,7 @@ class CommandTest(ComponentTestCase):
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
 
-class DiscoveryTest(ViewTestCase):
+class DiscoveryTest(ReusableViewTestCase):
     def test_limit_failure_is_reported(self) -> None:
         addon = DiscoveryAddon.create(
             component=self.component,

@@ -27,7 +27,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentLink
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
     generate_cost_estimate,
@@ -73,7 +73,7 @@ COUNTS_DATA = [
 ]
 
 
-class BaseReportsTest(ViewTestCase):
+class BaseReportsTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True

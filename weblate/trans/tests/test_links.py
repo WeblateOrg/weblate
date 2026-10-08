@@ -15,22 +15,33 @@ from django.urls import reverse
 
 from weblate.trans.models import Category, Project
 from weblate.trans.models.component import ComponentLink
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.stats import GlobalStats
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
     from weblate.lang.models import Language
+    from weblate.trans.tests.test_views import ComponentTestCase
 
 
-class ComponentLinkTestCase(ViewTestCase):
+class ComponentLinkTestCase(ReusableViewTestCase):
+    _fixture_other_pk: int
+    _fixture_link_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
+        other = Project.objects.create(name="Other", slug="other")
+        cls._fixture_other_pk = other.pk
+        cls._fixture_link_pk = ComponentLink.objects.create(
+            component=builder.component, project=other
+        ).pk
+
     def setUp(self) -> None:
         super().setUp()
-        self.other = Project.objects.create(name="Other", slug="other")
-        self.link = ComponentLink.objects.create(
-            component=self.component, project=self.other
-        )
+        self.other = Project.objects.get(pk=self._fixture_other_pk)
+        self.link = ComponentLink.objects.get(pk=self._fixture_link_pk)
 
     def test_list(self) -> None:
         response = self.client.get(self.project.get_absolute_url())

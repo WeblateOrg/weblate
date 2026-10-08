@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import pathlib
 import sys
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
@@ -27,7 +28,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tasks import component_after_save, perform_update
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL, TEST_VCS_ALLOW_SCHEMES
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
@@ -38,6 +39,9 @@ from weblate.utils.state import (
 )
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.trans.tests.test_views import ComponentTestCase
 
 EXTRA_PO = """
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
@@ -68,35 +72,45 @@ msgstr "Nazdar svete!\n"
 """
 
 
-class MultiRepoTest(ViewTestCase):
+class MultiRepoTest(ReusableViewTestCase):
     """Test handling of remote changes, conflicts and so on."""
 
     _vcs = "git"
     _branch = "main"
     _filemask = "po/*.po"
 
-    def setUp(self) -> None:
-        super().setUp()
-        if self._vcs not in VCS_REGISTRY:
-            self.skipTest(f"VCS {self._vcs} not available!")
-        repo = push = self.format_test_repo_url(
-            getattr(self, f"{self._vcs}_repo_path"), self._vcs
+    _fixture_component2_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        if cls._vcs not in VCS_REGISTRY:
+            builder.skipTest(f"VCS {cls._vcs} not available!")
+        super().build_fixture(builder)
+        repo = push = builder.format_test_repo_url(
+            getattr(builder, f"{cls._vcs}_repo_path"), cls._vcs
         )
-        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            self.component2 = Component.objects.create(
+        with override_settings(CREATE_GLOSSARIES=cls.CREATE_GLOSSARIES):
+            cls._fixture_component2_pk = Component.objects.create(
                 name="Test 2",
                 slug="test-2",
-                project=self.project,
+                project=builder.project,
                 repo=repo,
                 push=push,
-                vcs=self._vcs,
-                filemask=self._filemask,
+                vcs=cls._vcs,
+                filemask=cls._filemask,
                 template="",
                 file_format="po",
                 repoweb=REPOWEB_URL,
                 new_base="",
-                branch=self._branch,
-            )
+                branch=cls._branch,
+            ).pk
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
+        # Both components originally shared this project instance, including
+        # policy changes made by tests before either component is used.
+        self.component2.project = self.project
         self.request = self.get_request()
 
     def push_first(self, propagate=True, newtext="Nazdar svete!\n") -> None:

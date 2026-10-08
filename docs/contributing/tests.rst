@@ -136,6 +136,27 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
     See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
 
+Tests that repeatedly import the same component can inherit from
+``ReusableComponentTestCase`` or ``ReusableViewTestCase`` in
+:file:`weblate/trans/tests/test_views.py`. These bases build the initial user,
+project, component, and translations once per class in ``setUpTestData()``.
+Override ``create_component()`` to select a repository fixture or file format,
+as with ``ComponentTestCase``. For additional shared setup, override the
+``build_fixture(cls, builder)`` class method, call ``super().build_fixture(builder)``,
+and use the builder's repository helpers and model instances.
+
+Each test reloads its model instances and receives a restored copy of the working
+repositories, upstream repositories used during construction, and test Git
+configuration. Database changes are rolled back by Django. Clients,
+authentication, and application caches are initialized per test. Snapshots are
+temporary and local to each class and worker; extra components created within a
+test still use the normal component factories.
+
+Use the existing bases for ``TransactionTestCase`` and concurrency tests, or when
+component construction itself must run under a method-specific settings override.
+The reusable bases do not replay component construction signals or commit
+callbacks before each test.
+
 
 Local testing of Weblate modules
 --------------------------------

@@ -39,7 +39,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.project import CommitPolicyChoices
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
@@ -83,7 +83,7 @@ class SearchSessionTest(TestCase):
         self.assertNotIn("search_invalid_ttl", session)
 
 
-class SearchRecoveryTest(ViewTestCase):
+class SearchRecoveryTest(ReusableViewTestCase):
     query = "state:<translated"
     recovery_message = "Your previous search results are no longer available."
 
@@ -543,7 +543,7 @@ class EditScreenshotContextTest(ViewTestCase):
         self.assertEqual(list(response.context["screenshots"]), [screenshot])
 
 
-class EditTest(ViewTestCase):
+class EditTest(ReusableViewTestCase):
     """Test for manipulating translation."""
 
     has_plurals = True
@@ -1824,7 +1824,7 @@ class EditTSMonoTest(EditTest):
         return self.create_ts_mono()
 
 
-class ZenViewTest(ViewTestCase):
+class ZenViewTest(ReusableViewTestCase):
     def create_zen_unit(self, position: int) -> Unit:
         source = f"Zen source {position}\n"
         id_hash = calculate_hash(source, "")
@@ -2314,7 +2314,7 @@ class ZenViewTest(ViewTestCase):
         )
 
 
-class EditComplexTest(ViewTestCase):
+class EditComplexTest(ReusableViewTestCase):
     """Test for complex manipulating translation."""
 
     def setUp(self) -> None:

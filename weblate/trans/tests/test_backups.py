@@ -43,6 +43,7 @@ from weblate.trans.backups import (
     CATEGORY_BACKUP_FIELDS,
     COMPONENT_BACKUP_FIELDS,
     PROJECT_BACKUP_FIELDS,
+    PROJECTBACKUP_PREFIX,
     ProjectBackup,
     backup_uses_xliff_format_params,
     format_backup_error,
@@ -74,8 +75,10 @@ from weblate.trans.tasks import (
     cleanup_project_backups,
     import_project_backup,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES, get_test_file
+from weblate.utils.data import data_path
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
@@ -253,8 +256,21 @@ class BackupErrorFormattingTest(SimpleTestCase):
         )
 
 
-class BackupsTest(ViewTestCase):
+class BackupsTest(ReusableViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        # Shared project IDs also share archive paths outside the VCS snapshot.
+        backup_path = data_path(PROJECTBACKUP_PREFIX) / str(self.project.pk)
+        remove_tree(backup_path, True)
+        self.addCleanup(remove_tree, backup_path, True)
+        media_root = self.enterContext(
+            tempfile.TemporaryDirectory(  # pylint: disable=consider-using-with
+                prefix="weblate-backup-media-"
+            )
+        )
+        self.enterContext(override_settings(MEDIA_ROOT=media_root))
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()
