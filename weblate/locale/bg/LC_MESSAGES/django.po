@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-08 22:56-0500\n"
-"PO-Revision-Date: 2026-10-06 18:06+0000\n"
+"PO-Revision-Date: 2026-10-09 04:07+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -16383,20 +16383,14 @@ msgstr ""
 "празните места така, както са. „Винаги да се нормализират“ слива празните "
 "места, дори ако е зададено xml:space=\"preserve\"."
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Поддръжка на Weblate"
+msgstr "Поддръжка на поставяеми елементи"
 
-#, fuzzy
-#| msgid "Plain text file"
 msgid "Plain text only"
-msgstr "Обикновен текстов файл"
+msgstr "Само обикновен текст"
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support placeables"
-msgstr "Подкрепете Weblate"
+msgstr "Да се поддръжат поставяеми елементи"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
@@ -16404,6 +16398,11 @@ msgid ""
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
+"Определя дали вместените елементи XML в низове на XLIFF да се запазват като "
+"поставяеми елементи, които могат да бъдат редактирани. „Само обикновен текст"
+"“ само екранира синтаксиса на XML и възприема съдържанието като текст. Ако е "
+"включена поддръжката на поставяеми елементи, то такива като <x id=\"name\" \\"
+"=\"\"> или </x> остават в низа и се показват като заместители в редактора."
 
 msgid "FlatXML Root name"
 msgstr "Име на кореновия елемент във FlatXML"
@@ -16669,13 +16668,11 @@ msgid ""
 "changes."
 msgstr "Преводът на низа е променен междувременно. Проверете промените си."
 
-#, fuzzy
-#| msgid "No language limit"
 msgid "Ignore language mismatch"
-msgstr "Без ограничение на езиците"
+msgstr "Пренебрегване на несъответстващи езици"
 
 msgid "Allow uploading a file that declares a different translation language."
-msgstr ""
+msgstr "Разрешаване на качването на файл, който посочва друг език за превода."
 
 msgid "File upload mode"
 msgstr "Режим на качване на файла"
@@ -16824,33 +16821,28 @@ msgstr "Коментар към превода, обсъждане с други
 msgid "Please choose"
 msgstr "Моля, изберете"
 
-#, fuzzy
-#| msgid "For all languages"
 msgid "Source flags — all languages"
-msgstr "За всички езици"
+msgstr "Флагове за изходния низ — всички езици"
 
 msgid "These flags are inherited by every translation of this string."
-msgstr ""
+msgstr "Тези флагове се наследяват от всички преводи на този низ."
 
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation flags — this language"
-msgstr "Промяна в превода:"
+msgstr "Флагове за превода — този език"
 
 msgid ""
 "These flags apply only to this translation. Source read-only cannot be "
 "overridden."
 msgstr ""
+"Тези флагове се прилагат само за този превод. Флагът „само за четене“ на "
+"изходния текст не може да бъде пренебрегнат."
 
-#, fuzzy, python-format
-#| msgid "Translation change:"
+#, python-format
 msgid "Translation flags — %(language)s"
-msgstr "Промяна в превода:"
+msgstr "Флагове за превода — %(language)s"
 
-#, fuzzy
-#| msgid "You do not have permission to edit source strings."
 msgid "You do not have permission to edit these flags."
-msgstr "Нямате право да редактирате изходни низове."
+msgstr "Нямате право да редактирате тези флагове."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -17111,10 +17103,8 @@ msgstr "Отчитащ регистъра низ за търсене и замя
 msgid "Replacement string"
 msgstr "Замяна с"
 
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Key or context"
-msgstr "Екранна снимка за контекст"
+msgstr "Ключ или контекст"
 
 msgid "Translation key"
 msgstr "Ключ за превод"
@@ -17167,10 +17157,8 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "В момента нямате право да създавате терминология."
 
-#, fuzzy
-#| msgid "Invalid listing column selection."
 msgid "Invalid string selection!"
-msgstr "Неправилен избор на колона от списък."
+msgstr "Неправилен избор на низ!"
 
 msgid "State to set"
 msgstr "Задаване на състояние"
@@ -17179,28 +17167,23 @@ msgid "Do not change"
 msgstr "Да не се променя"
 
 msgid "Source flags to add — all languages"
-msgstr ""
+msgstr "Флагове към изходния текст за добавяне — всички езици"
 
 msgid "Source flags to remove — all languages"
-msgstr ""
+msgstr "Флагове към изходния текст за премахване — всички езици"
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "Файлове за превод, които да се добавят"
+msgstr "Файлове за превода, които да се добавят — съответстващи преводи"
 
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
-msgstr "Попълва преводите като се използват изходните низове."
+msgstr ""
+"Прилага се само към съответстващите преводи, изключвайки изходните низове."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "Флагове за превод, които да се премахнат"
+msgstr "Флагове за превода, които да се премахнат — съответстващи преводи"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
-msgstr ""
+msgstr "Изтрива локално зададените флагове. Наследените флагове остават в сила."
 
 #, fuzzy
 #| msgid "For all languages"
