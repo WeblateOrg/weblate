@@ -26,12 +26,69 @@ from weblate.accounts.models import (
     Profile,
     validate_listing_columns,
 )
+from weblate.accounts.notifications import get_notification_emails
 from weblate.accounts.tasks import notify_auditlog
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
+from weblate.utils.html import html_to_mail_text
 
 
 class AuditLogTestCase(SimpleTestCase):
+    def test_notification_optional_fields(self) -> None:
+        for notification in ("account_activity", "reset-nonexisting"):
+            for address in (None, "", "192.0.2.0"):
+                for user_agent in ("", "PC / Linux / Firefox"):
+                    with self.subTest(
+                        notification=notification,
+                        address=address,
+                        user_agent=user_agent,
+                    ):
+                        body = get_notification_emails(
+                            "en",
+                            ["target@example.com"],
+                            notification,
+                            context={
+                                "message": "Superuser privileges granted.",
+                                "address": address,
+                                "user_agent": user_agent,
+                            },
+                        )[0]["body"]
+                        for content in (body, html_to_mail_text(body)):
+                            self.assertEqual("IP address" in content, bool(address))
+                            self.assertEqual("User agent" in content, bool(user_agent))
+                            if address:
+                                self.assertIn(address, content)
+                                self.assertIn("including the IP address.", content)
+                            else:
+                                self.assertIn(
+                                    "Sign in to see the full audit log.", content
+                                )
+                            if user_agent:
+                                self.assertIn(user_agent, content)
+
+    def test_notification_actor_display(self) -> None:
+        for activity, params, actor_count in (
+            ("superuser-granted", {"username": "<admin>"}, 1),
+            ("superuser-granted", {}, 0),
+            ("accepted", {"username": "<admin>"}, 0),
+        ):
+            with self.subTest(activity=activity, params=params):
+                audit = AuditLog(activity=activity, params=params)
+                body = get_notification_emails(
+                    "en",
+                    ["target@example.com"],
+                    "account_activity",
+                    context={
+                        "message": audit.get_message,
+                        "extra_message": audit.get_extra_message,
+                    },
+                )[0]["body"]
+                self.assertNotIn("<admin>", body)
+                for content in (body, html_to_mail_text(body)):
+                    self.assertEqual(content.count("Triggered by"), actor_count)
+                if params:
+                    self.assertEqual(body.count("&lt;admin&gt;"), 1)
+
     def test_actor_and_guidance_are_escaped(self) -> None:
         audit = AuditLog(
             activity="blocked", params={"username": "<admin>", "project": "Test"}
