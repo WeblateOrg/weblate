@@ -120,6 +120,13 @@ Successful responses also include the full project/component slugs and absolute
 API URLs of updated components. Supplying a matching repository URL can
 therefore confirm that a repository is registered and reveal these identifiers.
 
+Each matching delivery records a hook event and schedules a repository update.
+Generic hook deliveries are neither application-rate-limited nor coalesced.
+Repository operations are serialized to protect repository consistency, but
+this does not bound the number of accepted deliveries or queued update attempts.
+An update of an unchanged repository still fetches the configured remote, but
+stops before merging changes or parsing translation files.
+
 Components managed through an authenticated integration are excluded from
 generic webhook matching and its diagnostic counts. Currently this applies to
 the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. These components
