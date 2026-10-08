@@ -4315,17 +4315,20 @@ class ComponentEditMonoTest(ComponentEditTest):
 class ComponentKeyFilterTest(ViewTestCase):
     """Test the key filtering implementation in Component."""
 
+    KEY_FILTER = "^tr"
+
     def create_component(self) -> Component:
-        return self.create_android(key_filter="^tr")
+        return self.create_android(key_filter=self.KEY_FILTER)
 
     def test_get_key_filter_re(self) -> None:
-        self.assertEqual(self.component.key_filter_re.pattern, "^tr")
+        self.assertEqual(self.component.key_filter_re.pattern, self.KEY_FILTER)
 
     def test_get_filtered_result(self) -> None:
-        translation = self.component.translation_set.get(language_code="en")
-        units = translation.unit_set.all()
-        self.assertEqual(units.count(), 1)
-        self.assertEqual(units.all()[0].context, "try")
+        for translation in self.component.translation_set.all():
+            with self.subTest(language=translation.language_code):
+                self.assertQuerySetEqual(
+                    translation.unit_set.values_list("context", flat=True), ["try"]
+                )
 
     def test_change_key_filter(self) -> None:
         self.component.key_filter = "^th"
@@ -4361,6 +4364,15 @@ class ComponentKeyFilterTest(ViewTestCase):
             "To use the key filter, the file format must be monolingual.",
         ):
             component.clean()
+
+
+class ComponentJSONKeyFilterTest(ComponentKeyFilterTest):
+    """Test filtering for formats supporting both monolingual and bilingual use."""
+
+    KEY_FILTER = "^(?!(hello|orangutan|thanks)$).+$"
+
+    def create_component(self) -> Component:
+        return self.create_json_mono(key_filter=self.KEY_FILTER)
 
 
 class ComponentRepoWebTestCase(FixtureTestCase):
