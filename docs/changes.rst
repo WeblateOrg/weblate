@@ -36,6 +36,8 @@ Weblate 2026.10.1
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`component-key_filter` for JSON and other formats supporting both monolingual and bilingual use.
+
 * Fixed acting-user attribution and display for administrative account changes in :doc:`audit logs <security/privacy-compliance>`.
 
 * Removed expired OpenID associations and OIDC login nonces during hourly :doc:`authentication storage cleanup <admin/auth>`.

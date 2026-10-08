@@ -680,10 +680,7 @@ class Translation(
                     else:
                         # Patch unit to have matching source
                         unit.source = translated_unit.source
-            if (
-                self.component.file_format_cls.monolingual
-                and self.component.key_filter_re
-            ):
+            if self.component.has_template() and self.component.key_filter:
                 try:
                     key_filter_match = regex_match(
                         self.component.key_filter_re, unit.context
