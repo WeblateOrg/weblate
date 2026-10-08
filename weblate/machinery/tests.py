@@ -9755,6 +9755,23 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
     @http_mock.activate
+    def test_system_prompt_uses_cache_control(self) -> None:
+        self.mock_response()
+        self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, self.EXPECTED_LEN)
+        request = http_mock.calls[-1].request
+        payload = load_request_json(request)
+        self.assertEqual(
+            payload["system"],
+            [
+                {
+                    "type": "text",
+                    "text": payload["system"][0]["text"],
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+        )
+
+    @http_mock.activate
     def test_empty_base_url_uses_default(self) -> None:
         http_mock.register(
             "POST",
