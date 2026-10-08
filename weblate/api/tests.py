@@ -1874,7 +1874,9 @@ class UserAPITest(APIBaseTest):
 
     def test_patch_self_email_accepts_verified_email(self) -> None:
         verified_email = "Verified@Example.ORG"
-        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        social = self.user.social_auth.create(
+            provider="email", uid=verified_email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=verified_email)
 
         response = self.do_request(
@@ -2437,7 +2439,9 @@ class UserAPITest(APIBaseTest):
         )
 
         verified_email = "verified@example.org"
-        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        social = self.user.social_auth.create(
+            provider="email", uid=verified_email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=verified_email)
         self.do_request(
             "api:user-detail",

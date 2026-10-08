@@ -3283,9 +3283,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self) -> None:
         user = self.do_login()
-        user.social_auth.create(provider="google-oauth2", uid=user.email)
-        user.social_auth.create(provider="github", uid="123456")
-        user.social_auth.create(provider="bitbucket-oauth2", uid="weblate")
+        # Keep migrated e-mail and username identifiers for the screenshot.
+        user.social_auth.create(
+            provider="google-oauth2", uid=user.email, id_key="email"
+        )
+        user.social_auth.create(provider="github", uid="123456", id_key="id")
+        user.social_auth.create(
+            provider="bitbucket-oauth2", uid="weblate", id_key="username"
+        )
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
