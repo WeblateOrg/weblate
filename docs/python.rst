@@ -147,5 +147,10 @@ Projects, components, and translations share repository operations:
 
 .. autoexception:: WLCConfigurationError
 
+Configuration discovery methods :meth:`WeblateConfig.find_config` and
+:meth:`WeblateConfig.find_project_config` return :class:`pathlib.Path` objects,
+or ``None`` when no configuration file is found. :meth:`WeblateConfig.load`
+accepts either a string or a :class:`pathlib.Path` for an explicit file.
+
 .. autoclass:: WeblateConfig
    :members: find_config, find_project_config, load, validate_url_key, get_url_key, get_request_options, get_allow_insecure_http, get_allow_insecure_ssl
