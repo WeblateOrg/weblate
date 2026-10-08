@@ -121,9 +121,21 @@ jobs:
         mv .coverage.* build/coverage
     - name: Test with Django
       run: |
+        lscpu > test-cpu.txt
+        printf 'Available CPUs: %s\n' "$(nproc)" >> test-cpu.txt
         source .venv/bin/activate
-        uv run --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto --maxprocesses=2 weblate
+        /usr/bin/time -v -o test-resources.txt uv run --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto --maxprocesses=2 weblate
         cp .coverage .coverage.pytest
+    - name: Upload test timing and resource evidence
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: test-evidence-linux-py${{ matrix.python-version }}-${{ matrix.requirements }}
+        path: |
+          junit.xml
+          test-cpu.txt
+          test-resources.txt
+        if-no-files-found: warn
     - name: Test wsgi startup
       env:
         PYTHONPATH: .
