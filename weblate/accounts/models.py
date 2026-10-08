@@ -1640,7 +1640,9 @@ def post_login_handler(
         and user.email
         and not user.social_auth.filter(provider="email").exists()
     ):
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=user.email)
 
     # Fixup accounts with empty name

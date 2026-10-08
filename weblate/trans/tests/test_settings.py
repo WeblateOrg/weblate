@@ -1874,7 +1874,8 @@ class SettingsTest(ViewTestCase):
             instance=self.component,
         )
 
-        self.assertFalse(form.is_valid())
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertFalse(form.is_valid())
         self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:
