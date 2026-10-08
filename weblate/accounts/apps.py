@@ -93,7 +93,7 @@ def check_notification_settings(
                         errors.append(
                             f"{name}: invalid notification scope '{scope}'",
                         )
-                except ValueError:
+                except (ValueError, TypeError):
                     errors.append(
                         f"{name}: scope '{scope}' is not a number",
                     )
@@ -104,7 +104,7 @@ def check_notification_settings(
                         errors.append(
                             f"{name}: invalid notification frequency '{frequency}'",
                         )
-                except ValueError:
+                except (ValueError, TypeError):
                     errors.append(
                         f"{name}: frequency '{frequency}' is not a number",
                     )
