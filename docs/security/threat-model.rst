@@ -339,8 +339,11 @@ Build-time and configuration variants
        project. *(documented)*
      - Exposes webhook endpoints as a public scheduling interface. Abuse
        resistance depends on deployment controls. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`)
-     - Production deployments exposing hooks use reverse-proxy rate limits,
-       body-size limits, monitoring, and minimal public exposure. *(maintainer)*
+     - Production deployments exposing hooks use capacity monitoring,
+       body-size limits, minimal public exposure, and optional edge controls
+       appropriate for their provider traffic. Rate limiting can be unsuitable
+       when many legitimate projects deliver from shared provider
+       infrastructure. *(maintainer)*
    * - :setting:`ENABLE_HTTPS`, proxy SSL headers, and HSTS settings
      - HTTPS affects secure cookies, redirects, HSTS, WebAuthn, and generated
        URLs. *(documented)* (source: :setting:`ENABLE_HTTPS`)
@@ -868,8 +871,12 @@ identity. Hook processing can trigger update workflows, and generic responses
 can confirm repository registration and reveal match counts, project/component
 slugs, and API URLs, including for private projects and restricted components.
 Components managed through an authenticated integration are excluded from this
-generic behavior. Attribution and authenticity are weaker than for an
-authenticated user or token. *(maintainer)*
+generic behavior. Generic deliveries are not application-rate-limited or
+coalesced: repository operations are serialized for consistency, but each
+matching delivery can record a hook event and schedule an update attempt. An
+unchanged repository still requires a remote fetch before the update stops
+without merging or parsing translation files. Attribution and authenticity are
+weaker than for an authenticated user or token. *(maintainer)*
 
 User-requested background work is authorized when Weblate accepts and queues
 the request. Background tasks do not always verify the initiating user's
@@ -939,10 +946,10 @@ project management permissions according to least privilege for their
 organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)
 
 Operators exposing :ref:`hooks` must enable them only where needed and provide
-deployment controls such as reverse-proxy rate limits, body-size limits,
-monitoring, and optional source restrictions. They must accept the documented
-identifier disclosure or use authenticated integrations where available.
-*(maintainer)*
+capacity monitoring, body-size limits, and optional source restrictions or edge
+controls appropriate for their provider traffic. They must accept the
+documented identifier disclosure and per-delivery scheduling cost or use
+authenticated integrations where available. *(maintainer)*
 
 Operators must treat private-target allowlists, proxies, and privileged
 outbound integration settings as intentional expansion of Weblate's default
@@ -1001,10 +1008,13 @@ Known non-findings
 
 * A report that a reachable webhook can be called without forge authentication
   and only triggers modeled update scheduling or returns the documented
-  matching diagnostics is not ``VALID`` by itself. It is routed to
+  matching diagnostics is not ``VALID`` by itself. A finite sequence of
+  accepted requests or the absence of an application-level ``429`` response
+  does not demonstrate an availability failure. It is routed to
   ``VALID-HARDENING`` unless it bypasses documented limits, matches unrelated
-  repositories, leaks data beyond the documented fields, or causes effects
-  beyond modeled scheduling. *(maintainer)*
+  repositories, leaks data beyond the documented fields, causes
+  disproportionate resource consumption or sustained service degradation, or
+  has effects beyond modeled per-delivery scheduling. *(maintainer)*
 * A report that a webhook does not update a component whose repository URL only
   shares a host or path suffix with the payload is not a vulnerability;
   Weblate matches only exact repository URLs and documented variants.
