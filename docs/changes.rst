@@ -6,6 +6,7 @@ Weblate 2026.10.1
 .. rubric:: New features
 
 * Added opt-in :ref:`team synchronization from identity providers <sso-team-sync>`, including GitLab group mapping and group-based login restrictions.
+* Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` settings for new users.
 
 .. rubric:: Improvements
 
