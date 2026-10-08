@@ -6634,7 +6634,7 @@ dev = [
     { name = "types-regex", specifier = "==2026.9.29.20261005" },
     { name = "types-setuptools", specifier = "==84.0.0.20261006" },
     { name = "weblate-fonts", specifier = "==2026.1" },
-    { name = "wlc", specifier = "==2.2.1" },
+    { name = "wlc", specifier = "==3.0.0" },
 ]
 docs = [
     { name = "furo", specifier = "==2025.12.19" },
@@ -6650,7 +6650,7 @@ docs = [
     { name = "sphinxcontrib-httpdomain", specifier = "==2.1.0" },
     { name = "sphinxext-opengraph", specifier = "==0.13.0" },
     { name = "weblate-fonts", specifier = "==2026.1" },
-    { name = "wlc", specifier = "==2.2.1" },
+    { name = "wlc", specifier = "==3.0.0" },
 ]
 lint = [
     { name = "prek", specifier = "==0.5.4" },
@@ -6758,18 +6758,20 @@ wheels = [
 
 [[package]]
 name = "wlc"
-version = "2.2.1"
+version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
+    { name = "certifi" },
+    { name = "idna" },
     { name = "python-dateutil" },
     { name = "pyxdg" },
     { name = "requests" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b3/62/3ed15000bcdafe834e459640bac00950f453897a6a9f9ab6dfde7e31fcf3/wlc-2.2.1.tar.gz", hash = "sha256:f1de4a39f1c363ee2050e73d9463406b29fc2010f9a7bd3a9465e94aeb2428e5", size = 122711, upload-time = "2026-09-24T15:10:54.856Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/7b/473781abe3ce7d0905c85dd4bf321c6f038a549eeb9c5c38618438ea2ac9/wlc-3.0.0.tar.gz", hash = "sha256:cd7d5a470ce3b4d083d8a21d46550c0078bfcca263a1d28821bfafc20de0ce82", size = 130816, upload-time = "2026-10-08T13:17:10.6Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/61/a549f008ec43b7aa117a868d5671501deee901481727c64ddf55bac83154/wlc-2.2.1-py3-none-any.whl", hash = "sha256:04d422d548fd0bbed0c93b8760d81c1ba88d0ddb8cfa3c5d7dea578cc4f30e02", size = 55905, upload-time = "2026-09-24T15:10:53.59Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/0e/949bd93e7b72885fdc7bf2079ed0bd851e83f3e14742a490595488975935/wlc-3.0.0-py3-none-any.whl", hash = "sha256:17a43435306d749262f79551afb797970c2981af7763c1108d849eef808d06f3", size = 58486, upload-time = "2026-10-08T13:17:09.345Z" },
 ]
 
 [[package]]
