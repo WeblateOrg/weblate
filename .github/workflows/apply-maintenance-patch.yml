@@ -8,7 +8,6 @@ name: Apply maintenance patch
 on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows:
-    - uv lock update
     - yarn update
     - jsonschema update
     - unicodechars update
@@ -94,11 +93,6 @@ jobs:
         esac
 
         case "$RUN_NAME" in
-          "uv lock update")
-            message="chore(deps): update lockfile"
-            pr_branch="create-pull-request/uv-lock-update"
-            allowed_pattern='^uv\.lock$'
-            ;;
           "yarn update")
             message="chore(js): update vendored libraries"
             pr_branch="create-pull-request/yarn-update"
