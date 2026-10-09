@@ -2263,6 +2263,17 @@ class AnnouncementTest(ModelTestCase):
         self.assertEqual(component_change.component_id, self.component.pk)
         self.assertEqual(component_change.language_id, self.czech.pk)
 
+    def test_change_creation_uses_write_database(self) -> None:
+        def route_read(model: type[object], **_hints: object) -> str | None:
+            if model is Change:
+                return "unavailable_read_replica"
+            return None
+
+        with patch("django.db.router.db_for_read", side_effect=route_read):
+            announcement = Announcement.objects.create(message="routed change")
+
+        self.assertTrue(Change.objects.filter(announcement=announcement).exists())
+
     def verify_filter(self, messages, count, message=None) -> None:
         """Verify whether messages have given count and first contains string."""
         self.assertEqual(len(messages), count)
