@@ -343,7 +343,7 @@
                            class="btn btn-danger float-end link-post"
                            data-href="{% url "totp-detail" pk=key.id %}"
                            data-params='{"delete": 1}'>{% translate "Remove" %}</a>
-                        {% key_name key %}
+                        {% totp_key_name key %}
                         <div class="clearfix"></div>
                       </li>
                     {% endfor %}

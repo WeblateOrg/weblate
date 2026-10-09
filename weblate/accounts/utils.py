@@ -376,6 +376,14 @@ def get_key_name(device: Device) -> str:
     return device_label % device_id
 
 
+def get_totp_device_label(device: TOTPDevice) -> str:
+    """Display a TOTP app with its stable device ID."""
+    return gettext("%(name)s (#%(id)s)") % {
+        "name": device.name or gettext("Authentication app"),
+        "id": device.pk,
+    }
+
+
 def get_key_type(device: Device) -> DeviceType:
     if isinstance(device, WebAuthnCredential):
         return "webauthn"

@@ -17,11 +17,12 @@ from django.utils.translation import gettext_lazy
 from social_core.backends.utils import get_backend
 from social_core.exceptions import AuthConfigurationError
 
-from weblate.accounts.utils import get_key_name
+from weblate.accounts.utils import get_key_name, get_totp_device_label
 
 if TYPE_CHECKING:
     from django.template import Context
     from django_otp.models import Device
+    from django_otp.plugins.otp_totp.models import TOTPDevice
     from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.types import DeviceType
@@ -111,6 +112,13 @@ def get_auth_name(auth: str) -> StrOrPromise:
 @register.simple_tag
 def key_name(device: Device) -> str:
     return format_html('<span class="key-name">{}</span>', get_key_name(device))
+
+
+@register.simple_tag
+def totp_key_name(device: TOTPDevice) -> str:
+    return format_html(
+        '<span class="key-name">{}</span>', get_totp_device_label(device)
+    )
 
 
 @register.simple_tag

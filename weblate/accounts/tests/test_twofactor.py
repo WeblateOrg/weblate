@@ -33,6 +33,7 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
 )
+from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -240,6 +241,175 @@ class TwoFactorTestCase(FixtureTestCase):
             self.client.session.get_expiry_age(),
             settings.SESSION_COOKIE_AGE_AUTHENTICATED,
         )
+
+    def test_login_totp_single_device_has_no_selector(self) -> None:
+        device = self.create_totp_device()
+        client, url = self.start_second_factor_login()
+
+        response = client.get(url)
+        self.assertNotContains(response, 'name="otp_device"')
+        self.assertNotIn("otp_device", response.context["form"].fields)
+
+        token = f"{totp(device.bin_key):06d}"
+        response = client.post(url, {"otp_token": token})
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn(SESSION_SECOND_FACTOR_USER, client.session)
+
+    def test_login_totp_multiple_devices_requires_selection(self) -> None:
+        first = self.create_totp_device()
+        second = TOTPDevice.objects.create(
+            user=self.user, name="second app", confirmed=True
+        )
+        client, url = self.start_second_factor_login()
+        token = f"{totp(second.bin_key):06d}"
+
+        response = client.get(url)
+        self.assertContains(response, 'name="otp_device"')
+        self.assertEqual(
+            list(response.context["form"].fields["otp_device"].choices),
+            [
+                ("", "---------"),
+                (first.persistent_id, f"{first.name} (#{first.pk})"),
+                (second.persistent_id, f"{second.name} (#{second.pk})"),
+            ],
+        )
+        for choice in (None, ""):
+            data = {"otp_token": token}
+            if choice is not None:
+                data["otp_device"] = choice
+            response = client.post(url, data)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("otp_device", response.context["form"].errors)
+
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual(first.throttling_failure_count, 0)
+        self.assertEqual(second.throttling_failure_count, 0)
+
+        response = client.post(
+            url, {"otp_device": second.persistent_id, "otp_token": token}
+        )
+        self.assertEqual(response.status_code, 302)
+        first.refresh_from_db()
+        self.assertEqual(first.throttling_failure_count, 0)
+
+        client, url = self.start_second_factor_login(client)
+        response = client.post(
+            url,
+            {
+                "otp_device": first.persistent_id,
+                "otp_token": f"{totp(first.bin_key):06d}",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def test_totp_labels_distinguish_duplicate_and_blank_names(self) -> None:
+        first = TOTPDevice.objects.create(
+            user=self.user, name="same app", confirmed=True
+        )
+        second = TOTPDevice.objects.create(
+            user=self.user, name="same app", confirmed=True
+        )
+        blank = TOTPDevice.objects.create(user=self.user, name="", confirmed=True)
+
+        profile = self.client.get(reverse("profile"))
+        for label in (
+            f"same app (#{first.pk})",
+            f"same app (#{second.pk})",
+            f"Authentication app (#{blank.pk})",
+        ):
+            self.assertContains(profile, label)
+
+        client, url = self.start_second_factor_login()
+        response = client.get(url)
+        self.assertEqual(
+            list(response.context["form"].fields["otp_device"].choices),
+            [
+                ("", "---------"),
+                (first.persistent_id, f"same app (#{first.pk})"),
+                (second.persistent_id, f"same app (#{second.pk})"),
+                (blank.persistent_id, f"Authentication app (#{blank.pk})"),
+            ],
+        )
+        response = client.post(
+            url,
+            {
+                "otp_device": blank.persistent_id,
+                "otp_token": f"{totp(blank.bin_key):06d}",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def test_login_totp_rejects_other_devices_without_verifying(self) -> None:
+        first = self.create_totp_device()
+        second = TOTPDevice.objects.create(
+            user=self.user, name="second app", confirmed=True
+        )
+        pending = TOTPDevice.objects.create(user=self.user, confirmed=False)
+        other = User.objects.create_user("other-totp", "other-totp@example.com")
+        foreign = TOTPDevice.objects.create(user=other, confirmed=True)
+        recovery = StaticDevice.objects.create(user=self.user)
+        client, url = self.start_second_factor_login()
+        token = f"{totp(first.bin_key):06d}"
+
+        for device_id in (
+            pending.persistent_id,
+            foreign.persistent_id,
+            recovery.persistent_id,
+            "otp_totp.totpdevice/999999999",
+        ):
+            response = client.post(url, {"otp_device": device_id, "otp_token": token})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("otp_device", response.context["form"].errors)
+
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual(first.throttling_failure_count, 0)
+        self.assertEqual(second.throttling_failure_count, 0)
+
+    def test_login_totp_removed_selection_is_rejected(self) -> None:
+        first = self.create_totp_device()
+        second = TOTPDevice.objects.create(
+            user=self.user, name="second app", confirmed=True
+        )
+        client, url = self.start_second_factor_login()
+        self.assertContains(client.get(url), 'name="otp_device"')
+        second.delete()
+
+        response = client.post(
+            url,
+            {
+                "otp_device": second.persistent_id,
+                "otp_token": f"{totp(first.bin_key):06d}",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["form"].errors)
+        first.refresh_from_db()
+        self.assertEqual(first.throttling_failure_count, 0)
+
+    def test_login_totp_failure_throttles_only_selected_device(self) -> None:
+        first = self.create_totp_device()
+        second = TOTPDevice.objects.create(
+            user=self.user, name="second app", confirmed=True
+        )
+        client, url = self.start_second_factor_login()
+        valid = {
+            totp(device.bin_key, drift=drift)
+            for device in (first, second)
+            for drift in (-1, 0, 1)
+        }
+        invalid = next(token for token in range(4) if token not in valid)
+
+        response = client.post(
+            url,
+            {"otp_device": second.persistent_id, "otp_token": f"{invalid:06d}"},
+        )
+        self.assertEqual(response.status_code, 200)
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual(first.throttling_failure_count, 0)
+        self.assertEqual(second.throttling_failure_count, 1)
 
     def test_login_totp_leading_zeroes(self) -> None:
         timestamp = int(now().timestamp())

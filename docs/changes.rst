@@ -7,6 +7,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
+
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
