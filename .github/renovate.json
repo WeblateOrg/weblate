@@ -49,7 +49,8 @@
       "description": "Update pinned macOS Homebrew snapshot monthly",
       "matchPackageNames": [
         "https://github.com/Homebrew/brew",
-        "https://github.com/Homebrew/homebrew-core"
+        "https://github.com/Homebrew/homebrew-core",
+        "https://github.com/Homebrew/homebrew-cask"
       ],
       "groupName": "macOS Homebrew snapshot",
       "groupSlug": "macos-homebrew",
@@ -206,6 +207,21 @@
       "packageNameTemplate": "https://github.com/Homebrew/homebrew-core",
       "datasourceTemplate": "git-refs",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-core\n{{{indentation}}}HOMEBREW_CORE_REF: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned Homebrew cask Git revision for macOS CI",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/macos\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-homebrew-cask\\r?\\n[ \\t]*HOMEBREW_CASK_REF: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "main",
+      "depNameTemplate": "Homebrew/homebrew-cask",
+      "packageNameTemplate": "https://github.com/Homebrew/homebrew-cask",
+      "datasourceTemplate": "git-refs",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-cask\n{{{indentation}}}HOMEBREW_CASK_REF: {{{newDigest}}}"
     },
     {
       "customType": "regex",

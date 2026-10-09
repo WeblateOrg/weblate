@@ -32,9 +32,11 @@ jobs:
       CI_SKIP_SAML: 1
       HOMEBREW_NO_AUTO_UPDATE: '1'
       # renovate-homebrew-brew
-      HOMEBREW_BREW_REF: d6ca35509427ed7b4e37445054fa343ab90755ec
+      HOMEBREW_BREW_REF: 59febf998bd38fdbbac2f6d2d1e591cfa109a7d6
       # renovate-homebrew-core
-      HOMEBREW_CORE_REF: 433eb8a8d09d686819326f5f03f9ed98eaf18287
+      HOMEBREW_CORE_REF: 07f11c6fa9cf6dc221185d5bf17a0099a0ee025b
+      # renovate-homebrew-cask
+      HOMEBREW_CASK_REF: 5162dcf26801c8a398b1621bddeb1743649bd1fe
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -46,7 +48,15 @@ jobs:
         git -C "${brew_repo}" clean -fd
         git -C "${brew_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_BREW_REF}"
         git -C "${brew_repo}" checkout --force -B stable FETCH_HEAD
-        brew --version
+
+        # Core and cask migration maps must come from the same snapshot.
+        brew tap --force homebrew/cask
+        cask_repo="$(brew --repo homebrew/cask)"
+        git -C "${cask_repo}" reset --hard
+        git -C "${cask_repo}" clean -fd
+        git -C "${cask_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_CASK_REF}"
+        git -C "${cask_repo}" checkout --force --detach FETCH_HEAD
+        git -C "${cask_repo}" rev-parse HEAD
 
         brew tap --force homebrew/core
         core_repo="$(brew --repo homebrew/core)"
@@ -56,8 +66,8 @@ jobs:
         git -C "${core_repo}" checkout --force --detach FETCH_HEAD
         git -C "${core_repo}" rev-parse HEAD
         echo "HOMEBREW_NO_INSTALL_FROM_API=1" >> "${GITHUB_ENV}"
+        brew --version
     - run: brew list --versions
-    - run: brew deps --tree --installed
     - run: brew config
     - run: brew doctor
       continue-on-error: true
@@ -68,6 +78,8 @@ jobs:
       run: |
         brew install icu4c valkey postgresql
         brew link --force icu4c
+    - name: Show brew dependency tree
+      run: brew deps --tree python libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv icu4c valkey postgresql
     - name: Start services
       run: |
         brew services start postgresql
