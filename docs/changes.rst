@@ -11,6 +11,8 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading

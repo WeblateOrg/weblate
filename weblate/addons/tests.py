@@ -4204,6 +4204,56 @@ msgstr ""
             addon.extra_files,
         )
 
+    def test_sphinx_template_respects_po_line_wrap(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        build_dir = Path(self.component.full_path) / "build"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        build_dir.mkdir(parents=True, exist_ok=True)
+        template = source_dir / "locales" / "docs.pot"
+        template.parent.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+        source = (
+            "A long description with many words that clearly exceeds seventy seven "
+            "characters and should wrap.\nAnother sentence."
+        )
+        long_line = source.splitlines()[0]
+        escaped_source = source.replace("\n", "\\n")
+        for width, expected in (
+            (
+                77,
+                '"A long description with many words that clearly exceeds seventy seven "\n',
+            ),
+            (65535, f'"{long_line}\\n"\n"Another sentence."'),
+            (-1, f'msgid "{escaped_source}"'),
+        ):
+            with self.subTest(width=width):
+                self.component.file_format_params = (
+                    {} if width == 77 else {"po_line_wrap": width}
+                )
+                template.write_text(
+                    f"#: {source_dir / 'index.rst'}:1\n"
+                    f'msgid "{escaped_source}"\n'
+                    'msgstr ""\n',
+                    encoding="utf-8",
+                )
+
+                addon.postprocess_sphinx_template(
+                    self.component, template, source_dir, build_dir
+                )
+
+                content = template.read_text(encoding="utf-8")
+                self.assertIn(expected, content)
+                self.assertIn("#: index.rst:1", content)
+                parsed = self.component.file_format_cls(
+                    template, file_format_params=self.component.file_format_params
+                )
+                self.assertEqual(parsed.content_units[0].source, source)
+
     def test_sphinx_can_keep_pot_locations_with_po_no_location(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
         params = get_default_params_for_file_format(self.component.file_format)
