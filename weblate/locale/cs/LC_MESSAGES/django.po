@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-03 00:44+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -39,6 +39,36 @@ msgstr "Žádný"
 
 msgid "User avatar"
 msgstr "Avatar uživatele"
+
+msgid "No notification"
+msgstr "Žádná oznámení"
+
+msgid "Instant notification"
+msgstr "Okamžité oznámení"
+
+msgid "Daily digest"
+msgstr "Denní souhrn"
+
+msgid "Weekly digest"
+msgstr "Týdenní souhrn"
+
+msgid "Monthly digest"
+msgstr "Měsíční souhrn"
+
+msgid "All"
+msgstr "Vše"
+
+msgid "Watched"
+msgstr "Sledované"
+
+msgid "Administered"
+msgstr "Spravováno"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Součást"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -933,36 +963,6 @@ msgstr ""
 "Tento rozsah je příliš široký na to, aby se dal zkontrolovat. Vyberte menší "
 "kategorii, komponentu nebo překlad."
 
-msgid "No notification"
-msgstr "Žádná oznámení"
-
-msgid "Instant notification"
-msgstr "Okamžité oznámení"
-
-msgid "Daily digest"
-msgstr "Denní souhrn"
-
-msgid "Weekly digest"
-msgstr "Týdenní souhrn"
-
-msgid "Monthly digest"
-msgstr "Měsíční souhrn"
-
-msgid "All"
-msgstr "Vše"
-
-msgid "Watched"
-msgstr "Sledované"
-
-msgid "Administered"
-msgstr "Spravováno"
-
-msgid "Project"
-msgstr "Projekt"
-
-msgid "Component"
-msgstr "Součást"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operace byla provedena v repozitáři"
@@ -1372,10 +1372,6 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Prosím nejdříve přidejte další uživatelskou identity s potvrzením e-mailu."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Nepodařilo se autentifikovat: %s"
-
 msgid "Could not complete registration."
 msgstr "Nepodařilo se dokončit registraci."
 
@@ -1384,6 +1380,30 @@ msgstr "Prosím zkontrolujte, jestli jste si již nemáte účet zaregistrovaný
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Můžete si také nastavit nové heslo pokud jste ho ztratili."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Upstreamový repozitář je dočasně nepřístupný. Zkuste to prosím znovu později."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1402,6 +1422,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Přihlašování se nezdařilo kvůli chybnému stavu sezení."
 
+msgid "New registrations are turned off."
+msgstr "Nové registrace nejsou umožněny."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Služba třetí strany, používaná pro ověření totožnosti, neposkytla váš e-mail."
@@ -1412,20 +1435,14 @@ msgstr "Prosím, registrujte se místo toho pomocí e-mailu."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "Nepodařilo se zpracovat RelayState od poskytovatele totožnosti SAML."
 
-msgid "New registrations are turned off."
-msgstr "Nové registrace nejsou umožněny."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Přihlášení se nezdařilo, pravděpodobně kvůli skončení platnosti tokenu nebo "
-"chybě připojení."
-
 msgid "Authentication cancelled."
 msgstr "Přihlašování zrušeno."
 
 msgid "The server does not allow authentication."
 msgstr "Server neumožňuje přihlášení."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "Tato uživatelská identita je již použitá u jiného účtu."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Tato e-mailová adresa je už použitá u jiného účtu."
@@ -1433,15 +1450,24 @@ msgstr "Tato e-mailová adresa je už použitá u jiného účtu."
 msgid "The supplied username is already in use for another account."
 msgstr "Toto uživatelské jméno již použité u jiného účtu."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Autentifikace selhala: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr ""
+"Upstreamový repozitář je dočasně nepřístupný. Zkuste to prosím znovu později."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "Tato uživatelská identita je již použitá u jiného účtu."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "Nepodařilo se spojit s poskytovatelem přihlašování."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Příliš mnoho návrhů ({count}). Kontaktujte prosím správce."
 
 msgid "Notification settings adjusted."
 msgstr "Nastavení oznámení změněno."
@@ -3676,6 +3702,11 @@ msgstr "Vyžadovat, aby měli uživatelé nastavené dvoufaktorové ověřován�
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "Tým lze přiřadit buď k projektu, nebo k pracovnímu prostoru."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "V tomto pracovním prostoru již existuje tým s tímto názvem."
+
 msgid "Limit languages"
 msgstr "Omezit jazyky"
 
@@ -3922,6 +3953,12 @@ msgid ""
 msgstr ""
 "Než povolíte omezený přístup, musíte mít k této součásti výslovný přístup; "
 "jinak byste si zablokovali přístup."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "Anonymního uživatele nelze přiřadit do týmů."
@@ -6471,19 +6508,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Osobnost překladatele"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Popište osobnost překladatele, abyste zlepšili přesnost překladu. Například: "
 "„You are a squirrel breeder.“"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Styl překladu"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "Popište styl překladu. Například: „Use informal language.“"
 
 msgctxt "Automatic suggestion service configuration"
@@ -6492,11 +6539,10 @@ msgstr "Pokyny pro konkrétní jazyk"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"Objekt JSON, který přiřazuje stávající kódy cílových jazyků k dodatečným "
-"pokynům, z nichž každý může mít délku až %(limit)d znaků."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Pokyny specifické pro daný jazyk musí mít formu objektu JSON."
@@ -6538,13 +6584,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Model OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Vlastní název modelu"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
-"Potřebné pouze v případě, že je model nastaven na hodnotu „Vlastní model“"
 
 msgid "Missing custom model name."
 msgstr "Chybí název vlastního modelu."
@@ -6594,9 +6646,11 @@ msgstr "Nasazení Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "Unikátní název nasazení modelu."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"Základní adresa API Ollama, ve výchozím nastavení localhost a port 11434."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6630,7 +6684,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Max. počet tokenů"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Maximální počet tokenů k vygenerování v odpovědi."
 
 msgctxt "LLM translation example"
@@ -9782,15 +9838,21 @@ msgstr "Weblate překlady jsou uzamčeny"
 msgid "Locking prevents translators from doing changes."
 msgstr "Zamknutí zabrání překladatelům provádět změny."
 
-msgid "Reset and discard"
-msgstr "Resetovat a zrušit"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Zahodit příznak"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "Změny v repozitáři byly rebasovány na upstream."
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Resetuje repozitář Weblate tak, aby odpovídal upstreamové verzi a zruší "
-"všechny čekající změny ve Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "Použijte, pokud chcete, aby byl upstream autoritou pro překlady."
@@ -9800,15 +9862,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Resetovat a znovu použít"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Resetuje repozitář Weblate tak, aby odpovídal upstreamu, a znovu použije "
-"čekající překlady na resetovaný stav repozitáře."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr "Použijte, pokud chcete, aby byl Weblate autoritou pro překlady."
@@ -10593,6 +10656,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "Obnovení hesla na %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "Přihlaste se pro zobrazení celého protokolu, včetně IP adresy."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "Přihlaste se pro zobrazení celého protokolu, včetně IP adresy."
 
 msgid ""
@@ -13020,6 +13088,41 @@ msgstr ""
 "V repozitáři GitHub mohou vytvářet žádosti o začlenění pouze "
 "spolupracovníci. Požádejte správce repozitáře, aby povolil žádosti o "
 "začlenění od všech uživatelů."
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "This component can use the Weblate GitHub App for repository access and "
+#| "pull requests."
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+"Tato komponenta může využívat aplikaci Weblate na GitHubu pro přístup k "
+"repozitáři a k žádostem o stažení."
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -15728,9 +15831,6 @@ msgstr "Duplicitní slug kategorie."
 msgid "Duplicate label name."
 msgstr "Název štítku se opakuje."
 
-msgid "Duplicate team name."
-msgstr "Název týmu se opakuje."
-
 msgid "Screenshot image is missing."
 msgstr "Chybí snímek obrazovky."
 
@@ -15786,12 +15886,25 @@ msgstr "Odkazovaná součást neexistuje."
 msgid "Referenced role does not exist."
 msgstr "Uvedená role neexistuje."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Tuto roli nelze přiřadit tomuto týmu."
+
 msgid "Repository data does not belong to a restored component."
 msgstr "Data v repozitáři nepatří k obnovené komponentě."
 
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenty propojené s repozitářem nemohou obsahovat data z repozitáře."
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr ""
+"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
+"není k dispozici."
 
 msgid "The project repository directory already exists."
 msgstr "Adresář repozitáře projektu již existuje."
@@ -16813,9 +16926,17 @@ msgstr ""
 msgid "Access"
 msgstr "Přístup"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr "Použije a přispěje do fondu sdílených překladů mezi projekty."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr ""
+"Využívá a přispívá do fondu sdílených překladů mezi projekty v pracovním "
+"prostoru."
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -16855,6 +16976,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Nepodařilo se načíst zálohu projektu: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Nepodařilo se načíst zálohu projektu: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17142,14 +17268,6 @@ msgstr "Linuxový styl"
 msgid "Linux style, lower cased"
 msgstr "Linuxový styl, malá písmena"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17159,6 +17277,18 @@ msgstr ""
 
 msgid "Public sharing"
 msgstr "Veřejné sdílení"
+
+#, fuzzy
+#| msgid ""
+#| "Allows anonymous access to the engage pages and status widgets for "
+#| "Private and Custom projects."
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
+"Umožňuje anonymní přístup ke stránkám pro zapojení uživatelů a widgetům se "
+"stavem u soukromých a vlastních projektů."
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17753,6 +17883,17 @@ msgstr "Odeslat při vytvoření zápisu"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Zda má být repozitář odeslán při každém zapsání změn."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Odeslat při vytvoření zápisu"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "Stáří změn pro zapsání"
 
@@ -18282,8 +18423,11 @@ msgstr "Používá sdílené překlady mezi projekty."
 msgid "Contribute to shared translation memory"
 msgstr "Přispívání do sdílené překladové paměti"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Přispěje do fondu sdílených překladů mezi projekty."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr ""
@@ -18782,8 +18926,10 @@ msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
 msgid "Report generated."
 msgstr "Zpráva byla vygenerována."
 
-msgid "Project backup import completed with skipped components."
-msgstr "Import zálohy projektu byl dokončen s vynechanými komponenty."
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "Import zálohy projektu byl dokončen."
 
 msgid "Project backup import completed."
 msgstr "Import zálohy projektu byl dokončen."
@@ -20029,15 +20175,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Název obsahuje nepovolené znaky."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "Získání repozitáře VCS z %s není povoleno."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "Získání repozitáře VCS pomocí %s není povoleno."
 
 msgid "Could not parse URL: {}"
 msgstr "Nepodařilo ze zpracovat adresu URL: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "Získání repozitáře VCS z %s není povoleno."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Zadejte platnou doménu nebo IP adresu."
@@ -21180,6 +21326,70 @@ msgstr "Pracovní prostor nelze odstranit, protože je stále v používání."
 msgid "The workspace has been removed."
 msgstr "Pracovní prostor byl odstraněn."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Nepodařilo se autentifikovat: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Přihlášení se nezdařilo, pravděpodobně kvůli skončení platnosti tokenu "
+#~ "nebo chybě připojení."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Autentifikace selhala: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Nepodařilo se spojit s poskytovatelem přihlašování."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "Objekt JSON, který přiřazuje stávající kódy cílových jazyků k dodatečným "
+#~ "pokynům, z nichž každý může mít délku až %(limit)d znaků."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr ""
+#~ "Potřebné pouze v případě, že je model nastaven na hodnotu „Vlastní model“"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "Základní adresa API Ollama, ve výchozím nastavení localhost a port 11434."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Resetovat a zrušit"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Resetuje repozitář Weblate tak, aby odpovídal upstreamové verzi a zruší "
+#~ "všechny čekající změny ve Weblate."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Resetuje repozitář Weblate tak, aby odpovídal upstreamu, a znovu použije "
+#~ "čekající překlady na resetovaný stav repozitáře."
+
+#~ msgid "Duplicate team name."
+#~ msgstr "Název týmu se opakuje."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "Použije a přispěje do fondu sdílených překladů mezi projekty."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Přispěje do fondu sdílených překladů mezi projekty."
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "Import zálohy projektu byl dokončen s vynechanými komponenty."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 s podporou umístitelných položek"
 
@@ -21681,10 +21891,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Workspace settings"
 #~ msgstr "Nastavení pracovního prostoru"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "Příliš mnoho návrhů ({count}). Kontaktujte prosím správce."
 
 #, python-format
 #~ msgid ""

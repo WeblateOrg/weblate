@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-06 19:07+0000\n"
 "Last-Translator: Sup! 0_0 <alelmnour1o234@proton.me>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -42,6 +42,36 @@ msgstr "بلا"
 
 msgid "User avatar"
 msgstr "الصورة الرمزية للمستخدم"
+
+msgid "No notification"
+msgstr "لا إشعارات"
+
+msgid "Instant notification"
+msgstr "إشعار فوري"
+
+msgid "Daily digest"
+msgstr "موجز يومي"
+
+msgid "Weekly digest"
+msgstr "موجز أسبوعي"
+
+msgid "Monthly digest"
+msgstr "موجز شهري"
+
+msgid "All"
+msgstr "الكل"
+
+msgid "Watched"
+msgstr "راقب"
+
+msgid "Administered"
+msgstr "المُدارة"
+
+msgid "Project"
+msgstr "المشروع"
+
+msgid "Component"
+msgstr "مكون"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -905,36 +935,6 @@ msgid ""
 msgstr ""
 "هذا النطاق واسع جداً بحيث يتعذر فحصه. اختر فئة أصغر، أو مكوّناً، أو ترجمة."
 
-msgid "No notification"
-msgstr "لا إشعارات"
-
-msgid "Instant notification"
-msgstr "إشعار فوري"
-
-msgid "Daily digest"
-msgstr "موجز يومي"
-
-msgid "Weekly digest"
-msgstr "موجز أسبوعي"
-
-msgid "Monthly digest"
-msgstr "موجز شهري"
-
-msgid "All"
-msgstr "الكل"
-
-msgid "Watched"
-msgstr "راقب"
-
-msgid "Administered"
-msgstr "المُدارة"
-
-msgid "Project"
-msgstr "المشروع"
-
-msgid "Component"
-msgstr "مكون"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "نفذت العملية في المستودع"
@@ -1346,10 +1346,6 @@ msgstr "لا يُمكن حذف هوية المستخدم"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "أضف هوية أخرى من خلال تأكيد عنوان بريدك الإلكتروني أوَّلًا."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "فشلت مصادقة: %s"
-
 msgid "Could not complete registration."
 msgstr "تعذر إكمال التسجيل."
 
@@ -1358,6 +1354,27 @@ msgstr "يرجى التحقق مما إذا كنت قد قمت بالفعل بت
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "يمكنك أيضًا طلب كلمة مرور جديدة، إذا فقدت بيانات الاعتماد الخاصة بك."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "لم تعد السلسلة التي تريد ترجمتها متوفرة."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1374,6 +1391,9 @@ msgstr "حاول التسجيل مرة أخرى للتحقق من هويتك، �
 msgid "Could not authenticate due to invalid session state."
 msgstr "تعذّر المصادقة بسبب حالة جلسة غير صالحة."
 
+msgid "New registrations are turned off."
+msgstr "التسجيلات الجديدة معطلة."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "لم أحصل على عنوان البريد الإلكتروني من خدمة استيثاق الطرف الثالث."
 
@@ -1383,18 +1403,14 @@ msgstr "يرجى التسجيل باستخدام البريد الإلكترون
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "تعذر تحليل RelayState من موفر هوية SAML."
 
-msgid "New registrations are turned off."
-msgstr "التسجيلات الجديدة معطلة."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "تعذر المصادقة، ربما بسبب انتهاء صلاحية الرمز المميز أو خطأ في الاتصال."
-
 msgid "Authentication cancelled."
 msgstr "تم إلغاء المصادقة."
 
 msgid "The server does not allow authentication."
 msgstr "لا يسمح الخادم بالمصادقة."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "هوية المستخدم التي قُدّمت قيد الاستخدام فعلًا لحسابٍ آخر."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "عنوان البريد الإلكتروني الذي قُدّم قيد الاستخدام فعلًا لحسابٍ آخر."
@@ -1402,15 +1418,21 @@ msgstr "عنوان البريد الإلكتروني الذي قُدّم قيد 
 msgid "The supplied username is already in use for another account."
 msgstr "اسم المستخدم الذي قُدّم قيد الاستخدام فعلًا لحسابٍ آخر."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "فشلت المصادقة: %s"
-
-msgid "The supplied user identity is already in use for another account."
-msgstr "هوية المستخدم التي قُدّمت قيد الاستخدام فعلًا لحسابٍ آخر."
-
-msgid "The authentication provider could not be reached."
+#, fuzzy
+#| msgid "The authentication provider could not be reached."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr "تعذر الوصول لمزود المصادقة."
+
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "مصدر الترجمة الآلية"
 
 msgid "Notification settings adjusted."
 msgstr "عُدلت إعدادات الإشعارات."
@@ -1980,8 +2002,8 @@ msgid ""
 "helper."
 msgstr ""
 "تتضمن هذه الحزمة إعدادات مسبقة مدمجة لوسيطة xgettext تتوافق مع تكامل Meson "
-"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية وعلامات "
-"التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
+"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية "
+"وعلامات التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
 
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
@@ -2014,8 +2036,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
-"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية الاستخراج "
-"بواسطة Sphinx."
+"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية "
+"الاستخراج بواسطة Sphinx."
 
 msgid ""
 "The Sphinx add-on expects the template for new translations to be a .pot "
@@ -2100,8 +2122,8 @@ msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"الحد الأدنى للإزالة. اتركه فارغًا لإزالة الاقتراحات بغض النظر عن الأصوات. لا يكون "
-"لهذا الحقل أي تأثير عند إيقاف التصويت."
+"الحد الأدنى للإزالة. اتركه فارغًا لإزالة الاقتراحات بغض النظر عن الأصوات. لا "
+"يكون لهذا الحقل أي تأثير عند إيقاف التصويت."
 
 #, fuzzy
 #| msgid "I confirm the above matches look correct"
@@ -2123,9 +2145,9 @@ msgid ""
 "instead."
 msgstr ""
 "يجب أن يُحدِّد التعبير النمطي (regular expression) مجموعة مُسمَّاة للمكوِّن، وكذلك "
-"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file mask)"
-"، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف الأساسي "
-"الجديد بدلاً من ذلك."
+"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file "
+"mask)، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف "
+"الأساسي الجديد بدلاً من ذلك."
 
 msgid "File format"
 msgstr "نُسق الملف"
@@ -2167,9 +2189,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل المطورين "
-"ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا القالب "
-"الوسم {{ component }}."
+"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل "
+"المطورين ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا "
+"القالب الوسم {{ component }}."
 
 msgid "Define the file mask"
 msgstr "حدّد قناع الملف"
@@ -2181,10 +2203,10 @@ msgid ""
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 "اتركه فارغاً لمطابقة ملفات الترجمة مباشرةً. عند تحديده، تقوم عملية الاكتشاف "
-"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا القالب "
-"كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير {{ component }}، "
-"على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/{{ component }}"
-"_*.md`."
+"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا "
+"القالب كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير "
+"{{ component }}، على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/"
+"{{ component }}_*.md`."
 
 msgid "Language filter"
 msgstr "تصفية اللغة"
@@ -2321,8 +2343,8 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
-"تَجَنَّب تضمين مجموعة اللغة عند إنشاء مكونات انطلاقاً من قاعدة أحادية اللغة أو ملف "
-"قاعدة جديد."
+"تَجَنَّب تضمين مجموعة اللغة عند إنشاء مكونات انطلاقاً من قاعدة أحادية اللغة أو "
+"ملف قاعدة جديد."
 
 msgid "This template must include {{ component }}."
 msgstr "يجب أن يتضمن هذا القالب {{ component }}."
@@ -3826,6 +3848,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr "يمكن تحديد نطاق الفريق ليكون مرتبطاً إما بمشروع أو بمساحة عمل."
 
 #, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "يوجد مستخدم آخَر يحمل اسم المستخدم هذا."
+
+#, fuzzy
 #| msgid "Bihari languages"
 msgid "Limit languages"
 msgstr "اللغات البهارية"
@@ -4017,8 +4044,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
-"تم إعداد هذه الترجمة لنظام التصويت على الاقتراحات؛ لذا يُرجى إضافة اقتراح بدلاً "
-"من حفظ ترجمة مباشرة."
+"تم إعداد هذه الترجمة لنظام التصويت على الاقتراحات؛ لذا يُرجى إضافة اقتراح "
+"بدلاً من حفظ ترجمة مباشرة."
 
 msgid "Pay the bills to unlock this project."
 msgstr "ادفع الفواتير لفتح هذا المشروع."
@@ -4125,8 +4152,14 @@ msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
-"تحتاج إلى صلاحية وصول صريحة لهذا المكون قبل تفعيل الوصول المقيد؛ وإلا، فستفقد "
-"القدرة على الوصول إليه بنفسك."
+"تحتاج إلى صلاحية وصول صريحة لهذا المكون قبل تفعيل الوصول المقيد؛ وإلا، "
+"فستفقد القدرة على الوصول إليه بنفسك."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 #, fuzzy
 #| msgid "The filename can not be an absolute path."
@@ -6989,18 +7022,18 @@ msgid "Translator persona"
 msgstr "تقارير الترجمة"
 
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "ملف الترجمة"
 
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 
 #, fuzzy
@@ -7011,8 +7044,9 @@ msgstr "تعليمات الترجمة"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -7055,13 +7089,20 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "نموذج OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 #, fuzzy
 #| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "خصّص اسم المكوّن"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
 
 #, fuzzy
@@ -7118,7 +7159,10 @@ msgstr ""
 msgid "The model's unique deployment name."
 msgstr ""
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -7155,8 +7199,10 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+#, fuzzy
+#| msgid "Total number of entries in this Weblate instance"
+msgid "Maximum number of tokens in the generated response."
+msgstr "العدد الإجمالي للإدخالات في مثيل Weblate هذا"
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -10357,8 +10403,8 @@ msgstr[2] ""
 "يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلتان</"
 "strong> للترجمة."
 msgstr[3] ""
-"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلاسل</strong> "
-"للترجمة."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلاسل</"
+"strong> للترجمة."
 msgstr[4] ""
 "يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلةً</"
 "strong> للترجمة."
@@ -10674,12 +10720,20 @@ msgstr "ترجمات وابلايت"
 msgid "Locking prevents translators from doing changes."
 msgstr ""
 
-msgid "Reset and discard"
-msgstr ""
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Download changes"
+msgid "Discard local changes"
+msgstr "تنزيل التغييرات"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "تغييرات المستودع"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
 
 #, fuzzy
@@ -10694,12 +10748,15 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
-msgstr ""
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset the Weblate repository and reapply translations"
+msgid "Reset and reapply translations"
+msgstr "إعادة تعيين مستودعة Weblate وإعادة تطبيق الترجمات"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
 
 #, fuzzy
@@ -11588,6 +11645,11 @@ msgstr "إسترجاع كلمة السر علي %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
+
+#, fuzzy
+#| msgid "Sign in to save translations."
+msgid "Sign in to see the full audit log."
+msgstr "سجّل الدخول لحفظ الترجمات."
 
 #, fuzzy
 #| msgid ""
@@ -12486,8 +12548,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
-"تتضمن هذه القائمة اللغات الأساسية فقط. يُرجى الاتصال بمشرفي المشروع لإضافة لغات "
-"أخرى."
+"تتضمن هذه القائمة اللغات الأساسية فقط. يُرجى الاتصال بمشرفي المشروع لإضافة "
+"لغات أخرى."
 
 msgid "Request new translation"
 msgstr "طلب ترجمة جديدة"
@@ -13035,8 +13097,8 @@ msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
-"إذا كنت ترغب في تقديم المزيد، فإن التبرع الاختياري يمول تطوير و صيانة Weblate "
-"نفسه."
+"إذا كنت ترغب في تقديم المزيد، فإن التبرع الاختياري يمول تطوير و صيانة "
+"Weblate نفسه."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -14199,6 +14261,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -17262,11 +17353,6 @@ msgid "Duplicate label name."
 msgstr "الترجمة مكررة."
 
 #, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "الترجمة مكررة."
-
-#, fuzzy
 #| msgid "Screenshot details"
 msgid "Screenshot image is missing."
 msgstr "تفاصيل لقطة الشاشة"
@@ -17349,11 +17435,22 @@ msgid "Referenced role does not exist."
 msgstr "هذه الترجمة غير موجودة بعد."
 
 #, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
+
+#, fuzzy
 #| msgid "User has been added to this project."
 msgid "Repository data does not belong to a restored component."
 msgstr "تمت إضافة مستخدم إلى هذا المشروع."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -18533,9 +18630,13 @@ msgstr ""
 msgid "Access"
 msgstr "دخول API"
 
+#, fuzzy
+#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
 
 #, fuzzy
 #| msgid "Contributes to the pool of shared translations between projects."
@@ -18573,6 +18674,11 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not load project backup: %s"
+msgstr "فشل توليد المفتاح: %s"
+
+#, fuzzy
+#| msgid "Failed to generate key: %s"
+msgid "Could not load project backup."
 msgstr "فشل توليد المفتاح: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -18885,12 +18991,6 @@ msgstr "أسلوب الخط"
 msgid "Linux style, lower cased"
 msgstr "أسلوب الخط"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -18900,6 +19000,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "عام"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 #, fuzzy
 #| msgid "Component with this URL slug already exists in the project."
@@ -19515,6 +19621,17 @@ msgstr ""
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "هل يجب دفع المخزن إلى المنبع في كل إيداع."
 
+#, fuzzy
+#| msgid "Last updated"
+msgid "Push on update"
+msgstr "آخر تحديث"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr ""
 
@@ -20048,8 +20165,11 @@ msgstr "يستخدم مجموعة الترجمات المشتركة بين ال�
 msgid "Contribute to shared translation memory"
 msgstr "المساهمة في ذاكرة الترجمة المشتركة"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -20289,8 +20409,8 @@ msgid ""
 "translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
 "anyway."
 msgstr ""
-"لا تتطابق لغة الملف الذي تم تحميله (%(language)s) مع الترجمة الحالية (%"
-"(expected)s). قم بتمكين \"تجاهل عدم تطابق اللغة\" لتحميله على أي حال."
+"لا تتطابق لغة الملف الذي تم تحميله (%(language)s) مع الترجمة الحالية "
+"(%(expected)s). قم بتمكين \"تجاهل عدم تطابق اللغة\" لتحميله على أي حال."
 
 #, python-format
 msgid "Could not parse uploaded file: %s"
@@ -20587,7 +20707,7 @@ msgstr "تم إنشاء التقرير."
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "مشاريع بدون عناصر"
 
 #, fuzzy
@@ -22064,10 +22184,6 @@ msgid "Repository URL contains unsafe characters."
 msgstr "يتكون الاسم فقط من الأحرف غير المسموح بها."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
@@ -22075,6 +22191,10 @@ msgstr ""
 #| msgid "Failed to parse JSON: %s"
 msgid "Could not parse URL: {}"
 msgstr "فشل تحليل JSON: %s"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -23324,6 +23444,33 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "حُذِف المصدر."
+
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "فشلت مصادقة: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "تعذر المصادقة، ربما بسبب انتهاء صلاحية الرمز المميز أو خطأ في الاتصال."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "فشلت المصادقة: %s"
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "الترجمة مكررة."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "مشاريع بدون عناصر"
 
 #, fuzzy
 #~| msgid "XLIFF translation file with PO extensions"

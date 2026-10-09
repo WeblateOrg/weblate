@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-08 09:40+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
-"6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
+"(n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
@@ -32,6 +32,36 @@ msgstr "Ceann ar bith"
 
 msgid "User avatar"
 msgstr "Abhatár an úsáideora"
+
+msgid "No notification"
+msgstr "Fógra ar bith"
+
+msgid "Instant notification"
+msgstr "Fógra ar an toirt"
+
+msgid "Daily digest"
+msgstr "Achoimre laethúil"
+
+msgid "Weekly digest"
+msgstr "Achoimre na seachtaine"
+
+msgid "Monthly digest"
+msgstr "Achoimre míosúil"
+
+msgid "All"
+msgstr "Gach"
+
+msgid "Watched"
+msgstr "Féachadh air"
+
+msgid "Administered"
+msgstr "Riartha"
+
+msgid "Project"
+msgstr "Tionscadal"
+
+msgid "Component"
+msgstr "Comhpháirt"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -958,36 +988,6 @@ msgstr ""
 "Tá an raon feidhme seo ró-mhór le seiceáil. Roghnaigh catagóir níos lú, "
 "comhpháirt, nó aistriúchán."
 
-msgid "No notification"
-msgstr "Fógra ar bith"
-
-msgid "Instant notification"
-msgstr "Fógra ar an toirt"
-
-msgid "Daily digest"
-msgstr "Achoimre laethúil"
-
-msgid "Weekly digest"
-msgstr "Achoimre na seachtaine"
-
-msgid "Monthly digest"
-msgstr "Achoimre míosúil"
-
-msgid "All"
-msgstr "Gach"
-
-msgid "Watched"
-msgstr "Féachadh air"
-
-msgid "Administered"
-msgstr "Riartha"
-
-msgid "Project"
-msgstr "Tionscadal"
-
-msgid "Component"
-msgstr "Comhpháirt"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Rinneadh oibríocht sa stór"
@@ -1423,10 +1423,6 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Cuir aitheantas eile leis trí do sheoladh r-phoist a dheimhniú ar dtús."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Níorbh fhéidir a fhíordheimhniú: %s"
-
 msgid "Could not complete registration."
 msgstr "Níorbh fhéidir an clárúchán a chríochnú."
 
@@ -1435,6 +1431,31 @@ msgstr "Seiceáil nach bhfuil cuntas agat cheana féin."
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Má tá do phasfhocal caillte agat, is féidir leat ceann nua a iarraidh."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Níorbh fhéidir an stór in aghaidh an tsrutha a rochtain go sealadach. Bain "
+"triail eile as ar ball."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1455,6 +1476,9 @@ msgstr ""
 "Níorbh fhéidir fíordheimhniú a dhéanamh de bharr staid an tseisiúin "
 "neamhbhailí."
 
+msgid "New registrations are turned off."
+msgstr "Tá clárúcháin nua múchta."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Ní bhfuair tú aon seoladh ríomhphoist ón tseirbhís fíordheimhnithe tríú "
@@ -1466,20 +1490,15 @@ msgstr "Cláraigh ag úsáid an seoladh ríomhphoist, le do thoil."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "Níorbh fhéidir RelayState a pharsáil ó Sholáthraí Céannachta SAML."
 
-msgid "New registrations are turned off."
-msgstr "Tá clárúcháin nua múchta."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Níorbh fhéidir fíordheimhniú a dhéanamh, is dócha mar gheall ar earráid "
-"chomharthaíochta nó ceangail atá imithe in éag."
-
 msgid "Authentication cancelled."
 msgstr "Cealaíodh an fíordheimhniú."
 
 msgid "The server does not allow authentication."
 msgstr "Ní cheadaíonn an freastalaí fíordheimhniú."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr ""
+"Tá an t-aitheantas úsáideora a soláthraíodh in úsáid cheana do chuntas eile."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Tá an seoladh r-phoist seo in úsáid ag cuntas eile cheana féin."
@@ -1487,16 +1506,26 @@ msgstr "Tá an seoladh r-phoist seo in úsáid ag cuntas eile cheana féin."
 msgid "The supplied username is already in use for another account."
 msgstr "Tá an t-ainm úsáideora sin in úsáid ag cuntas eile cheana féin."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Theip ar fhíordheimhniú: %s"
-
-msgid "The supplied user identity is already in use for another account."
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr ""
-"Tá an t-aitheantas úsáideora a soláthraíodh in úsáid cheana do chuntas eile."
+"Níorbh fhéidir an stór in aghaidh an tsrutha a rochtain go sealadach. Bain "
+"triail eile as ar ball."
 
-msgid "The authentication provider could not be reached."
-msgstr "Níorbh fhéidir teacht ar an soláthraí fíordheimhnithe."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr ""
+"An iomarca moltaí ({count}). Téigh i dteagmháil le riarthóir le do thoil."
 
 msgid "Notification settings adjusted."
 msgstr "Athraíodh socruithe na bhfógraí."
@@ -3801,6 +3830,11 @@ msgstr ""
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "Is féidir foireann a cheangal le tionscadal nó le spás oibre."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "Tá foireann leis an ainm seo ann cheana féin sa spás oibre seo."
+
 msgid "Limit languages"
 msgstr "Teorainn a chur le teangacha"
 
@@ -4052,6 +4086,12 @@ msgid ""
 msgstr ""
 "Ní mór duit rochtain shoiléir a bheith agat ar an gcomhpháirt seo sula "
 "gcumasóidh tú rochtain shrianta; nó cuirfidh tú bac ort féin."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "Ní féidir an t-úsáideoir gan ainm a shannadh do fhoirne."
@@ -6657,19 +6697,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Pearsa aistritheoir"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Déan cur síos ar phearsa an aistritheora chun cruinneas an aistriúcháin a "
 "fheabhsú. Mar shampla: “Is póraitheoir iora thú.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Stíl aistritheoir"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 "Déan cur síos ar stíl an aistriúcháin. Mar shampla: “Bain úsáid as teanga "
 "neamhfhoirmiúil.”"
@@ -6680,11 +6730,10 @@ msgstr "Treoracha teanga-shonracha"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"Mapálann réada JSON cóid teanga sprice atá ann cheana chuig treoracha "
-"breise, suas le %(limit)d carachtar an ceann."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Ní mór treoracha teanga-shonracha a bheith ina réad JSON."
@@ -6724,13 +6773,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Múnla OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Ainm múnla saincheaptha"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
-"Ní gá ach amháin nuair atá an tsamhail socraithe mar 'Samhail shaincheaptha'"
 
 msgid "Missing custom model name."
 msgstr "Ainm múnla saincheaptha ar iarraidh."
@@ -6776,9 +6831,11 @@ msgstr "Imscaradh Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "Ainm imscaradh uathúil an tsamhail."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"URL bunúsach API Ollama, localhost agus port 11434 de réir réamhshocraithe."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6810,7 +6867,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Uasmhéid comharthaí"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Uasmhéid na gcomharthaí le giniúint sa fhreagra."
 
 msgctxt "LLM translation example"
@@ -10154,15 +10213,21 @@ msgstr "Tá na haistriúcháin ar an ngréasán faoi ghlas"
 msgid "Locking prevents translators from doing changes."
 msgstr "Cuireann glasáil cosc ar aistritheoirí athruithe a dhéanamh."
 
-msgid "Reset and discard"
-msgstr "Athshocraigh agus caith amach"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Bratach a scriosadh"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "Rinneadh athruithe ar an stór a athbhunú ar an uas-sruth."
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Athshocraíonn sé stórlann Weblate chun meaitseáil suas an sruth agus "
-"caitheann sé aon athruithe atá ar feitheamh i Weblate i leataobh."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -10174,16 +10239,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Athshocraigh agus cuir i bhfeidhm arís"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Athshocraíonn sé stórlann Weblate chun go mbeidh sé in oiriúint don "
-"réamhshruth agus cuireann sé aistriúcháin atá ar feitheamh i bhfeidhm arís "
-"ar staid athshocraithe an stórlaigh."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -10998,6 +11063,13 @@ msgid "Password reset on %(site_title)s"
 msgstr "Athshocrú an fhocail faire ar %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+"Sínigh isteach chun an log iniúchta iomlán a fheiceáil, an seoladh IP san "
+"áireamh."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr ""
 "Sínigh isteach chun an log iniúchta iomlán a fheiceáil, an seoladh IP san "
 "áireamh."
@@ -13528,6 +13600,41 @@ msgstr ""
 "Ní cheadaíonn stórlann GitHub ach do chomhoibritheoirí iarratais tarraingthe "
 "a chruthú. Iarr ar chothaitheoir stórlainne iarratais tarraingthe ó gach "
 "úsáideoir a cheadú."
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "This component can use the Weblate GitHub App for repository access and "
+#| "pull requests."
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+"Is féidir leis an gcomhpháirt seo Aip GitHub Weblate a úsáid chun rochtain a "
+"fháil ar an stórlann agus chun iarratais tarraingthe a láimhseáil."
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -16336,9 +16443,6 @@ msgstr "Sluga catagóire dúblach."
 msgid "Duplicate label name."
 msgstr "Ainm lipéid dhúblach."
 
-msgid "Duplicate team name."
-msgstr "Ainm foirne dúblach."
-
 msgid "Screenshot image is missing."
 msgstr "Tá íomhá an scáileáin ar iarraidh."
 
@@ -16395,12 +16499,25 @@ msgstr "Níl an chomhpháirt tagartha ann."
 msgid "Referenced role does not exist."
 msgstr "Níl an ról tagartha ann."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Ní féidir an ról seo a shannadh don fhoireann seo."
+
 msgid "Repository data does not belong to a restored component."
 msgstr "Ní bhaineann sonraí an stórais le comhpháirt athchóirithe."
 
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Ní féidir sonraí stórtha a bheith i gcomhpháirteanna atá nasctha le stórtha."
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
 
 msgid "The project repository directory already exists."
 msgstr "Tá eolaire stórtha an tionscadail ann cheana féin."
@@ -17454,10 +17571,17 @@ msgstr ""
 msgid "Access"
 msgstr "Rochtain"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
-"Úsáideann sé agus cuireann sé leis an linn comhaistriúcháin idir tionscadail."
+"Úsáideann agus cuireann sé leis an linn aistriúcháin chomhroinnte idir "
+"tionscadail sa spás oibre."
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -17497,6 +17621,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Níorbh fhéidir cúltaca an tionscadail a luchtú: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Níorbh fhéidir cúltaca an tionscadail a luchtú: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17799,14 +17928,6 @@ msgstr "Stíl Linux"
 msgid "Linux style, lower cased"
 msgstr "Stíl Linux, cás íochtair"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
-"fáil."
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17816,6 +17937,18 @@ msgstr ""
 
 msgid "Public sharing"
 msgstr "Comhroinnt phoiblí"
+
+#, fuzzy
+#| msgid ""
+#| "Allows anonymous access to the engage pages and status widgets for "
+#| "Private and Custom projects."
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
+"Ceadaítear rochtain gan ainm ar na leathanaigh rannpháirtíochta agus ar na "
+"giuirléidí stádais do thionscadail phríobháideacha agus shaincheaptha."
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18441,6 +18574,17 @@ msgstr "Brúigh ar thiomantas"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Ar cheart an stór a bhrú suas an sruth ar gach gealltanas."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Brúigh ar thiomantas"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "Aois na n-athruithe le gealltanas"
 
@@ -19048,8 +19192,11 @@ msgstr "Úsáideann sé an linn d’aistriúcháin roinnte idir tionscadail."
 msgid "Contribute to shared translation memory"
 msgstr "Cuir le cuimhne aistriúcháin roinnte"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Cuireann sé le linn na n-aistriúchán roinnte idir tionscadail."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr ""
@@ -19573,9 +19720,10 @@ msgstr ""
 msgid "Report generated."
 msgstr "Tuarascáil ginte."
 
-msgid "Project backup import completed with skipped components."
-msgstr ""
-"Iompórtáil chúltaca tionscadail críochnaithe agus comhpháirteanna scipeáilte."
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "Iompórtáil chúltaca tionscadail críochnaithe."
 
 msgid "Project backup import completed."
 msgstr "Iompórtáil chúltaca tionscadail críochnaithe."
@@ -20911,15 +21059,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Tá carachtair neamhcheadaithe san ainm."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "Ní cheadaítear stórlann VCS a fháil ó %s."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "Ní cheadaítear stórlann VCS a fháil ag baint úsáide as %s."
 
 msgid "Could not parse URL: {}"
 msgstr "Níorbh fhéidir an URL a pharsáil: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "Ní cheadaítear stórlann VCS a fháil ó %s."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Cuir isteach ainm fearainn nó seoladh IP bailí."
@@ -22086,6 +22234,77 @@ msgstr "Ní féidir an spás oibre a bhaint mar go bhfuil sé fós in úsáid."
 msgid "The workspace has been removed."
 msgstr "Baineadh an spás oibre."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Níorbh fhéidir a fhíordheimhniú: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Níorbh fhéidir fíordheimhniú a dhéanamh, is dócha mar gheall ar earráid "
+#~ "chomharthaíochta nó ceangail atá imithe in éag."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Theip ar fhíordheimhniú: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Níorbh fhéidir teacht ar an soláthraí fíordheimhnithe."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "Mapálann réada JSON cóid teanga sprice atá ann cheana chuig treoracha "
+#~ "breise, suas le %(limit)d carachtar an ceann."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr ""
+#~ "Ní gá ach amháin nuair atá an tsamhail socraithe mar 'Samhail "
+#~ "shaincheaptha'"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "URL bunúsach API Ollama, localhost agus port 11434 de réir "
+#~ "réamhshocraithe."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Athshocraigh agus caith amach"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Athshocraíonn sé stórlann Weblate chun meaitseáil suas an sruth agus "
+#~ "caitheann sé aon athruithe atá ar feitheamh i Weblate i leataobh."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Athshocraíonn sé stórlann Weblate chun go mbeidh sé in oiriúint don "
+#~ "réamhshruth agus cuireann sé aistriúcháin atá ar feitheamh i bhfeidhm "
+#~ "arís ar staid athshocraithe an stórlaigh."
+
+#~ msgid "Duplicate team name."
+#~ msgstr "Ainm foirne dúblach."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Úsáideann sé agus cuireann sé leis an linn comhaistriúcháin idir "
+#~ "tionscadail."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Cuireann sé le linn na n-aistriúchán roinnte idir tionscadail."
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr ""
+#~ "Iompórtáil chúltaca tionscadail críochnaithe agus comhpháirteanna "
+#~ "scipeáilte."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 le tacaíocht placeables"
 
@@ -22616,11 +22835,6 @@ msgstr "Baineadh an spás oibre."
 
 #~ msgid "Workspace settings"
 #~ msgstr "Socruithe spáis oibre"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr ""
-#~ "An iomarca moltaí ({count}). Téigh i dteagmháil le riarthóir le do thoil."
 
 #, python-format
 #~ msgid ""

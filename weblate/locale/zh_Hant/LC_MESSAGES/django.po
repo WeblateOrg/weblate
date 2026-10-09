@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-03 05:21+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -50,6 +50,36 @@ msgstr "無"
 
 msgid "User avatar"
 msgstr "使用者大頭貼"
+
+msgid "No notification"
+msgstr "無通知"
+
+msgid "Instant notification"
+msgstr "即時通知"
+
+msgid "Daily digest"
+msgstr "每日摘要"
+
+msgid "Weekly digest"
+msgstr "每週摘要"
+
+msgid "Monthly digest"
+msgstr "每月摘要"
+
+msgid "All"
+msgstr "全部"
+
+msgid "Watched"
+msgstr "已關注"
+
+msgid "Administered"
+msgstr "所管理"
+
+msgid "Project"
+msgstr "專案"
+
+msgid "Component"
+msgstr "組件"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -885,36 +915,6 @@ msgid ""
 "a translation."
 msgstr "這個範圍太大，無法檢查。請選擇較小的分類、組件或翻譯。"
 
-msgid "No notification"
-msgstr "無通知"
-
-msgid "Instant notification"
-msgstr "即時通知"
-
-msgid "Daily digest"
-msgstr "每日摘要"
-
-msgid "Weekly digest"
-msgstr "每週摘要"
-
-msgid "Monthly digest"
-msgstr "每月摘要"
-
-msgid "All"
-msgstr "全部"
-
-msgid "Watched"
-msgstr "已關注"
-
-msgid "Administered"
-msgstr "所管理"
-
-msgid "Project"
-msgstr "專案"
-
-msgid "Component"
-msgstr "組件"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "在儲存庫執行了操作"
@@ -1301,10 +1301,6 @@ msgstr "無法移除使用者身分"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "需要先確認過您的電子郵件位址，才能加入其他身分。"
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "無法驗證身分：%s"
-
 msgid "Could not complete registration."
 msgstr "無法完成註冊。"
 
@@ -1313,6 +1309,29 @@ msgstr "請檢查您是否已經註冊帳號。"
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "若您遺失憑證，也可申請新密碼。"
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "上游儲存庫暫時無法存取，請稍後再試。"
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1327,6 +1346,9 @@ msgstr "請重新註冊來驗證您的身分。確認連結可能已經過期。
 msgid "Could not authenticate due to invalid session state."
 msgstr "因作業階段狀態無效而無法驗證身分。"
 
+msgid "New registrations are turned off."
+msgstr "已停用新註冊。"
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "無法從第三方身分驗證服務取得電子郵件。"
 
@@ -1336,18 +1358,14 @@ msgstr "請使用電子郵件註冊。"
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "無法從 SAML 身分提供者解析 RelayState。"
 
-msgid "New registrations are turned off."
-msgstr "已停用新註冊。"
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "無法驗證身分，可能是權杖過期或連線發生錯誤。"
-
 msgid "Authentication cancelled."
 msgstr "已取消身分驗證。"
 
 msgid "The server does not allow authentication."
 msgstr "伺服器不允許進行身分驗證。"
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "提供的使用者身分資訊已被其他帳號使用。"
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "提供的電子郵件已被其他帳號使用。"
@@ -1355,15 +1373,23 @@ msgstr "提供的電子郵件已被其他帳號使用。"
 msgid "The supplied username is already in use for another account."
 msgstr "提供的使用者名稱已經被其他帳號使用。"
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "身分驗證失敗：%s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr "上游儲存庫暫時無法存取，請稍後再試。"
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "提供的使用者身分資訊已被其他帳號使用。"
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "無法取用身分驗證提供者。"
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "建議數量過多（{count}）。請聯絡管理員。"
 
 msgid "Notification settings adjusted."
 msgstr "通知設定已調整。"
@@ -3478,6 +3504,11 @@ msgstr "需要使用者設定雙重要素身分驗證。"
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "團隊的範圍可以限定為專案或工作空間。"
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "此工作空間中已有同名團隊。"
+
 msgid "Limit languages"
 msgstr "限制語言"
 
@@ -3698,6 +3729,12 @@ msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr "啟用受限存取前，您必須擁有此組件的明確存取權，否則會失去存取權。"
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "匿名使用者無法指派到團隊。"
@@ -6117,17 +6154,27 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "翻譯者角色描述"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr "描述翻譯者的角色描述，提高翻譯的準確性，例如：「您是名松鼠飼養員。」"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "翻譯者風格"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "描述翻譯風格，如：「翻譯得口語化。」"
 
 msgctxt "Automatic suggestion service configuration"
@@ -6136,10 +6183,10 @@ msgstr "各語言專用指示"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"JSON 物件，將現有目標語言代碼對應至額外指示，每項指示最多 %(limit)d 個字元。"
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "特定語言指示必須是 JSON 物件。"
@@ -6177,12 +6224,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI 模型"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "自訂模型名稱"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "只有在模型設定為「自訂模型」時才需要"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "未填自訂模型名稱。"
@@ -6228,8 +6282,11 @@ msgstr "Azure OpenAI 部署"
 msgid "The model's unique deployment name."
 msgstr "模型的唯一部署名稱。"
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr "Ollama API 的基礎 URL，預設值為 localhost，連線埠 11434。"
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6261,7 +6318,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "最大權杖數"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "回應中可產生的詞元數上限。"
 
 msgctxt "LLM translation example"
@@ -9132,15 +9191,21 @@ msgstr "Weblate 翻譯已鎖定"
 msgid "Locking prevents translators from doing changes."
 msgstr "鎖定會阻止翻譯者進行變更。"
 
-msgid "Reset and discard"
-msgstr "重設並捨棄"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "捨棄標記"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "已將儲存庫變更衍合至上游。"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"重設 Weblate 的儲存庫，使其符合上游的提交記錄，並捨棄 Weblate 中的任何未決變"
-"更。"
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "適合用於要以上游為翻譯權威來源的情況。"
@@ -9151,14 +9216,16 @@ msgid ""
 msgstr ""
 "只會重設已設定的分支，其他本機分支會保留；如要移除，請使用「清理」功能。"
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "重設並重新套用"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"將 Weblate 儲存庫重設為與上游同步，並將未決翻譯重新套用至重設後的儲存庫狀態。"
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr "適合用於要以 Weblate 為翻譯權威來源的情況。"
@@ -9890,6 +9957,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s 密碼重設"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "登入即可檢視完整稽核紀錄，包含 IP 位址。"
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "登入即可檢視完整稽核紀錄，包含 IP 位址。"
 
 msgid ""
@@ -12119,6 +12191,39 @@ msgid ""
 msgstr ""
 "此 GitHub 儲存庫僅允許協作者建立拉取請求。請要求儲存庫維護者允許所有使用者提"
 "出拉取請求。"
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "This component can use the Weblate GitHub App for repository access and "
+#| "pull requests."
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr "此組件可以使用 Weblate GitHub App 來存取儲存庫，以及處理提取要求。"
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -14591,9 +14696,6 @@ msgstr "分類代稱重複。"
 msgid "Duplicate label name."
 msgstr "標籤名稱重複。"
 
-msgid "Duplicate team name."
-msgstr "團隊名稱重複。"
-
 msgid "Screenshot image is missing."
 msgstr "缺少螢幕擷圖。"
 
@@ -14649,11 +14751,22 @@ msgstr "參照的組件不存在。"
 msgid "Referenced role does not exist."
 msgstr "參照的角色不存在。"
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "無法將此角色指派給此團隊。"
+
 msgid "Repository data does not belong to a restored component."
 msgstr "儲存庫資料不屬於已還原的組件。"
 
 msgid "Repository-linked components can not contain repository data."
 msgstr "與儲存庫連結的組件不得包含儲存庫資料。"
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
 
 msgid "The project repository directory already exists."
 msgstr "專案儲存庫目錄已存在。"
@@ -15609,9 +15722,15 @@ msgstr ""
 msgid "Access"
 msgstr "存取"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr "在不同專案中使用這個共享的翻譯匯聚池並且也貢獻其中。"
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr "使用並貢獻工作空間中各專案共用的翻譯集區。"
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -15643,6 +15762,11 @@ msgstr "此備份源自不相容的版本（%(version)s）。請升級您的 Web
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "無法載入專案備份：%s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "無法載入專案備份：%s"
 
 msgid "Optional additional filter applied to the strings"
@@ -15896,12 +16020,6 @@ msgstr "Linux 樣式"
 msgid "Linux style, lower cased"
 msgstr "Linux 樣式，小寫"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -15909,6 +16027,16 @@ msgstr "允許匿名存取 Private 和 Custom 專案的互動頁面與狀態小�
 
 msgid "Public sharing"
 msgstr "公開分享"
+
+#, fuzzy
+#| msgid ""
+#| "Allows anonymous access to the engage pages and status widgets for "
+#| "Private and Custom projects."
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr "允許匿名存取 Private 和 Custom 專案的互動頁面與狀態小工具。"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -16217,9 +16345,9 @@ msgid ""
 "the Repository browser above will be used. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"翻譯檔案的儲存庫瀏覽器連結。以 {{branch}} 代表分支、{{filename}} 代表檔案名稱"
-"、{{line}} 代表行號。若留白，會使用上方「儲存庫瀏覽器」的設定。如需移除路徑開"
-"頭的目錄，可使用 {{filename|parentdir}}。"
+"翻譯檔案的儲存庫瀏覽器連結。以 {{branch}} 代表分支、{{filename}} 代表檔案名"
+"稱、{{line}} 代表行號。若留白，會使用上方「儲存庫瀏覽器」的設定。如需移除路徑"
+"開頭的目錄，可使用 {{filename|parentdir}}。"
 
 msgid "Exported repository URL"
 msgstr "已匯出儲存庫 URL"
@@ -16413,6 +16541,17 @@ msgstr "提交時一併推送"
 
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "是否在每次提交到儲存庫時都推送到上游。"
+
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "提交時一併推送"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
 
 msgid "Age of changes to commit"
 msgstr "變更後提交的經過時間"
@@ -16861,8 +17000,11 @@ msgstr "在不同專案使用共享的翻譯匯聚池。"
 msgid "Contribute to shared translation memory"
 msgstr "貢獻至共享翻譯記憶"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "貢獻至專案間共享的翻譯匯聚池。"
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr "使用工作空間中各專案共用的翻譯集區。"
@@ -17266,8 +17408,10 @@ msgstr "由於目標已不存在，已略過自動翻譯。"
 msgid "Report generated."
 msgstr "報告已產生。"
 
-msgid "Project backup import completed with skipped components."
-msgstr "專案備份匯入已完成，但略過部分組件。"
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "專案備份匯入完成。"
 
 msgid "Project backup import completed."
 msgstr "專案備份匯入完成。"
@@ -18395,15 +18539,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "儲存庫 URL 含有不安全字元。"
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "不允許從 %s 拉取 VCS 儲存庫。"
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "不允許使用 %s 拉取 VCS 儲存庫。"
 
 msgid "Could not parse URL: {}"
 msgstr "無法解析 URL：{}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "不允許從 %s 拉取 VCS 儲存庫。"
 
 msgid "Enter a valid domain name or IP address."
 msgstr "請輸入有效的網域名稱或 IP 位址。"
@@ -19444,6 +19588,66 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "無法驗證身分：%s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr "無法驗證身分，可能是權杖過期或連線發生錯誤。"
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "身分驗證失敗：%s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "無法取用身分驗證提供者。"
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "JSON 物件，將現有目標語言代碼對應至額外指示，每項指示最多 %(limit)d 個字"
+#~ "元。"
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "只有在模型設定為「自訂模型」時才需要"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr "Ollama API 的基礎 URL，預設值為 localhost，連線埠 11434。"
+
+#~ msgid "Reset and discard"
+#~ msgstr "重設並捨棄"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "重設 Weblate 的儲存庫，使其符合上游的提交記錄，並捨棄 Weblate 中的任何未決"
+#~ "變更。"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "將 Weblate 儲存庫重設為與上游同步，並將未決翻譯重新套用至重設後的儲存庫狀"
+#~ "態。"
+
+#~ msgid "Duplicate team name."
+#~ msgstr "團隊名稱重複。"
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "在不同專案中使用這個共享的翻譯匯聚池並且也貢獻其中。"
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "貢獻至專案間共享的翻譯匯聚池。"
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "專案備份匯入已完成，但略過部分組件。"
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "包含佔位字串支援的 XLIFF 1.2"
 
@@ -19908,10 +20112,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Workspace settings"
 #~ msgstr "工作空間設定"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "建議數量過多（{count}）。請聯絡管理員。"
 
 #, python-format
 #~ msgid ""

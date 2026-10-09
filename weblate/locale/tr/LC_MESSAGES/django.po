@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -44,6 +44,38 @@ msgstr "Bilinmiyor"
 
 msgid "User avatar"
 msgstr "Kullanıcı avatarı"
+
+msgid "No notification"
+msgstr "Herhangi bir bildirim yok"
+
+msgid "Instant notification"
+msgstr "Anlık bildirim"
+
+msgid "Daily digest"
+msgstr "Günlük özet"
+
+msgid "Weekly digest"
+msgstr "Haftalık özet"
+
+msgid "Monthly digest"
+msgstr "Aylık özet"
+
+msgid "All"
+msgstr ""
+
+msgid "Watched"
+msgstr "İzlenen"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Yönetilen projeler"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Component"
+msgstr "Bileşen"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -951,38 +983,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "Herhangi bir bildirim yok"
-
-msgid "Instant notification"
-msgstr "Anlık bildirim"
-
-msgid "Daily digest"
-msgstr "Günlük özet"
-
-msgid "Weekly digest"
-msgstr "Haftalık özet"
-
-msgid "Monthly digest"
-msgstr "Aylık özet"
-
-msgid "All"
-msgstr ""
-
-msgid "Watched"
-msgstr "İzlenen"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "Yönetilen projeler"
-
-msgid "Project"
-msgstr "Proje"
-
-msgid "Component"
-msgstr "Bileşen"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "İşlem depoda yapıldı"
@@ -1386,10 +1386,6 @@ msgstr "Kullanıcı kimliği kaldırılamadı"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Önce e-posta adresinizi onaylayarak başka bir kimlik ekleyin."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Kimlik doğrulanamadı: %s"
-
 msgid "Could not complete registration."
 msgstr "Hesap açma işlemi tamamlanamadı."
 
@@ -1398,6 +1394,31 @@ msgstr "Lütfen daha önce bir hesap açıp açmadığınızı denetleyin."
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Kimlik bilgilerinizi kaybettiyseniz, yeni bir parola isteyebilirsiniz."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Yukarı akış deposuna geçici olarak erişilemedi. Lütfen bir süre sonra "
+"yeniden deneyin."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1416,6 +1437,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Oturum durumu geçersiz olduğundan kimlik doğrulanamadı."
 
+msgid "New registrations are turned off."
+msgstr "Yeni hesap açılması engellendi."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Üçüncü taraf kimlik doğrulama hizmetinde e-posta adresiniz yok."
 
@@ -1425,20 +1449,14 @@ msgstr "Lütfen bunun yerine e-posta kullanarak hesap açın."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "RelayState, SAML kimlik hizmeti sağlayıcısından işlenemedi."
 
-msgid "New registrations are turned off."
-msgstr "Yeni hesap açılması engellendi."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Büyük olasılıkla kullanım süresi geçmiş bir kod ya da bağlantı hatası "
-"nedeniyle kimlik doğrulanamadı."
-
 msgid "Authentication cancelled."
 msgstr "Kimlik doğrulaması iptal edildi."
 
 msgid "The server does not allow authentication."
 msgstr "Sunucu kimlik doğrulamasına izin vermiyor."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "Belirtilen kullanıcı kimliği zaten başka bir hesap için kullanılıyor."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Belirtilen e-posta adresi zaten başka bir hesap için kullanılıyor."
@@ -1446,15 +1464,25 @@ msgstr "Belirtilen e-posta adresi zaten başka bir hesap için kullanılıyor."
 msgid "The supplied username is already in use for another account."
 msgstr "Belirtilen kullanıcı adı zaten başka bir hesap için kullanılıyor."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Kimlik doğrulanamadı: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr ""
+"Yukarı akış deposuna geçici olarak erişilemedi. Lütfen bir süre sonra "
+"yeniden deneyin."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "Belirtilen kullanıcı kimliği zaten başka bir hesap için kullanılıyor."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "Kimlik doğrulama hizmeti sağlayıcısına ulaşılamadı."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Çok fazla öneri var ({count}). Lütfen bir yönetici ile görüşün."
 
 msgid "Notification settings adjusted."
 msgstr "Bildirim ayarları yapıldı."
@@ -3836,6 +3864,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "Aynı adlı bir kullanıcı zaten var."
+
+#, fuzzy
 #| msgid "Bihari languages"
 msgid "Limit languages"
 msgstr "Bihari"
@@ -4084,6 +4117,12 @@ msgstr "Bu fatura tarifesinde şu projeler bulunuyor:"
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
@@ -6773,19 +6812,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Çevirmen kişiliği"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Çevirinin doğruluğunu artırmak için çevirmenin kişiliğini tanımlayın. "
 "Örneğin: “Sen bir sincap yetiştiricisisin.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Çevirmen tarzı"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "Çeviri tarzını açıklayın. Örneğin: “Resmi olmayan bir dil kullanın.”"
 
 #, fuzzy
@@ -6796,8 +6845,9 @@ msgstr "Bütünleştirme yönergesi"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -6837,12 +6887,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI modeli"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Özel model adı"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "Yalnızca model 'Özel model' olarak ayarlanmışsa gereklidir"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "Özel model adı eksik."
@@ -6905,10 +6962,11 @@ msgstr "Azure OpenAI dağıtımı"
 msgid "The model's unique deployment name."
 msgstr "Modelin benzersiz dağıtım adı."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"Ollama API temel adresi. Varsayılan olarak, localhost ve 11434 bağlantı "
-"numarasını kullanır."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6941,7 +6999,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "En fazla kod sayısı"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Yanıtta oluşturulabilecek en fazla kod sayısı."
 
 msgctxt "LLM translation example"
@@ -10175,15 +10235,21 @@ msgstr "Weblate çevirileri kilitlendi"
 msgid "Locking prevents translators from doing changes."
 msgstr "Kilitleme, çevirmenlerin değişiklikler yapmasını önler."
 
-msgid "Reset and discard"
-msgstr "Sıfırla ve at"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "İm yok sayılsın"
+
+#, fuzzy
+#| msgid "Repository changes alert"
+msgid "Discard local changes and reset to upstream"
+msgstr "Depo değişiklikleri uyarısı"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Weblate deposunu yukarı akışla eşleşecek şekilde sıfırlar ve Weblate "
-"üzerinde bekleyen tüm değişiklikleri atar."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -10195,15 +10261,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Sıfırla ve yeniden uygula"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Weblate deposunu yukarı akışla eşleşecek şekilde sıfırlar ve bekleyen "
-"çevirileri sıfırlama deposu durumuna yeniden uygular."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -11026,6 +11093,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s sitesinde parola sıfırlama"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "IP adresi ile denetim günlüğünün tümünü görmek için oturum açın."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "IP adresi ile denetim günlüğünün tümünü görmek için oturum açın."
 
 msgid ""
@@ -13584,6 +13656,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -16524,11 +16625,6 @@ msgstr "Yinelenen çeviri."
 msgid "Duplicate label name."
 msgstr "Yinelenen dosya maskesi."
 
-#, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "Yinelenen çeviri."
-
 msgid "Screenshot image is missing."
 msgstr "Ekran görüntüsü görseli eksik."
 
@@ -16612,11 +16708,22 @@ msgid "Referenced role does not exist."
 msgstr "Dosya bulunamadı."
 
 #, fuzzy
+#| msgid "The anonymous user can not be assigned to teams."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Anonim kullanıcı takımlara atanamaz."
+
+#, fuzzy
 #| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
 msgstr "Kategori seçilmiş projeye ait değil."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17726,8 +17833,13 @@ msgstr ""
 msgid "Access"
 msgstr "Erişim"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
 "Projeler arasında paylaşılan çeviri havuzunu kullanır ve katkıda bulunur."
 
@@ -17771,6 +17883,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Proje yedeği yüklenemedi: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Proje yedeği yüklenemedi: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -18049,12 +18166,6 @@ msgstr "Linux biçemi"
 msgid "Linux style, lower cased"
 msgstr "Linux biçemi, küçük harflerle"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -18064,6 +18175,12 @@ msgstr ""
 #| msgid "Public email"
 msgid "Public sharing"
 msgstr "Herkese açık e-posta"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18694,6 +18811,17 @@ msgstr "İşleme ile itme"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Her işlemede depoya yukarı akışın itilip itilmeyeceğini belirleyin."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "İşleme ile itme"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "İşlenecek değişikliklerin yaşı"
 
@@ -19242,8 +19370,11 @@ msgstr "Projeler arasında paylaşılan çeviriler havuzunu kullanır."
 msgid "Contribute to shared translation memory"
 msgstr "Paylaşılan çeviri belleğine katkıda bulunulsun"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Projeler arasında paylaşılan çeviri havuzuna katkıda bulunur."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -19768,7 +19899,7 @@ msgstr "Rapor biçimi"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "Bileşensiz projeler"
 
 #, fuzzy
@@ -21128,15 +21259,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Ad içinde izin verilmeyen karakterler var."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "VCS deposunun %s üzerinden alınmasına izin verilmiyor."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "VCS deposunun %s ile alınmasına izin verilmiyor."
 
 msgid "Could not parse URL: {}"
 msgstr "Adres işlenemedi: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "VCS deposunun %s üzerinden alınmasına izin verilmiyor."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Geçerli bir etki alanı adı ya da IP adresi yazın."
@@ -22360,6 +22491,67 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Kaynak silindi."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Kimlik doğrulanamadı: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Büyük olasılıkla kullanım süresi geçmiş bir kod ya da bağlantı hatası "
+#~ "nedeniyle kimlik doğrulanamadı."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Kimlik doğrulanamadı: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Kimlik doğrulama hizmeti sağlayıcısına ulaşılamadı."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "Yalnızca model 'Özel model' olarak ayarlanmışsa gereklidir"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "Ollama API temel adresi. Varsayılan olarak, localhost ve 11434 bağlantı "
+#~ "numarasını kullanır."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Sıfırla ve at"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Weblate deposunu yukarı akışla eşleşecek şekilde sıfırlar ve Weblate "
+#~ "üzerinde bekleyen tüm değişiklikleri atar."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Weblate deposunu yukarı akışla eşleşecek şekilde sıfırlar ve bekleyen "
+#~ "çevirileri sıfırlama deposu durumuna yeniden uygular."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "Yinelenen çeviri."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Projeler arasında paylaşılan çeviri havuzunu kullanır ve katkıda bulunur."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Projeler arasında paylaşılan çeviri havuzuna katkıda bulunur."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "Bileşensiz projeler"
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 1.2"
 
@@ -22869,10 +23061,6 @@ msgstr "Kaynak silindi."
 #~| msgid "Source strings"
 #~ msgid "Workspace settings"
 #~ msgstr "Kaynak dizgeler"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "Çok fazla öneri var ({count}). Lütfen bir yönetici ile görüşün."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""

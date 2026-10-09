@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-06 09:51+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -35,6 +35,36 @@ msgstr "Geen"
 
 msgid "User avatar"
 msgstr "Profielfoto"
+
+msgid "No notification"
+msgstr "Geen meldingen"
+
+msgid "Instant notification"
+msgstr "Onmiddellijke melding"
+
+msgid "Daily digest"
+msgstr "Dagelijks overzicht"
+
+msgid "Weekly digest"
+msgstr "Wekelijks overzicht"
+
+msgid "Monthly digest"
+msgstr "Maandelijks overzicht"
+
+msgid "All"
+msgstr "Alles"
+
+msgid "Watched"
+msgstr "Gevolgd"
+
+msgid "Administered"
+msgstr "Beheerd"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "Component"
+msgstr "Onderdeel"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -950,36 +980,6 @@ msgstr ""
 "Dit toepassingsgebied is te groot om te controleren. Kies een kleinere "
 "categorie, een onderdeel, of een vertaling."
 
-msgid "No notification"
-msgstr "Geen meldingen"
-
-msgid "Instant notification"
-msgstr "Onmiddellijke melding"
-
-msgid "Daily digest"
-msgstr "Dagelijks overzicht"
-
-msgid "Weekly digest"
-msgstr "Wekelijks overzicht"
-
-msgid "Monthly digest"
-msgstr "Maandelijks overzicht"
-
-msgid "All"
-msgstr "Alles"
-
-msgid "Watched"
-msgstr "Gevolgd"
-
-msgid "Administered"
-msgstr "Beheerd"
-
-msgid "Project"
-msgstr "Project"
-
-msgid "Component"
-msgstr "Onderdeel"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Actie is uitgevoerd in de opslagruimte"
@@ -1387,10 +1387,6 @@ msgstr "Kan de gebruikersidentiteit niet verwijderen"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Voeg een andere identiteit toe door uw e-mailadres te bevestigen."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Kon niet authenticeren: %s"
-
 msgid "Could not complete registration."
 msgstr "De registratie kan niet worden voltooid."
 
@@ -1400,6 +1396,31 @@ msgstr "Controleer of u niet al over een account beschikt."
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Als u uw inloggegevens vergeten bent, kunt u een nieuw wachtwoord aanvragen."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"De bovenstroomse opslagruimte is tijdelijk niet toegankelijk. Probeer het "
+"later opnieuw."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1417,6 +1438,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "De verificatie is mislukt wegens een ongeldige sessiestatus."
 
+msgid "New registrations are turned off."
+msgstr "Nieuwe registraties zijn uitgeschakeld."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Geen e-mailadres verkregen van de externe verificatiedienst."
 
@@ -1426,20 +1450,15 @@ msgstr "Registreer met uw e-mailadres."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "Kon RelayState vanuit de SAML-identiteitsprovider niet parseren."
 
-msgid "New registrations are turned off."
-msgstr "Nieuwe registraties zijn uitgeschakeld."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"De verificatie is mislukt. Waarschijnlijk is de toegangssleutel verouderd of "
-"is er een verbindingsfout."
-
 msgid "Authentication cancelled."
 msgstr "Verificatie afgebroken."
 
 msgid "The server does not allow authentication."
 msgstr "De server staat geen authenticatie toe."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr ""
+"De opgegeven gebruikersidentiteit is al in gebruik op een ander account."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Het opgegeven e-mailadres is al in gebruik op een ander account."
@@ -1447,16 +1466,25 @@ msgstr "Het opgegeven e-mailadres is al in gebruik op een ander account."
 msgid "The supplied username is already in use for another account."
 msgstr "De opgegeven gebruikersnaam is al in gebruik op een ander account."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Authenticatie mislukt: (%s)"
-
-msgid "The supplied user identity is already in use for another account."
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr ""
-"De opgegeven gebruikersidentiteit is al in gebruik op een ander account."
+"De bovenstroomse opslagruimte is tijdelijk niet toegankelijk. Probeer het "
+"later opnieuw."
 
-msgid "The authentication provider could not be reached."
-msgstr "De provider voor authenticatie kon niet worden bereikt."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Te veel suggesties ({count}). Neem contact op met een beheerder."
 
 msgid "Notification settings adjusted."
 msgstr "De meldingsinstellingen zijn bijgewerkt."
@@ -3736,6 +3764,11 @@ msgstr ""
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "Team mag als bereik een project of een werkruimte hebben."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "Er bestaat al een team met deze naam in deze werkruimte."
+
 msgid "Limit languages"
 msgstr "Talen beperken"
 
@@ -3993,6 +4026,12 @@ msgid ""
 msgstr ""
 "U moet expliciete toegang voor dit onderdeel hebben voordat u beperkte "
 "toegang kunt inschakelen; anders zou u zichzelf buitensluiten."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "De anonieme gebruiker kan niet worden toegewezen aan teams."
@@ -6568,19 +6607,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Vertalerprofiel"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Beschrijf het profiel van de vertaler om de juistheid te verbeteren. "
 "Voorbeeld: “U broedt eieren.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Vertaalstijl"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 "Beschrijf de vertaalstijl. Voorbeeld: “Zorg voor informeel taalgebruik.”"
 
@@ -6590,11 +6639,10 @@ msgstr "Taalspecifieke instructies"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"JSON-object verbindt bestaande taalcodes aan extra instructies, tot maximaal "
-"%(limit)d tekens elk."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Taalspecifieke instructies moeten een JSON-object zijn."
@@ -6636,12 +6684,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI-model"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Aangepaste modelnaam"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "Alleen nodig als het model is ingesteld op 'Aangepast model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "Aangepaste modelnaam ontbreekt."
@@ -6690,8 +6745,11 @@ msgstr "Azure OpenAI uitrol"
 msgid "The model's unique deployment name."
 msgstr "De unieke naam voor de uitrol van het model."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr "Basis-URL van de Ollama API, localhost en standaard poort 11434."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6725,7 +6783,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Max. aantal tokens"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Maximaal aantal tokens dat in het antwoord gegenereerd mag worden."
 
 msgctxt "LLM translation example"
@@ -9858,15 +9918,21 @@ msgstr "Weblate-vertalingen zijn vergrendeld"
 msgid "Locking prevents translators from doing changes."
 msgstr "Vergrendelen voorkomt dat vertalers aanpassingen kunnen doen."
 
-msgid "Reset and discard"
-msgstr "Herstellen en negeren"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Vlag negeren"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "Wijzigingen aan opslagruimte werden gerebased op upstream."
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Herstelt de opslagruimte van Weblate om overeen te komen met upstream en "
-"negeert openstaande wijzigingen in Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -9879,15 +9945,16 @@ msgstr ""
 "Alleen de geconfigureerde afsplitsing is teruggezet. Andere lokale "
 "afsplitsingen worden behouden; gebruik Opruimen om ze te verwijderen."
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Herstellen en opnieuw toepassen"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Herstelt de opslagruimte van Weblate om overeen te komen met upstream en "
-"vervangt openstaande vertalingen naar de herstelde staat van de opslagruimte."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -10704,6 +10771,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "Wachtwoordherstel op %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+"Aanmelden om volledig revisielogboek te bekijken, inclusief het IP-adres."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr ""
 "Aanmelden om volledig revisielogboek te bekijken, inclusief het IP-adres."
 
@@ -13131,6 +13204,41 @@ msgstr ""
 "De opslagruimte van GitHub staat alleen deelnemers toe om pull requests te "
 "maken. Vraag een beheerder voor de opslagruimte om pull requests voor alle "
 "gebruikers toe te staan."
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "This component can use the Weblate GitHub App for repository access and "
+#| "pull requests."
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+"Dit onderdeel kan de Weblate GitHub App gebruiken voor toegang tot "
+"opslagruimten en ophaalaanvragen."
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -15871,9 +15979,6 @@ msgstr "Slug categorie dupliceren."
 msgid "Duplicate label name."
 msgstr "Labelnaam dupliceren."
 
-msgid "Duplicate team name."
-msgstr "Teamnaam dupliceren."
-
 msgid "Screenshot image is missing."
 msgstr "Schermafbeelding ontbreekt."
 
@@ -15930,6 +16035,11 @@ msgstr "Onderdeel, waarnaar wordt verwezen, bestaat niet."
 msgid "Referenced role does not exist."
 msgstr "Rol, waarnaar wordt verwezen, bestaat niet."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Deze rol kan niet worden toegewezen aan dit team."
+
 msgid "Repository data does not belong to a restored component."
 msgstr ""
 "De gegevens voor de opslagruimte behoren niet tot een teruggezet onderdeel."
@@ -15938,6 +16048,14 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Aan opslagruimte gekoppelde onderdelen mogen geen gegevens van de "
 "opslagruimte bevatten."
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr ""
+"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
+"opslagruimte niet beschikbaar is."
 
 msgid "The project repository directory already exists."
 msgstr "De map voor de opslagruimte van het project bestaat al."
@@ -16966,10 +17084,17 @@ msgstr ""
 msgid "Access"
 msgstr "Toegang"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
-"Gebruikt en draagt bij aan de pool van gedeelde vertalingen tussen projecten."
+"Gebruikt en draagt bij aan de pool van gedeelde vertalingen tussen projecten "
+"in de werkruimte."
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -17009,6 +17134,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "De reservekopie kan niet worden geladen: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "De reservekopie kan niet worden geladen: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17281,14 +17411,6 @@ msgstr "Linux-stijl"
 msgid "Linux style, lower cased"
 msgstr "Linux-stijl, kleine letters"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
-"opslagruimte niet beschikbaar is."
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17298,6 +17420,18 @@ msgstr ""
 
 msgid "Public sharing"
 msgstr "Openbaar delen"
+
+#, fuzzy
+#| msgid ""
+#| "Allows anonymous access to the engage pages and status widgets for "
+#| "Private and Custom projects."
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
+"Staat anonieme toegang van de deelnamepagina's en status-widget toe voor "
+"Privé- en Aangepaste projecten."
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17650,8 +17784,8 @@ msgid ""
 "the Repository browser above will be used. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Koppeling naar verkenner opslagruimte voor vertaalbestanden. Gebruik {"
-"{branch}} voor branch, {{filename}} en {{line}} als plaatsvervangers voor "
+"Koppeling naar verkenner opslagruimte voor vertaalbestanden. Gebruik "
+"{{branch}} voor branch, {{filename}} en {{line}} als plaatsvervangers voor "
 "bestandsnaam en regelnummer. Indien leeg zal de verkenner voor de "
 "opslagruimte erboven worden gebruikt. Wellicht wilt u de bovenliggende map "
 "uitsluiten met het patroon {{bestandsnaam|bovenliggende map}}."
@@ -17896,6 +18030,17 @@ msgstr "Pushen na commit"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 "Of de opslagruimte stroomopwaarts gepusht moet worden bij iedere commit."
+
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Pushen na commit"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
 
 msgid "Age of changes to commit"
 msgstr "Ouderdom van door te voeren wijzigingen"
@@ -18440,8 +18585,11 @@ msgstr "Gebruikt de verzameling gedeelde vertalingen tussen projecten."
 msgid "Contribute to shared translation memory"
 msgstr "Bijdragen aan gedeeld vertaalgeheugen"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Draagt bij aan de verzameling gedeelde vertalingen tussen projecten."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr ""
@@ -18907,8 +19055,10 @@ msgstr "Automatisch vertalen overgeslagen omdat het doel niet langer bestaat."
 msgid "Report generated."
 msgstr "Rapport gemaakt."
 
-msgid "Project backup import completed with skipped components."
-msgstr "Importeren van projectback-up voltooid met overgeslagen onderdelen."
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "Projectback-up voltooid."
 
 msgid "Project backup import completed."
 msgstr "Projectback-up voltooid."
@@ -20140,15 +20290,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Opslagruimte-URL bevat onveilige tekens."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "Ophalen van de opslagruimte VCS vanaf %s is niet toegestaan."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "Ophalen van de opslagruimte VCS met %s is niet toegestaan."
 
 msgid "Could not parse URL: {}"
 msgstr "De URL kon niet worden verwerkt: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "Ophalen van de opslagruimte VCS vanaf %s is niet toegestaan."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Voer een geldige domeinnaam of IP-adres in."
@@ -21325,6 +21475,72 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "De werkruimte is verwijderd."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Kon niet authenticeren: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "De verificatie is mislukt. Waarschijnlijk is de toegangssleutel verouderd "
+#~ "of is er een verbindingsfout."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Authenticatie mislukt: (%s)"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "De provider voor authenticatie kon niet worden bereikt."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "JSON-object verbindt bestaande taalcodes aan extra instructies, tot "
+#~ "maximaal %(limit)d tekens elk."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "Alleen nodig als het model is ingesteld op 'Aangepast model'"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr "Basis-URL van de Ollama API, localhost en standaard poort 11434."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Herstellen en negeren"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Herstelt de opslagruimte van Weblate om overeen te komen met upstream en "
+#~ "negeert openstaande wijzigingen in Weblate."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Herstelt de opslagruimte van Weblate om overeen te komen met upstream en "
+#~ "vervangt openstaande vertalingen naar de herstelde staat van de "
+#~ "opslagruimte."
+
+#~ msgid "Duplicate team name."
+#~ msgstr "Teamnaam dupliceren."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Gebruikt en draagt bij aan de pool van gedeelde vertalingen tussen "
+#~ "projecten."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Draagt bij aan de verzameling gedeelde vertalingen tussen projecten."
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "Importeren van projectback-up voltooid met overgeslagen onderdelen."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 met ondersteuning voor tijdelijke aanduidingen"
 
@@ -21841,10 +22057,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Workspace settings"
 #~ msgstr "Instellingen werkruimte"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "Te veel suggesties ({count}). Neem contact op met een beheerder."
 
 #, python-format
 #~ msgid ""

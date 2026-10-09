@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-06 14:53+0000\n"
 "Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -36,6 +36,40 @@ msgstr "Nenhum"
 
 msgid "User avatar"
 msgstr "Avatar do utilizador"
+
+msgid "No notification"
+msgstr "Nenhuma notificação"
+
+msgid "Instant notification"
+msgstr "Notificação instantânea"
+
+msgid "Daily digest"
+msgstr "Resumo diário"
+
+msgid "Weekly digest"
+msgstr "Resumo semanal"
+
+msgid "Monthly digest"
+msgstr "Resumo mensal"
+
+msgid "All"
+msgstr "Todos"
+
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Watched"
+msgstr "Não coincidem \\n"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Projetos administrados"
+
+msgid "Project"
+msgstr "Projeto"
+
+msgid "Component"
+msgstr "Componente"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -970,40 +1004,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "Nenhuma notificação"
-
-msgid "Instant notification"
-msgstr "Notificação instantânea"
-
-msgid "Daily digest"
-msgstr "Resumo diário"
-
-msgid "Weekly digest"
-msgstr "Resumo semanal"
-
-msgid "Monthly digest"
-msgstr "Resumo mensal"
-
-msgid "All"
-msgstr "Todos"
-
-#, fuzzy
-#| msgid "Mismatched \\n"
-msgid "Watched"
-msgstr "Não coincidem \\n"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "Projetos administrados"
-
-msgid "Project"
-msgstr "Projeto"
-
-msgid "Component"
-msgstr "Componente"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "A operação foi realizada no repositório"
@@ -1417,10 +1417,6 @@ msgstr ""
 "Adicione outra identidade confirmando primeiro o seu endereço de correio "
 "eletrónico."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Não foi possível autenticar: %s"
-
 msgid "Could not complete registration."
 msgstr "Não foi possível concluir o registo."
 
@@ -1431,6 +1427,31 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Também pode solicitar uma nova palavra-passe, caso tenha perdido as suas "
 "credenciais."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Não foi possível aceder temporariamente ao repositório \"upstream\". Por "
+"favor, tente novamente mais tarde."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1449,6 +1470,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Não foi possível autenticar devido ao estado de sessão inválido."
 
+msgid "New registrations are turned off."
+msgstr "Os novos registos estão desativados."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Não foi recebido qualquer endereço de correio eletrónico do serviço de "
@@ -1462,20 +1486,15 @@ msgstr ""
 "Não foi possível analisar o \"Esatdo de Retransmissão\" a partir do "
 "\"Fornecedor de Identidade SAML\"."
 
-msgid "New registrations are turned off."
-msgstr "Os novos registos estão desativados."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Não foi possível autenticar, provavelmente devido a um código expirado ou "
-"erro de ligação."
-
 msgid "Authentication cancelled."
 msgstr "Autenticação cancelada."
 
 msgid "The server does not allow authentication."
 msgstr "O servidor não permite autenticação."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr ""
+"A identidade do utilizador fornecida já está a ser utilizada por outra conta."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
@@ -1485,16 +1504,25 @@ msgstr ""
 msgid "The supplied username is already in use for another account."
 msgstr "O nome de utilizador fornecido já está em uso por outra conta."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Autenticação falhou: %s"
-
-msgid "The supplied user identity is already in use for another account."
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr ""
-"A identidade do utilizador fornecida já está a ser utilizada por outra conta."
+"Não foi possível aceder temporariamente ao repositório \"upstream\". Por "
+"favor, tente novamente mais tarde."
 
-msgid "The authentication provider could not be reached."
-msgstr "Não foi possível contactar o fornecedor de autenticação."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Demasiadas sugestões ({count}). Por favor, contacte um administrador."
 
 msgid "Notification settings adjusted."
 msgstr "Definições de notificação ajustadas."
@@ -3824,6 +3852,11 @@ msgstr ""
 "A equipa pode ser encaminhada tanto para um projeto como para um espaço de "
 "trabalho."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "Já existe uma equipa com este nome neste espaço de trabalho."
+
 msgid "Limit languages"
 msgstr "Limitar idiomas"
 
@@ -4080,6 +4113,12 @@ msgid ""
 msgstr ""
 "Precisa de acesso explícito para este componente antes de ativar acesso "
 "restrito; caso contrário, ficaria trancado por fora."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "O utilizador anónimo não pode ser atribuído às equipas."
@@ -6697,19 +6736,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Personagem do tradutor"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Descreva a personalidade do tradutor para melhorar a precisão da tradução. "
 "Por exemplo: “Você é um criador de esquilos.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Estilo de tradução"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "Descreva o estilo de tradução. Por exemplo: “Use linguagem informal.”"
 
 msgctxt "Automatic suggestion service configuration"
@@ -6718,11 +6767,10 @@ msgstr "Instruções especificas ao idioma"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"Mapeamento de objeto JSON ao usar códigos de idiomas para instruções "
-"adicionais, até %(limit)d caracteres cada."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Instruções específicas de idioma devem ser um objeto JSON."
@@ -6765,14 +6813,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Modelo OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Nome do modelo personalizado"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
-"Necessário apenas quando o modelo estiver definido como \"Modelo "
-"personalizado\""
 
 msgid "Missing custom model name."
 msgstr "Falta o nome de modelo personalizado."
@@ -6820,9 +6873,11 @@ msgstr "Implementação do Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "O nome de implementação exclusivo do modelo."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"URL base de API Ollama, anfitrião local e porta 11434 por predefinição."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6855,7 +6910,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Máx. de códigos"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "O número máximo de códigos para gerar na resposta."
 
 msgctxt "LLM translation example"
@@ -10032,15 +10089,21 @@ msgstr "As traduções do Weblate estão bloqueadas"
 msgid "Locking prevents translators from doing changes."
 msgstr "O bloqueio impede que os tradutores efetuem alterações."
 
-msgid "Reset and discard"
-msgstr "Reiniciar e rejeitar"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Ignorar sinalizador"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "As mudanças de Repositório foram rebased na fonte."
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "Utilize quando quiser que a fonte seja a autoridade para as traduções."
@@ -10050,15 +10113,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Reiniciar e reaplicar"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e reaplica "
-"traduções para o estado do repositório reiniciado."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -10866,6 +10930,13 @@ msgid "Password reset on %(site_title)s"
 msgstr "Palavra-passe redefinida em %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+"Inicie a sessão para ver o registo completo da auditoria, incluindo o "
+"endereço de IP."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr ""
 "Inicie a sessão para ver o registo completo da auditoria, incluindo o "
 "endereço de IP."
@@ -13322,6 +13393,35 @@ msgstr ""
 "O repositório GitHub permite que apenas colaboradores criem pull requests. "
 "Peça a um colaborador de manutenção do repositório para permitir pull "
 "requests de todos os utilizadores."
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -16076,9 +16176,6 @@ msgstr "Abreviação de categoria duplicada."
 msgid "Duplicate label name."
 msgstr "Duplicar nome de etiqueta."
 
-msgid "Duplicate team name."
-msgstr "Nome de equipa duplicado."
-
 msgid "Screenshot image is missing."
 msgstr "Imagem de captura de ecrã está em falta."
 
@@ -16136,12 +16233,25 @@ msgstr "O componente referenciado não existe."
 msgid "Referenced role does not exist."
 msgstr "O papel referenciado não existe."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Esta função não pode ser atribuída a esta equipa."
+
 msgid "Repository data does not belong to a restored component."
 msgstr "Os dados do repositório não pertencem a um componente restaurado."
 
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Componentes com um link do repositório não podem conter dados do repositório."
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr ""
+"O componente %(component)s foi ignorado porque o repositório referente ao "
+"link estava indisponível."
 
 msgid "The project repository directory already exists."
 msgstr "O diretório do repositório do projeto já existe."
@@ -17195,10 +17305,17 @@ msgstr ""
 msgid "Access"
 msgstr "Acesso"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
-"Utiliza e contribui para o conjunto de traduções partilhadas entre projetos."
+"Utiliza e contribui para o conjunto de memórias partilhadas entre projetos "
+"no espaço de trabalho."
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -17238,6 +17355,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Não foi possível carregar o backup do projeto: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Não foi possível carregar o backup do projeto: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17533,14 +17655,6 @@ msgstr "Estilo Linux"
 msgid "Linux style, lower cased"
 msgstr "Estilo Linux em letras minúsculas"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-"O componente %(component)s foi ignorado porque o repositório referente ao "
-"link estava indisponível."
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17550,6 +17664,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "Pública"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18154,6 +18274,17 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 "Se o repositório deverá ser submetido à \"upstream\" em cada implementação."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Enviar ao submeter"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "Idade das alterações a fazer commit"
 
@@ -18686,8 +18817,11 @@ msgstr "Utiliza o conjunto de traduções partilhadas entre projetos."
 msgid "Contribute to shared translation memory"
 msgstr "Contribuir para a memória de tradução partilhada"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Contribui para o conjunto de traduções partilhadas entre projetos."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr ""
@@ -19211,10 +19345,10 @@ msgstr "Tradução automática ignorada porque o alvo já não existe."
 msgid "Report generated."
 msgstr "Relatório gerado."
 
-msgid "Project backup import completed with skipped components."
-msgstr ""
-"Importar da cópia de segurança do projeto completada com componentes "
-"ignorados."
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "Importar da cópia de segurança do projeto completada."
 
 msgid "Project backup import completed."
 msgstr "Importar da cópia de segurança do projeto completada."
@@ -20507,15 +20641,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "O nome contém carateres não permitidos."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "A obtenção do repositório VCS de %s não é permitida."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "A obtenção do repositório VCS utilizando %s não é permitida."
 
 msgid "Could not parse URL: {}"
 msgstr "Não foi possível analisar o URL: %s"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "A obtenção do repositório VCS de %s não é permitida."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Insira um nome de domínio ou endereço de IP válido."
@@ -21726,6 +21860,75 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "O espaço de trabalho foi removido."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Não foi possível autenticar: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Não foi possível autenticar, provavelmente devido a um código expirado ou "
+#~ "erro de ligação."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Autenticação falhou: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Não foi possível contactar o fornecedor de autenticação."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "Mapeamento de objeto JSON ao usar códigos de idiomas para instruções "
+#~ "adicionais, até %(limit)d caracteres cada."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr ""
+#~ "Necessário apenas quando o modelo estiver definido como \"Modelo "
+#~ "personalizado\""
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "URL base de API Ollama, anfitrião local e porta 11434 por predefinição."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Reiniciar e rejeitar"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
+#~ "quaisquer alterações pendentes no Weblate."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Reinicia o repositório do Weblate para corresponder à fonte e reaplica "
+#~ "traduções para o estado do repositório reiniciado."
+
+#~ msgid "Duplicate team name."
+#~ msgstr "Nome de equipa duplicado."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Utiliza e contribui para o conjunto de traduções partilhadas entre "
+#~ "projetos."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Contribui para o conjunto de traduções partilhadas entre projetos."
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr ""
+#~ "Importar da cópia de segurança do projeto completada com componentes "
+#~ "ignorados."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 com suporte transponível"
 
@@ -22272,11 +22475,6 @@ msgstr "O espaço de trabalho foi removido."
 #~| msgid "Source strings"
 #~ msgid "Workspace settings"
 #~ msgstr "Cadeias de carateres fonte"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr ""
-#~ "Demasiadas sugestões ({count}). Por favor, contacte um administrador."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
