@@ -52,6 +52,16 @@ when intentionally refreshing the demo data. Runtime tests do not fetch GitHub
 repositories or resolve their hostname. The ``TEST_REVISION`` pin controls the
 ordinary Git, Mercurial, and Subversion data independently.
 
+Selenium tests that consume the standard demo can opt in with
+``@reuse_demo_fixture`` from :file:`weblate/trans/tests/selenium_fixtures.py`.
+Place it outside other method decorators. It restores committed database rows
+and the demo's working repositories before the test body, so call
+``create_component()`` before creating additional components as usual. Create
+users and other test-specific data inside the test body; restoration replaces
+the database. GitHub transports and browser state remain isolated per test.
+Keep creation and empty-state tests undecorated so they continue to exercise
+the browser forms and generate their screenshots.
+
 .. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
