@@ -1003,6 +1003,9 @@ Authenticator apps (TOTP)
    another browser session shows the same QR code until registration is
    completed or expires.
 
+   If you have more than one registered authenticator app, select the app
+   you are using when entering its code during sign-in.
+
 Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.
 
