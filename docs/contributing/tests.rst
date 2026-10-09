@@ -152,6 +152,12 @@ authentication, and application caches are initialized per test. Snapshots are
 temporary and local to each class and worker; extra components created within a
 test still use the normal component factories.
 
+API tests inheriting ``APIBaseTest`` in :file:`weblate/api/tests.py` use the same
+repository restoration. The API user and initial component, including its
+automatic glossary, are created once per class. Component construction callbacks
+run during this shared setup. API clients, credentials, and subclass setup such
+as screenshots and announcements are initialized per test.
+
 Use the existing bases for ``TransactionTestCase`` and concurrency tests, or when
 component construction itself must run under a method-specific settings override.
 The reusable bases do not replay component construction signals or commit

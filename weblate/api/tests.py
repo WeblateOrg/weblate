@@ -120,11 +120,9 @@ from weblate.trans.repository import (
     RepositoryOperationConflictError,
 )
 from weblate.trans.tasks import auto_translate
+from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
-    RepoTestMixin,
-    clear_users_cache,
     create_test_billing,
-    fixup_languages_seq,
     get_test_file,
 )
 from weblate.trans.util import join_plural
@@ -152,6 +150,8 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
+
+    from weblate.trans.tests.test_views import ComponentTestCase
 
 
 TEST_PO = get_test_file("cs.po")
@@ -327,21 +327,22 @@ class AuthenticationAPITest(APITestCase):
                         self.assertFalse(user.is_authenticated)
 
 
-class APIBaseTest(APITestCase, RepoTestMixin):
+class APIBaseTest(APITestCase, ReusableComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
     @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-        fixup_languages_seq()
-        clear_users_cache()
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        with builder.captureOnCommitCallbacks(execute=True):
+            builder.component = builder.create_component()
+        builder.project = builder.component.project
+        builder.user = User.objects.create_user("apitest", "apitest@example.org", "x")
+        builder.user.profile.languages.add(Language.objects.get(code="cs"))
+        builder.user.groups.add(Group.objects.get(name="Users"))
 
     def setUp(self) -> None:
-        Language.objects.flush_object_cache()
         self.clone_test_repos()
-        with self.captureOnCommitCallbacks(execute=True):
-            self.component = self.create_component()
-        self.project = self.component.project
+        self.set_up_component()
+        self.group = Group.objects.get(name="Users")
         self.translation_kwargs = {
             "language__code": "cs",
             "component__slug": "test",
@@ -350,11 +351,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.component_kwargs = {"slug": "test", "project__slug": "test"}
         self.project_kwargs = {"slug": "test"}
         self.project_language_kwargs = {"slug": "test", "language_code": "cs"}
-        self.tearDown()
-        self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
-        self.user.profile.languages.add(Language.objects.get(code="cs"))
-        self.group = Group.objects.get(name="Users")
-        self.user.groups.add(self.group)
 
     def create_acl(self):
         project = Project.objects.create(
@@ -14195,6 +14191,7 @@ class TranslationAPITest(APIBaseTest):
 
     # pylint: disable-next=redefined-builtin
     def test_autotranslate(self, format: str = "multipart") -> None:  # ruff: ignore[builtin-argument-shadowing]
+        self.configure_mt()
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,
