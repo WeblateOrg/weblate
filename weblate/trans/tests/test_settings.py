@@ -38,7 +38,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
@@ -53,7 +53,40 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
-class SettingsTest(ViewTestCase):
+class SettingsTest(ReusableViewTestCase):
+    def test_saving_settings_reports_legacy_duplicate_repair(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.component_set.update(license="MIT")
+        duplicate = Group.objects.bulk_create(
+            [Group(name="Administration", defining_project=self.project, internal=True)]
+        )[0]
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
+        self.assertContains(
+            response, "Team Administration was renamed to Administration (2)"
+        )
+        duplicate.refresh_from_db()
+        self.assertEqual(duplicate.name, "Administration (2)")
+        self.assertFalse(duplicate.internal)
+
+    def test_enabling_reviews_warns_about_custom_team_rename(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.component_set.update(license="MIT")
+        custom = Group.objects.create(name="Review", defining_project=self.project)
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["translation_review"] = True
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
+        self.assertContains(response, "Team Review was renamed to Review (2)")
+        custom.refresh_from_db()
+        self.assertEqual(custom.name, "Review (2)")
+        self.assertTrue(self.project.defined_groups.get(name="Review").internal)
+
     def test_public_sharing_permission(self) -> None:
         form = ProjectSettingsForm(self.get_request(), instance=self.project)
         self.assertTrue(form.fields["public_sharing"].disabled)
@@ -63,6 +96,36 @@ class SettingsTest(ViewTestCase):
         self.user.clear_permissions_cache()
         form = ProjectSettingsForm(self.get_request(), instance=self.project)
         self.assertFalse(form.fields["public_sharing"].disabled)
+
+    def test_shared_memory_contribution_warning(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+
+        self.assertIn(
+            "Project access control does not restrict this shared data.",
+            form.fields["contribute_shared_tm"].help_text,
+        )
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(
+            reverse("settings", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertContains(
+            response, "Project access control does not restrict this shared data."
+        )
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_contribution_warning(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+
+        self.assertTrue(form.fields["contribute_shared_tm"].widget.is_hidden)
+        self.assertIn(
+            "regardless of project access control",
+            form.fields["use_shared_tm"].help_text,
+        )
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(
+            reverse("settings", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertContains(response, "regardless of project access control")
 
     @override_settings(OFFER_HOSTING=True)
     def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
@@ -1811,7 +1874,8 @@ class SettingsTest(ViewTestCase):
             instance=self.component,
         )
 
-        self.assertFalse(form.is_valid())
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertFalse(form.is_valid())
         self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:

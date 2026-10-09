@@ -79,10 +79,21 @@ jobs:
         uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
     - name: Test with Django
       run: |
+        sysctl machdep.cpu.brand_string hw.logicalcpu > test-cpu.txt
         # shellcheck disable=SC2155
         export CI_DB_USER="$(id -nu)"
         source .venv/bin/activate
-        pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
+        /usr/bin/time -l -o test-resources.txt pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
+    - name: Upload test timing and resource evidence
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: test-evidence-macos
+        path: |
+          junit.xml
+          test-cpu.txt
+          test-resources.txt
+        if-no-files-found: warn
     - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]

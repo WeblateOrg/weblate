@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -30,6 +30,40 @@ msgstr "Asnjë"
 
 msgid "User avatar"
 msgstr "Avatar përdoruesi"
+
+msgid "No notification"
+msgstr "Pa njoftime"
+
+msgid "Instant notification"
+msgstr "Njoftim i menjëhershëm"
+
+msgid "Daily digest"
+msgstr "Përmbledhje ditore"
+
+msgid "Weekly digest"
+msgstr "Përmbledhje javore"
+
+msgid "Monthly digest"
+msgstr "Përmbledhje mujore"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watch"
+msgid "Watched"
+msgstr "Vëzhgoje"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Projekte të administruar"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Përbërës"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -946,40 +980,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "Pa njoftime"
-
-msgid "Instant notification"
-msgstr "Njoftim i menjëhershëm"
-
-msgid "Daily digest"
-msgstr "Përmbledhje ditore"
-
-msgid "Weekly digest"
-msgstr "Përmbledhje javore"
-
-msgid "Monthly digest"
-msgstr "Përmbledhje mujore"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Watch"
-msgid "Watched"
-msgstr "Vëzhgoje"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "Projekte të administruar"
-
-msgid "Project"
-msgstr "Projekt"
-
-msgid "Component"
-msgstr "Përbërës"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Te depoja u krye veprim"
@@ -1396,10 +1396,6 @@ msgstr "S’u hoq dot identitet përdoruesi"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Shtoni një identitet tjetër, duke ripohuar së pari adresën tuaj email."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "S’u arrit të bëhej mirëfilltësimi: %s"
-
 msgid "Could not complete registration."
 msgstr "S’u plotësua dot regjistrimi."
 
@@ -1410,6 +1406,30 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Mundeni edhe të kërkoni një fjalëkalim të ri, nëse keni humbur kredencialet "
 "tuaja."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Depoja “upstream” s’u kap dot, përkohësisht. Ju lutemi, riprovoni më vonë."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1428,6 +1448,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "S’u bë do mirëfilltësim, për shkak gjendjeje të pavlefshme sesioni."
 
+msgid "New registrations are turned off."
+msgstr "Regjistrimet e reja janë çaktivizuar."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "S’u mor adresë email nga shërbim mirëfilltësimi palë e tretë."
 
@@ -1437,20 +1460,16 @@ msgstr "Ju lutemi, më mirë regjistrohuni duke përdorur email."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "S’analizohet dot RelayState nga Shërbim SAML Identitetesh."
 
-msgid "New registrations are turned off."
-msgstr "Regjistrimet e reja janë çaktivizuar."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"S’u bë dot mirëfilltësim, ndoshta për shkak të një token-i të skaduar ose të "
-"një gabimi lidhjeje."
-
 msgid "Authentication cancelled."
 msgstr "Mirëfilltësimi u anulua."
 
 msgid "The server does not allow authentication."
 msgstr "Shërbyesi nuk lejon mirëfilltësim."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr ""
+"Identiteti i dhënë i përdoruesit është tashmë në përdorim për një llogari "
+"tjetër."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Adresë email e dhënë është tashmë në përdorim për një llogari tjetër."
@@ -1459,17 +1478,24 @@ msgid "The supplied username is already in use for another account."
 msgstr ""
 "Emri i dhënë i përdoruesit është tashmë në përdorim për një llogari tjetër."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Mirëfilltësimi dështoi: %s"
-
-msgid "The supplied user identity is already in use for another account."
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr ""
-"Identiteti i dhënë i përdoruesit është tashmë në përdorim për një llogari "
-"tjetër."
+"Depoja “upstream” s’u kap dot, përkohësisht. Ju lutemi, riprovoni më vonë."
 
-msgid "The authentication provider could not be reached."
-msgstr "S’u kap dot shërbimi i mirëfilltësimit."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Shumë sugjerime ({count}). Ju lutemi, lidhuni me një përgjegjës."
 
 msgid "Notification settings adjusted."
 msgstr "Rregullimet për njoftime u përimtuan."
@@ -3843,6 +3869,11 @@ msgstr "Lyp që përdoruesit të kenë të formësuar mirëfilltësim dyfaktorë
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "Në këtë hapësirë pune ka tashmë një ekip me atë emër."
+
 msgid "Limit languages"
 msgstr "Kufizoji gjuhët"
 
@@ -4100,6 +4131,12 @@ msgstr "Ky plan faturimesh mbulon projektet vijuese:"
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
@@ -6738,19 +6775,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Persona përkthyesi"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Përshkruan persona-n e përkthyesit, për të përmirësuar përpikërinë e "
 "përkthimit. Për shembull: “Jeni një mbarështues lopësh”."
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Stil përkthyesi"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 "Përshkruan stilin e përkthimit. Për shembull: “Përdorni gjuhë joformale”."
 
@@ -6760,8 +6807,9 @@ msgstr "Udhëzime specifike për gjuhën"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -6800,12 +6848,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Model OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Emër modeli vetjak"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "E nevojshme vetëm kur është vënë si “Model vetjak”"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "Mungon emër modeli vetjak."
@@ -6853,9 +6908,11 @@ msgstr "Sendërtim Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "Emri unik i sendërtimit të modelit."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"URL bazë e API-t për Ollama, localhost dhe portë 11434, si parazgjedhje."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6889,7 +6946,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Maksimum token-ësh"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Numër maksimum token-ësh për prodhim te përgjigja."
 
 msgctxt "LLM translation example"
@@ -10094,15 +10153,21 @@ msgstr "Përkthimet Weblate janë kyçur"
 msgid "Locking prevents translators from doing changes."
 msgstr "Kyçja u pengon përkthyesve të bëjnë ndryshime."
 
-msgid "Reset and discard"
-msgstr "Riktheje te parazgjedhjet dhe hidhe tej"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Download changes"
+msgid "Discard local changes"
+msgstr "Të shkarkojë ndryshime"
+
+#, fuzzy
+#| msgid "Repository changes are being processed…"
+msgid "Discard local changes and reset to upstream"
+msgstr "Ndryshimet në depo po kryhen…"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"E kthen depon Weblate të përputhet me depon e zhvillimit dhe hedh tej "
-"çfarëdo ndryshime pezull në Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -10114,15 +10179,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Riktheje dhe riaplikoji"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"E rikthen depon Weblate që të përputhet me burimin e projektit dhe riaplikon "
-"përkthime pezull mbi gjendjen e rikthyer të depos."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -10952,6 +11018,13 @@ msgid "Password reset on %(site_title)s"
 msgstr "Ricaktim fjalëkalimi te %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+"Që të shihni regjistrin e plotë të auditimit, përfshi adresën IP, bëni "
+"hyrjen në llogari."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr ""
 "Që të shihni regjistrin e plotë të auditimit, përfshi adresën IP, bëni "
 "hyrjen në llogari."
@@ -13463,6 +13536,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -16376,11 +16478,6 @@ msgstr "Përkthim i përsëdytur."
 msgid "Duplicate label name."
 msgstr "Maskë e përsëdytur kartelash."
 
-#, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "Përkthim i përsëdytur."
-
 msgid "Screenshot image is missing."
 msgstr "Mungon figurë fotoje ekrani."
 
@@ -16465,11 +16562,22 @@ msgid "Referenced role does not exist."
 msgstr "Kartela s’ekziston."
 
 #, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Ky rol s’mund t’i caktohet këtij ekipi."
+
+#, fuzzy
 #| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
 msgstr "Kategoria s’i përket projektit të përzgjedhur."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17516,8 +17624,13 @@ msgstr ""
 msgid "Access"
 msgstr "Hyrje"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
 "Përdor dhe jep ndihmesë te baza e përkthimeve të përbashkëta mes projektesh."
 
@@ -17561,6 +17674,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "S’u arrit të ngarkohej kopjeruajtje projekti: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "S’u arrit të ngarkohej kopjeruajtje projekti: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17842,12 +17960,6 @@ msgstr "Stil Linux"
 msgid "Linux style, lower cased"
 msgstr "Stil Linux, me të vogla"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17857,6 +17969,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "Publik"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18460,6 +18578,17 @@ msgstr ""
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Nëse për depon duhet kryer push te upstream për çdo parashtrim."
 
+#, fuzzy
+#| msgid "Last updated"
+msgid "Push on update"
+msgstr "Përditësuar së fundi më"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "Moshë ndryshimesh për depozitim"
 
@@ -18997,8 +19126,11 @@ msgstr "Përdor bazën e përkthimeve të përbashkëta mes projektesh."
 msgid "Contribute to shared translation memory"
 msgstr "Kontribuoni te kujtesë përkthimesh të përbashkët"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Jep ndihmesë te baza e përkthimeve të përbashkëta mes projektesh."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -19517,7 +19649,7 @@ msgstr "Format raporti"
 
 #, fuzzy
 #| msgid "Project backup import completed."
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "U plotësua importim kopjeruajtjeje projekti."
 
 msgid "Project backup import completed."
@@ -20833,15 +20965,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Emri përmban shenja të palejuara."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "Sjellja e depos VCS nga %s nuk lejohet."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "Sjellja e depos VCS duke përdorur %s nuk lejohet."
 
 msgid "Could not parse URL: {}"
 msgstr "S’u analizua dot JSON: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "Sjellja e depos VCS nga %s nuk lejohet."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Jepni një emër përkatësie, ose një adresë IP të vlefshme."
@@ -22050,6 +22182,67 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Burimi u hoq."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "S’u arrit të bëhej mirëfilltësimi: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "S’u bë dot mirëfilltësim, ndoshta për shkak të një token-i të skaduar ose "
+#~ "të një gabimi lidhjeje."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Mirëfilltësimi dështoi: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "S’u kap dot shërbimi i mirëfilltësimit."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "E nevojshme vetëm kur është vënë si “Model vetjak”"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "URL bazë e API-t për Ollama, localhost dhe portë 11434, si parazgjedhje."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Riktheje te parazgjedhjet dhe hidhe tej"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "E kthen depon Weblate të përputhet me depon e zhvillimit dhe hedh tej "
+#~ "çfarëdo ndryshime pezull në Weblate."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "E rikthen depon Weblate që të përputhet me burimin e projektit dhe "
+#~ "riaplikon përkthime pezull mbi gjendjen e rikthyer të depos."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "Përkthim i përsëdytur."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "Përdor dhe jep ndihmesë te baza e përkthimeve të përbashkëta mes "
+#~ "projektesh."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Jep ndihmesë te baza e përkthimeve të përbashkëta mes projektesh."
+
+#, fuzzy
+#~| msgid "Project backup import completed."
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "U plotësua importim kopjeruajtjeje projekti."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 me mbulim parametrash"
 
@@ -22548,10 +22741,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Workspace settings"
 #~ msgstr "Rregullime hapësire pune"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "Shumë sugjerime ({count}). Ju lutemi, lidhuni me një përgjegjës."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""

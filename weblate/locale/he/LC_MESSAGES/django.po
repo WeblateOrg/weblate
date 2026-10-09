@@ -14,10 +14,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-09-25 04:08+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"PO-Revision-Date: 2026-10-04 22:51+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
 "Language: he\n"
@@ -26,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -34,6 +33,40 @@ msgstr "אין"
 
 msgid "User avatar"
 msgstr "תמונה מייצגת למשתמש"
+
+msgid "No notification"
+msgstr "אין התראות"
+
+msgid "Instant notification"
+msgstr "התרעה מיידית"
+
+msgid "Daily digest"
+msgstr "עדכון יומי מרוכז"
+
+msgid "Weekly digest"
+msgstr "עדכון שבועי מרוכז"
+
+msgid "Monthly digest"
+msgstr "מקבץ עדכונים חודשי"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Watched"
+msgstr "\\n לא תואמת"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "מיזמים בניהול"
+
+msgid "Project"
+msgstr "מיזם"
+
+msgid "Component"
+msgstr "רכיב"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -307,10 +340,8 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "נא למלא קוד מהיישומון"
 
-#, fuzzy
-#| msgid "Subproject is now open for translation updates."
 msgid "Project, category, component, or translation path"
-msgstr "תת המיזם פתוח לעדכוני תרגום."
+msgstr "מיזם, קטגוריה, רכיב או נתיב תרגום"
 
 msgid ""
 "Enter slash-separated slugs, for example project/category/component/cs. "
@@ -324,7 +355,7 @@ msgid "Enter a valid object path."
 msgstr "נא למלא קוד שפה תקף."
 
 msgid "The target does not exist or you cannot access it."
-msgstr ""
+msgstr "היעד לא קיים או שאין לך גישה אליו."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -333,7 +364,7 @@ msgstr "הסיסמה הוחלפה."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "מגבלת הקצב נחרגה עבור {scope} ב־{path}."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -440,7 +471,7 @@ msgstr ""
 
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
-msgstr ""
+msgstr "החשבון נוצר מחוץ ל־weblate.org לגישה לשירותים שנרכשו."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -906,40 +937,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "אין התראות"
-
-msgid "Instant notification"
-msgstr "התרעה מיידית"
-
-msgid "Daily digest"
-msgstr "עדכון יומי מרוכז"
-
-msgid "Weekly digest"
-msgstr "עדכון שבועי מרוכז"
-
-msgid "Monthly digest"
-msgstr "מקבץ עדכונים חודשי"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Mismatched \\n"
-msgid "Watched"
-msgstr "\\n לא תואמת"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "מיזמים בניהול"
-
-msgid "Project"
-msgstr "מיזם"
-
-msgid "Component"
-msgstr "רכיב"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "בוצעה פעולה במאגר"
@@ -1352,10 +1349,6 @@ msgstr "לא ניתן להסיר את זהות המשתמש"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "הוספת זהות נוספת כרוכה באישור כתובת הדוא״ל שלך תחילה."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "לא ניתן להתאמת: %s"
-
 msgid "Could not complete registration."
 msgstr "לא ניתן להשלים את ההרשמה."
 
@@ -1364,6 +1357,29 @@ msgstr "נא לבדוק אם לא נרשמת כבר."
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "ניתן לבקש סיסמה חדשה אם איבדת את פרטי הגישה שלך."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "זמנית אי אפשר לגשת למאגר המקור. נא לנסות שוב."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -1386,6 +1402,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "לא ניתן לאמת עקב מצב הפעלה שגוי."
 
+msgid "New registrations are turned off."
+msgstr "הרשמות חדשות מושבתות."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "לא התקבלה הודעה בדוא״ל מספק אימות בצד שלישי."
 
@@ -1395,18 +1414,14 @@ msgstr "נא להירשם באמצעות דוא״ל במקום."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "לא ניתן לפענח את RelayState מספק זהות SAML."
 
-msgid "New registrations are turned off."
-msgstr "הרשמות חדשות מושבתות."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "האימות נכשל, כנראה עקב אסימון שתוקפו פג או בעיית חיבור."
-
 msgid "Authentication cancelled."
 msgstr "האימות בוטל."
 
 msgid "The server does not allow authentication."
 msgstr "השרת לא מאפשר אימות."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "זהות המשתמש שסופקה כבר משמשת חשבון אחר."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "כתובת הדוא״ל שסופקה כבר משמשת חשבון אחר."
@@ -1414,15 +1429,23 @@ msgstr "כתובת הדוא״ל שסופקה כבר משמשת חשבון אחר
 msgid "The supplied username is already in use for another account."
 msgstr "שם המשתמש שסופק כבר משמש חשבון אחר."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "האימות נכשל: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr "זמנית אי אפשר לגשת למאגר המקור. נא לנסות שוב."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "זהות המשתמש שסופקה כבר משמשת חשבון אחר."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "לא ניתן לתקשר עם ספק האימות."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "יותר מדי הצעות ({count}). נא ליצור קשר עם הנהלת התרגומים."
 
 msgid "Notification settings adjusted."
 msgstr "הגדרות ההתראות הותאמו."
@@ -3815,6 +3838,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "כבר קיים משתמש בשם הזה."
+
+#, fuzzy
 #| msgid "Bihari languages"
 msgid "Limit languages"
 msgstr "שפות ביהאר"
@@ -4055,6 +4083,12 @@ msgstr "תוכנית החיוב מכסה את המיזמים הבאים:"
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 #, fuzzy
@@ -6690,17 +6724,27 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "דמות מתרגם"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr "תיאור דמות המתרגם כדי לשפר את דיוק התרגום. למשל: „אתה מאכיל סנאים.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "סגנון מתרגם"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "תיאור סגנון התרגום. למשל: „להשתמש בשפה יומיומית”"
 
 #, fuzzy
@@ -6711,8 +6755,9 @@ msgstr "הנחיות שילוב"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -6751,12 +6796,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "דגם OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "שם מודל בהתאמה אישית"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "נחוץ רק כשהמודל מוגדר ל‚מודל בהתאמה אישית’"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "שם המודל בהתאמה אישית חסר."
@@ -6818,10 +6870,11 @@ msgstr "הטמעה של Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "השם הייחודי של הטמעת המודל."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
-"כתובת בסיס של ה־API של Ollama, מארח מקומי (localhost) ופתחה 11434 כברירת "
-"מחדל."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6854,7 +6907,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "כמות אסימונים מרבית"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "כמות האסימונים המרבית לייצור התגובה."
 
 msgctxt "LLM translation example"
@@ -10072,14 +10127,21 @@ msgstr "תרגומי Weblate נעולים"
 msgid "Locking prevents translators from doing changes."
 msgstr "נעילה מונעת ממתרגמים לבצע שינויים."
 
-msgid "Reset and discard"
-msgstr "איפוס וסילוק"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "מחיקת סימון דגל"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "שינויים במאגר"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"איפוס המאגר של Weblate לתיאום מול המקור ולסלק שינויים ממתינים מ־Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "מיועד לשימוש כשהמקור הוא הסמכות הבכירה לתרגומים."
@@ -10089,19 +10151,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "איפוס והחלה מחדש"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"איפוס המאגר של Weblate כך שיוצמד למאגר המקור ויחליף את תרגומי המקור במצב "
-"הנוכחי מ־Weblate."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr "כדאי להשתמש כאשר Weblate הוא הסמכות הבכירה לתרגומים."
@@ -10896,6 +10955,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "איפוס הסיסמה באתר %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "יש להיכנס כדי לצפות ביומן הפיקוח המלא, כולל כתובת ה־IP."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "יש להיכנס כדי לצפות ביומן הפיקוח המלא, כולל כתובת ה־IP."
 
 msgid ""
@@ -13422,6 +13486,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -16334,11 +16427,6 @@ msgid "Duplicate label name."
 msgstr "מסכת קובץ כפולה."
 
 #, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "תרגום כפול."
-
-#, fuzzy
 #| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
 msgstr "מסכת שם קובץ צילום מסך"
@@ -16425,11 +16513,22 @@ msgid "Referenced role does not exist."
 msgstr "קובץ לא קיים."
 
 #, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "שם הקובץ לא יכול להיות נתיב מלא."
+
+#, fuzzy
 #| msgid "Category does not belong to this project."
 msgid "Repository data does not belong to a restored component."
 msgstr "הקטגוריה לא שייכת למיזם הזה."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17544,8 +17643,13 @@ msgstr ""
 msgid "Access"
 msgstr "גישה"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr "משתמש ותורם למאגר התרגומים המשותפים בין מיזמים."
 
 #, fuzzy
@@ -17587,6 +17691,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "לא ניתן לטעון גיבוי מיזם: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "לא ניתן לטעון גיבוי מיזם: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17858,12 +17967,6 @@ msgstr "סגנון לינוקס"
 msgid "Linux style, lower cased"
 msgstr "סגנון לינוקס, באותיות קטנות"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17873,6 +17976,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "ציבורי"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18462,6 +18571,17 @@ msgstr "דחיפה עם קיבוע"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "האם לדחוף את המאגר בחזרה למקור עם כל קיבוע של תרגום."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "דחיפה עם קיבוע"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "גיל של שינויים לקיבוע"
 
@@ -18963,8 +19083,11 @@ msgstr "משתמש במאגר התרגומים המשותפים בין מיזמ�
 msgid "Contribute to shared translation memory"
 msgstr "תרגום לזיכרון התרגום המשותף"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "תורם למאגר התרגום המשותף בין מיזמים."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -19497,7 +19620,7 @@ msgstr "תבנית הדוח"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "מיזמים ללא רכיבים"
 
 #, fuzzy
@@ -20870,15 +20993,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "השם מכיל מתווים בלתי מורשים."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "משיכת מאגר מערכת בקרת גרסאות מ־%s אסורה."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "משיכת מאגר מערכת בקרת גרסאות באמצעות %s אסורה."
 
 msgid "Could not parse URL: {}"
 msgstr "לא ניתן לפענח כתובת:‏ %s"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "משיכת מאגר מערכת בקרת גרסאות מ־%s אסורה."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "נא למלא שם תחום או כתובת IP תקניים."
@@ -22039,6 +22162,67 @@ msgstr "אי אפשר להסיר את מרחב העבודה כיוון שהוא 
 msgid "The workspace has been removed."
 msgstr "מרחב העבודה הוסר."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "לא ניתן להתאמת: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr "האימות נכשל, כנראה עקב אסימון שתוקפו פג או בעיית חיבור."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "האימות נכשל: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "לא ניתן לתקשר עם ספק האימות."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "נחוץ רק כשהמודל מוגדר ל‚מודל בהתאמה אישית’"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "כתובת בסיס של ה־API של Ollama, מארח מקומי (localhost) ופתחה 11434 כברירת "
+#~ "מחדל."
+
+#~ msgid "Reset and discard"
+#~ msgstr "איפוס וסילוק"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "איפוס המאגר של Weblate לתיאום מול המקור ולסלק שינויים ממתינים מ־Weblate."
+
+#, fuzzy
+#~| msgid ""
+#~| "Resets Weblate’s repository to match upstream and replace upstream "
+#~| "translations with the current state from Weblate."
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "איפוס המאגר של Weblate כך שיוצמד למאגר המקור ויחליף את תרגומי המקור במצב "
+#~ "הנוכחי מ־Weblate."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "תרגום כפול."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "משתמש ותורם למאגר התרגומים המשותפים בין מיזמים."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "תורם למאגר התרגום המשותף בין מיזמים."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "מיזמים ללא רכיבים"
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "תמיכה ב־XLIFF 1.2 עם ממלאי מקום"
 
@@ -22542,10 +22726,6 @@ msgstr "מרחב העבודה הוסר."
 #~| msgid "Source strings"
 #~ msgid "Workspace settings"
 #~ msgstr "מחרוזות מקור"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "יותר מדי הצעות ({count}). נא ליצור קשר עם הנהלת התרגומים."
 
 #, python-format
 #~ msgid ""

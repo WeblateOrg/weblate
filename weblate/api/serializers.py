@@ -127,7 +127,7 @@ from weblate.vcs.base import RepositoryError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from uuid import UUID
 
 NEW_UNIT_STATE_CHOICES = tuple(
@@ -1540,6 +1540,10 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validators = ()
 
     def validate(self, attrs):
+        defining_project = attrs.get(
+            "defining_project",
+            self.instance.defining_project if self.instance is not None else None,
+        )
         defining_workspace = attrs.get(
             "defining_workspace",
             self.instance.defining_workspace if self.instance is not None else None,
@@ -1599,6 +1603,16 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         name = attrs.get(
             "name", self.instance.name if self.instance is not None else None
         )
+        if defining_project is not None and name is not None:
+            group = Group(
+                pk=self.instance.pk if self.instance is not None else None,
+                defining_project=defining_project,
+                name=name,
+            )
+            try:
+                group.clean()
+            except DjangoValidationError as error:
+                raise serializers.ValidationError(error.message_dict) from error
         if (
             defining_workspace is not None
             and name is not None
@@ -1641,10 +1655,19 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         if defining_workspace is not None:
             validated_data["language_selection"] = SELECTION_ALL
 
-        group = super().create(validated_data)
+        try:
+            group = super().create(validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
         if defining_project is not None:
             group.projects.add(defining_project)
         return group
+
+    def update(self, instance, validated_data):
+        try:
+            return super().update(instance, validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):
@@ -2314,6 +2337,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "suggestion_voting",
             "suggestion_autoaccept",
             "push_on_commit",
+            "push_on_update",
             "commit_pending_age",
             "auto_lock_error",
             "language_regex",
@@ -2394,7 +2418,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         self._uploaded_repository_component = None
 
     @contextmanager
-    def cleanup_uploaded_repository_on_error(self) -> Iterator[None]:
+    def cleanup_uploaded_repository_on_error(self) -> Generator[None, None, None]:
         try:
             yield
         except BaseException:
@@ -4332,6 +4356,7 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
 
 class ChangeSerializer(RemovableSerializer[Change]):
     action_name = serializers.CharField(source="get_action_display", read_only=True)
+    addon = serializers.SerializerMethodField()
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -4360,6 +4385,45 @@ class ChangeSerializer(RemovableSerializer[Change]):
         )
     )
     alert = serializers.SerializerMethodField()
+
+    def get_accessible_addon_ids(self, change: Change) -> set[int]:
+        cache_key = "change_accessible_addon_ids"
+        if cache_key in self.context:
+            return self.context[cache_key]
+
+        request = self.context.get("request")
+        if request is None:
+            result: set[int] = set()
+        else:
+            parent_instance = getattr(self.parent, "instance", None)
+            instances = (
+                parent_instance
+                if isinstance(self.parent, serializers.ListSerializer)
+                else (change,)
+            )
+            addon_ids = {
+                item.addon_id for item in instances if item.addon_id is not None
+            }
+            result = set(
+                Addon.objects.filter_access(request.user)
+                .filter(pk__in=addon_ids)
+                .values_list("pk", flat=True)
+            )
+        self.context[cache_key] = result
+        return result
+
+    @extend_schema_field(serializers.URLField(allow_null=True))
+    def get_addon(self, change: Change) -> str | None:
+        if (
+            change.addon_id is None
+            or change.addon_id not in self.get_accessible_addon_ids(change)
+        ):
+            return None
+        return reverse(
+            "api:addon-detail",
+            kwargs={"pk": change.addon_id},
+            request=self.context.get("request"),
+        )
 
     def can_view_alert_details(self) -> bool:
         request = self.context.get("request")
@@ -4428,6 +4492,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "unit",
             "component",
             "translation",
+            "addon",
             "user",
             "author",
             "alert",

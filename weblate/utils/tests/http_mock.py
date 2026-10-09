@@ -247,26 +247,33 @@ def reset() -> None:
     calls.clear()
 
 
+def start() -> None:
+    """Route HTTP requests to registered mocks until :func:`stop`."""
+    reset()
+    set_test_transport(httpx2.MockTransport(_handler))
+
+
+def stop() -> None:
+    set_test_transport(None)
+    reset()
+
+
 def activate(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        reset()
-        set_test_transport(httpx2.MockTransport(_handler))
+        start()
         try:
             return function(*args, **kwargs)
         finally:
-            set_test_transport(None)
-            reset()
+            stop()
 
     @wraps(function)
     async def async_wrapper(*args, **kwargs):
-        reset()
-        set_test_transport(httpx2.MockTransport(_handler))
+        start()
         try:
             return await function(*args, **kwargs)
         finally:
-            set_test_transport(None)
-            reset()
+            stop()
 
     return async_wrapper if function.__code__.co_flags & 0x80 else wrapper
 

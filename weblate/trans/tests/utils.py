@@ -7,12 +7,11 @@ import os.path
 import shutil
 import sys
 from datetime import timedelta
+from hashlib import sha256
 from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
-from unittest import SkipTest
 
-import httpx2
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
@@ -31,8 +30,9 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, Plural
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
+from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
-from weblate.utils.requests import fetch_url
+from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 
 # Directory holding test data
@@ -42,14 +42,8 @@ REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 
 TESTPASSWORD = make_password("testpassword")
 
-
-def require_github(repository: str) -> None:
-    """Skip a test when a required GitHub repository is not reachable."""
-    try:
-        fetch_url("get", repository, timeout=1)
-    except httpx2.HTTPError as error:
-        msg = f"GitHub not reachable: {error}"
-        raise SkipTest(msg) from error
+TEST_REPOSITORY_HOST = "vcs-fixture.invalid"
+TEST_VCS_ALLOW_SCHEMES = frozenset({"file", "https", "ssh"})
 
 
 def fixup_languages_seq() -> None:
@@ -217,11 +211,29 @@ class RepoTestMixin:
             name="Test category", slug="test-category", project=project, **kwargs
         )
 
-    def format_local_path(self, path: str) -> str:
-        """Format path for local access to the repository."""
+    @staticmethod
+    def format_file_url(path: str) -> str:
+        """Format a filesystem path as a file URL."""
         if sys.platform != "win32":
             return f"file://{path}"
         return "file:///{}".format(path.replace("\\", "/"))
+
+    def format_test_repo_url(self, path: str, vcs: str = "git") -> str:
+        """Expose a local test repository using a production-safe URL."""
+        if vcs != "git":
+            return self.format_file_url(path)
+
+        resolved = Path(path).resolve()
+        digest = sha256(str(resolved).encode()).hexdigest()
+        url = f"https://{TEST_REPOSITORY_HOST}/{digest}"
+        config = Path(data_dir("home"), ".gitconfig")
+        config.parent.mkdir(parents=True, exist_ok=True)
+        GitRepository.git_config_update(
+            config,
+            ('protocol "file"', "allow", "always"),
+            (f'url "{resolved.as_uri()}"', "insteadOf", url),
+        )
+        return url
 
     def _create_component(
         self,
@@ -239,7 +251,7 @@ class RepoTestMixin:
         if "project" not in kwargs:
             kwargs["project"] = self.create_project()
 
-        repo = push = self.format_local_path(getattr(self, f"{vcs}_repo_path"))
+        repo = push = self.format_test_repo_url(getattr(self, f"{vcs}_repo_path"), vcs)
         if vcs not in VCS_REGISTRY:
             self.skipTest(f"VCS {vcs} not available!")
 

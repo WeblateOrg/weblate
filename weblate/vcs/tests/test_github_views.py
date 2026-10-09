@@ -23,7 +23,7 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Component, Project
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
@@ -69,7 +69,7 @@ def _import_url(installation: GitHubInstallation, repo: dict, **overrides) -> st
     return url
 
 
-class GitHubInstallationViewTest(ViewTestCase):
+class GitHubInstallationViewTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         cache.clear()
@@ -2172,6 +2172,7 @@ class GitHubAppManifestViewTest(TestCase):
             manifest["default_permissions"], dict(GITHUB_APP_MANIFEST_PERMISSIONS)
         )
         self.assertEqual(manifest["default_events"], list(GITHUB_APP_MANIFEST_EVENTS))
+        self.assertIn("repository", manifest["default_events"])
         self.assertNotIn("installation", manifest["default_events"])
         self.assertNotIn("installation_repositories", manifest["default_events"])
 

@@ -1475,6 +1475,43 @@ class ImportSourceTest(ImportBaseTest):
 class ImportSourceCountTest(ImportBaseTest):
     test_file = TEST_POT_CHARSET
 
+    def assert_import_commits_only_updated_files(self) -> None:
+        repository = self.component.repository
+        unrelated = Path(self.component.full_path) / "unrelated.txt"
+        unrelated.write_text("Unrelated change", encoding="utf-8")
+        previous_revision = repository.last_revision
+
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.source_translation.handle_upload(
+                self.get_request(), handle, "", method="source"
+            )
+
+        self.assertNotEqual(repository.last_revision, previous_revision)
+        self.assertTrue(repository.needs_commit([str(unrelated)]))
+        for translation in self.component.translation_set.exclude(
+            language=self.component.source_language
+        ):
+            self.assertFalse(repository.needs_commit(translation.filenames))
+            self.assertEqual(translation.unit_set.count(), 3)
+        self.assertEqual(self.component.source_translation.unit_set.count(), 3)
+
+    def test_import_commits_only_updated_files(self) -> None:
+        self.assert_import_commits_only_updated_files()
+
+    def test_import_commits_new_base(self) -> None:
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_base"])
+
+        self.assert_import_commits_only_updated_files()
+
+        filename = self.component.get_new_base_filename()
+        assert filename is not None
+        self.assertFalse(self.component.repository.needs_commit([filename]))
+        self.assertEqual(Path(filename).read_bytes(), Path(self.test_file).read_bytes())
+
     def test_import_count_before_cleanup(self) -> None:
         source = self.component.source_translation
         self.assertEqual(source.unit_set.count(), 4)

@@ -10,6 +10,7 @@ from copy import copy
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cache as functools_cache
+from functools import partial
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 import regex
@@ -22,8 +23,8 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
-from django.db import models, router
-from django.db.models import Q, UniqueConstraint
+from django.db import models, router, transaction
+from django.db.models import Count, Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -51,6 +52,7 @@ from weblate.auth.permissions import (
     check_permission,
 )
 from weblate.auth.utils import (
+    TeamNameAllocator,
     create_anonymous,
     format_address,
     is_django_permission,
@@ -372,33 +374,40 @@ class Group(models.Model):
         return pgettext("Access-control team name", self.name)
 
     def save(self, *args, **kwargs) -> None:
-        self.clean()
-        if self.defining_workspace_id:
-            self.language_selection = SELECTION_ALL
-            if update_fields := kwargs.get("update_fields"):
-                kwargs["update_fields"] = {*update_fields, "language_selection"}
-        super().save(*args, **kwargs)
-        if self.defining_workspace_id:
-            self.projects.clear()
-            self.components.clear()
-            self.componentlists.clear()
-            self.languages.clear()
-            return
-        if self.project_selection != SELECTION_COMPONENT_LIST:
-            self.componentlists.clear()
-        if self.project_selection in {
-            SELECTION_ALL,
-            SELECTION_ALL_PUBLIC,
-            SELECTION_ALL_PROTECTED,
-        }:
-            self.projects.clear()
-        elif self.project_selection == SELECTION_COMPONENT_LIST:
-            self.projects.set(
-                Project.objects.filter(
-                    component__componentlist__in=self.componentlists.all()
-                ),
-                clear=True,
-            )
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        with transaction.atomic(using=using):
+            if self.defining_project_id:
+                # Serialize name checks and writes, including built-in setup.
+                Project.objects.using(using).select_for_update(no_key=True).only(
+                    "pk"
+                ).get(pk=self.defining_project_id)
+            self.clean()
+            if self.defining_workspace_id:
+                self.language_selection = SELECTION_ALL
+                if update_fields := kwargs.get("update_fields"):
+                    kwargs["update_fields"] = {*update_fields, "language_selection"}
+            super().save(*args, **kwargs)
+            if self.defining_workspace_id:
+                self.projects.clear()
+                self.components.clear()
+                self.componentlists.clear()
+                self.languages.clear()
+                return
+            if self.project_selection != SELECTION_COMPONENT_LIST:
+                self.componentlists.clear()
+            if self.project_selection in {
+                SELECTION_ALL,
+                SELECTION_ALL_PUBLIC,
+                SELECTION_ALL_PROTECTED,
+            }:
+                self.projects.clear()
+            elif self.project_selection == SELECTION_COMPONENT_LIST:
+                self.projects.set(
+                    Project.objects.filter(
+                        component__componentlist__in=self.componentlists.all()
+                    ),
+                    clear=True,
+                )
 
     def get_absolute_url(self) -> str:
         return reverse("team", kwargs={"pk": self.pk})
@@ -408,6 +417,28 @@ class Group(models.Model):
         if self.defining_project_id and self.defining_workspace_id:
             raise ValidationError(
                 gettext("Team can be scoped either to a project or to a workspace.")
+            )
+        if (
+            self.defining_project_id
+            # Existing duplicate names remain editable until repaired. Check
+            # uniqueness only when creating a team or changing its name/scope.
+            and not Group.objects.filter(
+                pk=self.pk,
+                defining_project_id=self.defining_project_id,
+                name=self.name,
+            ).exists()
+            and Group.objects.filter(
+                defining_project_id=self.defining_project_id, name=self.name
+            )
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {
+                    "name": gettext(
+                        "A team with this name already exists in this project."
+                    )
+                }
             )
         if (
             self.defining_workspace_id
@@ -809,6 +840,9 @@ class User(AbstractBaseUser):
     class AuditState:
         group_ids: set[int]
         is_superuser: bool
+        is_active: bool
+        has_expiry: bool
+        identity: dict[str, str | None]
 
     username = UsernameField(
         gettext_lazy("Username"),
@@ -927,6 +961,7 @@ class User(AbstractBaseUser):
             and original.is_active != self.is_active
             and self.full_name != "Deleted User"
             and not self.is_anonymous
+            and self._audit_state is None
         ):
             activity: str
             if original.date_expires and not self.is_active:
@@ -1556,17 +1591,27 @@ class User(AbstractBaseUser):
         *,
         group_ids: set[int] | None = None,
         is_superuser: bool | None = None,
+        original: User | None = None,
     ) -> None:
         if self._audit_state is not None:
             msg = "Audit state is already stored!"
             raise ValueError(msg)
+        original = original or self
         self._audit_state = self.AuditState(
             group_ids=(
-                set(self.groups.values_list("id", flat=True))
+                set(original.groups.values_list("id", flat=True))
                 if group_ids is None
                 else group_ids
             ),
-            is_superuser=self.is_superuser if is_superuser is None else is_superuser,
+            is_superuser=original.is_superuser
+            if is_superuser is None
+            else is_superuser,
+            is_active=original.is_active,
+            has_expiry=bool(original.date_expires),
+            identity={
+                name: getattr(original, name)
+                for name in ("username", "full_name", "email")
+            },
         )
 
     def log_audit_state(
@@ -1575,10 +1620,34 @@ class User(AbstractBaseUser):
         *,
         actor: User | None = None,
     ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
+
         audit_state = self._audit_state
         self._audit_state = None
         if audit_state is None:
             return
+
+        for name, old in audit_state.identity.items():
+            new = getattr(self, name)
+            if old != new:
+                AuditLog.objects.create(
+                    self, request, name, actor=actor, old=old, new=new
+                )
+        if (
+            audit_state.is_active != self.is_active
+            and self.full_name != "Deleted User"
+            and not self.is_anonymous
+        ):
+            activity = "enabled" if self.is_active else "disabled"
+            if (
+                not self.is_active
+                and audit_state.has_expiry
+                and request is None
+                and actor is None
+            ):
+                activity = "disabled-expiry"
+            AuditLog.objects.create(self, request, activity, actor=actor)
 
         self.audit_superuser_change(
             request,
@@ -1606,9 +1675,9 @@ class User(AbstractBaseUser):
 
         AuditLog.objects.create(
             user=self,
-            request=self._get_audit_request(request),
+            request=request,
             activity="superuser-granted" if self.is_superuser else "superuser-revoked",
-            username=self._get_audit_actor_username(request, actor=actor),
+            actor=actor,
         )
 
     def audit_team_membership_changes(
@@ -1659,13 +1728,6 @@ class User(AbstractBaseUser):
             return request.user.username
         return None
 
-    def _get_audit_request(
-        self, request: AuthenticatedHttpRequest | None
-    ) -> AuthenticatedHttpRequest | None:
-        if request is not None and request.user == self:
-            return request
-        return None
-
     def _audit_team_change(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -1680,8 +1742,9 @@ class User(AbstractBaseUser):
 
         AuditLog.objects.create(
             user=self,
-            request=self._get_audit_request(request),
+            request=request,
             activity=self._get_team_audit_activity(team, activity),
+            actor=actor,
             username=self._get_audit_actor_username(request, actor=actor),
             team=team.name,
             **params,
@@ -1841,6 +1904,56 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs) -> None:
         auto_assign_group(instance)
 
 
+def rename_project_team(
+    project: Project, team: Group, allocator: TeamNameAllocator, using: str
+) -> None:
+    old_name = team.name
+    team.name = allocator.allocate(old_name)
+    # A suffixed built-in duplicate becomes editable while retaining its data.
+    team.internal = False
+    team.save(update_fields=["name", "internal"])
+    project.renamed_teams.append((old_name, team.name))
+    transaction.on_commit(
+        partial(
+            LOGGER.warning,
+            "Renamed project team %s to %s in project %s to resolve a team name collision.",
+            old_name,
+            team.name,
+            project.pk,
+        ),
+        using=using,
+    )
+
+
+def repair_duplicate_project_teams(project: Project, using: str) -> None:
+    """Repair legacy duplicates when saving a project's settings."""
+    with transaction.atomic(using=using):
+        Project.objects.using(using).select_for_update(no_key=True).only("pk").get(
+            pk=project.pk
+        )
+        duplicate_names = list(
+            project.defined_groups.values("name")
+            .annotate(team_count=Count("pk"))
+            .filter(team_count__gt=1)
+            .values_list("name", flat=True)
+        )
+        if not duplicate_names:
+            return
+        # ruff: ignore[private-member-access]
+        allocator = TeamNameAllocator(
+            project.defined_groups.values_list("name", flat=True),
+            cast("int", Group._meta.get_field("name").max_length),
+        )
+        retained_names: set[str] = set()
+        for team in project.defined_groups.filter(name__in=duplicate_names).order_by(
+            "name", "-internal", "pk"
+        ):
+            if team.name not in retained_names:
+                retained_names.add(team.name)
+                continue
+            rename_project_team(project, team, allocator, using)
+
+
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_project_groups(
@@ -1851,6 +1964,8 @@ def setup_project_groups(
     **kwargs,
 ) -> None:
     """Set up group objects upon saving project."""
+    using = kwargs.get("using") or router.db_for_write(Project, instance=instance)
+    repair_duplicate_project_teams(instance, using)
     old_access_control = instance.old_access_control
     if old_access_control is models.DEFERRED:
         old_access_control = instance.access_control
@@ -1916,19 +2031,35 @@ def setup_project_groups(
         # - Change between protected/private means no change in groups
         return
 
-    # Create role specific groups
-    for group_name in groups:
-        group, created = instance.defined_groups.get_or_create(
-            internal=True,
-            name=group_name,
-            project_selection=SELECTION_MANUAL,
-            defining_project=instance,
-            language_selection=SELECTION_ALL,
+    with transaction.atomic(using=using):
+        Project.objects.using(using).select_for_update(no_key=True).only("pk").get(
+            pk=instance.pk
         )
-        if not created:
-            continue
-        group.projects.add(instance)
-        group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
+        # ruff: ignore[private-member-access]
+        max_length = cast("int", Group._meta.get_field("name").max_length)
+        allocator = TeamNameAllocator(
+            set(instance.defined_groups.values_list("name", flat=True)) | groups,
+            max_length,
+        )
+        for custom in instance.defined_groups.filter(
+            internal=False, name__in=groups
+        ).order_by("pk"):
+            rename_project_team(instance, custom, allocator, using)
+
+        # Selection settings are creation defaults, not part of team identity.
+        for group_name in sorted(groups):
+            group, created = instance.defined_groups.get_or_create(
+                internal=True,
+                name=group_name,
+                defaults={
+                    "project_selection": SELECTION_MANUAL,
+                    "language_selection": SELECTION_ALL,
+                },
+            )
+            if not created:
+                continue
+            group.projects.add(instance)
+            group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
 
 
 class InvitationError(Exception):

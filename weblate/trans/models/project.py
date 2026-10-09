@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 import time
 from collections import UserDict
 from typing import TYPE_CHECKING, Any, ClassVar, Self, cast, overload
@@ -11,7 +12,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Self, cast, overload
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import models, transaction
+from django.db import models, router, transaction
 from django.db.models import F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -42,6 +43,7 @@ from weblate.trans.inherited_settings import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.files import remove_tree
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
 from weblate.utils.render import (
@@ -316,7 +318,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Contribute to shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
         help_text=gettext_lazy(
-            "Contributes to the pool of shared translations between projects."
+            "Publishes source strings, translations, and project and component "
+            "origin to the global shared translation memory. Project access "
+            "control does not restrict this shared data."
         ),
     )
     use_workspace_tm = models.BooleanField(
@@ -631,6 +635,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.renamed_teams: list[tuple[str, str]] = []
         self.old_access_control = self.__dict__.get("access_control", models.DEFERRED)
         self.old_translation_review = self.__dict__.get(
             "translation_review", models.DEFERRED
@@ -646,6 +651,57 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     def save(self, *args, **kwargs) -> None:
+        self.renamed_teams.clear()
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        save_trackers = (
+            self.old_access_control,
+            self.old_translation_review,
+            self.old_source_review,
+            self.billing_original_workspace_id,
+        )
+        original_state = (self.pk, self._state.adding, self._state.db)
+        renamed_paths: tuple[str, str] | None = None
+        created_paths: list[str] = []
+        committed = False
+
+        def mark_committed() -> None:
+            nonlocal committed
+            committed = True
+
+        try:
+            with transaction.atomic(using=using):
+                # Register first: a later commit callback failing must not undo
+                # a filesystem move after the database has already committed.
+                transaction.on_commit(mark_committed, using=using)
+                old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
+                renamed_paths = self._get_rename_paths(old) if old is not None else None
+                self._save_project(old, created_paths, *args, **kwargs)
+        except Exception:
+            if committed:
+                raise
+            try:
+                for path in created_paths:
+                    remove_tree(path, ignore_errors=True)
+                if renamed_paths is not None:
+                    old_path, new_path = renamed_paths
+                    if not os.path.lexists(old_path) and os.path.exists(new_path):
+                        os.rename(new_path, old_path)
+            finally:
+                # Database rollback does not restore attributes or paths.
+                (
+                    self.old_access_control,
+                    self.old_translation_review,
+                    self.old_source_review,
+                    self.billing_original_workspace_id,
+                ) = save_trackers
+                self.pk, self._state.adding, self._state.db = original_state
+                self.renamed_teams.clear()
+                self.invalidate_path_cache()
+            raise
+
+    def _save_project(
+        self, old: Project | None, created_paths: list[str], *args, **kwargs
+    ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
 
@@ -655,13 +711,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         update_tm = self.contribute_shared_tm or self.effective_contribute_workspace_tm
 
         # Renaming detection
-        old = None
         old_effective_contribute_workspace_tm = False
         old_workspace_id = None
         old_effective_check_flags = ""
         update_fields = kwargs.get("update_fields")
-        if self.id:
-            old = Project.objects.get(pk=self.id)
+        if old is not None:
             old_effective_contribute_workspace_tm = (
                 old.effective_contribute_workspace_tm
             )
@@ -696,7 +750,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 and not old_effective_contribute_workspace_tm
             )
 
-        self.create_path()
+        self._create_path_for_save(created_paths)
 
         super().save(*args, **kwargs)
 
@@ -749,6 +803,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if update_tm:
             import_memory.delay_on_commit(self.id)
         self.billing_original_workspace_id = self.workspace_id
+
+    def _create_path_for_save(self, created_paths: list[str]) -> None:
+        # Record ownership only after directory creation succeeds, so rollback
+        # leaves existing directories and concurrent creations untouched.
+        if self.create_path():
+            created_paths.append(self.full_path)
+
+    def _get_rename_paths(self, old: Project) -> tuple[str, str] | None:
+        old_path, new_path = old.full_path, self._get_path()
+        if old_path != new_path and os.path.exists(old_path):
+            return old_path, new_path
+        return None
 
     @property
     def effective_use_workspace_tm(self) -> bool:

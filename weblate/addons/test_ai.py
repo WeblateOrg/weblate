@@ -30,7 +30,7 @@ from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Change, Unit
 from weblate.trans.models.project import Project
-from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
@@ -131,7 +131,7 @@ class EvaluationResponseTest(SimpleTestCase):
         )
 
 
-class AIEvaluationTest(ComponentTestCase):
+class AIEvaluationTest(ReusableComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.service_key = OpenAITranslation.get_identifier()

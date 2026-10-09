@@ -60,7 +60,7 @@ from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.backups import ProjectBackup
+from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -2532,6 +2532,7 @@ class ComponentSettingsForm(
             "repoweb",
             "repoweb_translations",
             "push_on_commit",
+            "push_on_update",
             "commit_pending_age",
             "merge_style",
             "file_format",
@@ -2665,6 +2666,7 @@ class ComponentSettingsForm(
                         gettext("Version control settings"),
                         "vcs_params",
                         "push_on_commit",
+                        "push_on_update",
                         "commit_pending_age",
                         "merge_style",
                         "auto_lock_error",
@@ -3953,7 +3955,9 @@ class ProjectSettingsForm(
             self.fields["contribute_shared_tm"].widget = forms.HiddenInput()
             self.fields["use_shared_tm"].help_text = gettext(
                 "Uses and contributes to the pool of shared translations "
-                "between projects."
+                "between projects. Enabling this publishes source strings, "
+                "translations, and project and component origin regardless of "
+                "project access control."
             )
             self.fields["contribute_workspace_tm"].widget = forms.HiddenInput()
             self.fields["use_workspace_tm"].help_text = gettext(
@@ -4133,7 +4137,7 @@ class ProjectImportForm(WorkspaceMixin, forms.Form):
             ) from error
         except Exception as error:
             raise ValidationError(
-                gettext("Could not load project backup: %s") % error
+                [gettext("Could not load project backup."), *format_backup_error(error)]
             ) from error
         self.cleaned_data["projectbackup"] = backup
         return zipfile

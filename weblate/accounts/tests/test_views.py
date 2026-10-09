@@ -18,18 +18,19 @@ from django.core.cache import cache
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from jsonschema import validate
-from requests.exceptions import HTTPError
 from rest_framework.authtoken.models import Token
 from social_core.exceptions import (
+    AuthAssociationError,
     AuthCanceled,
-    AuthFailed,
-    AuthForbidden,
-    AuthMissingParameter,
-    AuthReauthenticationRequired,
-    AuthStateMissing,
-    AuthTokenError,
-    InvalidEmail,
+    AuthConfigurationError,
+    AuthCredentialError,
+    AuthPolicyError,
+    AuthProviderError,
+    AuthResponseError,
+    AuthSessionError,
+    AuthUnknownError,
 )
 from weblate_schemas import load_schema
 
@@ -40,7 +41,6 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
-from weblate.accounts.pipeline import EmailAlreadyAssociated
 from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.defines import TRIAL_PLAN_SLUG
@@ -502,6 +502,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
 
+        response = self.client.get(reverse("profile"))
+        self.assertRedirects(
+            response,
+            f"{reverse('login')}?next={reverse('profile')}",
+            fetch_redirect_response=False,
+        )
+
     def test_login_support_badge(self) -> None:
         cases = (
             ("community", True, "dedicated.example", "Expired"),
@@ -628,7 +635,9 @@ class ViewTest(RepoTestCase):
 
     def test_social_complete_logs_missing_provider_email(self) -> None:
         self.assert_social_complete_result(
-            AuthMissingParameter(self.get_backend(), "email"),
+            AuthResponseError(
+                self.get_backend(), code="profile_email_missing", stage="pipeline"
+            ),
             expected_text=(
                 "Got no e-mail address from third party authentication service."
             ),
@@ -637,14 +646,22 @@ class ViewTest(RepoTestCase):
 
     def test_social_complete_logs_disabled_registration(self) -> None:
         self.assert_social_complete_result(
-            AuthMissingParameter(self.get_backend(), "disabled"),
+            AuthPolicyError(
+                self.get_backend(),
+                code="weblate.registration_disabled",
+                stage="pipeline",
+            ),
             expected_text="New registrations are turned off.",
             reportable=False,
         )
 
     def test_social_complete_logs_invalid_email_for_reset(self) -> None:
         self.assert_social_complete_result(
-            InvalidEmail(self.get_backend("email")),
+            AuthCredentialError(
+                self.get_backend("email"),
+                code="email_verification_rejected",
+                stage="callback",
+            ),
             expected_text=(
                 "Try resetting your password again to verify your identity, "
                 "the confirmation link probably expired."
@@ -656,88 +673,78 @@ class ViewTest(RepoTestCase):
 
     def test_social_complete_logs_missing_state(self) -> None:
         self.assert_social_complete_result(
-            AuthStateMissing(self.get_backend()),
+            AuthSessionError(
+                self.get_backend(), code="session_context_missing", stage="callback"
+            ),
             expected_text="Could not authenticate due to invalid session state.",
             reportable=False,
         )
 
-    def test_social_complete_logs_expired_provider_code(self) -> None:
+    def test_social_complete_logs_rejected_provider_code(self) -> None:
         self.assert_social_complete_result(
-            AuthFailed(
+            AuthCredentialError(
                 self.get_backend(),
-                "The code passed is incorrect or expired.",
+                code="authorization_code_rejected",
+                stage="token_exchange",
             ),
-            expected_text=(
-                "Could not authenticate, probably due to an expired token "
-                "or connection error."
-            ),
+            expected_text="The authorization code was rejected. Please try signing in again.",
             reportable=False,
         )
 
-    def test_social_complete_reports_token_error(self) -> None:
+    def test_social_complete_reports_credential_error(self) -> None:
         self.assert_social_complete_result(
-            AuthTokenError(self.get_backend(), "Invalid key/secret, perhaps expired"),
-            expected_text=(
-                "Authentication failed: Token error: Invalid key/secret, "
-                "perhaps expired"
-            ),
+            AuthCredentialError(self.get_backend()),
+            expected_text="Please authenticate with the provider again.",
             reportable=True,
         )
 
     def test_auth_token_error_guidance(self) -> None:
-        backend = self.get_backend()
-        verification = (
-            "The authentication response could not be verified. "
-            "Please try signing in again."
+        for code, text in (
+            (
+                "nonce_mismatch",
+                "The authentication response could not be verified. Please try signing in again.",
+            ),
+            (
+                "response_expired",
+                "The authentication response has expired. Please try signing in again.",
+            ),
+            (
+                "reauthentication_required",
+                "Please authenticate with the provider again.",
+            ),
+        ):
+            for detail in (
+                "original provider description",
+                "Signature has expired access_denied",
+                ValueError("other wording"),
+            ):
+                with self.subTest(code=code, detail=detail):
+                    error = AuthResponseError(self.get_backend(), detail, code=code)
+                    self.assertEqual(auth_token_error_message(error), text)
+
+    def test_social_complete_does_not_classify_diagnostic_text(self) -> None:
+        self.assert_social_complete_result(
+            AuthUnknownError(
+                self.get_backend(), "bad_verification_code incorrect or expired"
+            ),
+            expected_text="Authentication could not be completed. Please contact the administrator.",
+            reportable=True,
         )
-        fallback = (
-            "Please try signing in again. "
-            "If the problem persists, contact the administrator."
-        )
-        cases = [
-            (AuthTokenError(backend, reason), verification)
-            for reason in (
-                "Incorrect id_token: nonce",
-                "Missing csrf token from response",
-                "csrf token from cookie and response does not match",
+
+    def test_social_begin_uses_same_error_policy(self) -> None:
+        error = AuthConfigurationError(self.get_backend(), code="missing_setting")
+        with (
+            mock.patch("weblate.accounts.views.do_auth", side_effect=error),
+            mock.patch("weblate.accounts.views.report_error") as report,
+        ):
+            response = self.client.post(
+                reverse("social:begin", args=("github",)), follow=True
             )
-        ]
-        cases.extend(
-            [
-                (
-                    AuthTokenError(backend, "Signature has expired"),
-                    (
-                        "The authentication response has expired. "
-                        "Please try signing in again."
-                    ),
-                ),
-                (
-                    AuthReauthenticationRequired(backend),
-                    "Please authenticate with the provider again.",
-                ),
-                (AuthTokenError(backend), fallback),
-                (AuthTokenError(backend, ValueError("Invalid signature")), fallback),
-                *[
-                    (AuthTokenError(backend, reason), fallback)
-                    for reason in (
-                        "Incorrect id_token: iat",
-                        "Incorrect id_token: nbf",
-                        "Missing unauthorized token",
-                        "Token tenant does not match configured tenant",
-                        "Invalid signature",
-                        "Invalid key/secret, perhaps expired",
-                        "Unknown token failure",
-                        "Incorrect id_token: nonce extra detail",
-                    )
-                ],
-            ]
+        self.assertContains(
+            response,
+            "Authentication needs an administrator to check its configuration.",
         )
-        for error, guidance in cases:
-            with self.subTest(error=error):
-                self.assertEqual(
-                    auth_token_error_message(error),
-                    f"Authentication failed: {error} {guidance}",
-                )
+        report.assert_called_once()
 
     def test_social_complete_token_error_preserves_session(self) -> None:
         user = self.get_user()
@@ -748,7 +755,12 @@ class ViewTest(RepoTestCase):
                 session = self.client.session
                 session["token_error_test"] = "preserved"
                 session.save()
-                error = AuthTokenError(self.get_backend(), "Incorrect id_token: nonce")
+                error = AuthResponseError(
+                    self.get_backend(),
+                    "Incorrect id_token: nonce",
+                    code="nonce_mismatch",
+                    stage="token_validation",
+                )
                 with (
                     mock.patch("weblate.accounts.views.complete", side_effect=error),
                     mock.patch("weblate.accounts.views.report_error") as report,
@@ -778,15 +790,17 @@ class ViewTest(RepoTestCase):
                     self.assertNotIn("_auth_user_id", self.client.session)
                     self.assertEqual(self.client.get(reverse("login")).status_code, 200)
 
-    def test_social_complete_reports_auth_forbidden(self) -> None:
+    def test_social_complete_logs_auth_policy_rejection(self) -> None:
         self.assert_social_complete_result(
-            AuthForbidden(self.get_backend()),
+            AuthPolicyError(
+                self.get_backend(), code="authentication_disallowed", stage="callback"
+            ),
             expected_text="The server does not allow authentication.",
-            reportable=True,
+            reportable=False,
         )
 
     def test_social_complete_preserves_registration_guidance(self) -> None:
-        error = EmailAlreadyAssociated(self.get_backend())
+        error = AuthAssociationError(self.get_backend(), code="email_in_use")
         with mock.patch("weblate.accounts.views.complete", side_effect=error):
             response = self.client.get(
                 reverse("social:complete", args=("github",)), follow=True
@@ -802,42 +816,49 @@ class ViewTest(RepoTestCase):
 
     def test_social_complete_reports_provider_http_error(self) -> None:
         self.assert_social_complete_result(
-            HTTPError(
-                "401 Client Error: Unauthorized for url: https://api.github.com/user"
-            ),
-            expected_text="The authentication provider could not be reached.",
+            AuthProviderError(self.get_backend(), status_code=401),
+            expected_text="Authentication could not be completed. Please contact the administrator.",
             reportable=True,
         )
 
+    def test_social_complete_reports_transient_provider_errors(self) -> None:
+        for code in ("connection_failed", "timeout", "rate_limited", "unavailable"):
+            with self.subTest(code=code):
+                self.assert_social_complete_result(
+                    AuthProviderError(self.get_backend(), code=code),
+                    expected_text="The authentication provider is temporarily unavailable. Please try again later.",
+                    reportable=True,
+                )
+
     def test_social_complete_logs_auth_canceled(self) -> None:
         self.assert_social_complete_result(
-            AuthCanceled(self.get_backend(), "access_denied"),
+            AuthCanceled(
+                self.get_backend(),
+                "access_denied",
+                code="authorization_declined",
+                stage="callback",
+            ),
             expected_text="Authentication cancelled.",
             reportable=False,
         )
 
-    def test_log_handled_auth_failure_uses_string_reason(self) -> None:
+    def test_log_handled_auth_failure_uses_structured_reason(self) -> None:
         request = self.client.get(reverse("login")).wsgi_request
         request.session["password_reset"] = True
-
-        with mock.patch(
-            "weblate.accounts.views.log_handled_exception"
-        ) as mocked_log_handled_exception:
+        with mock.patch("weblate.accounts.views.log_handled_exception") as logged:
             log_handled_auth_failure(
                 request,
                 "github",
-                AuthFailed(
+                AuthCredentialError(
                     self.get_backend(),
-                    "The code passed is incorrect or expired.",
+                    "private description",
+                    code="authorization_code_rejected",
+                    stage="token_exchange",
                 ),
             )
-
-        mocked_log_handled_exception.assert_called_once_with(
+        logged.assert_called_once_with(
             "Handled auth failure",
-            extra_log=(
-                "backend=github, action=reset, path=/accounts/login/, "
-                "reason=The code passed is incorrect or expired."
-            ),
+            extra_log="backend=github, action=reset, path=/accounts/login/, code=authorization_code_rejected, source=provider_response, stage=token_exchange",
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
@@ -1561,7 +1582,7 @@ class EditUserTest(FixtureTestCase):
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_superuser)
         audit = user.auditlog_set.get(activity="superuser-revoked")
-        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertNotIn("username", audit.params)
         # No permissions now
         response = self.client.post(
             self.user.get_absolute_url(),
@@ -1604,6 +1625,62 @@ class EditUserTest(FixtureTestCase):
         response = self.client.get(target.get_absolute_url())
         self.assertContains(response, "No language limit")
 
+    def test_edit_audits_administrator(self) -> None:
+        target = User.objects.create_user("edit-target", "target@example.com", "x")
+        for is_active, activity in ((False, "disabled"), (True, "enabled")):
+            with self.subTest(activity=activity):
+                data = {
+                    "username": "renamed-target",
+                    "full_name": "Edited name",
+                    "email": "edited@example.com",
+                    "is_superuser": "1",
+                }
+                if is_active:
+                    data["is_active"] = "1"
+                response = self.client.post(target.get_absolute_url(), data)
+                target.refresh_from_db()
+                self.assertRedirects(response, target.get_absolute_url())
+                audit = target.auditlog_set.get(activity=activity)
+                self.assertEqual(audit.params["username"], self.user.username)
+                self.assertIsNone(audit.address)
+                self.assertEqual(audit.user_agent, "")
+
+        for activity in ("superuser-granted", "username", "full_name", "email"):
+            audit = target.auditlog_set.get(activity=activity)
+            self.assertEqual(audit.params["username"], self.user.username)
+        del data["is_superuser"]
+        response = self.client.post(target.get_absolute_url(), data)
+        self.assertRedirects(response, target.get_absolute_url())
+        audit = target.auditlog_set.get(activity="superuser-revoked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertEqual(target.auditlog_set.filter(activity="enabled").count(), 1)
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(
+            response, f"Triggered by <code>{self.user.username}</code>."
+        )
+        self.client.force_login(target)
+        response = self.client.get(reverse("profile"))
+        self.assertContains(
+            response, f"Triggered by <code>{self.user.username}</code>."
+        )
+
+    def test_remove_second_factor_audits_administrator(self) -> None:
+        target = User.objects.create_user("2fa-target", "target@example.com", "x")
+        device = TOTPDevice.objects.create(user=target, name="Test device")
+        response = self.client.post(target.get_absolute_url(), {"remove_2fa": "1"})
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        self.assertFalse(TOTPDevice.objects.filter(pk=device.pk).exists())
+        audit = target.auditlog_set.get(activity="twofactor-remove")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+
+    def test_remove_user_audits_administrator(self) -> None:
+        target = User.objects.create_user("remove-target", "target@example.com", "x")
+        self.client.post(target.get_absolute_url(), {"remove_user": "1"})
+        audit = target.auditlog_set.get(activity="removed")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+
     def test_disable_password_regenerates_api_key(self) -> None:
         target = User.objects.create_user(
             username="password-reset-target", password="testpassword"
@@ -1626,6 +1703,9 @@ class EditUserTest(FixtureTestCase):
         token = Token.objects.get(user=target)
         self.assertNotEqual(token.key, old_token)
         self.assertFalse(Token.objects.filter(key=old_token).exists())
+        audit = target.auditlog_set.get(activity="admin-locked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
 
     def test_disable_password_keeps_api_key(self) -> None:
         target = User.objects.create_user(

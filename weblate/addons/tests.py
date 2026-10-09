@@ -75,7 +75,11 @@ from weblate.trans.models import (
     Vote,
     WorkflowSetting,
 )
-from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    ReusableViewTestCase,
+    ViewTestCase,
+)
 from weblate.trans.tests.utils import TEST_DATA, RepoTestMixin, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
@@ -1156,7 +1160,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(len(addon.alerts), 1)
 
 
-class GettextAddonTest(ViewTestCase):
+class GettextAddonTest(ReusableViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -4200,6 +4204,56 @@ msgstr ""
             addon.extra_files,
         )
 
+    def test_sphinx_template_respects_po_line_wrap(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        build_dir = Path(self.component.full_path) / "build"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        build_dir.mkdir(parents=True, exist_ok=True)
+        template = source_dir / "locales" / "docs.pot"
+        template.parent.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+        source = (
+            "A long description with many words that clearly exceeds seventy seven "
+            "characters and should wrap.\nAnother sentence."
+        )
+        long_line = source.splitlines()[0]
+        escaped_source = source.replace("\n", "\\n")
+        for width, expected in (
+            (
+                77,
+                '"A long description with many words that clearly exceeds seventy seven "\n',
+            ),
+            (65535, f'"{long_line}\\n"\n"Another sentence."'),
+            (-1, f'msgid "{escaped_source}"'),
+        ):
+            with self.subTest(width=width):
+                self.component.file_format_params = (
+                    {} if width == 77 else {"po_line_wrap": width}
+                )
+                template.write_text(
+                    f"#: {source_dir / 'index.rst'}:1\n"
+                    f'msgid "{escaped_source}"\n'
+                    'msgstr ""\n',
+                    encoding="utf-8",
+                )
+
+                addon.postprocess_sphinx_template(
+                    self.component, template, source_dir, build_dir
+                )
+
+                content = template.read_text(encoding="utf-8")
+                self.assertIn(expected, content)
+                self.assertIn("#: index.rst:1", content)
+                parsed = self.component.file_format_cls(
+                    template, file_format_params=self.component.file_format_params
+                )
+                self.assertEqual(parsed.content_units[0].source, source)
+
     def test_sphinx_can_keep_pot_locations_with_po_no_location(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
         params = get_default_params_for_file_format(self.component.file_format)
@@ -6358,7 +6412,7 @@ class CommandTest(ComponentTestCase):
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
 
-class DiscoveryTest(ViewTestCase):
+class DiscoveryTest(ReusableViewTestCase):
     def test_limit_failure_is_reported(self) -> None:
         addon = DiscoveryAddon.create(
             component=self.component,
@@ -7998,6 +8052,59 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
 
 
 class AddonChangeDetailsMigrationTest(TestCase):
+    def test_automation_workflows_are_scrubbed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0117_change_addon_redact_automation_workflow"
+        )
+        workflow = {
+            "version": 1,
+            "triggers": [],
+            "actions": [
+                {
+                    "action": "weblate.automatic_translation",
+                    "settings": {"component": 123},
+                }
+            ],
+        }
+        versioned = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.automation.automation",
+            details={
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"workflow": workflow},
+                "changed_fields": ["workflow"],
+                "redacted_fields": [],
+            },
+        )
+        legacy = Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            target="weblate.automation.automation",
+            details={"workflow": workflow},
+        )
+        unrelated = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=WebhookAddon.name,
+            details={"workflow": workflow},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.redact_automation_workflows(apps, schema_editor)
+
+        versioned.refresh_from_db()
+        legacy.refresh_from_db()
+        unrelated.refresh_from_db()
+        self.assertEqual(
+            versioned.details,
+            {
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"workflow": None},
+                "changed_fields": ["workflow"],
+                "redacted_fields": ["workflow"],
+            },
+        )
+        self.assertEqual(legacy.details, {"workflow": None})
+        self.assertEqual(unrelated.details, {"workflow": workflow})
+
     def test_sensitive_addon_details_are_scrubbed(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0098_scrub_addon_change_details"
@@ -10124,7 +10231,7 @@ class TargetChangeAddonTest(ComponentTestCase):
         # edit the translation on remote repo
         with tempfile.TemporaryDirectory() as tempdir:
             repo = self.component.repository.__class__.clone(
-                self.format_local_path(self.git_repo_path),
+                self.format_test_repo_url(self.git_repo_path),
                 tempdir,
                 "main",
                 component=self.component,

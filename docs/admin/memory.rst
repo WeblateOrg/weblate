@@ -96,6 +96,13 @@ are stored in a shared translation memory available to all projects.
 Turning off contribution to shared translation memory stops previously
 contributed automatic entries from being used as shared suggestions.
 
+Contributing to shared translation memory is an explicit publication action.
+Project access control does not restrict the contributed source strings,
+translations, or project and component origin. This also applies to
+:guilabel:`Private` and :guilabel:`Custom` projects. Authenticated users can
+enumerate the shared pool using the :ref:`memory API <api-memory>` without
+knowing a source string in advance.
+
 Restricted components do not contribute new entries to shared translation
 memory. On Hosted Weblate, a project with restricted components can not enable
 shared translation memory, and a component can not be restricted while its

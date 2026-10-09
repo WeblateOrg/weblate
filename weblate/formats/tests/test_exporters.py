@@ -46,6 +46,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import BaseTestCase
+from weblate.trans.tests.utils import RepoTestMixin
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.views import download_translation_file
 
@@ -550,7 +551,7 @@ class StringsExporterTest(ExporterTestMixin, BaseTestCase):
         self.assertEqual(exporter.storage.encoding, "utf-16")
 
 
-class MultiCSVExporterTest(ExporterTestMixin, BaseTestCase):
+class MultiCSVExporterTest(ExporterTestMixin, RepoTestMixin, BaseTestCase):
     _class = MultiCSVExporter
     _has_context = True
 
@@ -694,7 +695,7 @@ class MultiCSVExporterTest(ExporterTestMixin, BaseTestCase):
                 template="",
                 new_base="",
                 vcs="git",
-                repo=git_dir,
+                repo=self.format_test_repo_url(git_dir),
                 push="",
                 branch="main",
             )

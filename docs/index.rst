@@ -80,7 +80,8 @@ Learn more about :ref:`contributing`.
     devel/mobile
     devel/sphinx
     devel/html
-    devel/third-party
+    devel/libraries
+    devel/kotlin-sdk
     devel/alerts
     devel/community
     devel/translations

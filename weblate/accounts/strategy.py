@@ -4,49 +4,88 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.db import transaction
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
+from social_core.exceptions import AuthConfigurationError
+from social_core.groups import group_sync_targets
 from social_django.strategy import DjangoStrategy
 
 from weblate.accounts.flows import PASSWORD_RESET_EMAIL_SESSION
+from weblate.auth.models import Group, User
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from typing import Any
+
     from social_core.backends.base import BaseAuth
-    from social_core.storage import UserProtocol
-    from social_core.strategy import HttpResponseProtocol
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class WeblateStrategy(DjangoStrategy):
-    def authenticate(
-        self, backend: BaseAuth, *args: object, **kwargs: object
-    ) -> UserProtocol | HttpResponseProtocol | None:
-        # social-auth-app-django passes the HTTP request to Django's
-        # authenticate(), which otherwise replaces the saved partial request
-        # data needed to validate an e-mail confirmation link.
-        if isinstance(request_data := kwargs.get("request"), dict):
-            kwargs["weblate_request_data"] = request_data
-        return super().authenticate(backend, *args, **kwargs)
+    def sync_user_groups(
+        self,
+        user: User,
+        groups: list[str] | None,
+        *,
+        backend: BaseAuth,
+        response: dict[str, Any],
+        **kwargs: object,
+    ) -> None:
+        """Apply provider-owned memberships through audited team operations."""
+        if kwargs.get("weblate_action") in {"reset", "remove"}:
+            return
+        desired, managed = group_sync_targets(backend, groups, response)
+        if not managed:
+            return
+        if any(
+            not isinstance(target, int) or isinstance(target, bool) or target <= 0
+            for target in managed
+        ):
+            raise AuthConfigurationError(
+                backend,
+                code="invalid_setting",
+                parameter="GROUPS_MAP",
+                stage="pipeline",
+            )
+        desired_ids = cast("set[int]", desired)
+        managed_ids = cast("set[int]", managed)
+        request = cast("AuthenticatedHttpRequest | None", self.request)
+        with transaction.atomic():
+            User.objects.select_for_update().get(pk=user.pk)
+            teams = {team.pk: team for team in Group.objects.filter(pk__in=managed_ids)}
+            if set(teams) != managed_ids:
+                raise AuthConfigurationError(
+                    backend,
+                    "A mapped Weblate team does not exist",
+                    code="invalid_setting",
+                    parameter="GROUPS_MAP",
+                    stage="pipeline",
+                )
+            current = set(user.groups.values_list("pk", flat=True))
+            for team_id in (current & managed_ids) - desired_ids:
+                user.remove_team(request, teams[team_id])
+            for team_id in desired_ids - current:
+                user.add_team(request, teams[team_id])
+            if (current & managed_ids) != desired_ids:
+                user.clear_permissions_cache()
 
-    def clean_authenticate_args(
-        self, request: HttpRequest, *args: object, **kwargs: object
-    ) -> tuple[tuple[object, ...], dict[str, object]]:
-        args, kwargs = super().clean_authenticate_args(request, *args, **kwargs)
-        if "weblate_request_data" in kwargs:
-            kwargs["request"] = kwargs.pop("weblate_request_data")
-        return args, kwargs
+    def get_setting(self, name):
+        if name == "SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD":
+            return settings.AUTH_TOKEN_VALID
+        return super().get_setting(name)
 
     @cached_property
     def _site_url(self):
         return urlparse(get_site_url())
 
-    def request_data(self, merge=True):
+    def get_request_data(self, merge=True):
         if not self.request:
             return {}
         if merge:

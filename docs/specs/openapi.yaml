@@ -34187,6 +34187,12 @@ components:
           type: string
           format: uri
           readOnly: true
+        addon:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
         user:
           type: string
           format: uri
@@ -34226,6 +34232,7 @@ components:
           readOnly: true
       required:
       - action_name
+      - addon
       - alert
       - author
       - component
@@ -34774,6 +34781,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160
@@ -37679,6 +37691,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160
@@ -38072,7 +38089,9 @@ components:
         contribute_shared_tm:
           type: boolean
           title: Contribute to shared translation memory
-          description: Contributes to the pool of shared translations between projects.
+          description: Publishes source strings, translations, and project and component
+            origin to the global shared translation memory. Project access control
+            does not restrict this shared data.
         use_workspace_tm:
           type: boolean
           title: Use workspace translation memory
@@ -39043,7 +39062,9 @@ components:
         contribute_shared_tm:
           type: boolean
           title: Contribute to shared translation memory
-          description: Contributes to the pool of shared translations between projects.
+          description: Publishes source strings, translations, and project and component
+            origin to the global shared translation memory. Project access control
+            does not restrict this shared data.
         use_workspace_tm:
           type: boolean
           title: Use workspace translation memory
@@ -39619,6 +39640,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160

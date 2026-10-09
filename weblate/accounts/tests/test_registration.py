@@ -16,12 +16,16 @@ from urllib.parse import parse_qs, urlparse
 import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core import mail
+from django.http import HttpResponse
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
+from social_core.backends.email import EmailAuth
+from social_core.pipeline.social_auth import social_names
 from social_django.models import DjangoStorage, UserSocialAuth
 
 from weblate.accounts.captcha import solve_altcha
@@ -32,7 +36,12 @@ from weblate.accounts.flows import (
     sign_password_reset_scope,
 )
 from weblate.accounts.models import VerifiedEmail
-from weblate.accounts.pipeline import ensure_valid, handle_invite, store_email
+from weblate.accounts.pipeline import (
+    ensure_valid,
+    handle_invite,
+    store_email,
+    user_full_name,
+)
 from weblate.accounts.strategy import WeblateStrategy
 from weblate.accounts.tasks import (
     cleanup_social_auth,
@@ -48,6 +57,7 @@ from weblate.auth.models import (
 )
 from weblate.auth.views import accept_invitation
 from weblate.lang.models import Language
+from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -128,6 +138,29 @@ class RegistrationAttemptPasswordResetURLTest(SimpleTestCase):
 
 
 class WeblateStrategyTest(SimpleTestCase):
+    def test_legacy_pipeline_deadline_is_ignored(self) -> None:
+        strategy = MagicMock()
+        strategy.request.user.is_authenticated = False
+        ensure_valid(
+            strategy,
+            MagicMock(),
+            user=None,
+            registering_user=None,
+            weblate_action="activation",
+            new_association=False,
+            details={},
+            weblate_expires=0,
+        )
+
+    @override_settings(AUTH_TOKEN_VALID=60)
+    def test_code_expiry_uses_auth_token_valid(self) -> None:
+        strategy = WeblateStrategy(DjangoStorage)
+        self.assertEqual(strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 60)
+        with override_settings(AUTH_TOKEN_VALID=120):
+            self.assertEqual(
+                strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 120
+            )
+
     def test_password_reset_request_data_uses_session_email(self) -> None:
         """Password reset social auth can continue without e-mail in request data."""
         request = RequestFactory().post("/complete/email/")
@@ -139,6 +172,104 @@ class WeblateStrategyTest(SimpleTestCase):
         strategy = WeblateStrategy(DjangoStorage, request)
 
         self.assertEqual(strategy.request_data()["email"], "test@example.com")
+
+    def test_replayed_link_data_takes_precedence_over_session_email(self) -> None:
+        request = RequestFactory().post(
+            "/complete/email/", {"partial_pipeline_confirm": "1"}
+        )
+        SessionMiddleware(lambda _request: HttpResponse()).process_request(request)
+        request.session.update(
+            {
+                "password_reset": True,
+                PASSWORD_RESET_EMAIL_SESSION: "other@example.com",
+            }
+        )
+        strategy = WeblateStrategy(DjangoStorage, request)
+        data = {"partial_token": "saved-token", "verification_code": "saved-code"}
+        with strategy.pipeline_request_data(data):
+            self.assertEqual(strategy.request_data(), data)
+            self.assertNotIn("email", strategy.request_data())
+        self.assertEqual(strategy.request_data()["email"], "other@example.com")
+
+    def test_request_data_sanitizes_return_url(self) -> None:
+        request = RequestFactory().post(
+            "/complete/email/", {"next": "https://attacker.example/"}
+        )
+        SessionMiddleware(lambda _request: HttpResponse()).process_request(request)
+        strategy = WeblateStrategy(DjangoStorage, request)
+        self.assertEqual(
+            strategy.request_data()["next"], f"{reverse('profile')}#account"
+        )
+
+
+class UserFullNameTest(TestCase):
+    def setUp(self) -> None:
+        self.strategy = WeblateStrategy(DjangoStorage)
+        self.backend = EmailAuth(self.strategy)
+        self.user = User.objects.create_user("name-test", full_name="")
+        # User.save() fills an empty name from the username; reset it to test
+        # provider name initialization in the authentication pipeline.
+        User.objects.filter(pk=self.user.pk).update(full_name="")
+        self.user.refresh_from_db()
+
+    def update_name(self, details, username="name-test") -> None:
+        normalized = social_names(self.backend, details)["details"]
+        user_full_name(self.strategy, normalized, username, self.user)
+        self.user.refresh_from_db()
+
+    def test_normalized_names(self) -> None:
+        for details, expected in (
+            ({"first_name": "First", "last_name": "Last"}, "First Last"),
+            ({"first_name": "First", "last_name": "First Last"}, "First Last"),
+            ({"first_name": "First"}, "First"),
+            ({"last_name": "Last"}, "Last"),
+            ({"fullname": "  Provided Name  "}, "Provided Name"),
+            ({"fullname": "Provided Name", "first_name": "Other"}, "Provided Name"),
+        ):
+            with self.subTest(details=details):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name(details)
+                self.assertEqual(self.user.full_name, expected)
+
+    def test_existing_name_is_preserved(self) -> None:
+        self.user.full_name = "Chosen Name"
+        self.user.save(update_fields=["full_name"])
+        self.update_name({"fullname": "Provider Name"})
+        self.assertEqual(self.user.full_name, "Chosen Name")
+
+    def test_invalid_or_missing_names_use_username(self) -> None:
+        for details in (
+            {},
+            {"fullname": None},
+            {"fullname": "   "},
+            {"fullname": "<>"},
+        ):
+            with self.subTest(details=details):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name(details, "pipeline-username")
+                self.assertEqual(self.user.full_name, "pipeline-username")
+
+    def test_user_username_fallback(self) -> None:
+        self.update_name({}, "")
+        self.assertEqual(self.user.full_name, "name-test")
+
+    def test_cleanup_and_length_limit(self) -> None:
+        for name, expected in (
+            ("First\x00 Last", "First Last"),
+            ("a" * (FULLNAME_LENGTH + 20), "a" * FULLNAME_LENGTH),
+        ):
+            with self.subTest(name=name):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name({"fullname": name})
+                self.assertEqual(self.user.full_name, expected)
+
+    def test_full_name_generation_can_be_disabled(self) -> None:
+        with override_settings(SOCIAL_AUTH_EMAIL_FULL_FROM_FIRSTLAST=False):
+            self.update_name({"first_name": "First", "last_name": "Last"})
+        self.assertEqual(self.user.full_name, "name-test")
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
@@ -634,7 +765,7 @@ class RegistrationTest(BaseRegistrationTest):
         author = User.objects.create_user("author", "author@example.com", "x")
         invited_user = User.objects.create_user("invited", "primary@example.com", "x")
         social = UserSocialAuth.objects.create(
-            user=invited_user, provider="github", uid="invited"
+            user=invited_user, provider="github", uid="invited", id_key="id"
         )
         VerifiedEmail.objects.create(social=social, email="secondary@example.com")
         invited_group = Group.objects.create(name="Invited")
@@ -718,7 +849,6 @@ class RegistrationTest(BaseRegistrationTest):
             existing_user,
             existing_user.pk,
             "activation",
-            9_999_999_999,
             False,
             {"email": existing_user.email},
             invitation,
@@ -1011,7 +1141,9 @@ class RegistrationTest(BaseRegistrationTest):
     def test_reset_secondary_verified_email(self) -> None:
         """Test password reset confirmation for a verified secondary e-mail."""
         user = User.objects.create_user("testuser", "primary@example.com", "x")
-        social = user.social_auth.create(provider="email", uid="secondary@example.net")
+        social = user.social_auth.create(
+            provider="email", uid="secondary@example.net", id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email="secondary@example.net")
 
         response = self.client.post(
@@ -1274,8 +1406,12 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_existing(self) -> None:
         """Adding existing mail to existing account should fail."""
-        User.objects.create_user("testuser", "second@example.net", "x")
+        target = User.objects.create_user("testuser", "second@example.net", "x")
         self.test_add_mail(True)
+        audit = target.auditlog_set.get(activity="connect")
+        self.assertNotIn("username", audit.params)
+        self.assertNotIn("Triggered by", str(audit.get_extra_message()))
+        self.assertNotIn("username", mail.outbox[0].body)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_remove_mail(self) -> None:
@@ -1305,8 +1441,10 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.create_user("username", "primary@example.org")
         user.set_unusable_password()
         user.save(update_fields=["password"])
-        first_social = user.social_auth.create(provider="github", uid="1")
-        second_social = user.social_auth.create(provider="email", uid="second")
+        first_social = user.social_auth.create(provider="github", uid="1", id_key="id")
+        second_social = user.social_auth.create(
+            provider="email", uid="second", id_key="email"
+        )
         VerifiedEmail.objects.create(social=first_social, email="primary@example.org")
         VerifiedEmail.objects.create(social=second_social, email="second@example.org")
 
@@ -1513,7 +1651,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_multiple_existing(self) -> None:
         """Store email when an identity has several verified e-mails."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(
             social=social,
@@ -1544,7 +1682,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_multiple_existing_new_email(self) -> None:
         """Store email by reusing one of several existing verified e-mails."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(social=social, email="second@example.org")
 
@@ -1569,7 +1707,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_verified_emails_cleanup(self) -> None:
         """Store all verified e-mails and clean up stale duplicate entries."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(social=social, email="first@example.org")
         VerifiedEmail.objects.create(social=social, email="first@example.org")
@@ -1671,6 +1809,53 @@ class CookieRegistrationTest(BaseRegistrationTest):
     def test_register(self) -> None:
         self.perform_registration()
 
+    @override_settings(
+        REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60
+    )
+    def test_expired_registration_code(self) -> None:
+        self.do_register()
+        url = self.assert_registration_mailbox()
+        query = parse_qs(urlparse(url).query)
+        verification_code = query["verification_code"][0]
+        DjangoStorage.code.objects.filter(code=verification_code).update(
+            timestamp=timezone.now() - timedelta(seconds=61)
+        )
+        response = self.confirm_registration_url(url)
+        self.assertRedirects(response, reverse("login"))
+        self.assertIn(
+            "confirmation link probably expired",
+            " ".join(str(message) for message in response.context["messages"]),
+        )
+        code = DjangoStorage.code.get_code(verification_code)
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+
+    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60)
+    def test_expired_password_reset_code(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "old-password")
+        self.client.post(reverse("password_reset"), {"email": user.email}, follow=True)
+        url = self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        query = parse_qs(urlparse(url).query)
+        verification_code = query["verification_code"][0]
+        DjangoStorage.code.objects.filter(code=verification_code).update(
+            timestamp=timezone.now() - timedelta(seconds=61)
+        )
+        response = self.confirm_registration_url(url)
+        self.assertRedirects(response, reverse("login"))
+        self.assertIn(
+            "confirmation link probably expired",
+            " ".join(str(message) for message in response.context["messages"]),
+        )
+        code = DjangoStorage.code.get_code(verification_code)
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertNotIn("perform_reset", self.client.session)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("old-password"))
+
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirmation_link_requires_post(self) -> None:
         """Test that verification link GET does not finish registration."""
@@ -1713,7 +1898,9 @@ class CookieRegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalidated_on_password_change_case_insensitive(self) -> None:
         user = User.objects.create_user("testuser", "test@example.com", "old-password")
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=user.email)
 
         response = self.client.post(

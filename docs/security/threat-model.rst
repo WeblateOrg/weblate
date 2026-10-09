@@ -194,6 +194,14 @@ repository state, background tasks, outbound requests, and rendered UI.
        origin excludes the reserved staging directory as required by
        :ref:`cdn-server-security`.
        *(documented)* (source: :ref:`addon-weblate.cdn.kotlin`)
+   * - Projects to global shared translation memory
+     - Enabling contribution deliberately publishes source strings,
+       translations, and project and component origin outside project access
+       controls, including for Private and Custom projects. Restricted
+       components do not contribute. Disabling contribution prevents the
+       project's automatic entries from remaining visible through the shared
+       scope, but cannot revoke copies already observed or downloaded.
+       *(documented)* (source: :ref:`shared-tm`, :ref:`api-memory`)
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
@@ -331,8 +339,11 @@ Build-time and configuration variants
        project. *(documented)*
      - Exposes webhook endpoints as a public scheduling interface. Abuse
        resistance depends on deployment controls. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`)
-     - Production deployments exposing hooks use reverse-proxy rate limits,
-       body-size limits, monitoring, and minimal public exposure. *(maintainer)*
+     - Production deployments exposing hooks use capacity monitoring,
+       body-size limits, minimal public exposure, and optional edge controls
+       appropriate for their provider traffic. Rate limiting can be unsuitable
+       when many legitimate projects deliver from shared provider
+       infrastructure. *(maintainer)*
    * - :setting:`ENABLE_HTTPS`, proxy SSL headers, and HSTS settings
      - HTTPS affects secure cookies, redirects, HSTS, WebAuthn, and generated
        URLs. *(documented)* (source: :setting:`ENABLE_HTTPS`)
@@ -720,12 +731,14 @@ Security properties Weblate provides
      - Security-critical.
    * - Private project data other than documented generic webhook matching
        diagnostics, metadata published through :ref:`project-public_sharing`,
+       translations explicitly published through :ref:`shared-tm`,
        and translations, build identifiers, and resource mappings explicitly
        published through CDN add-ons,
        user data, credentials, tokens, SSH keys, and 2FA secrets are not
        disclosed to actors lacking permission. *(documented)* (source:
        :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
-     - Host, database, and storage permissions are intact. Generic webhook
+     - Host, database, and storage permissions are intact. User-configurable
+       repository and push URLs cannot address the server filesystem. Generic webhook
        responses expose only the match counts, project/component slugs, and API
        URLs documented in :ref:`hooks-target-matching`. Public sharing permits
        unauthenticated access to engage pages and rendered status widgets,
@@ -745,9 +758,13 @@ Security properties Weblate provides
        from that component to unauthenticated CDN clients, including for private
        projects. CDN storage and cached client copies are outside project access
        controls; removing origin files cannot revoke previously downloaded copies.
+       Enabling shared translation memory contribution explicitly publishes
+       source strings, translations, and project and component origin outside
+       project access controls, including for Private and Custom projects.
      - Cross-project data leak not covered by the documented generic webhook
-       diagnostics, public-sharing metadata, explicit CDN publication, or linked-repository trust
-       boundary, credential exposure, or unauthorized export.
+       diagnostics, public-sharing metadata, explicit shared-memory or CDN
+       publication, or linked-repository trust boundary, credential exposure,
+       or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
@@ -854,8 +871,12 @@ identity. Hook processing can trigger update workflows, and generic responses
 can confirm repository registration and reveal match counts, project/component
 slugs, and API URLs, including for private projects and restricted components.
 Components managed through an authenticated integration are excluded from this
-generic behavior. Attribution and authenticity are weaker than for an
-authenticated user or token. *(maintainer)*
+generic behavior. Generic deliveries are not application-rate-limited or
+coalesced: repository operations are serialized for consistency, but each
+matching delivery can record a hook event and schedule an update attempt. An
+unchanged repository still requires a remote fetch before the update stops
+without merging or parsing translation files. Attribution and authenticity are
+weaker than for an authenticated user or token. *(maintainer)*
 
 User-requested background work is authorized when Weblate accepts and queues
 the request. Background tasks do not always verify the initiating user's
@@ -925,10 +946,10 @@ project management permissions according to least privilege for their
 organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)
 
 Operators exposing :ref:`hooks` must enable them only where needed and provide
-deployment controls such as reverse-proxy rate limits, body-size limits,
-monitoring, and optional source restrictions. They must accept the documented
-identifier disclosure or use authenticated integrations where available.
-*(maintainer)*
+capacity monitoring, body-size limits, and optional source restrictions or edge
+controls appropriate for their provider traffic. They must accept the
+documented identifier disclosure and per-delivery scheduling cost or use
+authenticated integrations where available. *(maintainer)*
 
 Operators must treat private-target allowlists, proxies, and privileged
 outbound integration settings as intentional expansion of Weblate's default
@@ -987,10 +1008,13 @@ Known non-findings
 
 * A report that a reachable webhook can be called without forge authentication
   and only triggers modeled update scheduling or returns the documented
-  matching diagnostics is not ``VALID`` by itself. It is routed to
+  matching diagnostics is not ``VALID`` by itself. A finite sequence of
+  accepted requests or the absence of an application-level ``429`` response
+  does not demonstrate an availability failure. It is routed to
   ``VALID-HARDENING`` unless it bypasses documented limits, matches unrelated
-  repositories, leaks data beyond the documented fields, or causes effects
-  beyond modeled scheduling. *(maintainer)*
+  repositories, leaks data beyond the documented fields, causes
+  disproportionate resource consumption or sustained service degradation, or
+  has effects beyond modeled per-delivery scheduling. *(maintainer)*
 * A report that a webhook does not update a component whose repository URL only
   shares a host or path suffix with the payload is not a vulnerability;
   Weblate matches only exact repository URLs and documented variants.
@@ -998,6 +1022,12 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
+* A report that source strings, translations, or project and component origin
+  from a Private or Custom project are available through shared translation
+  memory is not a vulnerability when an authorized manager explicitly enabled
+  contribution. Shared contribution publishes this data outside project access
+  controls. Restricted components remain excluded. *(documented)* (source:
+  :ref:`shared-tm`, :ref:`api-memory`)
 * A report containing private-project or restricted-component data is not a
   vulnerability when the user has effective ``reports.view`` permission on the
   selected parent scope. That permission intentionally authorizes the complete

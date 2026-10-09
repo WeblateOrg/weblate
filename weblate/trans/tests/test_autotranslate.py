@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.conf import settings
@@ -39,7 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import auto_translate, auto_translate_component
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -51,18 +52,28 @@ from weblate.utils.state import (
 from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from weblate.trans.tests.test_views import ComponentTestCase
 
-class AutoTranslationTest(ViewTestCase):
+
+class AutoTranslationTest(ReusableViewTestCase):
     use_component_id: bool = False
+    _fixture_component2_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
+        fixture = cast("AutoTranslationTest", builder)
+        # Need extra power
+        fixture.user.is_superuser = True
+        fixture.user.save()
+        fixture.project.translation_review = True
+        fixture.project.save()
+        cls._fixture_component2_pk = fixture.create_second_component().pk
 
     def setUp(self) -> None:
         super().setUp()
-        # Need extra power
-        self.user.is_superuser = True
-        self.user.save()
-        self.project.translation_review = True
-        self.project.save()
-        self.component2 = self.create_second_component()
+        self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
 
     def create_second_component(self, project: Project | None = None) -> Component:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -70,8 +81,8 @@ class AutoTranslationTest(ViewTestCase):
                 name="Test 2",
                 slug="test-2",
                 project=self.project if project is None else project,
-                repo=self.git_repo_path,
-                push=self.git_repo_path,
+                repo=self.format_test_repo_url(self.git_repo_path),
+                push=self.format_test_repo_url(self.git_repo_path),
                 vcs="git",
                 filemask="po/*.po",
                 template="",
@@ -1561,26 +1572,33 @@ class AutoTranslationCrossProjectTest(AutoTranslationTest):
         return super().create_second_component(project=project)
 
 
-class AutoTranslationMtTest(ViewTestCase):
-    def setUp(self) -> None:
-        super().setUp()
+class AutoTranslationMtTest(ReusableViewTestCase):
+    _fixture_component3_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
         # Need extra power
-        self.user.is_superuser = True
-        self.user.save()
-        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            self.component3 = Component.objects.create(
+        builder.user.is_superuser = True
+        builder.user.save()
+        with override_settings(CREATE_GLOSSARIES=builder.CREATE_GLOSSARIES):
+            cls._fixture_component3_pk = Component.objects.create(
                 name="Test 3",
                 slug="test-3",
-                project=self.project,
-                repo=self.git_repo_path,
-                push=self.git_repo_path,
+                project=builder.project,
+                repo=builder.format_test_repo_url(builder.git_repo_path),
+                push=builder.format_test_repo_url(builder.git_repo_path),
                 vcs="git",
                 filemask="po/*.po",
                 template="",
                 file_format="po",
                 new_base="",
                 allow_translation_propagation=False,
-            )
+            ).pk
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component3 = Component.objects.get(pk=self._fixture_component3_pk)
         self.update_fulltext_index()
         self.configure_mt()
 

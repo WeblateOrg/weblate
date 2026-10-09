@@ -22,6 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.auth.utils import get_team_rename_warnings
 from weblate.trans.backups import (
     PROJECTBACKUP_PREFIX,
     get_project_backup_download_storage,
@@ -74,7 +75,7 @@ from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
@@ -145,6 +146,8 @@ def change_project(request: AuthenticatedHttpRequest, obj):
         if settings_form.is_valid():
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
+            for warning in get_team_rename_warnings(obj.renamed_teams):
+                messages.warning(request, warning)
             return redirect("settings", path=obj.get_url_path())
         messages.error(
             request, gettext("Invalid settings. Please check the form for errors.")
@@ -338,7 +341,7 @@ def remove(request: AuthenticatedHttpRequest, path):
 @contextmanager
 def _locked_for_rename(
     obj: Component | Project | Category,
-) -> Iterator[Component | Project | Category]:
+) -> Generator[Component | Project | Category, None, None]:
     if isinstance(obj, Component):
         with obj.locked_for_update() as locked_obj:
             yield locked_obj

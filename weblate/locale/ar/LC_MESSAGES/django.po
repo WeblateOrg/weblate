@@ -23,9 +23,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-10-02 17:53+0000\n"
-"Last-Translator: Basheer Radman <ba2014sheer@gmail.com>\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"PO-Revision-Date: 2026-10-09 04:07+0000\n"
+"Last-Translator: Sup! 0_0 <alelmnour1o234@proton.me>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 2026.10\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -42,6 +42,36 @@ msgstr "بلا"
 
 msgid "User avatar"
 msgstr "الصورة الرمزية للمستخدم"
+
+msgid "No notification"
+msgstr "لا إشعارات"
+
+msgid "Instant notification"
+msgstr "إشعار فوري"
+
+msgid "Daily digest"
+msgstr "موجز يومي"
+
+msgid "Weekly digest"
+msgstr "موجز أسبوعي"
+
+msgid "Monthly digest"
+msgstr "موجز شهري"
+
+msgid "All"
+msgstr "الكل"
+
+msgid "Watched"
+msgstr "راقب"
+
+msgid "Administered"
+msgstr "المُدارة"
+
+msgid "Project"
+msgstr "المشروع"
+
+msgid "Component"
+msgstr "مكون"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -751,7 +781,7 @@ msgid "Watched translations"
 msgstr "الترجمات المُراقبة"
 
 msgid "All component lists"
-msgstr "كل المكونات"
+msgstr "كل قوائم المكونات"
 
 msgid "Component list"
 msgstr "قائمة المكونات"
@@ -877,9 +907,8 @@ msgstr "لا يراقب المستخدم هذا المشروع."
 msgid "No administered-project subscription matches this target."
 msgstr "لا يوجد اشتراك في مشروع مُدار يطابق هذا الهدف."
 
-#, fuzzy
 msgid "The project or component subscriptions apply to other targets."
-msgstr "تنطبق اشتراكات المشروع أو المكون على أهداف أخرى."
+msgstr "تسري اشتراكات المشروع أو المكوّن على أهداف أخرى."
 
 msgid "Disabled by the effective subscription."
 msgstr "مُعطَّل بسبب الاشتراك الفعّال."
@@ -904,36 +933,6 @@ msgid ""
 "a translation."
 msgstr ""
 "هذا النطاق واسع جداً بحيث يتعذر فحصه. اختر فئة أصغر، أو مكوّناً، أو ترجمة."
-
-msgid "No notification"
-msgstr "لا إشعارات"
-
-msgid "Instant notification"
-msgstr "إشعار فوري"
-
-msgid "Daily digest"
-msgstr "موجز يومي"
-
-msgid "Weekly digest"
-msgstr "موجز أسبوعي"
-
-msgid "Monthly digest"
-msgstr "موجز شهري"
-
-msgid "All"
-msgstr "الكل"
-
-msgid "Watched"
-msgstr "راقب"
-
-msgid "Administered"
-msgstr "المُدارة"
-
-msgid "Project"
-msgstr "المشروع"
-
-msgid "Component"
-msgstr "مكون"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1085,7 +1084,7 @@ msgstr "أنشئ مكون ترجمة جديد"
 
 msgctxt "Notification name"
 msgid "New translation components were created"
-msgstr "أنشئت مكونات ترجمة جديدة"
+msgstr "تم إنشاء مكونات ترجمة جديدة"
 
 msgid ""
 "The announcement must enable notifications. If it specifies a language, that "
@@ -1207,10 +1206,8 @@ msgstr ""
 msgid "Use a passkey or security key (WebAuthn)"
 msgstr "استخدام مفتاح مرور أو مفتاح أمان (WebAuthn)"
 
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "استخدم تطبيق المصادقة (TOTP)"
+msgstr "استخدام تطبيق المصادقة (TOTP)"
 
 #, fuzzy
 msgid "Use recovery codes"
@@ -1289,10 +1286,9 @@ msgstr ""
 msgid "Gratis trial"
 msgstr "تجربة مجانية"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification diagnostics for %(user)s"
-msgstr "تشخيص إشعارات %(user)s"
+msgstr "تشخيص الإشعارات لـ %(user)s"
 
 msgid "This user can not be edited."
 msgstr "لا يمكن تعديل هذا المستخدم."
@@ -1348,10 +1344,6 @@ msgstr "لا يُمكن حذف هوية المستخدم"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "أضف هوية أخرى من خلال تأكيد عنوان بريدك الإلكتروني أوَّلًا."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "فشلت مصادقة: %s"
-
 msgid "Could not complete registration."
 msgstr "تعذر إكمال التسجيل."
 
@@ -1360,6 +1352,27 @@ msgstr "يرجى التحقق مما إذا كنت قد قمت بالفعل بت
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "يمكنك أيضًا طلب كلمة مرور جديدة، إذا فقدت بيانات الاعتماد الخاصة بك."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "لم تعد السلسلة التي تريد ترجمتها متوفرة."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1376,6 +1389,9 @@ msgstr "حاول التسجيل مرة أخرى للتحقق من هويتك، �
 msgid "Could not authenticate due to invalid session state."
 msgstr "تعذّر المصادقة بسبب حالة جلسة غير صالحة."
 
+msgid "New registrations are turned off."
+msgstr "التسجيلات الجديدة معطلة."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "لم أحصل على عنوان البريد الإلكتروني من خدمة استيثاق الطرف الثالث."
 
@@ -1385,18 +1401,14 @@ msgstr "يرجى التسجيل باستخدام البريد الإلكترون
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "تعذر تحليل RelayState من موفر هوية SAML."
 
-msgid "New registrations are turned off."
-msgstr "التسجيلات الجديدة معطلة."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "تعذر المصادقة، ربما بسبب انتهاء صلاحية الرمز المميز أو خطأ في الاتصال."
-
 msgid "Authentication cancelled."
 msgstr "تم إلغاء المصادقة."
 
 msgid "The server does not allow authentication."
 msgstr "لا يسمح الخادم بالمصادقة."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "هوية المستخدم التي قُدّمت قيد الاستخدام فعلًا لحسابٍ آخر."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "عنوان البريد الإلكتروني الذي قُدّم قيد الاستخدام فعلًا لحسابٍ آخر."
@@ -1404,15 +1416,21 @@ msgstr "عنوان البريد الإلكتروني الذي قُدّم قيد 
 msgid "The supplied username is already in use for another account."
 msgstr "اسم المستخدم الذي قُدّم قيد الاستخدام فعلًا لحسابٍ آخر."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "فشلت المصادقة: %s"
-
-msgid "The supplied user identity is already in use for another account."
-msgstr "هوية المستخدم التي قُدّمت قيد الاستخدام فعلًا لحسابٍ آخر."
-
-msgid "The authentication provider could not be reached."
+#, fuzzy
+#| msgid "The authentication provider could not be reached."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr "تعذر الوصول لمزود المصادقة."
+
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "مصدر الترجمة الآلية"
 
 msgid "Notification settings adjusted."
 msgstr "عُدلت إعدادات الإشعارات."
@@ -1512,13 +1530,8 @@ msgstr ""
 msgid "Translation files CDN"
 msgstr "ملفات الترجمة CDN"
 
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"نشر الترجمات إلى شبكة إيصال المحتوى لتستخدم في أقلمة JavaScript أو HTML."
+msgstr "ينشر ملفات الترجمة في شبكة توصيل المحتوى."
 
 msgid "The translation files CDN add-on cannot publish weblate.js."
 msgstr "إضافة ملفات الترجمة CDN لا يمكنها نشر weblate.js."
@@ -1822,10 +1835,8 @@ msgid ""
 "is updated."
 msgstr "يضمن تثبيت الملحق msgmerge وتشغيله بعد تحديث ملف POT."
 
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "مكان سلسة المصدر"
+msgstr "مواقع المصدر"
 
 msgid "Use file format settings"
 msgstr "استخدم إعدادات تنسيق الملف"
@@ -1886,18 +1897,14 @@ msgstr ""
 "الوسم المُمرَّر إلى xgettext لاستخراج التعليقات عند استخدام وضع التعليقات "
 "الموسومة."
 
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "فحوصات النظام"
+msgstr "فحوصات xgettext"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr "فحوصات تحقق إضافية لأداة xgettext يمكن تفعيلها للرسائل المستخرجة."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "كلمة مفتاحية إضافية"
+msgstr "كلمات مفتاحية إضافية"
 
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
@@ -1939,11 +1946,8 @@ msgstr ""
 "المطابقة (glob patterns) أو من ملف فهرس (manifest) مثل POTFILES أو "
 "POTFILES.in."
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "xgettext language"
-msgstr "إدارة اللغات"
+msgstr "لغة xgettext"
 
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
@@ -1977,10 +1981,8 @@ msgstr "رابط رمزي غير صالح في المستودع."
 msgid "POTFILES path has to point to a file."
 msgstr "يجب أن يشير مسار POTFILES إلى ملف."
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Meson preset"
-msgstr "متصفح المستودع"
+msgstr "إعداد مسبق لـ Meson"
 
 msgid "GLib"
 msgstr "جليب"
@@ -1991,8 +1993,8 @@ msgid ""
 "helper."
 msgstr ""
 "تتضمن هذه الحزمة إعدادات مسبقة مدمجة لوسيطة xgettext تتوافق مع تكامل Meson "
-"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية وعلامات "
-"التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
+"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية "
+"وعلامات التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
 
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
@@ -2001,17 +2003,15 @@ msgstr ""
 "تتوقع إضافة Meson وجود دليل gettext خاص بـ Meson يحتوي على الملفات "
 "meson.build و POTFILES أو POTFILES.in."
 
-#, fuzzy
-#| msgid "Unrecognized base file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "ملف أساسي غير معروف للترجمات الجديدة."
+msgstr "يجب أن يحدد المكون قالب gettext للترجمات الجديدة."
 
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
-msgstr "قالب الترجمات الجديدة غير صالح."
+msgstr ""
+"إضافة الـ Django يتوقع القالب لترجمات جديدة لتكون مُسمّاة \"django.pot\" "
+"أو\"djangojs.pot\" أو \"django.po\" أو \"djangojs.po\"."
 
 msgid "Filtering"
 msgstr "الفرز"
@@ -2020,49 +2020,39 @@ msgctxt "None filtering"
 msgid "None"
 msgstr "لا شيء"
 
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "توثيق Weblate"
+msgstr "مستندات Weblate"
 
 msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
-"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية الاستخراج "
-"بواسطة Sphinx."
+"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية "
+"الاستخراج بواسطة Sphinx."
 
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to be a .pot "
 "file."
-msgstr "قالب الترجمات الجديدة غير صالح."
+msgstr "إضافة الـ Sphinx يتوقع القالب لترجمات جديدة لتكون ملف .pot"
 
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to live in a "
 "\"locales\" directory."
-msgstr "قالب الترجمات الجديدة غير صالح."
+msgstr ""
+"تتوقع إضافة Sphinx أن يكون قالب الترجمات الجديدة موجوداً في مجلد يحمل الاسم "
+"\"locales\"."
 
-#, fuzzy
-#| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
-msgstr "لا يمكن إنشاء مجلد المشروع: %s"
+msgstr "تعذّر تحديد دليل مصدر Sphinx."
 
 msgid "Output scope"
 msgstr "نطاق المخرجات"
 
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "One file per translation"
-msgstr "إضافة كترجمة تم التحقق منها"
+msgstr "ملف واحد لكل ترجمة"
 
-#, fuzzy
-#| msgid "Create component"
 msgid "One file per component"
-msgstr "إنشاء عنصر"
+msgstr "ملف واحد لكل مكون"
 
 msgid "Name of generated file"
 msgstr "اسم الملف المولّد"
@@ -2085,10 +2075,8 @@ msgstr "حسب الملف"
 msgid "Per author"
 msgstr "حسب المؤلف"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "حسب اللغات"
+msgstr "حسب المؤلف واللغة"
 
 msgid "Append trailers to squashed commit message"
 msgstr "إلحاق مقاطع دعائية برسالة تنفيذ ممرودة"
@@ -2101,10 +2089,8 @@ msgstr ""
 "خطوط المقطع الدعائي هي أسطر تشبه رؤوس البريد الإلكتروني RFC 822 ، في نهاية "
 "الجزء الحر من رسالة الالتزام ، مثل \"شارك في التأليف: …'."
 
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "تقديم الرسائل"
+msgstr "رسالة الالتزام (Commit message)"
 
 msgid ""
 "This commit message will be used instead of the combined commit messages "
@@ -2119,23 +2105,20 @@ msgstr "الأيام ليبقى"
 msgid "Voting threshold"
 msgstr "عتبة التصويت"
 
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
-msgstr "عتبة الإزالة. هذا الحقل ليس له تأثير مع إيقاف التصويت."
+msgstr ""
+"الحد الأدنى للإزالة. اتركه فارغًا لإزالة الاقتراحات بغض النظر عن الأصوات. لا "
+"يكون لهذا الحقل أي تأثير عند إيقاف التصويت."
 
 #, fuzzy
 #| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
 msgstr "أؤكد أن التطابقات أعلاه تبدو صحيحة"
 
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "رجاء راجع وأكد المكونات المطابقة."
+msgstr "يرجى مراجعة وتأكيد التغييرات اللغوية المفقودة."
 
 msgid "Regular expression to match translation files against"
 msgstr "تعبير نمطي لمطابقة الملفات المترجمة ضد"
@@ -2147,9 +2130,9 @@ msgid ""
 "instead."
 msgstr ""
 "يجب أن يُحدِّد التعبير النمطي (regular expression) مجموعة مُسمَّاة للمكوِّن، وكذلك "
-"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file mask)"
-"، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف الأساسي "
-"الجديد بدلاً من ذلك."
+"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file "
+"mask)، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف "
+"الأساسي الجديد بدلاً من ذلك."
 
 msgid "File format"
 msgstr "نُسق الملف"
@@ -2163,25 +2146,22 @@ msgstr "استخدم صيغة قوالب Django. يجب أن يتضمن هذا �
 msgid "Define the monolingual base filename"
 msgstr "تحديد الاسم القاعدي للملف الأحادي اللغة"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "ابقه فارغًا لملفات الترجمة الثنائية اللغة."
+msgstr ""
+"اتركه فارغاً لملفات الترجمة ثنائية اللغة. عند ضبطه، يجب أن يتضمن هذا القالب {"
+"{ component }}."
 
 msgid "Define the base file for new translations"
 msgstr "تحديد الملف القاعدي للترجمات الجديدة"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"اسم الملف المستخدَم لإنشاء ترجمات جديدة. مثلا لـ gettext استخدم ملف .pot."
+"اسم الملف المستخدم لإنشاء ترجمات جديدة. بالنسبة لـ gettext، اختر ملف .pot. "
+"يجب أن يتضمن هذا القالب {{ component }}."
 
 msgid "Intermediate language file"
 msgstr "ملف اللغة المتوسطة"
@@ -2191,9 +2171,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل المطورين "
-"ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا القالب "
-"الوسم {{ component }}."
+"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل "
+"المطورين ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا "
+"القالب الوسم {{ component }}."
 
 msgid "Define the file mask"
 msgstr "حدّد قناع الملف"
@@ -2205,10 +2185,10 @@ msgid ""
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 "اتركه فارغاً لمطابقة ملفات الترجمة مباشرةً. عند تحديده، تقوم عملية الاكتشاف "
-"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا القالب "
-"كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير {{ component }}، "
-"على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/{{ component }}"
-"_*.md`."
+"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا "
+"القالب كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير "
+"{{ component }}، على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/"
+"{{ component }}_*.md`."
 
 msgid "Language filter"
 msgstr "تصفية اللغة"
@@ -2231,29 +2211,22 @@ msgstr "أؤكد أن التطابقات أعلاه تبدو صحيحة"
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "إعداد مسبق عام: %(name)s [%(details)s]"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "format not preset"
-msgstr "متصفح المستودع"
+msgstr "التنسيق غير مُعد مسبقاً"
 
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "الملف الغوي القاعدي الأحادي اللغة"
+msgstr "الأساس أحادي اللغة: %(base)s"
 
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "تحديد الاسم القاعدي للملف الأحادي اللغة"
+msgstr "لا توجد قاعدة أحادية اللغة"
 
 #, python-format
 msgid "%(format)s; %(base)s"
 msgstr "%(format)s; %(base)s"
 
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "One folder per language"
-msgstr "اللغات الثانوية"
+msgstr "مجلد واحد لكل لغة"
 
 msgid "Matches files like cs/application.po."
 msgstr "يطابق ملفات مثل cs/application.po."
@@ -2264,10 +2237,8 @@ msgstr "تخطيط إعدادات اللغة (Locales) في Gettext"
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
 msgstr "يطابق ملفات مثل locale/cs/LC_MESSAGES/application.po."
 
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "اسم ملف العنصر المطابِق"
+msgstr "أسماء ملفات معقدة"
 
 msgid "Matches files like src/locale/application.cs.po."
 msgstr "يطابق ملفات مثل src/locale/application.cs.po."
@@ -2278,26 +2249,20 @@ msgstr "متغيرات اللغة القائمة على أسماء الملفا�
 msgid "Matches files like news_en.md."
 msgstr "يطابق ملفات مثل news_en.md."
 
-#, fuzzy
-#| msgid "Language codes"
 msgid "Repeated language code"
-msgstr "رموز اللغة"
+msgstr "رمز لغة مكرر"
 
 msgid "Matches files like locale/cs/application/cs.po."
 msgstr "يطابق ملفات مثل locale/cs/application/cs.po."
 
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "السلاسل المعتمدة"
+msgstr "تقسيم سلاسل نصوص Android"
 
 msgid "Matches files like res/values-cs/strings-about.xml."
 msgstr "يطابق ملفات مثل res/values-cs/strings-about.xml."
 
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "فواصل الأسطر غير متطابقة"
+msgstr "مطابقة مسارات متعددة"
 
 msgid ""
 "Matches nested Java properties layouts and also fills the component name "
@@ -2308,15 +2273,11 @@ msgstr "يطابق تخطيطات خصائص Java المتداخلة، كما ي
 msgid "Detected: %(pattern)s [%(details)s]"
 msgstr "تم الكشف عن: %(pattern)s [%(details)s]"
 
-#, fuzzy
-#| msgid "Merged repository"
 msgid "Detected from repository"
-msgstr "تم دمج المستودَع"
+msgstr "تم اكتشافه من المستودع"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Generic presets"
-msgstr "متصفح المستودع"
+msgstr "إعدادات مسبقة عامة"
 
 msgid "You can not use a monolingual translation without a base file."
 msgstr "لا يمكنك استخدام ترجمة أحادية اللغة بدون ملف أساسي."
@@ -2329,13 +2290,11 @@ msgid ""
 "template."
 msgstr "حدد الملف الأساسي للترجمات الجديدة عند إنشاء المكونات من قالب."
 
-#, fuzzy
-#| msgid ""
-#| "Please add a monolingual base language file in the component settings."
 msgid ""
 "Define a monolingual base or new base filename when creating components from "
 "a template."
-msgstr "يرجى إضافة ملف لغة أساسية أحادية اللغة في إعدادات المكونات."
+msgstr ""
+"حدد اسم ملف أساسي أحادي اللغة أو اسم ملف أساسي جديد عند إنشاء مكونات من قالب."
 
 msgid "The file mask must include a language wildcard (*)."
 msgstr "يجب أن يتضمن قناع الملف حرف البدل الخاص باللغة (*)."
@@ -2347,16 +2306,14 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
-"تَجَنَّب تضمين مجموعة اللغة عند إنشاء مكونات انطلاقاً من قاعدة أحادية اللغة أو ملف "
-"قاعدة جديد."
+"تَجَنَّب تضمين مجموعة اللغة عند إنشاء مكونات انطلاقاً من قاعدة أحادية اللغة أو "
+"ملف قاعدة جديد."
 
 msgid "This template must include {{ component }}."
 msgstr "يجب أن يتضمن هذا القالب {{ component }}."
 
-#, fuzzy
-#| msgid "Please include component markup in the template."
 msgid "This template must include component markup."
-msgstr "يرجى تضمين ترميز المكون في القالب."
+msgstr "يجب أن يتضمن هذا القالب ترميز المكونات."
 
 msgid "Translation threshold"
 msgstr "عتبة الترجمة"
@@ -2395,10 +2352,8 @@ msgstr "تعذر تحليل محدد CSS: %s"
 msgid "Source strings"
 msgstr "السلاسل المصدرية"
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "إنشاء ترجمة"
+msgstr "الترجمة المستهدفة"
 
 msgid "All strings in this translation will be overwritten"
 msgstr "سيتم الكتابة فوق جميع السلاسل في هذه الترجمة"
@@ -2412,14 +2367,11 @@ msgstr "نص متغير مُضاف في البداية"
 msgid "Appended static text"
 msgstr "نص ثابت مُلحق"
 
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "متغير غير معرّف: \"%s\""
+msgstr "نص متغير مُلحَق"
 
-#, fuzzy
 msgid "Variable text multiplier"
-msgstr "مضاعف متغيّر النص"
+msgstr "مُضاعِف النص المتغير"
 
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
@@ -2435,25 +2387,17 @@ msgstr "لغة الهدف يجب ألا تكون لغة المصدر نفسها.
 msgid "Enable case-sensitive key sorting"
 msgstr "تفعيل فرز المفتاج الحساس لحالة الأحرف"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "غُيّر الأحداث"
+msgstr "تغيير الأحداث لتشغيل الإجراء"
 
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translation content events"
-msgstr "تعليق الترجمة"
+msgstr "فعاليات محتوى الترجمة"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "غُيّر الأحداث"
+msgstr "جميع أحداث التغيير"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "غُيّر الأحداث"
+msgstr "أحداث التغيير المحددة"
 
 msgid "Choose which change events should trigger this add-on."
 msgstr "اختر أحداث التغيير التي ينبغي أن تُفعِّل هذه الإضافة."
@@ -2463,10 +2407,8 @@ msgstr "اختر أحداث التغيير التي ينبغي أن تُفعِّ
 msgid "Webhook URL"
 msgstr "رابط الموقع"
 
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook secret"
-msgstr "رابط الموقع"
+msgstr "سر الـ Webhook"
 
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "يُعد مفتاح Standard Webhooks السري سلسلة نصية مشفرة بصيغة Base64."
@@ -2505,10 +2447,8 @@ msgstr ""
 "ألصق مكون واحد لمفتاح خاص بتنسيق PEM غير مشفّر. المفاتيح الخاصة المشفّرة غير "
 "مدعومة."
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "شهادات SSL للعميل"
+msgstr "شهادة العميل (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
@@ -2530,10 +2470,8 @@ msgstr "محاولات الاتصال"
 msgid "How many times to try connecting to the broker."
 msgstr "عدد مرات محاولة الاتصال بالوسيط."
 
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "معلومات المستودع"
+msgstr "تأخير إعادة المحاولة"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "عدد الثواني التي يجب الانتظار بين محاولات الاتصال."
@@ -2565,24 +2503,17 @@ msgid ""
 "automatically."
 msgstr "توّلد الترجمة عن طريق إضافة سابقة ولاحقة للنص المصدري تلقائياً."
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "مصدر الترجمة الآلية"
+msgstr "تعبئة الترجمة مسبقاً بالنص المصدر"
 
 msgid "Fills in translation strings with source string."
 msgstr "تعبئة السلاسل النصية المترجمة بالسلاسل النصية المصدرية."
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Fill read-only strings with source"
-msgstr "مصدر الترجمة الآلية"
+msgstr "املأ السلاسل النصية للقراءة فقط بالمصدر"
 
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
+msgstr "يملأ ترجمة السلاسل النصية المخصصة للقراءة فقط بالسلسلة المصدرية."
 
 msgid "Generate MO files"
 msgstr "توليد ملفات MO"
@@ -2631,10 +2562,8 @@ msgstr "حدّث ملفات PO لتطابق ملف POT (باستعمال msgmerg
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr "يُحدِّث قالب gettext باستخدام xgettext على ملفات المصدر المحددة."
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (Meson)"
-msgstr "حدّث ملفات PO لتطابق ملف POT (باستعمال msgmerge)"
+msgstr "تحديث ملف POT (Meson)"
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -2682,10 +2611,8 @@ msgstr "لا سلاسل مصدرية مُرفقة حالياً!"
 msgid "ITS directories must be a list of strings."
 msgstr "يجب أن تكون أدلة ITS عبارة عن قائمة من السلاسل النصية."
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Invalid ITS directory path."
-msgstr "إنشاء عنصر"
+msgstr "مسار دليل ITS غير صالح."
 
 msgid "ITS rules must not contain a document type."
 msgstr "يجب ألا تتضمن قواعد ITS نوع مستند."
@@ -2693,10 +2620,8 @@ msgstr "يجب ألا تتضمن قواعد ITS نوع مستند."
 msgid "Invalid ITS rule document root."
 msgstr "جذر مستند قاعدة ITS غير صالح."
 
-#, fuzzy
-#| msgid "New translation"
 msgid "ITS rule file contains too many elements."
-msgstr "ترجمة جديدة"
+msgstr "يحتوي ملف قواعد ITS على عدد كبير جداً من العناصر."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -2896,15 +2821,11 @@ msgstr ""
 "الخاصة بها عبر واجهة برمجة التطبيقات (API) على العمليات المتعلقة بالمشروع "
 "المرتبط بها. وتتميز هذه الرموز بالبادئة `wlp_`."
 
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "نجاح (أخضر)"
+msgstr "استجابة ناجحة."
 
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "تمت إزالة مفتاح الأمان."
+msgstr "تم إنشاء المورد."
 
 msgid "The request was accepted for asynchronous processing."
 msgstr "قُبِل الطلب للمعالجة غير المتزامنة."
@@ -2912,18 +2833,14 @@ msgstr "قُبِل الطلب للمعالجة غير المتزامنة."
 msgid "Successful response without a response body."
 msgstr "استجابة ناجحة بدون نص استجابة."
 
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "تعذر الوصول لمزود المصادقة."
+msgstr "كان الطلب غير صالح أو تعذرت معالجته."
 
 msgid "Authentication credentials were missing or invalid."
 msgstr "كانت بيانات اعتماد المصادقة مفقودة أو غير صالحة."
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "ليس لديك إذن للوصول إلى هذا المكون."
+msgstr "لا يملك المستخدم المُصادَق عليه صلاحية إجراء هذه العملية."
 
 msgid "The requested resource was not found or is not accessible."
 msgstr "لم يتم العثور على المورد المطلوب أو أنه غير قابل للوصول."
@@ -2931,29 +2848,20 @@ msgstr "لم يتم العثور على المورد المطلوب أو أنه 
 msgid "The HTTP method is not allowed for this resource."
 msgstr "طريقة HTTP غير مسموح بها لهذا المورد."
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "الرمز المميز المُدخل غير صالح."
+msgstr "نوع وسائط الاستجابة المطلوب غير متوفر."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "تنسيق الملف المكتشف غير مدعوم."
+msgstr "نوع وسائط الطلب غير مدعوم."
 
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr "ملف موارد .Net"
+msgstr "المورد مقفل."
 
 msgid "The API request rate limit was exceeded."
 msgstr "تم تجاوز الحد الأقصى لمعدل طلبات واجهة برمجة التطبيقات (API)."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "حصل خطأ في التحليل"
+msgstr "حدث خطأ غير متوقع في الخادم."
 
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
@@ -2968,10 +2876,8 @@ msgstr "عدد الطلبات المتبقي للمنصة"
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "عدد الثواني المتبقية حتى إعادة تعيين نافذة حد المعدل"
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Invalid component path."
-msgstr "إنشاء عنصر"
+msgstr "مسار المكون غير صالح."
 
 msgid "URL slug"
 msgstr "اسم نطاق عنوان URL"
@@ -2983,46 +2889,33 @@ msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
 "مطلوب لبيانات نسب العمل لأصحابها، وإحصائيات المساهمين، وتقارير عمل المترجمين."
 
-#, fuzzy
-#| msgid "Manage users"
 msgid "Invalid workspace."
-msgstr "إدارة المستخدمين"
+msgstr "مساحة عمل غير صالحة."
 
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid project."
-msgstr "طلب دمج غير صالح !"
+msgstr "مشروع غير صالح."
 
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid category."
-msgstr "الصورة غير صالحة !"
+msgstr "فئة غير صالحة."
 
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr "لا تقم بتحديد كل من المكوّن والمشروع!"
+msgstr ""
+"لا تحدد نطاقاً (scope) عند استخدام نقطة نهاية للتقارير المعتمدة على النطاقات."
 
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose at most one report scope."
-msgstr "إختر صيغة ملف التقرير"
+msgstr "اختر نطاقاً واحداً للتقرير كحد أقصى."
 
 msgid "Start and end timestamps are required."
 msgstr "يُشترط تحديد الطابع الزمني للبدء والانتهاء."
 
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء."
+msgstr "يجب أن تكون بداية التقرير قبل نهايته."
 
 msgid "Minimum changes can not exceed maximum changes."
 msgstr "لا يمكن أن تتجاوز التغييرات الدنيا التغييرات القصوى."
 
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "عنوان البريد الإلكتروني هذا غير مسموح به."
+msgstr "لم يتم التحقق من عنوان البريد الإلكتروني هذا."
 
 msgid "Scope"
 msgstr "النطاق"
@@ -3037,10 +2930,8 @@ msgstr "نص التعليق"
 msgid "You can use Markdown and mention users by @username."
 msgstr "يمكنك الكتابة بالمارك داون والإشارة إلى المستخدِمين عبر @username."
 
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "وقت الانشاء"
+msgstr "الطابع الزمني للإنشاء"
 
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
@@ -3057,10 +2948,8 @@ msgstr ""
 "إذا كنت مسؤولاً، يمكنك نسب هذا التعليق إلى مستخدم آخر باستخدام عنوان بريده "
 "الإلكتروني."
 
-#, fuzzy
-#| msgid "Can not change authentication for demo!"
 msgid "Cannot change this on a built-in team."
-msgstr "لا يمكن تغيير هذا !"
+msgstr "لا يمكن تغيير هذا في فريق مُضمَّن."
 
 msgid "Cannot change this on an existing team."
 msgstr "لا يمكن تغيير هذا في فريق موجود."
@@ -3068,20 +2957,14 @@ msgstr "لا يمكن تغيير هذا في فريق موجود."
 msgid "Choose either a project or a workspace."
 msgstr "اختر إما مشروعاً أو مساحة عمل."
 
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "يوجد مستخدم آخَر يحمل اسم المستخدم هذا."
+msgstr "يوجد بالفعل فريق يحمل هذا الاسم في مساحة العمل هذه."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "لا يمكن تغيير هذا في فريق موجود."
+msgstr "لا يمكن تغيير هذا في فريق ذي نطاق محدد."
 
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherit enforced checks from the workspace."
-msgstr "علامات التحقق"
+msgstr "توريث عمليات التحقق الإلزامية من مساحة العمل."
 
 msgid "Inherit enforced checks from the project, category or workspace."
 msgstr "توريث عمليات التحقق الإلزامية من المشروع أو الفئة أو مساحة العمل."
@@ -3089,10 +2972,8 @@ msgstr "توريث عمليات التحقق الإلزامية من المشر�
 msgid "You do not have permission to access this component."
 msgstr "ليس لديك إذن للوصول إلى هذا المكون."
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "ليس لديك تصريح لتغيير إعدادت النفاذ إلى المشروع."
+msgstr "ليس لديك إذن لتغيير الوصول المقيد."
 
 msgid "Commit"
 msgstr "دُفعة"
@@ -3100,18 +2981,14 @@ msgstr "دُفعة"
 msgid "Update"
 msgstr "تحديث"
 
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "تحديث فحوص الجودة"
+msgstr "التحديث باستخدام إعادة التأسيس (rebase)"
 
 msgid "Update with merge"
 msgstr "تحديث مع الدمج"
 
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with merge without fast-forward"
-msgstr "سحب التغييرات من المستودع البعيد"
+msgstr "تحديث عبر الدمج دون تقديم سريع (merge without fast-forward)"
 
 msgid "Push"
 msgstr "دفع"
@@ -3125,28 +3002,20 @@ msgstr "إعادة تعيين مستودعة Weblate وإعادة تطبيق ا�
 msgid "Cleanup all untracked files in the Weblate repository"
 msgstr "تنظيف كافة الملفات غير المتعقبة مِن مستودعة Weblate"
 
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "كتابة جميع الترجمات إلى مستودعة Weblate بالاجبار"
+msgstr "فرض كتابة جميع الترجمات إلى مستودع Weblate"
 
 msgid "Rescan all translation files in the Weblate repository"
 msgstr "إعادة مسح كافة ملفات الترجمة مِن مستودعة Weblate"
 
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Please provide a suggestion"
-msgstr "التصويت على اقتراح"
+msgstr "يرجى تقديم اقتراح"
 
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of plurals does not match"
-msgstr "عدد صيغ الجموع"
+msgstr "عدد صيغ الجمع غير متطابق"
 
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Your suggestion is similar to the current translation!"
-msgstr "سيتم دمج الملف الذي تم إرساله مع الترجمة الحالية."
+msgstr "اقتراحك مشابه للترجمة الحالية!"
 
 msgid "Translation text too long!"
 msgstr "حروف الترجمة طويلة للغاية!"
@@ -3167,10 +3036,8 @@ msgstr ""
 "تعذرت إزالة السلسلة النصية لأن عملية أخرى تجري في الخلفية. الرجاء إعادة "
 "المحاولة لاحقا."
 
-#, fuzzy
-#| msgid "Failed to clean the repository on %s."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "فشلت عملية تنضيف المستودع على %s."
+msgstr "تعذر الحصول على القفل لإجراء العملية."
 
 msgid "Specified unit id is not a translation source unit."
 msgstr "معرف الوحدة المحدد ليس بوحدة ترجمة مصدرية."
@@ -3179,11 +3046,10 @@ msgstr "معرف الوحدة المحدد ليس بوحدة ترجمة مصدر
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr "تعذر الحصول على قفل المستودعة (%s) لإجراء العملية."
 
-#, fuzzy, python-format
-#| msgid "Failed to clean the repository on %s."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "تعذر الحصول على قفل التحديث للجزء (%s) لإجراء العملية."
+msgstr "تعذر الحصول على قفل التحديث للمكون %s لتنفيذ العملية."
 
 #, python-format
 msgid ""
@@ -3196,51 +3062,35 @@ msgstr "كان من المتوقع وجود كائن."
 msgid "At least one team is required for a project token."
 msgstr "يتطلب فريق واحد على الأقل لرمز المشروع."
 
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "This role cannot be assigned to this team."
-msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
+msgstr "لا يمكن تعيين هذا الدور لهذا الفريق."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change languages on a workspace team."
-msgstr "لا يمكن تغيير هذا في فريق موجود."
+msgstr "لا يمكن تغيير اللغات في فريق مساحة العمل."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "لا يمكن تغيير هذا في فريق موجود."
+msgstr "لا يمكن تغيير المشاريع في فريق ذي نطاق محدد."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "لا يمكن تغيير هذا في فريق موجود."
+msgstr "لا يمكن تغيير قوائم المكونات في فريق ذي نطاق محدد."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "لا يمكن تغيير هذا في فريق موجود."
+msgstr "لا يمكن تغيير المكونات في فريق مساحة العمل."
 
-#, fuzzy
-#| msgid "Import of strings scheduled."
 msgid "Report generation scheduled."
-msgstr "بُرمِجت عملية استيراد السلاسل."
+msgstr "تمت جدولة إنشاء التقرير."
 
 msgid "Specify a workspace when multiple workspaces can be used."
 msgstr "حدد مساحة عمل عند إمكانية استخدام مساحات عمل متعددة."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to approve strings."
-msgstr "ليست لديك الصلاحيات الكافية لقبول اقتراحات !"
+msgstr "ليس لديك صلاحية الموافقة على السلاسل النصية."
 
 msgid "This string seems to already exist."
 msgstr "يبدو أن هذه السلسلة موجودة بالفعل."
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "مصدر الترجمة الآلية"
+msgstr "الترجمة الآلية قيد التنفيذ"
 
 msgid "Category"
 msgstr "الفئة"
@@ -3334,11 +3184,8 @@ msgid "Manage project access"
 msgstr "إدارة النفاذ إلى المشروع"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "Manage reports"
-msgstr "إدارة المستودع"
+msgstr "إدارة التقارير"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3365,10 +3212,8 @@ msgid "Remove a string"
 msgstr "إزالة سلسلة نصيّة"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "تجاهل الخطأ"
+msgstr "تجاهل الفحص الفاشل"
 
 #. Translators: Permission name
 msgid "Edit strings"
@@ -3471,32 +3316,24 @@ msgid "Delete announcements"
 msgstr "حذف الإعلانات"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "تعديل السلاسل المصدرية"
+msgstr "تعديل إعدادات مساحة العمل"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add projects to workspace"
-msgstr "إدارة النفاذ إلى المشروع"
+msgstr "إضافة مشاريع إلى مساحة العمل"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "إدارة النفاذ إلى المشروع"
+msgstr "إدارة الوصول إلى مساحة العمل"
 
 #. Translators: Permission name
 msgid "Use management interface"
 msgstr "استخدم الواجهة الإدارية"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "إعداد Weblate"
+msgstr "إدارة إعدادات الموقع"
 
 #. Translators: Permission name
 msgid "Add new projects"
@@ -3547,10 +3384,8 @@ msgid "Manage translation memory"
 msgstr "إدارة ذاكرة الترجمة"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Machame"
 msgid "Manage machinery"
-msgstr "الماتشامية"
+msgstr "إدارة الآلات"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3624,17 +3459,13 @@ msgctxt "Access-control role"
 msgid "Manage repository"
 msgstr "إدارة المستودع"
 
-#, fuzzy
-#| msgid "Weblate administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "إدارة Weblate"
+msgstr "إدارة مساحة العمل"
 
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "أضف مشاريع جديدة"
+msgstr "إضافة مشاريع مساحة العمل"
 
 msgctxt "Access-control role"
 msgid "Add new projects"
@@ -3721,9 +3552,9 @@ msgstr "بريد إلكتروني"
 msgid "Enter one or more e-mail addresses separated by whitespace."
 msgstr "أدخل بريد إلكتروني أو أكثر فاصلا بينهم بمسافة."
 
-#, fuzzy, python-format
+#, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr "%(email)s: عناوين مكررة في"
+msgstr "%(email)s: عنوان مكرر في الطلب المقدم"
 
 #, python-format
 msgid "%(email)s: %(error)s"
@@ -3753,15 +3584,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "No invitations were created."
-msgstr "سيتم إرسال بريد التفعيل الى هنا."
+msgstr "لم يتم إنشاء أي دعوات."
 
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
-msgstr "درجة المستخدِم الخارق"
+msgstr "حالة المستخدم المتميز"
 
 msgid "User has all possible permissions."
 msgstr "المستخدم لديه كافة الأذونات الممكنة."
@@ -3789,10 +3616,8 @@ msgstr "اختر التصاريح الممنوحة لهذا الدور."
 msgid "Roles"
 msgstr "الأدوار"
 
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "اختر الأدوار الممنوحة لهذه المجموعة."
+msgstr "اختر الأدوار الممنوحة لهذا الفريق."
 
 msgid "Project selection"
 msgstr "اختيار المشاريع"
@@ -3818,10 +3643,10 @@ msgstr "المشاريع"
 msgid "Components"
 msgstr "المكونات"
 
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "ليس لديك التصريحات اللازمة لإنشاء عناصر على أي مشروع."
+msgstr ""
+"يمنح ترك التحديد فارغاً إمكانية الوصول إلى جميع المكونات المشمولة في نطاق "
+"المشروع."
 
 msgid "Component lists"
 msgstr "قوائم المكونات"
@@ -3832,15 +3657,11 @@ msgstr "اختيار اللغة"
 msgid "Languages"
 msgstr "اللغات"
 
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate team"
-msgstr "خطأ داخلي في الخادوم"
+msgstr "فريق Weblate الداخلي"
 
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "المديرين"
+msgstr "مسؤولو الفريق"
 
 msgid "The administrator can add or remove users from a team."
 msgstr "المشرف قادر على إضافة مستخدمين إلى فريق وإزالتهم منه."
@@ -3848,18 +3669,19 @@ msgstr "المشرف قادر على إضافة مستخدمين إلى فريق
 msgid "Enforced two-factor authentication"
 msgstr "المصادقة الثنائية الإلزامية"
 
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "يوجّهك إلى موفّر المصادقة."
+msgstr "يتطلب من المستخدمين إعداد المصادقة الثنائية."
 
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "يمكن تحديد نطاق الفريق ليكون مرتبطاً إما بمشروع أو بمساحة عمل."
 
 #, fuzzy
-#| msgid "Bihari languages"
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "يوجد مستخدم آخَر يحمل اسم المستخدم هذا."
+
 msgid "Limit languages"
-msgstr "اللغات البهارية"
+msgstr "تحديد اللغات"
 
 msgid ""
 "Limit permissions from this team to these languages. Project-wide, component-"
@@ -3872,10 +3694,9 @@ msgstr ""
 "وفي حال عدم تحديد أي لغات، يتم اعتماد خيارات اللغة الخاصة بالفريق دون فرض "
 "قيود إضافية."
 
-#, fuzzy, python-format
-#| msgid "Enter a valid e-mail address."
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "أدخل عنوان بريد صالح."
+msgstr "عنوان البريد الإلكتروني الخاص بالبوت الداخلي طويل للغاية: %s"
 
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -3892,10 +3713,8 @@ msgstr "مُفعل"
 msgid "Mark user as inactive instead of removing."
 msgstr "علّم على المستخدم أنه غير نشط بدل حذفه."
 
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "مُنتهي المدة"
+msgstr "تاريخ الإنتهاء"
 
 msgid "The account will be disabled after the expiry."
 msgstr "سيتم تعطيل الحساب بعد انتهاء الصلاحية."
@@ -3903,13 +3722,9 @@ msgstr "سيتم تعطيل الحساب بعد انتهاء الصلاحية."
 msgid "Teams"
 msgstr "الفرق"
 
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr "تم منح المستخدم كافة الصلاحيات المدرجة في عضوية هذه الفِرَق."
+msgstr "يُمنح المستخدم جميع الصلاحيات المشمولة في عضوية هذه الفرق."
 
 msgid "Regular expression for e-mail address"
 msgstr "التعبير العادي لعنوان البريد الإلكتروني"
@@ -3918,20 +3733,14 @@ msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 "سيتم إضافة المستخدمين الذين تتطابق عناوين بريدهم الإلكتروني إلى هذا الفريق."
 
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "مجموعة لكل تحددها"
+msgstr "الفريق المراد تعيينه"
 
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "المستخدِم الذي تريد إضافته"
+msgstr "المستخدم المراد حظره"
 
-#, fuzzy
-#| msgid "Support expiry"
 msgid "Block expiry"
-msgstr "انتهاء صلاحية الدعم"
+msgstr "انتهاء صلاحية الحظر"
 
 #, fuzzy
 #| msgid "Unlock"
@@ -4048,8 +3857,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
-"تم إعداد هذه الترجمة لنظام التصويت على الاقتراحات؛ لذا يُرجى إضافة اقتراح بدلاً "
-"من حفظ ترجمة مباشرة."
+"تم إعداد هذه الترجمة لنظام التصويت على الاقتراحات؛ لذا يُرجى إضافة اقتراح "
+"بدلاً من حفظ ترجمة مباشرة."
 
 msgid "Pay the bills to unlock this project."
 msgstr "ادفع الفواتير لفتح هذا المشروع."
@@ -4064,105 +3873,81 @@ msgstr "هذه الترجمة مغلقة."
 msgid "Source-string reviews are turned off."
 msgstr "تم تعطيل تحرير السلسلة المصدر."
 
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "اقتراحات الترجمة معطّلة."
+msgstr "تم إيقاف مراجعات الترجمة."
 
-#, fuzzy
-#| msgid "Object listing turned off"
 msgid "Reviewing is turned off."
-msgstr "تم إيقاف تشغيل قائمة الكائن"
+msgstr "تم إيقاف المراجعة."
 
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "لا يمكن تحرير السلسلة المصدر."
+msgstr "تحتاج السلسلة المصدرية إلى مراجعة."
 
 msgid "The string is read-only."
 msgstr "السلسلة للقراءة فقط."
 
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"يمكن للمراجعين فقط تغيير السلاسل المؤكّدة، من فضلك أضف إقتراحاً إن كنت تظن أن "
-"السلسة يلزمها التعديل."
+"المراجعون فقط هم من يمكنهم تعديل النصوص المعتمدة. يرجى تقديم اقتراح إذا كنت "
+"ترى ضرورة لتعديل النص."
 
 msgid "Add the string to the source language instead."
 msgstr "أضف السلسلة إلى اللغة الهدف بدلا من ذلك."
 
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "تكوين المكونات غير المدعومة"
+msgstr "تم تعطيل إضافة السلاسل النصية في إعدادات المكوّن."
 
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Editing source strings is disabled in the component configuration."
-msgstr "تكوين المكونات غير المدعومة"
+msgstr "تم تعطيل تحرير سلاسل النصوص المصدرية في إعدادات المكوّن."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The file format does not support this."
-msgstr "تنسيق الملف المكتشف غير مدعوم."
+msgstr "تنسيق الملف لا يدعم هذا."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to edit this glossary."
-msgstr "ليست لديك الصلاحيات الكافية لقبول اقتراحات !"
+msgstr "ليس لديك صلاحية تعديل هذه المسرد."
 
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
-msgstr "لا يمكن إزالة ترجمة المصطلحات، وإزالة سلسلة المصدر بدلا من ذلك."
+msgstr "لا يمكن إزالة ترجمة المصطلح. قم بإزالة النص المصدر بدلاً من ذلك."
 
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding new translations is turned off in the component configuration."
-msgstr "تكوين المكونات غير المدعومة"
+msgstr "تم تعطيل إضافة ترجمات جديدة في إعدادات المكون."
 
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "الترجمة حالياً مغلقة."
+msgstr "هذا المكون مقفل حالياً."
 
 msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr "الاقتراحات معطلة لهذه اللغة. اطلب من مسؤول المشروع تفعيلها."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The file format does not support updating source strings."
-msgstr "تنسيق الملف المكتشف غير مدعوم."
+msgstr "لا يدعم تنسيق الملف تحديث السلاسل المصدرية."
 
 msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr "أنشئ المكون وامنح نفسك صلاحية وصول صريحة قبل تفعيل الوصول المقيد."
 
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "تغطي خطة الفوترة هذه المشاريع التالية:"
+msgstr "لا تسمح خطة الفوترة بالتحكم الخاص في الوصول."
 
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
-"تحتاج إلى صلاحية وصول صريحة لهذا المكون قبل تفعيل الوصول المقيد؛ وإلا، فستفقد "
-"القدرة على الوصول إليه بنفسك."
+"تحتاج إلى صلاحية وصول صريحة لهذا المكون قبل تفعيل الوصول المقيد؛ وإلا، "
+"فستفقد القدرة على الوصول إليه بنفسك."
 
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
+
 msgid "The anonymous user can not be assigned to teams."
-msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
+msgstr "لا يمكن تعيين المستخدم المجهول إلى فرق."
 
 msgid "Inactive users can not be assigned to teams."
 msgstr "لا يمكن تعيين المستخدمين غير النشطين إلى فرق."
@@ -4173,38 +3958,27 @@ msgstr "لا يمكن تعيين رموز المشروع للفرق هنا."
 msgid "Cannot remove built-in team!"
 msgstr "لا يمكن إزالة الفريق المدمج!"
 
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation was removed."
-msgstr "سيتم إرسال بريد التفعيل الى هنا."
+msgstr "تمت إزالة دعوة المستخدم."
 
-#, fuzzy, python-format
-#| msgid "Resend invitation"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "اعادة ارسال الدعوة"
+msgstr "تم قبول الدعوة للانضمام إلى فريق %s."
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "الإكتشاف التلقائي"
+msgstr "الأتمتة"
 
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr "ينفذ عمليات ترجمة مُرتَّبة تتضمن شروطاً وتفرعات."
 
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "The component is outside this add-on's scope."
-msgstr "تم إعداد هذا العنصر بشكل غير صحيح."
+msgstr "يقع المكوّن خارج نطاق هذه الإضافة."
 
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "The change does not belong to this component."
-msgstr "تمت إضافة مستخدم إلى هذا المشروع."
+msgstr "لا يخص هذا التغييرُ هذا المكوّنَ."
 
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automation nesting is too deep."
-msgstr "الترجمة الآلية"
+msgstr "مستوى تداخل الأتمتة عميق للغاية."
 
 msgid "Automation definitions cannot exceed 64 KiB."
 msgstr "لا يمكن أن تتجاوز تعريفات الأتمتة 64 كيلوبايت (KiB)."
@@ -4214,18 +3988,15 @@ msgstr "لا يمكن أن تتجاوز تعريفات الأتمتة 64 كيل�
 msgid "YAML aliases and tags are not supported."
 msgstr "الترتيب المختار غير مدعوم."
 
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automation keys must be strings."
-msgstr "ترجمة تلقائية"
+msgstr "يجب أن تكون مفاتيح الأتمتة سلاسل نصية."
 
 msgid "Invalid automation YAML or JSON."
 msgstr "ملف YAML أو JSON الخاص بالأتمتة غير صالح."
 
-#, fuzzy, python-format
-#| msgid "%(email)s: %(error)s"
+#, python-format
 msgid "%(path)s: %(error)s"
-msgstr "%(email)s: %(error)s"
+msgstr "%(path)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
 msgstr "تتجاوز الأتمتة 100 عقدة أو ثمانية مستويات من التداخل."
@@ -4245,18 +4016,15 @@ msgstr "%(path)s: يتطلب نطاق النتيجة معرِّف إجراء س�
 msgid "%(path)s: not requires exactly one condition."
 msgstr "%(path)s: لا يتطلب شرطاً واحداً بالضبط."
 
-#, fuzzy
-#| msgid "Automatic component list assignment"
 msgid "Automation context is too large."
-msgstr "تعيين قائمة المكونات التلقائية"
+msgstr "سياق الأتمتة كبير للغاية."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr "فشلت عملية التحقق من CEL أو تقييمها، أو تجاوزت حد الموارد المخصص لها."
 
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid CEL condition: %s"
-msgstr "فرع المستودع"
+msgstr "شرط CEL غير صالح: %s"
 
 msgid "Workflow"
 msgstr "سير العمل"
@@ -4264,18 +4032,14 @@ msgstr "سير العمل"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr "أدخل تعريف الأتمتة بصيغة YAML أو JSON."
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Preview component ID"
-msgstr "إنشاء عنصر"
+msgstr "معاينة مُعرِّف المكوِّن"
 
 msgid "Required for inherited automations. Used only for preview."
 msgstr "مطلوب لعمليات الأتمتة الموروثة. يُستخدم للمعاينة فقط."
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Preview change ID"
-msgstr "التغييرات الأخيرة"
+msgstr "معاينة مُعرِّف التغيير"
 
 msgid "Optional event context. Used only for preview."
 msgstr "سياق الحدث الاختياري. يُستخدم للمعاينة فقط."
@@ -4290,10 +4054,8 @@ msgstr "تحدث من فضلك عن المشروع وعلاقتك به، يفض�
 msgid "Billing plan"
 msgstr "خطة الفوترة"
 
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "بدأت الفترة التجريبية."
+msgstr "إعادة تعيين الفترة التجريبية"
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
@@ -4304,10 +4066,8 @@ msgstr ""
 msgid "Workspace"
 msgstr "مساحة العمل"
 
-#, fuzzy
-#| msgid "Customize the component name"
 msgid "Customer name"
-msgstr "خصّص اسم المكوّن"
+msgstr "اسم العميل"
 
 msgid "Trial"
 msgstr "تجريبي"
@@ -4330,33 +4090,23 @@ msgstr "مدفوع"
 msgid "In limits"
 msgstr "في حدود"
 
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "تعطيل التسديد الدوري"
+msgstr "إشعار بشأن دفعة متكررة غير نشطة"
 
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "آخر إيداع بعيد"
+msgstr "أحدث التزام في المستودع الأصلي"
 
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "إرسال التغييرات المُعلَّقة"
+msgstr "أقدم تغيير معلّق في Weblate"
 
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "تغييرات المستودع"
+msgstr "تنبيه بشأن تغييرات المستودع"
 
 msgid "Push failure alert"
 msgstr "تنبيه فشل الدفع"
 
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "تعطيل التسديد الدوري"
+msgstr "إيقاف تفعيل الدفعات المتكررة المجدولة"
 
 msgid "Billing workspace can not be changed."
 msgstr "لا يمكن تغيير مساحة عمل الفوترة."
@@ -4373,10 +4123,8 @@ msgstr "يجب حفظ المشروع قبل تعيينه للفوترة."
 msgid "Changes in last month"
 msgstr "التغييرات في الشهر الأخير"
 
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "عدد اللغات"
+msgstr "عدد التغييرات"
 
 msgid "Hosted strings"
 msgstr "سلاسل مُستضافة"
@@ -4407,15 +4155,11 @@ msgstr[3] "يحتوي على %d مشاريع"
 msgstr[4] "يحتوي على %d مشروع"
 msgstr[5] "يحتوي على %d مشروع"
 
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "موقع المشروع"
+msgstr "موقع المشروع مفقود!"
 
-#, fuzzy
-#| msgid "All public projects"
 msgid "Only public projects are allowed"
-msgstr "كل المشاريع العامة"
+msgstr "يُسمح فقط بالمشاريع العامة."
 
 #, python-format
 msgid "Contains %d component"
@@ -4427,23 +4171,17 @@ msgstr[3] "يحتوي على %d مكونات"
 msgstr[4] "يحتوي على %d مكون"
 msgstr[5] "يحتوي على %d مكون"
 
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "ترخيص تم تغييره"
+msgstr "الترخيص مفقود"
 
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Not a libre license"
-msgstr "السلاسل المعتمدة"
+msgstr "ليست رخصة حرة"
 
 msgid "Billing"
 msgstr "الفَوترة"
 
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "معاينة الفوترة"
+msgstr "حدث الفوترة"
 
 #, fuzzy
 #| msgid "Monthly"
@@ -4453,15 +4191,11 @@ msgstr "شهرياً"
 msgid "yearly"
 msgstr "سنوياً"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "خطأ غير معروف"
+msgstr "فترة غير معروفة"
 
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "غُيّر البريد الإلكتروني مِن {old} إلى {new}."
+msgstr "تم التغيير من \"{}\" إلى \"{}\"."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
 msgstr "تم بدء الدفع \"{}\" لـ \"{}\" ({})."
@@ -4478,30 +4212,19 @@ msgstr "تم استلام الدفعة التلقائية \"{}\" مقابل \"{}
 msgid "Payment \"{}\" received for \"{}\" ({})."
 msgstr "تم استلام الدفعة \"{}\" مقابل \"{}\" ({})."
 
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "غُيّر البريد الإلكتروني مِن {old} إلى {new}."
+msgstr "تم دمج الفواتير \"{}\" في \"{}\"."
 
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr ""
-"سوف تستقبل هذا الإشعار فقط في اللغات التي تترجمها في المشاريع التي تراقبها."
+msgstr "ستتوقف عن تلقي هذا الإشعار بمجرد سداد الفواتير أو إزالة المشروع."
 
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"سوف تستقبل هذا الإشعار فقط في اللغات التي تترجمها في المشاريع التي تراقبها."
+"ستتوقف عن تلقي هذا الإشعار بمجرد الانتقال إلى اشتراك عادي أو إزالة المشروع."
 
 msgid "To terminate billing you have to remove all projects first."
 msgstr "لإنهاء الفوترة عليكم إزالة كافة المشاريع أولا."
@@ -4599,26 +4322,20 @@ msgstr "لا تنتهي السلسلة المصدرية و الترجمة بنف
 msgid "Starting newline"
 msgstr "البداية بسطر فارغ"
 
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "لا يبدأ المصدر والترجمة بسطر جديد فارغ"
+msgstr "لا يبدأ كل من النص الأصلي والترجمة بسطر جديد."
 
 msgid "Trailing newline"
 msgstr "سطر جديد زائد"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "المصدر و الترجمة لا ينتهيان بالعودة إلى سطر جديد"
+msgstr "لا يبدأ كل من النص الأصلي والترجمة بسطر جديد."
 
 msgid "Starting spaces"
 msgstr "البداية بالمسافة"
 
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "إنّ السلسلتين المصدرية و الترجمة لا تبدآن بنفس عدد المسافات البيضاء"
+msgstr "لا يبدأ كل من النص المصدر والترجمة بنفس عدد المسافات."
 
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
@@ -4628,6 +4345,9 @@ msgid ""
 "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
 "Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
+"استخدم الأحرف اللاتينية القياسية للغة القبائلية (على سبيل المثال: "
+"{latin_gamma} بدلاً من {greek_gamma} اليونانية، و{latin_epsilon} بدلاً من "
+"{greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "مسافة زائدة"
@@ -4664,34 +4384,27 @@ msgstr "لا تنتهي السلسلة المصدرية و الترجمة بنف
 msgid "Mismatched question mark"
 msgstr "علامة استفهام غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنقطة استفهام"
+msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بعلامة استفهام"
 
 msgid "Mismatched exclamation mark"
 msgstr "علامة تَعجُّب غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس نقطة التعجّب"
+msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس علامة التعجّب"
 
 msgid "Mismatched interrobang"
 msgstr "استفهام غير متطابق"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "لا ينتهي المصدر والترجمة بالنُقط"
+msgstr ""
+"لا ينتهي كل من النص الأصلي والترجمة بعلامة \"الإنتروبانغ\" (interrobang)."
 
 msgid "Mismatched ellipsis"
 msgstr "علامة حذف غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "لا ينتهي المصدر والترجمة بالنُقط"
+msgstr "لا ينتهي كل من النص الأصلي والترجمة بعلامة الحذف."
 
 msgid "Mismatched \\n"
 msgstr "غير متطابقة \\n"
@@ -4711,10 +4424,8 @@ msgstr "عدد الأسطر الجديدة في الترجمة لا يتطابق
 msgid "Zero-width space"
 msgstr "مسافة صفريّة العرض"
 
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "تحتوي الترجمة على حرف مسافة إضافية صفرية العرض"
+msgstr "تحتوي الترجمة على حرف مسافة صفرية العرض إضافي."
 
 msgid "Maximum length of translation"
 msgstr "الطول الأقصى للترجمة"
@@ -4729,10 +4440,8 @@ msgstr "ينبغي ألا تتجاوز الترجمة الطول المحدد"
 msgid "Maximum number of lines"
 msgstr "الحجم الأقصى للترجمة"
 
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given number of lines."
-msgstr "ينبغي ألا تتجاوز الترجمة الطول المحدد"
+msgstr "يجب ألا تتجاوز الترجمة عدد الأسطر المحدده."
 
 msgid "Mismatched semicolon"
 msgstr "فاصلة منقوطة غير متطابقة"
@@ -4742,10 +4451,8 @@ msgstr "فاصلة منقوطة غير متطابقة"
 msgid "Source and translation do not both end with a semicolon."
 msgstr "لا تنتهي السلسلة المصدرية و الترجمة بنفس نقطة فاصلة"
 
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "أستُخدِم رمز التطويل"
+msgstr "تم استخدام حرف \"الكشيدة\" (الوصلة الممدودة)"
 
 msgid "The decorative kashida letters should not be used."
 msgstr "لا ينبغي استخدام حروف الزخرفة كالتطويل أو الكشيدة."
@@ -4839,10 +4546,8 @@ msgstr[3] "الكلمات التالية مككرة:"
 msgstr[4] "الكلمات التالية مككرة:"
 msgstr[5] "الكلمات التالية مككرة:"
 
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Conditional safe HTML"
-msgstr "HTML غير آمن"
+msgstr "HTML آمن مشروط"
 
 msgid "Automatically detect Java MessageFormat"
 msgstr "الكشف تلقائيا عن Java MessageFormat"
@@ -4862,20 +4567,14 @@ msgstr "عنوان الرابط"
 msgid "Read-only"
 msgstr "للقراءة فقط"
 
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Strict unchanged check"
-msgstr "الترجمة الأصل قد تم تغيرها"
+msgstr "تحقق صارم دون تغيير"
 
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "سلاسل ذات فحوص مُخفَقة"
+msgstr "تحقق صارم من سلاسل التنسيق"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Forbidden translation"
-msgstr "ترجمة محرمة"
+msgstr "ترجمة محظورة"
 
 msgid "Terminology"
 msgstr "مصطلحات"
@@ -4883,15 +4582,11 @@ msgstr "مصطلحات"
 msgid "Ignore all checks"
 msgstr "تجاهل جميع الفحوص"
 
-#, fuzzy
-#| msgid "Percents translated"
 msgid "Use case insensitive placeholders"
-msgstr "النسبة المئوية لتقدّم الترجمة"
+msgstr "استخدم عناصر نائبة غير حساسة لحالة الأحرف"
 
-#, fuzzy
-#| msgid "No invoices found."
 msgid "Monospace font"
-msgstr "لم يتم العثور علي أية فواتير."
+msgstr "خط أحادي المسافة"
 
 msgid "Font family"
 msgstr "عائلة الخطوط"
@@ -4905,28 +4600,20 @@ msgstr "وزن الخط"
 msgid "Font spacing"
 msgstr "المسافة الخطية"
 
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat flags"
-msgstr "صيغة جافا MessageFormat"
+msgstr "علامات ICU MessageFormat"
 
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat tag prefix"
-msgstr "صيغة جافا MessageFormat"
+msgstr "بادئة وسم ICU MessageFormat"
 
 msgid "Priority"
 msgstr "الأفضلية"
 
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "السلسلة البديلة"
+msgstr "الاستبدالات أثناء العرض"
 
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String variant"
-msgstr "سلاسل لها اقتراحات"
+msgstr "متنوع سلسلة"
 
 #, fuzzy
 #| msgid "Font file"
@@ -4934,7 +4621,7 @@ msgid "Fluent type"
 msgstr "ملف الخط"
 
 msgid "Discard flag"
-msgstr ""
+msgstr "علامة التجاهل"
 
 #, python-format
 msgid "Invalid translation flag: \"%s\""
@@ -4957,15 +4644,11 @@ msgstr "معَامِلات ترجمة مفقودة: \"%s\""
 msgid "Format"
 msgstr "الصومالية"
 
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "ذاكرة الترجمة"
+msgstr "سلوك الترجمة"
 
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "الترجمة"
+msgstr "تصديق"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -4977,10 +4660,8 @@ msgstr "مراجعة السلاسل"
 msgid "ICU MessageFormat"
 msgstr "صيغة جافا MessageFormat"
 
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Disabled check"
-msgstr "الفحوص الفاشلة"
+msgstr "تم تعطيل الفحص"
 
 msgid "Automatic detection"
 msgstr "الإكتشاف التلقائي"
@@ -4996,6 +4677,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"قد يتوسع مرجع Fluent الموجود في {sequence} ليصبح وسم HTML. ربما يجدر بك "
+"استخدام {suggestion}."
 
 #, python-brace-format
 msgid ""
@@ -5010,23 +4693,31 @@ msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"تبدأ السلسلة {sequence} بوسم إغلاق HTML، ولكن الاسم أو الصيغة غير صالحة. إذا "
+"كنت لا ترغب في استخدام وسم إغلاق، فاستخدم {suggestion}."
 
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
+"تبدأ السلسلة {sequence} بوسم HTML، ولكن الاسم غير صالح. إذا كنت لا ترغب في بدء "
+"وسم HTML، فاستخدم {suggestion}."
 
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
+"تبدأ السلسلة {sequence} بوسم HTML، ولكن الوسم لا يُغلق أبداً بواسطة {close}. "
+"إذا كنت لا ترغب في بدء وسم HTML، فاستخدم {suggestion}."
 
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"يجب ألا يتضمن محتوى HTML الداخلي لـ Fluent العنصر {sequence}؛ ربما يُفضل "
+"استخدام {suggestion}."
 
 #, python-brace-format
 msgid ""
@@ -5034,6 +4725,8 @@ msgid ""
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
+"تبدأ السلسلة {sequence} بوسم HTML، ولكن السلسلة {attribute} ليست سمة صالحة "
+"ذات قيمة. إذا كنت لا ترغب في بدء وسم HTML، فاستخدم {suggestion}."
 
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
@@ -5044,6 +4737,8 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"قيمة السمة {name} (وهي {value}) في الوسم {tag} ليست قيمة صالحة محاطة بعلامات "
+"اقتباس."
 
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
@@ -5051,7 +4746,7 @@ msgstr "صفة HTML التي اسمها {name} ظهرت مرتين في الوس
 
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "وسم إغلاق HTML غير مطابق: {tag}."
 
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
@@ -5076,6 +4771,8 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"ستبدأ السلسلة {sequence} مرجع محرف HTML، لكنها لا تنتهي بـ {semicolon}. إذا "
+"كنت لا ترغب في استخدام مرجع محرف، فاستخدم {suggestion}."
 
 #, fuzzy, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
@@ -5084,30 +4781,30 @@ msgstr "السلسلة {sequence} ليست مرجع محرف HTML صالح."
 msgid "Fluent source inner HTML"
 msgstr ""
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent source should be valid inner HTML."
-msgstr "إنشاء ترجمة"
+msgstr "يجب أن يكون المصدر الانسيابي (Fluent source) عبارة عن HTML داخلي صالح."
 
 #, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
-msgstr ""
+msgstr "قيمة Fluent تفتقر إلى وسم HTML {tag}."
 
 #, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
+msgstr "تفتقر قيمة Fluent إلى وسم HTML {tag} للمتغيرات التالية: {variant_list}."
 
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "تحتوي قيمة Fluent على وسم HTML {tag} إضافي غير متوقع."
 
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"تحتوي قيمة Fluent على وسم HTML {tag} إضافي غير متوقع للمتغيرات التالية: "
+"{variant_list}."
 
 #, python-brace-format
 msgid ""
@@ -5115,91 +4812,99 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"لا تحتوي الترجمة على أي صيغة مطابقة -تتضمن نفس مجموعة عناصر HTML- لأي من الصيغ "
+"التالية الموجودة في قيمة Fluent الأصلية: {variant_list}."
 
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"لا توجد صيغة مقابلة في النص الأصلي تتضمن نفس مجموعة عناصر HTML لقيمة Fluent "
+"المترجمة."
 
 #, python-brace-format
 msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"المتغيرات التالية في قيمة Fluent المترجمة ليس لها متغير مطابق في النص الأصلي "
+"يشتمل على نفس مجموعة عناصر HTML: {variant_list}."
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent translation inner HTML"
-msgstr "إنشاء ترجمة"
+msgstr "ترجمة سلسة لمحتوى HTML الداخلي"
 
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr ""
+msgstr "يجب أن تكون وجهة Fluent عبارة عن كود HTML داخلي صالح ومطابق."
 
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "قيمة Fluent فارغة."
 
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "يجب أن تكون قيمة Fluent فارغة."
 
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "سمة Fluent مفقودة: {hint}"
 
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "سمة Fluent غير متوقعة: {hint}"
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent parts"
-msgstr "ملف الخط"
+msgstr "أجزاء انسيابية"
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent parts should match."
-msgstr "ملف الخط"
+msgstr "يجب أن تتطابق الأجزاء الانسيابية."
 
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "سمة Fluent {attribute} تفتقر إلى مرجع Fluent {reference}."
 
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"سمة Fluent {attribute} تفتقر إلى مرجع Fluent {reference} للمتغيرات التالية: "
+"{variant_list}."
 
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "قيمة Fluent تفتقر إلى مرجع Fluent {reference}."
 
 #, python-brace-format
 msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"تفتقر قيمة Fluent إلى مرجع {reference} للمتغيرات التالية: {variant_list}."
 
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"تحتوي سمة Fluent {attribute} على مرجع Fluent إضافي غير متوقع {reference}."
 
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"تحتوي السمة {attribute} على مرجع {reference} إضافي غير متوقع للمتغيرات "
+"التالية: {variant_list}."
 
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr ""
+msgstr "تحتوي قيمة Fluent على {reference} مرجع Fluent إضافي غير متوقع."
 
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"تحتوي قيمة Fluent على {reference} إضافي غير متوقع للمتغيرات التالية: "
+"{variant_list}."
 
 #, python-brace-format
 msgid ""
@@ -5207,6 +4912,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"لا تحتوي الترجمة على أي صيغة مطابقة -ولو واحدة- للصيغ التالية الموجودة في سمة "
+"Fluent الأصلية {attribute}، بحيث تتضمن نفس مجموعة مراجع Fluent: {variant_list}"
+"."
 
 #, python-brace-format
 msgid ""
@@ -5214,12 +4922,16 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"لا تحتوي الترجمة على أي صيغة مطابقة -تستخدم نفس مجموعة مراجع Fluent- لأي من "
+"الصيغ التالية الموجودة في قيمة Fluent الأصلية: {variant_list}."
 
 #, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"لا يوجد للمُعامل {attribute} المترجم (بصيغة Fluent) مُتغيِّرٌ مُطابِقٌ في النص الأصلي "
+"يشتمل على نفس مجموعة مراجع Fluent."
 
 #, python-brace-format
 msgid ""
@@ -5227,11 +4939,15 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"المتغيرات التالية في سمة Fluent المترجمة {attribute} ليس لها متغير مطابق في "
+"النص الأصلي يضم نفس مجموعة مراجع Fluent: {variant_list}."
 
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"لا توجد في النص الأصلي صيغة مقابلة لقيمة Fluent المترجمة تتضمن نفس مجموعة "
+"مراجع Fluent."
 
 #, python-brace-format
 msgid ""
@@ -5239,45 +4955,33 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"لا تحتوي النسخ البديلة التالية في قيمة Fluent المترجمة على نسخة مقابلة في "
+"النص الأصلي تستخدم نفس مجموعة مراجع Fluent: {variant_list}."
 
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "التفضيلات"
+msgstr "مراجع وافية"
 
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references should match."
-msgstr "التفضيلات"
+msgstr "يجب أن تتطابق المراجع المترابطة."
 
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "خطأ في صياغة Fluent: {error}."
 
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "إملأ بسلسلة مصدرية"
+msgstr "بنية مصدرية انسيابية"
 
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in the source."
-msgstr "تعليق ما على ترجمتك"
+msgstr "خطأ في صياغة Fluent في المصدر."
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent translation syntax"
-msgstr "إنشاء ترجمة"
+msgstr "بنية الترجمة الانسيابية"
 
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in the translation."
-msgstr "تعليق ما على ترجمتك"
+msgstr "خطأ نحوي واضح في الترجمة."
 
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "تم تطبيق التصحيحات التالية على الترجمة: %s"
+msgstr "سلاسل التنسيق التالية مرتبة بشكل خاطئ:"
 
 msgid "Python format"
 msgstr "صيغة بايثون"
@@ -5313,10 +5017,8 @@ msgstr "صيغة الجمع"
 msgid "Objective-C format string does not match source."
 msgstr "صيغة سلسلة C لا تطابق المصدر"
 
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "صيغة بيرل"
+msgstr "تنسيق الأقواس في Perl"
 
 #, fuzzy
 #| msgid "Perl format string does not match source"
@@ -5826,16 +5528,12 @@ msgid "Markdown file"
 msgstr "ملف ماركداون"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "ملف DTD"
+msgstr "ملف MDX"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Font file"
 msgid "OpenDocument file"
-msgstr "ملف الخط"
+msgstr "ملف OpenDocument"
 
 #. Translators: File format name
 msgid "IDML file"
@@ -5851,21 +5549,19 @@ msgstr "ملف نص"
 
 #. Translators: File format name
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "ملف نص DokuWiki"
 
 #. Translators: File format name
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "ملف نص MediaWiki"
 
 #. Translators: File format name
 msgid "AsciiDoc file"
-msgstr ""
+msgstr "ملف AsciiDoc"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Location"
 msgid "WixLocalization file"
-msgstr "الموقع"
+msgstr "ملف WixLocalization"
 
 msgid "gettext PO"
 msgstr "جت‌ تكست PO"
@@ -5917,10 +5613,8 @@ msgstr "سلاسل iOS"
 msgid "Excel Open XML"
 msgstr "إكسيل افتح XML"
 
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Multivalue CSV file"
-msgstr "ملف CSV بسيط"
+msgstr "ملف CSV متعدد القيم"
 
 msgid "Editing Fluent messages with attributes or selectors is not supported."
 msgstr ""
@@ -5989,10 +5683,8 @@ msgid "Qt Linguist translation file (version 2)"
 msgstr "تنظيف ملفات الترجمة"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "ملف ترجمة XLIFF"
+msgstr "ملف ترجمة XLIFF 1.2"
 
 #. Translators: File format name
 #, fuzzy
@@ -6019,10 +5711,8 @@ msgid "Java Properties"
 msgstr "خصائص جافا (UTF-8)"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
-msgstr "ملف لغة جوملا"
+msgstr "ملف Joomla language"
 
 #. Translators: File format name
 msgid "GWT properties"
@@ -6060,75 +5750,55 @@ msgstr ""
 
 #. Translators: File format name
 msgid "JSON file"
-msgstr "ملف جسون"
+msgstr "ملف JSON"
 
 #. Translators: File format name
 msgid "WebExtension JSON file"
 msgstr "ملف WebExtension JSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "ملف JSON i18next"
+msgstr "ملف i18next JSON v3"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v4"
-msgstr "ملف JSON i18next"
+msgstr "ملف i18next JSON v4"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n v1 JSON file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n v1 JSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n v2 JSON file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n v2 JSON"
 
 #. Translators: File format name
 msgid "ARB file"
 msgstr "ملف ARB"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف gotext JSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "Format.JS JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف Format.JS JSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "Nextcloud JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف Nextcloud JSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "JSON file"
 msgid "RESJSON file"
-msgstr "ملف جسون"
+msgstr "ملف RESJSON"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "YAML file"
 msgid "TOML file"
-msgstr "ملف YAML"
+msgstr "ملف TOML"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n TOML file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n TOML"
 
 #. Translators: File format name
 msgid "CSV file"
@@ -6171,7 +5841,7 @@ msgstr "ملف DTD"
 
 #. Translators: File format name
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "ملف ترجمة SubRip"
 
 #. Translators: File format name
 msgid "MicroDVD subtitle file"
@@ -6183,17 +5853,15 @@ msgstr ""
 
 #. Translators: File format name
 msgid "SubStation Alpha subtitle file"
-msgstr ""
+msgstr "ملف ترجمة SubStation Alpha"
 
 #. Translators: File format name
 msgid "Flat XML file"
 msgstr "ملف XML مسطح"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "خطأ فادح في المستودع"
+msgstr "ملف ResourceDictionary"
 
 #. Translators: File format name
 msgid "INI file"
@@ -6210,26 +5878,20 @@ msgid "TermBase eXchange file"
 msgstr "تبادل قاعدي المدي (TBX)"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Failing file"
 msgid "@draggable/i18n lang file"
-msgstr "ملف فاشل"
+msgstr "ملف @draggable/i18n lang"
 
 #. Translators: File format name
 msgid "Haiku catkeys"
 msgstr ""
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Stringsdict file"
-msgstr "سلاسل تحتوي على تعليقات"
+msgstr "ملف Stringsdict"
 
 #. Translators: File format name
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "ملف الخط"
+msgstr "ملف Fluent"
 
 msgid "Should be a directory with metadata files!"
 msgstr ""
@@ -6611,10 +6273,8 @@ msgstr "تمت إزالة اللغة %s."
 msgid "I agree with the General Terms and Conditions document"
 msgstr "أنا أوافق على مستند شروط الخدمة"
 
-#, fuzzy
-#| msgid "I agree with the Terms of Service document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "أنا أوافق على مستند شروط الخدمة"
+msgstr "أوافق على الشروط والأحكام العامة وسياسة الخصوصية"
 
 #, fuzzy
 #| msgid ""
@@ -6629,11 +6289,9 @@ msgstr ""
 msgid "Legal"
 msgstr "قانوني"
 
-#, fuzzy
-#| msgid "You have to agree to the Terms of Service"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "يجب عليك الموافقة على شروط الخدمة"
+msgstr "يجب عليك الموافقة على الشروط والأحكام العامة وسياسة الخصوصية"
 
 #, fuzzy
 #| msgid "You have to agree to the Terms of Service"
@@ -6658,7 +6316,7 @@ msgstr "من فضلك اقرأ مستند شروط الخدمة التالي :"
 
 #, python-format
 msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
+msgstr "يرجى أيضًا قراءة <a href=\"%(privacy_url)s\">سياسة الخصوصية</a>."
 
 msgid "Submit"
 msgstr "أرسل"
@@ -6674,17 +6332,13 @@ msgstr "ملفات تعريف الإرتباط"
 msgid "Cookies Policy"
 msgstr "سياسات ملفات تعريف الإرتباط"
 
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"ترتكز هذه الصفحة على شروط الخدمة و سياسة الخصوصية، يجب عليك قراءة المستندات "
-"الأصلية و فهمها بالكامل :"
+"تستند هذه الصفحة إلى الشروط والأحكام العامة وسياسة الخصوصية، ولا يزال يتعيّن "
+"عليك قراءة المستندات الأصلية لفهمها تمامًا:"
 
 #, fuzzy
 #| msgid ""
@@ -7072,18 +6726,18 @@ msgid "Translator persona"
 msgstr "تقارير الترجمة"
 
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "ملف الترجمة"
 
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 
 #, fuzzy
@@ -7094,8 +6748,9 @@ msgstr "تعليمات الترجمة"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -7134,11 +6789,14 @@ msgstr ""
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
 
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "وضع زين"
+msgstr "نموذج OpenAI"
+
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
 
 #, fuzzy
 #| msgid "Customize the component name"
@@ -7146,7 +6804,9 @@ msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "خصّص اسم المكوّن"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
 
 #, fuzzy
@@ -7203,7 +6863,10 @@ msgstr ""
 msgid "The model's unique deployment name."
 msgstr ""
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -7240,8 +6903,10 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+#, fuzzy
+#| msgid "Total number of entries in this Weblate instance"
+msgid "Maximum number of tokens in the generated response."
+msgstr "العدد الإجمالي للإدخالات في مثيل Weblate هذا"
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -7331,17 +6996,13 @@ msgctxt "Translation memory scope"
 msgid "File"
 msgstr "الملف"
 
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "اسم المشروع"
+msgstr "ملف المشروع"
 
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "المعلومات الشخصية"
+msgstr "الملف الشخصي"
 
 #, fuzzy, python-format
 #| msgid "Unsupported image type: %s"
@@ -7351,10 +7012,9 @@ msgstr "نوع صورة غير مدعوم: %s"
 msgid "No valid entries found in the uploaded file!"
 msgstr "لم يتم العثور على إدخالات صالحة في الملف الذي تم إرساله!"
 
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "فشل تحليل ملف JSON: %s"
+msgstr "تعذّر تحليل ملف JSON: %s"
 
 #, fuzzy, python-format
 #| msgid "Failed to parse TMX file!"
@@ -7427,16 +7087,15 @@ msgid ""
 "and will be rebuilt in the background."
 msgstr "لقد بلَغتِ الترجمة إلى نهايتها."
 
-#, fuzzy, python-format
-#| msgid "Confirm deleting all translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
-msgstr[1] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
-msgstr[2] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
-msgstr[3] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
-msgstr[4] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
-msgstr[5] "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
+msgstr[0] "تم معالجة %(count)d إدخال ذاكرة ترجمة نشطة."
+msgstr[1] "تمت معالجة %(count)d إدخال ذاكرة ترجمة نشطة."
+msgstr[2] "تمت معالجة %(count)d إدخالان ذاكرة ترجمة نشطة."
+msgstr[3] "تمت معالجة %(count)d إدخالات ذاكرة ترجمة نشطة."
+msgstr[4] "تمت معالجة %(count)d إدخال ذاكرة ترجمة نشطة."
+msgstr[5] "تمت معالجة %(count)d إدخال ذاكرة ترجمة نشطة."
 
 msgctxt "Short name of month"
 msgid "Jan"
@@ -7751,39 +7410,31 @@ msgstr "حول Weblate"
 msgid "Support Weblate"
 msgstr "دعِّم Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "شكرًا لكم على استخدام Weblate."
+msgstr "مرحبًا بك وشكرًا لك على دعم Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "المساهمة في Weblate"
+msgstr "المتابعة إلى Weblate"
 
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "نجم GitHub"
-msgstr[1] "نجم GitHub"
-msgstr[2] "نجمان GitHub"
+msgstr[0] "نجمة GitHub"
+msgstr[1] "نجمة GitHub"
+msgstr[2] "نجمتان GitHub"
 msgstr[3] "نجوم GitHub"
 msgstr[4] "نجمة GitHub"
-msgstr[5] "نجوم GitHub"
+msgstr[5] "نجمة GitHub"
 
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "مشكلة مفتوحة"
+msgstr[1] "مشكلة مفتوحة"
+msgstr[2] "مشكلتان مفتوحتان"
+msgstr[3] "مشاكل مفتوحة"
+msgstr[4] "مشكلةً مفتوحةً"
+msgstr[5] "مشكلة مفتوحة"
 
 msgctxt "Label on donate page"
 msgid "Recent change"
@@ -7978,7 +7629,7 @@ msgid ""
 msgstr ""
 
 msgid "Read the docs"
-msgstr ""
+msgstr "اقرأ المستندات"
 
 #, fuzzy, python-format
 #| msgid "Contact server administrators"
@@ -8059,22 +7710,18 @@ msgid "Verify new e-mail address"
 msgstr "تحقق من عنوان بريد الإلكتروني الجديد"
 
 msgid "Register"
-msgstr "سجّل"
+msgstr "تسجيل"
 
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "الاشتراكات"
+msgstr "الاشتراكات التجريبية"
 
 #, fuzzy
 #| msgid "Translation process"
 msgid "Set up your libre project"
 msgstr "مرحلة الترجمة"
 
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial"
-msgstr "حسابك"
+msgstr "خطتك التجريبية"
 
 #, python-format
 msgid "You will have %(days)s day to set up your project."
@@ -8151,10 +7798,8 @@ msgid ""
 "eligibility checks."
 msgstr ""
 
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification"
-msgstr "الإشعارات"
+msgstr "إشعار"
 
 #, fuzzy
 #| msgid "Edit project settings"
@@ -8245,16 +7890,15 @@ msgstr "المشاريع المُراقبة"
 msgid "Notification languages"
 msgstr "إشعار على طلب ترجمة للغة جديدة"
 
-#, fuzzy, python-format
-#| msgid "Failed to find matching language!"
+#, python-format
 msgid "%(count)s notification language."
 msgid_plural "%(count)s notification languages."
-msgstr[0] "فشل في العثور على لغة مطابقة!"
-msgstr[1] "فشل في العثور على لغة مطابقة!"
-msgstr[2] "فشل في العثور على لغة مطابقة!"
-msgstr[3] "فشل في العثور على لغة مطابقة!"
-msgstr[4] "فشل في العثور على لغة مطابقة!"
-msgstr[5] "فشل في العثور على لغة مطابقة!"
+msgstr[0] "لا لغة إشعار."
+msgstr[1] "%(count)s لغة إشعار."
+msgstr[2] "%(count)s لغتان إشعار."
+msgstr[3] "%(count)s لغات إشعار."
+msgstr[4] "%(count)s لغة إشعار."
+msgstr[5] "%(count)s لغة إشعار."
 
 msgid ""
 "No notification languages selected. Language-filtered notifications will not "
@@ -8476,10 +8120,8 @@ msgstr "صورتك الرمزية"
 msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr "يتم توفير الصور الرمزية باستخدام %(avatar_url_prefix)s."
 
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "اعادة ارسال الدعوة"
+msgstr "دعوة معلّقة"
 
 msgid "Description"
 msgstr "الوصف"
@@ -8791,21 +8433,18 @@ msgstr "تأكيد التسجيل"
 msgid "Thank you for your interest in trying Weblate!"
 msgstr "شكرا لك على اهتمامك بتجربة Weblate!"
 
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "حسابك"
+msgstr "عرضك التجريبية"
 
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "سيستمر الإصدار التجريبي لمدة 14 يوما."
-msgstr[1] "سيستمر الإصدار التجريبي لمدة 14 يوما."
-msgstr[2] "سيستمر الإصدار التجريبي لمدة 14 يوما."
-msgstr[3] "سيستمر الإصدار التجريبي لمدة 14 يوما."
-msgstr[4] "سيستمر الإصدار التجريبي لمدة 14 يوما."
-msgstr[5] "سيستمر الإصدار التجريبي لمدة 14 يوما."
+msgstr[0] "ستستمر فترتك التجريبية لـ %(days)s يوم."
+msgstr[1] "ستستمر فترتك التجريبية لـ %(days)s يوم."
+msgstr[2] "ستستمر فترتك التجريبية لـ %(days)s يومان."
+msgstr[3] "ستستمر فترتك التجريبية لـ %(days)s أيام."
+msgstr[4] "ستستمر فترتك التجريبية لـ %(days)s يومًا."
+msgstr[5] "ستستمر فترتك التجريبية لـ %(days)s يوم."
 
 #, python-format
 msgid ""
@@ -8814,10 +8453,10 @@ msgid ""
 msgstr ""
 
 msgid "No credit card is needed, but you can set the payment method anytime."
-msgstr ""
+msgstr "لا حاجه لبطاقة ائتمان، لكن يمكنك تعيين طريقة الدفع في أي وقت."
 
 msgid "All configuration will stay once you start paying."
-msgstr ""
+msgstr "سيبقى كل الإعدادات بمجرد بدءك بالدفع."
 
 msgid "Start the trial!"
 msgstr "ابدأ الإصدار التجريبي!"
@@ -8872,29 +8511,25 @@ msgstr[3] "%(count)s اقتراحات معلقة"
 msgstr[4] "%(count)s اقتراح معلق"
 msgstr[5] "%(count)s اقتراح معلق"
 
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "لا%(count)s صوت"
-msgstr[1] "%(count)s صوت واحد"
-msgstr[2] "%(count)s صوتان"
-msgstr[3] "%(count)s أصوات"
-msgstr[4] "%(count)s صوتًا"
-msgstr[5] "%(count)s صوت"
+msgstr[0] "لا لقطات شاشة"
+msgstr[1] "%(count)s لقطة شاشة"
+msgstr[2] "%(count)s لقطتان شاشة"
+msgstr[3] "%(count)s لقطات شاشة"
+msgstr[4] "%(count)s لقطة شاشة"
+msgstr[5] "%(count)s لقطة شاشة"
 
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "لا%(count)s صوت"
-msgstr[1] "%(count)s صوت واحد"
-msgstr[2] "%(count)s صوتان"
-msgstr[3] "%(count)s أصوات"
-msgstr[4] "%(count)s صوتًا"
-msgstr[5] "%(count)s صوت"
+msgstr[0] "لا تعليقات"
+msgstr[1] "%(count)s تعليق"
+msgstr[2] "%(count)s تعليقان"
+msgstr[3] "%(count)s تعليقات"
+msgstr[4] "%(count)s تعليقًا"
+msgstr[5] "%(count)s تعليق"
 
 #. Translators: Name of a tab which lists translations the user has contributed to
 msgid "Translates"
@@ -8912,10 +8547,8 @@ msgstr "معرفات المستخدم"
 msgid "Edit"
 msgstr "تحرير"
 
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "لا نشاطات موجودة مؤخرًا!"
+msgstr "لم يتم العثور على مساهمات حديثة."
 
 msgid "Browse all translations with contribution"
 msgstr "تصفح كل الترجمات التي مع المساهم"
@@ -9364,7 +8997,7 @@ msgid "Number of translated strings"
 msgstr "عدد السلاسل المترجَمة"
 
 msgid "Translation filename"
-msgstr "ملف الترجمة"
+msgstr "اسم ملف الترجمة"
 
 msgid "Component name"
 msgstr "اسم المكون"
@@ -9493,10 +9126,8 @@ msgstr ""
 msgid "Languages to add"
 msgstr "كود اللغة"
 
-#, fuzzy
-#| msgid "File format"
 msgid "Files to create"
-msgstr "نُسق الملف"
+msgstr "ملفات للإنشاء"
 
 #, fuzzy
 #| msgid "Recent additions"
@@ -9813,10 +9444,8 @@ msgstr "عرض التفاصيل"
 msgid "Libre hosting"
 msgstr "استعرض باقات الاستضافة"
 
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "سلسلة معلقة"
+msgstr "في انتظار الموافقة"
 
 msgid "Request approval for Libre hosting"
 msgstr ""
@@ -9831,10 +9460,8 @@ msgid ""
 "above or purchase a subscription."
 msgstr ""
 
-#, fuzzy
-#| msgid "Custom"
 msgid "Customer"
-msgstr "مُخصّص"
+msgstr "العميل"
 
 msgid "Plan"
 msgstr ""
@@ -10459,12 +10086,7 @@ msgstr[5] ""
 "يحتوي مشروع الترجمة %(project)s حاليًا على <strong>%(count)s سلسلة</strong> "
 "للترجمة وتم <strong>إكمال %(percent)s%% منه</strong>."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a "
-#| "href=\"%(lang_url)s\">being translated into %(languages)s languages</a>. "
-#| "Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -10472,40 +10094,34 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
-"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
-"%(percent)s%%."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلة</"
+"strong> للترجمة."
 msgstr[1] ""
-"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
-"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
-"%(percent)s%%."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلة</"
+"strong> للترجمة."
 msgstr[2] ""
-"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
-"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
-"%(percent)s%%."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلتان</"
+"strong> للترجمة."
 msgstr[3] ""
-"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
-"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
-"%(percent)s%%."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلاسل</"
+"strong> للترجمة."
 msgstr[4] ""
-"مشروع ترجمة %(project)s يحتوي حاليا على %(total)s سلاسل للترجمة و هو قيد "
-"الترجمة إلى %(languages)s لغات. إجماليا، تبلغ نسبة الترجمة المكتملة للمشروع "
-"%(percent)s%%."
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلةً</"
+"strong> للترجمة."
 msgstr[5] ""
-"يحتوي مشروع الترجمة الخاص بـ %(project)s حاليًا على <strong>%(count)s سلاسل</"
+"يحتوي مشروع الترجمة لـ %(project)s حاليًا على <strong>%(count)s سلسلة</"
 "strong> للترجمة."
 
-#, fuzzy, python-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "شارك في <strong>%(project)s</strong>."
-msgstr[1] "شارك في <strong>%(project)s</strong>."
-msgstr[2] "شارك في <strong>%(project)s</strong>."
-msgstr[3] "شارك في <strong>%(project)s</strong>."
-msgstr[4] "شارك في <strong>%(project)s</strong>."
-msgstr[5] "يتم ترجمته إلى <strong>لغات %(count)s</strong>."
+msgstr[0] "تتم ترجمته إلى <strong>%(count)s لغة</strong>."
+msgstr[1] "تتم ترجمته إلى <strong>%(count)s لغة</strong>."
+msgstr[2] "تتم ترجمته إلى <strong>%(count)s لغتان</strong>."
+msgstr[3] "تتم ترجمته إلى <strong>%(count)s لغات</strong>."
+msgstr[4] "تتم ترجمته إلى <strong>%(count)s لغةً</strong>."
+msgstr[5] "تتم ترجمته إلى <strong>%(count)s لغة</strong>."
 
 #, python-format
 msgid ""
@@ -10558,10 +10174,8 @@ msgstr "الخطوط"
 msgid "File size"
 msgstr "حجم الملف"
 
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
-msgstr "تم إنشاؤه في"
+msgstr "أُنشئ"
 
 msgid "Uploaded by"
 msgstr "تم إرساله مِن طرف"
@@ -10674,17 +10288,15 @@ msgstr ""
 msgid "Repository status"
 msgstr "حالة المستودع"
 
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)sأقل من ساعة"
-msgstr[1] "%(count)sساعة واحدة"
-msgstr[2] "%(count)sساعتان"
-msgstr[3] "%(count)s ساعات"
-msgstr[4] "%(count)s ساعة"
-msgstr[5] "%(count)s ساعة"
+msgstr[0] "لا وحدات معلقة (%(total_count)s)"
+msgstr[1] "%(total_count)s وحدة معلقة"
+msgstr[2] "%(total_count)s وحدتان معلقتان"
+msgstr[3] "%(total_count)s وحدات معلقة"
+msgstr[4] "%(total_count)s وحدةً معلقةً"
+msgstr[5] "%(total_count)s وحدة معلقة"
 
 #, python-format
 msgid "%(policy_count)s skipped by the commit policy"
@@ -10771,31 +10383,29 @@ msgstr "امنع أي تغييرات في المستودع المحلي"
 msgid "Lock"
 msgstr "إقفال"
 
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "تم تأمين العنصر %(component)s"
-msgstr[1] "تم تأمين العنصر %(component)s"
-msgstr[2] "تم تأمين العنصر %(component)s"
-msgstr[3] "تم تأمين العنصر %(component)s"
-msgstr[4] "تم تأمين العنصر %(component)s"
-msgstr[5] "تم تأمين العنصر %(component)s"
+msgstr[0] "تم قفل %(count)s مكون"
+msgstr[1] "تم قفل %(count)s مكون"
+msgstr[2] "تم قفل %(count)s مكونان"
+msgstr[3] "تم قفل %(count)s مكونات"
+msgstr[4] "تم قفل %(count)s مكونًا"
+msgstr[5] "تم قفل %(count)s مكون"
 
 msgctxt "Joins a list of values"
 msgid ", "
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "تم إلغاء تأمين المكون %(component)s"
-msgstr[1] "تم إلغاء تأمين المكون %(component)s"
-msgstr[2] "تم إلغاء تأمين المكون %(component)s"
-msgstr[3] "تم إلغاء تأمين المكون %(component)s"
-msgstr[4] "تم إلغاء تأمين المكون %(component)s"
-msgstr[5] "تم إلغاء تأمين المكون %(component)s"
+msgstr[0] "تم إلغاء قفل %(count)s مكون"
+msgstr[1] "تم إلغاء قفل %(count)s مكون"
+msgstr[2] "تم إلغاء قفل %(count)s مكونان"
+msgstr[3] "تم إلغاء قفل %(count)s مكونات"
+msgstr[4] "تم إلغاء قفل %(count)s مكونًا"
+msgstr[5] "تم إلغاء قفل %(count)s مكون"
 
 #, fuzzy
 #| msgid "Weblate translations"
@@ -10810,12 +10420,20 @@ msgstr "ترجمات وابلايت"
 msgid "Locking prevents translators from doing changes."
 msgstr ""
 
-msgid "Reset and discard"
-msgstr ""
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Download changes"
+msgid "Discard local changes"
+msgstr "تنزيل التغييرات"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "تغييرات المستودع"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
 
 #, fuzzy
@@ -10830,12 +10448,15 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
-msgstr ""
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset the Weblate repository and reapply translations"
+msgid "Reset and reapply translations"
+msgstr "إعادة تعيين مستودعة Weblate وإعادة تطبيق الترجمات"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
 
 #, fuzzy
@@ -10906,10 +10527,8 @@ msgstr ""
 msgid "Use these operations with caution, they can lead to data loss."
 msgstr ""
 
-#, fuzzy
-#| msgid "Filename"
 msgid "File management"
-msgstr "اسم الملف"
+msgstr "إدارة الملفات"
 
 #, fuzzy
 #| msgid "Removed user"
@@ -11208,10 +10827,8 @@ msgstr ""
 msgid "Configured automatic suggestion services"
 msgstr "قبول الاقتراحات تلقائيا"
 
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "معطّل"
+msgstr "تعطيل"
 
 #, fuzzy
 #| msgid "enabled"
@@ -11413,13 +11030,10 @@ msgid ""
 "%(date)s."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "تم إرسال طلب ترجمة جديدة إلى المشرفين عن المشروع."
+msgstr "Weblate لديه تغييرات ترجمة معلّقة لهذه المشاريع منذ %(date)s."
 
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
@@ -11664,7 +11278,7 @@ msgstr[0] "%(count)s اقتراح معلق في %(component)s"
 msgstr[1] "%(count)s اقتراح معلق في %(component)s"
 msgstr[2] "%(count)s اقتراحان معلقان في %(component)s"
 msgstr[3] "%(count)s اقتراحات معلقة في %(component)s"
-msgstr[4] "%(count)s اقتراحا معلقا في %(component)s"
+msgstr[4] "%(count)s اقتراحًا معلقًا في %(component)s"
 msgstr[5] "%(count)s اقتراح معلق في %(component)s"
 
 #, python-format
@@ -11731,6 +11345,11 @@ msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
 
 #, fuzzy
+#| msgid "Sign in to save translations."
+msgid "Sign in to see the full audit log."
+msgstr "سجّل الدخول لحفظ الترجمات."
+
+#, fuzzy
 #| msgid ""
 #| "If you did not request this change, please report it as soon as possible."
 msgid ""
@@ -11743,10 +11362,8 @@ msgstr "إذا لم تطلب هذا التغيير ، يرجى الإبلاغ ع
 msgid "View audit log"
 msgstr "سجل التدقيق"
 
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
-msgstr "التقارير"
+msgstr "تقرير"
 
 msgid ""
 "Please click on the confirmation button below. In case it doesn't work you "
@@ -11786,17 +11403,15 @@ msgid "Screenshot context"
 msgstr "لقطة شاشة للسياق"
 
 #. Translators: e-mail subject
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "%(count)s اقتراح معلق في %(component)s"
+msgstr[0] "لا اقتراحات معلقة في %(component)s"
 msgstr[1] "%(count)s اقتراح معلق في %(component)s"
 msgstr[2] "%(count)s اقتراحان معلقان في %(component)s"
-msgstr[3] "%(count)s الإقتراحات المعلقة في %(component)s"
-msgstr[4] "%(count)s الإقتراحات المعلقة في %(component)s"
-msgstr[5] "%(count)s الإقتراحات المعلقة في %(component)s"
+msgstr[3] "%(count)s اقتراحات معلقة في %(component)s"
+msgstr[4] "%(count)s اقتراحًا معلقًا في %(component)s"
+msgstr[5] "%(count)s اقتراح معلق في %(component)s"
 
 #. Translators: e-mail subject
 #, python-format
@@ -11848,10 +11463,8 @@ msgstr "غير مكتمل"
 msgid "Translation activity summary"
 msgstr "ملخص الترجمة:"
 
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "قوائم المكونات"
+msgstr "تشخيصات المكون"
 
 msgid "Projects without components"
 msgstr "مشاريع بدون عناصر"
@@ -11976,10 +11589,8 @@ msgstr ""
 msgid "Weblate support status"
 msgstr "حالة دعم Weblate"
 
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "ترجمات وابلايت"
+msgstr "إصدار Weblate"
 
 msgid "Support status"
 msgstr "حالة الدعم"
@@ -12144,10 +11755,8 @@ msgstr "لم تسجل الدخول بعد"
 msgid "Not yet started"
 msgstr "لم تسجل الدخول بعد"
 
-#, fuzzy
-#| msgid "Component"
 msgid "Completed"
-msgstr "مكون"
+msgstr "مكتمل"
 
 msgid "Scanning duplicate candidates"
 msgstr ""
@@ -12195,10 +11804,8 @@ msgstr "السيرفر"
 msgid "Celery worker"
 msgstr ""
 
-#, fuzzy
-#| msgid "Filename"
 msgid "Filenames encoding"
-msgstr "اسم الملف"
+msgstr "ترميز أسماء الملفات"
 
 #, fuzzy
 #| msgctxt "Plural type"
@@ -12408,10 +12015,8 @@ msgstr "مستخدم محذوف"
 msgid "Invite"
 msgstr "دعوة"
 
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "اعادة ارسال الدعوة"
+msgstr "الدعوات المعلّقة"
 
 msgid "Resend invitation"
 msgstr "اعادة ارسال الدعوة"
@@ -12494,12 +12099,12 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "سيؤدي هذا إلى حذف %(count)s إدخال من ذاكرة الترجمة بشكل نهائي."
+msgstr[1] "سيؤدي هذا إلى حذف %(count)s إدخال من ذاكرة الترجمة بشكل نهائي."
+msgstr[2] "سيؤدي هذا إلى حذف %(count)s إدخالان من ذاكرة الترجمة بشكل نهائي."
+msgstr[3] "سيؤدي هذا إلى حذف %(count)s إدخالات من ذاكرة الترجمة بشكل نهائي."
+msgstr[4] "سيؤدي هذا إلى حذف %(count)s إدخالًا من ذاكرة الترجمة بشكل نهائي."
+msgstr[5] "سيؤدي هذا إلى حذف %(count)s إدخال من ذاكرة الترجمة بشكل نهائي."
 
 msgid "Rebuild"
 msgstr ""
@@ -12538,7 +12143,7 @@ msgid "Active entries"
 msgstr "الإدخالات النشطة"
 
 msgid "Pending entries"
-msgstr "الإدخالات المعلقة"
+msgstr "الإدخالات المعلّقة"
 
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
@@ -12639,6 +12244,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
+"تتضمن هذه القائمة اللغات الأساسية فقط. يُرجى الاتصال بمشرفي المشروع لإضافة "
+"لغات أخرى."
 
 msgid "Request new translation"
 msgstr "طلب ترجمة جديدة"
@@ -12743,10 +12350,8 @@ msgstr "العرض على لوحة المراقبة"
 msgid "Thank you for contributing translations."
 msgstr "مساهم جديد في %(translation)s"
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "تبرع لِ Weblate"
+msgstr "تبرع لتطوير Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "يرجى مراجعة وتأكيد البحث واستبدال النتائج."
@@ -12861,16 +12466,15 @@ msgstr "تصاعدي"
 msgid "Descending"
 msgstr "تنازلي"
 
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "الإقتراحات المعلقة"
-msgstr[1] "الإقتراحات المعلقة"
-msgstr[2] "الإقتراحات المعلقة"
-msgstr[3] "الإقتراحات المعلقة"
-msgstr[4] "الإقتراحات المعلقة"
-msgstr[5] "الإقتراحات المعلقة"
+msgstr[0] "لا سلاسل"
+msgstr[1] "%(count)s سلسلة"
+msgstr[2] "%(count)s سلسلتان"
+msgstr[3] "%(count)s سلاسل"
+msgstr[4] "%(count)s سلسلة"
+msgstr[5] "%(count)s سلسلة"
 
 msgid "There are no assigned strings."
 msgstr "لا توجد سلاسل معينة."
@@ -12937,25 +12541,19 @@ msgstr "انسخ إلى الحافظة"
 msgid "Translate"
 msgstr "ترجم"
 
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
 msgstr "سلاسل"
 
-#, fuzzy
-#| msgid "Words"
 msgid "words"
-msgstr "الكلمات"
+msgstr "كلمات"
 
 #, fuzzy
 #| msgid "Bulk edit strings"
 msgid "Bulk edit selected strings"
 msgstr "تعديل السلاسل النصيّة"
 
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "No strings selected"
-msgstr "إشعار عند توفّر سلاسل جديدة لترجمتها"
+msgstr "لا سلاسل محدّدة"
 
 msgid "No matching strings found."
 msgstr "لا سلاسل مشابه تم إيجادها."
@@ -12992,17 +12590,15 @@ msgstr "السابق"
 msgid "Activity in last 12 months"
 msgstr "النشاط في آخر 12 شهرًا"
 
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)sأقل من ساعة"
-msgstr[1] "%(count)sساعة واحدة"
-msgstr[2] "%(count)sساعتان"
-msgstr[3] "%(count)s ساعات"
-msgstr[4] "%(count)s ساعة"
-msgstr[5] "%(count)s ساعة"
+msgstr[0] "لا تغييرات"
+msgstr[1] "%(count)s تغيير"
+msgstr[2] "%(count)s تغييران"
+msgstr[3] "%(count)s تغييرات"
+msgstr[4] "%(count)s تغييرًا"
+msgstr[5] "%(count)s تغيير"
 
 #, fuzzy
 #| msgid ""
@@ -13181,20 +12777,18 @@ msgstr[5] "%(count)s مكون آخر متأثر."
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate development"
-msgstr "قم بدعم Weblate على {0}"
+msgstr "دعم تطوير Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "شكرًا لكم على استخدام Weblate."
+msgstr "شكرًا لكم على استخدام Weblate و مساهمتكم بالترجمات."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"إذا كنت ترغب في تقديم المزيد، فإن التبرع الاختياري يمول تطوير و صيانة "
+"Weblate نفسه."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -13209,7 +12803,7 @@ msgid "Select"
 msgstr "محدد CSS"
 
 msgid "Target string"
-msgstr "مستهدف السلسلة"
+msgstr "السلسلة الهدف"
 
 msgid "Loading results…"
 msgstr "يُحمل النتائج…"
@@ -13290,20 +12884,16 @@ msgstr "لا ينبغي ترجمة هذا المصطلح."
 msgid "Edit glossary term"
 msgstr "تحرير مفردة في معجم المفردات"
 
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "إشعارات الترجمة"
+msgstr "شرح الترجمة"
 
 #, fuzzy
 #| msgid "Source string location"
 msgid "Source explanation"
 msgstr "مكان سلسة المصدر"
 
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Glossary translation explanation"
-msgstr "إشعارات الترجمة"
+msgstr "شرح ترجمة المسرد"
 
 #, fuzzy
 #| msgid "Source string location"
@@ -13313,10 +12903,8 @@ msgstr "مكان سلسة المصدر"
 msgid "No related strings found in the glossary."
 msgstr "لا سلاسل مشابهة موجودة في القاموس."
 
-#, fuzzy
-#| msgid "Your summary"
 msgid "Summary"
-msgstr "مُلخصك"
+msgstr "الملخص"
 
 msgid "Project website"
 msgstr "موقع المشروع"
@@ -13732,7 +13320,7 @@ msgstr "حالة السلسلة"
 
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
-msgstr "سلسلة معلقة"
+msgstr "سلسلة معلّقة"
 
 msgid "String target language"
 msgstr "سلسلة مستهدف اللغة"
@@ -13875,16 +13463,16 @@ msgstr "المراجعات ممكَّنة لهذه اللغة."
 msgid "Reviews are disabled for this language."
 msgstr "لا معاجم معرفة لهذه اللغة."
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "مراجعة السلاسل"
+msgstr "مراجعة الإعداد: %(origin)s."
 
 #, python-format
 msgid ""
 "Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
 "language</a>."
 msgstr ""
+"تعرّف على كيفية <a href=\"%(workflow_url)s\">تخصيص سير العمل لهذه اللغة</a>."
 
 msgid "Learn how to customize translation workflows."
 msgstr "تعرّف على كيفية تخصيص سير عمل الترجمة."
@@ -13945,6 +13533,8 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"يستخدم Weblate مفتاح SSH للوصول إلى المستودعات عن بعد. يوجد المفتاح العام "
+"المقابل أدناه، ويمكنك استخدامه لمنح Weblate حق الوصول إلى مستودع."
 
 #, python-format
 msgid "Download %(key_type)s private key"
@@ -13957,6 +13547,8 @@ msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"يستخدم Weblate عناوين الـ IP المدرجة أدناه للوصول إلى المستودعات أو بدء "
+"تشغيل webhooks."
 
 #, fuzzy
 #| msgid "API key copied to clipboard."
@@ -13969,7 +13561,7 @@ msgstr "أضاف اقتراحًا"
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
-msgstr[0] "لا%(count)s صوت"
+msgstr[0] "لا صوت"
 msgstr[1] "%(count)s صوت واحد"
 msgstr[2] "%(count)s صوتان"
 msgstr[3] "%(count)s أصوات"
@@ -14019,20 +13611,14 @@ msgstr ""
 msgid "Already purchased? Link your support package"
 msgstr "شراء حزمة الدعم"
 
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Term information from the translation file"
-msgstr "إعادة تعيين كل التغييرات في المستودع المحلي"
+msgstr "معلومات المصطلح من ملف الترجمة"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "السلاسل المصدرية"
+msgstr "المصطلحات المصدرية"
 
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target terms"
-msgstr "السلاسل الهدف"
+msgstr "المصطلحات الهدف"
 
 msgid "Translation status"
 msgstr "حالة الترجمة"
@@ -14097,16 +13683,14 @@ msgstr "سيؤدي هذا إلى حذف الفريق <b>%(name)s</b> من هذا
 msgid "Reject user suggestions"
 msgstr "حذف اقتراح"
 
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
-msgstr "سيؤدي هذا إلى حذف الفريق <b>%(name)s</b> من هذا المشروع."
+msgstr "رفض جميع الاقتراحات المعلقة من <b>%(user)s</b> عبر كافة المشاريع."
 
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
-msgstr "سيؤدي هذا إلى حذف الفريق <b>%(name)s</b> من هذا المشروع."
+msgstr "رفض جميع الاقتراحات المعلقة من <b>%(user)s</b> في هذا المشروع."
 
 msgid "Delete user comments"
 msgstr "حذف تعليقات المستخدم"
@@ -14242,16 +13826,12 @@ msgid ""
 "clear the monolingual base language file, and update the component."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
 msgstr ""
-"تجاوزت خطة الفوترة حدودها. لا يزال بإمكانك استخدام الخدمة ، ولكن يوصى "
-"بترقيتها."
+"تجاوزت خطتك للفوترة حدودها. لا يزال بإمكانك استخدام الخدمة، ولكن يُوصى بترقية "
+"خطة الفوترة."
 
 #, fuzzy
 #| msgid "Could not update the repository."
@@ -14369,6 +13949,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -14501,10 +14110,8 @@ msgstr ""
 msgid "Language codes"
 msgstr "رموز اللغة"
 
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "اسم الملف"
+msgstr "أسماء ملف"
 
 msgid "The component contains several duplicated translation strings."
 msgstr "يحتوي العنصر على عدة سلاسل ترجمة مكررة."
@@ -15204,10 +14811,8 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#, fuzzy
-#| msgid "Created on"
 msgid "Create"
-msgstr "تم إنشاؤه في"
+msgstr "إنشاء"
 
 msgid "Personal API key"
 msgstr "مفتاح API الشخصي"
@@ -15216,7 +14821,7 @@ msgid "This is your personal API key, do not share it with anybody else."
 msgstr ""
 
 msgid "Error while loading form:"
-msgstr ""
+msgstr "خطأ أثناء تحميل النموذج:"
 
 #, fuzzy
 #| msgid "Promoting translation projects"
@@ -15270,15 +14875,13 @@ msgid "Edit source"
 msgstr "تعديل المصدر"
 
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
 
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "تعديل في وضع الزين"
+msgstr "فتح في وضع زين"
 
 #, fuzzy
 #| msgid "Configure addon"
@@ -15304,10 +14907,8 @@ msgid "Forbidden glossary term"
 msgstr "إضافة إدخال إلى معجم المفردات"
 
 #. Translators: Can be also translated as "A term from the glossary"
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "اسم المسرد"
+msgstr "المصطلح المسرد"
 
 msgid "Source change"
 msgstr "تغيير المصدر"
@@ -15328,20 +14929,14 @@ msgstr ""
 msgid "Report issue with the source string"
 msgstr "إبلاغ عن مشكلة في السلسلة المصدرية"
 
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Delete string"
-msgstr "حذف اقتراح"
+msgstr "حذف السلسلة"
 
-#, fuzzy
-#| msgid "Changed string"
 msgid "Add variant of this string"
-msgstr "سلسلة غُيرت"
+msgstr "أضف متنوع لهذه السلسلة"
 
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add alternative translation"
-msgstr "إضافة كترجمة بديلة"
+msgstr "أضف ترجمة بديلة"
 
 msgid "Save and continue"
 msgstr "حفظ ومتابعة"
@@ -15372,13 +14967,11 @@ msgstr "سلاسل ذات مفاتيح متشابهة"
 msgid "Similar keys"
 msgstr "مفاتيح مماثلة"
 
-#, fuzzy
-#| msgid "Changed string"
 msgid "Variants of the string"
-msgstr "سلسلة غُيرت"
+msgstr "متنوعات السلسلة"
 
 msgid "Variants"
-msgstr "المتغيرات"
+msgstr "المتنوعات"
 
 msgid "Other occurrences"
 msgstr "حالات أخرى"
@@ -15528,17 +15121,15 @@ msgstr[3] "يوجد %(count)s تعليقات لهذه السلسلة."
 msgstr[4] "يوجد %(count)s تعليقات لهذه السلسلة."
 msgstr[5] "يوجد %(count)s تعليقات لهذه السلسلة."
 
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "لا يوجد %(count)s إقتراح."
-msgstr[1] "يوجد %(count)s أقتراح."
-msgstr[2] "يوجد %(count)s اقتراحان."
-msgstr[3] "يوجد %(count)s اقتراحات."
-msgstr[4] "يوجد %(count)s اقتراحًا."
-msgstr[5] "يوجد %(count)s اقتراح."
+msgstr[0] "ليس هناك متنوعات (%(count)s) لهذه السلسلة."
+msgstr[1] "هناك %(count)s متنوع لهذه السلسلة."
+msgstr[2] "هناك %(count)s متنوعان لهذه السلسلة."
+msgstr[3] "هناك %(count)s متنوعات لهذه السلسلة."
+msgstr[4] "هناك %(count)s متنوعًا لهذه السلسلة."
+msgstr[5] "هناك %(count)s متنوع لهذه السلسلة."
 
 #, fuzzy
 #| msgid "Automatic translation"
@@ -15629,15 +15220,11 @@ msgstr "%(filename)s، السلسلة %(position)s"
 msgid "string %(position)s"
 msgstr "سلسلة %(position)s"
 
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "تغييرات الدفعة المعلقة إلى مستودعك المحلي"
+msgstr "التغييرات المعلّقة لم يتم تنفيذها بعد إلى المستودع Weblate"
 
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "تصفح المُعلق"
+msgstr "معلّقة"
 
 #, fuzzy
 #| msgid "Check flags"
@@ -15683,7 +15270,7 @@ msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "إضافة متغير جديد ل \"%(existing)s\""
+msgstr "أضف متنوع جديد لـ \"%(existing)s\""
 
 msgid "Download statistics (CSV)"
 msgstr "تنزيل الإحصائيات (CSV)"
@@ -16128,17 +15715,15 @@ msgstr[3] "ستُنشأ العناصر التالية"
 msgstr[4] "ستُنشأ العناصر التالية"
 msgstr[5] "ستُنشأ العناصر التالية"
 
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s سلسلة تحتاج إلى إجراء في %(component)s"
-msgstr[1] "%(count)s سلسلة تحتاج إلى إجراء في %(component)s"
-msgstr[2] "%(count)s سلسلتان تحتاجا إلى إجراء في %(component)s"
-msgstr[3] "%(count)s سلاسل تحتاج إلى إجراء في %(component)s"
-msgstr[4] "%(count)s سلاسل تحتاج إلى إجراء في %(component)s"
-msgstr[5] "%(count)s سلاسل تحتاج إلى إجراء في %(component)s"
+msgstr[0] "و (%(counter)s) لا مكونات أخرى"
+msgstr[1] "و %(counter)s مكون آخر"
+msgstr[2] "و %(counter)s مكونان آخران"
+msgstr[3] "و %(counter)s مكونات أخرى"
+msgstr[4] "و %(counter)s مكونًا آخر"
+msgstr[5] "و %(counter)s مكون آخر"
 
 #, fuzzy
 #| msgid "Resend invitation"
@@ -16286,20 +15871,16 @@ msgstr "حرّر في وضع السلسة المفردة"
 msgid "Exit Zen"
 msgstr "الخروج مِن زين"
 
-#, fuzzy
-#| msgid "Suggestions"
 msgid "Show suggestions"
-msgstr "اقتراحات"
+msgstr "إظهار الاقتراحات"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
 msgstr "إعادة مسح كافة ملفات الترجمة مِن مستودعة Weblate"
 
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
-msgstr "تحديث الموارد"
+msgstr "حُدِّث المورد"
 
 msgid ""
 "A language translation became fully translated after an individual edit. "
@@ -16378,7 +15959,7 @@ msgid "A component was locked for translation."
 msgstr "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
 
 msgid "Component locked"
-msgstr "العنصر مغلق"
+msgstr "المكون مغلق"
 
 #, fuzzy
 #| msgid "All components are now locked for translation updates!"
@@ -16437,20 +16018,16 @@ msgstr "غُيِّرت قاعدة المستودع"
 msgid "Merging upstream repository changes failed."
 msgstr "عرض موقع مستودع المنبع"
 
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository merge failed"
-msgstr "إجراء في المستودع"
+msgstr "فشل دمج المستودع"
 
 #, fuzzy
 #| msgid "Repository changes"
 msgid "Rebasing repository changes failed."
 msgstr "تغييرات المستودع"
 
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository rebase failed"
-msgstr "إجراء في المستودع"
+msgstr "فشل تغيير قاعدة المستودع"
 
 #, fuzzy
 #| msgid "Could not parse translation files."
@@ -16467,10 +16044,8 @@ msgstr "ملف فاشل"
 msgid "A language translation was removed."
 msgstr "تمت إزالة اللغة %s."
 
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation removed"
-msgstr "الترجمة المطلوب إزالتها"
+msgstr "أُزيلت الترجمة"
 
 #, fuzzy
 #| msgid "Translation suggestions can be made."
@@ -16485,10 +16060,8 @@ msgid ""
 "instead of Translation changed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation replaced"
-msgstr "رَفع ترجمة"
+msgstr "اُستبدلت الترجمة"
 
 #, fuzzy
 #| msgid "Repository changes"
@@ -16671,16 +16244,11 @@ msgstr "تمت إزالة مشروعك للترجمة"
 msgid "Project created"
 msgstr "اسم المشروع"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "أنشئ مكون ترجمة جديد"
+msgstr "أُنشئ مكون ترجمة."
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون"
 
 #, fuzzy
 #| msgid "User has been invited to this project."
@@ -16819,10 +16387,8 @@ msgstr "تمت إزالة تعليق عن الترجمة."
 msgid "The explanation for a source string was updated."
 msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
 
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation updated"
-msgstr "الترجمة"
+msgstr "حُدِّث الشرح"
 
 #, fuzzy
 #| msgid "Language %s removed."
@@ -16928,10 +16494,8 @@ msgstr "نُشر تغيير"
 msgid "A file was uploaded to a translation."
 msgstr "تسمية مؤلف الترجمة المُرسَلة"
 
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File uploaded"
-msgstr "فشلت عملية رفع الملف : %s"
+msgstr "رُفع الملف"
 
 #, fuzzy
 #| msgid "All repositories were updated."
@@ -17251,7 +16815,7 @@ msgstr "تمكين الملحق:"
 
 #. Translators: Name of an alert
 msgid "Your billing plan has exceeded its limits."
-msgstr ""
+msgstr "تجاوزت خطتك للفوترة حدودها."
 
 #. Translators: Name of an alert
 #, fuzzy
@@ -17331,10 +16895,8 @@ msgid "Duplicated translation."
 msgstr "الترجمة مكررة."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated file mask."
-msgstr "الترجمة مكررة."
+msgstr "قناع ملف مكرر."
 
 #. Translators: Name of an alert
 msgid "Could not parse translation files."
@@ -17346,7 +16908,7 @@ msgid "No file mask matches."
 msgstr "تم العثور على مستخدمين آخرين."
 
 msgid "Inexistent files."
-msgstr ""
+msgstr "ملفات غير موجودة."
 
 msgid "This component can be migrated to the Weblate GitHub App integration."
 msgstr "يمكن ترحيل هذا المكوّن إلى تكامل تطبيق Weblate GitHub."
@@ -17479,11 +17041,6 @@ msgid "Duplicate label name."
 msgstr "الترجمة مكررة."
 
 #, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "الترجمة مكررة."
-
-#, fuzzy
 #| msgid "Screenshot details"
 msgid "Screenshot image is missing."
 msgstr "تفاصيل لقطة الشاشة"
@@ -17532,12 +17089,10 @@ msgid "Referenced label does not exist."
 msgstr "هذه الترجمة غير موجودة بعد."
 
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "تشير وحدة مترجمة إلى وحدة مصدر مفقودة."
 
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "Referenced unit does not exist."
-msgstr "هذه الترجمة غير موجودة بعد."
+msgstr "الوحدة المشار إليها غير موجودة."
 
 #, fuzzy
 #| msgid "Screenshot details"
@@ -17568,11 +17123,22 @@ msgid "Referenced role does not exist."
 msgstr "هذه الترجمة غير موجودة بعد."
 
 #, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
+
+#, fuzzy
 #| msgid "User has been added to this project."
 msgid "Repository data does not belong to a restored component."
 msgstr "تمت إضافة مستخدم إلى هذا المشروع."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17588,10 +17154,8 @@ msgstr "الترجمة حالياً مغلقة من أجل التحديثات."
 msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
 
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File upload mode:"
-msgstr "فشلت عملية رفع الملف : %s"
+msgstr "وضع تحميل الملف:"
 
 #, fuzzy
 #| msgid "Protected"
@@ -17614,7 +17178,7 @@ msgid "Parsing of the “{}” file was enforced."
 msgstr "تم فرض تحليل الملف \"{}\"."
 
 msgid "File “{}” was added."
-msgstr ""
+msgstr "تم إضافة ملف ”{}“."
 
 msgctxt "License information not available"
 msgid "N/A"
@@ -17661,27 +17225,23 @@ msgstr ""
 msgid "New revision: {}"
 msgstr "المعلومات الشخصية: {}"
 
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "تم تحرير %(count)s حرف"
-msgstr[1] "تم تحرير %(count)s حرف"
-msgstr[2] "تم تحرير %(count)s حرفان"
-msgstr[3] "تم تحرير %(count)s احرف"
-msgstr[4] "تم تحرير %(count)s احرف"
-msgstr[5] "تم تحرير %(count)s حرف"
+msgstr[0] "لا حروف تم تعديلها"
+msgstr[1] "%(count)d حرف تم تعديله"
+msgstr[2] "%(count)d حرفان تم تعديلهما"
+msgstr[3] "%(count)d حروف تم تعديلهم"
+msgstr[4] "%(count)d حرفًا تم تعديله"
+msgstr[5] "%(count)d حرف تم تعديله"
 
 #. Translators: Translation context for Gettext
 msgid "Context"
 msgstr "السياق"
 
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup file"
-msgstr "فشل النسخ الاحتياطي"
+msgstr "ملف النسخ الاحتياطي"
 
 #, fuzzy
 #| msgid "Backup failed"
@@ -17708,30 +17268,23 @@ msgstr "المكونات الأخرى"
 msgid "Original component"
 msgstr "إنشاء عنصر"
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Current translation"
-msgstr "إنشاء ترجمة"
+msgstr "الترجمة الحالية"
 
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Previous translation"
-msgstr "الترجمة السابقة كانت \"%s\"."
+msgstr "الترجمة السابقة"
 
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "حالة Weblate"
+msgstr "الحالة: %(state)s"
 
 #, fuzzy
 #| msgid "Previous"
 msgid "Previous source"
 msgstr "السابق"
 
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "التصويت على الاقتراحات"
+msgstr "الاقتراحات المعلّقة"
 
 #, fuzzy
 #| msgid "Source needs review"
@@ -17847,10 +17400,8 @@ msgstr "لا تقم باستيراده"
 msgid "Case-sensitive sort"
 msgstr "آخر نشاط"
 
-#, fuzzy
-#| msgid "Last activity"
 msgid "Case-insensitive sort"
-msgstr "آخر نشاط"
+msgstr "فرز غير حساس لحالة الأحرف"
 
 msgid "JSON indentation"
 msgstr "إزاحة JSON"
@@ -18076,10 +17627,8 @@ msgid ""
 "removing position-dependent context."
 msgstr ""
 
-#, fuzzy
-#| msgid "Filename"
 msgid "File encoding"
-msgstr "اسم الملف"
+msgstr "ترميز الملف"
 
 msgid "UTF-8"
 msgstr ""
@@ -18179,10 +17728,8 @@ msgstr "سلاسل للقراءة فقط"
 msgid "Strings marked for edit"
 msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
 
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with variants"
-msgstr "سلاسل لها اقتراحات"
+msgstr "سلاسل لها متنوعات"
 
 msgid "Strings with screenshots"
 msgstr "سلاسل تحتوي على لقطات شاشة"
@@ -18332,7 +17879,7 @@ msgid "Review state"
 msgstr "حالة المراجعة"
 
 msgid "Additional explanation to clarify meaning or usage of the string."
-msgstr ""
+msgstr "شرح إضافي لتوضيح معنى السلسلة أو استخدامها."
 
 #, fuzzy
 #| msgid "Source string location"
@@ -18353,13 +17900,11 @@ msgid ""
 "changes."
 msgstr "لقد تم تعديل السلسلة المترجَمة مؤخرا. الرجاء التحقق من التعديلات."
 
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Ignore language mismatch"
-msgstr "حد اللغات"
+msgstr "تجاهل عدم تطابق اللغة"
 
 msgid "Allow uploading a file that declares a different translation language."
-msgstr ""
+msgstr "السماح بتحميل ملف يُعلن عن لغة ترجمة مختلفة."
 
 msgid "File upload mode"
 msgstr "وضع رفع الملف"
@@ -18557,10 +18102,8 @@ msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr "الترجمة حالياً مغلقة."
 
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "الترجمة حالياً مغلقة."
+msgstr "رفض جميع الاقتراحات المعلّقة من هذا المستخدم في المشروع الحالي."
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -18707,10 +18250,8 @@ msgstr "إعدادات التحكم في الإصدار"
 msgid "Commit messages"
 msgstr "تقديم الرسائل"
 
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation files"
-msgstr "ملف الترجمة"
+msgstr "ملفات الترجمة"
 
 #, fuzzy
 #| msgid "Hosting translations"
@@ -18777,9 +18318,13 @@ msgstr ""
 msgid "Access"
 msgstr "دخول API"
 
+#, fuzzy
+#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
 
 #, fuzzy
 #| msgid "Contributes to the pool of shared translations between projects."
@@ -18817,6 +18362,11 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not load project backup: %s"
+msgstr "فشل توليد المفتاح: %s"
+
+#, fuzzy
+#| msgid "Failed to generate key: %s"
+msgid "Could not load project backup."
 msgstr "فشل توليد المفتاح: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -19129,12 +18679,6 @@ msgstr "أسلوب الخط"
 msgid "Linux style, lower cased"
 msgstr "أسلوب الخط"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -19144,6 +18688,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "عام"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 #, fuzzy
 #| msgid "Component with this URL slug already exists in the project."
@@ -19421,35 +18971,23 @@ msgstr ""
 msgid "Repository path for this category already exists and is not empty."
 msgstr "المكون بهذا الاسم موجود بالفعل في المشروع."
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created from scratch"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون من الصفر"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created as a branch"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون كـ فرع"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created via API"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون عبر واجهة برمجة التطبيقات (API)"
 
-#, fuzzy
-#| msgid "Version control"
 msgid "Component created from version control"
-msgstr "التحكم في الإصدار"
+msgstr "أُنشئ المكون من تحكم الإصدار"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created via ZIP upload"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون عبر رفع ZIP"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created via document upload"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون عبر رفع مستند"
 
 #. Translators: condensed rendering of a change action in history
 #, python-format
@@ -19579,10 +19117,8 @@ msgstr ""
 "يكون مسار ملفات الترجمة بالنسبة إلى جذر المخزن، استعمل * بدل كود اللغة، "
 "مثال: po/*.po أو locale/*/LC_MESSAGES/django.po."
 
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "تفاصيل لقطة الشاشة"
+msgstr "قناع ملف لقطة الشاشة"
 
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
@@ -19773,6 +19309,17 @@ msgstr ""
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "هل يجب دفع المخزن إلى المنبع في كل إيداع."
 
+#, fuzzy
+#| msgid "Last updated"
+msgid "Push on update"
+msgstr "آخر تحديث"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr ""
 
@@ -19799,10 +19346,8 @@ msgid ""
 msgstr ""
 "العبارة العادية التي تُستخدَم لتصفيه الترجمة عند المسح لإيجاد قناع الملف."
 
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "تعابير البريد الإلكتروني القياسية"
+msgstr "التعبير العادي للمتنوعات"
 
 #, fuzzy
 #| msgid ""
@@ -19889,10 +19434,8 @@ msgstr ""
 msgid "Could not fetch the repository: %s"
 msgstr "تعذر جلب المستودع: %s"
 
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "File does not exist."
-msgstr "هذه الترجمة غير موجودة بعد."
+msgstr "الملف غير موجود."
 
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
@@ -20040,16 +19583,15 @@ msgstr "رمز اللغة \"%s\" طويل جداً، الرجاء التحقق �
 msgid "Could not parse {file}: {error}"
 msgstr "تعذّر تحليل {file}: {error}"
 
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "تعذر تحليل ملفات الترجمة."
-msgstr[1] "تعذر تحليل ملفات الترجمة."
-msgstr[2] "تعذر تحليل ملفات الترجمة."
-msgstr[3] "تعذر تحليل ملفات الترجمة."
-msgstr[4] "تعذر تحليل ملفات الترجمة."
-msgstr[5] "تعذر تحليل ملفات الترجمة."
+msgstr[0] "تعذّر تحليل (%d) ملف مطابق."
+msgstr[1] "تعذّر تحليل %d ملف مطابق."
+msgstr[2] "تعذّر تحليل %d ملفان مطابقان."
+msgstr[3] "تعذّر تحليل %d ملفات مطابقة."
+msgstr[4] "تعذّر تحليل %d ملفًا مطابقًا."
+msgstr[5] "تعذّر تحليل %d ملف مطابق."
 
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
@@ -20311,8 +19853,11 @@ msgstr "يستخدم مجموعة الترجمات المشتركة بين ال�
 msgid "Contribute to shared translation memory"
 msgstr "المساهمة في ذاكرة الترجمة المشتركة"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -20466,10 +20011,8 @@ msgstr "ترجمة معتمدة في %(translation)s"
 msgid "Could not accept suggestion!"
 msgstr "لقد أخفق قبول الإقتراح !"
 
-#, fuzzy
-#| msgid "Upload translations files"
 msgid "Uploaded translation file is too big."
-msgstr "تحميل ملفات الترجمات"
+msgstr "ملف الترجمة الذي تم تحميله كبير جدًا."
 
 #, python-format
 msgid ""
@@ -20523,16 +20066,15 @@ msgstr ""
 msgid "…"
 msgstr "…"
 
-#, fuzzy, python-format
-#| msgid "Could not update the repository."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "لا يمكن تحديث المستودع."
-msgstr[1] "لا يمكن تحديث المستودع."
-msgstr[2] "لا يمكن تحديث المستودع."
-msgstr[3] "لا يمكن تحديث المستودع."
-msgstr[4] "لا يمكن تحديث المستودع."
-msgstr[5] "لا يمكن تحديث المستودع."
+msgstr[0] "تعذّر العثور على (%d) لا سلسلة:"
+msgstr[1] "تعذّر العثور على %d سلسلة:"
+msgstr[2] "تعذّر العثور على %d سلسلتان:"
+msgstr[3] "تعذّر العثور على %d سلاسل:"
+msgstr[4] "تعذّر العثور على %d سلسلةً:"
+msgstr[5] "تعذّر العثور على %d سلسلة:"
 
 #, fuzzy, python-format
 #| msgid "The uploaded file will be merged with the current translation."
@@ -20555,11 +20097,12 @@ msgid ""
 "translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
 "anyway."
 msgstr ""
+"لا تتطابق لغة الملف الذي تم تحميله (%(language)s) مع الترجمة الحالية "
+"(%(expected)s). قم بتمكين \"تجاهل عدم تطابق اللغة\" لتحميله على أي حال."
 
-#, fuzzy, python-format
-#| msgid "Failed to parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "فشل تحليل ملف ZIP الذي تم تحميله."
+msgstr "تعذّر تحليل الملف الذي تم تحميله: %s"
 
 #, fuzzy, python-format
 #| msgid "Failed to commit pending changes: %s"
@@ -20570,10 +20113,9 @@ msgstr "فشل تنفيذ التغييرات المعلقة: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "تعذّر تحليل الملف الذي تم تحميله بتنسيق {file_format}: {error}"
 
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "تعذر تحليل ملفات الترجمة."
+msgstr "تعذّر تحليل ملف الترجمة: %s"
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -20627,25 +20169,19 @@ msgstr[4] ""
 msgstr[5] ""
 "تعذر نشر السلسلة إلى %(component)s لأنك لم توافق على اتفاقية المساهم."
 
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Unmark as untranslatable for all languages"
-msgstr "ترجمات وابلايت"
+msgstr "إلغاء علامة كـ غير قابل لترجمة لكل اللغات"
 
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Unmark as read-only for all languages"
 msgstr "ترجمات وابلايت"
 
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Unmark this translation as untranslatable"
-msgstr "ترجمات وابلايت"
+msgstr "إلغاء علامة هذه الترجمة كـ غير قابل لترجمة"
 
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "Unmark this translation as read-only"
-msgstr "هذه الترجمة مغلقة."
+msgstr "إلغاء علامة هذه الترجمة كـ للقراءة فقط"
 
 msgid "Make untranslatable apply to all languages"
 msgstr "جعل الغير قابل للترجمة ينطبق على جميع اللغات"
@@ -20653,45 +20189,31 @@ msgstr "جعل الغير قابل للترجمة ينطبق على جميع ا�
 msgid "Make read-only apply to all languages"
 msgstr "جعل للقراءة فقط ينطبق على جميع اللغات"
 
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Mark this translation as untranslatable"
-msgstr "إضافة كترجمة بديلة"
+msgstr "علِّم هذه الترجمة كـ غير قابل لترجمة"
 
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "Mark this translation as read-only"
-msgstr "هذه الترجمة مغلقة."
+msgstr "علِّم هذه الترجمة كـ للقراءة فقط"
 
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Mark as untranslatable for all languages"
-msgstr "إضافة كترجمة بديلة"
+msgstr "علِّم كـ غير قابل لترجمة لكل اللغات"
 
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Mark as read-only for all languages"
 msgstr "وضع علامة كرسالة غير مرغوب فيها"
 
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
-msgstr "إضافة كترجمة بديلة"
+msgstr "علِّم كـ ترجمة ممنوعة"
 
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Unmark as forbidden translation"
-msgstr "ترجمات وابلايت"
+msgstr "إلغاء علامة كـ ترجمة ممنوعة"
 
-#, fuzzy
-#| msgid "Dismiss for all languages"
 msgid "Mark as terminology for all languages"
-msgstr "تجاهل لجميع اللغات"
+msgstr "علِّم كـ مصطلح لكل اللغات"
 
-#, fuzzy
-#| msgid "Dismiss for all languages"
 msgid "Unmark as terminology for all languages"
-msgstr "تجاهل لجميع اللغات"
+msgstr "إلغاء علامة كـ مصطلح لكل اللغات"
 
 msgid ""
 "Translate from this language. Leave empty to use the component source "
@@ -20868,14 +20390,12 @@ msgstr[5] ""
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "مصدر الترجمة الآلية"
 
-#, fuzzy
-#| msgid "Report format"
 msgid "Report generated."
-msgstr "صيغة التقرير"
+msgstr "تم إنشاء التقرير."
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "مشاريع بدون عناصر"
 
 #, fuzzy
@@ -21490,10 +21010,8 @@ msgstr "فَشِلَ إجراء إضافة التعليق!"
 msgid "Comment has been deleted."
 msgstr "تمت إزالة تعليق عن الترجمة."
 
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Comment has been resolved."
-msgstr "تمت إزالة تعليق عن الترجمة."
+msgstr "تم حل التعليق."
 
 #, fuzzy
 #| msgid ""
@@ -21878,16 +21396,14 @@ msgstr "عتبة التنقيط"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "خطأ فى المعامل %(field)s:%(error)s"
 
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "اللغات"
-msgstr[1] "اللغات"
-msgstr[2] "اللغات"
-msgstr[3] "اللغات"
-msgstr[4] "اللغات"
-msgstr[5] "اللغات"
+msgstr[0] "لغة"
+msgstr[1] "لغة"
+msgstr[2] "لغتان"
+msgstr[3] "لغات"
+msgstr[4] "لغةً"
+msgstr[5] "لغة"
 
 msgid "No valid billing found or limit exceeded."
 msgstr ""
@@ -21995,10 +21511,8 @@ msgstr "يوجد مستخدم آخَر يحمل اسم المستخدم هذا."
 msgid "Add as translation needing edit"
 msgstr "إضافة كترجمة بحاجة إلى التحقق منها"
 
-#, fuzzy
-#| msgid "Delete existing translation"
 msgid "Replace existing translation file"
-msgstr "حذف الترجمة الموجودة"
+msgstr "استبدال ملف الترجمة الحالي"
 
 #, fuzzy
 #| msgid "Edit source strings"
@@ -22358,10 +21872,6 @@ msgid "Repository URL contains unsafe characters."
 msgstr "يتكون الاسم فقط من الأحرف غير المسموح بها."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
@@ -22369,6 +21879,10 @@ msgstr ""
 #| msgid "Failed to parse JSON: %s"
 msgid "Could not parse URL: {}"
 msgstr "فشل تحليل JSON: %s"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -23618,6 +23132,33 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "حُذِف المصدر."
+
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "فشلت مصادقة: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "تعذر المصادقة، ربما بسبب انتهاء صلاحية الرمز المميز أو خطأ في الاتصال."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "فشلت المصادقة: %s"
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "الترجمة مكررة."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "يساهم في كافة الترجمات المشترَكة بين المشاريع."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "مشاريع بدون عناصر"
 
 #, fuzzy
 #~| msgid "XLIFF translation file with PO extensions"

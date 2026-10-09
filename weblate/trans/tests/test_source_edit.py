@@ -18,7 +18,7 @@ from weblate.trans.forms import SourceEditForm
 from weblate.trans.models import Component, Unit, WorkflowSetting
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.source_edit import edit_source
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_another_user
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
@@ -30,7 +30,7 @@ from weblate.utils.state import (
 )
 
 
-class SourceEditTest(ViewTestCase):
+class SourceEditTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.make_manager()
@@ -400,10 +400,11 @@ class SourceEditTest(ViewTestCase):
             self.assertRaisesMessage(RuntimeError, "Failure after file write"),
             transaction.atomic(),
         ):
-            statuses = translation.update_units(
+            statuses, written = translation.update_units(
                 changes, translation.store, self.user.get_author_name()
             )
             self.assertTrue(all(statuses.values()))
+            self.assertTrue(written)
             msg = "Failure after file write"
             raise RuntimeError(msg)
         translation.drop_store_cache()

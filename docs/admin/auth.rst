@@ -29,6 +29,106 @@ of other Django-based projects (see :ref:`pootle-migration`).
    :ref:`docker-auth` describes how to configure authentication in the official
    Docker image.
 
+.. _sso-team-sync:
+
+Teams from identity providers
+-----------------------------
+
+.. versionadded:: 2026.10.1
+
+Weblate can synchronize selected teams from external group memberships or
+application roles during social authentication.
+The default native and Docker pipelines include synchronization after
+authentication checks and two-factor authentication. Extraction and assignment
+are disabled until configured. If you use a custom authentication pipeline,
+place ``social_core.pipeline.user.sync_groups`` after all authentication checks,
+including ``weblate.legal.pipeline.tos_confirm`` when terms acceptance is enabled.
+
+Map external identifiers to lists of existing Weblate team IDs. Find team IDs
+in the administration interface URL or the teams REST API. Names can repeat
+across project and workspace scopes, so they are not used as mapping targets.
+
+For Microsoft Entra ID, prefer application roles::
+
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_KEY = "roles"
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_MAP = {
+        "Weblate.Translator": [42],
+        "Weblate.Reviewer": [43],
+    }
+
+Configure the provider to issue these roles. Group identifiers can instead be
+selected with ``GROUPS_KEY = "groups"``. Group overage causes authentication
+to fail; Weblate does not retrieve memberships from Microsoft Graph. Restrict
+the trusted tenant and issuer before granting permissions, especially when
+using a common Azure endpoint.
+
+For generic OpenID Connect or Keycloak, configure a literal claim name::
+
+    SOCIAL_AUTH_OIDC_GROUPS_KEY = "groups"
+    SOCIAL_AUTH_OIDC_GROUPS_MAP = {"translators": [42]}
+
+    SOCIAL_AUTH_KEYCLOAK_GROUPS_KEY = "groups"
+    SOCIAL_AUTH_KEYCLOAK_GROUPS_MAP = {"/organization/reviewers": [43]}
+
+For GitLab, explicitly enable membership retrieval::
+
+    SOCIAL_AUTH_GITLAB_GROUPS_ENABLED = True
+    SOCIAL_AUTH_GITLAB_GROUPS_MAP = {"organization/translators": [42]}
+
+Enabling retrieval automatically requests ``read_api`` unless ``read_api`` or
+``api`` is already requested. Enable the corresponding permission in the GitLab
+OAuth application settings alongside ``read_user``.
+
+GitLab uses full group paths by default. Use stable numeric group IDs instead
+when paths might change or be reused::
+
+    SOCIAL_AUTH_GITLAB_GROUPS_IDENTIFIER = "id"
+    SOCIAL_AUTH_GITLAB_GROUPS_MAP = {"12345": [42]}
+
+For SAML, add the group attribute and mapping to each existing entry in
+``SOCIAL_AUTH_SAML_ENABLED_IDPS``::
+
+    SOCIAL_AUTH_SAML_ENABLED_IDPS["company"].update(
+        {
+            "attr_groups": "https://example.com/claims/groups",
+            "groups_map": {"translators": [42]},
+            "allow_groups": ["translators", "reviewers"],
+        }
+    )
+
+All targets in a mapping become provider-managed teams. Authentication adds
+desired memberships and removes obsolete managed memberships. Unrelated
+teams and existing membership language restrictions are preserved. Changes
+are recorded in the audit log. Manual membership in a managed team is subject
+to replacement at the next authentication. A team may be managed by only one
+configured provider or SAML IdP; conflicting mappings and nonexistent teams
+cause errors before memberships change. No teams are created automatically.
+
+A missing configured claim fails authentication. When a provider omits claims
+for users without assignments, explicitly enable its
+``SOCIAL_AUTH_<BACKEND>_GROUPS_MISSING_AS_EMPTY`` setting. SAML uses
+``groups_missing_as_empty`` in the IdP entry. An empty membership list removes
+all provider-managed memberships. An empty ``GROUPS_MAP`` disables assignment.
+
+Login restrictions are independent of assignment. Configure
+``SOCIAL_AUTH_<BACKEND>_ALLOW_GROUPS`` to require membership in any listed
+external group or role. Unknown identifiers grant nothing, but do not reject
+login unless an allow list is configured. Existing CAS allow lists require no
+new settings or pipeline entries.
+
+Synchronization applies to login, registration, and authentication-method
+linking. Password reset and account removal do not synchronize teams. Updates
+occur only during authentication; this does not deactivate accounts or revoke
+access in the background. Synchronization does not store external membership
+snapshots.
+
+In Docker installations, use :ref:`docker-custom-config` to supply these Python
+settings; there are no dedicated environment variables for team mappings.
+
+.. seealso::
+
+   :doc:`psa:groups`
+
 Social authentication
 ---------------------
 
@@ -53,6 +153,18 @@ in :doc:`psa:configuration/django`.
 
        :doc:`psa:pipeline`
 
+Provider names are normalized by Python Social Auth's ``social_names`` pipeline
+step before Weblate initializes an empty full name. Existing full names are
+preserved. Weblate cleans and limits the resulting name and falls back to the
+username when the provider name is missing or invalid.
+
+``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` and ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST``
+control name conversion and both default to ``True``. Backend-specific settings
+are supported, for example ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST = False``.
+See :ref:`psa:name-normalization` for the conversion rules. Custom
+``SOCIAL_AUTH_PIPELINE`` configurations should include
+``social_core.pipeline.social_auth.social_names`` after ``social_details``.
+
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
 authentication method. Please note that some backends do not provide user e-mail by
@@ -68,6 +180,20 @@ to properly credit contributions users make.
 .. seealso::
 
     :doc:`Python Social Auth backend <psa:backends/index>`
+
+Authentication storage cleanup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate removes expired OpenID protocol associations and OpenID Connect login
+nonces in its hourly authentication cleanup task. OIDC login attempts have a
+30-minute nonce lifetime by default; expiry is enforced during login even before
+the next cleanup runs. Linked accounts are preserved. Verification codes and
+partial pipelines retain their existing :setting:`AUTH_TOKEN_VALID` policy.
+
+The social-auth database migration gives existing undated OIDC nonces a
+30-minute grace period from upgrade. Follow the usual upgrade procedure with
+old login-serving processes stopped while applying migrations. For backend
+configuration, see :doc:`psa:backends/oidc`.
 
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -420,6 +546,14 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Overriding authentication method names and icons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Display names and bundled icons come from python-social-auth backend metadata.
+Weblate retains translated labels and local icons for its password and e-mail
+methods, and supplies its own fallback icon for providers without a logo.
+Add ``social_django.finders.SocialAuthIconFinder`` after the standard finders in
+``STATICFILES_FINDERS`` to collect the provider icons from social-auth-core.
+The example and Docker settings include this finder. Run
+:samp:`weblate collectstatic --noinput` after upgrading.
+
 You can override the authentication method display name and icon using settings as
 ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
 overriding naming for Auth0 would look like:
@@ -428,6 +562,11 @@ overriding naming for Auth0 would look like:
 
    SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
    SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
+
+Relative image names retain the ``auth/`` static directory convention. Existing
+bundled filenames, such as ``auth0.svg``, also resolve to the shared
+``social_auth/icons/`` directory when no local override exists. Full HTTP URLs
+and data URLs continue to work.
 
 .. _disable-email-auth:
 
@@ -863,6 +1002,9 @@ Authenticator apps (TOTP)
    Only one registration can be pending per account. Opening registration in
    another browser session shows the same QR code until registration is
    completed or expires.
+
+   If you have more than one registered authenticator app, select the app
+   you are using when entering its code during sign-in.
 
 Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.

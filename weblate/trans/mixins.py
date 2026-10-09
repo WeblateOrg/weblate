@@ -161,11 +161,13 @@ class PathMixin(LoggerMixin, URLMixin):
             return True
         return False
 
-    def create_path(self) -> None:
-        """Create filesystem directory for storing data."""
+    def create_path(self) -> bool:
+        """Create the data directory and report whether this call created it."""
         path = self.full_path
         if not os.path.exists(path):
             os.makedirs(path)
+            return True
+        return False
 
 
 class UserDisplayMixin:

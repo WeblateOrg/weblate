@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-03 04:38+0000\n"
 "Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -38,6 +38,40 @@ msgstr "없음"
 
 msgid "User avatar"
 msgstr "사용자 아바타"
+
+msgid "No notification"
+msgstr "알림 없음"
+
+msgid "Instant notification"
+msgstr "즉시 알림"
+
+msgid "Daily digest"
+msgstr "일간 요약"
+
+msgid "Weekly digest"
+msgstr "주간 요약"
+
+msgid "Monthly digest"
+msgstr "월간 요약"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Watched"
+msgstr "일치하지 않음 \\n"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "관리형 프로젝트"
+
+msgid "Project"
+msgstr "프로젝트"
+
+msgid "Component"
+msgstr "구성요소"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -912,40 +946,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "알림 없음"
-
-msgid "Instant notification"
-msgstr "즉시 알림"
-
-msgid "Daily digest"
-msgstr "일간 요약"
-
-msgid "Weekly digest"
-msgstr "주간 요약"
-
-msgid "Monthly digest"
-msgstr "월간 요약"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Mismatched \\n"
-msgid "Watched"
-msgstr "일치하지 않음 \\n"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "관리형 프로젝트"
-
-msgid "Project"
-msgstr "프로젝트"
-
-msgid "Component"
-msgstr "구성요소"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "저장소에서 작업 수행됨"
@@ -1346,10 +1346,6 @@ msgstr "사용자 ID를 제거할 수 없습니다"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "먼저 이메일 주소를 확인하여 다른 ID를 추가하세요."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "인증할 수 없음: %s"
-
 msgid "Could not complete registration."
 msgstr "등록을 완료할 수 없습니다."
 
@@ -1358,6 +1354,30 @@ msgstr "이미 계정을 등록했는지 확인하세요."
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "자격 증명을 분실한 경우 새 비밀번호를 요청할 수도 있습니다."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"업스트림 저장소에 일시적으로 접근할 수 없습니다. 나중에 다시 시도해 주세요."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1375,6 +1395,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "잘못된 세션 상태로 인해 인증할 수 없습니다."
 
+msgid "New registrations are turned off."
+msgstr "새로운 등록이 비활성화되어 있습니다."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "타사 인증 서비스에서 이메일 주소를 받지 못했습니다."
 
@@ -1384,18 +1407,14 @@ msgstr "이메일로 등록해 주세요."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "SAML ID 제공자에서 RelayState를 분석할 수 없습니다."
 
-msgid "New registrations are turned off."
-msgstr "새로운 등록이 비활성화되어 있습니다."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
-
 msgid "Authentication cancelled."
 msgstr "인증이 취소되었습니다."
 
 msgid "The server does not allow authentication."
 msgstr "서버가 인증을 허용하지 않습니다."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "이미 다른 계정에서 사용 중인 사용자 ID입니다."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "이미 다른 계정에서 사용 중인 이메일 주소입니다."
@@ -1403,15 +1422,24 @@ msgstr "이미 다른 계정에서 사용 중인 이메일 주소입니다."
 msgid "The supplied username is already in use for another account."
 msgstr "이미 다른 계정에서 사용 중인 사용자 이름입니다."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "인증 실패: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr ""
+"업스트림 저장소에 일시적으로 접근할 수 없습니다. 나중에 다시 시도해 주세요."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "이미 다른 계정에서 사용 중인 사용자 ID입니다."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "인증 제공자에 연결할 수 없습니다."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "제안 수({count})가 너무 많습니다. 관리자에게 문의하세요."
 
 msgid "Notification settings adjusted."
 msgstr "알림 설정이 조정되었습니다."
@@ -3737,6 +3765,11 @@ msgstr "사용자에게 2단계 인증 설정을 요구합니다."
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "팀 범위는 프로젝트 또는 작업공간 중 하나로 지정할 수 있습니다."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "이 이름의 팀이 이 작업공간에 이미 있습니다."
+
 msgid "Limit languages"
 msgstr "언어 제한"
 
@@ -3980,6 +4013,12 @@ msgstr "이 결제 플랜에 포함된 프로젝트:"
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
@@ -6548,19 +6587,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "번역가 페르소나"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "번역의 정확도를 높이기 위해 번역자의 페르소나를 설명하세요. 예: \"당신은 다람"
 "쥐 사육사입니다.\""
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "번역가 스타일"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "번역 스타일을 설명하세요. 예: \"비격식체를 사용하세요.\""
 
 msgctxt "Automatic suggestion service configuration"
@@ -6569,11 +6618,10 @@ msgstr "언어별 지침"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"기존의 대상 언어 코드를 추가 지침으로 매핑하는 JSON 객체로, 각각 최대 "
-"%(limit)d자여야 합니다."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "언어별 지침은 JSON 객체여야 합니다."
@@ -6611,12 +6659,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI 모델"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "사용자 정의 모델 이름"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "모델이 '사용자 정의 모델'로 설정된 경우에만 필요"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "사용자 정의 모델 이름이 없습니다."
@@ -6662,8 +6717,11 @@ msgstr "Azure OpenAI 배포"
 msgid "The model's unique deployment name."
 msgstr "모델의 고유한 배포 이름입니다."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr "Ollama API의 기본 URL. 기본값은 localhost, 포트 11434입니다."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6695,7 +6753,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "최대 토큰"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "응답에서 생성할 최대 토큰 수입니다."
 
 msgctxt "LLM translation example"
@@ -9718,15 +9778,21 @@ msgstr "Weblate 번역이 잠겨 있습니다"
 msgid "Locking prevents translators from doing changes."
 msgstr "잠금 시 번역자가 변경할 수 없습니다."
 
-msgid "Reset and discard"
-msgstr "초기화 및 폐기"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "플래그 폐기"
+
+#, fuzzy
+#| msgid "Repository changes alert"
+msgid "Discard local changes and reset to upstream"
+msgstr "저장소 변경사항 알림"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"업스트림과 맞추기 위해 Weblate의 저장소를 초기화하고 Weblate에서 보류 중인 변"
-"경 사항을 모두 버립니다."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "업스트림을 번역의 기준으로 삼고 싶을 때 사용하세요."
@@ -9736,15 +9802,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "초기화 및 재적용"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Weblate의 저장소를 상위 저장소와 일치하도록 재설정하고, 보류 중인 번역을 재설"
-"정된 저장소 상태에 다시 적용합니다."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr "Weblate를 번역의 기준으로 삼고 싶을 때 사용하세요."
@@ -10529,6 +10596,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s에서 비밀번호 재설정"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "IP 주소를 포함한 전체 감사 로그를 보려면 로그인하세요."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "IP 주소를 포함한 전체 감사 로그를 보려면 로그인하세요."
 
 msgid ""
@@ -12964,6 +13036,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -15806,11 +15907,6 @@ msgstr "중복된 번역."
 msgid "Duplicate label name."
 msgstr "중복된 파일 마스크."
 
-#, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "중복된 번역."
-
 msgid "Screenshot image is missing."
 msgstr "스크린 샷 이미지가 누락되었습니다."
 
@@ -15894,11 +15990,22 @@ msgid "Referenced role does not exist."
 msgstr "파일이 존재하지 않습니다."
 
 #, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "이 역할은 이 팀에 할당할 수 없습니다."
+
+#, fuzzy
 #| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
 msgstr "카테고리가 선택한 프로젝트에 속하지 않습니다."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -16927,8 +17034,13 @@ msgstr ""
 msgid "Access"
 msgstr "접근"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr "프로젝트 간 공유 번역 풀을 사용하고 기여합니다."
 
 #, fuzzy
@@ -16968,6 +17080,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "프로젝트 백업을 불러올 수 없습니다: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "프로젝트 백업을 불러올 수 없습니다: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17237,12 +17354,6 @@ msgstr "Linux 스타일"
 msgid "Linux style, lower cased"
 msgstr "Linux 스타일, 소문자"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17252,6 +17363,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "공개"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17810,6 +17927,17 @@ msgstr "커밋 시 푸시"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "매 커밋마다 업스트림에 푸시할지 여부."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "커밋 시 푸시"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "커밋할 변경사항의 경과 시간"
 
@@ -18298,8 +18426,11 @@ msgstr "프로젝트 간 공유 번역 풀을 사용합니다."
 msgid "Contribute to shared translation memory"
 msgstr "공유된 번역 메모리에 기여하기"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "프로젝트 간 공유 번역 풀에 기여합니다."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -18787,7 +18918,7 @@ msgstr "보고서 형식"
 
 #, fuzzy
 #| msgid "Project backup import completed."
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "프로젝트 백업 가져오기가 완료되었습니다."
 
 msgid "Project backup import completed."
@@ -20053,15 +20184,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "이름에 허용되지 않는 문자가 포함되어 있습니다."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "%s에서 VCS 저장소 가져오기는 허용되지 않습니다."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "%s을(를) 사용한 VCS 저장소 가져오기는 허용되지 않습니다."
 
 msgid "Could not parse URL: {}"
 msgstr "URL을 파싱할 수 없습니다: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "%s에서 VCS 저장소 가져오기는 허용되지 않습니다."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "올바른 도메인 이름 또는 IP 주소를 입력하세요."
@@ -21251,6 +21382,70 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "인증할 수 없음: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "인증 실패: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "인증 제공자에 연결할 수 없습니다."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "기존의 대상 언어 코드를 추가 지침으로 매핑하는 JSON 객체로, 각각 최대 "
+#~ "%(limit)d자여야 합니다."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "모델이 '사용자 정의 모델'로 설정된 경우에만 필요"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr "Ollama API의 기본 URL. 기본값은 localhost, 포트 11434입니다."
+
+#~ msgid "Reset and discard"
+#~ msgstr "초기화 및 폐기"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "업스트림과 맞추기 위해 Weblate의 저장소를 초기화하고 Weblate에서 보류 중"
+#~ "인 변경 사항을 모두 버립니다."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Weblate의 저장소를 상위 저장소와 일치하도록 재설정하고, 보류 중인 번역을 "
+#~ "재설정된 저장소 상태에 다시 적용합니다."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "중복된 번역."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "프로젝트 간 공유 번역 풀을 사용하고 기여합니다."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "프로젝트 간 공유 번역 풀에 기여합니다."
+
+#, fuzzy
+#~| msgid "Project backup import completed."
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "프로젝트 백업 가져오기가 완료되었습니다."
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "배치 가능 항목을 지원하는 XLIFF 1.2"
 
@@ -21748,10 +21943,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Workspace settings"
 #~ msgstr "작업공간 설정"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "제안 수({count})가 너무 많습니다. 관리자에게 문의하세요."
 
 #, python-format
 #~ msgid ""

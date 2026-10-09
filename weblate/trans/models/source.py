@@ -22,7 +22,7 @@ from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
 from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_READONLY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable, Iterator
+    from collections.abc import Callable, Generator, Iterable
     from typing import Any
 
     from weblate.auth.models import User
@@ -68,7 +68,7 @@ _gates: ContextVar[dict[tuple[str, int], SourceWorkflowGate] | None] = ContextVa
 @contextmanager
 def source_project_gate(
     project_ids: Iterable[int], *, using: str = "default", exclusive: bool = False
-) -> Iterator[None]:
+) -> Generator[None, None, None]:
     """Lock before unit writes; workflow changes require an exclusive outer gate."""
     from weblate.trans.models.project import Project  # ruff: ignore[import-outside-top-level]
 
@@ -149,7 +149,7 @@ def source_workflows(project_id: int, *, using: str = "default") -> dict[int, in
 
 
 @contextmanager
-def source_operation(component: Component) -> Iterator[None]:
+def source_operation(component: Component) -> Generator[None, None, None]:
     """Flush dependencies before commit; nested rollbacks discard their own work."""
     using = component._state.db or "default"  # ruff: ignore[private-member-access]
     key = (using, component.pk)

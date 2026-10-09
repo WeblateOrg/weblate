@@ -43,7 +43,7 @@ from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Project
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
@@ -81,7 +81,7 @@ from weblate.wladmin.views import (
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -93,7 +93,7 @@ def get_response_call_body(index: int) -> str:
 
 
 @contextmanager
-def restored_environment(name: str, value: str) -> Iterator[None]:
+def restored_environment(name: str, value: str) -> Generator[None, None, None]:
     try:
         yield
     finally:
@@ -1115,7 +1115,7 @@ class ManageMiddlewareTest(TestCase):
         close_all.assert_called_once_with()
 
 
-class AdminTest(ViewTestCase):
+class AdminTest(ReusableViewTestCase):
     """Test for customized admin interface."""
 
     def setUp(self) -> None:
@@ -1586,8 +1586,8 @@ class AdminTest(ViewTestCase):
             source="Hello",
             target="Ahoj",
             origin="project/component",
-            source_language_id=1,
-            target_language_id=2,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
         )
         Memory.objects.create(
             source=memory.source,
@@ -1617,8 +1617,8 @@ class AdminTest(ViewTestCase):
             source="Hello",
             target="Ahoj",
             origin="project/component",
-            source_language_id=1,
-            target_language_id=2,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
         )
         MemoryScope.objects.create(
             memory=memory,
@@ -1641,8 +1641,8 @@ class AdminTest(ViewTestCase):
             source="Hello",
             target="Ahoj",
             origin="project/component",
-            source_language_id=1,
-            target_language_id=2,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
         )
         Memory.objects.create(
             source=memory.source,
@@ -1683,8 +1683,8 @@ class AdminTest(ViewTestCase):
             source="Hello",
             target="Ahoj",
             origin="project/component",
-            source_language_id=1,
-            target_language_id=2,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
         )
         Memory.objects.create(
             source=first.source,
@@ -1717,8 +1717,8 @@ class AdminTest(ViewTestCase):
             source="Hello",
             target="Ahoj",
             origin="project/component",
-            source_language_id=1,
-            target_language_id=2,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
         )
         Memory.objects.create(
             source=memory.source,

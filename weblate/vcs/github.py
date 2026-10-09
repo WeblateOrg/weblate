@@ -19,7 +19,7 @@ from urllib.parse import quote, urlencode, urlparse
 
 import httpx2
 import jwt
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -37,7 +37,7 @@ from weblate.trans.hooks.repository import (
 )
 from weblate.utils.errors import report_error
 from weblate.utils.requests import async_fetch_url
-from weblate.vcs.base import RepositoryInternalError
+from weblate.vcs.base import RepositoryInternalError, RepositoryRedirectError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
@@ -77,6 +77,7 @@ GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
     "installation_target",
     "meta",
     "push",
+    "repository",
 )
 # GitHub rejects App names longer than this; mirror the limit on our side so
 # users see the constraint up front and the manifest is always accepted.
@@ -561,6 +562,39 @@ async def get_app_repositories(
                 break
 
     return repositories
+
+
+async def get_app_repository(
+    app_id: str | int,
+    private_key: str,
+    installation_id: str | int,
+    hostname: str,
+    full_name: str,
+) -> dict | None:
+    """
+    Fetch a repository accessible to the installation.
+
+    GitHub redirects the old name of a renamed or transferred repository, so
+    the returned data describe the repository under its current name.
+    """
+    access_token = await get_installation_token(
+        app_id, private_key, installation_id, hostname
+    )
+    api_base = get_github_api_base(hostname)
+    response = await async_fetch_url(
+        "get",
+        f"{api_base}/repos/{quote(full_name, safe='/')}",
+        headers={
+            "Authorization": f"token {access_token}",
+            "Accept": "application/vnd.github.v3+json",
+        },
+        timeout=30,
+        raise_for_status=False,
+    )
+    if response.status_code == 404:
+        return None
+    response.raise_for_status()
+    return response.json()
 
 
 def verify_webhook_signature(
@@ -1087,7 +1121,62 @@ class GitHubInstallation(Installation):
             self.hostname,
             self.installation_id,
         )
+        await self.repair_moved_components(config)
         return repos
+
+    async def repair_moved_components(self, config: GitHubAppCredentials) -> int:
+        """
+        Retarget components whose repository was renamed or transferred.
+
+        Components keep pointing at the old URL when a rename webhook was missed,
+        and the integration does not allow editing the repository. GitHub keeps
+        redirecting the old name, which resolves it to the current one. Only
+        repositories accessible to this account are accepted as the target.
+        """
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        repaired = 0
+        async for component in Component.objects.filter(
+            vcs=GithubAppRepository.identifier,
+            project__workspace_id=self.workspace_id,
+        ):
+            identity = get_github_repository_identity(component.repo)
+            if identity is None:
+                continue
+            hostname, full_name = identity
+            if hostname != self.hostname or self.has_repository(full_name):
+                continue
+            try:
+                repository = await get_app_repository(
+                    config.app_id,
+                    config.private_key,
+                    self.installation_id,
+                    self.hostname,
+                    full_name,
+                )
+            except httpx2.HTTPError as error:
+                await sync_to_async(report_error)(
+                    "Failed to look up moved GitHub repository", exception=error
+                )
+                continue
+            if repository is None:
+                continue
+            current_full_name = get_github_repository_full_name(
+                repository.get("full_name")
+            )
+            if (
+                current_full_name is None
+                or current_full_name == full_name
+                or not self.has_repository(current_full_name)
+            ):
+                continue
+            clone_url = get_github_repository_clone_url(self.hostname, repository)
+            if clone_url is None:
+                continue
+            if await sync_to_async(retarget_github_app_component)(component, clone_url):
+                repaired += 1
+        return repaired
 
     def has_repository(self, full_name: str) -> bool:
         return any(repo.get("full_name") == full_name for repo in self.repositories)
@@ -1124,6 +1213,34 @@ class GitHubInstallation(Installation):
         if config is None:
             return ""
         return config.webhook_secret
+
+
+def retarget_github_app_component(component: Component, clone_url: str) -> bool:
+    """Point a component to the current URL of its moved repository."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.tasks import perform_update
+
+    old_url = component.repo
+    if not component.persist_repository_redirect(
+        "repo", RepositoryRedirectError(old_url, clone_url, 301)
+    ):
+        logger.warning(
+            "Could not retarget component %s from %s to %s",
+            component.full_slug,
+            old_url,
+            clone_url,
+        )
+        return False
+    logger.info(
+        "Retargeted component %s from %s to %s",
+        component.full_slug,
+        old_url,
+        clone_url,
+    )
+    # Fetch from the new location, a successful update also clears the
+    # alerts left by the failures against the old one
+    perform_update.delay("Component", component.pk, auto=True)
+    return True
 
 
 class InstallationRemoval(StrEnum):

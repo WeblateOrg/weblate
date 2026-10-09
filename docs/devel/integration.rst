@@ -3,6 +3,10 @@ Integrating with Weblate
 
 .. include:: /snippets/basics.rst
 
+See :doc:`libraries` for official tools and community-maintained integrations.
+For Android translation updates without rebuilding your application, use
+:doc:`kotlin-sdk`.
+
 Importing a localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++++
 

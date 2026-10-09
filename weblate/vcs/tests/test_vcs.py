@@ -25,6 +25,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import MagicMock, call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
+import httpx2
 from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
@@ -34,7 +35,11 @@ from django.utils.translation import override as translation_override
 
 from weblate.trans import defaults
 from weblate.trans.models import Component, Project
-from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
+from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
+    RepoTestMixin,
+    TempDirMixin,
+)
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
 from weblate.utils.tests import http_mock
@@ -1105,7 +1110,10 @@ class RepositoryTest(SimpleTestCase):
             repo.clone_from("file://localhost/repo.git")
 
         mock_clone.assert_not_called()
-        self.assertIn("Could not parse URL.", str(error.exception))
+        self.assertIn(
+            "Fetching VCS repository using file is not allowed.",
+            str(error.exception),
+        )
 
     def test_clone_runtime_disallowed_scheme_rejected(self) -> None:
         component = Component(
@@ -1137,7 +1145,7 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
         self.clone_test_repos()
         self.create_temp()
         self.repo = GitRepository.clone(
-            self.format_local_path(self.git_repo_path),
+            self.format_test_repo_url(self.git_repo_path),
             self.tempdir,
             "main",
             component=Component(
@@ -1147,7 +1155,7 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
                 source_language_id=1,
                 branch="main",
                 vcs="git",
-                repo=self.format_local_path(self.git_repo_path),
+                repo=self.format_test_repo_url(self.git_repo_path),
                 pk=-1,
             ),
         )
@@ -2010,6 +2018,18 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             ):
                 repository_class.validate_remote_url("https://vcs.example/repo")
 
+    @override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"})
+    def test_mercurial_scp_style_rejected(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(HgRepository, "_clone") as clone,
+            self.assertRaisesMessage(RepositoryValidationError, "Could not parse URL"),
+        ):
+            repository = HgRepository(tempdir, branch="default", local=True)
+            repository.clone_from("git@github.com:repository")
+
+        clone.assert_not_called()
+
     @override_settings(
         VCS_ALLOW_HOSTS={"hg.example"},
         VCS_ALLOW_SCHEMES={"https", "ssh"},
@@ -2096,7 +2116,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         return
 
     def get_remote_repo_url(self):
-        return self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
+        return self.format_test_repo_url(
+            getattr(self, f"{self._vcs}_repo_path"), self._vcs
+        )
 
     def get_fake_component(self):
         return Component(
@@ -2534,7 +2556,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
-                    self.format_local_path(tempdir), self._remote_branch
+                    self.format_test_repo_url(tempdir), self._remote_branch
                 )
 
         self.assertEqual(raised.exception.code, "repository_remote_branch_unrelated")
@@ -2560,7 +2582,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
-                    self.format_local_path(tempdir), self._remote_branch
+                    self.format_test_repo_url(tempdir), self._remote_branch
                 )
 
         self.assertEqual(raised.exception.code, "repository_remote_branch_shallow")
@@ -2634,7 +2656,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 )
 
             component = self.get_fake_component()
-            component.repo = self.format_local_path(origin_path)
+            component.repo = self.format_test_repo_url(origin_path)
             component.branch = branch
             with override_settings(VCS_CLONE_DEPTH=1):
                 shallow = GitRepository.clone(
@@ -2643,7 +2665,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             self.assertTrue(shallow.is_shallow())
             shallow.validate_remote_compatibility(
-                self.format_local_path(fork_path), branch
+                self.format_test_repo_url(fork_path), branch
             )
 
     def test_upstream_changes(self) -> None:
@@ -2682,6 +2704,23 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertTrue(self.repo.needs_commit())
         self.assertTrue(self.repo.needs_commit(["README.md"]))
         self.assertFalse(self.repo.needs_commit(["dummy"]))
+
+    def test_empty_commit_file_list(self) -> None:
+        with Path(self.tempdir, "README.md").open("a", encoding="utf-8") as handle:
+            handle.write("Unrelated change\n")
+        old_revision = self.repo.last_revision
+
+        with self.repo.lock:
+            self.assertFalse(self.repo.commit("Empty file list", files=[]))
+
+        self.assertEqual(self.repo.last_revision, old_revision)
+        self.assertFalse(self.repo.needs_commit([]))
+        self.assertTrue(self.repo.needs_commit())
+
+        with self.repo.lock:
+            self.assertTrue(self.repo.commit("Whole working tree", files=None))
+
+        self.assertNotEqual(self.repo.last_revision, old_revision)
 
     def check_valid_info(self, info) -> None:
         self.assertIn("summary", info)
@@ -2849,7 +2888,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_configure_branch(self) -> None:
         # Existing branch
         with self.repo.lock:
-            self.repo.configure_branch(self.repo.get_remote_branch(self.tempdir))
+            self.repo.configure_branch(
+                self.repo.get_remote_branch(self.format_test_repo_url(self.tempdir))
+            )
 
             with self.assertRaises(RepositoryError):
                 self.repo.configure_branch("branch")
@@ -2861,7 +2902,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 
     def test_remote_branch(self) -> None:
-        self.assertEqual(self._remote_branch, self.repo.get_remote_branch(self.tempdir))
+        self.assertEqual(
+            self._remote_branch,
+            self.repo.get_remote_branch(self.format_test_repo_url(self.tempdir)),
+        )
 
     def test_push_command_without_force_param(self) -> None:
         if self._class is not GitRepository:
@@ -3750,6 +3794,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 "pull_request_creation_policy": pull_request_creation_policy,
             },
         )
+        http_mock.register("GET", "https://api.github.com/user", json={"login": "test"})
         if pr_body is None:
             http_mock.register(
                 "POST",
@@ -3878,6 +3923,9 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             with self.repo.lock:
                 self.assertEqual(self.repo.push(""), html_url)
 
+        http_mock.assert_call_count("https://api.github.com/user", 0)
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 0)
+
     @http_mock.activate
     def test_push_returns_existing_pull_request_url(self) -> None:
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
@@ -3979,7 +4027,42 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 self.assertIn(str(status), message)
                 self.assertIn("Some error", message)
                 self.assertNotIn("Please retry later.", message)
-                self.assertEqual(error.exception.diagnoses, [])
+                self.assertEqual(
+                    error.exception.diagnoses,
+                    [
+                        {
+                            "code": "github_pull_request_access_unexplained",
+                            "params": {"github_app": "no"},
+                        }
+                    ]
+                    if status == 404
+                    else [],
+                )
+                http_mock.assert_call_count(
+                    "https://api.github.com/user", 1 if status == 404 else 0
+                )
+
+    @http_mock.activate
+    def test_pull_request_html_not_found_diagnosed(self) -> None:
+        self.mock_responses(
+            pr_status=404, pr_body="<html>Not Found</html>", pr_content_type="text/html"
+        )
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork"),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            super().test_push("")
+        self.assertIn("404 Not Found", error.exception.get_message())
+        self.assertEqual(
+            error.exception.diagnoses,
+            [
+                {
+                    "code": "github_pull_request_access_unexplained",
+                    "params": {"github_app": "no"},
+                }
+            ],
+        )
+        http_mock.assert_call_count("https://api.github.com/user", 1)
 
     @http_mock.activate
     def test_pull_request_creation_restricted(self) -> None:
@@ -4034,7 +4117,153 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             SimpleNamespace(status_code=404),  # type: ignore[arg-type]
         )
 
-        self.assertEqual(diagnoses, [])
+        self.assertEqual(
+            diagnoses,
+            [
+                {
+                    "code": "github_pull_request_access_unexplained",
+                    "params": {"github_app": "no"},
+                }
+            ],
+        )
+
+    def test_pull_request_account_diagnoses(self) -> None:
+        credentials = self.repo.get_credentials()
+        fallback = {
+            "code": "github_pull_request_access_unexplained",
+            "params": {"github_app": "no"},
+        }
+        for data, status, remote, expected in (
+            ({"login": "TEST"}, 200, "test", [fallback]),
+            (
+                {"login": "other"},
+                200,
+                "test",
+                [
+                    {
+                        "code": "github_pull_request_account_mismatch",
+                        "params": {"username": "test", "authenticated_user": "other"},
+                    },
+                    fallback,
+                ],
+            ),
+            ({"login": "other"}, 200, "origin", [fallback]),
+            ({}, 401, "test", [{"code": "github_api_credentials_rejected"}]),
+            ({}, 403, "test", [fallback]),
+            ([], 200, "test", [fallback]),
+            ({"login": 123}, 200, "test", [fallback]),
+        ):
+            with (
+                self.subTest(data=data, status=status, remote=remote),
+                patch.object(
+                    self.repo,
+                    "request",
+                    side_effect=[
+                        (
+                            {"pull_request_creation_policy": "all"},
+                            httpx2.Response(200),
+                            "",
+                        ),
+                        (data, httpx2.Response(status), ""),
+                    ],
+                ) as request,
+            ):
+                self.assertEqual(
+                    self.repo.get_pull_request_failure_diagnoses(
+                        credentials, httpx2.Response(404), remote
+                    ),
+                    expected,
+                )
+                self.assertEqual(
+                    request.call_args.args,
+                    ("get", credentials, "https://api.github.com/user"),
+                )
+
+    def test_pull_request_diagnostic_lookup_errors(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["url"] = "https://enterprise.example/api/v3/repos/owner/repo"
+        with patch.object(
+            self.repo,
+            "request",
+            side_effect=[
+                ([], httpx2.Response(200), ""),
+                RepositoryError(0, "lookup failed"),
+            ],
+        ) as request:
+            diagnoses = self.repo.get_pull_request_failure_diagnoses(
+                credentials, httpx2.Response(404), "test"
+            )
+        self.assertEqual(diagnoses[0]["code"], "github_pull_request_access_unexplained")
+        self.assertEqual(
+            request.call_args.args[2], "https://enterprise.example/api/v3/user"
+        )
+
+    def test_pull_request_app_diagnosis_skips_user(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["github_app"] = True
+        with patch.object(
+            self.repo, "request", return_value=({}, httpx2.Response(200), "")
+        ) as request:
+            self.assertEqual(
+                self.repo.get_pull_request_failure_diagnoses(
+                    credentials, httpx2.Response(404)
+                ),
+                [
+                    {
+                        "code": "github_pull_request_access_unexplained",
+                        "params": {"github_app": "yes"},
+                    }
+                ],
+            )
+        request.assert_called_once()
+
+    def test_pull_request_account_breadcrumb_omits_profile(self) -> None:
+        response = httpx2.Response(
+            200,
+            json={"login": "test", "email": "private@example.com"},
+            request=httpx2.Request("GET", "https://enterprise.example/api/v3/user"),
+        )
+        with patch.object(GithubRepository, "add_breadcrumb") as breadcrumb:
+            GithubRepository.add_response_breadcrumb(response)
+        breadcrumb.assert_called_once_with("http.response", status_code=200)
+
+    def test_pull_request_failure_support_details(self) -> None:
+        credentials = self.repo.get_credentials()
+        response = httpx2.Response(
+            404,
+            headers={
+                "X-GitHub-Request-Id": "request-id",
+                "X-Accepted-GitHub-Permissions": "pull_requests=write",
+                "Authorization": "secret",
+            },
+        )
+        with (
+            patch.object(
+                self.repo, "get_pull_request_failure_diagnoses", return_value=[]
+            ),
+            patch.object(self.repo, "add_breadcrumb") as breadcrumb,
+            patch.object(self.repo, "log") as log,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.failed_github_pull_request(
+                credentials,
+                "test",
+                "test:branch",
+                "master",
+                "Not Found",
+                credentials["url"] + "/pulls",
+                response,
+                {"message": "Not Found"},
+            )
+        self.assertIn("404 Not Found", error.exception.get_message())
+        self.assertEqual(
+            breadcrumb.call_args.kwargs["headers"],
+            {
+                "X-GitHub-Request-Id": "request-id",
+                "X-Accepted-GitHub-Permissions": "pull_requests=write",
+            },
+        )
+        self.assertNotIn("secret", str(log.call_args_list))
 
     def test_pull_request_creation_restricted_for_github_app(self) -> None:
         credentials = self.repo.get_credentials()
@@ -5420,6 +5649,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
             )
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
     _vcs = "subversion"
@@ -5446,8 +5676,8 @@ class VCSSubversionTest(VCSGitTest):
     def test_configure_remote_no_push(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
-                self.format_local_path(self.subversion_repo_path),
-                self.format_local_path(self.subversion_repo_path),
+                self.format_file_url(self.subversion_repo_path),
+                self.format_file_url(self.subversion_repo_path),
                 "main",
             )
             with self.assertRaises(RepositoryError):
@@ -5457,7 +5687,7 @@ class VCSSubversionTest(VCSGitTest):
     def verify_pull_url(self) -> None:
         self.assertEqual(
             self.repo.get_config("svn-remote.svn.url"),
-            self.format_local_path(self.subversion_repo_path),
+            self.format_file_url(self.subversion_repo_path),
         )
 
     def test_push_runtime_private_repo_rejected_even_with_safe_push_url(self) -> None:
@@ -5486,6 +5716,7 @@ class VCSSubversionBranchTest(VCSSubversionTest):
         self.subversion_repo_path += "/trunk"
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class VCSHgTest(VCSGitTest):
     """Mercurial repository testing."""
 
@@ -5694,21 +5925,84 @@ class VCSLocalTest(VCSGitTest):
     def test_should_retry_popen(self) -> None:
         # This really belongs to the Git class, but we want to test it just once
         with tempfile.TemporaryDirectory() as tempdir_name:
-            tempdir = Path(tempdir_name)
+            tempdir = Path(tempdir_name) / "attacker"
             gitdir = tempdir / ".git"
+            tempdir.mkdir()
             gitdir.mkdir()
             lockfile = gitdir / "HEAD.lock"
             lockfile.touch()
             past_timestamp = time() - 7200
             utime(lockfile, (past_timestamp, past_timestamp))
+
+            # Remote commands without a checkout can not trigger cleanup.
             self.assertFalse(
                 self.repo.should_retry_popen(f"""
-fatal: cannot lock ref 'HEAD': Unable to create '/nonexisting/{lockfile}': File exists.
+fatal: cannot lock ref 'HEAD': Unable to create '{lockfile}': File exists.
 """)
             )
+            self.assertTrue(lockfile.exists())
+
+            victim = Path(tempdir_name) / "victim"
+            victim_gitdir = victim / ".git"
+            victim_gitdir.mkdir(parents=True)
+            victim_lock = victim / "Gemfile.lock"
+            victim_lock.touch()
+            utime(victim_lock, (past_timestamp, past_timestamp))
+            traversal_lock = victim_gitdir / ".." / victim_lock.name
+
+            # A path in another checkout remains outside the failed command scope.
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{traversal_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(victim_lock.exists())
+
+            symlink_lock = gitdir / "symlink.lock"
+            symlink_lock.symlink_to(victim_lock)
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{symlink_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(symlink_lock.is_symlink())
+            self.assertTrue(victim_lock.exists())
+
+            fresh_lock = gitdir / "fresh.lock"
+            fresh_lock.touch()
+            self.assertFalse(
+                self.repo.should_retry_popen(
+                    f"Unable to create '{fresh_lock}': File exists",
+                    cwd=str(tempdir),
+                )
+            )
+            self.assertTrue(fresh_lock.exists())
+
+            raced_lock = gitdir / "raced.lock"
+            raced_lock.touch()
+            utime(raced_lock, (past_timestamp, past_timestamp))
+
+            def concurrent_unlink(path: Path, *, missing_ok: bool = False) -> None:
+                os.unlink(path)
+                if not missing_ok:
+                    raise FileNotFoundError(path)
+
+            with patch.object(
+                Path, "unlink", autospec=True, side_effect=concurrent_unlink
+            ):
+                self.assertTrue(
+                    self.repo.should_retry_popen(
+                        f"Unable to create '{raced_lock}': File exists",
+                        cwd=str(tempdir),
+                    )
+                )
+            self.assertFalse(raced_lock.exists())
 
             self.assertTrue(
-                self.repo.should_retry_popen(f"""
+                self.repo.should_retry_popen(
+                    f"""
 fatal: cannot lock ref 'HEAD': Unable to create '{lockfile}': File exists.
 
 Another git process seems to be running in this repository, e.g.
@@ -5716,8 +6010,11 @@ an editor opened by 'git commit'. Please make sure all processes
 are terminated then try again. If it still fails, a git process
 may have crashed in this repository earlier:
 remove the file manually to continue.
-""")
+""",
+                    cwd=str(tempdir),
+                )
             )
+            self.assertFalse(lockfile.exists())
 
     def test_from_zip_rejects_symlink_entry(self) -> None:
         archive = BytesIO()

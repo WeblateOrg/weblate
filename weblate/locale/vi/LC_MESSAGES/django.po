@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-09-26 12:01+0000\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"PO-Revision-Date: 2026-10-06 09:51+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -37,6 +37,38 @@ msgstr "Không có"
 
 msgid "User avatar"
 msgstr "Ảnh đại diện người dùng"
+
+msgid "No notification"
+msgstr "Không thông báo"
+
+msgid "Instant notification"
+msgstr "Thông báo ngay lập tức"
+
+msgid "Daily digest"
+msgstr "Thông báo hàng ngày"
+
+msgid "Weekly digest"
+msgstr "Thông báo hàng tuần"
+
+msgid "Monthly digest"
+msgstr "Thông báo hàng tháng"
+
+msgid "All"
+msgstr "Tất cả"
+
+msgid "Watched"
+msgstr "Đã theo dõi"
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Administered"
+msgstr "Chủ đề đã đăng ký theo dõi"
+
+msgid "Project"
+msgstr "Dự án"
+
+msgid "Component"
+msgstr "Thành phần"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -943,38 +975,6 @@ msgstr ""
 "Phạm vi này quá lớn để kiểm tra. Hãy chọn một danh mục nhỏ hơn, một thành "
 "phần hoặc một bản dịch."
 
-msgid "No notification"
-msgstr "Không thông báo"
-
-msgid "Instant notification"
-msgstr "Thông báo ngay lập tức"
-
-msgid "Daily digest"
-msgstr "Thông báo hàng ngày"
-
-msgid "Weekly digest"
-msgstr "Thông báo hàng tuần"
-
-msgid "Monthly digest"
-msgstr "Thông báo hàng tháng"
-
-msgid "All"
-msgstr "Tất cả"
-
-msgid "Watched"
-msgstr "Đã theo dõi"
-
-#, fuzzy
-#| msgid "Subscribed projects"
-msgid "Administered"
-msgstr "Chủ đề đã đăng ký theo dõi"
-
-msgid "Project"
-msgstr "Dự án"
-
-msgid "Component"
-msgstr "Thành phần"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Thao tác được thực hiện trong kho lưu trữ"
@@ -1145,6 +1145,9 @@ msgid ""
 "The alert must be at least a warning and the user must be able to act on it. "
 "Linked-component and project-wide alerts can be deduplicated."
 msgstr ""
+"Thông báo phải ít nhất là cảnh báo và người dùng phải có khả năng xử lý "
+"thông báo đó. Các thông báo liên quan đến thành phần được liên kết và toàn "
+"dự án có thể được loại bỏ trùng lặp."
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1376,10 +1379,6 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Thêm một danh tính khác bằng cách xác nhận địa chỉ e-mail của bạn trước tiên."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Không thể xác thực: %s"
-
 msgid "Could not complete registration."
 msgstr "Không thể hoàn thành đăng ký."
 
@@ -1390,6 +1389,29 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Bạn cũng có thể yêu cầu một mật khẩu mới, nếu bạn đã để mất thông tin đăng "
 "nhập của bạn."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "Tạm thời không thể truy cập kho lưu trữ nguồn. Vui lòng thử lại sau."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1408,6 +1430,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Không thể xác thực do trạng thái phiên không hợp lệ."
 
+msgid "New registrations are turned off."
+msgstr "Các lượt đăng ký mới đã bị tắt."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Không nhận được địa chỉ e-mail nào từ dịch vụ xác thực của bên thứ ba."
 
@@ -1417,19 +1442,14 @@ msgstr "Thay vào đó hãy đăng ký bằng e-mail."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "Không thể phân tích RelayState từ Nhà Cung Cấp Danh Tính SAML."
 
-msgid "New registrations are turned off."
-msgstr "Các lượt đăng ký mới đã bị tắt."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Không thể xác thực, có thể là do mã thông báo đã hết hạn hoặc lỗi kết nối."
-
 msgid "Authentication cancelled."
 msgstr "Đã huỷ xác thực."
 
 msgid "The server does not allow authentication."
 msgstr "Máy chủ không cho phép xác thực."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "Danh tính người dùng đã cung cấp được một tài khoản khác sử dụng."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Địa chỉ e-mail đã cung cấp được một tài khoản khác sử dụng."
@@ -1437,15 +1457,24 @@ msgstr "Địa chỉ e-mail đã cung cấp được một tài khoản khác s�
 msgid "The supplied username is already in use for another account."
 msgstr "Tên người dùng đã cung cấp được một tài khoản khác sử dụng."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Xác thực thất bại: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr "Tạm thời không thể truy cập kho lưu trữ nguồn. Vui lòng thử lại sau."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "Danh tính người dùng đã cung cấp được một tài khoản khác sử dụng."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "Không thể kết nối với nhà cung cấp xác thực."
+#, fuzzy
+#| msgid ""
+#| "Repository operation could not be completed because it remained locked."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Thao tác với kho lưu trữ không thể hoàn tất vì nó vẫn bị khóa."
 
 msgid "Notification settings adjusted."
 msgstr "Đã điều chỉnh cài đặt thông báo."
@@ -2997,10 +3026,8 @@ msgid "Cannot change this on a scoped team."
 msgstr ""
 "Không thể thay đổi điều này trên một nhóm có phạm vi hoạt động nhất định."
 
-#, fuzzy
-#| msgid "Inherit from workspace"
 msgid "Inherit enforced checks from the workspace."
-msgstr "Kế thừa từ không gian làm việc"
+msgstr "Kế thừa các kiểm tra bắt buộc từ không gian làm việc."
 
 #, fuzzy
 #| msgid "Choose either a project or a workspace."
@@ -3712,6 +3739,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 "Nhóm có thể được xác định phạm vi theo dự án hoặc theo không gian làm việc."
 
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid "A team with this name already exists in this project."
+msgstr "Đã có một nhóm với tên này tồn tại trong không gian làm việc này."
+
 msgid "Limit languages"
 msgstr "Giới hạn ngôn ngữ"
 
@@ -3958,6 +3990,12 @@ msgid ""
 msgstr ""
 "Bạn cần có quyền truy cập rõ ràng vào thành phần này trước khi bật chế độ "
 "truy cập hạn chế; nếu không, bạn sẽ tự khóa mình khỏi hệ thống."
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
+msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "Người dùng ẩn danh không thể được chỉ định vào các nhóm."
@@ -6497,19 +6535,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Vai trò người dịch"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Mô tả vai trò của người dịch để nâng cao độ chính xác của bản dịch. Ví dụ: "
 "“Bạn là người nuôi sóc.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Phong cách phiên dịch"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 "Hãy mô tả phong cách dịch thuật. Ví dụ: “Sử dụng ngôn ngữ không trang trọng.”"
 
@@ -6519,11 +6567,10 @@ msgstr "Hướng dẫn cụ thể theo ngôn ngữ"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
-"Ánh xạ đối tượng JSON tới các mã ngôn ngữ đích hiện có thành các hướng dẫn "
-"bổ sung, mỗi hướng dẫn có tối đa %(limit)d ký tự."
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Các hướng dẫn dành riêng cho từng ngôn ngữ phải là một đối tượng JSON."
@@ -6566,12 +6613,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Mô hình OpenAI"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Tên mô hình tùy chỉnh"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "Chỉ cần thiết khi mô hình được đặt thành 'Mô hình tùy chỉnh'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "Thiếu tên mô hình tùy chỉnh."
@@ -6618,8 +6672,11 @@ msgstr "Triển khai Azure OpenAI"
 msgid "The model's unique deployment name."
 msgstr "Tên triển khai duy nhất của mô hình."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr "URL cơ sở của API Ollama mặc định là localhost và cổng 11434."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6651,7 +6708,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Token tối đa"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "Số lượng token tối đa được tạo ra trong phản hồi."
 
 msgctxt "LLM translation example"
@@ -9101,17 +9160,14 @@ msgstr "Áp dụng"
 msgid "Browse components"
 msgstr "Duyệt xem các thành phần"
 
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations in this project language, until "
-#| "its given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this language within the "
 "category and its subcategories, until its given expiry, or permanently until "
 "it is deleted."
 msgstr ""
-"Thông báo này sẽ được hiển thị cho tất cả các bản dịch trong ngôn ngữ của dự "
-"án này, cho đến khi hết hạn hoặc vĩnh viễn cho đến khi bị xóa."
+"Thông báo này sẽ được hiển thị cho tất cả các bản dịch bằng ngôn ngữ này "
+"trong danh mục và các danh mục con của nó, cho đến khi hết hạn hoặc vĩnh "
+"viễn cho đến khi bị xóa."
 
 msgid "Announcements"
 msgstr "Thông báo"
@@ -9721,15 +9777,21 @@ msgstr "Bản dịch Weblate đã bị khóa"
 msgid "Locking prevents translators from doing changes."
 msgstr "Chức năng khóa ngăn người dịch thực hiện các thay đổi."
 
-msgid "Reset and discard"
-msgstr "Đặt lại và loại bỏ"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Bỏ cờ"
+
+#, fuzzy
+#| msgid "Repository changes were rebased on upstream."
+msgid "Discard local changes and reset to upstream"
+msgstr "Các thay đổi trong kho lưu trữ đã được cập nhật lên phiên bản gốc."
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Khôi phục kho lưu trữ của Weblate về trạng thái khớp với kho lưu trữ gốc và "
-"loại bỏ mọi thay đổi đang chờ xử lý trong Weblate."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -9742,15 +9804,16 @@ msgstr ""
 "Chỉ nhánh đã cấu hình được đặt lại. Các nhánh cục bộ khác được giữ lại; hãy "
 "sử dụng Cleanup để xóa chúng."
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Đặt lại và áp dụng lại"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Đặt lại kho lưu trữ của Weblate để khớp với upstream và áp dụng lại các bản "
-"dịch đang chờ xử lý lên trạng thái kho lưu trữ đã được đặt lại."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -9780,12 +9843,17 @@ msgid ""
 "For Git repositories, it also deletes all local branches other than the "
 "configured branch, including any commits that have not been pushed."
 msgstr ""
+"Đối với kho lưu trữ Git, thao tác này cũng xóa tất cả các nhánh cục bộ ngoại "
+"trừ nhánh đã cấu hình, bao gồm cả các commit chưa được đẩy lên."
 
 msgid ""
 "If switching to a branch with rewritten upstream history fails, switch to a "
 "working branch, run Cleanup, then switch back to recreate the affected "
 "branch from upstream."
 msgstr ""
+"Nếu việc chuyển sang nhánh có lịch sử được ghi đè từ nhánh gốc thất bại, hãy "
+"chuyển sang nhánh hoạt động bình thường, chạy Cleanup, sau đó chuyển lại để "
+"tạo lại nhánh bị ảnh hưởng từ nhánh gốc."
 
 msgid "Synchronize"
 msgstr "Đồng bộ"
@@ -10541,6 +10609,11 @@ msgstr "Đặt lại mật khẩu trên %(site_title)s"
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr "Đăng nhập để xem nhật ký kiểm tra đầy đủ, bao gồm cả địa chỉ IP."
 
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
+msgstr "Đăng nhập để xem nhật ký kiểm tra đầy đủ, bao gồm cả địa chỉ IP."
+
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
 "by clicking the button below."
@@ -10762,10 +10835,8 @@ msgstr "Giới hạn gói hỗ trợ"
 msgid "Support expiry"
 msgstr "Hết hạn hỗ trợ"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Hỗ trợ chuyên nghiệp"
+msgstr "Hỗ trợ chuyên nghiệp cho tổ chức của bạn"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
@@ -11364,10 +11435,9 @@ msgstr "Chuỗi nguồn được gắn nhãn"
 msgid "Add label"
 msgstr "Thêm nhãn"
 
-#, fuzzy, python-format
-#| msgid "Download translations as CSV in a ZIP file"
+#, python-format
 msgid "Download translations as %(format_name)s in a ZIP file"
-msgstr "Tải xuống các bản dịch dưới dạng CSV trong tệp ZIP"
+msgstr "Tải xuống bản dịch dưới dạng %(format_name)s trong tệp ZIP"
 
 #, python-format
 msgid "Manage %(team)s"
@@ -11671,10 +11741,8 @@ msgstr ""
 "Điều này có thể là do một số hóa đơn của bạn đã quá hạn hoặc vượt quá giới "
 "hạn."
 
-#, fuzzy
-#| msgid "Select all source strings"
 msgid "Select all strings on this page"
-msgstr "Chọn tất cả chuỗi nguồn"
+msgstr "Chọn tất cả các chuỗi trên trang này"
 
 #, fuzzy
 #| msgid "Strings marked for edit"
@@ -12196,10 +12264,9 @@ msgstr "Tạo bản dịch"
 msgid "Cannot add translation right now"
 msgstr "Hiện tại chưa thể thêm bản dịch"
 
-#, fuzzy, python-format
-#| msgid "Source language"
+#, python-format
 msgid "Source: %(language)s"
-msgstr "Ngôn ngữ nguồn"
+msgstr "Nguồn: %(language)s"
 
 msgid "Customized workflow"
 msgstr "Quy trình làm việc tùy chỉnh"
@@ -12568,7 +12635,7 @@ msgid "Failing checks:"
 msgstr "Kiểm tra không đạt:"
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "Bạn đang sử dụng Weblate trong tổ chức của mình?"
 
 #, fuzzy
 #| msgid "Purchase a support package"
@@ -12750,6 +12817,9 @@ msgid ""
 "service in the add-on configuration, or restore the service in Automatic "
 "suggestions settings."
 msgstr ""
+"Dịch vụ đánh giá được cấu hình không khả dụng. Chọn dịch vụ LLM đã định cấu "
+"hình trong cấu hình tiện ích bổ sung hoặc khôi phục dịch vụ trong cài đặt Đề "
+"xuất tự động."
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr ""
@@ -12951,6 +13021,41 @@ msgstr ""
 "Kho lưu trữ GitHub chỉ cho phép cộng tác viên tạo yêu cầu kéo (pull "
 "request). Hãy yêu cầu người quản lý kho lưu trữ cho phép tất cả người dùng "
 "tạo yêu cầu kéo."
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "This component can use the Weblate GitHub App for repository access and "
+#| "pull requests."
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+"Thành phần này có thể sử dụng Ứng dụng Weblate GitHub để truy cập kho lưu "
+"trữ và yêu cầu kéo."
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
+msgstr ""
 
 msgid ""
 "The repository references Git LFS objects that are missing from the push "
@@ -13537,17 +13642,15 @@ msgstr "Các bản dịch sau đây sẽ bị xóa:"
 msgid "Project language to remove"
 msgstr "Ngôn ngữ dự án cần loại bỏ"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "category and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and its directly related content. Translation memory is handled "
 "separately below."
 msgstr ""
 "Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn danh mục "
-"%(object)s và tất cả nội dung liên quan."
+"%(object)s và nội dung liên quan trực tiếp đến nó. Bộ nhớ dịch được xử lý "
+"riêng bên dưới."
 
 #, fuzzy
 #| msgid ""
@@ -13573,17 +13676,15 @@ msgstr "Các danh mục dịch thuật sau đây sẽ bị xóa:"
 msgid "Project to remove"
 msgstr "Dự án cần loại bỏ"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "component and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and its directly related content. Translation memory is handled "
 "separately below."
 msgstr ""
 "Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn thành phần "
-"%(object)s và tất cả nội dung liên quan."
+"%(object)s và nội dung liên quan trực tiếp của nó. Bộ nhớ dịch được xử lý "
+"riêng bên dưới."
 
 msgid ""
 "Translation memory is retained by default. If this component is restricted, "
@@ -13977,10 +14078,8 @@ msgstr "Bộ nhớ phiên dịch dùng chung"
 msgid "No matching machine translations found."
 msgstr "Không tìm thấy chuỗi phù hợp."
 
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete entry"
-msgstr "Xóa bình luận"
+msgstr "Xóa mục"
 
 msgid "Source:"
 msgstr "Nguồn:"
@@ -14751,10 +14850,8 @@ msgstr "Chỉnh sửa ở chế độ chuỗi đơn"
 msgid "Exit Zen"
 msgstr "Thoát Zen"
 
-#, fuzzy
-#| msgid "Suggestions"
 msgid "Show suggestions"
-msgstr "Đề xuất"
+msgstr "Hiển thị đề xuất"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Tệp dịch đã được đồng bộ hóa với kho lưu trữ của nó."
@@ -15642,9 +15739,6 @@ msgstr "Đường dẫn danh mục trùng lặp."
 msgid "Duplicate label name."
 msgstr "Tên nhãn bị trùng lặp."
 
-msgid "Duplicate team name."
-msgstr "Tên đội bị trùng lặp."
-
 msgid "Screenshot image is missing."
 msgstr "Ảnh chụp màn hình bị thiếu."
 
@@ -15700,6 +15794,11 @@ msgstr "Thành phần được tham chiếu không tồn tại."
 msgid "Referenced role does not exist."
 msgstr "Vai trò được tham chiếu không tồn tại."
 
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Vai trò này không thể được giao cho nhóm này."
+
 msgid "Repository data does not belong to a restored component."
 msgstr "Dữ liệu trong kho lưu trữ không thuộc về thành phần đã được khôi phục."
 
@@ -15707,6 +15806,14 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Các thành phần được liên kết với kho lưu trữ không thể chứa dữ liệu kho lưu "
 "trữ."
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
+msgstr ""
+"Thành phần %(component)s đã bị bỏ qua vì kho lưu trữ được liên kết của nó "
+"không có sẵn."
 
 msgid "The project repository directory already exists."
 msgstr "Thư mục lưu trữ dự án đã tồn tại."
@@ -16730,9 +16837,17 @@ msgstr ""
 msgid "Access"
 msgstr "Truy cập"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects "
+#| "in the workspace."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr "Sử dụng và đóng góp vào kho bản dịch chung giữa các dự án."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr ""
+"Sử dụng và đóng góp vào kho bản dịch chung giữa các dự án trong không gian "
+"làm việc."
 
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
@@ -16771,6 +16886,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Không thể tải bản sao lưu dự án: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Không thể tải bản sao lưu dự án: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -16841,10 +16961,8 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Bạn không có quyền tạo ra thuật ngữ."
 
-#, fuzzy
-#| msgid "Invalid listing column selection."
 msgid "Invalid string selection!"
-msgstr "Lựa chọn cột danh sách không hợp lệ."
+msgstr "Lựa chọn chuỗi không hợp lệ!"
 
 msgid "State to set"
 msgstr "Trạng thái cần thiết lập"
@@ -16898,17 +17016,14 @@ msgstr "Vui lòng nhập toàn bộ đường dẫn của bản dịch để xá
 msgid "Delete translation memory created from this component"
 msgstr "Xóa bộ nhớ dịch đã được tạo từ thành phần này"
 
-#, fuzzy
-#| msgid ""
-#| "Project, workspace, and shared translation memory entries will be "
-#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
 "Select this to delete project, workspace, and shared translation memory "
 "entries created from this component. Leave it unselected to retain them. "
 "Personal and uploaded entries are always preserved."
 msgstr ""
-"Các mục dự án, không gian làm việc và bộ nhớ dịch dùng chung sẽ bị xóa. Các "
-"mục cá nhân và mục đã tải lên sẽ được giữ lại."
+"Chọn cái này để xóa các mục dự án, không gian làm việc và bộ nhớ dịch dùng "
+"chung được tạo từ thành phần này. Để trống tùy chọn này để giữ lại chúng. "
+"Các mục cá nhân và mục đã tải lên luôn được giữ nguyên."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Vui lòng nhập đầy đủ slug của thành phần để xác nhận."
@@ -16919,17 +17034,14 @@ msgstr "Vui lòng nhập slug của dự án để xác nhận."
 msgid "Delete translation memory created from components in this category"
 msgstr "Xóa bộ nhớ dịch đã được tạo từ các thành phần trong danh mục này"
 
-#, fuzzy
-#| msgid ""
-#| "Project, workspace, and shared translation memory entries will be "
-#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
 "Select this to delete project, workspace, and shared translation memory "
 "entries created from components in this category. Leave it unselected to "
 "retain them. Personal and uploaded entries are always preserved."
 msgstr ""
-"Các mục dự án, không gian làm việc và bộ nhớ dịch dùng chung sẽ bị xóa. Các "
-"mục cá nhân và mục đã tải lên sẽ được giữ lại."
+"Chọn cái này để xóa các mục dự án, không gian làm việc và bộ nhớ dịch dùng "
+"chung được tạo từ các thành phần trong danh mục này. Để trống tùy chọn này "
+"để giữ lại chúng. Các mục cá nhân và mục đã tải lên luôn được giữ nguyên."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Vui lòng nhập đường dẫn danh mục để xác nhận."
@@ -17000,7 +17112,7 @@ msgstr "Tạo tệp ngôn ngữ mới"
 
 msgid ""
 "Create existing project languages; contact maintainers for new languages"
-msgstr ""
+msgstr "Tạo ngôn ngữ dự án hiện có; liên hệ với người bảo trì các ngôn ngữ mới"
 
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
@@ -17054,23 +17166,29 @@ msgstr "Phong cách Linux"
 msgid "Linux style, lower cased"
 msgstr "Kiểu Linux, chữ thường"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-"Thành phần %(component)s đã bị bỏ qua vì kho lưu trữ được liên kết của nó "
-"không có sẵn."
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
 msgstr ""
+"Cho phép truy cập ẩn danh vào các trang tương tác và tiện ích trạng thái cho "
+"các dự án Riêng tư và Tùy chỉnh."
 
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public sharing"
 msgstr "Email của bạn"
+
+#, fuzzy
+#| msgid ""
+#| "Allows anonymous access to the engage pages and status widgets for "
+#| "Private and Custom projects."
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
+"Cho phép truy cập ẩn danh vào các trang tương tác và tiện ích trạng thái cho "
+"các dự án Riêng tư và Tùy chỉnh."
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17137,10 +17255,8 @@ msgstr "Các kiểm tra bắt buộc"
 msgid "List of checks which can not be dismissed."
 msgstr "Danh sách các kiểm tra không thể bỏ qua."
 
-#, fuzzy
-#| msgid "Unused enforced checks."
 msgid "Inherit enforced checks"
-msgstr "Các khoản kiểm tra bắt buộc chưa sử dụng."
+msgstr "Kế thừa các kiểm tra bắt buộc"
 
 #, fuzzy
 #| msgid ""
@@ -17420,20 +17536,16 @@ msgstr ""
 msgid "Repository browser for translations"
 msgstr "Nhánh kho lưu trữ để dịch"
 
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders. You might want to strip "
-#| "leading directory by using {{filename|parentdir}}."
 msgid ""
 "Link to repository browser for translation files, use {{branch}} for branch, "
 "{{filename}} and {{line}} as filename and line placeholders. If left empty, "
 "the Repository browser above will be used. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Liên kết đến trình duyệt kho lưu trữ, sử dụng {{branch}} cho nhánh, "
-"{{filename}} và {{line}} làm tên tệp và dòng giữ chỗ. Bạn có thể muốn loại "
-"bỏ thư mục đầu bằng cách sử dụng {{filename|parentdir}}."
+"Liên kết đến trình duyệt kho lưu trữ cho các tệp bản dịch, sử dụng "
+"{{branch}} cho nhánh, {{filename}} và {{line}} làm các trình giữ chỗ cho tên "
+"tệp và dòng. Nếu để trống, Trình duyệt kho lưu trữ ở trên sẽ được sử dụng. "
+"Bạn có thể muốn loại bỏ thư mục đầu bằng cách sử dụng {{filename|parentdir}}."
 
 msgid "Exported repository URL"
 msgstr "URL kho lưu trữ đã xuất ra"
@@ -17671,6 +17783,17 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 "Liệu kho lưu trữ có nên được đẩy lên kho lưu trữ chính thức sau mỗi lần ghi "
 "nhận hay không."
+
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Đẩy khi ghi nhận"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
 
 msgid "Age of changes to commit"
 msgstr "Tuổi thay đổi để cam kết"
@@ -18175,8 +18298,11 @@ msgstr "Sử dụng kho bản dịch chung giữa các dự án."
 msgid "Contribute to shared translation memory"
 msgstr "Đóng góp vào bộ nhớ phiên dịch dùng chung"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Đóng góp vào nhóm các bản dịch được chia sẻ giữa các dự án."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
 msgstr ""
@@ -18531,21 +18657,16 @@ msgstr "Vui lòng nhập slug của dự án để xác nhận."
 msgid "This language already has a project workflow."
 msgstr "Ngôn ngữ được đề cập đã tồn tại."
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Select a source language in a project workflow."
-msgstr "Ngôn ngữ thứ hai được định nghĩa trong dự án hoặc thành phần"
+msgstr "Chọn ngôn ngữ nguồn trong quy trình làm việc của dự án."
 
 #, fuzzy
 #| msgid "The user is not watching this project."
 msgid "The source language must exist in this project."
 msgstr "Người dùng không xem dự án này."
 
-#, fuzzy
-#| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
-msgstr "Văn bản ngôn ngữ nguồn"
+msgstr "Ngôn ngữ nguồn không thể tạo thành một chu trình."
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -18662,9 +18783,10 @@ msgstr "Quá trình dịch tự động bị bỏ qua vì đích đến không c
 msgid "Report generated."
 msgstr "Báo cáo đã được tạo."
 
-msgid "Project backup import completed with skipped components."
-msgstr ""
-"Quá trình nhập bản sao lưu dự án đã hoàn tất với các thành phần bị bỏ qua."
+#, fuzzy
+#| msgid "Project backup import completed."
+msgid "Project backup import completed with warnings."
+msgstr "Quá trình nhập bản sao lưu dự án đã hoàn tất."
 
 msgid "Project backup import completed."
 msgstr "Quá trình nhập bản sao lưu dự án đã hoàn tất."
@@ -18886,15 +19008,12 @@ msgstr ""
 msgid "Could not parse flags: %s"
 msgstr "Không thể phân tích cờ: %s"
 
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Enforced checks has to be a list."
-msgstr "Các kiểm tra bắt buộc"
+msgstr "Việc kiểm tra bắt buộc phải được lập thành một danh sách."
 
-#, fuzzy, python-format
-#| msgid "Unused enforced checks."
+#, python-format
 msgid "Unsupported enforced check: %s"
-msgstr "Các khoản kiểm tra bắt buộc chưa sử dụng."
+msgstr "Kiểm tra bắt buộc không được hỗ trợ: %s"
 
 #, python-format
 msgid ""
@@ -19885,15 +20004,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Tên chứa các ký tự không được phép."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "Không được phép tìm nạp kho lưu trữ VCS từ %s."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "Không được phép tìm nạp kho lưu trữ VCS bằng %s."
 
 msgid "Could not parse URL: {}"
 msgstr "Không thể phân tích URL: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "Không được phép tìm nạp kho lưu trữ VCS từ %s."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Nhập tên miền hoặc địa chỉ IP hợp lệ."
@@ -21038,6 +21157,68 @@ msgstr "Không thể xóa không gian làm việc vì nó vẫn đang được s
 
 msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
+
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Không thể xác thực: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Không thể xác thực, có thể là do mã thông báo đã hết hạn hoặc lỗi kết nối."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Xác thực thất bại: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Không thể kết nối với nhà cung cấp xác thực."
+
+#, python-format
+#~ msgid ""
+#~ "JSON object mapping existing target language codes to extra instructions, "
+#~ "up to %(limit)d characters each."
+#~ msgstr ""
+#~ "Ánh xạ đối tượng JSON tới các mã ngôn ngữ đích hiện có thành các hướng "
+#~ "dẫn bổ sung, mỗi hướng dẫn có tối đa %(limit)d ký tự."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "Chỉ cần thiết khi mô hình được đặt thành 'Mô hình tùy chỉnh'"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr "URL cơ sở của API Ollama mặc định là localhost và cổng 11434."
+
+#~ msgid "Reset and discard"
+#~ msgstr "Đặt lại và loại bỏ"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Khôi phục kho lưu trữ của Weblate về trạng thái khớp với kho lưu trữ gốc "
+#~ "và loại bỏ mọi thay đổi đang chờ xử lý trong Weblate."
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Đặt lại kho lưu trữ của Weblate để khớp với upstream và áp dụng lại các "
+#~ "bản dịch đang chờ xử lý lên trạng thái kho lưu trữ đã được đặt lại."
+
+#~ msgid "Duplicate team name."
+#~ msgstr "Tên đội bị trùng lặp."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "Sử dụng và đóng góp vào kho bản dịch chung giữa các dự án."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Đóng góp vào nhóm các bản dịch được chia sẻ giữa các dự án."
+
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr ""
+#~ "Quá trình nhập bản sao lưu dự án đã hoàn tất với các thành phần bị bỏ qua."
 
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 hỗ trợ các phần tử có thể thay thế"

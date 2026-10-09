@@ -46,11 +46,13 @@ from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
     get_github_app_settings,
+    get_github_repository_full_name,
     normalize_github_installation_id,
     verify_webhook_signature,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
 from weblate.vcs.pending import pending_github_installation_cutoff
+from weblate.vcs.tasks import refresh_github_installation
 
 if TYPE_CHECKING:
     import uuid
@@ -83,6 +85,8 @@ GITHUB_REPOS = (
     "git@github.com:%(owner)s/%(slug)s.git",
     "git@github.com:%(owner)s/%(slug)s",
 )
+
+GITHUB_REPOSITORY_MOVE_ACTIONS = {"renamed", "transferred"}
 
 PAGURE_REPOS = (
     "https://{server}/{project}",
@@ -448,7 +452,7 @@ def _lookup_github_installation(data: dict, hostname: str | None = None):
 
 
 def _refresh_github_installations(installations) -> None:
-    """Refresh repositories once and copy the result to matching project rows."""
+    """Refresh repositories once and repair components in every workspace."""
     if not installations:
         return
     try:
@@ -458,10 +462,16 @@ def _refresh_github_installations(installations) -> None:
         return
 
     repositories_updated = installations[0].repositories_updated
+    config = get_github_app_settings(installations[0].hostname)
     for installation in installations[1:]:
         installation.repositories = repositories
         installation.repositories_updated = repositories_updated
         installation.save(update_fields=["repositories", "repositories_updated"])
+        if config is not None:
+            try:
+                async_to_sync(installation.repair_moved_components)(config)
+            except Exception:
+                report_error("Failed to repair moved GitHub repositories")
 
 
 def _github_http_host(hostname: str) -> str:
@@ -670,6 +680,49 @@ def _handle_github_installation_target_event(
         old_login,
         new_login,
     )
+
+
+def _handle_github_repository_event(data: dict, hostname: str) -> None:
+    """
+    Refresh connected accounts after a repository was renamed or transferred.
+
+    The refresh resolves moved repositories through GitHub, which keeps
+    redirecting the old name. That is authoritative even for redelivered or
+    out-of-order events, unlike deriving the old URL from the payload.
+    """
+    if data.get("action") not in GITHUB_REPOSITORY_MOVE_ACTIONS:
+        return
+
+    installation_id = _normalize_github_payload_installation_id(
+        (data.get("installation") or {}).get("id")
+    )
+    if installation_id is None:
+        return
+
+    accounts = Q(installation_id=installation_id)
+    if data["action"] == "transferred":
+        repository = data.get("repository")
+        full_name = (
+            repository.get("full_name") if isinstance(repository, dict) else None
+        )
+        destination = (
+            get_github_repository_full_name(full_name)
+            if isinstance(full_name, str)
+            else None
+        )
+        if destination is not None:
+            accounts |= Q(
+                target_login__iexact=destination.split("/", 1)[0], enabled=True
+            )
+
+    for item in GitHubInstallation.objects.filter(hostname=hostname).filter(accounts):
+        refresh_github_installation.delay(item.pk)
+        LOGGER.info(
+            "Scheduled refresh of connected GitHub account %s/%s after repository %s",
+            hostname,
+            item.installation_id,
+            data["action"],
+        )
 
 
 def _handle_github_installation_event(  # ruff: ignore[complex-structure]
@@ -921,6 +974,9 @@ def github_integration_hook_helper(
     if event == "installation_target":
         installation = _lookup_github_installation(data, hostname)
         _handle_github_installation_target_event(data, installation, hostname)
+        return None
+    if event == "repository":
+        _handle_github_repository_event(data, hostname)
         return None
     if event != "push":
         return None

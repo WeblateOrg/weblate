@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import os.path
 import pathlib
+from tempfile import TemporaryDirectory
 from typing import ClassVar, Never
 from unittest.mock import patch
 
 from django.core import mail
 from django.db import connection, transaction
+from django.db.models.signals import post_save
+from django.test import TransactionTestCase, override_settings
 from django.urls import reverse
 from lxml.html import fromstring
 
@@ -29,6 +32,134 @@ from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.vcs.base import RepositoryLock
+
+
+class ProjectSaveTransactionTest(TransactionTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # enterContext keeps the directory alive until test cleanups run.
+        directory = self.enterContext(TemporaryDirectory())  # pylint: disable=consider-using-with
+        self.enterContext(override_settings(DATA_DIR=directory))
+        self.project = Project.objects.create(
+            name="Save transaction", slug="save-transaction", web="https://example.com/"
+        )
+
+    def test_failed_setup_discards_audit_without_outer_transaction(self) -> None:
+        self.assertFalse(connection.in_atomic_block)
+        changes = self.project.change_set.count()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            self.project.save(update_fields=["access_control"])
+        self.assertEqual(self.project.change_set.count(), changes)
+        self.assertEqual(
+            Project.objects.get(pk=self.project.pk).access_control,
+            Project.ACCESS_PUBLIC,
+        )
+        self.project.save(update_fields=["access_control"])
+        self.assertEqual(self.project.change_set.count(), changes + 1)
+
+    def test_commit_callback_failure_keeps_committed_repository_move(self) -> None:
+        def fail_callback() -> Never:
+            msg = "commit callback failed"
+            raise RuntimeError(msg)
+
+        def register_failure(sender, **kwargs) -> None:
+            transaction.on_commit(fail_callback, using=kwargs["using"])
+
+        post_save.connect(register_failure, sender=Project)
+        self.addCleanup(post_save.disconnect, register_failure, sender=Project)
+        old_path = pathlib.Path(self.project.full_path)
+        (old_path / "probe.txt").write_text("repository contents")
+        self.project.slug = "committed-rename"
+        with self.assertRaisesMessage(RuntimeError, "commit callback failed"):
+            self.project.save(update_fields=["slug"])
+        persisted = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(persisted.slug, "committed-rename")
+        self.assertFalse(old_path.exists())
+        self.assertEqual(
+            (pathlib.Path(persisted.full_path) / "probe.txt").read_text(),
+            "repository contents",
+        )
+
+    def test_new_project_can_retry_after_failed_setup(self) -> None:
+        project = Project(
+            name="Retry creation", slug="retry-creation", web="https://example.com/"
+        )
+        path = pathlib.Path(project.full_path)
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            project.save()
+        self.assertIsNone(project.pk)
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
+        self.assertFalse(path.exists())
+        project.save()
+        self.assertTrue(project.defined_groups.get(name="Administration").internal)
+        self.assertTrue(path.is_dir())
+
+    def test_failed_creation_preserves_existing_repository_directory(self) -> None:
+        project = Project(
+            name="Existing directory",
+            slug="existing-directory",
+            web="https://example.com/",
+        )
+        path = pathlib.Path(project.full_path)
+        path.mkdir(parents=True)
+        probe = path / "probe.txt"
+        probe.write_text("existing repository contents")
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            project.save()
+        self.assertEqual(probe.read_text(), "existing repository contents")
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
+
+    def test_failed_creation_removes_repository_files_created_by_receiver(self) -> None:
+        def fail_setup(sender, instance, **kwargs) -> Never:
+            (pathlib.Path(instance.full_path) / "probe.txt").write_text("new contents")
+            msg = "setup failed"
+            raise RuntimeError(msg)
+
+        post_save.connect(fail_setup, sender=Project)
+        self.addCleanup(post_save.disconnect, fail_setup, sender=Project)
+        project = Project(
+            name="Failed receiver", slug="failed-receiver", web="https://example.com/"
+        )
+        path = pathlib.Path(project.full_path)
+        with self.assertRaisesMessage(RuntimeError, "setup failed"):
+            project.save()
+        self.assertFalse(path.exists())
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
+
+    def test_failed_directory_creation_preserves_directory_created_concurrently(
+        self,
+    ) -> None:
+        project = Project(
+            name="Concurrent directory",
+            slug="concurrent-directory",
+            web="https://example.com/",
+        )
+        path = pathlib.Path(project.full_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        probe = path / "probe.txt"
+
+        def create_concurrently(*args, **kwargs) -> Never:
+            path.mkdir()
+            probe.write_text("concurrent repository contents")
+            raise FileExistsError(path)
+
+        with (
+            patch("weblate.trans.mixins.os.makedirs", side_effect=create_concurrently),
+            self.assertRaises(FileExistsError),
+        ):
+            project.save()
+        self.assertEqual(probe.read_text(), "concurrent repository contents")
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
 
 
 class RemovalTest(ViewTestCase):
@@ -193,6 +324,45 @@ class RenameTest(ViewTestCase):
         "There appears to be an ongoing operation on the repository. "
         "Please try again later."
     )
+
+    def test_failed_project_setup_restores_repository_path(self) -> None:
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        self.project.defined_groups.filter(name="Review", internal=True).delete()
+        linked = self.create_link_existing()
+        original_repo = linked.repo
+        old_slug = self.project.slug
+        old_path = pathlib.Path(self.project.full_path)
+        repository_config = pathlib.Path(self.component.full_path) / ".git" / "config"
+        config = repository_config.read_bytes()
+        changes = self.project.change_set.count()
+        self.project.slug = "failed-setup-rename"
+        self.project.translation_review = True
+        new_path = old_path.with_name(self.project.slug)
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            self.project.save(update_fields=["slug", "translation_review"])
+        persisted = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(persisted.slug, old_slug)
+        self.assertFalse(persisted.translation_review)
+        self.assertTrue(old_path.is_dir())
+        self.assertFalse(new_path.exists())
+        self.assertEqual(repository_config.read_bytes(), config)
+        self.assertEqual(self.project.change_set.count(), changes)
+        linked.refresh_from_db()
+        self.assertEqual(linked.repo, original_repo)
+
+        self.project.save(update_fields=["slug", "translation_review"])
+        persisted.refresh_from_db()
+        self.assertEqual(persisted.slug, "failed-setup-rename")
+        self.assertTrue(persisted.translation_review)
+        self.assertFalse(old_path.exists())
+        self.assertTrue(new_path.is_dir())
+        linked.refresh_from_db()
+        self.assertIn("failed-setup-rename", linked.repo)
 
     def test_denied(self) -> None:
         self.assertNotContains(

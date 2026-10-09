@@ -165,10 +165,13 @@
       <li class="list-group-item">
         <a href="#"
            class="float-end link-post btn btn-danger"
-           data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset and discard" %}</a>
-        <h6 class="mb-1 fw-bold">{% translate "Reset all changes in the Weblate repository" %}</h6>
+           data-href="{% url "reset" path=object.get_url_path %}">
+          {# Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream. #}
+          {% translate "Discard local changes" %}
+        </a>
+        <h6 class="mb-1 fw-bold">{% translate "Discard local changes and reset to upstream" %}</h6>
         <p class="mb-0">
-          {% translate "Resets Weblate’s repository to match upstream and discards any pending changes in Weblate." %}
+          {% translate "Replaces the configured branch with upstream, discarding local commits and pending translation changes." %}
           {% translate "Use when you want the upstream to be the authority for translations." %}
           {% translate "Only the configured branch is reset. Other local branches are kept; use Cleanup to remove them." %}
         </p>
@@ -177,10 +180,13 @@
         <a href="#"
            class="float-end link-post btn btn-danger"
            data-href="{% url "reset" path=object.get_url_path %}"
-           data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
+           data-params='{"keep_changes": "1"}'>
+          {# Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream. #}
+          {% translate "Reset and reapply translations" %}
+        </a>
         <h6 class="mb-1 fw-bold">{% translate "Reset the Weblate repository and reapply translations" %}</h6>
         <p class="mb-0">
-          {% translate "Resets Weblate’s repository to match upstream and reapplies pending translations onto the reset repository state." %}
+          {% translate "Replaces the configured branch with upstream, then reapplies Weblate’s translations." %}
           {% translate "Use when you want Weblate to be the authority for translations." %}
           {% translate "Only the configured branch is reset. Other local branches are kept; use Cleanup to remove them." %}
           {% translate "Missing language files must already exist upstream or Weblate must be able to create them for the component." %}

@@ -120,6 +120,13 @@ Successful responses also include the full project/component slugs and absolute
 API URLs of updated components. Supplying a matching repository URL can
 therefore confirm that a repository is registered and reveal these identifiers.
 
+Each matching delivery records a hook event and schedules a repository update.
+Generic hook deliveries are neither application-rate-limited nor coalesced.
+Repository operations are serialized to protect repository consistency, but
+this does not bound the number of accepted deliveries or queued update attempts.
+An update of an unchanged repository still fetches the configured remote, but
+stops before merging changes or parsing translation files.
+
 Components managed through an authenticated integration are excluded from
 generic webhook matching and its diagnostic counts. Currently this applies to
 the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. These components
@@ -288,12 +295,12 @@ language synchronization and cleanup are described in
      - Prevents or allows translators to make further changes in Weblate.
      - Freeze translation changes while doing repository maintenance outside Weblate.
 
-   * - :guilabel:`Reset and discard`
-     - Resets Weblate's local repository to upstream, discards pending Weblate changes, and reconciles translation files.
+   * - :guilabel:`Discard local changes`
+     - Resets Weblate's local repository to upstream, discards local commits and pending translation changes, and reconciles translation files.
      - Use when upstream should overwrite the local Weblate repository state.
 
-   * - :guilabel:`Reset and reapply`
-     - Resets Weblate's local repository to upstream, reconciles translation files, and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`.
+   * - :guilabel:`Reset and reapply translations`
+     - Resets Weblate's local repository to upstream, reconciles translation files, and reapplies Weblate's translations. See :ref:`manage-vcs-reset-reapply`.
      - Recover from diverged history while keeping pending Weblate translations.
 
    * - :guilabel:`Cleanup`
@@ -336,14 +343,14 @@ If no local changes on the affected branch need to be kept, configure a working
 branch, run :guilabel:`Cleanup` from :guilabel:`Repository maintenance`, and wait
 for it to finish. Then switch to the affected branch again. Weblate creates it
 afresh from upstream. If the affected branch is already configured, use
-:guilabel:`Reset and discard` to replace its local history with upstream instead.
+:guilabel:`Discard local changes` to replace its local history with upstream instead.
 
 .. _manage-vcs-reset-reapply:
 
-Reset and reapply recovery behavior
-````````````````````````````````````
+Reset and reapply translations recovery behavior
+```````````````````````````````````````````````````
 
-The :guilabel:`Reset and reapply` operation keeps pending translations from
+The :guilabel:`Reset and reapply translations` operation keeps translations from
 Weblate while resetting the local repository state to match upstream.
 
 The operation can restore pending translations only when the target language
@@ -379,10 +386,10 @@ repositories, so Weblate can keep failing to update even after the pull request
 was merged upstream.
 
 If upstream no longer contains Weblate commits because they were squash merged,
-updating the repository might not be enough. Use :guilabel:`Reset and reapply`
+updating the repository might not be enough. Use :guilabel:`Reset and reapply translations`
 from :guilabel:`Repository maintenance` to reset Weblate to upstream while
 keeping pending translations; see :ref:`manage-vcs-reset-reapply`. Use
-:guilabel:`Reset and discard` only when upstream should fully replace Weblate's
+:guilabel:`Discard local changes` only when upstream should fully replace Weblate's
 local changes.
 
 To approach this, you either need to minimize the amount of pending changes in

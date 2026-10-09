@@ -30,5 +30,6 @@ so later edits do not overwrite intentional differences.
 
 .. seealso::
 
+   * :doc:`kotlin-sdk` for Android translation updates without rebuilding the application
    * :ref:`translation-consistency`
    * :ref:`translating-special-text`

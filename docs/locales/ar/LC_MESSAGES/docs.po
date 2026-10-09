@@ -27,9 +27,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-10-02 12:20+0200\n"
-"PO-Revision-Date: 2026-10-02 17:53+0000\n"
-"Last-Translator: Basheer Radman <ba2014sheer@gmail.com>\n"
+"POT-Creation-Date: 2026-10-09 05:56+0200\n"
+"PO-Revision-Date: 2026-10-09 04:07+0000\n"
+"Last-Translator: Sup! 0_0 <alelmnour1o234@proton.me>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "documentation/ar/>\n"
 "Language: ar\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 2026.10\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 msgid "Access control"
@@ -216,6 +216,20 @@ msgstr ""
 "`مخصصة`) عن طريق إضافتهم إلى الفرق."
 
 msgid ""
+"When enabling a project feature requires a built-in team name already used "
+"by a custom team, the custom team receives a numeric suffix. Its memberships "
+"and permissions are preserved, and the settings page reports the rename."
+msgstr ""
+
+msgid ""
+"Existing teams with duplicate names can still be edited without changing "
+"their names. Saving the project settings repairs duplicate names: a built-in "
+"team keeps its name, and additional teams receive numeric suffixes. "
+"Additional built-in teams become editable custom teams. Memberships and "
+"permissions are preserved, and the settings page reports the renames."
+msgstr ""
+
+msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
 msgstr ""
@@ -234,9 +248,8 @@ msgstr "\"مراجعة\""
 msgid "Approve translations in a review."
 msgstr "اعتماد الترجمات في المراجعة."
 
-#, fuzzy
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr "متاح فقط عندما تكون :ref:\"مراجعة سير العمل <reviews>\" بوضع التشغيل."
+msgstr "متاح فقط إذا :ref:`مراجعة سير العمل <reviews>` مفعّل."
 
 msgid "For `Protected` and `Private` projects only:"
 msgstr "للمشاريع \"المحمية\" و\"الخاصة\" فقط:"
@@ -252,13 +265,12 @@ msgstr "قم بترجمة المشروع وتحميل الترجمات التي 
 msgid "`Sources`"
 msgstr "\"المصادر\""
 
-#, fuzzy
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"تعديل النصوص المصدر ومعلوماتها (إذا كان ذلك مسموحا في :ref:\"إعدادات المشروع "
-"<component-manage_units>\")."
+"تعديل السلاسل المصدر (إذا كان مسموحًا في :ref:`إعدادات المشروع <component-"
+"manage_units>`) ومعلوماته."
 
 msgid "`Languages`"
 msgstr "\"اللغات\""
@@ -314,13 +326,12 @@ msgstr "الفَوترة"
 msgid "Access billing info and settings (see :ref:`billing`)."
 msgstr "الوصول إلى معلومات وإعدادات الفوترة (انظر :ref:`billing`)."
 
-#, fuzzy
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
-"تتوفر هذه الميزات في صفحة \"التحكم في الوصول\" في قائمة المشروع \"العمليات\" "
-"↓ \"المستخدمون\"."
+"تتوفر هذه الميزات في صفحة :guilabel:`التحكم في الوصول` في قائمة "
+"المشروع :guilabel:`العمليات` ↓ :guilabel:`المستخدمون`."
 
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
@@ -329,10 +340,8 @@ msgstr ""
 "يمكنك حصر الفرق في لغات أو مكونات معينة، وتعيين أدوار وصول محددة لها "
 "(انظر :ref:`privileges`)."
 
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "المديرين"
+msgstr "مسؤولو الفريق"
 
 #, fuzzy
 #| msgid "The administrator can add or remove users from a team."
@@ -377,15 +386,14 @@ msgstr ""
 msgid "Inviting new users"
 msgstr "دعوة مستخدم جديد"
 
-#, fuzzy
 msgid ""
 "Adding existing users will send them invitation to confirm. "
 "With :setting:`REGISTRATION_OPEN` the administrator can also invite new "
 "users using e-mail. Invited users have to complete the registration process "
 "to get access to the project."
 msgstr ""
-"إضافة مستخدمين حاليين سترسل لهم دعوة للتأكيد. باستخدام إعداد "
-"\"REGISTRATION_OPEN\"setting:، يمكن للمسؤول أيضًا دعوة مستخدمين جدد عبر "
+"إضافة مستخدمين حاليين سترسل لهم دعوة للتأكيد. باستخدام "
+"إعداد :setting:`REGISTRATION_OPEN`، يمكن للمسؤول أيضًا دعوة مستخدمين جدد عبر "
 "البريد الإلكتروني. يجب على المستخدمين المدعوين إكمال عملية التسجيل للوصول "
 "إلى المشروع."
 
@@ -539,16 +547,15 @@ msgstr ""
 msgid "Per-project access tokens"
 msgstr "رموز الوصول لكل مشروع"
 
-#, fuzzy
 msgid ""
 "You can define project-scoped access tokens in :guilabel:`API access` tab. "
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
-"يمكنك تحديد رموز الوصول الخاصة بالمشروع في علامة التبويب \"الوصول إلى واجهة "
-"برمجة التطبيقات\". يمكن تحديد تاريخ انتهاء صلاحية رموز واجهة برمجة "
-"التطبيقات، كما يمكن تخصيص صلاحياتها حسب عضوية الفريق، تمامًا كما هو الحال مع "
-"المستخدمين."
+"يمكنك تحديد رموز الوصول الخاصة بالمشروع في علامة التبويب :guilabel:`الوصول "
+"إلى واجهة برمجة التطبيقات (API)`. يمكن تحديد تاريخ انتهاء صلاحية رموز واجهة "
+"برمجة التطبيقات، كما يمكن تخصيص صلاحياتها حسب عضوية الفريق، تمامًا كما هو "
+"الحال مع المستخدمين."
 
 #, fuzzy
 #| msgid "Simple access control"
@@ -1770,6 +1777,103 @@ msgid ""
 "Docker image."
 msgstr ""
 
+msgid "Teams from identity providers"
+msgstr ""
+
+msgid ""
+"Weblate can synchronize selected teams from external group memberships or "
+"application roles during social authentication. The default native and "
+"Docker pipelines include synchronization after authentication checks and two-"
+"factor authentication. Extraction and assignment are disabled until "
+"configured. If you use a custom authentication pipeline, place "
+"``social_core.pipeline.user.sync_groups`` after all authentication checks, "
+"including ``weblate.legal.pipeline.tos_confirm`` when terms acceptance is "
+"enabled."
+msgstr ""
+
+msgid ""
+"Map external identifiers to lists of existing Weblate team IDs. Find team "
+"IDs in the administration interface URL or the teams REST API. Names can "
+"repeat across project and workspace scopes, so they are not used as mapping "
+"targets."
+msgstr ""
+
+msgid "For Microsoft Entra ID, prefer application roles::"
+msgstr ""
+
+msgid ""
+"Configure the provider to issue these roles. Group identifiers can instead "
+"be selected with ``GROUPS_KEY = \"groups\"``. Group overage causes "
+"authentication to fail; Weblate does not retrieve memberships from Microsoft "
+"Graph. Restrict the trusted tenant and issuer before granting permissions, "
+"especially when using a common Azure endpoint."
+msgstr ""
+
+msgid ""
+"For generic OpenID Connect or Keycloak, configure a literal claim name::"
+msgstr ""
+
+msgid "For GitLab, explicitly enable membership retrieval::"
+msgstr ""
+
+msgid ""
+"Enabling retrieval automatically requests ``read_api`` unless ``read_api`` "
+"or ``api`` is already requested. Enable the corresponding permission in the "
+"GitLab OAuth application settings alongside ``read_user``."
+msgstr ""
+
+msgid ""
+"GitLab uses full group paths by default. Use stable numeric group IDs "
+"instead when paths might change or be reused::"
+msgstr ""
+
+msgid ""
+"For SAML, add the group attribute and mapping to each existing entry in "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``::"
+msgstr ""
+
+msgid ""
+"All targets in a mapping become provider-managed teams. Authentication adds "
+"desired memberships and removes obsolete managed memberships. Unrelated "
+"teams and existing membership language restrictions are preserved. Changes "
+"are recorded in the audit log. Manual membership in a managed team is "
+"subject to replacement at the next authentication. A team may be managed by "
+"only one configured provider or SAML IdP; conflicting mappings and "
+"nonexistent teams cause errors before memberships change. No teams are "
+"created automatically."
+msgstr ""
+
+msgid ""
+"A missing configured claim fails authentication. When a provider omits "
+"claims for users without assignments, explicitly enable its "
+"``SOCIAL_AUTH_<BACKEND>_GROUPS_MISSING_AS_EMPTY`` setting. SAML uses "
+"``groups_missing_as_empty`` in the IdP entry. An empty membership list "
+"removes all provider-managed memberships. An empty ``GROUPS_MAP`` disables "
+"assignment."
+msgstr ""
+
+msgid ""
+"Login restrictions are independent of assignment. Configure "
+"``SOCIAL_AUTH_<BACKEND>_ALLOW_GROUPS`` to require membership in any listed "
+"external group or role. Unknown identifiers grant nothing, but do not reject "
+"login unless an allow list is configured. Existing CAS allow lists require "
+"no new settings or pipeline entries."
+msgstr ""
+
+msgid ""
+"Synchronization applies to login, registration, and authentication-method "
+"linking. Password reset and account removal do not synchronize teams. "
+"Updates occur only during authentication; this does not deactivate accounts "
+"or revoke access in the background. Synchronization does not store external "
+"membership snapshots."
+msgstr ""
+
+msgid ""
+"In Docker installations, use :ref:`docker-custom-config` to supply these "
+"Python settings; there are no dedicated environment variables for team "
+"mappings."
+msgstr ""
+
 msgid "Social authentication"
 msgstr ""
 
@@ -1791,6 +1895,22 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Provider names are normalized by Python Social Auth's ``social_names`` "
+"pipeline step before Weblate initializes an empty full name. Existing full "
+"names are preserved. Weblate cleans and limits the resulting name and falls "
+"back to the username when the provider name is missing or invalid."
+msgstr ""
+
+msgid ""
+"``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` and ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST`` "
+"control name conversion and both default to ``True``. Backend-specific "
+"settings are supported, for example ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST = "
+"False``. See :ref:`psa:name-normalization` for the conversion rules. Custom "
+"``SOCIAL_AUTH_PIPELINE`` configurations should include "
+"``social_core.pipeline.social_auth.social_names`` after ``social_details``."
+msgstr ""
+
+msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
 "entry to the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly "
 "adding keys needed for a given authentication method. Please note that some "
@@ -1807,6 +1927,27 @@ msgid ""
 msgstr ""
 
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authentication storage cleanup"
+msgstr "الاستيثاق"
+
+msgid ""
+"Weblate removes expired OpenID protocol associations and OpenID Connect "
+"login nonces in its hourly authentication cleanup task. OIDC login attempts "
+"have a 30-minute nonce lifetime by default; expiry is enforced during login "
+"even before the next cleanup runs. Linked accounts are preserved. "
+"Verification codes and partial pipelines retain their "
+"existing :setting:`AUTH_TOKEN_VALID` policy."
+msgstr ""
+
+msgid ""
+"The social-auth database migration gives existing undated OIDC nonces a 30-"
+"minute grace period from upgrade. Follow the usual upgrade procedure with "
+"old login-serving processes stopped while applying migrations. For backend "
+"configuration, see :doc:`psa:backends/oidc`."
 msgstr ""
 
 msgid "OpenID authentication"
@@ -1983,9 +2124,26 @@ msgid "Overriding authentication method names and icons"
 msgstr ""
 
 msgid ""
+"Display names and bundled icons come from python-social-auth backend "
+"metadata. Weblate retains translated labels and local icons for its password "
+"and e-mail methods, and supplies its own fallback icon for providers without "
+"a logo. Add ``social_django.finders.SocialAuthIconFinder`` after the "
+"standard finders in ``STATICFILES_FINDERS`` to collect the provider icons "
+"from social-auth-core. The example and Docker settings include this finder. "
+"Run :samp:`weblate collectstatic --noinput` after upgrading."
+msgstr ""
+
+msgid ""
 "You can override the authentication method display name and icon using "
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
+msgstr ""
+
+msgid ""
+"Relative image names retain the ``auth/`` static directory convention. "
+"Existing bundled filenames, such as ``auth0.svg``, also resolve to the "
+"shared ``social_auth/icons/`` directory when no local override exists. Full "
+"HTTP URLs and data URLs continue to work."
 msgstr ""
 
 msgid "Turning off password authentication"
@@ -2368,10 +2526,8 @@ msgstr "نعم"
 msgid "List of (object); maximum items 100; unique items"
 msgstr ""
 
-#, fuzzy
-#| msgid "None"
 msgid "No"
-msgstr "لا شيء"
+msgstr "لا"
 
 msgid "List of (condition); maximum items 100"
 msgstr ""
@@ -3475,7 +3631,17 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The backups currently do not include access control information and history."
+"The backups include project-scoped teams and their memberships, but do not "
+"include history."
+msgstr ""
+
+msgid ""
+"When restoring backups with duplicate team names, all teams are preserved. "
+"Additional teams with the same name receive a numeric suffix, and the import "
+"reports the renamed teams in its warnings. Built-in teams are restored "
+"separately from custom teams. Older backups do not record team type, so "
+"duplicate entries are restored as editable custom teams with numeric "
+"suffixes alongside the generated built-in team."
 msgstr ""
 
 msgid ""
@@ -4677,10 +4843,10 @@ msgid ""
 "The manifest requests the permissions and event subscriptions Weblate needs "
 "(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only, "
 "``Organization administration`` read-only, ``Workflows`` read/write, and the "
-"``Installation``, ``Meta`` and ``Push`` events), and sets the callback, "
-"setup and per-app webhook URLs automatically, so no manual GitHub App "
-"configuration is required. GitHub delivers the ``Installation`` and "
-"``Installation repositories`` events to all GitHub Apps by default."
+"``Installation``, ``Meta``, ``Push`` and ``Repository`` events), and sets "
+"the callback, setup and per-app webhook URLs automatically, so no manual "
+"GitHub App configuration is required. GitHub delivers the ``Installation`` "
+"and ``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
 
 msgid ""
@@ -4774,6 +4940,22 @@ msgid ""
 msgstr ""
 
 msgid ""
+"When a repository is renamed or transferred on GitHub, the ``Repository`` "
+"event makes Weblate refresh the repositories of the connected GitHub account "
+"and point the affected components to the new repository URL. Apps registered "
+"before Weblate 2026.10.1 are not subscribed to this event; "
+"enable :guilabel:`Repository` under :guilabel:`Subscribe to events` in the "
+"App settings on GitHub."
+msgstr ""
+
+msgid ""
+"Refreshing repositories of a connected GitHub account retargets such "
+"components too, for example when the event was missed. "
+"Use :wladmin:`refresh_github_repositories` to do this for all connected "
+"GitHub accounts at once."
+msgstr ""
+
+msgid ""
 "If you are not using a GitHub App, add the Weblate webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
@@ -4816,6 +4998,28 @@ msgid ""
 "``api.github.com`` as the API host. The token must allow Weblate to read and "
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
+msgstr ""
+
+msgid ""
+"If creating a pull request fails with ``404 Not Found``, GitHub can be "
+"refusing API access even when the repository is readable. Weblate checks the "
+"repository's pull request creation policy and, for user tokens, the "
+"authenticated account. The failure alert reports confirmed findings and "
+"provides further checks when the cause remains unknown. Diagnostic lookup "
+"failures preserve the original pull request error."
+msgstr ""
+
+msgid ""
+"Check that the effective API token belongs to the intended fork owner and "
+"allows creating pull requests. For fine-grained tokens, check repository "
+"selection, resource owner, and :guilabel:`Pull requests` write permission. "
+"Also check organization restrictions and access to the source branch. For "
+"GitHub Apps, check installation access to the repositories and pull request "
+"permissions. A successful Git push does not verify API access: pushing can "
+"use a separate SSH key. The repository log includes GitHub's request ID and "
+"permission headers when available to help investigate the failure. Accepted "
+"permission headers describe endpoint requirements, not the permissions "
+"granted to the token."
 msgstr ""
 
 msgid "GitLab"
@@ -5591,7 +5795,9 @@ msgstr ""
 msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
-"days)."
+"days). E-mail validation codes are checked against this lifetime when used, "
+"even if scheduled cleanup has not yet removed them. This does not set a "
+"deadline for other authentication pipeline steps."
 msgstr ""
 
 #, fuzzy
@@ -5893,7 +6099,19 @@ msgstr ""
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
 
+msgid ""
+"This identifies Weblate as the committer, separately from the translator "
+"recorded as the author. To make translators' author e-mail addresses private "
+"by default, set :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` to ``False``."
+msgstr ""
+
 msgid "Committer name, defaulting to ``Weblate``."
+msgstr ""
+
+msgid ""
+"This identifies Weblate as the committer, separately from the translator "
+"recorded as the author. To make translators' author names private by "
+"default, set :setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``."
 msgstr ""
 
 #, fuzzy
@@ -5915,6 +6133,17 @@ msgid "`rebase` - default"
 msgstr ""
 
 msgid "`merge`"
+msgstr ""
+
+msgid "Default notification settings for every newly created user."
+msgstr ""
+
+msgid ""
+"A list of 3-tuples consisting of notification scope, notification frequency "
+"and notification handler."
+msgstr ""
+
+msgid "This setting affects only newly created users."
 msgstr ""
 
 msgid ""
@@ -6469,14 +6698,20 @@ msgid ""
 "the internal legal pages by default."
 msgstr ""
 
-msgid ""
-"Configures whether the private commit e-mail is opt-in or opt-out (by "
-"default it is opt-in)."
+msgid "Configures whether the private commit e-mail is opt-in or opt-out."
 msgstr ""
 
 msgid ""
-"This setting only applies to users which have not explicitly chosen a commit "
-"e-mail."
+"With ``True`` (the default), users use their account e-mail unless they "
+"choose a private commit e-mail. Set to ``False`` to "
+"use :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` by default."
+msgstr ""
+
+msgid ""
+"This setting applies to new and existing users who have not explicitly "
+"chosen a commit e-mail. Users can still choose their account e-mail in "
+"the :ref:`profile-account` settings. Bot accounts do not use the private "
+"default."
 msgstr ""
 
 msgid ""
@@ -6489,10 +6724,16 @@ msgid ""
 "``{site_domain}``."
 msgstr ""
 
-#, fuzzy
-#| msgid "Review strings"
-msgid "Set to blank string to disable."
-msgstr "مراجعة السلاسل"
+msgid ""
+"Set to a blank string to disable private commit e-mails and use the account "
+"e-mail when no commit e-mail has been explicitly chosen."
+msgstr ""
+
+msgid ""
+"The default template includes the username. To avoid including it, use "
+"``\"user-{user_id}@users.noreply.{site_domain}\"`` instead. Changing the "
+"template alone does not make private commit e-mails the default."
+msgstr ""
 
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
@@ -6500,19 +6741,30 @@ msgid ""
 "e-mail in the :ref:`profile`."
 msgstr ""
 
-msgid ""
-"Configures whether the private commit name is opt-in or opt-out (by default "
-"it is opt-in)."
+msgid "Configures whether the private commit name is opt-in or opt-out."
 msgstr ""
 
 msgid ""
-"This setting only applies to users which have not explicitly chosen a commit "
-"name."
+"With ``True`` (the default), users use their account name unless they choose "
+"a private commit name. Set to ``False`` to "
+"use :setting:`PRIVATE_COMMIT_NAME_TEMPLATE` by default."
+msgstr ""
+
+msgid ""
+"This setting applies to new and existing users who have not explicitly "
+"chosen a commit name. Users can still choose their account name in "
+"the :ref:`profile-account` settings. Bot accounts use their account name."
 msgstr ""
 
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
+msgstr ""
+
+msgid ""
+"Set to a blank string to disable private commit names and use the account "
+"name. Changing the template alone does not make private commit names the "
+"default."
 msgstr ""
 
 msgid ""
@@ -7166,6 +7418,13 @@ msgid ""
 msgstr ""
 
 msgid ""
+"The ``file`` scheme and bare filesystem paths are disabled for security "
+"reasons because they could allow component editors to access repositories on "
+"the server filesystem. Including ``file`` in this setting prevents Weblate "
+"from starting with an ``ImproperlyConfigured`` error."
+msgstr ""
+
+msgid ""
 "Reject VCS repository URLs pointing to internal or non-public addresses "
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS` or "
 "matches :setting:`VCS_PRIVATE_ALLOWLIST`. On by default."
@@ -7469,6 +7728,16 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Each matching delivery records a hook event and schedules a repository "
+"update. Generic hook deliveries are neither application-rate-limited nor "
+"coalesced. Repository operations are serialized to protect repository "
+"consistency, but this does not bound the number of accepted deliveries or "
+"queued update attempts. An update of an unchanged repository still fetches "
+"the configured remote, but stops before merging changes or parsing "
+"translation files."
+msgstr ""
+
+msgid ""
 "Components managed through an authenticated integration are excluded from "
 "generic webhook matching and its diagnostic counts. Currently this applies "
 "to the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. These "
@@ -7708,13 +7977,13 @@ msgid ""
 msgstr "يمكنك سحب التغييرات من مستودع بعيد إلى Weblate مثل هذا:"
 
 #, fuzzy
-#| msgid "Review strings"
-msgid ":guilabel:`Reset and discard`"
-msgstr "مراجعة السلاسل"
+#| msgid ":guilabel:`Download changes`"
+msgid ":guilabel:`Discard local changes`"
+msgstr ":guilabel:`تنزيل تغييرات`"
 
 msgid ""
-"Resets Weblate's local repository to upstream, discards pending Weblate "
-"changes, and reconciles translation files."
+"Resets Weblate's local repository to upstream, discards local commits and "
+"pending translation changes, and reconciles translation files."
 msgstr ""
 
 msgid "Use when upstream should overwrite the local Weblate repository state."
@@ -7722,12 +7991,12 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Review strings"
-msgid ":guilabel:`Reset and reapply`"
+msgid ":guilabel:`Reset and reapply translations`"
 msgstr "مراجعة السلاسل"
 
 msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
-"and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`."
+"and reapplies Weblate's translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
 
 msgid ""
@@ -7842,16 +8111,16 @@ msgid ""
 "working branch, run :guilabel:`Cleanup` from :guilabel:`Repository "
 "maintenance`, and wait for it to finish. Then switch to the affected branch "
 "again. Weblate creates it afresh from upstream. If the affected branch is "
-"already configured, use :guilabel:`Reset and discard` to replace its local "
-"history with upstream instead."
+"already configured, use :guilabel:`Discard local changes` to replace its "
+"local history with upstream instead."
 msgstr ""
 
-msgid "Reset and reapply recovery behavior"
+msgid "Reset and reapply translations recovery behavior"
 msgstr ""
 
 msgid ""
-"The :guilabel:`Reset and reapply` operation keeps pending translations from "
-"Weblate while resetting the local repository state to match upstream."
+"The :guilabel:`Reset and reapply translations` operation keeps translations "
+"from Weblate while resetting the local repository state to match upstream."
 msgstr ""
 
 msgid ""
@@ -7899,10 +8168,10 @@ msgstr ""
 msgid ""
 "If upstream no longer contains Weblate commits because they were squash "
 "merged, updating the repository might not be enough. Use :guilabel:`Reset "
-"and reapply` from :guilabel:`Repository maintenance` to reset Weblate to "
-"upstream while keeping pending translations; see :ref:`manage-vcs-reset-"
-"reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
-"replace Weblate's local changes."
+"and reapply translations` from :guilabel:`Repository maintenance` to reset "
+"Weblate to upstream while keeping pending translations; see :ref:`manage-vcs-"
+"reset-reapply`. Use :guilabel:`Discard local changes` only when upstream "
+"should fully replace Weblate's local changes."
 msgstr ""
 
 msgid ""
@@ -8666,7 +8935,7 @@ msgid ""
 msgstr ""
 
 msgid "Filesystem permissions"
-msgstr ""
+msgstr "أذونات نظام الملفات"
 
 msgid ""
 "The Weblate process needs to be able to read and write to the directory "
@@ -10891,6 +11160,11 @@ msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
 
 #, fuzzy
+#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
+msgid "Configures :setting:`DEFAULT_NOTIFICATIONS`."
+msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
+
+#, fuzzy
 #| msgid "Configure addon"
 msgid "Configures rate limiter."
 msgstr "ضبط الإضافات"
@@ -10975,6 +11249,29 @@ msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
+msgid ""
+"To use private commit e-mails and names by default, set both opt-in "
+"variables to ``False`` in :file:`docker-compose.override.yml`:"
+msgstr ""
+
+msgid ""
+"The template variables are optional customizations. This e-mail template "
+"uses the user ID instead of the username included in the default template. "
+"Setting the templates alone leaves private commit identities opt-in."
+msgstr ""
+
+msgid ""
+"These defaults apply to new and existing users without explicit commit "
+"identity choices. Users can still select their account identity. Existing "
+"commits are unchanged."
+msgstr ""
+
+msgid ""
+"After changing the environment, run ``docker compose up -d`` to recreate the "
+"affected containers. Apply the same configuration to separately deployed "
+"workers so both web and worker processes use the new defaults."
+msgstr ""
+
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr ""
 
@@ -11000,6 +11297,11 @@ msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 #| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
 msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
+
+msgid ""
+"The ``file`` scheme is disabled for security reasons. Including it prevents "
+"Weblate from starting."
+msgstr ""
 
 #, fuzzy
 #| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -13618,6 +13920,11 @@ msgid ""
 "for :doc:`/admin/machine`."
 msgstr ""
 
+msgid ""
+"Lists notification scopes, frequencies and handlers in reStructuredText as a "
+"template for :doc:`/admin/config`."
+msgstr ""
+
 msgid "Lists translators by contributed language for the given project:"
 msgstr ""
 
@@ -13718,6 +14025,11 @@ msgstr ""
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` "
 "in :ref:`component` is turned on, which is the default."
+msgstr ""
+
+msgid ""
+"Refreshes the repository list of all connected GitHub accounts and retargets "
+"components whose repository was renamed or transferred on GitHub."
 msgstr ""
 
 msgid "Unlocks a given component, making it available for translation."
@@ -13891,6 +14203,15 @@ msgid ""
 "off contribution to shared translation memory stops previously contributed "
 "automatic entries from being used as shared suggestions."
 msgstr "المساهمة في ذاكرة الترجمة المشتركة"
+
+msgid ""
+"Contributing to shared translation memory is an explicit publication action. "
+"Project access control does not restrict the contributed source strings, "
+"translations, or project and component origin. This also applies "
+"to :guilabel:`Private` and :guilabel:`Custom` projects. Authenticated users "
+"can enumerate the shared pool using the :ref:`memory API <api-memory>` "
+"without knowing a source string in advance."
+msgstr ""
 
 msgid ""
 "Restricted components do not contribute new entries to shared translation "
@@ -14288,7 +14609,7 @@ msgid "Terms of service document"
 msgstr ""
 
 msgid "Privacy policy document"
-msgstr ""
+msgstr "مستند سياسة الخصوصية"
 
 msgid "Short overview of the terms of service and privacy policy"
 msgstr ""
@@ -14329,6 +14650,12 @@ msgid ""
 msgstr ""
 
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
+msgstr ""
+
+msgid ""
+"Insert terms confirmation after two-factor authentication and before team "
+"synchronization so that logins awaiting terms acceptance do not change team "
+"memberships."
 msgstr ""
 
 msgid ""
@@ -14988,6 +15315,15 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Changing this setting has no immediate effect while the project "
+"is :guilabel:`Public` or :guilabel:`Protected`, but the stored value is "
+"retained and applies if the project is later changed to :guilabel:`Private` "
+"or :guilabel:`Custom`. Sitemaps for project, component, and translation "
+"pages only include pages that are directly accessible anonymously. Engage "
+"sitemaps follow the public sharing setting."
+msgstr ""
+
+msgid ""
 "Changing this setting requires the :guilabel:`Manage project access` "
 "permission. The status widget configuration page continues to use normal "
 "project access control."
@@ -14995,7 +15331,7 @@ msgstr ""
 
 msgid ""
 "When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also "
-"be enabled for anonymous access to engage pages."
+"be enabled for anonymous access to engage pages and sitemaps."
 msgstr ""
 
 msgid "Enforced two-factor authentication"
@@ -15408,10 +15744,8 @@ msgid ""
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
 
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "تفاصيل لقطة الشاشة"
+msgstr "قناع ملف لقطة الشاشة"
 
 msgid ""
 "This feature allows the discovery and updating of screenshots through "
@@ -15944,6 +16278,32 @@ msgid ""
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
 
+#, fuzzy
+#| msgid "String state"
+msgid "Push on update"
+msgstr "حالة السلسلة"
+
+msgid ""
+"Whether Weblate pushes after updating the repository from upstream, even "
+"when the update did not commit any translations. This applies only "
+"when :ref:`component-push_on_commit` is enabled."
+msgstr ""
+
+msgid ""
+"Turn this off to avoid pushes, and the CI runs they trigger, caused only by "
+"upstream changes. This is useful when Weblate's pull requests are squash-"
+"merged, so its commits never appear upstream. Translations committed during "
+"the update are still pushed."
+msgstr ""
+
+msgid ""
+"Commits made by the update, such as merge commits with the :ref:`component-"
+"merge_style` set to merge, are then pushed with the next translation commit. "
+"On quiet projects they can accumulate and trigger the alert about unpushed "
+"changes, see :setting:`REPOSITORY_ALERT_THRESHOLD`. Using rebase avoids most "
+"of them."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr ""
 
@@ -16079,10 +16439,8 @@ msgid ""
 msgstr ""
 "العبارة العادية التي تُستخدَم لتصفيه الترجمة عند المسح لإيجاد قناع الملف."
 
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "تعابير البريد الإلكتروني القياسية"
+msgstr "التعبير العادي للمتنوعات"
 
 msgid ""
 "Regular expression used to determine the variants of a string, "
@@ -16292,7 +16650,7 @@ msgid "Translation URL"
 msgstr ""
 
 msgid "Translation filename"
-msgstr "ملف الترجمة"
+msgstr "اسم ملف الترجمة"
 
 msgid "Translation stats, this has further attributes, examples below."
 msgstr ""
@@ -17496,7 +17854,8 @@ msgstr "واجهة برمجة تطبيقات REST الخاصة بـ Weblate"
 msgid ""
 "The API is accessible on the ``/api/`` URL and it is based on `Django REST "
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
-"directly or by :ref:`wlc`."
+"directly or by :ref:`wlc`. See :doc:`devel/libraries` for official tools and "
+"community-maintained integrations."
 msgstr ""
 
 msgid ""
@@ -17741,9 +18100,10 @@ msgid "Kotlin SDK builds"
 msgstr ""
 
 msgid ""
-"The Kotlin SDK API is in beta. No compatibility is guaranteed until the "
-"final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and "
-"generated resource formats may change without backward compatibility."
+"The Kotlin SDK is available as an alpha release. No compatibility is "
+"guaranteed until the final Kotlin SDK is released. Endpoints, build "
+"metadata, CDN manifests, and generated resource formats may change without "
+"backward compatibility."
 msgstr ""
 
 msgid ""
@@ -17876,10 +18236,51 @@ msgstr "لم تسجل الدخول بعد"
 msgid "New features"
 msgstr "الميزات"
 
+msgid ""
+"Added opt-in :ref:`team synchronization from identity providers <sso-team-"
+"sync>`, including GitLab group mapping and group-based login restrictions."
+msgstr ""
+
+msgid ""
+"Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` "
+"settings for new users."
+msgstr ""
+
 #, fuzzy
 #| msgid "Components"
 msgid "Improvements"
 msgstr "المكونات"
+
+msgid ""
+"Improved diagnostics for failed :ref:`GitHub pull request creation <code-"
+"hosting-github-pull-requests>`."
+msgstr ""
+
+msgid ""
+"Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of "
+"official and third-party :doc:`libraries and SDKs <devel/libraries>`."
+msgstr ""
+
+msgid ""
+"Clarified the labels and consequences of reset actions in :ref:`repository-"
+"maintenance`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Performance overview"
+msgid "Improved recovery guidance for authentication failures."
+msgstr "استعراض الأداء"
+
+msgid ""
+"Authentication method names and icons now come from python-social-auth, "
+"including current service branding, while existing :doc:`authentication "
+"settings <admin/auth>` overrides remain supported."
+msgstr ""
+
+msgid ""
+"Improved full name initialization from provider names during :doc:`social "
+"authentication <admin/auth>`."
+msgstr ""
 
 msgid ""
 "Made unused components and glossary languages warning :ref:`diagnostics "
@@ -17887,25 +18288,142 @@ msgid ""
 "bilingual file-format misconfiguration."
 msgstr ""
 
+msgid ""
+"Added :ref:`component-push_on_update` to push only after committing "
+"translations, not after upstream updates."
+msgstr ""
+
 #, fuzzy
 #| msgid "Security issues"
 msgid "Security fixes"
 msgstr "أخطاء أمنية"
+
+msgid ""
+"Prevented Automation workflow configuration from disclosing references to "
+"restricted components in change history."
+msgstr ""
+
+msgid ""
+"Marked access-controlled status widget responses as private to shared caches."
+msgstr ""
+
+msgid ""
+"Disallowed filesystem paths and the ``file`` scheme for version control "
+"repository URLs. Installations with ``file`` in :setting:`VCS_ALLOW_SCHEMES` "
+"must remove it before upgrading."
+msgstr ""
+
+msgid ""
+"Clarified that contributing to :ref:`shared translation memory <shared-tm>` "
+"publishes strings and their origin outside project access control."
+msgstr ""
+
+msgid ""
+"Added restrictive cache controls to authenticated HTML responses to prevent "
+"previously viewed content from being restored after logout."
+msgstr ""
+
+msgid ""
+"Hardened version control metadata filtering against trailing-dot and "
+"trailing-space path aliases."
+msgstr ""
+
+msgid ""
+"Prevented sitemaps from disclosing restricted component and translation URLs."
+msgstr ""
+
+msgid ""
+"Restricted stale Git lock cleanup to the repository running the failed "
+"command and prevented empty file lists from committing unrelated changes."
+msgstr ""
+
+msgid ""
+"Prevented project backup imports from granting site-wide permissions through "
+"restored project teams."
+msgstr ""
+
+msgid ""
+"Enforce e-mail confirmation code expiry through Python Social Auth "
+"using :setting:`AUTH_TOKEN_VALID`, independently of scheduled cleanup."
+msgstr ""
 
 #, fuzzy
 #| msgid "Languages"
 msgid "Bug fixes"
 msgstr "اللغات"
 
+msgid ""
+"Fixed :ref:`component-key_filter` for JSON and other formats supporting both "
+"monolingual and bilingual use."
+msgstr ""
+
+msgid ""
+"Fixed acting-user attribution and display for administrative account changes "
+"in :doc:`audit logs <security/privacy-compliance>`."
+msgstr ""
+
+msgid ""
+"Removed expired OpenID associations and OIDC login nonces during "
+"hourly :doc:`authentication storage cleanup <admin/auth>`."
+msgstr ""
+
+msgid ""
+"Fixed :ref:`projectbackup` restoration of translation file language aliases "
+"and duplicate team names, and improved validation error formatting."
+msgstr ""
+
+msgid ""
+"Prevented concurrent creation of duplicate project team names and preserved "
+"custom teams when enabling features that require conflicting :ref:`built-in "
+"team names <project-access_control>`."
+msgstr ""
+
+msgid ""
+"Prevented duplicate initiation of :doc:`provider authentication <admin/"
+"auth>` and improved guidance for authentication token errors."
+msgstr ""
+
+msgid ""
+"Components using the GitHub App now follow renamed or transferred "
+"repositories; existing Apps need to subscribe to the ``Repository`` event, "
+"see :ref:`code-hosting-github-app-webhook`."
+msgstr ""
+
 #, fuzzy
 #| msgid "Activity"
 msgid "Compatibility"
 msgstr "النشاط"
 
+msgid ""
+"The ``file`` scheme is disabled for security reasons and can no longer be "
+"included in :setting:`VCS_ALLOW_SCHEMES`. Weblate now fails to start until "
+"it is removed from the setting and existing components are migrated to "
+"supported repository URLs."
+msgstr ""
+
 #, fuzzy
 #| msgid "Browse pending"
 msgid "Upgrading"
 msgstr "تصفح المُعلق"
+
+msgid ""
+"Authentication names and provider logos now come from python-social-auth. "
+"Add ``social_django.finders.SocialAuthIconFinder`` after the standard "
+"finders in ``STATICFILES_FINDERS`` in :file:`settings.py`, then "
+"run :samp:`weblate collectstatic --noinput`. The example configuration and "
+"Docker image already include the finder. Existing authentication name and "
+"image settings remain supported. See :doc:`admin/auth` for details."
+msgstr ""
+
+msgid ""
+"If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, "
+"add ``social_core.pipeline.social_auth.social_names`` immediately after "
+"``social_core.pipeline.social_auth.social_details``. Name conversion now "
+"runs in this shared step, and Weblate no longer joins provider first and "
+"last names itself. Existing full names are preserved. The example "
+"configuration and Docker image already include the new step. See :doc:`admin/"
+"auth` for details."
+msgstr ""
 
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
@@ -18401,6 +18919,16 @@ msgstr ""
 msgid ""
 "Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, "
 "nested, and multiline tags."
+msgstr ""
+
+msgid ""
+"Avoided commits for :ref:`translation state <states>` and metadata changes "
+"that the file format cannot store, while preserving :ref:`project-"
+"commit_policy` behavior."
+msgstr ""
+
+msgid ""
+"Fixed commit attribution for needs-editing changes caused by source edits."
 msgstr ""
 
 msgid ""
@@ -21130,9 +21658,6 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
-"Michal Čihař, João Ferreira, Paul Harriet Asiñero, gers, Benjamin Alan "
-"Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
-"michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 
 msgid ""
 "Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
@@ -21146,26 +21671,14 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
-"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
-"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
-"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
-"Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
-"Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
-"قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
-"mpt.c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
-"Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
-"Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
-"Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
-"Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
-"Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 
 msgid "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
-msgstr "Michal Čihař, Mehdi El Oualy, Mehdi Eloualy"
+msgstr ""
 
 msgid ""
 "Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
@@ -21179,22 +21692,12 @@ msgid ""
 "Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
 "Saranpat Visetrit, Vlăduț Ilie"
 msgstr ""
-"Michal Čihař, Miguel A. Bouzada, Ldm Public, gallegonovato, Besnik Bleta, "
-"Yaron Shahrabani, Alefsander Ribeiro Nascimento, Aindriú Mac Giolla Eoin, "
-"Massimo Pissarello, hugoalh, Xzonn, Jose Delvani, 大王叫我来巡山, Сергей, "
-"Milo Ivir, VfBFan, Blueberry, Ihor Hordiichuk, Christian Wia, Fjuro, simmon, "
-"Chikita Isaac, Oğuz Ersen, 马牛逼（Felix）, Sketch6580, Emin Tufan Çetin, "
-"Simona Iacob, Andi Chandler, Jorge Gemetto, Assem Askarova, Julien Humbert, "
-"Peter Vančo, Wuzzy, ovl-1, Jim Kats, WaldiS, Nicolas MAGERE, Eduard Ereza "
-"Martínez, Kaya Zeren, Pierfrancesco Passerini, Dick Groskamp, Chang-Chia "
-"Tseng, Anon, Priit Jõerüüt, 이정희, Taufik Adi Wicaksono, Balázs Úr, "
-"Saranpat Visetrit, Vlăduț Ilie"
 
 msgid "Michal Čihař, Robin"
-msgstr "Michal Čihař, Robin"
+msgstr ""
 
 msgid "Michal Čihař, Mehdi Eloualy"
-msgstr "Michal Čihař, Mehdi Eloualy"
+msgstr ""
 
 msgid ""
 "Christian Wia, Ihor Hordiichuk, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
@@ -21202,19 +21705,12 @@ msgid ""
 "Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
 "Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 msgstr ""
-"Christian Wia, Ihor Hordiichuk, Hanaa MSB, Hoseok Seo, پرویز قادر, Reno Tx, "
-"Jose Delvani, Artemka, Blueberry, Elisabeth Pieringer, VfBFan, ɴᴇᴋᴏ, Andi "
-"Chandler, Yaron Shahrabani, Michal Čihař, Miguel A. Bouzada, gallegonovato, "
-"Besnik Bleta, Sketch6580, Aindriú Mac Giolla Eoin, Fjuro, 大王叫我来巡山"
 
 msgid ""
 "Michal Čihař, Mehdi Eloualy, Mehdi El Oualy, gers, michael-smt, "
 "ButterflyOfFire, Saurmanđal, Paul Harriet Asiñero, Ingo Brückl, Vincent, "
 "Jakub Boukal, nijel"
 msgstr ""
-"Michal Čihař, Mehdi Eloualy, Mehdi El Oualy, gers, michael-smt, "
-"ButterflyOfFire, Saurmanđal, Paul Harriet Asiñero, Ingo Brückl, Vincent, "
-"Jakub Boukal, nijel"
 
 msgid ""
 "gallegonovato, Jose Delvani, Andi Chandler, Massimo Pissarello, Christian "
@@ -21231,29 +21727,14 @@ msgid ""
 "Šalka, Justin Nogossek, Floure, Eduardo Malaspina, Oğuz Ersen, Priit "
 "Jõerüüt, Jeff Huang"
 msgstr ""
-"gallegonovato, Jose Delvani, Andi Chandler, Massimo Pissarello, Christian "
-"Wia, Kaya Zeren, Muhammad B Madara, Assem Askarova, pan93412, Reno Tx, "
-"Sagiri, symegac, Allan Nordhøy, VfBFan, Peter Vančo, Yaron Shahrabani, Dick "
-"Groskamp, Besnik Bleta, Masahiro Fujimoto, Kyotaro Iijima, ButterflyOfFire, "
-"Michal Čihař, پرویز قادر, amano, Mirka Danylenko, Yuri Chornoivan, Milo "
-"Ivir, Blueberry, Julien Humbert, JY3, Ricky Tigg, Hotripak, Vin, Fjuro, 大王"
-"叫我来巡山, Miguel A. Bouzada, Любомир Василев, Aindriú Mac Giolla Eoin, "
-"Coool (github.com/Coool), Ihor Hordiichuk, Martin Srebotnjak, Сергей, "
-"jonnysemon, Wuzzy, Ldm Public, Nived, Hoseok Seo, Tuomas Hietala, Andrey, "
-"solokot, Agnieszka C, Luna, Alan Marques, ssantos, Yamin Siahmargooei, "
-"Vaclovas Intas, Linerly, Victor K, Rhoslyn Prys, Iker García Calviño, Milan "
-"Šalka, Justin Nogossek, Floure, Eduardo Malaspina, Oğuz Ersen, Priit "
-"Jõerüüt, Jeff Huang"
 
 msgid ""
 "Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
 "Ingo Brückl, Mehdi El Oualy"
 msgstr ""
-"Michal Čihař, gers, Jorge, michael-smt, Mehdi Eloualy, Paul Harriet Asiñero, "
-"Ingo Brückl, Mehdi El Oualy"
 
 msgid "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
-msgstr "Michal Čihař, Paul Harriet Asiñero, michael-smt, gers, Mehdi El Oualy"
+msgstr ""
 
 msgid ""
 "VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
@@ -21265,30 +21746,20 @@ msgid ""
 "Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
 "Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 msgstr ""
-"VfBFan, 大王叫我来巡山, Любомир Василев, Miguel A. Bouzada, Besnik Bleta, "
-"Yuri Chornoivan, Wuzzy, Michal Čihař, gallegonovato, Vin, Blueberry, "
-"befag74614, Agnieszka C, Rhoslyn Prys, Aindriú Mac Giolla Eoin, Fulup Jakez, "
-"Christian Wia, ssantos, Vlăduț Ilie, Fjuro, amano, Andi Chandler, Peter "
-"Vančo, test-session, famese, Yaron Shahrabani, Geert-Jan Knapen, Ricky From "
-"Hong Kong, Tymofii Lytvynenko, Dick Groskamp, Horus68, Reno Tx, Jim Kats, "
-"Massimo Pissarello, Florent, Ihor Hordiichuk, hugoalh, Vaclovas Intas, Milo "
-"Ivir, Jim Spentzos, Dženan, Claudio Filho F Filho, 大学没毕业, پرویز قادر"
 
 msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr ""
 
 msgid "Michal Čihař, Mehdi El Oualy"
-msgstr "Michal Čihař, Mehdi El Oualy"
+msgstr ""
 
 msgid "Michal Čihař, gersona, Mehdi El Oualy"
-msgstr "Michal Čihař, gersona, Mehdi El Oualy"
+msgstr ""
 
 msgid ""
 "Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
 "gers, nijel, michael-smt, gersona, Gersona"
 msgstr ""
-"Michal Čihař, Mehdi El Oualy, Paul Harriet Asiñero, Yusi Z, Mehdi Eloualy, "
-"gers, nijel, michael-smt, gersona, Gersona"
 
 msgid ""
 "Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
@@ -21305,29 +21776,14 @@ msgid ""
 "Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
 "Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 msgstr ""
-"Michal Čihař, Besnik Bleta, gallegonovato, Blueberry, cat, Fjuro, "
-"Sketch6580, Massimo Pissarello, Linerly, 大王叫我来巡山, 大学没毕业, Yuri "
-"Chornoivan, VfBFan, JY3, Miguel A. Bouzada, Dick Groskamp, Aindriú Mac "
-"Giolla Eoin, Andi Chandler, Kristoffer Grundström, Christian Wia, Claudio "
-"Filho F Filho, Yaron Shahrabani, Milo Ivir, Kaya Zeren, Neaten “Awrawman” "
-"Awrawman, Agnieszka C, Jeff Huang, Fulup Jakez, Milan Šalka, nautilusx, "
-"Любомир Василев, notlin4, immeteor2, kowih83264, WaldiS, ssantos, Reno Tx, "
-"Johan Jacobsson, Peter Vančo, Sveinn í Felli, Oliver, Yvan Zo, meshari "
-"alnaim, தமிழ்நேரம், searinminecraft, Jwtiyar Nariman, gitelo4516, Vision, "
-"Chang-Chia Tseng, Kyotaro Iijima, Ricky Tigg, ei9, Martin Srebotnjak, "
-"Horus68, 이정희, Максим Горпиніч, Sylvain Pichon, Ldm Public, Слободан "
-"Симић(Slobodan Simić), Priit Jõerüüt, Hugo, UTUMI Hirosi, Сергей, symegac, "
-"Winston Sung, ChinskiKaczynski, Rafael Fontenelle"
 
 msgid ""
 "Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
 "Gersona, Mehdi Eloualy"
 msgstr ""
-"Michal Čihař, Paul Harriet Asiñero, gers, michael-smt, Benjamin Alan Jamie, "
-"Gersona, Mehdi Eloualy"
 
 msgid "Michal Čihař, Gersona"
-msgstr "Michal Čihař, Gersona"
+msgstr ""
 
 msgid ""
 "Horus68, Peter Vančo, cat, Rafael Fontenelle, Blueberry, Christian Wia, 大学"
@@ -21335,13 +21791,9 @@ msgid ""
 "Čihař, Максим Горпиніч, Besnik Bleta, Aindriú Mac Giolla Eoin, Yaron "
 "Shahrabani, Fjuro, 大王叫我来巡山, Massimo Pissarello, Любомир Василев"
 msgstr ""
-"Horus68, Peter Vančo, cat, Rafael Fontenelle, Blueberry, Christian Wia, 大学"
-"没毕业, Yılmaz Durmaz, gallegonovato, Miguel A. Bouzada, VfBFan, Michal "
-"Čihař, Максим Горпиніч, Besnik Bleta, Aindriú Mac Giolla Eoin, Yaron "
-"Shahrabani, Fjuro, 大王叫我来巡山, Massimo Pissarello, Любомир Василев"
 
 msgid "Michal Čihař, Rafael Fontenelle"
-msgstr "Michal Čihař, Rafael Fontenelle"
+msgstr ""
 
 msgid "Weblate 0.x series"
 msgstr ""
@@ -32687,7 +33139,9 @@ msgid ""
 "``public_configuration_fields`` attribute. Fields not explicitly listed are "
 "kept in the snapshot with a null value and identified as redacted. The "
 "default is an empty set so that newly added settings are not published "
-"accidentally."
+"accidentally. Allowlisting a structured field publishes all its nested "
+"values. Only list such a field when every value it can contain is safe to "
+"publish."
 msgstr ""
 
 msgid ""
@@ -32912,10 +33366,8 @@ msgid ""
 "which includes, links or describes any other restricted behaviors."
 msgstr ""
 
-#, fuzzy
-#| msgid "How to report a security issue?"
 msgid "Reporting an Issue"
-msgstr "كيفية الإبلاغ عن مشكلة أمنية؟"
+msgstr "الإبلاغ عن مشكلة"
 
 msgid ""
 "Tensions can occur between community members even when they are trying their "
@@ -34892,6 +35344,17 @@ msgid ""
 "test inputs over post-render DOM changes."
 msgstr ""
 
+msgid ""
+"GitHub repository URLs in these screenshots use local Git transport "
+"rewrites. The shared Git fixture archive contains the ordinary test data and "
+"a separate, pinned demo revision, so repository discovery shows only demo "
+"content. Regenerate the archive with :file:`scripts/pack-test-data.sh`; "
+"update its ``DEMO_REVISION`` when intentionally refreshing the demo data. "
+"Runtime tests do not fetch GitHub repositories or resolve their hostname. "
+"The ``TEST_REVISION`` pin controls the ordinary Git, Mercurial, and "
+"Subversion data independently."
+msgstr ""
+
 msgid "The simple execution can look like:"
 msgstr ""
 
@@ -34921,6 +35384,17 @@ msgstr ""
 msgid "You can use `pytest` to run the test suite locally:"
 msgstr ""
 
+msgid ""
+"Property-based tests using :pypi:`hypothesis` run as part of the normal "
+"pytest suite. They check Markdown output safety, backup archive member "
+"paths, and SSH URL parsing with bounded generated inputs. Each property runs "
+"up to 100 generated examples deterministically, alongside explicit "
+"regression examples. Unexpected exceptions fail the test, and Hypothesis "
+"minimizes failing inputs. Add minimized inputs as explicit regression "
+"examples when fixing a failure. Timing deadlines are disabled to avoid "
+"failures caused by CI load."
+msgstr ""
+
 msgid "Running an individual test file:"
 msgstr ""
 
@@ -34945,6 +35419,34 @@ msgstr ""
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
+msgstr ""
+
+msgid ""
+"Tests that repeatedly import the same component can inherit from "
+"``ReusableComponentTestCase`` or ``ReusableViewTestCase`` in :file:`weblate/"
+"trans/tests/test_views.py`. These bases build the initial user, project, "
+"component, and translations once per class in ``setUpTestData()``. Override "
+"``create_component()`` to select a repository fixture or file format, as "
+"with ``ComponentTestCase``. For additional shared setup, override the "
+"``build_fixture(cls, builder)`` class method, call "
+"``super().build_fixture(builder)``, and use the builder's repository helpers "
+"and model instances."
+msgstr ""
+
+msgid ""
+"Each test reloads its model instances and receives a restored copy of the "
+"working repositories, upstream repositories used during construction, and "
+"test Git configuration. Database changes are rolled back by Django. Clients, "
+"authentication, and application caches are initialized per test. Snapshots "
+"are temporary and local to each class and worker; extra components created "
+"within a test still use the normal component factories."
+msgstr ""
+
+msgid ""
+"Use the existing bases for ``TransactionTestCase`` and concurrency tests, or "
+"when component construction itself must run under a method-specific settings "
+"override. The reusable bases do not replay component construction signals or "
+"commit callbacks before each test."
 msgstr ""
 
 #, fuzzy
@@ -35482,10 +35984,8 @@ msgid ""
 "repository integration and automation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "قوائم المكونات"
+msgstr "تشخيصات المكون"
 
 msgid ""
 "Guidance is shown in the :guilabel:`Diagnostics` tab on each component. "
@@ -35942,6 +36442,12 @@ msgstr ""
 msgid "Integrating with Weblate"
 msgstr ""
 
+msgid ""
+"See :doc:`libraries` for official tools and community-maintained "
+"integrations. For Android translation updates without rebuilding your "
+"application, use :doc:`kotlin-sdk`."
+msgstr ""
+
 #, fuzzy
 #| msgid "Localization"
 msgid "Importing a localization project into Weblate"
@@ -36166,6 +36672,222 @@ msgstr ""
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
+msgstr ""
+
+msgid "Kotlin SDK for Android"
+msgstr ""
+
+msgid ""
+"The official Kotlin SDK for Weblate delivers translation updates to Android "
+"applications without rebuilding or redistributing them. Its Gradle plugin "
+"generates and uploads resource metadata for each build. The Android library "
+"downloads updated translations from the public CDN configured by "
+"the :ref:`addon-weblate.cdn.kotlin` add-on."
+msgstr ""
+
+msgid ""
+"The SDK is maintained in the `Kotlin SDK repository <https://github.com/"
+"WeblateOrg/kotlin-sdk/>`_. The plugin is published on the `Gradle Plugin "
+"Portal <https://plugins.gradle.org/plugin/org.weblate.android>`_ and the "
+"library on `Maven Central <https://central.sonatype.com/artifact/org.weblate/"
+"android>`_."
+msgstr ""
+
+msgid ""
+"The SDK is available as an alpha release. Plugin and library versions must "
+"match. Breaking changes can occur before a stable release."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recovery token"
+msgid "Requirements"
+msgstr "رمز الإسترداد"
+
+#, fuzzy
+#| msgid ":ref:`addon-weblate.discovery.discovery`"
+msgid ""
+"Weblate 2026.10 or newer with the :ref:`addon-weblate.cdn.kotlin` add-on."
+msgstr ":ref:`addon-weblate.discovery.discovery`"
+
+msgid "Android Gradle Plugin 9.x."
+msgstr ""
+
+msgid "Android 11 (API 30) or newer for SDK runtime use."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure columns"
+msgid "Configure Weblate"
+msgstr "ضبط العواميد"
+
+msgid ""
+"Install :guilabel:`Kotlin SDK CDN` on the component containing your Android "
+"string resources. For self-hosted Weblate, "
+"configure :setting:`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH` "
+"first. See :ref:`addon-weblate.cdn.kotlin` for public CDN publication, "
+"supported resources, and build retention settings."
+msgstr ""
+
+msgid ""
+"Copy the Gradle configuration from the add-on configuration page. It "
+"supplies the server URL, CDN URL, project slug, and component path. Create "
+"a :ref:`project-scoped API token <project-api>` with permission to edit the "
+"component. Set it as ``WEBLATE_API_TOKEN`` in the build environment used to "
+"upload metadata. Keep the token out of source control and the application."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create project"
+msgid "Configure the Android project"
+msgstr "إنشاء مشروع"
+
+msgid ""
+"In your application module's :file:`build.gradle.kts`, add the plugin and "
+"library using matching versions:"
+msgstr ""
+
+msgid ""
+"Add the configuration copied from Weblate, replacing the example URLs and "
+"slugs below with your component's values. Read the token from the "
+"environment:"
+msgstr ""
+
+msgid ""
+"The token is needed only when uploading build metadata. The application "
+"downloads translations from the public CDN without an API token."
+msgstr ""
+
+#, fuzzy
+#| msgid "Publish timeout"
+msgid "Publish build metadata"
+msgstr "مهلة النشر"
+
+msgid ""
+"Build the application you will distribute, then upload its generated "
+"metadata:"
+msgstr ""
+
+msgid ""
+"The task name depends on the build variant; this example uses ``release``. "
+"Metadata is generated under :file:`build/outputs/weblate/`. Upload it for "
+"each application release, for example as the final step in your release "
+"pipeline."
+msgstr ""
+
+msgid ""
+"Resource IDs must match the final distributed binary. Do not rebuild the "
+"application after uploading metadata unless the rebuild produces identical "
+"resource IDs. For independently built distributions such as F-Droid, use "
+"reproducible builds so uploaded metadata matches the distributed "
+"application. See :ref:`addon-weblate.cdn.kotlin` for build registration and "
+"compatibility with older application versions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Evaluate translation changes"
+msgid "Enable translation updates"
+msgstr "تقييم تغييرات الترجمة"
+
+msgid "Initialize the SDK in your application's ``onCreate`` method:"
+msgstr ""
+
+msgid ""
+"If your application already has an ``Application`` subclass, add the "
+"initialization there. Otherwise, register ``WeblateApp`` in "
+"your :file:`AndroidManifest.xml`, using its fully qualified class name:"
+msgstr ""
+
+msgid ""
+"The SDK schedules daily translation downloads for the current locale on an "
+"unmetered network. The API guard allows applications supporting older "
+"Android versions to keep using bundled translations on those devices."
+msgstr ""
+
+msgid ""
+"For manual updates and further usage details, see the `SDK documentation and "
+"sample application <https://github.com/WeblateOrg/kotlin-sdk/>`_."
+msgstr ""
+
+msgid "Libraries and SDKs"
+msgstr ""
+
+msgid ""
+"Use these tools to integrate Weblate into your application or build workflow."
+msgstr ""
+
+msgid "Official tools"
+msgstr ""
+
+msgid ""
+":doc:`kotlin-sdk` delivers translation updates to Android applications "
+"without rebuilding or redistributing the application."
+msgstr ""
+
+msgid ":doc:`/python` provides a Python client for :doc:`/api`."
+msgstr ""
+
+msgid ":doc:`/wlc` provides command-line access to Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Test Sentry integration"
+msgid "Third-party integrations"
+msgstr "اختبار التكامل الرقيب"
+
+msgid ""
+"These community-maintained libraries and packages integrate Weblate into "
+"other frameworks and tools, including through :doc:`/api`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete translation memory"
+msgid ""
+"`Weblate Translation Provider for Symfony Translation <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
+msgstr "حذف ذاكرة الترجمة"
+
+msgid ""
+"`Weblate plugin for Figma <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
+msgstr ""
+
+msgid ""
+"`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
+"javierllorente/weblatefx>`_"
+msgstr ""
+
+msgid ""
+"`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
+"jweblate>`_"
+msgstr ""
+
+msgid ""
+"`Spring MessageSource backed by a Weblate server <https://github.com/"
+"porscheinformatik/weblate-spring>`_"
+msgstr ""
+
+msgid ""
+"`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
+msgstr ""
+
+msgid ""
+"`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
+"perceval-weblate>`_"
+msgstr ""
+
+msgid ""
+"`Visual Studio Code Extension for Weblate <https://github.com/ianFar96/"
+"vscode-weblate-extension>`_"
+msgstr ""
+
+msgid ""
+"`Unofficial Weblate SDK for Flutter <https://pub.dev/packages/weblate_sdk>`_"
+msgstr ""
+
+msgid ""
+"Are you building a Weblate integration for your framework? Get listed here! "
+"Either submit a pull request with the changes directly or write us at "
+"care@weblate.org to get listed."
 msgstr ""
 
 #, fuzzy
@@ -36789,6 +37511,11 @@ msgid ""
 "maintain genuinely different messages. Disable translation propagation for "
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
+msgstr ""
+
+msgid ""
+":doc:`kotlin-sdk` for Android translation updates without rebuilding the "
+"application"
 msgstr ""
 
 msgid "Translation progress reporting"
@@ -37555,67 +38282,6 @@ msgid ""
 "`Translating Open Source Software with Weblate: A GRASS GIS Case Study`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "Location"
-msgid "Localization libraries and packages"
-msgstr "الموقع"
-
-msgid ""
-"Weblate can be integrated into your framework using :doc:`/api`. This page "
-"lists third-party libraries which integrate Weblate."
-msgstr ""
-
-#, fuzzy
-#| msgid "Delete translation memory"
-msgid ""
-"`Weblate Translation Provider for Symfony Translation <https://github.com/"
-"m2mtech/weblate-translation-provider/>`_"
-msgstr "حذف ذاكرة الترجمة"
-
-msgid ""
-"`Weblate plugin for Figma <https://www.figma.com/community/plugin/"
-"1053050985172660071/weblate-integration>`_"
-msgstr ""
-
-msgid ""
-"`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
-"javierllorente/weblatefx>`_"
-msgstr ""
-
-msgid ""
-"`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
-"jweblate>`_"
-msgstr ""
-
-msgid ""
-"`Spring MessageSource backed by a Weblate server <https://github.com/"
-"porscheinformatik/weblate-spring>`_"
-msgstr ""
-
-msgid ""
-"`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
-msgstr ""
-
-msgid ""
-"`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
-"perceval-weblate>`_"
-msgstr ""
-
-msgid ""
-"`Visual Studio Code Extension for Weblate <https://github.com/ianFar96/"
-"vscode-weblate-extension>`_"
-msgstr ""
-
-msgid ""
-"`Unofficial Weblate SDK for Flutter <https://pub.dev/packages/weblate_sdk>`_"
-msgstr ""
-
-msgid ""
-"Are you building a Weblate integration for your framework? Get listed here! "
-"Either submit a pull request with the changes directly or write us at "
-"care@weblate.org to get listed."
-msgstr ""
-
 msgid "Managing translations"
 msgstr ""
 
@@ -37723,7 +38389,7 @@ msgid ""
 msgstr ""
 
 msgid "String variants"
-msgstr ""
+msgstr "متنوعات سلسلة"
 
 msgid ""
 "Variants are useful to group several strings together so that translators "
@@ -37770,10 +38436,8 @@ msgstr ""
 msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr ""
 
-#, fuzzy
-#| msgid "Color variants:"
 msgid "Manual variants"
-msgstr "الألوان المختلفة :"
+msgstr "المتنوعات اليدوية"
 
 msgid ""
 "You can manually link specific strings using ``variant:SOURCE`` flag. This "
@@ -37817,10 +38481,8 @@ msgstr ""
 msgid "Frequently Asked Questions"
 msgstr ""
 
-#, fuzzy
-#| msgid "Number of languages"
 msgid "How do I restrict which languages can be translated?"
-msgstr "عدد اللغات"
+msgstr "كيف أقوم بتقييد أيًّا اللغات التي يمكن ترجمتها؟"
 
 msgid ""
 "To prevent users from starting new translations across a project, open the "
@@ -38276,10 +38938,8 @@ msgid ""
 "to merge."
 msgstr ""
 
-#, fuzzy
-#| msgid "New language request in %(translation)s"
 msgid "How to handle renaming translation files?"
-msgstr "لغه جديدة تم طلبها في %(translation)s"
+msgstr "كيفية التعامل مع إعادة تسمية ملفات الترجمة؟"
 
 msgid ""
 "When renaming files in the repository, it can happen that Weblate sees this "
@@ -38831,10 +39491,8 @@ msgstr ""
 msgid "`iOS Strings`"
 msgstr "سلاسل iOS"
 
-#, fuzzy
-#| msgid "Filename"
 msgid "File encoding"
-msgstr "اسم الملف"
+msgstr "ترميز الملف"
 
 msgid "`UTF-8`"
 msgstr ""
@@ -38878,7 +39536,7 @@ msgid "`App store metadata files`"
 msgstr ""
 
 msgid "ARB File"
-msgstr ""
+msgstr "ملف ARB"
 
 msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
@@ -38896,10 +39554,8 @@ msgstr "ليست مترجَمة"
 msgid "`ARB file`"
 msgstr ""
 
-#, fuzzy
-#| msgid "DTD files"
 msgid "AsciiDoc files"
-msgstr "ملفات DTD"
+msgstr "ملفات AsciiDoc"
 
 msgid ""
 "The translatable content is extracted from the AsciiDoc files and offered "
@@ -38907,7 +39563,7 @@ msgid ""
 msgstr ""
 
 msgid "Example file:"
-msgstr ""
+msgstr "ملف لسبيل المثال:"
 
 #, fuzzy
 #| msgid "YAML file"
@@ -39012,10 +39668,8 @@ msgid ""
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
 
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Multivalue CSV file"
-msgstr "ملف CSV بسيط"
+msgstr "ملف CSV متعدد القيم"
 
 msgid ""
 "This variant of the CSV files allows storing multiple translations per "
@@ -39107,10 +39761,8 @@ msgstr ""
 msgid "`Fluent file`"
 msgstr "ملف الخط"
 
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "Format.JS JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف Format.JS JSON"
 
 msgid ""
 "File format used when translating Format.JS and React-Intl applications."
@@ -39414,19 +40066,15 @@ msgid ""
 "file with (what is most often the) English strings."
 msgstr ""
 
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v4"
-msgstr "ملف JSON i18next"
+msgstr "ملف i18next JSON v4"
 
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
 msgstr ""
 
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "ملف JSON i18next"
+msgstr "ملف i18next JSON v3"
 
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
 msgstr ""
@@ -40120,10 +40768,10 @@ msgid "Plain text file"
 msgstr "ملف نص"
 
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "ملف نص DokuWiki"
 
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "ملف نص MediaWiki"
 
 #, fuzzy
 #| msgid "i18next JSON file"
@@ -40186,10 +40834,8 @@ msgstr ""
 msgid "`RC file`"
 msgstr ""
 
-#, fuzzy
-#| msgid "Location"
 msgid "WixLocalization file"
-msgstr "الموقع"
+msgstr "ملف WixLocalization"
 
 msgid ""
 "WixLocalization (WXL) files are language files used to localize translatable "
@@ -40573,10 +41219,8 @@ msgid ""
 "function in the top-left corner."
 msgstr ""
 
-#, fuzzy
-#| msgid "First"
 msgid "First time here?"
-msgstr "الأول"
+msgstr "أول مرة هنا؟"
 
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
 msgstr ""
@@ -40670,6 +41314,21 @@ msgid ""
 "with ``keys()`` and ``items()``. Accessing a known field that is not loaded "
 "yet fetches the object from the API. ``get_data()`` returns a copy of only "
 "the data currently loaded without fetching missing fields."
+msgstr ""
+
+msgid ""
+"API objects inherit from ``collections.UserDict``. They are mappings, but "
+"``isinstance(obj, dict)`` is false. Membership tests, ``get()``, and "
+"iteration use the currently loaded fields without fetching missing fields. "
+"``pop()``, ``setdefault()``, ``popitem()``, and ``clear()`` also operate "
+"only on loaded fields without fetching missing fields. Mapping writes update "
+"local object data; they do not send changes to the API. The ``|`` operator "
+"merges loaded fields into a new plain dictionary, with values from the right "
+"operand taking precedence. For consumers that require a plain dictionary, "
+"use ``obj.get_data()`` for loaded fields or ``dict(obj.items())`` to include "
+"all exposed fields, fetching missing fields as needed. Standard "
+"``json.dumps`` does not serialize API objects directly; convert them and any "
+"nested API objects to dictionaries first."
 msgstr ""
 
 msgid ""
@@ -42352,10 +43011,8 @@ msgid ""
 "incidents affecting Weblate-operated services also follow this baseline."
 msgstr ""
 
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
-msgstr "التقارير"
+msgstr "تقرير"
 
 msgid "Deadline"
 msgstr ""
@@ -42737,10 +43394,8 @@ msgstr ""
 msgid "Password security"
 msgstr "إرجاع كلمة السر"
 
-#, fuzzy
-#| msgid "How are user passwords stored?"
 msgid "How Weblate stores passwords"
-msgstr "كيف يتم تخزين الكلمات السرية للمستخدمين؟"
+msgstr "كيف Weblate يخزن كلمات المرور"
 
 msgid ""
 "Weblate uses a Django implementation to store hashed passwords; "
@@ -43439,8 +44094,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The development Docker files in :file:`dev-docker/` and the fuzzing "
-"container definitions in :file:`.clusterfuzzlite/` are development and "
+"The development Docker files in :file:`dev-docker/` are development and "
 "testing infrastructure, not production release artifacts."
 msgstr ""
 
@@ -43612,10 +44266,8 @@ msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
 
-#, fuzzy
-#| msgid "Subversion"
 msgid "Version"
-msgstr "سب فيرجن"
+msgstr "الإصدار"
 
 #, fuzzy
 #| msgid "Security issues"
@@ -44077,6 +44729,21 @@ msgid ""
 "(source: :ref:`addon-weblate.cdn.kotlin`)"
 msgstr ""
 
+#, fuzzy
+#| msgid "Contribute to shared translation memory"
+msgid "Projects to global shared translation memory"
+msgstr "المساهمة في ذاكرة الترجمة المشتركة"
+
+msgid ""
+"Enabling contribution deliberately publishes source strings, translations, "
+"and project and component origin outside project access controls, including "
+"for Private and Custom projects. Restricted components do not contribute. "
+"Disabling contribution prevents the project's automatic entries from "
+"remaining visible through the shared scope, but cannot revoke copies already "
+"observed or downloaded. *(documented)* (source: :ref:`shared-tm`, :ref:`api-"
+"memory`)"
+msgstr ""
+
 msgid "Weblate request process to repository Celery worker"
 msgstr ""
 
@@ -44336,8 +45003,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Production deployments exposing hooks use reverse-proxy rate limits, body-"
-"size limits, monitoring, and minimal public exposure. *(maintainer)*"
+"Production deployments exposing hooks use capacity monitoring, body-size "
+"limits, minimal public exposure, and optional edge controls appropriate for "
+"their provider traffic. Rate limiting can be unsuitable when many legitimate "
+"projects deliver from shared provider infrastructure. *(maintainer)*"
 msgstr ""
 
 msgid ":setting:`ENABLE_HTTPS`, proxy SSL headers, and HSTS settings"
@@ -45096,7 +45765,8 @@ msgstr ""
 
 msgid ""
 "Private project data other than documented generic webhook matching "
-"diagnostics, metadata published through :ref:`project-public_sharing`, and "
+"diagnostics, metadata published through :ref:`project-public_sharing`, "
+"translations explicitly published through :ref:`shared-tm`, and "
 "translations, build identifiers, and resource mappings explicitly published "
 "through CDN add-ons, user data, credentials, tokens, SSH keys, and 2FA "
 "secrets are not disclosed to actors lacking permission. *(documented)* "
@@ -45105,9 +45775,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Host, database, and storage permissions are intact. Generic webhook "
-"responses expose only the match counts, project/component slugs, and API "
-"URLs documented in :ref:`hooks-target-matching`. Public sharing permits "
+"Host, database, and storage permissions are intact. User-configurable "
+"repository and push URLs cannot address the server filesystem. Generic "
+"webhook responses expose only the match counts, project/component slugs, and "
+"API URLs documented in :ref:`hooks-target-matching`. Public sharing permits "
 "unauthenticated access to engage pages and rendered status widgets, exposing "
 "project and component names, including restricted components, translation "
 "statistics, languages, and progress. It does not grant access to project "
@@ -45122,13 +45793,17 @@ msgid ""
 "version codes, and the names and submitted IDs of published resources from "
 "that component to unauthenticated CDN clients, including for private "
 "projects. CDN storage and cached client copies are outside project access "
-"controls; removing origin files cannot revoke previously downloaded copies."
+"controls; removing origin files cannot revoke previously downloaded copies. "
+"Enabling shared translation memory contribution explicitly publishes source "
+"strings, translations, and project and component origin outside project "
+"access controls, including for Private and Custom projects."
 msgstr ""
 
 msgid ""
 "Cross-project data leak not covered by the documented generic webhook "
-"diagnostics, public-sharing metadata, explicit CDN publication, or linked-"
-"repository trust boundary, credential exposure, or unauthorized export."
+"diagnostics, public-sharing metadata, explicit shared-memory or CDN "
+"publication, or linked-repository trust boundary, credential exposure, or "
+"unauthorized export."
 msgstr ""
 
 msgid ""
@@ -45317,9 +45992,13 @@ msgid ""
 "responses can confirm repository registration and reveal match counts, "
 "project/component slugs, and API URLs, including for private projects and "
 "restricted components. Components managed through an authenticated "
-"integration are excluded from this generic behavior. Attribution and "
-"authenticity are weaker than for an authenticated user or token. "
-"*(maintainer)*"
+"integration are excluded from this generic behavior. Generic deliveries are "
+"not application-rate-limited or coalesced: repository operations are "
+"serialized for consistency, but each matching delivery can record a hook "
+"event and schedule an update attempt. An unchanged repository still requires "
+"a remote fetch before the update stops without merging or parsing "
+"translation files. Attribution and authenticity are weaker than for an "
+"authenticated user or token. *(maintainer)*"
 msgstr ""
 
 msgid ""
@@ -45433,10 +46112,10 @@ msgstr ""
 
 msgid ""
 "Operators exposing :ref:`hooks` must enable them only where needed and "
-"provide deployment controls such as reverse-proxy rate limits, body-size "
-"limits, monitoring, and optional source restrictions. They must accept the "
-"documented identifier disclosure or use authenticated integrations where "
-"available. *(maintainer)*"
+"provide capacity monitoring, body-size limits, and optional source "
+"restrictions or edge controls appropriate for their provider traffic. They "
+"must accept the documented identifier disclosure and per-delivery scheduling "
+"cost or use authenticated integrations where available. *(maintainer)*"
 msgstr ""
 
 msgid ""
@@ -45529,10 +46208,13 @@ msgstr ""
 msgid ""
 "A report that a reachable webhook can be called without forge authentication "
 "and only triggers modeled update scheduling or returns the documented "
-"matching diagnostics is not ``VALID`` by itself. It is routed to ``VALID-"
+"matching diagnostics is not ``VALID`` by itself. A finite sequence of "
+"accepted requests or the absence of an application-level ``429`` response "
+"does not demonstrate an availability failure. It is routed to ``VALID-"
 "HARDENING`` unless it bypasses documented limits, matches unrelated "
-"repositories, leaks data beyond the documented fields, or causes effects "
-"beyond modeled scheduling. *(maintainer)*"
+"repositories, leaks data beyond the documented fields, causes "
+"disproportionate resource consumption or sustained service degradation, or "
+"has effects beyond modeled per-delivery scheduling. *(maintainer)*"
 msgstr ""
 
 msgid ""
@@ -45547,6 +46229,15 @@ msgid ""
 "credentials, or project configuration is not a vulnerability when the actor "
 "has the documented permission for that action. *(documented)* "
 "(source: :doc:`/admin/access`)"
+msgstr ""
+
+msgid ""
+"A report that source strings, translations, or project and component origin "
+"from a Private or Custom project are available through shared translation "
+"memory is not a vulnerability when an authorized manager explicitly enabled "
+"contribution. Shared contribution publishes this data outside project access "
+"controls. Restricted components remain excluded. *(documented)* "
+"(source: :ref:`shared-tm`, :ref:`api-memory`)"
 msgstr ""
 
 msgid ""
@@ -46119,7 +46810,7 @@ msgid "Android String Resource"
 msgstr "ملف موارد أندرويد"
 
 msgid "AsciiDoc file"
-msgstr ""
+msgstr "ملف AsciiDoc"
 
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
@@ -46142,30 +46833,20 @@ msgstr "ملف DTD"
 msgid "Flat XML file"
 msgstr "ملف XML مسطح"
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "ملف الخط"
+msgstr "ملف Fluent"
 
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n v1 JSON file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n v1 JSON"
 
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n v2 JSON file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n v2 JSON"
 
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n TOML file"
-msgstr "ملف JSON i18next"
+msgstr "ملف go-i18n TOML"
 
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "gotext JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف gotext JSON"
 
 msgid "HTML file"
 msgstr "ملف HTML"
@@ -46179,13 +46860,11 @@ msgstr "ملف INI"
 msgid "Inno Setup INI file"
 msgstr ""
 
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
-msgstr "ملف لغة جوملا"
+msgstr "ملف Joomla language"
 
 msgid "JSON file"
-msgstr "ملف جسون"
+msgstr "ملف JSON"
 
 msgid "JSON nested structure file"
 msgstr "ملف JSON ذات بنية متداخلة"
@@ -46193,30 +46872,22 @@ msgstr "ملف JSON ذات بنية متداخلة"
 msgid "Markdown file"
 msgstr "ملف ماركداون"
 
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "ملف DTD"
+msgstr "ملف MDX"
 
-#, fuzzy
-#| msgid "Failing file"
 msgid "@draggable/i18n lang file"
-msgstr "ملف فاشل"
+msgstr "ملف @draggable/i18n lang"
 
 #, fuzzy
 #| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
 msgstr "ملف موارد أندرويد"
 
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "Nextcloud JSON file"
-msgstr "ملف Gettext PO"
+msgstr "ملف Nextcloud JSON"
 
-#, fuzzy
-#| msgid "Font file"
 msgid "OpenDocument file"
-msgstr "ملف الخط"
+msgstr "ملف OpenDocument"
 
 msgid "gettext PO file"
 msgstr "ملف Gettext PO"
@@ -46237,15 +46908,11 @@ msgstr "خصائص جافا (UTF-8)"
 msgid "RC file"
 msgstr "ملف RC"
 
-#, fuzzy
-#| msgid "JSON file"
 msgid "RESJSON file"
-msgstr "ملف جسون"
+msgstr "ملف RESJSON"
 
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "خطأ فادح في المستودع"
+msgstr "ملف ResourceDictionary"
 
 msgid ".NET resource file"
 msgstr "ملف موارد .Net"
@@ -46254,18 +46921,16 @@ msgid "Ruby YAML file"
 msgstr "ملف YAML روبي"
 
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "ملف ترجمة SubRip"
 
 msgid "SubStation Alpha subtitle file"
-msgstr ""
+msgstr "ملف ترجمة SubStation Alpha"
 
 msgid "iOS strings"
 msgstr "سلاسل iOS"
 
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Stringsdict file"
-msgstr "سلاسل تحتوي على تعليقات"
+msgstr "ملف Stringsdict"
 
 msgid "MicroDVD subtitle file"
 msgstr "ملف ترجمة MicroDVD"
@@ -46275,10 +46940,8 @@ msgstr "ملف ترجمة MicroDVD"
 msgid "TermBase eXchange file"
 msgstr "تبادل قاعدي المدي (TBX)"
 
-#, fuzzy
-#| msgid "YAML file"
 msgid "TOML file"
-msgstr "ملف YAML"
+msgstr "ملف TOML"
 
 #, fuzzy
 #| msgid "Cleanup translation files"
@@ -46293,10 +46956,8 @@ msgstr "تنظيف ملفات الترجمة"
 msgid "WebExtension JSON file"
 msgstr "ملف WebExtension JSON"
 
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "ملف ترجمة XLIFF"
+msgstr "ملف ترجمة XLIFF 1.2"
 
 #, fuzzy
 #| msgid "XLIFF translation file"
@@ -46319,25 +46980,17 @@ msgstr "سياق إضافي"
 msgid "YAML file"
 msgstr "ملف YAML"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "غُيّر الأحداث"
+msgstr "تغيير الأحداث لتشغيل الإجراء"
 
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Translation content events"
-msgstr "عنصر الترجمة الأخرى"
+msgstr "فعاليات محتوى الترجمة"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "غُيّر الأحداث"
+msgstr "جميع أحداث التغيير"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "غُيّر الأحداث"
+msgstr "أحداث التغيير المحددة"
 
 msgid ""
 "The following change actions can appear in notification payloads. Fedora "
@@ -46353,10 +47006,8 @@ msgstr ""
 msgid "Identifier"
 msgstr "معلومات الفحص"
 
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
-msgstr "تحديث الموارد"
+msgstr "حُدِّث المورد"
 
 #, fuzzy
 #| msgid "Commit changes to the internal repository"
@@ -46444,7 +47095,7 @@ msgid "A source string was added outside repository or upload updates."
 msgstr "تمت إضافة سلسلة مصدرية خارج المستودع أو تحديثات التحميل."
 
 msgid "Component locked"
-msgstr "العنصر مغلق"
+msgstr "المكون مغلق"
 
 #, fuzzy
 #| msgid "Automatic translation source"
@@ -46499,20 +47150,16 @@ msgstr "غُيِّرت قاعدة المستودع"
 msgid "Repository changes were rebased on upstream."
 msgstr ""
 
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository merge failed"
-msgstr "إجراء في المستودع"
+msgstr "فشل دمج المستودع"
 
 #, fuzzy
 #| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
 msgstr "عرض موقع مستودع المنبع"
 
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository rebase failed"
-msgstr "إجراء في المستودع"
+msgstr "فشل تغيير قاعدة المستودع"
 
 #, fuzzy
 #| msgid "Repository operation"
@@ -46529,10 +47176,8 @@ msgstr "ملف فاشل"
 msgid "Weblate could not parse a translation file."
 msgstr "شارك ترجمتك"
 
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation removed"
-msgstr "الترجمة المطلوب إزالتها"
+msgstr "أُزيلت الترجمة"
 
 #, fuzzy
 #| msgid "Manage translation memory"
@@ -46547,10 +47192,8 @@ msgstr "أُزيل الاقتراح"
 msgid "A translation suggestion was removed."
 msgstr "علامات الترجمة المراد إزالتها"
 
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation replaced"
-msgstr "رَفع ترجمة"
+msgstr "اُستبدلت الترجمة"
 
 msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
@@ -46730,15 +47373,11 @@ msgstr "اسم المشروع"
 msgid "A translation project was created."
 msgstr "مشاريع الترجمة"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "العنصر مغلق"
+msgstr "أُنشئ المكون"
 
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was created."
-msgstr "عنصر الترجمة الأخرى"
+msgstr "أُنشئ مكون ترجمة."
 
 #, fuzzy
 #| msgid "Current user identities"
@@ -46870,10 +47509,8 @@ msgstr "تمت إزالة تعليق عن الترجمة."
 msgid "A string comment was marked as resolved."
 msgstr "الحقول اللازمة تظهر بخط غامق."
 
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation updated"
-msgstr "الترجمة"
+msgstr "حُدِّث الشرح"
 
 #, fuzzy
 #| msgid "There are some uncommitted changes!"
@@ -46971,10 +47608,8 @@ msgstr "نُشر تغيير"
 msgid "A translation edit was propagated to another matching string."
 msgstr ""
 
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File uploaded"
-msgstr "فشلت عملية رفع الملف : %s"
+msgstr "رُفع الملف"
 
 #, fuzzy
 #| msgid "Define author of uploaded translation"
@@ -47321,10 +47956,8 @@ msgid ""
 "uses the existing :ref:`addons-api` permissions and validation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "الإكتشاف التلقائي"
+msgstr "الأتمتة"
 
 msgid "Workflow"
 msgstr "سير العمل"
@@ -47514,13 +48147,8 @@ msgid ""
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr "اسم المكون"
 
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"نشر الترجمات إلى شبكة إيصال المحتوى لتستخدم في أقلمة JavaScript أو HTML."
+msgstr "ينشر ملفات الترجمة في شبكة توصيل المحتوى."
 
 msgid ""
 "Publishes translation files without converting them to another format. Files "
@@ -47592,9 +48220,7 @@ msgid ""
 "build-api` for the request and response format."
 msgstr ""
 
-msgid ""
-"For Gradle plugin and library setup, see the `Kotlin SDK repository <https://"
-"github.com/WeblateOrg/kotlin-sdk/>`__."
+msgid "For Gradle plugin and library setup, see :doc:`/devel/kotlin-sdk`."
 msgstr ""
 
 msgid ""
@@ -47825,9 +48451,9 @@ msgid ""
 "instead."
 msgstr ""
 "يجب أن يُحدِّد التعبير النمطي (regular expression) مجموعة مُسمَّاة للمكوِّن، وكذلك "
-"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file mask)"
-"، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف الأساسي "
-"الجديد بدلاً من ذلك."
+"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file "
+"mask)، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف "
+"الأساسي الجديد بدلاً من ذلك."
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr "استخدم صيغة قوالب Django. يجب أن يتضمن هذا القالب {{ component }}."
@@ -47835,31 +48461,28 @@ msgstr "استخدم صيغة قوالب Django. يجب أن يتضمن هذا �
 msgid "Define the monolingual base filename"
 msgstr "تحديد الاسم القاعدي للملف الأحادي اللغة"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "ابقه فارغًا لملفات الترجمة الثنائية اللغة."
+msgstr ""
+"اتركه فارغاً لملفات الترجمة ثنائية اللغة. عند ضبطه، يجب أن يتضمن هذا القالب {"
+"{ component }}."
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"اسم الملف المستخدَم لإنشاء ترجمات جديدة. مثلا لـ gettext استخدم ملف .pot."
+"اسم الملف المستخدم لإنشاء ترجمات جديدة. بالنسبة لـ gettext، اختر ملف .pot. "
+"يجب أن يتضمن هذا القالب {{ component }}."
 
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل المطورين "
-"ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا القالب "
-"الوسم {{ component }}."
+"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل "
+"المطورين ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا "
+"القالب الوسم {{ component }}."
 
 msgid "Define the file mask"
 msgstr "حدّد قناع الملف"
@@ -47872,10 +48495,10 @@ msgid ""
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 "اتركه فارغاً لمطابقة ملفات الترجمة مباشرةً. عند تحديده، تقوم عملية الاكتشاف "
-"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا القالب "
-"كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير {{ component }}، "
-"على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/{{ component }}"
-"_*.md`."
+"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا "
+"القالب كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير "
+"{{ component }}، على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/"
+"{{ component }}_*.md`."
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -48028,10 +48651,8 @@ msgid ""
 "match."
 msgstr ""
 
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "One folder per language"
-msgstr "حذف مفردة"
+msgstr "مجلد واحد لكل لغة"
 
 msgid "One folder per language containing translation files for components."
 msgstr "مجلد واحد لكل لغة يحتوي على ملفات ترجمة المكونات."
@@ -48057,36 +48678,28 @@ msgstr ""
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr ""
 
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "اسم ملف العنصر المطابِق"
+msgstr "أسماء ملفات معقدة"
 
 #, fuzzy
 #| msgid "Using language in both path and filename."
 msgid "Using both component and language name within filename."
 msgstr "استخدام اللغة في كلا من المسار واسم الملف."
 
-#, fuzzy
-#| msgid "Language codes"
 msgid "Repeated language code"
-msgstr "رموز اللغة"
+msgstr "رمز لغة مكرر"
 
 msgid "Using language in both path and filename."
 msgstr "استخدام اللغة في كلا من المسار واسم الملف."
 
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "السلاسل المعتمدة"
+msgstr "تقسيم سلاسل نصوص Android"
 
 msgid "Android resource strings, split into several files."
 msgstr ""
 
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "فواصل الأسطر غير متطابقة"
+msgstr "مطابقة مسارات متعددة"
 
 msgid "Multi-module Maven project with Java properties translations."
 msgstr ""
@@ -48153,7 +48766,7 @@ msgid "How many times to try connecting to the broker."
 msgstr "عدد مرات محاولة الاتصال بالوسيط."
 
 msgid "Retry delay"
-msgstr ""
+msgstr "تأخير إعادة المحاولة"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "عدد الثواني التي يجب الانتظار بين محاولات الاتصال."
@@ -48178,10 +48791,8 @@ msgstr ""
 "ألصق مكون واحد لمفتاح خاص بتنسيق PEM غير مشفّر. المفاتيح الخاصة المشفّرة غير "
 "مدعومة."
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "شهادات SSL للعميل"
+msgstr "شهادة العميل (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
@@ -48263,10 +48874,8 @@ msgstr "إبقاء عناوين msgid للسلاسل المُترجمة"
 msgid "Old value of the change (eg. previous translation of the string)"
 msgstr "إبقاء عناوين msgid للسلاسل المُترجمة"
 
-#, fuzzy
-#| msgid "Source string"
 msgid "Source string."
-msgstr "السلسلة المصدرية"
+msgstr "السلسلة المصدرية."
 
 msgid "Absolute URL to view the related object."
 msgstr ""
@@ -48476,10 +49085,8 @@ msgstr ""
 "الترجمة في Weblate باعتبارها بحاجة إلى إعادة صياغة؛ وتُعد هذه الميزة مفيدةً "
 "بشكل خاص إذا كانت ملفات الترجمة تُحدَّث غالباً يدوياً أو بواسطة خدمة خارجية."
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Fill read-only strings with source"
-msgstr "مصدر الترجمة الآلية"
+msgstr "املأ السلاسل النصية للقراءة فقط بالمصدر"
 
 #, fuzzy
 #| msgid "Component name"
@@ -48488,11 +49095,8 @@ msgid ""
 "update`, :ref:`addon-event-daily`"
 msgstr "اسم المكون"
 
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
+msgstr "يملأ ترجمة السلاسل النصية المخصصة للقراءة فقط بالسلسلة المصدرية."
 
 msgid "Statistics generator"
 msgstr "مُولّد الإحصائيات"
@@ -48500,16 +49104,11 @@ msgstr "مُولّد الإحصائيات"
 msgid "Output scope"
 msgstr "نطاق المخرجات"
 
-#, fuzzy
-#| msgid "Other translations"
 msgid "One file per translation"
-msgstr "ترجمات أخرى"
+msgstr "ملف واحد لكل ترجمة"
 
-#, fuzzy
-#| msgid "Contains %d component"
-#| msgid_plural "Contains %d components"
 msgid "One file per component"
-msgstr "يحتوي على %d مكون"
+msgstr "ملف واحد لكل مكون"
 
 msgid "Name of generated file"
 msgstr "اسم الملف المولّد"
@@ -48537,7 +49136,7 @@ msgid "For example generating a summary file for each translation:"
 msgstr "على سبيل المثال، إنشاء ملف ملخص لكل ترجمة:"
 
 msgid "Content"
-msgstr ""
+msgstr "المحتوى"
 
 #, fuzzy
 #| msgid "Component name"
@@ -48614,10 +49213,8 @@ msgid ""
 "available data. Dates and times are serialized as ISO-formatted strings."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Prefill translation with source"
-msgstr "مصدر الترجمة الآلية"
+msgstr "تعبئة الترجمة مسبقاً بالنص المصدر"
 
 msgid "Fills in translation strings with source string."
 msgstr "تعبئة السلاسل النصية المترجمة بالسلاسل النصية المصدرية."
@@ -48636,10 +49233,8 @@ msgstr "توليد معرف محلي وهمي"
 msgid "Source strings"
 msgstr "السلاسل المصدرية"
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "إنشاء ترجمة"
+msgstr "الترجمة المستهدفة"
 
 msgid "All strings in this translation will be overwritten"
 msgstr "سيتم الكتابة فوق جميع السلاسل في هذه الترجمة"
@@ -48653,14 +49248,11 @@ msgstr "نص متغير مُضاف في البداية"
 msgid "Appended static text"
 msgstr "نص ثابت مُلحق"
 
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "متغير غير معرّف: \"%s\""
+msgstr "نص متغير مُلحَق"
 
-#, fuzzy
 msgid "Variable text multiplier"
-msgstr "مضاعف متغيّر النص"
+msgstr "مُضاعِف النص المتغير"
 
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
@@ -48771,10 +49363,8 @@ msgstr "توحيد تنسيق ترويسة POT"
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr "يقوم بتحديث ترويسات gettext واستبدال تعليقات POT البديلة."
 
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "مكان سلسة المصدر"
+msgstr "مواقع المصدر"
 
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
@@ -48831,10 +49421,8 @@ msgstr "تحديث ملف LINGUAS"
 msgid "Updates the LINGUAS file when a translation is added or removed."
 msgstr "يحدّث ملف LINGUAS إذا أُضيفت ترجمة جديدة."
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (Meson)"
-msgstr "حدّث ملفات PO لتطابق ملف POT (باستعمال msgmerge)"
+msgstr "تحديث ملف POT (Meson)"
 
 msgid "ITS data directories"
 msgstr "أدلة بيانات ITS"
@@ -48876,10 +49464,8 @@ msgstr ""
 "الوسم المُمرَّر إلى xgettext لاستخراج التعليقات عند استخدام وضع التعليقات "
 "الموسومة."
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "xgettext checks"
-msgstr "جت‌ تكست PO"
+msgstr "فحوصات xgettext"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr "فحوصات تحقق إضافية لأداة xgettext يمكن تفعيلها للرسائل المستخرجة."
@@ -48898,10 +49484,8 @@ msgstr ""
 msgid "bullet-unicode"
 msgstr ""
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "كلمة مفتاحية إضافية"
+msgstr "كلمات مفتاحية إضافية"
 
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
@@ -48917,10 +49501,8 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Meson preset"
-msgstr "متصفح المستودع"
+msgstr "إعداد مسبق لـ Meson"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
@@ -48928,8 +49510,8 @@ msgid ""
 "helper."
 msgstr ""
 "تتضمن هذه الحزمة إعدادات مسبقة مدمجة لوسيطة xgettext تتوافق مع تكامل Meson "
-"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية وعلامات "
-"التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
+"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية "
+"وعلامات التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
 
 msgid "GLib"
 msgstr "جليب"
@@ -49067,16 +49649,14 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
-"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية الاستخراج "
-"بواسطة Sphinx."
+"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية "
+"الاستخراج بواسطة Sphinx."
 
 msgid "None"
 msgstr "لا شيء"
 
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate documentation"
-msgstr "توثيق Weblate"
+msgstr "مستندات Weblate"
 
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
@@ -49126,10 +49706,8 @@ msgstr "أنماط ملف المصدر"
 msgid "POTFILES manifest"
 msgstr "ملف قائمة POTFILES"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "xgettext language"
-msgstr "حسب اللغات"
+msgstr "لغة xgettext"
 
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
@@ -49286,10 +49864,8 @@ msgstr "حسب الملف"
 msgid "Per author"
 msgstr "حسب المؤلف"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "حسب اللغات"
+msgstr "حسب المؤلف واللغة"
 
 msgid "Append trailers to squashed commit message"
 msgstr "إلحاق مقاطع دعائية برسالة تنفيذ ممرودة"
@@ -49302,10 +49878,8 @@ msgstr ""
 "خطوط المقطع الدعائي هي أسطر تشبه رؤوس البريد الإلكتروني RFC 822 ، في نهاية "
 "الجزء الحر من رسالة الالتزام ، مثل \"شارك في التأليف: …'."
 
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "تقديم الرسائل"
+msgstr "رسالة الالتزام (Commit message)"
 
 msgid ""
 "This commit message will be used instead of the combined commit messages "
@@ -49421,13 +49995,12 @@ msgstr "إزالة الاقتراح القديم"
 msgid "Voting threshold"
 msgstr "عتبة التصويت"
 
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
-msgstr "عتبة الإزالة. هذا الحقل ليس له تأثير مع إيقاف التصويت."
+msgstr ""
+"الحد الأدنى للإزالة. اتركه فارغًا لإزالة الاقتراحات بغض النظر عن الأصوات. لا "
+"يكون لهذا الحقل أي تأثير عند إيقاف التصويت."
 
 msgid "Set a timeframe for removal of suggestions."
 msgstr "حدّد إطار زمني لإزالة الاقتراحات."
@@ -49490,10 +50063,8 @@ msgid ""
 "Compliance of the secret length with the specification is now validated."
 msgstr ""
 
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook secret"
-msgstr "رابط الموقع"
+msgstr "سر الـ Webhook"
 
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "يُعد مفتاح Standard Webhooks السري سلسلة نصية مشفرة بصيغة Base64."
@@ -50452,10 +51023,8 @@ msgstr ""
 msgid "Accelerator key"
 msgstr ""
 
-#, fuzzy
-#| msgid "Your summary"
 msgid "Summary"
-msgstr "مُلخصك"
+msgstr "الملخص"
 
 #, fuzzy
 #| msgid "Source and translation do not both end with a colon"
@@ -50703,15 +51272,11 @@ msgid ""
 "intentional."
 msgstr ""
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent parts"
-msgstr "ملف الخط"
+msgstr "أجزاء انسيابية"
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent parts should match."
-msgstr "ملف الخط"
+msgstr "يجب أن تتطابق الأجزاء الانسيابية."
 
 msgid ""
 "Each Fluent Message can have an optional value (the main text content), and "
@@ -50737,15 +51302,11 @@ msgid ""
 "`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "التفضيلات"
+msgstr "مراجع وافية"
 
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references should match."
-msgstr "التفضيلات"
+msgstr "يجب أن تتطابق المراجع المترابطة."
 
 msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
@@ -50800,13 +51361,11 @@ msgid ""
 "fluent/guide/selectors.html>`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent translation inner HTML"
-msgstr "إنشاء ترجمة"
+msgstr "ترجمة سلسة لمحتوى HTML الداخلي"
 
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr ""
+msgstr "يجب أن تكون وجهة Fluent عبارة عن كود HTML داخلي صالح ومطابق."
 
 msgid ""
 "This check will verify that the translated value of a Message or Term "
@@ -50862,15 +51421,11 @@ msgid ""
 "overview.html>`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent translation syntax"
-msgstr "إنشاء ترجمة"
+msgstr "بنية الترجمة الانسيابية"
 
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in the translation."
-msgstr "تعليق ما على ترجمتك"
+msgstr "خطأ نحوي واضح في الترجمة."
 
 msgid ""
 "In Weblate, Fluent strings use Fluent syntax for references and variables, "
@@ -51267,10 +51822,8 @@ msgstr "العناصر النائبة المئوية"
 msgid "The percent placeholders do not match source."
 msgstr "العناصر النائبة المئوية لا تتطابق مع المصدر."
 
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "صيغة بيرل"
+msgstr "تنسيق الأقواس في Perl"
 
 #, fuzzy
 #| msgid "Perl format string does not match source"
@@ -51536,10 +52089,8 @@ msgstr ""
 msgid "`reStructuredText Primer`_"
 msgstr "نسق reStructuredText"
 
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "أستُخدِم رمز التطويل"
+msgstr "تم استخدام حرف \"الكشيدة\" (الوصلة الممدودة)"
 
 msgid "The decorative kashida letters should not be used."
 msgstr "لا ينبغي استخدام حروف الزخرفة كالتطويل أو الكشيدة."
@@ -51637,10 +52188,8 @@ msgstr ""
 msgid "Maximum number of lines"
 msgstr "الحجم الأقصى للترجمة"
 
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given number of lines."
-msgstr "ينبغي ألا تتجاوز الترجمة الطول المحدد"
+msgstr "يجب ألا تتجاوز الترجمة عدد الأسطر المحدده."
 
 msgid ""
 "Checks that translations do not exceed the configured maximum number of "
@@ -51738,10 +52287,8 @@ msgstr ""
 msgid "Mismatched ellipsis"
 msgstr "علامة حذف غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "لا ينتهي المصدر والترجمة بالنُقط"
+msgstr "لا ينتهي كل من النص الأصلي والترجمة بعلامة الحذف."
 
 msgid ""
 "Checks that trailing ellipses are replicated between both source and "
@@ -51760,10 +52307,8 @@ msgstr ""
 msgid "Mismatched exclamation mark"
 msgstr "علامة تَعجُّب غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس نقطة التعجّب"
+msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنفس علامة التعجّب"
 
 msgid ""
 "Checks that exclamations are replicated between both source and translation. "
@@ -51797,10 +52342,9 @@ msgstr ""
 msgid "Mismatched interrobang"
 msgstr "استفهام غير متطابق"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "لا ينتهي المصدر والترجمة بالنُقط"
+msgstr ""
+"لا ينتهي كل من النص الأصلي والترجمة بعلامة \"الإنتروبانغ\" (interrobang)."
 
 msgid ""
 "Checks that interrobang marks are replicated between both source and "
@@ -51814,10 +52358,8 @@ msgstr ""
 msgid "Mismatched question mark"
 msgstr "علامة استفهام غير متطابقة"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بنقطة استفهام"
+msgstr "لا تنتهي السلسلة المصدرية و الترجمة معًا بعلامة استفهام"
 
 msgid ""
 "Checks that question marks are replicated between both source and "
@@ -52051,10 +52593,8 @@ msgstr ""
 msgid "Starting newline"
 msgstr "البداية بسطر فارغ"
 
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "لا يبدأ المصدر والترجمة بسطر جديد فارغ"
+msgstr "لا يبدأ كل من النص الأصلي والترجمة بسطر جديد."
 
 msgid ""
 "Newlines usually appear in source strings for good reason, omissions or "
@@ -52065,10 +52605,8 @@ msgstr ""
 msgid "Starting spaces"
 msgstr "البداية بالمسافة"
 
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "إنّ السلسلتين المصدرية و الترجمة لا تبدآن بنفس عدد المسافات البيضاء"
+msgstr "لا يبدأ كل من النص المصدر والترجمة بنفس عدد المسافات."
 
 msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
@@ -52078,10 +52616,8 @@ msgstr ""
 msgid "Trailing newline"
 msgstr "سطر جديد زائد"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "المصدر و الترجمة لا ينتهيان بالعودة إلى سطر جديد"
+msgstr "لا يبدأ كل من النص الأصلي والترجمة بسطر جديد."
 
 msgid "Trailing space"
 msgstr "مسافة زائدة"
@@ -52216,10 +52752,8 @@ msgstr ""
 msgid "Zero-width space"
 msgstr "مسافة صفريّة العرض"
 
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "تحتوي الترجمة على حرف مسافة إضافية صفرية العرض"
+msgstr "تحتوي الترجمة على حرف مسافة صفرية العرض إضافي."
 
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
@@ -52273,10 +52807,8 @@ msgstr ""
 msgid "Fluent source inner HTML"
 msgstr ""
 
-#, fuzzy
-#| msgid "Create translation"
 msgid "Fluent source should be valid inner HTML."
-msgstr "إنشاء ترجمة"
+msgstr "يجب أن يكون المصدر الانسيابي (Fluent source) عبارة عن HTML داخلي صالح."
 
 msgid ""
 "Fluent is often used in contexts where the value for a Message (or Term) is "
@@ -52402,15 +52934,11 @@ msgid ""
 "attributes, which this check will not enforce."
 msgstr ""
 
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "إملأ بسلسلة مصدرية"
+msgstr "بنية مصدرية انسيابية"
 
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in the source."
-msgstr "تعليق ما على ترجمتك"
+msgstr "خطأ في صياغة Fluent في المصدر."
 
 msgid ""
 "In Weblate, Fluent strings use Fluent syntax for references and variables, "
@@ -52713,10 +53241,8 @@ msgstr ""
 msgid "Case-sensitive sort"
 msgstr "تفعيل فرز المفتاج الحساس لحالة الأحرف"
 
-#, fuzzy
-#| msgid "Enable case-sensitive key sorting"
 msgid "Case-insensitive sort"
-msgstr "تفعيل فرز المفتاج الحساس لحالة الأحرف"
+msgstr "فرز غير حساس لحالة الأحرف"
 
 msgid "json_use_compact_separators"
 msgstr ""
@@ -53252,10 +53778,8 @@ msgstr ""
 msgid "`General terms and conditions <https://weblate.org/terms/>`__"
 msgstr "الشروط والأحكام العامة"
 
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "`Privacy policy <https://weblate.org/privacy/>`__"
-msgstr "ارجع إلى Weblate"
+msgstr "`سياسة الخصوصية <https://weblate.org/privacy/>`__"
 
 msgid ""
 "The data processing agreement can be obtained in the `Customer area <https://"
@@ -53364,17 +53888,17 @@ msgid "Translator persona"
 msgstr "تقارير الترجمة"
 
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "ملف الترجمة"
 
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 
 #, fuzzy
@@ -53383,8 +53907,9 @@ msgid "Language-specific instructions"
 msgstr "تعليمات الترجمة"
 
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to 1000 characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to 1000 "
+"characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 #, fuzzy
@@ -53392,13 +53917,15 @@ msgstr ""
 msgid "Custom model name"
 msgstr "خصّص اسم المكوّن"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
 
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr ""
 
 #, fuzzy
@@ -53941,6 +54468,11 @@ msgstr ""
 msgid "Mistral model"
 msgstr ""
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgid "``mistral-small-latest`` -- Mistral Small 4"
 msgstr ""
 
@@ -54006,7 +54538,10 @@ msgstr ""
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
 msgstr ""
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgid "Ollama model"
@@ -54275,6 +54810,170 @@ msgid ""
 "product-fanyi-text.s>`_"
 msgstr ""
 
+#, fuzzy
+#| msgid "Scope"
+msgid "Scopes:"
+msgstr "النطاق"
+
+#, fuzzy
+#| msgid ":guilabel:`Public`"
+msgid ":guilabel:`All`"
+msgstr ":guilabel:`عام`"
+
+#, fuzzy
+#| msgid ":guilabel:`Private`"
+msgid ":guilabel:`Watched`"
+msgstr ":guilabel:`خاص`"
+
+#, fuzzy
+#| msgid "Administration"
+msgid ":guilabel:`Administered`"
+msgstr "الإدارة"
+
+msgid "Frequencies:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid ":guilabel:`No notification`"
+msgstr "الإدارة"
+
+#, fuzzy
+#| msgid "Administration"
+msgid ":guilabel:`Instant notification`"
+msgstr "الإدارة"
+
+#, fuzzy
+#| msgid ":guilabel:`Public`"
+msgid ":guilabel:`Daily digest`"
+msgstr ":guilabel:`عام`"
+
+#, fuzzy
+#| msgid ":guilabel:`Review strings`"
+msgid ":guilabel:`Weekly digest`"
+msgstr ":guilabel:`مراجعة سلاسل`"
+
+#, fuzzy
+#| msgid ":guilabel:`Download changes`"
+msgid ":guilabel:`Monthly digest`"
+msgstr ":guilabel:`تنزيل تغييرات`"
+
+msgid "Handlers:"
+msgstr ""
+
+#, fuzzy
+#| msgid ":guilabel:`Edit strings`"
+msgid ":guilabel:`String was approved`"
+msgstr ":guilabel:`تعديل سلاسل`"
+
+#, fuzzy
+#| msgid ":guilabel:`Download changes`"
+msgid ":guilabel:`String was changed`"
+msgstr ":guilabel:`تنزيل تغييرات`"
+
+#, fuzzy
+#| msgid "Component name"
+msgid ":guilabel:`Component was translated`"
+msgstr "اسم المكون"
+
+#, fuzzy
+#| msgid "Add language for translation"
+msgid ":guilabel:`Language was translated`"
+msgstr "إضافة لغة إلى الترجمة"
+
+msgid ":guilabel:`String you contributed to received a comment`"
+msgstr ""
+
+#, fuzzy
+#| msgid ":guilabel:`Download changes`"
+msgid ":guilabel:`License was changed`"
+msgstr ":guilabel:`تنزيل تغييرات`"
+
+#, fuzzy
+#| msgid "Component name"
+msgid ":guilabel:`Component was locked or unlocked`"
+msgstr "اسم المكون"
+
+#, fuzzy
+#| msgid ":guilabel:`Delete comment`"
+msgid ":guilabel:`You were mentioned in a comment`"
+msgstr ":guilabel:`حذف تعليق`"
+
+#, fuzzy
+#| msgid ":guilabel:`Download translation file`"
+msgid ":guilabel:`Repository operation failed`"
+msgstr ":guilabel:`تحميل ملف ترجمة`"
+
+#, fuzzy
+#| msgid ":guilabel:`Delete comment`"
+msgid ":guilabel:`New alert emerged in a component`"
+msgstr ":guilabel:`حذف تعليق`"
+
+#, fuzzy
+#| msgid ":guilabel:`Post announcements`"
+msgid ":guilabel:`Announcement was published`"
+msgstr ":guilabel:`نشر تصريحات`"
+
+#, fuzzy
+#| msgid ":guilabel:`Custom`"
+msgid ":guilabel:`Comment was added`"
+msgstr ":guilabel:`مخصص`"
+
+#, fuzzy
+#| msgid "A translation component was created."
+msgid ":guilabel:`New translation component was created`"
+msgstr "أُنشئ مكون ترجمة."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid ":guilabel:`Contributor made their first translation`"
+msgstr "استعمال الاقتراحات الآلية"
+
+#, fuzzy
+#| msgid "Add language for translation"
+msgid ":guilabel:`String is available for translation`"
+msgstr "إضافة لغة إلى الترجمة"
+
+#, fuzzy
+#| msgid ":guilabel:`Add suggestion`"
+msgid ":guilabel:`Suggestion was added`"
+msgstr ":guilabel:`إضافة اقتراح`"
+
+#, fuzzy
+#| msgid "Add language for translation"
+msgid ":guilabel:`New language was added or requested`"
+msgstr "إضافة لغة إلى الترجمة"
+
+#, fuzzy
+#| msgid ":guilabel:`Protected`"
+msgid ":guilabel:`Parse error occurred`"
+msgstr ":guilabel:`محمي`"
+
+#, fuzzy
+#| msgid ":guilabel:`Add suggestion`"
+msgid ":guilabel:`Pending suggestions exist`"
+msgstr ":guilabel:`إضافة اقتراح`"
+
+#, fuzzy
+#| msgid "Update the internal repository"
+msgid ":guilabel:`Operation was performed in the repository`"
+msgstr "تحديث المستودع الداخلي"
+
+#, fuzzy
+#| msgid ":guilabel:`Review strings`"
+msgid ":guilabel:`Unfinished strings exist`"
+msgstr ":guilabel:`مراجعة سلاسل`"
+
+#, fuzzy
+#| msgid ":guilabel:`Protected`"
+msgid ":guilabel:`String was edited by user`"
+msgstr ":guilabel:`محمي`"
+
+#, fuzzy
+#| msgid "Translation comment"
+msgid ":guilabel:`Translation activity summary`"
+msgstr "تعليق الترجمة"
+
 msgid ""
 "Weblate provided callback URL during the authentication includes configured "
 "domain. In case you get errors about URL mismatch, you might want to fix "
@@ -54308,10 +55007,8 @@ msgstr "تعليقات"
 msgid "Post comment"
 msgstr "نشر تعليق"
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid ":guilabel:`Edit source`"
-msgstr "تعديل السلاسل المصدرية"
+msgstr ":guilabel:`تعديل مصدر`"
 
 #, fuzzy
 #| msgid ":guilabel:`Protected`"
@@ -54323,10 +55020,8 @@ msgstr ":guilabel:`محمي`"
 msgid ":guilabel:`Translation coordinator`"
 msgstr "تعليق الترجمة"
 
-#, fuzzy
-#| msgid "Review strings"
 msgid ":guilabel:`Review strings`"
-msgstr "مراجعة السلاسل"
+msgstr ":guilabel:`مراجعة سلاسل`"
 
 #, fuzzy
 #| msgid ":guilabel:`Private`"
@@ -54394,10 +55089,8 @@ msgstr "تحرير إعدادات المشروع"
 msgid "Manage project access"
 msgstr "إدارة النفاذ إلى المشروع"
 
-#, fuzzy
-#| msgid "Manage roles"
 msgid "Manage reports"
-msgstr "إدارة الأدوار"
+msgstr "إدارة التقارير"
 
 #, fuzzy
 #| msgid "Administration"
@@ -54430,10 +55123,8 @@ msgstr "إضافة سلسلة جديدة"
 msgid "Remove a string"
 msgstr "إزالة سلسلة نصيّة"
 
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "تجاهل الخطأ"
+msgstr "تجاهل الفحص الفاشل"
 
 msgid "Edit strings"
 msgstr "تعديل السلاسل"
@@ -54461,10 +55152,8 @@ msgstr "قبول اقتراح"
 msgid "Add suggestion"
 msgstr "إضافة اقتراح"
 
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Add suggestion`"
-msgstr "إضافة اقتراح"
+msgstr ":guilabel:`إضافة اقتراح`"
 
 msgid "Delete suggestion"
 msgstr "حذف اقتراح"
@@ -54542,23 +55231,19 @@ msgstr "نشر الإعلانات"
 msgid "Delete announcements"
 msgstr "حذف الإعلانات"
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "تعديل السلاسل المصدرية"
+msgstr "تعديل إعدادات مساحة العمل"
 
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "إضافة مشاريع إلى مساحة العمل"
 
 #, fuzzy
 #| msgid "Additional context"
 msgid ":guilabel:`Add workspace projects`"
 msgstr "سياق إضافي"
 
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "إدارة النفاذ إلى المشروع"
+msgstr "إدارة الوصول إلى مساحة العمل"
 
 msgid "Site wide privileges"
 msgstr ""
@@ -54566,10 +55251,8 @@ msgstr ""
 msgid "Use management interface"
 msgstr "استخدم الواجهة الإدارية"
 
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "إعداد Weblate"
+msgstr "إدارة إعدادات الموقع"
 
 msgid "Add new projects"
 msgstr "أضف مشاريع جديدة"
@@ -54612,10 +55295,8 @@ msgstr "إدارة الإعلانات"
 msgid "Manage translation memory"
 msgstr "إدارة ذاكرة الترجمة"
 
-#, fuzzy
-#| msgid "Machame"
 msgid "Manage machinery"
-msgstr "الماتشامية"
+msgstr "إدارة الآلات"
 
 msgid "Manage component lists"
 msgstr "إدارة قوائم المكوّن"
@@ -54631,35 +55312,25 @@ msgstr "إدارة إضافات الموقع"
 msgid "List of built-in roles"
 msgstr "تحرير التسمية"
 
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`عام`"
+msgstr ":guilabel:`نشر تصريحات`"
 
 #, fuzzy
 #| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Delete announcements`"
 msgstr ":guilabel:`عام`"
 
-#, fuzzy
-#| msgid "Download changes"
 msgid ":guilabel:`Download changes`"
-msgstr "تنزيل التغييرات"
+msgstr ":guilabel:`تنزيل تغييرات`"
 
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Post comment`"
-msgstr ":guilabel:`عام`"
+msgstr ":guilabel:`نشر تعليق`"
 
-#, fuzzy
-#| msgid "Delete comment"
 msgid ":guilabel:`Delete comment`"
-msgstr "حذف تعليق"
+msgstr ":guilabel:`حذف تعليق`"
 
-#, fuzzy
-#| msgid "Resolved comment"
 msgid ":guilabel:`Resolve comment`"
-msgstr "تعليق تم حله"
+msgstr ":guilabel:`تعليق تم حله`"
 
 #, fuzzy
 #| msgid "Edit component settings"
@@ -54727,35 +55398,25 @@ msgstr "إدارة النفاذ إلى المشروع"
 msgid ":guilabel:`Manage reports`"
 msgstr "إدارة المستودع"
 
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Add screenshot`"
-msgstr "إضافة اقتراح"
+msgstr ":guilabel:`إضافة لقطة شاشة`"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid ":guilabel:`Delete screenshot`"
-msgstr "حذف لقطة الشاشة"
+msgstr ":guilabel:`حذف لقطة شاشة`"
 
-#, fuzzy
-#| msgid "Edit screenshot"
 msgid ":guilabel:`Edit screenshot`"
-msgstr "تعديل لقطة الشاشة"
+msgstr ":guilabel:`تعديل لقطة شاشة`"
 
 #, fuzzy
 #| msgid "Edit source string"
 msgid ":guilabel:`Edit additional string info`"
 msgstr "تعديل سلسة المصدر"
 
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Accept suggestion`"
-msgstr "إضافة اقتراح"
+msgstr ":guilabel:`قبول اقتراح`"
 
-#, fuzzy
-#| msgid "Add suggestion"
 msgid ":guilabel:`Delete suggestion`"
-msgstr "إضافة اقتراح"
+msgstr ":guilabel:`حذف اقتراح`"
 
 #, fuzzy
 #| msgid "Add suggestion"
@@ -54782,10 +55443,8 @@ msgstr "القيام بترجمة آلية"
 msgid ":guilabel:`Delete existing translation`"
 msgstr "حذف ترجمة موجودة"
 
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid ":guilabel:`Download translation file`"
-msgstr "تحميل الترجمة بصيغة CSV"
+msgstr ":guilabel:`تحميل ملف ترجمة`"
 
 #, fuzzy
 #| msgid "Add suggestion"
@@ -54807,10 +55466,8 @@ msgstr "تحتوي الرسالة على تحققات فاشلة"
 msgid ":guilabel:`Remove a string`"
 msgstr "مراجعة السلاسل"
 
-#, fuzzy
-#| msgid "Administration"
 msgid ":guilabel:`Edit strings`"
-msgstr "الإدارة"
+msgstr ":guilabel:`تعديل سلاسل`"
 
 #, fuzzy
 #| msgid "Edit string when suggestions are enforced"
@@ -54832,10 +55489,8 @@ msgstr "تسمية مؤلف الترجمة المُرسَلة"
 msgid ":guilabel:`Overwrite existing strings with upload`"
 msgstr "إعادة كتابة السلاسل الموجودة بالرفع"
 
-#, fuzzy
-#| msgid "Upload translations"
 msgid ":guilabel:`Upload translations`"
-msgstr "رفع ترجمات"
+msgstr ":guilabel:`رفع ترجمات`"
 
 #, fuzzy
 #| msgid "Access the internal repository"
@@ -55771,10 +56426,8 @@ msgstr "يمكنك تصفح جميع مصطلحات المسرد:"
 msgid "or edit them as any translations."
 msgstr "استضافة الترجمات"
 
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary terms"
-msgstr "اسم المسرد"
+msgstr "مصطلحات المسرد"
 
 msgid ""
 "Glossary terms are translated the same way regular strings are. You can "
@@ -55928,7 +56581,7 @@ msgid ""
 msgstr ""
 
 msgid "Variants"
-msgstr "المتغيرات"
+msgstr "المتنوعات"
 
 msgid ""
 "Variants are a generic way to group strings together. All term variants are "
@@ -56369,12 +57022,20 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The private commit e-mail will be used instead of your account e-mail in "
-"version control commits. Use this to avoid leaking your real e-mail there. "
-"Be aware that using different e-mail can disconnect your contributions on "
-"other servers (for example your contributions will no longer link to your "
-"profile on GitHub). The private e-mail can be turned on site-wide "
-"using :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+"The :guilabel:`Commit e-mail` and :guilabel:`Commit name` settings let you "
+"choose private identities instead of your account e-mail and name in version "
+"control commits. Use these to avoid publishing your real e-mail and name "
+"there. Be aware that using a different e-mail can disconnect your "
+"contributions on other servers (for example your contributions will no "
+"longer link to your profile on GitHub). Administrators can make private "
+"identities the default by setting :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` "
+"and :setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``. Your explicit "
+"choices override these defaults."
+msgstr ""
+
+msgid ""
+"Changes to these settings affect future commits. Names and e-mail addresses "
+"already recorded in repository history remain unchanged."
 msgstr ""
 
 msgid ""
@@ -58374,10 +59035,8 @@ msgid ""
 "repositories`."
 msgstr ""
 
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "GitLab repositories"
-msgstr "مستودعات VCS"
+msgstr "مستودعات GitLab"
 
 msgid ""
 "Detailed GitLab repository access is covered in :ref:`code-hosting-gitlab-"
@@ -58670,7 +59329,7 @@ msgid ""
 msgstr ""
 
 msgid "Local files"
-msgstr ""
+msgstr "الملفات المحلية"
 
 msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
@@ -59771,13 +60430,12 @@ msgstr ""
 msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
-msgid "The states are represented in the translation files when possible."
+msgid ""
+"The states are represented in the translation files when possible. A state "
+"change only rewrites the file when the format can represent the change or "
+"when it makes pending content eligible for commit under the :ref:`project-"
+"commit_policy`."
 msgstr ""
-"العبارة العادية التي تُستخدَم لتصفيه الترجمة عند المسح لإيجاد قناع الملف."
 
 msgid ""
 "If the file format you use does not support storing states, you might want "
@@ -60221,6 +60879,29 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source code, or remove the label."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Review strings"
+#~ msgid "Set to blank string to disable."
+#~ msgstr "مراجعة السلاسل"
+
+#, fuzzy
+#~| msgid "Review strings"
+#~ msgid ":guilabel:`Reset and discard`"
+#~ msgstr "مراجعة السلاسل"
+
+#, fuzzy
+#~| msgid "Location"
+#~ msgid "Localization libraries and packages"
+#~ msgstr "الموقع"
+
+#, fuzzy
+#~| msgid ""
+#~| "Regular expression which is used to filter translation when scanning for "
+#~| "file mask."
+#~ msgid "The states are represented in the translation files when possible."
+#~ msgstr ""
+#~ "العبارة العادية التي تُستخدَم لتصفيه الترجمة عند المسح لإيجاد قناع الملف."
 
 #, fuzzy
 #~| msgid "Automatic translation source"
@@ -61078,11 +61759,6 @@ msgstr ""
 #~ msgstr "حالة السلسلة"
 
 #, fuzzy
-#~| msgid "String state"
-#~ msgid "last string update"
-#~ msgstr "حالة السلسلة"
-
-#, fuzzy
 #~| msgid "Perform automatic translation"
 #~ msgid "Performs full update on translation unit."
 #~ msgstr "القيام بترجمة آلية"
@@ -61504,11 +62180,6 @@ msgstr ""
 #~| msgid "View billing information"
 #~ msgid "View billing info"
 #~ msgstr "عرض معلومات الفوترة"
-
-#, fuzzy
-#~| msgid ":guilabel:`Public`"
-#~ msgid ":guilabel:`Billing`"
-#~ msgstr ":guilabel:`عام`"
 
 #, fuzzy
 #~| msgid "View billing information"

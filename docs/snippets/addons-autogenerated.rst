@@ -308,8 +308,8 @@ Publishes Android string and plural resources for registered Kotlin SDK builds.
 
 .. warning::
 
-   The Kotlin SDK API is in beta. No compatibility is guaranteed until the
-   final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
+   The Kotlin SDK is available as an alpha release. No compatibility is
+   guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
    generated resource formats may change without backward compatibility.
 
 Install :guilabel:`Kotlin SDK CDN` on an Android string-resource component to
@@ -332,8 +332,7 @@ API tab shows the API base URL; submit build metadata to its ``builds/``
 endpoint. See
 :ref:`kotlin-sdk-build-api` for the request and response format.
 
-For Gradle plugin and library setup, see the `Kotlin SDK repository
-<https://github.com/WeblateOrg/kotlin-sdk/>`__.
+For Gradle plugin and library setup, see :doc:`/devel/kotlin-sdk`.
 
 The add-on matches resource names and types from registered builds to current
 component translations. Strings, plurals, and Android styled text are supported.

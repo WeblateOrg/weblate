@@ -134,6 +134,9 @@ type RepositoryDiagnosisCode = Literal[
     "git_lfs_missing_objects",
     "github_forking_disabled",
     "github_pull_request_creation_restricted",
+    "github_api_credentials_rejected",
+    "github_pull_request_account_mismatch",
+    "github_pull_request_access_unexplained",
     "missing_credentials",
     "repository_not_found",
     "repository_permission",
@@ -736,6 +739,7 @@ class Repository:
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    supports_scp_urls: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     _version_cache: ClassVar[dict[tuple[type, str], str | Exception]] = {}
 
@@ -1008,7 +1012,7 @@ class Repository:
             errormessage: str = cls.sanitize_error_message(
                 process.stdout + (process.stderr or "")
             )
-            if retry and cls.should_retry_popen(errormessage):
+            if retry and cls.should_retry_popen(errormessage, cwd=cwd):
                 return cls._popen(
                     args,
                     cwd=cwd,
@@ -1030,7 +1034,7 @@ class Repository:
 
     @staticmethod
     # ruff: ignore[unused-static-method-argument]
-    def should_retry_popen(errormessage: str) -> bool:
+    def should_retry_popen(errormessage: str, *, cwd: str | None = None) -> bool:
         return False
 
     def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
@@ -1169,6 +1173,7 @@ class Repository:
         try:
             target = resolve_repo_url(
                 url,
+                allow_scp_style=cls.supports_scp_urls,
                 ssh_destination_resolver=cls.get_ssh_destination_resolver(),
                 proxy_url=get_environment_proxy(url),
             )
@@ -1501,7 +1506,11 @@ class Repository:
         timestamp: datetime | None = None,
         files: list[str] | None = None,
     ) -> bool:
-        """Create new revision."""
+        """
+        Create new revision, optionally limited to the listed files.
+
+        ``None`` commits the whole working tree, while an empty list is a no-op.
+        """
         raise NotImplementedError
 
     def remove(

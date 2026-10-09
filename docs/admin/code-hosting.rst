@@ -303,8 +303,8 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
-``Installation``, ``Meta`` and ``Push`` events), and sets the callback, setup
-and per-app webhook URLs automatically, so no manual GitHub App
+``Installation``, ``Meta``, ``Push`` and ``Repository`` events), and sets the
+callback, setup and per-app webhook URLs automatically, so no manual GitHub App
 configuration is required. GitHub delivers the ``Installation`` and
 ``Installation repositories`` events to all GitHub Apps by default.
 
@@ -377,6 +377,18 @@ endpoints exclude them from matching and response diagnostics, including
 ``/hooks/github/``. Legacy GitHub App deliveries sent to the generic endpoint
 can match only components using a non-App VCS backend.
 
+When a repository is renamed or transferred on GitHub, the ``Repository``
+event makes Weblate refresh the repositories of the connected GitHub account
+and point the affected components to the new repository URL. Apps registered
+before Weblate 2026.10.1 are not subscribed to this event; enable
+:guilabel:`Repository` under :guilabel:`Subscribe to events` in the App
+settings on GitHub.
+
+Refreshing repositories of a connected GitHub account retargets such
+components too, for example when the event was missed. Use
+:wladmin:`refresh_github_repositories` to do this for all connected GitHub
+accounts at once.
+
 If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
 GitHub repository, as shown on the image below:
@@ -414,6 +426,23 @@ GitHub.com, use
 ``api.github.com`` as the API host. The token must allow Weblate to read and
 write repository contents and create pull requests. If Weblate should fork
 private repositories, the token might also need administration access.
+
+If creating a pull request fails with ``404 Not Found``, GitHub can be refusing
+API access even when the repository is readable. Weblate checks the repository's
+pull request creation policy and, for user tokens, the authenticated account.
+The failure alert reports confirmed findings and provides further checks when
+the cause remains unknown. Diagnostic lookup failures preserve the original
+pull request error.
+
+Check that the effective API token belongs to the intended fork owner and allows
+creating pull requests. For fine-grained tokens, check repository selection,
+resource owner, and :guilabel:`Pull requests` write permission. Also check
+organization restrictions and access to the source branch. For GitHub Apps,
+check installation access to the repositories and pull request permissions.
+A successful Git push does not verify API access: pushing can use a separate
+SSH key. The repository log includes GitHub's request ID and permission headers
+when available to help investigate the failure. Accepted permission headers
+describe endpoint requirements, not the permissions granted to the token.
 
 .. _GitHub API: https://docs.github.com/en/rest
 

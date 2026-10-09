@@ -1,5 +1,5 @@
-Weblate 2026.10.1
------------------
+Weblate 2026.11
+---------------
 
 *Not yet released.*
 
@@ -7,21 +7,88 @@ Weblate 2026.10.1
 
 .. rubric:: Improvements
 
-* Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
+* Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 
 .. rubric:: Security fixes
 
-* Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
-* Prevented sitemaps from disclosing restricted component and translation URLs.
-* Prevented project backup imports from granting site-wide permissions through restored project teams.
-
 .. rubric:: Bug fixes
 
-* Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
+* Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.11.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/174?closed=1>`__.
+
+Weblate 2026.10.1
+-----------------
+
+*Released on October 9th 2026.*
+
+.. rubric:: New features
+
+* Added opt-in :ref:`team synchronization from identity providers <sso-team-sync>`, including GitLab group mapping and group-based login restrictions.
+* Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` settings for new users.
+* Added :ref:`component-push_on_update` to push only after committing translations, not after upstream updates.
+
+.. rubric:: Improvements
+
+* Improved diagnostics for failed :ref:`GitHub pull request creation <code-hosting-github-pull-requests>`.
+* Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of official and third-party :doc:`libraries and SDKs <devel/libraries>`.
+* Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
+* Authentication method names and icons now come from python-social-auth, including current service branding, while existing :doc:`authentication settings <admin/auth>` overrides remain supported.
+* Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
+* Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
+* Clarified that contributing to :ref:`shared translation memory <shared-tm>` publishes strings and their origin outside project access control.
+
+.. rubric:: Security fixes
+
+* Prevented :ref:`project backup imports <projectbackup>` from granting site-wide permissions through restored project teams (:ghsa:`pgmx-p3h7-7q8x`).
+* Prevented :ref:`Automation workflow <automation-workflows>` configuration from disclosing references to restricted components in change history.
+* Marked access-controlled :ref:`status widget <promotion>` responses as private to shared caches.
+* Disallowed filesystem paths and the ``file`` scheme for :ref:`version control repository URLs <vcs-repository-url-troubleshooting>`.
+* Added restrictive cache controls to authenticated HTML responses to prevent previously viewed content from being restored after logout.
+* Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
+* Prevented :ref:`sitemaps <project-public_sharing>` from disclosing restricted component and translation URLs.
+* Restricted stale Git lock cleanup to the repository running the failed command and prevented empty file lists from committing unrelated changes.
+* Enforced e-mail confirmation code expiry through Python Social Auth using :setting:`AUTH_TOKEN_VALID`, independently of scheduled cleanup.
+
+.. rubric:: Bug fixes
+
+* Fixed :ref:`component-key_filter` for JSON and other formats supporting both monolingual and bilingual use.
+* Fixed acting-user attribution and display for administrative account changes in :doc:`audit logs <security/privacy-compliance>`.
+* Removed expired OpenID associations and OIDC login nonces during hourly :doc:`authentication storage cleanup <admin/auth>`.
+* Fixed :ref:`projectbackup` restoration of translation file language aliases and duplicate team names, and improved validation error formatting.
+* Prevented concurrent creation of duplicate project team names and preserved custom teams when enabling features that require conflicting :ref:`built-in team names <project-access_control>`.
+* Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved recovery guidance for authentication failures and token errors.
+* Components using the GitHub App now follow renamed or transferred repositories; existing Apps need to subscribe to the ``Repository`` event, see :ref:`code-hosting-github-app-webhook`.
+
+.. rubric:: Compatibility
+
+* The ``file`` scheme is disabled for security reasons and can no longer be included in :setting:`VCS_ALLOW_SCHEMES`. Weblate now fails to start until it is removed from the setting and existing components are migrated to supported repository URLs.
+
+.. rubric:: Upgrading
+
+Authentication names and provider logos now come from python-social-auth.
+Add ``social_django.finders.SocialAuthIconFinder`` after the standard finders in
+``STATICFILES_FINDERS`` in :file:`settings.py`, then run
+:samp:`weblate collectstatic --noinput`. The example configuration and Docker
+image already include the finder. Existing authentication name and image
+settings remain supported. See :doc:`admin/auth` for details.
+
+If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, add
+``social_core.pipeline.social_auth.social_names`` immediately after
+``social_core.pipeline.social_auth.social_details``. Name conversion now runs
+in this shared step, and Weblate no longer joins provider first and last names
+itself. Existing full names are preserved. The example configuration and Docker
+image already include the new step. See :doc:`admin/auth` for details.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
@@ -114,16 +181,16 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented repository URLs from injecting executable Mercurial configuration (:ghsa:`7rqp-4x64-cwch`).
+* Prevented :doc:`/formats/appstore` from following symbolic links outside the component repository (:ghsa:`7q8w-w5h2-v3cq`).
 * Project administrators can no longer see blocked users' account e-mail addresses without site-wide user management permission.
 * Removed repositories created from rejected component ZIP and document uploads.
-* Prevented App Store metadata files from following symbolic links outside the component repository.
 * Protected translation reverts against cross-site request forgery.
 * Prevented client-supplied forwarded IP headers from bypassing anonymous API rate limits.
 * Prevented whitespace-only username searches from listing users through :http:get:`/api/users/`.
 * Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
-* Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and direct automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
@@ -139,6 +206,8 @@ Weblate 2026.10
 * Fixed :wladmin:`move_language` and automatic language alias updates to preserve language-specific settings and permission limits, and detect conflicting translations or settings before moving content.
 * Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
 * Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
+* Avoided commits for :ref:`translation state <states>` and metadata changes that the file format cannot store, while preserving :ref:`project-commit_policy` behavior.
+* Fixed commit attribution for needs-editing changes caused by source edits.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.

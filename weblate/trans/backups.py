@@ -34,6 +34,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import HashedFilesMixin, staticfiles_storage
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files import File
+from django.core.validators import MaxLengthValidator
 from django.db import transaction
 from django.db.models import Exists, Field, Model, OuterRef, Prefetch
 from django.db.models.fields.files import FieldFile
@@ -52,6 +53,7 @@ from weblate.auth.models import (
     User,
     get_anonymous,
 )
+from weblate.auth.utils import TeamNameAllocator, get_team_rename_warnings
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
@@ -129,6 +131,7 @@ COMPONENT_BACKUP_FIELDS = (
     "key_filter",
     "secondary_language",
     "repoweb_translations",
+    "push_on_update",
     *INHERITABLE_COMPONENT_FLAGS,
 )
 CATEGORY_BACKUP_FIELDS = (
@@ -267,6 +270,20 @@ def list_backups(project_id: Project | int | str) -> list[BackupListDict]:
     return sorted(result, key=itemgetter("timestamp"), reverse=True)
 
 
+def format_backup_error(error: Exception) -> list[str]:
+    """Present validation messages with archive paths instead of Python reprs."""
+    if not isinstance(error, ValidationError):
+        return [str(error)]
+    if not hasattr(error, "error_dict"):
+        return error.messages
+    return [
+        message if path == NON_FIELD_ERRORS else f"{path}: {message}"
+        for path, errors in error.error_dict.items()
+        for item in errors
+        for message in item.messages
+    ]
+
+
 class ProjectBackup:
     COMPONENTS_PREFIX = "components/"
     VCS_PREFIX = "vcs/"
@@ -302,6 +319,7 @@ class ProjectBackup:
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
         self.skipped_components: list[str] = []
+        self.renamed_teams: list[tuple[str, str]] = []
         self.component_data: dict[str, dict[str, Any]] = {}
         self.memory_data: list[dict[str, Any]] = []
         self.memory_loaded = False
@@ -415,18 +433,26 @@ class ProjectBackup:
             ) from error
 
     @staticmethod
-    def validate_language(code: str, path: str) -> Language:
+    def validate_language(code: str, path: str, *, file_code: bool = False) -> Language:
         """Resolve a language as restore would, without creating database rows."""
+        # ruff: ignore[private-member-access]
+        code_field = Language._meta.get_field("code")
         try:
-            # ruff: ignore[private-member-access]
-            Language._meta.get_field("code").clean(code, None)
-            return Language.objects.auto_get_or_create(code, create=False)
+            # Keep the raw length bound even when allowing file aliases.
+            MaxLengthValidator(cast("int", code_field.max_length))(code)
+            if not file_code:
+                code_field.clean(code, None)
+            language = Language.objects.auto_get_or_create(code, create=False)
+            # File codes can use aliases such as Android's b+zh+Hant+HK.
+            # Validate the resolved code before restore can create it.
+            code_field.clean(language.code, None)
         except (TypeError, ValueError, ValidationError) as error:
             if isinstance(error, ValidationError):
                 messages = error.messages
             else:
                 messages = [str(error)]
             raise ValidationError({path: messages}) from error
+        return language
 
     def validate_categories(
         self,
@@ -535,7 +561,6 @@ class ProjectBackup:
         )
         self.label_names = labels
 
-        team_names: set[str] = set()
         for index, team in enumerate(self.data.get("teams", [])):
             path = f"teams[{index}]"
             self.validate_model_data(
@@ -553,11 +578,6 @@ class ProjectBackup:
                     }
                 ),
             )
-            if team["name"] in team_names:
-                raise ValidationError(
-                    {f"{path}.name": [gettext("Duplicate team name.")]}
-                )
-            team_names.add(team["name"])
             for autogroup_index, match in enumerate(team["autogroups"]):
                 self.validate_model_data(
                     AutoGroup,
@@ -716,7 +736,10 @@ class ProjectBackup:
         return [
             self.backup_object(
                 group,
-                self.project_schema["properties"]["teams"]["items"]["required"],
+                self.extend_fields(
+                    self.project_schema["properties"]["teams"]["items"]["required"],
+                    "internal",
+                ),
                 extras,
             )
             for group in project.defined_groups.all()
@@ -1396,7 +1419,7 @@ class ProjectBackup:
                     ) from error
             self.validate_model_data(Plural, item["plural"], f"{item_path}.plural")
             language = self.validate_language(
-                item["language_code"], f"{item_path}.language_code"
+                item["language_code"], f"{item_path}.language_code", file_code=True
             )
             if item["id"] in translation_ids:
                 raise ValidationError(
@@ -1942,20 +1965,11 @@ class ProjectBackup:
             else:
                 username = member["username"]
                 languages = member.get("limit_languages", [])
-            missing_languages = [
-                language_code
-                for language_code in dict.fromkeys(languages)
-                if language_code not in self.languages_cache
-            ]
-            if missing_languages:
-                msg = (
-                    f"Unknown language codes in limit_languages for {username!r}: "
-                    f"{', '.join(missing_languages)}"
-                )
-                raise ValueError(msg)
             user = self.restore_user(username)
             if user.username == settings.ANONYMOUS_USER_NAME:
                 continue
+            for language_code in dict.fromkeys(languages):
+                self.import_language(language_code)
             if user.username in limit_languages and set(
                 limit_languages[user.username]
             ) != set(languages):
@@ -1998,23 +2012,29 @@ class ProjectBackup:
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
 
-    def restore_team(self, team: dict) -> None:
-        if team["name"] == "Administration":
-            group = Group.objects.get(name=team["name"], defining_project=self.project)
-        else:
-            group = Group(name=team["name"], defining_project=self.project)
+    def restore_team(self, team: dict, group: Group | None = None) -> None:
+        if group is None:
+            if self.project is None:
+                raise TypeError
+            group = Group(
+                name=team["name"],
+                defining_project=self.project,
+                internal=team.get("internal", False),
+                language_selection=team["language_selection"],
+                enforced_2fa=team["enforced_2fa"],
+            )
             group = Group.objects.bulk_create([group])[0]
+            group.projects.add(self.project)
 
         group.language_selection = team["language_selection"]
         group.enforced_2fa = team["enforced_2fa"]
+        group.save(update_fields=["language_selection", "enforced_2fa"])
 
         group.roles.set(self.get_items_from_cache(self.roles_cache, team["roles"]))
         group.components.set(
             self.get_items_from_cache(self.components_cache, team["components"])
         )
-        group.languages.set(
-            self.get_items_from_cache(self.languages_cache, team["languages"])
-        )
+        group.languages.set(self.import_language(code) for code in team["languages"])
         group.admins.set(self.restore_users(team["admins"]))
         self.restore_team_members(group, team["members"])
 
@@ -2028,8 +2048,61 @@ class ProjectBackup:
             role.name: role for role in Role.objects.assignable_to_project_team()
         }
         self.create_language_cache()
-        for team in data:
-            self.restore_team(team)
+        if self.project is None:
+            raise TypeError
+        generated_teams = {
+            group.name: group
+            for group in self.project.defined_groups.filter(internal=True)
+        }
+        teams_by_name: dict[str, list[int]] = defaultdict(list)
+        for index, team in enumerate(data):
+            teams_by_name[team["name"]].append(index)
+        builtin_entries: set[int] = set()
+        for name, indexes in teams_by_name.items():
+            explicit = [
+                index for index in indexes if data[index].get("internal") is True
+            ]
+            if explicit:
+                builtin_entries.add(explicit[0])
+                continue
+            if (
+                name in generated_teams
+                and len(indexes) == 1
+                and "internal" not in data[indexes[0]]
+            ):
+                builtin_entries.add(indexes[0])
+            # Older duplicates have no team type, and roles can be customized.
+            # Keep every ambiguous entry editable rather than guess its type.
+        # Reserve built-in names even when a preceding custom entry has the
+        # same name and current settings did not generate the built-in team.
+        used_names = set(self.project.defined_groups.values_list("name", flat=True)) | {
+            data[index]["name"] for index in builtin_entries
+        }
+        # ruff: ignore[private-member-access]
+        allocator = TeamNameAllocator(
+            used_names | {team["name"] for team in data},
+            cast("int", Group._meta.get_field("name").max_length),
+        )
+        for index, team in enumerate(data):
+            name = team["name"]
+            is_builtin = index in builtin_entries
+            group = generated_teams.pop(name, None) if is_builtin else None
+            if not is_builtin and name in used_names:
+                new_name = allocator.allocate(name)
+                self.renamed_teams.append((name, new_name))
+                team = {**team, "name": new_name, "internal": False}
+            used_names.add(team["name"])
+            self.restore_team(team, group)
+
+    def get_restore_warnings(self) -> list[str]:
+        """Return user-facing warnings for all changes made during import."""
+        return [
+            gettext(
+                "Component %(component)s was skipped because its linked repository is unavailable."
+            )
+            % {"component": component}
+            for component in self.skipped_components
+        ] + get_team_rename_warnings(self.renamed_teams)
 
     def restore_pending_unit_changes(
         self,
@@ -2564,6 +2637,7 @@ class ProjectBackup:
             raise ValueError(msg)
 
         self.skipped_components.clear()
+        self.renamed_teams.clear()
         self.created_media.clear()
         self.project = None
         self.languages_cache.clear()

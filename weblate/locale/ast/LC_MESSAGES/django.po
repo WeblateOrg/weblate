@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-09-30 07:51+0000\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"PO-Revision-Date: 2026-10-04 22:51+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Asturian <https://hosted.weblate.org/projects/weblate/"
 "application/ast/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -30,6 +30,42 @@ msgstr "Nengunu"
 #| msgid "User agent"
 msgid "User avatar"
 msgstr "Axente d'usuariu"
+
+#, fuzzy
+#| msgid "Notification hooks"
+msgid "No notification"
+msgstr "Enganches d'avisos"
+
+msgid "Instant notification"
+msgstr "Avisu nel intre"
+
+msgid "Daily digest"
+msgstr ""
+
+msgid "Weekly digest"
+msgstr ""
+
+msgid "Monthly digest"
+msgstr "Resume mensual"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Avatar caching"
+msgid "Watched"
+msgstr "Caché d'avatares"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Proyeutos alministraos"
+
+msgid "Project"
+msgstr "Proyeutu"
+
+msgid "Component"
+msgstr "Componente"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -73,10 +109,8 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "El to corréu"
+msgstr "Corréu públicu"
 
 #, fuzzy
 #| msgid "This e-mail address is not allowed."
@@ -325,7 +359,7 @@ msgid "The chosen sorting is not supported."
 msgstr "Llimpiar los ficheros de traducción"
 
 msgid "Team"
-msgstr ""
+msgstr "Equipu"
 
 #, fuzzy
 #| msgid "Glossary"
@@ -1029,42 +1063,6 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Notification hooks"
-msgid "No notification"
-msgstr "Enganches d'avisos"
-
-msgid "Instant notification"
-msgstr "Avisu nel intre"
-
-msgid "Daily digest"
-msgstr ""
-
-msgid "Weekly digest"
-msgstr ""
-
-msgid "Monthly digest"
-msgstr "Resume mensual"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Avatar caching"
-msgid "Watched"
-msgstr "Caché d'avatares"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "Proyeutos alministraos"
-
-msgid "Project"
-msgstr "Proyeutu"
-
-msgid "Component"
-msgstr "Componente"
-
-#, fuzzy
 #| msgid "Failed to update repository: %s"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1558,11 +1556,6 @@ msgstr "Nun pudo quitase la identidá del usuariu"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
-msgid "Could not authenticate: %s"
-msgstr "Fallu al xenerar la clave: %s"
-
 #, fuzzy
 #| msgid "Failed to update repository: %s"
 msgid "Could not complete registration."
@@ -1572,6 +1565,27 @@ msgid "Please check if you have already registered an account."
 msgstr ""
 
 msgid "You can also request a new password, if you have lost your credentials."
+msgstr ""
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "El corréu d'activación dunviarásete pequí."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
 msgstr ""
 
 msgid ""
@@ -1587,6 +1601,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr ""
 
+msgid "New registrations are turned off."
+msgstr "Desactiváronse nuevos rexistros."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Nun se recibió nenguna direición de corréu del serviciu d'identificación de "
@@ -1598,18 +1615,16 @@ msgstr ""
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr ""
 
-msgid "New registrations are turned off."
-msgstr "Desactiváronse nuevos rexistros."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-
 msgid "Authentication cancelled."
 msgstr "La identificación encaboxó."
 
 msgid "The server does not allow authentication."
 msgstr ""
+
+#, fuzzy
+#| msgid "This username is already taken. Please choose another."
+msgid "The supplied user identity is already in use for another account."
+msgstr "Esti nome d'usuariu yá ta coyíu. Escueyi otru."
 
 #, fuzzy
 #| msgid ""
@@ -1624,20 +1639,21 @@ msgstr ""
 msgid "The supplied username is already in use for another account."
 msgstr "Esti nome d'usuariu yá ta coyíu. Escueyi otru."
 
-#, fuzzy, python-format
-#| msgid "Authentication"
-msgid "Authentication failed: %s"
-msgstr "Autenticación"
-
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
-msgid "The supplied user identity is already in use for another account."
-msgstr "Esti nome d'usuariu yá ta coyíu. Escueyi otru."
-
 #, fuzzy
 #| msgid "Activation e-mail will be sent here."
-msgid "The authentication provider could not be reached."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr "El corréu d'activación dunviarásete pequí."
+
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "No matching translations found!"
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "¡Nun s'alcontraron traducciones que casen!"
 
 msgid "Notification settings adjusted."
 msgstr "Axustóse la configuración d'avisos."
@@ -2238,7 +2254,7 @@ msgid "Meson preset"
 msgstr "Depósitos"
 
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
@@ -3284,7 +3300,7 @@ msgid "Commit"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Anovar"
 
 msgid "Update with rebase"
 msgstr ""
@@ -4115,6 +4131,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "This translation is currently locked."
+msgid "A team with this name already exists in this project."
+msgstr "Esta traducción actualmente ta bloquiada."
+
+#, fuzzy
 #| msgid "Bihari languages"
 msgid "Limit languages"
 msgstr "Llingües bihari"
@@ -4383,6 +4404,12 @@ msgstr ""
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 #, fuzzy
@@ -5180,10 +5207,8 @@ msgstr "Preferencies de traducción"
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Preferencies de traducción"
 
-#, fuzzy
-#| msgid "Somali"
 msgid "Format"
-msgstr "somalín"
+msgstr "Formatu"
 
 #, fuzzy
 #| msgid "Translation memory"
@@ -7189,21 +7214,17 @@ msgctxt "AWS Translate configuration"
 msgid "Default"
 msgstr ""
 
-#, fuzzy
-#| msgid "Somali"
 msgctxt "AWS Translate configuration"
 msgid "Formal"
-msgstr "somalín"
+msgstr "Formal"
 
-#, fuzzy
-#| msgid "Information"
 msgctxt "AWS Translate configuration"
 msgid "Informal"
-msgstr "Información"
+msgstr "Informal"
 
 msgctxt "AWS Translate configuration"
 msgid "Brevity"
-msgstr ""
+msgstr "Brevedá"
 
 #, fuzzy
 #| msgid "No matching translations found!"
@@ -7298,18 +7319,18 @@ msgid "Translator persona"
 msgstr "Procesu de traducción"
 
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation settings"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Preferencies de traducción"
 
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 
 #, fuzzy
@@ -7320,8 +7341,9 @@ msgstr "Avisos de traducción"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -7364,11 +7386,18 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Mou zen"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Nome del modelu personalizáu"
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
 
 #, fuzzy
@@ -7421,7 +7450,10 @@ msgstr ""
 msgid "The model's unique deployment name."
 msgstr ""
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -7454,8 +7486,10 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Maximum number of tokens in the generated response."
+msgstr "Númberu de cadenes"
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -7544,8 +7578,6 @@ msgctxt "Translation memory scope"
 msgid "Personal"
 msgstr "Personal: {}"
 
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Ficheru"
@@ -7796,7 +7828,7 @@ msgid "Unassigned repository screenshots"
 msgstr "Amestar imaxe de pantalla"
 
 msgid "Filters"
-msgstr ""
+msgstr "Peñeres"
 
 msgid ""
 "Screenshot has been uploaded. Search for source strings or find strings in "
@@ -9015,10 +9047,8 @@ msgstr[0] "%(count)s votu"
 msgstr[1] "%(count)s votos"
 
 #. Translators: Name of a tab which lists translations the user has contributed to
-#, fuzzy
-#| msgid "Translate"
 msgid "Translates"
-msgstr "Traducir"
+msgstr "Traduz"
 
 msgid "Activity"
 msgstr "Actividá"
@@ -9176,10 +9206,8 @@ msgstr ""
 msgid "Only continue if you trust this destination."
 msgstr ""
 
-#, fuzzy
-#| msgid "Context:"
 msgid "Continue"
-msgstr "Contestu:"
+msgstr "Siguir"
 
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
@@ -9212,16 +9240,14 @@ msgstr ""
 msgid "API root"
 msgstr "Nome del proyectu"
 
-#, fuzzy
-#| msgid "Current password"
 msgid "Configuration"
-msgstr "Contraseña actual"
+msgstr "Configuración"
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 msgid "Logs"
-msgstr ""
+msgstr "Rexistros"
 
 msgid "Add-ons"
 msgstr ""
@@ -9354,10 +9380,8 @@ msgstr "Ver tolos cambios de la traducción"
 msgid "Add-on Activity Logs"
 msgstr "Actividá de la cuenta"
 
-#, fuzzy
-#| msgid "Statistics"
 msgid "Status"
-msgstr "Estadístiques"
+msgstr "Estáu"
 
 msgid "Event"
 msgstr ""
@@ -10116,10 +10140,8 @@ msgstr "Descargar el ficheru de traducción orixinal (%(format)s)"
 msgid "Upload translation"
 msgstr "Subir traducción"
 
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "Versiones"
+msgstr "Operaciones"
 
 msgid "Search and replace"
 msgstr ""
@@ -10143,7 +10165,7 @@ msgid "Review changes"
 msgstr "Cambeos recientes"
 
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #, fuzzy
 #| msgid "All projects"
@@ -10251,7 +10273,7 @@ msgid "View check documentation"
 msgstr "Autenticación"
 
 msgid "Progress"
-msgstr ""
+msgstr "Progresu"
 
 #, fuzzy
 #| msgid "Repository changes"
@@ -10834,12 +10856,20 @@ msgstr "Traducciones Weblate"
 msgid "Locking prevents translators from doing changes."
 msgstr ""
 
-msgid "Reset and discard"
-msgstr ""
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Download changes"
+msgid "Discard local changes"
+msgstr "Descargar los cambios"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "Cambios nel depósitu"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
 
 msgid "Use when you want the upstream to be the authority for translations."
@@ -10850,12 +10880,15 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
-msgstr ""
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid "Reset and reapply translations"
+msgstr "Definir el ficheru base pa les traducciones nueves"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
 
 #, fuzzy
@@ -11035,11 +11068,9 @@ msgstr "Esta traducción actualmente ta bloquiada."
 msgid "Navigate to the last translation in the current search."
 msgstr ""
 
-#, fuzzy
-#| msgid "Port:"
 msgctxt "between keyboard shortcuts"
 msgid "or"
-msgstr "Puertu:"
+msgstr "o"
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -11701,6 +11732,11 @@ msgstr "Reaniciu de contraseña en %(site_title)s"
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
 
+#, fuzzy
+#| msgid "Please log in to save translations."
+msgid "Sign in to see the full audit log."
+msgstr "Anicia sesión pa guardar les traducciones."
+
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
 "by clicking the button below."
@@ -12145,10 +12181,8 @@ msgstr ""
 msgid "Disk free"
 msgstr ""
 
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Serviciu"
+msgstr "Sirvidor"
 
 msgid "PostgreSQL database"
 msgstr ""
@@ -12914,10 +12948,8 @@ msgstr "Operación nel depósitu"
 msgid "Translate"
 msgstr "Traducir"
 
-#, fuzzy
-#| msgid "Strings"
 msgid "strings"
-msgstr "Cadenes"
+msgstr "cadenes"
 
 #, fuzzy
 #| msgid "Words"
@@ -13592,10 +13624,8 @@ msgstr ""
 msgid "License"
 msgstr "Llicencia"
 
-#, fuzzy
-#| msgid "Repositories"
 msgid "Repository"
-msgstr "Depósitos"
+msgstr "Depósitu"
 
 msgid "Scrollable table"
 msgstr ""
@@ -13775,7 +13805,7 @@ msgid "String changed before"
 msgstr "Buscar na cadena fonte"
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "Query examples"
 msgstr ""
@@ -13953,10 +13983,8 @@ msgid ""
 "or remove it."
 msgstr ""
 
-#, fuzzy
-#| msgid "Comments"
 msgid "Community"
-msgstr "Comentarios"
+msgstr "Comunidá"
 
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
@@ -14261,10 +14289,8 @@ msgstr ""
 msgid "The following occurrences were found:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Comments"
 msgid "Command"
-msgstr "Comentarios"
+msgstr "Orde"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
@@ -14336,10 +14362,8 @@ msgstr "Hai dalgunos unvios nuevos nel depósitu llocal."
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Hai dalgunos unvios nuevos nel depósitu llocal."
 
-#, fuzzy
-#| msgid "Full name"
 msgid "Filename"
-msgstr "Nome completu"
+msgstr "Nome del ficheru"
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -14424,6 +14448,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -15458,10 +15511,8 @@ msgstr "Nun s'alcontraron cadenes que casen."
 msgid "Delete entry"
 msgstr "Desaniciar suxerencia"
 
-#, fuzzy
-#| msgid "source"
 msgid "Source:"
-msgstr "fonte"
+msgstr "Fonte:"
 
 msgid "Context:"
 msgstr "Contestu:"
@@ -15796,7 +15847,7 @@ msgid "Repositories"
 msgstr "Depósitos"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Anovar"
 
 #, fuzzy
 #| msgid "Do not have an account yet?"
@@ -16263,10 +16314,8 @@ msgstr "Editando cadena fonte"
 msgid "Exit Zen"
 msgstr ""
 
-#, fuzzy
-#| msgid "Suggestions"
 msgid "Show suggestions"
-msgstr "Suxerencies"
+msgstr "Amosar suxerencies"
 
 #, fuzzy
 #| msgid "There are some new commits in the local repository."
@@ -17510,11 +17559,6 @@ msgid "Duplicate label name."
 msgstr "Traducciones Weblate"
 
 #, fuzzy
-#| msgid "Weblate translations"
-msgid "Duplicate team name."
-msgstr "Traducciones Weblate"
-
-#, fuzzy
 #| msgctxt "Per-project access-control team name"
 #| msgid "Screenshots"
 msgid "Screenshot image is missing."
@@ -17601,11 +17645,22 @@ msgid "Referenced role does not exist."
 msgstr "Esta traducción actualmente ta bloquiada."
 
 #, fuzzy
+#| msgid "The translation has come to an end."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Acabó la traducción."
+
+#, fuzzy
 #| msgid "All projects"
 msgid "Repository data does not belong to a restored component."
 msgstr "Tolos proyeutos"
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17875,7 +17930,7 @@ msgid "JSON indentation style"
 msgstr "Sangráu JSON"
 
 msgid "Spaces"
-msgstr ""
+msgstr "Espacios"
 
 msgid "Tabs"
 msgstr ""
@@ -18079,7 +18134,7 @@ msgid "Encoding used for iOS strings files"
 msgstr ""
 
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #, fuzzy
 #| msgid "Formats the Java properties file"
@@ -18794,9 +18849,13 @@ msgstr ""
 msgid "Access"
 msgstr "Control d'accesu"
 
+#, fuzzy
+#| msgid "Ctrl+M - Shows machine translation tab"
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
+msgstr "Ctrl+M - Ver llingüeta de traducción automática"
 
 #, fuzzy
 #| msgid "Ctrl+M - Shows machine translation tab"
@@ -18834,6 +18893,11 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not load project backup: %s"
+msgstr "Fallu al xenerar la clave: %s"
+
+#, fuzzy
+#| msgid "Failed to generate key: %s"
+msgid "Could not load project backup."
 msgstr "Fallu al xenerar la clave: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -19147,12 +19211,6 @@ msgstr "Estilu Linux"
 msgid "Linux style, lower cased"
 msgstr "Estilu Linux"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -19162,6 +19220,12 @@ msgstr ""
 #| msgid "Public SSH key"
 msgid "Public sharing"
 msgstr "Clave SSH pública"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -19760,6 +19824,17 @@ msgstr ""
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
+#, fuzzy
+#| msgid "Last change"
+msgid "Push on update"
+msgstr "Últimu cambiu"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr ""
 
@@ -20274,7 +20349,10 @@ msgstr "Ctrl+M - Ver llingüeta de traducción automática"
 msgid "Contribute to shared translation memory"
 msgstr "Ctrl+M - Ver llingüeta de traducción automática"
 
-msgid "Contributes to the pool of shared translations between projects."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
 msgstr ""
 
 #, fuzzy
@@ -20795,7 +20873,7 @@ msgstr "Nome del ficheru xeneráu"
 
 #, fuzzy
 #| msgid "All components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "Tolos componentes"
 
 #, fuzzy
@@ -21462,12 +21540,10 @@ msgid "All components are now open for translation updates."
 msgstr "Descargar la traducción compilada"
 
 msgid "Generating report…"
-msgstr ""
+msgstr "Xenerando l'informe…"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Repetitions"
-msgstr "Cambeos recientes"
+msgstr "Repeticiones"
 
 #, fuzzy
 #| msgid "All projects"
@@ -21477,10 +21553,8 @@ msgstr "Tolos proyeutos"
 msgid "Fuzzy matches"
 msgstr ""
 
-#, fuzzy
-#| msgid "New string"
 msgid "New strings"
-msgstr "Cadena nueva"
+msgstr "Cadenes nueves"
 
 #, fuzzy
 #| msgid "Special characters"
@@ -21678,7 +21752,7 @@ msgid "Capitalize"
 msgstr ""
 
 msgid "translated"
-msgstr ""
+msgstr "traducíu"
 
 #. Translators: status widget name
 #, fuzzy
@@ -21715,12 +21789,10 @@ msgstr "Desanicióse la traducción."
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr ""
 
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Llingües"
-msgstr[1] "Llingües"
+msgstr[0] "llingua"
+msgstr[1] "llingües"
 
 msgid "No valid billing found or limit exceeded."
 msgstr ""
@@ -22220,10 +22292,6 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Númberu de pallabres fonte"
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
@@ -22231,6 +22299,10 @@ msgstr ""
 #| msgid "Failed to add new translation file!"
 msgid "Could not parse URL: {}"
 msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -22242,10 +22314,8 @@ msgstr "Escribi una direición de corréu válida."
 msgid "Position and priority"
 msgstr "¡Fallu al camudar la prioridá!"
 
-#, fuzzy
-#| msgid "Description"
 msgid "Position"
-msgstr "Descripción"
+msgstr "Posición"
 
 msgid "Number of words"
 msgstr "Númberu de pallabres"
@@ -23437,6 +23507,26 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Desanicióse la fonte."
+
+#, fuzzy, python-format
+#~| msgid "Failed to generate key: %s"
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Fallu al xenerar la clave: %s"
+
+#, fuzzy, python-format
+#~| msgid "Authentication"
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Autenticación"
+
+#, fuzzy
+#~| msgid "Weblate translations"
+#~ msgid "Duplicate team name."
+#~ msgstr "Traducciones Weblate"
+
+#, fuzzy
+#~| msgid "All components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "Tolos componentes"
 
 #, fuzzy
 #~| msgid "Download translation as XLIFF with Gettext extensions"

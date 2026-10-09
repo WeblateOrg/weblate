@@ -23,8 +23,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from weblate.accounts.data import DEFAULT_NOTIFICATIONS
-from weblate.accounts.models import AuditLog, Profile, Subscription
+from weblate.accounts.models import AuditLog, Profile, Subscription, WeblateAccountsConf
 from weblate.accounts.notifications import (
     DIGEST_MAX_ITEMS,
     RECIPIENT_USERNAME_HEADER,
@@ -67,7 +66,7 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
-    ViewTestCase,
+    ReusableViewTestCase,
 )
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.icons import load_icon
@@ -193,7 +192,7 @@ class NotificationHeadersTest(SimpleTestCase):
                 NotificationFrequency.FREQ_WEEKLY,
                 "TranslationActivitySummaryNotification",
             ),
-            DEFAULT_NOTIFICATIONS,
+            WeblateAccountsConf.DEFAULT_NOTIFICATIONS,
         )
         self.assertNotIn(
             (
@@ -201,7 +200,7 @@ class NotificationHeadersTest(SimpleTestCase):
                 NotificationFrequency.FREQ_WEEKLY,
                 "NewStringNotificaton",
             ),
-            DEFAULT_NOTIFICATIONS,
+            WeblateAccountsConf.DEFAULT_NOTIFICATIONS,
         )
 
 
@@ -209,7 +208,7 @@ class NotificationHeadersTest(SimpleTestCase):
     TEMPLATES=TEMPLATES_RAISE,
     RATELIMIT_NOTIFICATION_LIMITS=[],
 )
-class NotificationTest(ViewTestCase, RegistrationTestMixin):
+class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.user.email = "noreply+notify@weblate.org"

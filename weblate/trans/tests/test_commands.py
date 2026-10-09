@@ -10,10 +10,7 @@ from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import cast
-from unittest import SkipTest
-from unittest.mock import Mock, patch
 
-import httpx2
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
@@ -29,6 +26,7 @@ from weblate.trans.file_format_params import (
     register_file_format_param,
 )
 from weblate.trans.models import Change, Component, Translation
+from weblate.trans.tests.github import github_fixture_repositories
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
@@ -36,10 +34,10 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
     create_another_user,
     create_test_user,
     get_test_file,
-    require_github,
 )
 from weblate.vcs.git import GitRepository
 from weblate.vcs.mercurial import HgRepository
@@ -122,7 +120,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path if path is None else path,
+                self.format_test_repo_url(self.git_repo_path) if path is None else path,
                 "main",
                 "**/*.po",
                 **kwargs,
@@ -139,7 +137,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "deep/*/locales/*/LC_MESSAGES/**.po",
             )
@@ -163,7 +161,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 main_component=name,
@@ -185,7 +183,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 language_regex="cs",
@@ -200,7 +198,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
             )
@@ -212,7 +210,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
                 name_template="Test name",
@@ -228,7 +226,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<name>[^/-]*)/.*\.po",
             )
@@ -241,7 +239,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 r"(?P<name>[^/-]*",
             )
@@ -252,7 +250,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 file_format="po",
@@ -268,7 +266,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 file_format="INVALID",
@@ -281,7 +279,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/values-*/strings.xml",
                 file_format="aresource",
@@ -295,7 +293,7 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/values-*/strings.xml",
                 file_format="aresource",
@@ -307,13 +305,21 @@ class ImportProjectTest(RepoTestCase):
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
         self.assertEqual(project.component_set.count(), 5)
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
         self.assertEqual(project.component_set.count(), 5)
 
@@ -323,7 +329,9 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.component_set.count(), 5)
 
         with TemporaryDirectory() as workdir:
-            repository = GitRepository.clone(self.git_repo_path, workdir, "main")
+            repository = GitRepository.clone(
+                self.format_test_repo_url(self.git_repo_path), workdir, "main"
+            )
             translation = Path(workdir, "new-component", "cs.po")
             translation.parent.mkdir()
             translation.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -363,14 +371,24 @@ class ImportProjectTest(RepoTestCase):
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
-                "import_project", "test", self.git_repo_path, "main", "**/*.po"
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "**/*.po",
             )
 
     def test_import_missing_wildcard(self) -> None:
         """Test of correct handling of missing wildcard."""
         self.create_project()
         with self.assertRaises(CommandError):
-            call_command("import_project", "test", self.git_repo_path, "main", "*/*.po")
+            call_command(
+                "import_project",
+                "test",
+                self.format_test_repo_url(self.git_repo_path),
+                "main",
+                "*/*.po",
+            )
 
     def test_import_wrong_vcs(self) -> None:
         """Test of correct handling of wrong vcs."""
@@ -382,12 +400,13 @@ class ImportProjectTest(RepoTestCase):
             call_command(
                 "import_project",
                 "test",
-                self.git_repo_path,
+                self.format_test_repo_url(self.git_repo_path),
                 "main",
                 "**/*.po",
                 vcs="nonexisting",
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_mercurial(self) -> None:
         """Test importing Mercurial project."""
         if not HgRepository.is_supported():
@@ -404,6 +423,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 5)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_mercurial_mixed(self) -> None:
         """Test importing Mercurial project with mixed component/lang."""
         if not HgRepository.is_supported():
@@ -528,44 +548,11 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 
 class ImportDemoTestCase(TestCase):
     def test_import(self) -> None:
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.enterContext(github_fixture_repositories())
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")
         self.assertEqual(Component.objects.count(), 5)
-
-
-class RequireGitHubTest(SimpleTestCase):
-    repository = "https://github.com/WeblateOrg/demo.git"
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_success(self, fetch_url: Mock) -> None:
-        require_github(self.repository)
-
-        fetch_url.assert_called_once_with("get", self.repository, timeout=1)
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_request_errors(self, fetch_url: Mock) -> None:
-        for exception in (
-            httpx2.ConnectError,
-            httpx2.TimeoutException,
-            httpx2.HTTPError,
-        ):
-            with self.subTest(exception=exception):
-                fetch_url.side_effect = exception("unavailable")
-                with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
-                    require_github(self.repository)
-
-    @patch("weblate.trans.tests.utils.fetch_url")
-    def test_http_error(self, fetch_url: Mock) -> None:
-        fetch_url.side_effect = httpx2.HTTPStatusError(
-            "unavailable",
-            request=httpx2.Request("GET", self.repository),
-            response=httpx2.Response(500),
-        )
-
-        with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
-            require_github(self.repository)
 
 
 class CleanupTestCase(TestCase):

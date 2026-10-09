@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models.fields import BLANK_CHOICE_DASH
 from django.forms import Script
 from django.forms.utils import ErrorDict
 from django.http import Http404
@@ -39,17 +40,19 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
+from weblate.accounts.data import NotificationScope
 from weblate.accounts.models import (
     LISTING_COLUMN_CHOICES,
     AuditLog,
     Profile,
     validate_listing_columns,
 )
-from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
+from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.accounts.utils import (
     adjust_session_expiry,
     cycle_session_keys,
     get_all_user_mails,
+    get_totp_device_label,
     invalidate_reset_codes,
     reset_api_token,
 )
@@ -1354,12 +1357,67 @@ class TOTPTokenForm(OTPTokenForm):
 
     def __init__(self, user, request=None, *args, **kwargs) -> None:
         super().__init__(user, request, *args, **kwargs)
+        devices = list(
+            TOTPDevice.objects.devices_for_user(user, confirmed=True).order_by("pk")
+        )
+        self.single_device_id = devices[0].persistent_id if len(devices) == 1 else None
+        if len(devices) > 1:
+            self.fields["otp_device"] = forms.ChoiceField(
+                label=gettext_lazy("Authentication app"),
+                choices=BLANK_CHOICE_DASH
+                + [
+                    (device.persistent_id, get_totp_device_label(device))
+                    for device in devices
+                ],
+                required=True,
+            )
+        else:
+            del self.fields["otp_device"]
         self.fields["otp_token"].widget.attrs.update(
             {
                 "inputmode": "numeric",
                 "autocomplete": "one-time-code",
             }
         )
+
+    def clean(self):
+        self.cleaned_data = forms.Form.clean(self)
+        # Do not verify a token when a required or invalid device choice failed.
+        if not self.errors:
+            self.clean_otp(self.user)
+        return self.cleaned_data
+
+    def _chosen_device(self, user: User) -> TOTPDevice:
+        submitted_device_id = self.data.get("otp_device")
+        if (
+            self.single_device_id
+            and submitted_device_id
+            and submitted_device_id != self.single_device_id
+        ):
+            raise forms.ValidationError(
+                self.otp_error_messages["device_required"], code="device_required"
+            )
+        device_id = self.single_device_id or (self.cleaned_data or {}).get("otp_device")
+        if device_id:
+            device = TOTPDevice.from_persistent_id(device_id, for_verify=True)
+            if (
+                isinstance(device, TOTPDevice)
+                and device.user_id == user.pk
+                and device.confirmed
+            ):
+                return device
+        raise forms.ValidationError(
+            self.otp_error_messages["device_required"], code="device_required"
+        )
+
+    @staticmethod
+    def device_choices(user: User):
+        return BLANK_CHOICE_DASH + [
+            (device.persistent_id, get_totp_device_label(device))
+            for device in TOTPDevice.objects.devices_for_user(
+                user, confirmed=True
+            ).order_by("pk")
+        ]
 
 
 class NotificationDebugForm(forms.Form):

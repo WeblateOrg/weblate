@@ -5,10 +5,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
+from django.core.exceptions import ValidationError
+from django.core.management.base import CommandError
 
 from weblate.auth.models import User
-from weblate.trans.backups import ProjectBackup
+from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
@@ -39,15 +40,12 @@ class Command(BaseCommand):
         user = User.objects.get(username=username)
         restore = ProjectBackup(filename)
 
-        restore.validate()
-
-        restore.restore(project_name=project_name, project_slug=project_slug, user=user)
-        for component in restore.skipped_components:
-            self.stderr.write(
-                self.style.WARNING(
-                    gettext(
-                        "Component %(component)s was skipped because its linked repository is unavailable."
-                    )
-                    % {"component": component}
-                )
+        try:
+            restore.validate()
+            restore.restore(
+                project_name=project_name, project_slug=project_slug, user=user
             )
+        except ValidationError as error:
+            raise CommandError("\n".join(format_backup_error(error))) from error
+        for warning in restore.get_restore_warnings():
+            self.stderr.write(self.style.WARNING(warning))

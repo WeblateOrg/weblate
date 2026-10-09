@@ -102,7 +102,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Generator, Iterable
 
     from lxml.etree import _Element
 
@@ -1100,7 +1100,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     @contextmanager
     def temporary_file_format_param(
         self, key: FileFormatParamKey, value: str | int | bool
-    ) -> Iterator[None]:
+    ) -> Generator[None, None, None]:
         """Temporarily set a file format parameter for the duration of the context."""
         if key in self.FILE_FORMAT_PARAMS:
             previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
@@ -2346,6 +2346,20 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "plain"}
+
+    def test_stored_content_includes_state_markup(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.content_units[0]
+        unit.set_target("Překlad")
+        unit.set_state(STATE_TRANSLATED)
+        unit.unit.xmlelement.find(unit.unit.namespaced("target")).set(
+            "state", "needs-review-translation"
+        )
+        unit.invalidate_all_caches()
+        content = unit.get_stored_content()
+        unit.set_state(STATE_TRANSLATED)
+        unit.invalidate_all_caches()
+        self.assertNotEqual(unit.get_stored_content(), content)
 
     def test_unit_class_variants(self) -> None:
         self.assertIs(

@@ -9,7 +9,7 @@ from contextvars import ContextVar
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Generator, Iterable
 
     from weblate.utils.stats import BaseStats
 
@@ -85,7 +85,7 @@ def is_removed_component(component_id: int | None) -> bool:
 
 
 @contextmanager
-def removal_batch_context(batch: RemovalBatch) -> Iterator[None]:
+def removal_batch_context(batch: RemovalBatch) -> Generator[None, None, None]:
     token = CURRENT_REMOVAL_BATCH.set(batch)
     try:
         yield

@@ -29,6 +29,15 @@
       "enabled": false
     },
     {
+      "description": "Group python-social-auth dependency updates",
+      "matchPackageNames": [
+        "social-auth-core",
+        "social-auth-app-django"
+      ],
+      "groupName": "python-social-auth dependencies",
+      "groupSlug": "python-social-auth"
+    },
+    {
       "description": "Group OpenTelemetry dependency updates",
       "matchPackageNames": [
         "opentelemetry-*"
@@ -104,6 +113,24 @@
         "GNOME/glib"
       ],
       "allowedVersions": "/^2\\.\\d*[02468]\\.\\d+$/"
+    },
+    {
+      "description": "Review Kotlin SDK documentation updates, including alpha releases",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "WeblateOrg/kotlin-sdk"
+      ],
+      "matchFileNames": [
+        "docs/devel/kotlin-sdk.rst"
+      ],
+      "ignoreUnstable": false,
+      "automerge": false,
+      "groupName": "Kotlin SDK documentation",
+      "prBodyNotes": [
+        "Review SDK release notes, Android and Gradle requirements, configuration, metadata upload, and runtime examples before merging. Update compatibility guidance when adopting a stable release."
+      ]
     }
   ],
   "customManagers": [
@@ -190,6 +217,20 @@
         "# renovate-its: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: registryUrl=(?<registryUrl>\\S+))?\\r?\\n[A-Z_]+_VERSION = \"(?<currentValue>[^\"]+)\""
       ],
       "versioningTemplate": "semver-coerced"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep Kotlin SDK plugin and library documentation versions synchronized",
+      "managerFilePatterns": [
+        "/^docs\\/devel\\/kotlin-sdk\\.rst$/"
+      ],
+      "matchStrings": [
+        "id\\(\"org\\.weblate\\.android\"\\) version \"(?<currentValue>[^\"]+)\"",
+        "implementation\\(\"org\\.weblate:android:(?<currentValue>[^\"]+)\"\\)"
+      ],
+      "depNameTemplate": "WeblateOrg/kotlin-sdk",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
     }
   ],
   "customDatasources": {

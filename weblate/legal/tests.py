@@ -7,7 +7,9 @@
 from __future__ import annotations
 
 from itertools import product
+from unittest.mock import patch
 
+from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import modify_settings, override_settings
@@ -245,25 +247,27 @@ class LegalTest(TestCase, RegistrationTestMixin):
 
     def test_spectacular_tos_url(self) -> None:
         apps = ["weblate.legal"]
-        settings = get_spectacular_settings(apps, "https://example.com", "Weblate")
-        self.assertEqual(settings["TOS"], "/legal/terms/")
+        spectacular_settings = get_spectacular_settings(
+            apps, "https://example.com", "Weblate"
+        )
+        self.assertEqual(spectacular_settings["TOS"], "/legal/terms/")
 
-        settings = get_spectacular_settings(
+        spectacular_settings = get_spectacular_settings(
             apps,
             "https://example.com",
             "Weblate",
             legal_hidden_documents=("terms",),
             legal_url="https://example.com/terms/",
         )
-        self.assertEqual(settings["TOS"], "https://example.com/terms/")
+        self.assertEqual(spectacular_settings["TOS"], "https://example.com/terms/")
 
-        settings = get_spectacular_settings(
+        spectacular_settings = get_spectacular_settings(
             apps,
             "https://example.com",
             "Weblate",
             legal_hidden_documents=("terms",),
         )
-        self.assertNotIn("TOS", settings)
+        self.assertNotIn("TOS", spectacular_settings)
 
     def test_spectacular_logo_uses_stable_url(self) -> None:
         spectacular_settings = get_spectacular_settings(
@@ -276,12 +280,18 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertIs(type(logo_url), str)
         self.assertEqual(logo_url, "https://cdn.example.com/static/weblate.svg")
 
-    @modify_settings(
-        SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"}
-    )
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirm(self) -> None:
         """TOS confirmation on social auth."""
+        pipeline = list(settings.SOCIAL_AUTH_PIPELINE)
+        pipeline.insert(
+            pipeline.index("weblate.accounts.pipeline.second_factor") + 1,
+            "weblate.legal.pipeline.tos_confirm",
+        )
+        self.enterContext(self.settings(SOCIAL_AUTH_PIPELINE=pipeline))
+        sync_groups = self.enterContext(
+            patch("weblate.accounts.strategy.WeblateStrategy.sync_user_groups")
+        )
         registration_response = self.client.post(
             reverse("register"), REGISTRATION_DATA, follow=True
         )
@@ -294,6 +304,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertTrue(
             response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))
         )
+        sync_groups.assert_not_called()
 
         # Extract next URL
         url = response.context["form"].initial["next"]
@@ -301,12 +312,14 @@ class LegalTest(TestCase, RegistrationTestMixin):
         # Try invalid form (not checked)
         response = self.client.post(reverse("legal:confirm"), {"next": url})
         self.assertContains(response, "This field is required")
+        sync_groups.assert_not_called()
 
         # Actually confirm the TOS
         response = self.client.post(
             reverse("legal:confirm"), {"next": url, "confirm": 1}, follow=True
         )
         self.assertContains(response, "Your profile")
+        sync_groups.assert_called_once()
 
     @modify_settings(
         MIDDLEWARE={"append": "weblate.legal.middleware.RequireTOSMiddleware"}

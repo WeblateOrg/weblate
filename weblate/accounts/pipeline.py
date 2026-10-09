@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import re
-import time
 import unicodedata
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, NoReturn
@@ -17,7 +16,12 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
-from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
+from social_core.exceptions import (
+    AuthAssociationError,
+    AuthPolicyError,
+    AuthResponseError,
+    AuthSessionError,
+)
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
@@ -57,14 +61,6 @@ VerifiedEmailList = list[tuple[str, bool]]
 GitHubEmailData = Mapping[str, str | bool | None]
 
 
-class UsernameAlreadyAssociated(AuthAlreadyAssociated):
-    pass
-
-
-class EmailAlreadyAssociated(AuthAlreadyAssociated):
-    pass
-
-
 def invalid_invitation(
     strategy, backend, message: str, error: Exception | None = None
 ) -> NoReturn:
@@ -73,7 +69,12 @@ def invalid_invitation(
     messages.warning(
         strategy.request, gettext("The registration link has been invalidated.")
     )
-    raise AuthMissingParameter(backend, "invitation") from error
+    raise AuthPolicyError(
+        backend,
+        code="weblate.invitation_invalid",
+        stage="pipeline",
+        recovery="restart_login",
+    ) from error
 
 
 def get_valid_invitation(
@@ -171,7 +172,9 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
         return None
 
     if is_new and not details.get("email"):
-        raise AuthMissingParameter(backend, "email")
+        raise AuthResponseError(
+            backend, code="profile_email_missing", stage="pipeline", claim="email"
+        )
     return None
 
 
@@ -282,7 +285,9 @@ def verify_open(
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get("social_auth_user")
     if strategy.request.session.session_key and current_user != init_user:
-        raise AuthMissingParameter(backend, "user")
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+        )
 
     # Check whether registration is open
     if (
@@ -292,7 +297,12 @@ def verify_open(
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
-        raise AuthMissingParameter(backend, "disabled")
+        raise AuthPolicyError(
+            backend,
+            code="weblate.registration_disabled",
+            stage="pipeline",
+            recovery="none",
+        )
 
 
 def store_params(strategy, user: User, **kwargs):
@@ -328,7 +338,6 @@ def store_params(strategy, user: User, **kwargs):
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
@@ -344,7 +353,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs) -
     if user or not username:
         return
     if User.objects.filter(username=username).exists():
-        raise UsernameAlreadyAssociated(backend, "Username exists")
+        raise AuthAssociationError(backend, code="username_in_use", stage="pipeline")
     return
 
 
@@ -354,10 +363,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
 
     PSA keeps them around, but we really don't need them again.
     """
-    request_data = kwargs.get("request")
-    data = (
-        request_data if isinstance(request_data, Mapping) else strategy.request_data()
-    )
+    data = strategy.request_data()
     if "email" in details and details["email"] and "verification_code" in data:
         try:
             code = strategy.storage.code.objects.get(
@@ -375,18 +381,13 @@ def ensure_valid(
     user: User,
     registering_user,
     weblate_action,
-    weblate_expires,
     new_association,
     details,
     invitation_link: Invitation | None = None,
     invitation_pk: str | None = None,
     **kwargs,
 ) -> None:
-    """Ensure the activation link is still."""
-    # Didn't the link expire?
-    if weblate_expires < time.time():
-        raise AuthMissingParameter(backend, "expires")
-
+    """Validate account binding and invitations for the activation link."""
     # We allow password reset for unauthenticated users
     if weblate_action == "reset":
         if strategy.request.user.is_authenticated:
@@ -397,7 +398,9 @@ def ensure_valid(
             messages.warning(
                 strategy.request, gettext("The registration link has been invalidated.")
             )
-            raise AuthMissingParameter(backend, "user")
+            raise AuthSessionError(
+                backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+            )
         return
 
     # Add e-mail/register should stay on same user
@@ -418,7 +421,9 @@ def ensure_valid(
             strategy.request, gettext("The registration link has been invalidated.")
         )
 
-        raise AuthMissingParameter(backend, "user")
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+        )
 
     if user is None:
         invitation = (
@@ -445,14 +450,16 @@ def ensure_valid(
     # Verify if this mail is not used on other accounts
     if new_association:
         if "email" not in details:
-            raise AuthMissingParameter(backend, "email")
+            raise AuthResponseError(
+                backend, code="profile_email_missing", stage="pipeline", claim="email"
+            )
         same = VerifiedEmail.objects.filter(email__iexact=details["email"])
         if user:
             same = same.exclude(social__user=user)
 
         if not settings.REGISTRATION_REBIND and same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
-            raise EmailAlreadyAssociated(backend, "E-mail exists")
+            raise AuthAssociationError(backend, code="email_in_use", stage="pipeline")
 
         validator = EmailValidator()
         # This raises ValidationError
@@ -580,17 +587,6 @@ def user_full_name(strategy, details, username, user=None, **kwargs) -> None:
     if user and not user.full_name:
         full_name = details.get("fullname") or ""
         full_name = full_name.strip()
-
-        if not full_name and ("first_name" in details or "last_name" in details):
-            first_name = details.get("first_name") or ""
-            last_name = details.get("last_name") or ""
-
-            if first_name and first_name not in last_name:
-                full_name = f"{first_name} {last_name}"
-            elif first_name:
-                full_name = first_name
-            else:
-                full_name = last_name
 
         if CRUD_RE.match(full_name):
             full_name = ""

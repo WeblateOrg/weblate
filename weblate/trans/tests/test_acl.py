@@ -542,16 +542,16 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             "verified-two", "verified-two@example.net", "testpassword"
         )
         first_social = UserSocialAuth.objects.create(
-            user=first_user, provider="github", uid="verified-one"
+            user=first_user, provider="github", uid="verified-one", id_key="id"
         )
         second_social = UserSocialAuth.objects.create(
-            user=second_user, provider="gitlab", uid="verified-two"
+            user=second_user, provider="gitlab", uid="verified-two", id_key="id"
         )
         VerifiedEmail.objects.create(
-            social_id=first_social.pk, email="shared-verified@example.com"
+            social=first_social, email="shared-verified@example.com"
         )
         VerifiedEmail.objects.create(
-            social_id=second_social.pk, email="shared-verified@example.com"
+            social=second_social, email="shared-verified@example.com"
         )
 
         response = self.client.post(
@@ -601,9 +601,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             "verified-match", "primary@example.org", "testpassword"
         )
         social = UserSocialAuth.objects.create(
-            user=invited_user, provider="github", uid="verified-match"
+            user=invited_user, provider="github", uid="verified-match", id_key="id"
         )
-        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
@@ -627,9 +627,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             "same-user", "primary@example.org", "testpassword"
         )
         social = UserSocialAuth.objects.create(
-            user=invited_user, provider="github", uid="same-user"
+            user=invited_user, provider="github", uid="same-user", id_key="id"
         )
-        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
@@ -1059,6 +1059,14 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="").count(), 1)
+        audit = self.second_user.auditlog_set.get(activity="blocked")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
+        message = audit.get_extra_message()
+        self.assertIsNotNone(message)
+        assert message is not None
+        self.assertIn("Triggered by", message)
+        self.assertIn("Please contact project maintainers", message)
 
         # Block user, for second time
         response = self.client.post(
@@ -1476,6 +1484,105 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
+
+    def test_create_duplicate_group(self) -> None:
+        group = self.create_test_group()
+        response = self.client.post(
+            reverse("create-project-group", kwargs=self.kw_project),
+            {
+                "name": group.name,
+                "roles": list(group.roles.values_list("pk", flat=True)),
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        self.assertEqual(self.project.defined_groups.filter(name=group.name).count(), 1)
+
+    def test_create_group_reports_late_name_conflict(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        error = ValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.client.post(
+                reverse("create-project-group", kwargs=self.kw_project),
+                {
+                    "name": "Concurrent team",
+                    "roles": [Role.objects.get(name="Translate").pk],
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        self.assertFalse(
+            self.project.defined_groups.filter(name="Concurrent team").exists()
+        )
+
+    def test_edit_legacy_duplicate_builtin_team(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        group = self.project.defined_groups.get(name="Translate", internal=True)
+        Group.objects.bulk_create(
+            [Group(name=group.name, defining_project=self.project, internal=True)]
+        )
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": group.name,
+                "roles": list(group.roles.values_list("pk", flat=True)),
+                "enforced_2fa": True,
+                "all_languages": True,
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertRedirects(response, group.get_absolute_url())
+        group.refresh_from_db()
+        self.assertTrue(group.enforced_2fa)
+        self.assertEqual(group.name, "Translate")
+
+    def test_edit_group_reports_late_name_conflict(self) -> None:
+        group = self.create_test_group()
+        error = ValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.client.post(
+                group.get_absolute_url(),
+                {
+                    "name": "Concurrent team",
+                    "roles": list(group.roles.values_list("pk", flat=True)),
+                    "autogroup_set-TOTAL_FORMS": "1",
+                    "autogroup_set-INITIAL_FORMS": "0",
+                    "autogroup_set-0-match": "^concurrent$",
+                },
+            )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Czech team")
+        self.assertFalse(group.autogroup_set.exists())
+
+    def test_rename_group_to_duplicate(self) -> None:
+        group = self.create_test_group()
+        Group.objects.create(name="Other team", defining_project=self.project)
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Other team",
+                "roles": list(group.roles.values_list("pk", flat=True)),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Czech team")
 
     def test_create_group_all_lang(self) -> None:
         self.project.add_user(self.user, "Administration")

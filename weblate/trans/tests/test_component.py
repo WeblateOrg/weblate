@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import os
 import pathlib
+import shutil
 from concurrent.futures import ThreadPoolExecutor
+from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
 from typing import cast
@@ -53,7 +55,11 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
+    RepoTestMixin,
+    create_test_user,
+)
 from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -529,7 +535,7 @@ class ComponentTest(RepoTestCase):
 
     def test_direct_create_explicit_license_disables_inheritance(self) -> None:
         project = self.create_project()
-        repo = self.format_local_path(self.git_repo_path)
+        repo = self.format_test_repo_url(self.git_repo_path)
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             component = Component.objects.create(
@@ -773,6 +779,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_srt()
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self.verify_component(component, 4, "cs", 4)
@@ -781,6 +788,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_branch()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self.verify_component(component, 4, "cs", 4)
@@ -789,6 +797,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_push()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_create_po_svn(self) -> None:
         component = self.create_po_svn()
         self.verify_component(component, 4, "cs", 4)
@@ -1077,6 +1086,7 @@ class ComponentTest(RepoTestCase):
             component.save()
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_switch_branch_mercurial(self) -> None:
         component = self.create_po_mercurial()
         # Switch to translation branch
@@ -1339,10 +1349,12 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_branch()
         self._test_maintenance(component)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_maintenance_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self._test_maintenance(component)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_maintenance_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self._test_maintenance(component)
@@ -2112,7 +2124,7 @@ class ComponentValidationTest(RepoTestCase):
             )
             if branch != GitRepository.default_branch:
                 repository.execute(["branch", branch], remote_op="none")
-        return self.format_local_path(path)
+        return self.format_test_repo_url(path)
 
     def test_repository_url_with_unrelated_history_rejected(self) -> None:
         if self.component.repository.is_shallow():
@@ -2147,7 +2159,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_with_template_change_validates_worktree(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
         self.component.template = "po/base.po"
@@ -2194,7 +2206,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_saved_when_post_save_merge_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
 
@@ -2216,7 +2228,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_repository_url_saved_when_post_save_fetch_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
 
@@ -2236,7 +2248,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_setup_rescan_skipped_when_post_save_fetch_fails(self) -> None:
         new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
         self.addCleanup(remove_tree, new_repo_path, True)
-        new_repo = self.format_local_path(new_repo_path)
+        new_repo = self.format_test_repo_url(new_repo_path)
         self.component.repo = new_repo
         self.component.push = new_repo
         self.component.template = "po/base.po"
@@ -2409,6 +2421,106 @@ class ComponentValidationTest(RepoTestCase):
             component.get_lang_code("po/cs/pages/C_and_C++.po"),
             "cs",
         )
+
+
+class ComponentPushOnUpdateTest(RepoTestCase):
+    """Test pushing after a repository update."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component = self.create_component()
+        self.component.merge_style = "merge"
+        self.component.push_on_commit = True
+        self.component.save()
+        # Weblate commit which is not upstream, as after a squash merge.
+        with self.component.repository.lock:
+            pathlib.Path(self.component.full_path, "README.md").write_text(
+                "Local\n", encoding="utf-8"
+            )
+            self.component.repository.commit("Local", files=["README.md"])
+
+    def add_upstream_commit(self, *, translation: bool) -> None:
+        with TemporaryDirectory() as workdir:
+            repository = GitRepository.clone(
+                self.format_test_repo_url(self.git_repo_path),
+                workdir,
+                self.component.branch,
+            )
+            if translation:
+                # Changes a file matching the filemask.
+                filename = "po/sk.po"
+                shutil.copy(
+                    pathlib.Path(workdir, "po/cs.po"), pathlib.Path(workdir, filename)
+                )
+            else:
+                filename = "upstream"
+                pathlib.Path(workdir, filename).write_text(
+                    "Upstream\n", encoding="utf-8"
+                )
+            with repository.lock:
+                repository.set_committer("Test", "test@example.com")
+                repository.commit(
+                    "Upstream", "Test <test@example.com>", timezone.now(), [filename]
+                )
+                repository.push("")
+
+    def disable_push_on_update(self) -> None:
+        self.component.push_on_update = False
+        self.component.save(update_fields=["push_on_update"])
+
+    def test_pushes_by_default(self) -> None:
+        self.add_upstream_commit(translation=False)
+        self.assertTrue(self.component.do_update())
+        self.assertFalse(self.component.repo_needs_push())
+
+    def test_upstream_change_does_not_push(self) -> None:
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=False)
+        self.assertTrue(self.component.do_update())
+        self.assertTrue(self.component.repo_needs_push())
+
+    def test_upstream_translation_change_does_not_push(self) -> None:
+        # Upstream changes to translation files, such as the squash merge of a
+        # Weblate pull request, make Weblate look for pending changes.
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=True)
+        needs_commit_upstream = self.component.needs_commit_upstream
+        results: list[bool] = []
+
+        def record_needs_commit_upstream() -> bool:
+            results.append(needs_commit_upstream())
+            return results[-1]
+
+        with patch.object(
+            self.component,
+            "needs_commit_upstream",
+            side_effect=record_needs_commit_upstream,
+        ):
+            self.assertTrue(self.component.do_update())
+        self.assertEqual(results, [True])
+        self.assertTrue(self.component.repo_needs_push())
+
+    def test_committed_translations_are_pushed(self) -> None:
+        self.disable_push_on_update()
+        unit = self.component.translation_set.get(language_code="cs").unit_set.all()[0]
+        unit.translate(create_test_user(), "Translated\n", STATE_TRANSLATED)
+        self.add_upstream_commit(translation=True)
+        self.assertTrue(self.component.do_update())
+        self.assertFalse(self.component.repo_needs_push())
+
+    def test_lock_contention_keeps_push_decision(self) -> None:
+        self.disable_push_on_update()
+        self.add_upstream_commit(translation=False)
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(
+                self.component, "create_translations", side_effect=lock_timeout
+            ),
+            inline_repository_followups(),
+        ):
+            self.component.do_update()
+        self.assertEqual(raised.exception.followup, "pull-skip-push")
 
 
 class ComponentErrorTest(RepoTestCase):
@@ -4203,17 +4315,20 @@ class ComponentEditMonoTest(ComponentEditTest):
 class ComponentKeyFilterTest(ViewTestCase):
     """Test the key filtering implementation in Component."""
 
+    KEY_FILTER = "^tr"
+
     def create_component(self) -> Component:
-        return self.create_android(key_filter="^tr")
+        return self.create_android(key_filter=self.KEY_FILTER)
 
     def test_get_key_filter_re(self) -> None:
-        self.assertEqual(self.component.key_filter_re.pattern, "^tr")
+        self.assertEqual(self.component.key_filter_re.pattern, self.KEY_FILTER)
 
     def test_get_filtered_result(self) -> None:
-        translation = self.component.translation_set.get(language_code="en")
-        units = translation.unit_set.all()
-        self.assertEqual(units.count(), 1)
-        self.assertEqual(units.all()[0].context, "try")
+        for translation in self.component.translation_set.all():
+            with self.subTest(language=translation.language_code):
+                self.assertQuerySetEqual(
+                    translation.unit_set.values_list("context", flat=True), ["try"]
+                )
 
     def test_change_key_filter(self) -> None:
         self.component.key_filter = "^th"
@@ -4249,6 +4364,15 @@ class ComponentKeyFilterTest(ViewTestCase):
             "To use the key filter, the file format must be monolingual.",
         ):
             component.clean()
+
+
+class ComponentJSONKeyFilterTest(ComponentKeyFilterTest):
+    """Test filtering for formats supporting both monolingual and bilingual use."""
+
+    KEY_FILTER = "^(?!(hello|orangutan|thanks)$).+$"
+
+    def create_component(self) -> Component:
+        return self.create_json_mono(key_filter=self.KEY_FILTER)
 
 
 class ComponentRepoWebTestCase(FixtureTestCase):

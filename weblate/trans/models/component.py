@@ -563,6 +563,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
         "vcs_params",
         "push_on_commit",
+        "push_on_update",
         "commit_pending_age",
         "auto_lock_error",
     )
@@ -1033,6 +1034,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         default=settings.DEFAULT_PUSH_ON_COMMIT,
         help_text=gettext_lazy(
             "Whether the repository should be pushed upstream on every commit."
+        ),
+    )
+    push_on_update = models.BooleanField(
+        verbose_name=gettext_lazy("Push on update"),
+        default=True,
+        help_text=gettext_lazy(
+            "Whether the repository should be pushed upstream after updating it, "
+            "even when the update did not commit any translations. When turned "
+            "off, commits made by the update are pushed with the next translation "
+            "commit."
         ),
     )
     commit_pending_age = models.SmallIntegerField(
@@ -2475,6 +2486,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return self.effective_repo_component.push_on_commit
 
     @property
+    def effective_push_on_update(self) -> bool:
+        return self.effective_repo_component.push_on_update
+
+    @property
     def effective_commit_pending_age(self) -> int:
         return self.effective_repo_component.commit_pending_age
 
@@ -3076,8 +3091,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return True
 
             # commit possible pending changes if needed
+            committed = False
             if self.needs_commit_upstream():
+                previous_head = self.repository.get_last_revision()
                 self.commit_pending("update", user, skip_push=True)
+                committed = self.repository.get_last_revision() != previous_head
+            push = committed or self.effective_push_on_update
 
             # update local branch
             try:
@@ -3093,10 +3112,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if result:
             try:
-                self.finish_update(request, user)
+                self.finish_update(request, user, push=push)
             except WeblateLockTimeoutError as error:
                 if repository_task_inline_followups.get():
-                    raise RepositoryFollowupLockError(error, "pull") from error
+                    raise RepositoryFollowupLockError(
+                        error, "pull" if push else "pull-skip-push"
+                    ) from error
                 raise
 
         if not self.repo_needs_push():
@@ -3108,16 +3129,29 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return result
 
     def finish_update(
-        self, request: AuthenticatedHttpRequest | None, user: User
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User,
+        *,
+        push: bool = True,
     ) -> None:
-        """Parse and push a repository after a successful pull."""
+        """
+        Parse and push a repository after a successful pull.
+
+        ``push`` is decided by :meth:`do_update`: it is off when
+        :attr:`push_on_update` is turned off and the update committed no
+        translations.
+        """
         parse_error = None
         try:
             self.create_translations(request=request, user=user)
         except FileParseError as error:
             parse_error = error
 
-        self.push_if_needed(do_update=False)
+        if push:
+            self.push_if_needed(do_update=False)
+        else:
+            self.log_info("skipped push: push on update disabled")
         if parse_error is not None:
             raise parse_error
 

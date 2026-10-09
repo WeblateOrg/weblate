@@ -76,6 +76,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.browser import create_browser
+from weblate.trans.tests.github import github_fixture_repositories
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -85,7 +86,6 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
     get_test_file,
-    require_github,
     social_core_override_settings,
 )
 from weblate.trans.views.about import FALLBACK_STATS, DonateView
@@ -102,7 +102,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
@@ -280,6 +280,41 @@ class SeleniumEngineTranslation(DummyTranslation):
         }
 
 
+class SeleniumOriginsTranslation(DummyTranslation):
+    """Dummy machine translation finding a result in many origins."""
+
+    name = "Selenium Origins"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        for index, quality in enumerate((90, 95, 100, 80, 85, 75, 70)):
+            yield {
+                "text": "machinery target",
+                "quality": quality,
+                "service": self.name,
+                "source": text,
+                "show_quality": True,
+                "origin": f"Component {index}",
+            }
+        # The same origin repeated, for example for another plural form
+        yield {
+            "text": "machinery target",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Component 2",
+        }
+
+
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.google.GoogleOAuth2",
@@ -324,9 +359,7 @@ PERFORMANCE_REPORT_HEADERS = {
 }
 
 
-# The fixture repositories are known public GitHub repos; allowlisting them
-# avoids flaky runtime DNS checks while keeping the real import path covered.
-@override_settings(STATS_LAZY=False, VCS_ALLOW_HOSTS={"github.com"})
+@override_settings(STATS_LAZY=False)
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -334,7 +367,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     site_domain = ""
 
     @contextmanager
-    def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
+    def wait_for_page_load(self, timeout: int = 30) -> Generator[None, None, None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         success = False
         try:
@@ -630,7 +663,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             component.save(update_fields=("git_export",))
 
     @contextmanager
-    def stable_git_revision(self) -> Iterator[None]:
+    def stable_git_revision(self) -> Generator[None, None, None]:
         """Use deterministic Git revision text in management screenshots."""
         with (
             patch("weblate.wladmin.views.GIT_LINK", SCREENSHOT_GIT_LINK),
@@ -835,7 +868,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
     @contextmanager
-    def stable_performance_report_inputs(self) -> Iterator[None]:
+    def stable_performance_report_inputs(self) -> Generator[None, None, None]:
         """Use deterministic server-side values for the performance screenshot."""
         original_wsgi_request_init = WSGIRequest.__init__
         missing = object()
@@ -1066,7 +1099,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
     @contextmanager
-    def capture_authentication_submissions(self) -> Iterator[None]:
+    def capture_authentication_submissions(self) -> Generator[None, None, None]:
         """Exercise the real login page without navigating to external providers."""
         script = self.driver.execute_cdp_cmd(
             "Page.addScriptToEvaluateOnNewDocument",
@@ -2697,6 +2730,54 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @override_settings(
         WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumOriginsTranslation",
+        )
+    )
+    def test_machinery_origins(self) -> None:
+        """Machinery origins are grouped by service and collapsed when many."""
+        self.open_machinery_unit(SeleniumOriginsTranslation.get_identifier())
+        self.wait_for_machinery_rows(1)
+
+        row = self.driver.find_element(
+            By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+        )
+        # The service is named once for all its origins.
+        self.assertEqual(
+            [
+                element.text
+                for element in row.find_elements(
+                    By.CSS_SELECTOR, ".machinery-service-name"
+                )
+            ],
+            [SeleniumOriginsTranslation.name],
+        )
+
+        # Each origin is listed once with its score, the best ones first, and
+        # the ones over the limit are collapsed.
+        details = row.find_element(By.CSS_SELECTOR, ".machinery-origin-more")
+        self.assertIsNone(details.get_attribute("open"))
+        summary = details.find_element(By.TAG_NAME, "summary")
+        self.assertEqual(summary.text, "2 more origins")
+        origins = row.find_elements(By.CSS_SELECTOR, "div.machinery-origin-detail")
+        self.assertEqual(
+            [element.text for element in origins if element.is_displayed()],
+            [
+                "Component 2 (100%)",
+                "Component 1 (95%)",
+                "Component 0 (90%)",
+                "Component 4 (85%)",
+                "Component 3 (80%)",
+            ],
+        )
+
+        summary.click()
+        self.assertEqual(
+            [element.text for element in origins if element.is_displayed()][5:],
+            ["Component 5 (75%)", "Component 6 (70%)"],
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
             "weblate.trans.tests.test_selenium.SeleniumEmptyTranslation",
         )
     )
@@ -2731,7 +2812,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         rows = self.driver.find_elements(
             By.CSS_SELECTOR, "#machinery-translations .machinery-row"
         )
-        # The score is displayed with the service it belongs to, the service
+        # The score is displayed with the origin it belongs to, the service
         # without a score is listed without one.
         self.assertEqual(
             [
@@ -2741,9 +2822,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
             ],
             [
-                f"{SeleniumScoredTranslation.name} (100%)",
+                SeleniumScoredTranslation.name,
                 SeleniumEngineTranslation.name,
             ],
+        )
+        self.assertEqual(
+            [
+                element.text
+                for element in rows[0].find_elements(
+                    By.CSS_SELECTOR, ".machinery-origin-detail"
+                )
+            ],
+            ["Project: WeblateOrg/Django (100%)"],
         )
         self.assertEqual(
             [
@@ -3040,7 +3130,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
@@ -3064,6 +3154,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.clear_project_stats_cache(project)
         return project
+
+    def use_github_fixtures(self) -> None:
+        """Install local GitHub transports once for this test."""
+        if "github_fixtures" not in self.__dict__:
+            self.github_fixtures = self.enterContext(github_fixture_repositories())
 
     def create_glossary(
         self, user: User, project: Project, language: Language
@@ -3188,9 +3283,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self) -> None:
         user = self.do_login()
-        user.social_auth.create(provider="google-oauth2", uid=user.email)
-        user.social_auth.create(provider="github", uid="123456")
-        user.social_auth.create(provider="bitbucket", uid="weblate")
+        # Keep migrated e-mail and username identifiers for the screenshot.
+        user.social_auth.create(
+            provider="google-oauth2", uid=user.email, id_key="email"
+        )
+        user.social_auth.create(provider="github", uid="123456", id_key="id")
+        user.social_auth.create(
+            provider="bitbucket-oauth2", uid="weblate", id_key="username"
+        )
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
@@ -4435,7 +4535,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
         """Test user adding project and component."""
-        require_github("https://github.com/WeblateOrg/demo.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         user = self.do_login()
         with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
@@ -4497,7 +4597,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
             self.screenshot("user-add-component-discovery.png")
             discovery_choice = WebDriverWait(self.driver, 30).until(
-                element_to_be_clickable((By.ID, "id_discovery_1"))
+                element_to_be_clickable(
+                    (
+                        By.XPATH,
+                        (
+                            '//label[.//code[text()="weblate/langdata/locale/*/LC_MESSAGES/django.po"]]'
+                            '/preceding-sibling::input[@name="discovery"]'
+                        ),
+                    )
+                )
             )
             discovery_choice.click()
             with self.wait_for_page_load(timeout=1200):
@@ -4522,7 +4630,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
-        require_github("https://github.com/WeblateOrg/test.git")
+        self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         duplicates = Component.objects.create(

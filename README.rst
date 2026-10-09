@@ -3,10 +3,9 @@
    :target: https://weblate.org/
    :height: 80px
 
-**Weblate is libre software web-based continuous localization system,
-used by over 2500 libre projects and companies in more than 165 countries.**
+Weblate is a privacy-respecting, open-source localization platform built around your workflow and under your control.
 
-Install it, or use the Hosted Weblate service at `weblate.org`_.
+Run it yourself or use Hosted Weblate at `weblate.org`_.
 
 .. image:: https://img.shields.io/badge/website-weblate.org-blue.svg
     :alt: Website

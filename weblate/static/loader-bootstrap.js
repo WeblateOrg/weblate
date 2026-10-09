@@ -2838,11 +2838,18 @@ onReady(() => {
   document.querySelectorAll(".auth-image").forEach((el) => {
     const src = el.getAttribute("src");
     if (src !== null) {
+      const filename = src.split("/").pop().split(/[?#]/)[0];
+      const iconName = filename.replace(/(?:\.[a-f0-9]+)?\.svg$/, "");
       if (
-        src.endsWith("password.svg") ||
-        src.endsWith("email.svg") ||
-        src.endsWith("twitter.svg") ||
-        src.endsWith("github.svg")
+        [
+          "password",
+          "email",
+          "twitter",
+          "x",
+          "github",
+          "opensuse",
+          "stackoverflow",
+        ].includes(iconName)
       ) {
         el.classList.add("auth-image-filter");
       }

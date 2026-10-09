@@ -20,11 +20,13 @@ from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
+import jsonschema
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
@@ -41,8 +43,10 @@ from weblate.trans.backups import (
     CATEGORY_BACKUP_FIELDS,
     COMPONENT_BACKUP_FIELDS,
     PROJECT_BACKUP_FIELDS,
+    PROJECTBACKUP_PREFIX,
     ProjectBackup,
     backup_uses_xliff_format_params,
+    format_backup_error,
     get_project_backup_download_storage,
     get_project_backup_download_url,
     list_backups,
@@ -71,8 +75,10 @@ from weblate.trans.tasks import (
     cleanup_project_backups,
     import_project_backup,
 )
-from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES, get_test_file
+from weblate.utils.data import data_path
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
@@ -80,7 +86,7 @@ from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from unittest.mock import Mock
 
 
@@ -91,7 +97,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str) -> Iterator[None]:
+def remove_file_after(filename: str) -> Generator[None, None, None]:
     try:
         yield
     finally:
@@ -209,8 +215,62 @@ class BackupSettingCoverageTest(SimpleTestCase):
         self.assertTrue(backup_uses_xliff_format_params("2026.10"))
 
 
-class BackupsTest(ViewTestCase):
+class BackupErrorFormattingTest(SimpleTestCase):
+    def test_validation_message_shapes(self) -> None:
+        for error, expected in (
+            (ValidationError("Invalid archive."), ["Invalid archive."]),
+            (ValidationError(["First.", "Second."]), ["First.", "Second."]),
+            (ValueError("Invalid ZIP."), ["Invalid ZIP."]),
+            (
+                ValidationError(
+                    {
+                        "teams[0].name": [
+                            ValidationError(
+                                "Invalid %(value)s.", params={"value": "name"}
+                            ),
+                            "Second.",
+                        ],
+                        NON_FIELD_ERRORS: ["Invalid archive."],
+                    }
+                ),
+                [
+                    "teams[0].name: Invalid name.",
+                    "teams[0].name: Second.",
+                    "Invalid archive.",
+                ],
+            ),
+        ):
+            with self.subTest(error=error):
+                self.assertEqual(format_backup_error(error), expected)
+
+    def test_restore_warnings_include_components_and_teams(self) -> None:
+        backup = ProjectBackup()
+        backup.skipped_components = ["missing"]
+        backup.renamed_teams = [("Legacy", "Legacy (2)")]
+        self.assertEqual(
+            backup.get_restore_warnings(),
+            [
+                "Component missing was skipped because its linked repository is unavailable.",
+                "Team Legacy was renamed to Legacy (2) because its name was already in use.",
+            ],
+        )
+
+
+class BackupsTest(ReusableViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        # Shared project IDs also share archive paths outside the VCS snapshot.
+        backup_path = data_path(PROJECTBACKUP_PREFIX) / str(self.project.pk)
+        remove_tree(backup_path, True)
+        self.addCleanup(remove_tree, backup_path, True)
+        media_root = self.enterContext(
+            tempfile.TemporaryDirectory(  # pylint: disable=consider-using-with
+                prefix="weblate-backup-media-"
+            )
+        )
+        self.enterContext(override_settings(MEDIA_ROOT=media_root))
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()
@@ -231,6 +291,7 @@ class BackupsTest(ViewTestCase):
         repo: str | None = None,
         push: str | None = None,
         translation_updates: dict | None = None,
+        translation_language_code: str | None = None,
         unit_updates: dict | None = None,
         component_removals: tuple[str, ...] = (),
         all_components: bool = False,
@@ -269,7 +330,13 @@ class BackupsTest(ViewTestCase):
                     for field in component_removals:
                         component_data["component"].pop(field, None)
                     if translation_updates is not None:
-                        component_data["translations"][0].update(translation_updates)
+                        translation = next(
+                            item
+                            for item in component_data["translations"]
+                            if translation_language_code is None
+                            or item["language_code"] == translation_language_code
+                        )
+                        translation.update(translation_updates)
                     if unit_updates is not None:
                         component_data["units"][0].update(unit_updates)
                     data = json.dumps(component_data).encode("utf-8")
@@ -356,6 +423,30 @@ class BackupsTest(ViewTestCase):
 
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_backup_restore_push_on_update(self) -> None:
+        self.component.push_on_update = False
+        self.component.save(update_fields=["push_on_update"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertIs(component_data["component"]["push_on_update"], False)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored push on update",
+            project_slug="restored-push-on-update",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertIs(restored_component.push_on_update, False)
 
     def test_backup_restore_repoweb_translations(self) -> None:
         repoweb_translations = (
@@ -774,6 +865,7 @@ class BackupsTest(ViewTestCase):
                 "Original component",
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_task_returns_project_url(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -793,6 +885,7 @@ class BackupsTest(ViewTestCase):
         )
         self.assertFalse(os.path.exists(temp_name))
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_task_reports_progress(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -1741,7 +1834,7 @@ class BackupsTest(ViewTestCase):
 
         self.assertEqual(caught_warnings, [])
 
-    def test_restore_team_members_rejects_missing_limit_language(self) -> None:
+    def test_restore_team_members_creates_missing_limit_language(self) -> None:
         team = Group.objects.create(name="Restore missing limit language team")
         user = type(self.user).objects.create_user(
             "backup-limit-missing", "backup-limit-missing@example.com", "x"
@@ -1749,20 +1842,16 @@ class BackupsTest(ViewTestCase):
         backup = ProjectBackup()
         backup.languages_cache = {}
 
-        with self.assertRaisesRegex(
-            ValueError, "Unknown language codes in limit_languages"
-        ):
-            backup.restore_team_members(
-                team,
-                [
-                    {
-                        "username": user.username,
-                        "limit_languages": ["missing"],
-                    }
-                ],
-            )
+        backup.restore_team_members(
+            team,
+            [{"username": user.username, "limit_languages": ["missing"]}],
+        )
 
-        self.assertFalse(team.user_set.filter(pk=user.pk).exists())
+        membership = TeamMembership.objects.get(group=team, user=user)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)),
+            ["missing"],
+        )
 
     def test_restore_team_members_rolls_back_limit_failure(self) -> None:
         team = Group.objects.create(name="Restore rollback team")
@@ -1871,6 +1960,606 @@ class BackupsTest(ViewTestCase):
             all(call.kwargs.get("create") is False for call in resolver.call_args_list)
         )
         self.assertEqual(Language.objects.count(), language_count)
+
+    def test_restore_file_language_alias(self) -> None:
+        cases = (
+            ("b+en", "en"),
+            ("b+xx+Backup", "xx_BACKUP"),
+            ("b+zh+Hant+HK", "zh_Hant_HK"),
+        )
+        for index, (code, canonical_code) in enumerate(cases):
+            with self.subTest(code=code):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"source_language": canonical_code},
+                    translation_updates={"language_code": code},
+                    translation_language_code="en",
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    count = Language.objects.count()
+                    restore.validate()
+                    self.assertEqual(Language.objects.count(), count)
+                    restored = restore.restore(
+                        project_name=f"Restored {index}",
+                        project_slug=f"restored-alias-{index}",
+                        user=self.user,
+                    )
+                translation = restored.component_set.get(
+                    slug=self.component.slug
+                ).translation_set.get(language_code=code)
+                self.assertEqual(translation.language.code, canonical_code)
+                self.assertGreater(translation.unit_set.count(), 0)
+
+    def test_restore_rejects_overlong_file_language_code(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            translation_updates={"language_code": "b+en" + "(2)" * 16}
+        )
+        with remove_file_after(temp_name), self.assertRaises(ValidationError) as error:
+            ProjectBackup(temp_name).validate()
+        self.assertIn("language_code", str(error.exception))
+        self.assertIn("at most 50 characters", str(error.exception))
+
+    def test_restore_bounds_raw_file_language_before_resolution(self) -> None:
+        with (
+            patch.object(Language.objects, "auto_get_or_create") as resolve,
+            self.assertRaises(ValidationError) as error,
+        ):
+            ProjectBackup.validate_language(
+                "!" * 10000 + "en", "translations[0].language_code", file_code=True
+            )
+        resolve.assert_not_called()
+        self.assertIn("at most 50 characters", str(error.exception))
+        self.assertIn("translations[0].language_code", error.exception.message_dict)
+
+    def test_restore_norwegian_language_alias(self) -> None:
+        from weblate.lang.test_language_move import norwegian_alias_data  # ruff: ignore[import-outside-top-level]
+
+        with norwegian_alias_data():
+            Language.objects.filter(code="nb_NO").delete()
+            norwegian = Language.objects.auto_get_or_create("nb")
+            temp_name = self.write_tampered_component_backup(
+                component_updates={"source_language": "nb_NO"},
+                translation_updates={"language_code": "nb_NO"},
+            )
+            with remove_file_after(temp_name):
+                restore = ProjectBackup(temp_name)
+                restore.validate()
+                restored = restore.restore(
+                    project_name="Restored",
+                    project_slug="restored-norwegian",
+                    user=self.user,
+                )
+            translation = restored.component_set.get(
+                slug=self.component.slug
+            ).translation_set.get(language_code="nb_NO")
+            self.assertEqual(translation.language, norwegian)
+            self.assertFalse(Language.objects.filter(code="nb_NO").exists())
+
+    def test_restore_rejects_invalid_resolved_language(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            translation_updates={"language_code": "b+en/<script>"}
+        )
+        with remove_file_after(temp_name), self.assertRaises(ValidationError) as error:
+            ProjectBackup(temp_name).validate()
+        self.assertIn("language_code", str(error.exception))
+
+    def test_restore_rejects_language_alias_collision(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            translation_updates={"language_code": "b+de"}
+        )
+        with (
+            remove_file_after(temp_name),
+            self.assertRaisesRegex(ValueError, "map to single language"),
+        ):
+            ProjectBackup(temp_name).validate()
+
+    def test_restore_duplicate_teams_preserves_settings(self) -> None:
+        teams = Group.objects.bulk_create(
+            [
+                Group(name="Legacy", defining_project=self.project),
+                Group(
+                    name="Legacy",
+                    defining_project=self.project,
+                    language_selection=SELECTION_ALL,
+                    enforced_2fa=True,
+                ),
+                Group(name="Legacy (2)", defining_project=self.project),
+                Group(name="Administration", defining_project=self.project),
+                Group(name="x" * 150, defining_project=self.project),
+                Group(name="x" * 150, defining_project=self.project),
+            ]
+        )
+        teams[0].roles.add(Role.objects.get(name="Translate"))
+        teams[1].roles.add(Role.objects.get(name="Power user"))
+        teams[1].user_set.add(self.user)
+        teams[1].admins.add(self.user)
+        teams[1].components.add(self.component)
+        teams[0].languages.add(Language.objects.get(code="cs"))
+        AutoGroup.objects.create(group=teams[1], match="^backup$")
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored-teams", user=self.user
+        )
+        first = restored.defined_groups.get(name="Legacy")
+        second = restored.defined_groups.get(name="Legacy (3)")
+        self.assertEqual(
+            list(first.roles.values_list("name", flat=True)), ["Translate"]
+        )
+        self.assertEqual(list(first.languages.values_list("code", flat=True)), ["cs"])
+        self.assertEqual(
+            list(second.roles.values_list("name", flat=True)), ["Power user"]
+        )
+        self.assertEqual(list(second.user_set.all()), [self.user])
+        self.assertEqual(list(second.admins.all()), [self.user])
+        self.assertEqual(
+            list(second.components.values_list("slug", flat=True)),
+            [self.component.slug],
+        )
+        self.assertEqual(
+            list(second.autogroup_set.values_list("match", flat=True)), ["^backup$"]
+        )
+        self.assertEqual(second.language_selection, SELECTION_ALL)
+        self.assertTrue(second.enforced_2fa)
+        self.assertEqual(
+            restored.defined_groups.count(), self.project.defined_groups.count()
+        )
+        self.assertTrue(
+            restored.defined_groups.filter(name="Administration (2)").exists()
+        )
+        self.assertTrue(
+            restored.defined_groups.filter(name=f"{'x' * 146} (2)").exists()
+        )
+        self.assertIn(("Legacy", "Legacy (3)"), restore.renamed_teams)
+        self.assertIn(
+            "Team Legacy was renamed to Legacy (3)",
+            "\n".join(restore.get_restore_warnings()),
+        )
+
+    def test_restore_team_only_languages(self) -> None:
+        backup = ProjectBackup()
+        backup.project = self.project
+        team = {
+            "name": "Languages only",
+            "roles": ["Translate"],
+            "components": [],
+            "language_selection": SELECTION_MANUAL,
+            "enforced_2fa": False,
+            "languages": ["en-us", "xx_Team"],
+            "admins": [],
+            "members": [
+                {
+                    "username": self.user.username,
+                    "limit_languages": ["en-us", "xx_Limit"],
+                }
+            ],
+            "autogroups": [],
+        }
+        backup.restore_teams([team])
+        restored = self.project.defined_groups.get(name=team["name"])
+        self.assertEqual(
+            set(restored.languages.values_list("code", flat=True)), {"en_US", "xx_TEAM"}
+        )
+        membership = TeamMembership.objects.get(group=restored, user=self.user)
+        self.assertEqual(
+            set(membership.limit_languages.values_list("code", flat=True)),
+            {"en_US", "xx_LIMIT"},
+        )
+
+    def test_restore_missing_member_does_not_create_limit_languages(self) -> None:
+        group = Group.objects.create(
+            name="Stale members", defining_project=self.project
+        )
+        backup = ProjectBackup()
+        for username in ("missing-backup-member", settings.ANONYMOUS_USER_NAME):
+            with self.subTest(username=username):
+                backup.restore_team_members(
+                    group, [{"username": username, "limit_languages": ["xx_STALE"]}]
+                )
+                self.assertFalse(Language.objects.filter(code="xx_STALE").exists())
+                self.assertFalse(group.memberships.exists())
+
+    def test_restore_private_project_reuses_generated_teams(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.translation_review = True
+        self.project.save()
+        teams = self.project.defined_groups.filter(internal=True)
+        for team in teams:
+            team.user_set.add(self.user)
+            team.admins.add(self.user)
+            team.language_selection = SELECTION_MANUAL
+            team.enforced_2fa = True
+            team.save(update_fields=["language_selection", "enforced_2fa"])
+            team.languages.add(Language.objects.get(code="cs"))
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored private",
+            project_slug="restored-private",
+            user=self.user,
+        )
+        self.assertEqual(
+            restored.defined_groups.count(), self.project.defined_groups.count()
+        )
+        self.assertEqual(restore.get_restore_warnings(), [])
+        for original in teams:
+            team = restored.defined_groups.get(name=original.name)
+            self.assertTrue(team.internal)
+            self.assertEqual(team.language_selection, SELECTION_MANUAL)
+            self.assertTrue(team.enforced_2fa)
+            self.assertEqual(
+                list(team.languages.values_list("code", flat=True)), ["cs"]
+            )
+            self.assertEqual(list(team.user_set.all()), [self.user])
+            self.assertEqual(list(team.admins.all()), [self.user])
+            self.assertEqual(
+                set(team.roles.values_list("name", flat=True)),
+                set(original.roles.values_list("name", flat=True)),
+            )
+
+    def test_restore_retained_inactive_builtin_teams(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.translation_review = True
+        self.project.source_review = False
+        self.project.save()
+        for name in ("Translate", "Review"):
+            team = self.project.defined_groups.get(name=name)
+            team.user_set.add(self.user)
+            team.admins.add(self.user)
+            team.language_selection = SELECTION_MANUAL
+            team.enforced_2fa = True
+            team.save(update_fields=["language_selection", "enforced_2fa"])
+            team.languages.add(Language.objects.get(code="cs"))
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.translation_review = False
+        self.project.save()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored inactive teams",
+            project_slug="restored-inactive-teams",
+            user=self.user,
+        )
+        teams = {}
+        for name in ("Translate", "Review"):
+            team = restored.defined_groups.get(name=name)
+            self.assertTrue(team.internal)
+            self.assertEqual(list(team.projects.all()), [restored])
+            teams[name] = team.pk
+        self.assertEqual(restore.get_restore_warnings(), [])
+        restored.access_control = Project.ACCESS_PRIVATE
+        restored.translation_review = True
+        restored.save()
+        self.assertEqual(restored.renamed_teams, [])
+        for name, pk in teams.items():
+            team = restored.defined_groups.get(name=name, internal=True)
+            self.assertEqual(team.pk, pk)
+            self.assertEqual(list(team.user_set.all()), [self.user])
+            self.assertEqual(list(team.admins.all()), [self.user])
+            self.assertEqual(team.language_selection, SELECTION_MANUAL)
+            self.assertTrue(team.enforced_2fa)
+            self.assertEqual(
+                list(team.languages.values_list("code", flat=True)), ["cs"]
+            )
+            self.assertEqual(
+                set(team.roles.values_list("name", flat=True)),
+                set(
+                    self.project.defined_groups.get(name=name).roles.values_list(
+                        "name", flat=True
+                    )
+                ),
+            )
+
+    def test_restore_inactive_builtin_after_custom_team(self) -> None:
+        restored = Project.objects.create(
+            name="Inactive review", slug="inactive-review", web="https://example.com/"
+        )
+        restore = ProjectBackup()
+        restore.project = restored
+        team = {
+            "name": "Review",
+            "internal": False,
+            "roles": ["Translate"],
+            "components": [],
+            "language_selection": SELECTION_ALL,
+            "languages": [],
+            "admins": [],
+            "enforced_2fa": False,
+            "members": [self.user.username],
+            "autogroups": [],
+        }
+        builtin = {**team, "internal": True, "roles": ["Review strings"]}
+        restore.restore_teams([team, builtin])
+        internal = restored.defined_groups.get(name="Review")
+        custom = restored.defined_groups.get(name="Review (2)")
+        self.assertTrue(internal.internal)
+        self.assertFalse(custom.internal)
+        self.assertEqual(list(internal.projects.all()), [restored])
+        self.assertEqual(list(custom.projects.all()), [restored])
+        self.assertEqual(list(custom.user_set.all()), [self.user])
+        self.assertEqual(
+            list(internal.roles.values_list("name", flat=True)), ["Review strings"]
+        )
+        self.assertEqual(restore.renamed_teams, [("Review", "Review (2)")])
+        restored.translation_review = True
+        restored.save(update_fields=["translation_review"])
+        internal.refresh_from_db()
+        self.assertEqual(restored.defined_groups.get(name="Review").pk, internal.pk)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", restored))
+
+    def test_restore_preserves_team_internal_flag(self) -> None:
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        self.project.defined_groups.filter(name="Review", internal=True).delete()
+        custom = Group.objects.create(
+            name="Review", defining_project=self.project, enforced_2fa=True
+        )
+        custom.roles.add(Role.objects.get(name="Review strings"))
+        custom.user_set.add(self.user)
+        builtin = Group.objects.bulk_create(
+            [Group(name="Review", defining_project=self.project, internal=True)]
+        )[0]
+        # Both teams' roles can be customized, so identity needs its own field.
+        builtin.roles.add(Role.objects.get(name="Translate"))
+        builtin.admins.add(self.user)
+        self.project.translation_review = True
+        Project.objects.filter(pk=self.project.pk).update(translation_review=True)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        entries = [team for team in backup.data["teams"] if team["name"] == "Review"]
+        self.assertCountEqual([team["internal"] for team in entries], [False, True])
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored identity",
+            project_slug="restored-team-identity",
+            user=self.user,
+        )
+        builtin = restored.defined_groups.get(name="Review")
+        custom = restored.defined_groups.get(name="Review (2)")
+        self.assertTrue(builtin.internal)
+        self.assertEqual(
+            list(builtin.roles.values_list("name", flat=True)), ["Translate"]
+        )
+        self.assertEqual(list(builtin.admins.all()), [self.user])
+        self.assertFalse(custom.internal)
+        self.assertTrue(custom.enforced_2fa)
+        self.assertEqual(
+            list(custom.roles.values_list("name", flat=True)), ["Review strings"]
+        )
+        self.assertEqual(list(custom.user_set.all()), [self.user])
+
+    def check_restore_legacy_duplicate_teams(self, *, same_roles: bool) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        builtin = self.project.defined_groups.get(name="Review", internal=True)
+        team = {
+            "name": "Review",
+            "roles": ["Review strings"],
+            "components": [],
+            "language_selection": SELECTION_ALL,
+            "languages": [],
+            "admins": [],
+            "enforced_2fa": False,
+            "members": [],
+            "autogroups": [],
+        }
+        custom = {
+            **team,
+            "roles": ["Review strings" if same_roles else "Translate"],
+            "enforced_2fa": True,
+            "members": [self.user.username],
+        }
+        restore = ProjectBackup()
+        restore.project = self.project
+        restore.restore_teams([custom, team])
+        builtin.refresh_from_db()
+        self.assertTrue(builtin.internal)
+        self.assertEqual(builtin.name, "Review")
+        self.assertFalse(builtin.memberships.exists())
+        restored_custom = self.project.defined_groups.get(name="Review (2)")
+        self.assertFalse(restored_custom.internal)
+        self.assertTrue(restored_custom.enforced_2fa)
+        self.assertEqual(list(restored_custom.user_set.all()), [self.user])
+        self.assertEqual(
+            list(restored_custom.roles.values_list("name", flat=True)),
+            custom["roles"],
+        )
+        second = self.project.defined_groups.get(name="Review (3)")
+        self.assertFalse(second.internal)
+        self.assertEqual(
+            list(second.roles.values_list("name", flat=True)), team["roles"]
+        )
+        self.assertEqual(
+            restore.renamed_teams,
+            [("Review", "Review (2)"), ("Review", "Review (3)")],
+        )
+
+    def test_restore_legacy_custom_team_before_builtin(self) -> None:
+        self.check_restore_legacy_duplicate_teams(same_roles=False)
+
+    def test_restore_ambiguous_legacy_teams_remain_editable(self) -> None:
+        self.check_restore_legacy_duplicate_teams(same_roles=True)
+
+    def test_restore_legacy_unique_builtin_teams(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.translation_review = True
+        self.project.save()
+        teams = dict(self.project.defined_groups.values_list("name", "pk"))
+        builtin = self.project.defined_groups.get(name="Review")
+        builtin.roles.set([Role.objects.get(name="Translate")])
+        backup = ProjectBackup()
+        data = backup.backup_teams(self.project)
+        for team in data:
+            team.pop("internal")
+        backup.project = self.project
+        backup.restore_teams(data)
+        self.assertEqual(backup.get_restore_warnings(), [])
+        self.assertEqual(
+            dict(self.project.defined_groups.values_list("name", "pk")), teams
+        )
+        self.assertEqual(
+            list(builtin.roles.values_list("name", flat=True)), ["Translate"]
+        )
+
+    def test_restore_explicit_custom_team_keeps_builtin_separate(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        builtin = self.project.defined_groups.get(name="Review", internal=True)
+        restore = ProjectBackup()
+        restore.project = self.project
+        team = next(
+            team
+            for team in restore.backup_teams(self.project)
+            if team["name"] == "Review"
+        )
+        team["internal"] = False
+        team["members"] = [self.user.username]
+        restore.restore_teams([team])
+        self.assertFalse(builtin.memberships.exists())
+        custom = self.project.defined_groups.get(name="Review (2)")
+        self.assertFalse(custom.internal)
+        self.assertEqual(list(custom.user_set.all()), [self.user])
+
+    def test_restore_duplicate_builtin_teams(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        originals = list(self.project.defined_groups.filter(internal=True))
+        Group.objects.bulk_create(
+            [Group(name=team.name, defining_project=self.project) for team in originals]
+        )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored duplicates",
+            project_slug="restored-builtin-duplicates",
+            user=self.user,
+        )
+        self.assertEqual(
+            restored.defined_groups.count(), self.project.defined_groups.count()
+        )
+        self.assertEqual(
+            set(restore.renamed_teams),
+            {(team.name, f"{team.name} (2)") for team in originals},
+        )
+        for original in originals:
+            self.assertTrue(restored.defined_groups.get(name=original.name).internal)
+            self.assertFalse(
+                restored.defined_groups.get(name=f"{original.name} (2)").internal
+            )
+
+    def test_import_task_reports_team_renames(self) -> None:
+        Group.objects.bulk_create(
+            [
+                Group(name="Legacy", defining_project=self.project),
+                Group(name="Legacy", defining_project=self.project),
+            ]
+        )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        result = import_project_backup(
+            "Restored", "restored-warning", self.user.pk, backup.filename
+        )
+        self.assertEqual(
+            result["message"], "Project backup import completed with warnings."
+        )
+        self.assertIn(
+            "Team Legacy was renamed to Legacy (2)", "\n".join(result["warnings"])
+        )
+
+    def test_import_command_reports_team_renames(self) -> None:
+        Group.objects.bulk_create(
+            [
+                Group(name="Legacy", defining_project=self.project),
+                Group(name="Legacy", defining_project=self.project),
+            ]
+        )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        stderr = StringIO()
+        call_command(
+            "import_projectbackup",
+            "Restored",
+            "restored-command-warning",
+            self.user.username,
+            backup.filename,
+            stderr=stderr,
+        )
+        self.assertIn("Team Legacy was renamed to Legacy (2)", stderr.getvalue())
+
+    def test_import_command_formats_validation_error(self) -> None:
+        with (
+            patch.object(
+                ProjectBackup,
+                "validate",
+                side_effect=ValidationError({"teams[0].name": ["Invalid name."]}),
+            ),
+            self.assertRaisesMessage(CommandError, "teams[0].name: Invalid name."),
+        ):
+            call_command(
+                "import_projectbackup",
+                "Restored",
+                "restored-command-error",
+                self.user.username,
+                "unused.zip",
+            )
+
+    def test_view_restore_formats_validation_errors(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        error = ValidationError(
+            {"teams[0].name": ["Invalid <script>name</script>.", "Another error."]}
+        )
+        with patch.object(ProjectBackup, "validate", side_effect=error):
+            response = self.client.post(
+                reverse("create-project-import"),
+                {
+                    "zipfile": SimpleUploadedFile(
+                        "invalid.zip", b"x", content_type="application/zip"
+                    )
+                },
+            )
+        self.assertEqual(
+            response.context["form"].errors["zipfile"],
+            [
+                "Could not load project backup.",
+                "teams[0].name: Invalid <script>name</script>.",
+                "teams[0].name: Another error.",
+            ],
+        )
+        self.assertContains(response, "Invalid &lt;script&gt;name&lt;/script&gt;.")
+        self.assertNotContains(response, "<script>name</script>")
+
+    def test_view_restore_reports_incompatible_version(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        with patch("weblate.trans.forms.ProjectBackup") as backup:
+            backup.return_value.data = {"metadata": {"version": "999.0"}}
+            backup.return_value.validate.side_effect = (
+                jsonschema.exceptions.ValidationError("Invalid schema.")
+            )
+            response = self.client.post(
+                reverse("create-project-import"),
+                {
+                    "zipfile": SimpleUploadedFile(
+                        "invalid.zip", b"x", content_type="application/zip"
+                    )
+                },
+            )
+        self.assertContains(
+            response,
+            "The backup is from an incompatible version (999.0). Please upgrade your Weblate instance.",
+        )
 
     def test_restore_reconciles_dependency_metadata_without_workflows(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
@@ -2225,7 +2914,7 @@ class BackupsTest(ViewTestCase):
         self.assertNotIn("url", result)
         self.assertEqual(
             result["message"],
-            "Project backup import completed with skipped components.",
+            "Project backup import completed with warnings.",
         )
         self.assertEqual(len(result["warnings"]), 2)
         self.assertTrue(
@@ -2275,6 +2964,7 @@ class BackupsTest(ViewTestCase):
         restored_target = restored.component_set.get(category__isnull=True, slug="test")
         self.assertEqual(restored_link.linked_component, restored_target)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
@@ -2290,6 +2980,7 @@ class BackupsTest(ViewTestCase):
                 project_name="Restored", project_slug="restored", user=self.user
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -2369,6 +3060,7 @@ class BackupsTest(ViewTestCase):
         self.assertFalse(glossary.inherit_commit_message)
         self.assertFalse(glossary.inherit_secondary_language)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
@@ -2405,6 +3097,7 @@ class BackupsTest(ViewTestCase):
                 restore.validate()
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_low_compression_large_entry_allowed(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -2491,6 +3184,7 @@ class BackupsTest(ViewTestCase):
             with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
                 restore.validate()
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_rejects_unowned_repository_data(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -2571,6 +3265,25 @@ class BackupsTest(ViewTestCase):
         self.assertFalse(Project.objects.filter(slug="restored").exists())
         self.assertFalse(os.path.exists(project_path))
         self.assertEqual(set(os.listdir(screenshot_dir)), media_before)
+
+    def test_restore_after_failed_project_creation(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        project = Project(name="Restored", slug="restored", web="https://example.com/")
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            project.save()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        self.assertEqual(restored.slug, project.slug)
+        self.assertEqual(
+            restored.component_set.count(), self.project.component_set.count()
+        )
 
     def test_restore_does_not_remove_existing_repository_directory(self) -> None:
         backup = ProjectBackup()
@@ -2720,6 +3433,7 @@ class BackupsTest(ViewTestCase):
             self.assertFalse(marker.exists())
             restored.do_reset()
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_git_svn_metadata_allowlist(self) -> None:
         self.create_po(vcs="subversion", name="Subversion", project=self.project)
         backup = ProjectBackup()
@@ -2770,6 +3484,7 @@ class BackupsTest(ViewTestCase):
                 repository.get_config("svn-remote.svn.url"), component.repo
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_mercurial_metadata_allowlist(self) -> None:
         self.create_po(vcs="mercurial", name="Mercurial", project=self.project)
         backup = ProjectBackup()
@@ -2812,6 +3527,7 @@ class BackupsTest(ViewTestCase):
             self.assertFalse((metadata_dir / "sharedpath").exists())
             self.assertEqual(repository.get_config("paths", "default"), component.repo)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_mercurial_missing_requires(self) -> None:
         original = self.create_po(
             vcs="mercurial", name="Mercurial", project=self.project
@@ -3006,6 +3722,7 @@ class BackupsTest(ViewTestCase):
         with get_project_backup_download_storage().open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -3101,6 +3818,7 @@ class BackupsTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_view_restore_schedules_background_import(self, delay: Mock) -> None:
         delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
         self.user.is_superuser = True

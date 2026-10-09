@@ -15,7 +15,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import Client
-from django.test.utils import CaptureQueriesContext
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from lxml import html
 
@@ -39,7 +39,8 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.project import CommitPolicyChoices
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
+from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
     cleanup_session,
@@ -82,7 +83,7 @@ class SearchSessionTest(TestCase):
         self.assertNotIn("search_invalid_ttl", session)
 
 
-class SearchRecoveryTest(ViewTestCase):
+class SearchRecoveryTest(ReusableViewTestCase):
     query = "state:<translated"
     recovery_message = "Your previous search results are no longer available."
 
@@ -542,7 +543,7 @@ class EditScreenshotContextTest(ViewTestCase):
         self.assertEqual(list(response.context["screenshots"]), [screenshot])
 
 
-class EditTest(ViewTestCase):
+class EditTest(ReusableViewTestCase):
     """Test for manipulating translation."""
 
     has_plurals = True
@@ -586,6 +587,16 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
+
+    def test_editor_cache_control(self) -> None:
+        for url in (
+            self.translate_url,
+            reverse("zen", kwargs=self.kw_translation),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("no-store", response.headers["Cache-Control"])
 
     def test_plurals(self) -> None:
         """Test plural editing."""
@@ -899,6 +910,19 @@ class EditTest(ViewTestCase):
 
 
 class EditAccessTest(ViewTestCase):
+    def test_private_editor_access_after_logout(self) -> None:
+        self.make_manager()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        url = reverse("translate", kwargs=self.kw_translation)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
     def create_restricted_matching_unit(self) -> tuple[Component, Unit, Unit]:
         restricted = self.create_link_existing(
             name="Restricted", slug="restricted", allow_translation_propagation=False
@@ -1369,6 +1393,7 @@ class EditBranchTest(EditTest):
         return self.create_po_branch()
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class EditMercurialTest(EditTest):
     def create_component(self):
         return self.create_po_mercurial()
@@ -1799,7 +1824,7 @@ class EditTSMonoTest(EditTest):
         return self.create_ts_mono()
 
 
-class ZenViewTest(ViewTestCase):
+class ZenViewTest(ReusableViewTestCase):
     def create_zen_unit(self, position: int) -> Unit:
         source = f"Zen source {position}\n"
         id_hash = calculate_hash(source, "")
@@ -2289,7 +2314,7 @@ class ZenViewTest(ViewTestCase):
         )
 
 
-class EditComplexTest(ViewTestCase):
+class EditComplexTest(ReusableViewTestCase):
     """Test for complex manipulating translation."""
 
     def setUp(self) -> None:

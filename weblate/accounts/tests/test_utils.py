@@ -6,16 +6,18 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from unittest import mock
 
 from django.conf import settings
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
+from django.utils.timezone import now
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
-from social_django.models import Code
+from social_django.models import Association, Code, Partial
 
 from weblate.accounts.models import VerifiedEmail, format_private_commit_data
 from weblate.accounts.pipeline import slugify_username
@@ -75,7 +77,9 @@ class ResetCodeTest(TestCase):
         # Preserve the Unicode casing as it can exist in older account data.
         User.objects.filter(pk=user.pk).update(email="user@İ.com")
         user.refresh_from_db()
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(
             social=social,
             email="secondary@example.net",
@@ -239,7 +243,46 @@ class SessionExpiryTest(TestCase):
 
 class TasksTest(TestCase):
     def test_cleanup_social_auth(self) -> None:
-        cleanup_social_auth()
+        timestamp = now()
+        expired = timestamp - timedelta(seconds=settings.AUTH_TOKEN_VALID + 1)
+        old_code = Code.objects.create(email="expired@example.com")
+        Code.objects.filter(pk=old_code.pk).update(timestamp=expired)
+        active_code = Code.objects.create(email="active@example.com")
+        verified_code = Code.objects.create(email="verified@example.com", verified=True)
+        Code.objects.filter(pk=verified_code.pk).update(timestamp=expired)
+        old_partial = Partial.objects.create()
+        Partial.objects.filter(pk=old_partial.pk).update(timestamp=expired)
+        active_partial = Partial.objects.create()
+        for handle, secret, lifetime in (
+            ("expired-nonce", "", 60),
+            ("active-nonce", "", 1800),
+            ("expired-openid", "c2VjcmV0", 60),
+            ("active-openid", "c2VjcmV0", 1800),
+        ):
+            Association.objects.create(
+                server_url="https://example.com",
+                handle=handle,
+                secret=secret,
+                issued=1000,
+                lifetime=lifetime,
+                assoc_type="state",
+            )
+        with (
+            mock.patch("weblate.accounts.tasks.now", return_value=timestamp),
+            mock.patch("social_django.storage.time.time", return_value=1060),
+        ):
+            cleanup_social_auth()
+        self.assertEqual(
+            set(Association.objects.values_list("handle", flat=True)),
+            {"active-nonce", "active-openid"},
+        )
+        self.assertEqual(
+            set(Code.objects.values_list("pk", flat=True)),
+            {active_code.pk, verified_code.pk},
+        )
+        self.assertEqual(
+            list(Partial.objects.values_list("pk", flat=True)), [active_partial.pk]
+        )
 
     def test_cleanup_auditlog(self) -> None:
         cleanup_auditlog()

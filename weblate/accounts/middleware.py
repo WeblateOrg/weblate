@@ -10,6 +10,7 @@ from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import AnonymousUser
+from django.utils.cache import add_never_cache_headers
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request
 from django_otp.middleware import OTPMiddleware
@@ -103,6 +104,13 @@ class AuthenticationMiddleware(OTPMiddleware):
     def finalize_response(
         request: AuthenticatedHttpRequest, response: HttpResponse, user
     ) -> HttpResponse:
+        # Even public HTML includes user-specific navigation when authenticated.
+        # Prevent restoring that content after the session ends.
+        if user.is_authenticated and response.get("Content-Type", "").startswith(
+            "text/html"
+        ):
+            add_never_cache_headers(response)
+
         # Update the language cookie if needed
         if user.is_authenticated and user.profile.language != request.COOKIES.get(
             settings.LANGUAGE_COOKIE_NAME

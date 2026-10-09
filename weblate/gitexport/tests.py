@@ -30,15 +30,16 @@ from weblate.gitexport.views import (
 )
 from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.utils.commands import get_clean_env
 
 
 def pkt_line(payload: bytes) -> bytes:
     return f"{len(payload) + 4:04x}".encode("ascii") + payload
 
 
-class GitExportTest(ViewTestCase):
+class GitExportTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         # We don't want standard Django authentication
@@ -559,25 +560,41 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def git_command(self, *args: str) -> list[str]:
         # Disable auto-maintenance so temporary clone cleanup does not race
         # detached git housekeeping subprocesses.
-        return ["git", "-c", "maintenance.auto=0", "-c", "gc.auto=0", *args]
+        return [
+            "git",
+            "-c",
+            "maintenance.auto=0",
+            "-c",
+            "gc.auto=0",
+            "-c",
+            "protocol.http.allow=always",
+            # Do not invoke macOS Keychain or other machine credential helpers.
+            "-c",
+            "credential.helper=",
+            # The live server is local and must not use an environment proxy.
+            "-c",
+            "http.proxy=",
+            *args,
+        ]
+
+    @staticmethod
+    def git_environment() -> dict[str, str]:
+        return get_clean_env({"GIT_TERMINAL_PROMPT": "0"})
 
     def clone_export(self, testdir: str) -> tuple[int, str]:
-        with subprocess.Popen(
+        process = subprocess.run(
             self.git_command("clone", self.get_export_url()),
             cwd=testdir,
+            env=self.git_environment(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            stdin=subprocess.PIPE,
+            stdin=subprocess.DEVNULL,
             shell=False,
             text=True,
-        ) as process:
-            output = process.communicate()[0]
-            retcode = process.poll()
-
-        if retcode is None:
-            msg = "git clone did not report an exit status"
-            raise AssertionError(msg)
-        return retcode, output
+            check=False,
+            timeout=60,
+        )
+        return process.returncode, process.stdout
 
     def test_clone(self) -> None:
         with tempfile.TemporaryDirectory() as testdir:
@@ -622,18 +639,24 @@ class GitCloneShallowTest(GitCloneTest):
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "upstream"),
                 cwd=testdir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
             upstream_dir = os.path.join(testdir, "upstream")
             subprocess.check_call(
                 self.git_command("config", "user.name", "Test"),
                 cwd=upstream_dir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
             subprocess.check_call(
                 self.git_command("config", "user.email", "test@example.com"),
                 cwd=upstream_dir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
 
             history_path = pathlib.Path(upstream_dir, "upstream-history.txt")
@@ -650,18 +673,24 @@ class GitCloneShallowTest(GitCloneTest):
                 subprocess.check_call(
                     self.git_command("add", history_path.name),
                     cwd=upstream_dir,
+                    env=self.git_environment(),
                     shell=False,
+                    timeout=60,
                 )
                 subprocess.check_call(
                     self.git_command("commit", "-m", f"upstream {number}"),
                     cwd=upstream_dir,
+                    env=self.git_environment(),
                     shell=False,
+                    timeout=60,
                 )
 
             subprocess.check_call(
                 self.git_command("push", "origin", self.component.branch),
                 cwd=upstream_dir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
 
     def test_fetch_from_upstream_clone_with_newer_local_history(self) -> None:
@@ -673,31 +702,38 @@ class GitCloneShallowTest(GitCloneTest):
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "existing"),
                 cwd=testdir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
             existing_dir = os.path.join(testdir, "existing")
             subprocess.check_call(
                 self.git_command("remote", "add", "weblate", self.get_export_url()),
                 cwd=existing_dir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
             )
-            with subprocess.Popen(
+            process = subprocess.run(
                 self.git_command("fetch", "weblate"),
                 cwd=existing_dir,
+                env=self.git_environment(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                stdin=subprocess.PIPE,
+                stdin=subprocess.DEVNULL,
                 shell=False,
+                timeout=60,
                 text=True,
-            ) as process:
-                output = process.communicate()[0]
-                retcode = process.poll()
+                check=False,
+            )
+            self.assertEqual(process.returncode, 0, process.stdout)
             fetched_revision = subprocess.check_output(
                 self.git_command("rev-parse", "FETCH_HEAD"),
                 cwd=existing_dir,
+                env=self.git_environment(),
                 shell=False,
+                timeout=60,
                 text=True,
             ).strip()
 
-        self.assertEqual(retcode, 0, output)
         self.assertEqual(fetched_revision, export_revision)

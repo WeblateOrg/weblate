@@ -29,7 +29,7 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.html import format_html
+from django.utils.html import format_html, format_html_join
 from django.utils.timezone import now
 from django.utils.translation import (
     get_language,
@@ -44,11 +44,13 @@ from social_django.models import UserSocialAuth
 from unidecode import unidecode
 
 from weblate.accounts.avatar import get_user_display
-from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import (
-    NOTIFICATIONS,
+from weblate.accounts.data import (
     NotificationFrequency,
     NotificationScope,
+    create_default_notifications,
+)
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
 )
 from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_auditlog
 from weblate.auth.models import TeamMembership, User
@@ -168,6 +170,8 @@ class WeblateAccountsConf(AppConf):
     PASSWORD_RESET_URL = defaults.DEFAULT_PASSWORD_RESET_URL
 
     MAXIMAL_PASSWORD_LENGTH = defaults.DEFAULT_MAXIMAL_PASSWORD_LENGTH
+
+    DEFAULT_NOTIFICATIONS = defaults.DEFAULT_NOTIFICATIONS
 
     # Multi-level rate limiting for email notifications
     # Each tuple contains (max_emails, time_window_seconds)
@@ -456,6 +460,30 @@ AUDIT_WARNING = {
     "superuser-revoked",
     "twofactor-failed",
 }
+# Authenticated requests can also target another account during authentication
+# collisions. Only infer the actor for administrative account changes.
+AUDIT_ACTOR_ACTIVITY = {
+    "admin-locked",
+    "blocked",
+    "email",
+    "enabled",
+    "disabled",
+    "full_name",
+    "password",
+    "removed",
+    "sitewide-team-add",
+    "sitewide-team-change",
+    "sitewide-team-remove",
+    "superuser-granted",
+    "superuser-revoked",
+    "team-add",
+    "team-change",
+    "team-remove",
+    "token-created",
+    "token-removed",
+    "twofactor-remove",
+    "username",
+}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -539,7 +567,7 @@ USER_AGENT_DEVICE_TYPES: dict[str, StrOrPromise] = {
 
 
 class AuditLogManager(models.Manager):
-    def is_new_login(self, user: User, address, user_agent) -> bool:
+    def is_new_login(self, user: User | None, address, user_agent) -> bool:
         """
         Check whether this login is coming from a new device.
 
@@ -554,8 +582,18 @@ class AuditLogManager(models.Manager):
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
     def create(  # type: ignore[override]
-        self, user: User, request: HttpRequest | None, activity: str, **params
+        self,
+        user: User | None,
+        request: HttpRequest | None,
+        activity: str,
+        *,
+        actor: User | None = None,
+        **params,
     ):
+        if actor is None and request is not None and activity in AUDIT_ACTOR_ACTIVITY:
+            actor = getattr(request, "user", None)
+        if actor is not None and actor.is_authenticated and actor != user:
+            params.setdefault("username", actor.username)
         address: str | None = None
         user_agent: str = ""
         # Log only address for own actions (unauthenticated or when the request user matches audit user)
@@ -690,16 +728,27 @@ class AuditLog(models.Model):
         return format_html(str(message), **self.get_params())
 
     def get_extra_message(self) -> str | None:
-        if self.activity in {
-            "superuser-granted",
-            "superuser-revoked",
-            "token-created",
-            "token-removed",
-        } and self.params.get("username"):
-            return gettext("Triggered by {username}.").format(**self.params)
+        extra_messages = []
+        if self.params.get("username") and self.activity not in {
+            "invited",
+            "accepted",
+            "team-add",
+            "team-change",
+            "team-remove",
+            "sitewide-team-add",
+            "sitewide-team-change",
+            "sitewide-team-remove",
+        }:
+            extra_messages.append(
+                format_html(gettext("Triggered by {username}."), **self.get_params())
+            )
         if self.activity in EXTRA_MESSAGES:
-            return EXTRA_MESSAGES[self.activity].format(**self.params)
-        return None
+            extra_messages.append(
+                format_html(str(EXTRA_MESSAGES[self.activity]), **self.get_params())
+            )
+        if not extra_messages:
+            return None
+        return format_html_join(" ", "{}", ((message,) for message in extra_messages))
 
     def get_user_agent_display(self) -> str:
         """Return a user agent string with a localized first device-type segment."""
@@ -1591,7 +1640,9 @@ def post_login_handler(
         and user.email
         and not user.social_auth.filter(provider="email").exists()
     ):
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=user.email)
 
     # Fixup accounts with empty name

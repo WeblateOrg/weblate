@@ -1760,6 +1760,53 @@ class BillingTest(BaseTestCase):
         other.workspace.refresh_from_db()
         self.assertEqual(other.workspace.name, project.name)
 
+    def test_project_workspace_change_can_retry_after_rollback(self) -> None:
+        self.check_project_workspace_retry_after_rollback(deferred=False)
+
+    def test_deferred_project_workspace_change_can_retry_after_rollback(self) -> None:
+        self.check_project_workspace_retry_after_rollback(deferred=True)
+
+    def check_project_workspace_retry_after_rollback(self, *, deferred: bool) -> None:
+        project = self.add_project()
+        if deferred:
+            project = Project.objects.defer("workspace").get(pk=project.pk)
+        self.add_project()
+        self.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
+        other = Billing.objects.create(plan=self.plan)
+        original_tracker = project.billing_original_workspace_id
+        original_workspace_id = self.billing.workspace_id
+
+        project.workspace = other.workspace
+        with (
+            patch.object(
+                Project,
+                "update_memory_scope_changes",
+                side_effect=RuntimeError("memory cleanup failed"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "memory cleanup failed"),
+        ):
+            project.save(update_fields=["workspace"])
+
+        self.assertEqual(project.billing_original_workspace_id, original_tracker)
+        self.assertEqual(
+            Project.objects.get(pk=project.pk).workspace_id, original_workspace_id
+        )
+        self.refresh_from_db()
+        other.refresh_from_db()
+        self.assertEqual(self.billing.count_projects, 2)
+        self.assertFalse(self.billing.in_limits)
+        self.assertEqual(other.count_projects, 0)
+
+        project.save(update_fields=["workspace"])
+        self.refresh_from_db()
+        other = Billing.objects.get(pk=other.pk)
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(self.billing.in_limits)
+        self.assertEqual(other.count_projects, 1)
+        self.assertTrue(other.in_limits)
+        self.assertEqual(project.billing_original_workspace_id, other.workspace_id)
+
     def test_project_workspace_change_preserves_previous_billing_name(self) -> None:
         project = self.add_project()
         remaining = self.add_project()

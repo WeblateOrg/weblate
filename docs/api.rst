@@ -10,6 +10,7 @@ Weblate's REST API
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
+See :doc:`devel/libraries` for official tools and community-maintained integrations.
 
 The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, you
 can browse at ``/api/docs/``.
@@ -1553,7 +1554,7 @@ Projects
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -1899,6 +1900,7 @@ Components
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
     :>json boolean push_on_commit: :ref:`component-push_on_commit`; linked repositories expose the effective value from the linked component
+    :>json boolean push_on_update: :ref:`component-push_on_update`; linked repositories expose the effective value from the linked component
     :>json bool locked: Whether component is locked, this field is read-only; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json integer commit_pending_age: :ref:`component-commit_pending_age`; linked repositories expose the effective value from the linked component
     :>json boolean auto_lock_error: :ref:`component-auto_lock_error`; linked repositories expose the effective value from the linked component
@@ -1957,7 +1959,7 @@ Components
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2052,7 +2054,7 @@ Components
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2578,7 +2580,7 @@ Translations
                     "web": "https://weblate.org/",
                     "web_url": "http://example.com/projects/hello/"
                 },
-                "repo": "file:///home/nijel/work/weblate-hello",
+                "repo": "https://github.com/WeblateOrg/hello.git",
                 "slug": "weblate",
                 "template": "",
                 "url": "http://example.com/api/components/hello/weblate/",
@@ -2883,6 +2885,8 @@ Translations
     :type announcement_id: integer
 
 
+.. _api-memory:
+
 Memory
 ++++++
 
@@ -2890,7 +2894,12 @@ Memory
 
 .. http:get:: /api/memory/
 
-    Returns a list of memory results.
+    Returns a paginated list of memory results visible to the authenticated
+    user. When no source filter is supplied, the response enumerates all visible
+    entries, including the global shared translation memory. Shared entries
+    contain their source string, translation, and project and component origin.
+    Project access control does not restrict entries explicitly published to
+    shared translation memory; see :ref:`shared-tm`.
 
     :query source: Case-insensitive substring filter on source text (optional)
     :type source: string
@@ -3411,8 +3420,8 @@ Kotlin SDK builds
 
 .. warning::
 
-   The Kotlin SDK API is in beta. No compatibility is guaranteed until the
-   final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
+   The Kotlin SDK is available as an alpha release. No compatibility is
+   guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
    generated resource formats may change without backward compatibility.
 
 The API contract is also documented in the OpenAPI schema at ``/api/schema/``.

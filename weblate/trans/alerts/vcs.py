@@ -365,6 +365,15 @@ class BaseGitFailure(RepositoryErrorAlert):
                 if github_pull_request_params
                 else None
             ),
+            "github_api_credentials_rejected": self.has_diagnosis(
+                "github_api_credentials_rejected"
+            ),
+            "github_pull_request_account_mismatch": self.get_diagnosis_params(
+                "github_pull_request_account_mismatch"
+            ),
+            "github_pull_request_access_unexplained": self.get_diagnosis_params(
+                "github_pull_request_access_unexplained"
+            ),
             "github_forking_disabled": github_forking_disabled,
         }
 

@@ -13,6 +13,7 @@ import os.path
 import random
 import re
 import shlex
+import stat
 import sys
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
@@ -451,6 +452,7 @@ class GitRepository(Repository):
     req_version: ClassVar[str | None] = "2.46"
     # TODO: switch to main with Git 3.0
     default_branch: ClassVar[str] = "master"
+    supports_scp_urls: ClassVar[bool] = True
     ref_to_remote: ClassVar[str] = "..{0}"
     ref_from_remote: ClassVar[str] = "{0}.."
 
@@ -729,20 +731,52 @@ class GitRepository(Repository):
         raise RepositoryInternalError(0, "repository_redirect_too_many") from error
 
     @staticmethod
-    def cleanup_stale_lock(lock: Path) -> bool:
+    def resolve_lock_path(lock: Path, git_dir: Path) -> tuple[Path, Path] | None:
+        """Resolve a lock path and bind it to the expected Git directory."""
+        if ".." in lock.parts:
+            return None
         try:
-            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                lock.unlink(missing_ok=True)
+            resolved_git_dir = git_dir.resolve(strict=True)
+        except OSError:
+            return None
+        if not resolved_git_dir.is_dir() or lock.is_symlink():
+            return None
+        try:
+            lock_stat = lock.lstat()
+            if not stat.S_ISREG(lock_stat.st_mode):
+                return None
+            resolved_lock = lock.resolve(strict=True)
+            relative_lock = resolved_lock.relative_to(resolved_git_dir)
+        except (OSError, ValueError):
+            return None
+        if not relative_lock.parts or resolved_lock.suffix != ".lock":
+            return None
+        return resolved_lock, relative_lock
+
+    @classmethod
+    def cleanup_stale_lock(cls, lock: Path, git_dir: Path) -> bool:
+        validated_lock = cls.resolve_lock_path(lock, git_dir)
+        if validated_lock is None:
+            return False
+        resolved_lock, _ = validated_lock
+        try:
+            if time() - resolved_lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                resolved_lock.unlink(missing_ok=True)
                 return True
         except OSError:
             pass
         return False
 
-    @staticmethod
-    def should_retry_popen(errormessage: str) -> bool:
+    @classmethod
+    def should_retry_popen(cls, errormessage: str, *, cwd: str | None = None) -> bool:
+        if cwd is None:
+            return False
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
-            return GitRepository.cleanup_stale_lock(Path(locks[0]))
+            lock = Path(locks[0])
+            if not lock.is_absolute():
+                lock = Path(cwd) / lock
+            return cls.cleanup_stale_lock(lock, Path(cwd) / ".git")
         return False
 
     @classmethod
@@ -1183,10 +1217,10 @@ class GitRepository(Repository):
 
     def is_recoverable_abort_lock(self, lock: Path) -> bool:
         git_dir = self.get_git_file_path("")
-        try:
-            relative_lock = lock.relative_to(git_dir)
-        except ValueError:
+        validated_lock = self.resolve_lock_path(lock, git_dir)
+        if validated_lock is None:
             return False
+        _, relative_lock = validated_lock
         if len(relative_lock.parts) == 1:
             return relative_lock.name in RECOVERABLE_ABORT_LOCKS
         return (
@@ -1204,7 +1238,7 @@ class GitRepository(Repository):
         lock = Path(lock_paths[0])
         if not self.is_recoverable_abort_lock(lock):
             return False
-        if not self.cleanup_stale_lock(lock):
+        if not self.cleanup_stale_lock(lock, self.get_git_file_path("")):
             return False
         self.add_breadcrumb(
             "cleanup interrupted git abort lock",
@@ -1307,8 +1341,10 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
+        if filenames == []:
+            return False
         cmd = ["--no-optional-locks", "status", "--porcelain"]
-        if filenames:
+        if filenames is not None:
             cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
         with self.lock:
@@ -1395,9 +1431,11 @@ class GitRepository(Repository):
         files: list[str] | None = None,
     ) -> bool:
         """Create new revision."""
+        if files == []:
+            return False
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
-        if files:
+        if files is not None:
             for name in files:
                 try:
                     # Resolving symlinks is needed for symlinks in directory structure
@@ -1839,6 +1877,7 @@ class SubversionRepository(GitRepository):
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
+    supports_scp_urls: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
@@ -3138,6 +3177,14 @@ class GithubRepository(GitMergeRequestBase):
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
 
+    @classmethod
+    def add_response_breadcrumb(cls, response: httpx2.Response) -> None:
+        """Keep account lookup responses out of diagnostic breadcrumbs."""
+        if response.request.url.path.rstrip("/") in {"/user", "/api/v3/user"}:
+            cls.add_breadcrumb("http.response", status_code=response.status_code)
+            return
+        super().add_response_breadcrumb(response)
+
     def should_retry_request(
         self, response: httpx2.Response, response_data: dict
     ) -> bool:
@@ -3193,6 +3240,7 @@ class GithubRepository(GitMergeRequestBase):
         self,
         credentials: GitCredentials,
         response: httpx2.Response,
+        fork_remote: str = "",
     ) -> list[RepositoryDiagnosis]:
         """Provide an actionable diagnosis for GitHub pull request failures."""
         if response.status_code != 404:
@@ -3203,10 +3251,13 @@ class GithubRepository(GitMergeRequestBase):
                 "get", credentials, credentials["url"]
             )
         except RepositoryError:
-            return []
+            repository_data = {}
+            repository_response = None
 
         if (
-            repository_response.is_success
+            repository_response is not None
+            and repository_response.is_success
+            and isinstance(repository_data, dict)
             and repository_data.get("pull_request_creation_policy")
             == "collaborators_only"
         ):
@@ -3217,7 +3268,73 @@ class GithubRepository(GitMergeRequestBase):
                 diagnosis["params"] = {"username": credentials["username"]}
             return [diagnosis]
 
-        return []
+        fallback: RepositoryDiagnosis = {
+            "code": "github_pull_request_access_unexplained",
+            "params": {"github_app": "yes" if credentials.get("github_app") else "no"},
+        }
+        if credentials.get("github_app"):
+            return [fallback]
+        user_url = f"{credentials['url'].rsplit('/repos/', 1)[0]}/user"
+        try:
+            user_data, user_response, _user_error = self.request(
+                "get", credentials, user_url
+            )
+        except RepositoryError:
+            return [fallback]
+        if user_response.status_code == 401:
+            return [{"code": "github_api_credentials_rejected"}]
+        login = user_data.get("login") if isinstance(user_data, dict) else None
+        if (
+            user_response.is_success
+            and isinstance(login, str)
+            and login
+            and fork_remote
+            and fork_remote != "origin"
+            and login.casefold() != fork_remote.casefold()
+        ):
+            return [
+                {
+                    "code": "github_pull_request_account_mismatch",
+                    "params": {"username": fork_remote, "authenticated_user": login},
+                },
+                fallback,
+            ]
+        return [fallback]
+
+    def failed_github_pull_request(
+        self,
+        credentials: GitCredentials,
+        fork_remote: str,
+        head: str,
+        base: str,
+        error: str,
+        pr_url: str,
+        response: httpx2.Response,
+        data: dict,
+    ) -> NoReturn:
+        """Record selected support details from the original failed POST."""
+        diagnoses = self.get_pull_request_failure_diagnoses(
+            credentials, response, fork_remote
+        )
+        details = {
+            "status_code": response.status_code,
+            "head": head,
+            "base": base,
+            "diagnoses": [diagnosis["code"] for diagnosis in diagnoses],
+            "headers": {
+                header: response.headers[header]
+                for header in (
+                    "X-GitHub-Request-Id",
+                    "X-OAuth-Scopes",
+                    "X-Accepted-OAuth-Scopes",
+                    "X-Accepted-GitHub-Permissions",
+                )
+                if header in response.headers
+            },
+        }
+        self.add_breadcrumb("github.pull_request_failed", **details)
+        self.log(f"GitHub pull request failure details: {details!r}", logging.WARNING)
+        self.failed_pull_request(error, pr_url, response, data, diagnoses=diagnoses)
 
     def create_pull_request(
         self,
@@ -3250,8 +3367,15 @@ class GithubRepository(GitMergeRequestBase):
                 "post", credentials, pr_url, json=request
             )
         except GitAPIRequestError as error:
-            self.failed_pull_request(
-                error.error, pr_url, error.response, error.response_data
+            self.failed_github_pull_request(
+                credentials,
+                fork_remote,
+                head,
+                origin_branch,
+                error.error,
+                pr_url,
+                error.response,
+                error.response_data,
             )
 
         # Check for an error. If the error has a message saying A pull request already
@@ -3293,13 +3417,15 @@ class GithubRepository(GitMergeRequestBase):
                             retry_fork=False,
                         )
 
-            diagnoses = self.get_pull_request_failure_diagnoses(credentials, response)
-            self.failed_pull_request(
+            self.failed_github_pull_request(
+                credentials,
+                fork_remote,
+                head,
+                origin_branch,
                 error_message,
                 pr_url,
                 response,
                 response_data,
-                diagnoses=diagnoses,
             )
 
         if self.wants_automerge():

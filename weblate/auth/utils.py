@@ -27,6 +27,8 @@ from weblate.auth.data import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django.db.models import Prefetch
     from django.utils.safestring import SafeString
 
@@ -39,6 +41,44 @@ if TYPE_CHECKING:
         User,
     )
     from weblate.lang.models import Language
+
+
+class TeamNameAllocator:
+    """Allocate unique names without repeatedly scanning occupied suffixes."""
+
+    def __init__(self, names: Iterable[str], max_length: int) -> None:
+        self.reserved_names = set(names)
+        self.max_length = max_length
+        self.next_indexes: dict[str, int] = {}
+        # Different long names can share the same truncated candidate prefix.
+        self.next_suffixes: dict[tuple[str, int], int] = {}
+
+    def allocate(self, name: str) -> str:
+        index = self.next_indexes.get(name, 2)
+        while True:
+            suffix = f" ({index})"
+            prefix = name[: self.max_length - len(suffix)]
+            key = (prefix, len(suffix))
+            index = max(index, self.next_suffixes.get(key, 2))
+            if len(f" ({index})") != len(suffix):
+                continue
+            self.next_suffixes[key] = index + 1
+            candidate = f"{prefix} ({index})"
+            if candidate not in self.reserved_names:
+                self.reserved_names.add(candidate)
+                self.next_indexes[name] = index + 1
+                return candidate
+            index += 1
+
+
+def get_team_rename_warnings(renames: Iterable[tuple[str, str]]) -> list[str]:
+    return [
+        gettext(
+            "Team %(name)s was renamed to %(new_name)s because its name was already in use."
+        )
+        % {"name": name, "new_name": new_name}
+        for name, new_name in renames
+    ]
 
 
 def get_ordered_membership_limit_languages(

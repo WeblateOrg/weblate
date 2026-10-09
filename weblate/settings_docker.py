@@ -40,6 +40,7 @@ from weblate.utils.environment import (
     get_env_ratelimit,
     get_env_redis_url,
     get_env_str,
+    get_env_tuples,
     get_saml_idp,
     modify_env_list,
 )
@@ -217,6 +218,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "social_django.finders.SocialAuthIconFinder",
 )
 
 STORAGES = {
@@ -638,6 +640,7 @@ AUTHENTICATION_BACKENDS += ("weblate.accounts.auth.WeblateUserBackend",)
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = [
     "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_names",
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",
@@ -661,6 +664,7 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
+    "social_core.pipeline.user.sync_groups",
 ]
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "social_core.pipeline.disconnect.allowed_to_disconnect",
@@ -1549,6 +1553,10 @@ DEFAULT_COMMITER_NAME = get_env_str(
 
 DEFAULT_AUTO_WATCH = get_env_bool(
     "WEBLATE_DEFAULT_AUTO_WATCH", accounts_defaults.DEFAULT_AUTO_WATCH
+)
+
+DEFAULT_NOTIFICATIONS = get_env_tuples(
+    "WEBLATE_DEFAULT_NOTIFICATIONS", accounts_defaults.DEFAULT_NOTIFICATIONS
 )
 
 DEFAULT_SHARED_TM = get_env_bool(
