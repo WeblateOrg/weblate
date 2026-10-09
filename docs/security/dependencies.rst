@@ -75,13 +75,14 @@ include:
 Dependency and lockfile maintenance
 -----------------------------------
 
-The Python lock file is maintained by the ``uv lock update`` workflow. The
-frontend dependency lock file and vendored frontend files are maintained by the
-``yarn update`` workflow.
+Renovate maintains the Python lock file. The ``uv lock update`` workflow
+verifies it on pushes and checks dependency installation on pull requests. The
+frontend dependency lock file and vendored frontend files are maintained by
+the ``yarn update`` workflow.
 
-Generated maintenance changes are passed through the ``Apply maintenance
-patch`` workflow. That workflow applies only validated patch artifacts and
-limits the paths that each maintenance workflow is allowed to update.
+Generated changes from the other maintenance workflows are passed through the
+``Apply maintenance patch`` workflow. That workflow applies only validated
+patch artifacts and limits the paths that each workflow is allowed to update.
 
 Docker container security
 -------------------------

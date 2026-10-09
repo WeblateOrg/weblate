@@ -5,6 +5,11 @@
 name: Prepare Auto Commit Changes
 description: Prepares generated changes for trusted maintenance commits
 
+inputs:
+  upload-patch:
+    description: Upload generated changes for the maintenance patch workflow
+    default: 'true'
+
 runs:
   using: composite
   steps:
@@ -18,7 +23,7 @@ runs:
     shell: bash
 
   - name: Prepare maintenance patch
-    if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
+    if: inputs.upload-patch == 'true' && github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
     shell: bash
     run: |
       set -euo pipefail
@@ -35,7 +40,7 @@ runs:
       } > maintenance-patch/metadata.env
 
   - name: Upload maintenance patch
-    if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
+    if: inputs.upload-patch == 'true' && github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
     uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
     with:
       name: maintenance-patch
