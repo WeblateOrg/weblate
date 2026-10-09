@@ -14,6 +14,7 @@ from django.core.cache import cache
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
 
+from weblate.api.tests import APIBaseTest
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import (
@@ -36,6 +37,73 @@ class ReusableFixtureTest(TransactionTestCase):
         self.addCleanup(Language.objects.flush_object_cache)
         clear_users_cache()
         self.addCleanup(clear_users_cache)
+
+    def test_api_database_repositories_and_authentication_are_restored(self) -> None:
+        constructions = []
+
+        class APIIsolationTest(APIBaseTest):
+            initial_revision: str
+            initial_token: str
+
+            @classmethod
+            def build_fixture(cls, builder: ComponentTestCase) -> None:
+                super().build_fixture(builder)
+                constructions.append(builder.component.pk)
+                cls.initial_revision = builder.component.repository.last_revision
+                cls.initial_token = builder.user.auth_token.key
+
+            def mutate(self) -> None:
+                self.authenticate(superuser=True)
+                self.client.force_authenticate(user=self.user)
+                self.user.full_name = "Changed API user"
+                self.user.save()
+                self.user.profile.languages.clear()
+                self.user.groups.clear()
+                self.user.auth_token.delete()
+                self.project.name = "Changed API project"
+                self.project.save()
+                self.get_unit().translate(self.user, "Changed target", STATE_TRANSLATED)
+                self.create_po(project=self.create_project(name="Extra", slug="extra"))
+                Path(self.git_repo_path, "fixture-probe.txt").write_bytes(
+                    b"Changed repo"
+                )
+                remove_tree(self.project.full_path)
+                cache.set("api-fixture-probe", "Changed cache")
+                self.fail("Intentional failure after API fixture mutation")
+
+            def verify(self) -> None:
+                self.assertEqual(self.user.username, "apitest")
+                self.assertEqual(self.user.email, "apitest@example.org")
+                self.assertNotEqual(self.user.full_name, "Changed API user")
+                self.assertFalse(self.user.is_superuser)
+                self.assertTrue(self.user.profile.languages.filter(code="cs").exists())
+                self.assertTrue(self.user.groups.filter(name="Users").exists())
+                self.assertEqual(self.user.auth_token.key, self.initial_token)
+                self.assertIs(self.component.project, self.project)
+                self.assertEqual(self.project.name, "Test")
+                self.assertEqual(Component.objects.count(), 2)
+                self.assertTrue(
+                    self.project.component_set.filter(slug="glossary").exists()
+                )
+                self.assertFalse(Project.objects.filter(slug="extra").exists())
+                self.assertNotEqual(self.get_unit().target, "Changed target")
+                self.assertEqual(
+                    self.component.repository.last_revision, self.initial_revision
+                )
+                self.assertFalse(Path(self.git_repo_path, "fixture-probe.txt").exists())
+                self.assertIsNone(cache.get("api-fixture-probe"))
+                response = self.do_request("api:user-list", authenticated=False)
+                self.assertEqual(response.data["count"], 0)
+
+        result = unittest.TestResult()
+        unittest.TestSuite(
+            [APIIsolationTest("mutate"), APIIsolationTest("verify")]
+        ).run(result)
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.testsRun, 2)
+        self.assertEqual(len(result.failures), 1, result.failures)
+        self.assertIn("Intentional failure", result.failures[0][1])
+        self.assertEqual(len(constructions), 1)
 
     def test_database_and_repositories_are_restored(self) -> None:
         constructions = []
