@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-import datetime
+import datetime as dt
 from itertools import zip_longest
 from typing import TYPE_CHECKING, TypedDict, cast
 
@@ -106,17 +106,13 @@ class ChangeMetricData(TypedDict):
     contributors_total: int
 
 
-def get_change_metric_data(
-    changes: ChangeQuerySet, date: datetime.date
-) -> ChangeMetricData:
+def get_change_metric_data(changes: ChangeQuerySet, date: dt.date) -> ChangeMetricData:
     """Calculate change metrics using two aggregate queries."""
     active_user = Q(user__is_active=True, user__is_bot=False)
-    recent = changes.since_day(date - datetime.timedelta(days=30)).aggregate(
+    recent = changes.since_day(date - dt.timedelta(days=30)).aggregate(
         changes=Count(
             "id",
-            filter=Q(
-                timestamp__range=dt_as_day_range(date - datetime.timedelta(days=1))
-            ),
+            filter=Q(timestamp__range=dt_as_day_range(date - dt.timedelta(days=1))),
         ),
         contributors=Count("user", filter=active_user, distinct=True),
     )
@@ -131,21 +127,19 @@ def get_change_metric_data(
 
 
 def get_language_change_metric_data(
-    changes: ChangeQuerySet, date: datetime.date
+    changes: ChangeQuerySet, date: dt.date
 ) -> dict[int, ChangeMetricData]:
     """Calculate change metrics grouped by translation language."""
     active_user = Q(user__is_active=True, user__is_bot=False)
     language_key = "translation__language_id"
     result: dict[int, ChangeMetricData] = {}
     for row in (
-        changes.since_day(date - datetime.timedelta(days=30))
+        changes.since_day(date - dt.timedelta(days=30))
         .values(language_key)
         .annotate(
             changes=Count(
                 "id",
-                filter=Q(
-                    timestamp__range=dt_as_day_range(date - datetime.timedelta(days=1))
-                ),
+                filter=Q(timestamp__range=dt_as_day_range(date - dt.timedelta(days=1))),
             ),
             contributors=Count("user", filter=active_user, distinct=True),
         )
@@ -183,7 +177,7 @@ class MetricQuerySet(models.QuerySet["Metric", "Metric"]):
         self, obj, scope: int, relation: int, secondary: int = 0
     ) -> Metric:
         today = timezone.now().date()
-        yesterday = today - datetime.timedelta(days=1)
+        yesterday = today - dt.timedelta(days=1)
 
         base = self.filter_metric(scope, relation, secondary)
 
@@ -214,7 +208,7 @@ class MetricManager(models.Manager["Metric"]):
         scope: int,
         relation: int,
         secondary: int = 0,
-        date: datetime.date | None = None,
+        date: dt.date | None = None,
     ):
         if stats is not None:
             for key in keys:
@@ -292,7 +286,7 @@ class MetricManager(models.Manager["Metric"]):
             msg = f"Unsupported type for metrics: {obj!r}"
             raise TypeError(msg)
 
-        count = changes.filter_by_day(date - datetime.timedelta(days=1)).count()
+        count = changes.filter_by_day(date - dt.timedelta(days=1)).count()
         self.create_metrics(
             {"changes": count}, None, set(), scope, relation, secondary, date=date
         )
@@ -323,7 +317,7 @@ class MetricManager(models.Manager["Metric"]):
         raise ValueError(msg)
 
     @transaction.atomic
-    def collect_global(self, date: datetime.date | None = None):
+    def collect_global(self, date: dt.date | None = None):
         date = date or timezone.now().date()
         stats = GlobalStats()
         changes = Change.objects.all()
@@ -347,7 +341,7 @@ class MetricManager(models.Manager["Metric"]):
     def collect_project_language(
         self,
         project_language: ProjectLanguage,
-        date: datetime.date | None = None,
+        date: dt.date | None = None,
         change_data: ChangeMetricData | None = None,
     ):
         date = date or timezone.now().date()
@@ -372,7 +366,7 @@ class MetricManager(models.Manager["Metric"]):
     def collect_category_language(
         self,
         category_language: CategoryLanguage,
-        date: datetime.date | None = None,
+        date: dt.date | None = None,
         change_data: ChangeMetricData | None = None,
     ):
         date = date or timezone.now().date()
@@ -394,7 +388,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_category(self, category: Category, date: datetime.date | None = None):
+    def collect_category(self, category: Category, date: dt.date | None = None):
         date = date or timezone.now().date()
         changes = Change.objects.for_category(category)
         language_change_data = get_language_change_metric_data(changes, date)
@@ -441,7 +435,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_project(self, project: Project, date: datetime.date | None = None):
+    def collect_project(self, project: Project, date: dt.date | None = None):
         date = date or timezone.now().date()
         changes = project.change_set.all()
         language_change_data = get_language_change_metric_data(changes, date)
@@ -496,9 +490,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_workspace(
-        self, workspace: Workspace, date: datetime.date | None = None
-    ):
+    def collect_workspace(self, workspace: Workspace, date: dt.date | None = None):
         date = date or timezone.now().date()
         workspace_scope = MemoryScope.objects.filter(
             memory_id=OuterRef("pk"),
@@ -532,9 +524,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_component(
-        self, component: Component, date: datetime.date | None = None
-    ):
+    def collect_component(self, component: Component, date: dt.date | None = None):
         date = date or timezone.now().date()
         changes = component.change_set.all()
         data = {
@@ -554,9 +544,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_component_list(
-        self, clist: ComponentList, date: datetime.date | None = None
-    ):
+    def collect_component_list(self, clist: ComponentList, date: dt.date | None = None):
         date = date or timezone.now().date()
         changes = Change.objects.filter(component__in=clist.components.all())
         data = dict(get_change_metric_data(changes, date))
@@ -571,7 +559,7 @@ class MetricManager(models.Manager["Metric"]):
 
     @transaction.atomic
     def collect_translation(
-        self, translation: Translation, date: datetime.date | None = None
+        self, translation: Translation, date: dt.date | None = None
     ):
         date = date or timezone.now().date()
         changes = translation.change_set.all()
@@ -589,11 +577,9 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_user(self, user: User, date: datetime.date | None = None):
+    def collect_user(self, user: User, date: dt.date | None = None):
         date = date or timezone.now().date()
-        data = user.change_set.filter_by_day(
-            date - datetime.timedelta(days=1)
-        ).aggregate(
+        data = user.change_set.filter_by_day(date - dt.timedelta(days=1)).aggregate(
             changes=Count("id"),
             comments=Count("id", filter=Q(action=ActionEvents.COMMENT)),
             suggestions=Count("id", filter=Q(action=ActionEvents.SUGGESTION)),
@@ -613,7 +599,7 @@ class MetricManager(models.Manager["Metric"]):
         )
 
     @transaction.atomic
-    def collect_language(self, language: Language, date: datetime.date | None = None):
+    def collect_language(self, language: Language, date: dt.date | None = None):
         date = date or timezone.now().date()
         changes = language.change_set.all()
         data = {
@@ -644,7 +630,7 @@ class Metric(models.Model):
     SCOPE_WORKSPACE = 10
 
     id = models.BigAutoField(primary_key=True)
-    date = models.DateField(default=datetime.date.today)
+    date = models.DateField(default=dt.date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
