@@ -85,8 +85,8 @@ from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
 
-def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
-    Memory.objects.create(
+def add_document(source: str = "Hello", target: str = "Ahoj") -> Memory:
+    return Memory.objects.create(
         source_language=Language.objects.get(code="en"),
         target_language=Language.objects.get(code="cs"),
         source=source,
@@ -1220,7 +1220,7 @@ class MemoryModelTest(FixtureTestCase):
             unit.translate(user, target, state)
 
     def test_machine(self) -> None:
-        add_document()
+        memory = add_document()
         unit = self.get_unit()
         machine_translation = WeblateMemory({})
         self.assertEqual(
@@ -1254,7 +1254,7 @@ class MemoryModelTest(FixtureTestCase):
                     "original_source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
-                    "delete_url": f"/api/memory/{Memory.objects.all()[0].pk}/",
+                    "delete_url": f"/api/memory/{memory.pk}/",
                 }
             ],
         )
