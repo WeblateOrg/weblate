@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy
 
@@ -25,7 +26,9 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
     format_stored_repository_error,
     get_repository_error_diagnoses,
+    is_not_git_repository_error,
 )
+from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.params import GitForcePush, MergeRequestAutomerge
 
 if TYPE_CHECKING:
@@ -167,6 +170,15 @@ class RepositoryErrorAlert(ErrorAlert):
     def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
         result["error"] = format_stored_repository_error(self.stored_error, gettext)
+        if result["analysis"]["checkout_unavailable"]:
+            owner = self.instance.component.effective_repo_component
+            if user.can_access_component(owner):
+                result["repository_maintenance_url"] = (
+                    f"{owner.get_absolute_url()}#repository"
+                )
+                result["can_recover_checkout"] = result["analysis"][
+                    "checkout_missing"
+                ] and user.has_perm("vcs.reset", owner)
         return result
 
     def has_diagnosis(self, code: RepositoryDiagnosisCode) -> bool:
@@ -201,7 +213,35 @@ class RepositoryErrorAlert(ErrorAlert):
 
     def get_analysis(self) -> dict[str, Any]:
         error_code = self.error_code
+        checkout_missing = (
+            error_code == "repository_checkout_missing"
+            or self.has_diagnosis("checkout_missing")
+        )
+        checkout_invalid = (
+            error_code == "repository_checkout_invalid"
+            or self.has_diagnosis("checkout_invalid")
+            or is_not_git_repository_error(self.error)
+        ) and not checkout_missing
+        checkout_unavailable = checkout_missing or checkout_invalid
+        if checkout_unavailable:
+            component = getattr(self.instance, "component", None)
+            owner = getattr(component, "effective_repo_component", component)
+            try:
+                repository_class = getattr(owner, "repository_class", None)
+            except ImproperlyConfigured:
+                repository_class = None
+            supported = (
+                isinstance(repository_class, type)
+                and issubclass(repository_class, GitRepository)
+                and not issubclass(repository_class, SubversionRepository)
+            )
+            checkout_missing = checkout_missing and supported
+            checkout_invalid = checkout_invalid and supported
+            checkout_unavailable = checkout_missing or checkout_invalid
         return {
+            "checkout_unavailable": checkout_unavailable,
+            "checkout_missing": checkout_missing,
+            "checkout_invalid": checkout_invalid,
             "redirect": self.has_diagnosis("repository_redirect"),
             "git_lfs_missing_objects": self.has_diagnosis("git_lfs_missing_objects"),
             "repository_url_failure": self.is_repository_url_error,

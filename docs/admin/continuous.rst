@@ -353,6 +353,35 @@ Reset and reapply translations recovery behavior
 The :guilabel:`Reset and reapply translations` operation keeps translations from
 Weblate while resetting the local repository state to match upstream.
 
+If the Git checkout or its entire :file:`.git` directory is missing, this operation reconstructs it before
+reapplying translations. Remote repositories are cloned from the configured
+upstream branch. Local repositories are initialized with new Git metadata while
+retaining any surviving working files. Both then use the standard reapply flow.
+
+For local repositories, reapply can recreate missing strings from the database,
+including source strings in monolingual base files, when the file format supports
+adding strings. Missing translation files can also be recreated when the format
+supports creating them or a valid template for new translations is available.
+This applies to local glossaries as well as other local components, including
+when their Git checkout is healthy. Remote reapply does not recreate strings
+removed upstream.
+
+Required files that the format cannot create must be restored from a backup.
+Weblate reports restoration failures and keeps the database translations and
+pending changes.
+
+Any surviving checkout without a :file:`.git` directory is preserved under
+:file:`DATA_DIR/repository-recovery/<component-id>/<unique-id>/`. Its location is
+written to the application log. These copies are not removed automatically;
+inspect and remove them manually after verifying recovery. Reconstruction cannot
+restore lost Git history or files and metadata that Weblate does not store.
+
+Recovery is explicit: background updates do not automatically rebuild checkouts.
+If a checkout is unexpectedly missing, first verify that the data volume is
+available to the worker performing recovery.
+Damaged Git metadata in an existing :file:`.git` directory requires manual
+inspection and repair by an instance administrator.
+
 The operation can restore pending translations only when the target language
 files still exist after the reset or when Weblate can create them for the
 component, for example using a valid :ref:`component-new_base`.

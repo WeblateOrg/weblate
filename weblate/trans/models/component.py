@@ -192,6 +192,7 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
     RepositorySymlinkError,
     get_repository_error_diagnoses,
+    is_not_git_repository_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
@@ -2773,10 +2774,23 @@ class Component(  # ruff: ignore[too-many-public-methods]
             stored_error = error_text
         diagnoses: list[RepositoryDiagnosis] = []
         seen: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
-        for diagnosis in [
+        # Git reports the same "not a git repository" error for an absent .git
+        # directory and for damaged metadata. Record the filesystem state now,
+        # while the failure is being persisted, rather than when an alert is read.
+        checkout_missing = (
+            is_not_git_repository_error(error_text)
+            and isinstance(self.repository, GitRepository)
+            and self.repository.checkout_is_missing()
+        )
+        candidates: list[RepositoryDiagnosis] = [
             *error.diagnoses,
             *get_repository_error_diagnoses(error_text),
-        ]:
+        ]
+        if checkout_missing:
+            candidates.append({"code": "checkout_missing"})
+        for diagnosis in candidates:
+            if checkout_missing and diagnosis["code"] == "checkout_invalid":
+                continue
             params = diagnosis.get("params", {})
             key = (diagnosis["code"], tuple(sorted(params.items())))
             if key in seen:
@@ -3460,6 +3474,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.recovery import reset_with_recovery
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.repository_context import (
             RepositoryFollowupLockError,
             repository_task_inline_followups,
@@ -3470,11 +3487,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         user = request.user if request else self.acting_user
         try:
-            with self.repository.lock.without_recovery():
-                previous_head = self.reset_repository_to_remote(
-                    request, user, keep_changes=keep_changes
-                )
-        except RepositoryError:
+            previous_head = reset_with_recovery(
+                self, request, user, keep_changes=keep_changes
+            )
+        except (RepositoryError, OSError) as error:
             report_error(
                 "Could not reset the repository",
                 project=self.project,
@@ -3482,7 +3498,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             messages.error(
                 request,
-                gettext("Could not reset to remote branch on %s.") % self,
+                gettext("Could not reset to remote branch on %(component)s: %(error)s")
+                % {
+                    "component": self,
+                    "error": self.error_text(
+                        error
+                        if isinstance(error, RepositoryError)
+                        else RepositoryError(1, str(error))
+                    ),
+                },
             )
             return False
 

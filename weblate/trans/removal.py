@@ -6,16 +6,70 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from contextvars import ContextVar
+from functools import wraps
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+from celery import current_task
+from django.db import transaction
 
+from weblate.logger import LOGGER
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator, Iterable
+
+    from weblate.trans.models import Category, Component, Project
     from weblate.utils.stats import BaseStats
 
 CURRENT_REMOVAL_BATCH: ContextVar[RemovalBatch | None] = ContextVar(
     "current_removal_batch", default=None
 )
+
+
+def logged_removal(model: type[Component | Category | Project]) -> Callable:
+    """Log filesystem-independent outcomes around the removal transaction."""
+
+    def decorate(function: Callable[..., None]) -> Callable[..., None]:
+        @wraps(function)
+        def wrapped(pk: int, uid: int | None, *args: object, **kwargs: object) -> None:
+            instance = model.objects.filter(pk=pk).first()
+            if instance is None:
+                LOGGER.info(
+                    "%s removal skipped: id=%s already missing", model.__name__, pk
+                )
+                return None
+            identity = {
+                "model": model.__name__,
+                "id": pk,
+                "slug": instance.full_slug,
+                "actor_id": uid,
+                "task_id": current_task.request.id if current_task else None,
+            }
+            committed = False
+
+            def log_commit() -> None:
+                nonlocal committed
+                committed = True
+                LOGGER.info("removal committed: %s", identity)
+
+            LOGGER.info("removal started: %s", identity)
+            try:
+                with transaction.atomic():
+                    # Run before follow-ups, so their failures cannot look like rollback.
+                    transaction.on_commit(log_commit)
+                    return function(pk, uid, *args, **kwargs)
+            except Exception:
+                LOGGER.exception(
+                    "removal %s: %s",
+                    "follow-up failed after commit"
+                    if committed
+                    else "failed before commit",
+                    identity,
+                )
+                raise
+
+        return wrapped
+
+    return decorate
 
 
 class RemovalBatch:
