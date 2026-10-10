@@ -47,9 +47,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-09 05:56+0200\n"
-"PO-Revision-Date: 2026-10-09 15:48+0000\n"
-"Last-Translator: QuietCedar47 <quietcedar47@users.noreply.hosted.weblate.org>"
-"\n"
+"PO-Revision-Date: 2026-10-11 02:25+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1997,10 +1997,8 @@ msgstr ""
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
 msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
-#, fuzzy
-#| msgid "Authentication tokens"
 msgid "Authentication storage cleanup"
-msgstr "身份认证令牌"
+msgstr "身份认证存储清理"
 
 msgid ""
 "Weblate removes expired OpenID protocol associations and OpenID Connect "
@@ -6209,11 +6207,6 @@ msgid ""
 "by Codeberg's Forgejo-backed avatar service)::"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "How long the authentication token and temporary password from password "
-#| "reset e-mails is valid for. Set in number of seconds, defaulting to "
-#| "172800 (2 days)."
 msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
@@ -6222,7 +6215,8 @@ msgid ""
 "deadline for other authentication pipeline steps."
 msgstr ""
 "身份认证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 172800"
-"（2 天）。"
+"（2 天）。使用电子邮件验证码时将检查其是否仍在有效时间内，即便计划的清理还没"
+"有删除它们。这不设定其他身份认证管线步骤的最后期限。"
 
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
@@ -6595,20 +6589,16 @@ msgstr "`rebase` - default"
 msgid "`merge`"
 msgstr "`merge`"
 
-#, fuzzy
-#| msgid "Default add-ons to install for every created component."
 msgid "Default notification settings for every newly created user."
-msgstr "安装在每个创建的部件中的默认附加组件。"
+msgstr "每个新创建用户的默认通知设置。"
 
 msgid ""
 "A list of 3-tuples consisting of notification scope, notification frequency "
 "and notification handler."
 msgstr ""
 
-#, fuzzy
-#| msgid "This setting affects only newly created components."
 msgid "This setting affects only newly created users."
-msgstr "此设置只影响新创建的部件。"
+msgstr "此设置之影响新创建的用户。"
 
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` "
@@ -7265,12 +7255,8 @@ msgstr ""
 "适用于将隐私政策托管在 Weblate 外部而非使用 :ref:`legal` 模块的场景。启用 "
 "legal 模块时，Weblate 默认会链接至内部的法律相关页面。"
 
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid "Configures whether the private commit e-mail is opt-in or opt-out."
-msgstr "配置私密提交邮箱是手动启用还是默认启用（默认情况下为手动启用）。"
+msgstr "配置私密提交邮箱是手动启用还是默认启用。"
 
 msgid ""
 "With ``True`` (the default), users use their account e-mail unless they "
@@ -7318,12 +7304,8 @@ msgstr ""
 "除非通过 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 配置，否则使用不同的提交邮箱"
 "对用户而言默认处于手动启用状态。用户可以在 :ref:`profile` 中配置提交邮箱。"
 
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit name is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid "Configures whether the private commit name is opt-in or opt-out."
-msgstr "配置私密提交名称是手动启用还是默认启用（默认情况下为手动启用）。"
+msgstr "配置私密提交名称是手动启用还是默认启用。"
 
 msgid ""
 "With ``True`` (the default), users use their account name unless they choose "
@@ -8781,40 +8763,28 @@ msgid ""
 "Weblate."
 msgstr "在 Weblate 以外维护仓库时冻结翻译更改。"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`Discard local changes`"
-msgstr ":guilabel:`下载更改`"
+msgstr ":guilabel:`丢弃本地更改`"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream, discards pending Weblate "
-#| "changes, and reconciles translation files."
 msgid ""
 "Resets Weblate's local repository to upstream, discards local commits and "
 "pending translation changes, and reconciles translation files."
 msgstr ""
-"重置 Weblate 的本地仓库到上游，丢弃未提交的 Weblate 更改并核对翻译文件。"
+"重置 Weblate 的本地仓库到上游，丢弃本地提交和待提交的翻译更改，并使不同翻译文"
+"件保持协调一致。"
 
 msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr "当上游应当覆盖本地 Weblate 仓库状态时使用。"
 
-#, fuzzy
-#| msgid ":guilabel:`Reset and reapply`"
 msgid ":guilabel:`Reset and reapply translations`"
-msgstr ":guilabel:`重置并重新应用`"
+msgstr ":guilabel:`重置并重新应用译文`"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream, reconciles translation "
-#| "files, and reapplies pending translations. See :ref:`manage-vcs-reset-"
-#| "reapply`."
 msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
 "and reapplies Weblate's translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
-"重置 Weblate 的本地仓库到上游，核对翻译文件并重新应用未提交的更改。"
-"见 :ref:`manage-vcs-reset-reapply`。"
+"重置 Weblate 的本地仓库到上游，核对翻译文件并重新应用 Weblate 的翻译。见 "
+":ref:`manage-vcs-reset-reapply`。"
 
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
@@ -8918,21 +8888,15 @@ msgid ""
 "local history with upstream instead."
 msgstr ""
 
-#, fuzzy
-#| msgid "Reset and reapply recovery behavior"
 msgid "Reset and reapply translations recovery behavior"
-msgstr "重置并重新应用恢复行为"
+msgstr "重置并重新应用译文恢复行为"
 
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Reset and reapply` operation keeps pending translations "
-#| "from Weblate while resetting the local repository state to match upstream."
 msgid ""
 "The :guilabel:`Reset and reapply translations` operation keeps translations "
 "from Weblate while resetting the local repository state to match upstream."
 msgstr ""
-":guilabel:`重置和重新应用` 操作保留来自 Weblate 的待提交更改，同时重置本地仓"
-"库状态来匹配上游。"
+":guilabel:`重置和重新应用译文` 操作保留来自 Weblate 的翻译，同时重置本地仓库"
+"状态来匹配上游。"
 
 msgid ""
 "The operation can restore pending translations only when the target language "
@@ -8993,14 +8957,6 @@ msgstr ""
 "是否已经包含了它们。如果在此过程中还手动解决了冲突，文件内容可能会与两个仓库"
 "都产生差异，最终导致即便 PR 已在远程合并，Weblate 依然会持续更新失败。"
 
-#, fuzzy
-#| msgid ""
-#| "If upstream no longer contains Weblate commits because they were squash "
-#| "merged, updating the repository might not be enough. Use :guilabel:`Reset "
-#| "and reapply` from :guilabel:`Repository maintenance` to reset Weblate to "
-#| "upstream while keeping pending translations; see :ref:`manage-vcs-reset-"
-#| "reapply`. Use :guilabel:`Reset and discard` only when upstream should "
-#| "fully replace Weblate's local changes."
 msgid ""
 "If upstream no longer contains Weblate commits because they were squash "
 "merged, updating the repository might not be enough. Use :guilabel:`Reset "
@@ -9010,9 +8966,10 @@ msgid ""
 "should fully replace Weblate's local changes."
 msgstr ""
 "如果因为 Weblate 提交被压缩合并造成上游不再包含 Weblate 提交，更新仓库可能不"
-"够。可在 :guilabel:`仓库维护` 中使用 :guilabel:`重置并重新应用`，在保留待处理"
-"翻译的同时将 Weblate 重置为上游状态，详见 :ref:`manage-vcs-reset-reapply` 。"
-"仅在上游应完整替换 Weblate 本地变更时使用 :guilabel:`重置并丢弃`。"
+"够。可在 :guilabel:`仓库维护` 中使用 :guilabel:`重置并重新应用译文`，在保留待"
+"处理翻译的同时将 Weblate 重置为上游状态，详见 :ref:`manage-vcs-reset-"
+"reapply` 。仅在上游应完整替换 Weblate 本地变更时使用 :guilabel:`丢弃本地更"
+"改`。"
 
 msgid ""
 "To approach this, you either need to minimize the amount of pending changes "
@@ -15523,15 +15480,12 @@ msgid ""
 msgstr ""
 "将 reStructuredText 中的自动建议服务作为 :doc:`/admin/machine` 的模板列出。"
 
-#, fuzzy
-#| msgid ""
-#| "Lists automatic suggestions services in reStructuredText as a template "
-#| "for :doc:`/admin/machine`."
 msgid ""
 "Lists notification scopes, frequencies and handlers in reStructuredText as a "
 "template for :doc:`/admin/config`."
 msgstr ""
-"将 reStructuredText 中的自动建议服务作为 :doc:`/admin/machine` 的模板列出。"
+"以 reStructuredText 格式列举通知作用域、频率和处理方，作为 :doc:`/admin/"
+"config` 的模板。"
 
 msgid "Lists translators by contributed language for the given project:"
 msgstr "按给定项目的语言列出为对应语言作贡献的译者："
@@ -18076,10 +18030,8 @@ msgstr ""
 "仓库，推动就被启动（请参见 :ref:`lazy-commit`）。为了真正允许推送，还要配"
 "置 :guilabel:`Repository push URL`。"
 
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Push on update"
-msgstr "提交时推送"
+msgstr "更新时推送"
 
 msgid ""
 "Whether Weblate pushes after updating the repository from upstream, even "
@@ -20160,10 +20112,8 @@ msgid ""
 "maintenance`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Improved performance of the translation pages."
 msgid "Improved recovery guidance for authentication failures."
-msgstr "改进了翻译页面的性能。"
+msgstr "改进身份认证失败的恢复指引。"
 
 msgid ""
 "Authentication method names and icons now come from python-social-auth, "
@@ -20220,12 +20170,9 @@ msgid ""
 "trailing-space path aliases."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Prevented sitemaps from disclosing restricted component and translation URLs."
-msgstr "项目内显示，包括其所有的部件和翻译。"
+msgstr "防止站点地图泄露受限的部件和翻译 URL。"
 
 msgid ""
 "Restricted stale Git lock cleanup to the repository running the failed "
@@ -38704,10 +38651,8 @@ msgstr ""
 "使用 :doc:`/admin/continuous`，任何更改都会自动从仓库推送，因此通常不需要手动"
 "管理它。"
 
-#, fuzzy
-#| msgid "Kotlin SDK CDN"
 msgid "Kotlin SDK for Android"
-msgstr "Kotlin SDK CDN"
+msgstr "Android 的 Kotlin SDK"
 
 msgid ""
 "The official Kotlin SDK for Weblate delivers translation updates to Android "
@@ -38730,10 +38675,8 @@ msgid ""
 "match. Breaking changes can occur before a stable release."
 msgstr ""
 
-#, fuzzy
-#| msgid "Meson requirements"
 msgid "Requirements"
-msgstr "Meson 要求"
+msgstr "要求"
 
 msgid ""
 "Weblate 2026.10 or newer with the :ref:`addon-weblate.cdn.kotlin` add-on."
@@ -38785,10 +38728,8 @@ msgid ""
 "downloads translations from the public CDN without an API token."
 msgstr ""
 
-#, fuzzy
-#| msgid "Publish timeout"
 msgid "Publish build metadata"
-msgstr "发布超时"
+msgstr "发布构建元数据"
 
 msgid ""
 "Build the application you will distribute, then upload its generated "
@@ -38855,10 +38796,8 @@ msgstr ""
 msgid ":doc:`/wlc` provides command-line access to Weblate."
 msgstr ""
 
-#, fuzzy
-#| msgid "Site integration"
 msgid "Third-party integrations"
-msgstr "站点集成"
+msgstr "第三方集成"
 
 msgid ""
 "These community-maintained libraries and packages integrate Weblate into "
@@ -39474,7 +39413,7 @@ msgstr ""
 msgid ""
 ":doc:`kotlin-sdk` for Android translation updates without rebuilding the "
 "application"
-msgstr "使用 :doc:`kotlin-sdk`，无需重新构建应用即可更新 Android 应用程序的翻译。"
+msgstr "使用 :doc:`kotlin-sdk`，无需重新构建应用即可更新 Android 应用程序的翻译"
 
 msgid "Translation progress reporting"
 msgstr "翻译进度报告"
@@ -46761,10 +46700,8 @@ msgid ""
 "(source: :ref:`addon-weblate.cdn.kotlin`)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Projects to global shared translation memory"
-msgstr "贡献到共享的翻译记忆库"
+msgstr "项目到全局共享翻译记忆库"
 
 msgid ""
 "Enabling contribution deliberately publishes source strings, translations, "
@@ -55263,28 +55200,17 @@ msgstr "``custom`` -- 定制模型"
 msgid "Translator persona"
 msgstr "译者人格面貌"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the translator’s role or expertise. For example: “You are an "
 "experienced medical translator.”"
-msgstr ""
-"描述译者表象人格改进翻译准确性，使其更专注于在特定语境和文化背景下进行准确的"
-"意义转换，从而显著提升翻译质量。如“你是一名松鼠饲养员。”"
+msgstr "描述译者的角色或专长。比如：“你是一名有经验的医学翻译。”"
 
-#, fuzzy
-#| msgid "Translator style"
 msgid "Translation style"
-msgstr "译者风格"
+msgstr "翻译风格"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the desired translation style. For example: “Use informal language.”"
-msgstr "请描述翻译的风格。例如：“使用口语化语言。”"
+msgstr "请描述期望的翻译风格。例如：“使用口语化语言。”"
 
 msgid "Language-specific instructions"
 msgstr "特定语言的操作指南"
@@ -55301,15 +55227,13 @@ msgstr "自定义模型名称"
 msgid ""
 "Required when ‘Custom model’ is selected. Enter the model identifier used by "
 "the API."
-msgstr ""
+msgstr "选择“自定义模型”时必需。输入 API 使用的模型标识符。"
 
 msgid "Max tokens"
 msgstr "最大令牌数"
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "Maximum number of tokens in the generated response."
-msgstr "响应中生成的最大令牌数。"
+msgstr "所生成响应中令牌的最大数量。"
 
 msgid "Performs translation using `Anthropic's Claude`_ models."
 msgstr "用 `Anthropic 的 Claude`_ 模型执行翻译。"
@@ -55866,7 +55790,7 @@ msgstr "Mistral 模型"
 msgid ""
 "With ‘Automatic selection’, Weblate selects the first model available "
 "through the API from its predefined preference list."
-msgstr ""
+msgstr "开启 “自动选择” 后，Weblate 从预定义偏好列表选中通过该 API 获得的第一个模型。"
 
 msgid "``mistral-small-latest`` -- Mistral Small 4"
 msgstr ""
@@ -55936,6 +55860,8 @@ msgid ""
 "is http://localhost:11434; localhost refers to the environment where Weblate "
 "runs."
 msgstr ""
+"可以从 Weblate 服务器访问的 Ollama API 的基 URL。默认为 http://"
+"localhost:11434；localhost 指的是 Weblate 运行的环境。"
 
 msgid "Ollama model"
 msgstr "Ollama 模型"
@@ -56207,162 +56133,104 @@ msgstr ""
 msgid "Scopes:"
 msgstr "作用域："
 
-#, fuzzy
-#| msgid ":guilabel:`Billing`"
 msgid ":guilabel:`All`"
-msgstr ":guilabel:`账单`"
+msgstr ":guilabel:`全部`"
 
-#, fuzzy
-#| msgid ":guilabel:`Update`"
 msgid ":guilabel:`Watched`"
-msgstr ":guilabel:`更新`"
+msgstr ":guilabel:`已关注`"
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Administered`"
-msgstr ":guilabel:`管理`"
+msgstr ":guilabel:`受管`"
 
 msgid "Frequencies:"
 msgstr ""
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`No notification`"
-msgstr ":guilabel:`管理`"
+msgstr ":guilabel:`无通知`"
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Instant notification`"
-msgstr ":guilabel:`管理`"
+msgstr ":guilabel:`即时通知`"
 
-#, fuzzy
-#| msgid ":guilabel:`Billing`"
 msgid ":guilabel:`Daily digest`"
-msgstr ":guilabel:`账单`"
+msgstr ":guilabel:`每日概况`"
 
-#, fuzzy
-#| msgid ":guilabel:`Review strings`"
 msgid ":guilabel:`Weekly digest`"
-msgstr ":guilabel:`审核字符串`"
+msgstr ":guilabel:`每周概况`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`Monthly digest`"
-msgstr ":guilabel:`下载更改`"
+msgstr ":guilabel:`月度概况`"
 
 msgid "Handlers:"
 msgstr ""
 
-#, fuzzy
-#| msgid ":guilabel:`Edit strings`"
 msgid ":guilabel:`String was approved`"
-msgstr ":guilabel:`编辑字符串`"
+msgstr ":guilabel:`批准了字符串`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`String was changed`"
-msgstr ":guilabel:`下载更改`"
+msgstr ":guilabel:`更改了字符串`"
 
-#, fuzzy
-#| msgid ":guilabel:`Component source language`"
 msgid ":guilabel:`Component was translated`"
-msgstr ":guilabel:`部件源语言`"
+msgstr ":guilabel:`部件已翻译`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`Language was translated`"
-msgstr ":guilabel:`添加翻译语言`"
+msgstr ":guilabel:`语言已翻译`"
 
 msgid ":guilabel:`String you contributed to received a comment`"
 msgstr ""
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`License was changed`"
-msgstr ":guilabel:`下载更改`"
+msgstr ":guilabel:`更改了许可证`"
 
-#, fuzzy
-#| msgid ":guilabel:`Component source language`"
 msgid ":guilabel:`Component was locked or unlocked`"
-msgstr ":guilabel:`部件源语言`"
+msgstr ":guilabel:`锁定或解锁了部件`"
 
-#, fuzzy
-#| msgid ":guilabel:`Delete comment`"
 msgid ":guilabel:`You were mentioned in a comment`"
-msgstr ":guilabel:`删除评论`"
+msgstr ":guilabel:`一则评论中提到了你`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download translation file`"
 msgid ":guilabel:`Repository operation failed`"
-msgstr ":guilabel:`下载翻译文件`"
+msgstr ":guilabel:`仓库操作失败`"
 
-#, fuzzy
-#| msgid ":guilabel:`Delete comment`"
 msgid ":guilabel:`New alert emerged in a component`"
-msgstr ":guilabel:`删除评论`"
+msgstr ":guilabel:`部件中出现了新警报`"
 
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Announcement was published`"
-msgstr ":guilabel:`发布公告`"
+msgstr ":guilabel:`发布了公告`"
 
-#, fuzzy
-#| msgid ":guilabel:`Commit`"
 msgid ":guilabel:`Comment was added`"
-msgstr ":guilabel:`提交`"
+msgstr ":guilabel:`添加了评论`"
 
 msgid ":guilabel:`New translation component was created`"
 msgstr ":guilabel:`新建了一个翻译部件`"
 
-#, fuzzy
-#| msgid ":guilabel:`Automatic translation`"
 msgid ":guilabel:`Contributor made their first translation`"
-msgstr ":guilabel:`自动翻译`"
+msgstr ":guilabel:`贡献者贡献了第一个翻译`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`String is available for translation`"
-msgstr ":guilabel:`添加翻译语言`"
+msgstr ":guilabel:`有字符串可翻译`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add suggestion`"
 msgid ":guilabel:`Suggestion was added`"
-msgstr ":guilabel:`添加建议`"
+msgstr ":guilabel:`添加了建议`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`New language was added or requested`"
-msgstr ":guilabel:`添加翻译语言`"
+msgstr ":guilabel:`添加或请求了新语言`"
 
-#, fuzzy
-#| msgid ":guilabel:`Protected`"
 msgid ":guilabel:`Parse error occurred`"
-msgstr ":guilabel:`受保护的`"
+msgstr ":guilabel:`发生了解析错误`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add suggestion`"
 msgid ":guilabel:`Pending suggestions exist`"
-msgstr ":guilabel:`添加建议`"
+msgstr ":guilabel:`存在待采纳的建议`"
 
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Operation was performed in the repository`"
-msgstr ":guilabel:`更新内部仓库`"
+msgstr ":guilabel:`在仓库中执行了操作`"
 
-#, fuzzy
-#| msgid ":guilabel:`Review strings`"
 msgid ":guilabel:`Unfinished strings exist`"
-msgstr ":guilabel:`审核字符串`"
+msgstr ":guilabel:`存在未完成的字符串`"
 
-#, fuzzy
-#| msgid ":guilabel:`Power user`"
 msgid ":guilabel:`String was edited by user`"
-msgstr ":guilabel:`高级用户`"
+msgstr ":guilabel:`用户编辑了字符串`"
 
-#, fuzzy
-#| msgid ":guilabel:`Translation coordinator`"
 msgid ":guilabel:`Translation activity summary`"
-msgstr ":guilabel:`翻译协调员`"
+msgstr ":guilabel:`翻译活动概况`"
 
 msgid ""
 "Weblate provided callback URL during the authentication includes configured "
@@ -58280,14 +58148,6 @@ msgstr ""
 "各种服务、完全删除您的账户或下载您的用户数据（请参阅 :ref:`schema-"
 "userdata`）。"
 
-#, fuzzy
-#| msgid ""
-#| "The private commit e-mail will be used instead of your account e-mail in "
-#| "version control commits. Use this to avoid leaking your real e-mail "
-#| "there. Be aware that using different e-mail can disconnect your "
-#| "contributions on other servers (for example your contributions will no "
-#| "longer link to your profile on GitHub). The private e-mail can be turned "
-#| "on site-wide using :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid ""
 "The :guilabel:`Commit e-mail` and :guilabel:`Commit name` settings let you "
 "choose private identities instead of your account e-mail and name in version "
@@ -58299,10 +58159,13 @@ msgid ""
 "and :setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``. Your explicit "
 "choices override these defaults."
 msgstr ""
-"在版本控制提交中，将使用私密提交邮箱而不是您的账户邮箱。使用此功能可以避免您"
-"的真实电子邮件地址泄露。请注意，使用不同的电子邮件地址可能会断开您在其他服务"
-"器上的做出的贡献关联（例如您的贡献将不再链接到您的 GitHub 个人资料）。可使"
-"用 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 在全站作用域内启用私密邮箱功能。"
+":guilabel:`提交邮箱` 和 :guilabel:`提交名` 设置允许你在版本控制提交中选择私密"
+"身份，而不是你的账户电子邮箱和名称。用这些来避免在版本控制提交中发布你的真实"
+"电子邮箱和名称。请注意，用不同的电子邮箱会切断你在其他服务器上所作贡献和你身"
+"份之间的联系（比如，你的贡献将不再关联到你在 GitHub 上的个人资料）。管理员可"
+"将私密身份设为默认，方法是设置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 和 "
+":setting:`PRIVATE_COMMIT_NAME_OPT_IN` 为 ``False``。你的显式选择的优先级高于"
+"这些默认值。"
 
 msgid ""
 "Changes to these settings affect future commits. Names and e-mail addresses "
