@@ -132,6 +132,10 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Testing and linting instructions
 
+- Select test fixtures by their identifying fields or retain the object returned
+  when creating them. Do not use an unordered queryset's first row when the
+  assertion depends on which row was selected. Use an explicit `order_by()`
+  when order is the behavior under test.
 - Complex data migrations must have populated upgrade tests in `ci/run-migrate`:
   add old-version setup and post-upgrade assertion scripts in
   `ci/migrate-scripts/`, gated to applicable source releases. Seed data that
