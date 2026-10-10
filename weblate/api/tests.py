@@ -1161,7 +1161,7 @@ class UserAPITest(APIBaseTest):
         )
         response = self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": self.user.username},
             method="get",
             superuser=True,
             code=200,
@@ -1177,7 +1177,7 @@ class UserAPITest(APIBaseTest):
         )
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": self.user.username},
             method="post",
             superuser=True,
             code=201,
@@ -1190,7 +1190,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(Subscription.objects.count(), 11)
 
     def test_get_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         anonymous_user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         anonymous_subscription = anonymous_user.subscription_set.create(
             scope=NotificationScope.SCOPE_ALL,
@@ -1215,7 +1215,11 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user)[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="get",
             code=200,
@@ -1223,7 +1227,10 @@ class UserAPITest(APIBaseTest):
 
     def test_head_notifications(self) -> None:
         self.authenticate()
-        subscription = self.user.subscription_set.all()[0]
+        subscription = self.user.subscription_set.get(
+            notification="NewAnnouncementNotificaton",
+            scope=NotificationScope.SCOPE_WATCHED,
+        )
         original = (
             subscription.notification,
             subscription.scope,
@@ -1272,35 +1279,39 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.client.head(url).status_code, get_response.status_code)
 
     def test_put_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(
-                    user=user, notification="NewAnnouncementNotificaton"
-                )[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="put",
             superuser=True,
             code=200,
             request={
                 "notification": "RepositoryNotification",
-                "scope": 10,
+                "scope": NotificationScope.SCOPE_WATCHED,
                 "frequency": 1,
             },
         )
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_patch_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(
-                    user=user, notification="NewAnnouncementNotificaton"
-                )[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="patch",
             superuser=True,
@@ -1310,12 +1321,16 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_delete_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user)[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="delete",
             superuser=True,
@@ -1390,7 +1405,10 @@ class UserAPITest(APIBaseTest):
         )
 
         # User cannot delete another user's notifications
-        other_subscription = Subscription.objects.filter(user=other_user)[0]
+        other_subscription = other_user.subscription_set.get(
+            notification="NewAnnouncementNotificaton",
+            scope=NotificationScope.SCOPE_WATCHED,
+        )
         self.do_request(
             "api:user-notifications-details",
             kwargs={
@@ -1715,7 +1733,7 @@ class UserAPITest(APIBaseTest):
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_statistics(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         request = self.do_request(
             "api:user-statistics",
             kwargs={"username": user.username},
@@ -1724,7 +1742,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(request.data["commented"], user.profile.commented)
 
     def test_contributions(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         request = self.do_request(
             "api:user-contributions",
             kwargs={"username": user.username},
@@ -17293,7 +17311,9 @@ class ChangeAPITest(APIBaseTest):
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""
-        start = Change.objects.order()[0].timestamp - timedelta(seconds=60)
+        start = Change.objects.order_by("timestamp")[0].timestamp - timedelta(
+            seconds=60
+        )
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_before": start.isoformat()}
         )
