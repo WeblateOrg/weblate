@@ -151,6 +151,18 @@ reverse proxy as seen by the Weblate container. Make sure that untrusted
 clients cannot reach a published container port by bypassing the reverse
 proxy.
 
+If the reverse proxy runs on the Docker host, you can give the host gateway a
+persistent name in :file:`docker-compose.override.yml` and trust that name:
+
+.. code-block:: yaml
+
+   services:
+     weblate:
+       extra_hosts:
+         - "host.docker.internal:host-gateway"
+       environment:
+         WEBLATE_TRUSTED_PROXY_ADDRESSES: host.docker.internal
+
 Using own SSL certificates
 ++++++++++++++++++++++++++
 
