@@ -22,6 +22,7 @@ from dataclasses import dataclass
 from ipaddress import ip_address
 from json import dumps
 from pathlib import Path
+from shutil import copytree
 from time import sleep, time
 from typing import (
     TYPE_CHECKING,
@@ -51,6 +52,8 @@ from weblate.utils.errors import report_error, report_message
 from weblate.utils.files import (
     get_archive_vcs_metadata_members,
     is_excluded,
+    is_managed_vcs_metadata_path,
+    is_unsafe_path,
     normalize_archive_path,
     remove_tree,
 )
@@ -482,6 +485,96 @@ class GitRepository(Repository):
             os.path.join(self.path, ".git", "config")
         ) or os.path.exists(os.path.join(self.path, "config"))
 
+    def checkout_is_missing(self) -> bool:
+        """Only an absent checkout or absent Git directory can be reconstructed."""
+        root = Path(self.path)
+        if not root.exists():
+            return not root.is_symlink()
+        if not root.is_dir():
+            return False
+        git_dir = root / ".git"
+        return not git_dir.exists() and not git_dir.is_symlink()
+
+    @staticmethod
+    def recovery_checkout_path(root: Path, relative: str) -> Path:
+        """Validate reconstructed filenames, including symlinks in cloned trees."""
+        result = root / relative
+        try:
+            resolved_root = root.resolve()
+            resolved = result.resolve()
+        except RuntimeError as error:
+            raise RepositoryError(
+                1, gettext("Invalid file path during repository recovery.")
+            ) from error
+        if (
+            is_unsafe_path(relative)
+            or not resolved.is_relative_to(resolved_root)
+            or is_managed_vcs_metadata_path(relative)
+            or is_managed_vcs_metadata_path(str(resolved.relative_to(resolved_root)))
+        ):
+            raise RepositoryError(
+                1, gettext("Invalid file path during repository recovery.")
+            )
+        return result
+
+    @classmethod
+    def preserve_recovery_working_files(cls, original: Path, staged: Path) -> None:
+        """Keep local working files while replacing only repository metadata."""
+        for entry in staged.iterdir():
+            if entry.name == ".git":
+                continue
+            original_entry = original / entry.name
+            if original_entry.exists() or original_entry.is_symlink():
+                if entry.is_dir():
+                    remove_tree(entry)
+                else:
+                    entry.unlink()
+
+        def ignore(directory: str, names: list[str]) -> set[str]:
+            excluded = set()
+            for name in names:
+                relative = str((Path(directory) / name).relative_to(original))
+                if is_managed_vcs_metadata_path(relative):
+                    excluded.add(name)
+                    continue
+                cls.recovery_checkout_path(original, relative)
+                # Absolute links within the original checkout still point into
+                # the installed checkout at this same path. Before replacement,
+                # resolving them under the staging path would appear to escape.
+                if not (original / relative).is_symlink():
+                    cls.recovery_checkout_path(staged, relative)
+            return excluded
+
+        copytree(original, staged, symlinks=True, dirs_exist_ok=True, ignore=ignore)
+
+    def stage_recovery_checkout(self, staged_path: Path, original: Path) -> None:
+        """Clone and configure a replacement checkout before it is installed."""
+        component = self.component
+        if component is None:
+            msg = "Component not set!"
+            raise TypeError(msg)
+        staged = type(self)(
+            str(staged_path), branch=component.branch, component=component
+        )
+        staged.lock.replace_lock(self.lock)
+        staged.clone_from(component.repo)
+        if not component.is_repo_local:
+            staged.configure_remote(
+                component.repo,
+                component.push,
+                component.branch,
+                fast=not component.id,
+            )
+        staged.set_committer(
+            settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
+        )
+        staged.check_config()
+        if component.is_repo_local and original.is_dir():
+            self.preserve_recovery_working_files(original, staged_path)
+            staged.commit("Recovered local repository files")
+        if not staged.is_valid():
+            raise RepositoryError(1, gettext("Reconstructed repository is not usable."))
+
     @classmethod
     def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
         """Return whether Git metadata can be restored from a backup."""
@@ -873,7 +966,47 @@ class GitRepository(Repository):
     def config_update(self, *updates: tuple[str, str, str | None]) -> None:
         with self.lock:
             filename = Path(self.path) / ".git" / "config"
-            self.git_config_update(filename, *updates)
+            try:
+                metadata_mode = filename.parent.stat().st_mode
+            except (FileNotFoundError, NotADirectoryError) as error:
+                missing = self.checkout_is_missing()
+                raise RepositoryInternalError(
+                    1,
+                    "repository_checkout_missing"
+                    if missing
+                    else "repository_checkout_invalid",
+                    diagnoses=[
+                        {"code": "checkout_missing" if missing else "checkout_invalid"}
+                    ],
+                ) from error
+            except OSError as error:
+                raise RepositoryError(1, str(error)) from error
+            if not stat.S_ISDIR(metadata_mode):
+                raise RepositoryInternalError(
+                    1,
+                    "repository_checkout_invalid",
+                    diagnoses=[{"code": "checkout_invalid"}],
+                )
+            try:
+                self.git_config_update(filename, *updates)
+            except OSError as error:
+                # GitPython wraps FileNotFoundError in OSError and loses errno.
+                if isinstance(error.__cause__, FileNotFoundError):
+                    missing = self.checkout_is_missing()
+                    raise RepositoryInternalError(
+                        1,
+                        "repository_checkout_missing"
+                        if missing
+                        else "repository_checkout_invalid",
+                        diagnoses=[
+                            {
+                                "code": "checkout_missing"
+                                if missing
+                                else "checkout_invalid"
+                            }
+                        ],
+                    ) from error
+                raise RepositoryError(1, str(error)) from error
 
     def check_config(self) -> None:
         """Check VCS configuration."""

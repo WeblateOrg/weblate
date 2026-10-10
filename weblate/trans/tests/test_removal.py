@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import Never
 from unittest.mock import patch
 
 from django.db import connection, transaction
@@ -112,6 +113,46 @@ class RemovalAlertTest(RepoTestCase):
 
     def test_component_removal_defers_alerts(self) -> None:
         self.assert_removal_defers_alerts("component")
+
+    def test_removal_logs_commit_and_filesystem_deletion(self) -> None:
+        component_id = self.component.pk
+        with (
+            self.assertLogs("weblate", level="INFO") as logs,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component_removal(component_id, self.user.pk)
+        output = "\n".join(logs.output)
+        self.assertIn("removal started", output)
+        self.assertIn("removal directory deleted", output)
+        self.assertIn("removal committed", output)
+        self.assertIn(str(component_id), output)
+
+    def test_removal_logs_failure_without_commit(self) -> None:
+        original_delete = Component.delete
+
+        def fail_after_delete(
+            component: Component,
+            using: str | None = None,
+            keep_parents: bool = False,
+        ) -> Never:
+            original_delete(component, using=using, keep_parents=keep_parents)
+            msg = "Failure after directory deletion"
+            raise RuntimeError(msg)
+
+        component_id = self.component.pk
+        with (
+            self.assertLogs("weblate", level="INFO") as logs,
+            patch.object(
+                Component, "delete", autospec=True, side_effect=fail_after_delete
+            ),
+            self.assertRaisesMessage(RuntimeError, "Failure after directory deletion"),
+        ):
+            component_removal(component_id, self.user.pk)
+        self.assertTrue(Component.objects.filter(pk=component_id).exists())
+        output = "\n".join(logs.output)
+        self.assertIn("removal directory deleted", output)
+        self.assertIn("failed before commit", output)
+        self.assertNotIn("removal committed", output)
 
     def test_removal_rollback_discards_alert_refreshes(self) -> None:
         Screenshot.objects.create(

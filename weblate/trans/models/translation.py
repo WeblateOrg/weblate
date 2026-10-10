@@ -1270,7 +1270,7 @@ class Translation(
 
         pending_changes = list(
             PendingUnitChange.objects.for_translation(self, apply_filters=True)
-            .select_related("unit", "author")
+            .select_related("unit__source_unit", "author")
             .order_by("timestamp")
             .select_for_update()
         )
@@ -1530,7 +1530,10 @@ class Translation(
     def update_pending_store_unit(
         pounit: TranslationUnit, unit: Unit, pending_change: PendingUnitChange
     ) -> None:
-        if (
+        if unit.translation.component.file_format == "tbx" and unit.tbx_terms:
+            # TBX alternatives are independent terms, not gettext plurals.
+            pounit.set_target(split_plural(pending_change.target))
+        elif (
             unit.translation.component.file_format == "tbx"
             and "tbx_terms" not in unit.details
             and not unit.is_plural
@@ -1547,14 +1550,14 @@ class Translation(
 
     def find_or_add_pending_store_unit(
         self, store: TranslationFormat, unit: Unit
-    ) -> TranslationUnit:
+    ) -> tuple[TranslationUnit, bool]:
         try:
             pounit, add = store.find_unit(unit.context, unit.source)
         except UnitNotFoundError:
-            return store.new_unit_from_unit(unit)
+            return store.new_unit_from_unit(unit), True
         if add:
             store.add_unit(pounit)
-        return pounit
+        return pounit, add
 
     @property
     def count_pending_units(self):
@@ -1682,7 +1685,7 @@ class Translation(
         store._invalidate_units()  # ruff: ignore[private-member-access]
         return pounit
 
-    def update_units(  # ruff: ignore[complex-structure]
+    def update_units(  # ruff: ignore[complex-structure, too-many-statements]
         self,
         pending_changes: list[PendingUnitChange],
         store: TranslationFormat,
@@ -1740,7 +1743,9 @@ class Translation(
                 changes_status[pending_change.pk] = True
                 updated = True
             elif pending_change.add_unit:
-                pounit = self.find_or_add_pending_store_unit(store, unit)
+                pounit, add = self.find_or_add_pending_store_unit(store, unit)
+                if not add and not updated and unit.pk not in original_content:
+                    original_content[unit.pk] = (pounit, read_stored_content(pounit))
                 try:
                     self.update_pending_store_unit(pounit, unit, pending_change)
                 except Exception as error:
@@ -1762,40 +1767,53 @@ class Translation(
                     unit.context = pounit.context
 
                 changes_status[pending_change.pk] = True
-                updated = True
+                updated = updated or add
             else:
+                already_added = False
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
                 except UnitNotFoundError:
-                    # Bail out if we have not found anything
-                    report_error(
-                        "String disappeared",
-                        project=self.component.project,
-                        skip_error_reporting=True,
-                    )
-                    self._mark_failed_unit(unit)
-                    unit.change_set.create(
-                        action=ActionEvents.SAVE_FAILED,
-                        target="Could not find string in the translation file",
-                    )
-                    pending_change.metadata.update(
-                        {
-                            "last_failed": timezone.now().isoformat(),
-                            "failed_revision": self.revision,
-                            "weblate_version": GIT_VERSION,
-                            "blocking_unit": True,
-                        }
-                    )
-                    pending_change.save()
-                    # this should be kept as pending, so that the changes are not lost
-                    changes_status[pending_change.pk] = False
-                    continue
+                    if (
+                        self.component.effective_repo_component.is_repo_local
+                        and self.component.file_format_cls.can_add_unit
+                        and (
+                            not unit.is_plural
+                            or self.component.file_format_cls.supports_adding_plural_units()
+                        )
+                    ):
+                        pounit, add = self.find_or_add_pending_store_unit(store, unit)
+                        already_added = add
+                    else:
+                        # Keep changes pending when this format cannot restore
+                        # the string, or the remote repository removed it.
+                        report_error(
+                            "String disappeared",
+                            project=self.component.project,
+                            skip_error_reporting=True,
+                        )
+                        self._mark_failed_unit(unit)
+                        unit.change_set.create(
+                            action=ActionEvents.SAVE_FAILED,
+                            target="Could not find string in the translation file",
+                        )
+                        pending_change.metadata.update(
+                            {
+                                "last_failed": timezone.now().isoformat(),
+                                "failed_revision": self.revision,
+                                "weblate_version": GIT_VERSION,
+                                "blocking_unit": True,
+                            }
+                        )
+                        pending_change.save()
+                        changes_status[pending_change.pk] = False
+                        continue
 
                 # Optionally add unit to translation file.
                 # This has be done prior setting target as some formats
                 # generate content based on target language.
                 if add:
-                    store.add_unit(pounit)
+                    if not already_added:
+                        store.add_unit(pounit)
                 elif not updated and unit.pk not in original_content:
                     original_content[unit.pk] = (pounit, read_stored_content(pounit))
 

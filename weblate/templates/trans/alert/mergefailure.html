@@ -2,7 +2,7 @@
 
 <p>{% translate "Weblate could not merge upstream changes while updating the repository." %}</p>
 
-{% if analysis.repository_url_failure or analysis.redirect %}
+{% if analysis.repository_url_failure or analysis.redirect or analysis.checkout_unavailable %}
   {% if not analysis.redirect %}<pre>{{ error }}</pre>{% endif %}
 
   {% include "trans/alert/common-repo.html" %}

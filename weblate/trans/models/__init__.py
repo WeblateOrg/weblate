@@ -20,6 +20,7 @@ from django.db.models.signals import (
 )
 from django.dispatch import receiver
 
+from weblate.logger import LOGGER
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
@@ -81,8 +82,22 @@ __all__ = [
 def delete_object_dir(instance: Project | Component) -> None:
     """Remove path if it exists."""
     project_path = instance.full_path
-    if os.path.exists(project_path):
+    identity = {
+        "model": type(instance).__name__,
+        "id": instance.pk,
+        "slug": instance.full_slug,
+        "path": project_path,
+    }
+    if not os.path.exists(project_path):
+        LOGGER.info("removal directory already missing: %s", identity)
+        return
+    LOGGER.info("removal directory deletion started: %s", identity)
+    try:
         remove_tree(project_path)
+    except OSError:
+        LOGGER.exception("removal directory deletion failed: %s", identity)
+        raise
+    LOGGER.info("removal directory deleted: %s", identity)
 
 
 @receiver(pre_delete, sender=Project)

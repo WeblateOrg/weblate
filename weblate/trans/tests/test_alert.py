@@ -17,7 +17,7 @@ from unittest.mock import patch
 
 from django.apps import apps
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db import connection
 from django.http import QueryDict
 from django.template.loader import render_to_string
@@ -55,7 +55,9 @@ from weblate.vcs.base import (
     RepositoryInternalError,
     RepositoryStructuredError,
 )
+from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.github import GitHubAppCredentials
+from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -2378,6 +2380,180 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_checkout_recovery_guidance_requires_git_backend(self) -> None:
+        error = RepositoryInternalError(
+            2,
+            "repository_checkout_missing",
+            diagnoses=[{"code": "checkout_missing"}],
+        )
+        for repository_class, expected in (
+            (GitRepository, True),
+            (SubversionRepository, False),
+            (HgRepository, False),
+        ):
+            with self.subTest(repository_class=repository_class):
+                component = SimpleNamespace(repository_class=repository_class)
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace(component=component)),
+                    error.get_stored_error(),
+                    diagnoses=error.diagnoses,
+                )
+                self.assertIs(alert.get_analysis()["checkout_unavailable"], expected)
+                self.assertIs(alert.get_analysis()["checkout_missing"], expected)
+
+    def test_checkout_guidance_handles_unavailable_backend(self) -> None:
+        class UnavailableComponent:
+            @property
+            def repository_class(self) -> type[GitRepository]:
+                msg = "Backend unavailable"
+                raise ImproperlyConfigured(msg)
+
+        instance = cast("Alert", SimpleNamespace(component=UnavailableComponent()))
+        for error in (
+            "Push denied",
+            RepositoryInternalError(
+                2,
+                "repository_checkout_missing",
+                diagnoses=[{"code": "checkout_missing"}],
+            ).get_stored_error(),
+        ):
+            with self.subTest(error=error):
+                alert = RepositoryErrorAlert(instance, error)
+                self.assertFalse(alert.get_analysis()["checkout_unavailable"])
+
+    def test_unusable_checkout_guidance_replaces_operation_actions(self) -> None:
+        for name in (
+            "mergefailure",
+            "pushfailure",
+            "updatefailure",
+            "repositoryoperationfailure",
+        ):
+            with self.subTest(name=name):
+                rendered = render_to_string(
+                    f"trans/alert/{name}.html",
+                    {
+                        "analysis": {
+                            "checkout_unavailable": True,
+                            "checkout_missing": True,
+                        },
+                        "can_recover_checkout": True,
+                        "repository_maintenance_url": "/projects/test/owner/#repository",
+                        "error": "fatal: not a git repository: '.../.git'",
+                    },
+                )
+                self.assertIn("Reset and reapply translations", rendered)
+                self.assertIn('href="/projects/test/owner/#repository"', rendered)
+                self.assertNotIn("git merge", rendered)
+                self.assertNotIn("data-href=", rendered)
+                self.assertNotIn("Weblate will retry", rendered)
+
+    def test_checkout_recovery_requires_maintainer(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "checkout_unavailable": True,
+                    "checkout_missing": True,
+                },
+                "repository_maintenance_url": "/projects/test/owner/#repository",
+            },
+        )
+        self.assertIn("Ask a maintainer", rendered)
+
+    def test_checkout_alert_hides_inaccessible_repository_owner(self) -> None:
+        private_url = "/projects/private/owner/"
+        owner = SimpleNamespace(
+            repository_class=GitRepository,
+            get_absolute_url=lambda: private_url,
+        )
+        child = SimpleNamespace(effective_repo_component=owner)
+        instance = cast(
+            "Alert", SimpleNamespace(component=child, details={}, timestamp=None)
+        )
+        user = cast(
+            "User",
+            SimpleNamespace(
+                can_access_component=lambda _component: False,
+                has_perm=lambda _permission, _component: True,
+            ),
+        )
+        for error in (
+            RepositoryInternalError(
+                2,
+                "repository_checkout_missing",
+                diagnoses=[{"code": "checkout_missing"}],
+            ),
+            RepositoryInternalError(
+                2,
+                "repository_checkout_invalid",
+                diagnoses=[{"code": "checkout_invalid"}],
+            ),
+        ):
+            with self.subTest(code=error.code):
+                alert = RepositoryErrorAlert(
+                    instance, error.get_stored_error(), diagnoses=error.diagnoses
+                )
+                context = alert.get_context(user)
+                self.assertNotIn("repository_maintenance_url", context)
+                self.assertFalse(context.get("can_recover_checkout", False))
+                rendered = render_to_string("trans/alert/common-repo.html", context)
+                self.assertNotIn(private_url, rendered)
+                self.assertNotIn('href=""', rendered)
+
+    def test_checkout_alert_links_to_accessible_repository_owner(self) -> None:
+        owner = SimpleNamespace(
+            repository_class=GitRepository,
+            get_absolute_url=lambda: "/projects/visible/owner/",
+        )
+        child = SimpleNamespace(effective_repo_component=owner)
+        instance = cast(
+            "Alert", SimpleNamespace(component=child, details={}, timestamp=None)
+        )
+        user = cast(
+            "User",
+            SimpleNamespace(
+                can_access_component=lambda component: component is owner,
+                has_perm=lambda _permission, _component: True,
+            ),
+        )
+        error = RepositoryInternalError(
+            2, "repository_checkout_missing", diagnoses=[{"code": "checkout_missing"}]
+        )
+        alert = RepositoryErrorAlert(
+            instance, error.get_stored_error(), diagnoses=error.diagnoses
+        )
+        context = alert.get_context(user)
+        self.assertEqual(
+            context["repository_maintenance_url"],
+            "/projects/visible/owner/#repository",
+        )
+        self.assertTrue(context["can_recover_checkout"])
+
+    def test_invalid_checkout_requires_manual_repair(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {"checkout_unavailable": True, "checkout_invalid": True},
+                "repository_maintenance_url": "/projects/test/owner/#repository",
+            },
+        )
+        self.assertIn("instance administrator", rendered)
+        self.assertNotIn("use Reset and reapply", rendered)
+
+    def test_invalid_checkout_analysis_is_not_recoverable(self) -> None:
+        component = SimpleNamespace(repository_class=GitRepository)
+        for error in (
+            "fatal: not a git repository: '.../.git'",
+            "fatal: not a git repository (or any of the parent directories): .git",
+        ):
+            with self.subTest(error=error):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace(component=component)), error
+                )
+                analysis = alert.get_analysis()
+                self.assertTrue(analysis["checkout_invalid"])
+                self.assertFalse(analysis["checkout_missing"])
+
     @staticmethod
     def render_failure_alert(
         template_name: str,
@@ -2897,6 +3073,36 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             )
 
         self.assertEqual(details["error"], "fatal: failed to access ... (128)")
+
+    def test_repository_alert_details_distinguish_missing_git_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.mkdir()
+            component = SimpleNamespace(
+                repo="local:",
+                push="",
+                full_path=checkout,
+                repository=GitRepository(str(checkout)),
+            )
+            for message in (
+                f"fatal: not a git repository: '{checkout}/.git'",
+                "fatal: not a git repository (or any of the parent directories): .git",
+            ):
+                with self.subTest(message=message):
+                    error = RepositoryError(128, message)
+                    missing = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                        component, error
+                    )
+                    self.assertIn({"code": "checkout_missing"}, missing["diagnoses"])
+                    self.assertNotIn({"code": "checkout_invalid"}, missing["diagnoses"])
+
+                    (checkout / ".git").mkdir()
+                    invalid = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                        component, error
+                    )
+                    self.assertIn({"code": "checkout_invalid"}, invalid["diagnoses"])
+                    self.assertNotIn({"code": "checkout_missing"}, invalid["diagnoses"])
+                    (checkout / ".git").rmdir()
 
     def test_repository_alert_details_sanitize_structured_params(self) -> None:
         component = SimpleNamespace(
