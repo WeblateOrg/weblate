@@ -39,7 +39,7 @@ from weblate.machinery.views import get_machinery_translations
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.memory.tasks import get_unit_memory_update
 from weblate.trans.forms import PluralField
-from weblate.trans.models import PendingUnitChange, Unit
+from weblate.trans.models import Component, PendingUnitChange, Unit
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.util import join_plural
@@ -386,6 +386,21 @@ class TBXIntegrationTest(RepoTestCase):
         self.translation.check_sync(force=True)
         self.unit = self.translation.unit_set.get(context="concept-example")
         self.translation.drop_store_cache()
+
+    def test_local_reapply_restores_terms_and_metadata(self) -> None:
+        terms = deepcopy(self.unit.tbx_terms)
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="local", repo="local:"
+        )
+        self.component.refresh_from_db()
+        self.component.drop_repository_cache()
+        self.filename.unlink()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(self.component.do_file_sync())
+        restored = self.translation.load_store().find_unit(
+            self.unit.context, self.unit.source
+        )[0]
+        self.assertEqual(restored.tbx_terms, terms)
 
     def test_memory_excludes_independent_alternatives(self) -> None:
         for sources, targets in (
