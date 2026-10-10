@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-import datetime
+import datetime as dt
 import logging
 import re
 from datetime import timedelta
@@ -635,7 +635,7 @@ class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
 
     def get_past_passwords(self, user: User):
         """Get user activities with password change."""
-        start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
+        start = timezone.now() - dt.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
             user=user, activity__in=("reset", "password"), timestamp__gt=start
         )
@@ -804,7 +804,7 @@ class AuditLog(models.Model):
         elif self.activity == "reset-request":
             failures = AuditLog.objects.filter(
                 user=self.user,
-                timestamp__gte=timezone.now() - datetime.timedelta(days=1),
+                timestamp__gte=timezone.now() - dt.timedelta(days=1),
                 activity="reset-request",
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
