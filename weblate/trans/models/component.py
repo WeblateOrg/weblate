@@ -119,6 +119,7 @@ from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
     count_words,
+    is_plural,
     is_repo_link,
     path_separator,
     sanitize_backend_error_message,
@@ -3565,8 +3566,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             .distinct()
         ).select_related("component", "language")
 
-        for translation in translations:
-            translation = self.reuse_component_for_translation(translation)
+        for translation in sorted(translations, key=lambda item: not item.is_source):
+            translation = self.reuse_component_for_translation(
+                translation, reuse_source=True
+            )
             if not translation.filename:
                 continue
 
@@ -3875,6 +3878,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
             .order_by("-timestamp")
             .values("author_id")[:1]
         )
+        # Local repositories have no upstream source of truth. Reapply can use
+        # the same unit-creation path as adding strings in Weblate.
+        components = [self, *self.linked_children]
+        local_components = {
+            component.pk
+            for component in components
+            if component.effective_repo_component.is_repo_local
+            and component.file_format_cls.can_add_unit
+        }
+        local_plural_components = {
+            component.pk
+            for component in components
+            if component.pk in local_components
+            and component.file_format_cls.supports_adding_plural_units()
+        }
+        local_templates = {
+            component.pk
+            for component in components
+            if component.pk in local_components and component.has_template()
+        }
         units = (
             Unit.objects.filter(
                 Q(translation__component=self)
@@ -3886,12 +3909,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "translation__component__source_language_id"
                     )
                 )
+                & ~Q(translation__component_id__in=local_templates)
                 | Q(translation__filename="")
             )
             .annotate(last_author_id=Subquery(last_author))
             .values(
                 "id",
+                "translation__component_id",
                 "target",
+                "source",
                 "explanation",
                 "state",
                 "details",
@@ -3925,6 +3951,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     target=unit["target"],
                     explanation=unit["explanation"],
                     state=unit["state"],
+                    add_unit=unit["translation__component_id"] in local_components
+                    and (
+                        unit["translation__component_id"] in local_plural_components
+                        or (
+                            not is_plural(unit["source"])
+                            and not is_plural(unit["target"])
+                        )
+                    ),
                     source_unit_explanation=unit["source_unit__explanation"] or "",
                     automatically_translated=unit["automatically_translated"],
                 )
@@ -6726,7 +6760,39 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset/reapply is already authorized by ``vcs.reset``. Missing-file recovery
         # is part of that maintenance operation, so it must not depend on the
         # regular add-language policy or user-specific overrides.
-        return self.can_add_new_language(None)
+        if (
+            not self.effective_repo_component.is_repo_local
+            or not self.file_format_cls.can_add_unit
+        ):
+            return self.can_add_new_language(None)
+
+        self.new_lang_error_message = gettext(
+            "The template for new translations is invalid."
+        )
+        template = self.get_template_filename()
+        base = self.get_new_base_filename()
+        if base and not os.path.exists(base):
+            # The source template is restored before target files below.
+            if base != template:
+                return False
+            base = None
+        if (
+            template
+            and not os.path.exists(template)
+            and not self.file_format_cls.is_valid_base_for_new(
+                "",
+                True,
+                file_format_params=self.file_format_params,
+                file_validator=self.check_file_is_valid,
+            )
+        ):
+            return False
+        return self.file_format_cls.is_valid_base_for_new(
+            base or "",
+            self.has_template(),
+            file_format_params=self.file_format_params,
+            file_validator=self.check_file_is_valid,
+        )
 
     def format_new_language_code(self, language):
         # Language code used for file
@@ -6915,12 +6981,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if os.path.exists(fullname):
             return
 
+        base = self.get_new_base_filename() or ""
+        if self.effective_repo_component.is_repo_local and translation.is_template:
+            base = ""
         self.file_format_cls.add_language(
             fullname,
             translation.language,
-            self.get_new_base_filename(),
+            base,
             file_format_params=self.file_format_params,
         )
+        translation.drop_store_cache()
         if send_post_add_signal:
             translation_post_add.send(sender=self.__class__, translation=translation)
         translation.git_commit(
