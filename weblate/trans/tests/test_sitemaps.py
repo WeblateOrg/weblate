@@ -5,13 +5,30 @@
 """Tests for sitemaps."""
 
 from django.core.cache import cache
-from django.test import override_settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from weblate.trans.models import ComponentLink, Project
+from weblate.trans.models import Change, ComponentLink, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.xml import parse_xml
+
+
+class PagesSitemapTest(TestCase):
+    @override_settings(
+        CACHES={"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
+    )
+    def test_sitemap_without_changes(self) -> None:
+        self.assertFalse(Change.objects.exists())
+        response = self.client.get(reverse("sitemap", kwargs={"section": "pages"}))
+        self.assertEqual(response.status_code, 200)
+        tree = parse_xml(response.content)
+        namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+        self.assertEqual(tree.tag, f"{namespace}urlset")
+        urls = tree.findall(f"{namespace}url")
+        self.assertTrue(urls)
+        self.assertTrue(all(url.findtext(f"{namespace}loc") for url in urls))
+        self.assertFalse(tree.findall(f"{namespace}url/{namespace}lastmod"))
 
 
 class SitemapTest(FixtureTestCase):
