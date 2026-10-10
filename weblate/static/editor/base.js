@@ -391,8 +391,7 @@ WLT.Editor = (() => {
           kbd.textContent = key;
           numberEl.replaceChildren(kbd);
         }
-        if (newKey)
-        {
+        if (newKey) {
           hotkeys(`ctrl+${key},command+${key}`, () => {
             el.click();
             return false;
