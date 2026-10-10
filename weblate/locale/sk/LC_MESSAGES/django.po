@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-08 22:56-0500\n"
-"PO-Revision-Date: 2026-10-09 15:48+0000\n"
+"PO-Revision-Date: 2026-10-11 02:25+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -157,7 +157,7 @@ msgid "E-mail"
 msgstr "E-mail"
 
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Sem bude odoslaný e-mail s odkazom na potvrdenie."
+msgstr "Na túto adresu pošleme e-mail s potvrdzovacím odkazom."
 
 msgid "New password"
 msgstr "Nové heslo"
@@ -173,9 +173,9 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
-"Nechajte povolené na zrušenie aktuálneho API kľúča a vygenerovanie nového. "
-"Odporúča sa, ak máte podozrenie, že vaše heslo bolo kompromitované. Zakážte "
-"to, aby ste si ponechali aktuálny API kľúč aktívny po zmene hesla."
+"Ponechajte zapnuté na zrušenie aktuálneho API kľúča a vygenerovanie nového. "
+"Odporúča sa, ak máte podozrenie na kompromitáciu hesla. Vypnite to, ak "
+"chcete ponechať aktuálny API kľúč aktívny po zmene hesla."
 
 msgid "Your password has been changed."
 msgstr "Vaše heslo bolo zmenené."
@@ -228,7 +228,7 @@ msgstr "Komponent: {}"
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Dostanete notifikáciu o každej takejto udalosti v nesledovaných projektoch."
+"O každej takejto udalosti v nesledovaných projektoch dostanete notifikáciu."
 
 msgid ""
 "You will receive a notification for every such event in your watched "
@@ -241,8 +241,8 @@ msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Dostanete notifikáciu o každej takejto udalosti v projektoch, kde máte "
-"správcovské oprávnenia."
+"O každej takejto udalosti v projektoch, kde máte správcovské oprávnenia, "
+"dostanete notifikáciu."
 
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
@@ -256,21 +256,21 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Tieto notifikácie dostanete iba pre vaše prekladané jazyky v nesledovaných "
+"Tieto notifikácie dostanete iba za vaše prekladané jazyky v nesledovaných "
 "projektoch."
 
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Tieto notifikácie dostanete iba pre vaše prekladané jazyky vo vašich "
+"Tieto notifikácie dostanete iba za vaše prekladané jazyky vo vašich "
 "sledovaných projektoch."
 
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Tieto notifikácie dostanete iba pre vaše prekladané jazyky v projektoch, kde "
+"Tieto notifikácie dostanete iba za vaše prekladané jazyky v projektoch, kde "
 "máte správcovské oprávnenia."
 
 #, python-format
@@ -345,9 +345,7 @@ msgstr "Obnovovací token"
 
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
-msgstr ""
-"Obnovovacie kódy sa môžu použiť iba raz. Nezabudnite označiť použité ako "
-"vypršané."
+msgstr "Obnovovacie kódy možno použiť len raz. Použité označte ako vypršané."
 
 msgid "Enter the code from the app"
 msgstr "Zadajte kód z aplikácie"
@@ -360,8 +358,8 @@ msgid ""
 "Project and category paths summarize inherited settings and component "
 "exceptions."
 msgstr ""
-"Zadajte lomkou oddelené slugy, napríklad project/category/component/cs. "
-"Cesty projektu a kategórie zhrňujú zdedené nastavenia a výnimky komponentov."
+"Zadajte slugy oddelené lomkou, napr. project/category/component/cs. Cesty "
+"projektu a kategórie zhrňujú zdedené nastavenia a výnimky komponentov."
 
 msgid "Enter a valid object path."
 msgstr "Zadajte platnú cestu k objektu."
@@ -376,7 +374,7 @@ msgstr "Heslo zmenené."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr "Prekročený limit rýchlosti pre {scope} na {path}."
+msgstr "Prekročený limit rýchlosti pre {scope} v {path}."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -423,10 +421,10 @@ msgstr "Prihlásený pomocou {method} ({name}) z nového zariadenia."
 
 #. Translators: Audit log entry
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Niekto sa pokúsil zaregistrovať s vaším e-mailom."
+msgstr "Niekto sa pokúsil zaregistrovať pomocou vášho e-mailu."
 
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Niekto sa pokúsil zaregistrovať pomocou vašej e-mailovej adresy."
+msgstr "Niekto sa pokúsil zaregistrovať s použitím vašej e-mailovej adresy."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -435,7 +433,7 @@ msgstr "Nepodarilo sa prihlásiť pomocou {method} ({name})."
 
 #. Translators: Audit log entry
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Účet uzamknutý kvôli mnohým neúspešným pokusom o prihlásenie."
+msgstr "Účet uzamknutý pre mnoho neúspešných pokusov o prihlásenie."
 
 #. Translators: Audit log entry
 msgid "Account locked by the site administrator."
@@ -497,10 +495,10 @@ msgstr "Používateľ bol povolený správcom."
 
 #. Translators: Audit log entry
 msgid "User was disabled by administrator."
-msgstr "Používateľ bol zakázaný správcom."
+msgstr "Používateľ bol deaktivovaný správcom."
 
 msgid "User was disabled because the access has expired."
-msgstr "Používateľ bol zakázaný, pretože prístup vypršal."
+msgstr "Používateľ bol deaktivovaný, pretože platnosť prístupu vypršala."
 
 #, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
@@ -522,11 +520,11 @@ msgstr ""
 
 #. Translators: Audit log entry
 msgid "Superuser privileges granted."
-msgstr "Oprávnenia super používateľa udelené."
+msgstr "Oprávnenia superpoužívateľa udelené."
 
 #. Translators: Audit log entry
 msgid "Superuser privileges revoked."
-msgstr "Oprávnenia super používateľa zrušené."
+msgstr "Oprávnenia superpoužívateľa zrušené."
 
 #. Translators: Audit log entry
 msgid "Semiannual support status review was displayed."
@@ -557,41 +555,41 @@ msgid "Project token for {project} was removed."
 msgstr "Token projektu pre {project} bol odstránený."
 
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "Obnovovacie kódy dvojfázovej autentifikácie boli vygenerované"
+msgstr "Boli vygenerované obnovovacie kódy dvojfaktorovej autentifikácie"
 
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "Obnovovacie kódy dvojfázovej autentifikácie boli zobrazené"
+msgstr "Boli zobrazené obnovovacie kódy dvojfaktorovej autentifikácie"
 
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "Dvojfázová autentifikácia pridaná: {device}"
+msgstr "Pridaná dvojfaktorová autentifikácia: {device}"
 
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "Dvojfázová autentifikácia odstránená: {device}"
+msgstr "Odstránená dvojfaktorová autentifikácia: {device}"
 
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Prihlásenie pomocou dvojfázovej autentifikácie pomocou {device}"
+msgstr "Prihlásenie pomocou dvojfaktorovej autentifikácie: {device}"
 
 #, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Dvojfázová autentifikácia zlyhala pomocou {device_type}"
+msgstr "\"Zlyhala dvojfaktorová autentifikácia pomocou {device_type}"
 
 #. Translators: Audit log entry
 msgid "Configured password to sign in."
-msgstr "Nakonfigurované heslo na prihlásenie."
+msgstr "Heslo na prihlásenie nakonfigurované."
 
 #. Translators: Audit log entry
 msgid "Signed in using password."
-msgstr "Prihlásený pomocou hesla."
+msgstr "Prihlásenie pomocou hesla."
 
 #. Translators: Audit log entry
 msgid "Signed in using password from a new device."
-msgstr "Prihlásený pomocou hesla z nového zariadenia."
+msgstr "Prihlásenie pomocou hesla z nového zariadenia."
 
 #. Translators: Audit log entry
 msgid "Could not sign in using password."
@@ -9105,7 +9103,7 @@ msgid "You do not have permission to change project access control."
 msgstr "Nemáte oprávnenie meniť ovládanie prístupu k projektu."
 
 msgid "Check your billing status"
-msgstr "Skontrolujte svoj stav fakturácie"
+msgstr "Skontrolujte stav fakturácie"
 
 msgid "Insights"
 msgstr "Štatistiky"
@@ -9972,7 +9970,7 @@ msgid "Browse all repository changes"
 msgstr "Prehľadať všetky zmeny repozitára"
 
 msgid "Nothing to preview."
-msgstr "Nie je čo zobraziť v ukážke."
+msgstr "Žiadny náhľad."
 
 msgid "Shortcut"
 msgstr "Skratka"
@@ -11676,7 +11674,7 @@ msgid "Bulk edit selected strings"
 msgstr "Hromadne upraviť vybrané reťazce"
 
 msgid "No strings selected"
-msgstr "Nie sú vybrané žiadne reťazce"
+msgstr "Žiadne vybrané reťazce"
 
 msgid "No matching strings found."
 msgstr "Nenašli sa žiadne zodpovedajúce reťazce."
@@ -12266,7 +12264,7 @@ msgid "Add project"
 msgstr "Pridať projekt"
 
 msgid "Sort this column"
-msgstr "Zoradiť tento stĺpec"
+msgstr "Zoradiť stĺpec"
 
 msgid "Unreviewed"
 msgstr "Nekontrolované"
