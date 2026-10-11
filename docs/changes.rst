@@ -11,6 +11,8 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Fixed role permission revocation through partial API updates.
+
 .. rubric:: Bug fixes
 
 * Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.

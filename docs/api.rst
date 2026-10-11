@@ -887,6 +887,10 @@ Roles
 
     Changes the role parameters.
 
+    When supplied, ``permissions`` replaces the role's complete permission set.
+    Omit it to keep the existing permissions unchanged, or pass an empty list to
+    remove all permissions.
+
     :param id: Role's ID
     :type id: int
     :>json string name: Role name
