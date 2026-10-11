@@ -207,6 +207,27 @@ class GitNoChangeProjectTest(ViewTestCase):
             response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
 
+    def test_status_groups_recovery_actions_by_outcome(self) -> None:
+        response = self.client.get(self.get_test_url("git_status"))
+        self.assertContains(response, "Choose which translations to keep")
+        self.assertContains(response, "Refresh translation files")
+        self.assertContains(response, "Clean the local checkout")
+        self.assertContains(response, "Use when:")
+        self.assertContains(response, "Result:")
+        self.assertContains(response, "Data loss:")
+        self.assertContains(response, "Supported Git checkouts can be rebuilt")
+        self.assertContains(
+            response,
+            f'data-href="{self.get_test_url("reset")}"',
+            count=2,
+        )
+        for action in ("file_sync", "file_scan", "cleanup"):
+            with self.subTest(action=action):
+                self.assertContains(
+                    response,
+                    f'data-href="{self.get_test_url(action)}"',
+                )
+
     def test_status_push_configuration(self) -> None:
         for push, needs_push_url, can_push in (
             ("", True, False),

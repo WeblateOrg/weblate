@@ -55,7 +55,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.removal import RemovalBatch, removal_batch_context
+from weblate.trans.removal import RemovalBatch, logged_removal, removal_batch_context
 from weblate.trans.repository import (
     RepositoryOperation,
     RepositoryOperationConflictError,
@@ -1123,7 +1123,7 @@ def update_enforced_checks(component: int | Component) -> None:
 
 
 @app.task(trail=False)
-@transaction.atomic
+@logged_removal(Component)
 def component_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
@@ -1287,7 +1287,7 @@ def _category_removal(
 
 
 @app.task(trail=False)
-@transaction.atomic
+@logged_removal(Category)
 def category_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
@@ -1340,30 +1340,28 @@ def cleanup_project_tokens(project: Project, user: User | None) -> None:
         )
 
 
+@logged_removal(Project)
 def _remove_project(pk: int, uid: int | None) -> None:
-    with transaction.atomic():
-        user = get_anonymous() if uid is None else User.objects.get(pk=uid)
-        try:
-            project = Project.objects.get(pk=pk)
-        except Project.DoesNotExist:
-            return
-        batch = RemovalBatch()
-        _collect_linked_removal_targets(
-            project.component_set.values_list("id", flat=True).iterator(
-                chunk_size=1000
-            ),
-            batch,
+    user = get_anonymous() if uid is None else User.objects.get(pk=uid)
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
+    batch = RemovalBatch()
+    _collect_linked_removal_targets(
+        project.component_set.values_list("id", flat=True).iterator(chunk_size=1000),
+        batch,
+    )
+    with removal_batch_context(batch):
+        Change.objects.create(
+            action=ActionEvents.REMOVE_PROJECT,
+            target=project.slug,
+            user=user,
+            author=user,
         )
-        with removal_batch_context(batch):
-            Change.objects.create(
-                action=ActionEvents.REMOVE_PROJECT,
-                target=project.slug,
-                user=user,
-                author=user,
-            )
-            cleanup_project_tokens(project, user)
-            project.delete()
-        transaction.on_commit(batch.flush)
+        cleanup_project_tokens(project, user)
+        project.delete()
+    transaction.on_commit(batch.flush)
 
 
 @app.task(bind=True, trail=False)
