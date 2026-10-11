@@ -15,7 +15,11 @@ from django.utils.translation import override
 from weblate.addons.events import AddonActivityLogStatus
 from weblate.automation.context import automation_origin
 from weblate.automation.expressions import expressions
-from weblate.automation.operations import execute_operation
+from weblate.automation.operations import (
+    SelectOperation,
+    execute_operation,
+    get_operation,
+)
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
 
@@ -131,6 +135,13 @@ class Runner:
             "preview": self.preview,
         }
 
+    def results_known(self, expression: str) -> bool:
+        """Only static references to completed results are safe in preview."""
+        references = re.findall(r"\bresults\.([a-z][a-z0-9_]*)\b", expression)
+        return len(references) == len(
+            re.findall(r"(?<!\.)\bresults\b", expression)
+        ) and all(action_id in self.context["results"] for action_id in references)
+
     def conditions(
         self, nodes: list[dict[str, Any]], path: str, operator: str = "and"
     ) -> bool | None:
@@ -166,7 +177,11 @@ class Runner:
             and self.planned
             and (
                 kind == "matching_strings"
-                or (kind == "expression" and re.search(r"\bresults\b", value))
+                or (
+                    kind == "expression"
+                    and re.search(r"\bresults\b", value)
+                    and not self.results_known(value)
+                )
             )
         ):
             return None
@@ -215,14 +230,62 @@ class Runner:
                 if skipped:
                     self.record(node_path, "skipped")
                 elif self.preview:
-                    try:
+                    try:  # ruff: ignore[too-many-statements-in-try-clause]
                         scope = node.get("scope", "component")
                         if scope == "trigger":
                             self.selection(scope)
+                        operation = get_operation(node["action"])
+                        if (
+                            operation.preview_safe
+                            and not conditional
+                            and (not self.planned or not node["settings"].get("q", ""))
+                            and (
+                                not scope.startswith("result:")
+                                or scope[7:] in self.selections
+                            )
+                        ):
+                            selection = self.selection(scope)
+                            scope_units = (
+                                selection.count(self.component)
+                                if scope != "component"
+                                else None
+                            )
+                            affected = (
+                                UnitSelection(set())
+                                if "id" in node
+                                or node["action"] != SelectOperation.name
+                                else None
+                            )
+                            output = execute_operation(
+                                node, self.component, self.user, selection, affected
+                            )
+                            if "id" in node:
+                                self.context["results"][node["id"]] = output
+                                if affected is not None:
+                                    self.selections[node["id"]] = affected
+                            self.record(
+                                node_path,
+                                "success",
+                                action=node["action"],
+                                output=output,
+                                scope=scope,
+                                affected=output["selected"],
+                                **(
+                                    {"scope_units": scope_units}
+                                    if scope_units is not None
+                                    else {}
+                                ),
+                            )
+                            continue
                         self.record(
                             node_path,
                             "conditional"
-                            if conditional or scope.startswith("result:")
+                            if conditional
+                            or (
+                                scope.startswith("result:")
+                                and scope[7:] not in self.selections
+                            )
+                            or operation.preview_safe
                             else "planned",
                             action=node["action"],
                         )
@@ -240,19 +303,27 @@ class Runner:
                             if scope != "component"
                             else None
                         )
-                        affected = UnitSelection(set())
+                        affected = (
+                            UnitSelection(set())
+                            if "id" in node or node["action"] != SelectOperation.name
+                            else None
+                        )
                         output = execute_operation(
                             node, self.component, self.user, selection, affected
                         )
                         if "id" in node:
                             self.context["results"][node["id"]] = output
-                            self.selections[node["id"]] = affected
+                            if affected is not None:
+                                self.selections[node["id"]] = affected
                         self.record(
                             node_path,
                             "success",
                             output=output,
                             scope=scope,
-                            affected=len(affected.unit_ids or ()),
+                            affected=output.get(
+                                "selected",
+                                len(affected.unit_ids or ()) if affected else 0,
+                            ),
                             **(
                                 {"scope_units": scope_units}
                                 if scope_units is not None
