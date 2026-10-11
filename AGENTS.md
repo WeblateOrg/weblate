@@ -136,6 +136,11 @@ For application-developer workflows and broader product integration guidance, us
   when creating them. Do not use an unordered queryset's first row when the
   assertion depends on which row was selected. Use an explicit `order_by()`
   when order is the behavior under test.
+- Screenshot tests must explicitly configure the services and fixture data
+  visible in the captured UI. Do not depend on configuration inherited from
+  other tests or reusable database snapshots. Wait for asynchronous content to
+  finish loading before capture, and avoid competing providers whose response
+  order changes the rendered output.
 - Complex data migrations must have populated upgrade tests in `ci/run-migrate`:
   add old-version setup and post-upgrade assertion scripts in
   `ci/migrate-scripts/`, gated to applicable source releases. Seed data that

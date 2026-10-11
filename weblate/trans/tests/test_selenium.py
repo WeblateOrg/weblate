@@ -58,6 +58,9 @@ from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.weblatetm import WeblateTranslation
+from weblate.memory.machine import WeblateMemory
+from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
@@ -3166,6 +3169,27 @@ class SeleniumTests(
             return self.get_demo_fixture()
         return self._build_demo_component()
 
+    def configure_screenshot_machinery(
+        self, project: Project, *, memory_only: bool = False
+    ) -> None:
+        """Give screenshots fixed internal engines regardless of fixture order."""
+        services = (
+            (WeblateMemory,) if memory_only else (WeblateTranslation, WeblateMemory)
+        )
+        Setting.objects.filter(category=SettingCategory.MT).delete()
+        Setting.objects.bulk_create(
+            [
+                Setting(
+                    category=SettingCategory.MT,
+                    name=service.get_identifier(),
+                    value={},
+                )
+                for service in services
+            ]
+        )
+        project.machinery_settings = {}
+        project.save(update_fields=["machinery_settings"])
+
     def _build_demo_component(self) -> Project:
         self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
@@ -3539,6 +3563,9 @@ class SeleniumTests(
         )
         project = self.create_component()
         language = Language.objects.get(code="cs")
+        # A single engine avoids response-order differences when both internal
+        # engines return the same translation and their origins are merged.
+        self.configure_screenshot_machinery(project, memory_only=True)
 
         source = cast(
             "Unit",
@@ -3549,12 +3576,35 @@ class SeleniumTests(
         source.save()
         self.create_glossary(user, project, language)
         component.alert_set.all().delete()
+        target_unit = Unit.objects.get(source=text, translation__language=language)
+        Memory.objects.update_entry(
+            source=target_unit.source,
+            target=target_unit.target,
+            source_language=component.source_language,
+            target_language=language,
+            context=target_unit.context,
+            origin="Screenshot context",
+            status=Memory.STATUS_ACTIVE,
+            user=None,
+            project=project,
+            from_file=True,
+            shared=False,
+        )
 
         def capture_unit(name, tab) -> None:
             unit = Unit.objects.get(source=text, translation__language=language)
             with self.wait_for_page_load():
                 self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
             self.click(htmlid=tab)
+            if name == "screenshot-context.png":
+                self.wait_for_machinery_rows(1)
+                self.assert_text_contains("#machinery-translations", target_unit.target)
+                self.assert_text_contains(
+                    "#machinery-translations", "Weblate Translation Memory"
+                )
+                self.assert_text_contains(
+                    "#machinery-translations", "Screenshot context"
+                )
             if name == "source-information.png":
                 self.assert_text_contains("#glossary-terms", "překladový projekt")
                 self.assert_text_contains(
@@ -3819,6 +3869,7 @@ class SeleniumTests(
     def test_project_operations(self) -> None:
         """Test project-level screenshots."""
         project = self.create_component()
+        self.configure_screenshot_machinery(project)
         self.do_login(superuser=True)
         self.open_project(project)
 
@@ -3877,6 +3928,11 @@ class SeleniumTests(
         with override_settings(WEBLATE_MACHINERY=machinery_services):
             with self.wait_for_page_load():
                 self.click("Automatic suggestions")
+            self.assert_text_contains(
+                ".card:first-of-type tbody", "Weblate Translation Memory"
+            )
+            self.assert_text_contains(".card:first-of-type tbody", "Weblate")
+            self.assertEqual(self.count_elements(".card:first-of-type tbody tr"), 2)
             self.screenshot("project-machinery.png")
 
         # Access control settings
@@ -4078,6 +4134,7 @@ class SeleniumTests(
     def test_translation_workflow(self) -> None:
         """Test translation workflow screenshots."""
         project = self.create_component()
+        self.configure_screenshot_machinery(project)
         user = self.do_login(superuser=True)
         self.open_translation(project=project)
         self.screenshot("strings-to-check.png")
@@ -4095,6 +4152,15 @@ class SeleniumTests(
         self.click("Operations")
         self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
+        self.assertEqual(
+            {
+                option.get_attribute("value")
+                for option in Select(
+                    self.driver.find_element(By.ID, "id_auto_engines")
+                ).options
+            },
+            {WeblateTranslation.get_identifier(), WeblateMemory.get_identifier()},
+        )
         self.click("Operations")
         self.screenshot("automatic-translation.png")
         self.click("Search")
