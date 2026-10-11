@@ -32,7 +32,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97   # v7.0.0
       with:
-        python-version: '3.14'
+        python-version: '3.15'
     - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884   # v10.3.0
       with:
         enable-cache: false
@@ -95,7 +95,7 @@ jobs:
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
-        python-version: '3.14'
+        python-version: '3.15'
     - name: List documentation languages
       id: list
       env:
@@ -130,7 +130,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
-        python-version: '3.14'
+        python-version: '3.15'
     - name: Install apt dependencies
       run: |
         sudo apt update
