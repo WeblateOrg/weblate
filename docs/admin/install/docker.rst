@@ -1064,9 +1064,9 @@ Generic settings
 
     Provide a comma-separated list of legal document page identifiers.
 
-    External legal documents are used as fallbacks for hidden internal pages.
-    The following configuration links both documents externally and requires
-    one agreement covering the terms of service and privacy policy:
+    External legal document URLs take priority over internal page links. The
+    following configuration hides the internal pages, links both documents
+    externally, and requires one agreement covering both:
 
     **Example:**
 

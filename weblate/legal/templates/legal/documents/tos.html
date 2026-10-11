@@ -1,1 +1,7 @@
-<p>This site has not defined any terms and conditions, please contact the site maintainer to provide them.</p>
+{% load i18n %}
+
+{% if external_terms_url %}
+  <p>{% blocktranslate %}Please read the <a href="{{ external_terms_url }}">General Terms and Conditions</a>.{% endblocktranslate %}</p>
+{% else %}
+  <p>{% blocktranslate %}This site has not defined any terms and conditions, please contact the site maintainer to provide them.{% endblocktranslate %}</p>
+{% endif %}

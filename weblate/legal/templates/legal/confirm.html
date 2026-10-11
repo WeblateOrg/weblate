@@ -14,7 +14,11 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">
-          {% translate "You have to agree to the General Terms and Conditions and the Privacy Policy" %}
+          {% if privacy_url %}
+            {% translate "You have to agree to the General Terms and Conditions and the Privacy Policy" %}
+          {% else %}
+            {% translate "You have to agree to the General Terms and Conditions" %}
+          {% endif %}
         </h4>
       </div>
       <div class="card-body">
@@ -22,23 +26,17 @@
           {% if terms_url and privacy_url %}
             {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a> and the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
           {% elif terms_url %}
-            {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a> as well as the Privacy Policy below.{% endblocktranslate %}
+            {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a>.{% endblocktranslate %}
           {% elif privacy_url %}
             {% blocktranslate %}Please read the General Terms and Conditions below as well as the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
           {% else %}
-            {% translate "Please read the General Terms and Conditions and the Privacy Policy below." %}
+            {% translate "Please read the General Terms and Conditions below." %}
           {% endif %}
         </p>
         {% if not terms_url %}
           <h5>{% translate "General Terms and Conditions" %}</h5>
           <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
             {% include "legal/documents/tos.html" %}
-          </div>
-        {% endif %}
-        {% if not privacy_url %}
-          <h5>{% translate "Privacy Policy" %}</h5>
-          <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
-            {% include "legal/documents/privacy.html" %}
           </div>
         {% endif %}
         {{ form|crispy }}
