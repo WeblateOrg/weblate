@@ -8532,6 +8532,51 @@ class ProjectAPITest(APIBaseTest):
         mocked_getaddrinfo.assert_called()
         mocked_get_peer.assert_called()
 
+    @override_settings(ENABLE_HTTPS=True, SITE_DOMAIN="example.com")
+    @patch(
+        "weblate.machinery.etranslation.ETranslation.get_domains",
+        return_value={"QE": {("EN", "CS")}, "SPD": {("EN", "FR")}},
+    )
+    def test_install_etranslation_custom_domain(self, _get_domains) -> None:
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "service": "etranslation",
+                "configuration": {
+                    "key": "application",
+                    "secret": "password",
+                    "domain": "_OTHER",
+                    "other_domain": "qe",
+                    "component_domains": {"project/privacy-policy": "spd"},
+                },
+            },
+            format="json",
+        )
+        self.component.project.refresh_from_db()
+        configuration = self.component.project.machinery_settings["etranslation"]
+        self.assertEqual(configuration["domain"], "QE")
+        self.assertNotIn("other_domain", configuration)
+        self.assertEqual(
+            configuration["component_domains"], {"project/privacy-policy": "SPD"}
+        )
+        self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"service": "etranslation", "configuration": configuration},
+            format="json",
+        )
+        self.component.project.refresh_from_db()
+        self.assertEqual(
+            self.component.project.machinery_settings["etranslation"], configuration
+        )
+
     @override_settings(OFFER_HOSTING=False)
     def test_install_machinery_blocks_private_project_target(self) -> None:
         self.component.project.add_user(self.user, "Administration")

@@ -21,6 +21,16 @@ from .types import SourceLanguageChoices
 
 LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
 MICROSOFT_REGION_RE = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?")
+ETRANSLATION_DOMAIN_LABELS = {
+    "GEN": pgettext_lazy("eTranslation domain", "General Text (GEN)"),
+    "SPD": pgettext_lazy("eTranslation domain", "EU Formal Language (SPD)"),
+    "ECB": pgettext_lazy("eTranslation domain", "Finance (ECB)"),
+    "ECJ": pgettext_lazy("eTranslation domain", "European Court of Justice (ECJ)"),
+    "IPO": pgettext_lazy(
+        "eTranslation domain", "EIP Case Law (Intellectual Property) (IPO)"
+    ),
+    "QE": pgettext_lazy("eTranslation domain", "Quality Estimation (QE)"),
+}
 
 
 class EmptyMappingJSONField(forms.JSONField):
@@ -144,6 +154,100 @@ class KeySecretMachineryForm(KeyMachineryForm):
 
 class KeyURLMachineryForm(KeyMachineryForm, URLMachineryForm):
     pass
+
+
+class ETranslationMachineryForm(KeySecretMachineryForm):
+    DOCUMENTED_DOMAINS = ("GEN", "SPD", "ECB", "ECJ", "IPO")
+    OTHER_DOMAIN = "_OTHER"
+
+    key = forms.CharField(
+        label=pgettext_lazy("eTranslation configuration", "Application name"),
+    )
+    secret = forms.CharField(
+        label=pgettext_lazy("eTranslation configuration", "Password"),
+    )
+    domain = forms.ChoiceField(
+        label=pgettext_lazy("eTranslation configuration", "Default language domain"),
+        initial="GEN",
+        choices=(
+            *((code, ETRANSLATION_DOMAIN_LABELS[code]) for code in DOCUMENTED_DOMAINS),
+            (
+                OTHER_DOMAIN,
+                pgettext_lazy("eTranslation domain", "Other domain code"),
+            ),
+        ),
+    )
+    other_domain = forms.CharField(
+        label=pgettext_lazy("eTranslation configuration", "Other domain code"),
+        required=False,
+        help_text=gettext_lazy(
+            "Enter a domain code from eTranslation when selecting Other domain code."
+        ),
+    )
+    component_domains = EmptyMappingJSONField(
+        label=pgettext_lazy("eTranslation configuration", "Component language domains"),
+        widget=forms.Textarea,
+        required=False,
+        help_text=gettext_lazy(
+            "JSON object mapping full component paths to domain codes, for example "
+            '{"my-project/privacy-policy": "SPD"}.'
+        ),
+    )
+
+    def __init__(self, machinery, *args, **kwargs) -> None:
+        initial = kwargs.get("initial")
+        if initial and (domain := initial.get("domain")) not in self.DOCUMENTED_DOMAINS:
+            kwargs["initial"] = {
+                **initial,
+                "domain": self.OTHER_DOMAIN,
+                "other_domain": domain,
+            }
+        super().__init__(machinery, *args, **kwargs)
+        if (
+            self.is_bound
+            and isinstance(domain := self.data.get("domain"), str)
+            and domain not in {*self.DOCUMENTED_DOMAINS, self.OTHER_DOMAIN}
+            and re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{1,31}", domain)
+        ):
+            self.data = self.data.copy()
+            self.data["domain"] = self.OTHER_DOMAIN
+            self.data["other_domain"] = domain
+
+    def clean(self) -> None:
+        if self.cleaned_data.get("domain") == self.OTHER_DOMAIN:
+            domain = self.cleaned_data.get("other_domain", "").strip().upper()
+            if not re.fullmatch(r"[A-Z][A-Z0-9_]{1,31}", domain):
+                self.add_error(
+                    "other_domain", gettext("Invalid eTranslation domain code.")
+                )
+            else:
+                self.cleaned_data["domain"] = domain
+        self.cleaned_data.pop("other_domain", None)
+        super().clean()
+
+    def clean_component_domains(self) -> dict[str, str]:
+        value = self.cleaned_data["component_domains"]
+        if value is None:
+            value = {}
+        if not isinstance(value, dict):
+            raise ValidationError(
+                gettext("Component language domains must be a JSON object.")
+            )
+        result = {}
+        for path, domain in value.items():
+            if (
+                not isinstance(path, str)
+                or len(path) > 500
+                or len(path.split("/")) < 2
+                or any(not part or part in {".", ".."} for part in path.split("/"))
+                or not isinstance(domain, str)
+                or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{1,31}", domain)
+            ):
+                raise ValidationError(
+                    gettext("Invalid component path or eTranslation domain code.")
+                )
+            result[path] = domain.upper()
+        return result
 
 
 class LibreTranslateMachineryForm(KeyURLMachineryForm):

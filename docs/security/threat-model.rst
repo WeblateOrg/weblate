@@ -224,6 +224,11 @@ repository state, background tasks, outbound requests, and rendered UI.
        :ref:`project-enable_hooks`, :ref:`hooks-target-matching`,
        :ref:`code-hosting-github-app-webhook`,
        :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
+   * - eTranslation service to Weblate
+     - A public callback carries text suggestions or failures into a short-lived
+       cache entry. Weblate accepts it only with the unpredictable token issued
+       for a pending request; it cannot edit translation units directly.
+       *(documented)* (source: :ref:`mt-etranslation`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)

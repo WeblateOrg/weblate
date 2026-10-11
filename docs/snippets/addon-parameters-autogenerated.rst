@@ -67,6 +67,8 @@ Machine translation engines
      - Yandex v2
    * - ``youdao-zhiyun``
      - Youdao Zhiyun
+   * - ``etranslation``
+     - eTranslation
    * - ``tmserver``
      - tmserver
 

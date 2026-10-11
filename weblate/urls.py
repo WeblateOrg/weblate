@@ -54,6 +54,7 @@ import weblate.wladmin.views
 import weblate.workspaces.views
 from weblate.auth.decorators import management_permission_required
 from weblate.configuration.views import CustomCSSView
+from weblate.machinery.etranslation import etranslation_callback
 from weblate.sitemaps import ENGAGE_SITEMAPS, SITEMAPS, sitemap_index
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
@@ -806,6 +807,11 @@ real_patterns = [
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
+    path(
+        "machinery/etranslation/callback/<uuid:token>/",
+        etranslation_callback,
+        name="etranslation-callback",
+    ),
     path(
         "hooks/integrations/<uuid:integration_token>/",
         IntegrationHookView.as_view(),
