@@ -1348,14 +1348,10 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
         return role
 
     def update(self, instance, validated_data):
-        permissions_validated = validated_data.pop("permissions", [])
+        permissions_validated = validated_data.pop("permissions", None)
         instance.name = validated_data.get("name", instance.name)
         instance.save()
-        if self.partial:
-            instance.permissions.add(
-                *Permission.objects.filter(codename__in=permissions_validated)
-            )
-        else:
+        if permissions_validated is not None:
             instance.permissions.set(
                 Permission.objects.filter(codename__in=permissions_validated)
             )
