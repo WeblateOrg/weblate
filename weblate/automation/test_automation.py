@@ -40,6 +40,7 @@ from weblate.automation.operations import (
 )
 from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA
+from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
@@ -1098,8 +1099,39 @@ class AIQualityAutomationTest(ComponentTestCase):
         return {
             "action": "weblate.ai_quality",
             "id": "quality",
-            "settings": {"service": self.service, "q": query},
+            "settings": {"q": query} if query else {},
         }
+
+    def test_omitted_service_uses_effective_evaluator(self) -> None:
+        settings = AIQualityOperation.normalize({}, self.component)
+        self.assertEqual(settings, {"q": ""})
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            AIQualityOperation.execute(self.component, settings, self.user)
+        self.assertEqual(evaluate.call_args.args[2]["service"], self.service)
+
+    def test_explicit_matching_service(self) -> None:
+        settings = AIQualityOperation.normalize(
+            {"service": self.service}, self.component
+        )
+        self.assertEqual(settings, {"q": "", "service": self.service})
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            AIQualityOperation.execute(self.component, settings, self.user)
+        evaluate.assert_called_once()
+
+    def test_explicit_mismatching_service(self) -> None:
+        other_service = AnthropicTranslation.get_identifier()
+        with self.assertRaisesMessage(ValidationError, "does not match"):
+            AIQualityOperation.normalize({"service": other_service}, self.component)
+        with self.assertRaisesMessage(ValueError, "does not match"):
+            AIQualityOperation.execute(
+                self.component, {"service": other_service, "q": ""}, self.user
+            )
 
     def test_component_scope_passes_lazy_selection(self) -> None:
         settings = AIQualityOperation.normalize(
@@ -1340,14 +1372,15 @@ class AIQualityAutomationTest(ComponentTestCase):
         self.assertEqual(runner.selections["quality"].unit_ids, {selected.pk})
 
     def test_result_scope_uses_machine_selection(self) -> None:
-        selected = self.units[0]
+        selected, excluded = self.units
         workflow = validate_operations(
             parse_workflow(
                 WORKFLOW
                 | {
                     "actions": [
                         AUTO | {"id": "machine"},
-                        self.quality_action() | {"scope": "result:machine"},
+                        self.quality_action(query=f"id:{selected.pk}")
+                        | {"scope": "result:machine"},
                     ]
                 }
             ),
@@ -1363,10 +1396,10 @@ class AIQualityAutomationTest(ComponentTestCase):
             affected: UnitSelection | None,
         ) -> dict[str, Any]:
             if affected is not None:
-                affected.unit_ids = {selected.pk}
+                affected.unit_ids = {selected.pk, excluded.pk}
             return {
                 "component": self.component.pk,
-                "updated": 1,
+                "updated": 2,
                 "message": "Done",
                 "warnings": [],
                 "warnings_omitted": 0,
@@ -1376,7 +1409,7 @@ class AIQualityAutomationTest(ComponentTestCase):
             patch.object(AutomaticTranslationOperation, "execute", translated),
             patch.object(
                 OpenAITranslation, "evaluate_batch", return_value={selected.pk: []}
-            ),
+            ) as evaluate,
         ):
             runner = Runner(
                 workflow,
@@ -1386,6 +1419,9 @@ class AIQualityAutomationTest(ComponentTestCase):
             )
             self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
         self.assertEqual(runner.selections["quality"].unit_ids, {selected.pk})
+        self.assertEqual(
+            [unit.pk for unit in evaluate.call_args.args[0]], [selected.pk]
+        )
 
     def test_missing_or_mismatched_evaluator(self) -> None:
         with self.assertRaises(ValidationError):
@@ -1394,12 +1430,47 @@ class AIQualityAutomationTest(ComponentTestCase):
             )
         self.addon.instance.delete()
         self.component.drop_addons_cache()
-        with self.assertRaises(ValidationError):
-            AIQualityOperation.normalize({"service": self.service}, self.component)
-        with self.assertRaises(ValueError):
-            AIQualityOperation.execute(
-                self.component, {"service": self.service, "q": ""}, self.user
-            )
+        with self.assertRaisesMessage(ValidationError, "requires an effective add-on"):
+            AIQualityOperation.normalize({}, self.component)
+        with self.assertRaisesMessage(ValueError, "requires an effective add-on"):
+            AIQualityOperation.execute(self.component, {"q": ""}, self.user)
+
+    def test_inherited_workflow_uses_component_evaluators(self) -> None:
+        other_service = AnthropicTranslation.get_identifier()
+        self.project.machinery_settings[other_service] = {
+            "key": "test",
+            "model": "custom",
+            "custom_model": "test-model",
+        }
+        self.project.save(update_fields=["machinery_settings"])
+        other_component = self.create_po_new_base(name="other", project=self.project)
+        AIEvaluationAddon.create(
+            component=other_component,
+            configuration={"service": other_service, "q": "state:>=translated"},
+            run=False,
+        )
+        other_component.drop_addons_cache()
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": [self.quality_action()]}),
+            self.project,
+        )
+        self.assertEqual(workflow["actions"][0]["settings"], {"q": ""})
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            for component, expected_service in (
+                (self.component, self.service),
+                (other_component, other_service),
+            ):
+                with self.subTest(component=component.pk):
+                    action = validate_operations(deepcopy(workflow), component)[
+                        "actions"
+                    ][0]
+                    AIQualityOperation.execute(component, action["settings"], self.user)
+                    self.assertEqual(
+                        evaluate.call_args.args[2]["service"], expected_service
+                    )
 
     def test_inherited_evaluator_and_query_intersection(self) -> None:
         selected, excluded = self.units
