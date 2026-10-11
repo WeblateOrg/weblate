@@ -84,4 +84,14 @@ def validate_service_configuration(
                         for error in field.errors
                     ]
                 )
+        else:
+            serialized = form.serialize_form()
+            service_configuration = cast(
+                "SettingsDict",
+                {
+                    key: serialized.get(key, value)
+                    for key, value in service_configuration.items()
+                    if key not in form.fields or key in serialized
+                },
+            )
     return service, service_configuration, errors

@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
+
 .. rubric:: Improvements
 
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.

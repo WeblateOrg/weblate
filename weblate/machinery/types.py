@@ -40,6 +40,7 @@ class SettingsDict(TypedDict, total=False):
     password: str
     enable_mt: bool
     domain: str
+    component_domains: dict[str, str]
     base_url: str
     endpoint_url: str
     region: str
