@@ -49,6 +49,7 @@ from weblate.vcs.base import (
     Repository,
     RepositoryCommandError,
     RepositoryError,
+    RepositoryInternalError,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
@@ -377,6 +378,19 @@ class RepositoryTest(SimpleTestCase):
                     },
                 )
 
+        for message in (
+            "The local repository checkout is missing.",
+            "The local repository checkout is invalid.",
+            "fatal: not a git repository: '.../.git'",
+        ):
+            with self.subTest(message=message):
+                self.assertFalse(
+                    any(
+                        diagnosis["code"] in {"checkout_missing", "checkout_invalid"}
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    )
+                )
+
     def test_repository_redirect_error_is_not_localized(self) -> None:
         with translation_override("fr"):
             error = RepositoryRedirectError(
@@ -491,20 +505,42 @@ class RepositoryTest(SimpleTestCase):
             [["git", "reset", "--hard"], ["git", "reset", "--hard"]],
         )
 
-    def test_popen_missing_working_tree_raises_repository_error(self) -> None:
+    def test_popen_missing_working_tree_raises_checkout_error(self) -> None:
         cwd = os.path.join(tempfile.gettempdir(), "missing-working-tree")
         error = FileNotFoundError(2, "No such file or directory", cwd)
 
         with (
             patch("weblate.vcs.base.subprocess.run", side_effect=error),
-            self.assertRaises(RepositoryCommandError) as context,
+            self.assertRaises(RepositoryInternalError) as context,
         ):
             # ruff: ignore[private-member-access]
             GitRepository._popen(["status"], cwd=cwd)
 
         self.assertIs(context.exception.__cause__, error)
         self.assertEqual(context.exception.retcode, 2)
-        self.assertIn(cwd, str(context.exception))
+        self.assertEqual(context.exception.code, "repository_checkout_missing")
+        self.assertEqual(context.exception.diagnoses, [{"code": "checkout_missing"}])
+
+    def test_popen_occupied_working_tree_raises_invalid_checkout(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.write_text("occupied")
+            with self.assertRaises(RepositoryInternalError) as raised:
+                GitRepository._popen(  # ruff: ignore[private-member-access]
+                    ["status"], cwd=str(checkout)
+                )
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
+        self.assertEqual(raised.exception.diagnoses, [{"code": "checkout_invalid"}])
+
+    def test_popen_dangling_checkout_symlink_is_invalid(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.symlink_to("missing-checkout", target_is_directory=True)
+            with self.assertRaises(RepositoryInternalError) as raised:
+                GitRepository._popen(  # ruff: ignore[private-member-access]
+                    ["status"], cwd=str(checkout)
+                )
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
 
     def test_config_check_cache_key_is_versioned(self) -> None:
         self.assertRegex(
