@@ -225,7 +225,7 @@ class AIQualityOperation(AutomationOperation):
     title = "AI quality evaluation"
     version_added = "2026.10"
     supported_scopes = frozenset({"component", "trigger", "result"})
-    settings_schema = object_schema({"service": STRING, "q": STRING}, ["service"])
+    settings_schema = object_schema({"service": STRING, "q": STRING}, [])
     result_schema = object_schema(
         {
             "component": {"type": "integer"},
@@ -242,31 +242,37 @@ class AIQualityOperation(AutomationOperation):
         *,
         scope: str = "component",  # ruff: ignore[unused-class-method-argument]
     ) -> dict[str, Any]:
-        service = settings["service"]
-        project = obj.project if isinstance(obj, Component) else obj
-        configured = project.get_machinery_settings() if project else None
-        available = (
-            available_evaluation_services(configured)
-            if configured is not None
-            else [
-                key
-                for key, machine in MACHINERY.items()
-                if issubclass(machine, BaseLLMTranslation)
-            ]
-        )
-        if service not in available:
-            msg = "The configured evaluation service is unavailable."
-            raise ValidationError(msg)
         query = QueryField().clean(settings.get("q", ""))
+        service = settings.get("service")
         if isinstance(obj, Component):
             evaluator = effective_evaluator(obj)
-            if (
-                evaluator is None
-                or evaluator.addon.get_configuration()["service"] != service
-            ):
-                msg = "AI quality evaluation requires a matching add-on."
+            if evaluator is None:
+                msg = "AI quality evaluation requires an effective add-on."
                 raise ValidationError(msg)
-        return {"service": service, "q": query}
+            if (
+                service is not None
+                and evaluator.addon.get_configuration()["service"] != service
+            ):
+                msg = (
+                    "AI quality evaluation service does not match the effective add-on."
+                )
+                raise ValidationError(msg)
+        if service is not None:
+            project = obj.project if isinstance(obj, Component) else obj
+            configured = project.get_machinery_settings() if project else None
+            available = (
+                available_evaluation_services(configured)
+                if configured is not None
+                else [
+                    key
+                    for key, machine in MACHINERY.items()
+                    if issubclass(machine, BaseLLMTranslation)
+                ]
+            )
+            if service not in available:
+                msg = "The configured evaluation service is unavailable."
+                raise ValidationError(msg)
+        return {"q": query, **({"service": service} if service is not None else {})}
 
     @classmethod
     def execute(
@@ -279,13 +285,13 @@ class AIQualityOperation(AutomationOperation):
         affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
         evaluator = effective_evaluator(component)
-        if (
-            evaluator is None
-            or evaluator.addon.get_configuration()["service"] != settings["service"]
-        ):
-            msg = "AI quality evaluation requires a matching add-on."
+        if evaluator is None:
+            msg = "AI quality evaluation requires an effective add-on."
             raise ValueError(msg)
         configuration = evaluator.addon.get_configuration()
+        if "service" in settings and configuration["service"] != settings["service"]:
+            msg = "AI quality evaluation service does not match the effective add-on."
+            raise ValueError(msg)
         units = (
             (selection or UnitSelection())
             .queryset(component)

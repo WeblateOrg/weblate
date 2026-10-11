@@ -7,6 +7,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 
 .. rubric:: Security fixes
