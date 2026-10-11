@@ -2020,6 +2020,7 @@ class BackupsTest(ReusableViewTestCase):
             temp_name = self.write_tampered_component_backup(
                 component_updates={"source_language": "nb_NO"},
                 translation_updates={"language_code": "nb_NO"},
+                translation_language_code="en",
             )
             with remove_file_after(temp_name):
                 restore = ProjectBackup(temp_name)
@@ -2045,7 +2046,8 @@ class BackupsTest(ReusableViewTestCase):
 
     def test_restore_rejects_language_alias_collision(self) -> None:
         temp_name = self.write_tampered_component_backup(
-            translation_updates={"language_code": "b+de"}
+            translation_updates={"language_code": "b+de"},
+            translation_language_code="cs",
         )
         with (
             remove_file_after(temp_name),
