@@ -52,6 +52,7 @@ class AutomationOperation:
     result_schema: ClassVar[dict[str, Any]]
     supported_scopes: ClassVar[frozenset[str]] = frozenset({"component"})
     query_required_for_component: ClassVar[bool] = False
+    preview_safe: ClassVar[bool] = False
 
     @classmethod
     def normalize(
@@ -127,6 +128,92 @@ def execute_operation(
         )
         validate_result(operation, result)
         return result
+
+
+@register
+class SelectOperation(AutomationOperation):
+    name = "weblate.select"
+    title = "Select strings"
+    version_added = "2026.11"
+    supported_scopes = frozenset({"component", "trigger", "result"})
+    query_required_for_component = True
+    preview_safe = True
+    settings_schema = object_schema({"q": STRING}, [])
+    result_schema = object_schema(
+        {
+            "component": {"type": "integer"},
+            "selected": {"type": "integer", "minimum": 0},
+        },
+        ["component", "selected"],
+    )
+
+    @classmethod
+    def normalize(
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,  # ruff: ignore[unused-class-method-argument]
+        *,
+        scope: str = "component",
+    ) -> dict[str, Any]:
+        return {
+            "q": QueryField(required=scope == "component").clean(
+                settings.get("q", "").strip()
+            )
+        }
+
+    @classmethod
+    def execute(
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        _user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
+    ) -> dict[str, Any]:
+        if selection is None:
+            selection = UnitSelection()
+        query = settings["q"]
+        if query:
+            units = selection.queryset(component).search(
+                query, project=component.project
+            )
+            if affected is None:
+                selected = units.count()
+            else:
+                selected_ids: set[int] = set()
+                source_ids: set[int] = set()
+                for unit_id, source_id in units.values_list(
+                    "pk", "source_unit_id"
+                ).iterator(chunk_size=2000):
+                    selected_ids.add(unit_id)
+                    if source_id is not None:
+                        source_ids.add(source_id)
+                selected = len(selected_ids)
+                affected.unit_ids = selected_ids
+                affected.source_unit_ids = source_ids
+                if selection.unit_snapshots is not None:
+                    affected.unit_snapshots = {
+                        unit_id: snapshot
+                        for unit_id, snapshot in selection.unit_snapshots.items()
+                        if unit_id in selected_ids
+                    }
+        else:
+            selected = selection.count(component)
+            if affected is not None:
+                affected.unit_ids = (
+                    selection.unit_ids.copy()
+                    if selection.unit_ids is not None
+                    else None
+                )
+                affected.source_unit_ids = selection.source_unit_ids.copy()
+                affected.expand_source_ids = selection.expand_source_ids.copy()
+                affected.unit_snapshots = (
+                    selection.unit_snapshots.copy()
+                    if selection.unit_snapshots is not None
+                    else None
+                )
+        return {"component": component.pk, "selected": selected}
 
 
 @register

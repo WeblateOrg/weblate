@@ -6,6 +6,7 @@ Weblate 2026.11
 .. rubric:: New features
 
 * Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
+* Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
 
 .. rubric:: Improvements
 
