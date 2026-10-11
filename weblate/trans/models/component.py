@@ -192,6 +192,7 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
     RepositorySymlinkError,
     get_repository_error_diagnoses,
+    is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
@@ -2773,10 +2774,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
             stored_error = error_text
         diagnoses: list[RepositoryDiagnosis] = []
         seen: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
-        for diagnosis in [
+        candidates: list[RepositoryDiagnosis] = [
             *error.diagnoses,
             *get_repository_error_diagnoses(error_text),
-        ]:
+        ]
+        # Git errors may come from a remote hook or global configuration.
+        # Persist checkout guidance only when the local Git checkout confirms it.
+        if (
+            is_possible_checkout_error(error_text)
+            and isinstance(self.repository, GitRepository)
+            and not any(
+                diagnosis["code"] in {"checkout_missing", "checkout_invalid"}
+                for diagnosis in candidates
+            )
+        ) and (checkout_code := self.repository.diagnose_checkout_error()):
+            candidates.append({"code": checkout_code})
+        for diagnosis in candidates:
             params = diagnosis.get("params", {})
             key = (diagnosis["code"], tuple(sorted(params.items())))
             if key in seen:
@@ -3460,6 +3473,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.recovery import reset_with_recovery
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.repository_context import (
             RepositoryFollowupLockError,
             repository_task_inline_followups,
@@ -3470,11 +3486,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         user = request.user if request else self.acting_user
         try:
-            with self.repository.lock.without_recovery():
-                previous_head = self.reset_repository_to_remote(
-                    request, user, keep_changes=keep_changes
-                )
-        except RepositoryError:
+            previous_head = reset_with_recovery(
+                self, request, user, keep_changes=keep_changes
+            )
+        except (RepositoryError, OSError) as error:
             report_error(
                 "Could not reset the repository",
                 project=self.project,
@@ -3482,7 +3497,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             messages.error(
                 request,
-                gettext("Could not reset to remote branch on %s.") % self,
+                gettext("Could not reset to remote branch on %(component)s: %(error)s")
+                % {
+                    "component": self,
+                    "error": self.error_text(
+                        error
+                        if isinstance(error, RepositoryError)
+                        else RepositoryError(1, str(error))
+                    ),
+                },
             )
             return False
 

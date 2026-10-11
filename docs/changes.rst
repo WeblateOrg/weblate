@@ -8,6 +8,7 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
+* Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.
 
 .. rubric:: Security fixes
 
