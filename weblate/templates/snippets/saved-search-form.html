@@ -1,0 +1,16 @@
+{% load crispy_forms_tags i18n %}
+
+<form method="post">
+  {% csrf_token %}
+  {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}" />{% endif %}
+  {% if project %}<input type="hidden" name="project" value="{{ project.slug }}" />{% endif %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{{ form_title }}</h4>
+    </div>
+    <div class="card-body">{% crispy form %}</div>
+    <div class="card-footer">
+      <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+    </div>
+  </div>
+</form>

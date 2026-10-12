@@ -109,6 +109,7 @@ from weblate.trans.models import (
     ComponentList,
     PendingUnitChange,
     Project,
+    SavedSearch,
     Suggestion,
     Translation,
     Unit,
@@ -18999,6 +19000,104 @@ class LabelAPITest(APIBaseTest):
 
         # Verify label still exists in original project
         self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
+
+
+class SavedSearchAPITest(APIBaseTest):
+    def test_list(self) -> None:
+        project = self.component.project
+        project.savedsearch_set.create(name="Important", query="priority:>100")
+        SavedSearch.objects.create(user=self.user, name="Personal", query="has:comment")
+        response = self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["name"], "Important")
+        self.assertEqual(response.data["results"][0]["query"], "priority:>100")
+
+    def test_create(self) -> None:
+        project = self.component.project
+        self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="post",
+            superuser=False,
+            request={"name": "Important", "query": "priority:>100"},
+            code=403,
+        )
+        self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "Important", "query": "priority:>100"},
+            code=201,
+        )
+        saved_search = project.savedsearch_set.get()
+        self.assertEqual(saved_search.name, "Important")
+        self.assertIsNone(saved_search.user)
+
+    def test_create_invalid(self) -> None:
+        project = self.component.project
+        project.savedsearch_set.create(name="Important", query="priority:>100")
+        response = self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "Broken", "query": "invalidfield:x"},
+            code=400,
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "query")
+        response = self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "Important", "query": "state:approved"},
+            code=400,
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        self.assertEqual(project.savedsearch_set.count(), 1)
+
+    def test_delete(self) -> None:
+        project = self.component.project
+        saved_search = project.savedsearch_set.create(
+            name="Important", query="priority:>100"
+        )
+        self.do_request(
+            "api:project-delete-saved-searches",
+            kwargs={"slug": project.slug, "saved_search_id": saved_search.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+        self.do_request(
+            "api:project-delete-saved-searches",
+            kwargs={"slug": project.slug, "saved_search_id": saved_search.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertFalse(project.savedsearch_set.exists())
+
+    def test_delete_user_search(self) -> None:
+        saved_search = SavedSearch.objects.create(
+            user=self.user, name="Personal", query="has:comment"
+        )
+        self.do_request(
+            "api:project-delete-saved-searches",
+            kwargs={
+                "slug": self.component.project.slug,
+                "saved_search_id": saved_search.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+        self.assertTrue(SavedSearch.objects.filter(pk=saved_search.pk).exists())
 
 
 class AnnouncementAPITest(APIBaseTest):

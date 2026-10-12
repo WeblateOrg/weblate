@@ -88,6 +88,7 @@ from weblate.trans.models import (
     Label,
     Project,
     Report,
+    SavedSearch,
     Suggestion,
     SuggestionAddResult,
     Translation,
@@ -3781,6 +3782,29 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
         fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
         extra_kwargs: ClassVar[dict[str, Any]] = {"color": {"required": True}}
+
+
+class SavedSearchSerializer(serializers.ModelSerializer[SavedSearch]):
+    class Meta:
+        model = SavedSearch
+        fields = ("id", "name", "query", "description")
+        read_only_fields = ("id",)
+
+    def validate_query(self, value: str) -> str:
+        try:
+            return QueryField(required=True).clean(value)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.messages) from error
+
+    def validate_name(self, value: str) -> str:
+        project = self.context["project"]
+        existing = project.savedsearch_set.filter(name=value)
+        if self.instance is not None:
+            existing = existing.exclude(pk=self.instance.pk)
+        if existing.exists():
+            msg = "A saved search with this name already exists."
+            raise serializers.ValidationError(msg)
+        return value
 
 
 class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):

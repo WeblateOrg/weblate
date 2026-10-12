@@ -27,6 +27,34 @@
           </a>
         </li>
       {% endfor %}
+      {% for heading, entries in saved_filter_lists %}
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <h6 class="dropdown-header">{{ heading }}</h6>
+        </li>
+        {% for key, name, query, color in entries %}
+          <li>
+            <a class="dropdown-item" href="#" data-filter="{{ key }}" data-field="{{ query }}">
+              <span class="legend filter-marker" aria-hidden="true"><span class="progress"></span></span>
+              <span class="title">{{ name }}</span>
+              • <code>{{ query }}</code>
+            </a>
+          </li>
+        {% endfor %}
+      {% endfor %}
+      {% if can_save_search %}
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'saved-search-create' %}"
+             data-save-search="1"
+             {% if saved_search_project %}data-project="{{ saved_search_project.slug }}"{% endif %}>{% translate "Save search…" %}</a>
+        </li>
+      {% endif %}
     </ul>
   </div>
   <!-- /btn-group -->

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'project-saved-searches' project=object.slug %}">{% translate "Saved searches" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% translate "Edit saved search" as form_title %}
+  {% include "snippets/saved-search-form.html" with project=None %}
+
+{% endblock content %}

@@ -90,6 +90,9 @@
           <div class="card-body">
             {% crispy usersettingsform %}
             {% crispy dashboardsettingsform %}
+            <p>
+              <a href="{% url 'saved-searches' %}">{% translate "Manage saved searches" %}</a>
+            </p>
           </div>
           <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />

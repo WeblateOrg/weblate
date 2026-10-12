@@ -2105,64 +2105,91 @@ onReady(() => {
     });
   });
 
-  /* Advanced search */
-  document.querySelectorAll(".search-group li a").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const group = link.closest(".search-group");
-      const button = group.querySelector("button.search-field");
-
-      if (button !== null) {
-        button.setAttribute("data-field", link.dataset.field ?? "");
-      }
-
-      const title = link.querySelector("span.title");
-      const text = title !== null ? title.textContent : link.textContent;
-      const labelAuto = group.querySelector("span.search-label-auto");
-      if (labelAuto !== null) {
-        labelAuto.textContent = text;
-      }
-
-      if (group.classList.contains("sort-field")) {
-        const sortByInput = group.querySelector("input[name=sort_by]");
-        if (sortByInput !== null) {
-          sortByInput.value = link.dataset.sort ?? "";
+  /* Save current search */
+  document
+    .querySelectorAll(".search-group a[data-save-search]")
+    .forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const textarea = link
+          .closest(".search-group")
+          .querySelector("textarea[name=q]");
+        const url = new URL(link.href, window.location.href);
+        url.searchParams.set(
+          "q",
+          textarea !== null ? textarea.value.trim() : "",
+        );
+        if (link.dataset.project) {
+          url.searchParams.set("project", link.dataset.project);
         }
-        if (link.closest(".result-page-form") !== null) {
-          link.closest("form").submit();
-        }
-      }
-
-      if (group.classList.contains("query-field")) {
-        const textarea = group.querySelector("textarea[name=q]");
-        if (
-          document.querySelector(".search-toolbar") === null &&
-          link.closest(".result-page-form") !== null
-        ) {
-          replaceValue(textarea, link.dataset.field ?? "");
-          const form = link.closest("form");
-          form.querySelectorAll("input[name=offset]").forEach((input) => {
-            input.disabled = true;
-          });
-          form.submit();
-        } else if (link.dataset.filter === "all") {
-          replaceValue(textarea, "");
-          textarea.focus();
-        } else {
-          insertAtCaret(
-            group.querySelector("textarea[name=q]"),
-            ` ${link.dataset.field} `,
-          );
-        }
-      }
-      const dropdownToggle = link
-        .closest(".dropdown, .btn-group, .query-field")
-        ?.querySelector('[data-bs-toggle="dropdown"]');
-      if (dropdownToggle) {
-        bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
-      }
+        url.searchParams.set(
+          "next",
+          window.location.pathname + window.location.search,
+        );
+        window.location.href = url.toString();
+      });
     });
-  });
+
+  /* Advanced search */
+  document
+    .querySelectorAll(".search-group li a:not([data-save-search])")
+    .forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const group = link.closest(".search-group");
+        const button = group.querySelector("button.search-field");
+
+        if (button !== null) {
+          button.setAttribute("data-field", link.dataset.field ?? "");
+        }
+
+        const title = link.querySelector("span.title");
+        const text = title !== null ? title.textContent : link.textContent;
+        const labelAuto = group.querySelector("span.search-label-auto");
+        if (labelAuto !== null) {
+          labelAuto.textContent = text;
+        }
+
+        if (group.classList.contains("sort-field")) {
+          const sortByInput = group.querySelector("input[name=sort_by]");
+          if (sortByInput !== null) {
+            sortByInput.value = link.dataset.sort ?? "";
+          }
+          if (link.closest(".result-page-form") !== null) {
+            link.closest("form").submit();
+          }
+        }
+
+        if (group.classList.contains("query-field")) {
+          const textarea = group.querySelector("textarea[name=q]");
+          if (
+            document.querySelector(".search-toolbar") === null &&
+            link.closest(".result-page-form") !== null
+          ) {
+            replaceValue(textarea, link.dataset.field ?? "");
+            const form = link.closest("form");
+            form.querySelectorAll("input[name=offset]").forEach((input) => {
+              input.disabled = true;
+            });
+            form.submit();
+          } else if (link.dataset.filter === "all") {
+            replaceValue(textarea, "");
+            textarea.focus();
+          } else {
+            insertAtCaret(
+              group.querySelector("textarea[name=q]"),
+              ` ${link.dataset.field} `,
+            );
+          }
+        }
+        const dropdownToggle = link
+          .closest(".dropdown, .btn-group, .query-field")
+          ?.querySelector('[data-bs-toggle="dropdown"]');
+        if (dropdownToggle) {
+          bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
+        }
+      });
+    });
   document.querySelectorAll(".query-sort-toggle").forEach((toggle) => {
     toggle.addEventListener("click", () => {
       const input = toggle

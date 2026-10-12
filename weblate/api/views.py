@@ -117,6 +117,7 @@ from weblate.api.serializers import (
     RepositoryOperationSerializer,
     RepositorySerializer,
     RoleSerializer,
+    SavedSearchSerializer,
     ScopedReportCreateSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
@@ -181,6 +182,7 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Report,
+    SavedSearch,
     Suggestion,
     SuggestionAddResult,
     Unit,
@@ -2610,6 +2612,68 @@ class ProjectViewSet(
             raise Http404(msg) from error
 
         label.delete()
+
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(
+        description="Return saved searches for a project.",
+        methods=["get"],
+        responses=SavedSearchSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a saved search for a project.",
+        methods=["post"],
+        request=SavedSearchSerializer,
+        responses={HTTP_201_CREATED: SavedSearchSerializer},
+    )
+    @action(detail=True, methods=["get", "post"], url_path="saved-searches")
+    def saved_searches(self, request: Request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                self.permission_denied(request, "Can not create saved searches")
+            with transaction.atomic():
+                serializer = SavedSearchSerializer(
+                    data=request.data, context={"request": request, "project": obj}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(project=obj, user=None)
+                return Response(serializer.data, status=HTTP_201_CREATED)
+
+        queryset = obj.savedsearch_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+        serializer = SavedSearchSerializer(
+            page, many=True, context={"request": request, "project": obj}
+        )
+        return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Delete a saved search from a project.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("saved_search_id", int, OpenApiParameter.PATH)],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="saved-searches/(?P<saved_search_id>[0-9]+)",
+    )
+    @transaction.atomic
+    def delete_saved_searches(self, request: Request, slug, saved_search_id):
+        obj = self.get_object()
+
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not delete saved searches")
+
+        try:
+            saved_search = obj.savedsearch_set.get(id=saved_search_id)
+        except SavedSearch.DoesNotExist as error:
+            msg = (
+                f"Saved search with ID {saved_search_id} was not found in project {obj}"
+            )
+            raise Http404(msg) from error
+
+        saved_search.delete()
 
         return Response(status=HTTP_204_NO_CONTENT)
 

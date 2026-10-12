@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  {% if project %}
+    <li class="breadcrumb-item">
+      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'saved-searches' %}">{% translate "Saved searches" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <p class="help-block">
+    {% documentation_icon 'user/search' 'saved-searches' right=True %}
+    {% translate "Saved searches are offered in the search filters." %}
+  </p>
+
+  {% translate "Save search" as form_title %}
+  {% include "snippets/saved-search-form.html" %}
+
+{% endblock content %}

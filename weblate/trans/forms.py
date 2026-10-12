@@ -87,6 +87,8 @@ from weblate.trans.models import (
     Component,
     Label,
     Project,
+    SavedSearch,
+    Translation,
     Unit,
     WorkflowSetting,
 )
@@ -134,6 +136,7 @@ from weblate.utils.state import (
     StringState,
     get_state_label,
 )
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
@@ -159,12 +162,8 @@ if TYPE_CHECKING:
     from weblate.lang.models import LanguageQuerySet
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLPathObject
-    from weblate.trans.models import (
-        Translation,
-    )
     from weblate.trans.models.translation import NewUnitParams
     from weblate.utils.params import BaseParam
-    from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
 def copy_form_data(
@@ -1035,6 +1034,19 @@ def get_upload_form(user: User, translation: Translation, *args, **kwargs):
     return result
 
 
+def get_saved_search_project(obj) -> Project | None:
+    """Return the project whose saved searches apply to a search scope."""
+    if isinstance(obj, Project):
+        return obj
+    if isinstance(obj, (Component, ProjectLanguage, Category)):
+        return obj.project
+    if isinstance(obj, Translation):
+        return obj.component.project
+    if isinstance(obj, CategoryLanguage):
+        return obj.category.project
+    return None
+
+
 class SearchForm(forms.Form):
     """Text-searching form."""
 
@@ -1070,6 +1082,7 @@ class SearchForm(forms.Form):
     ) -> None:
         """Generate choices for other components in the same project."""
         self.user = request.user
+        self.saved_search_project = get_saved_search_project(obj)
         self.language = language
         sort_by = get_sort_name(request, obj, query_data=query_data)
         self.sort_name = sort_by["name"]
@@ -4883,6 +4896,77 @@ class LabelForm(forms.ModelForm):
         self.project = project
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+
+class SavedSearchForm(forms.ModelForm):
+    SCOPE_USER = "user"
+    SCOPE_PROJECT = "project"
+
+    query = QueryField(required=True, label=gettext_lazy("Search query"))
+
+    class Meta:
+        model = SavedSearch
+        fields = ("name", "query", "description")
+
+    def __init__(
+        self,
+        *args,
+        user: User,
+        project: Project | None = None,
+        scope_choice: bool = False,
+        **kwargs,
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        self.user = user
+        self.project = project
+        if scope_choice and project is not None:
+            self.fields["scope"] = forms.ChoiceField(
+                label=gettext_lazy("Available to"),
+                choices=(
+                    (self.SCOPE_USER, gettext_lazy("Only me")),
+                    (
+                        self.SCOPE_PROJECT,
+                        format_lazy(
+                            gettext_lazy("Everybody in project {}"), project.name
+                        ),
+                    ),
+                ),
+                initial=self.SCOPE_USER,
+                widget=forms.RadioSelect,
+            )
+        elif self.instance.pk is None:
+            self.set_scope(project is not None)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+    def set_scope(self, use_project: bool) -> None:
+        if use_project:
+            self.instance.project = self.project
+            self.instance.user = None
+        else:
+            self.instance.project = None
+            self.instance.user = self.user
+
+    def clean(self):
+        super().clean()
+        cleaned_data = self.cleaned_data
+        if "scope" in self.fields:
+            self.set_scope(cleaned_data.get("scope") == self.SCOPE_PROJECT)
+        name = cleaned_data.get("name")
+        if name:
+            if self.instance.project_id is not None:
+                existing = SavedSearch.objects.filter(
+                    project_id=self.instance.project_id, user__isnull=True
+                )
+            else:
+                existing = SavedSearch.objects.filter(
+                    user_id=self.instance.user_id, project__isnull=True
+                )
+            if existing.filter(name=name).exclude(pk=self.instance.pk).exists():
+                self.add_error(
+                    "name", gettext("A saved search with this name already exists.")
+                )
+        return cleaned_data
 
 
 class ProjectTokenCreateForm(forms.ModelForm):

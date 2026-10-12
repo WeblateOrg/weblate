@@ -31,6 +31,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
+    from weblate.trans.models import Project
 
 
 class QueryField(forms.CharField):
@@ -294,8 +295,54 @@ class SearchField(Field):
     ):
         if extra_context is not None:
             raise TypeError
-        extra_context = {"custom_filter_list": self.get_search_query_choices(form)}
+        extra_context = {
+            "custom_filter_list": self.get_search_query_choices(form),
+            "saved_filter_lists": self.get_saved_search_choices(form),
+            "saved_search_project": getattr(form, "saved_search_project", None),
+            "can_save_search": getattr(form, "user", None) is not None
+            and form.user.is_authenticated,
+        }
         return super().render(form, context, template_pack, extra_context, **kwargs)
+
+    def get_saved_search_choices(
+        self, form
+    ) -> list[tuple[StrOrPromise, list[tuple[str, str, str, str]]]]:
+        """Return saved searches grouped by scope for the query dropdown."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import SavedSearch
+
+        project: Project | None = getattr(form, "saved_search_project", None)
+        user: User | None = getattr(form, "user", None)
+
+        scope = Q()
+        if project is not None:
+            scope |= Q(project=project)
+        if user is not None and user.is_authenticated:
+            scope |= Q(user=user)
+        if not scope:
+            return []
+
+        project_searches: list[tuple[str, str, str, str]] = []
+        user_searches: list[tuple[str, str, str, str]] = []
+        for search in (
+            SavedSearch.objects.filter(scope)
+            .only("pk", "name", "query", "project_id")
+            .order()
+        ):
+            entry = (f"saved-{search.pk}", search.name, search.query, "")
+            if search.project_id is not None:
+                project_searches.append(entry)
+            else:
+                user_searches.append(entry)
+
+        return [
+            (heading, entries)
+            for heading, entries in (
+                (gettext_lazy("Project searches"), project_searches),
+                (gettext_lazy("My searches"), user_searches),
+            )
+            if entries
+        ]
 
     def get_search_query_choices(self, form):
         """Return all filtering choices for query field."""
