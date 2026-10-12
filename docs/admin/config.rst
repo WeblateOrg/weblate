@@ -1495,22 +1495,25 @@ The ``index`` page is always visible. Supported document identifiers are
 ``terms``, ``cookies``, ``privacy``, and ``contracts``.
 
 Hidden pages are removed from the legal menu and return a 404 response when
-requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
-legal document confirmation is enabled.
+requested directly. When legal document confirmation is enabled, hiding
+``terms`` without :setting:`LEGAL_URL` makes confirmation embed the terms
+template. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes confirmation
+cover only the terms.
 
-When ``terms`` or ``privacy`` is hidden, links exposed through the
-``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
-and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
-configured, the related link is omitted.
+Links exposed through the ``terms_url`` and ``privacy_url`` template variables
+use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` first when configured.
+Otherwise, they link to the visible internal legal page. Hidden pages have no
+link when no external URL is configured.
 
-With legal document confirmation enabled, hiding ``terms`` and setting
-:setting:`LEGAL_URL` makes the confirmation page link to the external terms
-document instead of embedding :file:`legal/documents/tos.html`. When a privacy
-policy link is available, the confirmation covers both documents.
+With legal document confirmation enabled, setting :setting:`LEGAL_URL` makes
+the confirmation page link to the external terms document instead of embedding
+:file:`legal/documents/tos.html`. When a privacy policy link is available, the
+confirmation covers both documents. If ``privacy`` is hidden and
+:setting:`PRIVACY_URL` is unset, it covers only the terms.
 
-In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
-:setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
-schema terms link uses the same fallback.
+In non-Docker deployments, define :setting:`LEGAL_URL` and any
+:setting:`LEGAL_HIDDEN_DOCUMENTS` before ``SPECTACULAR_SETTINGS`` is created so
+the API schema terms link uses the same URL.
 
 .. code-block:: python
 
@@ -1550,9 +1553,9 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate instead of using
-    the :ref:`legal` module. When the legal module is enabled, Weblate links to
-    the internal legal pages by default.
+    When the :ref:`legal` module is enabled, this URL takes priority over its
+    internal terms page in document links. The default terms template links to
+    this URL when visited directly.
 
 Example:
 
@@ -1795,9 +1798,9 @@ URL where your Weblate instance shows its privacy policy.
 
 .. hint::
 
-    Useful if you host your privacy policy outside Weblate instead of using
-    the :ref:`legal` module. When the legal module is enabled, Weblate links to
-    the internal legal pages by default.
+    When the :ref:`legal` module is enabled, this URL takes priority over its
+    internal privacy page in document links. The default privacy template links
+    to this URL when visited directly.
 
 Example:
 

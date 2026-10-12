@@ -1,1 +1,7 @@
-<p>This site has no defined privacy policy, please contact site maintainer to provide it.</p>
+{% load i18n %}
+
+{% if external_privacy_url %}
+  <p>{% blocktranslate %}Please read the <a href="{{ external_privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}</p>
+{% else %}
+  <p>{% blocktranslate %}This site has not defined a privacy policy, please contact the site maintainer to provide it.{% endblocktranslate %}</p>
+{% endif %}
