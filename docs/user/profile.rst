@@ -248,6 +248,18 @@ The :guilabel:`Account` tab lets you set up basic account details,
 connect various services you can use to sign in into Weblate, completely
 remove your account, or download your user data (see :ref:`schema-userdata`).
 
+You can import settings from a user data file on the :guilabel:`Account` tab.
+Compatible language, editor, dashboard, watched-project, and public-profile
+settings replace the corresponding settings on this server. Unavailable values
+are skipped and shown after import. The file must be no larger than 50 MB.
+Contribution counts, activity history,
+username, and account e-mail are not imported.
+
+General notification settings and commit identity choices can be imported
+separately by selecting the corresponding options. Both are off by default.
+Project- and component-specific and one-time notification rules are included
+in the export but not imported.
+
 The :guilabel:`Commit e-mail` and :guilabel:`Commit name` settings let you choose
 private identities instead of your account e-mail and name in version control
 commits. Use these to avoid publishing your real e-mail and name there. Be aware

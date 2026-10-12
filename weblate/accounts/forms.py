@@ -37,6 +37,8 @@ from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from jsonschema import ValidationError as SchemaValidationError
+from weblate_schemas import validate_schema
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -181,6 +183,58 @@ class ProfileBaseForm(forms.ModelForm):
                 if field_name in ignored_fields and not hasattr(self, field_name):
                     return
         super().add_error(field, error)
+
+
+class UserDataImportForm(forms.Form):
+    file = forms.FileField(label=gettext_lazy("User data file"))
+    notifications = forms.BooleanField(
+        label=gettext_lazy("Import general notification settings"), required=False
+    )
+    commit_identity = forms.BooleanField(
+        label=gettext_lazy("Import commit identity choices"), required=False
+    )
+
+    def clean_file(self):
+        uploaded = self.cleaned_data["file"]
+        if uploaded.size > 50_000_000:
+            raise forms.ValidationError(gettext("The user data file is too large."))
+        try:
+            data = json.load(uploaded)
+            validate_schema(data, "weblate-userdata.schema.json")
+        except (ValueError, UnicodeError, SchemaValidationError) as error:
+            detail = (
+                error.message
+                if isinstance(error, SchemaValidationError)
+                else str(error)
+            )
+            raise forms.ValidationError(
+                gettext("The uploaded file is not valid user data: %s") % detail[:300]
+            ) from error
+        if any(
+            len(data["profile"].get(field, [])) > 10_000
+            for field in ("languages", "secondary_languages", "watched")
+        ):
+            raise forms.ValidationError(
+                gettext("The uploaded file contains too many settings.")
+            )
+        self.userdata_data = data
+        return uploaded
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get("notifications") and hasattr(self, "userdata_data"):
+            general_rules = sum(
+                rule["scope"] in NotificationScope.configurable()
+                and rule.get("project") is None
+                and rule.get("component") is None
+                and not rule.get("onetime", False)
+                for rule in self.userdata_data.get("notifications", [])
+            )
+            if general_rules > 500:
+                raise forms.ValidationError(
+                    gettext("The uploaded file contains too many settings.")
+                )
+        return cleaned_data
 
 
 class LanguagesForm(ProfileBaseForm):
