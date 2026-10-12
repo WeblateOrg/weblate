@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os.path
 from contextlib import nullcontext, suppress
+from copy import copy
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import partial
@@ -517,6 +518,14 @@ class Billing(models.Model):
     def transfer_project(self, project: Project) -> None:
         self._set_project_workspace(project, allow_workspace_change=True)
 
+    def validate_project_workspace_change(self, project: Project) -> None:
+        """Validate a proposed move without changing the supplied project."""
+        if project.workspace_id == self.workspace_id:
+            return
+        candidate = copy(project)
+        candidate.workspace = self.workspace
+        candidate.validate_machinery_workspace_change()
+
     def _set_project_workspace(
         self, project: Project, *, allow_workspace_change: bool
     ) -> None:
@@ -534,6 +543,7 @@ class Billing(models.Model):
         if project.pk is None:
             msg = gettext("Project needs to be saved before assigning it to billing.")
             raise ValidationError(msg)
+        self.validate_project_workspace_change(project)
         previous_workspace_id = project.workspace_id
         project_objects = Project.objects
         database = self._state.db

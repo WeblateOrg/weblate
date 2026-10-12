@@ -20,8 +20,10 @@ from weblate.addons.ai import (
     effective_evaluator,
     evaluate_component,
 )
-from weblate.machinery.llm import BaseLLMTranslation
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import (
+    machinery_settings_for_project,
+    resolve_installation,
+)
 from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component, Project
@@ -321,6 +323,17 @@ class AIQualityOperation(AutomationOperation):
         ["component", "evaluated"],
     )
 
+    @staticmethod
+    def services_match(first: str, second: str, project: Project) -> bool:
+        """Compare current installations while preserving saved selector aliases."""
+        try:
+            return (
+                resolve_installation(first, project).pk
+                == resolve_installation(second, project).pk
+            )
+        except ValueError:
+            return False
+
     @classmethod
     def normalize(
         cls,
@@ -336,9 +349,10 @@ class AIQualityOperation(AutomationOperation):
             if evaluator is None:
                 msg = "AI quality evaluation requires an effective add-on."
                 raise ValidationError(msg)
-            if (
-                service is not None
-                and evaluator.addon.get_configuration()["service"] != service
+            if service is not None and not cls.services_match(
+                service,
+                evaluator.addon.get_configuration()["service"],
+                obj.project,
             ):
                 msg = (
                     "AI quality evaluation service does not match the effective add-on."
@@ -346,17 +360,16 @@ class AIQualityOperation(AutomationOperation):
                 raise ValidationError(msg)
         if service is not None:
             project = obj.project if isinstance(obj, Component) else obj
-            configured = project.get_machinery_settings() if project else None
-            available = (
-                available_evaluation_services(configured)
-                if configured is not None
-                else [
-                    key
-                    for key, machine in MACHINERY.items()
-                    if issubclass(machine, BaseLLMTranslation)
-                ]
+            configured = (
+                project.get_machinery_settings()
+                if project
+                else machinery_settings_for_project()
             )
-            if service not in available:
+            try:
+                installation = resolve_installation(service, project)
+            except ValueError as error:
+                raise ValidationError(str(error)) from error
+            if installation.selector not in available_evaluation_services(configured):
                 msg = "The configured evaluation service is unavailable."
                 raise ValidationError(msg)
         return {"q": query, **({"service": service} if service is not None else {})}
@@ -376,7 +389,9 @@ class AIQualityOperation(AutomationOperation):
             msg = "AI quality evaluation requires an effective add-on."
             raise ValueError(msg)
         configuration = evaluator.addon.get_configuration()
-        if "service" in settings and configuration["service"] != settings["service"]:
+        if "service" in settings and not cls.services_match(
+            settings["service"], configuration["service"], component.project
+        ):
             msg = "AI quality evaluation service does not match the effective add-on."
             raise ValueError(msg)
         units = (

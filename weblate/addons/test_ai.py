@@ -24,6 +24,7 @@ from weblate.checks.models import Check
 from weblate.machinery.base import MachineryRateLimitError, MachineTranslationError
 from weblate.machinery.evaluation import parse_evaluation_response
 from weblate.machinery.google import GoogleTranslation
+from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
@@ -143,8 +144,11 @@ class AIEvaluationTest(ReusableComponentTestCase):
             "style": "Use formal language",
             "language_instructions": {"cs": "Use Czech terminology"},
         }
-        self.project.machinery_settings = {self.service_key: self.service_settings}
-        self.project.save(update_fields=["machinery_settings"])
+        self.installation = MachineryInstallation.objects.create(
+            project=self.project,
+            engine=self.service_key,
+            configuration=self.service_settings,
+        )
         self.unit = self.change_unit("Ahoj světe!\n")
         self.configuration: AIEvaluationConfiguration = {
             "service": self.service_key,
@@ -187,24 +191,14 @@ class AIEvaluationTest(ReusableComponentTestCase):
     def test_service_configuration_scope(self) -> None:
         for project_override in (False, True):
             with self.subTest(project_override=project_override):
-                self.project.machinery_settings = (
-                    {self.service_key: self.service_settings}
-                    if project_override
-                    else {}
-                )
-                self.project.save(update_fields=["machinery_settings"])
-                with (
-                    patch(
-                        "weblate.trans.models.project.Setting.objects.get_settings_dict",
-                        return_value={self.service_key: dict(self.service_settings)},
-                    ),
-                    patch.object(
-                        OpenAITranslation,
-                        "fetch_llm_translations",
-                        autospec=True,
-                        return_value=evaluation_response({self.unit.pk: []}),
-                    ) as fetch,
-                ):
+                self.installation.project = self.project if project_override else None
+                self.installation.save()
+                with patch.object(
+                    OpenAITranslation,
+                    "fetch_llm_translations",
+                    autospec=True,
+                    return_value=evaluation_response({self.unit.pk: []}),
+                ) as fetch:
                     self.run_batch_evaluation()
                 service = fetch.call_args.args[0]
                 self.assertEqual(service.allow_private_targets, not project_override)
@@ -213,7 +207,9 @@ class AIEvaluationTest(ReusableComponentTestCase):
 
     def test_existing_provider_cooldown(self) -> None:
         self.create_batch_units(3)
-        service = OpenAITranslation(self.service_settings)
+        service = OpenAITranslation(
+            {**self.service_settings, "_installation_id": self.installation.pk}
+        )
         self.addCleanup(cache.delete, service.rate_limit_cache)
         service.set_rate_limit()
         with patch.object(OpenAITranslation, "fetch_llm_translations") as fetch:
@@ -227,7 +223,9 @@ class AIEvaluationTest(ReusableComponentTestCase):
 
     def test_provider_rate_limit_stops_requests(self) -> None:
         self.create_batch_units(5)
-        service = OpenAITranslation(self.service_settings)
+        service = OpenAITranslation(
+            {**self.service_settings, "_installation_id": self.installation.pk}
+        )
         self.addCleanup(cache.delete, service.rate_limit_cache)
         request = httpx2.Request("POST", "https://example.com/evaluate")
         errors = (
@@ -675,6 +673,17 @@ class AIEvaluationTest(ReusableComponentTestCase):
             self.user, self.addon, data={**self.configuration, "service": "invalid"}
         )
         self.assertFalse(form.is_valid())
+
+    def test_form_accepts_slug_selector(self) -> None:
+        self.installation.slug = "quality"
+        self.installation.save(update_fields=["slug"])
+        form = AIEvaluationForm(
+            self.user,
+            self.addon,
+            data={**self.configuration, "service": f"{self.service_key}:quality"},
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["service"], f"{self.service_key}:quality")
 
     def test_payload_and_separate_operation(self) -> None:
         self.unit.target = "Broken %placeholder <b>"

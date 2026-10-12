@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import Prefetch, prefetch_related_objects
 from django.http import FileResponse, Http404
@@ -45,7 +45,7 @@ from .models import (
 if TYPE_CHECKING:
     from django.http import HttpResponse
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 HOSTING_TEMPLATE = """
 %(name)s <%(email)s> wants to host %(project)s
@@ -272,6 +272,42 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
+@transaction.atomic
+def merge_billings(billing: Billing, other: Billing, user: User) -> None:
+    source_details = {"id": billing.pk, "name": str(billing)}
+    target_details = {"id": other.pk, "name": str(other)}
+    moved_projects = billing.get_projects_queryset()
+    for project in moved_projects:
+        other.validate_project_workspace_change(project)
+    if "recurring" in billing.payment:
+        other.payment["recurring"] = billing.payment["recurring"]
+    if "all" in billing.payment:
+        other.payment.setdefault("all", []).extend(billing.payment["all"])
+    other.save()
+    projects_moved = moved_projects.update(workspace=other.workspace)
+    if projects_moved:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_workspace_stats
+
+        update_workspace_stats.delay_on_commit(
+            [str(billing.workspace_id), str(other.workspace_id)]
+        )
+    other.update_workspace_name()
+    merge_workspace_access(billing, other)
+    billing.invoice_set.update(billing=other)
+    billing.billinglog_set.update(billing=other)
+    billing.payment = {}
+    billing.save()
+    billing.check_limits()
+    other.check_limits()
+    other.billinglog_set.create(
+        event=BillingEvent.MERGED,
+        summary=f"Merged billing {billing.pk} into {other.pk}",
+        details={"source_billing": source_details, "target_billing": target_details},
+        user=user,
+    )
+
+
 @login_required
 @require_http_methods(["GET", "HEAD", "POST"])
 def merge(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
@@ -309,40 +345,11 @@ def merge(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
         return redirect(billing)
 
     other = confirm_form.cleaned_data["other"]
-    source_details = {"id": billing.pk, "name": str(billing)}
-    target_details = {"id": other.pk, "name": str(other)}
-    with transaction.atomic():
-        if "recurring" in billing.payment:
-            other.payment["recurring"] = billing.payment["recurring"]
-        if "all" in billing.payment:
-            other.payment.setdefault("all", []).extend(billing.payment["all"])
-        other.save()
-        moved_projects = billing.get_projects_queryset()
-        projects_moved = moved_projects.update(workspace=other.workspace)
-        if projects_moved:
-            # ruff: ignore[import-outside-top-level]
-            from weblate.utils.tasks import update_workspace_stats
-
-            update_workspace_stats.delay_on_commit(
-                [str(billing.workspace_id), str(other.workspace_id)]
-            )
-        other.update_workspace_name()
-        merge_workspace_access(billing, other)
-        billing.invoice_set.update(billing=other)
-        billing.billinglog_set.update(billing=other)
-        billing.payment = {}
-        billing.save()
-        billing.check_limits()
-        other.check_limits()
-        other.billinglog_set.create(
-            event=BillingEvent.MERGED,
-            summary=f"Merged billing {billing.pk} into {other.pk}",
-            details={
-                "source_billing": source_details,
-                "target_billing": target_details,
-            },
-            user=request.user,
-        )
+    try:
+        merge_billings(billing, other, request.user)
+    except ValidationError as error:
+        messages.error(request, "; ".join(error.messages))
+        return redirect(billing)
 
     return redirect(confirm_form.cleaned_data["other"])
 

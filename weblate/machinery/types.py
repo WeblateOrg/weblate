@@ -60,6 +60,8 @@ class SettingsDict(TypedDict, total=False):
     azure_endpoint: str
     source_language: SourceLanguageChoices
     _project: Project
+    _installation_id: int
+    _installation_slug: str
 
 
 class TranslationResultDict(TypedDict):

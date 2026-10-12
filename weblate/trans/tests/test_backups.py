@@ -122,7 +122,7 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 ProjectSettingsForm,
                 backup.project_schema["properties"]["project"],
                 PROJECT_BACKUP_FIELDS,
-                {"workspace", "machinery_settings"},
+                {"workspace"},
             ),
             # Category hierarchy is represented by the backup object graph.
             (

@@ -933,6 +933,7 @@
         origin: el.origin,
         origin_detail: el.origin_detail,
         origin_url: el.origin_url,
+        installation_slug: el.installation_slug,
       };
     }
 
@@ -958,7 +959,15 @@
     renderOriginDetail(el) {
       const detail = document.createElement("div");
       detail.classList.add("machinery-origin-detail", "text-muted");
-      detail.append(this.renderOrigin(el));
+      if (typeof el.origin !== "undefined") {
+        detail.append(this.renderOrigin(el));
+      }
+      if (el.installation_slug) {
+        if (typeof el.origin !== "undefined") {
+          detail.append(" · ");
+        }
+        detail.append(`${gettext("Slug")}: ${el.installation_slug}`);
+      }
       if (el.show_quality) {
         detail.append(` (${el.quality}%)`);
       }
@@ -969,9 +978,14 @@
       const entry = document.createElement("div");
       entry.classList.add("machinery-service");
 
-      /* The score of results without an origin stays with the service name */
+      /* The score of results without an origin or slug stays with the service name */
       const scores = entries
-        .filter((el) => typeof el.origin === "undefined" && el.show_quality)
+        .filter(
+          (el) =>
+            typeof el.origin === "undefined" &&
+            !el.installation_slug &&
+            el.show_quality,
+        )
         .map((el) => el.quality);
       const name = document.createElement("strong");
       name.classList.add("machinery-service-name");
@@ -985,7 +999,7 @@
       const seen = new Set();
       const origins = entries
         .filter((el) => {
-          if (typeof el.origin === "undefined") {
+          if (typeof el.origin === "undefined" && !el.installation_slug) {
             return false;
           }
           const key = JSON.stringify(el);

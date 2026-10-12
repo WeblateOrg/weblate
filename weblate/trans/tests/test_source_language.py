@@ -41,6 +41,7 @@ from weblate.lang.models import Language, Plural
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
+from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.types import SourceLanguageChoices
 from weblate.machinery.views import handle_machinery
 from weblate.machinery.weblatetm import WeblateTranslation
@@ -2386,11 +2387,6 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     {"test-source": DeepLTranslation},
                 ),
                 patch.object(
-                    Project,
-                    "get_machinery_settings",
-                    return_value={"test-source": config},
-                ),
-                patch.object(
                     DeepLTranslation, "translate", return_value=[[]]
                 ) as sync_translate,
                 patch.object(
@@ -2400,6 +2396,11 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     return_value=[[]],
                 ) as async_translate,
             ):
+                MachineryInstallation.objects.update_or_create(
+                    engine="test-source",
+                    project=self.child.translation.component.project,
+                    defaults={"configuration": config},
+                )
                 request = cast("AuthenticatedHttpRequest", RequestFactory().post("/"))
                 request.user = self.user
                 response = handle_machinery(request, "test-source", self.child)

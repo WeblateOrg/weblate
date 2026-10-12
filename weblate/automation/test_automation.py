@@ -47,6 +47,7 @@ from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA
 from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
@@ -1514,14 +1515,15 @@ class AIQualityAutomationTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.service = OpenAITranslation.get_identifier()
-        self.project.machinery_settings = {
-            self.service: {
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=self.service,
+            configuration={
                 "key": "test",
                 "model": "custom",
                 "custom_model": "test-model",
-            }
-        }
-        self.project.save(update_fields=["machinery_settings"])
+            },
+        )
         self.units = list(
             self.component.translation_set.get(language_code="cs").unit_set.order_by(
                 "pk"
@@ -1566,6 +1568,33 @@ class AIQualityAutomationTest(ComponentTestCase):
         ) as evaluate:
             AIQualityOperation.execute(self.component, settings, self.user)
         evaluate.assert_called_once()
+
+    def test_slug_selector_matches_current_installation(self) -> None:
+        installation = MachineryInstallation.objects.get(
+            project=self.project, engine=self.service
+        )
+        installation.slug = "quality"
+        installation.save(update_fields=["slug"])
+        alias = f"{self.service}:quality"
+        settings = AIQualityOperation.normalize({"service": alias}, self.component)
+        self.assertEqual(settings["service"], alias)
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            AIQualityOperation.execute(self.component, settings, self.user)
+        evaluate.assert_called_once()
+
+        installation.slug = ""
+        installation.save(update_fields=["slug"])
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=self.service,
+            slug="quality",
+            configuration=installation.configuration,
+        )
+        with self.assertRaisesMessage(ValidationError, "does not match"):
+            AIQualityOperation.normalize({"service": alias}, self.component)
 
     def test_explicit_mismatching_service(self) -> None:
         other_service = AnthropicTranslation.get_identifier()
@@ -1880,12 +1909,15 @@ class AIQualityAutomationTest(ComponentTestCase):
 
     def test_inherited_workflow_uses_component_evaluators(self) -> None:
         other_service = AnthropicTranslation.get_identifier()
-        self.project.machinery_settings[other_service] = {
-            "key": "test",
-            "model": "custom",
-            "custom_model": "test-model",
-        }
-        self.project.save(update_fields=["machinery_settings"])
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=other_service,
+            configuration={
+                "key": "test",
+                "model": "custom",
+                "custom_model": "test-model",
+            },
+        )
         other_component = self.create_po_new_base(name="other", project=self.project)
         AIEvaluationAddon.create(
             component=other_component,

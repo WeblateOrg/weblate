@@ -21,7 +21,6 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.checks.flags import Flags
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
@@ -608,8 +607,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ),
     )
 
-    machinery_settings = models.JSONField(default=dict, blank=True)
-
     is_lockable: ClassVar[bool] = True
     lockable_count: ClassVar[bool] = True
     remove_permission = "project.edit"
@@ -668,6 +665,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             nonlocal committed
             committed = True
 
+        workspace = (
+            Q(workspace_id=self.workspace_id)
+            if self.workspace_id is not None
+            else Q(workspace__isnull=True)
+        )
+        if (
+            self.pk
+            and Project.objects.using(using)
+            .filter(pk=self.pk)
+            .exclude(workspace)
+            .exists()
+        ):
+            self.validate_machinery_workspace_change()
+
         try:
             with transaction.atomic(using=using):
                 # Register first: a later commit callback failing must not undo
@@ -698,6 +709,32 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 self.renamed_teams.clear()
                 self.invalidate_path_cache()
             raise
+
+    def validate_machinery_workspace_change(self) -> None:
+        """Validate suggestion installations for this project's proposed workspace."""
+        from weblate.machinery.models import (  # ruff: ignore[import-outside-top-level]
+            MachineryInstallation,
+            validate_internal_installations_for_project,
+        )
+
+        if self.workspace_id:
+            own = set(
+                MachineryInstallation.objects.filter(project=self)
+                .exclude(slug="")
+                .values_list("slug", flat=True)
+            )
+            inherited = set(
+                MachineryInstallation.objects.filter(workspace_id=self.workspace_id)
+                .exclude(slug="")
+                .values_list("slug", flat=True)
+            )
+            if own & inherited:
+                raise ValidationError(
+                    gettext(
+                        "Automatic suggestion slugs conflict with the new workspace."
+                    )
+                )
+        validate_internal_installations_for_project(self)
 
     def _save_project(
         self, old: Project | None, created_paths: list[str], *args, **kwargs
@@ -1603,21 +1640,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return version
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
-        mt_settings = cast(
-            "dict[str, SettingsDict]",
-            Setting.objects.get_settings_dict(SettingCategory.MT),
-        )
-        for item, value in self.machinery_settings.items():
-            if value is None:
-                if item in mt_settings:
-                    del mt_settings[item]
-            else:
-                mt_settings[item] = value
-                # Include project field so that different projects do not share
-                # cache keys via MachineTranslation.get_cache_key when service
-                # is installed at project level.
-                mt_settings[item]["_project"] = self
-        return mt_settings
+        from weblate.machinery.models import machinery_settings_for_project  # ruff: ignore[import-outside-top-level]
+
+        return machinery_settings_for_project(self)
 
     @cached_property
     def enable_review(self) -> bool:

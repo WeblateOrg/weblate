@@ -8,6 +8,7 @@ Weblate 2026.11
 * Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
 * User settings can be imported from a :ref:`user data export <schema-userdata>` on the account page.
 * Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
+* Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 
 .. rubric:: Improvements
 

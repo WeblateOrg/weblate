@@ -133,6 +133,10 @@
               </li>
               <li>
                 <a class="dropdown-item"
+                   href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Automatic suggestions" %}</a>
+              </li>
+              <li>
+                <a class="dropdown-item"
                    href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting connections" %}</a>
               </li>
             {% endif %}

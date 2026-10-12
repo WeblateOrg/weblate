@@ -8,9 +8,11 @@ Automatic suggestions
    Prior to Weblate 4.13, the services were configured in the :ref:`config`.
 
 The support for several machine translation and translation memory services is
-built-in. Each service can be turned on by the administrator for whole site
-(under :guilabel:`Automatic suggestions` in :ref:`management-interface`) or at
-the project settings:
+built-in. You can install a service more than once with different settings. An
+administrator can configure installations for the whole site under
+:guilabel:`Automatic suggestions` in :ref:`management-interface`. Workspace
+administrators can configure installations for their workspace, and project
+administrators can configure them for a project:
 
 .. image:: /screenshots/project-machinery.webp
 
@@ -23,7 +25,27 @@ the project settings:
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.
 
-Per-project automatic suggestion can also be configured via the :ref:`api`.
+Installations from the site, workspace, and project are combined for a project.
+You can exclude an inherited installation, or all inherited installations of
+one service, in workspace or project settings. Pausing an installation keeps
+its configuration for later use.
+
+Every installation has a numeric ID and can have an optional slug. Select one
+installation in automatic translation, Automation, or AI review with
+``service:id`` or ``service:slug``. A bare service name is accepted when only
+one active installation of that service applies to the project. A non-empty
+slug must be unique among all installations visible to a project, including
+inherited installations. Separate projects can use the same slug. Saved slug
+selectors follow the installation currently using that slug. Services without
+configuration settings can be installed once per scope and must not overlap
+with enabled inherited installations. Exclude an inherited installation before
+enabling another one in a lower scope. Each scope can contain up to 20
+installations, including paused ones.
+
+For ``install_machinery --update``, specify a unique ``--slug`` or ``--id``
+when more than one site installation of a service exists.
+
+Automatic suggestion installations can also be configured via the :ref:`api`.
 
 .. seealso::
 

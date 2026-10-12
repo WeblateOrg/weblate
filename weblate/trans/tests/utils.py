@@ -25,9 +25,9 @@ from django.utils.functional import cached_property
 
 from weblate.auth.models import User, bot_cache, get_anonymous
 from weblate.billing.models import Billing, Invoice, Plan
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, Plural
+from weblate.machinery.models import MachineryInstallation
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.data import data_dir
@@ -295,10 +295,8 @@ class RepoTestMixin:
     @staticmethod
     def configure_mt() -> None:
         for engine in ["weblate", "weblate-translation-memory"]:
-            Setting.objects.get_or_create(
-                category=SettingCategory.MT,
-                name=engine,
-                defaults={"value": {}},
+            MachineryInstallation.objects.get_or_create(
+                engine=engine, workspace=None, project=None
             )
 
     def create_component(self) -> Component:
