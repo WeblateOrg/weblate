@@ -5820,6 +5820,15 @@ class ViewTests(ViewTestCase):
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
 
+    def test_no_settings_detail_shows_description(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False).instance
+
+        response = self.client.get(addon.get_absolute_url())
+
+        self.assertContains(response, "Updates all PO files")
+        self.assertContains(response, f"#{addon.addon.doc_anchor}")
+        self.assertContains(response, "This add-on has no settings.")
+
     def test_add_simple_with_nonexisting_installed(self) -> None:
         Addon.objects.bulk_create(
             [Addon(component=self.component, name="weblate.addon.nonexisting")]
@@ -6104,6 +6113,7 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         )
 
         response = self.client.get(reverse("addon-detail", kwargs={"pk": addon.pk}))
+        self.assertContains(response, "Squash Git commits prior to pushing changes.")
         self.assertContains(
             response, reverse("addon-components", kwargs={"pk": addon.pk})
         )
