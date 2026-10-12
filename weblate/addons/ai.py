@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from itertools import batched, groupby
@@ -23,10 +24,13 @@ from weblate.addons.events import AddonActivityLogReason, AddonEvent, AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.checks.ai import AI_CHECKS, evaluation_fingerprint
 from weblate.checks.models import CHECKS
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.llm import BaseLLMTranslation
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import (
+    MACHINERY,
+    machinery_settings_for_project,
+    resolve_installation,
+)
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Unit
@@ -45,10 +49,17 @@ if TYPE_CHECKING:
 
 def available_evaluation_services(configured: Iterable[str]) -> list[str]:
     """Return configured services that support quality evaluation."""
-    return [
+    available = [
         key
         for key in configured
-        if key in MACHINERY and issubclass(MACHINERY[key], BaseLLMTranslation)
+        if key.partition(":")[0] in MACHINERY
+        and issubclass(MACHINERY[key.partition(":")[0]], BaseLLMTranslation)
+    ]
+    counts = Counter(key.partition(":")[0] for key in available)
+    return available + [
+        engine
+        for engine, count in counts.items()
+        if count == 1 and engine not in available
     ]
 
 
@@ -109,12 +120,22 @@ class AIEvaluationForm(BaseAddonForm[AIEvaluationConfiguration, "AIEvaluationAdd
         configured = (
             project.get_machinery_settings()
             if project
-            else Setting.objects.get_settings_dict(SettingCategory.MT)
+            else machinery_settings_for_project()
         )
-        service_field.choices = [
-            (key, MACHINERY[key].name)
-            for key in available_evaluation_services(configured)
+        available = available_evaluation_services(configured)
+        choices = [
+            (key, f"{MACHINERY[key.partition(':')[0]].name} ({key})")
+            for key in available
         ]
+        for key, configuration in configured.items():
+            if key not in available:
+                continue
+            if slug := configuration.get("_installation_slug"):
+                alias = f"{key.partition(':')[0]}:{slug}"
+                choices.append(
+                    (alias, f"{MACHINERY[key.partition(':')[0]].name} ({alias})")
+                )
+        service_field.choices = choices
 
 
 def effective_evaluator(component: Component) -> Addon | None:
@@ -503,11 +524,16 @@ def evaluate_component(
         service_key = configuration["service"]
         configured = component.project.get_machinery_settings()
         update_alerts(component, {addon.alert})
-        if service_key not in available_evaluation_services(configured):
+        try:
+            installation = resolve_installation(service_key, component.project)
+        except ValueError as error:
+            msg = "The configured evaluation service is unavailable."
+            raise MachineTranslationError(msg) from error
+        if installation.selector not in available_evaluation_services(configured):
             msg = "The configured evaluation service is unavailable."
             raise MachineTranslationError(msg)
-        service_class = cast("type[BaseLLMTranslation]", MACHINERY[service_key])
-        service = service_class(configured[service_key])
+        service_class = cast("type[BaseLLMTranslation]", MACHINERY[installation.engine])
+        service = service_class(configured[installation.selector])
         units = evaluation_units(component, configuration)
         if unit_ids is not None:
             units = units.filter(pk__in=unit_ids)

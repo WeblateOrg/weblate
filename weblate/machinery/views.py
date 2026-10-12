@@ -4,12 +4,16 @@
 from __future__ import annotations
 
 from itertools import chain
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any
 
 from asgiref.sync import sync_to_async
-from django.core.exceptions import PermissionDenied
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import transaction
+from django.db.models import Q
 from django.http import (
     Http404,
+    HttpRequest,
     HttpResponseBadRequest,
     HttpResponseRedirect,
     JsonResponse,
@@ -22,11 +26,16 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.base import (
     MachineTranslationError,
 )
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import (
+    MACHINERY,
+    MachineryExclusion,
+    MachineryInstallation,
+    applicable_installations,
+    resolve_installation,
+)
 from weblate.trans.formatting import format_language_string
 from weblate.trans.models import Project, Unit
 from weblate.utils.errors import report_error
@@ -40,15 +49,21 @@ if TYPE_CHECKING:
         SettingsDict,
     )
     from weblate.trans.models import Translation
+    from weblate.workspaces.models import Workspace
 
 
 class MachineryMixin:
+    # Scope-specific setup populates this attribute before dispatch.
+    workspace: Any
+
     @cached_property
     def global_settings_dict(self) -> dict[str, SettingsDict]:
-        return cast(
-            "dict[str, SettingsDict]",
-            Setting.objects.get_settings_dict(SettingCategory.MT),
-        )
+        return {
+            item.selector: item.configuration
+            for item in MachineryInstallation.objects.filter(
+                workspace__isnull=True, project__isnull=True
+            )
+        }
 
 
 class MachineryProjectMixin(MachineryMixin):
@@ -57,7 +72,14 @@ class MachineryProjectMixin(MachineryMixin):
 
     @cached_property
     def settings_dict(self) -> dict[str, SettingsDict]:
-        return self.project.machinery_settings
+        return self.project.get_machinery_settings()
+
+
+class MachineryWorkspaceMixin(MachineryMixin):
+    def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
+        from weblate.workspaces.models import Workspace  # ruff: ignore[import-outside-top-level]
+
+        self.workspace = get_object_or_404(Workspace, pk=kwargs["workspace"])
 
 
 class MachineryGlobalMixin(MachineryMixin):
@@ -86,19 +108,28 @@ class MachineryConfiguration:
         self,
         machinery,
         configuration: SettingsDict | None,
-        sitewide: bool = False,
+        *,
         project=None,
         is_configured: bool = True,
+        installation: MachineryInstallation | None = None,
+        enabled: bool | None = None,
+        workspace=None,
+        excluded_here: bool = False,
     ) -> None:
         self.machinery = machinery
         self.configuration = configuration
-        self.sitewide = sitewide
         self.project = project
         self.is_configured = is_configured
+        self.installation = installation
+        self.enabled = enabled
+        self.workspace = workspace
+        self.excluded_here = excluded_here
 
     @property
     def is_enabled(self) -> bool:
-        return self.configuration is not None
+        return (
+            self.enabled if self.enabled is not None else self.configuration is not None
+        )
 
     @property
     def is_available(self):
@@ -106,7 +137,11 @@ class MachineryConfiguration:
 
     @property
     def id(self):
-        return self.machinery.get_identifier()
+        return (
+            self.installation.selector
+            if self.installation
+            else self.machinery.get_identifier()
+        )
 
     @property
     def name(self):
@@ -118,33 +153,74 @@ class MachineryConfiguration:
 
     @property
     def has_settings(self) -> bool:
-        return self.machinery.settings_form is not None
+        return self.machinery.settings_form is not None and (
+            self.installation is None
+            or (self.project is None and self.workspace is None)
+            or (
+                self.project is not None
+                and self.installation.project_id == self.project.pk
+            )
+            or (
+                self.workspace is not None
+                and self.installation.workspace_id == self.workspace.pk
+            )
+        )
+
+    @property
+    def can_delete(self) -> bool:
+        return self.installation is not None and (
+            (
+                self.project is not None
+                and self.installation.project_id == self.project.pk
+            )
+            or (
+                self.workspace is not None
+                and self.installation.workspace_id == self.workspace.pk
+            )
+            or (self.project is None and self.workspace is None)
+        )
+
+    @property
+    def can_enable(self) -> bool:
+        return self.can_delete or self.excluded_here
+
+    @property
+    def inherited_scope(self) -> str | None:
+        if self.installation is None or self.can_delete:
+            return None
+        return "workspace" if self.installation.workspace_id is not None else "site"
 
     def get_absolute_url(self) -> str:
         kwargs = {"machinery": self.id}
         if self.project:
             kwargs["project"] = self.project.slug
+        if self.workspace:
+            kwargs["workspace"] = self.workspace.pk
         return reverse("machinery-edit", kwargs=kwargs)
 
 
 class ListMachineryView(TemplateView):
     template_name = "machinery/list.html"
+    workspace: Any
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
         self.project = None
+        self.workspace = None
         self.post_setup(request, kwargs)
         self.configured_services = sorted(
             self.get_configured_services(), key=lambda obj: obj.name
         )
-        installed_services = {obj.id for obj in self.configured_services}
         self.available_services = sorted(
             (
                 MachineryConfiguration(
-                    obj, None, project=self.project, is_configured=False
+                    obj,
+                    None,
+                    project=self.project,
+                    workspace=self.workspace,
+                    is_configured=False,
                 )
-                for name, obj in MACHINERY.items()
-                if name not in installed_services
+                for obj in MACHINERY.values()
             ),
             key=lambda obj: obj.name,
         )
@@ -157,23 +233,78 @@ class ListMachineryView(TemplateView):
         return
 
     def get_configured_services(self):
-        for service, configuration in self.settings_dict.items():
+        if self.project:
+            query = Q(project=self.project) | Q(
+                project__isnull=True, workspace__isnull=True
+            )
+            if self.project.workspace_id:
+                query |= Q(workspace_id=self.project.workspace_id)
+            exclusions = MachineryExclusion.objects.filter(project=self.project)
+            if self.project.workspace_id:
+                exclusions |= MachineryExclusion.objects.filter(
+                    workspace_id=self.project.workspace_id
+                )
+        elif self.workspace:
+            query = Q(workspace=self.workspace) | Q(
+                project__isnull=True, workspace__isnull=True
+            )
+            exclusions = MachineryExclusion.objects.filter(workspace=self.workspace)
+        else:
+            query = Q(project__isnull=True, workspace__isnull=True)
+            exclusions = MachineryExclusion.objects.none()
+        rules = list(exclusions)
+        for installation in MachineryInstallation.objects.filter(query).order_by("id"):
+            engine = installation.engine
+            inherited = (
+                self.project and installation.project_id != self.project.pk
+            ) or (self.workspace and installation.workspace_id != self.workspace.pk)
+            excluded_here = bool(inherited) and any(
+                (rule.installation_id == installation.pk or rule.engine == engine)
+                and (
+                    (self.project is not None and rule.project_id == self.project.pk)
+                    or (
+                        self.workspace is not None
+                        and rule.workspace_id == self.workspace.pk
+                    )
+                )
+                for rule in rules
+            )
+            excluded_upstream = bool(inherited) and any(
+                (rule.installation_id == installation.pk or rule.engine == engine)
+                and self.project is not None
+                and rule.workspace_id == self.project.workspace_id
+                and installation.workspace_id is None
+                for rule in rules
+            )
+            enabled = installation.enabled and not (excluded_here or excluded_upstream)
             try:
-                machinery = MACHINERY[service]
+                machinery = MACHINERY[engine]
             except KeyError:
                 yield MachineryConfiguration(
-                    DeprecatedMachinery(service), configuration, project=self.project
+                    DeprecatedMachinery(engine),
+                    installation.configuration,
+                    project=self.project,
+                    workspace=self.workspace,
+                    installation=installation,
+                    enabled=enabled,
+                    excluded_here=excluded_here,
                 )
             else:
                 yield MachineryConfiguration(
-                    machinery, configuration, project=self.project
+                    machinery,
+                    installation.configuration,
+                    project=self.project,
+                    workspace=self.workspace,
+                    installation=installation,
+                    enabled=enabled,
+                    excluded_here=excluded_here,
                 )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
-        if not self.project:
+        if not self.project and not self.workspace:
             result["menu_items"] = MANAGE_MENU
             result["menu_page"] = "machinery"
         return result
@@ -184,23 +315,6 @@ class ListMachineryGlobalView(MachineryGlobalMixin, ListMachineryView):
 
 
 class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
-    def get_configured_services(self):
-        yield from super().get_configured_services()
-        project_settings = set(self.settings_dict)
-        for service, configuration in self.global_settings_dict.items():
-            if service in project_settings:
-                continue
-            try:
-                machinery = MACHINERY[service]
-            except KeyError:
-                yield MachineryConfiguration(
-                    DeprecatedMachinery(service), configuration, project=self.project
-                )
-            else:
-                yield MachineryConfiguration(
-                    machinery, configuration, sitewide=True, project=self.project
-                )
-
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
@@ -212,20 +326,74 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
         return result
 
 
+class ListMachineryWorkspaceView(MachineryWorkspaceMixin, ListMachineryView):
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
+        if not request.user.has_perm("workspace.edit", self.workspace):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["workspace"] = self.workspace
+        return result
+
+
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
 
     machinery: DeprecatedMachinery | type[BatchMachineTranslation]
+    workspace: Any
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
-        self.machinery_id = kwargs["machinery"]
+        self.machinery_id, _, identifier = kwargs["machinery"].partition(":")
+        self.installation = (
+            get_object_or_404(MachineryInstallation, pk=identifier)
+            if identifier.isdecimal()
+            else None
+        )
+        if self.installation and self.installation.engine != self.machinery_id:
+            msg = "Invalid installation"
+            raise Http404(msg)
         try:
             self.machinery = MACHINERY[self.machinery_id]
         except KeyError:
             self.machinery = DeprecatedMachinery(self.machinery_id)
         self.project = None
+        self.workspace = None
         self.post_setup(request, kwargs)
+        if (
+            self.installation
+            and self.project is None
+            and self.workspace is None
+            and (self.installation.project_id or self.installation.workspace_id)
+        ):
+            msg = "Invalid installation scope"
+            raise Http404(msg)
+        if (
+            self.installation
+            and self.project is not None
+            and not (
+                self.installation.project_id == self.project.pk
+                or (
+                    self.installation.project_id is None
+                    and self.installation.workspace_id
+                    in {None, self.project.workspace_id}
+                )
+            )
+        ):
+            msg = "Invalid installation scope"
+            raise Http404(msg)
+        if (
+            self.installation
+            and self.workspace is not None
+            and not (
+                self.installation.project_id is None
+                and self.installation.workspace_id in {None, self.workspace.pk}
+            )
+        ):
+            msg = "Invalid installation scope"
+            raise Http404(msg)
 
     def get_form_class(self):
         return self.machinery.settings_form
@@ -248,7 +416,13 @@ class EditMachineryView(FormView):
         return
 
     def get_initial(self):
-        return self.settings_dict.get(self.machinery_id) or {}
+        if self.installation and (
+            (self.project and self.installation.project_id == self.project.pk)
+            or (self.workspace and self.installation.workspace_id == self.workspace.pk)
+            or (self.project is None and self.workspace is None)
+        ):
+            return self.installation.configuration
+        return {}
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
@@ -258,13 +432,19 @@ class EditMachineryView(FormView):
         result["machinery_sends_data_to_third_party"] = (
             self.machinery.sends_data_to_third_party
         )
+        result["installation"] = self.installation
+        result["workspace"] = self.workspace
         return result
 
     def install_service(self) -> None:
         self.save_settings({})
 
     def form_valid(self, form):
-        self.save_settings(form.cleaned_data)
+        try:
+            self.save_settings(form.cleaned_data)
+        except ValidationError as error:
+            form.add_error(None, error.messages)
+            return self.form_invalid(form)
         return super().form_valid(form)
 
     def save_settings(self, data) -> None:
@@ -279,6 +459,10 @@ class EditMachineryView(FormView):
     def get_success_url(self):
         if self.project:
             return reverse("machinery-list", kwargs={"project": self.project.slug})
+        if self.workspace:
+            return reverse(
+                "workspace-machinery", kwargs={"workspace": self.workspace.pk}
+            )
         return reverse("manage-machinery")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
@@ -286,20 +470,42 @@ class EditMachineryView(FormView):
             self.delete_service()
             return HttpResponseRedirect(self.get_success_url())
 
+        if "pause" in request.POST:
+            self.pause_service()
+            return HttpResponseRedirect(self.get_success_url())
+
+        if "exclude_engine" in request.POST:
+            self.exclude_engine()
+            return HttpResponseRedirect(self.get_success_url())
+
         if not self.machinery.is_available:
             msg = "Invalid service specified"
             raise Http404(msg)
 
         if "enable" in request.POST:
-            self.enable_service()
+            try:
+                self.enable_service()
+            except ValidationError as error:
+                messages.error(request, "; ".join(error.messages))
             return HttpResponseRedirect(self.get_success_url())
 
         if "install" in request.POST:
             if self.machinery.settings_form is not None:
                 return HttpResponseRedirect(request.path)
-            self.install_service()
+            try:
+                self.install_service()
+            except ValidationError as error:
+                messages.error(request, "; ".join(error.messages))
             return HttpResponseRedirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
+
+    def pause_service(self) -> None:
+        if self.installation:
+            self.installation.enabled = False
+            self.installation.save(update_fields=["enabled"])
+
+    def exclude_engine(self) -> None:
+        raise PermissionDenied
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not self.machinery.is_available:
@@ -310,29 +516,59 @@ class EditMachineryView(FormView):
 
 class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
     def save_settings(self, data: SettingsDict) -> None:
-        setting, created = Setting.objects.get_or_create(
-            category=SettingCategory.MT,
-            name=self.machinery_id,
-            defaults={"value": data},
-        )
-        if not created and setting.value != data:
-            setting.value = data
-            setting.save()
+        if self.installation:
+            self.installation.configuration = data
+            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.save()
+        else:
+            MachineryInstallation.objects.create(
+                engine=self.machinery_id,
+                slug=self.request.POST.get("slug", ""),
+                configuration=data,
+            )
 
     def delete_service(self) -> None:
-        Setting.objects.filter(
-            category=SettingCategory.MT,
-            name=self.machinery_id,
-        ).delete()
+        if self.installation:
+            self.installation.delete()
 
-    def form_valid(self, form):
-        self.save_settings(form.cleaned_data)
-        return super().form_valid(form)
+    def enable_service(self) -> None:
+        if self.installation:
+            self.installation.enabled = True
+            self.installation.save(update_fields=["enabled"])
 
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("machinery.edit"):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
+
+
+def enable_inherited_installation(
+    installation: MachineryInstallation,
+    *,
+    project: Project | None = None,
+    workspace: Workspace | None = None,
+) -> None:
+    """Enable one inherited installation without exposing its siblings."""
+    scope = {"project": project} if project is not None else {"workspace": workspace}
+    inherited = MachineryInstallation.objects.filter(
+        engine=installation.engine, project__isnull=True
+    )
+    if project is not None and project.workspace_id:
+        inherited = inherited.filter(
+            Q(workspace__isnull=True) | Q(workspace_id=project.workspace_id)
+        )
+    else:
+        inherited = inherited.filter(workspace__isnull=True)
+
+    with transaction.atomic():
+        engine_exclusions = MachineryExclusion.objects.filter(
+            **scope, engine=installation.engine
+        )
+        if engine_exclusions.exists():
+            for sibling in inherited.exclude(pk=installation.pk):
+                MachineryExclusion.objects.get_or_create(**scope, installation=sibling)
+            engine_exclusions.delete()
+        MachineryExclusion.objects.filter(**scope, installation=installation).delete()
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
@@ -341,18 +577,46 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
         return False
 
     def save_settings(self, data: SettingsDict | None) -> None:
-        self.project.machinery_settings[self.machinery_id] = data
-        self.project.save(update_fields=["machinery_settings"])
+        if self.installation:
+            if self.installation.project_id != self.project.pk:
+                raise PermissionDenied
+            self.installation.configuration = data
+            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.save()
+        elif data is not None:
+            MachineryInstallation.objects.create(
+                project=self.project,
+                engine=self.machinery_id,
+                slug=self.request.POST.get("slug", ""),
+                configuration=data,
+            )
 
     def delete_service(self) -> None:
-        if self.machinery_id in self.project.machinery_settings:
-            self.enable_service()
-        else:
-            self.save_settings(None)
+        if self.installation:
+            if self.installation.project_id == self.project.pk:
+                self.installation.delete()
+            else:
+                MachineryExclusion.objects.get_or_create(
+                    project=self.project, installation=self.installation
+                )
 
     def enable_service(self) -> None:
-        self.project.machinery_settings.pop(self.machinery_id, None)
-        self.project.save(update_fields=["machinery_settings"])
+        if self.installation:
+            if self.installation.project_id == self.project.pk:
+                self.installation.enabled = True
+                self.installation.save(update_fields=["enabled"])
+            else:
+                enable_inherited_installation(self.installation, project=self.project)
+
+    def pause_service(self) -> None:
+        if not self.installation or self.installation.project_id != self.project.pk:
+            raise PermissionDenied
+        super().pause_service()
+
+    def exclude_engine(self) -> None:
+        MachineryExclusion.objects.get_or_create(
+            project=self.project, engine=self.machinery_id
+        )
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
@@ -367,6 +631,61 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
         result = super().get_context_data(**kwargs)
         result["project"] = self.project
         return result
+
+
+class EditMachineryWorkspaceView(MachineryWorkspaceMixin, EditMachineryView):
+    @property
+    def allow_private_targets(self) -> bool:
+        return False
+
+    def save_settings(self, data: SettingsDict) -> None:
+        if self.installation:
+            if self.installation.workspace_id != self.workspace.pk:
+                raise PermissionDenied
+            self.installation.configuration = data
+            self.installation.slug = self.request.POST.get("slug", "")
+            self.installation.save()
+        else:
+            MachineryInstallation.objects.create(
+                workspace=self.workspace,
+                engine=self.machinery_id,
+                slug=self.request.POST.get("slug", ""),
+                configuration=data,
+            )
+
+    def delete_service(self) -> None:
+        if self.installation:
+            if self.installation.workspace_id == self.workspace.pk:
+                self.installation.delete()
+            else:
+                MachineryExclusion.objects.get_or_create(
+                    workspace=self.workspace, installation=self.installation
+                )
+
+    def enable_service(self) -> None:
+        if self.installation:
+            if self.installation.workspace_id == self.workspace.pk:
+                self.installation.enabled = True
+                self.installation.save(update_fields=["enabled"])
+            else:
+                enable_inherited_installation(
+                    self.installation, workspace=self.workspace
+                )
+
+    def pause_service(self) -> None:
+        if not self.installation or self.installation.workspace_id != self.workspace.pk:
+            raise PermissionDenied
+        super().pause_service()
+
+    def exclude_engine(self) -> None:
+        MachineryExclusion.objects.get_or_create(
+            workspace=self.workspace, engine=self.machinery_id
+        )
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
+        if not request.user.has_perm("workspace.edit", self.workspace):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 
 def format_string_helper(
@@ -408,6 +727,7 @@ def get_machinery_translations(
         translations = translation_service.search(unit, search, request.user)
         return format_machinery_translations(
             translations,
+            translation_service=translation_service,
             multivalue=unit.is_multivalue
             or unit.has_multiple_values(unit.plural_map, targets),
             search=True,
@@ -419,6 +739,7 @@ def get_machinery_translations(
     translations = translation_service.translate(unit, request.user)
     return format_machinery_translations(
         translations,
+        translation_service=translation_service,
         multivalue=unit.is_multivalue
         or unit.has_multiple_values(unit.plural_map, targets),
         search=False,
@@ -445,6 +766,7 @@ async def get_machinery_translations_async(
         is_search = False
     return await sync_to_async(format_machinery_translations)(
         translations,
+        translation_service=translation_service,
         multivalue=unit.is_multivalue
         or unit.has_multiple_values(unit.plural_map, targets),
         search=is_search,
@@ -457,14 +779,17 @@ async def get_machinery_translations_async(
 def format_machinery_translations(
     translations,
     *,
+    translation_service: BatchMachineTranslation,
     search: bool,
     multivalue: bool = False,
     targets: list[str],
     translation: Translation,
     source_translation: Translation,
 ) -> list[dict]:
+    installation_slug = translation_service.settings.get("_installation_slug")
     if search:
         for item in translations:
+            item["installation_slug"] = installation_slug
             format_results_helper(
                 item, targets, 0, translation, source_translation, multivalue=multivalue
             )
@@ -472,6 +797,7 @@ def format_machinery_translations(
 
     for plural_form, possible_translations in enumerate(translations):
         for item in possible_translations:
+            item["installation_slug"] = installation_slug
             format_results_helper(
                 item,
                 targets,
@@ -505,7 +831,7 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         raise PermissionDenied
 
     try:
-        translation_service_class = MACHINERY[service]
+        translation_service_class = MACHINERY[service.partition(":")[0]]
     except KeyError as error:
         msg = "Invalid service specified"
         raise Http404(msg) from error
@@ -524,10 +850,14 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
     targets = unit.get_target_plurals()
 
     try:
-        translation_service = translation_service_class(machinery_settings[service])
-    except KeyError:
+        installation = resolve_installation(service, component.project)
+        translation_service = translation_service_class(
+            machinery_settings[installation.selector]
+        )
+    except (KeyError, ValueError):
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
+        response["service"] = translation_service.name
         source_translation = get_machinery_source_translation(translation_service, unit)
         try:
             translations = get_machinery_translations(
@@ -575,7 +905,7 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
         raise PermissionDenied
 
     try:
-        translation_service_class = MACHINERY[service]
+        translation_service_class = MACHINERY[service.partition(":")[0]]
     except KeyError as error:
         msg = "Invalid service specified"
         raise Http404(msg) from error
@@ -596,10 +926,16 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
         )
     )()
     try:
-        translation_service = translation_service_class(machinery_settings[service])
-    except KeyError:
+        installation = await sync_to_async(resolve_installation)(
+            service, component.project
+        )
+        translation_service = translation_service_class(
+            machinery_settings[installation.selector]
+        )
+    except (KeyError, ValueError):
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
+        response["service"] = translation_service.name
         source_translation = await sync_to_async(get_machinery_source_translation)(
             translation_service, unit
         )
@@ -640,4 +976,20 @@ def memory(request: AuthenticatedHttpRequest, unit_id: int):
     if not query:
         return HttpResponseBadRequest("Missing search string")
 
-    return handle_machinery(request, "weblate-translation-memory", unit, search=query)
+    installations = [
+        installation
+        for installation in applicable_installations(unit.translation.component.project)
+        if installation.engine == "weblate-translation-memory"
+    ]
+    service = (
+        min(
+            installations,
+            key=lambda installation: (
+                0 if installation.project_id else 1 if installation.workspace_id else 2,
+                installation.pk,
+            ),
+        ).selector
+        if installations
+        else "weblate-translation-memory"
+    )
+    return handle_machinery(request, service, unit, search=query)

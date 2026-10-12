@@ -18,6 +18,7 @@ from filelock import FileLock
 
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
+from weblate.machinery.models import MachineryInstallation
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import get_effective_params_for_file_format
@@ -1326,6 +1327,38 @@ class SettingsTest(ReusableViewTestCase):
             change.get_details_display(),
             'Project moved from "Current workspace" to "Target workspace".',
         )
+
+    def test_project_move_reports_machinery_conflicts(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        target = Workspace.objects.create(name="Target workspace")
+        target.add_owner(self.user)
+        self.user.clear_permissions_cache()
+        MachineryInstallation.objects.filter(
+            engine="weblate", project=None, workspace=None
+        ).update(enabled=False)
+        for engine, slug in (("openai", "shared"), ("weblate", "")):
+            with self.subTest(engine=engine):
+                local = MachineryInstallation.objects.create(
+                    project=self.project, engine=engine, slug=slug
+                )
+                inherited = MachineryInstallation.objects.create(
+                    workspace=target, engine=engine, slug=slug
+                )
+                response = self.client.post(
+                    reverse("move", kwargs={"path": self.project.get_url_path()}),
+                    {"workspace": str(target.pk)},
+                    follow=True,
+                )
+                self.assertContains(response, "conflict with the new workspace")
+                self.project.refresh_from_db()
+                self.assertIsNone(self.project.workspace_id)
+                self.assertFalse(
+                    self.project.change_set.filter(
+                        action=ActionEvents.MOVE_PROJECT
+                    ).exists()
+                )
+                local.delete()
+                inherited.delete()
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_project_move_to_billing_workspace_updates_name(self) -> None:

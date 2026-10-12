@@ -2,13 +2,16 @@
 
 <h4>
   {% if service.is_configured %}
-    {% if service.sitewide %}
+    {% if service.inherited_scope == "site" %}
       <span class="badge float-end text-bg-secondary"
             title="{% translate "This service is installed site wide." %}">{% translate "site wide" %}</span>
+    {% elif service.inherited_scope == "workspace" %}
+      <span class="badge float-end text-bg-secondary"
+            title="{% translate "This service is installed in the workspace." %}">{% translate "workspace" %}</span>
     {% endif %}
     {% if not service.is_enabled %}
       <span class="badge float-end text-bg-secondary"
-            title="{% translate "This service is installed site wide, but disabled." %}">{% translate "disabled" %}</span>
+            title="{% translate "This service is disabled." %}">{% translate "disabled" %}</span>
     {% endif %}
   {% endif %}
   {{ service.name }}
@@ -18,3 +21,9 @@
     <span class="badge badge-danger">{% translate "Service is no longer available" %}</span>
   {% endif %}
 </h4>
+{% if service.installation %}
+  <div class="text-muted small">
+    {% translate "ID" %}: {{ service.installation.pk }}
+    {% if service.installation.slug %}· {% translate "Slug" %}: {{ service.installation.slug }}{% endif %}
+  </div>
+{% endif %}

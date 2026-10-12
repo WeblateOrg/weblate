@@ -140,6 +140,8 @@ class BatchMachineTranslation(DocVersionsMixin):
     def __init__(self, configuration: SettingsDict) -> None:
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
+        if installation_id := configuration.get("_installation_id"):
+            self.mtid = f"{self.mtid}:{installation_id}"
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()

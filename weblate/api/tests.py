@@ -86,6 +86,7 @@ from weblate.auth.models import (
 )
 from weblate.auth.permissions import get_project_repository_selection
 from weblate.lang.models import Language
+from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
@@ -141,7 +142,6 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.tests import http_mock
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -6924,6 +6924,40 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(change.details["old_workspace_name"], "Current workspace")
         self.assertEqual(change.details["workspace_name"], "Target workspace")
 
+    def test_patch_workspace_move_reports_machinery_conflicts(self) -> None:
+        target = Workspace.objects.create(name="Target workspace")
+        MachineryInstallation.objects.filter(
+            engine="weblate", project=None, workspace=None
+        ).update(enabled=False)
+        for engine, slug in (("openai", "shared"), ("weblate", "")):
+            with self.subTest(engine=engine):
+                local = MachineryInstallation.objects.create(
+                    project=self.project, engine=engine, slug=slug
+                )
+                inherited = MachineryInstallation.objects.create(
+                    workspace=target, engine=engine, slug=slug
+                )
+                response = self.do_request(
+                    "api:project-detail",
+                    self.project_kwargs,
+                    method="patch",
+                    code=400,
+                    superuser=True,
+                    format="json",
+                    request={"workspace": str(target.pk)},
+                )
+                self.assertIn("conflict with the new workspace", str(response.data))
+                self.assertEqual(response.data["errors"][0]["attr"], "workspace")
+                self.project.refresh_from_db()
+                self.assertIsNone(self.project.workspace_id)
+                self.assertFalse(
+                    self.project.change_set.filter(
+                        action=ActionEvents.MOVE_PROJECT
+                    ).exists()
+                )
+                local.delete()
+                inherited.delete()
+
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_patch_workspace_move_to_billing_workspace_updates_name(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
@@ -8279,258 +8313,182 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(len(response.data["results"]), 1)
 
-    @http_mock.activate
-    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
-    @patch(
-        "weblate.utils.outbound.socket.getaddrinfo",
-        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
-    )
-    def test_install_machinery(self, mocked_getaddrinfo, mocked_get_peer) -> None:
-        """Test the machinery settings API endpoint for various scenarios."""
-        # Deep import to avoid running these as tests
-        # ruff: ignore[import-outside-top-level]
-        from weblate.machinery.tests import (
-            AlibabaTranslationTest,
-            DeepLTranslationTest,
+    def test_install_machinery(self) -> None:
+        """Project collection creates installations; the detail API edits them."""
+        route = "api:project-machinery-settings"
+        self.assertEqual(
+            reverse(route, kwargs=self.project_kwargs),
+            "/api/projects/test/translation-services/",
         )
-
-        # unauthenticated get
+        self.assertEqual(
+            reverse("api:machinery-installation-list"),
+            "/api/translation-services/",
+        )
+        self.assertEqual(
+            reverse("api:machinery-exclusion-list"),
+            "/api/translation-service-exclusions/",
+        )
         self.do_request(
-            "api:project-machinery-settings",
+            route,
             self.project_kwargs,
             method="get",
             code=403,
             authenticated=True,
             superuser=False,
         )
-
-        # unauthenticated post
-        self.do_request(
-            "api:project-machinery-settings",
+        exclusion = MachineryExclusion.objects.create(
+            project=self.project, engine="weblate"
+        )
+        created = self.do_request(
+            route,
             self.project_kwargs,
             method="post",
-            code=403,
+            code=201,
+            superuser=True,
+            request={
+                "engine": "weblate",
+                "slug": "local",
+                "configuration": '{"key": "secret"}',
+            },
+            format="json",
+        )
+        installation_id = created.data["id"]
+        self.assertEqual(created.data["selector"], f"weblate:{installation_id}")
+        self.assertEqual(created.data["configuration"], {"key": "secret"})
+        self.assertEqual(
+            MachineryInstallation.objects.get(pk=installation_id).configuration,
+            {"key": "secret"},
+        )
+        listed = self.do_request(
+            route, self.project_kwargs, method="get", superuser=True
+        )
+        self.assertEqual(len(listed.data), 1)
+        self.assertEqual(listed.data[0]["id"], installation_id)
+        self.assertEqual(listed.data[0]["configuration"], {"key": "secret"})
+        detail = self.do_request(
+            "api:machinery-installation-detail",
+            {"pk": installation_id},
+            method="get",
+            superuser=True,
+        )
+        self.assertEqual(detail.data["configuration"], {"key": "secret"})
+        repeated = self.do_request(
+            "api:machinery-installation-detail",
+            {"pk": installation_id},
+            method="put",
+            superuser=True,
+            request={
+                "engine": "weblate",
+                "slug": "local",
+                "configuration": {"key": "secret"},
+                "project": self.project.pk,
+            },
+            format="json",
+        )
+        self.assertEqual(repeated.data["engine"], "weblate")
+        for method in ("patch", "put"):
+            with self.subTest(method=method):
+                unchanged = self.do_request(
+                    "api:machinery-exclusion-detail",
+                    {"pk": exclusion.pk},
+                    method=method,
+                    superuser=True,
+                    request={"engine": "weblate", "project": self.project.pk},
+                    format="json",
+                )
+                self.assertEqual(unchanged.data["id"], exclusion.pk)
+        self.do_request(
+            "api:machinery-exclusion-detail",
+            {"pk": exclusion.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"engine": "openai"},
+            format="json",
+        )
+        exclusion.refresh_from_db()
+        self.assertEqual(exclusion.engine, "weblate")
+        self.do_request(
+            "api:machinery-installation-detail",
+            {"pk": installation_id},
+            method="get",
+            code=404,
             authenticated=True,
             superuser=False,
-            request={"service": "weblate"},
         )
-
-        # missing service
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=400,
-            superuser=True,
-            request={},
+        self.grant_perm_to_user("project.edit", project=self.project)
+        visible = self.do_request("api:machinery-installation-list")
+        self.assertEqual(
+            [item["id"] for item in visible.data["results"]], [installation_id]
         )
-
-        # unknown service
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=400,
-            superuser=True,
-            request={"service": "unknown"},
+        exclusions = self.do_request("api:machinery-exclusion-list")
+        self.assertEqual(len(exclusions.data["results"]), 1)
+        self.assertEqual(exclusions.data["results"][0]["project"], self.project.pk)
+        block = self.user.userblock_set.create(project=self.project)
+        self.assertEqual(
+            self.do_request("api:machinery-installation-list").data["results"], []
         )
-
-        # create configuration: no form
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=201,
-            superuser=True,
-            request={"service": "weblate"},
+        block.delete()
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.assertEqual(
+            self.do_request("api:machinery-installation-list").data["results"], []
         )
-
-        # missing required field
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=400,
-            superuser=True,
-            request={
-                "service": "deepl",
-                "configuration": {"wrong": ""},
-            },
-            format="json",
-        )
-
-        # invalid field with multipart
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=400,
-            superuser=True,
-            request={
-                "service": "deepl",
-                "configuration": "{malformed_json",
-            },
-        )
-
-        # create configuration: valid form with multipart
-        DeepLTranslationTest.mock_response()
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=201,
-            superuser=True,
-            request={
-                "service": "deepl",
-                "configuration": '{"key": "x", "url": "https://api.deepl.com/"}',
-            },
-        )
-
-        # create configuration: valid form with json
-        AlibabaTranslationTest().mock_response()
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=201,
-            superuser=True,
-            request={
-                "service": "alibaba",
-                "configuration": {
-                    "key": "alibaba-key-v1",
-                    "secret": "alibaba-secret",
-                    "region": "alibaba-region",
-                },
-            },
-            format="json",
-        )
-
-        # update configuration: incorrect method
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="post",
-            code=400,
-            superuser=True,
-            request={
-                "service": "deepl",
-                "configuration": {
-                    "key": "deepl-key-v1",
-                    "url": "https://api.deepl.com/",
-                },
-            },
-            format="json",
-        )
-
-        # update configuration: valid method
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="patch",
-            code=200,
-            superuser=True,
-            request={
-                "service": "deepl",
-                "configuration": {
-                    "key": "deepl-key-v2",
-                    "url": "https://api.deepl.com/",
-                },
-            },
-            format="json",
-        )
-
-        # list configurations
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="get",
-            code=200,
-            superuser=True,
-        )
-        self.assertIn("weblate", response.data)
-        self.assertEqual(response.data["deepl"]["key"], "deepl-key-v2")
-        self.assertEqual(response.data["alibaba"]["key"], "alibaba-key-v1")
-
-        # remove configuration
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="patch",
-            code=200,
-            superuser=True,
-            request={"service": "deepl", "configuration": None},
-            format="json",
-        )
-
-        # check configuration no longer exists
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="get",
-            code=200,
-            superuser=True,
-        )
-        self.assertNotIn("deepl", response.data)
-
-        # invalid replace all configurations (missing required config)
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="put",
-            code=400,
-            superuser=True,
-            request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
-                "unknown": {"key": "alibaba-key-invalid"},
-            },
-            format="json",
-        )
-
-        # invalid replace all configurations (missing required config)
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="put",
-            code=400,
-            superuser=True,
-            request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
-                "alibaba": {"key": "alibaba-key-invalid"},
-            },
-            format="json",
-        )
-
-        # replace all configurations
-        new_config = {
-            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/"},
-            "alibaba": {
-                "key": "alibaba-key-v2",
-                "secret": "alibaba-secret",
-                "region": "alibaba-region",
-            },
-        }
-
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="put",
-            code=200,
-            superuser=True,
-            request=new_config,
-            format="json",
-        )
-
-        # check all configurations
-        response = self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
-            method="get",
+        for request in (
+            {"engine": "deepl"},
+            {"configuration": []},
+            {"configuration": "[]"},
+        ):
+            self.do_request(
+                "api:machinery-installation-detail",
+                {"pk": installation_id},
+                method="patch",
+                code=400,
+                superuser=True,
+                request=request,
+                format="json",
+            )
+        with patch(
+            "weblate.machinery.api.validate_service_configuration",
+            return_value=(None, {}, ["Provider unavailable"]),
+        ) as validate_configuration:
+            updated = self.do_request(
+                "api:machinery-installation-detail",
+                {"pk": installation_id},
+                method="patch",
+                code=200,
+                superuser=True,
+                request={"enabled": False},
+                format="json",
+            )
+        validate_configuration.assert_not_called()
+        self.assertFalse(updated.data["enabled"])
+        self.do_request(
+            "api:machinery-installation-detail",
+            {"pk": installation_id},
+            method="delete",
+            code=204,
             superuser=True,
         )
 
-        self.assertEqual(new_config, response.data)
-        mocked_getaddrinfo.assert_called()
-        mocked_get_peer.assert_called()
+    def test_workspace_installation_scope_listing(self) -> None:
+        workspace = Workspace.objects.create(name="Suggestion workspace")
+        workspace.add_owner(self.user)
+        installation = MachineryInstallation.objects.create(
+            engine="openai", workspace=workspace
+        )
+        exclusion = MachineryExclusion.objects.create(
+            workspace=workspace, engine="openai"
+        )
+        installations = self.do_request("api:machinery-installation-list")
+        self.assertEqual(
+            [item["id"] for item in installations.data["results"]],
+            [installation.pk],
+        )
+        exclusions = self.do_request("api:machinery-exclusion-list")
+        self.assertEqual(
+            [item["id"] for item in exclusions.data["results"]], [exclusion.pk]
+        )
 
     @override_settings(ENABLE_HTTPS=True, SITE_DOMAIN="example.com")
     @patch(
@@ -8538,14 +8496,14 @@ class ProjectAPITest(APIBaseTest):
         return_value={"QE": {("EN", "CS")}, "SPD": {("EN", "FR")}},
     )
     def test_install_etranslation_custom_domain(self, _get_domains) -> None:
-        self.do_request(
+        created = self.do_request(
             "api:project-machinery-settings",
             self.project_kwargs,
             method="post",
             code=201,
             superuser=True,
             request={
-                "service": "etranslation",
+                "engine": "etranslation",
                 "configuration": {
                     "key": "application",
                     "secret": "password",
@@ -8556,26 +8514,24 @@ class ProjectAPITest(APIBaseTest):
             },
             format="json",
         )
-        self.component.project.refresh_from_db()
-        configuration = self.component.project.machinery_settings["etranslation"]
+        installation = MachineryInstallation.objects.get(pk=created.data["id"])
+        configuration = installation.configuration
         self.assertEqual(configuration["domain"], "QE")
         self.assertNotIn("other_domain", configuration)
         self.assertEqual(
             configuration["component_domains"], {"project/privacy-policy": "SPD"}
         )
         self.do_request(
-            "api:project-machinery-settings",
-            self.project_kwargs,
+            "api:machinery-installation-detail",
+            {"pk": installation.pk},
             method="patch",
             code=200,
             superuser=True,
-            request={"service": "etranslation", "configuration": configuration},
+            request={"configuration": configuration},
             format="json",
         )
-        self.component.project.refresh_from_db()
-        self.assertEqual(
-            self.component.project.machinery_settings["etranslation"], configuration
-        )
+        installation.refresh_from_db()
+        self.assertEqual(installation.configuration, configuration)
 
     @override_settings(OFFER_HOSTING=False)
     def test_install_machinery_blocks_private_project_target(self) -> None:
@@ -8588,7 +8544,7 @@ class ProjectAPITest(APIBaseTest):
             code=400,
             superuser=False,
             request={
-                "service": "deepl",
+                "engine": "deepl",
                 "configuration": {"key": "x", "url": "http://127.0.0.1:11434/"},
             },
             format="json",
@@ -18022,8 +17978,11 @@ class AddonAPITest(APIBaseTest):
 
     def test_ai_quality_configuration(self) -> None:
         project = self.component.project
-        project.machinery_settings = {"openai": {"key": "test", "model": "auto"}}
-        project.save(update_fields=["machinery_settings"])
+        MachineryInstallation.objects.create(
+            project=project,
+            engine="openai",
+            configuration={"key": "test", "model": "auto"},
+        )
         configuration = {
             "service": "openai",
             "q": "state:>=translated",

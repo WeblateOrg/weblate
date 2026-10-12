@@ -27,6 +27,7 @@ from weblate.api.views import (
     UnitViewSet,
     UserViewSet,
 )
+from weblate.machinery.api import ExclusionViewSet, InstallationViewSet
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()
@@ -45,6 +46,10 @@ router.register("suggestions", SuggestionViewSet)
 router.register("screenshots", ScreenshotViewSet)
 router.register("tasks", TasksViewSet, "task")
 router.register("addons", AddonViewSet)
+router.register("translation-services", InstallationViewSet, "machinery-installation")
+router.register(
+    "translation-service-exclusions", ExclusionViewSet, "machinery-exclusion"
+)
 router.register("categories", CategoryViewSet)
 router.register("reports", ReportViewSet, "report")
 

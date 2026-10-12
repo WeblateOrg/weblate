@@ -52,12 +52,12 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.auth.models import AutoGroup, Group, Role, User
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
@@ -2603,15 +2603,25 @@ class SeleniumTests(
             [],
         )
 
-    def open_machinery_unit(self, *identifiers: str) -> Unit:
+    def open_machinery_unit(
+        self, *identifiers: str, slugs: dict[str, str] | None = None
+    ) -> Unit:
         """Open the machinery tab of a unit with given services enabled."""
         project = self.create_component()
-        project.machinery_settings = dict.fromkeys(
-            Setting.objects.get_settings_dict(SettingCategory.MT)
-        )
+        for engine in (
+            MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+            .values_list("engine", flat=True)
+            .distinct()
+        ):
+            MachineryExclusion.objects.create(project=project, engine=engine)
         for identifier in identifiers:
-            project.machinery_settings[identifier] = {}
-        project.save(update_fields=["machinery_settings"])
+            MachineryInstallation.objects.create(
+                project=project,
+                engine=identifier,
+                slug=slugs.get(identifier, "") if slugs else "",
+            )
 
         self.do_login(superuser=True)
         unit = (
@@ -2800,10 +2810,13 @@ class SeleniumTests(
             ],
         )
 
-        summary.click()
+        summary.send_keys(Keys.ENTER)
         self.assertEqual(
             [element.text for element in origins if element.is_displayed()][5:],
-            ["Component 5 (75%)", "Component 6 (70%)"],
+            [
+                "Component 5 (75%)",
+                "Component 6 (70%)",
+            ],
         )
 
     @reuse_demo_fixture
@@ -2836,6 +2849,7 @@ class SeleniumTests(
         self.open_machinery_unit(
             SeleniumScoredTranslation.get_identifier(),
             SeleniumEngineTranslation.get_identifier(),
+            slugs={SeleniumScoredTranslation.get_identifier(): "preferred"},
         )
         # The results of both services merge into a single row, the second
         # result of the engine is listed separately.
@@ -2865,7 +2879,9 @@ class SeleniumTests(
                     By.CSS_SELECTOR, ".machinery-origin-detail"
                 )
             ],
-            ["Project: WeblateOrg/Django (100%)"],
+            [
+                "Project: WeblateOrg/Django · Slug: preferred (100%)",
+            ],
         )
         self.assertEqual(
             [
@@ -2963,11 +2979,15 @@ class SeleniumTests(
         self.addCleanup(clear_auto_translation_storage)
 
         project = self.create_component()
-        project.machinery_settings = dict.fromkeys(
-            Setting.objects.get_settings_dict(SettingCategory.MT)
-        )
-        project.machinery_settings[identifier] = {}
-        project.save(update_fields=["machinery_settings"])
+        for engine in (
+            MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+            .values_list("engine", flat=True)
+            .distinct()
+        ):
+            MachineryExclusion.objects.create(project=project, engine=engine)
+        MachineryInstallation.objects.create(project=project, engine=identifier)
 
         target_component = project.component_set.get(slug="django")
         for index in range(28):
@@ -3176,19 +3196,15 @@ class SeleniumTests(
         services = (
             (WeblateMemory,) if memory_only else (WeblateTranslation, WeblateMemory)
         )
-        Setting.objects.filter(category=SettingCategory.MT).delete()
-        Setting.objects.bulk_create(
+        MachineryInstallation.objects.filter(
+            project__isnull=True, workspace__isnull=True
+        ).delete()
+        MachineryInstallation.objects.bulk_create(
             [
-                Setting(
-                    category=SettingCategory.MT,
-                    name=service.get_identifier(),
-                    value={},
-                )
+                MachineryInstallation(engine=service.get_identifier())
                 for service in services
             ]
         )
-        project.machinery_settings = {}
-        project.save(update_fields=["machinery_settings"])
 
     def _build_demo_component(self) -> Project:
         self.use_github_fixtures()
@@ -4152,6 +4168,16 @@ class SeleniumTests(
         self.click("Operations")
         self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
+        expected_engines = {
+            WeblateTranslation.get_identifier(),
+            WeblateMemory.get_identifier(),
+        }
+        expected_engines.update(
+            installation.selector
+            for installation in MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+        )
         self.assertEqual(
             {
                 option.get_attribute("value")
@@ -4159,7 +4185,7 @@ class SeleniumTests(
                     self.driver.find_element(By.ID, "id_auto_engines")
                 ).options
             },
-            {WeblateTranslation.get_identifier(), WeblateMemory.get_identifier()},
+            expected_engines,
         )
         self.click("Operations")
         self.screenshot("automatic-translation.png")
