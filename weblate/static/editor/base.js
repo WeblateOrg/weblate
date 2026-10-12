@@ -352,35 +352,50 @@ WLT.Editor = (() => {
       hotkeys(`ctrl+${i},command+${i}`, () => false);
     }
 
+    const keyMap = {};
+    let keyCount = 0;
+
     const hlChecks = document.querySelectorAll(hlSelector);
     if (hlChecks.length > 0) {
-      hlChecks.forEach((el, idx) => {
-        if (idx < 10) {
-          const key = WLT.Utils.getNumericKey(idx);
+      hlChecks.forEach((el) => {
+        let idx;
+        let newKey = false;
+        const dataValue = el.getAttribute("data-value");
 
-          let title;
-          if (WLT.Config.IS_MAC) {
-            title = interpolate(gettext("Cmd+%s"), [key]);
-          } else {
-            title = interpolate(gettext("Ctrl+%s"), [key]);
-          }
-          el.setAttribute("title", title);
-          const numberEl = el.querySelector(hlNumberSelector);
-          if (numberEl) {
-            const kbd = document.createElement("kbd");
-            kbd.textContent = key;
-            numberEl.replaceChildren(kbd);
-          }
-
-          hotkeys(`ctrl+${key},command+${key}`, () => {
-            el.click();
-            return false;
-          });
+        if (dataValue in keyMap) {
+          idx = keyMap[dataValue];
+        } else if (keyCount < 10) {
+          idx = keyCount++;
+          keyMap[dataValue] = idx;
+          newKey = true;
         } else {
           const numberEl = el.querySelector(hlNumberSelector);
           if (numberEl) {
             numberEl.replaceChildren();
           }
+          return;
+        }
+
+        const key = WLT.Utils.getNumericKey(idx);
+
+        let title;
+        if (WLT.Config.IS_MAC) {
+          title = interpolate(gettext("Cmd+%s"), [key]);
+        } else {
+          title = interpolate(gettext("Ctrl+%s"), [key]);
+        }
+        el.setAttribute("title", title);
+        const numberEl = el.querySelector(hlNumberSelector);
+        if (numberEl) {
+          const kbd = document.createElement("kbd");
+          kbd.textContent = key;
+          numberEl.replaceChildren(kbd);
+        }
+        if (newKey) {
+          hotkeys(`ctrl+${key},command+${key}`, () => {
+            el.click();
+            return false;
+          });
         }
       });
       for (const el of document.querySelectorAll(hlNumberSelector)) {
