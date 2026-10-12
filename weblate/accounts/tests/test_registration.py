@@ -26,7 +26,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 from social_core.backends.email import EmailAuth
 from social_core.pipeline.social_auth import social_names
-from social_django.models import DjangoStorage, UserSocialAuth
+from social_django.models import Code, DjangoStorage, UserSocialAuth
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.flows import (
@@ -35,7 +35,7 @@ from weblate.accounts.flows import (
     PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
     sign_password_reset_scope,
 )
-from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.pipeline import (
     ensure_valid,
     handle_invite,
@@ -82,6 +82,7 @@ GH_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
+
 SAML_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.saml.SAMLAuth",
@@ -94,6 +95,103 @@ REGISTRATION_SUCCESS = (
     "Click the confirmation link sent to your e-mail inbox "
     "and start using your account."
 )
+
+
+class MissingBackendDisconnectTest(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user("retired-user", "old@example.org")
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.old = self.user.social_auth.create(
+            provider="retired-provider", uid="retired-id", id_key="id"
+        )
+        self.current = self.user.social_auth.create(
+            provider="email", uid="current@example.org", id_key="email"
+        )
+        VerifiedEmail.objects.create(social=self.old, email="old@example.org")
+        VerifiedEmail.objects.create(social=self.current, email="current@example.org")
+        self.url = reverse(
+            "social:disconnect_individual",
+            kwargs={"backend": self.old.provider, "association_id": self.old.pk},
+        )
+        self.client.force_login(self.user)
+
+    def test_disconnect(self) -> None:
+        response = self.client.get(reverse("profile"))
+        self.assertContains(response, self.url)
+
+        old_code = Code.objects.create(email="old@example.org", code="old-code")
+        current_code = Code.objects.create(
+            email="current@example.org", code="current-code"
+        )
+        other_client = Client()
+        other_client.force_login(self.user)
+        response = self.client.post(self.url)
+
+        self.assertRedirects(
+            response, f"{reverse('profile')}#account", fetch_redirect_response=False
+        )
+        self.assertFalse(self.user.social_auth.filter(pk=self.old.pk).exists())
+        self.assertFalse(VerifiedEmail.objects.filter(social_id=self.old.pk).exists())
+        self.assertFalse(Code.objects.filter(pk=old_code.pk).exists())
+        self.assertTrue(Code.objects.filter(pk=current_code.pk).exists())
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "current@example.org")
+        self.assertIn(SESSION_KEY, self.client.session)
+        other_client.get(reverse("profile"))
+        self.assertNotIn(SESSION_KEY, other_client.session)
+        self.assertEqual(
+            AuditLog.objects.get(user=self.user, activity="auth-disconnect").params,
+            {"method": "retired-provider", "name": "retired-id"},
+        )
+
+    def test_requires_post_and_login(self) -> None:
+        self.assertEqual(self.client.get(self.url).status_code, 405)
+        self.client.logout()
+        self.assertEqual(self.client.post(self.url).status_code, 302)
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
+
+    def test_requires_csrf_token(self) -> None:
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        self.assertEqual(client.post(self.url).status_code, 403)
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
+
+    def test_rejects_other_user_or_provider(self) -> None:
+        other_user = User.objects.create_user("other-user", "other@example.org", "x")
+        other = other_user.social_auth.create(
+            provider="retired-provider", uid="other-id", id_key="id"
+        )
+        for backend, association_id in (
+            ("retired-provider", other.pk),
+            ("different-provider", self.old.pk),
+        ):
+            url = reverse(
+                "social:disconnect_individual",
+                kwargs={"backend": backend, "association_id": association_id},
+            )
+            self.assertEqual(self.client.post(url).status_code, 404)
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
+        self.assertTrue(other_user.social_auth.filter(pk=other.pk).exists())
+
+    def test_rejects_missing_association(self) -> None:
+        url = reverse("social:disconnect", kwargs={"backend": self.old.provider})
+        self.assertEqual(self.client.post(url).status_code, 404)
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
+
+    def test_keeps_last_identity(self) -> None:
+        self.current.delete()
+        response = self.client.post(self.url, follow=True)
+        self.assertContains(response, "Could not remove user identity")
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
+
+    def test_keeps_last_verified_email(self) -> None:
+        VerifiedEmail.objects.filter(social=self.current).delete()
+        response = self.client.post(self.url, follow=True)
+        self.assertContains(
+            response, "Add another identity by confirming your e-mail address first."
+        )
+        self.assertTrue(self.user.social_auth.filter(pk=self.old.pk).exists())
 
 
 class RegistrationAttemptPasswordResetURLTest(SimpleTestCase):
