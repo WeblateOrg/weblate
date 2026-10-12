@@ -1659,6 +1659,42 @@ Projects
     :param label_id: ID of the label to delete
     :type label_id: integer
 
+.. http:get:: /api/projects/(string:project)/saved-searches/
+
+   .. versionadded:: 2026.10.1
+
+    Returns :ref:`saved searches <saved-searches>` for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json int id: ID of the saved search
+    :>json string name: name of the saved search
+    :>json string query: :doc:`search query </user/search>`
+    :>json string description: description of the saved search
+
+.. http:post:: /api/projects/(string:project)/saved-searches/
+
+   .. versionadded:: 2026.10.1
+
+    Creates a saved search for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :<json string name: name of the saved search, unique within the project
+    :<json string query: :doc:`search query </user/search>`
+    :<json string description: description of the saved search (optional)
+
+.. http:delete:: /api/projects/(string:project)/saved-searches/(int:saved_search_id)/
+
+   .. versionadded:: 2026.10.1
+
+    Deletes a saved search from a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param saved_search_id: ID of the saved search to delete
+    :type saved_search_id: integer
+
 .. http:get:: /api/projects/(string:project)/reports/
 
     Lists accessible reports generated directly for a project.
