@@ -35,7 +35,11 @@ from django.utils.translation import override as translation_override
 
 from weblate.trans import defaults
 from weblate.trans.models import Component, Project
-from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
+from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
+    RepoTestMixin,
+    TempDirMixin,
+)
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
 from weblate.utils.tests import http_mock
@@ -45,6 +49,7 @@ from weblate.vcs.base import (
     Repository,
     RepositoryCommandError,
     RepositoryError,
+    RepositoryInternalError,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
@@ -373,6 +378,19 @@ class RepositoryTest(SimpleTestCase):
                     },
                 )
 
+        for message in (
+            "The local repository checkout is missing.",
+            "The local repository checkout is invalid.",
+            "fatal: not a git repository: '.../.git'",
+        ):
+            with self.subTest(message=message):
+                self.assertFalse(
+                    any(
+                        diagnosis["code"] in {"checkout_missing", "checkout_invalid"}
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    )
+                )
+
     def test_repository_redirect_error_is_not_localized(self) -> None:
         with translation_override("fr"):
             error = RepositoryRedirectError(
@@ -487,20 +505,42 @@ class RepositoryTest(SimpleTestCase):
             [["git", "reset", "--hard"], ["git", "reset", "--hard"]],
         )
 
-    def test_popen_missing_working_tree_raises_repository_error(self) -> None:
+    def test_popen_missing_working_tree_raises_checkout_error(self) -> None:
         cwd = os.path.join(tempfile.gettempdir(), "missing-working-tree")
         error = FileNotFoundError(2, "No such file or directory", cwd)
 
         with (
             patch("weblate.vcs.base.subprocess.run", side_effect=error),
-            self.assertRaises(RepositoryCommandError) as context,
+            self.assertRaises(RepositoryInternalError) as context,
         ):
             # ruff: ignore[private-member-access]
             GitRepository._popen(["status"], cwd=cwd)
 
         self.assertIs(context.exception.__cause__, error)
         self.assertEqual(context.exception.retcode, 2)
-        self.assertIn(cwd, str(context.exception))
+        self.assertEqual(context.exception.code, "repository_checkout_missing")
+        self.assertEqual(context.exception.diagnoses, [{"code": "checkout_missing"}])
+
+    def test_popen_occupied_working_tree_raises_invalid_checkout(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.write_text("occupied")
+            with self.assertRaises(RepositoryInternalError) as raised:
+                GitRepository._popen(  # ruff: ignore[private-member-access]
+                    ["status"], cwd=str(checkout)
+                )
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
+        self.assertEqual(raised.exception.diagnoses, [{"code": "checkout_invalid"}])
+
+    def test_popen_dangling_checkout_symlink_is_invalid(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "checkout"
+            checkout.symlink_to("missing-checkout", target_is_directory=True)
+            with self.assertRaises(RepositoryInternalError) as raised:
+                GitRepository._popen(  # ruff: ignore[private-member-access]
+                    ["status"], cwd=str(checkout)
+                )
+        self.assertEqual(raised.exception.code, "repository_checkout_invalid")
 
     def test_config_check_cache_key_is_versioned(self) -> None:
         self.assertRegex(
@@ -1106,7 +1146,10 @@ class RepositoryTest(SimpleTestCase):
             repo.clone_from("file://localhost/repo.git")
 
         mock_clone.assert_not_called()
-        self.assertIn("Could not parse URL.", str(error.exception))
+        self.assertIn(
+            "Fetching VCS repository using file is not allowed.",
+            str(error.exception),
+        )
 
     def test_clone_runtime_disallowed_scheme_rejected(self) -> None:
         component = Component(
@@ -1138,7 +1181,7 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
         self.clone_test_repos()
         self.create_temp()
         self.repo = GitRepository.clone(
-            self.format_local_path(self.git_repo_path),
+            self.format_test_repo_url(self.git_repo_path),
             self.tempdir,
             "main",
             component=Component(
@@ -1148,7 +1191,7 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
                 source_language_id=1,
                 branch="main",
                 vcs="git",
-                repo=self.format_local_path(self.git_repo_path),
+                repo=self.format_test_repo_url(self.git_repo_path),
                 pk=-1,
             ),
         )
@@ -2011,6 +2054,18 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             ):
                 repository_class.validate_remote_url("https://vcs.example/repo")
 
+    @override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"})
+    def test_mercurial_scp_style_rejected(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(HgRepository, "_clone") as clone,
+            self.assertRaisesMessage(RepositoryValidationError, "Could not parse URL"),
+        ):
+            repository = HgRepository(tempdir, branch="default", local=True)
+            repository.clone_from("git@github.com:repository")
+
+        clone.assert_not_called()
+
     @override_settings(
         VCS_ALLOW_HOSTS={"hg.example"},
         VCS_ALLOW_SCHEMES={"https", "ssh"},
@@ -2097,7 +2152,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         return
 
     def get_remote_repo_url(self):
-        return self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
+        return self.format_test_repo_url(
+            getattr(self, f"{self._vcs}_repo_path"), self._vcs
+        )
 
     def get_fake_component(self):
         return Component(
@@ -2535,7 +2592,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
-                    self.format_local_path(tempdir), self._remote_branch
+                    self.format_test_repo_url(tempdir), self._remote_branch
                 )
 
         self.assertEqual(raised.exception.code, "repository_remote_branch_unrelated")
@@ -2561,7 +2618,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
-                    self.format_local_path(tempdir), self._remote_branch
+                    self.format_test_repo_url(tempdir), self._remote_branch
                 )
 
         self.assertEqual(raised.exception.code, "repository_remote_branch_shallow")
@@ -2635,7 +2692,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 )
 
             component = self.get_fake_component()
-            component.repo = self.format_local_path(origin_path)
+            component.repo = self.format_test_repo_url(origin_path)
             component.branch = branch
             with override_settings(VCS_CLONE_DEPTH=1):
                 shallow = GitRepository.clone(
@@ -2644,7 +2701,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
             self.assertTrue(shallow.is_shallow())
             shallow.validate_remote_compatibility(
-                self.format_local_path(fork_path), branch
+                self.format_test_repo_url(fork_path), branch
             )
 
     def test_upstream_changes(self) -> None:
@@ -2867,7 +2924,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_configure_branch(self) -> None:
         # Existing branch
         with self.repo.lock:
-            self.repo.configure_branch(self.repo.get_remote_branch(self.tempdir))
+            self.repo.configure_branch(
+                self.repo.get_remote_branch(self.format_test_repo_url(self.tempdir))
+            )
 
             with self.assertRaises(RepositoryError):
                 self.repo.configure_branch("branch")
@@ -2879,7 +2938,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 
     def test_remote_branch(self) -> None:
-        self.assertEqual(self._remote_branch, self.repo.get_remote_branch(self.tempdir))
+        self.assertEqual(
+            self._remote_branch,
+            self.repo.get_remote_branch(self.format_test_repo_url(self.tempdir)),
+        )
 
     def test_push_command_without_force_param(self) -> None:
         if self._class is not GitRepository:
@@ -5623,6 +5685,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
             )
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
     _vcs = "subversion"
@@ -5649,8 +5712,8 @@ class VCSSubversionTest(VCSGitTest):
     def test_configure_remote_no_push(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
-                self.format_local_path(self.subversion_repo_path),
-                self.format_local_path(self.subversion_repo_path),
+                self.format_file_url(self.subversion_repo_path),
+                self.format_file_url(self.subversion_repo_path),
                 "main",
             )
             with self.assertRaises(RepositoryError):
@@ -5660,7 +5723,7 @@ class VCSSubversionTest(VCSGitTest):
     def verify_pull_url(self) -> None:
         self.assertEqual(
             self.repo.get_config("svn-remote.svn.url"),
-            self.format_local_path(self.subversion_repo_path),
+            self.format_file_url(self.subversion_repo_path),
         )
 
     def test_push_runtime_private_repo_rejected_even_with_safe_push_url(self) -> None:
@@ -5689,6 +5752,7 @@ class VCSSubversionBranchTest(VCSSubversionTest):
         self.subversion_repo_path += "/trunk"
 
 
+@override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
 class VCSHgTest(VCSGitTest):
     """Mercurial repository testing."""
 

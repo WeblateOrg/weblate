@@ -765,7 +765,7 @@ class RegistrationTest(BaseRegistrationTest):
         author = User.objects.create_user("author", "author@example.com", "x")
         invited_user = User.objects.create_user("invited", "primary@example.com", "x")
         social = UserSocialAuth.objects.create(
-            user=invited_user, provider="github", uid="invited"
+            user=invited_user, provider="github", uid="invited", id_key="id"
         )
         VerifiedEmail.objects.create(social=social, email="secondary@example.com")
         invited_group = Group.objects.create(name="Invited")
@@ -1141,7 +1141,9 @@ class RegistrationTest(BaseRegistrationTest):
     def test_reset_secondary_verified_email(self) -> None:
         """Test password reset confirmation for a verified secondary e-mail."""
         user = User.objects.create_user("testuser", "primary@example.com", "x")
-        social = user.social_auth.create(provider="email", uid="secondary@example.net")
+        social = user.social_auth.create(
+            provider="email", uid="secondary@example.net", id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email="secondary@example.net")
 
         response = self.client.post(
@@ -1404,8 +1406,12 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_existing(self) -> None:
         """Adding existing mail to existing account should fail."""
-        User.objects.create_user("testuser", "second@example.net", "x")
+        target = User.objects.create_user("testuser", "second@example.net", "x")
         self.test_add_mail(True)
+        audit = target.auditlog_set.get(activity="connect")
+        self.assertNotIn("username", audit.params)
+        self.assertNotIn("Triggered by", str(audit.get_extra_message()))
+        self.assertNotIn("username", mail.outbox[0].body)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_remove_mail(self) -> None:
@@ -1435,8 +1441,10 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.create_user("username", "primary@example.org")
         user.set_unusable_password()
         user.save(update_fields=["password"])
-        first_social = user.social_auth.create(provider="github", uid="1")
-        second_social = user.social_auth.create(provider="email", uid="second")
+        first_social = user.social_auth.create(provider="github", uid="1", id_key="id")
+        second_social = user.social_auth.create(
+            provider="email", uid="second", id_key="email"
+        )
         VerifiedEmail.objects.create(social=first_social, email="primary@example.org")
         VerifiedEmail.objects.create(social=second_social, email="second@example.org")
 
@@ -1643,7 +1651,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_multiple_existing(self) -> None:
         """Store email when an identity has several verified e-mails."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(
             social=social,
@@ -1674,7 +1682,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_multiple_existing_new_email(self) -> None:
         """Store email by reusing one of several existing verified e-mails."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(social=social, email="second@example.org")
 
@@ -1699,7 +1707,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_store_email_verified_emails_cleanup(self) -> None:
         """Store all verified e-mails and clean up stale duplicate entries."""
         user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
-        social = user.social_auth.create(provider="github", uid="1")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
         VerifiedEmail.objects.create(social=social, email="old@example.org")
         VerifiedEmail.objects.create(social=social, email="first@example.org")
         VerifiedEmail.objects.create(social=social, email="first@example.org")
@@ -1890,7 +1898,9 @@ class CookieRegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalidated_on_password_change_case_insensitive(self) -> None:
         user = User.objects.create_user("testuser", "test@example.com", "old-password")
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=user.email)
 
         response = self.client.post(

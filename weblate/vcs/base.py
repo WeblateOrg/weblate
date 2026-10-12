@@ -129,6 +129,8 @@ class CommitInfo(TypedDict):
 
 type RemoteOperation = Literal["none", "pull", "push"]
 type RepositoryDiagnosisCode = Literal[
+    "checkout_missing",
+    "checkout_invalid",
     "branch_behind",
     "gerrit_permission",
     "git_lfs_missing_objects",
@@ -146,6 +148,8 @@ type RepositoryDiagnosisCode = Literal[
     "temporary_failure",
 ]
 type RepositoryErrorCode = Literal[
+    "repository_checkout_missing",
+    "repository_checkout_invalid",
     "api_error",
     "api_error_retry",
     "api_request_failed",
@@ -229,6 +233,12 @@ class RepositoryAlertDetails(TypedDict):
 
 
 REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
+    "repository_checkout_missing": gettext_noop(
+        "The local repository checkout is missing."
+    ),
+    "repository_checkout_invalid": gettext_noop(
+        "The local repository checkout is invalid."
+    ),
     "api_error": gettext_noop("%(detail)s"),
     "api_error_retry": gettext_noop("%(detail)s Please retry later."),
     "api_request_failed": gettext_noop(
@@ -700,6 +710,25 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
     return diagnoses
 
 
+def is_not_git_repository_error(error: str) -> bool:
+    """Match Git errors for both explicit and discovered repository paths."""
+    return "fatal: not a git repository" in error.lower()
+
+
+def is_possible_checkout_error(error: str) -> bool:
+    """Identify Git output worth checking against local checkout state."""
+    normalized = error.lower()
+    return is_not_git_repository_error(normalized) or any(
+        phrase in normalized
+        for phrase in (
+            "index file smaller than expected",
+            "bad config line",
+            "invalid config file",
+            "fatal: bad object",
+        )
+    )
+
+
 def should_auto_add_ssh_host_key(errormessage: str) -> bool:
     """Allow TOFU host key acceptance only for first-seen hosts."""
     return is_ssh_host_key_verification_error(
@@ -739,6 +768,7 @@ class Repository:
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    supports_scp_urls: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     _version_cache: ClassVar[dict[tuple[type, str], str | Exception]] = {}
 
@@ -982,6 +1012,19 @@ class Repository:
         except OSError as error:
             if cwd is None or error.filename != cwd:
                 raise
+            if isinstance(error, (FileNotFoundError, NotADirectoryError)):
+                missing = (
+                    isinstance(error, FileNotFoundError) and not Path(cwd).is_symlink()
+                )
+                raise RepositoryInternalError(
+                    error.errno or 1,
+                    "repository_checkout_missing"
+                    if missing
+                    else "repository_checkout_invalid",
+                    diagnoses=[
+                        {"code": "checkout_missing" if missing else "checkout_invalid"}
+                    ],
+                ) from error
             raise RepositoryCommandError(
                 error.errno or 1, cls.sanitize_error_message(str(error))
             ) from error
@@ -1172,6 +1215,7 @@ class Repository:
         try:
             target = resolve_repo_url(
                 url,
+                allow_scp_style=cls.supports_scp_urls,
                 ssh_destination_resolver=cls.get_ssh_destination_resolver(),
                 proxy_url=get_environment_proxy(url),
             )

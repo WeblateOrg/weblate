@@ -43,6 +43,7 @@ from weblate.trans.backups import (
     CATEGORY_BACKUP_FIELDS,
     COMPONENT_BACKUP_FIELDS,
     PROJECT_BACKUP_FIELDS,
+    PROJECTBACKUP_PREFIX,
     ProjectBackup,
     backup_uses_xliff_format_params,
     format_backup_error,
@@ -74,8 +75,10 @@ from weblate.trans.tasks import (
     cleanup_project_backups,
     import_project_backup,
 )
-from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES, get_test_file
+from weblate.utils.data import data_path
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
@@ -83,7 +86,7 @@ from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from unittest.mock import Mock
 
 
@@ -94,7 +97,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str) -> Iterator[None]:
+def remove_file_after(filename: str) -> Generator[None, None, None]:
     try:
         yield
     finally:
@@ -253,8 +256,21 @@ class BackupErrorFormattingTest(SimpleTestCase):
         )
 
 
-class BackupsTest(ViewTestCase):
+class BackupsTest(ReusableViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        # Shared project IDs also share archive paths outside the VCS snapshot.
+        backup_path = data_path(PROJECTBACKUP_PREFIX) / str(self.project.pk)
+        remove_tree(backup_path, True)
+        self.addCleanup(remove_tree, backup_path, True)
+        media_root = self.enterContext(
+            tempfile.TemporaryDirectory(  # pylint: disable=consider-using-with
+                prefix="weblate-backup-media-"
+            )
+        )
+        self.enterContext(override_settings(MEDIA_ROOT=media_root))
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()
@@ -407,6 +423,30 @@ class BackupsTest(ViewTestCase):
 
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_backup_restore_push_on_update(self) -> None:
+        self.component.push_on_update = False
+        self.component.save(update_fields=["push_on_update"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertIs(component_data["component"]["push_on_update"], False)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored push on update",
+            project_slug="restored-push-on-update",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertIs(restored_component.push_on_update, False)
 
     def test_backup_restore_repoweb_translations(self) -> None:
         repoweb_translations = (
@@ -825,6 +865,7 @@ class BackupsTest(ViewTestCase):
                 "Original component",
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_task_returns_project_url(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -844,6 +885,7 @@ class BackupsTest(ViewTestCase):
         )
         self.assertFalse(os.path.exists(temp_name))
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_import_task_reports_progress(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -1978,6 +2020,7 @@ class BackupsTest(ViewTestCase):
             temp_name = self.write_tampered_component_backup(
                 component_updates={"source_language": "nb_NO"},
                 translation_updates={"language_code": "nb_NO"},
+                translation_language_code="en",
             )
             with remove_file_after(temp_name):
                 restore = ProjectBackup(temp_name)
@@ -2003,7 +2046,8 @@ class BackupsTest(ViewTestCase):
 
     def test_restore_rejects_language_alias_collision(self) -> None:
         temp_name = self.write_tampered_component_backup(
-            translation_updates={"language_code": "b+de"}
+            translation_updates={"language_code": "b+de"},
+            translation_language_code="cs",
         )
         with (
             remove_file_after(temp_name),
@@ -2252,7 +2296,7 @@ class BackupsTest(ViewTestCase):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("unit.review", restored))
 
-    def test_restore_builtin_type_after_earlier_custom_team(self) -> None:
+    def test_restore_preserves_team_internal_flag(self) -> None:
         self.project.translation_review = False
         self.project.source_review = False
         self.project.save()
@@ -2273,7 +2317,7 @@ class BackupsTest(ViewTestCase):
         backup = ProjectBackup()
         backup.backup_project(self.project)
         entries = [team for team in backup.data["teams"] if team["name"] == "Review"]
-        self.assertEqual([team["internal"] for team in entries], [False, True])
+        self.assertCountEqual([team["internal"] for team in entries], [False, True])
         restore = ProjectBackup(backup.filename)
         restore.validate()
         restored = restore.restore(
@@ -2922,6 +2966,7 @@ class BackupsTest(ViewTestCase):
         restored_target = restored.component_set.get(category__isnull=True, slug="test")
         self.assertEqual(restored_link.linked_component, restored_target)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
@@ -2937,6 +2982,7 @@ class BackupsTest(ViewTestCase):
                 project_name="Restored", project_slug="restored", user=self.user
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -3016,6 +3062,7 @@ class BackupsTest(ViewTestCase):
         self.assertFalse(glossary.inherit_commit_message)
         self.assertFalse(glossary.inherit_secondary_language)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
@@ -3052,6 +3099,7 @@ class BackupsTest(ViewTestCase):
                 restore.validate()
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_low_compression_large_entry_allowed(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -3138,6 +3186,7 @@ class BackupsTest(ViewTestCase):
             with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
                 restore.validate()
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_rejects_unowned_repository_data(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -3386,6 +3435,7 @@ class BackupsTest(ViewTestCase):
             self.assertFalse(marker.exists())
             restored.do_reset()
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_git_svn_metadata_allowlist(self) -> None:
         self.create_po(vcs="subversion", name="Subversion", project=self.project)
         backup = ProjectBackup()
@@ -3436,6 +3486,7 @@ class BackupsTest(ViewTestCase):
                 repository.get_config("svn-remote.svn.url"), component.repo
             )
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_mercurial_metadata_allowlist(self) -> None:
         self.create_po(vcs="mercurial", name="Mercurial", project=self.project)
         backup = ProjectBackup()
@@ -3478,6 +3529,7 @@ class BackupsTest(ViewTestCase):
             self.assertFalse((metadata_dir / "sharedpath").exists())
             self.assertEqual(repository.get_config("paths", "default"), component.repo)
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_mercurial_missing_requires(self) -> None:
         original = self.create_po(
             vcs="mercurial", name="Mercurial", project=self.project
@@ -3672,6 +3724,7 @@ class BackupsTest(ViewTestCase):
         with get_project_backup_download_storage().open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -3767,6 +3820,7 @@ class BackupsTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
+    @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_view_restore_schedules_background_import(self, delay: Mock) -> None:
         delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
         self.user.is_superuser = True

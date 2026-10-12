@@ -2050,8 +2050,10 @@ class SphinxAddon(ExtractPotBaseAddon):
             file_format_params=file_format_params,
             repo_temp_dir=component.repository.get_repo_temp_dir(),
         )
-        changed = False
         for unit in store.content_units:
+            # Sphinx emits each msgid on one line. Re-quote it using the
+            # component's PO wrapping setting before writing the template.
+            unit.mainunit.source = unit.mainunit.source
             locations = unit.mainunit.getlocations()
             normalized_locations = [
                 SphinxAddon.normalize_sphinx_location(location, source_root, build_root)
@@ -2066,7 +2068,6 @@ class SphinxAddon(ExtractPotBaseAddon):
             ]
             for location in normalized_locations:
                 unit.mainunit.addlocation(location)
-            changed = True
 
         if self.get_filter_mode() == "weblate_docs":
             filtered_units = [
@@ -2076,7 +2077,6 @@ class SphinxAddon(ExtractPotBaseAddon):
             ]
             if len(filtered_units) != len(store.store.units):
                 store.store.units = filtered_units
-                changed = True
 
         if effective_no_location:
             for unit in store.content_units:
@@ -2085,10 +2085,8 @@ class SphinxAddon(ExtractPotBaseAddon):
                     for comment in unit.mainunit.sourcecomments
                     if not comment.startswith("#:")
                 ]
-            changed = True
 
-        if changed:
-            store.save()
+        store.save()
 
     @classmethod
     def should_skip_weblate_docs_unit(cls, unit) -> bool:

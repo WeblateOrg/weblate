@@ -34,9 +34,10 @@ of other Django-based projects (see :ref:`pootle-migration`).
 Teams from identity providers
 -----------------------------
 
+.. versionadded:: 2026.10.1
+
 Weblate can synchronize selected teams from external group memberships or
-application roles during social authentication. This requires the group API
-in social-auth-core 6 and the strategy integration in social-auth-app-django 7.
+application roles during social authentication.
 The default native and Docker pipelines include synchronization after
 authentication checks and two-factor authentication. Extraction and assignment
 are disabled until configured. If you use a custom authentication pipeline,
@@ -1001,6 +1002,9 @@ Authenticator apps (TOTP)
    Only one registration can be pending per account. Opening registration in
    another browser session shows the same QR code until registration is
    completed or expires.
+
+   If you have more than one registered authenticator app, select the app
+   you are using when entering its code during sign-in.
 
 Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.

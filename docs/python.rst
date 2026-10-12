@@ -85,6 +85,19 @@ API objects support attribute and keyed access to their fields, together with
 fetches the object from the API. ``get_data()`` returns a copy of only the data
 currently loaded without fetching missing fields.
 
+API objects inherit from ``collections.UserDict``. They are mappings,
+but ``isinstance(obj, dict)`` is false. Membership tests, ``get()``, and
+iteration use the currently loaded fields without fetching missing fields.
+``pop()``, ``setdefault()``, ``popitem()``, and ``clear()`` also operate only
+on loaded fields without fetching missing fields. Mapping writes update local
+object data; they do not send changes to the API. The ``|`` operator merges
+loaded fields into a new plain dictionary, with values from the right operand
+taking precedence.
+For consumers that require a plain dictionary, use ``obj.get_data()`` for
+loaded fields or ``dict(obj.items())`` to include all exposed fields, fetching
+missing fields as needed. Standard ``json.dumps`` does not serialize API
+objects directly; convert them and any nested API objects to dictionaries first.
+
 Projects, components, and translations share repository operations:
 ``repository()``, ``commit()``, ``push()``, ``pull()``, ``reset()``, and
 ``cleanup()``.

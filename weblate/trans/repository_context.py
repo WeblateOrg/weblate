@@ -14,7 +14,9 @@ if TYPE_CHECKING:
     from weblate.utils.lock import WeblateLockTimeoutError
 
 
-RepositoryOperationFollowup = Literal["file-sync", "pull", "reset-keep"]
+RepositoryOperationFollowup = Literal[
+    "file-sync", "pull", "pull-skip-push", "reset-keep"
+]
 
 
 class RepositoryFollowupLockError(Exception):

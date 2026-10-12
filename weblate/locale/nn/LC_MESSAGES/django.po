@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-09-25 04:15+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -32,6 +32,38 @@ msgstr "Ingen"
 
 msgid "User avatar"
 msgstr "Brukaravatar"
+
+msgid "No notification"
+msgstr "Ingen varsling"
+
+msgid "Instant notification"
+msgstr "Varsl med ein gong"
+
+msgid "Daily digest"
+msgstr "Daglege samandrag"
+
+msgid "Weekly digest"
+msgstr "Eit samandrag i veka"
+
+msgid "Monthly digest"
+msgstr "Månadlege samandrag"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Watched"
+msgstr "Fylgde prosjekt"
+
+msgid "Administered"
+msgstr ""
+
+msgid "Project"
+msgstr "Prosjekt"
+
+msgid "Component"
+msgstr ""
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -960,38 +992,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "Ingen varsling"
-
-msgid "Instant notification"
-msgstr "Varsl med ein gong"
-
-msgid "Daily digest"
-msgstr "Daglege samandrag"
-
-msgid "Weekly digest"
-msgstr "Eit samandrag i veka"
-
-msgid "Monthly digest"
-msgstr "Månadlege samandrag"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Watched projects"
-msgid "Watched"
-msgstr "Fylgde prosjekt"
-
-msgid "Administered"
-msgstr ""
-
-msgid "Project"
-msgstr "Prosjekt"
-
-msgid "Component"
-msgstr ""
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operasjonen vart utført i kodelaget"
@@ -1473,11 +1473,6 @@ msgstr "Kunne ikkje fjerna brukaridentitet"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Legg til ein annan identitet ved å stadfesta e-postadressa di først."
 
-#, fuzzy, python-format
-#| msgid "Could not sign in using password."
-msgid "Could not authenticate: %s"
-msgstr "Greidde ikkje å logge inn med passordet."
-
 msgid "Could not complete registration."
 msgstr "Kunne ikkje fullføra registrering."
 
@@ -1487,6 +1482,27 @@ msgstr "Sjekk om du allereie har registrert ein konto."
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Du kan også be om eit nytt passord viss du har mista legitimasjonen din."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr "Omsetjingar gjort"
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -1509,6 +1525,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Identitetsstadfesting mislykkast på grunn av ugyldig økttilstand."
 
+msgid "New registrations are turned off."
+msgstr "Nyregistreringar er avslått."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Fekk inga e-postadresse frå tredjeparts-identitetsstadfestingsteneste."
 
@@ -1518,20 +1537,15 @@ msgstr "Lag ein konto med e-postadressa di i staden."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr ""
 
-msgid "New registrations are turned off."
-msgstr "Nyregistreringar er avslått."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Identitetsstadfestinga mislukkast, antakeleg som fylgje av eit utgåttt "
-"symbol eller ein tilkoplingsfeil."
-
 msgid "Authentication cancelled."
 msgstr "Identitetsstadfesting avbrote."
 
 msgid "The server does not allow authentication."
 msgstr "Tenaren tillèt ikkje identitetsstadfesting."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr ""
+"Den medfylgjande brukaridentiteten er allereie i bruk for ein annan konto."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Den gjevne e-postadressa er alt knytt til ein annan konto."
@@ -1539,19 +1553,19 @@ msgstr "Den gjevne e-postadressa er alt knytt til ein annan konto."
 msgid "The supplied username is already in use for another account."
 msgstr "Det gjevne brukarnamnet er alt nytta av ein annan konto."
 
-#, fuzzy, python-format
-#| msgid "Authentication cancelled."
-msgid "Authentication failed: %s"
-msgstr "Identitetsstadfesting avbrote."
-
-msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Den medfylgjande brukaridentiteten er allereie i bruk for ein annan konto."
-
 #, fuzzy
 #| msgid "Translations made"
-msgid "The authentication provider could not be reached."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
 msgstr "Omsetjingar gjort"
+
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr ""
 
 msgid "Notification settings adjusted."
 msgstr "Brigda på varselinnstillingane."
@@ -3851,6 +3865,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "Translations made"
+msgid "A team with this name already exists in this project."
+msgstr "Omsetjingar gjort"
+
+#, fuzzy
 #| msgid "Languages"
 msgid "Limit languages"
 msgstr "Språk"
@@ -4089,6 +4108,12 @@ msgstr ""
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 msgid "The anonymous user can not be assigned to teams."
@@ -6629,18 +6654,18 @@ msgid "Translator persona"
 msgstr "Omsetjingar gjort"
 
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Omsetjingar gjort"
 
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -6649,8 +6674,9 @@ msgstr ""
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -6693,11 +6719,18 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "Tett"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr ""
 
-msgid "Only needed when model is set to 'Custom model'"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
 msgstr ""
 
 #, fuzzy
@@ -6754,7 +6787,10 @@ msgstr ""
 msgid "The model's unique deployment name."
 msgstr ""
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -6791,7 +6827,7 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr ""
 
 msgctxt "LLM translation example"
@@ -9853,12 +9889,20 @@ msgstr "Fylgde omsetjingar"
 msgid "Locking prevents translators from doing changes."
 msgstr ""
 
-msgid "Reset and discard"
-msgstr ""
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Discard local changes"
+msgstr "Tilrådde omsetjingar"
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Discard local changes and reset to upstream"
+msgstr "Nullstill passordet"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
 
 msgid "Use when you want the upstream to be the authority for translations."
@@ -9869,12 +9913,15 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
-msgstr ""
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Reset and reapply translations"
+msgstr "Tilrådde omsetjingar"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
 
 msgid "Use when you want Weblate to be the authority for translations."
@@ -10631,6 +10678,11 @@ msgstr ""
 
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Sign in to see the full audit log."
+msgstr "Tilrådde omsetjingar"
 
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
@@ -13015,6 +13067,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -15819,11 +15900,6 @@ msgid "Duplicate label name."
 msgstr ""
 
 #, fuzzy
-#| msgid "Default component list"
-msgid "Duplicate team name."
-msgstr "Førehandsvald komponentliste"
-
-#, fuzzy
 #| msgid "Screenshots uploaded"
 msgid "Screenshot image is missing."
 msgstr "Utlagde skjermbilete"
@@ -15896,10 +15972,19 @@ msgstr ""
 msgid "Referenced role does not exist."
 msgstr ""
 
+msgid "Referenced role cannot be assigned to a project team."
+msgstr ""
+
 msgid "Repository data does not belong to a restored component."
 msgstr ""
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 msgid "The project repository directory already exists."
@@ -16944,7 +17029,9 @@ msgid "Access"
 msgstr ""
 
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
 
 msgid ""
@@ -16977,6 +17064,11 @@ msgstr ""
 #, python-format
 msgid "Could not load project backup: %s"
 msgstr ""
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not load project backup."
+msgstr "Kunne ikkje fullføra registrering."
 
 msgid "Optional additional filter applied to the strings"
 msgstr ""
@@ -17231,12 +17323,6 @@ msgstr ""
 msgid "Linux style, lower cased"
 msgstr ""
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17246,6 +17332,12 @@ msgstr ""
 #| msgid "Public e-mail"
 msgid "Public sharing"
 msgstr "Offentleg e-post"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17797,6 +17889,15 @@ msgstr ""
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
+msgid "Push on update"
+msgstr ""
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr ""
 
@@ -18246,7 +18347,10 @@ msgstr ""
 msgid "Contribute to shared translation memory"
 msgstr ""
 
-msgid "Contributes to the pool of shared translations between projects."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
 msgstr ""
 
 msgid "Uses the pool of shared translations between projects in the workspace."
@@ -18697,7 +18801,7 @@ msgstr ""
 msgid "Report generated."
 msgstr "Namn på generert fil"
 
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr ""
 
 msgid "Project backup import completed."
@@ -19949,10 +20053,6 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Nullstill passordet"
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
@@ -19960,6 +20060,10 @@ msgstr ""
 #| msgid "Could not sign in using password."
 msgid "Could not parse URL: {}"
 msgstr "Greidde ikkje å logge inn med passordet."
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -21067,6 +21171,28 @@ msgstr ""
 #| msgid "Translations made"
 msgid "The workspace has been removed."
 msgstr "Omsetjingar gjort"
+
+#, fuzzy, python-format
+#~| msgid "Could not sign in using password."
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Greidde ikkje å logge inn med passordet."
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Identitetsstadfestinga mislukkast, antakeleg som fylgje av eit utgåttt "
+#~ "symbol eller ein tilkoplingsfeil."
+
+#, fuzzy, python-format
+#~| msgid "Authentication cancelled."
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Identitetsstadfesting avbrote."
+
+#, fuzzy
+#~| msgid "Default component list"
+#~ msgid "Duplicate team name."
+#~ msgstr "Førehandsvald komponentliste"
 
 #, fuzzy
 #~| msgid "Thank you for using Weblate."

@@ -128,6 +128,342 @@ class RepoTestCase(BaseTestCase, RepoTestMixin):
         super().setUp()
 
 
+class SourceChangeCommitTest(RepoTestCase):
+    def test_imported_json_source_change(self) -> None:
+        self.check_imported_source_change(self.create_json_mono(), storable=False)
+
+    def test_imported_po_source_change(self) -> None:
+        self.check_imported_source_change(self.create_po_mono(), storable=True)
+
+    def check_imported_source_change(
+        self, component: Component, *, storable: bool
+    ) -> None:
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+        unit.translate(create_another_user(), "Překlad", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        source = component.source_translation
+        source_unit = unit.source_unit
+        original_source = source_unit.target
+        editor = create_test_user()
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+
+        changes = [(f"{original_source} changed", STATE_NEEDS_REWRITING)]
+        if not storable:
+            changes.append((original_source, STATE_TRANSLATED))
+        for target, state in changes:
+            with self.subTest(state=state):
+                source.drop_store_cache()
+                backend = source.store.find_unit(
+                    source_unit.context, source_unit.source
+                )[0]
+                backend.set_target(target)
+                source.store.save()
+                source.drop_store_cache()
+                component.unload_sources()
+                source.check_sync(force=True, author=editor)
+                translation.drop_store_cache()
+                translation.check_sync(force=True, author=editor)
+                unit.refresh_from_db()
+                self.assertEqual(unit.state, state)
+                if storable:
+                    self.assertEqual(unit.pending_changes.get().author, editor)
+                component.commit_pending("test", None)
+                self.assertFalse(unit.pending_changes.exists())
+                if not storable:
+                    self.assertEqual(filename.read_bytes(), original)
+
+    def test_unstorable_needs_editing_does_not_touch_file(self) -> None:
+        component = self.create_json_mono()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+
+        unit.translate(create_another_user(), "Překlad", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes().rstrip(b"\n")
+        filename.write_bytes(original)
+        with component.repository.lock:
+            component.repository.commit(
+                "Remove trailing newline", files=[translation.filename]
+            )
+        translation.drop_store_cache()
+        translation.store_hash()
+
+        editor = create_test_user()
+        source_unit = unit.source_unit
+        original_source = source_unit.target
+        source_unit.translate(editor, f"{source_unit.target} changed", STATE_TRANSLATED)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+        component.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+
+        source_unit.translate(editor, original_source, STATE_TRANSLATED)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_upstream_source_change_does_not_credit_source_editor(self) -> None:
+        component = self.create_po_mono()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+        source = component.source_translation
+        source_unit = unit.source_unit
+        source_editor = create_test_user()
+        translator = create_another_user()
+        source_unit.translate(
+            source_editor, f"{source_unit.target} edited", STATE_TRANSLATED
+        )
+        component.commit_pending("test", None)
+        unit.refresh_from_db()
+        unit.translate(translator, "Překlad", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+
+        # Upstream source change parsed without any author.
+        source_unit.refresh_from_db()
+        backend = source.store.find_unit(source_unit.context, source_unit.source)[0]
+        backend.set_target(f"{source_unit.target} upstream")
+        source.store.save()
+        source.drop_store_cache()
+        component.unload_sources()
+        source.check_sync(force=True)
+        translation.drop_store_cache()
+        translation.check_sync(force=True)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+        self.assertEqual(unit.pending_changes.get().author, translator)
+
+    def test_storable_needs_editing_uses_source_editor_as_author(self) -> None:
+        component = self.create_po_mono()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+
+        previous_author = create_another_user()
+        unit.translate(previous_author, f"{unit.target} changed", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        previous_revisions = set(component.repository.get_outgoing_revisions())
+
+        editor = create_test_user()
+        source_unit = unit.source_unit
+        source_unit.translate(editor, f"{source_unit.target} changed", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+
+        target_revisions = [
+            revision
+            for revision in set(component.repository.get_outgoing_revisions())
+            - previous_revisions
+            if translation.filename
+            in component.repository.list_changed_files(f"{revision}^!")
+        ]
+        self.assertEqual(len(target_revisions), 1)
+        commit = component.repository.get_revision_info(target_revisions[0])
+        self.assertEqual(commit["author"], editor.get_author_name())
+
+
+class StateChangeCommitTest(RepoTestCase):
+    def prepare_unit(self, component: Component) -> Unit:
+        component.project.translation_review = True
+        component.project.save()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+        unit.translate(create_test_user(), "Překlad", STATE_TRANSLATED)
+        component.commit_pending("test", None)
+        return unit
+
+    def test_json_state_changes_preserve_file(self) -> None:
+        unit = self.prepare_unit(self.create_json_mono())
+        translation = unit.translation
+        component = translation.component
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes().rstrip(b"\n")
+        filename.write_bytes(original)
+        with component.repository.lock:
+            component.repository.commit(
+                "Remove trailing newline", files=[translation.filename]
+            )
+        translation.drop_store_cache()
+        translation.store_hash()
+        revisions = set(component.repository.get_outgoing_revisions())
+        user = create_another_user()
+        for state in (STATE_APPROVED, STATE_NEEDS_REWRITING, STATE_TRANSLATED):
+            with self.subTest(state=state):
+                unit.translate(user, unit.target, state)
+                with (
+                    patch(
+                        "weblate.trans.models.translation.vcs_pre_commit.send"
+                    ) as pre_commit,
+                    patch(
+                        "weblate.trans.models.component.vcs_post_commit.send"
+                    ) as post_commit,
+                ):
+                    component.commit_pending("test", None)
+                # Add-ons still see the change, but nothing is committed.
+                pre_commit.assert_called_once()
+                post_commit.assert_not_called()
+                unit.refresh_from_db()
+                self.assertEqual(unit.state, state)
+                self.assertFalse(unit.pending_changes.exists())
+                self.assertNotIn("disk_state", unit.details)
+                self.assertEqual(filename.read_bytes(), original)
+                self.assertEqual(
+                    set(component.repository.get_outgoing_revisions()), revisions
+                )
+
+    def test_po_approval_preserves_file_and_headers(self) -> None:
+        unit = self.prepare_unit(self.create_po_mono())
+        translation = unit.translation
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        unit.translate(create_another_user(), unit.target, STATE_APPROVED)
+        translation.component.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_po_approval_clears_fuzzy(self) -> None:
+        unit = self.prepare_unit(self.create_po_mono())
+        translation = unit.translation
+        user = create_another_user()
+        unit.translate(user, unit.target, STATE_FUZZY)
+        translation.commit_pending("test", None)
+        self.assertTrue(
+            translation.store.find_unit(unit.context, unit.source)[0].is_fuzzy()
+        )
+        unit.translate(user, unit.target, STATE_APPROVED)
+        translation.commit_pending("test", None)
+        translation.drop_store_cache()
+        self.assertFalse(
+            translation.store.find_unit(unit.context, unit.source)[0].is_fuzzy()
+        )
+        self.assertFalse(unit.pending_changes.exists())
+
+    def test_xliff_approval_is_stored(self) -> None:
+        unit = self.prepare_unit(self.create_xliff())
+        translation = unit.translation
+        unit.translate(create_another_user(), unit.target, STATE_APPROVED)
+        translation.commit_pending("test", None)
+        self.assertTrue(
+            translation.store.find_unit(unit.context, unit.source)[0].is_approved()
+        )
+        self.assertFalse(unit.pending_changes.exists())
+
+    def test_po_retry_commits_already_written_edit(self) -> None:
+        unit = self.prepare_unit(self.create_po_mono())
+        translation = unit.translation
+        component = translation.component
+        revisions = set(component.repository.get_outgoing_revisions())
+        unit.translate(create_another_user(), "Retried translation", STATE_TRANSLATED)
+        # Simulate an earlier attempt which wrote the file but failed to commit.
+        unit.refresh_from_db()
+        backend = translation.store.find_unit(unit.context, unit.source)[0]
+        backend.set_target(unit.target)
+        translation.store.save()
+        translation.drop_store_cache()
+        self.assertTrue(component.repository.needs_commit([translation.filename]))
+
+        component.commit_pending("test", None)
+
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertFalse(component.repository.needs_commit([translation.filename]))
+        self.assertEqual(
+            len(set(component.repository.get_outgoing_revisions()) - revisions), 1
+        )
+
+    def test_po_reverted_edit_preserves_file(self) -> None:
+        unit = self.prepare_unit(self.create_po_mono())
+        translation = unit.translation
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        user = create_another_user()
+        target = unit.target
+        unit.translate(user, "Temporary translation", STATE_TRANSLATED)
+        unit.translate(user, target, STATE_TRANSLATED)
+        translation.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_json_approval_releases_pending_content(self) -> None:
+        self.check_json_commit_policy(
+            CommitPolicyChoices.APPROVED_ONLY, STATE_TRANSLATED, STATE_APPROVED
+        )
+
+    def test_json_finished_translation_releases_pending_content(self) -> None:
+        self.check_json_commit_policy(
+            CommitPolicyChoices.WITHOUT_NEEDS_EDITING, STATE_FUZZY, STATE_TRANSLATED
+        )
+
+    def check_json_commit_policy(
+        self, policy: int, initial_state: StringState, final_state: StringState
+    ) -> None:
+        unit = self.prepare_unit(self.create_json_mono())
+        translation = unit.translation
+        project = translation.component.project
+        project.commit_policy = policy
+        project.save()
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        user = create_another_user()
+        unit.translate(user, "New translation\n", initial_state)
+        translation.commit_pending("test", None)
+        self.assertTrue(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+        unit.translate(create_another_user("reviewer"), unit.target, final_state)
+        translation.commit_pending("test", None)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(
+            translation.store.find_unit(unit.context, unit.source)[0].target,
+            "New translation\n",
+        )
+
+    def test_json_automatic_marker_preserves_file(self) -> None:
+        unit = self.prepare_unit(self.create_json_mono())
+        translation = unit.translation
+        filename = get_optional_path(translation.get_filename())
+        original = filename.read_bytes()
+        unit.translate(
+            create_another_user(),
+            unit.target,
+            STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+        )
+        translation.commit_pending("test", None)
+        unit.refresh_from_db()
+        self.assertTrue(unit.automatically_translated)
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertEqual(filename.read_bytes(), original)
+
+    def test_xliff_automatic_marker_is_stored(self) -> None:
+        unit = self.prepare_unit(self.create_xliff_auto())
+        translation = unit.translation
+        user = create_another_user()
+        for action, expected in ((ActionEvents.AUTO, True), (None, False)):
+            with self.subTest(automatically_translated=expected):
+                unit.translate(
+                    user, unit.target, STATE_TRANSLATED, change_action=action
+                )
+                translation.commit_pending("test", None)
+                translation.drop_store_cache()
+                backend = translation.store.find_unit(unit.context, unit.source)[0]
+                self.assertEqual(backend.is_automatically_translated(), expected)
+                self.assertFalse(unit.pending_changes.exists())
+
+
 class ProjectTest(RepoTestCase):
     """Project object testing."""
 
@@ -1926,6 +2262,17 @@ class AnnouncementTest(ModelTestCase):
         self.assertEqual(component_change.project_id, self.component.project_id)
         self.assertEqual(component_change.component_id, self.component.pk)
         self.assertEqual(component_change.language_id, self.czech.pk)
+
+    def test_change_creation_uses_write_database(self) -> None:
+        def route_read(model: type[object], **_hints: object) -> str | None:
+            if model is Change:
+                return "unavailable_read_replica"
+            return None
+
+        with patch("django.db.router.db_for_read", side_effect=route_read):
+            announcement = Announcement.objects.create(message="routed change")
+
+        self.assertTrue(Change.objects.filter(announcement=announcement).exists())
 
     def verify_filter(self, messages, count, message=None) -> None:
         """Verify whether messages have given count and first contains string."""

@@ -1,14 +1,18 @@
 {% load i18n %}
 
 <table>
-  <tr>
-    <td>{% translate "IP address" %}</td>
-    <td>{{ address }}</td>
-  </tr>
-  <tr>
-    <td>{% translate "User agent" %}</td>
-    <td>{{ user_agent }}</td>
-  </tr>
+  {% if address %}
+    <tr>
+      <td>{% translate "IP address" %}</td>
+      <td>{{ address }}</td>
+    </tr>
+  {% endif %}
+  {% if user_agent %}
+    <tr>
+      <td>{% translate "User agent" %}</td>
+      <td>{{ user_agent }}</td>
+    </tr>
+  {% endif %}
   <tr>
     <td>{{ site_title }}</td>
     <td>
@@ -18,7 +22,11 @@
 </table>
 
 <p>
-  {% blocktranslate %}Sign in to see the full audit log, including the IP address.{% endblocktranslate %}
+  {% if address %}
+    {% blocktranslate %}Sign in to see the full audit log, including the IP address.{% endblocktranslate %}
+  {% else %}
+    {% translate "Sign in to see the full audit log." %}
+  {% endif %}
   {% if contact_form != "disabled" %}
     {% blocktranslate %}If you didn't initiate this, please report it to the server administrators by clicking the button below.{% endblocktranslate %}
   {% endif %}

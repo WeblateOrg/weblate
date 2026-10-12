@@ -1066,9 +1066,37 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("ssh://username@example.com/path")
             validate_repo_url("username@example.com:path")
-            validate_repo_url("username@example.com/path")
+            validate_repo_url("username@example.com:path/to/repository")
         self.assertEqual(mocked_getaddrinfo.call_count, 3)
         self.assertEqual(resolve_destination.call_count, 3)
+
+    def test_ambiguous_relative_path_rejected(self) -> None:
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+            for url in (
+                "example.com/repo",
+                "example.com/repo:name",
+                "username@example.com/path",
+                "username@example.com/repo:name",
+                "repository",
+            ):
+                with (
+                    self.subTest(url=url),
+                    self.assertRaisesMessage(
+                        ValidationError,
+                        "Fetching VCS repository using file is not allowed.",
+                    ),
+                ):
+                    validate_repo_url(url)
+
+    def test_scp_style_can_be_rejected_by_backend(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaisesMessage(ValidationError, "Could not parse URL."),
+        ):
+            resolve_repo_url(
+                "git@github.com:repository",
+                allow_scp_style=False,
+            )
 
     def test_ssh_effective_destination(self) -> None:
         with (
@@ -1107,7 +1135,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("ssh://username@example.com/path")
             validate_repo_url("username@example.com:path")
-            validate_repo_url("username@example.com/path")
+            validate_repo_url("username@example.com:path/to/repository")
             with self.assertRaises(ValidationError):
                 validate_repo_url("git@github.com:weblate.git")
             with self.assertRaises(ValidationError):

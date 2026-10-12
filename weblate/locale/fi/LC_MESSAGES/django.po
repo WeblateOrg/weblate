@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -34,6 +34,40 @@ msgstr "Ei mitään"
 
 msgid "User avatar"
 msgstr "Käyttäjän kuva"
+
+msgid "No notification"
+msgstr "Ei ilmoitusta"
+
+msgid "Instant notification"
+msgstr "Välitön ilmoitus"
+
+msgid "Daily digest"
+msgstr "Päivittäinen yhteenveto"
+
+msgid "Weekly digest"
+msgstr "Viikoittainen yhteenveto"
+
+msgid "Monthly digest"
+msgstr "Kuukausittainen yhteenveto"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Watched"
+msgstr "Ristiriitaiset \\n"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Hallinnoimani projektit"
+
+msgid "Project"
+msgstr "Projekti"
+
+msgid "Component"
+msgstr "Komponentti"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -973,40 +1007,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "Ei ilmoitusta"
-
-msgid "Instant notification"
-msgstr "Välitön ilmoitus"
-
-msgid "Daily digest"
-msgstr "Päivittäinen yhteenveto"
-
-msgid "Weekly digest"
-msgstr "Viikoittainen yhteenveto"
-
-msgid "Monthly digest"
-msgstr "Kuukausittainen yhteenveto"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Mismatched \\n"
-msgid "Watched"
-msgstr "Ristiriitaiset \\n"
-
-#, fuzzy
-#| msgid "Administered projects"
-msgid "Administered"
-msgstr "Hallinnoimani projektit"
-
-msgid "Project"
-msgstr "Projekti"
-
-msgid "Component"
-msgstr "Komponentti"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Toiminto suoritettiin tietovarastossa"
@@ -1440,10 +1440,6 @@ msgstr "Käyttäjän henkilöllisyyttä ei voitu poistaa"
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Lisää uusi henkilöllisyys vahvistamalla ensin sähköpostiosoitteesi."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "Ei voitu todentaa: %s"
-
 msgid "Could not complete registration."
 msgstr "Rekisteröitymistä ei voitu tehdä loppuun."
 
@@ -1452,6 +1448,31 @@ msgstr "Tarkista oletko jo rekisteröinyt tilin."
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Voit pyytää uutta salasanaa jos olet unohtanut kirjautumistietosi."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"Ylävirran tietovarastoon ei voitu tilapäisesti päästä käsiksi. Yritä "
+"myöhemmin uudelleen."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -1474,6 +1495,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "Tunnistautuminen ei onnistunut koska istunnon tila on virheellinen."
 
+msgid "New registrations are turned off."
+msgstr "Uudet rekisteröitymiset ovat poissa käytöstä."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta."
@@ -1484,20 +1508,14 @@ msgstr "Rekisteröidy sen sijaan sähköpostilla."
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "SAML-tunnistuspalvelun RelayState-tietoa ei voitu jäsentää."
 
-msgid "New registrations are turned off."
-msgstr "Uudet rekisteröitymiset ovat poissa käytöstä."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr ""
-"Tunnistautuminen ei onnistu. Mahdollinen syy voi olla joko vanhentunut "
-"istunto tai yhteysvirhe."
-
 msgid "Authentication cancelled."
 msgstr "Tunnistautuminen peruttu."
 
 msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "Antamasi käyttäjätiedot ovat jo käytössä toisella käyttäjätilillä."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Antamasi sähköpostiosoite on jo käytössä toisella käyttäjätilillä."
@@ -1505,15 +1523,25 @@ msgstr "Antamasi sähköpostiosoite on jo käytössä toisella käyttäjätilill
 msgid "The supplied username is already in use for another account."
 msgstr "Antamasi käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "Todennus epäonnistui: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr ""
+"Ylävirran tietovarastoon ei voitu tilapäisesti päästä käsiksi. Yritä "
+"myöhemmin uudelleen."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "Antamasi käyttäjätiedot ovat jo käytössä toisella käyttäjätilillä."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "Todennuspalveluntarjoajaan ei saatu yhteyttä."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "Liikaa ehdotuksia ({count}). Ota yhteyttä ylläpitäjään."
 
 msgid "Notification settings adjusted."
 msgstr "Ilmoitusasetuksia muutettu."
@@ -4022,6 +4050,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
+
+#, fuzzy
 #| msgid "Bihari languages"
 msgid "Limit languages"
 msgstr "Bihari -kielet"
@@ -4274,6 +4307,12 @@ msgstr "Tämä laskutussuunnitelma kattaa seuraavat projektit:"
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 #, fuzzy
@@ -6979,19 +7018,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Kääntäjän luonne"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "Kuvaile kääntäjän luonnetta käännöksen tarkkuuden parantamiseksi. "
 "Esimerkiksi: \"Olet oravankasvattaja.\""
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "Kääntäjän tyyli"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr "Kuvaile käännöstyyliä; esimerkiksi: \"Käytä epävirallista kieltä.\""
 
 #, fuzzy
@@ -7002,8 +7051,9 @@ msgstr "Integraatio-ohjeet"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -7044,12 +7094,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI-malli"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Mukautetun mallin nimi"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "Tarvitaan vain, kun malliksi on asetettu \"Mukautettu malli\""
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "Puuttuva muokatun mallin nimi."
@@ -7114,7 +7171,10 @@ msgstr "Azure OpenAI:n käyttöönotto"
 msgid "The model's unique deployment name."
 msgstr "Mallin ainutlaatuinen käyttöönottonimi."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
 msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
@@ -7155,8 +7215,10 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr ""
 
-msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+#, fuzzy
+#| msgid "Total number of entries in this Weblate instance"
+msgid "Maximum number of tokens in the generated response."
+msgstr "Tämän Weblate-esiintymän merkintöjen kokonaismäärä"
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -10398,15 +10460,21 @@ msgstr "Weblate-käännökset on lukittu"
 msgid "Locking prevents translators from doing changes."
 msgstr "Lukitseminen estää kääntäjiä tekemästä muutoksia."
 
-msgid "Reset and discard"
-msgstr "Nollaa ja hylkää"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "Hylkää lippu"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "Arkiston muutokset"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"Palauttaa Weblaten tietovaraston vastaamaan ylävirran asetuksia ja hylkää "
-"kaikki Weblatessa odottavat muutokset."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "Käytä, kun haluat ylävirran olevan käännösten auktoriteetti."
@@ -10416,19 +10484,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "Nollaa ja käytä uudelleen"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"Palauttaa Weblaten tietovaraston vastaamaan ylävirran käännöksiä ja "
-"korvaamaan ne Weblaten nykyisellä tilalla."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr "Käytä, kun haluat Weblaten olevan käännösten auktoriteetti."
@@ -11244,6 +11309,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "Salasana nollattu sivustolla %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+"Kirjaudu sisään nähdäksesi koko tarkastuslokin, mukaan lukien IP-osoitteen."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr ""
 "Kirjaudu sisään nähdäksesi koko tarkastuslokin, mukaan lukien IP-osoitteen."
 
@@ -13814,6 +13885,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -16766,11 +16866,6 @@ msgid "Duplicate label name."
 msgstr "Kaksoiskappaleena oleva tiedostopeite."
 
 #, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "Duplikaattikäännös."
-
-#, fuzzy
 #| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
 msgstr "Kuvakaappaus tiedoston peitteestä"
@@ -16857,11 +16952,22 @@ msgid "Referenced role does not exist."
 msgstr "Tiedostoa ei ole olemassa."
 
 #, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "Tiedostonimi ei voi olla absoluuttinen polku."
+
+#, fuzzy
 #| msgid "Category does not belong to this project."
 msgid "Repository data does not belong to a restored component."
 msgstr "Luokka ei kuulu tähän projektiin."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17975,8 +18081,13 @@ msgstr ""
 msgid "Access"
 msgstr "Pääsy"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr "Käyttää ja osallistuu projektien välisiin jaettuihin käännöksiin."
 
 #, fuzzy
@@ -18019,6 +18130,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "Projektin varmuuskopion lataaminen epäonnistui: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "Projektin varmuuskopion lataaminen epäonnistui: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -18299,12 +18415,6 @@ msgstr "Linux-tyyli"
 msgid "Linux style, lower cased"
 msgstr "Linux-tyyli, pienet kirjaimet"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -18314,6 +18424,12 @@ msgstr ""
 #| msgid "Public"
 msgid "Public sharing"
 msgstr "Julkinen"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18935,6 +19051,17 @@ msgstr ""
 "Pitääkö jokaisen commitoidun muutoksen jälkeen viedä (push) commitit myös "
 "etäarkistoon."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "Commitin yhteydessä pushaa commitit myös remote -arkistoon"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "Commitoitavien muutosten ikä"
 
@@ -19458,8 +19585,11 @@ msgstr "Käyttää projektien yhteistä käännöspoolia."
 msgid "Contribute to shared translation memory"
 msgstr "Osallistu yhteisen käännösmuistin täydentämiseen"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "Osallistuu projektien yhteisen käännöspoolin täydentämiseen."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -19988,7 +20118,7 @@ msgstr "Raportin muoto"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "Projektit vailla komponentteja"
 
 #, fuzzy
@@ -21347,10 +21477,6 @@ msgid "Repository URL contains unsafe characters."
 msgstr "Nimi sisältää kiellettyjä merkkejä."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
@@ -21358,6 +21484,10 @@ msgstr ""
 #| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
 msgstr "JSONin jäsentäminen epäonnistui: %s"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr ""
 
 msgid "Enter a valid domain name or IP address."
 msgstr "Anna voimassa oleva verkkotunnus tai IP-osoite."
@@ -22590,6 +22720,65 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Lähdeteksti on poistettu."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "Ei voitu todentaa: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "Tunnistautuminen ei onnistu. Mahdollinen syy voi olla joko vanhentunut "
+#~ "istunto tai yhteysvirhe."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "Todennus epäonnistui: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "Todennuspalveluntarjoajaan ei saatu yhteyttä."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "Tarvitaan vain, kun malliksi on asetettu \"Mukautettu malli\""
+
+#~ msgid "Reset and discard"
+#~ msgstr "Nollaa ja hylkää"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "Palauttaa Weblaten tietovaraston vastaamaan ylävirran asetuksia ja hylkää "
+#~ "kaikki Weblatessa odottavat muutokset."
+
+#, fuzzy
+#~| msgid ""
+#~| "Resets Weblate’s repository to match upstream and replace upstream "
+#~| "translations with the current state from Weblate."
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "Palauttaa Weblaten tietovaraston vastaamaan ylävirran käännöksiä ja "
+#~ "korvaamaan ne Weblaten nykyisellä tilalla."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "Duplikaattikäännös."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr "Käyttää ja osallistuu projektien välisiin jaettuihin käännöksiin."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "Osallistuu projektien yhteisen käännöspoolin täydentämiseen."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "Projektit vailla komponentteja"
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "XLIFF 1.2 placeables-tuella"
 
@@ -23057,10 +23246,6 @@ msgstr "Lähdeteksti on poistettu."
 #~| msgid "Source strings"
 #~ msgid "Workspace settings"
 #~ msgstr "Lähdetekstit"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "Liikaa ehdotuksia ({count}). Ota yhteyttä ylläpitäjään."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""

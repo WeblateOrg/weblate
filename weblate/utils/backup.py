@@ -31,7 +31,7 @@ from weblate.utils.tracing import start_span
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from types import TracebackType
 
 CACHEDIR = """Signature: 8a477f597d28d172789f06886806bc55
@@ -125,7 +125,7 @@ class BackupLock:
 @contextmanager
 def backup_lock(
     *, shared: bool = False, timeout: int = BACKUP_LOCK_TIMEOUT
-) -> Iterator[None]:
+) -> Generator[None, None, None]:
     ensure_backup_dir()
     lock = BackupLock(shared=shared, timeout=timeout)
     with transaction.atomic(), lock:

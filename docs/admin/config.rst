@@ -809,6 +809,10 @@ DEFAULT_COMMITER_EMAIL
 
 Committer e-mail address, defaulting to ``noreply@weblate.org``.
 
+This identifies Weblate as the committer, separately from the translator recorded
+as the author. To make translators' author e-mail addresses private by default,
+set :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` to ``False``.
+
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_NAME`
@@ -819,6 +823,10 @@ DEFAULT_COMMITER_NAME
 ---------------------
 
 Committer name, defaulting to ``Weblate``.
+
+This identifies Weblate as the committer, separately from the translator recorded
+as the author. To make translators' author names private by default, set
+:setting:`PRIVATE_COMMIT_NAME_OPT_IN` to ``False``.
 
 .. seealso::
 
@@ -854,6 +862,37 @@ DEFAULT_MERGE_STYLE
 
    * :ref:`component`
    * :ref:`component-merge_style`
+
+.. setting:: DEFAULT_NOTIFICATIONS
+
+DEFAULT_NOTIFICATIONS
+---------------------
+
+.. versionadded:: 2026.10.1
+
+Default notification settings for every newly created user.
+
+A list of 3-tuples consisting of notification scope, notification frequency and notification handler.
+
+.. include:: /snippets/notifications-config.rst
+
+.. note::
+
+   This setting affects only newly created users.
+
+Example:
+
+.. code-block:: python
+
+   DEFAULT_NOTIFICATIONS = [
+       (0, 1, "MentionCommentNotificaton"),
+       (10, 1, "LastAuthorCommentNotificaton"),
+   ]
+
+.. seealso::
+
+   * :ref:`notifications`
+
 
 .. setting:: DEFAULT_SHARED_TM
 
@@ -1456,22 +1495,25 @@ The ``index`` page is always visible. Supported document identifiers are
 ``terms``, ``cookies``, ``privacy``, and ``contracts``.
 
 Hidden pages are removed from the legal menu and return a 404 response when
-requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
-legal document confirmation is enabled.
+requested directly. When legal document confirmation is enabled, hiding
+``terms`` without :setting:`LEGAL_URL` makes confirmation embed the terms
+template. Hiding ``privacy`` without :setting:`PRIVACY_URL` makes confirmation
+cover only the terms.
 
-When ``terms`` or ``privacy`` is hidden, links exposed through the
-``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
-and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
-configured, the related link is omitted.
+Links exposed through the ``terms_url`` and ``privacy_url`` template variables
+use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` first when configured.
+Otherwise, they link to the visible internal legal page. Hidden pages have no
+link when no external URL is configured.
 
-With legal document confirmation enabled, hiding ``terms`` and setting
-:setting:`LEGAL_URL` makes the confirmation page link to the external terms
-document instead of embedding :file:`legal/documents/tos.html`. When a privacy
-policy link is available, the confirmation covers both documents.
+With legal document confirmation enabled, setting :setting:`LEGAL_URL` makes
+the confirmation page link to the external terms document instead of embedding
+:file:`legal/documents/tos.html`. When a privacy policy link is available, the
+confirmation covers both documents. If ``privacy`` is hidden and
+:setting:`PRIVACY_URL` is unset, it covers only the terms.
 
-In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
-:setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
-schema terms link uses the same fallback.
+In non-Docker deployments, define :setting:`LEGAL_URL` and any
+:setting:`LEGAL_HIDDEN_DOCUMENTS` before ``SPECTACULAR_SETTINGS`` is created so
+the API schema terms link uses the same URL.
 
 .. code-block:: python
 
@@ -1511,9 +1553,9 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate instead of using
-    the :ref:`legal` module. When the legal module is enabled, Weblate links to
-    the internal legal pages by default.
+    When the :ref:`legal` module is enabled, this URL takes priority over its
+    internal terms page in document links. The default terms template links to
+    this URL when visited directly.
 
 Example:
 
@@ -1756,9 +1798,9 @@ URL where your Weblate instance shows its privacy policy.
 
 .. hint::
 
-    Useful if you host your privacy policy outside Weblate instead of using
-    the :ref:`legal` module. When the legal module is enabled, Weblate links to
-    the internal legal pages by default.
+    When the :ref:`legal` module is enabled, this URL takes priority over its
+    internal privacy page in document links. The default privacy template links
+    to this URL when visited directly.
 
 Example:
 
@@ -1777,11 +1819,17 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 .. versionadded:: 4.15
 
-Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
+Configures whether the private commit e-mail is opt-in or opt-out.
+
+With ``True`` (the default), users use their account e-mail unless they choose a
+private commit e-mail. Set to ``False`` to use
+:setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` by default.
 
 .. hint::
 
-   This setting only applies to users which have not explicitly chosen a commit e-mail.
+   This setting applies to new and existing users who have not explicitly chosen
+   a commit e-mail. Users can still choose their account e-mail in the
+   :ref:`profile-account` settings. Bot accounts do not use the private default.
 
 .. seealso::
 
@@ -1799,7 +1847,12 @@ Template to generate a private commit e-mail for a user. Defaults to ``"{usernam
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
-Set to blank string to disable.
+Set to a blank string to disable private commit e-mails and use the account
+e-mail when no commit e-mail has been explicitly chosen.
+
+The default template includes the username. To avoid including it, use
+``"user-{user_id}@users.noreply.{site_domain}"`` instead. Changing the template
+alone does not make private commit e-mails the default.
 
 .. note::
 
@@ -1814,11 +1867,17 @@ PRIVATE_COMMIT_NAME_OPT_IN
 
 .. versionadded:: 5.16
 
-Configures whether the private commit name is opt-in or opt-out (by default it is opt-in).
+Configures whether the private commit name is opt-in or opt-out.
+
+With ``True`` (the default), users use their account name unless they choose a
+private commit name. Set to ``False`` to use
+:setting:`PRIVATE_COMMIT_NAME_TEMPLATE` by default.
 
 .. hint::
 
-   This setting only applies to users which have not explicitly chosen a commit name.
+   This setting applies to new and existing users who have not explicitly chosen
+   a commit name. Users can still choose their account name in the
+   :ref:`profile-account` settings. Bot accounts use their account name.
 
 .. seealso::
 
@@ -1836,7 +1895,8 @@ Template to generate a private commit name for a user. Defaults to ``"{site_titl
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
-Set to blank string to disable.
+Set to a blank string to disable private commit names and use the account name.
+Changing the template alone does not make private commit names the default.
 
 .. note::
 
@@ -2907,6 +2967,11 @@ VCS_ALLOW_SCHEMES
 
 A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
 ``ssh`` are allowed by default.
+
+The ``file`` scheme and bare filesystem paths are disabled for security reasons
+because they could allow component editors to access repositories on the server
+filesystem. Including ``file`` in this setting prevents Weblate from starting
+with an ``ImproperlyConfigured`` error.
 
 .. setting:: VCS_RESTRICT_PRIVATE
 

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-02 05:19-0500\n"
+"POT-Creation-Date: 2026-10-08 22:56-0500\n"
 "PO-Revision-Date: 2026-10-03 14:16+0000\n"
 "Last-Translator: Alagirisamy Rengaraj <radhaalagirisamy@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
@@ -31,6 +31,40 @@ msgstr "ஏதுமில்லை"
 
 msgid "User avatar"
 msgstr "பயனர் அவதாரம்"
+
+msgid "No notification"
+msgstr "அறிவிப்புகள் இல்லை"
+
+msgid "Instant notification"
+msgstr "உடனடி அறிவிப்பு"
+
+msgid "Daily digest"
+msgstr "நாள்தோறும் டைசச்ட்"
+
+msgid "Weekly digest"
+msgstr "வாராந்திர டைசச்ட்"
+
+msgid "Monthly digest"
+msgstr "மாதாந்திர டைசச்ட்"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watching"
+msgid "Watched"
+msgstr "பார்ப்பது"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administered"
+msgstr "நிர்வாகம்"
+
+msgid "Project"
+msgstr "திட்டம்"
+
+msgid "Component"
+msgstr "கூறு"
 
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
@@ -944,40 +978,6 @@ msgid ""
 "a translation."
 msgstr ""
 
-msgid "No notification"
-msgstr "அறிவிப்புகள் இல்லை"
-
-msgid "Instant notification"
-msgstr "உடனடி அறிவிப்பு"
-
-msgid "Daily digest"
-msgstr "நாள்தோறும் டைசச்ட்"
-
-msgid "Weekly digest"
-msgstr "வாராந்திர டைசச்ட்"
-
-msgid "Monthly digest"
-msgstr "மாதாந்திர டைசச்ட்"
-
-msgid "All"
-msgstr ""
-
-#, fuzzy
-#| msgid "Watching"
-msgid "Watched"
-msgstr "பார்ப்பது"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Administered"
-msgstr "நிர்வாகம்"
-
-msgid "Project"
-msgstr "திட்டம்"
-
-msgid "Component"
-msgstr "கூறு"
-
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "களஞ்சியத்தில் செயல்பாடு செய்யப்பட்டது"
@@ -1404,10 +1404,6 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "முதலில் உங்கள் மின்னஞ்சல் முகவரியை உறுதிப்படுத்துவதன் மூலம் மற்றொரு அடையாளத்தைச் சேர்க்கவும்."
 
-#, python-format
-msgid "Could not authenticate: %s"
-msgstr "அங்கீகரிக்க முடியவில்லை: %s"
-
 msgid "Could not complete registration."
 msgstr "பதிவை முடிக்க முடியவில்லை."
 
@@ -1416,6 +1412,31 @@ msgstr "நீங்கள் ஏற்கனவே ஒரு கணக்கை
 
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "உங்கள் சான்றுகளை இழந்திருந்தால், புதிய கடவுச்சொல்லையும் கோரலாம்."
+
+msgid "Please authenticate with the provider again."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication response could not be verified. Please try signing in "
+"again."
+msgstr ""
+"மேலோடை களஞ்சியத்தை தற்காலிகமாக அணுக முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் "
+"முயற்சிக்கவும்."
+
+msgid "The authentication response has expired. Please try signing in again."
+msgstr ""
+
+msgid "The authorization code was rejected. Please try signing in again."
+msgstr ""
+
+msgid ""
+"Authentication could not be completed. Please try signing in again. If the "
+"problem persists, contact the administrator."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -1438,6 +1459,9 @@ msgstr ""
 msgid "Could not authenticate due to invalid session state."
 msgstr "தவறான அமர்வு நிலை காரணமாக அங்கீகரிக்க முடியவில்லை."
 
+msgid "New registrations are turned off."
+msgstr "புதிய பதிவுகள் அணைக்கப்படுகின்றன."
+
 msgid "Got no e-mail address from third party authentication service."
 msgstr "மூன்றாம் தரப்பு அங்கீகார சேவையிலிருந்து மின்னஞ்சல் முகவரி கிடைக்கவில்லை."
 
@@ -1447,18 +1471,14 @@ msgstr "அதற்கு பதிலாக மின்னஞ்சலைப�
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr "SAML அடையாள வழங்குநரிடமிருந்து RelayState ஐ அலச முடியவில்லை."
 
-msgid "New registrations are turned off."
-msgstr "புதிய பதிவுகள் அணைக்கப்படுகின்றன."
-
-msgid ""
-"Could not authenticate, probably due to an expired token or connection error."
-msgstr "காலாவதியான குறிஅடையாளம் அல்லது இணைப்பு பிழை காரணமாக அங்கீகரிக்க முடியவில்லை."
-
 msgid "Authentication cancelled."
 msgstr "ஏற்பு ரத்து செய்யப்பட்டது."
 
 msgid "The server does not allow authentication."
 msgstr "சேவையகம் அங்கீகாரத்தை அனுமதிக்காது."
+
+msgid "The supplied user identity is already in use for another account."
+msgstr "வழங்கப்பட்ட பயனர் அடையாளம் ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
 
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "வழங்கப்பட்ட மின்னஞ்சல் முகவரி ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
@@ -1466,15 +1486,25 @@ msgstr "வழங்கப்பட்ட மின்னஞ்சல் மு�
 msgid "The supplied username is already in use for another account."
 msgstr "வழங்கப்பட்ட பயனர்பெயர் ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
 
-#, python-format
-msgid "Authentication failed: %s"
-msgstr "ஏற்பு தோல்வியடைந்தது: %s"
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The authentication provider is temporarily unavailable. Please try again "
+"later."
+msgstr ""
+"மேலோடை களஞ்சியத்தை தற்காலிகமாக அணுக முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் "
+"முயற்சிக்கவும்."
 
-msgid "The supplied user identity is already in use for another account."
-msgstr "வழங்கப்பட்ட பயனர் அடையாளம் ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
+msgid "Authentication needs an administrator to check its configuration."
+msgstr ""
 
-msgid "The authentication provider could not be reached."
-msgstr "அங்கீகார வழங்குநரைத் தொடர்பு கொள்ள முடியவில்லை."
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid ""
+"Authentication could not be completed. Please contact the administrator."
+msgstr "பல பரிந்துரைகள் ({count}). நிர்வாகியைத் தொடர்பு கொள்ளவும்."
 
 msgid "Notification settings adjusted."
 msgstr "அறிவிப்பு அமைப்புகள் சரிசெய்யப்பட்டன."
@@ -3871,6 +3901,11 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A team with this name already exists in this project."
+msgstr "அதே பயனர்ப்பெயரில் ஒரு பயனர் உள்ளார்."
+
+#, fuzzy
 #| msgid "Languages"
 msgid "Limit languages"
 msgstr "மொழிகள்"
@@ -4117,6 +4152,12 @@ msgstr "இந்த பட்டியலிடல் திட்டம் ப
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
+msgstr ""
+
+#, python-format
+msgid ""
+"Team %(name)s was renamed to %(new_name)s because its name was already in "
+"use."
 msgstr ""
 
 #, fuzzy
@@ -6810,19 +6851,29 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "மொழிபெயர்ப்பாளர் ஆளுமை"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the persona of translator to improve the accuracy of the "
+#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
-"Describe the persona of translator to improve the accuracy of the "
-"translation. For example: “You are a squirrel breeder.”"
+"Describe the translator’s role or expertise. For example: “You are an "
+"experienced medical translator.”"
 msgstr ""
 "மொழிபெயர்ப்பின் துல்லியத்தை மேம்படுத்த மொழிபெயர்ப்பாளரின் ஆளுமையை விவரிக்கவும். "
 "உதாரணமாக: “நீங்கள் ஒரு அணில் வளர்ப்பவர்.”"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
-msgid "Translator style"
+msgid "Translation style"
 msgstr "மொழிபெயர்ப்பாளர் நடை"
 
+#, fuzzy
+#| msgid ""
+#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
-"Describe the style of translation. For example: “Use informal language.”"
+"Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
 "மொழிபெயர்ப்பின் பாணியை விவரிக்கவும். எடுத்துக்காட்டாக: “முறைசாரா மொழியைப் "
 "பயன்படுத்துங்கள்.”"
@@ -6833,8 +6884,9 @@ msgstr "மொழி சார்ந்த வழிமுறைகள்"
 
 #, python-format
 msgid ""
-"JSON object mapping existing target language codes to extra instructions, up "
-"to %(limit)d characters each."
+"Enter a JSON object mapping target language codes recognized by Weblate to "
+"additional translation instructions. Each instruction can contain up to "
+"%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 
 msgid "Language-specific instructions must be a JSON object."
@@ -6874,12 +6926,19 @@ msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "ஓபனாய் மாதிரி"
 
+msgid ""
+"With ‘Automatic selection’, Weblate selects the first model available "
+"through the API from its predefined preference list."
+msgstr ""
+
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "தனிப்பயன் மாதிரி பெயர்"
 
-msgid "Only needed when model is set to 'Custom model'"
-msgstr "மாதிரி 'தனிப்பயன் மாதிரி' என அமைக்கப்பட்டால் மட்டுமே தேவைப்படுகிறது"
+msgid ""
+"Required when ‘Custom model’ is selected. Enter the model identifier used by "
+"the API."
+msgstr ""
 
 msgid "Missing custom model name."
 msgstr "தனிப்பயன் மாதிரி பெயரைக் காணவில்லை."
@@ -6933,8 +6992,11 @@ msgstr "அசூர் ஓபனாய் வரிசைப்படுத்�
 msgid "The model's unique deployment name."
 msgstr "மாதிரியின் தனித்துவமான வரிசைப்படுத்தல் பெயர்."
 
-msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr "Ollama பநிஇ இன் அடிப்படை URL, உள்ளக புரவலன் மற்றும் துறைமுகம் 11434 இயல்பாக."
+msgid ""
+"Base URL of the Ollama API, reachable from the Weblate server. The default "
+"is http://localhost:11434; localhost refers to the environment where Weblate "
+"runs."
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -6967,7 +7029,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "அதிகபட்ச டோக்கன்கள்"
 
-msgid "Maximum number of tokens to generate in the response."
+#, fuzzy
+#| msgid "Maximum number of tokens to generate in the response."
+msgid "Maximum number of tokens in the generated response."
 msgstr "பதிலில் உருவாக்க வேண்டிய அதிகபட்ச டோக்கன்கள்."
 
 msgctxt "LLM translation example"
@@ -10165,15 +10229,21 @@ msgstr "வலைபெயர்ப்பு மொழிபெயர்ப்�
 msgid "Locking prevents translators from doing changes."
 msgstr "பூட்டுதல் மொழிபெயர்ப்பாளர்களை மாற்றங்களைச் செய்வதைத் தடுக்கிறது."
 
-msgid "Reset and discard"
-msgstr "மீட்டமைத்து நிராகரிக்கவும்"
+#. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
+#, fuzzy
+#| msgid "Discard flag"
+msgid "Discard local changes"
+msgstr "கொடியை நிராகரிக்கவும்"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Discard local changes and reset to upstream"
+msgstr "களஞ்சிய மாற்றங்கள்"
 
 msgid ""
-"Resets Weblate’s repository to match upstream and discards any pending "
-"changes in Weblate."
+"Replaces the configured branch with upstream, discarding local commits and "
+"pending translation changes."
 msgstr ""
-"வெப்லேட்டின் களஞ்சியத்தை அப்ச்ட்ரீமில் பொருத்துவதற்கு மீட்டமைக்கிறது மற்றும் வெப்லேட்டில் "
-"நிலுவையில் உள்ள மாற்றங்களை நிராகரிக்கிறது."
 
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
@@ -10185,19 +10255,16 @@ msgid ""
 "Cleanup to remove them."
 msgstr ""
 
-msgid "Reset and reapply"
+#. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Reset and reapply translations"
 msgstr "மீட்டமைத்து மீண்டும் விண்ணப்பிக்கவும்"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
-"Resets Weblate’s repository to match upstream and reapplies pending "
-"translations onto the reset repository state."
+"Replaces the configured branch with upstream, then reapplies Weblate’s "
+"translations."
 msgstr ""
-"வெப்லேட்டின் களஞ்சியத்தை அப்ச்ட்ரீமை பொருத்தவும், மேலோடை மொழிபெயர்ப்புகளை வெப்லேட்டிலிருந்து "
-"தற்போதைய நிலையுடன் மாற்றவும்."
 
 msgid "Use when you want Weblate to be the authority for translations."
 msgstr ""
@@ -11016,6 +11083,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "கடவுச்சொல் மீட்டமைப்பு %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
+msgstr "ஐபி முகவரி உட்பட முழு தணிக்கை பதிவைக் காண உள்நுழைக."
+
+#, fuzzy
+#| msgid "Sign in to see the full audit log, including the IP address."
+msgid "Sign in to see the full audit log."
 msgstr "ஐபி முகவரி உட்பட முழு தணிக்கை பதிவைக் காண உள்நுழைக."
 
 msgid ""
@@ -13568,6 +13640,35 @@ msgstr ""
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
+msgstr ""
+
+msgid ""
+"GitHub rejected the API credentials. Check whether the configured token has "
+"expired or been revoked, and replace it if necessary."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub API token authenticates as <code>%(authenticated_user)s</code>, "
+"while the pull request uses a fork owned by <code>%(username)s</code>. Check "
+"that the token belongs to the intended account and can access the source "
+"branch. This mismatch might explain the failure."
+msgstr ""
+
+msgid ""
+"GitHub returned 404 when creating the pull request. This can indicate an "
+"access restriction even when the repository is readable. A successful Git "
+"push does not verify API access."
+msgstr ""
+
+msgid ""
+"Check the GitHub App installation's repository access and pull request "
+"permissions."
+msgstr ""
+
+msgid ""
+"Check the API token's pull request permissions, repository selection, "
+"resource owner, organization restrictions, and access to the source branch."
 msgstr ""
 
 msgid ""
@@ -16481,11 +16582,6 @@ msgstr "நகல் மொழிபெயர்ப்பு."
 msgid "Duplicate label name."
 msgstr "நகல் கோப்பு முகமூடி."
 
-#, fuzzy
-#| msgid "Duplicated translation."
-msgid "Duplicate team name."
-msgstr "நகல் மொழிபெயர்ப்பு."
-
 msgid "Screenshot image is missing."
 msgstr "திரைக்காட்சி படம் இல்லை."
 
@@ -16569,11 +16665,22 @@ msgid "Referenced role does not exist."
 msgstr "கோப்பு இல்லை."
 
 #, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "Referenced role cannot be assigned to a project team."
+msgstr "கோப்பு பெயர் ஒரு முழுமையான பாதையாக இருக்க முடியாது."
+
+#, fuzzy
 #| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
 msgstr "வகை தேர்ந்தெடுக்கப்பட்ட திட்டத்திற்கு சொந்தமானது அல்ல."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+#, python-format
+msgid ""
+"Component %(component)s was skipped because its linked repository is "
+"unavailable."
 msgstr ""
 
 #, fuzzy
@@ -17660,8 +17767,13 @@ msgstr ""
 msgid "Access"
 msgstr "அணுகல்"
 
+#, fuzzy
+#| msgid ""
+#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
-"Uses and contributes to the pool of shared translations between projects."
+"Uses and contributes to the pool of shared translations between projects. "
+"Enabling this publishes source strings, translations, and project and "
+"component origin regardless of project access control."
 msgstr ""
 "திட்டங்களுக்கு இடையில் பகிரப்பட்ட மொழிபெயர்ப்புகளின் குளத்திற்கு பயன்படுத்துகிறது மற்றும் "
 "பங்களிக்கிறது."
@@ -17707,6 +17819,11 @@ msgstr ""
 
 #, python-format
 msgid "Could not load project backup: %s"
+msgstr "திட்ட காப்புப்பிரதியை ஏற்ற முடியவில்லை: %s"
+
+#, fuzzy
+#| msgid "Could not load project backup: %s"
+msgid "Could not load project backup."
 msgstr "திட்ட காப்புப்பிரதியை ஏற்ற முடியவில்லை: %s"
 
 msgid "Optional additional filter applied to the strings"
@@ -17982,12 +18099,6 @@ msgstr "லினக்ச் பாணி"
 msgid "Linux style, lower cased"
 msgstr "லினக்ச் பாணி, குறைந்த காச்"
 
-#, python-format
-msgid ""
-"Component %(component)s was skipped because its linked repository is "
-"unavailable."
-msgstr ""
-
 msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
@@ -17997,6 +18108,12 @@ msgstr ""
 #| msgid "Public e-mail"
 msgid "Public sharing"
 msgstr "பொது மின்னஞ்சல்"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects. Public and Protected projects are always publicly "
+"shared regardless of this setting."
+msgstr ""
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18606,6 +18723,17 @@ msgstr "கமிட் மீது தள்ளுங்கள்"
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "ஒவ்வொரு உறுதிப்பாட்டிலும் களஞ்சியத்தை நீக்கி தள்ள வேண்டுமா."
 
+#, fuzzy
+#| msgid "Push on commit"
+msgid "Push on update"
+msgstr "கமிட் மீது தள்ளுங்கள்"
+
+msgid ""
+"Whether the repository should be pushed upstream after updating it, even "
+"when the update did not commit any translations. When turned off, commits "
+"made by the update are pushed with the next translation commit."
+msgstr ""
+
 msgid "Age of changes to commit"
 msgstr "செய்ய மாற்றங்களின் அகவை"
 
@@ -19116,8 +19244,11 @@ msgstr "திட்டங்களுக்கு இடையில் பக�
 msgid "Contribute to shared translation memory"
 msgstr "பகிரப்பட்ட மொழிபெயர்ப்பு நினைவகத்திற்கு பங்களிக்கவும்"
 
-msgid "Contributes to the pool of shared translations between projects."
-msgstr "திட்டங்களுக்கு இடையில் பகிரப்பட்ட மொழிபெயர்ப்புகளின் குளத்திற்கு பங்களிக்கிறது."
+msgid ""
+"Publishes source strings, translations, and project and component origin to "
+"the global shared translation memory. Project access control does not "
+"restrict this shared data."
+msgstr ""
 
 #, fuzzy
 #| msgid "Uses the pool of shared translations between projects."
@@ -19648,7 +19779,7 @@ msgstr "அறிக்கை வடிவமைப்பு"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project backup import completed with skipped components."
+msgid "Project backup import completed with warnings."
 msgstr "கூறுகள் இல்லாத திட்டங்கள்"
 
 #, fuzzy
@@ -21011,15 +21142,15 @@ msgid "Repository URL contains unsafe characters."
 msgstr "பெயரில் அனுமதிக்கப்படாத எழுத்துக்கள் உள்ளன."
 
 #, python-format
-msgid "Fetching VCS repository from %s is not allowed."
-msgstr "%s இலிருந்து பகஅ களஞ்சியத்தைப் பெறுவது அனுமதிக்கப்படாது."
-
-#, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr "%s ஐப் பயன்படுத்தி பகஅ களஞ்சியத்தைப் பெறுவது அனுமதிக்கப்படாது."
 
 msgid "Could not parse URL: {}"
 msgstr "முகவரியை அலச முடியவில்லை: {}"
+
+#, python-format
+msgid "Fetching VCS repository from %s is not allowed."
+msgstr "%s இலிருந்து பகஅ களஞ்சியத்தைப் பெறுவது அனுமதிக்கப்படாது."
 
 msgid "Enter a valid domain name or IP address."
 msgstr "சரியான டொமைன் பெயர் அல்லது ஐபி முகவரியை உள்ளிடவும்."
@@ -22235,6 +22366,70 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
+#, python-format
+#~ msgid "Could not authenticate: %s"
+#~ msgstr "அங்கீகரிக்க முடியவில்லை: %s"
+
+#~ msgid ""
+#~ "Could not authenticate, probably due to an expired token or connection "
+#~ "error."
+#~ msgstr ""
+#~ "காலாவதியான குறிஅடையாளம் அல்லது இணைப்பு பிழை காரணமாக அங்கீகரிக்க முடியவில்லை."
+
+#, python-format
+#~ msgid "Authentication failed: %s"
+#~ msgstr "ஏற்பு தோல்வியடைந்தது: %s"
+
+#~ msgid "The authentication provider could not be reached."
+#~ msgstr "அங்கீகார வழங்குநரைத் தொடர்பு கொள்ள முடியவில்லை."
+
+#~ msgid "Only needed when model is set to 'Custom model'"
+#~ msgstr "மாதிரி 'தனிப்பயன் மாதிரி' என அமைக்கப்பட்டால் மட்டுமே தேவைப்படுகிறது"
+
+#~ msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+#~ msgstr ""
+#~ "Ollama பநிஇ இன் அடிப்படை URL, உள்ளக புரவலன் மற்றும் துறைமுகம் 11434 இயல்பாக."
+
+#~ msgid "Reset and discard"
+#~ msgstr "மீட்டமைத்து நிராகரிக்கவும்"
+
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and discards any pending "
+#~ "changes in Weblate."
+#~ msgstr ""
+#~ "வெப்லேட்டின் களஞ்சியத்தை அப்ச்ட்ரீமில் பொருத்துவதற்கு மீட்டமைக்கிறது மற்றும் வெப்லேட்டில் "
+#~ "நிலுவையில் உள்ள மாற்றங்களை நிராகரிக்கிறது."
+
+#, fuzzy
+#~| msgid ""
+#~| "Resets Weblate’s repository to match upstream and replace upstream "
+#~| "translations with the current state from Weblate."
+#~ msgid ""
+#~ "Resets Weblate’s repository to match upstream and reapplies pending "
+#~ "translations onto the reset repository state."
+#~ msgstr ""
+#~ "வெப்லேட்டின் களஞ்சியத்தை அப்ச்ட்ரீமை பொருத்தவும், மேலோடை மொழிபெயர்ப்புகளை "
+#~ "வெப்லேட்டிலிருந்து தற்போதைய நிலையுடன் மாற்றவும்."
+
+#, fuzzy
+#~| msgid "Duplicated translation."
+#~ msgid "Duplicate team name."
+#~ msgstr "நகல் மொழிபெயர்ப்பு."
+
+#~ msgid ""
+#~ "Uses and contributes to the pool of shared translations between projects."
+#~ msgstr ""
+#~ "திட்டங்களுக்கு இடையில் பகிரப்பட்ட மொழிபெயர்ப்புகளின் குளத்திற்கு பயன்படுத்துகிறது "
+#~ "மற்றும் பங்களிக்கிறது."
+
+#~ msgid "Contributes to the pool of shared translations between projects."
+#~ msgstr "திட்டங்களுக்கு இடையில் பகிரப்பட்ட மொழிபெயர்ப்புகளின் குளத்திற்கு பங்களிக்கிறது."
+
+#, fuzzy
+#~| msgid "Projects without components"
+#~ msgid "Project backup import completed with skipped components."
+#~ msgstr "கூறுகள் இல்லாத திட்டங்கள்"
+
 #~ msgid "XLIFF 1.2 with placeables support"
 #~ msgstr "எக்ச்எல்ஐஎஃப் 1.2 வேலைவாய்ப்பு ஆதரவுடன்"
 
@@ -22755,10 +22950,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "Workspace settings"
 #~ msgstr "பணியிட அமைப்புகள்"
-
-#, python-brace-format
-#~ msgid "Too many suggestions ({count}). Please contact an administrator."
-#~ msgstr "பல பரிந்துரைகள் ({count}). நிர்வாகியைத் தொடர்பு கொள்ளவும்."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""

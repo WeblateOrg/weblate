@@ -38,7 +38,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
@@ -53,7 +53,7 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
-class SettingsTest(ViewTestCase):
+class SettingsTest(ReusableViewTestCase):
     def test_saving_settings_reports_legacy_duplicate_repair(self) -> None:
         self.project.add_user(self.user, "Administration")
         self.project.component_set.update(license="MIT")
@@ -1874,7 +1874,8 @@ class SettingsTest(ViewTestCase):
             instance=self.component,
         )
 
-        self.assertFalse(form.is_valid())
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertFalse(form.is_valid())
         self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:

@@ -840,6 +840,9 @@ class User(AbstractBaseUser):
     class AuditState:
         group_ids: set[int]
         is_superuser: bool
+        is_active: bool
+        has_expiry: bool
+        identity: dict[str, str | None]
 
     username = UsernameField(
         gettext_lazy("Username"),
@@ -958,6 +961,7 @@ class User(AbstractBaseUser):
             and original.is_active != self.is_active
             and self.full_name != "Deleted User"
             and not self.is_anonymous
+            and self._audit_state is None
         ):
             activity: str
             if original.date_expires and not self.is_active:
@@ -1587,17 +1591,27 @@ class User(AbstractBaseUser):
         *,
         group_ids: set[int] | None = None,
         is_superuser: bool | None = None,
+        original: User | None = None,
     ) -> None:
         if self._audit_state is not None:
             msg = "Audit state is already stored!"
             raise ValueError(msg)
+        original = original or self
         self._audit_state = self.AuditState(
             group_ids=(
-                set(self.groups.values_list("id", flat=True))
+                set(original.groups.values_list("id", flat=True))
                 if group_ids is None
                 else group_ids
             ),
-            is_superuser=self.is_superuser if is_superuser is None else is_superuser,
+            is_superuser=original.is_superuser
+            if is_superuser is None
+            else is_superuser,
+            is_active=original.is_active,
+            has_expiry=bool(original.date_expires),
+            identity={
+                name: getattr(original, name)
+                for name in ("username", "full_name", "email")
+            },
         )
 
     def log_audit_state(
@@ -1606,10 +1620,34 @@ class User(AbstractBaseUser):
         *,
         actor: User | None = None,
     ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
+
         audit_state = self._audit_state
         self._audit_state = None
         if audit_state is None:
             return
+
+        for name, old in audit_state.identity.items():
+            new = getattr(self, name)
+            if old != new:
+                AuditLog.objects.create(
+                    self, request, name, actor=actor, old=old, new=new
+                )
+        if (
+            audit_state.is_active != self.is_active
+            and self.full_name != "Deleted User"
+            and not self.is_anonymous
+        ):
+            activity = "enabled" if self.is_active else "disabled"
+            if (
+                not self.is_active
+                and audit_state.has_expiry
+                and request is None
+                and actor is None
+            ):
+                activity = "disabled-expiry"
+            AuditLog.objects.create(self, request, activity, actor=actor)
 
         self.audit_superuser_change(
             request,
@@ -1637,9 +1675,9 @@ class User(AbstractBaseUser):
 
         AuditLog.objects.create(
             user=self,
-            request=self._get_audit_request(request),
+            request=request,
             activity="superuser-granted" if self.is_superuser else "superuser-revoked",
-            username=self._get_audit_actor_username(request, actor=actor),
+            actor=actor,
         )
 
     def audit_team_membership_changes(
@@ -1690,13 +1728,6 @@ class User(AbstractBaseUser):
             return request.user.username
         return None
 
-    def _get_audit_request(
-        self, request: AuthenticatedHttpRequest | None
-    ) -> AuthenticatedHttpRequest | None:
-        if request is not None and request.user == self:
-            return request
-        return None
-
     def _audit_team_change(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -1711,8 +1742,9 @@ class User(AbstractBaseUser):
 
         AuditLog.objects.create(
             user=self,
-            request=self._get_audit_request(request),
+            request=request,
             activity=self._get_team_audit_activity(team, activity),
+            actor=actor,
             username=self._get_audit_actor_username(request, actor=actor),
             team=team.name,
             **params,

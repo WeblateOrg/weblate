@@ -36,7 +36,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.templatetags.translations import get_translate_url
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -52,7 +52,7 @@ from weblate.utils.views import get_form_data
 from weblate.workspaces.models import Workspace
 
 
-class SearchViewTest(ViewTestCase):
+class SearchViewTest(ReusableViewTestCase):
     CREATE_GLOSSARIES = True
 
     def setUp(self) -> None:
@@ -824,7 +824,7 @@ class SearchViewTest(ViewTestCase):
         )
 
 
-class ReplaceTest(ViewTestCase):
+class ReplaceTest(ReusableViewTestCase):
     """Test for search and replace functionality."""
 
     def setUp(self) -> None:
@@ -1184,7 +1184,7 @@ class ReplaceTest(ViewTestCase):
         )
 
 
-class BulkEditTest(ViewTestCase):
+class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""
 
     def setUp(self) -> None:

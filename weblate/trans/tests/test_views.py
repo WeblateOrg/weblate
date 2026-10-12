@@ -7,6 +7,8 @@
 from __future__ import annotations
 
 import os
+import shutil
+from contextlib import ExitStack
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,6 +18,7 @@ from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -37,6 +40,7 @@ from weblate.auth.models import (
     Permission,
     Role,
     TeamMembership,
+    User,
     setup_project_groups,
 )
 from weblate.lang.models import Language
@@ -51,12 +55,15 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
+    RepoTestMixin,
     clear_users_cache,
     create_another_user,
     create_test_user,
     wait_for_celery,
 )
 from weblate.trans.views.basic import add_languages_to_component
+from weblate.utils.data import data_path
+from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
@@ -67,7 +74,6 @@ if TYPE_CHECKING:
     from django.test.client import Client as TestClient
     from django.test.client import _MonkeyPatchedWSGIResponse as TestClientResponse
 
-    from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.utils.state import StringState
 
@@ -284,6 +290,12 @@ class ComponentTestCase(RepoTestCase):
         super().setUp()
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
+        self.set_up_component()
+        # Invalidate caches
+        cache.clear()
+
+    def set_up_component(self) -> None:
+        """Create the initial database state for a component test."""
         # Create user
         self.user = create_test_user()
         group = Group.objects.get(name="Users")
@@ -294,8 +306,6 @@ class ComponentTestCase(RepoTestCase):
         if not self.project.defined_groups.exists():
             setup_project_groups(self, self.project)
         self.translation = self.get_translation()
-        # Invalidate caches
-        cache.clear()
 
     @property
     def kw_project(self):
@@ -491,6 +501,111 @@ class ComponentTestCase(RepoTestCase):
 
 
 class ViewTestCase(ComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.set_up_authenticated_view()
+
+
+class ReusableComponentTestCase(ComponentTestCase):
+    """Import once per class and restore repository files before every test."""
+
+    _fixture_user_pk: int
+    _fixture_component_pk: int
+    _fixture_repo_paths: tuple[tuple[str, str], ...]
+    _fixture_snapshot: tuple[tuple[Path, Path], ...]
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+        snapshot = Path(
+            cls.enterClassContext(
+                TemporaryDirectory(  # pylint: disable=consider-using-with
+                    prefix="component-fixture-", dir=settings.DATA_DIR
+                )
+            )
+        )
+        builder = cls()
+        cls.addClassCleanup(builder.doCleanups)
+        cls.addClassCleanup(remove_tree, data_path("vcs"), True)
+        RepoTestMixin.clone_test_repos(builder)
+        # A failing factory must not leave configuration or lazy upstream
+        # repositories changed for the next class. These paths may not exist
+        # yet, and some factories access more than one VCS backend.
+        with ExitStack() as construction_cleanup:
+            for index, path in enumerate(
+                (
+                    data_path("home"),
+                    data_path("test-repo.git"),
+                    data_path("test-repo.hg"),
+                    data_path("test-repo.svn"),
+                )
+            ):
+                saved = snapshot / f"input-{index}" if path.exists() else None
+                if saved is not None:
+                    shutil.copytree(path, saved, symlinks=True)
+                construction_cleanup.callback(
+                    cls.restore_repositories, ((path, saved),)
+                )
+            cls.build_fixture(builder)
+            cls._fixture_user_pk = builder.user.pk
+            cls._fixture_component_pk = builder.component.pk
+            # Keep only paths and primary keys; repository/parser objects can cache
+            # state that database rollback and filesystem restoration do not reset.
+            cls._fixture_repo_paths = tuple(
+                (key, builder.__dict__[key])
+                for key in (
+                    "git_repo_path",
+                    "mercurial_repo_path",
+                    "subversion_repo_path",
+                )
+                if key in builder.__dict__
+            )
+            paths = [data_path("vcs"), data_path("home")]
+            paths.extend(Path(path) for _, path in cls._fixture_repo_paths)
+            cls._fixture_snapshot = tuple(
+                (path, snapshot / str(index)) for index, path in enumerate(paths)
+            )
+            for path, saved in cls._fixture_snapshot:
+                shutil.copytree(path, saved, symlinks=True)
+            cls.addClassCleanup(cls.restore_repositories, cls._fixture_snapshot)
+            construction_cleanup.pop_all()
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        """Construct shared data using the subclass's component factory."""
+        ComponentTestCase.set_up_component(builder)
+
+    @staticmethod
+    def restore_repositories(
+        snapshot: tuple[tuple[Path, Path | None], ...],
+    ) -> None:
+        """Restore mutable files, including after the final test fails."""
+        for path, saved in snapshot:
+            if path.is_symlink() or path.is_file():
+                path.unlink()
+            else:
+                remove_tree(path, True)
+            if saved is not None:
+                shutil.copytree(saved, path, symlinks=True)
+
+    def clone_test_repos(self) -> None:
+        super().clone_test_repos()
+        self.restore_repositories(self._fixture_snapshot)
+        # Reuse restored upstream repositories instead of copying the base
+        # archive again when a test accesses one of the lazy path properties.
+        self.__dict__.update(self._fixture_repo_paths)
+
+    def set_up_component(self) -> None:
+        Language.objects.flush_object_cache()
+        clear_users_cache()
+        cache.clear()
+        self.user = User.objects.get(pk=self._fixture_user_pk)
+        self.component = Component.objects.get(pk=self._fixture_component_pk)
+        self.project = self.component.project
+        self.translation = self.get_translation()
+
+
+class ReusableViewTestCase(ReusableComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.set_up_authenticated_view()
@@ -1214,7 +1329,7 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
         self.assertNotIn(component.pk, eligible_ids)
 
 
-class BasicViewTest(ViewTestCase):
+class BasicViewTest(ReusableViewTestCase):
     def assert_upload_placeholder(self, response, tab: str) -> None:
         self.assertContains(response, "Upload translation")
         self.assertContains(

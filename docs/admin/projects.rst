@@ -1208,6 +1208,30 @@ well.
 
 .. include:: /snippets/linked-repository-setting.rst
 
+.. _component-push_on_update:
+
+Push on update
+++++++++++++++
+
+.. versionadded:: 2026.10
+
+Whether Weblate pushes after updating the repository from upstream, even when
+the update did not commit any translations. This applies only when
+:ref:`component-push_on_commit` is enabled.
+
+Turn this off to avoid pushes, and the CI runs they trigger, caused only by
+upstream changes. This is useful when Weblate's pull requests are
+squash-merged, so its commits never appear upstream. Translations committed
+during the update are still pushed.
+
+Commits made by the update, such as merge commits with the
+:ref:`component-merge_style` set to merge, are then pushed with the next
+translation commit. On quiet projects they can accumulate and trigger the
+alert about unpushed changes, see :setting:`REPOSITORY_ALERT_THRESHOLD`.
+Using rebase avoids most of them.
+
+.. include:: /snippets/linked-repository-setting.rst
+
 .. _component-commit_pending_age:
 
 Age of changes to commit

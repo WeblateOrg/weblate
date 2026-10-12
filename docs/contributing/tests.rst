@@ -52,6 +52,16 @@ when intentionally refreshing the demo data. Runtime tests do not fetch GitHub
 repositories or resolve their hostname. The ``TEST_REVISION`` pin controls the
 ordinary Git, Mercurial, and Subversion data independently.
 
+Selenium tests that consume the standard demo can opt in with
+``@reuse_demo_fixture`` from :file:`weblate/trans/tests/selenium_fixtures.py`.
+Place it outside other method decorators. It restores committed database rows
+and the demo's working repositories before the test body, so call
+``create_component()`` before creating additional components as usual. Create
+users and other test-specific data inside the test body; restoration replaces
+the database. GitHub transports and browser state remain isolated per test.
+Keep creation and empty-state tests undecorated so they continue to exercise
+the browser forms and generate their screenshots.
+
 .. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
@@ -135,6 +145,33 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 
     See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
+
+Tests that repeatedly import the same component can inherit from
+``ReusableComponentTestCase`` or ``ReusableViewTestCase`` in
+:file:`weblate/trans/tests/test_views.py`. These bases build the initial user,
+project, component, and translations once per class in ``setUpTestData()``.
+Override ``create_component()`` to select a repository fixture or file format,
+as with ``ComponentTestCase``. For additional shared setup, override the
+``build_fixture(cls, builder)`` class method, call ``super().build_fixture(builder)``,
+and use the builder's repository helpers and model instances.
+
+Each test reloads its model instances and receives a restored copy of the working
+repositories, upstream repositories used during construction, and test Git
+configuration. Database changes are rolled back by Django. Clients,
+authentication, and application caches are initialized per test. Snapshots are
+temporary and local to each class and worker; extra components created within a
+test still use the normal component factories.
+
+API tests inheriting ``APIBaseTest`` in :file:`weblate/api/tests.py` use the same
+repository restoration. The API user and initial component, including its
+automatic glossary, are created once per class. Component construction callbacks
+run during this shared setup. API clients, credentials, and subclass setup such
+as screenshots and announcements are initialized per test.
+
+Use the existing bases for ``TransactionTestCase`` and concurrency tests, or when
+component construction itself must run under a method-specific settings override.
+The reusable bases do not replay component construction signals or commit
+callbacks before each test.
 
 
 Local testing of Weblate modules

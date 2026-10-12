@@ -75,7 +75,7 @@ from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
@@ -341,7 +341,7 @@ def remove(request: AuthenticatedHttpRequest, path):
 @contextmanager
 def _locked_for_rename(
     obj: Component | Project | Category,
-) -> Iterator[Component | Project | Category]:
+) -> Generator[Component | Project | Category, None, None]:
     if isinstance(obj, Component):
         with obj.locked_for_update() as locked_obj:
             yield locked_obj

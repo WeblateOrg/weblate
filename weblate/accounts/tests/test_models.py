@@ -9,9 +9,12 @@ from __future__ import annotations
 from unittest import mock
 
 from django.contrib.admin.sites import AdminSite
+from django.contrib.auth.models import AnonymousUser
+from django.core import mail
 from django.core.exceptions import ValidationError
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
+from django.utils.translation import override
 
 from weblate.accounts.admin import AuditLogAdmin
 from weblate.accounts.models import (
@@ -23,11 +26,90 @@ from weblate.accounts.models import (
     Profile,
     validate_listing_columns,
 )
+from weblate.accounts.notifications import get_notification_emails
+from weblate.accounts.tasks import notify_auditlog
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
+from weblate.utils.html import html_to_mail_text
 
 
 class AuditLogTestCase(SimpleTestCase):
+    def test_notification_optional_fields(self) -> None:
+        for notification in ("account_activity", "reset-nonexisting"):
+            for address in (None, "", "192.0.2.0"):
+                for user_agent in ("", "PC / Linux / Firefox"):
+                    with self.subTest(
+                        notification=notification,
+                        address=address,
+                        user_agent=user_agent,
+                    ):
+                        body = get_notification_emails(
+                            "en",
+                            ["target@example.com"],
+                            notification,
+                            context={
+                                "message": "Superuser privileges granted.",
+                                "address": address,
+                                "user_agent": user_agent,
+                            },
+                        )[0]["body"]
+                        for content in (body, html_to_mail_text(body)):
+                            self.assertEqual("IP address" in content, bool(address))
+                            self.assertEqual("User agent" in content, bool(user_agent))
+                            if address:
+                                self.assertIn(address, content)
+                                self.assertIn("including the IP address.", content)
+                            else:
+                                self.assertIn(
+                                    "Sign in to see the full audit log.", content
+                                )
+                            if user_agent:
+                                self.assertIn(user_agent, content)
+
+    def test_notification_actor_display(self) -> None:
+        for activity, params, actor_count in (
+            ("superuser-granted", {"username": "<admin>"}, 1),
+            ("superuser-granted", {}, 0),
+            ("accepted", {"username": "<admin>"}, 0),
+        ):
+            with self.subTest(activity=activity, params=params):
+                audit = AuditLog(activity=activity, params=params)
+                body = get_notification_emails(
+                    "en",
+                    ["target@example.com"],
+                    "account_activity",
+                    context={
+                        "message": audit.get_message,
+                        "extra_message": audit.get_extra_message,
+                    },
+                )[0]["body"]
+                self.assertNotIn("<admin>", body)
+                for content in (body, html_to_mail_text(body)):
+                    self.assertEqual(content.count("Triggered by"), actor_count)
+                if params:
+                    self.assertEqual(body.count("&lt;admin&gt;"), 1)
+
+    def test_actor_and_guidance_are_escaped(self) -> None:
+        audit = AuditLog(
+            activity="blocked", params={"username": "<admin>", "project": "Test"}
+        )
+        message = audit.get_extra_message()
+        self.assertIsNotNone(message)
+        assert message is not None
+        self.assertIn("Triggered by <code>&lt;admin&gt;</code>.", message)
+        self.assertIn("Please contact project maintainers", message)
+
+    def test_actor_is_not_repeated(self) -> None:
+        for activity in ("team-add", "sitewide-team-remove", "invited", "accepted"):
+            with self.subTest(activity=activity):
+                audit = AuditLog(activity=activity, params={"username": "admin"})
+                self.assertIsNone(audit.get_extra_message())
+
+    def test_legacy_entry_without_actor(self) -> None:
+        audit = AuditLog(activity="superuser-granted", params={})
+        self.assertIsNone(audit.get_extra_message())
+        self.assertEqual(audit.get_message(), "Superuser privileges granted.")
+
     def test_address_ipv4(self) -> None:
         audit = AuditLog(address="127.0.0.1")
         self.assertEqual(audit.shortened_address, "127.0.0.0")
@@ -91,6 +173,65 @@ class ListingColumnsValidationTestCase(SimpleTestCase):
 
 
 class AuditLogLoggingTestCase(TestCase):
+    def test_request_actor_and_privacy(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("admin", "admin@example.com")
+        request = RequestFactory().post("/", HTTP_USER_AGENT="Admin browser")
+        request.user = actor
+        audit = AuditLog.objects.create(user, request, "admin-locked")
+        self.assertEqual(audit.params["username"], actor.username)
+        self.assertIsNone(audit.address)
+        self.assertEqual(audit.user_agent, "")
+
+        request.user = user
+        audit = AuditLog.objects.create(user, request, "password")
+        self.assertNotIn("username", audit.params)
+        self.assertEqual(audit.address, "127.0.0.1")
+        self.assertEqual(audit.user_agent, "Other / Other / Other")
+
+        request.user = AnonymousUser()
+        audit = AuditLog.objects.create(user, request, "reset-request")
+        self.assertNotIn("username", audit.params)
+        self.assertEqual(audit.address, "127.0.0.1")
+
+        audit = AuditLog.objects.create(user, None, "disabled-expiry")
+        self.assertNotIn("username", audit.params)
+
+    def test_explicit_actor_and_existing_username(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("inviter", "inviter@example.com")
+        request = RequestFactory().post("/")
+        request.user = user
+        audit = AuditLog.objects.create(user, request, "superuser-granted", actor=actor)
+        self.assertEqual(audit.params["username"], actor.username)
+        audit = AuditLog.objects.create(
+            user, request, "accepted", username=actor.username
+        )
+        self.assertEqual(audit.params["username"], actor.username)
+
+    def test_authentication_events_do_not_disclose_request_user(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        actor = User.objects.create_user("requester", "requester@example.com")
+        request = RequestFactory().post("/")
+        request.user = actor
+        for activity in ("connect", "register", "failed-auth", "reset-request"):
+            with self.subTest(activity=activity):
+                audit = AuditLog.objects.create(user, request, activity)
+                self.assertNotIn("username", audit.params)
+                self.assertNotIn("requester", str(audit.get_extra_message()))
+
+    def test_actor_in_notification(self) -> None:
+        user = User.objects.create_user("target", "target@example.com")
+        user.profile.language = "en"
+        user.profile.save(update_fields=["language"])
+        actor = User.objects.create_user("admin", "admin@example.com")
+        audit = AuditLog.objects.create(user, None, "superuser-granted", actor=actor)
+        with override("cs"):
+            notify_auditlog(audit.pk, user.email)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("admin", mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].body.count("Triggered by"), 1)
+
     def test_sitewide_team_add_logged(self) -> None:
         user = User.objects.create_user(
             username="audit-user",

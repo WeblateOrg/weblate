@@ -17,7 +17,7 @@ from io import BytesIO
 from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import unquote, urlparse
+from urllib.parse import ParseResult, unquote, urlparse
 
 import regex
 from confusable_homoglyphs import confusables
@@ -935,6 +935,49 @@ def validate_repo_url_characters(url: str) -> None:
         )
 
 
+def _is_local_repository_path(url: str) -> bool:
+    """Return whether a scheme-less repository value is a filesystem path."""
+    colon_position = url.find(":")
+    separator_positions = [
+        position for separator in ("/", "\\") if (position := url.find(separator)) >= 0
+    ]
+    return (
+        os.path.isabs(url)
+        or url.startswith(("./", "../"))
+        or colon_position < 0
+        or any(position < colon_position for position in separator_positions)
+    )
+
+
+def _parse_repository_url(
+    url: str, *, allow_scp_style: bool
+) -> tuple[str, ParseResult, bool] | None:
+    """Parse a repository URL and classify implicit SSH and local paths."""
+    parsed = urlparse(url)
+    if parsed.scheme:
+        return url, parsed, False
+    if _is_local_repository_path(url):
+        if "file" not in settings.VCS_ALLOW_SCHEMES:
+            raise ValidationError(
+                gettext("Fetching VCS repository using %s is not allowed.") % "file",
+                code="repository_scheme_not_allowed",
+                params={"scheme": "file"},
+            )
+        return None
+    if not allow_scp_style:
+        raise ValidationError(gettext("Could not parse URL."), code="url_parse_invalid")
+
+    normalized_url = f"ssh://{url}"
+    try:
+        return normalized_url, urlparse(normalized_url), True
+    except ValueError as error:
+        raise ValidationError(
+            gettext("Could not parse URL: {}").format(error),
+            code="url_parse_failed",
+            params={"error": str(error)},
+        ) from error
+
+
 def resolve_repo_hostname(
     hostname: str, *, policy_hostname: str | None = None
 ) -> tuple[str, ...]:
@@ -968,35 +1011,17 @@ def resolve_repo_hostname(
 def resolve_repo_url(
     url: str,
     *,
+    allow_scp_style: bool = True,
     ssh_destination_resolver: Callable[[str, str | None, int | None], tuple[str, int]]
     | None = None,
     proxy_url: str | None = None,
 ) -> ResolvedRepositoryURL | None:
     """Validate a repository URL and retain its approved outbound route."""
     validate_repo_url_characters(url)
-    normalized_url = url
-    parsed = urlparse(normalized_url)
-    implicit_ssh = not parsed.scheme
-    if not parsed.scheme:
-        if os.path.isabs(url) or url.startswith(("./", "../")):
-            if "file" not in settings.VCS_ALLOW_SCHEMES:
-                raise ValidationError(
-                    gettext("Fetching VCS repository using %s is not allowed.")
-                    % "file",
-                    code="repository_scheme_not_allowed",
-                    params={"scheme": "file"},
-                )
-            return None
-        # assume all links without schema are ssh links
-        normalized_url = f"ssh://{url}"
-        try:
-            parsed = urlparse(normalized_url)
-        except ValueError as error:
-            raise ValidationError(
-                gettext("Could not parse URL: {}").format(error),
-                code="url_parse_failed",
-                params={"error": str(error)},
-            ) from error
+    parsed_result = _parse_repository_url(url, allow_scp_style=allow_scp_style)
+    if parsed_result is None:
+        return None
+    normalized_url, parsed, implicit_ssh = parsed_result
 
     # Allow Weblate internal URLs
     if parsed.scheme in {"weblate", "local"}:

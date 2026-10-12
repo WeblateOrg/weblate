@@ -75,7 +75,11 @@ from weblate.trans.models.source import (
     request_reconciliation,
     source_operation,
 )
-from weblate.trans.tests.test_views import FixtureComponentTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    ReusableViewTestCase,
+    ViewTestCase,
+)
 from weblate.trans.tests.utils import RepoTestMixin, clear_users_cache
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
@@ -2749,7 +2753,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
         )
 
 
-class SourceLanguageFileTest(ViewTestCase):
+class SourceLanguageFileTest(ReusableViewTestCase):
     def test_editor_keeps_submission_when_source_changes_after_validation(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
         parent = self.component.translation_set.get(language_code="de").unit_set.get(

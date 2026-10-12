@@ -6,8 +6,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING
 
+from asgiref.sync import sync_to_async
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -19,17 +20,6 @@ from weblate.trans.actions import ActionEvents
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
-
-
-class AnnouncementChangeKwargs(TypedDict):
-    action: int
-    project_id: int | None
-    category_id: int | None
-    component_id: int | None
-    language_id: int | None
-    announcement_id: int
-    target: str
-    user: User | None
 
 
 ANNOUNCEMENT_SEVERITY_CHOICES = (
@@ -55,19 +45,23 @@ class AnnouncementManager(models.Manager["Announcement"]):
             kwargs["project_id"] = None
 
     @staticmethod
-    def _get_change_kwargs(
-        result, project_id: int | None, user: User | None
-    ) -> AnnouncementChangeKwargs:
-        return {
-            "action": ActionEvents.ANNOUNCEMENT,
-            "project_id": project_id,
-            "category_id": result.category_id,
-            "component_id": result.component_id,
-            "language_id": result.language_id,
-            "announcement_id": result.pk,
-            "target": result.message,
-            "user": user,
-        }
+    def _create_change(
+        result: Announcement, project_id: int | None, user: User | None
+    ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
+
+        change = Change(
+            action=ActionEvents.ANNOUNCEMENT,
+            project_id=project_id,
+            category_id=result.category_id,
+            component_id=result.component_id,
+            language_id=result.language_id,
+            announcement_id=result.pk,
+            target=result.message,
+            user=user,
+        )
+        change.save(force_insert=True)
 
     @staticmethod
     def _category_filter(category):
@@ -165,9 +159,6 @@ class AnnouncementManager(models.Manager["Announcement"]):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.category import Category
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.change import Change
-
         self._normalize_create_scope(kwargs)
 
         result = super().create(**kwargs)
@@ -177,17 +168,14 @@ class AnnouncementManager(models.Manager["Announcement"]):
                 pk=result.category_id
             )
 
-        Change.objects.create(
-            **self._get_change_kwargs(result, project_id, user),
-        )
+        if user is not None and not user.is_authenticated:
+            user = None
+        self._create_change(result, project_id, user)
         return result
 
     async def acreate(self, user=None, **kwargs):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.category import Category
-
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.change import Change
 
         self._normalize_create_scope(kwargs)
 
@@ -198,9 +186,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
                 "project_id", flat=True
             ).aget(pk=result.category_id)
 
-        await Change.objects.acreate(
-            **self._get_change_kwargs(result, project_id, user),
-        )
+        await sync_to_async(self._create_change)(result, project_id, user)
         return result
 
 

@@ -1,5 +1,19 @@
 {% load i18n translations %}
 
+{% if analysis.checkout_missing %}
+  <p>{% translate "The local repository checkout or its Git directory is missing. Repeated updates or pushes cannot reconstruct it." %}</p>
+  {% if can_recover_checkout %}
+    <p>{% translate "Open repository maintenance and use Reset and reapply translations to recover the checkout and reapply translations stored in Weblate." %}</p>
+  {% else %}
+    <p>{% translate "Ask a maintainer with repository reset permission to reconstruct the checkout." %}</p>
+  {% endif %}
+{% elif analysis.checkout_invalid %}
+  <p>{% translate "The local repository checkout is unusable or contains invalid Git metadata. Ask an instance administrator to inspect and repair it. Reset and reapply translations only reconstructs missing checkouts or missing Git directories." %}</p>
+{% endif %}
+{% if analysis.checkout_unavailable and repository_maintenance_url %}
+  <p><a class="btn btn-primary" href="{{ repository_maintenance_url }}">{% translate "Repository maintenance" %}</a></p>
+{% endif %}
+
 {% if analysis.redirect %}
   <p>
     {% translate "The repository URL returned a permanent HTTP redirect. Weblate automatically accepts only verified redirects on the same host. Update the component to use the canonical repository URL if the redirect points elsewhere." %}
@@ -137,7 +151,7 @@
   </p>
 {% endif %}
 
-{% if not analysis.redirect and not analysis.repository_url_failure %}
+{% if not analysis.redirect and not analysis.repository_url_failure and not analysis.checkout_unavailable %}
   <p>
     {% translate "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}
   </p>

@@ -145,14 +145,13 @@ following templates in the documents:
 :file:`legal/documents/contracts.html`
    Subcontractor information
 
-The legal module embeds these templates inside Weblate. Its confirmation page
-uses :file:`legal/documents/tos.html` and, when a privacy policy link is
-available, requires one agreement covering both the terms of service and the
-privacy policy. This is separate from :setting:`LEGAL_URL` and
-:setting:`PRIVACY_URL`, which are meant for linking to externally hosted legal
-documents from the footer when the legal module is not enabled or as fallbacks
-for hidden internal pages. When the legal module is enabled, Weblate links to
-the internal legal pages by default.
+The legal module embeds these templates inside Weblate. Set :setting:`LEGAL_URL`
+or :setting:`PRIVACY_URL` to use externally hosted documents. Configured URLs
+take priority in the footer, sign-in pages, legal pages, and confirmation page.
+The default terms and privacy templates link to the configured URL instead of
+showing their placeholder text. Without a configured URL, Weblate links to a
+visible internal legal page. When no terms link is available, the confirmation
+page embeds :file:`legal/documents/tos.html`.
 
 On changing the terms of service or privacy policy, adjust
 :setting:`LEGAL_TOS_DATE` when users should be forced to agree with the updated
@@ -280,19 +279,17 @@ attach any styling to this class; target it from your custom stylesheet, or set
 :setting:`LEGAL_DOCUMENT_CSS_CLASS` to another class matching your document
 markup. Set the setting to an empty string if no wrapper class is needed.
 
-Use :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide optional legal pages such as
-subcontractors from the legal menu. Hidden pages return a 404 response when
-requested directly. If ``terms`` or ``privacy`` is hidden, links using
-``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` or
-:setting:`PRIVACY_URL` when configured, otherwise the link is omitted.
+Use :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide legal pages from the legal menu.
+Hidden pages return a 404 response when requested directly. If ``terms`` or
+``privacy`` is hidden, its configured external URL remains available for links
+elsewhere. Without an external URL, the link is omitted.
 
-To use externally hosted legal documents with legal confirmation, configure
-:setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and ``privacy`` and set
-:setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The confirmation page then
-links to those external documents and requires one agreement covering both
-without needing a :file:`legal/documents/tos.html` template override. If no
-privacy policy link is available, the confirmation covers only the terms of
-service.
+To use externally hosted legal documents with legal confirmation, set
+:setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. Hide the internal pages as well
+if they should not appear in the legal menu. The confirmation page links to
+the external documents and requires one agreement covering both. If ``privacy``
+is hidden and no :setting:`PRIVACY_URL` is set, the confirmation covers only
+the terms of service.
 
 .. _avatars:
 

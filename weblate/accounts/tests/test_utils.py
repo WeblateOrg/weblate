@@ -77,7 +77,9 @@ class ResetCodeTest(TestCase):
         # Preserve the Unicode casing as it can exist in older account data.
         User.objects.filter(pk=user.pk).update(email="user@İ.com")
         user.refresh_from_db()
-        social = user.social_auth.create(provider="email", uid=user.email)
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
         VerifiedEmail.objects.create(
             social=social,
             email="secondary@example.net",

@@ -22,7 +22,7 @@ from weblate.utils.validators import resolve_runtime_hostname
 from weblate.vcs.git import GitRepository
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
 DEMO_URL = "https://github.com/WeblateOrg/demo.git"
 TEST_URL = "https://github.com/WeblateOrg/test.git"
@@ -30,7 +30,7 @@ DEMO_REF = "refs/fixtures/screenshot-demo"
 
 
 @contextmanager
-def github_fixture_repositories() -> Iterator[dict[str, Path]]:
+def github_fixture_repositories() -> Generator[dict[str, Path], None, None]:
     """Route GitHub URLs to isolated local copies without changing their display."""
     fixture = RepoTestMixin()
     base = fixture.git_base_repo_path
@@ -61,6 +61,10 @@ def github_fixture_repositories() -> Iterator[dict[str, Path]]:
         config = Path(data_dir("home"), ".config", "git", "config")
         config.parent.mkdir(parents=True, exist_ok=True)
         original = config.read_bytes() if config.exists() else None
+        user_config = Path(data_dir("home"), ".gitconfig")
+        original_user_config = (
+            user_config.read_bytes() if user_config.exists() else None
+        )
 
         def resolve_fixture_hostname(
             hostname: str, *, allow_private_targets: bool = True
@@ -80,6 +84,9 @@ def github_fixture_repositories() -> Iterator[dict[str, Path]]:
                     for url, repository in repositories.items()
                 ),
             )
+            GitRepository.git_config_update(
+                user_config, ('protocol "file"', "allow", "always")
+            )
             with (
                 override_settings(VCS_ALLOW_HOSTS={"github.com"}),
                 patch(
@@ -93,3 +100,7 @@ def github_fixture_repositories() -> Iterator[dict[str, Path]]:
                 config.unlink(missing_ok=True)
             else:
                 config.write_bytes(original)
+            if original_user_config is None:
+                user_config.unlink(missing_ok=True)
+            else:
+                user_config.write_bytes(original_user_config)

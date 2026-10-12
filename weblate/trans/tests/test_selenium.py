@@ -58,6 +58,9 @@ from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.weblatetm import WeblateTranslation
+from weblate.memory.machine import WeblateMemory
+from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
@@ -77,6 +80,10 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.browser import create_browser
 from weblate.trans.tests.github import github_fixture_repositories
+from weblate.trans.tests.selenium_fixtures import (
+    ReusableSeleniumDemoMixin,
+    reuse_demo_fixture,
+)
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -102,7 +109,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
@@ -360,14 +367,19 @@ PERFORMANCE_REPORT_HEADERS = {
 
 
 @override_settings(STATS_LAZY=False)
-class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
+class SeleniumTests(
+    ReusableSeleniumDemoMixin,
+    BaseLiveServerTestCase,
+    RegistrationTestMixin,
+    TempDirMixin,
+):
     _driver: WebDriver | None = None
     _driver_error: str = ""
     image_path = os.path.join(settings.BASE_DIR, "test-images")
     site_domain = ""
 
     @contextmanager
-    def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
+    def wait_for_page_load(self, timeout: int = 30) -> Generator[None, None, None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         success = False
         try:
@@ -476,6 +488,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def setUp(self) -> None:
         super().setUp()
         self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
+        self.driver.execute_cdp_cmd(
+            "Storage.clearDataForOrigin",
+            {"origin": self.live_server_url, "storageTypes": "local_storage"},
+        )
         self.driver.set_window_size(1200, 1024)
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{reverse('home')}")
@@ -598,6 +614,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Return the count of elements matching css_selector on the current page."""
         return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector))
 
+    def find_elements_now(self, by: str, value: str) -> list[WebElement]:
+        """Inspect an already settled page without waiting for absent elements."""
+        implicit_wait = self.driver.timeouts.implicit_wait
+        self.driver.implicitly_wait(0)
+        try:
+            return self.driver.find_elements(by, value)
+        finally:
+            self.driver.implicitly_wait(implicit_wait)
+
     def assert_labeled_control(self, htmlid: str, label_text: str) -> None:
         """Assert a form control has a visible label associated by ID."""
         self.driver.find_element(By.ID, htmlid)
@@ -663,7 +688,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             component.save(update_fields=("git_export",))
 
     @contextmanager
-    def stable_git_revision(self) -> Iterator[None]:
+    def stable_git_revision(self) -> Generator[None, None, None]:
         """Use deterministic Git revision text in management screenshots."""
         with (
             patch("weblate.wladmin.views.GIT_LINK", SCREENSHOT_GIT_LINK),
@@ -868,7 +893,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
     @contextmanager
-    def stable_performance_report_inputs(self) -> Iterator[None]:
+    def stable_performance_report_inputs(self) -> Generator[None, None, None]:
         """Use deterministic server-side values for the performance screenshot."""
         original_wsgi_request_init = WSGIRequest.__init__
         missing = object()
@@ -1099,7 +1124,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
     @contextmanager
-    def capture_authentication_submissions(self) -> Iterator[None]:
+    def capture_authentication_submissions(self) -> Generator[None, None, None]:
         """Exercise the real login page without navigating to external providers."""
         script = self.driver.execute_cdp_cmd(
             "Page.addScriptToEvaluateOnNewDocument",
@@ -1416,7 +1441,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         def selected_flags() -> list[str]:
             return [
                 item.get_attribute("data-value")
-                for item in self.driver.find_elements(
+                for item in self.find_elements_now(
                     By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .item.active"
                 )
             ]
@@ -1608,7 +1633,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ["", "alternative", ""],
         )
         editors[2].click()
-        button.click()
+        self.click(button)
         self.assertEqual(
             [editor.get_attribute("value") for editor in editors],
             ["", "alternative", "alternative"],
@@ -1727,9 +1752,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertFalse(
             self.driver.execute_script("return WLT.Utils.editorHasChanges();")
         )
-        self.assertEqual(
-            self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label"), []
-        )
+        self.assertEqual(self.find_elements_now(By.CSS_SELECTOR, "#unsaved-label"), [])
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), drafts)
 
@@ -2085,7 +2108,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         def suggestion_rows() -> list[WebElement]:
-            return self.driver.find_elements(
+            return self.find_elements_now(
                 By.CSS_SELECTOR, f"{row_selector} .history-row"
             )
 
@@ -2262,7 +2285,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
         self.assertNotIn("has-changes", editor().get_attribute("class") or "")
         self.assertEqual(
-            len(self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label")), 0
+            len(self.find_elements_now(By.CSS_SELECTOR, "#unsaved-label")), 0
         )
         self.assertIn(
             "unit-state-translated",
@@ -2278,7 +2301,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.assertEqual(
             len(
-                self.driver.find_elements(
+                self.find_elements_now(
                     By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
                 )
             ),
@@ -2297,7 +2320,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         wait_idle()
         self.assertEqual(
             len(
-                self.driver.find_elements(
+                self.find_elements_now(
                     By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
                 )
             ),
@@ -2375,6 +2398,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Clicking it again hides them
         indicator().click()
+        WebDriverWait(self.driver, 10).until(
+            invisibility_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
         self.assertFalse(
             self.driver.find_element(By.CSS_SELECTOR, row_selector).is_displayed()
         )
@@ -2401,6 +2427,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             presence_of_element_located((By.CSS_SELECTOR, indicator_selector))
         )
 
+    @reuse_demo_fixture
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")
@@ -2618,6 +2645,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             )
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             *settings.WEBLATE_MACHINERY,
@@ -2675,6 +2703,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "current replacement 2",
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             *settings.WEBLATE_MACHINERY,
@@ -2728,6 +2757,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ],
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             "weblate.trans.tests.test_selenium.SeleniumOriginsTranslation",
@@ -2776,6 +2806,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ["Component 5 (75%)", "Component 6 (70%)"],
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             "weblate.trans.tests.test_selenium.SeleniumEmptyTranslation",
@@ -2787,12 +2818,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         empty = self.driver.find_element(By.ID, "machinery-empty")
         WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
         self.assertEqual(
-            self.driver.find_elements(
+            self.find_elements_now(
                 By.CSS_SELECTOR, "#machinery-translations .machinery-row"
             ),
             [],
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             "weblate.trans.tests.test_selenium.SeleniumScoredTranslation",
@@ -2858,12 +2890,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.actions.key_up(Keys.CONTROL).perform()
         WebDriverWait(self.driver, 10).until(lambda _driver: not number.is_displayed())
 
+    @reuse_demo_fixture
     def test_machinery_no_services(self) -> None:
         """Machinery tab reports the empty state with no service configured."""
         self.open_machinery_unit()
         empty = self.driver.find_element(By.ID, "machinery-empty")
         WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
 
+    @reuse_demo_fixture
     def test_editing_survives_comment(self) -> None:
         """Posting a comment keeps pending translation and string state."""
         project = self.create_component()
@@ -2909,6 +2943,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
         )
 
+    @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
             *settings.WEBLATE_MACHINERY,
@@ -3130,6 +3165,32 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
+        if "_demo_fixture_project_pk" in self.__dict__:
+            return self.get_demo_fixture()
+        return self._build_demo_component()
+
+    def configure_screenshot_machinery(
+        self, project: Project, *, memory_only: bool = False
+    ) -> None:
+        """Give screenshots fixed internal engines regardless of fixture order."""
+        services = (
+            (WeblateMemory,) if memory_only else (WeblateTranslation, WeblateMemory)
+        )
+        Setting.objects.filter(category=SettingCategory.MT).delete()
+        Setting.objects.bulk_create(
+            [
+                Setting(
+                    category=SettingCategory.MT,
+                    name=service.get_identifier(),
+                    value={},
+                )
+                for service in services
+            ]
+        )
+        project.machinery_settings = {}
+        project.save(update_fields=["machinery_settings"])
+
+    def _build_demo_component(self) -> Project:
         self.use_github_fixtures()
         self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
@@ -3254,15 +3315,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.clear_project_stats_cache(project)
         return component
 
+    def populate_dashboard_activity(self) -> None:
+        """Create synthetic chart history using the normal bulk change hooks."""
+        days = [
+            day
+            for day in range(365)
+            for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30)))
+        ]
+        changes = Change.objects.bulk_create(
+            [Change(action=ActionEvents.CREATE_PROJECT) for _unused in days]
+        )
+        # auto_now_add sets timestamps during insertion; backdate them together
+        # afterwards, without dispatching thousands of individual save signals.
+        for change, day in zip(changes, days, strict=True):
+            change.timestamp -= timedelta(days=day)
+        Change.objects.bulk_update(changes, ["timestamp"])
+
+    @reuse_demo_fixture
     def test_dashboard(self) -> None:
         self.do_login()
         self.create_component()
         # Generate nice changes data
-        for day in range(365):
-            for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
-                change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
-                change.timestamp -= timedelta(days=day)
-                change.save()
+        self.populate_dashboard_activity()
 
         # Screenshot search
         self.click("Search")
@@ -3283,9 +3357,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self) -> None:
         user = self.do_login()
-        user.social_auth.create(provider="google-oauth2", uid=user.email)
-        user.social_auth.create(provider="github", uid="123456")
-        user.social_auth.create(provider="bitbucket", uid="weblate")
+        # Keep migrated e-mail and username identifiers for the screenshot.
+        user.social_auth.create(
+            provider="google-oauth2", uid=user.email, id_key="email"
+        )
+        user.social_auth.create(provider="github", uid="123456", id_key="id")
+        user.social_auth.create(
+            provider="bitbucket-oauth2", uid="weblate", id_key="username"
+        )
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
@@ -3293,6 +3372,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("authentication.png")
         self.assert_text_contains(".second-factor", "Security keys")
 
+    @reuse_demo_fixture
     def test_screenshot_filemask_repository_filename(self) -> None:
         """Test of mask of files to allow discovery/update of screenshots."""
         self.create_component()
@@ -3305,6 +3385,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
+    @reuse_demo_fixture
     def test_select_existing_screenshot(self) -> None:
         project = self.create_component()
         self.do_login(superuser=True)
@@ -3388,7 +3469,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element_to_be_clickable((By.ID, "screenshot-picker-q"))
         )
         self.assertEqual(
-            self.driver.find_elements(By.ID, f"screenshot-choice-{screenshot.pk}"), []
+            self.find_elements_now(By.ID, f"screenshot-choice-{screenshot.pk}"), []
         )
         self.assert_text_contains("#screenshot-picker-content", "Translated strings")
         search.clear()
@@ -3405,6 +3486,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda driver: driver.switch_to.active_element == trigger
         )
 
+    @reuse_demo_fixture
     def test_screenshot_clipboard_paste(self) -> None:
         """Test uploading a screenshot pasted from the clipboard."""
         project = self.create_component()
@@ -3465,6 +3547,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         finally:
             screenshot.image.close()
 
+    @reuse_demo_fixture
     def test_screenshots(self) -> None:
         """Screenshot tests."""
         # Make sure tesseract data is present and not downloaded at request time
@@ -3480,6 +3563,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         project = self.create_component()
         language = Language.objects.get(code="cs")
+        # A single engine avoids response-order differences when both internal
+        # engines return the same translation and their origins are merged.
+        self.configure_screenshot_machinery(project, memory_only=True)
 
         source = cast(
             "Unit",
@@ -3490,12 +3576,35 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         source.save()
         self.create_glossary(user, project, language)
         component.alert_set.all().delete()
+        target_unit = Unit.objects.get(source=text, translation__language=language)
+        Memory.objects.update_entry(
+            source=target_unit.source,
+            target=target_unit.target,
+            source_language=component.source_language,
+            target_language=language,
+            context=target_unit.context,
+            origin="Screenshot context",
+            status=Memory.STATUS_ACTIVE,
+            user=None,
+            project=project,
+            from_file=True,
+            shared=False,
+        )
 
         def capture_unit(name, tab) -> None:
             unit = Unit.objects.get(source=text, translation__language=language)
             with self.wait_for_page_load():
                 self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
             self.click(htmlid=tab)
+            if name == "screenshot-context.png":
+                self.wait_for_machinery_rows(1)
+                self.assert_text_contains("#machinery-translations", target_unit.target)
+                self.assert_text_contains(
+                    "#machinery-translations", "Weblate Translation Memory"
+                )
+                self.assert_text_contains(
+                    "#machinery-translations", "Screenshot context"
+                )
             if name == "source-information.png":
                 self.assert_text_contains("#glossary-terms", "překladový projekt")
                 self.assert_text_contains(
@@ -3658,6 +3767,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
 
+    @reuse_demo_fixture
     def test_admin(self) -> None:
         """Test admin dashboard and announcements."""
         ConfigurationError.objects.create(
@@ -3755,9 +3865,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
 
+    @reuse_demo_fixture
     def test_project_operations(self) -> None:
         """Test project-level screenshots."""
         project = self.create_component()
+        self.configure_screenshot_machinery(project)
         self.do_login(superuser=True)
         self.open_project(project)
 
@@ -3816,6 +3928,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with override_settings(WEBLATE_MACHINERY=machinery_services):
             with self.wait_for_page_load():
                 self.click("Automatic suggestions")
+            self.assert_text_contains(
+                ".card:first-of-type tbody", "Weblate Translation Memory"
+            )
+            self.assert_text_contains(".card:first-of-type tbody", "Weblate")
+            self.assertEqual(self.count_elements(".card:first-of-type tbody tr"), 2)
             self.screenshot("project-machinery.png")
 
         # Access control settings
@@ -3854,6 +3971,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
 
+    @reuse_demo_fixture
     def test_component_operations(self) -> None:
         """Test component operation screenshots."""
         language_regex = "^(cs|he|hu)$"
@@ -3992,7 +4110,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
-        inherit_agreement = self.driver.find_elements(By.ID, "id_inherit_agreement")
+        inherit_agreement = self.find_elements_now(By.ID, "id_inherit_agreement")
         if inherit_agreement and inherit_agreement[0].is_selected():
             self.click(inherit_agreement[0])
             WebDriverWait(self.driver, 5).until(
@@ -4012,9 +4130,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
 
+    @reuse_demo_fixture
     def test_translation_workflow(self) -> None:
         """Test translation workflow screenshots."""
         project = self.create_component()
+        self.configure_screenshot_machinery(project)
         user = self.do_login(superuser=True)
         self.open_translation(project=project)
         self.screenshot("strings-to-check.png")
@@ -4032,6 +4152,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
+        self.assertEqual(
+            {
+                option.get_attribute("value")
+                for option in Select(
+                    self.driver.find_element(By.ID, "id_auto_engines")
+                ).options
+            },
+            {WeblateTranslation.get_identifier(), WeblateMemory.get_identifier()},
+        )
         self.click("Operations")
         self.screenshot("automatic-translation.png")
         self.click("Search")
@@ -4335,7 +4464,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
-        self.assertFalse(self.driver.find_elements(By.CSS_SELECTOR, ".check-item"))
+        self.assertFalse(self.find_elements_now(By.CSS_SELECTOR, ".check-item"))
         proposed = [
             target.replace("La période d’essai", "L’essai") for target in corrected
         ]
@@ -4350,6 +4479,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), corrected)
 
+    @reuse_demo_fixture
     def test_profile_dashboard(self) -> None:
         """Test profile and dashboard screenshots."""
         project = self.create_component()
@@ -4427,6 +4557,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             """
         )
 
+    @reuse_demo_fixture
     def test_dashboard_wide_tables(self) -> None:
         """Test horizontal scrolling of the dashboard listing."""
         # Window narrow enough for the responsive rules to hide some columns
@@ -4498,6 +4629,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.execute_script("return arguments[0].scrollLeft;", wrapper), 0
         )
 
+    @reuse_demo_fixture
     def test_team_management(self) -> None:
         """Test team management screenshots."""
         project = self.create_component()
@@ -4781,7 +4913,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertFalse(
             any(
                 badge.text.startswith(("Active:", "Dismissed:"))
-                for badge in self.driver.find_elements(
+                for badge in self.find_elements_now(
                     By.CSS_SELECTOR, "#diagnostics .card-body .badge"
                 )
             )
@@ -4816,6 +4948,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.screenshot("workspace-diagnostics.png")
 
+    @reuse_demo_fixture
     def test_fonts(self) -> None:
         self.create_component()
         self.do_login(superuser=True)
@@ -4948,6 +5081,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click("Performance report")
             self.screenshot("performance-report.png")
 
+    @reuse_demo_fixture
     def test_explanation(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
@@ -5028,6 +5162,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.ID, "context-edit-form").send_keys(Keys.ESCAPE)
         time.sleep(0.2)
 
+    @reuse_demo_fixture
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
@@ -5052,6 +5187,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Translate")
         self.screenshot("dark-theme-translate.png")
 
+    @reuse_demo_fixture
     def test_glossary(self) -> None:
         user = self.do_login()
         project = self.create_component()

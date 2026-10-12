@@ -248,13 +248,17 @@ The :guilabel:`Account` tab lets you set up basic account details,
 connect various services you can use to sign in into Weblate, completely
 remove your account, or download your user data (see :ref:`schema-userdata`).
 
-The private commit e-mail will be used instead of your account e-mail in version
-control commits. Use this to avoid leaking your real e-mail there. Be aware
-that using different e-mail can disconnect your contributions on other servers
+The :guilabel:`Commit e-mail` and :guilabel:`Commit name` settings let you choose
+private identities instead of your account e-mail and name in version control
+commits. Use these to avoid publishing your real e-mail and name there. Be aware
+that using a different e-mail can disconnect your contributions on other servers
 (for example your contributions will no longer link to your profile on GitHub).
-The private e-mail can be turned on site-wide using
-:setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+Administrators can make private identities the default by setting
+:setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` and :setting:`PRIVATE_COMMIT_NAME_OPT_IN`
+to ``False``. Your explicit choices override these defaults.
 
+Changes to these settings affect future commits. Names and e-mail addresses
+already recorded in repository history remain unchanged.
 
 .. note::
 

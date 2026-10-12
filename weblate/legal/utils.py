@@ -48,9 +48,11 @@ def get_legal_menu() -> Sequence[MenuItem]:
     return tuple(item for item in MENU if item[0] not in hidden)
 
 
-def get_document_url(page: str, fallback: str | None = None) -> str | None:
+def get_document_url(page: str, external_url: str | None = None) -> str | None:
+    if external_url:
+        return external_url
     if is_document_hidden(page):
-        return fallback
+        return None
     return reverse(f"legal:{page}")
 
 
@@ -58,6 +60,8 @@ def get_document_context() -> dict[str, bool | str | None]:
     return {
         "terms_document_hidden": is_document_hidden("terms"),
         "privacy_document_hidden": is_document_hidden("privacy"),
+        "external_terms_url": settings.LEGAL_URL,
+        "external_privacy_url": settings.PRIVACY_URL,
         "terms_url": get_document_url("terms", settings.LEGAL_URL),
         "privacy_url": get_document_url("privacy", settings.PRIVACY_URL),
     }

@@ -65,8 +65,8 @@ CELERY_RESULT_BACKEND = None
 STATS_LAZY = True
 
 VCS_API_DELAY = 0
-# Allow file protocol for tests
-VCS_ALLOW_SCHEMES = {"https", "ssh", "file"}
+VCS_ALLOW_SCHEMES = {"https", "ssh"}
+VCS_PRIVATE_ALLOWLIST = ["vcs-fixture.invalid"]
 
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"

@@ -42,6 +42,7 @@ from weblate.trans.repository import (
 )
 from weblate.trans.repository_context import (
     RepositoryFollowupLockError,
+    RepositoryOperationFollowup,
     repository_task_deferred_auto_push,
     repository_task_deferred_background_tasks,
     repository_task_suppress_auto_push,
@@ -65,7 +66,7 @@ from weblate.trans.tasks import (
     update_checks,
     update_remotes,
 )
-from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
 from weblate.utils.files import remove_tree
@@ -79,7 +80,7 @@ from weblate.utils.tasks import (
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator, Iterator
 
 
 class CleanupTest(ComponentTestCase):
@@ -137,7 +138,7 @@ class CleanupTest(ComponentTestCase):
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
 
-class TasksTest(ComponentTestCase):
+class TasksTest(ReusableComponentTestCase):
     def test_repository_commit_uses_locked_wrapper(self) -> None:
         method = Mock()
 
@@ -381,7 +382,7 @@ class TasksTest(ComponentTestCase):
         original_push_if_needed = Component.push_if_needed
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield
@@ -414,7 +415,7 @@ class TasksTest(ComponentTestCase):
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield
@@ -710,9 +711,16 @@ class TasksTest(ComponentTestCase):
         commit.assert_called_once_with(self.component, "file-sync", self.user)
 
     def test_repository_operation_retries_only_pull_followup(self) -> None:
+        for followup, push in (("pull", True), ("pull-skip-push", False)):
+            with self.subTest(followup=followup):
+                self.assert_pull_followup_retry(followup, push=push)
+
+    def assert_pull_followup_retry(
+        self, followup: RepositoryOperationFollowup, *, push: bool
+    ) -> None:
         task = perform_repository_operation
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
-        followup_error = RepositoryFollowupLockError(lock_timeout, "pull")
+        followup_error = RepositoryFollowupLockError(lock_timeout, followup)
 
         with (
             patch.object(task, "update_state"),
@@ -733,7 +741,7 @@ class TasksTest(ComponentTestCase):
                 "task-id",
             )
 
-        self.assertEqual(raised.exception.resume_followup, "pull")
+        self.assertEqual(raised.exception.resume_followup, followup)
         with (
             patch.object(task, "update_state"),
             patch.object(User, "has_perm", return_value=True),
@@ -754,7 +762,7 @@ class TasksTest(ComponentTestCase):
 
         self.assertTrue(result["result"])
         update.assert_not_called()
-        finish_update.assert_called_once_with(self.component, ANY, self.user)
+        finish_update.assert_called_once_with(self.component, ANY, self.user, push=push)
 
     def test_repository_operation_resumes_push_after_pull_followup(self) -> None:
         task = perform_repository_operation
@@ -801,7 +809,7 @@ class TasksTest(ComponentTestCase):
             )
 
         self.assertTrue(result["result"])
-        finish_update.assert_called_once_with(self.component, ANY, self.user)
+        finish_update.assert_called_once_with(self.component, ANY, self.user, push=True)
         push.assert_called_once_with(
             self.component, ANY, force_commit=False, do_update=False
         )
@@ -1268,7 +1276,7 @@ class TasksTest(ComponentTestCase):
         events: list[str] = []
 
         @contextmanager
-        def reservation(*args, **kwargs) -> Iterator[None]:
+        def reservation(*args, **kwargs) -> Generator[None, None, None]:
             events.append("reserve")
             try:
                 yield

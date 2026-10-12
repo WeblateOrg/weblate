@@ -18,7 +18,7 @@ from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.hooks.repository import validate_full_name
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
     HookPayloadError,
@@ -1365,7 +1365,7 @@ GITEE_PAYLOAD = """
 """
 
 
-class HooksViewTest(ViewTestCase):
+class HooksViewTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         # Avoid actual repository updates
@@ -2607,7 +2607,7 @@ class InvalidBackendTest(SimpleTestCase):
             handler(payload, None)
 
 
-class InvalidPayloadTest(ViewTestCase):
+class InvalidPayloadTest(ReusableViewTestCase):
     """Test invalid webhook payloads with various full_name issues."""
 
     def setUp(self) -> None:

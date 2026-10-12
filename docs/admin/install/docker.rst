@@ -151,6 +151,18 @@ reverse proxy as seen by the Weblate container. Make sure that untrusted
 clients cannot reach a published container port by bypassing the reverse
 proxy.
 
+If the reverse proxy runs on the Docker host, you can give the host gateway a
+persistent name in :file:`docker-compose.override.yml` and trust that name:
+
+.. code-block:: yaml
+
+   services:
+     weblate:
+       extra_hosts:
+         - "host.docker.internal:host-gateway"
+       environment:
+         WEBLATE_TRUSTED_PROXY_ADDRESSES: host.docker.internal
+
 Using own SSL certificates
 ++++++++++++++++++++++++++
 
@@ -1052,9 +1064,9 @@ Generic settings
 
     Provide a comma-separated list of legal document page identifiers.
 
-    External legal documents are used as fallbacks for hidden internal pages.
-    The following configuration links both documents externally and requires
-    one agreement covering the terms of service and privacy policy:
+    External legal document URLs take priority over internal page links. The
+    following configuration hides the internal pages, links both documents
+    externally, and requires one agreement covering both:
 
     **Example:**
 
@@ -1206,6 +1218,19 @@ Generic settings
 .. envvar:: WEBLATE_DEFAULT_AUTO_WATCH
 
    Configures :setting:`DEFAULT_AUTO_WATCH`.
+
+.. envvar:: WEBLATE_DEFAULT_NOTIFICATIONS
+
+   .. versionadded:: 2026.10.1
+
+   Configures :setting:`DEFAULT_NOTIFICATIONS`.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         WEBLATE_DEFAULT_NOTIFICATIONS: 0:1:MentionCommentNotificaton,10:1:LastAuthorCommentNotificaton
 
 .. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_LOCKOUT
@@ -1359,6 +1384,31 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
 
+   To use private commit e-mails and names by default, set both opt-in variables
+   to ``False`` in :file:`docker-compose.override.yml`:
+
+   .. code-block:: yaml
+
+      services:
+        weblate:
+          environment:
+            WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN: "False"
+            WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN: "False"
+            WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE: "user-{user_id}@users.noreply.{site_domain}"
+            WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE: "{site_title} user {user_id}"
+
+   The template variables are optional customizations. This e-mail template uses
+   the user ID instead of the username included in the default template.
+   Setting the templates alone leaves private commit identities opt-in.
+
+   These defaults apply to new and existing users without explicit commit
+   identity choices. Users can still select their account identity. Existing
+   commits are unchanged.
+
+   After changing the environment, run ``docker compose up -d`` to recreate the
+   affected containers. Apply the same configuration to separately deployed
+   workers so both web and worker processes use the new defaults.
+
 .. envvar:: WEBLATE_UNUSED_ALERT_DAYS
 
    .. versionadded:: 4.17
@@ -1394,6 +1444,9 @@ Generic settings
    .. versionadded:: 5.15
 
    Configures :setting:`VCS_ALLOW_SCHEMES`.
+
+   The ``file`` scheme is disabled for security reasons. Including it prevents
+   Weblate from starting.
 
 .. envvar:: WEBLATE_VCS_RESTRICT_PRIVATE
 

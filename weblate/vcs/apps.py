@@ -7,8 +7,10 @@ import os
 from typing import TYPE_CHECKING
 
 from django.apps import AppConfig
+from django.conf import settings
 from django.core.checks import Warning as DjangoWarning
 from django.core.checks import register
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_migrate
 
 from weblate.utils.checks import weblate_check
@@ -141,6 +143,9 @@ class VCSConfig(AppConfig):
 
     def ready(self) -> None:
         super().ready()
+        if any(scheme.casefold() == "file" for scheme in settings.VCS_ALLOW_SCHEMES):
+            msg = "VCS_ALLOW_SCHEMES must not contain the unsupported file scheme."
+            raise ImproperlyConfigured(msg)
         post_migrate.connect(self.post_migrate, sender=self)
 
     def post_migrate(self, sender: AppConfig, **kwargs: object) -> None:

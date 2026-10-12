@@ -8,7 +8,6 @@ name: Apply maintenance patch
 on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows:
-    - uv lock update
     - yarn update
     - jsonschema update
     - unicodechars update
@@ -94,11 +93,6 @@ jobs:
         esac
 
         case "$RUN_NAME" in
-          "uv lock update")
-            message="chore(deps): update lockfile"
-            pr_branch="create-pull-request/uv-lock-update"
-            allowed_pattern='^uv\.lock$'
-            ;;
           "yarn update")
             message="chore(js): update vendored libraries"
             pr_branch="create-pull-request/yarn-update"
@@ -213,7 +207,7 @@ jobs:
           fetch --no-tags --depth=1 origin "$HEAD_SHA"
         git -C patch-repo rev-parse --verify "$HEAD_SHA^{commit}" >/dev/null
 
-    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+    - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
       with:
         name: maintenance-patch
         path: ${{ runner.temp }}/maintenance-patch

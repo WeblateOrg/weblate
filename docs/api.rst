@@ -887,6 +887,10 @@ Roles
 
     Changes the role parameters.
 
+    When supplied, ``permissions`` replaces the role's complete permission set.
+    Omit it to keep the existing permissions unchanged, or pass an empty list to
+    remove all permissions.
+
     :param id: Role's ID
     :type id: int
     :>json string name: Role name
@@ -1554,7 +1558,7 @@ Projects
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -1900,6 +1904,7 @@ Components
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
     :>json boolean push_on_commit: :ref:`component-push_on_commit`; linked repositories expose the effective value from the linked component
+    :>json boolean push_on_update: :ref:`component-push_on_update`; linked repositories expose the effective value from the linked component
     :>json bool locked: Whether component is locked, this field is read-only; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json integer commit_pending_age: :ref:`component-commit_pending_age`; linked repositories expose the effective value from the linked component
     :>json boolean auto_lock_error: :ref:`component-auto_lock_error`; linked repositories expose the effective value from the linked component
@@ -1958,7 +1963,7 @@ Components
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2053,7 +2058,7 @@ Components
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
             "new_base": "",
             "url": "http://example.com/api/components/hello/weblate/",
@@ -2579,7 +2584,7 @@ Translations
                     "web": "https://weblate.org/",
                     "web_url": "http://example.com/projects/hello/"
                 },
-                "repo": "file:///home/nijel/work/weblate-hello",
+                "repo": "https://github.com/WeblateOrg/hello.git",
                 "slug": "weblate",
                 "template": "",
                 "url": "http://example.com/api/components/hello/weblate/",

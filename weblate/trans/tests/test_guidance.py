@@ -44,7 +44,7 @@ from weblate.trans.alerts.registry import get_alert_class, update_alerts
 from weblate.trans.alerts.vcs import RepositoryOutdated
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import component_alerts
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
@@ -65,7 +65,7 @@ class RecommendedGenerateMoAddonTest(SimpleTestCase):
             self.assertFalse(RecommendedGenerateMoAddon.is_relevant(component))
 
 
-class ExtractorGuidanceAlertTest(ViewTestCase):
+class ExtractorGuidanceAlertTest(ReusableViewTestCase):
     @cached_property
     def git_repo_path(self) -> str:
         path = self.get_repo_path("test-guidance-repo.git")

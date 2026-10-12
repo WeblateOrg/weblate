@@ -86,6 +86,10 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.data import (
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.flows import (
     PASSWORD_RESET_EMAIL_SESSION,
     PASSWORD_RESET_SCOPE_SESSION,
@@ -126,8 +130,6 @@ from weblate.accounts.notification_debug import (
 )
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
-    NotificationFrequency,
-    NotificationScope,
     get_email_headers,
     send_notification_email,
 )
@@ -932,13 +934,16 @@ class UserPage(UpdateView):
             for device in user.profile.second_factors:
                 key_name = get_key_name(device)
                 device.delete()
-                AuditLog.objects.create(user, None, "twofactor-remove", device=key_name)
+                AuditLog.objects.create(
+                    user, request, "twofactor-remove", device=key_name
+                )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         if "disable_password" in request.POST:
             lock_user(
                 user,
                 "admin-locked",
+                request,
                 regenerate_api_key="regenerate_api_key" in request.POST,
             )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")

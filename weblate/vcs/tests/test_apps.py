@@ -4,10 +4,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.apps import apps
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 
 from weblate.vcs.apps import check_vcs, check_vcs_versions
 from weblate.vcs.base import Repository
@@ -18,6 +22,9 @@ from weblate.vcs.git import (
 )
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.vcs.apps import VCSConfig
 
 
 class OptionalRepository(Repository):
@@ -52,6 +59,36 @@ SHARED_BACKENDS = (
     "weblate.vcs.tests.test_apps.SharedVersionRepository",
     "weblate.vcs.tests.test_apps.OtherSharedVersionRepository",
 )
+
+
+class VCSConfigTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.app_config = cast("VCSConfig", apps.get_app_config("vcs"))
+
+    @override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"})
+    def test_supported_schemes(self) -> None:
+        with patch("weblate.vcs.apps.post_migrate.connect") as connect:
+            self.app_config.ready()
+
+        connect.assert_called_once_with(
+            self.app_config.post_migrate, sender=self.app_config
+        )
+
+    def test_file_scheme(self) -> None:
+        for scheme in ("file", "FILE", "File"):
+            with (
+                self.subTest(scheme=scheme),
+                override_settings(VCS_ALLOW_SCHEMES={"https", scheme}),
+                self.assertRaisesMessage(
+                    ImproperlyConfigured,
+                    "VCS_ALLOW_SCHEMES must not contain the unsupported file scheme.",
+                ),
+            ):
+                self.app_config.ready()
+
+    def test_app_registry_reload(self) -> None:
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            self.assertNotIn("file", settings.VCS_ALLOW_SCHEMES)
 
 
 class VCSChecksTest(SimpleTestCase):

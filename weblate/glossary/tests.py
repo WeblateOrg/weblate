@@ -38,7 +38,7 @@ from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.config import GlossaryStringManagementDisabled
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
@@ -159,7 +159,7 @@ def duplicate_tbx_source_term(filename: str, source: str) -> None:
     tree.write(filename, encoding="utf-8", xml_declaration=True)
 
 
-class GlossaryTest(ViewTestCase):
+class GlossaryTest(ReusableViewTestCase):
     """Testing of glossary manipulations."""
 
     CREATE_GLOSSARIES: bool = True

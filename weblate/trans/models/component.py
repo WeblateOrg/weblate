@@ -119,6 +119,7 @@ from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
     count_words,
+    is_plural,
     is_repo_link,
     path_separator,
     sanitize_backend_error_message,
@@ -191,6 +192,7 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
     RepositorySymlinkError,
     get_repository_error_diagnoses,
+    is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
@@ -563,6 +565,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
         "vcs_params",
         "push_on_commit",
+        "push_on_update",
         "commit_pending_age",
         "auto_lock_error",
     )
@@ -1033,6 +1036,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         default=settings.DEFAULT_PUSH_ON_COMMIT,
         help_text=gettext_lazy(
             "Whether the repository should be pushed upstream on every commit."
+        ),
+    )
+    push_on_update = models.BooleanField(
+        verbose_name=gettext_lazy("Push on update"),
+        default=True,
+        help_text=gettext_lazy(
+            "Whether the repository should be pushed upstream after updating it, "
+            "even when the update did not commit any translations. When turned "
+            "off, commits made by the update are pushed with the next translation "
+            "commit."
         ),
     )
     commit_pending_age = models.SmallIntegerField(
@@ -2475,6 +2488,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return self.effective_repo_component.push_on_commit
 
     @property
+    def effective_push_on_update(self) -> bool:
+        return self.effective_repo_component.push_on_update
+
+    @property
     def effective_commit_pending_age(self) -> int:
         return self.effective_repo_component.commit_pending_age
 
@@ -2757,10 +2774,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
             stored_error = error_text
         diagnoses: list[RepositoryDiagnosis] = []
         seen: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
-        for diagnosis in [
+        candidates: list[RepositoryDiagnosis] = [
             *error.diagnoses,
             *get_repository_error_diagnoses(error_text),
-        ]:
+        ]
+        # Git errors may come from a remote hook or global configuration.
+        # Persist checkout guidance only when the local Git checkout confirms it.
+        if (
+            is_possible_checkout_error(error_text)
+            and isinstance(self.repository, GitRepository)
+            and not any(
+                diagnosis["code"] in {"checkout_missing", "checkout_invalid"}
+                for diagnosis in candidates
+            )
+        ) and (checkout_code := self.repository.diagnose_checkout_error()):
+            candidates.append({"code": checkout_code})
+        for diagnosis in candidates:
             params = diagnosis.get("params", {})
             key = (diagnosis["code"], tuple(sorted(params.items())))
             if key in seen:
@@ -3076,8 +3105,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return True
 
             # commit possible pending changes if needed
+            committed = False
             if self.needs_commit_upstream():
+                previous_head = self.repository.get_last_revision()
                 self.commit_pending("update", user, skip_push=True)
+                committed = self.repository.get_last_revision() != previous_head
+            push = committed or self.effective_push_on_update
 
             # update local branch
             try:
@@ -3093,10 +3126,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if result:
             try:
-                self.finish_update(request, user)
+                self.finish_update(request, user, push=push)
             except WeblateLockTimeoutError as error:
                 if repository_task_inline_followups.get():
-                    raise RepositoryFollowupLockError(error, "pull") from error
+                    raise RepositoryFollowupLockError(
+                        error, "pull" if push else "pull-skip-push"
+                    ) from error
                 raise
 
         if not self.repo_needs_push():
@@ -3108,16 +3143,29 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return result
 
     def finish_update(
-        self, request: AuthenticatedHttpRequest | None, user: User
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User,
+        *,
+        push: bool = True,
     ) -> None:
-        """Parse and push a repository after a successful pull."""
+        """
+        Parse and push a repository after a successful pull.
+
+        ``push`` is decided by :meth:`do_update`: it is off when
+        :attr:`push_on_update` is turned off and the update committed no
+        translations.
+        """
         parse_error = None
         try:
             self.create_translations(request=request, user=user)
         except FileParseError as error:
             parse_error = error
 
-        self.push_if_needed(do_update=False)
+        if push:
+            self.push_if_needed(do_update=False)
+        else:
+            self.log_info("skipped push: push on update disabled")
         if parse_error is not None:
             raise parse_error
 
@@ -3425,6 +3473,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.recovery import reset_with_recovery
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.repository_context import (
             RepositoryFollowupLockError,
             repository_task_inline_followups,
@@ -3435,11 +3486,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         user = request.user if request else self.acting_user
         try:
-            with self.repository.lock.without_recovery():
-                previous_head = self.reset_repository_to_remote(
-                    request, user, keep_changes=keep_changes
-                )
-        except RepositoryError:
+            previous_head = reset_with_recovery(
+                self, request, user, keep_changes=keep_changes
+            )
+        except (RepositoryError, OSError) as error:
             report_error(
                 "Could not reset the repository",
                 project=self.project,
@@ -3447,7 +3497,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             messages.error(
                 request,
-                gettext("Could not reset to remote branch on %s.") % self,
+                gettext("Could not reset to remote branch on %(component)s: %(error)s")
+                % {
+                    "component": self,
+                    "error": self.error_text(
+                        error
+                        if isinstance(error, RepositoryError)
+                        else RepositoryError(1, str(error))
+                    ),
+                },
             )
             return False
 
@@ -3531,8 +3589,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             .distinct()
         ).select_related("component", "language")
 
-        for translation in translations:
-            translation = self.reuse_component_for_translation(translation)
+        for translation in sorted(translations, key=lambda item: not item.is_source):
+            translation = self.reuse_component_for_translation(
+                translation, reuse_source=True
+            )
             if not translation.filename:
                 continue
 
@@ -3841,6 +3901,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
             .order_by("-timestamp")
             .values("author_id")[:1]
         )
+        # Local repositories have no upstream source of truth. Reapply can use
+        # the same unit-creation path as adding strings in Weblate.
+        components = [self, *self.linked_children]
+        local_components = {
+            component.pk
+            for component in components
+            if component.effective_repo_component.is_repo_local
+            and component.file_format_cls.can_add_unit
+        }
+        local_plural_components = {
+            component.pk
+            for component in components
+            if component.pk in local_components
+            and component.file_format_cls.supports_adding_plural_units()
+        }
+        local_templates = {
+            component.pk
+            for component in components
+            if component.pk in local_components and component.has_template()
+        }
         units = (
             Unit.objects.filter(
                 Q(translation__component=self)
@@ -3852,12 +3932,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "translation__component__source_language_id"
                     )
                 )
+                & ~Q(translation__component_id__in=local_templates)
                 | Q(translation__filename="")
             )
             .annotate(last_author_id=Subquery(last_author))
             .values(
                 "id",
+                "translation__component_id",
                 "target",
+                "source",
                 "explanation",
                 "state",
                 "details",
@@ -3891,6 +3974,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     target=unit["target"],
                     explanation=unit["explanation"],
                     state=unit["state"],
+                    add_unit=unit["translation__component_id"] in local_components
+                    and (
+                        unit["translation__component_id"] in local_plural_components
+                        or (
+                            not is_plural(unit["source"])
+                            and not is_plural(unit["target"])
+                        )
+                    ),
                     source_unit_explanation=unit["source_unit__explanation"] or "",
                     automatically_translated=unit["automatically_translated"],
                 )
@@ -6692,7 +6783,39 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset/reapply is already authorized by ``vcs.reset``. Missing-file recovery
         # is part of that maintenance operation, so it must not depend on the
         # regular add-language policy or user-specific overrides.
-        return self.can_add_new_language(None)
+        if (
+            not self.effective_repo_component.is_repo_local
+            or not self.file_format_cls.can_add_unit
+        ):
+            return self.can_add_new_language(None)
+
+        self.new_lang_error_message = gettext(
+            "The template for new translations is invalid."
+        )
+        template = self.get_template_filename()
+        base = self.get_new_base_filename()
+        if base and not os.path.exists(base):
+            # The source template is restored before target files below.
+            if base != template:
+                return False
+            base = None
+        if (
+            template
+            and not os.path.exists(template)
+            and not self.file_format_cls.is_valid_base_for_new(
+                "",
+                True,
+                file_format_params=self.file_format_params,
+                file_validator=self.check_file_is_valid,
+            )
+        ):
+            return False
+        return self.file_format_cls.is_valid_base_for_new(
+            base or "",
+            self.has_template(),
+            file_format_params=self.file_format_params,
+            file_validator=self.check_file_is_valid,
+        )
 
     def format_new_language_code(self, language):
         # Language code used for file
@@ -6881,12 +7004,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if os.path.exists(fullname):
             return
 
+        base = self.get_new_base_filename() or ""
+        if self.effective_repo_component.is_repo_local and translation.is_template:
+            base = ""
         self.file_format_cls.add_language(
             fullname,
             translation.language,
-            self.get_new_base_filename(),
+            base,
             file_format_params=self.file_format_params,
         )
+        translation.drop_store_cache()
         if send_post_add_signal:
             translation_post_add.send(sender=self.__class__, translation=translation)
         translation.git_commit(

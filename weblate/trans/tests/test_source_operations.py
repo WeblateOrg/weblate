@@ -339,9 +339,14 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         self.assert_source_consistent(configured=False)
         self.assertFalse(self.component.project.translation_parent_language_ids)
 
+    @staticmethod
+    def migrate_to_latest() -> None:
+        """Restore the full schema so later migrations stay applied."""
+        executor = MigrationExecutor(connection)
+        executor.migrate(executor.loader.graph.leaf_nodes())
+
     def test_source_migrations_preserve_existing_data(self) -> None:
         previous = [("trans", "0111_component_pull_request_url")]
-        current = [("trans", "0113_source_workflow_gate")]
         before = list(Unit.objects.order_by("pk").values_list("pk", "state", "details"))
         try:
             executor = MigrationExecutor(connection)
@@ -353,7 +358,7 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 translation_review=True,
             )
         finally:
-            MigrationExecutor(connection).migrate(current)
+            self.migrate_to_latest()
 
         workflow = WorkflowSetting.objects.get(pk=workflow.pk)
         self.assertTrue(workflow.translation_review)
@@ -383,9 +388,7 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 )
                 self.assertIsNone(cursor.fetchone()[0])
         finally:
-            MigrationExecutor(connection).migrate(
-                [("trans", "0113_source_workflow_gate")]
-            )
+            self.migrate_to_latest()
         self.assertEqual(
             before,
             list(Unit.objects.order_by("pk").values_list("pk", "state", "details")),

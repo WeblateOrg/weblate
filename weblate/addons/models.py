@@ -315,26 +315,25 @@ class Addon(models.Model):
             original_component = self.component
             self.component = self.component.linked_component
 
-        # Store history (if not updating state only)
-        if update_fields != ["state"]:
-            creating = self._state.adding or force_insert
-            compared_configuration = (
-                {}
-                if creating
-                else Addon.objects.db_manager(using or self._state.db)
-                .values_list("configuration", flat=True)
-                .get(pk=self.pk)
-            )
-            self.store_change(
-                ActionEvents.ADDON_CREATE if creating else ActionEvents.ADDON_CHANGE,
-                compared_configuration,
-            )
+        creating = self._state.adding or force_insert
+        compared_configuration = (
+            {}
+            if creating
+            else Addon.objects.db_manager(using or self._state.db)
+            .values_list("configuration", flat=True)
+            .get(pk=self.pk)
+        )
 
         super().save(
             force_insert=force_insert,
             force_update=force_update,
             using=using,
             update_fields=update_fields,
+        )
+
+        self.store_change(
+            ActionEvents.ADDON_CREATE if creating else ActionEvents.ADDON_CHANGE,
+            compared_configuration,
         )
 
         # Clear add-on cache after save so the DB state is consistent
@@ -363,6 +362,7 @@ class Addon(models.Model):
             )
         Change.objects.create(
             action=action,
+            addon=self,
             user=self.acting_user,
             project=self.project,
             category=self.category,

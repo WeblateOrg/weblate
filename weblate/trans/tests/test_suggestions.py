@@ -12,11 +12,11 @@ from django.urls import reverse
 
 from weblate.auth.results import Denied
 from weblate.trans.models import Suggestion, WorkflowSetting
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.utils.state import STATE_READONLY
 
 
-class SuggestionsTest(ViewTestCase):
+class SuggestionsTest(ReusableViewTestCase):
     def add_suggestion_1(self):
         return self.edit_unit("Hello, world!\n", "Nazdar svete!\n", suggest="yes")
 

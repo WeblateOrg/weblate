@@ -63,7 +63,6 @@ class WorkflowField(forms.Field):
 
 
 class AutomationForm(BaseAddonForm):
-    public_configuration_fields = frozenset({"workflow"})
     workflow = WorkflowField(
         label=gettext_lazy("Workflow"),
         help_text=gettext_lazy("Enter an automation definition as YAML or JSON."),

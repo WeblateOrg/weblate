@@ -222,7 +222,9 @@ Read-only
 Suggestions
     Suggestions are stored in Weblate only and not in the translation file.
 
-The states are represented in the translation files when possible.
+The states are represented in the translation files when possible. A state
+change only rewrites the file when the format can represent the change or when
+it makes pending content eligible for commit under the :ref:`project-commit_policy`.
 
 .. hint::
 

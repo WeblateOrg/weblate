@@ -27,7 +27,11 @@ from weblate.trans.feeds import ChangeFeedScope, TranslationChangesFeed
 from weblate.trans.forms import ChangesDateForm
 from weblate.trans.models import Announcement, Change, Project, Translation, Unit
 from weblate.trans.templatetags.translations import format_last_changes_content
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureTestCase,
+    ReusableViewTestCase,
+    ViewTestCase,
+)
 from weblate.trans.views.changes import ChangesView
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
@@ -177,7 +181,7 @@ class FeedQueriesTest(FixtureTestCase):
         )
 
 
-class ChangesTest(ViewTestCase):
+class ChangesTest(ReusableViewTestCase):
     def assert_rss_response(self, response) -> None:
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/rss+xml; charset=utf-8")

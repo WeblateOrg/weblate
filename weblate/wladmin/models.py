@@ -98,6 +98,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C044",
             "weblate.C045",
             "weblate.C047",
+            "weblate.C051",
         }
         retired_checks = {
             "weblate.C046",

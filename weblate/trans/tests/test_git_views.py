@@ -44,7 +44,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     """Testing of git manipulations with no change in repo."""
 
     TEST_TYPE = "project"
-    EXPECTED_COMMITS = 3
+    EXPECTED_COMMITS = 0
     EXPECTED_CHANGE_KEEP = False
 
     def setUp(self) -> None:
@@ -170,7 +170,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # the current component, or not.
             fetch_redirect_response=False,
         )
-        # One change for each translation and translator
+        # Only changed translations create commits; unchanged files keep their headers.
         self.assertEqual(self.component.count_repo_outgoing, self.EXPECTED_COMMITS)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
         self.assertEqual(
@@ -206,6 +206,27 @@ class GitNoChangeProjectTest(ViewTestCase):
         ):
             response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
+
+    def test_status_groups_recovery_actions_by_outcome(self) -> None:
+        response = self.client.get(self.get_test_url("git_status"))
+        self.assertContains(response, "Choose which translations to keep")
+        self.assertContains(response, "Refresh translation files")
+        self.assertContains(response, "Clean the local checkout")
+        self.assertContains(response, "Use when:")
+        self.assertContains(response, "Result:")
+        self.assertContains(response, "Data loss:")
+        self.assertContains(response, "Supported Git checkouts can be rebuilt")
+        self.assertContains(
+            response,
+            f'data-href="{self.get_test_url("reset")}"',
+            count=2,
+        )
+        for action in ("file_sync", "file_scan", "cleanup"):
+            with self.subTest(action=action):
+                self.assertContains(
+                    response,
+                    f'data-href="{self.get_test_url(action)}"',
+                )
 
     def test_status_push_configuration(self) -> None:
         for push, needs_push_url, can_push in (
@@ -1076,7 +1097,7 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
-    EXPECTED_COMMITS = 4
+    EXPECTED_COMMITS = 1
     EXPECTED_CHANGE_KEEP = True
 
     def setUp(self) -> None:

@@ -121,11 +121,9 @@ from weblate.trans.repository import (
     RepositoryOperationConflictError,
 )
 from weblate.trans.tasks import auto_translate
+from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
-    RepoTestMixin,
-    clear_users_cache,
     create_test_billing,
-    fixup_languages_seq,
     get_test_file,
 )
 from weblate.trans.util import join_plural
@@ -153,6 +151,8 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
+
+    from weblate.trans.tests.test_views import ComponentTestCase
 
 
 TEST_PO = get_test_file("cs.po")
@@ -328,21 +328,22 @@ class AuthenticationAPITest(APITestCase):
                         self.assertFalse(user.is_authenticated)
 
 
-class APIBaseTest(APITestCase, RepoTestMixin):
+class APIBaseTest(APITestCase, ReusableComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
     @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-        fixup_languages_seq()
-        clear_users_cache()
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        with builder.captureOnCommitCallbacks(execute=True):
+            builder.component = builder.create_component()
+        builder.project = builder.component.project
+        builder.user = User.objects.create_user("apitest", "apitest@example.org", "x")
+        builder.user.profile.languages.add(Language.objects.get(code="cs"))
+        builder.user.groups.add(Group.objects.get(name="Users"))
 
     def setUp(self) -> None:
-        Language.objects.flush_object_cache()
         self.clone_test_repos()
-        with self.captureOnCommitCallbacks(execute=True):
-            self.component = self.create_component()
-        self.project = self.component.project
+        self.set_up_component()
+        self.group = Group.objects.get(name="Users")
         self.translation_kwargs = {
             "language__code": "cs",
             "component__slug": "test",
@@ -351,11 +352,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.component_kwargs = {"slug": "test", "project__slug": "test"}
         self.project_kwargs = {"slug": "test"}
         self.project_language_kwargs = {"slug": "test", "language_code": "cs"}
-        self.tearDown()
-        self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
-        self.user.profile.languages.add(Language.objects.get(code="cs"))
-        self.group = Group.objects.get(name="Users")
-        self.user.groups.add(self.group)
 
     def create_acl(self):
         project = Project.objects.create(
@@ -1166,7 +1162,7 @@ class UserAPITest(APIBaseTest):
         )
         response = self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": self.user.username},
             method="get",
             superuser=True,
             code=200,
@@ -1182,7 +1178,7 @@ class UserAPITest(APIBaseTest):
         )
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": self.user.username},
             method="post",
             superuser=True,
             code=201,
@@ -1195,7 +1191,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(Subscription.objects.count(), 11)
 
     def test_get_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         anonymous_user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         anonymous_subscription = anonymous_user.subscription_set.create(
             scope=NotificationScope.SCOPE_ALL,
@@ -1220,7 +1216,11 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user)[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="get",
             code=200,
@@ -1228,7 +1228,10 @@ class UserAPITest(APIBaseTest):
 
     def test_head_notifications(self) -> None:
         self.authenticate()
-        subscription = self.user.subscription_set.all()[0]
+        subscription = self.user.subscription_set.get(
+            notification="NewAnnouncementNotificaton",
+            scope=NotificationScope.SCOPE_WATCHED,
+        )
         original = (
             subscription.notification,
             subscription.scope,
@@ -1277,35 +1280,39 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.client.head(url).status_code, get_response.status_code)
 
     def test_put_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(
-                    user=user, notification="NewAnnouncementNotificaton"
-                )[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="put",
             superuser=True,
             code=200,
             request={
                 "notification": "RepositoryNotification",
-                "scope": 10,
+                "scope": NotificationScope.SCOPE_WATCHED,
                 "frequency": 1,
             },
         )
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_patch_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(
-                    user=user, notification="NewAnnouncementNotificaton"
-                )[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="patch",
             superuser=True,
@@ -1315,12 +1322,16 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_delete_notifications(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user)[0].id,
+                "subscription_id": Subscription.objects.get(
+                    user=user,
+                    notification="NewAnnouncementNotificaton",
+                    scope=NotificationScope.SCOPE_WATCHED,
+                ).id,
             },
             method="delete",
             superuser=True,
@@ -1395,7 +1406,10 @@ class UserAPITest(APIBaseTest):
         )
 
         # User cannot delete another user's notifications
-        other_subscription = Subscription.objects.filter(user=other_user)[0]
+        other_subscription = other_user.subscription_set.get(
+            notification="NewAnnouncementNotificaton",
+            scope=NotificationScope.SCOPE_WATCHED,
+        )
         self.do_request(
             "api:user-notifications-details",
             kwargs={
@@ -1720,7 +1734,7 @@ class UserAPITest(APIBaseTest):
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_statistics(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         request = self.do_request(
             "api:user-statistics",
             kwargs={"username": user.username},
@@ -1729,7 +1743,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(request.data["commented"], user.profile.commented)
 
     def test_contributions(self) -> None:
-        user = User.objects.filter(is_active=True)[0]
+        user = self.user
         request = self.do_request(
             "api:user-contributions",
             kwargs={"username": user.username},
@@ -1875,7 +1889,9 @@ class UserAPITest(APIBaseTest):
 
     def test_patch_self_email_accepts_verified_email(self) -> None:
         verified_email = "Verified@Example.ORG"
-        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        social = self.user.social_auth.create(
+            provider="email", uid=verified_email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=verified_email)
 
         response = self.do_request(
@@ -2129,7 +2145,11 @@ class UserAPITest(APIBaseTest):
             method="patch",
             superuser=True,
             code=200,
-            request={"is_superuser": True},
+            request={
+                "is_superuser": True,
+                "is_active": False,
+                "full_name": "Edited name",
+            },
         )
 
         target.refresh_from_db()
@@ -2137,6 +2157,10 @@ class UserAPITest(APIBaseTest):
         audit = target.auditlog_set.get(activity="superuser-granted")
         self.assertEqual(audit.params["username"], self.user.username)
         self.assertIsNone(audit.address)
+        for activity in ("disabled", "full_name"):
+            audit = target.auditlog_set.get(activity=activity)
+            self.assertEqual(audit.params["username"], self.user.username)
+            self.assertIsNone(audit.address)
 
     def test_patch_self_with_user_view_permission(self) -> None:
         self.grant_perm_to_user("user.view")
@@ -2430,7 +2454,9 @@ class UserAPITest(APIBaseTest):
         )
 
         verified_email = "verified@example.org"
-        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        social = self.user.social_auth.create(
+            provider="email", uid=verified_email, id_key="email"
+        )
         VerifiedEmail.objects.create(social=social, email=verified_email)
         self.do_request(
             "api:user-detail",
@@ -4357,7 +4383,9 @@ class RoleAPITest(APIBaseTest):
             code=200,
             request={"name": "New Role"},
         )
-        self.assertEqual(Role.objects.get(pk=role.pk).name, "New Role")
+        role.refresh_from_db()
+        self.assertEqual(role.name, "New Role")
+        self.assertEqual(role.permissions.count(), 3)
         self.do_request(
             "api:role-detail",
             kwargs={"id": role.pk},
@@ -4367,7 +4395,32 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"permissions": ["comment.add"]},
         )
-        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 4)
+        self.assertEqual(
+            set(role.permissions.values_list("codename", flat=True)), {"comment.add"}
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": role.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"permissions": ["suggestion.add", "comment.add"]},
+        )
+        self.assertEqual(
+            set(role.permissions.values_list("codename", flat=True)),
+            {"suggestion.add", "comment.add"},
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": role.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"permissions": []},
+        )
+        self.assertFalse(role.permissions.exists())
 
 
 class ProjectAPITest(APIBaseTest):
@@ -5727,7 +5780,7 @@ class ProjectAPITest(APIBaseTest):
                     "name": "Russian",
                     "direction": "ltr",
                 },
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5748,7 +5801,7 @@ class ProjectAPITest(APIBaseTest):
                     "name": "Russian",
                     "direction": "ltr",
                 },
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5764,7 +5817,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project 2",
                 "slug": "api-project-2",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -5801,7 +5854,7 @@ class ProjectAPITest(APIBaseTest):
             "name": "API project",
             "slug": "api-project",
             "source_language": '{"code": "ru"}',
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "new_lang": "none",
@@ -5878,7 +5931,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "push": "https://username:password@github.com/example/push.git",
@@ -5903,7 +5956,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "Other",
                 "slug": "other",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "android/values-*/strings.xml",
                 "file_format": "aresource",
                 "template": "android/values/strings.xml",
@@ -5924,7 +5977,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "Other",
                 "slug": "other",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "android/values-*/strings.xml",
                 "file_format": "aresource",
                 "template": "android/values/strings.xml",
@@ -5945,7 +5998,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "push": "https://username:password@github.com/example/push.git",
@@ -6190,7 +6243,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertFalse(Component.objects.filter(slug="unsafe-repository").exists())
 
     def test_create_component_no_format(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6221,7 +6274,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_link(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6284,7 +6337,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_no_push(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6313,7 +6366,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_create_component_empty_push(self) -> None:
-        repo_url = self.format_local_path(self.git_repo_path)
+        repo_url = self.format_test_repo_url(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -6352,7 +6405,7 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
+                "repo": self.format_test_repo_url(self.git_repo_path),
                 "filemask": "po/*.invalid-po",
                 "file_format": "po",
                 "new_lang": "none",
@@ -7667,7 +7720,7 @@ class ProjectAPITest(APIBaseTest):
         payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "push": "https://username:password@github.com/example/push.git",
@@ -7741,7 +7794,7 @@ class ProjectAPITest(APIBaseTest):
         payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
-            "repo": self.format_local_path(self.git_repo_path),
+            "repo": self.format_test_repo_url(self.git_repo_path),
             "filemask": "po/*.po",
             "file_format": "po",
             "push": "https://username:password@github.com/example/push.git",
@@ -8688,6 +8741,22 @@ class ComponentAPITest(APIBaseTest):
             self.component.repoweb_translations,
             "https://example.com/translations/{{filename}}#L{{line}}",
         )
+
+    def test_patch_component_push_on_update(self) -> None:
+        self.assertTrue(self.component.push_on_update)
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"push_on_update": False},
+        )
+
+        self.component.refresh_from_db()
+        self.assertFalse(response.data["push_on_update"])
+        self.assertFalse(self.component.push_on_update)
 
     def test_patch_component_repoweb_translations_validation(self) -> None:
         response = self.do_request(
@@ -14168,6 +14237,7 @@ class TranslationAPITest(APIBaseTest):
 
     # pylint: disable-next=redefined-builtin
     def test_autotranslate(self, format: str = "multipart") -> None:  # ruff: ignore[builtin-argument-shadowing]
+        self.configure_mt()
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,
@@ -17269,7 +17339,9 @@ class ChangeAPITest(APIBaseTest):
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""
-        start = Change.objects.order()[0].timestamp - timedelta(seconds=60)
+        start = Change.objects.order_by("timestamp")[0].timestamp - timedelta(
+            seconds=60
+        )
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_before": start.isoformat()}
         )
@@ -17313,6 +17385,26 @@ class ChangeAPITest(APIBaseTest):
         self.assertEqual(response.data["details"], details)
         self.assertEqual(response.data["details"]["changed_fields"], ["secret"])
         self.assertIsNone(response.data["details"]["configuration"]["secret"])
+
+    def test_addon_link_requires_management_access(self) -> None:
+        addon = Addon.objects.create(
+            component=self.component, name="weblate.gettext.linguas"
+        )
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE,
+            target="weblate.gettext.linguas",
+        )
+        change_url = reverse("api:change-detail", kwargs={"pk": change.pk})
+
+        self.authenticate()
+        response = self.client.get(change_url)
+        self.assertIsNone(response.data["addon"])
+
+        self.authenticate(superuser=True)
+        response = self.client.get(change_url)
+        addon_url = reverse("api:addon-detail", kwargs={"pk": addon.pk})
+        self.assertTrue(response.data["addon"].endswith(addon_url))
+        self.assertEqual(self.client.get(response.data["addon"]).status_code, 200)
 
     def test_legacy_addon_configuration_details_are_hidden(self) -> None:
         change = self.component.change_set.create(
