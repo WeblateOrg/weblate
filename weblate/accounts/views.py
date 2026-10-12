@@ -54,7 +54,7 @@ from django.utils.http import content_disposition_header, urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     DetailView,
@@ -77,6 +77,7 @@ from django_otp_webauthn.views import (
 )
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
+from social_core.backends.utils import get_backend
 from social_core.exceptions import (
     AuthConfigurationError,
     SocialAuthBaseException,
@@ -133,6 +134,7 @@ from weblate.accounts.notifications import (
     get_email_headers,
     send_notification_email,
 )
+from weblate.accounts.pipeline import adjust_primary_mail
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
     SESSION_SECOND_FACTOR_HASH,
@@ -144,7 +146,9 @@ from weblate.accounts.utils import (
     TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
     clear_second_factor_session,
+    cycle_session_keys,
     get_key_name,
+    invalidate_reset_codes,
     lock_user,
     remove_user,
     reset_api_token,
@@ -1756,21 +1760,42 @@ def store_userid(
 
 @require_POST
 @login_required
+@csrf_protect
 def social_disconnect(
-    request: AuthenticatedHttpRequest, backend: str, association_id: str | None = None
+    request: AuthenticatedHttpRequest, backend: str, association_id: int | None = None
 ):
     """
     Disconnect social authentication.
 
-    Wrapper around social_django.views.disconnect:
+    Uses social_django.views.disconnect for configured backends and removes
+    stored associations locally when a backend is no longer available.
 
     - Requires POST (to avoid CSRF on auth)
-    - Blocks disconnecting last entry
+    - Blocks disconnecting the last identity or verified e-mail
     """
-    # Block removal of last social auth
+    try:
+        get_backend(settings.AUTHENTICATION_BACKENDS, backend)
+    except AuthConfigurationError as error:
+        if error.code != "backend_missing":
+            raise
+        if association_id is None:
+            msg = "Association not found"
+            raise Http404(msg) from error
+        return disconnect_missing_backend(request, backend, association_id)
+
+    if not can_disconnect_social_auth(request, backend, association_id):
+        return redirect_profile("#account")
+
+    return disconnect(request, backend, association_id)
+
+
+def can_disconnect_social_auth(
+    request: AuthenticatedHttpRequest, backend: str, association_id: int | None
+) -> bool:
+    """Keep an identity and a verified e-mail after disconnection."""
     if request.user.social_auth.count() <= 1:
         messages.error(request, gettext("Could not remove user identity"))
-        return redirect_profile("#account")
+        return False
 
     # Block removal of last verified email
     verified = VerifiedEmail.objects.filter(social__user=request.user).exclude(
@@ -1781,9 +1806,37 @@ def social_disconnect(
             request,
             gettext("Add another identity by confirming your e-mail address first."),
         )
-        return redirect_profile("#account")
+        return False
 
-    return disconnect(request, backend, association_id)
+    return True
+
+
+def disconnect_missing_backend(
+    request: AuthenticatedHttpRequest, backend: str, association_id: int
+) -> HttpResponse:
+    """Remove a stored identity whose authentication backend is unavailable."""
+    with transaction.atomic():
+        User.objects.select_for_update().get(pk=request.user.pk)
+        association = get_object_or_404(
+            request.user.social_auth, pk=association_id, provider=backend
+        )
+        if not can_disconnect_social_auth(request, backend, association_id):
+            return redirect_profile("#account")
+
+        entries = [association]
+        invalidate_reset_codes(user=request.user, entries=entries)
+        cycle_session_keys(request, request.user)
+        adjust_primary_mail(load_strategy(request), entries, request.user)
+        AuditLog.objects.create(
+            request.user,
+            request,
+            "auth-disconnect",
+            method=backend,
+            name=association.uid,
+        )
+        association.delete()
+
+    return redirect_profile("#account")
 
 
 @never_cache

@@ -266,6 +266,10 @@ already recorded in repository history remain unchanged.
    include popular sites such as GitLab, GitHub, Google, Facebook, or Bitbucket or other
    OAuth 2.0 providers.
 
+Previously connected services remain listed after an administrator removes their
+authentication backend. You can still use :guilabel:`Disconnect` to remove their
+sign-in identities from your account.
+
 .. image:: /screenshots/authentication.webp
 
 .. _profile:
