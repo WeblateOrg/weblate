@@ -10,8 +10,9 @@ import csv
 import os
 import tempfile
 from io import BytesIO, StringIO
+from itertools import count
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import ANY, patch
 from zipfile import ZipFile
 
@@ -20,7 +21,7 @@ from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
-from django.test import SimpleTestCase, override_settings
+from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
@@ -50,13 +51,18 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.trans.util import check_upload_method_permissions
-from weblate.trans.views.files import can_download_workspace
+from weblate.trans.views.files import can_download_workspace, download_multi
 from weblate.utils.data import data_dir
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY
+from weblate.utils.views import download_translation_file, write_zip_files
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from django.http import FileResponse
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 TEST_PO = get_test_file("cs.po")
 TEST_PO_PLURAL = get_test_file("cs-plural.po")
@@ -1281,6 +1287,84 @@ class ExportTest(ViewTestCase):
         self.assert_response_contains(response, self.test_match_1, self.test_match_2)
         self.assertEqual(response["Content-Disposition"], self.test_header)
 
+    def test_export_opens_file_with_repository_locked(self) -> None:
+        translation = self.get_translation()
+        if len(translation.filenames) != 1:
+            self.skipTest("single-file download only")
+        repository = translation.component.repository
+        request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+
+        from weblate.utils import views  # ruff: ignore[import-outside-top-level]
+
+        file_response = views.FileResponse
+
+        def check_lock(*args, **kwargs) -> FileResponse:
+            self.assertTrue(repository.lock.is_locked)
+            return file_response(*args, **kwargs)
+
+        clock = count(step=301)
+        with (
+            patch.object(views, "FileResponse", side_effect=check_lock),
+            patch.object(repository.lock, "reacquire") as reacquire,
+            patch.object(views, "monotonic", side_effect=lambda: next(clock)),
+        ):
+            response = download_translation_file(request, translation)
+
+        self.assert_response_contains(response, self.test_match_1, self.test_match_2)
+        reacquire.assert_called()
+        response.file_to_stream.close()
+
+    def test_export_snapshots_file_with_repository_locked(self) -> None:
+        translation = self.get_translation()
+        if len(translation.filenames) != 1:
+            self.skipTest("single-file download only")
+        filename = translation.filenames[0]
+        original = Path(filename).read_bytes()
+        request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+
+        from weblate.utils import views  # ruff: ignore[import-outside-top-level]
+
+        file_response = views.FileResponse
+        expected = b""
+        response = None
+
+        def rewrite_source(*args, **kwargs) -> FileResponse:
+            nonlocal expected
+            expected = Path(filename).read_bytes()
+            Path(filename).write_bytes(b"rewritten after response construction")
+            return file_response(*args, **kwargs)
+
+        try:
+            with patch.object(views, "FileResponse", side_effect=rewrite_source):
+                response = download_translation_file(request, translation)
+            self.assertEqual(b"".join(response.streaming_content), expected)
+        finally:
+            if response is not None:
+                response.file_to_stream.close()
+            Path(filename).write_bytes(original)
+
+    def test_export_repository_lock_timeout(self) -> None:
+        translation = self.get_translation()
+        repository = translation.component.repository
+        request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=repository.lock.lock_object
+        )
+
+        with (
+            patch.object(type(repository.lock), "__enter__", side_effect=error),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            download_translation_file(request, translation)
+
+        with patch(
+            "weblate.trans.views.files.download_translation_file", side_effect=error
+        ):
+            response = self.client.get(reverse("download", kwargs=self.kw_translation))
+
+        self.assertEqual(response.status_code, 423)
+        self.assertIn(b"Could not obtain the repository lock", response.content)
+
     def export_format(self, fmt, **extra):
         extra["format"] = fmt
         return self.client.get(reverse("download", kwargs=self.kw_translation), extra)
@@ -1656,6 +1740,58 @@ class DownloadMultiTest(ViewTestCase):
     def test_component(self) -> None:
         response = self.client.get(reverse("download", kwargs=self.kw_component))
         self.assert_zip(response, "test/test/po/cs.po")
+
+    def test_component_holds_repository_lock_while_archiving(self) -> None:
+        translation = self.get_translation()
+        repository = translation.component.repository
+
+        def check_lock(*args, **kwargs) -> None:
+            self.assertTrue(repository.lock.is_locked)
+            return write_zip_files(*args, **kwargs)
+
+        clock = count(step=301)
+        with (
+            patch("weblate.trans.views.files.write_zip_files", side_effect=check_lock),
+            patch.object(repository.lock, "reacquire") as reacquire,
+            patch("weblate.utils.views.monotonic", side_effect=lambda: next(clock)),
+        ):
+            response = download_multi(
+                cast("AuthenticatedHttpRequest", RequestFactory().get("/download")),
+                [translation],
+                [translation.component],
+            )
+
+        self.assert_zip(response, "test/test/po/cs.po")
+        reacquire.assert_called()
+
+    def test_component_repository_lock_timeout(self) -> None:
+        translation = self.get_translation()
+        repository = translation.component.repository
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=repository.lock.lock_object
+        )
+
+        with (
+            patch(
+                "weblate.trans.views.files._write_repository_download_files",
+                side_effect=error,
+            ),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            download_multi(
+                cast("AuthenticatedHttpRequest", RequestFactory().get("/download")),
+                [translation],
+                [translation.component],
+            )
+
+        with patch(
+            "weblate.trans.views.files._write_repository_download_files",
+            side_effect=error,
+        ):
+            response = self.client.get(reverse("download", kwargs=self.kw_component))
+
+        self.assertEqual(response.status_code, 423)
+        self.assertIn(b"Could not obtain the repository lock", response.content)
 
     def test_project(self) -> None:
         response = self.client.get(

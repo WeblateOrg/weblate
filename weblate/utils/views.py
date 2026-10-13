@@ -7,14 +7,16 @@
 from __future__ import annotations
 
 import os
+import tempfile
 import time
-from contextlib import suppress
+from contextlib import contextmanager, suppress
 from pathlib import Path
+from time import monotonic
 
 # pylint: disable-next=unused-import
-from typing import TYPE_CHECKING, BinaryIO, cast
+from typing import IO, TYPE_CHECKING, BinaryIO, cast
 from uuid import UUID
-from zipfile import ZipFile
+from zipfile import ZipFile, ZipInfo
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -48,18 +50,23 @@ from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Mapping
+    from collections.abc import Callable, Generator, Mapping
 
     from django.db.models import Model
     from django.http import HttpRequest, HttpResponseBase, QueryDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
+    from weblate.utils.lock import WeblateLockTimeoutError
     from weblate.utils.stats import BaseStats
 
 
 class UnsupportedPathObjectError(Http404):
     pass
+
+
+REPOSITORY_LOCK_REFRESH_INTERVAL = 300
+DOWNLOAD_COPY_CHUNK_SIZE = 1024 * 1024
 
 
 def key_name(instance):
@@ -833,21 +840,170 @@ def zip_download(
     name: str = "translations",
     extra: dict[str, bytes | str] | None = None,
     allowed_roots: list[str] | None = None,
+    refresh_lock: Callable[[], None] | None = None,
 ) -> HttpResponse:
-    response = HttpResponse(content_type="application/zip")
-    with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
-        for filename in iter_files(filenames, root, allowed_roots):
-            try:
-                zipfile.write(filename, arcname=os.path.relpath(filename, root))
-            except FileNotFoundError:
-                continue
+    with zip_download_archive(name) as (response, zipfile):
+        write_zip_files(zipfile, root, filenames, allowed_roots, refresh_lock)
         if extra:
             for filename, content in extra.items():
                 zipfile.writestr(filename, content)
+
+    return response
+
+
+@contextmanager
+def zip_download_archive(name: str) -> Generator[tuple[HttpResponse, ZipFile]]:
+    """Create a ZIP download response which can be populated incrementally."""
+    response = HttpResponse(content_type="application/zip")
+    with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
+        yield response, zipfile
     response["Content-Disposition"] = content_disposition_header(
         as_attachment=True, filename=f"{name}.zip"
     )
-    return response
+
+
+def write_zip_files(
+    zipfile: ZipFile,
+    root: str,
+    filenames: list[str],
+    allowed_roots: list[str] | None = None,
+    refresh_lock: Callable[[], None] | None = None,
+) -> None:
+    """Write validated files into an open ZIP archive."""
+    if refresh_lock is None:
+        refresh_repository_lock = None
+    else:
+        refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
+
+    for filename in iter_files(filenames, root, allowed_roots):
+        try:
+            archive_path = os.path.relpath(filename, root)
+            if refresh_repository_lock is None:
+                zipfile.write(filename, arcname=archive_path)
+                continue
+            _write_zip_file_with_refresh(
+                zipfile, filename, archive_path, refresh_repository_lock
+            )
+        except FileNotFoundError:
+            continue
+
+
+def _periodic_lock_refresher(
+    refresh_lock: Callable[[], None],
+) -> Callable[[], None]:
+    """Create a callback which periodically refreshes a lock lease."""
+    refresh_at = monotonic() + REPOSITORY_LOCK_REFRESH_INTERVAL
+
+    def refresh() -> None:
+        nonlocal refresh_at
+        now = monotonic()
+        if now >= refresh_at:
+            refresh_lock()
+            refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
+
+    return refresh
+
+
+def _copy_file_with_refresh(
+    source: IO[bytes], output: IO[bytes], refresh_lock: Callable[[], None]
+) -> None:
+    """Copy a file while periodically refreshing a lock lease."""
+    while chunk := source.read(DOWNLOAD_COPY_CHUNK_SIZE):
+        output.write(chunk)
+        refresh_lock()
+
+
+def _write_zip_file_with_refresh(
+    zipfile: ZipFile,
+    filename: str,
+    archive_path: str,
+    refresh_lock: Callable[[], None],
+) -> None:
+    """Write a file to a ZIP archive while refreshing a lock lease."""
+    refresh_lock()
+    file_info = ZipInfo.from_file(
+        filename,
+        archive_path,
+        strict_timestamps=getattr(zipfile, "_strict_timestamps", True),
+    )
+    file_info.compress_type = zipfile.compression
+    # TODO: Use compress_level after dropping Python 3.12 support.
+    # ruff: ignore[private-member-access]
+    file_info._compresslevel = zipfile.compresslevel  # type: ignore[attr-defined]
+    with open(filename, "rb") as source, zipfile.open(file_info, "w") as output:
+        _copy_file_with_refresh(source, output, refresh_lock)
+
+
+def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResponse:
+    """Return a retryable response when a repository is busy."""
+    return HttpResponse(
+        gettext("Could not obtain the repository lock for %s to perform the operation.")
+        % error.lock.origin,
+        content_type="text/plain",
+        status=423,
+    )
+
+
+def _snapshot_file_response(
+    filename: str, content_type: str, refresh_lock: Callable[[], None]
+) -> FileResponse:
+    """Copy a file into a stable disk-backed download response."""
+    refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
+    snapshot = tempfile.TemporaryFile()  # ruff: ignore[open-file-with-context-handler]
+    try:
+        with open(filename, "rb") as source:
+            _copy_file_with_refresh(source, snapshot, refresh_repository_lock)
+        snapshot.seek(0)
+        return FileResponse(snapshot, content_type=content_type)
+    except Exception:
+        snapshot.close()
+        raise
+
+
+def _download_translation_file_locked(
+    translation: Translation,
+) -> tuple[HttpResponseBase, str]:
+    repository = translation.component.effective_repo_component.repository
+    with repository.lock:
+        # Force flushing pending units
+        try:
+            translation.commit_pending("download", None)
+        except Exception:
+            report_error("Download commit", project=translation.component.project)
+
+        filenames = translation.filenames
+        response: HttpResponseBase
+
+        if len(filenames) == 1:
+            filename = filenames[0]
+            extension = (
+                os.path.splitext(filename)[1]
+                or f".{translation.component.file_format_cls.extension()}"
+            )
+            if not os.path.exists(filename):
+                msg = "File not found"
+                raise Http404(msg)
+            # Materialize the response while holding the lock. An open checkout
+            # file can still change when rewritten in place.
+            response = _snapshot_file_response(
+                filename,
+                translation.component.file_format_cls.mimetype(),
+                repository.lock.reacquire,
+            )
+        else:
+            extension = ".zip"
+            root = translation.get_filename()
+            if not root:
+                msg = "No file to download"
+                raise Http404(msg)
+            response = zip_download(
+                root,
+                filenames,
+                translation.full_slug.replace("/", "-"),
+                refresh_lock=repository.lock.reacquire,
+            )
+
+    return response, extension
 
 
 def handle_last_modified(
@@ -890,40 +1046,7 @@ def download_translation_file(
         exporter.add_units(units)
         response = exporter.get_response()
     else:
-        # Force flushing pending units
-        try:
-            translation.commit_pending("download", None)
-        except Exception:
-            report_error("Download commit", project=translation.component.project)
-
-        filenames = translation.filenames
-
-        if len(filenames) == 1:
-            filename = filenames[0]
-            extension = (
-                os.path.splitext(filename)[1]
-                or f".{translation.component.file_format_cls.extension()}"
-            )
-            if not os.path.exists(filename):
-                msg = "File not found"
-                raise Http404(msg)
-            # Create response
-            response = FileResponse(
-                # pylint: disable-next=consider-using-with
-                open(filename, "rb"),  # ruff: ignore[open-file-with-context-handler]
-                content_type=translation.component.file_format_cls.mimetype(),
-            )
-        else:
-            extension = ".zip"
-            filename = translation.get_filename()  # type: ignore[assignment]
-            if not filename:
-                msg = "No file to download"
-                raise Http404(msg)
-            response = zip_download(
-                filename,
-                filenames,
-                translation.full_slug.replace("/", "-"),
-            )
+        response, extension = _download_translation_file_locked(translation)
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from functools import wraps
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -34,19 +35,41 @@ from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import get_upload_message
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     download_translation_file,
     parse_path,
+    repository_lock_timeout_response,
     show_form_errors,
+    write_zip_files,
     zip_download,
+    zip_download_archive,
 )
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterable, Iterator
+    from zipfile import ZipFile
+
+    from django.http import HttpResponseBase
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def handle_repository_lock_timeout[**P](
+    view: Callable[P, HttpResponseBase],
+) -> Callable[P, HttpResponseBase]:
+    """Convert repository lock timeouts only at the browser view boundary."""
+
+    @wraps(view)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> HttpResponseBase:
+        try:
+            return view(*args, **kwargs)
+        except WeblateLockTimeoutError as error:
+            return repository_lock_timeout_response(error)
+
+    return wrapper
 
 
 def iter_workspace_download_components(
@@ -75,6 +98,59 @@ def can_download_workspace(user: User, workspace: Workspace) -> bool:
     return next(iter_workspace_download_components(user, workspace), None) is not None
 
 
+def _group_download_translations(
+    translations: Iterable[Translation],
+) -> dict[int, tuple[Component, list[Translation]]]:
+    repository_groups: dict[int, tuple[Component, list[Translation]]] = {}
+    for translation in translations:
+        repo_component = translation.component.effective_repo_component
+        if repo_component.pk is None:
+            msg = "Can not download files from an unsaved component"
+            raise ValueError(msg)
+        group = repository_groups.setdefault(repo_component.pk, (repo_component, []))
+        group[1].append(translation)
+    return repository_groups
+
+
+def _write_repository_download_files(
+    zipfile: ZipFile,
+    repo_component: Component,
+    translations: Iterable[Translation],
+) -> None:
+    with repo_component.repository.lock:
+        filenames: set[str] = set()
+        components: set[int] = set()
+        component_roots: set[str] = set()
+        for translation in translations:
+            component_roots.add(translation.component.full_path)
+            if translation.filename:
+                filename = translation.get_filename()
+                if filename:
+                    filenames.add(filename)
+            if translation.component_id in components:
+                continue
+            components.add(translation.component_id)
+            for getter in (
+                translation.component.get_template_filename,
+                translation.component.get_new_base_filename,
+                translation.component.get_intermediate_filename,
+            ):
+                try:
+                    fullname = getter()
+                except ValidationError:
+                    continue
+                if fullname and os.path.exists(fullname):
+                    filenames.add(fullname)
+
+        write_zip_files(
+            zipfile,
+            data_dir("vcs"),
+            sorted(filenames),
+            allowed_roots=sorted(component_roots),
+            refresh_lock=repo_component.repository.lock.reacquire,
+        )
+
+
 def download_multi(
     request: AuthenticatedHttpRequest,
     translations,
@@ -82,9 +158,6 @@ def download_multi(
     fmt=None,
     name="translations",
 ):
-    filenames = set()
-    components = set()
-    component_roots = set()
     extra: dict[str, str | bytes] = {}
     # Resolve the commit bot only when needed, once for the whole download.
     commit_user = SimpleLazyObject(InternalBot.COMMIT.get_user)
@@ -120,37 +193,22 @@ def download_multi(
                 units = translation.unit_set.prefetch_full().order_by("position")
                 exporter.add_units(units)
                 extra[filename] = exporter.serialize()
-    else:
-        for translation in translations:
-            component_roots.add(translation.component.full_path)
-            # Add translation files
-            if translation.filename:
-                filenames.add(translation.get_filename())
-            # Add templates for all components
-            if translation.component_id in components:
-                continue
-            components.add(translation.component_id)
-            for getter in (
-                translation.component.get_template_filename,
-                translation.component.get_new_base_filename,
-                translation.component.get_intermediate_filename,
-            ):
-                try:
-                    fullname = getter()
-                except ValidationError:
-                    continue
-                if fullname and os.path.exists(fullname):
-                    filenames.add(fullname)
+        return zip_download(data_dir("vcs"), [], name, extra=extra)
 
-    return zip_download(
-        data_dir("vcs"),
-        sorted(filenames),
-        name,
-        extra=extra,
-        allowed_roots=sorted(component_roots),
-    )
+    repository_groups = _group_download_translations(translations)
+
+    with zip_download_archive(name) as (response, zipfile):
+        for _pk, (repo_component, group_translations) in sorted(
+            repository_groups.items()
+        ):
+            _write_repository_download_files(
+                zipfile, repo_component, group_translations
+            )
+
+    return response
 
 
+@handle_repository_lock_timeout
 def download_component_list(request: AuthenticatedHttpRequest, name):
     obj = get_object_or_404(
         ComponentList.objects.filter_access(request.user), slug__iexact=name
@@ -167,6 +225,7 @@ def download_component_list(request: AuthenticatedHttpRequest, name):
     )
 
 
+@handle_repository_lock_timeout
 def download(request: AuthenticatedHttpRequest, path):
     """Download translation."""
     obj = parse_path(

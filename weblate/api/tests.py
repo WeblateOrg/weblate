@@ -7908,6 +7908,32 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_download_project_translations_repository_locked(self) -> None:
+        error = WeblateLockTimeoutError(
+            "repository locked",
+            lock=SimpleNamespace(scope="repository", origin="test/test"),
+        )
+
+        with patch("weblate.api.views.download_multi", side_effect=error):
+            self.do_request(
+                "api:project-file",
+                self.project_kwargs,
+                method="get",
+                code=423,
+                superuser=True,
+                request={"format": "zip"},
+                data={
+                    "type": "client_error",
+                    "errors": [
+                        {
+                            "code": "repository-locked",
+                            "detail": "Could not obtain the repository lock for test/test to perform the operation.",
+                            "attr": None,
+                        }
+                    ],
+                },
+            )
+
     def test_download_project_translations_converted(self) -> None:
         response = self.do_request(
             "api:project-file",
@@ -13325,6 +13351,29 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+
+    def test_download_repository_locked(self) -> None:
+        error = WeblateLockTimeoutError(
+            "repository locked",
+            lock=SimpleNamespace(scope="repository", origin="test/test"),
+        )
+
+        with patch("weblate.api.views.download_translation_file", side_effect=error):
+            self.do_request(
+                "api:translation-file",
+                kwargs=self.translation_kwargs,
+                code=423,
+                data={
+                    "type": "client_error",
+                    "errors": [
+                        {
+                            "code": "repository-locked",
+                            "detail": "Could not obtain the repository lock for test/test to perform the operation.",
+                            "attr": None,
+                        }
+                    ],
+                },
+            )
 
     def test_head_translation_file(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
