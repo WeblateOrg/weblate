@@ -129,7 +129,7 @@ class MissingBackendDisconnectTest(TestCase):
         response = self.client.post(self.url)
 
         self.assertRedirects(
-            response, f"{reverse('profile')}#account", fetch_redirect_response=False
+            response, f"{reverse('profile')}#security", fetch_redirect_response=False
         )
         self.assertFalse(self.user.social_auth.filter(pk=self.old.pk).exists())
         self.assertFalse(VerifiedEmail.objects.filter(social_id=self.old.pk).exists())
@@ -1451,7 +1451,10 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("social:begin", args=("email",)), follow=True
         )
-        self.assertContains(response, "Register e-mail")
+        self.assertContains(response, "Verify new e-mail address")
+        self.assertContains(response, "Send verification e-mail")
+        self.assertContains(response, f"{reverse('profile')}#account")
+        self.assertContains(response, "Back to account settings")
 
         # Try invalid address first
         response = self.client.post(reverse("email_login"), {"email": "invalid"})
@@ -1463,6 +1466,9 @@ class RegistrationTest(BaseRegistrationTest):
                 reverse("email_login"), {"email": "second@example.net"}, follow=True
             )
         self.assertRedirects(response, reverse("email-sent"))
+        self.assertContains(response, "E-mail verification almost complete")
+        self.assertContains(response, "verify the address for your account")
+        self.assertNotContains(response, "Registration almost complete")
 
         if fails:
             self.assertEqual(len(mail.outbox), 1)
@@ -2021,7 +2027,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
                 "new_password2": "new-secure-password",
             },
         )
-        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertRedirects(response, f"{reverse('profile')}#security")
 
         response = self.confirm_registration_url(reset_url, follow=True)
 

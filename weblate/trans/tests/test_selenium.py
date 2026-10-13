@@ -3368,9 +3368,11 @@ class SeleniumTests(
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
-        self.click("Account")
+        self.click(htmlid="profile-tab-account")
+        self.screenshot("profile-account.png")
+        self.click(htmlid="profile-tab-security")
         self.screenshot("authentication.png")
-        self.assert_text_contains(".second-factor", "Security keys")
+        self.assert_text_contains("#security", "Security keys")
 
     @reuse_demo_fixture
     def test_screenshot_filemask_repository_filename(self) -> None:
@@ -4342,6 +4344,7 @@ class SeleniumTests(
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
+        self.click(htmlid="profile-tab-languages")
         for field, language, code in (
             ("languages", "French", "fr"),
             ("secondary_languages", "German", "de"),
@@ -4378,7 +4381,7 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element(
-                    By.CSS_SELECTOR, '#languages input[type="submit"]'
+                    By.CSS_SELECTOR, '#languages button[type="submit"]'
                 )
             )
         self.assertEqual(
@@ -4478,6 +4481,71 @@ class SeleniumTests(
         self.assertEqual(suggestion.get_target_plurals(), proposed)
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), corrected)
+
+    def test_profile_validates_only_active_tab(self) -> None:
+        """Save other tabs when a legacy account lacks its required full name."""
+        user = self.do_login()
+        user.full_name = ""
+        user.save(update_fields=["full_name"])
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}#profile")
+        website = self.driver.find_element(By.ID, "id_website")
+        website.send_keys("invalid-url")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, '#profile button[type="submit"]')
+        )
+        self.assertEqual(
+            self.driver.execute_script("return document.activeElement.id"),
+            "id_website",
+        )
+        user.profile.refresh_from_db()
+        self.assertEqual(user.profile.website, "")
+
+        website.clear()
+        website.send_keys("https://example.org/profile")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#profile button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#profile"))
+        user.profile.refresh_from_db()
+        self.assertEqual(user.profile.website, "https://example.org/profile")
+
+        self.click(htmlid="profile-tab-preferences")
+        self.click(htmlid="id_wide_tables")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#preferences button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#preferences"))
+        user.profile.refresh_from_db()
+        self.assertTrue(user.profile.wide_tables)
+        user.refresh_from_db()
+        self.assertEqual(user.full_name, "")
+
+        self.click(htmlid="profile-tab-account")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, '#account button[type="submit"]')
+        )
+        self.assertEqual(
+            self.driver.execute_script("return document.activeElement.id"),
+            "id_full_name",
+        )
+        self.driver.find_element(By.ID, "id_full_name").send_keys("Updated name")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#account button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#account"))
+        user.refresh_from_db()
+        self.assertEqual(user.full_name, "Updated name")
 
     @reuse_demo_fixture
     def test_profile_dashboard(self) -> None:
@@ -4593,7 +4661,7 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element(
-                    By.CSS_SELECTOR, "#preferences input[type='submit']"
+                    By.CSS_SELECTOR, "#preferences button[type='submit']"
                 )
             )
         user.profile.refresh_from_db()

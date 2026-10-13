@@ -5,7 +5,7 @@
 {% block tags %}warning{% endblock %}
 
 {% block message %}
-  <a href="{% url 'profile' %}#account"
+  <a href="{% url 'profile' %}#security"
      class="btn btn-primary float-end">{% translate "Configure two-factor authentication" %}</a>
   {% if project %}
     {% translate "This project requires two-factor authentication from all contributors. You won’t be able to contribute until you configure it." %}

@@ -258,12 +258,16 @@ class EmailSentView(TemplateView):
         context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
+        context["is_email_verification"] = False
         if self.do_password_reset:
             context["title"] = gettext("Password reset")
             context["is_reset"] = True
         elif self.do_account_remove:
             context["title"] = gettext("Remove account")
             context["is_remove"] = True
+        elif self.request.user.is_authenticated:
+            context["title"] = gettext("E-mail verification")
+            context["is_email_verification"] = True
         else:
             context["title"] = gettext("User registration")
 
@@ -359,7 +363,7 @@ def redirect_profile(page: str | None = None):
     return HttpResponseRedirect(url)
 
 
-def get_notification_forms(request: AuthenticatedHttpRequest):
+def get_notification_forms(request: AuthenticatedHttpRequest, *, bound: bool = True):
     user = request.user
     subscriptions: dict[tuple[NotificationScope, int, int], dict[str, int]] = (
         defaultdict(dict)
@@ -433,11 +437,11 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
             is_active=details[0] == active,
             initial=initials[details[0]],
             prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
-            data=request.POST if request.method == "POST" else None,
+            data=request.POST if request.method == "POST" and bound else None,
         )
     for i in range(len(subscriptions), 200):
         prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
-        if f"{prefix}-scope" in request.POST or i < len(subscriptions):
+        if bound and f"{prefix}-scope" in request.POST:
             yield NotificationForm(
                 user=user,
                 show_default=i > 1,
@@ -466,14 +470,49 @@ def user_profile(request: AuthenticatedHttpRequest):
         CommitForm,
         UserForm,
     ]
-    forms = [form.from_request(request) for form in form_classes]
-    forms.extend(get_notification_forms(request))
+    form_tabs = (
+        "#languages",
+        "#notifications",
+        "#preferences",
+        "#preferences",
+        "#profile",
+        "#account",
+        "#account",
+    )
+    active_tab = request.POST.get("activetab") if request.method == "POST" else None
+    if active_tab and active_tab not in form_tabs:
+        return HttpResponseBadRequest("Unknown profile tab")
+
+    forms = [
+        form.from_request(request)
+        if request.method == "POST" and (not active_tab or active_tab == tab)
+        else form(instance=user if form is UserForm else profile)
+        for form, tab in zip(form_classes, form_tabs, strict=True)
+    ]
+    bind_notifications = request.method == "POST" and active_tab in {
+        None,
+        "#notifications",
+    }
+    forms.extend(get_notification_forms(request, bound=bind_notifications))
+    if active_tab:
+        submitted_forms = [
+            form
+            for form, tab in zip(forms[:7], form_tabs, strict=True)
+            if tab == active_tab
+        ]
+        if active_tab == "#notifications":
+            submitted_forms.extend(forms[7:])
+    else:
+        submitted_forms = forms
     all_backends = get_auth_keys()
+    form_errors = False
 
     if request.method == "POST":
-        if all(form.is_valid() for form in forms):
+        validation_results = [form.is_valid() for form in submitted_forms]
+        form_errors = not all(validation_results)
+        if not form_errors:
             # Save changes
-            for form in forms:
+            for form in submitted_forms:
                 if hasattr(form, "audit"):
                     form.audit(request)
                 form.save()
@@ -481,7 +520,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             messages.success(request, gettext("Your profile has been updated."))
 
             # Redirect after saving (and possibly changing language)
-            return redirect_profile(request.POST.get("activetab"))
+            return redirect_profile(active_tab)
     elif not user.has_usable_password() and "email" in all_backends:
         messages.warning(request, render_to_string("accounts/password-warning.html"))
 
@@ -524,6 +563,8 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
+            "active_tab": active_tab,
+            "form_errors": form_errors,
             "userdata_import_form": UserDataImportForm(),
             "user_groups": user.groups.select_related(
                 "defining_project", "defining_workspace"
@@ -1406,7 +1447,7 @@ def email_login(request: AuthenticatedHttpRequest):
     return render(
         request,
         "accounts/email.html",
-        {"title": gettext("Register e-mail"), "form": form},
+        {"title": gettext("Verify new e-mail address"), "form": form},
     )
 
 
@@ -1462,7 +1503,7 @@ def password(request: AuthenticatedHttpRequest):
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
             # Clear flag forcing user to set password
-            redirect_page = "#account"
+            redirect_page = "#security"
             if "show_set_password" in request.session:
                 del request.session["show_set_password"]
                 redirect_page = ""
@@ -1818,7 +1859,7 @@ def social_disconnect(
         return disconnect_missing_backend(request, backend, association_id)
 
     if not can_disconnect_social_auth(request, backend, association_id):
-        return redirect_profile("#account")
+        return redirect_profile("#security")
 
     return disconnect(request, backend, association_id)
 
@@ -1855,7 +1896,7 @@ def disconnect_missing_backend(
             request.user.social_auth, pk=association_id, provider=backend
         )
         if not can_disconnect_social_auth(request, backend, association_id):
-            return redirect_profile("#account")
+            return redirect_profile("#security")
 
         entries = [association]
         invalidate_reset_codes(user=request.user, entries=entries)
@@ -1870,7 +1911,7 @@ def disconnect_missing_backend(
         )
         association.delete()
 
-    return redirect_profile("#account")
+    return redirect_profile("#security")
 
 
 @never_cache
@@ -2351,6 +2392,11 @@ class RecoveryCodesView(TemplateView):
 
 
 @method_decorator(login_required, name="dispatch")
+class WebAuthnRegistrationView(TemplateView):
+    template_name = "accounts/webauthn-register.html"
+
+
+@method_decorator(login_required, name="dispatch")
 class WebAuthnCredentialView(DetailView):
     model = WebAuthnCredential
 
@@ -2361,7 +2407,7 @@ class WebAuthnCredentialView(DetailView):
         return super().get_queryset().filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
-        return redirect_profile("#account")
+        return redirect_profile("#security")
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -2385,7 +2431,7 @@ class WebAuthnCredentialView(DetailView):
                 request,
                 self.message_add % key_name,
             )
-        return redirect_profile("#account")
+        return redirect_profile("#security")
 
 
 @method_decorator(login_required, name="dispatch")
@@ -2549,7 +2595,7 @@ class TOTPView(FormView):
                 )
 
         self.request.session.pop(self.session_key, None)
-        return redirect_profile("#account")
+        return redirect_profile("#security")
 
 
 SECOND_FACTOR_LOCKED_MESSAGE = gettext_lazy(

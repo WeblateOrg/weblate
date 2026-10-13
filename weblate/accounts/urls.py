@@ -109,6 +109,11 @@ urlpatterns = [
         name="2fa-login",
     ),
     path(
+        "auth/tokens/webauthn/",
+        weblate.accounts.views.WebAuthnRegistrationView.as_view(),
+        name="webauthn-register",
+    ),
+    path(
         "auth/tokens/webauthn/<int:pk>/",
         weblate.accounts.views.WebAuthnCredentialView.as_view(),
         name="webauthn-detail",

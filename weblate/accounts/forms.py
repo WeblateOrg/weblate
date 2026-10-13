@@ -160,7 +160,7 @@ class FullNameField(forms.CharField):
         kwargs["max_length"] = FULLNAME_LENGTH
         kwargs["label"] = gettext_lazy("Full name")
         kwargs["help_text"] = gettext_lazy(
-            "Name is also used in version control commits."
+            "Your full name may appear in version control commits, depending on the commit name setting below."
         )
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
@@ -283,7 +283,7 @@ class CommitForm(ProfileBaseForm):
             "Used in version-control commits. The address stays in the repository forever once changes are committed by Weblate."
         ),
         required=False,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
     commit_name = forms.TypedChoiceField(
         coerce=int,
@@ -293,7 +293,7 @@ class CommitForm(ProfileBaseForm):
             "Used in version control commits. The name stays in the repository forever, once changes are committed by Weblate."
         ),
         required=False,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
 
     class Meta:
@@ -310,6 +310,13 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Version control identity"),
+                "commit_name",
+                "commit_email",
+            )
+        )
 
 
 class ProfileForm(ProfileBaseForm):
@@ -391,7 +398,6 @@ class UserSettingsForm(ProfileBaseForm):
         model = Profile
         fields = (
             "theme",
-            "hide_completed",
             "translate_mode",
             "zen_mode",
             "nearby_strings",
@@ -410,6 +416,25 @@ class UserSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Display"),
+                "theme",
+                "wide_tables",
+                "listing_columns",
+            ),
+            Fieldset(
+                gettext_lazy("Translation"),
+                "translate_mode",
+                "zen_mode",
+                "nearby_strings",
+                "secondary_in_zen",
+                "hide_source_secondary",
+                "editor_link",
+                "special_chars",
+                "contribute_personal_tm",
+            ),
+        )
 
 
 class DashboardSettingsForm(ProfileBaseForm):
@@ -417,7 +442,7 @@ class DashboardSettingsForm(ProfileBaseForm):
 
     class Meta:
         model = Profile
-        fields = ("dashboard_view", "dashboard_component_list")
+        fields = ("dashboard_view", "dashboard_component_list", "hide_completed")
         # ruff: ignore[mutable-class-default]
         widgets = {
             "dashboard_view": forms.RadioSelect,
@@ -429,6 +454,14 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Dashboard"),
+                "dashboard_view",
+                "dashboard_component_list",
+                "hide_completed",
+            )
+        )
         component_lists = self.instance.allowed_dashboard_component_lists
         self.fields["dashboard_component_list"].queryset = component_lists
         choices = [
@@ -476,7 +509,7 @@ class UserForm(forms.ModelForm):
         ),
         choices=(("", ""),),
         required=True,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
 
     class Meta:
@@ -501,6 +534,17 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Personal information"),
+                Div(
+                    Div("username", css_class="col-md-6"),
+                    Div("full_name", css_class="col-md-6"),
+                    css_class="row",
+                ),
+                "email",
+            )
+        )
 
     @classmethod
     def from_request(cls, request: AuthenticatedHttpRequest):
