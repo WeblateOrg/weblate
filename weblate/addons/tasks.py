@@ -316,7 +316,7 @@ def enforce_language_consistency_task(
 def daily_addons(modulo: bool = True) -> None:
     today = timezone.now()
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).select_related(
-        "component", "category", "project"
+        "component__project", "category", "project"
     )
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)

@@ -434,6 +434,26 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
 
+    def test_daily_addons_prefetches_component_projects(self) -> None:
+        second_component = self.create_po_new_base(
+            name="Other component",
+            slug="other-component",
+            project=self.project,
+        )
+        for component in (self.component, second_component):
+            addon = NoOpAddon.create(component=component, run=False).instance
+            Event.objects.create(addon=addon, event=AddonEvent.EVENT_DAILY)
+
+        with CaptureQueriesContext(connection) as queries:
+            daily_addons(modulo=False)
+
+        project_queries = [
+            query["sql"]
+            for query in queries
+            if 'FROM "trans_project" WHERE' in query["sql"]
+        ]
+        self.assertEqual(project_queries, [])
+
     def test_addon_change_does_not_prefetch_all_addon_components(self) -> None:
         other_component = self.create_po_new_base(
             name="Other component",
