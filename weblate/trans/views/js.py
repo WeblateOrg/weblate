@@ -28,6 +28,11 @@ from weblate.auth.permissions import (
 )
 from weblate.checks.flags import get_flag_choices
 from weblate.checks.models import Check
+from weblate.trans.component_creation import (
+    get_component_branches,
+    get_creation_components,
+    get_creation_projects,
+)
 from weblate.trans.diagnostics import get_diagnostics_context
 from weblate.trans.models import (
     Change,
@@ -40,6 +45,7 @@ from weblate.trans.models import (
 from weblate.trans.util import sort_unicode
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import parse_path
+from weblate.vcs.base import RepositoryError
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -352,3 +358,31 @@ def flag_choices(request: AuthenticatedHttpRequest):
         choices = list(get_flag_choices())
 
     return JsonResponse({"choices": choices})
+
+
+@never_cache
+@require_POST
+@login_required
+def component_branches(request: AuthenticatedHttpRequest) -> JsonResponse:
+    """Load branches for a component available in the creation wizard."""
+    try:
+        component_id = int(request.POST.get("component", ""))
+        project = request.POST.get("project")
+        project_id = int(project) if project and project != "None" else None
+    except ValueError:
+        return JsonResponse({"error": "Invalid component or project."}, status=400)
+    component = get_object_or_404(
+        get_creation_components(
+            request.user, get_creation_projects(request.user), project_id
+        ).prefetch(alerts=False),
+        pk=component_id,
+    )
+    if not check_rate_limit("component_branches", request):
+        return JsonResponse({"error": "Too many branch requests."}, status=429)
+    try:
+        branches = get_component_branches(component)
+    except RepositoryError:
+        return JsonResponse(
+            {"error": "Could not load repository branches."}, status=502
+        )
+    return JsonResponse({"branches": branches})
