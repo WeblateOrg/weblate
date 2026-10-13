@@ -20,6 +20,7 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Fixed role permission revocation through partial API updates.
+* Limited SAML identity-provider request parsing to prevent compressed request resource exhaustion.
 
 .. rubric:: Bug fixes
 
