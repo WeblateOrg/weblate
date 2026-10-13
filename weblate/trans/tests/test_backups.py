@@ -13,7 +13,7 @@ import tempfile
 import warnings
 from contextlib import contextmanager, suppress
 from copy import copy
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
 from typing import TYPE_CHECKING
@@ -1040,6 +1040,57 @@ class BackupsTest(ReusableViewTestCase):
             self.assertIn("vcs/glossary/.git/index", backupzip.namelist())
         ProjectBackup(backup.filename).validate()
 
+    def test_create_backup_holds_repository_lock_while_archiving(self) -> None:
+        backup = ProjectBackup()
+        repository = self.component.repository
+        archived = False
+
+        def check_lock(*args, **kwargs) -> None:
+            nonlocal archived
+            self.assertTrue(repository.lock.is_locked)
+            archived = True
+
+        with (
+            ZipFile(BytesIO(), "w") as backupzip,
+            patch.object(backup, "backup_dir", side_effect=check_lock),
+        ):
+            backup.backup_component(backupzip, self.component)
+
+        self.assertTrue(archived)
+
+    def test_backup_dir_refreshes_repository_lock(self) -> None:
+        backup = ProjectBackup()
+        refresh_lock = MagicMock()
+
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            ZipFile(BytesIO(), "w", compression=ZIP_DEFLATED) as backupzip,
+            patch("weblate.trans.backups.monotonic", side_effect=(0, 0, 301, 301)),
+        ):
+            Path(directory, "file").write_bytes(b"content")
+            backup.backup_dir(backupzip, directory, "vcs/test", refresh_lock)
+            file_info = backupzip.getinfo("vcs/test/file")
+            self.assertEqual(file_info.compress_type, ZIP_DEFLATED)
+            # ruff: ignore[private-member-access]
+            self.assertEqual(file_info._compresslevel, backupzip.compresslevel)
+
+        refresh_lock.assert_called_once_with()
+
+    def test_backup_dir_refreshes_repository_lock_for_empty_file(self) -> None:
+        backup = ProjectBackup()
+        refresh_lock = MagicMock()
+
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            ZipFile(BytesIO(), "w") as backupzip,
+            patch("weblate.trans.backups.monotonic", side_effect=(0, 0, 301)),
+        ):
+            Path(directory, "empty").touch()
+            backup.backup_dir(backupzip, directory, "vcs/test", refresh_lock)
+            self.assertEqual(backupzip.getinfo("vcs/test/empty").file_size, 0)
+
+        refresh_lock.assert_called_once_with()
+
     def test_create_backup_invalid_git_head(self) -> None:
         head_path = Path(self.component.full_path) / ".git/HEAD"
         original_head = head_path.read_bytes()
@@ -1227,7 +1278,7 @@ class BackupsTest(ReusableViewTestCase):
         backup = ProjectBackup()
         with (
             patch.object(GitRepository, "maintenance"),
-            patch.object(ZipFile, "write", side_effect=OSError("disk full")),
+            patch.object(ZipFile, "open", side_effect=OSError("disk full")),
             self.assertRaisesMessage(OSError, "disk full"),
         ):
             backup.backup_project(self.project)

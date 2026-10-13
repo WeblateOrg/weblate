@@ -18,6 +18,7 @@ from io import BytesIO
 from operator import itemgetter
 from pathlib import Path, PurePosixPath
 from shutil import copyfileobj
+from time import monotonic
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -28,7 +29,7 @@ from typing import (
     cast,
     overload,
 )
-from zipfile import ZipFile
+from zipfile import ZipFile, ZipInfo
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import HashedFilesMixin, staticfiles_storage
@@ -98,7 +99,6 @@ from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
-    from zipfile import ZipInfo
 
     from django.core.files.storage import Storage
 
@@ -110,6 +110,8 @@ warnings.filterwarnings("error", module="zipfile")
 
 ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
+REPOSITORY_LOCK_REFRESH_INTERVAL = 300
+BACKUP_COPY_CHUNK_SIZE = 1024 * 1024
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
 PROJECT_BACKUP_FIELDS = (
     "public_sharing",
@@ -847,22 +849,51 @@ class ProjectBackup:
         # Make sure generated backup data is correct
         self.validate_data()
 
-    def backup_dir(self, backupzip: ZipFile, directory: str, target: str) -> None:
+    def backup_dir(
+        self,
+        backupzip: ZipFile,
+        directory: str,
+        target: str,
+        refresh_lock: Callable[[], None],
+    ) -> None:
         """Backup single directory to specified target in zip."""
 
         def onerror(error: OSError) -> None:
             if not isinstance(error, FileNotFoundError):
                 raise error
 
+        refresh_at = monotonic() + REPOSITORY_LOCK_REFRESH_INTERVAL
+
+        def refresh_repository_lock() -> None:
+            nonlocal refresh_at
+            now = monotonic()
+            if now >= refresh_at:
+                refresh_lock()
+                refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
+
         for folder, _subfolders, filenames in os.walk(directory, onerror=onerror):
+            refresh_repository_lock()
             for filename in filenames:
+                refresh_repository_lock()
                 path = os.path.join(folder, filename)
                 # zipfile does not support storing symlinks, it dereferences them
                 if os.path.islink(path):
                     continue
-                backupzip.write(
-                    path, os.path.join(target, os.path.relpath(path, directory))
+                archive_path = os.path.join(target, os.path.relpath(path, directory))
+                file_info = ZipInfo.from_file(path, archive_path)
+                file_info.compress_type = backupzip.compression
+                # TODO: Use compress_level after dropping Python 3.12 support.
+                # ruff: ignore[private-member-access]
+                file_info._compresslevel = (  # type: ignore[attr-defined]
+                    backupzip.compresslevel
                 )
+                with (
+                    open(path, "rb") as source,
+                    backupzip.open(file_info, "w") as output,
+                ):
+                    while chunk := source.read(BACKUP_COPY_CHUNK_SIZE):
+                        output.write(chunk)
+                        refresh_repository_lock()
 
     def backup_json(self, backupzip: ZipFile, data: dict | list, target: str) -> None:
         with backupzip.open(target, "w") as handle:
@@ -1057,12 +1088,14 @@ class ProjectBackup:
                     "repository maintenance failed during project backup: %s", error
                 )
 
-        # Actually perform the backup
-        self.backup_dir(
-            backupzip,
-            component.full_path,
-            f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
-        )
+            # Keep the checkout stable from validation through every archive read.
+            component.repository.lock.reacquire()
+            self.backup_dir(
+                backupzip,
+                component.full_path,
+                f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
+                component.repository.lock.reacquire,
+            )
 
     @transaction.atomic
     def backup_project(self, project: Project, user: User | None = None) -> None:
