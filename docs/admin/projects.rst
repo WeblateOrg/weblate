@@ -66,6 +66,8 @@ After creating the project, you are taken directly to the project page:
 
 .. image:: /screenshots/user-add-project-done.webp
 
+.. _adding-components:
+
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
 translation parameters. There are several approaches to creating component:
@@ -76,6 +78,8 @@ From existing component
     Creates additional component to existing one by choosing different files.
 Additional branch
     Creates additional component to existing one, just for different branch.
+    Select a component to load its available remote branches. If loading fails,
+    use :guilabel:`Retry` to try again.
 Upload translations files
     Upload translation files to Weblate in case you do not have version control
     or do not want to integrate it with Weblate. You can later update the

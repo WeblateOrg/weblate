@@ -103,6 +103,7 @@ from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -4726,6 +4727,108 @@ class SeleniumTests(
             r".*@example\.org$",
         )
         self.screenshot("team-automatic-assignments.png")
+
+    @reuse_demo_fixture
+    def test_component_branches_load_on_demand(self) -> None:
+        project = self.create_component()
+        component = project.component_set.get(slug="language-names")
+        self.do_login(superuser=True)
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches",
+            side_effect=RepositoryError(1, "Repository unavailable"),
+        ) as discover:
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('create-component')}?project={project.pk}"
+                )
+            discover.assert_not_called()
+            tab = self.driver.find_element(
+                By.CSS_SELECTOR, '[data-bs-target="#branch"]'
+            )
+            tab.send_keys(Keys.ENTER)
+            select = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.ID, "id_branch_component"))
+            )
+            Select(select).select_by_value(str(component.pk))
+            retry = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.CSS_SELECTOR, ".branch-retry"))
+            )
+            self.assertFalse(
+                self.driver.find_element(By.ID, "create-branch").is_enabled()
+            )
+            discover.assert_called_once_with(timeout=15)
+            discover.side_effect = None
+            discover.return_value = [component.branch, "new-branch"]
+            retry.send_keys(Keys.ENTER)
+            submit = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.ID, "create-branch"))
+            )
+            branch = self.driver.find_element(By.ID, "id_branch_branch")
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.switch_to.active_element == branch
+            )
+            self.assertEqual(
+                [option.text for option in Select(branch).options], ["new-branch"]
+            )
+            status = self.driver.find_element(By.CSS_SELECTOR, ".branch-status")
+            self.assertEqual(status.get_attribute("role"), "status")
+            self.assertEqual(status.text, "Repository branches loaded.")
+            discover.return_value = []
+            # Native select Home/End behavior differs across operating systems.
+            Select(select).select_by_value("")
+            WebDriverWait(self.driver, 10).until(
+                lambda _driver: (
+                    status.text == "Select a component to load repository branches."
+                )
+            )
+            Select(select).select_by_value(str(component.pk))
+            WebDriverWait(self.driver, 10).until(
+                lambda _driver: (
+                    status.text == "No additional repository branches are available."
+                )
+            )
+            self.assertFalse(submit.is_enabled())
+
+            # Resolve two requests in reverse order, ignoring abort signals.
+            self.driver.execute_script(
+                """
+                const originalFetch = window.fetch;
+                window.pendingBranches = [];
+                window.fetch = (url, options) => {
+                    if (!url.endsWith('/js/component-branches/')) {
+                        return originalFetch(url, options);
+                    }
+                    return new Promise((resolve) => pendingBranches.push(resolve));
+                };
+                const select = document.getElementById('id_branch_component');
+                const value = select.value;
+                select.dispatchEvent(new Event('change'));
+                select.value = '';
+                select.dispatchEvent(new Event('change'));
+                select.value = value;
+                select.dispatchEvent(new Event('change'));
+                """
+            )
+            self.assertFalse(submit.is_enabled())
+            self.assertEqual(status.text, "Loading repository branches…")
+            self.driver.execute_async_script(
+                """
+                const done = arguments[0];
+                const response = (branch) => new Response(
+                    JSON.stringify({branches: [branch]}),
+                    {headers: {'Content-Type': 'application/json'}},
+                );
+                pendingBranches[1](response('current'));
+                setTimeout(() => {
+                    pendingBranches[0](response('obsolete'));
+                    setTimeout(done, 0);
+                }, 0);
+                """
+            )
+            WebDriverWait(self.driver, 10).until(lambda _driver: submit.is_enabled())
+            self.assertEqual(
+                [option.text for option in Select(branch).options], ["current"]
+            )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:

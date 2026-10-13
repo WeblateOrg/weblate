@@ -61,6 +61,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, format_backup_error
+from weblate.trans.component_creation import get_component_branches
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -122,6 +123,7 @@ from weblate.utils.forms import (
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -141,6 +143,7 @@ from weblate.utils.validators import (
     validate_translation_upload_size,
 )
 from weblate.utils.views import get_sort_name
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import VCS_PARAMS, strip_unused_vcs_params
@@ -3107,11 +3110,22 @@ class ComponentBranchForm(ComponentSelectForm):
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_branch_%s"
         super().__init__(*args, **kwargs)
-        self.branch_data: dict[int, list[str]] = {}
 
     def clean_component(self):
         component = self.cleaned_data["component"]
-        self.fields["branch"].choices = [(x, x) for x in self.branch_data[component.pk]]
+        if not check_rate_limit("component_branches", self.request):
+            raise ValidationError(
+                gettext("Too many branch requests. Please try again later.")
+            )
+        try:
+            branches = get_component_branches(component)
+        except RepositoryError as error:
+            raise ValidationError(
+                gettext("Could not load repository branches. Please try again.")
+            ) from error
+        cast("forms.ChoiceField", self.fields["branch"]).choices = [
+            (branch, branch) for branch in branches
+        ]
         return component
 
     def clean(self) -> None:

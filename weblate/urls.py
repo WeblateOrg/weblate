@@ -909,6 +909,11 @@ real_patterns = [
         name="js-catalog",
     ),
     path(
+        "js/component-branches/",
+        weblate.trans.views.js.component_branches,
+        name="component_branches",
+    ),
+    path(
         "js/flags/",
         weblate.trans.views.js.flag_choices,
         name="js-flag-choices",

@@ -982,6 +982,7 @@ class Repository:
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
         retry: bool = True,
+        timeout: float = 3600,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -1006,7 +1007,7 @@ class Repository:
                 text=not raw,
                 check=False,
                 # Excessively long timeout to catch misbehaving processes
-                timeout=3600,
+                timeout=timeout,
                 **kwargs,
             )
         except OSError as error:
@@ -1065,6 +1066,7 @@ class Repository:
                     stdin=stdin,
                     environment=environment,
                     retry=False,
+                    timeout=timeout,
                 )
 
             raise RepositoryCommandError(process.returncode, errormessage)
@@ -1109,6 +1111,8 @@ class Repository:
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
         remote_url: str | None = None,
+        timeout: float = 3600,
+        log_status: bool = True,
     ):
         """Execute command and caches its output."""
         self.ensure_lock_session_recovered()
@@ -1143,10 +1147,14 @@ class Repository:
                 merge_err=merge_err,
                 stdin=stdin,
                 environment=environment,
+                timeout=timeout,
             )
         except RepositoryCommandError as error:
             if not is_status and not self.local:
-                self.log_status(error)
+                if log_status:
+                    self.log_status(error)
+                else:
+                    self.log(f"failure {error}")
             if effective_remote_url and remote_target is not None:
                 self.handle_remote_command_error(
                     error,
@@ -1705,7 +1713,7 @@ class Repository:
         branch_name = branch or self.branch
         return f"origin/{self.validate_branch_name(branch_name)}"
 
-    def list_remote_branches(self) -> list[str]:
+    def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         return []
 
     def compact(self) -> None:

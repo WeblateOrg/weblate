@@ -4,17 +4,20 @@
 
 """Test for creating projects and models."""
 
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import connection
-from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
+from django.test import Client
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from translation_finder import DiscoveryResult
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
+from weblate.trans.component_creation import get_component_branches
 from weblate.trans.forms import (
     ComponentCreateForm,
     ComponentDiscoverForm,
@@ -33,10 +36,10 @@ from weblate.trans.views.create import (
     INTEGRATION_IMPORT_VCS_KEY,
     SESSION_CREATE_KEY,
     CreateComponent,
-    CreateComponentSelection,
 )
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.views import get_form_data
-from weblate.vcs.base import RepositoryLock
+from weblate.vcs.base import RepositoryError, RepositoryLock
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
@@ -1408,46 +1411,290 @@ class CreateTest(ViewTestCase):
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "branch")
 
-    def test_component_branch_data_uses_bulk_existing_branch_lookup(self) -> None:
-        repo_a = "https://example.com/repo-a.git"
-        repo_b = "https://example.com/repo-b.git"
-        Component.objects.filter(pk=self.component.pk).update(repo=repo_a)
+    def test_component_branches_filters_existing_branches(self) -> None:
+        repo = "https://example.com/repo-a.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=repo)
         self.component.refresh_from_db()
         second = self.create_po(project=self.project, name="Second")
-        third = self.create_android(project=self.project, name="Third")
-        Component.objects.filter(pk=second.pk).update(repo=repo_a, branch="stable")
-        Component.objects.filter(pk=third.pk).update(repo=repo_b)
+        Component.objects.filter(pk=second.pk).update(repo=repo, branch="stable")
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches",
+            return_value=[self.component.branch, "stable", "feature"],
+        ) as discover:
+            self.assertEqual(get_component_branches(self.component), ["feature"])
+        discover.assert_called_once_with(timeout=15)
 
-        view = CreateComponentSelection()
-        view.components = Component.objects.filter(
-            pk__in=(self.component.pk, second.pk, third.pk)
-        ).order_project()
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_creation_does_not_discover_branches(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.create_android(project=self.project, name="Another repository")
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            response = self.client.get(reverse("create-component"))
+        self.assertContains(response, reverse("component_branches"))
+        self.assertContains(response, "Additional branch")
+        discover.assert_not_called()
 
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branches_endpoint(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.create_android(project=self.project, name="Another repository")
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches",
+            return_value=[self.component.branch, "new"],
+        ) as discover:
+            response = self.client.post(
+                reverse("component_branches"), {"component": self.component.pk}
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"branches": ["new"]})
+        self.assertIn("no-store", response.headers["Cache-Control"])
+        discover.assert_called_once_with(timeout=15)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(RATELIMIT_ATTEMPTS=1)
+    def test_component_branches_default_rate_limit_allows_browsing(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.assertFalse(self.user.is_superuser)
+        reset_rate_limit("component_branches", self.get_request())
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches", return_value=[]
+        ) as discover:
+            for _index in range(6):
+                response = self.client.post(
+                    reverse("component_branches"), {"component": self.component.pk}
+                )
+                self.assertEqual(response.status_code, 200)
+            self.assertEqual(discover.call_count, 6)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(
+        RATELIMIT_COMPONENT_BRANCHES_ATTEMPTS=3,
+        RATELIMIT_COMPONENT_BRANCHES_WINDOW=60,
+        RATELIMIT_COMPONENT_BRANCHES_LOCKOUT=60,
+    )
+    def test_component_branches_configured_rate_limit(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        reset_rate_limit("component_branches", self.get_request())
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches", return_value=[]
+        ) as discover:
+            for _index in range(3):
+                response = self.client.post(
+                    reverse("component_branches"), {"component": self.component.pk}
+                )
+                self.assertEqual(response.status_code, 200)
+            response = self.client.post(
+                reverse("component_branches"), {"component": self.component.pk}
+            )
+            self.assertEqual(response.status_code, 429)
+            self.assertEqual(discover.call_count, 3)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branches_endpoint_errors(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("component_branches")
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            self.assertEqual(self.client.get(url).status_code, 405)
+            self.assertEqual(self.client.post(url, {}).status_code, 400)
+            self.assertEqual(
+                self.client.post(url, {"component": "bad"}).status_code, 400
+            )
+            self.assertEqual(
+                self.client.post(
+                    url, {"component": self.component.pk, "project": "bad"}
+                ).status_code,
+                400,
+            )
+            self.assertEqual(
+                self.client.post(
+                    url, {"component": self.component.pk, "project": -1}
+                ).status_code,
+                404,
+            )
+            discover.assert_not_called()
+            discover.return_value = []
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).json(),
+                {"branches": []},
+            )
+            discover.side_effect = RepositoryError(1, "secret repository credentials")
+            response = self.client.post(url, {"component": self.component.pk})
+            self.assertEqual(response.status_code, 502)
+            self.assertNotContains(response, "secret", status_code=502)
         with (
-            patch(
-                "weblate.vcs.git.GitRepository.list_remote_branches",
-                return_value=["main", "stable", "feature", "new"],
-            ) as list_remote_branches,
-            CaptureQueriesContext(connection) as queries,
+            patch("weblate.trans.views.js.check_rate_limit", return_value=False),
+            patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover,
         ):
-            branch_data = view.branch_data
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).status_code, 429
+            )
+            discover.assert_not_called()
 
-        self.assertEqual(list_remote_branches.call_count, 2)
-        self.assertEqual(branch_data[self.component.pk], ["feature", "new"])
-        self.assertEqual(branch_data[second.pk], ["feature", "new"])
-        self.assertEqual(branch_data[third.pk], ["stable", "feature", "new"])
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branches_endpoint_permissions(self) -> None:
+        url = reverse("component_branches")
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            # Read access alone does not permit component creation.
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).status_code, 404
+            )
+            private_project = self.create_project(
+                name="Private source",
+                slug="private-source",
+                access_control=Project.ACCESS_PRIVATE,
+            )
+            private_component = self.create_po(
+                project=private_project, name="Private source"
+            )
+            self.assertEqual(
+                self.client.post(url, {"component": private_component.pk}).status_code,
+                404,
+            )
+            self.client.logout()
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).status_code, 302
+            )
+            discover.assert_not_called()
 
-        component_queries = "\n".join(
-            query["sql"]
-            for query in queries.captured_queries
-            if 'FROM "trans_component"' in query["sql"]
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branch_shortcut_does_not_bypass_creation_permissions(
+        self,
+    ) -> None:
+        params = {
+            "origin": "branch",
+            "name": "New branch",
+            "slug": "new-branch",
+            "component": self.component.pk,
+            "branch": "new",
+        }
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            response = self.client.post(
+                f"{reverse('create-component')}?component={self.component.pk}", params
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("component", response.context["form"].errors)
+            discover.assert_not_called()
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branches_unsupported_backend(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="local", repo="local:"
         )
-        self.assertEqual(
-            component_queries.count('"trans_component"."repo" IN'),
-            1,
-            component_queries,
-        )
-        self.assertNotIn('"trans_component"."repo" =', component_queries)
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            response = self.client.post(
+                reverse("component_branches"), {"component": self.component.pk}
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json(), {"branches": []})
+            discover.assert_not_called()
+
+    def test_component_branches_endpoint_csrf(self) -> None:
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        with patch("weblate.vcs.git.GitRepository.list_remote_branches") as discover:
+            self.assertEqual(
+                client.post(
+                    reverse("component_branches"), {"component": self.component.pk}
+                ).status_code,
+                403,
+            )
+            discover.assert_not_called()
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_component_branches_endpoint_billing(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("component_branches")
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches", return_value=[]
+        ) as discover:
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).status_code, 404
+            )
+            discover.assert_not_called()
+            billing = create_test_billing(self.user)
+            billing.add_project(self.project)
+            self.assertEqual(
+                self.client.post(url, {"component": self.component.pk}).status_code, 200
+            )
+            discover.assert_called_once_with(timeout=15)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(
+        RATELIMIT_COMPONENT_BRANCHES_ATTEMPTS=3,
+        RATELIMIT_COMPONENT_BRANCHES_WINDOW=60,
+        RATELIMIT_COMPONENT_BRANCHES_LOCKOUT=60,
+    )
+    def test_component_branch_submissions_share_lookup_rate_limit(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.assertFalse(self.user.is_superuser)
+        reset_rate_limit("component_branches", self.get_request())
+        params = {
+            "origin": "branch",
+            "slug": "new-branch",
+            "component": self.component.pk,
+            "branch": "new",
+        }
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches", return_value=["new"]
+        ) as discover:
+            # Ineligible components must not consume a lookup attempt.
+            response = self.client.post(
+                reverse("create-component"), {**params, "component": -1}
+            )
+            self.assertIn("component", response.context["form"].errors)
+            discover.assert_not_called()
+            response = self.client.post(
+                reverse("component_branches"), {"component": self.component.pk}
+            )
+            self.assertEqual(response.status_code, 200)
+            # Missing names make the forms invalid but still trigger remote lookups.
+            for _index in range(2):
+                response = self.client.post(reverse("create-component"), params)
+                self.assertIn("name", response.context["form"].errors)
+                self.assertNotIn("component", response.context["form"].errors)
+            self.assertEqual(discover.call_count, 3)
+            response = self.client.post(
+                reverse("create-component"), {**params, "name": "New branch"}
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(
+                response.context["form"].errors["component"],
+                ["Too many branch requests. Please try again later."],
+            )
+            response = self.client.post(
+                reverse("component_branches"), {"component": self.component.pk}
+            )
+            self.assertEqual(response.status_code, 429)
+            self.assertEqual(discover.call_count, 3)
+        self.assertFalse(Component.objects.filter(slug="new-branch").exists())
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_branch_submission_validates_selected_repository(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.create_android(project=self.project, name="Another repository")
+        params = {
+            "origin": "branch",
+            "name": "New branch",
+            "slug": "new-branch",
+            "component": self.component.pk,
+            "branch": "invalid",
+        }
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches", return_value=["new"]
+        ) as discover:
+            response = self.client.post(reverse("create-component"), params)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("branch", response.context["form"].errors)
+            discover.assert_called_once_with(timeout=15)
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches",
+            side_effect=RepositoryError(1, "secret"),
+        ) as discover:
+            response = self.client.post(reverse("create-component"), params)
+            self.assertIn("component", response.context["form"].errors)
+            discover.assert_called_once_with(timeout=15)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_invalid_zip(self) -> None:
