@@ -305,6 +305,28 @@ class Subscription(models.Model):
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
 
 
+def load_subscription_categories(
+    subscriptions: Iterable[Subscription],
+) -> dict[int, tuple[int | None, str]]:
+    """Load category ancestors for component subscription paths in batches."""
+    categories: dict[int, tuple[int | None, str]] = {}
+    pending = {
+        subscription.component.category_id
+        for subscription in subscriptions
+        if subscription.component and subscription.component.category_id
+    }
+    while pending:
+        parents = set()
+        for category_id, parent_id, slug in Category.objects.filter(
+            pk__in=pending
+        ).values_list("pk", "category_id", "slug"):
+            categories[category_id] = (parent_id, slug)
+            if parent_id and parent_id not in categories:
+                parents.add(parent_id)
+        pending = parents
+    return categories
+
+
 def schedule_inaccessible_subscription_cleanup(user_ids: set[int], using: str) -> None:
     """Schedule cleanup after collecting all users from the deletion origin."""
     cleanup_inaccessible_subscriptions.delay(sorted(user_ids), using)
@@ -1260,7 +1282,11 @@ class Profile(models.Model):
                 {"dashboard_component_list": message, "dashboard_view": message}
             )
 
-    def dump_data(self):
+    def dump_data(
+        self,
+        subscriptions: Iterable[Subscription] | None = None,
+        categories: dict[int, tuple[int | None, str]] | None = None,
+    ):
         def map_attr(attr):
             if attr.endswith("_id"):
                 return attr[:-3]
@@ -1324,26 +1350,13 @@ class Profile(models.Model):
         result["profile"]["watched"] = [
             project.slug for project in self.watched.iterator()
         ]
-        subscriptions = list(
-            self.user.subscription_set.select_related(
+        if subscriptions is None:
+            subscriptions = self.user.subscription_set.select_related(
                 "project", "component", "component__project"
             )
-        )
-        categories: dict[int, tuple[int | None, str]] = {}
-        pending = {
-            subscription.component.category_id
-            for subscription in subscriptions
-            if subscription.component and subscription.component.category_id
-        }
-        while pending:
-            parents = set()
-            for category_id, parent_id, slug in Category.objects.filter(
-                pk__in=pending
-            ).values_list("pk", "category_id", "slug"):
-                categories[category_id] = (parent_id, slug)
-                if parent_id and parent_id not in categories:
-                    parents.add(parent_id)
-            pending = parents
+        subscriptions = list(subscriptions)
+        if categories is None:
+            categories = load_subscription_categories(subscriptions)
 
         def component_path(component):
             path = [component.slug]
