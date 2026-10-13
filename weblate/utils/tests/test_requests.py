@@ -27,6 +27,7 @@ from weblate.utils.requests import (
     fetch_validated_url,
     get_uri_error,
     open_restricted_asset_url,
+    open_validated_url,
 )
 from weblate.utils.tests import http_mock
 
@@ -577,6 +578,65 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         mocked_getaddrinfo.assert_not_called()
         self.assertEqual(len(http_mock.calls), 0)
+
+
+class OpenValidatedURLTest(SimpleTestCase):
+    @http_mock.activate
+    def test_streaming_and_cleanup(self) -> None:
+        def consume(failure: str | None, events: list[str]) -> None:
+            with open_validated_url(
+                "get", "https://example.com/", allow_private_targets=True
+            ) as streamed:
+                self.assertEqual(events, [])
+                if failure == "consumer":
+                    msg = "Consumer failed"
+                    raise RuntimeError(msg)
+                self.assertEqual(streamed.read(), b"response-body")
+
+        for failure in (None, "status", "consumer"):
+            with self.subTest(failure=failure):
+                http_mock.reset()
+                events: list[str] = []
+                response = httpx2.Response(
+                    400 if failure == "status" else 200,
+                    stream=TrackedRedirectSyncStream(events),
+                )
+                http_mock.register_callback(
+                    "GET",
+                    "https://example.com/",
+                    callback=MagicMock(return_value=response),
+                )
+
+                if failure == "status":
+                    with self.assertRaises(httpx2.HTTPStatusError):
+                        consume(failure, events)
+                elif failure == "consumer":
+                    with self.assertRaisesMessage(RuntimeError, "Consumer failed"):
+                        consume(failure, events)
+                else:
+                    consume(failure, events)
+                self.assertEqual(
+                    events, ["read", "close"] if failure is None else ["close"]
+                )
+
+    @http_mock.activate
+    def test_private_redirect_rejected(self) -> None:
+        http_mock.register(
+            "GET",
+            "https://example.com/",
+            status_code=302,
+            headers={"Location": "http://127.0.0.1/"},
+        )
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            ),
+            self.assertRaises(ValidationError),
+            open_validated_url("get", "https://example.com/"),
+        ):
+            self.fail("Private redirect was allowed")
+        self.assertEqual(len(http_mock.calls), 1)
 
 
 class GetUriErrorTest(SimpleTestCase):

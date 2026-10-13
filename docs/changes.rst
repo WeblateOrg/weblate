@@ -11,6 +11,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Bounded :ref:`JSON webhook response bodies and headers <webhook-response-limits>` to limit worker memory use and activity-log growth.
 * Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
