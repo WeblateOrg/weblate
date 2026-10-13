@@ -925,7 +925,7 @@ class ViewTest(RepoTestCase):
             },
         )
 
-        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertRedirects(response, f"{reverse('profile')}#security")
         updated_user = User.objects.get(username="testuser")
         self.assertTrue(updated_user.check_password("1pa$$word!"))
         self.assertNotEqual(updated_user.auth_token.key, old_token)
@@ -945,7 +945,7 @@ class ViewTest(RepoTestCase):
             },
         )
 
-        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertRedirects(response, f"{reverse('profile')}#security")
         updated_user = User.objects.get(username="testuser")
         self.assertTrue(updated_user.check_password("1pa$$word!"))
         self.assertEqual(updated_user.auth_token.key, old_token)
@@ -1018,6 +1018,117 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.profile.listing_columns, ["total", "untranslated", "checks"]
         )
+
+    def test_profile_tab_navigation_and_identity_selects(self) -> None:
+        response = self.client.get(reverse("profile"))
+        content = response.content.decode()
+        navigation = content.split('<ul class="nav nav-pills flex-wrap"', 1)[1].split(
+            "</ul>", 1
+        )[0]
+        tabs = (
+            "account",
+            "profile",
+            "languages",
+            "preferences",
+            "notifications",
+            "security",
+            "api",
+            "teams",
+            "licenses",
+            "audit",
+        )
+        positions = [navigation.index(f'data-bs-target="#{tab}"') for tab in tabs]
+        self.assertEqual(positions, sorted(positions))
+        self.assertRegex(content, r'class="tab-pane show active"\s+id="account"')
+        for field in ("email", "commit_email", "commit_name"):
+            self.assertRegex(content, rf'<select[^>]*name="{field}"')
+
+        account = content.split('id="account"', 1)[1].split('id="profile"', 1)[0]
+        security = content.split('id="security"', 1)[1].split('id="api"', 1)[0]
+        developer = content.split('id="api"', 1)[1].split('id="teams"', 1)[0]
+        self.assertIn("Personal information", account)
+        self.assertIn("Version control identity", account)
+        self.assertIn("Commit e-mail", account)
+        self.assertIn("Account management", account)
+        self.assertIn("Two-factor authentication", security)
+        self.assertIn(reverse("webauthn-register"), security)
+        self.assertNotIn('id="passkey-registration-placeholder"', security)
+        self.assertIn("Add sign-in method", security)
+        self.assertIn("Code-hosting connections", developer)
+        self.assertNotIn("Code-hosting connections", security)
+
+    def test_profile_saves_only_submitted_tab(self) -> None:
+        original_theme = self.user.profile.theme
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#account",
+                "username": self.user.username,
+                "full_name": "Updated name",
+                "email": self.user.email,
+                "theme": "invalid",
+                "website": "https://127.0.0.1/profile",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Updated name")
+        self.assertEqual(self.user.profile.theme, original_theme)
+        self.assertEqual(self.user.profile.website, "")
+
+    def test_profile_ignores_other_tabs_on_public_profile_save(self) -> None:
+        original_name = self.user.full_name
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#profile",
+                "website": "https://example.org/profile",
+                "username": "invalid username",
+                "theme": "invalid",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#profile")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, original_name)
+        self.assertEqual(self.user.profile.website, "https://example.org/profile")
+
+    def test_dashboard_visibility_is_saved_with_preferences(self) -> None:
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#preferences",
+                "theme": "auto",
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+                "dashboard_view": Profile.DASHBOARD_WATCHED,
+                "hide_completed": "on",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#preferences")
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.hide_completed)
+
+    def test_profile_error_reopens_submitted_tab(self) -> None:
+        response = self.client.post(
+            reverse("profile"),
+            {"activetab": "#profile", "website": "https://127.0.0.1/profile"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["form_errors"])
+        self.assertContains(response, 'data-active-tab="#profile"')
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.website, "")
+
+    def test_profile_rejects_unknown_tab(self) -> None:
+        response = self.client.post(reverse("profile"), {"activetab": "#security"})
+        self.assertEqual(response.status_code, 400)
 
     def test_profile_listing_columns_rejects_duplicates(self) -> None:
         original_listing_columns = self.user.profile.listing_columns
@@ -1380,6 +1491,7 @@ class ProfileTest(FixtureTestCase):
             website="https://example.org/",
             fediverse="https://example.org/file.zip",
             nearby_strings=15,
+            hide_completed=not self.user.profile.hide_completed,
             languages=["cs", "not-available", "\x00"],
             watched=[self.project.slug, "not-available", "\x00"],
             translated=999999,
@@ -1405,6 +1517,9 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.profile.website, "https://example.org/")
         self.assertEqual(self.user.profile.fediverse, "")
         self.assertEqual(self.user.profile.nearby_strings, 15)
+        self.assertEqual(
+            self.user.profile.hide_completed, data["profile"]["hide_completed"]
+        )
         self.assertEqual(self.user.profile.translated, 0)
         self.assertEqual(self.user.profile.public_email, "")
         self.assertEqual(self.user.profile.editor_link, "")

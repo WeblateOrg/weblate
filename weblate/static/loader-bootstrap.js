@@ -2811,7 +2811,7 @@ onReady(() => {
     }
   });
 
-  /* WebAuthn registration completion in profile */
+  /* WebAuthn registration completion */
   document.addEventListener("otp_webauthn.register_complete", (event) => {
     const id = event.detail.id;
     const deviceInput = document.querySelector(

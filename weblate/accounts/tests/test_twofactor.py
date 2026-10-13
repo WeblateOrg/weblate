@@ -43,10 +43,25 @@ class TwoFactorTestCase(FixtureTestCase):
         super().setUp()
         reset_rate_limit("login", address="127.0.0.1")
 
+    def test_webauthn_registration_page(self) -> None:
+        url = reverse("webauthn-register")
+        response = self.client.get(url)
+        self.assertContains(response, "Register new security key")
+        self.assertContains(response, 'id="passkey-registration-placeholder"')
+        self.assertContains(
+            response, reverse("webauthn-detail", kwargs={"pk": "000000"})
+        )
+
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
+
     def test_recovery_codes(self) -> None:
         user = self.user
         response = self.client.get(reverse("recovery-codes"))
         self.assertContains(response, "Recovery codes")
+        self.assertNotContains(response, "Your old codes will become invalid")
         self.assertFalse(StaticDevice.objects.filter(user=user).exists())
 
         response = self.client.post(reverse("recovery-codes"), follow=True)
@@ -57,6 +72,7 @@ class TwoFactorTestCase(FixtureTestCase):
         code = StaticToken.objects.filter(device__user=user).first().token
 
         self.assertContains(response, code)
+        self.assertContains(response, "Your old codes will become invalid")
 
     def create_webauthn_audit(self):
         return AuditLog.objects.create(

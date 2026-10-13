@@ -4,7 +4,11 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+    {% if is_email_verification %}
+      <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
+    {% else %}
+      <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+    {% endif %}
   </li>
   <li class="breadcrumb-item">
     <a>{{ title }}</a>
@@ -20,6 +24,8 @@
         {% translate "Password reset almost complete" %}
       {% elif is_remove %}
         {% translate "Account removal almost complete" %}
+      {% elif is_email_verification %}
+        {% translate "E-mail verification almost complete" %}
       {% else %}
         {% translate "Registration almost complete" %}
       {% endif %}
@@ -30,6 +36,8 @@
         {% blocktranslate %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktranslate %}
       {% elif is_remove %}
         {% blocktranslate %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktranslate %}
+      {% elif is_email_verification %}
+        {% blocktranslate %}Click the confirmation link sent to your e-mail inbox to verify the address for your account.{% endblocktranslate %}
       {% else %}
         {% blocktranslate %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktranslate %}
       {% endif %}
@@ -43,6 +51,8 @@
       {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
       {% if is_reset or is_remove %}
         {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}
+      {% elif is_email_verification %}
+        {% blocktranslate %}Request a new verification e-mail from your account settings if the link expires.{% endblocktranslate %}
       {% else %}
         {% blocktranslate %}Register again if the confirmation link expires.{% endblocktranslate %}
       {% endif %}
@@ -54,7 +64,13 @@
 
     {% if contact_form != "disabled" %}
       <p>
-        <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+        <a href="{% url 'contact' %}?t=reg">
+          {% if is_email_verification %}
+            {% translate "If there is a problem verifying your e-mail address, please contact us." %}
+          {% else %}
+            {% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}
+          {% endif %}
+        </a>
       </p>
     {% endif %}
 

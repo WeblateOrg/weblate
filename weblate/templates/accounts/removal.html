@@ -4,7 +4,10 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+    <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'remove' %}">{% translate "Account removal" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
@@ -46,8 +49,9 @@
         </ul>
         {% csrf_token %}
       </div>
-      <div class="card-footer">
+      <div class="card-footer d-flex flex-wrap align-items-center gap-2">
         <button type="submit" class="btn btn-danger">{% translate "Delete this account" %}</button>
+        <a class="btn btn-link" href="{% url 'profile' %}#account">{% translate "Back to account settings" %}</a>
       </div>
     </div>
   </form>

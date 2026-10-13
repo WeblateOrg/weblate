@@ -4,11 +4,20 @@
 
 {% block extra_script %}{{ form.media }}{% endblock %}
 
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'email_login' %}">{% translate "Verify new e-mail address" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 
   {% if form.errors %}
-    {% translate "Please fix errors in the registration form." as msg %}
+    {% translate "Please fix errors in the form." as msg %}
     {% show_message "error" msg %}
   {% endif %}
 
@@ -23,8 +32,11 @@
         {% csrf_token %}
         {{ form|crispy }}
       </div>
-      <div class="card-footer">
-        <input type="submit" value="{% translate 'Register' %}" class="btn btn-primary" />
+      <div class="card-footer d-flex flex-wrap align-items-center gap-2">
+        <input type="submit"
+               value="{% translate 'Send verification e-mail' %}"
+               class="btn btn-primary" />
+        <a class="btn btn-link" href="{% url 'profile' %}#account">{% translate "Back to account settings" %}</a>
       </div>
     </div>
   </form>

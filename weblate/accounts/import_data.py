@@ -12,6 +12,7 @@ from django.utils.translation import gettext
 
 from weblate.accounts.data import NotificationScope
 from weblate.accounts.forms import (
+    DashboardSettingsForm,
     FullNameField,
     LanguagesForm,
     ProfileForm,
@@ -27,9 +28,15 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
+# Dashboard selection needs the portability checks below.
+DASHBOARD_FIELDS = frozenset(DashboardSettingsForm.Meta.fields) - {
+    "dashboard_view",
+    "dashboard_component_list",
+}
 PROFILE_FIELDS = (
     frozenset(UserSettingsForm.Meta.fields)
     | frozenset(ProfileForm.Meta.fields)
+    | DASHBOARD_FIELDS
     | {"nearby_strings", "auto_watch", "contribute_personal_tm"}
 )
 PROFILE_FIELDS -= {"public_email"}
@@ -41,6 +48,8 @@ def _valid_profile_value(profile: Profile, field: str, value: object) -> object:
         value = ProfileForm(instance=profile).fields[field].clean(value)
     elif field in UserSettingsForm.Meta.fields:
         value = UserSettingsForm(instance=profile).fields[field].clean(value)
+    elif field in DASHBOARD_FIELDS:
+        value = DashboardSettingsForm(instance=profile).fields[field].clean(value)
     model_field = cast("Field", Profile._meta.get_field(field))  # ruff: ignore[private-member-access]
     return model_field.clean(value, profile)
 
