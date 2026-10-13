@@ -147,7 +147,11 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
 
     def get_description(self, check_obj: Check):
         related = self.get_related_checks([check_obj.unit_id]).select_related(
-            "unit__translation__language"
+            "unit__translation__language",
+            "unit__translation__component__project",
+            "unit__translation__component__category__project",
+            "unit__translation__component__category__category__project",
+            "unit__translation__component__category__category__category__project",
         )
         if not related:
             return super().get_description(check_obj)

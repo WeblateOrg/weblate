@@ -22,7 +22,7 @@ from weblate.checks.source import (
     OptionalPluralCheck,
     SourceMaxLengthCheck,
 )
-from weblate.trans.models import Unit
+from weblate.trans.models import Category, Unit
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -207,13 +207,69 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
             source="Try Weblate at <https://demo.weblate.org/>!\n", language="en"
         )
         check = Check(unit=unit)
-        description = self.check.get_description(check)
+        with self.assertNumQueries(1):
+            description = self.check.get_description(check)
         self.assertIn(
             "Following checks are failing:<dl><dt>Unchanged translation</dt>",
             description,
         )
         self.assertIn("Czech", description)
         self.assertIn("German", description)
+
+    def test_description_query_count(self) -> None:
+        unit = self.get_unit(
+            source="Try Weblate at <https://demo.weblate.org/>!\n", language="en"
+        )
+        check = Check(unit=unit)
+        for language in ("cs", "de"):
+            target = self.get_unit(source=unit.source, language=language)
+            Check.objects.get_or_create(unit=target, name="end_stop")
+            expected_links = list(
+                self.check.get_related_checks([unit.pk])
+                .select_related("unit__translation__language")
+                .order_by("pk")
+            )
+            with self.assertNumQueries(1):
+                description = self.check.get_description(check)
+            self.assertEqual(description.count("<a "), len(expected_links))
+            for related in expected_links:
+                self.assertIn(related.unit.get_absolute_url(), description)
+
+    def test_description_category_links(self) -> None:
+        unit = self.get_unit(
+            source="Try Weblate at <https://demo.weblate.org/>!\n", language="en"
+        )
+        check = Check(unit=unit)
+        parent = None
+        for depth in range(1, 4):
+            with self.subTest(depth=depth):
+                parent = Category.objects.create(
+                    name=f"Category {depth}",
+                    slug=f"category-{depth}",
+                    project=self.project,
+                    category=parent,
+                )
+                type(self.component).objects.filter(pk=self.component.pk).update(
+                    category=parent
+                )
+                expected_links = [
+                    related.unit.get_absolute_url()
+                    for related in self.check.get_related_checks([unit.pk])
+                ]
+                self.assertTrue(expected_links)
+                with self.assertNumQueries(1):
+                    description = self.check.get_description(check)
+                for url in expected_links:
+                    self.assertIn(url, description)
+
+    def test_description_without_related_checks(self) -> None:
+        unit = self.get_unit(
+            source="Try Weblate at <https://demo.weblate.org/>!\n", language="en"
+        )
+        self.check.get_related_checks([unit.pk]).delete()
+        with self.assertNumQueries(1):
+            description = self.check.get_description(Check(unit=unit))
+        self.assertEqual(description, self.check.description)
 
     def test_multiple_failures(self) -> None:
         # Create multiple units with the same source to trigger the "same" check
