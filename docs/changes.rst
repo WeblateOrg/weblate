@@ -12,6 +12,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Bounded :ref:`JSON webhook response bodies and headers <webhook-response-limits>` to limit worker memory use and activity-log growth.
 * Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
 * :ref:`Component creation <adding-components>` loads remote branches only for the selected component, avoiding repository queries when opening the page.
 

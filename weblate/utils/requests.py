@@ -877,6 +877,31 @@ def _open_url(
 
 
 @contextmanager
+def open_validated_url(
+    method: str,
+    url: str,
+    *,
+    raise_for_status: bool = True,
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
+    **kwargs,
+) -> Generator[httpx2.Response, None, None]:
+    """Open a validated response without buffering its body."""
+    with _open_url(
+        method,
+        url,
+        validators=RuntimeRedirectValidators(
+            allow_private_targets=allow_private_targets,
+            private_allowlist=private_allowlist,
+        ),
+        **kwargs,
+    ) as response:
+        if raise_for_status:
+            response.raise_for_status()
+        yield response
+
+
+@contextmanager
 def open_restricted_asset_url(
     method: str,
     url: str,
