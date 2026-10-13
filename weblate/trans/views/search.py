@@ -99,7 +99,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
     elif not request.user.has_perm("unit.edit", obj):
         raise PermissionDenied
 
-    form = ReplaceForm(obj=obj, data=request.POST)
+    form = ReplaceForm(obj=obj, data=request.POST, user=request.user)
 
     if not form.is_valid():
         messages.error(request, gettext("Could not process form!"))

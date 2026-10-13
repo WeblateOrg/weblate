@@ -8,8 +8,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from crispy_forms.utils import render_crispy_form
 from django.urls import reverse
 
+from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm, ReplaceForm
 from weblate.trans.models import Project, SavedSearch
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -295,3 +297,28 @@ class SavedSearchDropdownTest(SavedSearchTestCase):
         response = self.client.get(reverse("search", kwargs=self.kw_project_path))
         self.assertContains(response, "Project filter")
         self.assertNotContains(response, "data-save-search")
+
+    def test_operation_forms(self) -> None:
+        self.create_project_search(name="Project filter")
+        self.create_user_search(name="Personal filter")
+        forms = {
+            "download": DownloadForm(self.translation, user=self.user),
+            "replace": ReplaceForm(self.translation, user=self.user),
+            "auto": AutoForm(self.component, user=self.user),
+            "bulk": BulkEditForm(self.user, self.translation, project=self.project),
+        }
+        for name, form in forms.items():
+            with self.subTest(form=name):
+                html = render_crispy_form(form)
+                self.assertIn("Project filter", html)
+                self.assertIn("Personal filter", html)
+                self.assertNotIn("data-save-search", html)
+
+    def test_operation_forms_without_user(self) -> None:
+        self.create_project_search(name="Project filter")
+        self.create_user_search(name="Personal filter")
+        html = render_crispy_form(
+            BulkEditForm(None, self.component, project=self.project)
+        )
+        self.assertIn("Project filter", html)
+        self.assertNotIn("Personal filter", html)

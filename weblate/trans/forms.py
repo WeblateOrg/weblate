@@ -891,7 +891,9 @@ class DownloadForm(forms.Form):
         widget=forms.RadioSelect,
     )
 
-    def __init__(self, translation: Translation, *args, **kwargs) -> None:
+    def __init__(
+        self, translation: Translation, *args, user: User | None = None, **kwargs
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.fields["format"].choices = [
             (x.name, x.verbose) for x in EXPORTERS.values() if x.supports(translation)
@@ -899,7 +901,7 @@ class DownloadForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"),
+            SearchField("q", user=user, project=get_saved_search_project(translation)),
             InlineRadios("format"),
         )
 
@@ -1082,7 +1084,6 @@ class SearchForm(forms.Form):
     ) -> None:
         """Generate choices for other components in the same project."""
         self.user = request.user
-        self.saved_search_project = get_saved_search_project(obj)
         self.language = language
         sort_by = get_sort_name(request, obj, query_data=query_data)
         self.sort_name = sort_by["name"]
@@ -1095,7 +1096,12 @@ class SearchForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
-                SearchField("q"),
+                SearchField(
+                    "q",
+                    user=self.user,
+                    project=get_saved_search_project(obj),
+                    allow_save=True,
+                ),
                 Field("sort_by", template="snippets/sort-field.html"),
                 css_class="btn-toolbar",
                 role="toolbar",
@@ -1432,7 +1438,7 @@ class AutoForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("mode"),
-            SearchField("q"),
+            SearchField("q", user=user, project=self.project),
             InlineRadios("auto_source"),
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),
@@ -4176,13 +4182,18 @@ class ReplaceForm(forms.Form):
         strip=False,
     )
 
-    def __init__(self, obj: URLPathObject, data: dict | None = None) -> None:
+    def __init__(
+        self,
+        obj: URLPathObject,
+        data: dict | None = None,
+        user: User | None = None,
+    ) -> None:
         path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
         super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"),
+            SearchField("q", user=user, project=get_saved_search_project(obj)),
             Field("path"),
             Field("search"),
             Field("replacement"),
@@ -4622,7 +4633,7 @@ class BulkEditForm(forms.Form):
         else:
             self.helper.layout = Layout(
                 Div(template="snippets/bulk-help.html"),
-                SearchField("q"),
+                SearchField("q", user=user, project=get_saved_search_project(obj)),
                 Field("path"),
                 Field("state"),
                 Field("add_flags"),

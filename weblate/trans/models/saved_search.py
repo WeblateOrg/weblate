@@ -65,7 +65,6 @@ class SavedSearch(models.Model):
             ),
             models.UniqueConstraint(
                 fields=["project", "name"],
-                condition=Q(user__isnull=True),
                 name="trans_saved_search_project_name",
                 violation_error_message=gettext_lazy(
                     "A saved search with this name already exists."
@@ -73,7 +72,6 @@ class SavedSearch(models.Model):
             ),
             models.UniqueConstraint(
                 fields=["user", "name"],
-                condition=Q(project__isnull=True),
                 name="trans_saved_search_user_name",
                 violation_error_message=gettext_lazy(
                     "A saved search with this name already exists."

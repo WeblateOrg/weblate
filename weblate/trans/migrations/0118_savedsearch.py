@@ -81,13 +81,11 @@ class Migration(migrations.Migration):
                         name="trans_saved_search_single_scope",
                     ),
                     models.UniqueConstraint(
-                        condition=models.Q(("user__isnull", True)),
                         fields=("project", "name"),
                         name="trans_saved_search_project_name",
                         violation_error_message="A saved search with this name already exists.",
                     ),
                     models.UniqueConstraint(
-                        condition=models.Q(("project__isnull", True)),
                         fields=("user", "name"),
                         name="trans_saved_search_user_name",
                         violation_error_message="A saved search with this name already exists.",

@@ -286,9 +286,19 @@ class InheritedSetting(LayoutObject):
 
 
 class SearchField(Field):
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(
+        self,
+        *args,
+        user: User | None = None,
+        project: Project | None = None,
+        allow_save: bool = False,
+        **kwargs,
+    ) -> None:
         kwargs["template"] = "snippets/query-field.html"
         super().__init__(*args, **kwargs)
+        self.user = user if user is not None and user.is_authenticated else None
+        self.project = project
+        self.allow_save = allow_save
 
     def render(
         self, form, context, template_pack=TEMPLATE_PACK, extra_context=None, **kwargs
@@ -297,28 +307,24 @@ class SearchField(Field):
             raise TypeError
         extra_context = {
             "custom_filter_list": self.get_search_query_choices(form),
-            "saved_filter_lists": self.get_saved_search_choices(form),
-            "saved_search_project": getattr(form, "saved_search_project", None),
-            "can_save_search": getattr(form, "user", None) is not None
-            and form.user.is_authenticated,
+            "saved_filter_lists": self.get_saved_search_choices(),
+            "saved_search_project": self.project,
+            "can_save_search": self.allow_save and self.user is not None,
         }
         return super().render(form, context, template_pack, extra_context, **kwargs)
 
     def get_saved_search_choices(
-        self, form
+        self,
     ) -> list[tuple[StrOrPromise, list[tuple[str, str, str, str]]]]:
         """Return saved searches grouped by scope for the query dropdown."""
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import SavedSearch
 
-        project: Project | None = getattr(form, "saved_search_project", None)
-        user: User | None = getattr(form, "user", None)
-
         scope = Q()
-        if project is not None:
-            scope |= Q(project=project)
-        if user is not None and user.is_authenticated:
-            scope |= Q(user=user)
+        if self.project is not None:
+            scope |= Q(project=self.project)
+        if self.user is not None:
+            scope |= Q(user=self.user)
         if not scope:
             return []
 

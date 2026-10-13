@@ -356,7 +356,9 @@ def show_project_language(
             "delete_form": optional_form(
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "autoform": optional_form(
                 AutoForm,
                 user,
@@ -441,7 +443,9 @@ def show_category_language(
             "delete_form": optional_form(
                 CategoryLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -550,7 +554,9 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "move_form": ProjectMoveForm(request, instance=obj)
             if can_offer_project_move(user, obj)
             else None,
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -643,7 +649,9 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
                 request=request,
                 instance=obj,
             ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "autoform": optional_form(
                 AutoForm,
                 user,
@@ -733,7 +741,9 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
                 else {}
             ),
             "last_changes": last_changes,
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -881,7 +891,7 @@ def show_translation(
                 component.file_format_cls.supports_adding_plural_units()
             ),
             "form": form,
-            "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
+            "download_form": DownloadForm(obj, auto_id="id_dl_%s", user=user),
             "autoform": optional_form(
                 AutoForm,
                 user,
@@ -891,7 +901,9 @@ def show_translation(
                 user=user,
             ),
             "search_form": search_form,
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "replace_form": optional_form(
+                ReplaceForm, user, "unit.edit", obj, obj=obj, user=user
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
