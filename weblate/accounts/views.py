@@ -119,11 +119,13 @@ from weblate.accounts.forms import (
     SubscriptionForm,
     TOTPDeviceForm,
     TOTPTokenForm,
+    UserDataImportForm,
     UserForm,
     UserSearchForm,
     UserSettingsForm,
     WebAuthnTokenForm,
 )
+from weblate.accounts.import_data import import_user_settings
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notification_debug import (
     NOTIFICATION_DETAIL_LIMIT,
@@ -522,6 +524,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
+            "userdata_import_form": UserDataImportForm(),
             "user_groups": user.groups.select_related(
                 "defining_project", "defining_workspace"
             )
@@ -1620,6 +1623,37 @@ def userdata(request: AuthenticatedHttpRequest):
         as_attachment=True, filename="weblate.json"
     )
     return response
+
+
+@require_POST
+@login_required
+@session_ratelimit_post("userdata")
+def import_userdata(request: AuthenticatedHttpRequest):
+    form = UserDataImportForm(request.POST, request.FILES)
+    if not form.is_valid():
+        messages.error(
+            request,
+            " ".join(str(error) for errors in form.errors.values() for error in errors),
+        )
+        return redirect_profile("#account")
+    skipped = import_user_settings(
+        request.user,
+        form.userdata_data,
+        request=request,
+        notifications=form.cleaned_data["notifications"],
+        commit_identity=form.cleaned_data["commit_identity"],
+    )
+    if skipped:
+        summary = ", ".join(skipped[:20])
+        if len(skipped) > 20:
+            summary += gettext(" and %s more") % (len(skipped) - 20)
+        messages.warning(
+            request,
+            gettext("Some settings could not be imported: %s") % summary,
+        )
+    else:
+        messages.success(request, gettext("Your settings have been imported."))
+    return redirect_profile("#account")
 
 
 @require_POST

@@ -83,6 +83,11 @@ urlpatterns = [
     path("logout/", weblate.accounts.views.WeblateLogoutView.as_view(), name="logout"),
     path("profile/", weblate.accounts.views.user_profile, name="profile"),
     path("userdata/", weblate.accounts.views.userdata, name="userdata"),
+    path(
+        "userdata/import/",
+        weblate.accounts.views.import_userdata,
+        name="import-userdata",
+    ),
     path("unsubscribe/", weblate.accounts.views.unsubscribe, name="unsubscribe"),
     path("subscribe/", weblate.accounts.views.subscribe, name="subscribe"),
     path("watch/<object_path:path>/", weblate.accounts.views.watch, name="watch"),

@@ -379,18 +379,57 @@
         <div class="row">
 
           <div class="col-sm-6">
-            <div class="card">
+            <div class="card mb-3">
               <div class="card-header">
-                <h4 class="card-title">{% translate "User data" %}</h4>
+                <h4 class="card-title">{% translate "Download user data" %}</h4>
               </div>
               <div class="card-body">
-
                 <p>{% translate "You can download all your private data." %}</p>
               </div>
               <div class="card-footer">
                 <a href=""
                    class="btn btn-primary link-post"
                    data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Import settings" %}</h4>
+              </div>
+              <div class="card-body">
+                <p>{% translate "Import settings from a user data file downloaded from another Weblate server. Your contribution history and account identifiers are not imported." %}</p>
+                <label for="userdata-import-file" class="form-label">{{ userdata_import_form.file.label }}</label>
+                <input type="file"
+                       id="userdata-import-file"
+                       name="file"
+                       accept="application/json,.json"
+                       class="form-control"
+                       form="userdata-import"
+                       required />
+                <div class="form-check mt-2">
+                  <input type="checkbox"
+                         id="userdata-import-notifications"
+                         name="notifications"
+                         class="form-check-input"
+                         form="userdata-import" />
+                  <label for="userdata-import-notifications"
+                         class="form-check-label">{{ userdata_import_form.notifications.label }}</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox"
+                         id="userdata-import-commit-identity"
+                         name="commit_identity"
+                         class="form-check-input"
+                         form="userdata-import" />
+                  <label for="userdata-import-commit-identity"
+                         class="form-check-label">{{ userdata_import_form.commit_identity.label }}</label>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit"
+                        class="btn btn-primary"
+                        form="userdata-import">{% translate "Import settings" %}</button>
               </div>
             </div>
           </div>
@@ -705,6 +744,12 @@ wlc \
     </div>
 
 
+  </form>
+  <form method="post"
+        action="{% url 'import-userdata' %}"
+        enctype="multipart/form-data"
+        id="userdata-import">
+    {% csrf_token %}
   </form>
   <form method="post" action="" id="disconnect-form">
     {% csrf_token %}
