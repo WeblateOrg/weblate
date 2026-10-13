@@ -10350,6 +10350,8 @@ class WebhookDeliveryTest(SimpleTestCase):
         cases: tuple[tuple[bytes, list[tuple[str, str]], str | None], ...] = (
             (b"", [], None),
             (b"hello", [], None),
+            (b"hello", [("Content-Encoding", "identity")], None),
+            (b"hello", [("Content-Encoding", " IDENTITY ")], None),
             (b"x" * MAX_WEBHOOK_RESPONSE_BODY, [], None),
             (b"x" * (MAX_WEBHOOK_RESPONSE_BODY + 1), [], "body exceeds 1 MiB"),
             ("é".encode() * (MAX_WEBHOOK_RESPONSE_BODY // 2), [], None),
@@ -10382,12 +10384,12 @@ class WebhookDeliveryTest(SimpleTestCase):
             (
                 gzip.compress(b"hello"),
                 [("Content-Encoding", "gzip")],
-                None,
+                "encoded response bodies are not supported",
             ),
             (
                 gzip.compress(b"x" * (MAX_WEBHOOK_RESPONSE_BODY * 10)),
                 [("Content-Encoding", "gzip")],
-                "body exceeds 1 MiB",
+                "encoded response bodies are not supported",
             ),
             (
                 "café".encode("iso-8859-1"),
@@ -10414,7 +10416,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                     if error:
                         with self.assertRaisesMessage(MessageNotDeliveredError, error):
                             addon.send_message(MagicMock(spec=Change), {}, {})
-                        if "headers" in error:
+                        if "headers" in error or "encoded" in error:
                             stream.__iter__.assert_not_called()
                     else:
                         result = addon.send_message(MagicMock(spec=Change), {}, {})
@@ -10423,6 +10425,60 @@ class WebhookDeliveryTest(SimpleTestCase):
                         self.assertEqual(result["status_code"], 400)
                         self.assertEqual(result["headers"], dict(response.headers))
                     stream.close.assert_called_once()
+
+    @http_mock.activate
+    def test_encoded_response_is_rejected_before_decoding(self) -> None:
+        storage = MagicMock()
+        storage.configuration = {"webhook_url": "https://example.com/webhooks"}
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for encoding in (
+                "gzip",
+                "gzip, gzip",
+                "identity, gzip",
+                "gzip, identity",
+                "deflate",
+                "br",
+                "zstd",
+                "unknown",
+                "",
+            ):
+                with self.subTest(addon=addon_class.name, encoding=encoding):
+                    http_mock.reset()
+                    stream = MagicMock(spec=httpx2.SyncByteStream)
+                    stream.__iter__.side_effect = AssertionError("Body was consumed")
+                    response = httpx2.Response(
+                        200,
+                        headers={"Content-Encoding": encoding},
+                        stream=stream,
+                    )
+                    http_mock.register_callback(
+                        "POST",
+                        storage.configuration["webhook_url"],
+                        callback=MagicMock(return_value=response),
+                    )
+                    headers = {"accept-encoding": "gzip"}
+                    with (
+                        patch.object(
+                            response,
+                            "iter_bytes",
+                            side_effect=AssertionError("Decoder was invoked"),
+                        ) as decoder,
+                        self.assertRaisesMessage(
+                            MessageNotDeliveredError,
+                            "encoded response bodies are not supported",
+                        ),
+                    ):
+                        addon_class(storage).send_message(
+                            MagicMock(spec=Change), headers, {}
+                        )
+                    decoder.assert_not_called()
+                    stream.__iter__.assert_not_called()
+                    stream.close.assert_called_once()
+                    self.assertEqual(
+                        http_mock.calls[0].request.headers["Accept-Encoding"],
+                        "identity",
+                    )
+                    self.assertEqual(headers, {"accept-encoding": "gzip"})
 
     @http_mock.activate
     def test_oversized_response_stops_reading(self) -> None:

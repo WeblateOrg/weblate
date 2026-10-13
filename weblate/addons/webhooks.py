@@ -74,6 +74,14 @@ def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
         msg = "Unable to deliver webhook: response headers exceed 64 KiB."
         raise MessageNotDeliveredError(msg)
 
+    # Reject compression before HTTPX can allocate decoded response data.
+    if (
+        response.headers.get("Content-Encoding", "identity").strip().lower()
+        != "identity"
+    ):
+        msg = "Unable to deliver webhook: encoded response bodies are not supported."
+        raise MessageNotDeliveredError(msg)
+
     content = bytearray()
     for chunk in response.iter_bytes():
         if len(content) + len(chunk) > MAX_WEBHOOK_RESPONSE_BODY:
@@ -81,8 +89,7 @@ def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
             raise MessageNotDeliveredError(msg)
         content.extend(chunk)
 
-    # The body has already been decompressed. Retain charset handling
-    # without applying the original Content-Encoding a second time.
+    # Retain HTTPX's charset handling for the bounded response body.
     decoded = httpx2.Response(
         response.status_code,
         content=bytes(content),
@@ -114,12 +121,14 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
     def send_message(
         self, change: Change, headers: dict, payload: PayloadType
     ) -> WebhookResponse:
+        request_headers = httpx2.Headers(headers)
+        request_headers["Accept-Encoding"] = "identity"
         try:
             with open_validated_url(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,
-                headers=headers,
+                headers=request_headers,
                 timeout=15,
                 raise_for_status=False,
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
