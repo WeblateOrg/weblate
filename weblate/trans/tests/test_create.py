@@ -1103,6 +1103,89 @@ class CreateTest(ViewTestCase):
         self.assertEqual(change.details["origin"], "vcs")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_existing_requires_edit_permission(self) -> None:
+        self.user.groups.clear()
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        destination_component = self.create_po(
+            project=destination, name="Destination source"
+        )
+        credentialed_repo = "https://user:password@example.com/repository.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=credentialed_repo)
+        self.component.refresh_from_db()
+
+        self.assertTrue(
+            Component.objects.filter_access(self.user).contains(self.component)
+        )
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+
+        url = f"{reverse('create-component')}?component={self.component.pk}"
+        response = self.client.post(
+            url,
+            {
+                "origin": "existing",
+                "name": "Unauthorized duplicate",
+                "slug": "unauthorized-duplicate",
+                "component": self.component.pk,
+                "is_glossary": False,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("component", response.context["form"].errors)
+        self.assertNotContains(response, credentialed_repo)
+        self.assertNotIn(SESSION_CREATE_KEY, self.client.session)
+
+        response = self.client_create_component(
+            False,
+            project=destination.pk,
+            repo=destination_component.get_repo_link_url(),
+            branch="",
+            source_component=self.component.pk,
+        )
+        form = response.context["form"]
+        self.assertNotIn("source_component", form.errors)
+        self.assertIn("Select a valid choice.", " ".join(form.non_field_errors()))
+        self.assertFalse(Component.objects.filter(slug="create-component").exists())
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_existing_preserves_repository_owner_link(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        linked_component = self.create_link_existing()
+
+        response = self.client.post(
+            f"{reverse('create-component')}?component={linked_component.pk}",
+            {
+                "origin": "existing",
+                "name": "Duplicate linked component",
+                "slug": "duplicate-linked-component",
+                "component": linked_component.pk,
+                "is_glossary": False,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1",
+            fetch_redirect_response=False,
+        )
+        session_data = self.client.session[SESSION_CREATE_KEY]
+        self.assertEqual(session_data["repo"], self.component.get_repo_link_url())
+        self.assertEqual(session_data["branch"], "")
+
+        url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
+        with patch("weblate.trans.forms.discover", return_value=[]):
+            response = self.client.get(url)
+
+        form = response.context["form"]
+        self.assertEqual(form.errors, {})
+        self.assertEqual(response.context["stage"], "discover")
+        self.assertEqual(form.initial["repo"], self.component.get_repo_link_url())
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_existing_preserves_github_app_vcs(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -1128,7 +1211,8 @@ class CreateTest(ViewTestCase):
         )
         session_data = self.client.session[SESSION_CREATE_KEY]
         self.assertEqual(session_data["vcs"], "github-app")
-        self.assertEqual(session_data["branch"], self.component.branch)
+        self.assertEqual(session_data["repo"], self.component.get_repo_link_url())
+        self.assertEqual(session_data["branch"], "")
         self.assertEqual(session_data[INTEGRATION_IMPORT_VCS_KEY], "github-app")
 
     def make_github_app_component(self) -> str:
