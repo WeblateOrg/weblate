@@ -1715,7 +1715,7 @@ database and do not need environment variables. See
 
 .. _docker-machine:
 
-Translation service settings
+Translation services settings
 ++++++++++++++++++++++++++++
 
 .. versionchanged:: 4.13
