@@ -837,6 +837,52 @@
           }
         }
       }
+    },
+    "saved_searches": {
+      "$id": "#root/saved_searches",
+      "title": "Project saved searches",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$id": "#root/saved_searches/items",
+        "title": "Items",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "query",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "$id": "#root/saved_searches/items/name",
+            "title": "Saved search name",
+            "type": "string",
+            "maxLength": 190,
+            "examples": [
+              "Important"
+            ]
+          },
+          "query": {
+            "$id": "#root/saved_searches/items/query",
+            "title": "Search query",
+            "type": "string",
+            "examples": [
+              "priority:>100"
+            ]
+          },
+          "description": {
+            "$id": "#root/saved_searches/items/description",
+            "title": "Search description",
+            "type": "string",
+            "maxLength": 250,
+            "default": "",
+            "examples": [
+              "Translate first"
+            ]
+          }
+        }
+      }
     }
   }
 }
