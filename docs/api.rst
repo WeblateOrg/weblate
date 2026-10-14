@@ -1661,7 +1661,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/saved-searches/
 
-   .. versionadded:: 2026.10.1
+   .. versionadded:: 2026.11
 
     Returns :ref:`saved searches <saved-searches>` for a project.
 
@@ -1674,7 +1674,7 @@ Projects
 
 .. http:post:: /api/projects/(string:project)/saved-searches/
 
-   .. versionadded:: 2026.10.1
+   .. versionadded:: 2026.11
 
     Creates a saved search for a project.
 
@@ -1686,7 +1686,7 @@ Projects
 
 .. http:delete:: /api/projects/(string:project)/saved-searches/(int:saved_search_id)/
 
-   .. versionadded:: 2026.10.1
+   .. versionadded:: 2026.11
 
     Deletes a saved search from a project.
 

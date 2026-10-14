@@ -304,7 +304,7 @@ You can select out of predefined queries on the search page, this allows you to 
 Saved searches
 --------------
 
-.. versionadded:: 2026.10.1
+.. versionadded:: 2026.11
 
 Frequently used queries can be saved and are then offered in the :guilabel:`Filters` menu next to the predefined queries.
 
