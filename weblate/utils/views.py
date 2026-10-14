@@ -26,6 +26,7 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseRedirect,
+    StreamingHttpResponse,
 )
 from django.shortcuts import aget_object_or_404, get_object_or_404
 from django.utils.cache import get_conditional_response
@@ -805,17 +806,25 @@ def _is_download_path(
 
 
 def iter_files(
-    filenames: list[str], root: str, allowed_roots: list[str] | None = None
+    filenames: list[str],
+    root: str,
+    allowed_roots: list[str] | None = None,
+    *,
+    refresh_lock: Callable[[], None] | None = None,
 ) -> Generator[str]:
     prepared_allowed_roots = _get_allowed_roots(root, allowed_roots)
     if not prepared_allowed_roots:
         return
 
     for filename in filenames:
+        if refresh_lock is not None:
+            refresh_lock()
         if not _is_download_path(filename, root, prepared_allowed_roots):
             continue
         if os.path.isdir(filename):
             for current_root, dirs, files in os.walk(filename):
+                if refresh_lock is not None:
+                    refresh_lock()
                 dirs[:] = [
                     name
                     for name in dirs
@@ -875,7 +884,12 @@ def write_zip_files(
     else:
         refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
 
-    for filename in iter_files(filenames, root, allowed_roots):
+    for filename in iter_files(
+        filenames,
+        root,
+        allowed_roots,
+        refresh_lock=refresh_repository_lock,
+    ):
         try:
             archive_path = os.path.relpath(filename, root)
             if refresh_repository_lock is None:
@@ -960,8 +974,15 @@ def _snapshot_file_response(
         raise
 
 
+def _head_file_response(filename: str, content_type: str) -> StreamingHttpResponse:
+    """Create file download headers without reading the response body."""
+    response = StreamingHttpResponse((), content_type=content_type)
+    response["Content-Length"] = os.path.getsize(filename)
+    return response
+
+
 def _download_translation_file_locked(
-    translation: Translation,
+    translation: Translation, *, head: bool = False
 ) -> tuple[HttpResponseBase, str]:
     repository = translation.component.effective_repo_component.repository
     with repository.lock:
@@ -983,13 +1004,17 @@ def _download_translation_file_locked(
             if not os.path.exists(filename):
                 msg = "File not found"
                 raise Http404(msg)
-            # Materialize the response while holding the lock. An open checkout
-            # file can still change when rewritten in place.
-            response = _snapshot_file_response(
-                filename,
-                translation.component.file_format_cls.mimetype(),
-                repository.lock.reacquire,
-            )
+            content_type = translation.component.file_format_cls.mimetype()
+            if head:
+                response = _head_file_response(filename, content_type)
+            else:
+                # Materialize the response while holding the lock. An open checkout
+                # file can still change when rewritten in place.
+                response = _snapshot_file_response(
+                    filename,
+                    content_type,
+                    repository.lock.reacquire,
+                )
         else:
             extension = ".zip"
             root = translation.get_filename()
@@ -1046,7 +1071,9 @@ def download_translation_file(
         exporter.add_units(units)
         response = exporter.get_response()
     else:
-        response, extension = _download_translation_file_locked(translation)
+        response, extension = _download_translation_file_locked(
+            translation, head=request.method == "HEAD"
+        )
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)

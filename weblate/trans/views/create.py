@@ -451,7 +451,10 @@ class CreateComponent(BaseCreateView):
             components = Component.objects.filter_access(self.request.user).filter(
                 pk=self.duplicate_existing_component
             )
-            if components.exists():
+            source_component = components.first()
+            if source_component is not None and self.request.user.has_perm(
+                "component.edit", source_component
+            ):
                 form.fields["source_component"].queryset = components
                 form.initial["source_component"] = self.duplicate_existing_component
         return form
@@ -794,9 +797,14 @@ class CreateComponentSelection(CreateComponent):
             if self.duplicate_existing_component and not isinstance(
                 form, ComponentBranchForm
             ):
-                components |= Component.objects.filter_access(self.request.user).filter(
-                    pk=self.duplicate_existing_component
-                )
+                duplicate_components = Component.objects.filter_access(
+                    self.request.user
+                ).filter(pk=self.duplicate_existing_component)
+                duplicate_component = duplicate_components.first()
+                if duplicate_component is not None and self.request.user.has_perm(
+                    "component.edit", duplicate_component
+                ):
+                    components |= duplicate_components
             form.fields["component"].queryset = components
         return form
 
@@ -833,8 +841,12 @@ class CreateComponentSelection(CreateComponent):
         component = form.cleaned_data["component"]
         if self.origin == "existing":
             kwargs = {
-                "repo": component.repo or component.get_repo_link_url(),
-                "branch": component.branch,
+                "repo": (
+                    component.repo
+                    if component.is_repo_link
+                    else component.get_repo_link_url()
+                ),
+                "branch": "",
                 "project": component.project.pk,
                 "category": component.category.pk if component.category else "",
                 "name": form.cleaned_data["name"],

@@ -1073,7 +1073,10 @@ class BackupsTest(ReusableViewTestCase):
             file_info = backupzip.getinfo("vcs/test/file")
             self.assertEqual(file_info.compress_type, ZIP_DEFLATED)
             # ruff: ignore[private-member-access]
-            self.assertEqual(file_info._compresslevel, backupzip.compresslevel)
+            self.assertEqual(
+                file_info._compresslevel,  # type: ignore[attr-defined]
+                backupzip.compresslevel,
+            )
 
         refresh_lock.assert_called_once_with()
 

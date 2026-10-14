@@ -209,7 +209,7 @@ class ListMachineryView(TemplateView):
         self.workspace = None
         self.post_setup(request, kwargs)
         self.configured_services = sorted(
-            self.get_configured_services(), key=lambda obj: obj.name
+            self.get_configured_services(), key=lambda obj: obj.name.casefold()
         )
         self.available_services = sorted(
             (
@@ -222,7 +222,7 @@ class ListMachineryView(TemplateView):
                 )
                 for obj in MACHINERY.values()
             ),
-            key=lambda obj: obj.name,
+            key=lambda obj: obj.name.casefold(),
         )
 
     @cached_property

@@ -1329,7 +1329,7 @@ class AutoForm(forms.Form):
                 for selector in machinery_settings
                 if selector.partition(":")[0] in MACHINERY
             ),
-            key=lambda item: (item[1].name, item[0]),
+            key=lambda item: (item[1].name.casefold(), item[0]),
         )
         choices = [
             (selector, f"{engine.name} ({selector})") for selector, engine in engines

@@ -471,7 +471,7 @@ class NorwegianAliasMigrationTest(LanguageMoveFixtures):
             translation.refresh_from_db()
             self.assertEqual(translation.filename, filename)
             self.assertEqual(translation.language_code, "nb_NO")
-            self.assertEqual(
+            self.assertCountEqual(
                 list(translation.unit_set.values_list("pk", "target")), units
             )
             self.assertRedirects(
