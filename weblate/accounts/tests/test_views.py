@@ -51,7 +51,7 @@ from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category
+from weblate.trans.models import Category, SavedSearch
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
@@ -1525,6 +1525,48 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.profile.editor_link, "")
         self.assertTrue(self.user.profile.languages.filter(code="cs").exists())
         self.assertTrue(self.user.profile.watched.filter(pk=self.project.pk).exists())
+
+    def test_userdata_saved_searches(self) -> None:
+        SavedSearch.objects.create(
+            user=self.user, name="Personal", query="has:comment", description="Mine"
+        )
+        SavedSearch.objects.create(
+            project=self.project, name="Project", query="priority:>100"
+        )
+        data = self.user.profile.dump_data()
+        self.assertEqual(
+            data["saved_searches"],
+            [{"name": "Personal", "query": "has:comment", "description": "Mine"}],
+        )
+
+        data["saved_searches"] = [
+            {"name": "Personal", "query": "has:check", "description": ""},
+            {"name": "New", "query": "state:<translated", "description": ""},
+            {"name": "Broken", "query": "invalidfield:x", "description": ""},
+            {"name": "x" * 191, "query": "has:check", "description": ""},
+        ]
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                )
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Saved search: Broken")
+        self.assertEqual(
+            set(
+                SavedSearch.objects.filter(user=self.user).values_list(
+                    "name", "query", "description"
+                )
+            ),
+            {("Personal", "has:check", ""), ("New", "state:<translated", "")},
+        )
+        # Project searches are not touched
+        self.assertTrue(
+            SavedSearch.objects.filter(project=self.project, name="Project").exists()
+        )
 
     def test_import_userdata_rejects_invalid_file(self) -> None:
         original_theme = self.user.profile.theme

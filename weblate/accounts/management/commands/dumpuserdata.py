@@ -32,6 +32,7 @@ class Command(BaseCommand):
                 "watched",
                 "languages",
                 "secondary_languages",
+                "user__savedsearch_set",
                 Prefetch(
                     "user__subscription_set",
                     queryset=Subscription.objects.select_related(

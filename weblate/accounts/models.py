@@ -1379,6 +1379,12 @@ class Profile(models.Model):
             }
             for subscription in subscriptions
         ]
+        result["saved_searches"] = [
+            dump_object(search, "name", "query", "description")
+            for search in sorted(
+                self.user.savedsearch_set.all(), key=lambda search: search.name
+            )
+        ]
         return result
 
     @cached_property

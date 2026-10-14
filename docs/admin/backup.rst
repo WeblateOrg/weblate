@@ -28,8 +28,8 @@ The backup can be restored when creating a project (see
    Project backups can also be created, listed, and downloaded through the
    :ref:`api` since version 2026.7;
 
-The backups include project-scoped teams and their memberships, but do not
-include history.
+The backups include project-scoped teams and their memberships, and project
+:ref:`saved-searches`, but do not include history.
 
 When restoring backups with duplicate team names, all teams are preserved.
 Additional teams with the same name receive a numeric suffix, and the import
