@@ -11,7 +11,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0117_change_addon_redact_automation_workflow"),
+        ("trans", "0118_remove_project_machinery_settings"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

@@ -9,6 +9,7 @@ Weblate 2026.11
 * User settings can be imported from a :ref:`user data export <schema-userdata>` on the account page.
 * Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
 * Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
+* Added personal and project :ref:`saved-searches` offered in the search filters.
 
 .. rubric:: Improvements
 
@@ -51,7 +52,6 @@ Weblate 2026.10.1
 .. rubric:: New features
 
 * Added opt-in :ref:`team synchronization from identity providers <sso-team-sync>`, including GitLab group mapping and group-based login restrictions.
-* Added personal and project :ref:`saved-searches` offered in the search filters.
 * Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` settings for new users.
 * Added :ref:`component-push_on_update` to push only after committing translations, not after upstream updates.
 
