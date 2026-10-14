@@ -40,6 +40,7 @@ class SettingsDict(TypedDict, total=False):
     password: str
     enable_mt: bool
     domain: str
+    component_domains: dict[str, str]
     base_url: str
     endpoint_url: str
     region: str
@@ -59,6 +60,8 @@ class SettingsDict(TypedDict, total=False):
     azure_endpoint: str
     source_language: SourceLanguageChoices
     _project: Project
+    _installation_id: int
+    _installation_slug: str
 
 
 class TranslationResultDict(TypedDict):

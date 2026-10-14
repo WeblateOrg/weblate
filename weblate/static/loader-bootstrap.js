@@ -1979,22 +1979,114 @@ onReady(() => {
   }
 
   /* Branch loading */
-  document
-    .querySelectorAll(".branch-loader select[name=component]")
-    .forEach((select) => {
-      select.addEventListener("change", () => {
-        const form = select.closest("form");
-        const branches = JSON.parse(form.dataset.branches);
-        const branchSelect = form.querySelector("select[name=branch]");
-        branchSelect.replaceChildren();
-        for (const value of branches[select.value] || []) {
+  document.querySelectorAll(".branch-loader").forEach((form) => {
+    const componentSelect = form.querySelector("select[name=component]");
+    const branchSelect = form.querySelector("select[name=branch]");
+    const submit = form.querySelector("input[type=submit]");
+    const status = form.querySelector(".branch-status");
+    const retry = form.querySelector(".branch-retry");
+    const pane = form.closest(".tab-pane");
+    let controller = null;
+    let requestNumber = 0;
+    let loadedComponent = null;
+    const reset = () => {
+      branchSelect.replaceChildren();
+      branchSelect.disabled = true;
+      submit.disabled = true;
+      retry.hidden = true;
+    };
+    const loadBranches = async () => {
+      controller?.abort();
+      controller = new AbortController();
+      const number = ++requestNumber;
+      const component = componentSelect.value;
+      const selectedBranch = branchSelect.value;
+      const retryHadFocus = document.activeElement === retry;
+      loadedComponent = null;
+      reset();
+      if (!component) {
+        form.removeAttribute("aria-busy");
+        status.textContent = gettext(
+          "Select a component to load repository branches.",
+        );
+        return;
+      }
+      status.textContent = gettext("Loading repository branches…");
+      form.setAttribute("aria-busy", "true");
+      try {
+        const data = new FormData();
+        data.set("component", component);
+        const project = form.querySelector("input[name=project]").value;
+        if (project && project !== "None") {
+          data.set("project", project);
+        }
+        data.set(
+          "csrfmiddlewaretoken",
+          form.querySelector("input[name=csrfmiddlewaretoken]").value,
+        );
+        const response = await fetch(form.dataset.branchesUrl, {
+          method: "POST",
+          body: data,
+          signal: controller.signal,
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        });
+        if (!response.ok) {
+          throw new Error("Branch lookup failed");
+        }
+        const result = await response.json();
+        if (number !== requestNumber) {
+          return;
+        }
+        for (const value of result.branches) {
           const option = document.createElement("option");
-          option.setAttribute("value", value);
+          option.value = value;
           option.textContent = value;
           branchSelect.appendChild(option);
         }
+        if (result.branches.includes(selectedBranch)) {
+          branchSelect.value = selectedBranch;
+        }
+        loadedComponent = component;
+        branchSelect.disabled = result.branches.length === 0;
+        submit.disabled = result.branches.length === 0;
+        status.textContent = result.branches.length
+          ? gettext("Repository branches loaded.")
+          : gettext("No additional repository branches are available.");
+        if (retryHadFocus) {
+          (result.branches.length ? branchSelect : componentSelect).focus();
+        }
+      } catch (error) {
+        if (number !== requestNumber || error.name === "AbortError") {
+          return;
+        }
+        status.textContent = gettext(
+          "Could not load repository branches. Please try again.",
+        );
+        retry.hidden = false;
+        if (retryHadFocus) {
+          retry.focus();
+        }
+      } finally {
+        if (number === requestNumber) {
+          form.removeAttribute("aria-busy");
+        }
+      }
+    };
+    branchSelect.disabled = true;
+    submit.disabled = true;
+    componentSelect.addEventListener("change", loadBranches);
+    retry.addEventListener("click", loadBranches);
+    document
+      .querySelector('[data-bs-target="#branch"]')
+      ?.addEventListener("shown.bs.tab", () => {
+        if (loadedComponent !== componentSelect.value) {
+          loadBranches();
+        }
       });
-    });
+    if (pane.classList.contains("active")) {
+      loadBranches();
+    }
+  });
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   const positionInputs = document.querySelectorAll(".position-input");
@@ -2838,7 +2930,7 @@ onReady(() => {
     }
   });
 
-  /* WebAuthn registration completion in profile */
+  /* WebAuthn registration completion */
   document.addEventListener("otp_webauthn.register_complete", (event) => {
     const id = event.detail.id;
     const deviceInput = document.querySelector(

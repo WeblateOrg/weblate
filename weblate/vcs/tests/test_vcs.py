@@ -474,6 +474,19 @@ class RepositoryTest(SimpleTestCase):
             "Could not determine the effective SSH destination: Invalid SSH configuration",
         )
 
+    def test_popen_interactive_timeout(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.base.subprocess.run",
+                side_effect=subprocess.TimeoutExpired(["git", "ls-remote"], 15),
+            ) as run,
+            self.assertRaises(RepositoryCommandError),
+        ):
+            # ruff: ignore[private-member-access]
+            GitRepository._popen(["ls-remote"], local=True, timeout=15)
+        self.assertEqual(run.call_args.kwargs["timeout"], 15)
+        run.assert_called_once()
+
     def test_popen_retry_does_not_duplicate_command(self) -> None:
         failed_process = subprocess.CompletedProcess(
             args=["git", "reset", "--hard"],
@@ -497,9 +510,12 @@ class RepositoryTest(SimpleTestCase):
             ) as run,
         ):
             # ruff: ignore[private-member-access]
-            GitRepository._popen(["reset", "--hard"], cwd=cwd)
+            GitRepository._popen(["reset", "--hard"], cwd=cwd, timeout=15)
 
         self.assertEqual(run.call_count, 2)
+        self.assertEqual(
+            [call.kwargs["timeout"] for call in run.call_args_list], [15, 15]
+        )
         self.assertEqual(
             [call.kwargs["args"] for call in run.call_args_list],
             [["git", "reset", "--hard"], ["git", "reset", "--hard"]],
@@ -1269,6 +1285,57 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
 
 
 class GitBranchValidationTest(SimpleTestCase):
+    def test_remote_branch_lookup_timeout(self) -> None:
+        repo = GitRepository(".", local=True)
+        with (
+            patch.object(GitRepository, "get_auth_args", return_value=[]),
+            patch.object(GitRepository, "get_auth_environment", return_value={}),
+            patch.object(
+                GitRepository, "execute", return_value="abc\trefs/heads/feature\n"
+            ) as execute,
+        ):
+            self.assertEqual(repo.list_remote_branches(timeout=15), ["feature"])
+        self.assertEqual(execute.call_args.kwargs["timeout"], 15)
+        self.assertEqual(execute.call_args.kwargs["remote_op"], "pull")
+        self.assertFalse(execute.call_args.kwargs["needs_lock"])
+        self.assertFalse(execute.call_args.kwargs["log_status"])
+
+    def test_remote_branch_failure_skips_checkout_status(self) -> None:
+        repo = GitRepository(".", local=True)
+        repo.local = False
+        error = RepositoryCommandError(1, "Remote lookup failed")
+        with (
+            patch.object(GitRepository, "get_auth_args", return_value=[]),
+            patch.object(GitRepository, "get_auth_environment", return_value={}),
+            patch.object(GitRepository, "validate_pull_url", return_value=None),
+            patch.object(GitRepository, "_popen", side_effect=error) as popen,
+            patch.object(GitRepository, "status") as status,
+            patch.object(GitRepository, "log") as log,
+            self.assertRaises(RepositoryCommandError) as raised,
+        ):
+            repo.list_remote_branches(timeout=15)
+        self.assertIs(raised.exception, error)
+        popen.assert_called_once()
+        self.assertEqual(popen.call_args.kwargs["timeout"], 15)
+        status.assert_not_called()
+        log.assert_called_once_with(f"failure {error}")
+
+    def test_other_command_failures_keep_checkout_status(self) -> None:
+        repo = GitRepository(".", local=True)
+        repo.local = False
+        error = RepositoryCommandError(1, "Command failed")
+        with (
+            patch.object(GitRepository, "_popen", side_effect=error),
+            patch.object(
+                GitRepository, "status", return_value="checkout status"
+            ) as status,
+            patch.object(GitRepository, "log") as log,
+            self.assertRaises(RepositoryCommandError),
+        ):
+            repo.execute(["diff"], remote_op="none", needs_lock=False)
+        status.assert_called_once_with()
+        self.assertEqual(log.call_count, 2)
+
     def test_empty_branch_in_constructor_uses_default(self) -> None:
         repo = GitRepository(".", branch="", local=True)
 

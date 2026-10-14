@@ -20,14 +20,11 @@ from django.db import models, transaction
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import (
-    OpenApiSerializerExtension,
     OpenApiSerializerFieldExtension,
 )
-from drf_spectacular.plumbing import build_basic_type, build_object_type
+from drf_spectacular.plumbing import build_basic_type
 from drf_spectacular.utils import (
-    OpenApiExample,
     extend_schema_field,
-    extend_schema_serializer,
 )
 from drf_standardized_errors.openapi_serializers import (
     ClientErrorEnum,
@@ -2032,6 +2029,16 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                 setattr(instance, key, value)
         else:
             instance = Project(**attrs)
+        if (
+            self.instance is not None
+            and instance.workspace_id != self.instance.workspace_id
+        ):
+            try:
+                instance.validate_machinery_workspace_change()
+            except DjangoValidationError as error:
+                raise serializers.ValidationError(
+                    {"workspace": error.messages}
+                ) from error
         instance.clean()
         return attrs
 
@@ -4797,66 +4804,10 @@ class TaskSerializer(ReadOnlySerializer):
     cancellable = serializers.BooleanField()
 
 
-@extend_schema_serializer(
-    examples=[
-        OpenApiExample(
-            "Service settings example",
-            value={
-                "service": "service_name",
-                "configuration": {"key": "xxxxx", "url": "https://api.service.com/"},
-            },
-        )
-    ]
-)
-class SingleServiceConfigSerializer(serializers.Serializer):
-    service = serializers.CharField()
-    configuration = serializers.DictField()
-
-
-@extend_schema_serializer(
-    examples=[
-        OpenApiExample(
-            "Service settings example",
-            value={
-                "service1": {"key": "XXXXXXX", "url": "https://api.service.com/"},
-                "service2": {"secret": "SECRET_KEY", "credentials": "XXXXXXX"},
-            },
-            request_only=False,
-            response_only=True,
-        )
-    ]
-)
-class ProjectMachinerySettingsSerializer(serializers.Serializer):
-    def to_representation(self, instance: Project):
-        return dict(instance.machinery_settings)
-
-
-class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
-    target_class = ProjectMachinerySettingsSerializer
-
-    def map_serializer(self, auto_schema: AutoSchema, direction):
-        return build_object_type(additionalProperties=build_basic_type(dict))
-
-
 class BackupSerializer(serializers.Serializer):
     name = serializers.CharField()
     timestamp = serializers.DateTimeField()
     size = serializers.IntegerField()
-
-
-class MessageResponseSerializer(serializers.Serializer):
-    message = serializers.CharField()
-
-
-def edit_service_settings_response_serializer(
-    _method: str, *codes
-) -> dict[int, serializers.Serializer]:
-    serializers_ = {
-        200: MessageResponseSerializer,
-        201: MessageResponseSerializer,
-        400: ErrorResponse400Serializer,
-    }
-    return {code: serializers_[code] for code in codes}
 
 
 class ErrorResponse400TypeEnum(models.TextChoices):

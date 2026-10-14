@@ -308,6 +308,78 @@
             ],
             "pattern": "^.*$"
           }
+        },
+        "website": {
+          "title": "Website URL",
+          "type": "string"
+        },
+        "contact": {
+          "title": "Contact URL",
+          "type": "string"
+        },
+        "liberapay": {
+          "title": "Liberapay username",
+          "type": "string"
+        },
+        "fediverse": {
+          "title": "Fediverse URL",
+          "type": "string"
+        },
+        "codesite": {
+          "title": "Code site URL",
+          "type": "string"
+        },
+        "github": {
+          "title": "GitHub username",
+          "type": "string"
+        },
+        "twitter": {
+          "title": "X username",
+          "type": "string"
+        },
+        "linkedin": {
+          "title": "LinkedIn profile name",
+          "type": "string"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "company": {
+          "title": "Company",
+          "type": "string"
+        },
+        "public_email": {
+          "title": "Public email",
+          "type": "string"
+        },
+        "commit_email": {
+          "title": "Commit email",
+          "type": "string"
+        },
+        "nearby_strings": {
+          "title": "Number of nearby strings",
+          "type": "integer"
+        },
+        "commit_name": {
+          "title": "Commit name choice",
+          "type": "integer"
+        },
+        "auto_watch": {
+          "title": "Automatically watch projects",
+          "type": "boolean"
+        },
+        "contribute_personal_tm": {
+          "title": "Contribute to personal translation memory",
+          "type": "boolean"
+        },
+        "commented": {
+          "title": "Number of commented strings",
+          "type": "integer"
+        },
+        "last_2fa": {
+          "title": "Last used two-factor method",
+          "type": "string"
         }
       }
     },
@@ -374,6 +446,51 @@
               "login"
             ],
             "pattern": "^.*$"
+          }
+        }
+      }
+    },
+    "notifications": {
+      "title": "General notification settings",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "notification",
+          "scope",
+          "frequency",
+          "project",
+          "component",
+          "onetime"
+        ],
+        "properties": {
+          "notification": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "integer"
+          },
+          "frequency": {
+            "type": "integer"
+          },
+          "project": {
+            "title": "Project slug",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "component": {
+            "title": "Component path",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "onetime": {
+            "title": "One-time notification",
+            "type": "boolean"
           }
         }
       }

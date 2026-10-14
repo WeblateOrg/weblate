@@ -1705,27 +1705,50 @@ Projects
     match :http:post:`/api/reports/`; scope fields must be omitted.
 
 
-.. http:get:: /api/projects/(string:project)/machinery_settings/
+.. http:get:: /api/projects/(string:project)/translation-services/
 
     .. versionadded:: 5.9
 
-    Returns automatic suggestion settings for a project, consisting of the configurations defined for each translation service installed.
+    Returns a list of automatic suggestion installations configured directly on
+    the project. Each entry has an ``id``, ``selector``, ``engine``, optional
+    ``slug``, ``configuration``, ``enabled`` state, and scope fields. The
+    configuration can contain credentials and is returned only to users who
+    can edit the installation's scope.
 
     :param project: Project URL slug
     :type project: string
-    :>json object suggestion_settings: Configuration for all installed services.
+    :>json array installations: Project installations.
 
+
+.. http:post:: /api/projects/(string:project)/translation-services/
+
+    .. versionadded:: 5.9
+
+    Create an automatic suggestion installation for a project. Use
+    ``/api/translation-services/(int:id)/`` to update or remove one. The
+    ``/api/translation-service-exclusions/`` endpoint manages inherited installations
+    excluded by a workspace or project. An installation's service cannot be
+    changed after creation; create another installation to use a different
+    service. An exclusion's scope and target cannot be changed after creation;
+    remove it and create another exclusion to select a different target.
+
+    :param project: Project URL slug
+    :type project: string
+    :form string engine: Service name
+    :form string slug: Optional installation slug
+    :form string configuration: Service configuration in JSON
+
+.. http:get:: /api/projects/(string:project)/machinery_settings/
+
+    .. versionremoved:: 2026.11
+
+       Use :http:get:`/api/projects/(string:project)/translation-services/` instead.
 
 .. http:post:: /api/projects/(string:project)/machinery_settings/
 
-    .. versionadded:: 5.9
+    .. versionremoved:: 2026.11
 
-    Create or update the service configuration for a project.
-
-    :param project: Project URL slug
-    :type project: string
-    :form string service: Service name
-    :form string configuration: Service configuration in JSON
+       Use :http:post:`/api/projects/(string:project)/translation-services/` instead.
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/file/
 

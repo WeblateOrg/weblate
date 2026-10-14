@@ -5,15 +5,26 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
+* User settings can be imported from a :ref:`user data export <schema-userdata>` on the account page.
+* Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
+* Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
+
 .. rubric:: Improvements
+
+* Bounded :ref:`JSON webhook response bodies and headers <webhook-response-limits>` to limit worker memory use and activity-log growth.
+* Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
+* :ref:`Component creation <adding-components>` loads remote branches only for the selected component, avoiding repository queries when opening the page.
 
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 * Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.
+* SVG status badges now use a blurred text shadow to match the shields.io style, improving text contrast.
 
 .. rubric:: Security fixes
 
 * Fixed role permission revocation through partial API updates.
+* Limited SAML identity-provider request parsing to prevent compressed request resource exhaustion.
 
 .. rubric:: Bug fixes
 

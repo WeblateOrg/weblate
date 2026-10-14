@@ -10,6 +10,9 @@
     <li class="breadcrumb-item">
       <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Automatic suggestions" %}</a>
     </li>
+  {% elif workspace %}
+    <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Automatic suggestions" %}</a></li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
@@ -34,17 +37,47 @@
           <tr>
             <td>{% include "machinery/detail.html" %}</td>
             <td class="bottom-button">
-              {% if service.is_enabled or not service.is_available %}
+              {% if service.is_enabled %}
                 <form method="post" action="{{ service.get_absolute_url }}">
                   {% csrf_token %}
-                  <input type="hidden" name="delete" value="1" />
-                  <button type="submit" class="btn btn-danger">{% translate "Disable" %}</button>
+                  {% if service.can_delete %}
+                    <input type="hidden" name="pause" value="1" />
+                    <button type="submit"
+                            class="btn btn-danger"
+                            title="{% translate "Stop using this installation without removing its configuration." %}">{% translate "Disable" %}</button>
+                  {% else %}
+                    <input type="hidden" name="delete" value="1" />
+                    <button type="submit"
+                            class="btn btn-danger"
+                            title="{% translate "Stop using this inherited installation here." %}">{% translate "Disable" %}</button>
+                  {% endif %}
                 </form>
-              {% else %}
+              {% elif service.can_enable and service.is_available %}
                 <form method="post" action="{{ service.get_absolute_url }}">
                   {% csrf_token %}
                   <input type="hidden" name="enable" value="1" />
                   <button type="submit" class="btn btn-primary">{% translate "Enable" %}</button>
+                </form>
+              {% endif %}
+            </td>
+            <td class="bottom-button">
+              {% if service.can_delete %}
+                <form method="post" action="{{ service.get_absolute_url }}">
+                  {% csrf_token %}
+                  <button type="submit"
+                          name="delete"
+                          value="1"
+                          class="btn btn-danger"
+                          title="{% translate "Remove this installation and its configuration." %}">{% translate "Remove" %}</button>
+                </form>
+              {% elif service.installation and service.is_enabled %}
+                <form method="post" action="{{ service.get_absolute_url }}">
+                  {% csrf_token %}
+                  <button type="submit"
+                          name="exclude_engine"
+                          value="1"
+                          class="btn btn-danger"
+                          title="{% translate "Exclude all inherited installations of this service" %}">{% translate "Exclude" %}</button>
                 </form>
               {% endif %}
             </td>

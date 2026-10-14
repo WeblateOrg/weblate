@@ -186,6 +186,8 @@ Performs automatic translation based on other component translations.
 .. weblate-admin-option:: --mt MT
 
     Use machine translation instead of other components as machine translations.
+    Select an installed service with its name, ``service:id``, or ``service:slug``
+    as described in :ref:`machine-translation-setup`.
 
 .. weblate-admin-option:: --threshold THRESHOLD
 

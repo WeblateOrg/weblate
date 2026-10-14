@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load i18n otp_webauthn translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'webauthn-register' %}">{% translate "Register new security key" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/auth' '2fa' right=True %}
+        {% translate "Register new security key" %}
+      </h4>
+    </div>
+    <template id="passkey-registration-available-template">
+      <div class="card-body second-factor">
+        <p class="help-block">
+          {% translate "Security keys can be used as a second factor to verify your identity when prompted during sign-in." %}
+        </p>
+        <div class="mb-3">
+          <label for="passkey-device-name" class="form-label">{% translate "Name your security key" %}</label>
+          <input type="text"
+                 id="passkey-device-name"
+                 class="textinput form-control"
+                 name="passkey-device-name"
+                 maxlength="64"
+                 data-href="{% url "webauthn-detail" pk="000000" %}"
+                 placeholder="{% translate "Name your security key" %}" />
+        </div>
+        <div id="passkey-register-status-message" role="status"></div>
+      </div>
+      <div class="card-footer d-flex flex-wrap align-items-center gap-2">
+        <button type="button"
+                class="btn btn-primary"
+                id="passkey-register-button">{% translate "Register new security key" %}</button>
+        <a class="btn btn-link" href="{% url 'profile' %}#security">{% translate "Back to security settings" %}</a>
+      </div>
+    </template>
+    <template id="passkey-registration-unavailable-template">
+      <div class="card-body second-factor">
+        <p>{% translate "Your web browser lacks WebAuthn support." %}</p>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-link" href="{% url 'profile' %}#security">{% translate "Back to security settings" %}</a>
+      </div>
+    </template>
+    <span id="passkey-registration-placeholder"></span>
+    {% render_otp_webauthn_register_scripts %}
+  </div>
+{% endblock content %}

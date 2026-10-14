@@ -9,7 +9,7 @@ import hashlib
 import hmac
 import json
 from math import floor
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 import httpx2
 import jsonschema.exceptions
@@ -25,7 +25,7 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
-from weblate.utils.requests import fetch_validated_url
+from weblate.utils.requests import open_validated_url
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
@@ -51,8 +51,55 @@ def standard_webhooks_sign(
     return f"v1,{base64.b64encode(signature).decode('utf-8')}"
 
 
+MAX_WEBHOOK_RESPONSE_BODY = 1024 * 1024
+MAX_WEBHOOK_RESPONSE_HEADERS = 64 * 1024
+
+
+class WebhookResponse(TypedDict):
+    status_code: int
+    content: str
+    headers: dict[str, str]
+
+
 class MessageNotDeliveredError(Exception):
     """Exception raised when a message could not be delivered."""
+
+
+def read_webhook_response(response: httpx2.Response) -> WebhookResponse:
+    """Read a webhook response within the fixed activity-log limits."""
+    header_size = sum(
+        len(name) + len(value) + 4 for name, value in response.headers.raw
+    )
+    if header_size > MAX_WEBHOOK_RESPONSE_HEADERS:
+        msg = "Unable to deliver webhook: response headers exceed 64 KiB."
+        raise MessageNotDeliveredError(msg)
+
+    # Reject compression before HTTPX can allocate decoded response data.
+    if (
+        response.headers.get("Content-Encoding", "identity").strip().lower()
+        != "identity"
+    ):
+        msg = "Unable to deliver webhook: encoded response bodies are not supported."
+        raise MessageNotDeliveredError(msg)
+
+    content = bytearray()
+    for chunk in response.iter_bytes():
+        if len(content) + len(chunk) > MAX_WEBHOOK_RESPONSE_BODY:
+            msg = "Unable to deliver webhook: response body exceeds 1 MiB."
+            raise MessageNotDeliveredError(msg)
+        content.extend(chunk)
+
+    # Retain HTTPX's charset handling for the bounded response body.
+    decoded = httpx2.Response(
+        response.status_code,
+        content=bytes(content),
+        headers={"Content-Type": response.headers.get("Content-Type", "")},
+    )
+    return {
+        "status_code": response.status_code,
+        "content": decoded.text,
+        "headers": dict(response.headers),
+    }
 
 
 class JSONWebhookBaseAddon(ChangeBaseAddon):
@@ -73,18 +120,21 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
 
     def send_message(
         self, change: Change, headers: dict, payload: PayloadType
-    ) -> httpx2.Response:
+    ) -> WebhookResponse:
+        request_headers = httpx2.Headers(headers)
+        request_headers["Accept-Encoding"] = "identity"
         try:
-            return fetch_validated_url(
+            with open_validated_url(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,
-                headers=headers,
+                headers=request_headers,
                 timeout=15,
                 raise_for_status=False,
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
                 private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
-            )
+            ) as response:
+                return read_webhook_response(response)
         except ValidationError as error:
             raise MessageNotDeliveredError("; ".join(error.messages)) from error
         except httpx2.TransportError as error:
@@ -105,11 +155,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
                     "headers": headers,
                     "payload": payload,
                 },
-                "response": {
-                    "status_code": response.status_code,
-                    "content": response.text,
-                    "headers": dict(response.headers),
-                },
+                "response": response,
             }
 
 

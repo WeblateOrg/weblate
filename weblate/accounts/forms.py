@@ -37,6 +37,8 @@ from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from jsonschema import ValidationError as SchemaValidationError
+from weblate_schemas import validate_schema
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -158,7 +160,7 @@ class FullNameField(forms.CharField):
         kwargs["max_length"] = FULLNAME_LENGTH
         kwargs["label"] = gettext_lazy("Full name")
         kwargs["help_text"] = gettext_lazy(
-            "Name is also used in version control commits."
+            "Your full name may appear in version control commits, depending on the commit name setting below."
         )
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
@@ -181,6 +183,58 @@ class ProfileBaseForm(forms.ModelForm):
                 if field_name in ignored_fields and not hasattr(self, field_name):
                     return
         super().add_error(field, error)
+
+
+class UserDataImportForm(forms.Form):
+    file = forms.FileField(label=gettext_lazy("User data file"))
+    notifications = forms.BooleanField(
+        label=gettext_lazy("Import general notification settings"), required=False
+    )
+    commit_identity = forms.BooleanField(
+        label=gettext_lazy("Import commit identity choices"), required=False
+    )
+
+    def clean_file(self):
+        uploaded = self.cleaned_data["file"]
+        if uploaded.size > 50_000_000:
+            raise forms.ValidationError(gettext("The user data file is too large."))
+        try:
+            data = json.load(uploaded)
+            validate_schema(data, "weblate-userdata.schema.json")
+        except (ValueError, UnicodeError, SchemaValidationError) as error:
+            detail = (
+                error.message
+                if isinstance(error, SchemaValidationError)
+                else str(error)
+            )
+            raise forms.ValidationError(
+                gettext("The uploaded file is not valid user data: %s") % detail[:300]
+            ) from error
+        if any(
+            len(data["profile"].get(field, [])) > 10_000
+            for field in ("languages", "secondary_languages", "watched")
+        ):
+            raise forms.ValidationError(
+                gettext("The uploaded file contains too many settings.")
+            )
+        self.userdata_data = data
+        return uploaded
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get("notifications") and hasattr(self, "userdata_data"):
+            general_rules = sum(
+                rule["scope"] in NotificationScope.configurable()
+                and rule.get("project") is None
+                and rule.get("component") is None
+                and not rule.get("onetime", False)
+                for rule in self.userdata_data.get("notifications", [])
+            )
+            if general_rules > 500:
+                raise forms.ValidationError(
+                    gettext("The uploaded file contains too many settings.")
+                )
+        return cleaned_data
 
 
 class LanguagesForm(ProfileBaseForm):
@@ -229,7 +283,7 @@ class CommitForm(ProfileBaseForm):
             "Used in version-control commits. The address stays in the repository forever once changes are committed by Weblate."
         ),
         required=False,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
     commit_name = forms.TypedChoiceField(
         coerce=int,
@@ -239,7 +293,7 @@ class CommitForm(ProfileBaseForm):
             "Used in version control commits. The name stays in the repository forever, once changes are committed by Weblate."
         ),
         required=False,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
 
     class Meta:
@@ -256,6 +310,13 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Version control identity"),
+                "commit_name",
+                "commit_email",
+            )
+        )
 
 
 class ProfileForm(ProfileBaseForm):
@@ -337,7 +398,6 @@ class UserSettingsForm(ProfileBaseForm):
         model = Profile
         fields = (
             "theme",
-            "hide_completed",
             "translate_mode",
             "zen_mode",
             "nearby_strings",
@@ -356,6 +416,25 @@ class UserSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Display"),
+                "theme",
+                "wide_tables",
+                "listing_columns",
+            ),
+            Fieldset(
+                gettext_lazy("Translation"),
+                "translate_mode",
+                "zen_mode",
+                "nearby_strings",
+                "secondary_in_zen",
+                "hide_source_secondary",
+                "editor_link",
+                "special_chars",
+                "contribute_personal_tm",
+            ),
+        )
 
 
 class DashboardSettingsForm(ProfileBaseForm):
@@ -363,7 +442,7 @@ class DashboardSettingsForm(ProfileBaseForm):
 
     class Meta:
         model = Profile
-        fields = ("dashboard_view", "dashboard_component_list")
+        fields = ("dashboard_view", "dashboard_component_list", "hide_completed")
         # ruff: ignore[mutable-class-default]
         widgets = {
             "dashboard_view": forms.RadioSelect,
@@ -375,6 +454,14 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Dashboard"),
+                "dashboard_view",
+                "dashboard_component_list",
+                "hide_completed",
+            )
+        )
         component_lists = self.instance.allowed_dashboard_component_lists
         self.fields["dashboard_component_list"].queryset = component_lists
         choices = [
@@ -422,7 +509,7 @@ class UserForm(forms.ModelForm):
         ),
         choices=(("", ""),),
         required=True,
-        widget=forms.RadioSelect,
+        widget=forms.Select,
     )
 
     class Meta:
@@ -447,6 +534,17 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                gettext_lazy("Personal information"),
+                Div(
+                    Div("username", css_class="col-md-6"),
+                    Div("full_name", css_class="col-md-6"),
+                    css_class="row",
+                ),
+                "email",
+            )
+        )
 
     @classmethod
     def from_request(cls, request: AuthenticatedHttpRequest):

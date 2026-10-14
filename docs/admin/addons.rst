@@ -72,6 +72,18 @@ masks. These fixed limits bound resource consumption when repository content
 determines the masks. When either limit is exceeded, discovery does not create
 or remove components.
 
+.. _webhook-response-limits:
+
+The :ref:`addon-weblate.webhook.webhook` and
+:ref:`addon-weblate.webhook.slack` add-ons request uncompressed responses and
+reject responses with a ``Content-Encoding`` other than ``identity`` before
+reading their bodies. They limit each response body to 1 MiB and response
+headers to 64 KiB, including duplicate headers and separators.
+If a response is encoded or either fixed limit is exceeded, Weblate closes the
+response and records an add-on error without storing the response body or headers.
+The remote service might already have accepted the notification even when
+Weblate records this error.
+
 Obsolete add-ons
 ++++++++++++++++
 

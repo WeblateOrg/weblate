@@ -1838,7 +1838,7 @@ class GitRepository(Repository):
         """Remove not tracked files from the repository."""
         self.execute(["clean", "-f", "-d"], remote_op="none")
 
-    def list_remote_branches(self) -> list[str]:
+    def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
         branches = self.execute(
             [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
@@ -1846,6 +1846,9 @@ class GitRepository(Repository):
             needs_lock=False,
             environment=self.get_auth_environment(),
             merge_err=False,
+            timeout=timeout,
+            # Local checkout status does not help diagnose remote branch discovery.
+            log_status=False,
         )
         return [
             line.split("\t", 1)[1].removeprefix("refs/heads/").strip()
@@ -2238,7 +2241,7 @@ class SubversionRepository(GitRepository):
                 return "origin/git-svn"
         return f"origin/{branch_name}"
 
-    def list_remote_branches(self) -> list[str]:
+    def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         return []
 
     def push(self, branch: str, *, force: bool | None = None) -> None:
@@ -3996,7 +3999,7 @@ class LocalRepository(GitRepository):
     ) -> None:
         return
 
-    def list_remote_branches(self) -> list[str]:
+    def list_remote_branches(self, *, timeout: float = 3600) -> list[str]:
         return []
 
     def remove_stale_branches(self) -> None:

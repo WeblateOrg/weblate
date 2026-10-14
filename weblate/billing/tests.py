@@ -48,6 +48,7 @@ from weblate.billing.tasks import (
     schedule_removal,
 )
 from weblate.lang.models import Language
+from weblate.machinery.models import MachineryInstallation
 from weblate.trans.alerts.community import (
     MissingTranslationInstructions,
 )
@@ -851,6 +852,46 @@ class BillingTest(BaseTestCase):
 
         project.refresh_from_db()
         self.assertEqual(project.workspace_id, self.billing.workspace_id)
+
+    def test_billing_moves_validate_machinery(self) -> None:
+        target = Billing.objects.create(plan=self.plan)
+        MachineryInstallation.objects.filter(
+            engine="weblate", project=None, workspace=None
+        ).update(enabled=False)
+        for transfer in (False, True):
+            for engine, slug in (("openai", "move-shared"), ("weblate", "")):
+                with self.subTest(transfer=transfer, engine=engine):
+                    project = Project.objects.create(
+                        name=f"Move {transfer} {engine}",
+                        slug=f"move-{transfer}-{engine}",
+                        access_control=Project.ACCESS_PROTECTED,
+                    )
+                    if transfer:
+                        self.billing.add_project(project)
+                    original_workspace_id = project.workspace_id
+                    local = MachineryInstallation.objects.create(
+                        project=project, engine=engine, slug=slug
+                    )
+                    inherited = MachineryInstallation.objects.create(
+                        workspace=target.workspace, engine=engine, slug=slug
+                    )
+                    with patch(
+                        "weblate.utils.tasks.update_workspace_stats.delay_on_commit"
+                    ) as schedule:
+                        with self.assertRaisesMessage(
+                            ValidationError, "conflict with the new workspace"
+                        ):
+                            if transfer:
+                                target.transfer_project(project)
+                            else:
+                                target.add_project(project)
+                        schedule.assert_not_called()
+                    self.assertEqual(project.workspace_id, original_workspace_id)
+                    project.refresh_from_db()
+                    self.assertEqual(project.workspace_id, original_workspace_id)
+                    self.assertFalse(target.get_projects_queryset().exists())
+                    local.delete()
+                    inherited.delete()
 
     def test_add_project_updates_billing_instance(self) -> None:
         billing = Billing.objects.create(plan=self.plan)
@@ -2035,6 +2076,80 @@ class BillingTest(BaseTestCase):
         self.assertEqual(merge_log.details["source_billing"]["id"], self.billing.pk)
         self.assertEqual(merge_log.details["target_billing"]["id"], other.pk)
         self.assertIn("Merged billing", merge_log.get_details_display())
+
+    def test_merge_rejects_machinery_conflicts_without_changes(self) -> None:
+        other = Billing.objects.create(plan=self.plan)
+        first = self.add_project()
+        conflicting = self.add_project()
+        self.billing.payment = {"all": [{"charge": "source-payment"}]}
+        other.payment = {"all": [{"charge": "target-payment"}]}
+        self.billing.save()
+        other.save()
+        source_payment = self.billing.payment
+        target_payment = other.payment
+        source_group = Group.objects.create(
+            name="Source team", defining_workspace=self.billing.workspace
+        )
+        source_group.user_set.add(self.user)
+        source_log_ids = set(self.billing.billinglog_set.values_list("pk", flat=True))
+        target_log_ids = set(other.billinglog_set.values_list("pk", flat=True))
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        MachineryInstallation.objects.filter(
+            engine="weblate", project=None, workspace=None
+        ).update(enabled=False)
+        for engine, slug in (("openai", "move-shared"), ("weblate", "")):
+            with self.subTest(engine=engine):
+                local = MachineryInstallation.objects.create(
+                    project=conflicting, engine=engine, slug=slug
+                )
+                inherited = MachineryInstallation.objects.create(
+                    workspace=other.workspace, engine=engine, slug=slug
+                )
+                response = self.client.post(
+                    reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+                    {"other": other.pk, "confirm": 1},
+                )
+                self.assertRedirects(
+                    response,
+                    self.billing.get_absolute_url(),
+                    fetch_redirect_response=False,
+                )
+                self.assertIn(
+                    "conflict with the new workspace",
+                    " ".join(
+                        str(message) for message in get_messages(response.wsgi_request)
+                    ),
+                )
+                first.refresh_from_db()
+                conflicting.refresh_from_db()
+                self.assertEqual(first.workspace_id, self.billing.workspace_id)
+                self.assertEqual(conflicting.workspace_id, self.billing.workspace_id)
+                self.billing.refresh_from_db()
+                other.refresh_from_db()
+                self.assertEqual(self.billing.payment, source_payment)
+                self.assertEqual(other.payment, target_payment)
+                self.invoice.refresh_from_db()
+                self.assertEqual(self.invoice.billing_id, self.billing.pk)
+                self.assertEqual(
+                    set(self.billing.billinglog_set.values_list("pk", flat=True)),
+                    source_log_ids,
+                )
+                self.assertEqual(
+                    set(other.billinglog_set.values_list("pk", flat=True)),
+                    target_log_ids,
+                )
+                source_group.refresh_from_db()
+                self.assertEqual(
+                    source_group.defining_workspace_id, self.billing.workspace_id
+                )
+                self.assertTrue(source_group.user_set.filter(pk=self.user.pk).exists())
+                self.assertFalse(
+                    other.workspace.defined_groups.filter(name="Source team").exists()
+                )
+                local.delete()
+                inherited.delete()
 
     def test_merge_updates_single_project_target_workspace_name(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)

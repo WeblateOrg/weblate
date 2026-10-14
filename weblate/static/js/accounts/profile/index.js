@@ -3,6 +3,47 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 document.addEventListener("DOMContentLoaded", () => {
+  const profileForm = document.getElementById("profile-active-tab")?.form;
+  if (profileForm) {
+    // Validate the active pane on submission so hidden required fields cannot
+    // block saving another tab before its submit handler runs.
+    profileForm.noValidate = true;
+    const requestedTab = profileForm.dataset.activeTab || window.location.hash;
+    if (requestedTab) {
+      const tab = [
+        ...document.querySelectorAll('.nav [data-bs-toggle="tab"]'),
+      ].find((element) => element.dataset.bsTarget === requestedTab);
+      if (tab) {
+        bootstrap.Tab.getOrCreateInstance(tab).show();
+      }
+    }
+    profileForm.addEventListener(
+      "submit",
+      (event) => {
+        const activePane = profileForm.querySelector(
+          ".tab-content > .tab-pane.active",
+        );
+        document.getElementById("profile-active-tab").value = activePane
+          ? `#${activePane.id}`
+          : "";
+        if (activePane && !event.submitter?.formNoValidate) {
+          for (const control of activePane.querySelectorAll(
+            "input, select, textarea",
+          )) {
+            if (control.form === profileForm && !control.reportValidity()) {
+              event.preventDefault();
+              // Keep shared submit handlers from marking an invalid attempt as
+              // submitted and blocking the next attempt after it is corrected.
+              event.stopImmediatePropagation();
+              break;
+            }
+          }
+        }
+      },
+      { capture: true },
+    );
+  }
+
   const profileNotificationSettings = document.getElementById("notifications");
   const container =
     profileNotificationSettings?.querySelector("#div_id_watched");

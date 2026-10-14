@@ -31,7 +31,9 @@ from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.auth.models import Group, Permission, Role, get_anonymous
 from weblate.lang.models import Language
+from weblate.machinery.models import MachineryInstallation
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.addons import AIEvaluationUnavailable
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.config import BrokenBrowserURL
 from weblate.trans.alerts.files import DuplicateString
@@ -505,6 +507,30 @@ class AlertTest(ReusableViewTestCase):
         self.assertIn(
             "DuplicateString", {group.name for group in context["diagnostics"]}
         )
+
+    def test_ai_evaluation_slug_availability(self) -> None:
+        installation = MachineryInstallation.objects.create(
+            project=self.project, engine="openai", slug="review"
+        )
+        replacement = MachineryInstallation.objects.create(
+            project=self.project, engine="openai"
+        )
+        addon = SimpleNamespace(
+            is_valid=True,
+            name="weblate.ai.quality",
+            pk=1,
+            addon=SimpleNamespace(
+                get_configuration=lambda: {"service": "openai:review"}
+            ),
+        )
+        with patch("weblate.addons.ai.effective_evaluator", return_value=addon):
+            self.assertFalse(AIEvaluationUnavailable.check_component(self.component))
+            installation.slug = ""
+            installation.save(update_fields=["slug"])
+            self.assertTrue(AIEvaluationUnavailable.check_component(self.component))
+            replacement.slug = "review"
+            replacement.save(update_fields=["slug"])
+            self.assertFalse(AIEvaluationUnavailable.check_component(self.component))
 
     @override_settings(
         WEBLATE_ADDONS=(

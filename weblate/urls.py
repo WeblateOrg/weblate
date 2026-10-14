@@ -55,6 +55,7 @@ import weblate.wladmin.views
 import weblate.workspaces.views
 from weblate.auth.decorators import management_permission_required
 from weblate.configuration.views import CustomCSSView
+from weblate.machinery.etranslation import etranslation_callback
 from weblate.sitemaps import ENGAGE_SITEMAPS, SITEMAPS, sitemap_index
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
@@ -781,6 +782,16 @@ real_patterns = [
         name="machinery-list",
     ),
     path(
+        "machinery/workspace/<uuid:workspace>/",
+        weblate.machinery.views.ListMachineryWorkspaceView.as_view(),
+        name="workspace-machinery",
+    ),
+    path(
+        "machinery/workspace/<uuid:workspace>/<name:machinery>/",
+        weblate.machinery.views.EditMachineryWorkspaceView.as_view(),
+        name="machinery-edit",
+    ),
+    path(
         "machinery/<name:project>/<name:machinery>/",
         weblate.machinery.views.EditMachineryProjectView.as_view(),
         name="machinery-edit",
@@ -842,6 +853,11 @@ real_patterns = [
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
+    path(
+        "machinery/etranslation/callback/<uuid:token>/",
+        etranslation_callback,
+        name="etranslation-callback",
+    ),
     path(
         "hooks/integrations/<uuid:integration_token>/",
         IntegrationHookView.as_view(),
@@ -937,6 +953,11 @@ real_patterns = [
             )
         ),
         name="js-catalog",
+    ),
+    path(
+        "js/component-branches/",
+        weblate.trans.views.js.component_branches,
+        name="component_branches",
     ),
     path(
         "js/flags/",

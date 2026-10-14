@@ -21,7 +21,11 @@ from django.urls import reverse
 from django.utils.translation import override
 from rest_framework.test import APIClient
 
-from weblate.addons.ai import AIEvaluationAddon
+from weblate.addons.ai import (
+    AIEvaluationAddon,
+    EvaluatedUnitSnapshot,
+    EvaluationSnapshot,
+)
 from weblate.addons.events import AddonActivityLogStatus, AddonEvent
 from weblate.addons.models import AddonActivityLog, handle_addon_event
 from weblate.addons.tasks import run_addon_manually
@@ -36,12 +40,14 @@ from weblate.automation.operations import (
     AIQualityOperation,
     AutomaticTranslationOperation,
     AutomationOperation,
+    SelectOperation,
     register,
 )
 from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA
 from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
@@ -111,11 +117,12 @@ class DefinitionTest(SimpleTestCase):
 
     def test_operation_registry_drives_action_schema(self) -> None:
         variants = SCHEMA["$defs"]["action"]["oneOf"]
+        operations = variants[: len(OPERATIONS)]
         self.assertEqual(
-            [variant["properties"]["action"]["const"] for variant in variants[:3]],
+            [variant["properties"]["action"]["const"] for variant in operations],
             list(OPERATIONS),
         )
-        for variant in variants[:3]:
+        for variant in operations:
             operation = OPERATIONS[variant["properties"]["action"]["const"]]
             self.assertEqual(
                 variant["properties"]["settings"], operation.settings_schema
@@ -488,6 +495,443 @@ class DefinitionTest(SimpleTestCase):
 
 
 class AutomationTest(ReusableComponentTestCase):
+    def test_select_component_and_chained_result_scopes(self) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        actions = [
+            {
+                "action": "weblate.select",
+                "id": "first",
+                "settings": {"q": f"id:{selected.pk}"},
+            },
+            {
+                "action": "weblate.select",
+                "id": "second",
+                "scope": "result:first",
+                "settings": {},
+            },
+            {
+                "action": "weblate.select",
+                "id": "third",
+                "scope": "result:second",
+                "settings": {"q": "language:de"},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        before = list(
+            Unit.objects.filter(translation__component=self.component)
+            .order_by("pk")
+            .values_list("pk", "state", "target")
+        )
+        changes = Change.objects.filter(component=self.component).count()
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        successes = [step for step in runner.trace if step["status"] == "success"]
+        self.assertEqual(runner.selections["first"].unit_ids, {selected.pk})
+        self.assertEqual(runner.selections["second"].unit_ids, {selected.pk})
+        self.assertEqual(runner.selections["third"].unit_ids, set())
+        self.assertEqual(
+            [result["selected"] for result in runner.context["results"].values()],
+            [1, 1, 0],
+        )
+        self.assertEqual(successes[1]["scope_units"], 1)
+        self.assertEqual(successes[1]["affected"], 1)
+        self.assertEqual(successes[2]["scope"], "result:second")
+        self.assertEqual(successes[2]["affected"], 0)
+        self.assertEqual(
+            list(
+                Unit.objects.filter(translation__component=self.component)
+                .order_by("pk")
+                .values_list("pk", "state", "target")
+            ),
+            before,
+        )
+        self.assertEqual(
+            Change.objects.filter(component=self.component).count(), changes
+        )
+        self.assertNotIn("unit_ids", json.dumps(runner.context["results"]))
+        self.assertNotIn("unit_ids", json.dumps(runner.trace))
+
+    def test_select_trigger_preserves_source_expansion(self) -> None:
+        source = self.component.source_translation.unit_set.get(
+            source="Hello, world!\n"
+        )
+        change = Change.objects.create(
+            unit=source, action=ActionEvents.SOURCE_CHANGE, user=self.user
+        )
+        actions = [
+            {
+                "action": "weblate.select",
+                "id": "expanded",
+                "scope": "trigger",
+                "settings": {},
+            },
+            {
+                "action": "weblate.select",
+                "id": "german",
+                "scope": "result:expanded",
+                "settings": {"q": "language:de"},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["source_change"]}],
+                    "actions": actions,
+                }
+            ),
+            self.component,
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "change", change),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        successes = [step for step in runner.trace if step["status"] == "success"]
+        expanded = set(
+            source.unit_set.exclude(pk=source.pk).values_list("pk", flat=True)
+        )
+        german = set(
+            source.unit_set.filter(translation__language__code="de").values_list(
+                "pk", flat=True
+            )
+        )
+        self.assertEqual(
+            set(
+                runner.selections["expanded"]
+                .queryset(self.component)
+                .values_list("pk", flat=True)
+            ),
+            expanded,
+        )
+        self.assertEqual(runner.selections["german"].unit_ids, german)
+        self.assertEqual(successes[0]["scope_units"], len(expanded))
+        self.assertEqual(successes[0]["affected"], len(expanded))
+        self.assertEqual(runner.context["results"]["german"]["selected"], len(german))
+
+    def test_select_validation_and_empty_result(self) -> None:
+        action = {"action": "weblate.select", "settings": {}}
+        with self.assertRaises(ValidationError):
+            parse_workflow(WORKFLOW | {"actions": [action]})
+        for query in ("", "   ", "("):
+            with self.subTest(query=query), self.assertRaises(ValidationError):
+                SelectOperation.normalize({"q": query}, self.component)
+        with self.assertRaises(ValidationError):
+            SelectOperation.normalize({"q": "("}, self.component, scope="trigger")
+        self.assertEqual(
+            SelectOperation.normalize({}, self.component, scope="trigger"),
+            {"q": ""},
+        )
+        self.assertEqual(
+            SelectOperation.normalize({}, self.component, scope="result:first"),
+            {"q": ""},
+        )
+        action |= {"id": "empty", "settings": {"q": "id:0"}}
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": [action]}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(runner.context["results"]["empty"]["selected"], 0)
+        self.assertEqual(runner.selections["empty"].unit_ids, set())
+
+    def test_select_retains_matching_unit_snapshots(self) -> None:
+        units = list(
+            self.component.translation_set.get(language_code="cs").unit_set.order_by(
+                "pk"
+            )[:2]
+        )
+        selected, excluded = units
+        snapshots = {
+            unit.pk: EvaluatedUnitSnapshot(
+                unit=EvaluationSnapshot("test", unit.last_updated),
+                source_unit_id=unit.source_unit_id or unit.pk,
+                source_unit=EvaluationSnapshot("source", unit.last_updated),
+            )
+            for unit in units
+        }
+        selection = UnitSelection({selected.pk, excluded.pk}, unit_snapshots=snapshots)
+        affected = UnitSelection(set())
+        result = SelectOperation.execute(
+            self.component,
+            {"q": f"id:{selected.pk}"},
+            self.user,
+            selection=selection,
+            affected=affected,
+        )
+        self.assertEqual(result["selected"], 1)
+        self.assertEqual(affected.unit_ids, {selected.pk})
+        self.assertEqual(affected.unit_snapshots, {selected.pk: snapshots[selected.pk]})
+
+    def test_select_preview_counts_and_chains(self) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        actions = [
+            {
+                "action": "weblate.select",
+                "id": "first",
+                "settings": {"q": f"id:{selected.pk}"},
+            },
+            {
+                "action": "weblate.select",
+                "id": "second",
+                "scope": "result:first",
+                "settings": {},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+            preview=True,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual([step["status"] for step in runner.trace], ["success"] * 2)
+        self.assertEqual(runner.context["results"]["second"]["selected"], 1)
+        self.assertEqual(runner.trace[1]["affected"], 1)
+        self.assertFalse(runner.planned)
+
+    def test_unnamed_select_counts_without_materializing(self) -> None:
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        {
+                            "action": "weblate.select",
+                            "settings": {"q": "language:cs"},
+                        }
+                    ]
+                }
+            ),
+            self.component,
+        )
+        expected = Unit.objects.filter(
+            translation__component=self.component, translation__language_code="cs"
+        ).count()
+        for preview in (False, True):
+            with (
+                self.subTest(preview=preview),
+                patch(
+                    "weblate.trans.models.unit.UnitQuerySet.iterator",
+                    side_effect=AssertionError("Unit IDs were materialized"),
+                ),
+            ):
+                runner = Runner(
+                    workflow,
+                    execution_context(self.component, "manual"),
+                    self.component,
+                    self.user,
+                    preview=preview,
+                )
+                self.assertEqual(
+                    runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace
+                )
+                self.assertEqual(runner.selections, {})
+                self.assertEqual(runner.context["results"], {})
+                success = [step for step in runner.trace if step["status"] == "success"]
+                self.assertEqual(success[0]["output"]["selected"], expected)
+                self.assertEqual(success[0]["affected"], expected)
+
+    def test_select_preview_known_result_scope_is_planned(self) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        actions = [
+            {
+                "action": "weblate.select",
+                "id": "picked",
+                "settings": {"q": f"id:{selected.pk}"},
+            },
+            BULK | {"scope": "result:picked", "settings": {"state": STATE_FUZZY}},
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+            preview=True,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(
+            [step["status"] for step in runner.trace], ["success", "planned"]
+        )
+
+    def test_select_result_limits_following_bulk_edit(self) -> None:
+        units = self.component.translation_set.get(language_code="cs").unit_set
+        selected = units.get(source="Hello, world!\n")
+        units.update(state=STATE_TRANSLATED)
+        actions = [
+            {
+                "action": "weblate.select",
+                "id": "selected",
+                "settings": {"q": f"id:{selected.pk}"},
+            },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:selected",
+                "settings": {"state": STATE_FUZZY},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(units.get(pk=selected.pk).state, STATE_FUZZY)
+        self.assertFalse(
+            units.exclude(pk=selected.pk).exclude(state=STATE_TRANSLATED).exists()
+        )
+        self.assertEqual(runner.context["results"]["selected"]["selected"], 1)
+        self.assertEqual(runner.trace[-1]["scope_units"], 1)
+
+    def test_select_preview_after_planned_write_is_conditional(self) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        actions = [
+            BULK,
+            {
+                "action": "weblate.select",
+                "id": "selected",
+                "settings": {"q": f"id:{selected.pk} AND state:translated"},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+            preview=True,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(runner.trace[-1]["status"], "conditional")
+        self.assertNotIn("selected", runner.context["results"])
+
+    def test_select_preview_condition_uses_known_result_after_planned_write(
+        self,
+    ) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        for result_id in ("second", "results"):
+            with self.subTest(result_id=result_id):
+                actions = [
+                    {
+                        "action": "weblate.select",
+                        "id": "first",
+                        "settings": {"q": f"id:{selected.pk}"},
+                    },
+                    BULK,
+                    {
+                        "action": "weblate.select",
+                        "id": result_id,
+                        "scope": "result:first",
+                        "settings": {},
+                    },
+                    {
+                        "choose": [
+                            {
+                                "conditions": [
+                                    {
+                                        "condition": "expression",
+                                        "value": f"results.{result_id}.selected > 0",
+                                    }
+                                ],
+                                "sequence": [BULK | {"scope": f"result:{result_id}"}],
+                            }
+                        ]
+                    },
+                ]
+                workflow = validate_operations(
+                    parse_workflow(WORKFLOW | {"actions": actions}), self.component
+                )
+                runner = Runner(
+                    workflow,
+                    execution_context(self.component, "manual"),
+                    self.component,
+                    self.user,
+                    preview=True,
+                )
+                self.assertEqual(
+                    runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace
+                )
+                self.assertEqual(runner.context["results"][result_id]["selected"], 1)
+                self.assertIn(
+                    {
+                        "path": "actions[3].choose[0].conditions[0]",
+                        "status": "evaluated",
+                        "value": True,
+                    },
+                    runner.trace,
+                )
+                self.assertEqual(runner.trace[-1]["status"], "planned")
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_select_activity_log_stores_counts_only(self, task: Mock) -> None:
+        selected = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        addon = self.install(
+            WORKFLOW
+            | {
+                "actions": [
+                    {
+                        "action": "weblate.select",
+                        "id": "picked",
+                        "settings": {"q": f"id:{selected.pk}"},
+                    }
+                ]
+            }
+        )
+        run_addon_manually(addon.instance.pk)
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        task.assert_called_once_with(activity.pk)
+        run_automation(activity.pk)
+        activity.refresh_from_db()
+        self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
+        result = activity.details["result"]
+        self.assertEqual(
+            result["context"]["results"]["picked"],
+            {"component": self.component.pk, "selected": 1},
+        )
+        trace = [step for step in result["trace"] if step["status"] == "success"]
+        self.assertEqual(trace[0]["scope"], "component")
+        self.assertEqual(trace[0]["affected"], 1)
+        self.assertNotIn("unit_ids", json.dumps(trace))
+
     def test_suggestion_result_tracks_created_unit(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         unit = translation.unit_set.all()[0]
@@ -1071,14 +1515,15 @@ class AIQualityAutomationTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.service = OpenAITranslation.get_identifier()
-        self.project.machinery_settings = {
-            self.service: {
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=self.service,
+            configuration={
                 "key": "test",
                 "model": "custom",
                 "custom_model": "test-model",
-            }
-        }
-        self.project.save(update_fields=["machinery_settings"])
+            },
+        )
         self.units = list(
             self.component.translation_set.get(language_code="cs").unit_set.order_by(
                 "pk"
@@ -1123,6 +1568,33 @@ class AIQualityAutomationTest(ComponentTestCase):
         ) as evaluate:
             AIQualityOperation.execute(self.component, settings, self.user)
         evaluate.assert_called_once()
+
+    def test_slug_selector_matches_current_installation(self) -> None:
+        installation = MachineryInstallation.objects.get(
+            project=self.project, engine=self.service
+        )
+        installation.slug = "quality"
+        installation.save(update_fields=["slug"])
+        alias = f"{self.service}:quality"
+        settings = AIQualityOperation.normalize({"service": alias}, self.component)
+        self.assertEqual(settings["service"], alias)
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            AIQualityOperation.execute(self.component, settings, self.user)
+        evaluate.assert_called_once()
+
+        installation.slug = ""
+        installation.save(update_fields=["slug"])
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=self.service,
+            slug="quality",
+            configuration=installation.configuration,
+        )
+        with self.assertRaisesMessage(ValidationError, "does not match"):
+            AIQualityOperation.normalize({"service": alias}, self.component)
 
     def test_explicit_mismatching_service(self) -> None:
         other_service = AnthropicTranslation.get_identifier()
@@ -1437,12 +1909,15 @@ class AIQualityAutomationTest(ComponentTestCase):
 
     def test_inherited_workflow_uses_component_evaluators(self) -> None:
         other_service = AnthropicTranslation.get_identifier()
-        self.project.machinery_settings[other_service] = {
-            "key": "test",
-            "model": "custom",
-            "custom_model": "test-model",
-        }
-        self.project.save(update_fields=["machinery_settings"])
+        MachineryInstallation.objects.create(
+            project=self.project,
+            engine=other_service,
+            configuration={
+                "key": "test",
+                "model": "custom",
+                "custom_model": "test-model",
+            },
+        )
         other_component = self.create_po_new_base(name="other", project=self.project)
         AIEvaluationAddon.create(
             component=other_component,

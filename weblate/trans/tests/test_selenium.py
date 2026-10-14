@@ -52,12 +52,12 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.auth.models import AutoGroup, Group, Role, User
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
@@ -103,6 +103,7 @@ from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -2603,15 +2604,25 @@ class SeleniumTests(
             [],
         )
 
-    def open_machinery_unit(self, *identifiers: str) -> Unit:
+    def open_machinery_unit(
+        self, *identifiers: str, slugs: dict[str, str] | None = None
+    ) -> Unit:
         """Open the machinery tab of a unit with given services enabled."""
         project = self.create_component()
-        project.machinery_settings = dict.fromkeys(
-            Setting.objects.get_settings_dict(SettingCategory.MT)
-        )
+        for engine in (
+            MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+            .values_list("engine", flat=True)
+            .distinct()
+        ):
+            MachineryExclusion.objects.create(project=project, engine=engine)
         for identifier in identifiers:
-            project.machinery_settings[identifier] = {}
-        project.save(update_fields=["machinery_settings"])
+            MachineryInstallation.objects.create(
+                project=project,
+                engine=identifier,
+                slug=slugs.get(identifier, "") if slugs else "",
+            )
 
         self.do_login(superuser=True)
         unit = (
@@ -2800,10 +2811,13 @@ class SeleniumTests(
             ],
         )
 
-        summary.click()
+        summary.send_keys(Keys.ENTER)
         self.assertEqual(
             [element.text for element in origins if element.is_displayed()][5:],
-            ["Component 5 (75%)", "Component 6 (70%)"],
+            [
+                "Component 5 (75%)",
+                "Component 6 (70%)",
+            ],
         )
 
     @reuse_demo_fixture
@@ -2836,6 +2850,7 @@ class SeleniumTests(
         self.open_machinery_unit(
             SeleniumScoredTranslation.get_identifier(),
             SeleniumEngineTranslation.get_identifier(),
+            slugs={SeleniumScoredTranslation.get_identifier(): "preferred"},
         )
         # The results of both services merge into a single row, the second
         # result of the engine is listed separately.
@@ -2865,7 +2880,9 @@ class SeleniumTests(
                     By.CSS_SELECTOR, ".machinery-origin-detail"
                 )
             ],
-            ["Project: WeblateOrg/Django (100%)"],
+            [
+                "Project: WeblateOrg/Django · Slug: preferred (100%)",
+            ],
         )
         self.assertEqual(
             [
@@ -2963,11 +2980,15 @@ class SeleniumTests(
         self.addCleanup(clear_auto_translation_storage)
 
         project = self.create_component()
-        project.machinery_settings = dict.fromkeys(
-            Setting.objects.get_settings_dict(SettingCategory.MT)
-        )
-        project.machinery_settings[identifier] = {}
-        project.save(update_fields=["machinery_settings"])
+        for engine in (
+            MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+            .values_list("engine", flat=True)
+            .distinct()
+        ):
+            MachineryExclusion.objects.create(project=project, engine=engine)
+        MachineryInstallation.objects.create(project=project, engine=identifier)
 
         target_component = project.component_set.get(slug="django")
         for index in range(28):
@@ -3176,19 +3197,15 @@ class SeleniumTests(
         services = (
             (WeblateMemory,) if memory_only else (WeblateTranslation, WeblateMemory)
         )
-        Setting.objects.filter(category=SettingCategory.MT).delete()
-        Setting.objects.bulk_create(
+        MachineryInstallation.objects.filter(
+            project__isnull=True, workspace__isnull=True
+        ).delete()
+        MachineryInstallation.objects.bulk_create(
             [
-                Setting(
-                    category=SettingCategory.MT,
-                    name=service.get_identifier(),
-                    value={},
-                )
+                MachineryInstallation(engine=service.get_identifier())
                 for service in services
             ]
         )
-        project.machinery_settings = {}
-        project.save(update_fields=["machinery_settings"])
 
     def _build_demo_component(self) -> Project:
         self.use_github_fixtures()
@@ -3368,9 +3385,11 @@ class SeleniumTests(
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
-        self.click("Account")
+        self.click(htmlid="profile-tab-account")
+        self.screenshot("profile-account.png")
+        self.click(htmlid="profile-tab-security")
         self.screenshot("authentication.png")
-        self.assert_text_contains(".second-factor", "Security keys")
+        self.assert_text_contains("#security", "Security keys")
 
     @reuse_demo_fixture
     def test_screenshot_filemask_repository_filename(self) -> None:
@@ -4152,6 +4171,16 @@ class SeleniumTests(
         self.click("Operations")
         self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
+        expected_engines = {
+            WeblateTranslation.get_identifier(),
+            WeblateMemory.get_identifier(),
+        }
+        expected_engines.update(
+            installation.selector
+            for installation in MachineryInstallation.objects.filter(
+                project__isnull=True, workspace__isnull=True
+            )
+        )
         self.assertEqual(
             {
                 option.get_attribute("value")
@@ -4159,7 +4188,7 @@ class SeleniumTests(
                     self.driver.find_element(By.ID, "id_auto_engines")
                 ).options
             },
-            {WeblateTranslation.get_identifier(), WeblateMemory.get_identifier()},
+            expected_engines,
         )
         self.click("Operations")
         self.screenshot("automatic-translation.png")
@@ -4342,6 +4371,7 @@ class SeleniumTests(
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
+        self.click(htmlid="profile-tab-languages")
         for field, language, code in (
             ("languages", "French", "fr"),
             ("secondary_languages", "German", "de"),
@@ -4378,7 +4408,7 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element(
-                    By.CSS_SELECTOR, '#languages input[type="submit"]'
+                    By.CSS_SELECTOR, '#languages button[type="submit"]'
                 )
             )
         self.assertEqual(
@@ -4478,6 +4508,71 @@ class SeleniumTests(
         self.assertEqual(suggestion.get_target_plurals(), proposed)
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), corrected)
+
+    def test_profile_validates_only_active_tab(self) -> None:
+        """Save other tabs when a legacy account lacks its required full name."""
+        user = self.do_login()
+        user.full_name = ""
+        user.save(update_fields=["full_name"])
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}#profile")
+        website = self.driver.find_element(By.ID, "id_website")
+        website.send_keys("invalid-url")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, '#profile button[type="submit"]')
+        )
+        self.assertEqual(
+            self.driver.execute_script("return document.activeElement.id"),
+            "id_website",
+        )
+        user.profile.refresh_from_db()
+        self.assertEqual(user.profile.website, "")
+
+        website.clear()
+        website.send_keys("https://example.org/profile")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#profile button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#profile"))
+        user.profile.refresh_from_db()
+        self.assertEqual(user.profile.website, "https://example.org/profile")
+
+        self.click(htmlid="profile-tab-preferences")
+        self.click(htmlid="id_wide_tables")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#preferences button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#preferences"))
+        user.profile.refresh_from_db()
+        self.assertTrue(user.profile.wide_tables)
+        user.refresh_from_db()
+        self.assertEqual(user.full_name, "")
+
+        self.click(htmlid="profile-tab-account")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, '#account button[type="submit"]')
+        )
+        self.assertEqual(
+            self.driver.execute_script("return document.activeElement.id"),
+            "id_full_name",
+        )
+        self.driver.find_element(By.ID, "id_full_name").send_keys("Updated name")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#account button[type="submit"]'
+                )
+            )
+        self.assertTrue(self.driver.current_url.endswith("#account"))
+        user.refresh_from_db()
+        self.assertEqual(user.full_name, "Updated name")
 
     @reuse_demo_fixture
     def test_profile_dashboard(self) -> None:
@@ -4593,7 +4688,7 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element(
-                    By.CSS_SELECTOR, "#preferences input[type='submit']"
+                    By.CSS_SELECTOR, "#preferences button[type='submit']"
                 )
             )
         user.profile.refresh_from_db()
@@ -4658,6 +4753,108 @@ class SeleniumTests(
             r".*@example\.org$",
         )
         self.screenshot("team-automatic-assignments.png")
+
+    @reuse_demo_fixture
+    def test_component_branches_load_on_demand(self) -> None:
+        project = self.create_component()
+        component = project.component_set.get(slug="language-names")
+        self.do_login(superuser=True)
+        with patch(
+            "weblate.vcs.git.GitRepository.list_remote_branches",
+            side_effect=RepositoryError(1, "Repository unavailable"),
+        ) as discover:
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('create-component')}?project={project.pk}"
+                )
+            discover.assert_not_called()
+            tab = self.driver.find_element(
+                By.CSS_SELECTOR, '[data-bs-target="#branch"]'
+            )
+            tab.send_keys(Keys.ENTER)
+            select = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.ID, "id_branch_component"))
+            )
+            Select(select).select_by_value(str(component.pk))
+            retry = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.CSS_SELECTOR, ".branch-retry"))
+            )
+            self.assertFalse(
+                self.driver.find_element(By.ID, "create-branch").is_enabled()
+            )
+            discover.assert_called_once_with(timeout=15)
+            discover.side_effect = None
+            discover.return_value = [component.branch, "new-branch"]
+            retry.send_keys(Keys.ENTER)
+            submit = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.ID, "create-branch"))
+            )
+            branch = self.driver.find_element(By.ID, "id_branch_branch")
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.switch_to.active_element == branch
+            )
+            self.assertEqual(
+                [option.text for option in Select(branch).options], ["new-branch"]
+            )
+            status = self.driver.find_element(By.CSS_SELECTOR, ".branch-status")
+            self.assertEqual(status.get_attribute("role"), "status")
+            self.assertEqual(status.text, "Repository branches loaded.")
+            discover.return_value = []
+            # Native select Home/End behavior differs across operating systems.
+            Select(select).select_by_value("")
+            WebDriverWait(self.driver, 10).until(
+                lambda _driver: (
+                    status.text == "Select a component to load repository branches."
+                )
+            )
+            Select(select).select_by_value(str(component.pk))
+            WebDriverWait(self.driver, 10).until(
+                lambda _driver: (
+                    status.text == "No additional repository branches are available."
+                )
+            )
+            self.assertFalse(submit.is_enabled())
+
+            # Resolve two requests in reverse order, ignoring abort signals.
+            self.driver.execute_script(
+                """
+                const originalFetch = window.fetch;
+                window.pendingBranches = [];
+                window.fetch = (url, options) => {
+                    if (!url.endsWith('/js/component-branches/')) {
+                        return originalFetch(url, options);
+                    }
+                    return new Promise((resolve) => pendingBranches.push(resolve));
+                };
+                const select = document.getElementById('id_branch_component');
+                const value = select.value;
+                select.dispatchEvent(new Event('change'));
+                select.value = '';
+                select.dispatchEvent(new Event('change'));
+                select.value = value;
+                select.dispatchEvent(new Event('change'));
+                """
+            )
+            self.assertFalse(submit.is_enabled())
+            self.assertEqual(status.text, "Loading repository branches…")
+            self.driver.execute_async_script(
+                """
+                const done = arguments[0];
+                const response = (branch) => new Response(
+                    JSON.stringify({branches: [branch]}),
+                    {headers: {'Content-Type': 'application/json'}},
+                );
+                pendingBranches[1](response('current'));
+                setTimeout(() => {
+                    pendingBranches[0](response('obsolete'));
+                    setTimeout(done, 0);
+                }, 0);
+                """
+            )
+            WebDriverWait(self.driver, 10).until(lambda _driver: submit.is_enabled())
+            self.assertEqual(
+                [option.text for option in Select(branch).options], ["current"]
+            )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:

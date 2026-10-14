@@ -36,17 +36,12 @@
         <pre dir="ltr"><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ totp_key_b32 }}" data-clipboard-message="{% translate "Secret key copied to clipboard." %}" title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
 
         {{ form|crispy }}
-
-        <p>
-          <input type="submit"
-                 class="btn btn-primary"
-                 value="{% translate "Confirm registration" %}" />
-        </p>
-
-        <p>
-          <a class="btn btn-link" href="{% url "profile" %}#account">{% translate "Back to account settings" %}</a>
-        </p>
-
+      </div>
+      <div class="card-footer d-flex flex-wrap align-items-center gap-2">
+        <input type="submit"
+               class="btn btn-primary"
+               value="{% translate "Confirm registration" %}" />
+        <a class="btn btn-link" href="{% url "profile" %}#security">{% translate "Back to security settings" %}</a>
       </div>
     </div>
   </form>

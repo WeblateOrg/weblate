@@ -48,7 +48,6 @@ from weblate.auth.utils import validate_team_assignable_user
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.forms import (
@@ -61,6 +60,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, format_backup_error
+from weblate.trans.component_creation import get_component_branches
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -124,6 +124,7 @@ from weblate.utils.forms import (
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -144,6 +145,7 @@ from weblate.utils.validators import (
     validate_translation_upload_size,
 )
 from weblate.utils.views import get_sort_name
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import VCS_PARAMS, strip_unused_vcs_params
@@ -160,6 +162,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import LanguageQuerySet
+    from weblate.machinery.types import SettingsDict
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLPathObject
     from weblate.trans.models.translation import NewUnitParams
@@ -1317,6 +1320,35 @@ class AutoForm(forms.Form):
         max_value=100,
     )
 
+    def set_machinery_choices(
+        self, machinery_settings: dict[str, SettingsDict]
+    ) -> None:
+        engines = sorted(
+            (
+                (selector, MACHINERY[selector.partition(":")[0]])
+                for selector in machinery_settings
+                if selector.partition(":")[0] in MACHINERY
+            ),
+            key=lambda item: (item[1].name, item[0]),
+        )
+        choices = [
+            (selector, f"{engine.name} ({selector})") for selector, engine in engines
+        ]
+        seen = {selector for selector, _ in choices}
+        for selector, engine in engines:
+            if slug := machinery_settings[selector].get("_installation_slug"):
+                slug_selector = f"{engine.get_identifier()}:{slug}"
+                if slug_selector not in seen:
+                    choices.append((slug_selector, f"{engine.name} ({slug_selector})"))
+                    seen.add(slug_selector)
+        for _, engine in engines:
+            if sum(other is engine for _, other in engines) == 1:
+                choices.append((engine.get_identifier(), engine.name))
+        self.fields["engines"].choices = choices
+        memory = [choice for choice, _ in choices if choice == "weblate"]
+        if memory:
+            self.fields["engines"].initial = memory[:1]
+
     def __init__(
         self, obj: Component | Project | Workspace | None, user=None, *args, **kwargs
     ) -> None:
@@ -1362,7 +1394,9 @@ class AutoForm(forms.Form):
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
-            machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
+            from weblate.machinery.models import machinery_settings_for_project  # ruff: ignore[import-outside-top-level]
+
+            machinery_settings = machinery_settings_for_project()
 
         if user is not None:
             self.components = self.components.filter_access(user)
@@ -1410,20 +1444,7 @@ class AutoForm(forms.Form):
             self.fields["component"].choices = [("", all_components_label), *choices]
             self.fields["component"].help_text = scope_help
 
-        engines = sorted(
-            (
-                MACHINERY[engine](setting)
-                for engine, setting in machinery_settings.items()
-                if engine in MACHINERY
-            ),
-            key=lambda engine: engine.name,
-        )
-        engine_ids = {engine.get_identifier() for engine in engines}
-        self.fields["engines"].choices = [
-            (engine.get_identifier(), engine.name) for engine in engines
-        ]
-        if "weblate" in engine_ids:
-            self.fields["engines"].initial = ["weblate"]
+        self.set_machinery_choices(machinery_settings)
 
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
@@ -3126,11 +3147,22 @@ class ComponentBranchForm(ComponentSelectForm):
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_branch_%s"
         super().__init__(*args, **kwargs)
-        self.branch_data: dict[int, list[str]] = {}
 
     def clean_component(self):
         component = self.cleaned_data["component"]
-        self.fields["branch"].choices = [(x, x) for x in self.branch_data[component.pk]]
+        if not check_rate_limit("component_branches", self.request):
+            raise ValidationError(
+                gettext("Too many branch requests. Please try again later.")
+            )
+        try:
+            branches = get_component_branches(component)
+        except RepositoryError as error:
+            raise ValidationError(
+                gettext("Could not load repository branches. Please try again.")
+            ) from error
+        cast("forms.ChoiceField", self.fields["branch"]).choices = [
+            (branch, branch) for branch in branches
+        ]
         return component
 
     def clean(self) -> None:
@@ -4058,6 +4090,9 @@ class ProjectMoveForm(forms.Form):
             self.request.user, self.instance, workspace, reject_unchanged=True
         ):
             raise ValidationError(validation_error)
+        candidate = copy.copy(self.instance)
+        candidate.workspace = workspace
+        candidate.validate_machinery_workspace_change()
         return workspace
 
     def save(self) -> Project:

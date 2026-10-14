@@ -7,6 +7,7 @@ from __future__ import annotations
 import ast
 import base64
 import contextlib
+import gzip
 import importlib
 import json
 import math
@@ -113,7 +114,12 @@ from .defaults import (
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
 from .discovery import DISCOVERY_LIMIT_ERROR, DiscoveryAddon
-from .events import AddonActivityLogReason, AddonEvent, AddonEventOutcome
+from .events import (
+    AddonActivityLogReason,
+    AddonActivityLogStatus,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import (
@@ -176,7 +182,13 @@ from .tasks import (
     run_addon_manually,
     update_addon_activity_log,
 )
-from .webhooks import MessageNotDeliveredError, SlackWebhookAddon, WebhookAddon
+from .webhooks import (
+    MAX_WEBHOOK_RESPONSE_BODY,
+    MAX_WEBHOOK_RESPONSE_HEADERS,
+    MessageNotDeliveredError,
+    SlackWebhookAddon,
+    WebhookAddon,
+)
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
@@ -433,6 +445,26 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_daily_addons_prefetches_component_projects(self) -> None:
+        second_component = self.create_po_new_base(
+            name="Other component",
+            slug="other-component",
+            project=self.project,
+        )
+        for component in (self.component, second_component):
+            addon = NoOpAddon.create(component=component, run=False).instance
+            Event.objects.create(addon=addon, event=AddonEvent.EVENT_DAILY)
+
+        with CaptureQueriesContext(connection) as queries:
+            daily_addons(modulo=False)
+
+        project_queries = [
+            query["sql"]
+            for query in queries
+            if 'FROM "trans_project" WHERE' in query["sql"]
+        ]
+        self.assertEqual(project_queries, [])
 
     def test_addon_change_does_not_prefetch_all_addon_components(self) -> None:
         other_component = self.create_po_new_base(
@@ -5820,6 +5852,15 @@ class ViewTests(ViewTestCase):
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
 
+    def test_no_settings_detail_shows_description(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False).instance
+
+        response = self.client.get(addon.get_absolute_url())
+
+        self.assertContains(response, "Updates all PO files")
+        self.assertContains(response, f"#{addon.addon.doc_anchor}")
+        self.assertContains(response, "This add-on has no settings.")
+
     def test_add_simple_with_nonexisting_installed(self) -> None:
         Addon.objects.bulk_create(
             [Addon(component=self.component, name="weblate.addon.nonexisting")]
@@ -6104,6 +6145,7 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         )
 
         response = self.client.get(reverse("addon-detail", kwargs={"pk": addon.pk}))
+        self.assertContains(response, "Squash Git commits prior to pushing changes.")
         self.assertContains(
             response, reverse("addon-components", kwargs={"pk": addon.pk})
         )
@@ -10289,7 +10331,7 @@ class WebhookDeliveryTest(SimpleTestCase):
                 error = error_class("Webhook delivery failed", request=request)
                 with (
                     patch(
-                        "weblate.addons.webhooks.fetch_validated_url",
+                        "weblate.addons.webhooks.open_validated_url",
                         side_effect=error,
                     ),
                     self.assertRaisesMessage(
@@ -10300,6 +10342,165 @@ class WebhookDeliveryTest(SimpleTestCase):
                     addon.send_message(MagicMock(spec=Change), {}, {})
 
                 self.assertIs(raised.exception.__cause__, error)
+
+    @http_mock.activate
+    def test_response_limits(self) -> None:
+        storage = MagicMock()
+        storage.configuration = {"webhook_url": "https://example.com/webhooks"}
+        cases: tuple[tuple[bytes, list[tuple[str, str]], str | None], ...] = (
+            (b"", [], None),
+            (b"hello", [], None),
+            (b"hello", [("Content-Encoding", "identity")], None),
+            (b"hello", [("Content-Encoding", " IDENTITY ")], None),
+            (b"x" * MAX_WEBHOOK_RESPONSE_BODY, [], None),
+            (b"x" * (MAX_WEBHOOK_RESPONSE_BODY + 1), [], "body exceeds 1 MiB"),
+            ("é".encode() * (MAX_WEBHOOK_RESPONSE_BODY // 2), [], None),
+            (
+                "é".encode() * (MAX_WEBHOOK_RESPONSE_BODY // 2 + 1),
+                [],
+                "body exceeds 1 MiB",
+            ),
+            (b"hello", [("Content-Length", "1")], None),
+            (
+                b"x" * (MAX_WEBHOOK_RESPONSE_BODY + 1),
+                [("Content-Length", "1")],
+                "body exceeds 1 MiB",
+            ),
+            (
+                b"hello",
+                [("X", "x" * (MAX_WEBHOOK_RESPONSE_HEADERS - 5))],
+                None,
+            ),
+            (
+                b"hello",
+                [("X", "x" * (MAX_WEBHOOK_RESPONSE_HEADERS - 4))],
+                "headers exceed 64 KiB",
+            ),
+            (
+                b"hello",
+                [("X", "x" * (MAX_WEBHOOK_RESPONSE_HEADERS // 2))] * 2,
+                "headers exceed 64 KiB",
+            ),
+            (
+                gzip.compress(b"hello"),
+                [("Content-Encoding", "gzip")],
+                "encoded response bodies are not supported",
+            ),
+            (
+                gzip.compress(b"x" * (MAX_WEBHOOK_RESPONSE_BODY * 10)),
+                [("Content-Encoding", "gzip")],
+                "encoded response bodies are not supported",
+            ),
+            (
+                "café".encode("iso-8859-1"),
+                [("Content-Type", "text/plain; charset=iso-8859-1")],
+                None,
+            ),
+            (b"invalid\xff", [], None),
+        )
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for body, headers, error in cases:
+                with self.subTest(
+                    addon=addon_class.name, size=len(body), headers=headers
+                ):
+                    http_mock.reset()
+                    stream = MagicMock(spec=httpx2.SyncByteStream)
+                    stream.__iter__.side_effect = lambda body=body: iter((body,))
+                    response = httpx2.Response(400, headers=headers, stream=stream)
+                    http_mock.register_callback(
+                        "POST",
+                        storage.configuration["webhook_url"],
+                        callback=MagicMock(return_value=response),
+                    )
+                    addon = addon_class(storage)
+                    if error:
+                        with self.assertRaisesMessage(MessageNotDeliveredError, error):
+                            addon.send_message(MagicMock(spec=Change), {}, {})
+                        if "headers" in error or "encoded" in error:
+                            stream.__iter__.assert_not_called()
+                    else:
+                        result = addon.send_message(MagicMock(spec=Change), {}, {})
+                        expected = httpx2.Response(400, headers=headers, content=body)
+                        self.assertEqual(result["content"], expected.text)
+                        self.assertEqual(result["status_code"], 400)
+                        self.assertEqual(result["headers"], dict(response.headers))
+                    stream.close.assert_called_once()
+
+    @http_mock.activate
+    def test_encoded_response_is_rejected_before_decoding(self) -> None:
+        storage = MagicMock()
+        storage.configuration = {"webhook_url": "https://example.com/webhooks"}
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for encoding in (
+                "gzip",
+                "gzip, gzip",
+                "identity, gzip",
+                "gzip, identity",
+                "deflate",
+                "br",
+                "zstd",
+                "unknown",
+                "",
+            ):
+                with self.subTest(addon=addon_class.name, encoding=encoding):
+                    http_mock.reset()
+                    stream = MagicMock(spec=httpx2.SyncByteStream)
+                    stream.__iter__.side_effect = AssertionError("Body was consumed")
+                    response = httpx2.Response(
+                        200,
+                        headers={"Content-Encoding": encoding},
+                        stream=stream,
+                    )
+                    http_mock.register_callback(
+                        "POST",
+                        storage.configuration["webhook_url"],
+                        callback=MagicMock(return_value=response),
+                    )
+                    headers = {"accept-encoding": "gzip"}
+                    with (
+                        patch.object(
+                            response,
+                            "iter_bytes",
+                            side_effect=AssertionError("Decoder was invoked"),
+                        ) as decoder,
+                        self.assertRaisesMessage(
+                            MessageNotDeliveredError,
+                            "encoded response bodies are not supported",
+                        ),
+                    ):
+                        addon_class(storage).send_message(
+                            MagicMock(spec=Change), headers, {}
+                        )
+                    decoder.assert_not_called()
+                    stream.__iter__.assert_not_called()
+                    stream.close.assert_called_once()
+                    self.assertEqual(
+                        http_mock.calls[0].request.headers["Accept-Encoding"],
+                        "identity",
+                    )
+                    self.assertEqual(headers, {"accept-encoding": "gzip"})
+
+    @http_mock.activate
+    def test_oversized_response_stops_reading(self) -> None:
+        storage = MagicMock()
+        storage.configuration = {"webhook_url": "https://example.com/webhooks"}
+        stream = MagicMock(spec=httpx2.SyncByteStream)
+
+        def chunks():
+            for _ in range(MAX_WEBHOOK_RESPONSE_BODY // 1024 + 1):
+                yield b"x" * 1024
+            self.fail("Webhook consumed the stream after exceeding the limit")
+
+        stream.__iter__.side_effect = chunks
+        response = httpx2.Response(200, stream=stream)
+        http_mock.register_callback(
+            "POST",
+            storage.configuration["webhook_url"],
+            callback=MagicMock(return_value=response),
+        )
+        with self.assertRaisesMessage(MessageNotDeliveredError, "body exceeds 1 MiB"):
+            WebhookAddon(storage).send_message(MagicMock(spec=Change), {}, {})
+        stream.close.assert_called_once()
 
 
 if TYPE_CHECKING:
@@ -10567,6 +10768,62 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         "webhook_url": WEBHOOK_URL,
         "events": [],
     }
+
+    @http_mock.activate
+    def test_response_activity_log(self) -> None:
+        for addon_class in (WebhookAddon, SlackWebhookAddon):
+            for oversized in (False, True):
+                with self.subTest(addon=addon_class.name, oversized=oversized):
+                    http_mock.reset()
+                    addon = addon_class.create(
+                        configuration={
+                            "webhook_url": self.WEBHOOK_URL,
+                            "events": [str(ActionEvents.NEW)],
+                            "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
+                        },
+                        component=self.component,
+                    ).instance
+                    http_mock.register(
+                        "POST",
+                        self.WEBHOOK_URL,
+                        status_code=200,
+                        content=(
+                            b"x" * (MAX_WEBHOOK_RESPONSE_BODY + 1)
+                            if oversized
+                            else b"accepted"
+                        ),
+                    )
+                    change = Change.objects.create(
+                        action=ActionEvents.NEW,
+                        component=self.component,
+                        project=self.project,
+                        translation=self.translation,
+                        user=self.user,
+                    )
+                    handle_addon_event(
+                        AddonEvent.EVENT_CHANGE,
+                        "change_event",
+                        (change,),
+                        addon_queryset=Addon.objects.filter(pk=addon.pk),
+                        component=self.component,
+                        project=self.project,
+                    )
+                    activity = AddonActivityLog.objects.get(addon=addon)
+                    if oversized:
+                        self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                        self.assertEqual(
+                            activity.details["result"],
+                            "Unable to deliver webhook: response body exceeds 1 MiB.",
+                        )
+                    else:
+                        self.assertEqual(
+                            activity.status, AddonActivityLogStatus.SUCCESS
+                        )
+                        self.assertEqual(
+                            activity.details["result"]["response"]["content"],
+                            "accepted",
+                        )
+                    addon.delete()
 
     @http_mock.activate
     def test_invalid_response(self) -> None:

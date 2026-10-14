@@ -10,7 +10,7 @@ from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import MACHINERY, resolve_installation
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.models import Component
 from weblate.utils.management.base import WeblateTranslationCommand
@@ -87,9 +87,13 @@ class Command(WeblateTranslationCommand):
 
         if options["mt"]:
             for translator in options["mt"]:
-                if translator not in MACHINERY:
+                if translator.partition(":")[0] not in MACHINERY:
                     msg = f"Machine translation {translator} is not available"
                     raise CommandError(msg)
+                try:
+                    resolve_installation(translator, translation.component.project)
+                except ValueError as error:
+                    raise CommandError(str(error)) from error
 
         if options["mode"] not in {"translate", "fuzzy", "suggest"}:
             msg = "Invalid translation mode specified!"

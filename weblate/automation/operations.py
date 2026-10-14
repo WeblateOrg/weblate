@@ -20,8 +20,10 @@ from weblate.addons.ai import (
     effective_evaluator,
     evaluate_component,
 )
-from weblate.machinery.llm import BaseLLMTranslation
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import (
+    machinery_settings_for_project,
+    resolve_installation,
+)
 from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component, Project
@@ -52,6 +54,7 @@ class AutomationOperation:
     result_schema: ClassVar[dict[str, Any]]
     supported_scopes: ClassVar[frozenset[str]] = frozenset({"component"})
     query_required_for_component: ClassVar[bool] = False
+    preview_safe: ClassVar[bool] = False
 
     @classmethod
     def normalize(
@@ -127,6 +130,92 @@ def execute_operation(
         )
         validate_result(operation, result)
         return result
+
+
+@register
+class SelectOperation(AutomationOperation):
+    name = "weblate.select"
+    title = "Select strings"
+    version_added = "2026.11"
+    supported_scopes = frozenset({"component", "trigger", "result"})
+    query_required_for_component = True
+    preview_safe = True
+    settings_schema = object_schema({"q": STRING}, [])
+    result_schema = object_schema(
+        {
+            "component": {"type": "integer"},
+            "selected": {"type": "integer", "minimum": 0},
+        },
+        ["component", "selected"],
+    )
+
+    @classmethod
+    def normalize(
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,  # ruff: ignore[unused-class-method-argument]
+        *,
+        scope: str = "component",
+    ) -> dict[str, Any]:
+        return {
+            "q": QueryField(required=scope == "component").clean(
+                settings.get("q", "").strip()
+            )
+        }
+
+    @classmethod
+    def execute(
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        _user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
+    ) -> dict[str, Any]:
+        if selection is None:
+            selection = UnitSelection()
+        query = settings["q"]
+        if query:
+            units = selection.queryset(component).search(
+                query, project=component.project
+            )
+            if affected is None:
+                selected = units.count()
+            else:
+                selected_ids: set[int] = set()
+                source_ids: set[int] = set()
+                for unit_id, source_id in units.values_list(
+                    "pk", "source_unit_id"
+                ).iterator(chunk_size=2000):
+                    selected_ids.add(unit_id)
+                    if source_id is not None:
+                        source_ids.add(source_id)
+                selected = len(selected_ids)
+                affected.unit_ids = selected_ids
+                affected.source_unit_ids = source_ids
+                if selection.unit_snapshots is not None:
+                    affected.unit_snapshots = {
+                        unit_id: snapshot
+                        for unit_id, snapshot in selection.unit_snapshots.items()
+                        if unit_id in selected_ids
+                    }
+        else:
+            selected = selection.count(component)
+            if affected is not None:
+                affected.unit_ids = (
+                    selection.unit_ids.copy()
+                    if selection.unit_ids is not None
+                    else None
+                )
+                affected.source_unit_ids = selection.source_unit_ids.copy()
+                affected.expand_source_ids = selection.expand_source_ids.copy()
+                affected.unit_snapshots = (
+                    selection.unit_snapshots.copy()
+                    if selection.unit_snapshots is not None
+                    else None
+                )
+        return {"component": component.pk, "selected": selected}
 
 
 @register
@@ -234,6 +323,17 @@ class AIQualityOperation(AutomationOperation):
         ["component", "evaluated"],
     )
 
+    @staticmethod
+    def services_match(first: str, second: str, project: Project) -> bool:
+        """Compare current installations while preserving saved selector aliases."""
+        try:
+            return (
+                resolve_installation(first, project).pk
+                == resolve_installation(second, project).pk
+            )
+        except ValueError:
+            return False
+
     @classmethod
     def normalize(
         cls,
@@ -249,9 +349,10 @@ class AIQualityOperation(AutomationOperation):
             if evaluator is None:
                 msg = "AI quality evaluation requires an effective add-on."
                 raise ValidationError(msg)
-            if (
-                service is not None
-                and evaluator.addon.get_configuration()["service"] != service
+            if service is not None and not cls.services_match(
+                service,
+                evaluator.addon.get_configuration()["service"],
+                obj.project,
             ):
                 msg = (
                     "AI quality evaluation service does not match the effective add-on."
@@ -259,17 +360,16 @@ class AIQualityOperation(AutomationOperation):
                 raise ValidationError(msg)
         if service is not None:
             project = obj.project if isinstance(obj, Component) else obj
-            configured = project.get_machinery_settings() if project else None
-            available = (
-                available_evaluation_services(configured)
-                if configured is not None
-                else [
-                    key
-                    for key, machine in MACHINERY.items()
-                    if issubclass(machine, BaseLLMTranslation)
-                ]
+            configured = (
+                project.get_machinery_settings()
+                if project
+                else machinery_settings_for_project()
             )
-            if service not in available:
+            try:
+                installation = resolve_installation(service, project)
+            except ValueError as error:
+                raise ValidationError(str(error)) from error
+            if installation.selector not in available_evaluation_services(configured):
                 msg = "The configured evaluation service is unavailable."
                 raise ValidationError(msg)
         return {"q": query, **({"service": service} if service is not None else {})}
@@ -289,7 +389,9 @@ class AIQualityOperation(AutomationOperation):
             msg = "AI quality evaluation requires an effective add-on."
             raise ValueError(msg)
         configuration = evaluator.addon.get_configuration()
-        if "service" in settings and configuration["service"] != settings["service"]:
+        if "service" in settings and not cls.services_match(
+            settings["service"], configuration["service"], component.project
+        ):
             msg = "AI quality evaluation service does not match the effective add-on."
             raise ValueError(msg)
         units = (

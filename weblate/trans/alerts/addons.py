@@ -250,12 +250,19 @@ class AIEvaluationUnavailable(AddonErrorAlert):
             available_evaluation_services,
             effective_evaluator,
         )
+        from weblate.machinery.models import (  # ruff: ignore[import-outside-top-level]
+            resolve_installation,
+        )
 
         addon = effective_evaluator(component)
         if component.is_glossary or addon is None or not addon.is_valid:
             return False
         service = addon.addon.get_configuration()["service"]
-        if service in available_evaluation_services(
+        try:
+            installation = resolve_installation(service, component.project)
+        except ValueError:
+            installation = None
+        if installation and installation.selector in available_evaluation_services(
             component.project.get_machinery_settings()
         ):
             return False

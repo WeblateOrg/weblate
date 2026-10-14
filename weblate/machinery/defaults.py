@@ -11,6 +11,7 @@ DEFAULT_WEBLATE_MACHINERY: tuple[str, ...] = (
     "weblate.machinery.anthropic.AnthropicTranslation",
     "weblate.machinery.baidu.BaiduTranslation",
     "weblate.machinery.deepl.DeepLTranslation",
+    "weblate.machinery.etranslation.ETranslation",
     "weblate.machinery.glosbe.GlosbeTranslation",
     "weblate.machinery.google.GoogleTranslation",
     "weblate.machinery.googlev3.GoogleV3Translation",

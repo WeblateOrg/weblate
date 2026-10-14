@@ -16,7 +16,11 @@ from django.utils.translation import gettext, ngettext
 
 from weblate.logger import LOGGER
 from weblate.machinery.base import MachineTranslationError
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import (
+    MACHINERY,
+    MachineryAmbiguousError,
+    selected_machinery_settings,
+)
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
@@ -551,13 +555,18 @@ class AutoTranslate(BaseAutoTranslate):
         self.mt_source_hashes = {unit.pk: unit.edit_content_hash for unit in units}
         num_units = len(units)
 
-        machinery_settings = self.translation.component.project.get_machinery_settings()
+        try:
+            machinery_settings = selected_machinery_settings(
+                self.translation.component.project, engines_list
+            )
+        except MachineryAmbiguousError as error:
+            raise MachineTranslationError(str(error)) from error
 
         engines: list[BatchMachineTranslation] = sorted(
             (
-                MACHINERY[engine](setting)
+                MACHINERY[engine.partition(":")[0]](setting)
                 for engine, setting in machinery_settings.items()
-                if engine in MACHINERY and engine in engines_list
+                if engine.partition(":")[0] in MACHINERY
             ),
             key=lambda engine: engine.get_rank(),
             reverse=True,

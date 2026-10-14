@@ -224,6 +224,11 @@ repository state, background tasks, outbound requests, and rendered UI.
        :ref:`project-enable_hooks`, :ref:`hooks-target-matching`,
        :ref:`code-hosting-github-app-webhook`,
        :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
+   * - eTranslation service to Weblate
+     - A public callback carries text suggestions or failures into a short-lived
+       cache entry. Weblate accepts it only with the unpredictable token issued
+       for a pending request; it cannot edit translation units directly.
+       *(documented)* (source: :ref:`mt-etranslation`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)
@@ -561,6 +566,8 @@ Size and rate assumptions:
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
+* SAML identity-provider authentication requests are bounded in encoded and
+  expanded size before XML parsing. *(maintainer)*
 * Project backup metadata, object references, repository paths, outbound URLs,
   regular expressions, and screenshot content are validated before restore
   writes project state. Failed restores remove repository and media objects

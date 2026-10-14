@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import json
 import os
 from contextlib import nullcontext, suppress
 from pathlib import Path
@@ -24,6 +23,10 @@ from django.utils.translation import gettext
 from django.views.generic.edit import CreateView
 
 from weblate.trans.backups import ProjectBackup
+from weblate.trans.component_creation import (
+    get_creation_components,
+    get_creation_projects,
+)
 from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
@@ -64,10 +67,9 @@ if TYPE_CHECKING:
     from django.forms import Form
 
     from weblate.auth.models import AuthenticatedHttpRequest
-    from weblate.trans.forms import (
-        ComponentProjectForm,
-    )
+    from weblate.trans.forms import ComponentProjectForm
     from weblate.trans.models.component import ComponentQuerySet
+    from weblate.trans.models.project import ProjectQuerySet
 
 SESSION_CREATE_KEY = "session_component"
 INTEGRATION_IMPORT_VCS_KEY = "integration_import_vcs"
@@ -282,9 +284,9 @@ class ImportProject(CreateProject):
 @method_decorator(login_required, name="dispatch")
 class CreateComponent(BaseCreateView):
     model = Component
-    projects = None
+    projects: ProjectQuerySet = Project.objects.none()
     stage = None
-    selected_project = None
+    selected_project: int | None = None
     selected_category = None
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     passthrough_fields = (
@@ -438,10 +440,10 @@ class CreateComponent(BaseCreateView):
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
-                with suppress(IndexError):
-                    form.fields["source_language"].initial = Component.objects.filter(
-                        project=self.selected_project
-                    )[0].source_language_id
+                if self.selected_source_language is not None:
+                    form.fields[
+                        "source_language"
+                    ].initial = self.selected_source_language
                 if self.selected_category:
                     category_field.initial = self.selected_category
         self.empty_form = False
@@ -453,6 +455,17 @@ class CreateComponent(BaseCreateView):
                 form.fields["source_component"].queryset = components
                 form.initial["source_component"] = self.duplicate_existing_component
         return form
+
+    @cached_property
+    def selected_source_language(self) -> int | None:
+        if self.selected_project is None:
+            return None
+        return (
+            Component.objects.filter(project_id=self.selected_project)
+            .order_by("pk")
+            .values_list("source_language_id", flat=True)
+            .first()
+        )
 
     def patch_integration_vcs_choice(self, form) -> None:
         vcs_field = form.fields.get("vcs")
@@ -510,17 +523,7 @@ class CreateComponent(BaseCreateView):
             )
         except ValueError:
             self.selected_category = None
-        if request.user.is_superuser:
-            self.projects = Project.objects.order()
-        elif self.has_billing:
-            # ruff: ignore[import-outside-top-level]
-            from weblate.billing.models import Billing
-
-            self.projects = request.user.managed_projects.filter(
-                workspace__billing__in=Billing.objects.get_valid()
-            ).order()
-        else:
-            self.projects = request.user.managed_projects
+        self.projects = get_creation_projects(request.user)
         self.initial = {}
         session_data = {}
         if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
@@ -662,48 +665,11 @@ class CreateComponentSelection(CreateComponent):
     origin: str | None = None
     duplicate_existing_component: int | None = None
 
-    @cached_property
-    def branch_data(self):
-        result = {}
-        components = list(self.components)
-        repos = {component.repo for component in components}
-        existing_branches: dict[str, set[str]] = {repo: set() for repo in repos}
-        remote_branches: dict[str, list[str]] = {}
-
-        for repo, branch in Component.objects.filter(repo__in=repos).values_list(
-            "repo", "branch"
-        ):
-            existing_branches[repo].add(branch)
-
-        for component in components:
-            repo = component.repo
-            if repo not in remote_branches:
-                try:
-                    remote_branches[repo] = component.repository.list_remote_branches()
-                except RepositoryError:
-                    # Ignore error, use no branches
-                    remote_branches[repo] = []
-
-            branches = [
-                branch
-                for branch in remote_branches[repo]
-                if branch != component.branch and branch not in existing_branches[repo]
-            ]
-            if branches:
-                result[component.pk] = branches
-        return result
-
     def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
         super().fetch_params(request)
-        self.components = (
-            Component.objects.filter_access(request.user)
-            .with_repo()
-            .prefetch()
-            .filter(project__in=self.projects)
-            .order_project()
-        )
-        if self.selected_project:
-            self.components = self.components.filter(project__pk=self.selected_project)
+        self.components = get_creation_components(
+            request.user, self.projects, self.selected_project
+        ).prefetch(alerts=False)
         self.origin = request.POST.get("origin")
 
         try:
@@ -727,7 +693,6 @@ class CreateComponentSelection(CreateComponent):
         kwargs["selected_project"] = self.selected_project
         kwargs["existing_form"] = self.get_form(ComponentSelectForm, empty=True)
         kwargs["branch_form"] = self.get_form(ComponentBranchForm, empty=True)
-        kwargs["branch_data"] = json.dumps(self.branch_data)
         kwargs["full_form"] = self.get_form(ComponentInitCreateForm, empty=True)
         if "local" in VCS_REGISTRY:
             kwargs["zip_form"] = self.get_form(ComponentZipCreateForm, empty=True)
@@ -824,17 +789,15 @@ class CreateComponentSelection(CreateComponent):
 
     def get_form(self, form_class=None, empty=False):
         form = super().get_form(form_class, empty=empty)
-        if isinstance(form, ComponentBranchForm):
-            form.fields["component"].queryset = Component.objects.filter(
-                pk__in=self.branch_data.keys()
-            ).order_project()
-            form.branch_data = self.branch_data
-        elif isinstance(form, ComponentSelectForm):
-            if self.duplicate_existing_component:
-                self.components |= Component.objects.filter_access(
-                    self.request.user
-                ).filter(pk=self.duplicate_existing_component)
-            form.fields["component"].queryset = self.components
+        if isinstance(form, ComponentSelectForm):
+            components = self.components
+            if self.duplicate_existing_component and not isinstance(
+                form, ComponentBranchForm
+            ):
+                components |= Component.objects.filter_access(self.request.user).filter(
+                    pk=self.duplicate_existing_component
+                )
+            form.fields["component"].queryset = components
         return form
 
     def get_form_class(self):

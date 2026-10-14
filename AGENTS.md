@@ -26,6 +26,13 @@ For application-developer workflows and broader product integration guidance, us
   permissions and validation explicitly. Keep secrets, computed state, and
   intentionally internal fields unexposed, and document the reason when the
   omission is not self-evident.
+- Keep user-data export, the ``weblate_schemas`` user-data schema, and account
+  settings import in sync. The export and schema should cover profile fields,
+  including fields intentionally excluded from import; omit internal database
+  identifiers and user relations. Validate uploads against the packaged schema
+  and model or form rules; import portable settings only, never counters, audit
+  history, credentials, or source account identifiers. Represent exported
+  project and component references with slugs or slug paths, never database IDs.
 - Do not add tests that duplicate OpenAPI schema expectations covered by the
   tracked snapshot in `docs/specs/openapi.yaml`; schema changes are visible
   during review. Allow focused tests of configuration-dependent behavior that

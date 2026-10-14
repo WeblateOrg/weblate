@@ -4,16 +4,15 @@
 
 {% block addon_content %}
 
+  {% if addon %}
+    {% include "addons/addon_head.html" with addon=addon hide_scope_badges=True %}
+  {% endif %}
+
   {% if form %}
     <form method="post" id="addon-form">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">
-            {% if addon %}
-              {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
-            {% endif %}
-            {% translate "Configure add-on" %}
-          </h4>
+          <h4 class="card-title">{% translate "Configure add-on" %}</h4>
         </div>
         <div class="card-body">
           <input type="hidden" name="form" value="1" />

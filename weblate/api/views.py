@@ -107,7 +107,6 @@ from weblate.api.serializers import (
     NotificationSerializer,
     ProjectComponentSerializer,
     ProjectLockSerializer,
-    ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     ReportCreateSerializer,
@@ -124,7 +123,6 @@ from weblate.api.serializers import (
     ScreenshotSerializer,
     SearchResultSerializer,
     SelfUserSerializer,
-    SingleServiceConfigSerializer,
     StatisticsSerializer,
     SuggestionAcceptRequestSerializer,
     SuggestionDeleteRequestSerializer,
@@ -143,7 +141,6 @@ from weblate.api.serializers import (
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
     WorkflowSettingSerializer,
-    edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
 from weblate.auth.models import Group, Role, TeamMembership, User
@@ -158,8 +155,9 @@ from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
 from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
+from weblate.machinery.api import InstallationSerializer
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
-from weblate.machinery.models import validate_service_configuration
+from weblate.machinery.models import MachineryInstallation
 from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
@@ -2929,31 +2927,24 @@ class ProjectViewSet(
         )
 
     @extend_schema(
-        responses=ProjectMachinerySettingsSerializer,
-        methods=["GET"],
-        description="List machinery settings for a project.",
+        methods=["get"],
+        responses=InstallationSerializer(many=True),
+        description="List project automatic suggestion installations.",
     )
     @extend_schema(
-        request=SingleServiceConfigSerializer,
-        responses=edit_service_settings_response_serializer("post", 201, 400),
-        methods=["POST"],
-        description="Install a new machinery service.",
+        methods=["post"],
+        request=InstallationSerializer,
+        responses={HTTP_201_CREATED: InstallationSerializer},
+        description="Create a project automatic suggestion installation.",
     )
-    @extend_schema(
-        request=SingleServiceConfigSerializer,
-        responses=edit_service_settings_response_serializer("patch", 200, 400),
-        methods=["PATCH"],
-        description="Partially update a single service. Leave configuration blank to remove the service.",
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        url_path="translation-services",
+        pagination_class=None,
     )
-    @extend_schema(
-        request=ProjectMachinerySettingsSerializer,
-        responses=edit_service_settings_response_serializer("put", 200, 400),
-        methods=["PUT"],
-        description="Replace configuration for all services.",
-    )
-    @action(detail=True, methods=["get", "post", "patch", "put"])
     def machinery_settings(self, request: Request, **kwargs):
-        """List or create/update machinery configuration for a project."""
+        """List or create project automatic suggestion installations."""
         project = self.get_object()
 
         if not request.user.has_perm("project.edit", project):
@@ -2961,77 +2952,22 @@ class ProjectViewSet(
                 request, "Can not retrieve/edit machinery configuration"
             )
 
-        if request.method in {"POST", "PATCH"}:
-            try:
-                service_name = request.data["service"]
-            except KeyError as error:
-                raise ValidationError({"service": "Missing service name"}) from error
-
-            service, configuration, errors = validate_service_configuration(
-                service_name,
-                request.data.get("configuration", "{}"),
-                allow_private_targets=False,
+        if request.method == "POST":
+            data = request.data.copy()
+            data["project"] = project.pk
+            serializer = InstallationSerializer(
+                data=data,
+                context={"request": request},
             )
-
-            if service is None or errors:
-                raise ValidationError({"configuration": errors})
-
-            if request.method == "PATCH":
-                if configuration:
-                    # update a configuration
-                    project.machinery_settings[service_name] = configuration
-                    project.save(update_fields=["machinery_settings"])
-                    return Response(
-                        {"message": f"Service updated: {service.name}"},
-                        status=HTTP_200_OK,
-                    )
-                # remove a configuration
-                project.machinery_settings.pop(service_name, None)
-                project.save(update_fields=["machinery_settings"])
-                return Response(
-                    {"message": f"Service removed: {service.name}"},
-                    status=HTTP_200_OK,
-                )
-
-            if request.method == "POST":
-                if service_name in project.machinery_settings:
-                    raise ValidationError({"service": ["Service already exists"]})
-
-                project.machinery_settings[service_name] = configuration
-                project.save(update_fields=["machinery_settings"])
-                return Response(
-                    {"message": f"Service installed: {service.name}"},
-                    status=HTTP_201_CREATED,
-                )
-
-        elif request.method == "PUT":
-            # replace all service configuration
-            valid_configurations: dict[str, dict] = {}
-            for service_name, configuration in request.data.items():
-                service, configuration, errors = validate_service_configuration(
-                    service_name,
-                    configuration,
-                    allow_private_targets=False,
-                )
-
-                if service is None or errors:
-                    raise ValidationError({"configuration": errors})
-
-                valid_configurations[service_name] = configuration
-
-            project.machinery_settings = valid_configurations
-            project.save(update_fields=["machinery_settings"])
-            return Response(
-                {
-                    "message": f"Services installed: {', '.join(valid_configurations.keys())}"
-                },
-                status=HTTP_200_OK,
-            )
-
-        # GET method
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(
-            data=ProjectMachinerySettingsSerializer(project).data,
-            status=HTTP_200_OK,
+            InstallationSerializer(
+                MachineryInstallation.objects.filter(project=project).order_by("id"),
+                many=True,
+                context={"request": request},
+            ).data
         )
 
     @extend_schema(

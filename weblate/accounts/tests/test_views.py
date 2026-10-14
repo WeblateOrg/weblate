@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import json
 from time import sleep
 from types import SimpleNamespace
 from unittest import mock
@@ -15,7 +16,10 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.cache import cache
-from django.test.utils import modify_settings, override_settings
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -47,6 +51,7 @@ from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Category
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
@@ -920,7 +925,7 @@ class ViewTest(RepoTestCase):
             },
         )
 
-        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertRedirects(response, f"{reverse('profile')}#security")
         updated_user = User.objects.get(username="testuser")
         self.assertTrue(updated_user.check_password("1pa$$word!"))
         self.assertNotEqual(updated_user.auth_token.key, old_token)
@@ -940,7 +945,7 @@ class ViewTest(RepoTestCase):
             },
         )
 
-        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertRedirects(response, f"{reverse('profile')}#security")
         updated_user = User.objects.get(username="testuser")
         self.assertTrue(updated_user.check_password("1pa$$word!"))
         self.assertEqual(updated_user.auth_token.key, old_token)
@@ -1013,6 +1018,117 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.profile.listing_columns, ["total", "untranslated", "checks"]
         )
+
+    def test_profile_tab_navigation_and_identity_selects(self) -> None:
+        response = self.client.get(reverse("profile"))
+        content = response.content.decode()
+        navigation = content.split('<ul class="nav nav-pills flex-wrap"', 1)[1].split(
+            "</ul>", 1
+        )[0]
+        tabs = (
+            "account",
+            "profile",
+            "languages",
+            "preferences",
+            "notifications",
+            "security",
+            "api",
+            "teams",
+            "licenses",
+            "audit",
+        )
+        positions = [navigation.index(f'data-bs-target="#{tab}"') for tab in tabs]
+        self.assertEqual(positions, sorted(positions))
+        self.assertRegex(content, r'class="tab-pane show active"\s+id="account"')
+        for field in ("email", "commit_email", "commit_name"):
+            self.assertRegex(content, rf'<select[^>]*name="{field}"')
+
+        account = content.split('id="account"', 1)[1].split('id="profile"', 1)[0]
+        security = content.split('id="security"', 1)[1].split('id="api"', 1)[0]
+        developer = content.split('id="api"', 1)[1].split('id="teams"', 1)[0]
+        self.assertIn("Personal information", account)
+        self.assertIn("Version control identity", account)
+        self.assertIn("Commit e-mail", account)
+        self.assertIn("Account management", account)
+        self.assertIn("Two-factor authentication", security)
+        self.assertIn(reverse("webauthn-register"), security)
+        self.assertNotIn('id="passkey-registration-placeholder"', security)
+        self.assertIn("Add sign-in method", security)
+        self.assertIn("Code-hosting connections", developer)
+        self.assertNotIn("Code-hosting connections", security)
+
+    def test_profile_saves_only_submitted_tab(self) -> None:
+        original_theme = self.user.profile.theme
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#account",
+                "username": self.user.username,
+                "full_name": "Updated name",
+                "email": self.user.email,
+                "theme": "invalid",
+                "website": "https://127.0.0.1/profile",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Updated name")
+        self.assertEqual(self.user.profile.theme, original_theme)
+        self.assertEqual(self.user.profile.website, "")
+
+    def test_profile_ignores_other_tabs_on_public_profile_save(self) -> None:
+        original_name = self.user.full_name
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#profile",
+                "website": "https://example.org/profile",
+                "username": "invalid username",
+                "theme": "invalid",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#profile")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, original_name)
+        self.assertEqual(self.user.profile.website, "https://example.org/profile")
+
+    def test_dashboard_visibility_is_saved_with_preferences(self) -> None:
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#preferences",
+                "theme": "auto",
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+                "dashboard_view": Profile.DASHBOARD_WATCHED,
+                "hide_completed": "on",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#preferences")
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.hide_completed)
+
+    def test_profile_error_reopens_submitted_tab(self) -> None:
+        response = self.client.post(
+            reverse("profile"),
+            {"activetab": "#profile", "website": "https://127.0.0.1/profile"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["form_errors"])
+        self.assertContains(response, 'data-active-tab="#profile"')
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.website, "")
+
+    def test_profile_rejects_unknown_tab(self) -> None:
+        response = self.client.post(reverse("profile"), {"activetab": "#security"})
+        self.assertEqual(response.status_code, 400)
 
     def test_profile_listing_columns_rejects_duplicates(self) -> None:
         original_listing_columns = self.user.profile.listing_columns
@@ -1290,6 +1406,21 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Select a valid choice.")
 
     def test_userdata(self) -> None:
+        notification = NOTIFICATIONS[0]
+        frequency = notification.get_freq_choices()[0][0]
+        self.user.subscription_set.create(
+            notification=notification.get_name(),
+            scope=NotificationScope.SCOPE_PROJECT,
+            frequency=frequency,
+            project=self.project,
+            onetime=True,
+        )
+        self.user.subscription_set.create(
+            notification=notification.get_name(),
+            scope=NotificationScope.SCOPE_COMPONENT,
+            frequency=frequency,
+            component=self.component,
+        )
         response = self.client.post(reverse("userdata"))
         self.assertContains(response, "basic")
 
@@ -1301,6 +1432,237 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')
         validate(response.json(), load_schema("weblate-userdata.schema.json"))
+        self.assertIn("commented", response.json()["profile"])
+        self.assertIn("last_2fa", response.json()["profile"])
+        self.assertIn(
+            {
+                "notification": notification.get_name(),
+                "scope": NotificationScope.SCOPE_PROJECT,
+                "frequency": frequency,
+                "onetime": True,
+                "project": self.project.slug,
+                "component": None,
+            },
+            response.json()["notifications"],
+        )
+        self.assertIn(
+            {
+                "notification": notification.get_name(),
+                "scope": NotificationScope.SCOPE_COMPONENT,
+                "frequency": frequency,
+                "onetime": False,
+                "project": None,
+                "component": "/".join(self.component.get_url_path()),
+            },
+            response.json()["notifications"],
+        )
+
+    def test_userdata_nested_component_paths(self) -> None:
+        parent = Category(name="Parent", slug="parent", project=self.project)
+        Category.objects.bulk_create([parent])
+        child = Category(
+            name="Child", slug="child", project=self.project, category=parent
+        )
+        Category.objects.bulk_create([child])
+        type(self.component).objects.filter(pk=self.component.pk).update(category=child)
+        for notification in NOTIFICATIONS[:2]:
+            self.user.subscription_set.create(
+                notification=notification.get_name(),
+                scope=NotificationScope.SCOPE_COMPONENT,
+                frequency=notification.get_freq_choices()[0][0],
+                component=self.component,
+            )
+        with CaptureQueriesContext(connection) as queries:
+            data = self.user.profile.dump_data()
+        expected = f"{self.project.slug}/parent/child/{self.component.slug}"
+        self.assertEqual(
+            [rule["component"] for rule in data["notifications"] if rule["component"]],
+            [expected, expected],
+        )
+        self.assertEqual(
+            sum('FROM "trans_category"' in query["sql"] for query in queries), 2
+        )
+
+    def test_import_userdata_settings(self) -> None:
+        data = self.user.profile.dump_data()
+        data["basic"]["full_name"] = "Imported Person"
+        data["profile"].update(
+            theme="dark",
+            website="https://example.org/",
+            fediverse="https://example.org/file.zip",
+            nearby_strings=15,
+            hide_completed=not self.user.profile.hide_completed,
+            languages=["cs", "not-available", "\x00"],
+            watched=[self.project.slug, "not-available", "\x00"],
+            translated=999999,
+            dashboard_component_list=123456,
+            public_email="unverified@example.org",
+            editor_link="javascript:alert(1)",
+        )
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                )
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "not-available")
+        self.user.profile.refresh_from_db()
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Imported Person")
+        self.assertEqual(self.user.profile.theme, "dark")
+        self.assertEqual(self.user.profile.website, "https://example.org/")
+        self.assertEqual(self.user.profile.fediverse, "")
+        self.assertEqual(self.user.profile.nearby_strings, 15)
+        self.assertEqual(
+            self.user.profile.hide_completed, data["profile"]["hide_completed"]
+        )
+        self.assertEqual(self.user.profile.translated, 0)
+        self.assertEqual(self.user.profile.public_email, "")
+        self.assertEqual(self.user.profile.editor_link, "")
+        self.assertTrue(self.user.profile.languages.filter(code="cs").exists())
+        self.assertTrue(self.user.profile.watched.filter(pk=self.project.pk).exists())
+
+    def test_import_userdata_rejects_invalid_file(self) -> None:
+        original_theme = self.user.profile.theme
+        response = self.client.post(
+            reverse("import-userdata"),
+            {"file": SimpleUploadedFile("user.json", b'{"profile": {}}')},
+            follow=True,
+        )
+        self.assertContains(response, "not valid user data")
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, original_theme)
+
+    def test_import_userdata_ignores_scoped_notification_limit(self) -> None:
+        data = self.user.profile.dump_data()
+        data["profile"]["theme"] = "dark"
+        rule = data["notifications"][0].copy()
+        rule.update(scope=NotificationScope.SCOPE_PROJECT, project=self.project.slug)
+        data["notifications"].extend([rule] * 501)
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                ),
+                "notifications": "on",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, "dark")
+
+    def test_import_userdata_preserves_invalid_notification(self) -> None:
+        data = self.user.profile.dump_data()
+        rule = next(
+            rule
+            for rule in data["notifications"]
+            if rule["scope"] in NotificationScope.configurable()
+            and rule["project"] is None
+            and rule["component"] is None
+        )
+        original_frequency = rule["frequency"]
+        rule["frequency"] = 999
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                ),
+                "notifications": "on",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "could not be imported")
+        self.assertEqual(
+            self.user.subscription_set.get(
+                notification=rule["notification"],
+                scope=rule["scope"],
+                project=None,
+                component=None,
+            ).frequency,
+            original_frequency,
+        )
+
+    def test_import_userdata_optional_settings(self) -> None:
+        data = self.user.profile.dump_data()
+        exported = {
+            (rule["notification"], rule["scope"]) for rule in data["notifications"]
+        }
+        stale_notification, stale_scope = next(
+            (notification, scope)
+            for notification in NOTIFICATIONS
+            for scope in NotificationScope.configurable()
+            if (notification.get_name(), scope) not in exported
+        )
+        stale = self.user.subscription_set.create(
+            notification=stale_notification.get_name(),
+            scope=stale_scope,
+            frequency=stale_notification.get_freq_choices()[0][0],
+        )
+        data["profile"]["commit_name"] = Profile.CommitNameChoices.PUBLIC
+        rule = data["notifications"][0]
+        notification = next(
+            item for item in NOTIFICATIONS if item.get_name() == rule["notification"]
+        )
+        rule["frequency"] = next(
+            value
+            for value, _label in notification.get_freq_choices()
+            if value != rule["frequency"]
+        )
+
+        def upload(**options: str) -> None:
+            self.client.post(
+                reverse("import-userdata"),
+                {
+                    "file": SimpleUploadedFile(
+                        "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                    ),
+                    **options,
+                },
+            )
+
+        original_frequency = self.user.subscription_set.get(
+            notification=rule["notification"],
+            scope=rule["scope"],
+            project=None,
+            component=None,
+        ).frequency
+        upload()
+        self.assertTrue(self.user.subscription_set.filter(pk=stale.pk).exists())
+        self.user.profile.refresh_from_db()
+        self.assertNotEqual(
+            self.user.profile.commit_name, Profile.CommitNameChoices.PUBLIC
+        )
+        self.assertEqual(
+            self.user.subscription_set.get(
+                notification=rule["notification"],
+                scope=rule["scope"],
+                project=None,
+                component=None,
+            ).frequency,
+            original_frequency,
+        )
+
+        upload(notifications="on", commit_identity="on")
+        self.assertFalse(self.user.subscription_set.filter(pk=stale.pk).exists())
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            self.user.profile.commit_name, Profile.CommitNameChoices.PUBLIC
+        )
+        self.assertEqual(
+            self.user.subscription_set.get(
+                notification=rule["notification"],
+                scope=rule["scope"],
+                project=None,
+                component=None,
+            ).frequency,
+            rule["frequency"],
+        )
 
     def test_subscription(self) -> None:
         # Get profile page

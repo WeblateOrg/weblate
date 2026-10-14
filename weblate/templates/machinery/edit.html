@@ -13,6 +13,9 @@
     <li class="breadcrumb-item">
       <a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a>
     </li>
+  {% elif workspace %}
+    <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Automatic suggestions" %}</a></li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
@@ -33,6 +36,13 @@
         </h4>
       </div>
       <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label" for="machinery-slug">{% translate "Installation slug (optional)" %}</label>
+          <input class="form-control"
+                 id="machinery-slug"
+                 name="slug"
+                 value="{% if installation %}{{ installation.slug }}{% endif %}" />
+        </div>
         {% if machinery_sends_data_to_third_party %}
           <div class="alert alert-warning" role="alert">
             {% translate "This service can send source strings, translations, and related context to a third-party provider. Review the provider's terms and privacy policy before enabling it." %}

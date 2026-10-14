@@ -23,9 +23,9 @@ from weblate.addons.forms import AutoAddonForm
 from weblate.addons.models import Addon, AddonActivityLog
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, TeamMembership, User
-from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.models import MachineryInstallation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.forms import AutoForm
@@ -843,6 +843,32 @@ class AutoTranslationTest(ReusableViewTestCase):
             activity_log.details["result"]["warnings"][0],
         )
 
+    def test_ambiguous_saved_engine_records_failure_result(self) -> None:
+        project = self.component2.project
+        MachineryInstallation.objects.create(project=project, engine="openai")
+        activity_log = self.create_autotranslate_activity_log()
+        MachineryInstallation.objects.create(project=project, engine="openai")
+        translation = self.component2.translation_set.get(language_code="cs")
+
+        result = auto_translate(
+            translation_id=translation.pk,
+            user_id=self.user.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            source_component_id=None,
+            engines=["openai"],
+            threshold=100,
+            activity_log_id=activity_log.pk,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation failed: Select an available installation using openai:<id>",
+        )
+        activity_log.refresh_from_db()
+        self.assertEqual(activity_log.details["result"], result)
+
     def test_autotranslate_missing_target_returns_result_dict(self) -> None:
         activity_log = self.create_autotranslate_activity_log()
         translation = self.component2.translation_set.get(language_code="cs")
@@ -1051,14 +1077,18 @@ class AutoTranslationTest(ReusableViewTestCase):
         self.project.workspace = workspace
         self.component2.project.workspace = workspace
         identifier = DummyTranslation.get_identifier()
-        self.project.machinery_settings[identifier] = {}
-        self.project.save(update_fields=["workspace", "machinery_settings"])
+        self.project.save(update_fields=["workspace"])
+        installation = MachineryInstallation.objects.create(
+            project=self.project, engine=identifier
+        )
         self.component2.project.save(update_fields=["workspace"])
-        Setting.objects.filter(category=SettingCategory.MT, name=identifier).delete()
+        MachineryInstallation.objects.filter(
+            engine=identifier, project__isnull=True, workspace__isnull=True
+        ).delete()
 
         response = self.client.get(workspace.get_absolute_url())
 
-        self.assertContains(response, f'value="{identifier}"')
+        self.assertContains(response, f'value="{installation.selector}"')
         self.assertContains(response, "Dummy")
 
     @override_settings(
@@ -1077,8 +1107,7 @@ class AutoTranslationTest(ReusableViewTestCase):
         )
         component = self.create_po_new_base(name="Machine component", project=project)
         identifier = DummyTranslation.get_identifier()
-        project.machinery_settings[identifier] = {}
-        project.save(update_fields=["machinery_settings"])
+        MachineryInstallation.objects.create(project=project, engine=identifier)
 
         result = auto_translate(
             workspace_id=str(workspace.pk),
@@ -1098,6 +1127,47 @@ class AutoTranslationTest(ReusableViewTestCase):
         translation = component.translation_set.get(language_code="cs")
         unit = self.get_unit("Hello, world!\n", translation=translation)
         self.assertIn(unit.target, {"Nazdar světe!\n", "Ahoj světe!\n"})
+
+    def test_workspace_continues_after_ambiguous_saved_engine(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        MachineryInstallation.objects.create(project=self.project, engine="openai")
+        MachineryInstallation.objects.create(project=self.project, engine="openai")
+        project = Project.objects.create(
+            name="Unambiguous project",
+            slug="unambiguous-project",
+            workspace=workspace,
+        )
+        component = self.create_po_new_base(
+            name="Unambiguous component", project=project
+        )
+        MachineryInstallation.objects.create(project=project, engine="openai")
+        auto = BatchAutoTranslate(
+            workspace, user=self.user, q="state:<translated", mode="translate"
+        )
+        # Process the ambiguous project before the project that can translate.
+        auto.translations = sorted(
+            auto.translations,
+            key=lambda translation: translation.component.project_id != self.project.pk,
+        )
+        with patch(
+            "weblate.trans.autotranslate.fetch_machinery_matches", return_value={}
+        ) as fetch_matches:
+            message = auto.perform(
+                auto_source="mt",
+                engines=["openai"],
+                threshold=100,
+                source_component_ids=None,
+            )
+        self.assertIn("Automatic translation failed:", message)
+        fetch_matches.assert_called()
+        for call in fetch_matches.call_args_list:
+            self.assertTrue(call.kwargs["units"])
+            self.assertEqual(
+                {unit.translation.component_id for unit in call.kwargs["units"]},
+                {component.pk},
+            )
 
     def test_autotranslate_workspace_ignores_locked_components(self) -> None:
         workspace = Workspace.objects.create(name="Automatic translation workspace")
@@ -1408,7 +1478,24 @@ class AutoTranslationTest(ReusableViewTestCase):
             call_command("auto_translate", "test", "test", "ia", add=True)
 
     def test_command_mt(self) -> None:
+        MachineryInstallation.objects.get_or_create(
+            engine="weblate", project=None, workspace=None
+        )
         call_command("auto_translate", "--mt", "weblate", "test", "test", "cs")
+
+    def test_command_mt_installation_selector(self) -> None:
+        installation, _ = MachineryInstallation.objects.get_or_create(
+            engine="weblate", project=None, workspace=None
+        )
+        installation.slug = "preferred"
+        installation.save(update_fields=["slug"])
+        for selector in (installation.selector, "weblate:preferred"):
+            with self.subTest(selector=selector):
+                call_command("auto_translate", "--mt", selector, "test", "test", "cs")
+        with self.assertRaises(CommandError):
+            call_command(
+                "auto_translate", "--mt", "weblate:missing", "test", "test", "cs"
+            )
 
     def test_command_mt_error(self) -> None:
         with self.assertRaises(CommandError):
@@ -1749,6 +1836,26 @@ class AutoTranslationMtTest(ReusableViewTestCase):
         form = AutoForm(self.component3, self.user)
 
         self.assertEqual(form.fields["engines"].initial, ["weblate"])
+
+    def test_form_accepts_installation_slug(self) -> None:
+        installation = MachineryInstallation.objects.get(
+            engine="weblate", project__isnull=True, workspace__isnull=True
+        )
+        installation.slug = "preferred-memory"
+        installation.save(update_fields=["slug"])
+        form = AutoForm(
+            self.component3,
+            self.user,
+            {
+                "auto_source": "mt",
+                "engines": ["weblate:preferred-memory"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["engines"], ["weblate:preferred-memory"])
 
     def test_form_ignores_component_in_machine_translation_mode(self) -> None:
         form = AutoForm(

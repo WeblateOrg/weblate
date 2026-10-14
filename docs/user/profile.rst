@@ -60,7 +60,9 @@ User profile
 The user profile is accessible by clicking your user icon in the top-right of the top menu,
 then the :guilabel:`Settings` menu.
 
-The user profile contains your preferences. Name and e-mail address are used in VCS commits, so keep this info accurate.
+The settings tabs separate account and commit identity, public profile information,
+preferences, security, and developer access. Name and e-mail address are used in
+VCS commits, so keep this info accurate.
 
 
 .. note::
@@ -244,9 +246,22 @@ Actual delivery also depends on the event author, digest content, and rate limit
 Account
 -------
 
-The :guilabel:`Account` tab lets you set up basic account details,
-connect various services you can use to sign in into Weblate, completely
-remove your account, or download your user data (see :ref:`schema-userdata`).
+The :guilabel:`Account` tab contains your username, name, account e-mail, and
+commit identity. You can verify another e-mail address here. The account
+management section at the bottom lets you export your user data (see
+:ref:`schema-userdata`), import settings, or remove your account.
+
+You can import settings from a user data file on the :guilabel:`Account` tab.
+Compatible language, editor, dashboard, watched-project, and public-profile
+settings replace the corresponding settings on this server. Unavailable values
+are skipped and shown after import. The file must be no larger than 50 MB.
+Contribution counts, activity history,
+username, and account e-mail are not imported.
+
+General notification settings and commit identity choices can be imported
+separately by selecting the corresponding options. Both are off by default.
+Project- and component-specific and one-time notification rules are included
+in the export but not imported.
 
 The :guilabel:`Commit e-mail` and :guilabel:`Commit name` settings let you choose
 private identities instead of your account e-mail and name in version control
@@ -260,18 +275,12 @@ to ``False``. Your explicit choices override these defaults.
 Changes to these settings affect future commits. Names and e-mail addresses
 already recorded in repository history remain unchanged.
 
-.. note::
-
-   The list of services depends on your Weblate configuration, but can be made to
-   include popular sites such as GitLab, GitHub, Google, Facebook, or Bitbucket or other
-   OAuth 2.0 providers.
-
-.. image:: /screenshots/authentication.webp
+.. image:: /screenshots/profile-account.webp
 
 .. _profile:
 
-Profile
--------
+Public profile
+--------------
 
 All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
@@ -295,20 +304,44 @@ should use common profile paths, such as ``/username``, ``/@username``,
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
 
+.. _profile-security:
+
+Security
+--------
+
+The :guilabel:`Security` tab manages your password, connected sign-in identities,
+and two-factor authentication. Security keys, authenticator apps, and recovery
+codes each show their current status and management actions.
+
+.. image:: /screenshots/authentication.webp
+
+.. note::
+
+   The list of sign-in services depends on your Weblate configuration, but can
+   include sites such as GitLab, GitHub, Google, Facebook, or Bitbucket and other
+   OAuth 2.0 providers.
+
+Previously connected services remain listed after an administrator removes their
+authentication backend. You can still use :guilabel:`Disconnect` to remove their
+sign-in identities from your account.
+
 Licenses
 --------
 
-API access
-----------
+Developer settings
+------------------
 
-You can get or reset your API access token here.
+You can get or reset your API access token and view usage examples here. Use
+:guilabel:`Manage code-hosting connections` for integrations with workspaces you
+administer. These connections are separate from the sign-in identities in
+:guilabel:`Security`.
 
 .. _audit-log:
 
-Audit log
----------
+Activity
+--------
 
-Audit log keeps track of the actions performed with your account. It logs IP
+The audit log keeps track of the actions performed with your account. It logs IP
 address and browser for every important action with your account. The critical
 actions also trigger a notification to a primary e-mail address.
 

@@ -56,7 +56,7 @@ from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_au
 from weblate.auth.models import TeamMembership, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import Change, ComponentList, Translation
+from weblate.trans.models import Category, Change, ComponentList, Translation
 from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
@@ -303,6 +303,28 @@ class Subscription(models.Model):
         )
 
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
+
+
+def load_subscription_categories(
+    subscriptions: Iterable[Subscription],
+) -> dict[int, tuple[int | None, str]]:
+    """Load category ancestors for component subscription paths in batches."""
+    categories: dict[int, tuple[int | None, str]] = {}
+    pending = {
+        subscription.component.category_id
+        for subscription in subscriptions
+        if subscription.component and subscription.component.category_id
+    }
+    while pending:
+        parents = set()
+        for category_id, parent_id, slug in Category.objects.filter(
+            pk__in=pending
+        ).values_list("pk", "category_id", "slug"):
+            categories[category_id] = (parent_id, slug)
+            if parent_id and parent_id not in categories:
+                parents.add(parent_id)
+        pending = parents
+    return categories
 
 
 def schedule_inaccessible_subscription_cleanup(user_ids: set[int], using: str) -> None:
@@ -1260,7 +1282,11 @@ class Profile(models.Model):
                 {"dashboard_component_list": message, "dashboard_view": message}
             )
 
-    def dump_data(self):
+    def dump_data(
+        self,
+        subscriptions: Iterable[Subscription] | None = None,
+        categories: dict[int, tuple[int | None, str]] | None = None,
+    ):
         def map_attr(attr):
             if attr.endswith("_id"):
                 return attr[:-3]
@@ -1279,6 +1305,7 @@ class Profile(models.Model):
                 "suggested",
                 "translated",
                 "uploaded",
+                "commented",
                 "hide_completed",
                 "theme",
                 "secondary_in_zen",
@@ -1289,8 +1316,25 @@ class Profile(models.Model):
                 "translate_mode",
                 "zen_mode",
                 "special_chars",
+                "nearby_strings",
+                "auto_watch",
+                "contribute_personal_tm",
                 "dashboard_view",
                 "dashboard_component_list_id",
+                "website",
+                "contact",
+                "liberapay",
+                "fediverse",
+                "codesite",
+                "github",
+                "twitter",
+                "linkedin",
+                "location",
+                "company",
+                "public_email",
+                "commit_email",
+                "commit_name",
+                "last_2fa",
             ),
             "auditlog": [
                 dump_object(log, "address", "user_agent", "timestamp", "activity")
@@ -1305,6 +1349,35 @@ class Profile(models.Model):
         ]
         result["profile"]["watched"] = [
             project.slug for project in self.watched.iterator()
+        ]
+        if subscriptions is None:
+            subscriptions = self.user.subscription_set.select_related(
+                "project", "component", "component__project"
+            )
+        subscriptions = list(subscriptions)
+        if categories is None:
+            categories = load_subscription_categories(subscriptions)
+
+        def component_path(component):
+            path = [component.slug]
+            category_id = component.category_id
+            while category_id:
+                category_id, slug = categories[category_id]
+                path.append(slug)
+            path.append(component.project.slug)
+            return "/".join(reversed(path))
+
+        result["notifications"] = [
+            {
+                **dump_object(
+                    subscription, "notification", "scope", "frequency", "onetime"
+                ),
+                "project": subscription.project.slug if subscription.project else None,
+                "component": component_path(subscription.component)
+                if subscription.component
+                else None,
+            }
+            for subscription in subscriptions
         ]
         return result
 
