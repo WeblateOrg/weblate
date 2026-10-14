@@ -21,6 +21,7 @@ from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
+from django.http import StreamingHttpResponse
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
@@ -1342,6 +1343,66 @@ class ExportTest(ViewTestCase):
             if response is not None:
                 response.file_to_stream.close()
             Path(filename).write_bytes(original)
+
+    def test_head_export_skips_snapshot(self) -> None:
+        translation = self.get_translation()
+        if len(translation.filenames) != 1:
+            self.skipTest("single-file download only")
+        filename = translation.filenames[0]
+        request = RequestFactory().head(reverse("download", kwargs=self.kw_translation))
+
+        with patch("weblate.utils.views._snapshot_file_response") as snapshot:
+            response = download_translation_file(request, translation)
+
+        snapshot.assert_not_called()
+        self.assertTrue(response.streaming)
+        self.assertEqual(b"".join(response.streaming_content), b"")
+        self.assertEqual(int(response["Content-Length"]), os.path.getsize(filename))
+        self.assertEqual(response["Content-Disposition"], self.test_header)
+
+    def test_head_export_preserves_content_negotiation(self) -> None:
+        translation = self.get_translation()
+        if len(translation.filenames) != 1:
+            self.skipTest("single-file download only")
+        url = reverse("download", kwargs=self.kw_translation)
+
+        def streaming_response(
+            filename: str, content_type: str, _refresh_lock: object
+        ) -> StreamingHttpResponse:
+            response = StreamingHttpResponse((b"content",), content_type=content_type)
+            response["Content-Length"] = os.path.getsize(filename)
+            return response
+
+        with patch(
+            "weblate.utils.views._snapshot_file_response",
+            side_effect=streaming_response,
+        ):
+            for accept_encoding in ("identity", "gzip"):
+                with self.subTest(accept_encoding=accept_encoding):
+                    get_response = download_translation_file(
+                        RequestFactory().get(
+                            url, headers={"accept-encoding": accept_encoding}
+                        ),
+                        translation,
+                    )
+                    head_response = download_translation_file(
+                        RequestFactory().head(
+                            url, headers={"accept-encoding": accept_encoding}
+                        ),
+                        translation,
+                    )
+
+                    self.assertTrue(head_response.streaming)
+                    for header in (
+                        "Content-Type",
+                        "Content-Disposition",
+                        "Content-Encoding",
+                        "Content-Length",
+                        "Vary",
+                    ):
+                        self.assertEqual(
+                            head_response.get(header), get_response.get(header), header
+                        )
 
     def test_export_repository_lock_timeout(self) -> None:
         translation = self.get_translation()

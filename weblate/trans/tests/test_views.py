@@ -14,7 +14,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
 
@@ -107,6 +107,23 @@ class ZipDownloadTest(TestCase):
             with self.subTest(name=name):
                 response = zip_download("", [], name=name)
                 self.assertEqual(response["Content-Disposition"], expected)
+
+    def test_zip_download_refreshes_lock_while_walking_directories(self) -> None:
+        refresh_lock = MagicMock()
+
+        with TemporaryDirectory() as root_name:
+            root = Path(root_name)
+            (root / "empty" / "nested").mkdir(parents=True)
+            with patch(
+                "weblate.utils.views.monotonic", side_effect=(0, 0, 0, 301, 301)
+            ):
+                response = zip_download(
+                    str(root), [str(root)], refresh_lock=refresh_lock
+                )
+
+        with ZipFile(BytesIO(response.content)) as archive:
+            self.assertEqual(archive.namelist(), [])
+        refresh_lock.assert_called_once_with()
 
     def test_zip_download_rejects_symlink_to_other_allowed_root(self) -> None:
         sentinel = b"other component"
