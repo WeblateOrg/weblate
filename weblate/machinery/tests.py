@@ -10583,6 +10583,18 @@ class ViewsTest(FixtureTestCase):
             ).exists()
         )
 
+    def test_configure_global_case_insensitive_order(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        MachineryInstallation.objects.create(engine="etranslation")
+        MachineryInstallation.objects.create(engine="glosbe")
+
+        response = self.client.get(reverse("manage-machinery"))
+
+        for context_name in ("configured_services", "available_services"):
+            names = [service.name for service in response.context[context_name]]
+            self.assertEqual(names, sorted(names, key=str.casefold))
+
     def test_inherited_installation_scope_badges(self) -> None:
         self.user.is_superuser = True
         self.user.save()

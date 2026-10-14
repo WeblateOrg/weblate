@@ -1837,6 +1837,16 @@ class AutoTranslationMtTest(ReusableViewTestCase):
 
         self.assertEqual(form.fields["engines"].initial, ["weblate"])
 
+    def test_form_orders_engines_case_insensitively(self) -> None:
+        MachineryInstallation.objects.create(engine="etranslation")
+        MachineryInstallation.objects.create(engine="glosbe")
+
+        form = AutoForm(self.component3, self.user)
+
+        choices = list(form.fields["engines"].choices)
+        selectors = [choice[0] for choice in choices]
+        self.assertLess(selectors.index("etranslation"), selectors.index("glosbe"))
+
     def test_form_accepts_installation_slug(self) -> None:
         installation = MachineryInstallation.objects.get(
             engine="weblate", project__isnull=True, workspace__isnull=True
