@@ -1410,7 +1410,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertTrue(
             Change.objects.filter(
                 action=ActionEvents.COMMENT_DELETE,
-                details={"comment": "Bad comment"},
+                details={
+                    "comment": "Bad comment",
+                    "change_origin": {"scope": "system"},
+                },
                 user=self.user,
                 unit=unit,
             ).exists()

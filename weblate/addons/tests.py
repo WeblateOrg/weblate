@@ -8094,6 +8094,14 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
 
 
 class AddonChangeDetailsMigrationTest(TestCase):
+    def create_historical_change(
+        self, *, action: ActionEvents, target: str, details: dict[str, object]
+    ) -> Change:
+        """Seed the metadata as it existed before origin tracking."""
+        change = Change.objects.create(action=action, target=target, details=details)
+        Change.objects.filter(pk=change.pk).update(details=details)
+        return change
+
     def test_automation_workflows_are_scrubbed(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0117_change_addon_redact_automation_workflow"
@@ -8108,7 +8116,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 }
             ],
         }
-        versioned = Change.objects.create(
+        versioned = self.create_historical_change(
             action=ActionEvents.ADDON_CHANGE,
             target="weblate.automation.automation",
             details={
@@ -8118,12 +8126,12 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 "redacted_fields": [],
             },
         )
-        legacy = Change.objects.create(
+        legacy = self.create_historical_change(
             action=ActionEvents.ADDON_CREATE,
             target="weblate.automation.automation",
             details={"workflow": workflow},
         )
-        unrelated = Change.objects.create(
+        unrelated = self.create_historical_change(
             action=ActionEvents.ADDON_CHANGE,
             target=WebhookAddon.name,
             details={"workflow": workflow},
@@ -8152,7 +8160,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
             "weblate.trans.migrations.0098_scrub_addon_change_details"
         )
         webhook_changes = [
-            Change.objects.create(
+            self.create_historical_change(
                 action=action,
                 target=WebhookAddon.name,
                 details={
@@ -8168,7 +8176,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 ActionEvents.ADDON_REMOVE,
             )
         ]
-        slack_change = Change.objects.create(
+        slack_change = self.create_historical_change(
             action=ActionEvents.ADDON_CHANGE,
             target=SlackWebhookAddon.name,
             details={
@@ -8176,7 +8184,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 "webhook_url": "https://example.com/private-hook",
             },
         )
-        fedora_change = Change.objects.create(
+        fedora_change = self.create_historical_change(
             action=ActionEvents.ADDON_CHANGE,
             target=FedoraMessagingAddon.name,
             details={
@@ -8187,7 +8195,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 "topic_prefix": "weblate",
             },
         )
-        other_change = Change.objects.create(
+        other_change = self.create_historical_change(
             action=ActionEvents.CHANGE,
             target=WebhookAddon.name,
             details={"key": "value"},
@@ -8233,7 +8241,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
         migration = importlib.import_module(
             "weblate.trans.migrations.0098_scrub_addon_change_details"
         )
-        change_object = Change.objects.create(
+        change_object = self.create_historical_change(
             action=ActionEvents.ADDON_CHANGE,
             target="example.unknown.addon",
             details={"path": "private-path"},

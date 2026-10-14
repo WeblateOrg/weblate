@@ -29,12 +29,15 @@ from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Project
+from weblate.utils.change_origin import change_origin_context
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from collections.abc import Awaitable
+
+    from django.http import HttpResponse, HttpResponseBase
     from django.http.request import HttpRequest
     from social_core.backends.base import BaseAuth
 
@@ -85,7 +88,23 @@ INLINE_PATHS = {
 }
 
 
-class ProxyMiddleware(MiddlewareMixin):
+class ChangeOriginMiddleware(MiddlewareMixin):
+    """Bound request provenance to the complete request lifecycle."""
+
+    def __call__(
+        self, request: HttpRequest
+    ) -> HttpResponseBase | Awaitable[HttpResponseBase]:
+        if self.async_mode:
+            return self.__acall__(request)
+        with change_origin_context({"scope": "ui"}):
+            return super().__call__(request)
+
+    async def __acall__(self, request: HttpRequest) -> HttpResponseBase:  # ruff: ignore[bad-dunder-method-name]
+        with change_origin_context({"scope": "ui"}):
+            return await super().__acall__(request)
+
+
+class ProxyMiddleware(ChangeOriginMiddleware):
     """
     Middleware that updates REMOTE_ADDR from proxy.
 

@@ -11,6 +11,7 @@ from html import escape
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.core import serializers
 from django.db import connection
 from django.http import QueryDict
 from django.template.loader import render_to_string
@@ -26,6 +27,8 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import ChangeFeedScope, TranslationChangesFeed
 from weblate.trans.forms import ChangesDateForm
 from weblate.trans.models import Announcement, Change, Project, Translation, Unit
+from weblate.trans.models.change import COMPONENT_ORIGINS
+from weblate.trans.repository_context import repository_changes
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
@@ -33,11 +36,239 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.views.changes import ChangesView
+from weblate.utils.change_origin import change_origin_context
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
     from django.test.client import _MonkeyPatchedWSGIResponse
+
+    from weblate.trans.models import Component
+    from weblate.utils.change_origin import ChangeOrigin
+
+
+class ChangeOriginTest(FixtureTestCase):
+    def test_repository_changes_preserve_automation_attribution(self) -> None:
+        @repository_changes
+        def imported_change(component: Component) -> Change:
+            return Change(component=component)
+
+        origin: ChangeOrigin = {
+            "scope": "automation",
+            "automation": {"addon_id": 12, "activity_id": 34},
+        }
+        with change_origin_context(origin):
+            change = imported_change(self.component)
+        self.assertEqual(change.details["change_origin"], origin)
+        self.assertEqual(change.details["automation_origin"], 34)
+
+    def test_bulk_creation_and_historical_records(self) -> None:
+        details = {"reason": "test"}
+        with change_origin_context({"scope": "api"}):
+            change = Change(project=self.project, details=details)
+            Change.objects.bulk_create([change])
+        change.refresh_from_db()
+        self.assertEqual(change.details["change_origin"], {"scope": "api"})
+        self.assertEqual(details, {"reason": "test"})
+        with change_origin_context({"scope": "ui"}):
+            change.save()
+        change.refresh_from_db()
+        self.assertEqual(change.details["change_origin"], {"scope": "api"})
+
+        Change.objects.filter(pk=change.pk).update(details=details)
+        with change_origin_context({"scope": "api"}):
+            historical = Change.objects.only("id", "details").get(pk=change.pk)
+            historical.save()
+        historical.refresh_from_db()
+        self.assertEqual(historical.details, details)
+
+    def test_explicit_origin(self) -> None:
+        with change_origin_context({"scope": "api"}):
+            change = Change(details={"change_origin": {"scope": "repository"}})
+        self.assertEqual(change.details["change_origin"], {"scope": "repository"})
+        self.assertEqual(Change().details["change_origin"], {"scope": "system"})
+
+    def test_fixture_history_has_no_origin(self) -> None:
+        change = Change.objects.get(component=self.component, action=ActionEvents.MERGE)
+        self.assertEqual(change.details, {})
+        self.assertEqual(change.get_origin_display(), "")
+
+    def test_serialized_history_preserves_origin(self) -> None:
+        for details in (
+            {},
+            {"reason": "historical"},
+            {"change_origin": {"scope": "api"}},
+        ):
+            with self.subTest(details=details):
+                change = Change.objects.create(project=self.project)
+                Change.objects.filter(pk=change.pk).update(details=details)
+                change.refresh_from_db()
+                serialized = serializers.serialize("json", [change])
+                Change.objects.filter(pk=change.pk).delete()
+
+                with change_origin_context({"scope": "ui"}):
+                    (restored,) = serializers.deserialize("json", serialized)
+                    self.assertEqual(cast("Change", restored.object).details, details)
+                    restored.save()
+
+                change.refresh_from_db()
+                self.assertEqual(change.details, details)
+
+    def test_component_creation_origins(self) -> None:
+        for scope in ("ui", "api"):
+            for origin, description in COMPONENT_ORIGINS.items():
+                with self.subTest(scope=scope, origin=origin):
+                    with change_origin_context({"scope": scope}):
+                        self.component.post_create(self.user, origin=origin)
+                    change = self.component.change_set.filter(
+                        action=ActionEvents.CREATE_COMPONENT, user=self.user
+                    ).latest("pk")
+                    self.assertEqual(change.details["origin"], origin)
+                    self.assertEqual(change.details["change_origin"], {"scope": scope})
+                    self.assertEqual(change.get_details_display(), description)
+                    for in_email in (False, True):
+                        rendered = render_to_string(
+                            "snippets/last-changes-content.html",
+                            format_last_changes_content(
+                                [change], self.user, in_email=in_email
+                            ),
+                        )
+                        self.assertIn(str(description), rendered)
+                        self.assertIn(
+                            f"Origin: {change.get_origin_display()}",
+                            html.fromstring(rendered).text_content(),
+                        )
+
+    def test_historical_component_creation_origin(self) -> None:
+        change = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.CREATE_COMPONENT,
+            details={"origin": "vcs"},
+        )
+        Change.objects.filter(pk=change.pk).update(details={"origin": "vcs"})
+        change.refresh_from_db()
+        self.assertEqual(change.get_details_display(), COMPONENT_ORIGINS["vcs"])
+        self.assertEqual(change.get_origin_display(), "")
+
+    def test_component_creation_with_non_string_origin(self) -> None:
+        change = Change(
+            action=ActionEvents.CREATE_COMPONENT,
+            details={"origin": {"scope": "system"}},
+        )
+        self.assertEqual(
+            change.get_details_display(), ActionEvents.CREATE_COMPONENT.label
+        )
+
+    def test_history_label_visibility(self) -> None:
+        from django.contrib.auth.models import AnonymousUser  # ruff: ignore[import-outside-top-level]
+
+        change = Change(
+            project=self.project,
+            user=self.user,
+            details={"ip_address": "127.0.0.1"},
+        )
+        for viewer in (
+            self.user,
+            self.anotheruser,
+            AnonymousUser(),
+            "digest recipient",
+        ):
+            with self.subTest(viewer=viewer):
+                rendered = render_to_string(
+                    "snippets/last-changes-content.html",
+                    format_last_changes_content([change], viewer),
+                )
+                self.assertIn(
+                    "Origin: System", html.fromstring(rendered).text_content()
+                )
+                self.assertNotIn("127.0.0.1", rendered)
+        self.anotheruser.is_superuser = True
+        context = format_last_changes_content([change], self.anotheruser)
+        self.assertEqual(context["changes_with_context"][0]["origin"], "System")
+        change.details.pop("change_origin")
+        context = format_last_changes_content([change], self.user)
+        self.assertEqual(context["changes_with_context"][0]["origin"], "")
+        rendered = render_to_string("snippets/last-changes-content.html", context)
+        self.assertFalse(
+            html.fromstring(rendered).xpath('//span[contains(@class, "badge")]')
+        )
+
+    def test_origin_and_ip_address_layout(self) -> None:
+        from django.contrib.auth.models import AnonymousUser  # ruff: ignore[import-outside-top-level]
+
+        change = Change(
+            project=self.project,
+            user=self.user,
+            details={"change_origin": {"scope": "ui"}, "ip_address": "127.0.0.1"},
+        )
+        self.anotheruser.is_superuser = True
+        for viewer in (self.user, self.anotheruser, AnonymousUser()):
+            for in_email in (False, True):
+                with self.subTest(viewer=viewer, in_email=in_email):
+                    content = render_to_string(
+                        "snippets/last-changes-content.html",
+                        format_last_changes_content(
+                            [change], viewer, in_email=in_email
+                        ),
+                    )
+                    tree = html.fromstring(content)
+                    badges = tree.xpath(
+                        '//div[contains(@class, "history-author")]/span[contains(@class, "badge")]'
+                    )
+                    expected = ["User interface"]
+                    if viewer.is_superuser:
+                        expected.append("127.0.0.1")
+                    self.assertEqual(
+                        ["".join(badge.xpath("text()")).strip() for badge in badges],
+                        expected,
+                    )
+                    self.assertIn("Origin: User interface", badges[0].text_content())
+                    if viewer.is_superuser:
+                        self.assertIn("IP address: 127.0.0.1", badges[1].text_content())
+                    breadcrumbs = tree.xpath('//ul[@class="breadcrumb"]')
+                    self.assertNotIn("127.0.0.1", breadcrumbs[0].text_content())
+                    if not viewer.is_superuser:
+                        self.assertNotIn("127.0.0.1", content)
+
+    def test_origin_badge_labels(self) -> None:
+        for scope, label in (
+            ("ui", "User interface"),
+            ("api", "API"),
+            ("repository", "Repository"),
+            ("system", "System"),
+            ("automation", "Automation #12 (run #34)"),
+            ("future", ""),
+        ):
+            for in_email in (False, True):
+                with self.subTest(scope=scope, in_email=in_email):
+                    change = Change(
+                        project=self.project,
+                        user=self.user,
+                        details={
+                            "change_origin": {
+                                "scope": scope,
+                                "automation": {"addon_id": 12, "activity_id": 34},
+                            },
+                            "ip_address": "2001:db8:1234:5678:90ab:cdef:1234:5678",
+                        },
+                    )
+                    viewer = self.anotheruser
+                    viewer.is_superuser = True
+                    content = render_to_string(
+                        "snippets/last-changes-content.html",
+                        format_last_changes_content(
+                            [change], viewer, in_email=in_email
+                        ),
+                    )
+                    badges = html.fromstring(content).xpath(
+                        '//div[contains(@class, "history-author")]/span[contains(@class, "badge")]'
+                    )
+                    expected = [label] if label else []
+                    expected.append(change.details["ip_address"])
+                    self.assertEqual(
+                        ["".join(badge.xpath("text()")).strip() for badge in badges],
+                        expected,
+                    )
 
 
 class ChangeScopeTest(ViewTestCase):

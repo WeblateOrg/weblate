@@ -53,6 +53,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.trans.util import check_upload_method_permissions
 from weblate.trans.views.files import can_download_workspace, download_multi
+from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY
@@ -259,6 +260,8 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
         self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+        change = unit.change_set.filter(action=ActionEvents.UPLOAD).latest("pk")
+        self.assertEqual(change.details["change_origin"], {"scope": "ui"})
 
     @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
     def test_import_too_big(self) -> None:
@@ -1506,6 +1509,49 @@ class FormTest(SimpleTestCase):
         )
 
 
+class LinkedSourceUploadOriginTest(ImportBaseTest):
+    test_file = TEST_POT_CHARSET
+    upload_method = "source"
+
+    def assert_linked_upload_origin(self, scope: str) -> None:
+        linked = self.create_link_existing(
+            file_format=self.component.file_format,
+            filemask=self.component.filemask,
+            template=self.component.template,
+        )
+        previous_changes = set(linked.change_set.values_list("pk", flat=True))
+        content = (
+            Path(self.test_file).read_bytes()
+            + b'\nmsgid "Linked upload origin"\nmsgstr ""\n'
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            with change_origin_context({"scope": scope}):
+                self.component.source_translation.handle_upload(
+                    self.get_request(),
+                    NamedBytesIO(self.test_file, content),
+                    "",
+                    method=self.upload_method,
+                )
+            self.assertEqual(get_change_origin(), {"scope": "system"})
+        changes = linked.change_set.exclude(pk__in=previous_changes)
+        self.assertTrue(changes.filter(unit__isnull=False).exists())
+        for change in changes:
+            self.assertEqual(change.details["change_origin"], {"scope": scope})
+
+    def test_upload_ui_origin(self) -> None:
+        self.assert_linked_upload_origin("ui")
+
+    def test_upload_api_origin(self) -> None:
+        self.assert_linked_upload_origin("api")
+
+
+class LinkedReplacementUploadOriginTest(LinkedSourceUploadOriginTest):
+    upload_method = "replace"
+
+    def create_component(self) -> Component:
+        return self.create_po_mono()
+
+
 class ImportReplaceTest(ImportBaseTest):
     """Testing of file imports."""
 
@@ -1674,6 +1720,7 @@ class ImportSourceCountTest(ImportBaseTest):
                 source.change_set.get(action=ActionEvents.FILE_UPLOAD).details,
                 {
                     "method": "source",
+                    "change_origin": {"scope": "system"},
                     "not_found": 0,
                     "skipped": 0,
                     "accepted": 3,

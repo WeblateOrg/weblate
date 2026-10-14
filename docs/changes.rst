@@ -13,6 +13,7 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * Renamed provider configuration and selection to :ref:`Translation services <machine-translation-setup>`, while keeping the translation editor's :guilabel:`Automatic suggestions` tab.
+* :ref:`Translation history <translation-history>` records change origins, distinguishing user interface, API, repository, system, and :ref:`automation <automation-reference>` activity, including automation installation and execution identifiers.
 * Bounded :ref:`JSON webhook response bodies and headers <webhook-response-limits>` to limit worker memory use and activity-log growth.
 * Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
 * :ref:`Component creation <adding-components>` loads remote branches only for the selected component, avoiding repository queries when opening the page.

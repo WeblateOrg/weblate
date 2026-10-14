@@ -204,6 +204,12 @@ original author attribution. Bulk editing calls the shared operation without a
 user, rather than impersonating the recorded actor. The activity context retains
 the actor separately from translation change attribution.
 
+Changes made during execution record an ``automation`` origin with the installed
+add-on ID and execution-log ID in :ref:`translation-history`. This also covers
+background tasks and repository processing started by the automation. The
+identifiers remain available after an add-on or its execution log is removed;
+workflow settings are not copied into change history.
+
 Project, category, and site-wide automations include compatible restricted
 components in their configured scope. Automatic-translation actions can use
 eligible restricted source components even when the configuring administrator

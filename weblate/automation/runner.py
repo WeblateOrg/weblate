@@ -22,6 +22,7 @@ from weblate.automation.operations import (
 )
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
+from weblate.utils.change_origin import change_origin_context
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -425,29 +426,44 @@ def run_automation(activity_id: int) -> None:
 
     origin = automation_origin.set(activity_id)
     try:  # ruff: ignore[too-many-statements-in-try-clause]
-        addon = activity.addon
-        if (
-            not addon.is_valid
-            or activity.component is None
-            or not addon.affected_components().filter(pk=activity.component_id).exists()
+        with change_origin_context(
+            {
+                "scope": "automation",
+                "automation": {
+                    "addon_id": activity.addon_id,
+                    "activity_id": activity_id,
+                },
+            }
         ):
-            status = AddonActivityLogStatus.SKIPPED
-            result["trace"] = [
-                {"path": "workflow", "status": "skipped", "reason": "target-missing"}
-            ]
-        else:
-            workflow = validate_operations(
-                parse_workflow(result["workflow"]), activity.component
-            )
-            runner = Runner(
-                workflow,
-                result["context"],
-                activity.component,
-                addon.addon.user,
-                persist=persist,
-            )
-            status = runner.run()
-            result = runner.result()
+            addon = activity.addon
+            if (
+                not addon.is_valid
+                or activity.component is None
+                or not addon.affected_components()
+                .filter(pk=activity.component_id)
+                .exists()
+            ):
+                status = AddonActivityLogStatus.SKIPPED
+                result["trace"] = [
+                    {
+                        "path": "workflow",
+                        "status": "skipped",
+                        "reason": "target-missing",
+                    }
+                ]
+            else:
+                workflow = validate_operations(
+                    parse_workflow(result["workflow"]), activity.component
+                )
+                runner = Runner(
+                    workflow,
+                    result["context"],
+                    activity.component,
+                    addon.addon.user,
+                    persist=persist,
+                )
+                status = runner.run()
+                result = runner.result()
     except Exception as error:
         status = AddonActivityLogStatus.ERROR
         result.setdefault("trace", []).append(

@@ -494,6 +494,21 @@ the database, and can be reverted.
 Optionally, translations can also be reverted
 in the underlying version control system.
 
+Each change shows an origin badge next to the username:
+:guilabel:`User interface`, :guilabel:`API`, :guilabel:`Repository`, or
+:guilabel:`System`. Changes made by :ref:`automation <automation-reference>` identify the installed
+add-on and its execution log in an :guilabel:`Automation` origin badge.
+Session-authenticated API requests, including requests from
+the editor, count as user interface actions. Token-authenticated requests count
+as API actions. Strings imported from a repository count as repository changes,
+while uploads retain their user interface or API origin. Background tasks
+inherit the initiating origin; unrelated background work uses system.
+Historical changes without recorded origin have no badge.
+
+Origin badges are visible to anyone who can view the change. Superusers also
+see an IP address badge when an address was recorded. Origin metadata is also
+available through the :doc:`API </api>` to users who can access the change.
+
 In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to browse
 history, or :guilabel:`Latest` to return to the newest matching changes.
 :guilabel:`Jump to date` starts with the latest changes on or before the selected

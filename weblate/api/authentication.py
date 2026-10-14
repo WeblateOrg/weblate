@@ -17,12 +17,27 @@ from rest_framework.authentication import (
 )
 from rest_framework.exceptions import AuthenticationFailed
 
+from weblate.utils.change_origin import change_origin
+
 if TYPE_CHECKING:
+    from django.contrib.auth.base_user import AbstractBaseUser
     from drf_spectacular.openapi import AutoSchema
+    from rest_framework.authtoken.models import Token
     from rest_framework.request import Request
 
 
-class BearerAuthentication(TokenAuthentication):
+class WeblateTokenAuthentication(TokenAuthentication):
+    """Record the channel only after token authentication succeeds."""
+
+    def authenticate(self, request: Request) -> tuple[AbstractBaseUser, Token] | None:
+        result = super().authenticate(request)
+        if result is not None:
+            # Token.pk is currently the credential, not a safe token identifier.
+            change_origin.set({"scope": "api"})
+        return result
+
+
+class BearerAuthentication(WeblateTokenAuthentication):
     """RFC 6750 compatible Bearer authentication."""
 
     keyword = "Bearer"
@@ -99,5 +114,5 @@ class BearerScheme(OpenApiAuthenticationExtension):
 
 
 class TokenScheme(BearerScheme):
-    target_class = "rest_framework.authentication.TokenAuthentication"
+    target_class = "weblate.api.authentication.WeblateTokenAuthentication"
     name = "tokenAuth"

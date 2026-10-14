@@ -16,6 +16,7 @@ from unittest.mock import Mock, call, patch
 
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import override
@@ -53,10 +54,12 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.models import Change, Unit
+from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     ReusableComponentTestCase,
 )
+from weblate.utils.change_origin import change_origin, change_origin_context
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -495,6 +498,58 @@ class DefinitionTest(SimpleTestCase):
 
 
 class AutomationTest(ReusableComponentTestCase):
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_changes_identify_automation_and_execution(self, task: Mock) -> None:
+        units = self.component.translation_set.get(language_code="cs").unit_set
+        addons = [self.install(WORKFLOW | {"actions": [BULK]}) for _ in range(2)]
+        client = APIClient()
+        client.force_authenticate(self.user)
+        self.user.is_superuser = True
+        for addon in addons:
+            with self.subTest(addon=addon.instance.pk):
+                units.update(state=STATE_TRANSLATED)
+                run_addon_manually(addon.instance.pk, user_id=self.user.pk)
+                activity = AddonActivityLog.objects.get(addon=addon.instance)
+                with change_origin_context({"scope": "api"}):
+                    run_automation(activity.pk)
+                    self.assertEqual(change_origin.get(), {"scope": "api"})
+                activity.refresh_from_db()
+                self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
+                changes = list(
+                    Change.objects.filter(details__automation_origin=activity.pk)
+                )
+                self.assertTrue(changes)
+                expected = {
+                    "scope": "automation",
+                    "automation": {
+                        "addon_id": addon.instance.pk,
+                        "activity_id": activity.pk,
+                    },
+                }
+                label = f"Automation #{addon.instance.pk} (run #{activity.pk})"
+                for change in changes:
+                    self.assertEqual(change.details["change_origin"], expected)
+                    self.assertEqual(change.get_origin_display(), label)
+                change = changes[0]
+                rendered = render_to_string(
+                    "snippets/last-changes-content.html",
+                    format_last_changes_content([change], self.user),
+                )
+                self.assertIn(label, rendered)
+                response = client.get(
+                    reverse("api:change-detail", kwargs={"pk": change.pk})
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["details"]["change_origin"], expected)
+                activity.delete()
+                addon.instance.delete()
+                change.refresh_from_db()
+                self.assertEqual(change.details["change_origin"], expected)
+                self.assertEqual(change.get_origin_display(), label)
+        self.assertEqual(task.call_count, 2)
+        self.assertIsNone(change_origin.get())
+        self.assertIsNone(automation_origin.get())
+
     def test_select_component_and_chained_result_scopes(self) -> None:
         selected = self.component.translation_set.get(language_code="cs").unit_set.get(
             source="Hello, world!\n"

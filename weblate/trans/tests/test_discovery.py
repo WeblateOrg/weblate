@@ -11,10 +11,14 @@ import tempfile
 from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, call, patch
 
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from lxml import html
 from translation_finder import DiscoveryResult
 
+from weblate.auth.models import User
+from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
     ComponentDiscovery,
     build_detected_discovery_preset,
@@ -24,8 +28,10 @@ from weblate.trans.discovery import (
 )
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
+from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import TEST_DATA
+from weblate.utils.change_origin import change_origin_context
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
@@ -779,11 +785,26 @@ class ComponentDiscoveryTest(RepoTestCase):
             )
 
         delay.assert_called_once()
-        result = create_component(**delay.call_args.kwargs)
+        with change_origin_context({"scope": "api"}):
+            result = create_component(**delay.call_args.kwargs)
         component = Component.objects.get(pk=result["component"])
         self.assertEqual(component.license, "")
         self.assertTrue(component.inherit_license)
         self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
+
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details, {"change_origin": {"scope": "api"}})
+        self.assertEqual(
+            change.get_details_display(), ActionEvents.CREATE_COMPONENT.label
+        )
+        viewer = User(is_superuser=True)
+        for in_email in (False, True):
+            rendered = render_to_string(
+                "snippets/last-changes-content.html",
+                format_last_changes_content([change], viewer, in_email=in_email),
+            )
+            self.assertIn("Component created", rendered)
+            self.assertIn("Origin: API", html.fromstring(rendered).text_content())
 
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"

@@ -2743,6 +2743,7 @@ class ChangeTest(ModelTestCase):
                 "target": "https://git.example/owner/repo.git",
                 "automatic": True,
                 "reason": "http_redirect",
+                "change_origin": {"scope": "system"},
             },
         )
         self.assertEqual(
@@ -2753,6 +2754,7 @@ class ChangeTest(ModelTestCase):
                 "target": "https://git.example/owner/repo.git",
                 "automatic": True,
                 "reason": "http_redirect",
+                "change_origin": {"scope": "system"},
             },
         )
         self.assertIn("kept-secret", unaffected.details["old"])

@@ -282,7 +282,12 @@ class ComponentTest(RepoTestCase):
         change = component.change_set.get(action=ActionEvents.REPO_CLEANUP)
         self.assertEqual(
             change.details,
-            {"recovery": True, "operation": "rebase", "branch": "main"},
+            {
+                "recovery": True,
+                "operation": "rebase",
+                "branch": "main",
+                "change_origin": {"scope": "system"},
+            },
         )
         self.assertFalse(
             component.alert_set.filter(name="RepositoryOperationFailure").exists()
@@ -325,6 +330,7 @@ class ComponentTest(RepoTestCase):
                 "target": "https://git.example/owner/repo.git",
                 "automatic": True,
                 "reason": "http_redirect",
+                "change_origin": {"scope": "system"},
             },
         )
 
@@ -1604,7 +1610,9 @@ class ComponentChangeTest(RepoTestCase):
         self.assertEqual(component.change_set.count() - start, 2)
 
         change = component.change_set.get(action=ActionEvents.LOCK)
-        self.assertEqual(change.details, {"auto": True})
+        self.assertEqual(
+            change.details, {"auto": True, "change_origin": {"scope": "system"}}
+        )
         self.assertEqual(change.get_action_display(), "Component locked")
         self.assertEqual(
             change.get_details_display(),
@@ -2796,6 +2804,7 @@ class ComponentErrorTest(RepoTestCase):
                 "user_id": None,
                 "force_scan": False,
                 "previous_head": None,
+                "origin": {"scope": "system"},
             },
         )
         self.component.delete_commit_task()

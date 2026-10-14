@@ -63,12 +63,14 @@ from weblate.trans.tasks import (
     perform_repository_operation,
     perform_update,
     project_removal,
+    schedule_deferred_commit,
     update_checks,
     update_remotes,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
+from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
@@ -81,6 +83,8 @@ from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
+
+    from weblate.utils.change_origin import ChangeOrigin
 
 
 class CleanupTest(ComponentTestCase):
@@ -1404,6 +1408,34 @@ class TasksTest(ReusableComponentTestCase):
         self.assertEqual(cache.get(self.component.commit_task_key), "next-task-id")
         self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
         self.component.delete_commit_task()
+
+    def test_deferred_commit_preserves_queued_origin(self) -> None:
+        origins: list[ChangeOrigin] = []
+
+        def publish(*args: object, **kwargs: object) -> None:
+            origins.append(get_change_origin())
+
+        self.addCleanup(self.component.delete_commit_task)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                Component,
+                "finish_commit_task",
+                return_value={
+                    "reason": "commit",
+                    "user_id": self.user.pk,
+                    "force_scan": False,
+                    "previous_head": None,
+                    "origin": {"scope": "api"},
+                },
+            ),
+            patch.object(perform_commit, "apply_async", side_effect=publish),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            with change_origin_context({"scope": "ui"}):
+                schedule_deferred_commit(self.component)
+            self.assertEqual(get_change_origin(), {"scope": "system"})
+        self.assertEqual(origins, [{"scope": "api"}])
 
     def test_perform_commit_schedules_deferred_commit_request(self) -> None:
         cache.set(self.component.commit_task_key, "commit-task-id")

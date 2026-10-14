@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import logging
+from copy import deepcopy
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
@@ -36,6 +37,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
+from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
@@ -757,6 +759,12 @@ class Change(models.Model, UserDisplayMixin):
                 # ProjectToken / ProjectUser integration
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
+        # Database loading uses positional values, including deferred fields;
+        # fixture loading uses keyword fields with an existing primary key.
+        # Only newly constructed history entries should receive provenance.
+        if not args and self.pk is None:
+            self.details = deepcopy(self.details)
+            self.details.setdefault("change_origin", get_change_origin())
         if not self.pk:
             self.fixup_references()
 
@@ -909,6 +917,32 @@ class Change(models.Model, UserDisplayMixin):
         if state is None:
             return ""
         return StringState(state).label
+
+    def get_origin_display(self) -> StrOrPromise:
+        origin = self.details.get("change_origin")
+        if not isinstance(origin, dict):
+            return ""
+        scope = origin.get("scope")
+        if not isinstance(scope, str):
+            return ""
+        if scope == "automation":
+            automation = origin.get("automation")
+            if (
+                isinstance(automation, dict)
+                and isinstance(automation.get("addon_id"), int)
+                and isinstance(automation.get("activity_id"), int)
+            ):
+                return (
+                    gettext("Automation #%(addon_id)s (run #%(activity_id)s)")
+                    % automation
+                )
+            return gettext_lazy("Automation")
+        return {
+            "api": gettext_lazy("API"),
+            "ui": gettext_lazy("User interface"),
+            "repository": gettext_lazy("Repository"),
+            "system": gettext_lazy("System"),
+        }.get(scope, "")
 
     def is_merge_failure(self) -> bool:
         return self.action in ACTIONS_MERGE_FAILURE

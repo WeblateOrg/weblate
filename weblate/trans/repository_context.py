@@ -6,10 +6,15 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from contextvars import ContextVar
-from typing import TYPE_CHECKING, Literal
+from functools import wraps
+from typing import TYPE_CHECKING, Literal, cast
+
+from weblate.trans.actions import ActionEvents
+from weblate.utils.change_origin import change_origin_context, get_change_origin
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
+    from typing import Any
 
     from weblate.utils.lock import WeblateLockTimeoutError
 
@@ -17,6 +22,29 @@ if TYPE_CHECKING:
 RepositoryOperationFollowup = Literal[
     "file-sync", "pull", "pull-skip-push", "reset-keep"
 ]
+
+
+def repository_changes[**P, R](method: Callable[P, R]) -> Callable[P, R]:
+    """Attribute parsed repository content, while preserving upload attribution."""
+
+    @wraps(method)
+    def wrapped(*args: P.args, **kwargs: P.kwargs) -> R:
+        instance = cast("Any", args[0])
+        change = kwargs.get("change")
+        if len(args) > 3:
+            # Translation.check_sync also accepts positional change arguments.
+            change = args[3]
+        if change in {ActionEvents.REPLACE_UPLOAD, ActionEvents.SOURCE_UPLOAD} or (
+            getattr(instance, "update_unit_change_action", None)
+            == ActionEvents.STRING_UPLOAD_UPDATE
+        ):
+            return method(*args, **kwargs)
+        if get_change_origin()["scope"] == "automation":
+            return method(*args, **kwargs)
+        with change_origin_context({"scope": "repository"}):
+            return method(*args, **kwargs)
+
+    return wrapped
 
 
 class RepositoryFollowupLockError(Exception):

@@ -3325,6 +3325,26 @@ Changes
     :>json object details: additional details about the change
     :>json int id: change identifier
 
+    New changes include a ``change_origin`` object in ``details``, for example
+    ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,
+    including session-authenticated API requests, or ``api`` for successful
+    Token or Bearer authentication. Repository string imports use ``repository``,
+    including imports triggered through the UI or API. Uploads retain their
+    UI or API origin. Changes without request or inherited background-task
+    attribution use ``system``. Background tasks inherit their initiating origin.
+
+    Changes made by :ref:`automation <automation-reference>` use the ``automation`` scope and identify
+    both the installed add-on and its execution log, for example
+    ``{"change_origin": {"scope": "automation", "automation": {"addon_id": 12, "activity_id": 34}}}``.
+    This attribution also applies to background work and repository processing
+    initiated by the automation. The identifiers remain in change history after
+    the add-on or execution log is deleted. Workflow settings are not included.
+
+    Historical changes can omit ``change_origin``. The separate ``origin`` field
+    on component creation events describes how the component was created.
+    Clients should allow additional scopes and origin attributes. Token
+    credentials are never included.
+
 Screenshots
 +++++++++++
 

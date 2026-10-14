@@ -71,6 +71,9 @@ jobs:
         python3 -m unittest discover -s .devcontainer -p test_environment.py
         python3 -m unittest discover -s .devcontainer -p test_rundev.py
     - name: Test container bootstrap and isolation
+      env:
+        # The Dev Container CLI generates its Dockerfile outside the build context.
+        BUILDX_BAKE_ENTITLEMENTS_FS: '0'
       run: python3 .devcontainer/smoke.py
 
   browser:

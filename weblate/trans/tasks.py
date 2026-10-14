@@ -79,6 +79,7 @@ from weblate.trans.repository_context import (
     suppress_repository_auto_push,
 )
 from weblate.utils.celery import app
+from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
@@ -112,12 +113,13 @@ def commit_retries_exhausted() -> bool:
 def schedule_deferred_commit(component: Component) -> None:
     followup = component.finish_commit_task()
     if followup:
-        component.queue_commit_pending(
-            followup["reason"],
-            user_id=followup["user_id"],
-            force_scan=followup["force_scan"],
-            previous_head=followup["previous_head"],
-        )
+        with change_origin_context(followup.get("origin", get_change_origin())):
+            component.queue_commit_pending(
+                followup["reason"],
+                user_id=followup["user_id"],
+                force_scan=followup["force_scan"],
+                previous_head=followup["previous_head"],
+            )
 
 
 def retry_legacy_repository_operation(

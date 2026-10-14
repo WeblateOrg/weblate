@@ -7,13 +7,20 @@
           class="history-row row"
           {% if in_email %}style="clear:both"{% endif %}>
         <td class="history-event col-md-3">
-          <strong class="ms-2">{{ item.change.get_user_display }}</strong>
-          <p class="text-muted">{{ item.change.get_action_display }}</p>
+          <div class="history-author ms-2">
+            <strong>{{ item.change.get_user_display }}</strong>
+            {% if item.origin %}
+              <span class="badge text-muted"><span class="visually-hidden">{% translate "Origin:" %} </span>{{ item.origin }}</span>
+            {% endif %}
+            {% if item.ip_address %}
+              <span class="badge text-muted"><span class="visually-hidden">{% translate "IP address:" %} </span>{{ item.ip_address }}</span>
+            {% endif %}
+          </div>
+          <p class="text-muted mb-1">{{ item.change.get_action_display }}</p>
           <ul class="breadcrumb">
             {% if item.change.path_object %}
               {% path_object_breadcrumbs item.change.path_object flags=False %}
             {% endif %}
-            {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
           </ul>
         </td>
         <td class="history-data col-md-9">
