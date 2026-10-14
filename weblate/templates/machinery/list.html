@@ -8,17 +8,17 @@
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
     <li class="breadcrumb-item">
-      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Automatic suggestions" %}</a>
+      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Translation services" %}</a>
     </li>
   {% elif workspace %}
     <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Automatic suggestions" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Translation services" %}</a></li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
     <li class="breadcrumb-item">
-      <a href="{% url 'manage-machinery' %}">{% translate "Automatic suggestions" %}</a>
+      <a href="{% url 'manage-machinery' %}">{% translate "Translation services" %}</a>
     </li>
   {% endif %}
 {% endblock breadcrumbs %}
@@ -28,7 +28,7 @@
     <div class="card-header">
       <h4 class="card-title">
         {% documentation_icon 'admin/machine' right=True %}
-        {% translate "Configured automatic suggestion services" %}
+        {% translate "Configured translation services" %}
       </h4>
     </div>
     <table class="table table-striped">
@@ -104,7 +104,7 @@
     <div class="card-header">
       <h4 class="card-title">
         {% documentation_icon 'admin/machine' right=True %}
-        {% translate "Available automatic suggestion services" %}
+        {% translate "Available translation services" %}
       </h4>
     </div>
     <table class="table table-striped">

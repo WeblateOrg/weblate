@@ -2865,13 +2865,13 @@ class ProjectViewSet(
     @extend_schema(
         methods=["get"],
         responses=InstallationSerializer(many=True),
-        description="List project automatic suggestion installations.",
+        description="List project translation service installations.",
     )
     @extend_schema(
         methods=["post"],
         request=InstallationSerializer,
         responses={HTTP_201_CREATED: InstallationSerializer},
-        description="Create a project automatic suggestion installation.",
+        description="Create a project translation service installation.",
     )
     @action(
         detail=True,
@@ -2880,12 +2880,12 @@ class ProjectViewSet(
         pagination_class=None,
     )
     def machinery_settings(self, request: Request, **kwargs):
-        """List or create project automatic suggestion installations."""
+        """List or create project translation service installations."""
         project = self.get_object()
 
         if not request.user.has_perm("project.edit", project):
             self.permission_denied(
-                request, "Can not retrieve/edit machinery configuration"
+                request, "Can not retrieve/edit translation services configuration"
             )
 
         if request.method == "POST":

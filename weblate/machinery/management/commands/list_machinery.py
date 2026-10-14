@@ -10,7 +10,7 @@ from weblate.utils.rst import format_table
 
 
 class Command(DocGeneratorCommand):
-    help = "List installed machineries"
+    help = "List installed translation services"
 
     @staticmethod
     def get_help_text(field) -> str:
@@ -31,7 +31,7 @@ class Command(DocGeneratorCommand):
         return "\n".join(result)
 
     def handle(self, *args, **options) -> None:
-        """List installed add-ons."""
+        """List installed translation services."""
         for _unused, obj in sorted(MACHINERY.items()):
             machinery_content = []
             machinery_content.extend(

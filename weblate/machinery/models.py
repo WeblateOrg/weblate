@@ -48,7 +48,7 @@ class WeblateConf(AppConf):
 
 
 class MachineryInstallation(models.Model):
-    """One configured instance of an automatic suggestion service."""
+    """One configured instance of a translation service."""
 
     engine = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True)
@@ -288,12 +288,14 @@ class MachineryExclusion(models.Model):
         if bool(self.workspace_id) == bool(self.project_id):
             raise ValidationError(gettext_lazy("Choose one exclusion scope."))
         if bool(self.installation_id) == bool(self.engine):
-            raise ValidationError(gettext_lazy("Choose an installation or an engine."))
+            raise ValidationError(
+                gettext_lazy("Choose an installation or a translation service.")
+            )
         if self.installation_id:
             target = self.installation
             if target is None:
                 raise ValidationError(
-                    gettext_lazy("Choose an installation or an engine.")
+                    gettext_lazy("Choose an installation or a translation service.")
                 )
             if self.workspace_id and (target.project_id or target.workspace_id):
                 raise ValidationError(
@@ -414,7 +416,7 @@ def validate_internal_installations_for_project(project: Project) -> None:
             ):
                 raise ValidationError(
                     gettext_lazy(
-                        "Automatic suggestion services conflict with the new workspace."
+                        "Translation services conflict with the new workspace."
                     )
                 )
 

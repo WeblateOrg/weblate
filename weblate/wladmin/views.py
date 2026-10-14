@@ -135,7 +135,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("teams", "manage-teams", gettext_lazy("Teams")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
-    ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
+    ("machinery", "manage-machinery", gettext_lazy("Translation services")),
     ("addons", "manage-addons", gettext_lazy("Add-ons")),
     ("github", "manage-github-accounts", gettext_lazy("Code-hosting connections")),
 )

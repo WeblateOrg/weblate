@@ -88,10 +88,10 @@ This is currently used in the following places:
 ALLOWED_MACHINERY_DOMAINS
 -------------------------
 
-Configures which custom machinery domains are explicitly allowed in project-level
-machine translation configuration.
+Configures which custom translation service domains are explicitly allowed in
+project-level translation service configuration.
 
-This setting applies only to machinery services and does not affect
+This setting applies only to translation services and does not affect
 :setting:`ALLOWED_ASSET_DOMAINS`.
 
 It expects a list of host/domain names. You can use fully qualified names or
@@ -99,10 +99,10 @@ prepend with a period as a wildcard to match all subdomains.
 
 Defaults to ``[]``.
 
-The allowlist affects project-managed machinery in two ways: it permits the
-configured endpoint during outbound validation, and it marks matching hosts as
-trusted when deciding whether remote provider error details or response bodies
-can be shown to the user. Matching hosts are also exempt from private-target
+The allowlist affects project-managed translation services in two ways: it
+permits the configured endpoint during outbound validation, and it marks matching
+hosts as trusted when deciding whether remote provider error details or response
+bodies can be shown to the user. Matching hosts are also exempt from private-target
 restrictions. For direct connections, Weblate does not resolve, pin, or verify
 the peer address of matching hosts. Only add hosts or domains whose network
 destinations are trusted. When a configured :ref:`http-proxy` is used, the
@@ -3183,7 +3183,7 @@ WEBLATE_MACHINERY
 
 .. versionadded:: 4.13
 
-List of machinery services available for use.
+List of translation services available for use.
 
 .. seealso::
 
