@@ -23,7 +23,7 @@
         <th>{% translate "Language" %}</th>
       {% endif %}
       {% if not hide_context and any_unit_has_context %}
-        <th {% if include_search %}class="sort-cell"{% endif %}>
+        <th class="unit-context-cell{% if include_search %} sort-cell{% endif %}">
           {% if include_search %}
             <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "context" %}-{% endif %}context">
           {% endif %}
@@ -107,7 +107,7 @@
           </td>
         {% endif %}
         {% if not hide_context and any_unit_has_context %}
-          <td>
+          <td class="unit-context-cell">
             {% if unit.context %}
               <a href="{{ unit.translation.get_translate_url }}{{ unit_query }}">
                 {% format_source_string unit.context unit wrap=True search_match=search_query %}
