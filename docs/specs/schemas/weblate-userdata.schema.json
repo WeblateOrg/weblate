@@ -494,6 +494,30 @@
           }
         }
       }
+    },
+    "saved_searches": {
+      "title": "User saved searches",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "query",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
