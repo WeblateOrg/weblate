@@ -13,7 +13,16 @@ from copy import deepcopy
 from dataclasses import dataclass
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, TypeVar, cast, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    ClassVar,
+    NotRequired,
+    TypedDict,
+    TypeVar,
+    cast,
+    overload,
+)
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -105,6 +114,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.removal import defer_alert_update, is_removed_component
+from weblate.trans.repository_context import repository_changes
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
@@ -139,6 +149,7 @@ from weblate.utils.celery import (
     get_task_progress,
     store_task_metadata,
 )
+from weblate.utils.change_origin import capture_change_origin, get_change_origin
 from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -222,6 +233,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.trans.removal import RemovalBatch
+    from weblate.utils.change_origin import ChangeOrigin
     from weblate.vcs.base import CommitInfo, Repository, RepositoryLock
 
 MERGE_CHOICES = (
@@ -305,6 +317,7 @@ class CommitTaskPayload(TypedDict):
     user_id: int | None
     force_scan: bool
     previous_head: str | None
+    origin: NotRequired[ChangeOrigin]
 
 
 def prefetch_tasks(components):
@@ -2032,6 +2045,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             repository_task_deferred_background_tasks,
         )
 
+        @capture_change_origin
         def publish() -> None:
             self.store_background_task(task.delay(*args, **kwargs))
 
@@ -2082,12 +2096,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import perform_commit
 
+        @capture_change_origin
         def schedule_commit() -> None:
             payload: CommitTaskPayload = {
                 "reason": reason,
                 "user_id": user_id,
                 "force_scan": force_scan,
                 "previous_head": previous_head,
+                "origin": get_change_origin(),
             }
             task_kwargs = {
                 "user_id": user_id,
@@ -4014,6 +4030,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if repository_task_inline_followups.get():
                 user = request.user if request else self.acting_user
 
+                @capture_change_origin
                 def commit_file_sync() -> None:
                     try:
                         perform_component_commit(self, "file-sync", user)
@@ -4919,6 +4936,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         )
         return False
 
+    @repository_changes
     def create_translations_immediate(
         self,
         *,
@@ -5181,6 +5199,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     request=request,
                     user=user,
                     from_link=True,
+                    change=change,
                     preserve_pending_units=preserve_pending_units,
                 )
             except FileParseError as error:
@@ -5204,8 +5223,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.update_variants()
             # Add-ons need the reconciled units and refreshed statistics.
             transaction.on_commit(
-                lambda: component_post_update.send(
-                    sender=self.__class__, component=self
+                capture_change_origin(
+                    lambda: component_post_update.send(
+                        sender=self.__class__, component=self
+                    )
                 )
             )
             self.schedule_sync_terminology()

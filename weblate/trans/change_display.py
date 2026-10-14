@@ -469,9 +469,8 @@ class RenderCreateComponent(BaseDetailsRenderStrategy):
     actions: ClassVar[set[ActionEvents]] = {ActionEvents.CREATE_COMPONENT}
 
     def render_details(self, change: Change) -> StrOrPromise:
-        try:
-            origin = change.details["origin"]
-        except KeyError:
+        origin = change.details.get("origin")
+        if not isinstance(origin, str):
             return ActionEvents.CREATE_COMPONENT.label
         try:
             return COMPONENT_ORIGINS[origin]

@@ -11,7 +11,9 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
-from typing import Any
+from copy import deepcopy
+from functools import partial
+from typing import Any, cast
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
@@ -26,8 +28,15 @@ from celery.signals import (
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
+from django.db import transaction
 
 from weblate.automation.context import automation_origin
+from weblate.utils.change_origin import (
+    CHANGE_ORIGIN_HEADER,
+    capture_change_origin,
+    change_origin,
+    get_change_origin,
+)
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]
@@ -43,7 +52,29 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 # remain available through ``weblate check --deploy`` for other installations.
 os.environ.setdefault("CELERY_SKIP_CHECKS", "1")
 
-app = Celery[DjangoTask[..., Any]]("weblate")
+
+class OriginTask(DjangoTask):
+    """Capture provenance before publication, including deferred and eager tasks."""
+
+    def apply_async(self, *args: object, **options: object):
+        headers = dict(cast("dict[str, object] | None", options.get("headers")) or {})
+        headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+        options["headers"] = headers
+        return super().apply_async(*cast("Any", args), **cast("Any", options))
+
+    # celery-stubs incorrectly promises AsyncResult for the deferred methods.
+    def delay_on_commit(self, *args: object, **kwargs: object) -> None:  # type: ignore[override]
+        transaction.on_commit(
+            capture_change_origin(partial(self.delay, *args, **kwargs))
+        )
+
+    def apply_async_on_commit(self, *args: object, **kwargs: object) -> None:  # type: ignore[override]
+        transaction.on_commit(
+            capture_change_origin(partial(self.apply_async, *args, **kwargs))
+        )
+
+
+app = Celery[OriginTask]("weblate", task_cls=OriginTask)
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
@@ -132,7 +163,11 @@ def extract_task_kwargs(body) -> dict[str, Any]:
 def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
     if not isinstance(headers, dict):
         return
-    if origin := automation_origin.get():
+    headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+    automation = headers[CHANGE_ORIGIN_HEADER].get("automation")
+    if automation:
+        headers["weblate_automation_origin"] = automation["activity_id"]
+    elif origin := automation_origin.get():
         headers["weblate_automation_origin"] = origin
     task_kwargs = extract_task_kwargs(body)
     component_id = task_kwargs.get("component_id")
@@ -150,7 +185,13 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
 def restore_automation_origin(task=None, **kwargs) -> None:
     if task is not None:
         headers = task.request.headers or {}
-        origin = headers.get("weblate_automation_origin", automation_origin.get())
+        origin = headers.get("weblate_automation_origin")
+        if origin is None:
+            # Eager and deferred tasks can carry provenance only in this header.
+            change = headers.get(CHANGE_ORIGIN_HEADER) or {}
+            origin = change.get("automation", {}).get(
+                "activity_id", automation_origin.get()
+            )
         task.request.automation_origin_token = automation_origin.set(origin)
 
 
@@ -162,6 +203,27 @@ def reset_automation_origin(task=None, **kwargs) -> None:
         is not None
     ):
         automation_origin.reset(token)
+
+
+@task_prerun.connect
+def restore_change_origin(task=None, **kwargs) -> None:
+    if task is not None:
+        headers = task.request.headers or {}
+        origin = headers.get(CHANGE_ORIGIN_HEADER)
+        if origin is None:
+            origin = (
+                get_change_origin() if task.request.is_eager else {"scope": "system"}
+            )
+        task.request.change_origin_token = change_origin.set(deepcopy(origin))
+
+
+@task_postrun.connect
+def reset_change_origin(task=None, **kwargs) -> None:
+    if (
+        task is not None
+        and (token := getattr(task.request, "change_origin_token", None)) is not None
+    ):
+        change_origin.reset(token)
 
 
 @task_failure.connect

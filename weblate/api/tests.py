@@ -13558,6 +13558,7 @@ class TranslationAPITest(APIBaseTest):
         for change in self.component.change_set.order_by("-timestamp")[:expected]:
             self.assertEqual(change.user, self.user)
             self.assertEqual(change.author, self.user)
+            self.assertEqual(change.details["change_origin"], {"scope": "api"})
 
     def test_upload_bytes(self) -> None:
         self.authenticate()
@@ -15443,6 +15444,36 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(pk=unit.pk)
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
+
+    def test_change_origin(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        url = reverse("api:unit-detail", kwargs={"pk": unit.pk})
+        self.client.force_login(self.user)
+        for scheme, scope in ((None, "ui"), ("Token", "api"), ("Bearer", "api")):
+            with self.subTest(scheme=scheme):
+                if scheme is None:
+                    self.client.credentials()
+                else:
+                    self.client.credentials(
+                        HTTP_AUTHORIZATION=f"{scheme} {self.user.auth_token.key}"
+                    )
+                response = self.client.patch(
+                    url,
+                    {"target": [f"Origin {scheme}"], "state": "20"},
+                    format="json",
+                )
+                self.assertEqual(response.status_code, 200, response.data)
+                change = unit.change_set.filter(user=self.user).latest("pk")
+                self.assertEqual(change.details["change_origin"], {"scope": scope})
+                response = self.client.get(
+                    reverse("api:change-detail", kwargs={"pk": change.pk})
+                )
+                self.assertEqual(
+                    response.data["details"]["change_origin"], {"scope": scope}
+                )
+                self.assertNotIn(self.user.auth_token.key, str(response.data))
 
     def test_translate_unit_too_long(self) -> None:
         unit = Unit.objects.get(
@@ -17432,7 +17463,9 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": change.pk})
         )
 
-        self.assertEqual(response.data["details"], details)
+        self.assertEqual(
+            response.data["details"], details | {"change_origin": {"scope": "system"}}
+        )
         self.assertEqual(response.data["details"]["changed_fields"], ["secret"])
         self.assertIsNone(response.data["details"]["configuration"]["secret"])
 
@@ -17469,13 +17502,17 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": change.pk})
         )
-        self.assertEqual(response.data["details"], {})
+        self.assertEqual(
+            response.data["details"], {"change_origin": {"scope": "system"}}
+        )
 
         self.authenticate()
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": change.pk})
         )
-        self.assertEqual(response.data["details"], {})
+        self.assertEqual(
+            response.data["details"], {"change_origin": {"scope": "system"}}
+        )
 
     def test_alert_metadata(self) -> None:
         self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")

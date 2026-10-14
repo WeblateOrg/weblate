@@ -4498,7 +4498,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
         data = super().to_representation(instance)
         if instance.action in Change.ACTIONS_ADDON:
             if not is_public_addon_change_details(instance.details):
-                data["details"] = {}
+                data["details"] = (
+                    {"change_origin": deepcopy(instance.details["change_origin"])}
+                    if "change_origin" in instance.details
+                    else {}
+                )
             return data
         if self.can_view_alert_details():
             return data

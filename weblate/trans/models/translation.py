@@ -73,6 +73,7 @@ from weblate.trans.models.source import (
 )
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
 from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
+from weblate.trans.repository_context import repository_changes
 from weblate.trans.signals import (
     component_post_update,
     translation_post_remove,
@@ -821,6 +822,7 @@ class Translation(
             unit.prefetched_translation_parent = parents.get(unit.id_hash)
             unit.prefetched_missing_sources = missing_sources
 
+    @repository_changes
     @source_operation_method
     def check_sync(
         self,

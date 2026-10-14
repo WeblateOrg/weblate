@@ -30,6 +30,7 @@ from weblate.trans.models import (
 from weblate.trans.tasks import component_after_save, perform_update
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL, TEST_VCS_ALLOW_SCHEMES
+from weblate.utils.change_origin import change_origin_context
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -584,7 +585,8 @@ class MultiRepoTest(ReusableViewTestCase):
         """Test adding new unit with update."""
         self.push_replace(EXTRA_PO, "a")
 
-        self.component2.do_update(self.request)
+        with change_origin_context({"scope": "api"}):
+            self.component2.do_update(self.request)
 
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 5)
@@ -594,6 +596,10 @@ class MultiRepoTest(ReusableViewTestCase):
         ).latest("timestamp")
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.author, self.user)
+
+        self.assertEqual(change.details["change_origin"], {"scope": "repository"})
+        change = unit.change_set.get(action=ActionEvents.NEW_UNIT_REPO)
+        self.assertEqual(change.details["change_origin"], {"scope": "repository"})
 
     def test_background_new_unit_update_uses_bot_user(self) -> None:
         """Test background update attribution for units added in a repository."""

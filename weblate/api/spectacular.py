@@ -288,7 +288,7 @@ def get_drf_settings(*, require_login: bool) -> dict[str, Any]:
             else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
         ],
         "DEFAULT_AUTHENTICATION_CLASSES": (
-            "rest_framework.authentication.TokenAuthentication",
+            "weblate.api.authentication.WeblateTokenAuthentication",
             "weblate.api.authentication.BearerAuthentication",
             # Reject unhandled headers before a browser session can authenticate them.
             "weblate.api.authentication.RejectAuthorizationAuthentication",

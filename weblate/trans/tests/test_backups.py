@@ -597,7 +597,10 @@ class BackupsTest(ReusableViewTestCase):
         self.assertIsNone(change.user)
         self.assertEqual(
             change.details,
-            {"backup_filename": backup.relative_filename},
+            {
+                "backup_filename": backup.relative_filename,
+                "change_origin": {"scope": "system"},
+            },
         )
         history_data = get_change_history_context(change)
         self.assertEqual(history_data["description"], "Project backed up")
@@ -833,6 +836,7 @@ class BackupsTest(ReusableViewTestCase):
                 "backup_timestamp": restore.data["metadata"]["timestamp"],
                 "backup_server": restore.data["metadata"]["server"],
                 "backup_domain": restore.data["metadata"]["domain"],
+                "change_origin": {"scope": "system"},
             },
         )
         history_data = get_change_history_context(project_change)
