@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-09 05:56+0200\n"
-"PO-Revision-Date: 2026-10-13 22:18+0000\n"
+"PO-Revision-Date: 2026-10-15 02:51+0000\n"
 "Last-Translator: Eduard Ereza Martínez "
 "<ereza@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -2924,7 +2924,7 @@ msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"L’autenticació de dos factors afegeix una altra capa de seguretat al vostre "
+"L’autenticació de doble factor afegeix una altra capa de seguretat al vostre "
 "compte, ja que requereix més que una contrasenya per a iniciar la sessió."
 
 #, fuzzy
@@ -3007,7 +3007,7 @@ msgid ""
 msgstr ""
 "Els codis de recuperació es poden utilitzar per a accedir al vostre compte "
 "si perdeu l’accés al vostre dispositiu i no podeu rebre-hi codis "
-"d’autenticació de dos factors."
+"d’autenticació de doble factor."
 
 msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
@@ -3795,7 +3795,7 @@ msgid ""
 msgstr ""
 
 msgid "AI quality evaluation"
-msgstr ""
+msgstr "Avaluació de la qualitat amb IA"
 
 msgid ""
 "Evaluates existing target translations synchronously using the "
@@ -59101,25 +59101,17 @@ msgstr "Projectes addicionals"
 msgid "YAML file"
 msgstr "Fitxer YAML"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Esdeveniments de canvi"
+msgstr "Esdeveniments de canvi que es causaran"
 
-#, fuzzy
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Context de la traducció"
+msgstr "Esdeveniments del contingut de la traducció"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Esdeveniments de canvi"
+msgstr "Tots els esdeveniments de canvi"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Esdeveniments de canvi"
+msgstr "Esdeveniments de canvi seleccionats"
 
 msgid ""
 "The following change actions can appear in notification payloads. Fedora "
@@ -59947,39 +59939,29 @@ msgstr "Afegeix definicions de llengua"
 msgid "Add-on ID"
 msgstr "Complements"
 
-#, fuzzy
-#| msgid "Integration services"
 msgid "Evaluation service"
-msgstr "Serveis d'integració"
+msgstr "Servei d’avaluació"
 
 msgid "Query"
 msgstr "Consulta"
 
-#, fuzzy
-#| msgid "Update frequency"
 msgid "Evaluation frequency"
-msgstr "Freqüència d’actualització"
+msgstr "Freqüència d’avaluació"
 
-#, fuzzy
-#| msgid "Disable debug mode"
 msgid "Disabled"
-msgstr "Desactiva el mode de depuració"
+msgstr "Desactivat"
 
 msgid "Weekly"
-msgstr ""
+msgstr "Setmanal"
 
 msgid "Monthly"
 msgstr "Cada mes"
 
-#, fuzzy
-#| msgid "Translation changed"
 msgid "Evaluate translation changes"
-msgstr "S’ha canviat la traducció"
+msgstr "Avalua els canvis de traducció"
 
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Evaluate repository updates"
-msgstr "Dipòsit no actualitzat."
+msgstr "Avalua les actualitzacions del repositori"
 
 #, fuzzy
 #| msgid "Component name"
@@ -60063,10 +60045,8 @@ msgid ""
 "uses the existing :ref:`addons-api` permissions and validation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Detecció automàtica"
+msgstr "Automatització"
 
 msgid "Workflow"
 msgstr "Flux de treball"
@@ -60252,10 +60232,8 @@ msgstr ""
 "Aquest complement està configurat a :guilabel:`Hosted Weblate` i serveix els "
 "fitxers a través de ``https://weblate-cdn.com/``."
 
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation files CDN"
-msgstr "Marques de traducció"
+msgstr "CDN dels fitxers de traducció"
 
 #, fuzzy
 #| msgid "Bad configuration"
@@ -60270,14 +60248,10 @@ msgid ""
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr "Nom del component"
 
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
 msgstr ""
-"Publica les traduccions en una xarxa de lliurament de continguts per al seu "
-"ús en la localització de JavaScript o HTML."
+"Publica els fitxers de les traduccions en una xarxa de lliurament de "
+"continguts."
 
 msgid ""
 "Publishes translation files without converting them to another format. Files "
@@ -60621,29 +60595,21 @@ msgstr ""
 msgid "Define the monolingual base filename"
 msgstr "Defineix el nom de fitxer base monolingüe"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Deixeu-lo buit per als fitxers de traducció bilingües."
+msgstr ""
+"Deixeu-ho buit per als fitxers de traducció bilingües. Quan es defineix, la "
+"plantilla ha d’incloure {{ component }}."
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
 "Nom de fitxer del fitxer utilitzat per a crear traduccions noves. Per al "
-"gettext, trieu el fitxer .pot."
+"gettext, trieu el fitxer .pot. Aquesta plantilla ha d’incloure {{ "
+"component }}."
 
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -60651,12 +60617,10 @@ msgid ""
 msgstr ""
 "El nom del fitxer de llengua intermèdia. En molts casos, és un fitxer de "
 "traducció que aporten els desenvolupadors i que s’utilitza quan es creen les "
-"cadenes d’origen."
+"cadenes d’origen. Aquesta plantilla ha d’incloure {{ component }}."
 
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Define the file mask"
-msgstr "Filtre de fitxers de captures de pantalla"
+msgstr "Definiu el filtre de fitxers"
 
 msgid ""
 "Leave empty to match translation files directly. When set, discovery matches "
@@ -60866,10 +60830,8 @@ msgstr ""
 "fitxer més comú. Els exemples següents mostren altres estructures de "
 "repositoris amb les quals podeu coincidir."
 
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "One folder per language"
-msgstr "Suprimeix l’entrada del glossari"
+msgstr "Una carpeta per llengua"
 
 msgid "One folder per language containing translation files for components."
 msgstr ""
@@ -60899,35 +60861,27 @@ msgstr ""
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr ""
 
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Coincidència amb el nom de fitxer del component"
+msgstr "Nom de fitxers complexos"
 
 msgid "Using both component and language name within filename."
 msgstr ""
 "Utilitzar tant el nom del component com el de la llengua al nom del fitxer."
 
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Codis de llengua amb àlies"
+msgstr "Codi de llengua repetit"
 
 msgid "Using language in both path and filename."
 msgstr "Utilitzar la llengua tant al camí com al nom del fitxer."
 
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "Cadenes aprovades"
+msgstr "Divideix les cadenes d’Android"
 
 msgid "Android resource strings, split into several files."
 msgstr "Cadenes de recursos d’Android, dividides en diversos fitxers."
 
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "Salts de línia no coincidents"
+msgstr "Múltiples camins coincidents"
 
 msgid "Multi-module Maven project with Java properties translations."
 msgstr "Projecte multimòdul de Maven amb traduccions de propietats de Java."
@@ -60988,15 +60942,11 @@ msgstr ""
 msgid "Fedora Messaging"
 msgstr "Fedora Messaging"
 
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Amfitrió del corredor AMQP"
+msgstr "URL del corredor AMQP"
 
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "El corredor AMQP al qual es connectar."
+msgstr "L’URL del corredor AMQP al qual es connecta."
 
 #, fuzzy
 #| msgid "String prefix"
@@ -61023,15 +60973,13 @@ msgid "How many times to try connecting to the broker."
 msgstr ""
 
 msgid "Retry delay"
-msgstr ""
+msgstr "Retard entre reintents"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certificats CA"
+msgstr "Paquet de certificats CA (PEM)"
 
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
@@ -61046,10 +60994,8 @@ msgid ""
 "not supported."
 msgstr ""
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Certificats SSL de client"
+msgstr "Certificat de client (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
@@ -61312,24 +61258,16 @@ msgstr "Marca com a només lectura"
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" I idioma:en``"
 
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Marca les traduccions sense canvis com a «cal editar»"
+msgstr "Marca les traduccions sense canvis com a «cal reescriure»"
 
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Quan s’importa del sistema de control de versions una cadena traduïble nova "
-"i coincideix amb una cadena d’origen, es marca com a «cal editar» al "
+"Quan s’importa una cadena traduïble nova del sistema de control de versions "
+"i coincideix amb una cadena d’origen, es marca com a «cal reescriure» al "
 "Weblate. És especialment útil per als formats de fitxer que inclouen les "
 "cadenes d’origen per a les cadenes sense traduir."
 
@@ -61340,62 +61278,43 @@ msgstr ""
 "També és possible que vulgueu reforçar la comprovació :ref:`check-same` "
 "afegint el senyalador ``strict-same`` a :ref:`component-check_flags`."
 
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Marca les cadenes d’origen noves com a «cal editar»"
+msgstr "Marca les cadenes d’origen noves com a «cal revisar»"
 
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Quan s’importa del sistema de control de versions una cadena d’origen nova, "
-"es marca com a «cal editar» al Weblate. D’aquesta manera, podeu filtrar i "
+"Quan s’importa una cadena d’origen nova del sistema de control de versions, "
+"es marca com a «cal revisar» al Weblate. D’aquesta manera, podeu filtrar i "
 "editar fàcilment les cadenes d’origen escrites pels desenvolupadors."
 
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Marca les traduccions noves com a «cal editar»"
+msgstr "Marca les traduccions noves com a «cal reescriure»"
 
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Quan s’importa del VCS una cadena traduïble nova, es marca com a «cal "
-"editar» al Weblate. D’aquesta manera, podeu filtrar i editar fàcilment les "
-"traduccions creades pels desenvolupadors."
+"Quan s’importa una cadena traduïble nova del sistema de control de versions, "
+"es marca com a «cal reescriure» al Weblate. D’aquesta manera, podeu filtrar "
+"i editar fàcilment les traduccions creades pels desenvolupadors."
 
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Marca les traduccions actualitzades al repositori com a «cal editar»"
+msgstr ""
+"Marca les traduccions actualitzades al repositori com a «cal reescriure»"
 
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Quan la traducció d’una cadena canvia all VCS, es marca com a «cal editar» "
-"al Weblate. És especialment útil si els fitxers de les traduccions són "
-"actualitzats sovint de manera manual o amb un servei extern."
+"Quan la traducció d’una cadena canvia del sistema de control de versions, es "
+"marca com a «cal reescriure» al Weblate. És especialment útil si els fitxers "
+"de les traduccions són actualitzats sovint de manera manual o amb un servei "
+"extern."
 
 msgid "Fill read-only strings with source"
 msgstr "Omple les cadenes de només lectura amb l’origen"
@@ -61419,16 +61338,11 @@ msgstr "Generador d’estadístiques"
 msgid "Output scope"
 msgstr "Fora de l'abast"
 
-#, fuzzy
-#| msgid "Detailed per translation stats."
 msgid "One file per translation"
-msgstr "Detallat per estadístiques de traducció."
+msgstr "Un fitxer per traducció"
 
-#, fuzzy
-#| msgid "Contains %d component"
-#| msgid_plural "Contains %d components"
 msgid "One file per component"
-msgstr "Conté %d component"
+msgstr "Un fitxer per component"
 
 msgid "Name of generated file"
 msgstr "Nom del fitxer generat"
@@ -61691,16 +61605,12 @@ msgid ""
 "post-remove`"
 msgstr "Nom del component"
 
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
 "Actualitza la variable ALL_LINGUAS als fitxers «configure», «configure.in» o "
-"«configure.ac» quan s’afegeix una traducció nova."
+"«configure.ac» quan s’afegeix o s’elimina una traducció nova."
 
 #, fuzzy
 #| msgid ""
@@ -61737,30 +61647,22 @@ msgstr ""
 "Actualitza les capçaleres del gettext i substitueix els comentaris d’espai "
 "reservat del POT."
 
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Ubicació de la cadena d’origen"
+msgstr "Ubicacions d’origen"
 
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
 
-#, fuzzy
-#| msgid "Simple format string"
 msgid "Use file format settings"
-msgstr "Cadena de format senzill"
+msgstr "Utilitza la configuració del format de fitxers"
 
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Extreu cadenes de fitxers HTML"
+msgstr "Extreu les ubicacions al fitxer POT"
 
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Do not extract locations"
-msgstr "S’ha publicat el comentari"
+msgstr "No extreguis les ubicacions"
 
 #, fuzzy
 #| msgid "Component name"
@@ -61798,18 +61700,14 @@ msgstr ""
 msgid "Update LINGUAS file"
 msgstr "Actualitza el fitxer LINGUAS"
 
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Actualitza el fitxer LINGUAS en afegir una traducció nova."
+msgstr "Actualitza el fitxer LINGUAS en afegir o eliminar una traducció."
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (Meson)"
-msgstr "Actualitza els fitxers PO perquè coincideixin amb el POT (msgmerge)"
+msgstr "Actualitza el fitxer POT (Meson)"
 
 msgid "ITS data directories"
-msgstr ""
+msgstr "Directoris de dades ITS"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
@@ -61817,10 +61715,8 @@ msgid ""
 "directories and bundled rules."
 msgstr ""
 
-#, fuzzy
-#| msgid "Comments"
 msgid "Code comments"
-msgstr "Comentaris"
+msgstr "Comentaris del codi"
 
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
@@ -61829,23 +61725,17 @@ msgstr ""
 "Trieu si xgettext ha d’extreure cap comentari, tots els comentaris o només "
 "els comentaris marcats amb una etiqueta específica."
 
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Do not extract comments"
-msgstr "S’ha publicat el comentari"
+msgstr "No extreguis els comentaris"
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Extract all comments"
-msgstr "Crea un component"
+msgstr "Extreu tots els comentaris"
 
 msgid "Extract comments with tag"
 msgstr "Extreu els comentaris amb etiqueta"
 
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comment tag"
-msgstr "S’ha afegit un comentari"
+msgstr "Etiqueta del comentari"
 
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
@@ -61853,10 +61743,8 @@ msgstr ""
 "Etiqueta passada a xgettext per a l’extracció de comentaris quan s’utilitza "
 "el mode de comentaris etiquetats."
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "xgettext checks"
-msgstr "PO de gettext"
+msgstr "Comprovacions de l’xgettext"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
@@ -61877,16 +61765,13 @@ msgstr "cita-unicode"
 msgid "bullet-unicode"
 msgstr "bala-unicode"
 
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional keywords"
-msgstr "Projectes addicionals"
+msgstr "Paraules clau addicionals"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Paraula clau addicional opcional passada al xgettext mitjançant --keyword."
+"Paraules clau addicionals separades per salts de línia passades a l’xgettext "
+"mitjançant --keyword."
 
 msgid "Use keywords exclusively"
 msgstr ""
@@ -61897,10 +61782,8 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "S’ha reinicialitzat el repositori"
+msgstr "Preajust del Meson"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
@@ -61914,10 +61797,10 @@ msgstr ""
 msgid "GLib"
 msgstr "GLib"
 
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr "Configuració dolenta"
+msgstr ""
+"Actualitza la plantilla del gettext utilitzant les convencions de gettext "
+"del Meson."
 
 #, fuzzy
 #| msgid "System requirements"
@@ -62055,10 +61938,8 @@ msgstr ""
 msgid "Update POT file (Sphinx)"
 msgstr "Actualitza el fitxer POT (Sphinx)"
 
-#, fuzzy
-#| msgid "Strings"
 msgid "Filtering"
-msgstr "Cadenes"
+msgstr "Filtrat"
 
 msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
@@ -62070,10 +61951,8 @@ msgstr ""
 msgid "None"
 msgstr "Cap"
 
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate documentation"
-msgstr "Documentació"
+msgstr "Documentació del Weblate"
 
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
@@ -62101,15 +61980,11 @@ msgid ""
 "generated template back to the configured template path."
 msgstr ""
 
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "Actualitza els fitxers PO perquè coincideixin amb el POT (msgmerge)"
+msgstr "Actualitza el fitxer POT (xgettext)"
 
-#, fuzzy
-#| msgid "source"
 msgid "Input source"
-msgstr "origen"
+msgstr "Origen de l’entrada"
 
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
@@ -62118,25 +61993,22 @@ msgstr ""
 "Trieu si xgettext ha de llegir els fitxers d’origen dels patrons glob o d’un "
 "manifest POTFILES/POTFILES.in."
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source file patterns"
-msgstr "Cadenes d’origen"
+msgstr "Patrons de fitxers d’origen"
 
 msgid "POTFILES manifest"
 msgstr "Manifest POTFILES"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "xgettext language"
-msgstr "Per llengua"
+msgstr "Llengua de l’xgettext"
 
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "Llenguatge de programació passat a xgettext, per exemple Python o C."
+msgstr ""
+"Llenguatge de programació passat a l’ xgettext, per exemple, Python o C. "
+"Deixeu-ho en blanc pera permetre que l’xgettext endevini la llengua a partir "
+"de les extensions dels fitxers."
 
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
@@ -62288,10 +62160,8 @@ msgstr "Per fitxer"
 msgid "Per author"
 msgstr "Per autor"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "Per llengua"
+msgstr "Per autor i llengua"
 
 msgid "Append trailers to squashed commit message"
 msgstr "Afegeix línies al final del missatge de la comissió amb «squash»"
@@ -62445,15 +62315,13 @@ msgstr "Supressió de suggeriments antics"
 msgid "Voting threshold"
 msgstr "Llindar de vots"
 
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Llindar per a la supressió. Aquest camp no té efecte si els vots estan "
-"desactivats."
+"Llindar per a la supressió. Deixeu-ho en blanc per a eliminar els "
+"suggeriments independentment dels vots. Aquest camp no té efecte si els vots "
+"estan desactivats."
 
 msgid "Set a timeframe for removal of suggestions."
 msgstr "Definiu un interval de temps per a la supressió de suggeriments."
@@ -65275,7 +65143,7 @@ msgid "Missing plurals"
 msgstr "Manquen plurals"
 
 msgid "Some plural forms are untranslated."
-msgstr "Algunes formes de plural no s’han traduït."
+msgstr "Alguna forma del plural no s’ha traduït."
 
 msgid ""
 "Checks that all plural forms of a source string have been translated. "
@@ -66228,7 +66096,7 @@ msgid "csv_simple_encoding"
 msgstr "Codificació dels noms de fitxer"
 
 msgid "Encoding used for simple CSV files"
-msgstr "Codificació utilitzada per a fitxers CSV senzills"
+msgstr "Codificació utilitzada per als fitxers CSV simples"
 
 msgid "ISO-8859-1"
 msgstr ""
@@ -66247,8 +66115,8 @@ msgstr "Finals de línia DOS"
 msgid ""
 "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
 msgstr ""
-"Utilitzeu les terminacions de línia DOS (\\r\\n) en comptes de les "
-"terminacions de línia UNIX (\\n) a les cadenes."
+"Utilitza finals de línia DOS (\\r\\n) en comptes de finals de línia UNIX (\\"
+"n) a les cadenes."
 
 msgid "flatxml_key_name"
 msgstr "nom_clau_flatxml"
@@ -66342,20 +66210,20 @@ msgid ""
 "Whether to extract translatable content from code blocks in Markdown and MDX "
 "files."
 msgstr ""
-"Si cal extreure contingut traduïble dels blocs de codi als fitxers Markdown "
-"i MDX."
+"Si cal extreure el contingut traduïble dels blocs de codi als fitxers "
+"Markdown i MDX."
 
 msgid "md_extract_frontmatter"
 msgstr ""
 
 msgid "Extract front matter"
-msgstr "Extraieu la matèria frontal"
+msgstr "Extreu la matèria frontal"
 
 msgid ""
 "Whether to extract and translate YAML front matter blocks in Markdown and "
 "MDX files."
 msgstr ""
-"Si s'han d'extreure i traduir els blocs de matèria frontal YAML als fitxers "
+"Si s’han d’extreure i traduir els blocs de matèria frontal YAML als fitxers "
 "Markdown i MDX."
 
 msgid "md_frontmatter_translate_values"
@@ -66384,8 +66252,8 @@ msgstr "Marcadors de substitució de percentatge"
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
-"Desactiva la detecció i el processament de marcadors de posició als fitxers "
-"Markdown i MDX."
+"Desactiva la detecció i el processament de marcadors de substitució als "
+"fitxers Markdown i MDX."
 
 msgid "merge_duplicates"
 msgstr ""
@@ -66400,8 +66268,8 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
-"Consolida cadenes d'origen idèntiques en una única unitat de traducció. "
-"Evita la pèrdua de traducció durant la reestructuració de fitxers o la "
+"Consolida les cadenes d’origen idèntiques en una única unitat de traducció. "
+"Evita la pèrdua de traduccions durant la reestructuració de fitxers o la "
 "reordenació de taules eliminant el context que depèn de la posició."
 
 #, fuzzy
@@ -66476,7 +66344,7 @@ msgid "po_no_location"
 msgstr "Ubicació"
 
 msgid "Do not include location information in the file"
-msgstr "No inclogueu informació d'ubicació al fitxer"
+msgstr "No inclogueu informació de la ubicació al fitxer"
 
 msgid "po_remove_obsolete"
 msgstr ""
@@ -66537,7 +66405,7 @@ msgid "po_set_x_generator"
 msgstr ""
 
 msgid "Update X-Generator header"
-msgstr "Actualitza la capçalera de X-Generator"
+msgstr "Actualitza la capçalera X-Generator"
 
 msgid "Lets Weblate update the \"X-Generator\" file header."
 msgstr ""
@@ -66562,7 +66430,7 @@ msgid "strings_encoding"
 msgstr "Codificació dels noms de fitxer"
 
 msgid "Encoding used for iOS strings files"
-msgstr "Codificació utilitzada per a fitxers de cadenes d'iOS"
+msgstr "Codificació utilitzada per als fitxers de cadenes d’iOS"
 
 msgid "xliff_placeables"
 msgstr ""
@@ -68398,10 +68266,8 @@ msgstr "Edita la configuració del projecte"
 msgid "Manage project access"
 msgstr "Gestiona l’accés al projecte"
 
-#, fuzzy
-#| msgid "Manage roles"
 msgid "Manage reports"
-msgstr "Gestiona rols"
+msgstr "Gestiona els informes"
 
 #, fuzzy
 #| msgid "Administration"
@@ -68541,15 +68407,11 @@ msgstr "Actualitza el repositori intern"
 msgid "Post announcements"
 msgstr "Publica anuncis"
 
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Suprimeix l’anunci"
+msgstr "Suprimeix els anuncis"
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Edita les cadenes d’origen"
+msgstr "Edita la configuració de l’espai de treball"
 
 msgid "Add projects to workspace"
 msgstr "Afegeix projectes a l’espai de treball"
@@ -68559,10 +68421,8 @@ msgstr "Afegeix projectes a l’espai de treball"
 msgid ":guilabel:`Add workspace projects`"
 msgstr "Afegeix projectes nous"
 
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Gestiona l’accés al projecte"
+msgstr "Gestiona l’accés a l’espai de treball"
 
 msgid "Site wide privileges"
 msgstr "Privilegis a tot el lloc"
@@ -68570,10 +68430,8 @@ msgstr "Privilegis a tot el lloc"
 msgid "Use management interface"
 msgstr "Utilitza la interfície de gestió"
 
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Configuració del Weblate"
+msgstr "Gestiona la configuració del lloc"
 
 msgid "Add new projects"
 msgstr "Afegeix projectes nous"
@@ -68583,10 +68441,8 @@ msgstr "Afegeix projectes nous"
 msgid ":guilabel:`Add new projects`"
 msgstr "Afegeix projectes nous"
 
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Afegeix projectes nous"
+msgstr "Afegeix espais de treball nous"
 
 msgid "Add language definitions"
 msgstr "Afegeix definicions de llengua"
@@ -69594,8 +69450,8 @@ msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
-"Les cadenes importades s'afegeixen com a traduccions a les cadenes "
-"existents. Aquest és el cas d'ús més comú i el comportament predeterminat."
+"Les cadenes importades s’afegeixen com a traduccions de les cadenes "
+"existents. Aquest és el cas d’ús més comú i el comportament per defecte."
 
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
@@ -69619,8 +69475,8 @@ msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
-"Les cadenes importades s'afegeixen com a suggeriments. Feu-ho quan vulgueu "
-"que es revisin les vostres cadenes penjades."
+"Les cadenes importades s’afegeixen com a suggeriments. Feu això quan vulgueu "
+"que es revisin les vostres cadenes pujades."
 
 msgid ""
 "This option is available only if the user has the :ref:`\"Add suggestion\" "
@@ -69638,8 +69494,8 @@ msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
-"Les cadenes importades s'afegeixen com a traduccions aprovades. Feu-ho quan "
-"ja hàgiu revisat les vostres traduccions abans de penjar-les."
+"Les cadenes importades s’afegeixen com a traduccions aprovades. Feu això "
+"quan ja hàgiu revisat les vostres traduccions abans de pujar-les."
 
 msgid ""
 "This option is available only if the user has the :ref:`\"Review strings\" "
@@ -69657,8 +69513,9 @@ msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
-"Les cadenes importades s'afegeixen com a traduccions que cal editar. Això "
-"pot ser útil quan voleu que s'utilitzin traduccions, però també es revisin."
+"Les cadenes importades s’afegeixen com a traduccions que cal editar. Això "
+"pot ser útil quan voleu que s’utilitzin les traduccions, però també que es "
+"revisin."
 
 #, fuzzy
 #| msgid "Replace existing translation file"
@@ -69669,8 +69526,8 @@ msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
-"El fitxer existent es substitueix per contingut nou. Això pot provocar la "
-"pèrdua de traduccions existents, feu servir amb precaució."
+"El fitxer existent se substitueix pel contingut nou. Això pot provocar la "
+"pèrdua de traduccions existents, utilitzeu-ho amb precaució."
 
 msgid ""
 "This option is available only if the user has the :ref:`\"Edit component "
@@ -69707,7 +69564,7 @@ msgstr "Afegeix una cadena nova"
 
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr "Afegeix cadenes noves a la traducció. Es salta els que ja existeixen."
+msgstr "Afegeix les cadenes noves a la traducció. Omet les que ja existeixen."
 
 msgid ""
 "In case you want to both add new strings and update existing translations, "
