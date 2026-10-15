@@ -33,7 +33,14 @@ from weblate.auth.models import (
 )
 from weblate.auth.utils import format_membership_limit_language_codes
 from weblate.lang.models import Language
-from weblate.trans.models import Category, ComponentLink, ComponentList, Project
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
@@ -592,6 +599,89 @@ class ModelTest(FixtureComponentTestCase):
         self.group.components.add(self.component)
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+
+    def test_permission_scope_querysets(self) -> None:
+        download_role = Role.objects.create(name="Download scope")
+        download_role.permissions.add(
+            Permission.objects.get(codename="translation.download")
+        )
+        self.group.roles.add(download_role)
+        self.user.groups.add(self.group)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(
+            Component.objects.filter_permission_scope(self.user, "translation.download")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.assertEqual(
+            set(
+                Translation.objects.filter_permission_scope(
+                    self.user, "translation.download"
+                )
+                .filter(component=self.component)
+                .values_list("language__code", flat=True)
+            ),
+            set(
+                self.component.translation_set.values_list("language__code", flat=True)
+            ),
+        )
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.assertFalse(
+            Component.objects.filter_permission_scope(self.user, "translation.download")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.assertFalse(
+            Translation.objects.filter_permission_scope(
+                self.user, "translation.download"
+            )
+            .filter(component=self.component)
+            .exists()
+        )
+
+        czech = Language.objects.get(code="cs")
+        component_group = Group.objects.create(
+            name="Czech component download", language_selection=SELECTION_MANUAL
+        )
+        component_group.roles.add(download_role)
+        component_group.components.add(self.component)
+        component_group.languages.add(czech)
+        self.user.groups.add(component_group)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(
+            Component.objects.filter_permission_scope(self.user, "translation.download")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.assertEqual(
+            list(
+                Translation.objects.filter_permission_scope(
+                    self.user, "translation.download"
+                )
+                .filter(component=self.component)
+                .values_list("language__code", flat=True)
+            ),
+            ["cs"],
+        )
+
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.assertFalse(
+            Component.objects.filter_permission_scope(self.user, "translation.download")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.assertFalse(
+            Translation.objects.filter_permission_scope(
+                self.user, "translation.download"
+            )
+            .filter(component=self.component)
+            .exists()
+        )
 
     def test_repository_permissions_require_owner(self) -> None:
         linked = self.create_link_existing(

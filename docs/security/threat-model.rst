@@ -489,6 +489,14 @@ Input assumptions
        *(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)
      - Review workflows and permission assignment for project-specific content
        integrity. *(documented)* (source: :doc:`/workflows`, :doc:`/admin/access`)
+   * - Aggregate translation downloads
+     - Translation files, templates, paths, and file metadata from individually
+       authorized translations
+     - Yes, from users with ``translation.download`` permission for the
+       component and language. *(documented)* (source: :doc:`/api`,
+       :doc:`/admin/access`)
+     - Filter every archive member by effective translation download permission,
+       including restricted-component and language limits. *(maintainer)*
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)

@@ -323,6 +323,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         return self.prefetch_related("language__plural_set")
 
     def filter_access(self, user: User):
+        """Filter translations by visibility, not by an action permission."""
         result = self
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("component__project"))
@@ -332,6 +333,20 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
                 | Q(component_id__in=user.component_permissions)
             )
         return result
+
+    def filter_permission_scope(self, user: User, permission: str):
+        """Filter translations by component and language role scope."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.scope import get_permission_scope_query
+
+        return self.filter(
+            get_permission_scope_query(
+                user,
+                permission,
+                component_path="component",
+                language_path="language_id",
+            )
+        )
 
     def order(self):
         return self.order_by(

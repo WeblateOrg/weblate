@@ -1256,7 +1256,7 @@ Projects
 
     .. versionadded:: 5.5
 
-    Downloads all available translations associated with the project as an archive file using the requested format and language. An unfiltered archive requires project-wide download permission. When ``language_code`` is specified, download permission is evaluated for that language.
+    Downloads translations associated with the project as an archive file using the requested format and language. The archive includes only translations for which the user has download permission. Component restrictions and language limits are evaluated for each translation.
 
     :param project: Project URL slug
     :type project: string
@@ -1756,7 +1756,7 @@ Projects
 
        Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`). Download permission is evaluated for the requested language.
+    Download a ZIP file of permitted translation files for a specified ``language_code`` across the components of a given ``project`` rather than downloading individual translated files and manually zipping them. The archive is named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`). Component restrictions and download permission are evaluated for each translation.
 
     :param project: Project URL slug
     :type project: string
@@ -1769,8 +1769,8 @@ Projects
 
         Possible responses:
 
-        - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
-        - ``403 Forbidden`` if the user does not have download permission for the requested language.
+        - ``200 OK`` with the permitted translations for the specified language. If no components have translations for the specified language, an empty ZIP file will be returned.
+        - ``403 Forbidden`` if matching translations exist but the user cannot download any of them.
         - ``404 Not Found`` if the project slug or language code does not exist.
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
