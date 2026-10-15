@@ -18,7 +18,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.automation.context import automation_origin
@@ -925,6 +925,22 @@ class Change(models.Model, UserDisplayMixin):
         scope = origin.get("scope")
         if not isinstance(scope, str):
             return ""
+        return {
+            "api": pgettext_lazy("Change origin badge", "API"),
+            "ui": pgettext_lazy("Change origin badge", "Web"),
+            "repository": pgettext_lazy("Change origin badge", "Repository"),
+            "system": pgettext_lazy("Change origin badge", "System"),
+            "automation": pgettext_lazy("Change origin badge", "Automation"),
+        }.get(scope, "")
+
+    def get_origin_description(self) -> StrOrPromise:
+        """Explain the origin, including any recorded automation identifiers."""
+        origin = self.details.get("change_origin")
+        if not isinstance(origin, dict):
+            return ""
+        scope = origin.get("scope")
+        if not isinstance(scope, str):
+            return ""
         if scope == "automation":
             automation = origin.get("automation")
             if (
@@ -933,15 +949,29 @@ class Change(models.Model, UserDisplayMixin):
                 and isinstance(automation.get("activity_id"), int)
             ):
                 return (
-                    gettext("Automation #%(addon_id)s (run #%(activity_id)s)")
+                    pgettext(
+                        "Change origin tooltip",
+                        "Created by automation #%(addon_id)s (run #%(activity_id)s).",
+                    )
                     % automation
                 )
-            return gettext_lazy("Automation")
+            return pgettext_lazy("Change origin tooltip", "Created by an automation.")
         return {
-            "api": gettext_lazy("API"),
-            "ui": gettext_lazy("User interface"),
-            "repository": gettext_lazy("Repository"),
-            "system": gettext_lazy("System"),
+            "api": pgettext_lazy(
+                "Change origin tooltip",
+                "Initiated through the API using an authentication token.",
+            ),
+            "ui": pgettext_lazy(
+                "Change origin tooltip", "Initiated through the web interface."
+            ),
+            "repository": pgettext_lazy(
+                "Change origin tooltip",
+                "Imported from translation files in the repository.",
+            ),
+            "system": pgettext_lazy(
+                "Change origin tooltip",
+                "Created by Weblate without a recorded initiating request.",
+            ),
         }.get(scope, "")
 
     def is_merge_failure(self) -> bool:

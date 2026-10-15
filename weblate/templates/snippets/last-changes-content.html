@@ -1,5 +1,9 @@
 {% load i18n icons permissions translations %}
 
+{% translate "Origin:" context "Change metadata badge label" as origin_prefix %}
+{% translate "IP address:" context "Change metadata badge label" as ip_prefix %}
+{% translate "IP address recorded for this change." context "Change metadata tooltip" as ip_description %}
+
 <table id="changes-table" class="table table-autowidth container-fluid">
   <tbody id="changes-list">
     {% for item in changes_with_context %}
@@ -10,10 +14,10 @@
           <div class="history-author ms-2">
             <strong>{{ item.change.get_user_display }}</strong>
             {% if item.origin %}
-              <span class="badge text-muted"><span class="visually-hidden">{% translate "Origin:" %} </span>{{ item.origin }}</span>
+              {% include "snippets/history-badge.html" with label=item.origin description=item.origin_description prefix=origin_prefix in_email=in_email only %}
             {% endif %}
             {% if item.ip_address %}
-              <span class="badge text-muted"><span class="visually-hidden">{% translate "IP address:" %} </span>{{ item.ip_address }}</span>
+              {% include "snippets/history-badge.html" with label=item.ip_address description=ip_description prefix=ip_prefix in_email=in_email only %}
             {% endif %}
           </div>
           <p class="text-muted mb-1">{{ item.change.get_action_display }}</p>

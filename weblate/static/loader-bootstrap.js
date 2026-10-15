@@ -931,6 +931,46 @@ function initHighlight(root) {
 }
 
 onReady(() => {
+  /* Delegate history tooltips so asynchronously loaded badges also work. */
+  const historyBadgeSelector = '.history-author [data-bs-toggle="tooltip"]';
+  new bootstrap.Tooltip(document.body, {
+    selector: historyBadgeSelector,
+    customClass: "history-tooltip",
+    container: "body",
+    trigger: "hover focus",
+    delay: { show: 150, hide: 150 },
+  });
+
+  const historyTooltip = (badge) =>
+    document.getElementById(badge.getAttribute("aria-describedby"));
+
+  // Keep explanations visible while the pointer is over the tooltip itself.
+  document.addEventListener("hide.bs.tooltip", (event) => {
+    if (!event.target.matches(historyBadgeSelector)) return;
+    const tooltip = historyTooltip(event.target);
+    if (tooltip?.matches(":hover") && !tooltip.dataset.dismissed) {
+      event.preventDefault();
+    }
+  });
+  document.addEventListener("mouseout", (event) => {
+    const tooltip = event.target.closest(".history-tooltip");
+    if (!tooltip || tooltip.contains(event.relatedTarget)) return;
+    const badge = document.querySelector(
+      `${historyBadgeSelector}[aria-describedby="${tooltip.id}"]`,
+    );
+    if (badge && !badge.matches(":hover, :focus")) {
+      bootstrap.Tooltip.getInstance(badge)?.hide();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll(historyBadgeSelector).forEach((badge) => {
+      const tooltip = historyTooltip(badge);
+      if (tooltip) tooltip.dataset.dismissed = "true";
+      bootstrap.Tooltip.getInstance(badge)?.hide();
+    });
+  });
+
   adjustColspan();
   window.addEventListener("resize", adjustColspan);
   document.addEventListener("shown.bs.tab", adjustColspan);
