@@ -493,6 +493,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         return self.exclude(repo__startswith="weblate:")
 
     def filter_access(self, user: User):
+        """Filter components by visibility, not by an action permission."""
         result = self
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("project"))
@@ -501,6 +502,19 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
                 Q(restricted=False) | Q(id__in=user.component_permissions)
             )
         return result
+
+    def filter_permission_scope(self, user: User, permission: str):
+        """Filter components by a role permission scope."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.scope import get_permission_scope_query
+
+        return self.filter(
+            get_permission_scope_query(
+                user,
+                permission,
+                component_path="",
+            )
+        )
 
     def search(self, query: str):
         return self.filter(

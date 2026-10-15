@@ -41,6 +41,7 @@ from weblate.trans.exceptions import (
 )
 from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -1947,7 +1948,7 @@ class DownloadMultiTest(ViewTestCase):
         self.assertTrue(commit_user.is_bot)
         project_commit.assert_not_called()
 
-    def test_workspace_download_check_stops_at_first_component(self) -> None:
+    def test_workspace_download_check_uses_permission_scope(self) -> None:
         workspace = Workspace.objects.create(name="Download workspace")
         self.project.workspace = workspace
         self.project.save(update_fields=["workspace"])
@@ -1956,11 +1957,11 @@ class DownloadMultiTest(ViewTestCase):
         with patch.object(
             self.user,
             "has_perm",
-            side_effect=[True, AssertionError("Checked another component")],
+            side_effect=AssertionError("Used object permission checks"),
         ) as has_perm:
             self.assertTrue(can_download_workspace(self.user, workspace))
 
-        has_perm.assert_called_once()
+        has_perm.assert_not_called()
 
     def test_workspace_ownership_does_not_bypass_project_access(self) -> None:
         workspace = Workspace.objects.create(name="Private download workspace")
@@ -2004,6 +2005,71 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download_component_list", kwargs={"name": "testcl"})
         )
         self.assert_zip(response, "test/test/po/cs.po")
+
+    def test_aggregate_downloads_filter_restricted_component(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Download category", slug="download-category"
+        )
+        self.component.category = category
+        self.component.restricted = True
+        self.component.save(update_fields=["category", "restricted"])
+        regular = self.create_po(
+            project=self.project,
+            category=category,
+            name="Download regular",
+            slug="download-regular",
+        )
+        component_list = ComponentList.objects.create(
+            name="Download components", slug="download-components"
+        )
+        component_list.components.add(self.component, regular)
+
+        role = Role.objects.get(name="Add suggestion")
+        group = Group.objects.create(name="Restricted component suggestions")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.has_perm("translation.download", self.component))
+        regular_filename = regular.translation_set.get(
+            language__code="cs"
+        ).get_filename()
+        assert regular_filename is not None
+        regular_archive_name = os.path.relpath(regular_filename, data_dir("vcs"))
+        restricted_archive_root = (
+            f"{os.path.relpath(self.component.full_path, data_dir('vcs'))}/"
+        )
+        paths = (
+            self.project.get_url_path(),
+            (*self.project.get_url_path(), "-", "cs"),
+            category.get_url_path(),
+            (*category.get_url_path(), "-", "cs"),
+        )
+        for path in paths:
+            with self.subTest(path=path):
+                response = self.client.get(reverse("download", kwargs={"path": path}))
+                self.assertEqual(response.status_code, 200)
+                with ZipFile(BytesIO(response.content)) as archive:
+                    names = archive.namelist()
+                self.assertIn(regular_archive_name, names)
+                self.assertFalse(
+                    any(name.startswith(restricted_archive_root) for name in names)
+                )
+
+        response = self.client.get(
+            reverse(
+                "download_component_list",
+                kwargs={"name": component_list.slug},
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        with ZipFile(BytesIO(response.content)) as archive:
+            names = archive.namelist()
+        self.assertIn(regular_archive_name, names)
+        self.assertFalse(
+            any(name.startswith(restricted_archive_root) for name in names)
+        )
 
     def test_empty_component_list_denied(self) -> None:
         ComponentList.objects.create(name="TestCL", slug="testcl")

@@ -8011,6 +8011,45 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_download_project_translations_filter_restricted_component(self) -> None:
+        self.authenticate()
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        group = Group.objects.create(name="API restricted component suggestions")
+        group.roles.add(Role.objects.get(name="Add suggestion"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("translation.download", self.project))
+        self.assertFalse(self.user.has_perm("translation.download", self.component))
+        restricted_root = (
+            f"{os.path.relpath(self.component.full_path, data_dir('vcs'))}/"
+        )
+
+        for name, kwargs, request in (
+            ("api:project-file", self.project_kwargs, {"format": "zip"}),
+            (
+                "api:project-language-file",
+                {**self.project_kwargs, "language_code": "cs"},
+                {"format": "zip"},
+            ),
+        ):
+            with self.subTest(name=name):
+                response = self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=200,
+                    request=request,
+                )
+                with zipfile.ZipFile(BytesIO(response.content)) as archive:
+                    names = archive.namelist()
+                self.assertTrue(names)
+                self.assertFalse(
+                    any(item.startswith(restricted_root) for item in names)
+                )
+
     def assert_language_scoped_project_downloads(self) -> None:
         for name in ("api:project-file", "api:project-language-file"):
             kwargs = self.project_kwargs
@@ -8056,13 +8095,17 @@ class ProjectAPITest(APIBaseTest):
 
         self.assertFalse(self.user.has_perm("translation.download", self.project))
         self.assert_language_scoped_project_downloads()
-        self.do_request(
+        response = self.do_request(
             "api:project-file",
             self.project_kwargs,
             method="get",
-            code=403,
+            code=200,
             request={"format": "zip"},
         )
+        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+            names = archive.namelist()
+        self.assertTrue(any(name.endswith("/cs.po") for name in names))
+        self.assertFalse(any(name.endswith("/de.po") for name in names))
 
     def test_download_project_translations_language_path(self) -> None:
         response = self.do_request(

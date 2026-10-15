@@ -49,12 +49,14 @@ from weblate.utils.views import (
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable, Iterator
+    from collections.abc import Callable, Iterable
     from zipfile import ZipFile
 
+    from django.db.models import Model, QuerySet
     from django.http import HttpResponseBase
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.translation import TranslationQuerySet
 
 
 def handle_repository_lock_timeout[**P](
@@ -72,30 +74,50 @@ def handle_repository_lock_timeout[**P](
     return wrapper
 
 
-def iter_workspace_download_components(
-    user: User, workspace: Workspace
-) -> Iterator[Component]:
-    """Yield accessible workspace components the user is allowed to download."""
-    components = (
-        Component.objects.filter(project__workspace=workspace)
-        .filter_access(user)
-        .select_related("project")
-    )
-    for component in components.iterator(chunk_size=1):
-        if user.has_perm("translation.download", component):
-            yield component
+def get_download_components(
+    translations: QuerySet[Translation],
+) -> QuerySet[Component]:
+    """Return components represented by a translation queryset."""
+    return Component.objects.filter(
+        pk__in=translations.order_by().values("component_id")
+    ).select_related("project")
+
+
+def prepare_download_scope(
+    user: User,
+    translations: TranslationQuerySet,
+    empty_permission_obj: Model | ProjectLanguage | CategoryLanguage | None = None,
+) -> tuple[TranslationQuerySet, QuerySet[Component]]:
+    """Apply download permission and validate an aggregate download scope."""
+    downloadable = translations.filter_permission_scope(user, "translation.download")
+    if not downloadable.exists() and (
+        translations.exists()
+        or empty_permission_obj is None
+        or not user.has_perm("translation.download", empty_permission_obj)
+    ):
+        raise PermissionDenied
+    return downloadable, get_download_components(downloadable)
 
 
 def get_workspace_download_components(
     user: User, workspace: Workspace
 ) -> list[Component]:
-    """Return accessible workspace components the user is allowed to download."""
-    return list(iter_workspace_download_components(user, workspace))
+    """Return workspace components represented by downloadable translations."""
+    translations = Translation.objects.filter(component__project__workspace=workspace)
+    return list(
+        get_download_components(
+            translations.filter_permission_scope(user, "translation.download")
+        )
+    )
 
 
 def can_download_workspace(user: User, workspace: Workspace) -> bool:
-    """Return whether the user can download any workspace component."""
-    return next(iter_workspace_download_components(user, workspace), None) is not None
+    """Return whether the user can download any workspace translation."""
+    return (
+        Translation.objects.filter(component__project__workspace=workspace)
+        .filter_permission_scope(user, "translation.download")
+        .exists()
+    )
 
 
 def _group_download_translations(
@@ -213,12 +235,14 @@ def download_component_list(request: AuthenticatedHttpRequest, name):
     obj = get_object_or_404(
         ComponentList.objects.filter_access(request.user), slug__iexact=name
     )
-    if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied
-    components = obj.components.filter_access(request.user)
+    translations, components = prepare_download_scope(
+        request.user,
+        Translation.objects.filter(component__in=obj.components.all()),
+        obj,
+    )
     return download_multi(
         request,
-        Translation.objects.filter(component__in=components),
+        translations,
         components,
         request.GET.get("format"),
         name=obj.slug,
@@ -242,21 +266,21 @@ def download(request: AuthenticatedHttpRequest, path):
         ),
     )
     if isinstance(obj, Workspace):
-        components = get_workspace_download_components(request.user, obj)
-        if not components:
-            raise PermissionDenied
+        translations, components = prepare_download_scope(
+            request.user,
+            Translation.objects.filter(component__project__workspace=obj),
+        )
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components).prefetch(),
+            translations.prefetch(),
             components,
             request.GET.get("format"),
             name=f"workspace-{obj.pk}",
         )
 
-    if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied
-
     if isinstance(obj, Translation):
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
         kwargs = {}
 
         if "format" in request.GET or "q" in request.GET:
@@ -270,50 +294,65 @@ def download(request: AuthenticatedHttpRequest, path):
 
         return download_translation_file(request, obj, **kwargs)
     if isinstance(obj, ProjectLanguage):
-        components = obj.project.component_set.filter_access(request.user)
+        translations, components = prepare_download_scope(
+            request.user,
+            Translation.objects.filter(
+                component__project=obj.project, language=obj.language
+            ),
+            obj,
+        )
         return download_multi(
             request,
-            Translation.objects.filter(
-                component__in=components, language=obj.language
-            ).prefetch(),
-            [obj.project],
+            translations.prefetch(),
+            components,
             request.GET.get("format"),
             name=f"{obj.project.slug}-{obj.language.code}",
         )
     if isinstance(obj, Project):
-        components = obj.component_set.filter_access(request.user)
+        translations, components = prepare_download_scope(
+            request.user,
+            Translation.objects.filter(component__project=obj),
+            obj,
+        )
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components).prefetch(),
-            [obj],
+            translations.prefetch(),
+            components,
             request.GET.get("format"),
             name=obj.slug,
         )
     if isinstance(obj, CategoryLanguage):
-        components = obj.category.project.component_set.filter_access(
-            request.user
-        ).filter(pk__in=obj.category.all_component_ids)
+        translations, components = prepare_download_scope(
+            request.user,
+            Translation.objects.filter(
+                component_id__in=obj.category.all_component_ids,
+                language=obj.language,
+            ),
+            obj,
+        )
         return download_multi(
             request,
-            Translation.objects.filter(
-                component__in=components, language=obj.language
-            ).prefetch(),
-            [obj.category.project],
+            translations.prefetch(),
+            components,
             request.GET.get("format"),
             name=f"{obj.category.slug}-{obj.language.code}",
         )
     if isinstance(obj, Category):
-        components = obj.project.component_set.filter_access(request.user).filter(
-            pk__in=obj.all_component_ids
+        translations, components = prepare_download_scope(
+            request.user,
+            Translation.objects.filter(component_id__in=obj.all_component_ids),
+            obj,
         )
         return download_multi(
             request,
-            Translation.objects.filter(component__in=components).prefetch(),
-            [obj.project],
+            translations.prefetch(),
+            components,
             request.GET.get("format"),
             name=obj.slug,
         )
     if isinstance(obj, Component):
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
         return download_multi(
             request,
             obj.translation_set.prefetch_meta(),

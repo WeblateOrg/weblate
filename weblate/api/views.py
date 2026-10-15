@@ -206,7 +206,11 @@ from weblate.trans.tasks import (
     project_removal,
 )
 from weblate.trans.util import get_upload_error_message
-from weblate.trans.views.files import download_multi
+from weblate.trans.views.files import (
+    download_multi,
+    get_download_components,
+    prepare_download_scope,
+)
 from weblate.trans.views.reports import get_report_scope_values, render_report_data
 from weblate.utils.celery import (
     get_task_metadata,
@@ -2788,8 +2792,8 @@ class ProjectViewSet(
         description=(
             "Download all translation files in the project. The archive defaults "
             "to ZIP and can be limited to one language using language_code. "
-            "Unfiltered downloads require project-wide download permission; "
-            "language-filtered downloads require permission for that language."
+            "The archive includes only translations for which the user has download "
+            "permission, including component and language restrictions."
         ),
         methods=["get"],
         responses=binary_download_response_schema("Project translation download."),
@@ -2814,56 +2818,36 @@ class ProjectViewSet(
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
         instance = self.get_object()
+        user = cast("User", request.user)
         requested_language = request.query_params.get("language_code", None)
 
         if requested_language:
             language = get_object_or_404(Language, code=requested_language)
-            can_download = self.can_download_project_language(
-                request.user, instance, language
+            candidates = Translation.objects.filter(
+                language=language, component__project=instance
             )
         else:
-            language = None
-            can_download = request.user.has_perm("translation.download", instance)
-        if not can_download:
-            raise PermissionDenied
-
-        components = instance.component_set.filter_access(request.user)
-        requested_format = request.query_params.get("format", "zip")
-
-        if language:
-            translations = Translation.objects.filter(
-                language=language, component__in=components
-            )
-        else:
-            translations = Translation.objects.filter(component__in=components)
+            candidates = Translation.objects.filter(component__project=instance)
+        translations, components = prepare_download_scope(
+            user,
+            candidates,
+            instance,
+        )
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
             translations.prefetch(),
-            [instance],
-            requested_format,
+            components,
+            request.query_params.get("format", "zip"),
             name=instance.slug,
-        )
-
-    @staticmethod
-    def can_download_project_language(
-        user: User, project: Project, language: Language
-    ) -> bool:
-        permission_obj = ProjectLanguage(project, language)
-        if user.has_perm("translation.download", permission_obj):
-            return True
-        # Project-wide permission can produce the documented empty archive when
-        # the language has no translations against which to evaluate permission.
-        return not permission_obj.has_action_translations and bool(
-            user.has_perm("translation.download", project)
         )
 
     @extend_schema(
         description=(
             "Download all component translation files in the project for a specific "
             "language. The archive defaults to ZIP, and filter limits included "
-            "components by a case-insensitive substring of their slug. Requires "
-            "download permission for the requested language."
+            "components by a case-insensitive substring of their slug. The archive "
+            "includes only translations for which the user has download permission."
         ),
         methods=["get"],
         responses=binary_download_response_schema(
@@ -2900,29 +2884,27 @@ class ProjectViewSet(
     )
     def language_file(self, request: Request, language_code: str, **kwargs):
         instance = self.get_object()
+        user = cast("User", request.user)
         language = get_object_or_404(Language, code=language_code)
-
-        if not self.can_download_project_language(request.user, instance, language):
-            raise PermissionDenied
-
-        components = instance.component_set.filter_access(request.user)
+        translations, components = prepare_download_scope(
+            user,
+            Translation.objects.filter(language=language, component__project=instance),
+            instance,
+        )
         filterset = ComponentSlugFilter(
             request.query_params, queryset=components, request=request
         )
         if not filterset.is_valid():
             raise ValidationError(filterset.errors)
         components = filterset.qs
-        requested_format = request.query_params.get("format", "zip")
-
-        translations = Translation.objects.filter(
-            language=language, component__in=components
-        )
+        translations = translations.filter(component__in=components)
+        components = get_download_components(translations)
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
             translations.prefetch(),
-            [instance],
-            requested_format,
+            components,
+            request.query_params.get("format", "zip"),
             name=f"{instance.slug}-{language_code}",
         )
 
