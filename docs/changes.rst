@@ -28,6 +28,7 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Fixed role permission revocation through partial API updates.
 * Limited SAML identity-provider request parsing to prevent compressed request resource exhaustion.

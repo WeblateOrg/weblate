@@ -75,6 +75,29 @@ class AutoTranslationTest(ReusableViewTestCase):
         super().setUp()
         self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
 
+    def create_limited_auto_user(self, *, review: bool = False) -> User:
+        user = User.objects.create_user(
+            "limited-autotranslate",
+            "limited-autotranslate@example.com",
+            "limited-autotranslate",
+        )
+        user.groups.clear()
+        group = Group.objects.create(
+            name="Limited automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.project, self.component2.project)
+        roles = [
+            Role.objects.get(name="Translate"),
+            Role.objects.get(name="Automatic translation"),
+        ]
+        if review:
+            roles.append(Role.objects.get(name="Review strings"))
+        group.roles.add(*roles)
+        user.groups.add(group)
+        user.clear_permissions_cache()
+        return user
+
     def create_second_component(self, project: Project | None = None) -> Component:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             return Component.objects.create(
@@ -909,25 +932,12 @@ class AutoTranslationTest(ReusableViewTestCase):
         self.perform_auto(0, 1, mode="approved")
 
     def test_approved_requires_review_permission(self) -> None:
-        limited_user = User.objects.create_user(
-            "limited-auto-approve",
-            "limited-auto-approve@example.com",
-            "limited-auto-approve",
-        )
-        group = Group.objects.create(
-            name="Limited automatic approval",
-            language_selection=SELECTION_ALL,
-        )
-        group.projects.add(self.project)
-        group.roles.add(Role.objects.get(name="Automatic translation"))
-        limited_user.groups.add(group)
-        limited_user.clear_permissions_cache()
+        limited_user = self.create_limited_auto_user()
         translation = self.component2.translation_set.get(language_code="cs")
         unit = self.get_unit("Hello, world!\n", translation=translation)
-        group.projects.add(translation.component.project)
-        limited_user.clear_permissions_cache()
 
         self.assertTrue(limited_user.has_perm("translation.auto", translation))
+        self.assertTrue(limited_user.has_perm("unit.edit", unit))
         self.assertFalse(limited_user.has_perm("unit.review", unit))
 
         self.make_different()
@@ -948,6 +958,134 @@ class AutoTranslationTest(ReusableViewTestCase):
         )
         unit.refresh_from_db()
         self.assertNotEqual(unit.state, STATE_APPROVED)
+
+    def test_approved_edit_requires_review_permission(self) -> None:
+        limited_user = self.create_limited_auto_user()
+        source = self.get_unit("Hello, world!\n")
+        source.translate(
+            self.user, "Automatic translation\n", STATE_TRANSLATED, propagate=False
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        unit.translate(
+            self.user, "Approved translation\n", STATE_APPROVED, propagate=False
+        )
+
+        self.assertTrue(limited_user.has_perm("translation.auto", translation))
+        self.assertFalse(limited_user.has_perm("unit.edit", unit))
+
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=limited_user.id,
+            mode="translate",
+            q="state:approved",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Approved translation\n")
+        self.assertEqual(unit.state, STATE_APPROVED)
+
+    def test_reviewer_can_automatically_edit_approved(self) -> None:
+        reviewer = self.create_limited_auto_user(review=True)
+        source = self.get_unit("Hello, world!\n")
+        source.translate(
+            self.user, "Automatic translation\n", STATE_TRANSLATED, propagate=False
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        unit.translate(
+            self.user, "Approved translation\n", STATE_APPROVED, propagate=False
+        )
+
+        self.assertTrue(reviewer.has_perm("unit.edit", unit))
+
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=reviewer.id,
+            mode="translate",
+            q="state:approved",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Automatic translation\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+    def test_glossary_edit_permission_required(self) -> None:
+        limited_user = self.create_limited_auto_user()
+        self.component2.is_glossary = True
+        self.component2.save(update_fields=["is_glossary"])
+        source = self.get_unit("Hello, world!\n")
+        source.translate(
+            self.user, "Automatic translation\n", STATE_TRANSLATED, propagate=False
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        Unit.objects.filter(pk=unit.pk).update(target="", state=STATE_EMPTY)
+        unit.refresh_from_db()
+
+        self.assertTrue(unit.translation.component.is_glossary)
+        self.assertTrue(limited_user.has_perm("translation.auto", translation))
+        self.assertFalse(limited_user.has_perm("unit.edit", unit))
+
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=limited_user.id,
+            mode="translate",
+            q=f"id:{unit.pk}",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+
+    def test_trusted_automatic_translation_can_edit_approved(self) -> None:
+        limited_user = self.create_limited_auto_user()
+        source = self.get_unit("Hello, world!\n")
+        source.translate(
+            self.user, "Automatic translation\n", STATE_TRANSLATED, propagate=False
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        unit.translate(
+            self.user, "Approved translation\n", STATE_APPROVED, propagate=False
+        )
+        auto = AutoTranslate(
+            translation=translation,
+            user=limited_user,
+            q="state:approved",
+            mode="translate",
+            enforce_permissions=False,
+        )
+
+        auto.process_others([self.component.pk])
+
+        self.assertEqual(auto.updated, 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Automatic translation\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def test_fuzzy(self) -> None:
         """Test for automatic suggestion in fuzzy mode."""
