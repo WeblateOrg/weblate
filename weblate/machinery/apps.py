@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from django.apps import AppConfig
 from django.core.checks import Warning as DjangoWarning
 from django.core.checks import register
+from django.utils.translation import gettext_lazy
 
 from weblate.utils.checks import weblate_check
 
@@ -43,4 +44,4 @@ def check_machinery(
 class VCSConfig(AppConfig):
     name = "weblate.machinery"
     label = "machinery"
-    verbose_name = "Machinery"
+    verbose_name = gettext_lazy("Translation services")

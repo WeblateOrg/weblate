@@ -296,12 +296,12 @@ Forbidden translations
 
 .. _glossary-mt:
 
-Glossaries in automatic suggestion
-----------------------------------
+Glossaries in translation services
+------------------------------------
 
 .. versionadded:: 5.3
 
-Some automatic suggestion services utilize glossaries during the translation,
+Some translation services utilize glossaries during the translation,
 please consult their documentation in :doc:`/admin/machine` to see the support.
 
 The glossary is processed before exposed to the service:

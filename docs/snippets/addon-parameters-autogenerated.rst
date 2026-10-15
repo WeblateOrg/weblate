@@ -7,8 +7,8 @@ Common add-on parameters
 
 .. _addon-choice-engines:
 
-Machine translation engines
----------------------------
+Translation services
+--------------------
 
 .. list-table:: Available choices:
    :width: 100%

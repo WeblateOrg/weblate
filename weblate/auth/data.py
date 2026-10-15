@@ -156,7 +156,7 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("memory.manage", gettext_noop("Manage translation memory")),
     # Translators: Permission name
-    ("machinery.edit", gettext_noop("Manage machinery")),
+    ("machinery.edit", gettext_noop("Manage translation services")),
     # Translators: Permission name
     ("componentlist.edit", gettext_noop("Manage component lists")),
     # Translators: Permission name

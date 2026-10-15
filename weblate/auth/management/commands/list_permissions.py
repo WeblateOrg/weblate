@@ -19,7 +19,7 @@ GROUP_NAMES = {
     "comment": "Comments",
     "component": "Component",
     "glossary": "Glossary",
-    "machinery": "Automatic suggestions",
+    "machinery": "Translation services",
     "memory": "Translation memory",
     "project": "Projects",
     "reports": "Reports",

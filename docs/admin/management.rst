@@ -789,7 +789,7 @@ install_machinery
 
 .. weblate-admin:: install_machinery --service SERVICE
 
-Installs a site-wide automatic suggestion service.
+Installs a site-wide translation service.
 
 .. weblate-admin-option:: --service SERVICE
 
@@ -890,7 +890,7 @@ list_machinery
 
 .. weblate-admin:: list_machinery
 
-Lists automatic suggestions services in reStructuredText as a template for :doc:`/admin/machine`.
+Lists translation services in reStructuredText as a template for :doc:`/admin/machine`.
 
 .. seealso::
 

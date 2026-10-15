@@ -375,7 +375,7 @@ can assist human translators or generate translations for them to edit or
 approve. Choose a workflow based on when humans should check the generated
 text and when it should reach the repository.
 
-First, configure the services under :guilabel:`Automatic suggestions` in the
+First, configure the services under :guilabel:`Translation services` in the
 project settings or site administration; see :ref:`machine-translation-setup`.
 For LLM services, see :ref:`llm-translation-context` for the context and
 instructions used to guide translation.
@@ -470,7 +470,7 @@ Use the :ref:`addon-weblate.ai.quality` add-on to check existing human or
 machine translations for accuracy, fluency, terminology, style, and formatting.
 It records quality checks without editing translations or approving them.
 
-Configure an LLM service under :guilabel:`Automatic suggestions`, then install
+Configure an LLM service under :guilabel:`Translation services`, then install
 :guilabel:`AI quality evaluation` and select the :guilabel:`Evaluation service`.
 Choose a query to limit the translations evaluated. Run the add-on manually,
 choose an :guilabel:`Evaluation frequency`, or enable evaluation after

@@ -731,7 +731,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             if own & inherited:
                 raise ValidationError(
                     gettext(
-                        "Automatic suggestion slugs conflict with the new workspace."
+                        "Translation service slugs conflict with the new workspace."
                     )
                 )
         validate_internal_installations_for_project(self)

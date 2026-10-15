@@ -176,8 +176,8 @@ source alternatives produce the same correction.
 :ref:`Machine translation suggestions <machine-translation>` translate each
 source alternative independently. Automatic machine translation supports strings
 with one source alternative and at most one target alternative; it skips strings
-with multiple alternatives to preserve them. Machinery glossaries can use all
-alternatives. Automatic :ref:`translation-memory` contributions skip strings
+with multiple alternatives to preserve them. Translation service glossaries can
+use all alternatives. Automatic :ref:`translation-memory` contributions skip strings
 with multiple alternatives.
 
 LLM translation services use only strings with one source alternative and one

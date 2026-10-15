@@ -1715,12 +1715,12 @@ database and do not need environment variables. See
 
 .. _docker-machine:
 
-Automatic suggestion settings
+Translation services settings
 +++++++++++++++++++++++++++++
 
 .. versionchanged:: 4.13
 
-   Automatic suggestion services are now configured in the user interface,
+   Translation services are now configured in the user interface,
    see :ref:`machine-translation-setup`.
 
    The existing environment variables are imported during the migration to
@@ -2518,11 +2518,11 @@ Localization CDN
        * :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, formats, add-ons, machinery, or autofixes
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Changing enabled apps, checks, formats, add-ons, translation services, or autofixes
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The built-in configuration of enabled checks, file formats, add-ons,
-machinery, or autofixes can be adjusted by the following variables:
+translation services, or autofixes can be adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
 .. envvar:: WEBLATE_REMOVE_APPS
@@ -3099,7 +3099,7 @@ After starting the services with ``docker compose down && docker compose up -d``
 configure LibreTranslate in Weblate:
 
 1. Access the Weblate admin interface
-2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
+2. Navigate to :guilabel:`Manage` → :guilabel:`Translation services`
 3. Add a new LibreTranslate service with:
 
    :Service: LibreTranslate

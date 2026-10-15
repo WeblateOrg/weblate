@@ -1,7 +1,7 @@
 .. _machine-translation-setup:
 
-Automatic suggestions
-=====================
+Translation services
+====================
 
 .. versionchanged:: 4.13
 
@@ -10,7 +10,7 @@ Automatic suggestions
 The support for several machine translation and translation memory services is
 built-in. You can install a service more than once with different settings. An
 administrator can configure installations for the whole site under
-:guilabel:`Automatic suggestions` in :ref:`management-interface`. Workspace
+:guilabel:`Translation services` in :ref:`management-interface`. Workspace
 administrators can configure installations for their workspace, and project
 administrators can configure them for a project:
 
@@ -45,7 +45,11 @@ installations, including paused ones.
 For ``install_machinery --update``, specify a unique ``--slug`` or ``--id``
 when more than one site installation of a service exists.
 
-Automatic suggestion installations can also be configured via the :ref:`api`.
+Translation service installations can also be configured via the :ref:`api`.
+
+Configured translation services provide suggestions in the
+:guilabel:`Automatic suggestions` tab of the translation editor and can be
+selected for :ref:`auto-translation`.
 
 .. seealso::
 
@@ -92,7 +96,7 @@ This can be used to tweak the service to get the best results. Following choices
 LLM translation context
 -----------------------
 
-LLM-based automatic suggestion services receive additional context about each
+LLM-based translation services receive additional context about each
 translated string, when available. This includes the string context or
 monolingual key, additional explanation, configured secondary-language
 translation, plural information, failing quality checks, and placeholder
