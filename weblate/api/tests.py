@@ -56,7 +56,6 @@ from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
-from weblate.addons.models import Addon
 from weblate.api.docs import (
     DOCS_OPENAPI_ALL_VCS_CHOICES_ENV,
     VCS_ENUM_SCHEMA_NAME,
@@ -129,7 +128,9 @@ from weblate.trans.repository import (
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
+    create_test_addon,
     create_test_billing,
+    get_test_actor,
     get_test_file,
 )
 from weblate.trans.util import join_plural
@@ -5080,6 +5081,7 @@ class ProjectAPITest(APIBaseTest):
         self.component.save(update_fields=["restricted"])
         glossary = self.project.component_set.get(slug="glossary")
         glossary.restricted = True
+        glossary.acting_user = self.user
         glossary.save(update_fields=["restricted"])
         other_project = self.create_project(name="Other", slug="other")
         self.create_link_existing(
@@ -5989,6 +5991,28 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
+
+    @override_settings(DEFAULT_ADDONS={"weblate.gettext.msgmerge": {}})
+    def test_created_component_default_addon_keeps_actor(self) -> None:
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "Default add-on",
+                "slug": "default-addon",
+                "repo": self.format_test_repo_url(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        change = Change.objects.get(
+            component__slug="default-addon", action=ActionEvents.ADDON_CREATE
+        )
+        self.assertEqual(change.user, self.user)
 
     def test_create_component_category(self) -> None:
         category = self.component.project.category_set.create(
@@ -9190,6 +9214,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_repo_status_remote_update_failure(self) -> None:
         self.component.change_set.create(
+            user=get_test_actor(self),
             action=ActionEvents.FAILED_REMOTE_UPDATE,
             target="fetch failed",
         )
@@ -9204,10 +9229,13 @@ class ComponentAPITest(APIBaseTest):
 
     def test_repo_status_remote_update_preserves_merge_failure(self) -> None:
         self.component.change_set.create(
+            user=get_test_actor(self),
             action=ActionEvents.FAILED_REBASE,
             target="rebase failed",
         )
-        self.component.change_set.create(action=ActionEvents.REMOTE_UPDATE)
+        self.component.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.REMOTE_UPDATE
+        )
 
         response = self.do_request(
             "api:component-repository",
@@ -10350,7 +10378,11 @@ class ComponentAPITest(APIBaseTest):
         self.component.commit_message = "Commit from source"
         self.component.priority = 175
         self.component.save()
-        self.component.addon_set.create(name="weblate.gettext.linguas")
+        create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
 
         self.do_request(
             "api:project-components",
@@ -10753,7 +10785,9 @@ class ComponentAPITest(APIBaseTest):
     ) -> None:
         source_project = self.create_project(name="Source", slug="source")
         source = self.create_po(name="source-copy", project=source_project)
-        source.addon_set.create(
+        create_test_addon(
+            component=source,
+            acting_user=get_test_actor(self),
             name="weblate.gettext.linguas",
             configuration={"secret": "cross-project"},
         )
@@ -15270,7 +15304,7 @@ class UnitAPITest(APIBaseTest):
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation
         )
-        shot.add_unit(unit)
+        shot.add_unit(unit, user=self.user)
         response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
         self.assertIn(str(unit.pk), response.data["screenshots_url"])
 
@@ -15285,7 +15319,7 @@ class UnitAPITest(APIBaseTest):
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation
         )
-        shot.add_unit(unit)
+        shot.add_unit(unit, user=self.user)
         unassociated = Screenshot.objects.create(
             name="Other screenshot", translation=self.component.source_translation
         )
@@ -15872,6 +15906,7 @@ class UnitAPITest(APIBaseTest):
         )
         component = unit.translation.component
         component.enforced_checks = ["same"]
+        component.acting_user = self.user
         component.save(update_fields=["enforced_checks"])
         for flags, expected_state in (
             ("ignore-same", STATE_TRANSLATED),
@@ -16301,6 +16336,7 @@ class UnitAPITest(APIBaseTest):
         # Enable reviews to test report comments
         project = unit.translation.component.project
         project.source_review = True
+        project.acting_user = self.user
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
@@ -16360,6 +16396,7 @@ class UnitAPITest(APIBaseTest):
         # test user has permission to view project but not edit
         project = unit.translation.component.project
         project.access_control = Project.ACCESS_PROTECTED
+        project.acting_user = self.user
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
@@ -17554,6 +17591,7 @@ class ChangeAPITest(APIBaseTest):
             frozenset({"events"}),
         )
         change = self.component.change_set.create(
+            user=get_test_actor(self),
             action=ActionEvents.ADDON_CHANGE,
             target="weblate.webhook.webhook",
             details=details,
@@ -17570,8 +17608,10 @@ class ChangeAPITest(APIBaseTest):
         self.assertIsNone(response.data["details"]["configuration"]["secret"])
 
     def test_addon_link_requires_management_access(self) -> None:
-        addon = Addon.objects.create(
-            component=self.component, name="weblate.gettext.linguas"
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            name="weblate.gettext.linguas",
         )
         change = self.component.change_set.get(
             action=ActionEvents.ADDON_CREATE,
@@ -17591,6 +17631,7 @@ class ChangeAPITest(APIBaseTest):
 
     def test_legacy_addon_configuration_details_are_hidden(self) -> None:
         change = self.component.change_set.create(
+            user=get_test_actor(self),
             action=ActionEvents.ADDON_CHANGE,
             target="weblate.webhook.webhook",
             details={
@@ -18311,11 +18352,19 @@ class AddonAPITest(APIBaseTest):
         if add_user:
             project.add_user(self.user, add_user)
 
-        addon_component = self.component.addon_set.create(
-            name="weblate.gettext.linguas"
+        addon_component = create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
         )
-        addon_project = project.addon_set.create(name="weblate.gettext.linguas")
-        addon_site = Addon.objects.create(name="weblate.gettext.linguas")
+        addon_project = create_test_addon(
+            project=project,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
+        addon_site = create_test_addon(
+            acting_user=get_test_actor(self), name="weblate.gettext.linguas"
+        )
         self.do_request(
             "api:addon-list",
             superuser=superuser,
@@ -18372,15 +18421,20 @@ class AddonAPITest(APIBaseTest):
 
     def test_sitewide_manager_access_is_scope_limited(self) -> None:
         private_component = self.create_acl()
-        component_addon = private_component.addon_set.create(
+        component_addon = create_test_addon(
+            component=private_component,
+            acting_user=get_test_actor(self),
             name="weblate.gettext.linguas",
             configuration={"secret": "component"},
         )
-        project_addon = private_component.project.addon_set.create(
+        project_addon = create_test_addon(
+            project=private_component.project,
+            acting_user=get_test_actor(self),
             name="weblate.gettext.linguas",
             configuration={"secret": "project"},
         )
-        sitewide_addon = Addon.objects.create(
+        sitewide_addon = create_test_addon(
+            acting_user=get_test_actor(self),
             name="weblate.gettext.linguas",
             configuration={"scope": "sitewide"},
         )
@@ -18403,10 +18457,16 @@ class AddonAPITest(APIBaseTest):
             )
 
     def test_component_manager_can_access_component_addon(self) -> None:
-        component_addon = self.component.addon_set.create(
-            name="weblate.gettext.linguas"
+        component_addon = create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
         )
-        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        project_addon = create_test_addon(
+            project=self.project,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
         self.grant_perm_to_user(
             "component.edit",
             group_name="Component add-on managers",
@@ -18429,10 +18489,16 @@ class AddonAPITest(APIBaseTest):
         )
 
     def test_project_scoped_component_manager_can_access_component_addon(self) -> None:
-        component_addon = self.component.addon_set.create(
-            name="weblate.gettext.linguas"
+        component_addon = create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
         )
-        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        project_addon = create_test_addon(
+            project=self.project,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
         self.grant_perm_to_user(
             "component.edit",
             group_name="Project component add-on managers",
@@ -18450,7 +18516,9 @@ class AddonAPITest(APIBaseTest):
         )
 
     def test_blocked_component_manager_cannot_access_component_addon(self) -> None:
-        component_addon = self.component.addon_set.create(
+        component_addon = create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
             name="weblate.gettext.linguas",
             configuration={"secret": "blocked"},
         )
@@ -18474,10 +18542,16 @@ class AddonAPITest(APIBaseTest):
     def test_project_manager_cannot_access_restricted_component_addon(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        component_addon = self.component.addon_set.create(
-            name="weblate.gettext.linguas"
+        component_addon = create_test_addon(
+            component=self.component,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
         )
-        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        project_addon = create_test_addon(
+            project=self.project,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
@@ -18493,7 +18567,11 @@ class AddonAPITest(APIBaseTest):
     def test_project_addons_enforce_two_factor_requirement(self) -> None:
         self.project.enforced_2fa = True
         self.project.save(update_fields=["enforced_2fa"])
-        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        project_addon = create_test_addon(
+            project=self.project,
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.linguas",
+        )
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
@@ -18512,6 +18590,7 @@ class AddonAPITest(APIBaseTest):
 
     def test_configuration_rejects_non_string_keyword_entries(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -18637,6 +18716,7 @@ class AddonAPITest(APIBaseTest):
         self,
     ) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -18677,6 +18757,7 @@ class AddonAPITest(APIBaseTest):
         rules = Path(self.component.full_path) / "po" / "its"
         rules.mkdir(parents=True, exist_ok=True)
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"source_patterns": ["*.py"], "interval": "weekly"},
@@ -18722,6 +18803,7 @@ class AddonAPITest(APIBaseTest):
 
     def test_edit_preserves_omitted_optional_configuration(self) -> None:
         addon = GitSquashAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"squash": "all"},
@@ -18794,6 +18876,7 @@ class AddonAPITest(APIBaseTest):
     def test_trigger_project_addon(self, mocked_delay: Mock) -> None:
         self.project.add_user(self.user, "Administration")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -18843,7 +18926,7 @@ class AddonAPITest(APIBaseTest):
 
     def test_trigger_without_permission(self) -> None:
         addon = LanguageConsistencyAddon.create(
-            project=self.project, run=False
+            acting_user=get_test_actor(self), project=self.project, run=False
         ).instance
 
         self.do_request(
@@ -18865,6 +18948,7 @@ class AddonAPITest(APIBaseTest):
         self.component.save(update_fields=["category"])
         self.project.add_user(self.user, "Administration")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             category=category,
             run=False,
             configuration={
@@ -19390,23 +19474,29 @@ class AnnouncementAPITest(APIBaseTest):
             name="Category", slug="category"
         )
         self.project_announcement = Announcement.objects.create(
-            project=self.component.project, message="Test project announcement"
+            user=self.user,
+            project=self.component.project,
+            message="Test project announcement",
         )
         self.project_language_announcement = Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             language=Language.objects.get(code="cs"),
             message="Test project language announcement",
         )
         self.category_announcement = Announcement.objects.create(
+            user=self.user,
             category=self.category,
             message="Test category announcement",
         )
         self.component_announcement = Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             component=self.component,
             message="Test component announcement",
         )
         self.translation_announcement = Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             component=self.component,
             language=Language.objects.get(code="cs"),
@@ -19813,6 +19903,7 @@ class AnnouncementAPITest(APIBaseTest):
         german_language = Language.objects.get(code="de")
         czech_announcement = self.project_language_announcement
         german_announcement = Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             language=german_language,
             message="Test German project language announcement",
@@ -20440,6 +20531,7 @@ class AnnouncementAPITest(APIBaseTest):
             component=self.component, language=german_language
         )
         german_announcement = Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             component=self.component,
             language=german_language,

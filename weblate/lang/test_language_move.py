@@ -35,6 +35,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
 
@@ -124,11 +125,15 @@ class LanguageMoveFixtures(ViewTestCase):
 
     def announcement_fixture(self) -> Announcement:
         return Announcement.objects.create(
-            message="Migration announcement", project=self.project
+            message="Migration announcement", project=self.project, user=self.user
         )
 
     def change_fixture(self) -> Change:
-        return Change.objects.create(action=ActionEvents.UPDATE, project=self.project)
+        return Change.objects.create(
+            user=get_test_actor(self),
+            action=ActionEvents.UPDATE,
+            project=self.project,
+        )
 
     def workflow_fixture(self) -> WorkflowSetting:
         return WorkflowSetting.objects.create(

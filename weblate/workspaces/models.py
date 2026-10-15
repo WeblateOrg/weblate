@@ -372,7 +372,10 @@ class Workspace(models.Model, CacheKeyMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in Component.objects.filter(project__workspace=self).iterator():
-            update_enforced_checks.delay_on_commit(component.pk)
+            update_enforced_checks.delay_on_commit(
+                component.pk,
+                user_id=self.acting_user.pk if self.acting_user is not None else None,
+            )
 
     def schedule_workspace_memory_updates(self) -> None:
         # ruff: ignore[import-outside-top-level]

@@ -73,6 +73,7 @@ class ProjectTokenTest(FixtureTestCase):
     def create_attacker(self):
         project = self.create_additional_project(name="Attacker", slug="attacker")
         project.access_control = Project.ACCESS_PRIVATE
+        project.acting_user = self.user
         project.save()
         attacker = User.objects.create_user(
             "attacker", "attacker@example.org", "testpassword"
@@ -100,6 +101,7 @@ class ProjectTokenTest(FixtureTestCase):
             name="Token project", slug="token-project"
         )
         token_project.access_control = Project.ACCESS_PRIVATE
+        token_project.acting_user = self.user
         token_project.save()
         token = self.create_token(project=token_project)
         token_user = self.get_token_user(token)
@@ -304,6 +306,7 @@ class ProjectTokenTest(FixtureTestCase):
         username = token_user.username
         second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
+        second_project.acting_user = self.user
         second_project.save()
         second_project.add_user(token_user, "Administration", allow_bot=True)
 
@@ -431,6 +434,7 @@ class ProjectTokenTest(FixtureTestCase):
         token_user = self.get_token_user(token_key)
         second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
+        second_project.acting_user = self.user
         second_project.save()
         if not second_project.defined_groups.exists():
             setup_project_groups(sender=Project, instance=second_project, created=False)

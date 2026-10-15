@@ -406,7 +406,10 @@ class Category(
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.all_components.iterator():
-            update_enforced_checks.delay_on_commit(component.pk)
+            update_enforced_checks.delay_on_commit(
+                component.pk,
+                user_id=self.acting_user.pk if self.acting_user is not None else None,
+            )
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""
@@ -414,12 +417,14 @@ class Category(
         for category in self.category_set.all():
             category.rename_repository_locks = locks
             category.project = project
+            category.acting_user = self.acting_user
             category.save()
         for component in self.component_set.all():
             for lock in locks:
                 if component.repository.lock.replace_lock_if_matching(lock):
                     break
             component.project = project
+            component.acting_user = self.acting_user
             component.save()
 
     def get_url_path(self) -> tuple[str, ...]:

@@ -41,6 +41,7 @@ from weblate.trans.models import (
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -74,6 +75,8 @@ class AutoTranslationTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
+        self.component2.acting_user = self.user
+        self.component2.project.acting_user = self.user
 
     def create_limited_auto_user(self, *, review: bool = False) -> User:
         user = User.objects.create_user(
@@ -113,6 +116,38 @@ class AutoTranslationTest(ReusableViewTestCase):
                 new_base="",
                 allow_translation_propagation=False,
             )
+
+    def test_legacy_mt_task_without_origin_uses_addon_actor(self) -> None:
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        with patch(
+            "weblate.trans.autotranslate.fetch_machinery_matches",
+            return_value={
+                unit.pk: {
+                    "translation": ["Legacy automatic translation"],
+                    "quality": [100],
+                    "origin": [None],
+                }
+            },
+        ):
+            result = auto_translate(
+                user_id=None,
+                mode="translate",
+                q="state:<translated",
+                auto_source="mt",
+                source_component_id=None,
+                engines=[],
+                threshold=80,
+                translation_id=translation.pk,
+            )
+        self.assertIn("1 string was updated", result["message"])
+        changes = unit.change_set.filter(action=ActionEvents.AUTO)
+        self.assertEqual(changes.count(), 1)
+        change = changes.get()
+        if change.user is None:
+            self.fail("Automatic translation did not record an actor")
+        self.assertEqual(change.user.username, "addon:autotranslate")
+        self.assertEqual(change.author, change.user)
 
     def test_regular_reuse_keeps_indexed_source_lookup(self) -> None:
         source = self.get_unit("Hello, world!\n")
@@ -286,7 +321,10 @@ class AutoTranslationTest(ReusableViewTestCase):
         target_translation, source_unit, target_unit, _group = (
             self.prepare_restricted_source()
         )
-        for user, enforce_permissions in ((None, True), (self.user, False)):
+        for user, enforce_permissions in (
+            (get_test_actor(self), False),
+            (self.user, False),
+        ):
             for source_component_ids in (None, [self.component.pk]):
                 source_is_eligible = (
                     source_component_ids is not None
@@ -404,6 +442,7 @@ class AutoTranslationTest(ReusableViewTestCase):
         if component is None:
             component = self.component2
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=component,
             run=False,
             configuration={

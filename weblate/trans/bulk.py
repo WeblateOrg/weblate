@@ -97,6 +97,7 @@ def bulk_perform(
     add_labels: QuerySet[Label],
     remove_labels: QuerySet[Label],
     project: Project | None,
+    enforce_permissions: bool = True,
     components: QuerySet[Component] | list[Component] | None = None,
     add_translation_flags: str | Flags = "",
     remove_translation_flags: str | Flags = "",
@@ -165,12 +166,16 @@ def bulk_perform(
                     bulk_permission_obj = (
                         unit.translation.component if unit.is_source else unit
                     )
-                    if user is None or (
-                        user.has_perm("unit.edit", unit)
-                        and user.has_perm("unit.bulk_edit", bulk_permission_obj)
-                        and (
-                            target_state != STATE_APPROVED
-                            or user.has_perm("unit.review", unit)
+                    if (
+                        not enforce_permissions
+                        or user is None
+                        or (
+                            user.has_perm("unit.edit", unit)
+                            and user.has_perm("unit.bulk_edit", bulk_permission_obj)
+                            and (
+                                target_state != STATE_APPROVED
+                                or user.has_perm("unit.review", unit)
+                            )
                         )
                     ):
                         # Create change object for edit, update is done outside the loop
@@ -220,7 +225,8 @@ def bulk_perform(
                     unit.source_unit_save()
 
             if (add_flags or remove_flags or add_labels or remove_labels) and (
-                user is None
+                not enforce_permissions
+                or user is None
                 or (
                     user.has_perm("source.edit", component)
                     and user.has_perm("unit.bulk_edit", component)
@@ -291,9 +297,13 @@ def bulk_perform(
                     .prefetch()
                     .select_for_update()
                 ):
-                    if user is not None and not (
-                        user.has_perm("meta:unit.flag", unit.translation)
-                        and user.has_perm("unit.bulk_edit", unit)
+                    if (
+                        enforce_permissions
+                        and user is not None
+                        and not (
+                            user.has_perm("meta:unit.flag", unit.translation)
+                            and user.has_perm("unit.bulk_edit", unit)
+                        )
                     ):
                         continue
                     flags = unit.get_unit_flags()

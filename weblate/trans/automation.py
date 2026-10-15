@@ -109,6 +109,7 @@ def automatic_translation(
 def bulk_edit(
     component: Component,
     settings: dict[str, Any],
+    user: User | None,
     selection: UnitSelection | None = None,
     affected: UnitSelection | None = None,
 ) -> dict[str, Any]:
@@ -118,7 +119,7 @@ def bulk_edit(
     affected_ids: set[int] = set()
     affected_sources: set[int] = set()
     updated = bulk_perform(
-        None,
+        user,
         selection.queryset(component),
         components=[component],
         query=settings["q"],
@@ -130,6 +131,8 @@ def bulk_edit(
         add_labels=labels.filter(name__in=settings["add_labels"]),
         remove_labels=labels.filter(name__in=settings["remove_labels"]),
         project=component.project,
+        # Saved add-on configuration authorizes the edit; the bot records its actor.
+        enforce_permissions=False,
         affected_unit_ids=affected_ids,
         affected_source_unit_ids=affected_sources,
         expected_unit_snapshots=selection.unit_snapshots,

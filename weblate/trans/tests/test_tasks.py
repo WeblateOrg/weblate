@@ -951,7 +951,7 @@ class TasksTest(ReusableComponentTestCase):
         self.assertTrue(result.successful())
         self.assertEqual(result.id, task_id)
         self.assertEqual(attempts, 2)
-        create_project_backup.assert_called_once_with(self.project.pk)
+        create_project_backup.assert_called_once_with(self.project.pk, self.user.pk)
         get_backoff.assert_called_once_with(
             factor=600, retries=0, maximum=3600, full_jitter=True
         )

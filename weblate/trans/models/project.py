@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Self, cast, overload
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import models, router, transaction
+from django.db import IntegrityError, models, router, transaction
 from django.db.models import F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -942,7 +942,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.component_set.iterator():
-            update_enforced_checks.delay_on_commit(component.pk)
+            update_enforced_checks.delay_on_commit(
+                component.pk,
+                user_id=self.acting_user.pk if self.acting_user is not None else None,
+            )
 
     def clean(self) -> None:
         super().clean()
@@ -1403,6 +1406,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing: Billing | None = None) -> None:
+        self.acting_user = user
         if billing:
             billing.add_project(self)
             if billing.plan.change_access_control:
@@ -1558,6 +1562,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         file_format: str,
         has_template: bool | None = None,
         is_glossary: bool = False,
+        acting_user: User | None = None,
         **kwargs,
     ) -> Component:
         format_cls = FILE_FORMATS[file_format]
@@ -1569,6 +1574,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             template = ""
         kwargs.update(
             {
+                "project": self,
                 "file_format": file_format,
                 "filemask": f"*.{format_cls.extension()}",
                 "template": template,
@@ -1584,10 +1590,23 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             kwargs.setdefault(inherit, field not in kwargs)
         # Create component
         if is_glossary:
-            return self.component_set.get_or_create(
-                name=name, slug=slug, defaults=kwargs
-            )[0]
-        return self.component_set.create(name=name, slug=slug, **kwargs)
+            try:
+                return self.component_set.get(name=name, slug=slug)
+            except self.component_set.model.DoesNotExist:
+                pass
+        component = self.component_set.model(name=name, slug=slug, **kwargs)
+        component.acting_user = acting_user
+        try:
+            with transaction.atomic():
+                component.save(force_insert=True)
+        except IntegrityError:
+            if is_glossary:
+                try:
+                    return self.component_set.get(name=name, slug=slug)
+                except self.component_set.model.DoesNotExist:
+                    pass
+            raise
+        return component
 
     @cached_property
     def glossaries(self) -> list[Component]:

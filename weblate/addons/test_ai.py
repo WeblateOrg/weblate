@@ -33,6 +33,7 @@ from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Change, Unit
 from weblate.trans.models.project import Project
 from weblate.trans.tests.test_views import ReusableComponentTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
@@ -159,7 +160,10 @@ class AIEvaluationTest(ReusableComponentTestCase):
             "on_update": False,
         }
         self.addon = AIEvaluationAddon.create(
-            component=self.component, configuration=self.configuration, run=False
+            acting_user=get_test_actor(self),
+            component=self.component,
+            configuration=self.configuration,
+            run=False,
         )
 
     def evaluate(self, issues: list[EvaluationIssue] | None = None) -> None:
@@ -540,6 +544,7 @@ class AIEvaluationTest(ReusableComponentTestCase):
 
     def test_unavailable_inherited_evaluator_and_stale_task(self) -> None:
         inherited = AIEvaluationAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             configuration={**self.configuration, "service": "missing"},
             run=False,
@@ -598,7 +603,10 @@ class AIEvaluationTest(ReusableComponentTestCase):
         self.assertFalse(self.component.alert_set.filter(name=name).exists())
         update_alerts(self.component, {name})
         inherited = AIEvaluationAddon.create(
-            project=self.project, configuration=self.configuration, run=False
+            acting_user=get_test_actor(self),
+            project=self.project,
+            configuration=self.configuration,
+            run=False,
         )
         self.component.drop_addons_cache()
         update_alerts(self.component, {name})
@@ -683,7 +691,10 @@ class AIEvaluationTest(ReusableComponentTestCase):
 
     def test_scope_precedence(self) -> None:
         project_addon = AIEvaluationAddon.create(
-            project=self.project, configuration=self.configuration, run=False
+            acting_user=get_test_actor(self),
+            project=self.project,
+            configuration=self.configuration,
+            run=False,
         )
         self.component.drop_addons_cache()
         self.assertEqual(effective_evaluator(self.component), self.addon.instance)

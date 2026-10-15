@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 
 class InternalBot(Enum):
+    ALERTS = ("weblate", "alerts", "Automatic alerts")
+    BACKUP = ("weblate", "backup", "Automatic backups")
     COMMIT = ("weblate", "commit", "Background commit")
     UPDATE = ("weblate", "update", "Background update")
     PUSH = ("weblate", "push", "Background push")

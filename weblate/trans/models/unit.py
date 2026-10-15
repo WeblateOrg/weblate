@@ -1657,6 +1657,7 @@ class Unit(models.Model, LoggerMixin):
         """Update Unit from ttkit unit."""
         translation = self.translation
         component = translation.component
+        user = user or component.get_update_user(None)
         self.is_batch_update = True
         self.trigger_update_variants = False
         self.source_updated = True
@@ -2426,6 +2427,7 @@ class Unit(models.Model, LoggerMixin):
                         self.translation.detect_completed_translation,
                         change,
                         old_translated,
+                        user=user or author,
                     )
                 )
 
@@ -2443,6 +2445,7 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
+        user = user or self.translation.component.get_update_user(None)
         with start_span(op="unit.update_source_units", name=f"{self.pk}"):
             changes = []
             translation_parent_stats = {}

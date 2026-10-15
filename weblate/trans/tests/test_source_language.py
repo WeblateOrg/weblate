@@ -628,7 +628,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
         for state in (STATE_NEEDS_REWRITING, STATE_TRANSLATED):
             with self.subTest(state=state):
                 bulk_perform(
-                    None,
+                    self.user,
                     Unit.objects.filter(pk=self.parent.pk),
                     query="",
                     target_state=state,
@@ -637,6 +637,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     add_labels=self.project.label_set.none(),
                     remove_labels=self.project.label_set.none(),
                     project=self.project,
+                    enforce_permissions=False,
                 )
                 for unit in (self.child, self.grandchild):
                     unit.refresh_from_db()
@@ -1427,7 +1428,11 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.set_target(self.parent, "Parent source")
         self.configure()
         translator = AutoTranslate(
-            translation=self.child.translation, user=None, q="", mode="translate"
+            translation=self.child.translation,
+            user=self.user,
+            q="",
+            mode="translate",
+            enforce_permissions=False,
         )
         with patch("weblate.trans.autotranslate.fetch_machinery_matches") as fetch:
             translator.fetch_mt([], 80)
@@ -1446,7 +1451,8 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.set_target(self.child, "Existing target")
         translator = AutoTranslate(
             translation=self.child.translation,
-            user=None,
+            user=self.user,
+            enforce_permissions=False,
             q="",
             mode="translate",
             unit_ids=[self.child.pk],

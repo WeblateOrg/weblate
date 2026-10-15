@@ -73,6 +73,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
     fixup_languages_seq,
     get_optional_path,
+    get_test_actor,
 )
 from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils.files import remove_tree
@@ -1886,7 +1887,7 @@ class ComponentListTest(RepoTestCase):
         translation_unit = unit.unit_set.get(translation__language__code="cs")
         self.assertEqual(translation_unit.state, STATE_TRANSLATED)
 
-        unit.translate(None, "Hello, world!\n", STATE_NEEDS_CHECKING)
+        unit.translate(get_test_actor(self), "Hello, world!\n", STATE_NEEDS_CHECKING)
 
         translation_unit = unit.unit_set.get(translation__language__code="en")
         self.assertEqual(translation_unit.state, STATE_NEEDS_CHECKING)
@@ -1904,7 +1905,7 @@ class ComponentListTest(RepoTestCase):
         self.assertEqual(translation_unit.state, STATE_READONLY)
 
         # Set source back to translated - translation should be restored
-        unit.translate(None, "Hello, world!\n", STATE_TRANSLATED)
+        unit.translate(get_test_actor(self), "Hello, world!\n", STATE_TRANSLATED)
         translation_unit = unit.unit_set.get(translation__language__code="cs")
         self.assertNotEqual(translation_unit.state, STATE_READONLY)
 
@@ -2201,46 +2202,57 @@ class AnnouncementTest(ModelTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.user = get_test_actor(self)
         self.second_project = self.create_project("Other", "other")
         self.czech = Language.objects.get(code="cs")
         self.german = Language.objects.get(code="de")
-        Announcement.objects.create(language=self.czech, message="test cs")
-        Announcement.objects.create(language=self.german, message="test de")
         Announcement.objects.create(
+            user=self.user, language=self.czech, message="test cs"
+        )
+        Announcement.objects.create(
+            user=self.user, language=self.german, message="test de"
+        )
+        Announcement.objects.create(
+            user=self.user,
             project=self.second_project,
             language=self.czech,
             message="test other cs",
         )
         Announcement.objects.create(
-            project=self.component.project, message="test project"
+            user=self.user, project=self.component.project, message="test project"
         )
         Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             language=self.czech,
             message="test project cs",
         )
         Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             language=self.german,
             message="test project de",
         )
         Announcement.objects.create(
+            user=self.user,
             component=self.component,
             project=self.component.project,
             message="test component",
         )
-        Announcement.objects.create(message="test global")
+        Announcement.objects.create(user=self.user, message="test global")
 
     def test_async_create_with_foreign_key_ids(self) -> None:
         category = self.create_category(self.component.project)
 
         async def create_announcements():
             category_announcement = await Announcement.objects.acreate(
+                user=self.user,
                 category_id=category.pk,
                 language_id=self.czech.pk,
                 message="async category",
             )
             component_announcement = await Announcement.objects.acreate(
+                user=self.user,
                 project_id=self.component.project_id,
                 component_id=self.component.pk,
                 language_id=self.czech.pk,
@@ -2270,7 +2282,9 @@ class AnnouncementTest(ModelTestCase):
             return None
 
         with patch("django.db.router.db_for_read", side_effect=route_read):
-            announcement = Announcement.objects.create(message="routed change")
+            announcement = Announcement.objects.create(
+                user=self.user, message="routed change"
+            )
 
         self.assertTrue(Change.objects.filter(announcement=announcement).exists())
 
@@ -2318,15 +2332,18 @@ class AnnouncementTest(ModelTestCase):
         self.component.save(update_fields=["category"])
         other_component = self.create_po(project=self.component.project, name="Other")
         Announcement.objects.create(
+            user=self.user,
             category=category,
             message="test category",
         )
         Announcement.objects.create(
+            user=self.user,
             category=category,
             language=self.czech,
             message="test category cs",
         )
         Announcement.objects.create(
+            user=self.user,
             category=category,
             language=self.german,
             message="test category de",
@@ -2416,17 +2433,20 @@ class AnnouncementTest(ModelTestCase):
         for scope in (parent, category, sibling, child, foreign):
             for language in (None, self.czech, self.german):
                 Announcement.objects.create(
+                    user=self.user,
                     category=scope,
                     language=language,
                     message=f"category {scope.pk} {language}",
                 )
         Announcement.objects.create(
+            user=self.user,
             category=category,
             language=self.czech,
             expiry=timezone.now().date() - timedelta(days=1),
             message="expired category announcement",
         )
         Announcement.objects.create(
+            user=self.user,
             project=self.component.project,
             component=self.component,
             language=self.czech,
@@ -2502,7 +2522,10 @@ class ChangeTest(ModelTestCase):
     def test_recent_uses_limited_identifier_query(self) -> None:
         Change.objects.all().delete()
         changes = [
-            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+            self.component.change_set.create(
+                user=get_test_actor(self), action=ActionEvents.LOCK
+            )
+            for _ in range(3)
         ]
         queryset = self.component.change_set.prefetch_for_render()
 
@@ -2520,7 +2543,10 @@ class ChangeTest(ModelTestCase):
     def test_recent_skips_changes_deleted_before_hydration(self) -> None:
         Change.objects.all().delete()
         changes = [
-            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+            self.component.change_set.create(
+                user=get_test_actor(self), action=ActionEvents.LOCK
+            )
+            for _ in range(3)
         ]
         original_prefetch = ChangeQuerySet.prefetch_for_render
 
@@ -2564,12 +2590,14 @@ class ChangeTest(ModelTestCase):
         )
         language = self.component.translation_set.get(language_code="cs").language
         visible_change = Change.objects.create(
+            user=get_test_actor(self),
             action=ActionEvents.RENAME_CATEGORY,
             project=target_project,
             category=category,
             language=language,
         )
         hidden_change = self.component.change_set.create(
+            user=get_test_actor(self),
             action=ActionEvents.LOCK,
             language=language,
         )
@@ -2618,7 +2646,9 @@ class ChangeTest(ModelTestCase):
         project.refresh_from_db()
 
         change = Change.objects.create(
-            project=project, action=ActionEvents.CREATE_PROJECT
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.CREATE_PROJECT,
         )
 
         project.workspace = target
@@ -2639,10 +2669,14 @@ class ChangeTest(ModelTestCase):
         user.save(update_fields=["is_superuser"])
 
         workspace_change = Change.objects.create(
-            workspace=workspace, action=ActionEvents.CREATE_PROJECT
+            user=get_test_actor(self),
+            workspace=workspace,
+            action=ActionEvents.CREATE_PROJECT,
         )
         project_change = Change.objects.create(
-            project=project, action=ActionEvents.LOCK
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.LOCK,
         )
 
         changes = Change.objects.last_changes(user, workspace=workspace)
@@ -2662,15 +2696,24 @@ class ChangeTest(ModelTestCase):
         Change.objects.all().delete()
 
         backfilled = Change.objects.create(
-            project=project, action=ActionEvents.CREATE_PROJECT
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.CREATE_PROJECT,
         )
-        kept = Change.objects.create(project=project, action=ActionEvents.LOCK)
-        standalone = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
+        kept = Change.objects.create(
+            user=get_test_actor(self),
+            project=project,
+            action=ActionEvents.LOCK,
+        )
+        standalone = Change.objects.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
         standalone_project = self.create_project(
             name="Standalone backfill project",
             slug="standalone-backfill-project",
         )
         standalone_project_change = Change.objects.create(
+            user=get_test_actor(self),
             project=standalone_project,
             action=ActionEvents.CREATE_PROJECT,
         )
@@ -2693,6 +2736,7 @@ class ChangeTest(ModelTestCase):
             "weblate.trans.migrations.0099_sanitize_repository_redirect_credentials"
         )
         affected = Change.objects.create(
+            user=get_test_actor(self),
             component=self.component,
             action=ActionEvents.COMPONENT_SETTING_CHANGE,
             target="repo",
@@ -2705,6 +2749,7 @@ class ChangeTest(ModelTestCase):
             },
         )
         affected_push = Change.objects.create(
+            user=get_test_actor(self),
             component=self.component,
             action=ActionEvents.COMPONENT_SETTING_CHANGE,
             target="push",
@@ -2717,6 +2762,7 @@ class ChangeTest(ModelTestCase):
             },
         )
         unaffected = Change.objects.create(
+            user=get_test_actor(self),
             component=self.component,
             action=ActionEvents.COMPONENT_SETTING_CHANGE,
             target="repo",
@@ -2762,7 +2808,10 @@ class ChangeTest(ModelTestCase):
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()
         for days_since in range(3):
-            change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
+            change = Change.objects.create(
+                user=get_test_actor(self),
+                action=ActionEvents.CREATE_PROJECT,
+            )
             change.timestamp -= timedelta(days=days_since)
             change.save()
 

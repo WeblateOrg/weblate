@@ -310,6 +310,7 @@ class PermissionsTest(FixtureComponentTestCase):
         billing.plan.change_access_control = False
         billing.plan.save(update_fields=["change_access_control"])
         project.access_control = Project.ACCESS_PROTECTED
+        project.acting_user = self.admin
         project.save(update_fields=["access_control"])
         component = Component.objects.select_related("project").get(
             pk=self.component.pk
@@ -320,6 +321,7 @@ class PermissionsTest(FixtureComponentTestCase):
         )
 
         component.restricted = True
+        component.acting_user = self.admin
         component.save(update_fields=["restricted"])
         self.assertTrue(self.admin.has_perm("billing:component.permissions", component))
 

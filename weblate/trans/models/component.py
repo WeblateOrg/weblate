@@ -1971,7 +1971,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             # Running is disabled now, it is triggered in after_save
             try:
                 addon.create(
-                    component=component, run=False, configuration=configuration
+                    component=component,
+                    run=False,
+                    configuration=configuration,
+                    acting_user=self.acting_user,
                 )
             except ValidationError as error:
                 component.log_warning("could not enable addon %s: %s", name, error)
@@ -1998,6 +2001,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             has_template=False,
             allow_translation_propagation=False,
             license=self.effective_license,
+            acting_user=self.acting_user,
         )
 
     @cached_property
@@ -2338,7 +2342,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Avoid fetching empty list of checks from the database
         source.all_checks = []
         source.source_updated = True
-        user = user or self.acting_user
+        user = user or self.get_update_user(None)
         change = source.generate_change(
             user,
             user,
@@ -2941,7 +2945,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         user: User | None = None,
     ) -> bool:
         """Pull from remote repository."""
-        user = user or self.acting_user
+        user = user or self.get_update_user(None)
         # Update
         self.log_info("updating repository")
         previous_revision, error = self.update_remote_repository()
@@ -3897,7 +3901,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.REPO_CLEANUP,
-            user=self.acting_user or (request.user if request else None),
+            user=self.acting_user
+            or (request.user if request else None)
+            or self.get_repository_maintenance_user(),
         )
 
         return True
@@ -4030,7 +4036,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
-            user=self.acting_user or (request.user if request else None),
+            user=self.acting_user or self.get_update_user(request),
         )
 
         if do_commit:
@@ -4068,7 +4074,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.commit_pending("file-scan", request.user if request else None)
         self.change_set.create(
             action=ActionEvents.FORCE_SCAN,
-            user=self.acting_user or (request.user if request else None),
+            user=self.acting_user or self.get_update_user(request),
         )
 
         self.create_translations(request=request, force=True)
@@ -4315,7 +4321,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 translation=translation,
                 action=ActionEvents.PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
-                user=self.acting_user,
+                user=self.get_update_user(None),
             )
         if reraise:
             raise FileParseError(error_message) from error
@@ -4359,6 +4365,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for event in recovery_events:
             self.change_set.create(
                 action=ActionEvents.REPO_CLEANUP,
+                user=self.get_repository_maintenance_user(),
                 details={
                     "recovery": True,
                     "operation": event.operation,
@@ -4432,7 +4439,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if method is None:
             method = self.merge_style
         if user is None:
-            user = request.user if request else self.acting_user
+            user = self.get_update_user(request)
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
         for component in self.linked_children:
@@ -4844,6 +4851,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         obj.save(update_fields=[*update_fields, "updated"])
                         self.change_set.create(
                             action=ActionEvents.ALERT_REOPENED,
+                            user=InternalBot.ALERTS.get_user(),
                             alert=obj,
                             details={"alert": alert, "fingerprint": fingerprint},
                         )
@@ -5032,7 +5040,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import update_enforced_checks
 
-        user = user or (request.user if request else self.acting_user)
+        user = user or self.get_update_user(request)
 
         self.store_background_task()
 
@@ -5261,7 +5269,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         effective = self.get_effective_setting("enforced_checks")
         if effective:
-            update_enforced_checks.delay_on_commit(component=self.pk)
+            update_enforced_checks.delay_on_commit(component=self.pk, user_id=user.pk)
 
         self.log_info("updating completed")
         return was_change
@@ -7082,7 +7090,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> Change:
         change = Change(
             component=self,
-            user=user,
+            user=user or self.get_repository_maintenance_user(),
             action=ActionEvents.LOCK if lock else ActionEvents.UNLOCK,
             details={"auto": auto},
         )
@@ -7364,7 +7372,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         for unit in units.select_for_update():
             unit.translate(
-                None,
+                self.get_update_user(None),
                 unit.get_target_plurals(),
                 STATE_NEEDS_REWRITING,
                 change_action=ActionEvents.ENFORCED_CHECK,

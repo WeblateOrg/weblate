@@ -312,7 +312,9 @@ def update_parent(
     change = None
     if changed:
         change = unit.generate_change(
-            author,
+            author
+            if author is not None
+            else unit.translation.component.get_update_user(None),
             author,
             ActionEvents.SOURCE_CHANGE,
             check_new=False,

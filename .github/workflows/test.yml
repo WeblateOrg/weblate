@@ -109,9 +109,10 @@ jobs:
       run: uv run coverage run ./manage.py check
     - name: Demo import
       run: |
-        uv run coverage run ./manage.py import_demo
+        uv run coverage run ./manage.py createadmin --no-password
+        uv run coverage run ./manage.py import_demo --user admin
         # Second execution with --delete should remove and recreate
-        uv run coverage run ./manage.py import_demo --delete
+        uv run coverage run ./manage.py import_demo --user admin --delete
         uv run coverage run ./manage.py billing_demo
         # Second execution should gracefully handle existing project
         uv run coverage run ./manage.py billing_demo

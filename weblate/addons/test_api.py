@@ -36,7 +36,7 @@ from weblate.api.serializers import AddonSerializer
 from weblate.auth.models import User
 from weblate.trans.models import Category, Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
 
 if TYPE_CHECKING:
     from django.urls.resolvers import URLPattern
@@ -68,12 +68,15 @@ class OtherProvider(ExampleProvider):
 class ConcurrentInstallationTest(RepoTestMixin, TransactionTestCase):
     def test_duplicate_installation(self) -> None:
         component = self.create_po()
+        actor = get_test_actor(self)
         barrier = Barrier(2)
 
         def install() -> str:
             try:
                 barrier.wait(timeout=10)
-                ExampleProvider.create(component=component, run=False)
+                ExampleProvider.create(
+                    component=component, run=False, acting_user=actor
+                )
             except ValidationError:
                 return "duplicate"
             finally:
@@ -176,7 +179,7 @@ class InstallationTest(ViewTestCase):
 
     def install(self) -> ExampleProvider:
         return ExampleProvider.create(
-            component=self.component, configuration={}, run=False
+            component=self.component, configuration={}, run=False, acting_user=self.user
         )
 
     def test_permissions_and_installation(self) -> None:
@@ -284,7 +287,10 @@ class InstallationTest(ViewTestCase):
             self.assertRaisesMessage(CommandError, "already installed"),
         ):
             call_command(
-                "install_addon", self.component.full_slug, addon=ExampleProvider.name
+                "install_addon",
+                self.component.full_slug,
+                addon=ExampleProvider.name,
+                user=self.user.username,
             )
         self.assertEqual(self.component.addon_set.count(), 1)
 
@@ -314,7 +320,7 @@ class InstallationTest(ViewTestCase):
         duplicate.pk = None
         duplicate.category = None
         Component.objects.bulk_create([duplicate])
-        ExampleProvider.create(component=duplicate, run=False)
+        ExampleProvider.create(component=duplicate, run=False, acting_user=self.user)
         self.assertEqual(client.get(f"{addon.api_url}values/42/").status_code, 200)
         self.assertEqual(
             client.get(

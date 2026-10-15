@@ -42,6 +42,8 @@ Weblate 2026.11
 
 .. rubric:: Compatibility
 
+* :wladmin:`import_project`, :wladmin:`import_json`, :wladmin:`import_demo`, :wladmin:`add_suggestions`, and :wladmin:`install_addon` now require ``--user USERNAME`` to attribute component and configuration changes to an existing account.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

@@ -42,6 +42,7 @@ from weblate.trans.forms import PluralField
 from weblate.trans.models import Component, PendingUnitChange, Unit
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
 from weblate.trans.validators import MAX_TRANSLATION_ALTERNATIVES
 from weblate.utils.hash import calculate_hash
@@ -479,7 +480,12 @@ class TBXIntegrationTest(RepoTestCase):
             source="application", target="application", details={}
         )
         self.unit.refresh_from_db()
-        self.unit.translate(None, ["renamed"], STATE_TRANSLATED, propagate=False)
+        self.unit.translate(
+            get_test_actor(self),
+            ["renamed"],
+            STATE_TRANSLATED,
+            propagate=False,
+        )
         self.translation.commit_pending("test", None)
         self.translation.drop_store_cache()
         stored = self.translation.store.content_units[0]
@@ -529,7 +535,10 @@ class TBXIntegrationTest(RepoTestCase):
         )
         original_pk = self.unit.pk
         self.unit.translate(
-            None, ["appli", "renamed", "logiciel"], STATE_TRANSLATED, propagate=False
+            get_test_actor(self),
+            ["appli", "renamed", "logiciel"],
+            STATE_TRANSLATED,
+            propagate=False,
         )
         self.unit.refresh_from_db()
         self.assertEqual(
@@ -568,7 +577,9 @@ class TBXIntegrationTest(RepoTestCase):
         field = PluralField()
         data = {f"target_{index}": text for index, text in enumerate(texts)}
         target = field.clean(field.widget.value_from_datadict(data, {}, "target"))
-        self.unit.translate(None, target, STATE_TRANSLATED, propagate=False)
+        self.unit.translate(
+            get_test_actor(self), target, STATE_TRANSLATED, propagate=False
+        )
         self.translation.commit_pending("test", None)
         self.sync()
         self.assertEqual(self.unit.get_target_plurals(), texts)
@@ -819,7 +830,9 @@ class TBXIntegrationTest(RepoTestCase):
 
     def test_pending_target_survives_source_alias_change(self) -> None:
         target = ["edited application", "appli", "logiciel"]
-        self.unit.translate(None, target, STATE_TRANSLATED, propagate=False)
+        self.unit.translate(
+            get_test_actor(self), target, STATE_TRANSLATED, propagate=False
+        )
         self.assertTrue(PendingUnitChange.objects.filter(unit=self.unit).exists())
         self.filename.write_bytes(
             self.filename.read_bytes().replace(
@@ -863,7 +876,7 @@ class TBXIntegrationTest(RepoTestCase):
         sibling = self.component.translation_set.get(language_code="fr")
         sibling_unit = sibling.unit_set.get(context="concept-example")
         sibling_unit.translate(
-            None,
+            get_test_actor(self),
             ["app", "second target"],
             STATE_TRANSLATED,
             propagate=False,

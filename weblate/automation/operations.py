@@ -502,9 +502,9 @@ class BulkEditOperation(AutomationOperation):
         cls,
         component: Component,
         settings: dict[str, Any],
-        _user: User | None,
+        user: User | None,
         *,
         selection: UnitSelection | None = None,
         affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
-        return bulk_edit(component, settings, selection, affected)
+        return bulk_edit(component, settings, user, selection, affected)

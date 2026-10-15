@@ -1049,6 +1049,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         other_workspace = Workspace.objects.create(name="Other Workspace")
         other_project.workspace = other_workspace
+        other_project.acting_user = self.user
         other_project.save(update_fields=["workspace"])
         GitHubInstallation.objects.create(
             installation_id="12345",

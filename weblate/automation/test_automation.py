@@ -60,13 +60,14 @@ from weblate.trans.tests.test_views import (
     ComponentTestCase,
     ReusableComponentTestCase,
 )
-from weblate.trans.tests.utils import create_another_user
+from weblate.trans.tests.utils import create_another_user, get_test_actor
 from weblate.utils.change_origin import change_origin, change_origin_context
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 
@@ -1396,6 +1397,7 @@ class AutomationTest(ReusableComponentTestCase):
         self, workflow: dict | None = None, **scope: Unpack[AutomationScope]
     ) -> AutomationAddon:
         return AutomationAddon.create(
+            acting_user=self.user,
             configuration={"workflow": deepcopy(workflow or WORKFLOW)},
             run=False,
             **(scope or {"component": self.component}),
@@ -1467,6 +1469,7 @@ class AutomationTest(ReusableComponentTestCase):
             slug="restricted-automation-source",
             allow_translation_propagation=False,
         )
+        source.acting_user = self.user
         source.restricted = True
         source.save(update_fields=["restricted"])
 
@@ -1568,7 +1571,7 @@ class AutomationTest(ReusableComponentTestCase):
             WORKFLOW
             | {"triggers": [{"trigger": "change", "events": ["source_change"]}]}
         )
-        unit = self.component.source_translation.unit_set.first()
+        unit = self.component.source_translation.unit_set.get(source="Hello, world!\n")
         change = Change.objects.create(
             unit=unit, action=ActionEvents.SOURCE_CHANGE, user=self.user
         )
@@ -1578,7 +1581,7 @@ class AutomationTest(ReusableComponentTestCase):
         token = automation_origin.set(123)
         try:
             changes = Change.objects.bulk_create(
-                [Change(unit=unit, action=ActionEvents.SOURCE_CHANGE)]
+                [Change(unit=unit, action=ActionEvents.SOURCE_CHANGE, user=addon.user)]
             )
         finally:
             automation_origin.reset(token)
@@ -1616,8 +1619,10 @@ class AutomationTest(ReusableComponentTestCase):
         units = self.component.translation_set.get(language_code="cs").unit_set
         units.update(state=STATE_TRANSLATED)
         before = list(units.values_list("state", flat=True))
+        history_count = Change.objects.count()
         addon.preview(addon.instance.configuration["workflow"], self.component.pk)
         self.assertEqual(list(units.values_list("state", flat=True)), before)
+        self.assertEqual(Change.objects.count(), history_count)
         runner = Runner(
             validate_operations(
                 deepcopy(addon.instance.configuration["workflow"]), self.component
@@ -1716,7 +1721,7 @@ class AutomationTest(ReusableComponentTestCase):
             unit=unit, action=ActionEvents.COMMENT, user=self.user
         )
         unitless = Change.objects.create(
-            component=self.component, action=ActionEvents.CHANGE
+            component=self.component, action=ActionEvents.CHANGE, user=self.user
         )
         for change_id in (None, other.pk, unitless.pk, 999999):
             with self.subTest(change_id=change_id):
@@ -1786,7 +1791,9 @@ class AutomationTest(ReusableComponentTestCase):
                 "triggers": [{"trigger": "change", "events": ["change"]}],
             }
         )
-        foreign = Change.objects.create(component=other, action=ActionEvents.CHANGE)
+        foreign = Change.objects.create(
+            component=other, action=ActionEvents.CHANGE, user=self.user
+        )
         for component_id, change_id in (
             (other.pk, foreign.pk),
             (self.component.pk, foreign.pk),
@@ -1849,7 +1856,9 @@ class AutomationTest(ReusableComponentTestCase):
         unit = self.component.translation_set.get(language_code="cs").unit_set.get(
             source="Hello, world!\n"
         )
-        change = Change.objects.create(unit=unit, action=ActionEvents.CHANGE)
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=self.user
+        )
         for action, success in (("preview", 200), ("trigger", 202)):
             url = reverse(f"api:addon-{action}", kwargs={"pk": addon.instance.pk})
             response = client.post(url, {}, format="json")
@@ -1859,6 +1868,66 @@ class AutomationTest(ReusableComponentTestCase):
             self.assertEqual(response.status_code, success, response.data)
         activity = AddonActivityLog.objects.get(addon=addon.instance)
         task.assert_called_once_with(activity.pk)
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_bulk_history_uses_automation_user(self, task: Mock) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        unit.state = STATE_TRANSLATED
+        unit.save(update_fields=["state"])
+        old_label = self.project.label_set.create(name="old", color="navy")
+        new_label = self.project.label_set.create(name="new", color="navy")
+        unit.source_unit.labels.add(old_label)
+        addon = self.install(
+            WORKFLOW
+            | {
+                "actions": [
+                    {
+                        "action": "weblate.bulk_edit",
+                        "settings": {
+                            "q": f"id:{unit.pk}",
+                            "state": STATE_FUZZY,
+                            "add_flags": "python-format",
+                            "add_translation_flags": "read-only",
+                            "add_labels": [new_label.name],
+                            "remove_labels": [old_label.name],
+                        },
+                    }
+                ]
+            }
+        )
+        self.assertFalse(addon.user.has_perm("unit.edit", unit))
+        run_addon_manually(addon.instance.pk, user_id=self.user.pk)
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        task.assert_called_once_with(activity.pk)
+        with patch("weblate.trans.models.change.report_message") as report:
+            run_automation(activity.pk)
+        activity.refresh_from_db()
+        self.assertEqual(
+            activity.status, AddonActivityLogStatus.SUCCESS, activity.details
+        )
+        report.assert_not_called()
+        unit.refresh_from_db()
+        unit.source_unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertTrue(unit.readonly)
+        self.assertIn("python-format", unit.source_unit.all_flags)
+        self.assertEqual(list(unit.source_unit.labels.all()), [new_label])
+        changes = Change.objects.filter(details__automation_origin=activity.pk)
+        self.assertEqual(
+            changes.get(unit=unit, action=ActionEvents.BULK_EDIT).details["state"],
+            STATE_FUZZY,
+        )
+        self.assertTrue(
+            {
+                ActionEvents.BULK_EDIT,
+                ActionEvents.EXTRA_FLAGS,
+                ActionEvents.LABEL_ADD,
+                ActionEvents.LABEL_REMOVE,
+            }.issubset(changes.values_list("action", flat=True))
+        )
+        self.assertFalse(changes.exclude(user=addon.user, author=addon.user).exists())
 
     def test_preview_api(self) -> None:
         addon = self.install()
@@ -1916,6 +1985,7 @@ class AIQualityAutomationTest(ComponentTestCase):
                 target=f"Translation {unit.pk}", state=STATE_TRANSLATED
             )
         self.addon = AIEvaluationAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={"service": self.service, "q": "state:>=translated"},
             run=False,
@@ -2302,6 +2372,7 @@ class AIQualityAutomationTest(ComponentTestCase):
         )
         other_component = self.create_po_new_base(name="other", project=self.project)
         AIEvaluationAddon.create(
+            acting_user=get_test_actor(self),
             component=other_component,
             configuration={"service": other_service, "q": "state:>=translated"},
             run=False,
@@ -2333,6 +2404,7 @@ class AIQualityAutomationTest(ComponentTestCase):
         selected, excluded = self.units
         self.addon.instance.delete()
         AIEvaluationAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             configuration={"service": self.service, "q": f"id:{selected.pk}"},
             run=False,

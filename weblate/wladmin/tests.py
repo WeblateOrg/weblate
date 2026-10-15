@@ -1316,6 +1316,7 @@ class AdminTest(ReusableViewTestCase):
         billing = Billing.objects.create(plan=plan, customer_name="Acme Billing LLC")
         workspace = billing.workspace
         workspace.name = "Manually renamed workspace"
+        workspace.acting_user = self.user
         workspace.save(update_fields=["name"])
         Workspace.objects.create(name="Acme localization workspace")
 

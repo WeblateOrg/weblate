@@ -49,6 +49,15 @@ For application-developer workflows and broader product integration guidance, us
   flag reuse of shared localized messages as a review issue.
 - Messages written to persisted storage, such as the audit log, add-on log, or
   changes, should not be localized.
+- Supply an explicit user when recording history changes. Automated operations
+  must use the appropriate system or add-on bot user rather than `None`.
+  Preserve the initiating user for settings changes and user-triggered creation,
+  including queued work. Do not substitute a generic bot for a missing actor.
+  Pass the anonymous user explicitly for intentional anonymous actions. Missing
+  history users currently trigger error reporting and a `RuntimeWarning`, which
+  pytest treats as an error. This is temporary soft enforcement in production,
+  not permission to omit the actor. Do not suppress the warning to hide missing
+  actors in tests; supply the correct user instead.
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend

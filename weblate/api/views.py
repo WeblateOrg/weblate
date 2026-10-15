@@ -5826,6 +5826,14 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
 
+    def perform_update(self, serializer) -> None:
+        serializer.instance.acting_user = self.request.user
+        super().perform_update(serializer)
+
+    def perform_destroy(self, instance: Addon) -> None:
+        instance.acting_user = self.request.user
+        super().perform_destroy(instance)
+
     def destroy(self, request: Request, *args, **kwargs):
         """Delete add-on."""
         instance = self.get_object()
