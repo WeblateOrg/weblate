@@ -73,20 +73,21 @@ jobs:
       continue-on-error: true
     - name: Install brew dependencies
       run: |
-        brew install python libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv
+        # Pin Python until all dependencies support Python 3.15.
+        brew install python@3.14 libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv
     - name: Install test dependencies
       run: |
         brew install icu4c valkey postgresql
         brew link --force icu4c
     - name: Show brew dependency tree
-      run: brew deps --tree python libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv icu4c valkey postgresql
+      run: brew deps --tree python@3.14 libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv icu4c valkey postgresql
     - name: Start services
       run: |
         brew services start postgresql
         brew services start valkey
     - name: Install Weblate
       run: |
-        uv venv .venv
+        uv venv --python "$(brew --prefix python@3.14)/bin/python3.14" .venv
         source .venv/bin/activate
         uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
     - name: Test with Django
