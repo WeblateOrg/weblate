@@ -608,16 +608,19 @@ class AutomationTest(ReusableComponentTestCase):
                         "activity_id": activity.pk,
                     },
                 }
-                label = f"Automation #{addon.instance.pk} (run #{activity.pk})"
+                description = (
+                    f"Created by automation #{addon.instance.pk} (run #{activity.pk})."
+                )
                 for change in changes:
                     self.assertEqual(change.details["change_origin"], expected)
-                    self.assertEqual(change.get_origin_display(), label)
+                    self.assertEqual(change.get_origin_display(), "Automation")
+                    self.assertEqual(change.get_origin_description(), description)
                 change = changes[0]
                 rendered = render_to_string(
                     "snippets/last-changes-content.html",
                     format_last_changes_content([change], self.user),
                 )
-                self.assertIn(label, rendered)
+                self.assertIn(description, rendered)
                 response = client.get(
                     reverse("api:change-detail", kwargs={"pk": change.pk})
                 )
@@ -627,7 +630,8 @@ class AutomationTest(ReusableComponentTestCase):
                 addon.instance.delete()
                 change.refresh_from_db()
                 self.assertEqual(change.details["change_origin"], expected)
-                self.assertEqual(change.get_origin_display(), label)
+                self.assertEqual(change.get_origin_display(), "Automation")
+                self.assertEqual(change.get_origin_description(), description)
         self.assertEqual(task.call_count, 2)
         self.assertIsNone(change_origin.get())
         self.assertIsNone(automation_origin.get())

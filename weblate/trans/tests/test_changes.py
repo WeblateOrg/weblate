@@ -92,6 +92,7 @@ class ChangeOriginTest(FixtureTestCase):
         change = Change.objects.get(component=self.component, action=ActionEvents.MERGE)
         self.assertEqual(change.details, {})
         self.assertEqual(change.get_origin_display(), "")
+        self.assertEqual(change.get_origin_description(), "")
 
     def test_serialized_history_preserves_origin(self) -> None:
         for details in (
@@ -215,29 +216,53 @@ class ChangeOriginTest(FixtureTestCase):
                     badges = tree.xpath(
                         '//div[contains(@class, "history-author")]/span[contains(@class, "badge")]'
                     )
-                    expected = ["User interface"]
+                    expected = ["Web"]
                     if viewer.is_superuser:
                         expected.append("127.0.0.1")
                     self.assertEqual(
                         ["".join(badge.xpath("text()")).strip() for badge in badges],
                         expected,
                     )
-                    self.assertIn("Origin: User interface", badges[0].text_content())
+                    self.assertIn("Origin: Web", badges[0].text_content())
+                    self.assertEqual(
+                        badges[0].get("title"),
+                        "Initiated through the web interface.",
+                    )
                     if viewer.is_superuser:
                         self.assertIn("IP address: 127.0.0.1", badges[1].text_content())
+                        self.assertEqual(
+                            badges[1].get("title"),
+                            "IP address recorded for this change.",
+                        )
+                    for badge in badges:
+                        if in_email:
+                            self.assertIsNone(badge.get("tabindex"))
+                            self.assertIsNone(badge.get("data-bs-toggle"))
+                            self.assertIn(badge.attrib["title"], badge.text_content())
+                        else:
+                            self.assertEqual(badge.get("tabindex"), "0")
+                            self.assertEqual(badge.get("data-bs-toggle"), "tooltip")
                     breadcrumbs = tree.xpath('//ul[@class="breadcrumb"]')
                     self.assertNotIn("127.0.0.1", breadcrumbs[0].text_content())
                     if not viewer.is_superuser:
                         self.assertNotIn("127.0.0.1", content)
 
     def test_origin_badge_labels(self) -> None:
-        for scope, label in (
-            ("ui", "User interface"),
-            ("api", "API"),
-            ("repository", "Repository"),
-            ("system", "System"),
-            ("automation", "Automation #12 (run #34)"),
-            ("future", ""),
+        for scope, label, description in (
+            ("ui", "Web", "Initiated through the web interface."),
+            ("api", "API", "Initiated through the API using an authentication token."),
+            (
+                "repository",
+                "Repository",
+                "Imported from translation files in the repository.",
+            ),
+            (
+                "system",
+                "System",
+                "Created by Weblate without a recorded initiating request.",
+            ),
+            ("automation", "Automation", "Created by automation #12 (run #34)."),
+            ("future", "", ""),
         ):
             for in_email in (False, True):
                 with self.subTest(scope=scope, in_email=in_email):
@@ -269,6 +294,41 @@ class ChangeOriginTest(FixtureTestCase):
                         ["".join(badge.xpath("text()")).strip() for badge in badges],
                         expected,
                     )
+                    if label:
+                        self.assertEqual(badges[0].get("title"), description)
+                    self.assertEqual(change.get_origin_description(), description)
+
+    def test_invalid_origin_and_automation_descriptions(self) -> None:
+        invalid_origins: tuple[object, ...] = (
+            None,
+            [],
+            {"scope": None},
+            {"scope": "unknown"},
+        )
+        for origin in invalid_origins:
+            with self.subTest(origin=origin):
+                change = Change(details={"change_origin": origin})
+                self.assertEqual(change.get_origin_display(), "")
+                self.assertEqual(change.get_origin_description(), "")
+        for automation in (
+            None,
+            {},
+            {"addon_id": "12", "activity_id": 34},
+            {"addon_id": 12},
+        ):
+            with self.subTest(automation=automation):
+                change = Change(
+                    details={
+                        "change_origin": {
+                            "scope": "automation",
+                            "automation": automation,
+                        }
+                    }
+                )
+                self.assertEqual(change.get_origin_display(), "Automation")
+                self.assertEqual(
+                    change.get_origin_description(), "Created by an automation."
+                )
 
 
 class ChangeScopeTest(ViewTestCase):

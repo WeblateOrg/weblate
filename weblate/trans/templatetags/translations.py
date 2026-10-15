@@ -1225,6 +1225,7 @@ def format_last_changes_content(
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
                 "origin": change.get_origin_display(),
+                "origin_description": change.get_origin_description(),
                 "history_data": get_change_history_context(
                     change, include_private_details=bool(user.is_authenticated)
                 ),

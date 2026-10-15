@@ -28,6 +28,7 @@ from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import transaction
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -48,6 +49,7 @@ from selenium.webdriver.support.expected_conditions import (
     invisibility_of_element_located,
     presence_of_element_located,
     staleness_of,
+    visibility_of_element_located,
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -1102,6 +1104,73 @@ class SeleniumTests(
 
         # We should end up on login page as user was invalid
         self.driver.find_element(By.ID, "id_username")
+
+    def test_history_badge_tooltips(self) -> None:
+        """Explain dynamically loaded badges with keyboard and mouse access."""
+        change = Change(
+            details={
+                "change_origin": {
+                    "scope": "automation",
+                    "automation": {"addon_id": 12, "activity_id": 34},
+                }
+            }
+        )
+        badge_html = render_to_string(
+            "snippets/history-badge.html",
+            {
+                "label": change.get_origin_display(),
+                "description": change.get_origin_description(),
+                "prefix": "Origin:",
+            },
+        )
+        # Insert the real template after page initialization, like AJAX history.
+        self.driver.execute_script(
+            """
+            const history = document.createElement('div');
+            history.className = 'history-author';
+            history.style.padding = '30px';
+            const before = document.createElement('button');
+            before.id = 'before-history-badge';
+            before.textContent = 'Before badge';
+            history.append(before);
+            history.insertAdjacentHTML('beforeend', arguments[0]);
+            document.body.prepend(history);
+            """,
+            badge_html,
+        )
+        before = self.driver.find_element(By.ID, "before-history-badge")
+        badge = self.driver.find_element(By.CSS_SELECTOR, ".history-author .badge")
+        self.assertIn("Automation", badge.text)
+        self.assertNotIn("#12", badge.text)
+        before.click()
+        before.send_keys(Keys.TAB)
+        self.assertEqual(self.driver.switch_to.active_element, badge)
+        tooltip = WebDriverWait(self.driver, 10).until(
+            visibility_of_element_located(
+                (By.CSS_SELECTOR, ".history-tooltip .tooltip-inner")
+            )
+        )
+        self.assertEqual(tooltip.text, str(change.get_origin_description()))
+        badge.send_keys(Keys.ESCAPE)
+        WebDriverWait(self.driver, 10).until(
+            invisibility_of_element_located((By.CSS_SELECTOR, ".history-tooltip"))
+        )
+
+        self.driver.execute_script("arguments[0].focus()", before)
+        self.actions.move_to_element(badge).perform()
+        tooltip = WebDriverWait(self.driver, 10).until(
+            visibility_of_element_located(
+                (By.CSS_SELECTOR, ".history-tooltip .tooltip-inner")
+            )
+        )
+        self.actions.move_to_element(tooltip).perform()
+        # Wait beyond the hide delay to check that hovering the tooltip keeps it open.
+        self.driver.execute_async_script("setTimeout(arguments[0], 250)")
+        self.assertTrue(tooltip.is_displayed())
+        self.actions.move_to_element(before).perform()
+        WebDriverWait(self.driver, 10).until(
+            invisibility_of_element_located((By.CSS_SELECTOR, ".history-tooltip"))
+        )
 
     def test_login_form_accessibility(self) -> None:
         """Check labels and keyboard order on the public sign-in form."""

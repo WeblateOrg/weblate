@@ -495,13 +495,14 @@ Optionally, translations can also be reverted
 in the underlying version control system.
 
 Each change shows an origin badge next to the username:
-:guilabel:`User interface`, :guilabel:`API`, :guilabel:`Repository`, or
+:guilabel:`Web`, :guilabel:`API`, :guilabel:`Repository`, or
 :guilabel:`System`. Changes made by :ref:`automation <automation-reference>` identify the installed
-add-on and its execution log in an :guilabel:`Automation` origin badge.
+add-on and its execution log in the tooltip of an :guilabel:`Automation` origin badge.
+Hover over a badge or focus it with the keyboard to see an explanation of the origin.
 Session-authenticated API requests, including requests from
-the editor, count as user interface actions. Token-authenticated requests count
+the editor, count as web actions. Token-authenticated requests count
 as API actions. Strings imported from a repository count as repository changes,
-while uploads retain their user interface or API origin. Background tasks
+while uploads retain their web or API origin. Background tasks
 inherit the initiating origin; unrelated background work uses system.
 Historical changes without recorded origin have no badge.
 
