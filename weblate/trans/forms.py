@@ -1311,7 +1311,7 @@ class AutoForm(forms.Form):
         initial="",
     )
     engines = forms.MultipleChoiceField(
-        label=gettext_lazy("Machine translation engines"), choices=[], required=False
+        label=gettext_lazy("Translation services"), choices=[], required=False
     )
     threshold = forms.IntegerField(
         label=gettext_lazy("Score threshold"),

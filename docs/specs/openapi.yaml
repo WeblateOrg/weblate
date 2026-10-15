@@ -20296,7 +20296,7 @@ paths:
   /api/projects/{slug}/translation-services/:
     get:
       operationId: api_projects_translation_services_list
-      summary: List project automatic suggestion installations.
+      summary: List project translation service installations.
       parameters:
       - in: path
         name: slug
@@ -20447,7 +20447,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_translation_services_create
-      summary: Create a project automatic suggestion installation.
+      summary: Create a project translation service installation.
       parameters:
       - in: path
         name: slug
@@ -35650,7 +35650,7 @@ components:
           type: array
           items:
             type: string
-          title: Machine translation engines
+          title: Translation services
         threshold:
           type: integer
           maximum: 100

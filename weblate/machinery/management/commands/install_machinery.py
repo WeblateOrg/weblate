@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class Command(BaseCommand):
-    help = "installs site-wide automatic suggestion service"
+    help = "installs site-wide translation service"
 
     def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)

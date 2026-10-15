@@ -3575,6 +3575,7 @@ class SeleniumTests(
 
         user = self.do_login(superuser=True)
 
+        # Identify a string in the bundled demo project, not the current UI help.
         text = (
             "Automatic translation via machine translation uses active "
             "machine translation engines to get the best possible "
@@ -3932,7 +3933,7 @@ class SeleniumTests(
         self.screenshot("manage-users.png")
         self.assertGreater(self.count_elements("table.table-striped tbody tr"), 0)
 
-        # Automatic suggestions
+        # Translation services
         self.open_project(project)
         self.click("Operations")
         hidden_machinery_services = {
@@ -3946,7 +3947,7 @@ class SeleniumTests(
         )
         with override_settings(WEBLATE_MACHINERY=machinery_services):
             with self.wait_for_page_load():
-                self.click("Automatic suggestions")
+                self.click("Translation services")
             self.assert_text_contains(
                 ".card:first-of-type tbody", "Weblate Translation Memory"
             )

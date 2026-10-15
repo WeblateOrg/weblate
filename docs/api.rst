@@ -1709,7 +1709,7 @@ Projects
 
     .. versionadded:: 5.9
 
-    Returns a list of automatic suggestion installations configured directly on
+    Returns a list of translation service installations configured directly on
     the project. Each entry has an ``id``, ``selector``, ``engine``, optional
     ``slug``, ``configuration``, ``enabled`` state, and scope fields. The
     configuration can contain credentials and is returned only to users who
@@ -1724,7 +1724,7 @@ Projects
 
     .. versionadded:: 5.9
 
-    Create an automatic suggestion installation for a project. Use
+    Create a translation service installation for a project. Use
     ``/api/translation-services/(int:id)/`` to update or remove one. The
     ``/api/translation-service-exclusions/`` endpoint manages inherited installations
     excluded by a workspace or project. An installation's service cannot be
@@ -2770,7 +2770,7 @@ Translations
     :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
-    :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
+    :<json array engines: Translation services to use when ``auto_source`` is ``mt``
     :<json int threshold: Score threshold for machine translation (1–100)
     :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
     :>json string details: Human-readable summary of the translation result, or status of a background task
