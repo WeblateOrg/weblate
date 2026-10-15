@@ -73,7 +73,12 @@ from weblate.api.serializers import (
     RepoOperations,
 )
 from weblate.api.views import MemoryFilter, MemoryViewSet
-from weblate.auth.data import ROLES, SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.data import (
+    ROLES,
+    SELECTION_ALL,
+    SELECTION_COMPONENT_LIST,
+    SELECTION_MANUAL,
+)
 from weblate.auth.forms import create_invitation
 from weblate.auth.models import (
     Group,
@@ -8497,6 +8502,58 @@ class ProjectAPITest(APIBaseTest):
             code=204,
             superuser=True,
         )
+
+    def assert_restricted_installation_scope(self, group: Group) -> None:
+        group.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        MachineryExclusion.objects.create(project=self.project, engine="weblate")
+        installation = MachineryInstallation.objects.create(
+            engine="weblate",
+            project=self.project,
+            configuration={"key": "restricted-secret"},
+        )
+
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        response = self.do_request("api:machinery-installation-list")
+        self.assertNotIn(
+            installation.pk, [item["id"] for item in response.data["results"]]
+        )
+        self.assertNotIn(b"restricted-secret", response.content)
+        for method in ("get", "patch", "delete"):
+            with self.subTest(method=method):
+                self.do_request(
+                    "api:machinery-installation-detail",
+                    {"pk": installation.pk},
+                    method=method,
+                    code=404,
+                    request={"enabled": False} if method == "patch" else None,
+                    format="json",
+                )
+        self.assertTrue(
+            MachineryInstallation.objects.filter(pk=installation.pk).exists()
+        )
+
+    def test_install_machinery_component_restricted_scope(self) -> None:
+        group = Group.objects.create(name="Component installation administrators")
+        group.projects.add(self.project)
+        group.components.add(self.component)
+
+        self.assert_restricted_installation_scope(group)
+
+    def test_install_machinery_component_list_restricted_scope(self) -> None:
+        component_list = ComponentList.objects.create(
+            name="Installation scope", slug="installation-scope"
+        )
+        component_list.components.add(self.component)
+        group = Group.objects.create(
+            name="Component list installation administrators",
+            project_selection=SELECTION_COMPONENT_LIST,
+        )
+        group.componentlists.add(component_list)
+        group.save()
+
+        self.assert_restricted_installation_scope(group)
 
     def test_workspace_installation_scope_listing(self) -> None:
         workspace = Workspace.objects.create(name="Suggestion workspace")
