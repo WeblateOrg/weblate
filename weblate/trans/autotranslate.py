@@ -242,13 +242,13 @@ class AutoTranslate(BaseAutoTranslate):
                 self.affected_unit_ids.add(unit.pk)
                 self.affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
         else:
-            if (
-                state == STATE_APPROVED
-                and self.enforce_permissions
-                and self.user is not None
-                and not self.user.has_perm("unit.review", unit)
-            ):
-                return
+            if self.enforce_permissions and self.user is not None:
+                if not self.user.has_perm("unit.edit", unit):
+                    return
+                if state == STATE_APPROVED and not self.user.has_perm(
+                    "unit.review", unit
+                ):
+                    return
             # Ensure deferred changes accumulate on the right Translation instance
             unit.translation = self.translation
             unit.is_batch_update = True
