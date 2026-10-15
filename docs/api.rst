@@ -3623,17 +3623,28 @@ Add-ons
 
     :param id: Add-on ID
     :type id: int
+    :json int component: For automations, the target component ID. Required for inherited installations; defaults to the installed component otherwise.
+    :json int change: For automations, a change in the target component matching a configured change subscription. Required for change-only workflows.
+
+    Automations execute their saved workflow for one component using the supplied
+    context. Trigger-scoped actions require a change containing a string.
+    Invalid context returns HTTP 400 before scheduling. Other add-ons retain
+    their existing manual execution behavior and do not use these fields.
 
 .. http:post:: /api/addons/(int:id)/preview/
 
     Preview an :ref:`automation-workflows` definition without executing actions.
     Requires the same management permission as configuring the add-on. Other
-    add-on types reject this operation.
+    built-in add-on types reject this operation. Custom preview providers require
+    an explicit workflow and component ID.
 
     :param id: Add-on ID.
-    :json object workflow: Workflow definition, using the same structure as configuration.
-    :json int component: Component ID within the installed add-on's scope.
-    :json int change: Optional change ID belonging to that component.
+    :json object workflow: Workflow definition, using the same structure as configuration. Required for custom preview providers; automations default to the saved workflow.
+    :json int component: Component ID within the installed add-on's scope. Required for custom preview providers and inherited automations; component-level automations default to the installed component.
+    :json int change: Change ID belonging to that component and matching a configured change subscription. Required for change-only workflows.
+
+    Preview validates context using the same rules as manual execution, including
+    requiring a change containing a string for trigger-scoped actions.
 
     Returns ``workflow``, execution ``context``, a ``trace`` of evaluated conditions
     and planned or conditional actions, and ``preview: true``. Configuration and

@@ -319,6 +319,8 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
     ("http:obj", "file"),
+    # Django forms are mocked when documenting add-on hooks.
+    ("py:class", "Form"),
     # Autodoc renders these type annotations from wlc signatures, but their
     # reference targets are not available in the configured inventories.
     ("py:class", "Path"),

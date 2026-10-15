@@ -434,6 +434,37 @@ class AddonDetail(BaseAddonView, UpdateView):
         messages.success(request, gettext("Add-on run has been scheduled."))
         return redirect(self.get_success_url())
 
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        if self.object.is_valid:
+            execution_form = self.object.addon.get_execution_form()
+            if execution_form is not None:
+                result.setdefault("execution_form", execution_form)
+        return result
+
+    def preview_addon(self, request: AuthenticatedHttpRequest):
+        form = self.get_form()
+        preview_result = None
+        if form is not None and form.is_valid():
+            try:
+                preview_result = self.object.addon.preview(
+                    form.cleaned_data.get("workflow"),
+                    form.cleaned_data.get("preview_component")
+                    or self.object.component_id,
+                    form.cleaned_data.get("preview_change"),
+                    actor=request.user,
+                )
+            except ValidationError as error:
+                form.add_error(None, error)
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                preview_result=json.dumps(preview_result, indent=2, ensure_ascii=False)
+                if preview_result is not None
+                else None,
+            )
+        )
+
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         self.object = obj
@@ -449,24 +480,53 @@ class AddonDetail(BaseAddonView, UpdateView):
                 request, gettext("Invalid add-on name: ”%s”") % obj.addon_name
             )
             return redirect(self.get_success_url())
-        if "run" in request.POST:
-            return self.trigger_manual_run(request)
-        if "preview" in request.POST and getattr(obj.addon, "has_preview", False):
-            form = self.get_form()
+        execution_form = obj.addon.get_execution_form(data=request.POST)
+        if (
+            "preview" in request.POST
+            and obj.addon.has_preview
+            and execution_form is None
+        ):
+            return self.preview_addon(request)
+        if "run" in request.POST and execution_form is not None:
             preview_result = None
-            if form.is_valid():
+            if execution_form.is_valid():
+                component_id = execution_form.cleaned_data["component"]
+                change_id = execution_form.cleaned_data["change"]
                 try:
-                    preview_result = obj.addon.preview(
-                        form.cleaned_data["workflow"],
-                        form.cleaned_data.get("preview_component") or obj.component_id,
-                        form.cleaned_data.get("preview_change"),
-                        actor=request.user,
-                    )
+                    if execution_form.cleaned_data["preview"]:
+                        preview_result = obj.addon.preview(
+                            obj.configuration.get("workflow"),
+                            component_id,
+                            change_id,
+                            actor=request.user,
+                        )
+                    else:
+                        obj.schedule_manual_run(
+                            user_id=request.user.pk,
+                            component_id=component_id,
+                            change_id=change_id,
+                        )
                 except ValidationError as error:
-                    form.add_error(None, error)
+                    if hasattr(error, "error_dict"):
+                        for field, errors in error.error_dict.items():
+                            execution_form.add_error(
+                                field if field in execution_form.fields else None,
+                                errors,
+                            )
+                    else:
+                        execution_form.add_error(None, error)
+                else:
+                    if not execution_form.cleaned_data["preview"]:
+                        messages.success(
+                            request, gettext("Add-on run has been scheduled.")
+                        )
+                        return redirect(self.get_success_url())
+            # Keep execution submissions independent of the settings form.
+            form = obj.addon.get_settings_form(request.user)
             return self.render_to_response(
                 self.get_context_data(
                     form=form,
+                    execution_form=execution_form,
                     preview_result=json.dumps(
                         preview_result, indent=2, ensure_ascii=False
                     )
@@ -474,6 +534,8 @@ class AddonDetail(BaseAddonView, UpdateView):
                     else None,
                 )
             )
+        if "run" in request.POST:
+            return self.trigger_manual_run(request)
         return super().post(request, *args, **kwargs)
 
 

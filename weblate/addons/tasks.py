@@ -337,6 +337,16 @@ def run_addon_manually(addon_id: int, user_id: int | None = None) -> None:
     if not addon.can_run_manually:
         return
 
+    from weblate.automation.addon import AutomationAddon  # ruff: ignore[import-outside-top-level]
+
+    if isinstance(addon.addon, AutomationAddon):
+        try:
+            addon.addon.schedule_manual_run(user_id=user_id)
+        except ValidationError:
+            # Old queued/manual callers must not bypass context validation.
+            return
+        return
+
     token = manual_actor.set(user_id)
     try:
         handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")

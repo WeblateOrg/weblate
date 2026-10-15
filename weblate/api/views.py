@@ -75,6 +75,7 @@ from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutomationExecutionRequestSerializer,
     AutomationPreviewRequestSerializer,
     AutoTranslateBackgroundSerializer,
     AutoTranslateRequestSerializer,
@@ -5793,16 +5794,24 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         if not instance.is_valid or not getattr(instance.addon, "has_preview", False):
             raise ValidationError({"detail": "This add-on does not support preview."})
         fields = AutomationPreviewRequestSerializer(data=request.data)
+        fields.fields["component"].required = instance.addon.preview_component_required
+        fields.fields["workflow"].required = instance.addon.preview_workflow_required
         fields.is_valid(raise_exception=True)
         try:
             result = instance.addon.preview(
-                fields.validated_data["workflow"],
-                fields.validated_data["component"],
+                fields.validated_data.get(
+                    "workflow", instance.configuration.get("workflow")
+                ),
+                fields.validated_data.get("component"),
                 fields.validated_data.get("change"),
                 actor=request.user,
             )
         except DjangoValidationError as error:
-            raise ValidationError({"workflow": error.messages}) from error
+            raise ValidationError(
+                error.message_dict
+                if hasattr(error, "error_dict")
+                else {"workflow": error.messages}
+            ) from error
         return Response(result)
 
     def get_queryset(self):
@@ -5846,9 +5855,9 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         return super().destroy(request, *args, **kwargs)
 
     @extend_schema(
-        description="Trigger manual execution of an add-on that supports manual triggering.",
+        description="Trigger manual execution of an add-on. Automations accept component and change context and run their saved workflow.",
         methods=["post"],
-        request=None,
+        request=AutomationExecutionRequestSerializer,
         responses={
             HTTP_202_ACCEPTED: inline_serializer(
                 "AddonTriggerResponse",
@@ -5870,7 +5879,22 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
                 {"detail": gettext("This add-on cannot be triggered manually.")}
             )
 
-        instance.schedule_manual_run(user_id=request.user.pk)
+        fields = AutomationExecutionRequestSerializer(
+            data=request.data if instance.addon.execution_form is not None else {}
+        )
+        fields.is_valid(raise_exception=True)
+        try:
+            instance.schedule_manual_run(
+                user_id=request.user.pk,
+                component_id=fields.validated_data.get("component"),
+                change_id=fields.validated_data.get("change"),
+            )
+        except DjangoValidationError as error:
+            raise ValidationError(
+                error.message_dict
+                if hasattr(error, "error_dict")
+                else {"workflow": error.messages}
+            ) from error
 
         return Response(
             {

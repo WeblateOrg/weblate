@@ -30,6 +30,8 @@ import fedora_messaging.api
 import fedora_messaging.config
 import httpx2
 import jsonschema.exceptions
+from crispy_forms.helper import FormHelper
+from django import forms
 from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -48,6 +50,7 @@ from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTa
 from fedora_messaging import exceptions as fedora_messaging_exceptions
 from fedora_messaging.exceptions import ConfigurationException
 from OpenSSL import SSL
+from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
@@ -239,6 +242,47 @@ class NoOpAddon(BaseAddon):
     name = "weblate.base.test"
     verbose = "Test add-on"
     description = "Test add-on"
+
+
+class PreviewAddonForm(BaseAddonForm):
+    workflow = forms.JSONField()
+    preview_component = forms.IntegerField(min_value=1, required=False)
+    preview_change = forms.IntegerField(min_value=1, required=False)
+
+    def __init__(
+        self,
+        user: User | None,
+        addon: PreviewAddon,
+        instance: Addon | None = None,
+        *args: object,
+        **kwargs: object,
+    ) -> None:
+        super().__init__(user, addon, instance, *args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+
+class PreviewAddon(NoOpAddon):
+    settings_form = PreviewAddonForm
+    name = "weblate.base.preview"
+    has_preview = True
+
+    def get_settings_form_data(self) -> dict[str, str]:
+        return {"workflow": json.dumps(self.instance.configuration["workflow"])}
+
+    def preview(
+        self,
+        workflow: object,
+        component_id: int | None,
+        change_id: int | None = None,
+        actor: User | None = None,
+    ) -> dict[str, object]:
+        return {
+            "workflow": workflow,
+            "component": component_id,
+            "change": change_id,
+            "actor": actor.pk if actor else None,
+        }
 
 
 class CrashAddonError(Exception):
@@ -6060,6 +6104,146 @@ class ViewTests(ViewTestCase):
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
         )
         self.assertContains(response, "No add-ons currently installed")
+
+
+@override_settings(
+    WEBLATE_ADDONS=(*settings.WEBLATE_ADDONS, "weblate.addons.tests.PreviewAddon")
+)
+class AddonPreviewTests(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+
+    def test_preview_without_manual_trigger(self) -> None:
+        addon = PreviewAddon.create(
+            component=self.component,
+            configuration={"workflow": {"saved": True}},
+            run=False,
+        ).instance
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(response, 'name="preview"')
+        self.assertNotContains(response, 'name="run"')
+        self.assertNotIn("execution_form", response.context)
+
+        response = self.client.post(
+            addon.get_absolute_url(),
+            {
+                "preview": "1",
+                "workflow": json.dumps({"edited": True}),
+                "preview_change": "123",
+            },
+        )
+        self.assertContains(response, 'id="addon-preview-title"')
+        self.assertEqual(
+            json.loads(response.context["preview_result"]),
+            {
+                "workflow": {"edited": True},
+                "component": self.component.pk,
+                "change": 123,
+                "actor": self.user.pk,
+            },
+        )
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration, {"workflow": {"saved": True}})
+        self.assertFalse(AddonActivityLog.objects.filter(addon=addon).exists())
+
+    def test_preview_validation_errors(self) -> None:
+        addon = PreviewAddon.create(
+            component=self.component, configuration={"workflow": {}}, run=False
+        ).instance
+        with patch.object(PreviewAddon, "preview") as preview:
+            response = self.client.post(
+                addon.get_absolute_url(), {"preview": "1", "workflow": "invalid JSON"}
+            )
+        preview.assert_not_called()
+        self.assertTrue(response.context["form"].errors)
+        self.assertContains(response, 'name="preview"')
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_preview_capable_addon_uses_generic_manual_scheduling(
+        self, schedule: MagicMock
+    ) -> None:
+        with patch.object(PreviewAddon, "events", {AddonEvent.EVENT_MANUAL}):
+            addon = PreviewAddon.create(
+                component=self.component, configuration={"workflow": {}}, run=False
+            ).instance
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(response, 'name="preview"')
+        self.assertContains(response, 'name="run"')
+        self.assertNotIn("execution_form", response.context)
+        response = self.client.post(addon.get_absolute_url(), {"run": "1"})
+        self.assertRedirects(response, addon.get_absolute_url())
+        schedule.assert_called_once_with(addon.pk, user_id=self.user.pk)
+        schedule.reset_mock()
+
+        client = APIClient()
+        client.force_authenticate(self.user)
+        api_response = client.post(
+            reverse("api:addon-trigger", kwargs={"pk": addon.pk}), {}, format="json"
+        )
+        self.assertEqual(api_response.status_code, 202, api_response.data)
+        schedule.assert_called_once_with(addon.pk, user_id=self.user.pk)
+
+    def test_preview_capability_remains_available_through_api(self) -> None:
+        addon = PreviewAddon.create(
+            component=self.component, configuration={"workflow": {}}, run=False
+        ).instance
+        client = APIClient()
+        client.force_authenticate(self.user)
+        response = client.post(
+            reverse("api:addon-preview", kwargs={"pk": addon.pk}),
+            {"workflow": {"edited": True}, "component": self.component.pk},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data["workflow"], {"edited": True})
+        self.assertEqual(response.data["component"], self.component.pk)
+        self.assertFalse(AddonActivityLog.objects.filter(addon=addon).exists())
+
+    def test_preview_api_requires_explicit_positive_component(self) -> None:
+        addon = PreviewAddon.create(
+            component=self.component, configuration={"workflow": {}}, run=False
+        ).instance
+        client = APIClient()
+        client.force_authenticate(self.user)
+        url = reverse("api:addon-preview", kwargs={"pk": addon.pk})
+        for component in (
+            {},
+            {"component": None},
+            {"component": 0},
+            {"component": -1},
+            {"component": "invalid"},
+        ):
+            with (
+                self.subTest(component=component),
+                patch.object(PreviewAddon, "preview") as preview,
+            ):
+                response = client.post(
+                    url, {"workflow": {"edited": True}, **component}, format="json"
+                )
+                self.assertEqual(response.status_code, 400, response.data)
+                self.assertEqual(response.data["errors"][0]["attr"], "component")
+                preview.assert_not_called()
+
+    def test_preview_api_requires_explicit_workflow(self) -> None:
+        addon = PreviewAddon.create(
+            component=self.component, configuration={"workflow": {}}, run=False
+        ).instance
+        client = APIClient()
+        client.force_authenticate(self.user)
+        url = reverse("api:addon-preview", kwargs={"pk": addon.pk})
+        for configuration in ({}, {"workflow": {"saved": True}}):
+            with (
+                self.subTest(configuration=configuration),
+                patch.object(PreviewAddon, "preview") as preview,
+            ):
+                Addon.objects.filter(pk=addon.pk).update(configuration=configuration)
+                response = client.post(
+                    url, {"component": self.component.pk}, format="json"
+                )
+                self.assertEqual(response.status_code, 400, response.data)
+                self.assertEqual(response.data["errors"][0]["attr"], "workflow")
+                preview.assert_not_called()
 
 
 class AddonScopeViewTests(TestAddonMixin, ViewTestCase):

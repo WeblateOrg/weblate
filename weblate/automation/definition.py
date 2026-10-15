@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -14,7 +14,12 @@ from ruamel.yaml import YAML, YAMLError
 from ruamel.yaml.tokens import AliasToken, TagToken
 
 from weblate.automation.expressions import expressions
-from weblate.automation.schema import SCHEMA
+from weblate.automation.schema import (
+    CANONICAL_CHANGE_ACTIONS,
+    CHANGE_ACTIONS,
+    CHANGE_ALIASES,
+    SCHEMA,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -40,6 +45,47 @@ def validate_workflow_size(value: object) -> None:
         raise ValidationError(gettext("Automation definitions cannot exceed 64 KiB."))
 
 
+def normalize_change_events(value: object, path: str = "workflow") -> object:
+    """Normalize public identifiers and legacy aliases without mutating input."""
+    if isinstance(value, list):
+        return [
+            normalize_change_events(item, f"{path}[{index}]")
+            for index, item in enumerate(value)
+        ]
+    if not isinstance(value, dict):
+        return value
+    result = {
+        key: normalize_change_events(item, f"{path}.{key}")
+        for key, item in value.items()
+    }
+
+    def event_name(name: object, event_path: str) -> object:
+        if not isinstance(name, str):
+            return name
+        if name not in CHANGE_ACTIONS:
+            raise ValidationError(
+                gettext(
+                    "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
+                )
+                % {
+                    "path": event_path,
+                    "event": name,
+                    "choices": ", ".join(CANONICAL_CHANGE_ACTIONS),
+                }
+            )
+        return CHANGE_ALIASES.get(name, name)
+
+    events = result.get("events")
+    if result.get("trigger") == "change" and isinstance(events, list):
+        result["events"] = [
+            event_name(name, f"{path}.events[{index}]")
+            for index, name in enumerate(events)
+        ]
+    if result.get("condition") == "change_action" and "value" in result:
+        result["value"] = event_name(result["value"], f"{path}.value")
+    return result
+
+
 def parse_workflow(value: object) -> dict[str, Any]:
     try:  # ruff: ignore[too-many-statements-in-try-clause]
         text = value if isinstance(value, str) else json.dumps(value, allow_nan=False)
@@ -58,6 +104,9 @@ def parse_workflow(value: object) -> dict[str, Any]:
         validate_workflow_size(result)
     except (YAMLError, ValueError, TypeError, RecursionError) as error:
         raise ValidationError(gettext("Invalid automation YAML or JSON.")) from error
+    result = cast("dict[str, Any]", normalize_change_events(result))
+    nodes = list(walk(result))
+    validate_workflow_size(result)
     errors = list(Draft202012Validator(SCHEMA).iter_errors(result))
     if errors:
         validation_error = errors[0]
