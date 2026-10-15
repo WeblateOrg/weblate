@@ -4,9 +4,11 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
+import time
 from typing import Any, cast
-from unittest.mock import Mock, patch
+from unittest.mock import AsyncMock, Mock, patch
 from uuid import uuid4
 
 import httpx2
@@ -174,9 +176,14 @@ class ETranslationTest(SimpleTestCase):
                 200,
             )
 
+        # Keep the real time module unchanged for background threads.
         with (
             patch.object(self.machine, "request", side_effect=submit),
-            patch("weblate.machinery.etranslation.time.sleep", side_effect=deliver),
+            patch(
+                "weblate.machinery.etranslation.time",
+                wraps=time,
+                sleep=Mock(side_effect=deliver),
+            ),
         ):
             result = list(
                 self.machine.download_translations("EN", "FR", "Hello", self.unit, None)
@@ -211,7 +218,11 @@ class ETranslationTest(SimpleTestCase):
         with (
             patch.object(self.machine, "arequest", side_effect=submit) as request,
             patch.object(self.machine, "request") as sync_request,
-            patch("weblate.machinery.etranslation.asyncio.sleep", side_effect=deliver),
+            patch(
+                "weblate.machinery.etranslation.asyncio",
+                wraps=asyncio,
+                sleep=AsyncMock(side_effect=deliver),
+            ),
         ):
             result = async_to_sync(self.machine.adownload_translations)(
                 "EN", "FR", "Hello", self.unit, None
