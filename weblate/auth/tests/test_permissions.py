@@ -16,9 +16,11 @@ from weblate.auth.data import (
     PERMISSION_NAMES,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
+    SELECTION_MANUAL,
 )
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
-from weblate.trans.models import Comment, Component, Project
+from weblate.trans.models import Comment, Component, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.workspaces.models import Workspace
@@ -651,6 +653,69 @@ class PermissionsTest(FixtureComponentTestCase):
             ),
             [],
         )
+
+    def test_projects_with_perm_component_scope(self) -> None:
+        administration = Role.objects.get(name="Administration")
+
+        for scope in ("component", "component-list"):
+            with self.subTest(scope=scope):
+                user = User.objects.create_user(
+                    f"{scope}-user", f"{scope}-user@example.com"
+                )
+                group = Group.objects.create(
+                    name=f"{scope} administrators",
+                    project_selection=(
+                        SELECTION_COMPONENT_LIST
+                        if scope == "component-list"
+                        else SELECTION_MANUAL
+                    ),
+                )
+                group.roles.add(administration)
+                if scope == "component-list":
+                    component_list = ComponentList.objects.create(
+                        name="Permission scope", slug="permission-scope"
+                    )
+                    component_list.components.add(self.component)
+                    group.componentlists.add(component_list)
+                    group.save()
+                else:
+                    group.projects.add(self.project)
+                    group.components.add(self.component)
+                user.groups.add(group)
+                user.clear_permissions_cache()
+
+                self.assertTrue(user.can_access_project(self.project))
+                self.assertFalse(user.has_perm("project.edit", self.project))
+                self.assertFalse(
+                    user.projects_with_perm("project.edit")
+                    .filter(pk=self.project.pk)
+                    .exists()
+                )
+                self.assertFalse(
+                    user.projects_with_perm("project.edit", explicit=True)
+                    .filter(pk=self.project.pk)
+                    .exists()
+                )
+
+                unrestricted = Group.objects.create(
+                    name=f"{scope} unrestricted administrators"
+                )
+                unrestricted.roles.add(administration)
+                unrestricted.projects.add(self.project)
+                user.groups.add(unrestricted)
+                user.clear_permissions_cache()
+
+                self.assertTrue(user.has_perm("project.edit", self.project))
+                self.assertTrue(
+                    user.projects_with_perm("project.edit")
+                    .filter(pk=self.project.pk)
+                    .exists()
+                )
+                self.assertTrue(
+                    user.projects_with_perm("project.edit", explicit=True)
+                    .filter(pk=self.project.pk)
+                    .exists()
+                )
 
     def test_meta_team_edit_perm(self) -> None:
         self.assertTrue(self.admin.has_perm("meta:team.edit", self.project))

@@ -1506,9 +1506,12 @@ class User(AbstractBaseUser):
     def projects_with_perm(self, perm: str, explicit: bool = False):
         if not explicit and self.is_superuser:
             return Project.objects.all().order()
-        # Explicit permissions
-        condition = Q(group__in=self.unlimited_membership_group_ids) & Q(
-            group__roles__permissions__codename=perm
+        # Explicit project permissions, excluding component-scoped teams.
+        condition = (
+            Q(group__in=self.unlimited_membership_group_ids)
+            & Q(group__roles__permissions__codename=perm)
+            & Q(group__components__isnull=True)
+            & Q(group__componentlists__isnull=True)
         )
 
         # Site-wide permissions
