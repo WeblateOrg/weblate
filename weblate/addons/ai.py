@@ -217,7 +217,10 @@ class AIEvaluationAddon(
             refresh_evaluation_checks(unit)
 
     def configure(self, configuration: AIEvaluationConfiguration) -> None:
-        if configuration != self.instance.configuration:
+        if (
+            self.instance.pk is not None
+            and configuration != self.instance.configuration
+        ):
             with transaction.atomic():
                 type(self.instance).objects.select_for_update().get(pk=self.instance.pk)
                 self.cleanup_checks()

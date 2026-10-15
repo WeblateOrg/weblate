@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from datetime import timedelta
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
@@ -339,8 +340,33 @@ class AIEvaluationTest(ReusableComponentTestCase):
 
     def test_configure_cleanup(self) -> None:
         self.evaluate()
+        self.addon.instance.refresh_from_db()
+        self.assertTrue(self.addon.instance.state)
         self.addon.configure({**self.configuration, "interval": "daily"})
         self.assertFalse(self.unit.check_set.filter(name__in=AI_CHECKS).exists())
+        self.addon.instance.refresh_from_db()
+        self.assertEqual(self.addon.instance.state, {})
+
+    def test_configure_unchanged(self) -> None:
+        self.evaluate()
+        self.addon.instance.refresh_from_db()
+        state = deepcopy(self.addon.instance.state)
+        checks = list(
+            self.unit.check_set.filter(name__in=AI_CHECKS).order_by("pk").values()
+        )
+        self.assertTrue(state)
+        self.assertTrue(checks)
+
+        self.addon.configure(self.configuration.copy())
+
+        self.addon.instance.refresh_from_db()
+        self.assertEqual(self.addon.instance.state, state)
+        self.assertEqual(
+            list(
+                self.unit.check_set.filter(name__in=AI_CHECKS).order_by("pk").values()
+            ),
+            checks,
+        )
 
     def test_defaults_and_manual_dispatch(self) -> None:
         defaults = self.addon.normalize_configuration({"service": self.service_key})
