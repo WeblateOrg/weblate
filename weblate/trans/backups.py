@@ -75,6 +75,7 @@ from weblate.trans.models import (
     Label,
     PendingUnitChange,
     Project,
+    SavedSearch,
     Suggestion,
     Translation,
     Unit,
@@ -82,6 +83,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
+from weblate.utils.forms import QueryField
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
@@ -563,6 +565,21 @@ class ProjectBackup:
         )
         self.label_names = labels
 
+        saved_searches: set[str] = set()
+        query_field = QueryField(required=True)
+        for index, search in enumerate(self.data.get("saved_searches", [])):
+            path = f"saved_searches[{index}]"
+            self.validate_model_data(SavedSearch, search, path)
+            try:
+                query_field.clean(search["query"])
+            except ValidationError as error:
+                raise ValidationError({f"{path}.query": error.messages}) from error
+            if search["name"] in saved_searches:
+                raise ValidationError(
+                    {f"{path}.name": [gettext("Duplicate saved search name.")]}
+                )
+            saved_searches.add(search["name"])
+
         for index, team in enumerate(self.data.get("teams", [])):
             path = f"teams[{index}]"
             self.validate_model_data(
@@ -844,6 +861,14 @@ class ProjectBackup:
             ],
             "categories": self.backup_categories(project),
             "teams": self.backup_teams(project),
+            "saved_searches": [
+                {
+                    "name": search.name,
+                    "query": search.query,
+                    "description": search.description,
+                }
+                for search in project.savedsearch_set.order()
+            ],
         }
 
         # Make sure generated backup data is correct
@@ -2760,6 +2785,10 @@ class ProjectBackup:
             Label(project=project, **entry) for entry in self.data["labels"]
         )
         self.labels_map = {label.name: label for label in labels}
+        SavedSearch.objects.bulk_create(
+            SavedSearch(project=project, **entry)
+            for entry in self.data.get("saved_searches", [])
+        )
         if "categories" in self.data:
             self.restore_categories(self.data["categories"], None)
 

@@ -299,6 +299,25 @@ You can select out of predefined queries on the search page, this allows you to 
 
 .. image:: /screenshots/query-dropdown.webp
 
+.. _saved-searches:
+
+Saved searches
+--------------
+
+.. versionadded:: 2026.11
+
+Frequently used queries can be saved and are then offered in the :guilabel:`Filters` menu next to the predefined queries.
+
+To save the current query, choose :guilabel:`Save search…` at the bottom of the :guilabel:`Filters` menu.
+
+Saved searches are available in two scopes:
+
+Personal searches
+   Offered only to you, in every search. Manage them in the :guilabel:`Saved searches` tab of your :ref:`user-profile`.
+
+Project searches
+   Offered to everybody searching within the project, for example a filter for important strings. They are managed by users who can edit the project, in :guilabel:`Manage` › :guilabel:`Saved searches`, or through :http:get:`/api/projects/(string:project)/saved-searches/`.
+
 Ordering the results
 --------------------
 

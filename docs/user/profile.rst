@@ -258,6 +258,9 @@ are skipped and shown after import. The file must be no larger than 50 MB.
 Contribution counts, activity history,
 username, and account e-mail are not imported.
 
+Personal :ref:`saved-searches` from the file are added to your existing ones;
+a saved search with the same name is replaced.
+
 General notification settings and commit identity choices can be imported
 separately by selecting the corresponding options. Both are off by default.
 Project- and component-specific and one-time notification rules are included

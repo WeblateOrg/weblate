@@ -197,6 +197,10 @@
           </li>
           <li>
             <a class="dropdown-item"
+               href="{% url 'project-saved-searches' project=object.slug %}">{% translate "Saved searches" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item"
                href="{% url 'machinery-list' project=object.slug %}">{% translate "Translation services" %}</a>
           </li>
           <li>

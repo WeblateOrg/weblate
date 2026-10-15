@@ -64,6 +64,7 @@ from weblate.trans.models import (
     Component,
     PendingUnitChange,
     Project,
+    SavedSearch,
     Suggestion,
     Unit,
     Vote,
@@ -1368,6 +1369,13 @@ class BackupsTest(ReusableViewTestCase):
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
         unit.labels.add(label)
+        SavedSearch.objects.create(
+            project=self.project,
+            name="Important",
+            query="priority:>100",
+            description="Translate first",
+        )
+        SavedSearch.objects.create(user=self.user, name="Personal", query="has:comment")
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation
         )
@@ -1468,6 +1476,11 @@ class BackupsTest(ReusableViewTestCase):
         self.assertEqual(
             set(self.project.label_set.values_list("name", "color")),
             set(restored.label_set.values_list("name", "color")),
+        )
+        # Personal searches are not part of the project
+        self.assertEqual(
+            list(restored.savedsearch_set.values_list("name", "query", "description")),
+            [("Important", "priority:>100", "Translate first")],
         )
         self.assertEqual(
             set(self.project.component_set.values_list("slug", flat=True)),
@@ -1962,6 +1975,24 @@ class BackupsTest(ReusableViewTestCase):
         attacker.refresh_from_db()
         attacker.clear_permissions_cache()
         self.assertFalse(attacker.has_perm("user.edit"))
+
+    def test_restore_validates_saved_searches(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        valid = {"name": "Search", "query": "has:comment", "description": ""}
+        for searches, path in (
+            ([{**valid, "query": "invalidfield:x"}], "saved_searches[0].query"),
+            ([{**valid, "name": "x" * 191}], "saved_searches[0].name"),
+            ([valid, {**valid, "query": "has:check"}], "saved_searches[1].name"),
+        ):
+            with self.subTest(path=path), self.assertRaises(ValidationError) as error:
+                backup.data["saved_searches"] = searches
+                backup.validate_project_objects()
+            self.assertIn(path, error.exception.message_dict)
+
+        # Backups created before saved searches existed
+        del backup.data["saved_searches"]
+        backup.validate_project_objects()
 
     def test_restore_rejects_invalid_autogroup_expression(self) -> None:
         with self.assertRaises(ValidationError):

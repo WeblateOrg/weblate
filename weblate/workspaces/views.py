@@ -277,7 +277,9 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "autoform": AutoForm(workspace, user=request.user)
             if request.user.has_perm("translation.auto", workspace)
             else None,
-            "replace_form": ReplaceForm(workspace) if can_edit_units else None,
+            "replace_form": ReplaceForm(workspace, user=request.user)
+            if can_edit_units
+            else None,
             "bulk_state_form": BulkEditForm(request.user, workspace)
             if request.user.has_perm("unit.bulk_edit", workspace) and can_edit_units
             else None,

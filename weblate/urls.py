@@ -46,6 +46,7 @@ import weblate.trans.views.js
 import weblate.trans.views.labels
 import weblate.trans.views.lock
 import weblate.trans.views.reports
+import weblate.trans.views.saved_searches
 import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
@@ -331,6 +332,36 @@ real_patterns = [
         "labels/<name:project>/delete/<int:pk>/",
         weblate.trans.views.labels.label_delete,
         name="label_delete",
+    ),
+    path(
+        "saved-searches/create/",
+        weblate.trans.views.saved_searches.saved_search_create,
+        name="saved-search-create",
+    ),
+    path(
+        "saved-searches/edit/<int:pk>/",
+        weblate.trans.views.saved_searches.user_saved_search_edit,
+        name="saved-search-edit",
+    ),
+    path(
+        "saved-searches/delete/<int:pk>/",
+        weblate.trans.views.saved_searches.user_saved_search_delete,
+        name="saved-search-delete",
+    ),
+    path(
+        "saved-searches/project/<name:project>/",
+        weblate.trans.views.saved_searches.project_saved_searches,
+        name="project-saved-searches",
+    ),
+    path(
+        "saved-searches/project/<name:project>/edit/<int:pk>/",
+        weblate.trans.views.saved_searches.project_saved_search_edit,
+        name="project-saved-search-edit",
+    ),
+    path(
+        "saved-searches/project/<name:project>/delete/<int:pk>/",
+        weblate.trans.views.saved_searches.project_saved_search_delete,
+        name="project-saved-search-delete",
     ),
     path(
         "fonts/<name:project>/",

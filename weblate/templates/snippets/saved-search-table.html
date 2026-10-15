@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<table class="table sort">
+  <thead>
+    <tr>
+      <th>{% translate "Saved search name" %}</th>
+      <th>{% translate "Search query" %}</th>
+      <th>{% translate "Description" %}</th>
+      <th>{% translate "Actions" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for saved_search in saved_searches %}
+      <tr>
+        <td>
+          <a href="{{ search_url }}?q={{ saved_search.query|urlencode }}">{{ saved_search.name }}</a>
+        </td>
+        <td>
+          <code>{{ saved_search.query }}</code>
+        </td>
+        <td>{{ saved_search.description }}</td>
+        <td>
+          {% if project %}
+            <a href="{% url 'project-saved-search-edit' project=project.slug pk=saved_search.pk %}"
+               class="btn btn-primary">{% translate "Edit" %}</a>
+            <a href=""
+               class="btn btn-danger link-post"
+               data-href="{% url 'project-saved-search-delete' project=project.slug pk=saved_search.pk %}">{% translate "Delete" %}</a>
+          {% else %}
+            <a href="{% url 'saved-search-edit' pk=saved_search.pk %}"
+               class="btn btn-primary">{% translate "Edit" %}</a>
+            <a href=""
+               class="btn btn-danger link-post"
+               data-href="{% url 'saved-search-delete' pk=saved_search.pk %}">{% translate "Delete" %}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4">{% translate "No saved searches yet." %}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

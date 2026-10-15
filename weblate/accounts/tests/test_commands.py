@@ -20,7 +20,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Category, Component, Project
+from weblate.trans.models import Category, Component, Project, SavedSearch
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 USERDATA_JSON = get_test_file("userdata.json")
@@ -87,6 +87,7 @@ class CommandTest(TestCase, TempDirMixin):
             User.objects.create_user("bot", "bot@example.com", "x", is_bot=True),
         ]
         for user in [*users, *excluded]:
+            SavedSearch.objects.create(user=user, name="Search", query="has:comment")
             user.subscription_set.create(
                 notification=NOTIFICATIONS[0].get_name(),
                 scope=NotificationScope.SCOPE_COMPONENT,
@@ -104,6 +105,10 @@ class CommandTest(TestCase, TempDirMixin):
             exported = {item["basic"]["username"]: item for item in json.load(handle)}
         for user in users:
             self.assertIn(user.username, exported)
+            self.assertEqual(
+                exported[user.username]["saved_searches"],
+                [{"name": "Search", "query": "has:comment", "description": ""}],
+            )
             self.assertIn(
                 "export/parent/child/messages",
                 [
@@ -115,6 +120,10 @@ class CommandTest(TestCase, TempDirMixin):
             self.assertNotIn(user.username, exported)
         self.assertEqual(
             sum('FROM "accounts_subscription"' in query["sql"] for query in queries),
+            1,
+        )
+        self.assertEqual(
+            sum('FROM "trans_savedsearch"' in query["sql"] for query in queries),
             1,
         )
         self.assertEqual(

@@ -21,6 +21,8 @@ from weblate.accounts.forms import (
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.lang.models import Language
+from weblate.trans.models import SavedSearch
+from weblate.utils.forms import QueryField
 
 if TYPE_CHECKING:
     from django.db.models import Field
@@ -59,6 +61,8 @@ def _skipped_setting(field: str, value: str = "") -> str:
         label = gettext("Full name")
     elif field == "notification":
         label = gettext("Notification setting")
+    elif field == "saved_search":
+        label = gettext("Saved search")
     else:
         model_field = cast("Field", Profile._meta.get_field(field))  # ruff: ignore[private-member-access]
         label = force_str(model_field.verbose_name)
@@ -117,6 +121,33 @@ def _import_notifications(user: User, rules: list[dict], skipped: list[str]) -> 
     ]
     if stale:
         Subscription.objects.filter(pk__in=stale).delete()
+
+
+def _import_saved_searches(
+    user: User, searches: list[dict], skipped: list[str]
+) -> None:
+    """Add exported personal searches, replacing the ones with the same name."""
+    query_field = QueryField(required=True)
+    for search in searches:
+        name = search["name"]
+        instance = SavedSearch(
+            user=user,
+            name=name,
+            query=search["query"],
+            description=search["description"],
+        )
+        try:
+            instance.clean_fields(exclude={"project", "user"})
+            query_field.clean(instance.query)
+        except ValidationError:
+            skipped.append(_skipped_setting("saved_search", name))
+            continue
+        SavedSearch.objects.update_or_create(
+            user=user,
+            project=None,
+            name=instance.name,
+            defaults={"query": instance.query, "description": instance.description},
+        )
 
 
 @transaction.atomic
@@ -257,5 +288,8 @@ def import_user_settings(
 
     if notifications and "notifications" in data:
         _import_notifications(user, data["notifications"], skipped)
+
+    if "saved_searches" in data:
+        _import_saved_searches(user, data["saved_searches"], skipped)
 
     return skipped
