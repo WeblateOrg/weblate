@@ -44,6 +44,7 @@ from weblate.utils.validators import validate_filename
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
+    from django.forms import Form
     from django.forms.boundfield import BoundField
     from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
@@ -158,6 +159,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     events: ClassVar[set[AddonEvent]] = set()
     settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
+    execution_form: type[Form] | None = None
     name = ""
     api_name: str | None = None
 
@@ -185,6 +187,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     needs_component = False
     has_summary = False
     has_preview = False
+    preview_component_required = True
+    preview_workflow_required = True
     show_skipped_result = False
     run_on_configuration = True
     alert: str = ""
@@ -806,6 +810,30 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             reason=selected_outcome.reason,
             result=result,
         )
+
+    def get_execution_form(
+        self, data: Mapping[str, object] | None = None
+    ) -> Form | None:
+        """Provide optional component/change context and preview controls."""
+        if self.execution_form is None:
+            return None
+        return self.execution_form(
+            data=data,
+            initial={"component": self.instance.component_id},
+            prefix="execution",
+        )
+
+    def schedule_manual_run(
+        self,
+        user_id: int | None = None,
+        *,
+        component_id: int | None = None,
+        change_id: int | None = None,
+    ) -> None:
+        """Queue the default manual handler; providers can consume run context."""
+        from weblate.addons.tasks import run_addon_manually  # ruff: ignore[import-outside-top-level]
+
+        run_addon_manually.delay_on_commit(self.instance.pk, user_id=user_id)
 
     def preview(
         self,

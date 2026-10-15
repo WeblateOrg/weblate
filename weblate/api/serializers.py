@@ -4584,10 +4584,13 @@ class ProjectComponentSerializer(ComponentSerializer):
         )
 
 
-class AutomationPreviewRequestSerializer(serializers.Serializer):
-    workflow = serializers.JSONField()
-    component = serializers.IntegerField(min_value=1)
+class AutomationExecutionRequestSerializer(serializers.Serializer):
+    component = serializers.IntegerField(min_value=1, required=False)
     change = serializers.IntegerField(min_value=1, required=False)
+
+
+class AutomationPreviewRequestSerializer(AutomationExecutionRequestSerializer):
+    workflow = serializers.JSONField(required=False)
 
 
 class AddonSerializer(serializers.ModelSerializer[Addon]):

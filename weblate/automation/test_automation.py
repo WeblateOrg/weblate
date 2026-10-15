@@ -20,6 +20,7 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import override
+from lxml import html
 from rest_framework.test import APIClient
 
 from weblate.addons.ai import (
@@ -35,7 +36,7 @@ from weblate.automation.addon import AutomationAddon
 from weblate.automation.context import automation_origin
 from weblate.automation.definition import parse_workflow
 from weblate.automation.expressions import expressions
-from weblate.automation.forms import AutomationForm, validate_operations
+from weblate.automation.forms import AutomationForm, WorkflowField, validate_operations
 from weblate.automation.operations import (
     OPERATIONS,
     AIQualityOperation,
@@ -50,7 +51,7 @@ from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.openai import OpenAITranslation
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.models import Change, Unit
@@ -59,6 +60,7 @@ from weblate.trans.tests.test_views import (
     ComponentTestCase,
     ReusableComponentTestCase,
 )
+from weblate.trans.tests.utils import create_another_user
 from weblate.utils.change_origin import change_origin, change_origin_context
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -260,6 +262,86 @@ class DefinitionTest(SimpleTestCase):
             parse_workflow("version: 1\ntriggers: []\nactions: []"), WORKFLOW
         )
         self.assertEqual(parse_workflow(WORKFLOW), WORKFLOW)
+
+    def test_documented_event_names_and_legacy_aliases(self) -> None:
+        for event in ActionEvents:
+            with self.subTest(event=event), override("en"):
+                canonical = get_change_action_identifier(event.label)
+                for name in (canonical, event.name.lower()):
+                    workflow = parse_workflow(
+                        WORKFLOW
+                        | {
+                            "triggers": [{"trigger": "change", "events": [name]}],
+                            "conditions": [
+                                {"condition": "change_action", "value": name}
+                            ],
+                        }
+                    )
+                    self.assertEqual(workflow["triggers"][0]["events"], [canonical])
+                    self.assertEqual(workflow["conditions"][0]["value"], canonical)
+        with override("cs"):
+            workflow = parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["change"]}],
+                }
+            )
+        self.assertEqual(workflow["triggers"][0]["events"], ["translation_changed"])
+
+    def test_event_errors_and_normalized_duplicates(self) -> None:
+        with self.assertRaisesMessage(
+            ValidationError, "workflow.triggers[0].events[0]"
+        ):
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["unknown_event"]}],
+                }
+            )
+        with self.assertRaises(ValidationError):
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [
+                        {
+                            "trigger": "change",
+                            "events": ["change", "translation_changed"],
+                        }
+                    ],
+                }
+            )
+
+    def test_yaml_editor_order_and_round_trip(self) -> None:
+        # PostgreSQL JSON objects do not preserve the submitted key order.
+        workflow = {
+            "actions": [
+                {
+                    "action": "weblate.bulk_edit",
+                    "settings": {
+                        "q": 'source:"Žlutý: yes"',
+                        "add_flags": "yes",
+                    },
+                }
+            ],
+            "conditions": [],
+            "triggers": [{"trigger": "change", "events": ["change"]}],
+            "version": 1,
+        }
+        field = WorkflowField()
+        text = str(field.prepare_value(workflow))
+        self.assertEqual(
+            [
+                line.split(":")[0]
+                for line in text.splitlines()
+                if line and not line[0].isspace()
+            ],
+            ["version", "triggers", "conditions", "actions"],
+        )
+        self.assertIn("Žlutý", text)
+        self.assertEqual(parse_workflow(text), parse_workflow(workflow))
+        self.assertIn("font-monospace", field.widget.attrs["class"])
+        invalid = "version: [unfinished"
+        self.assertEqual(field.prepare_value(invalid), invalid)
 
     def test_invalid(self) -> None:
         for value in (
@@ -1238,7 +1320,11 @@ class AutomationTest(ReusableComponentTestCase):
         self.client.force_login(self.user)
         page_response = self.client.post(
             addon.instance.get_absolute_url(),
-            {"preview": "1", "workflow": json.dumps(WORKFLOW)},
+            {
+                "run": "1",
+                "execution-preview": "on",
+                "workflow": "invalid unsaved edits",
+            },
         )
         self.assertContains(page_response, "Automation preview")
         self.assertFalse(AddonActivityLog.objects.filter(addon=addon.instance).exists())
@@ -1508,7 +1594,13 @@ class AutomationTest(ReusableComponentTestCase):
         for scope in scopes:
             with self.subTest(scope=scope):
                 addon = self.install(**scope)
+                with self.assertRaises(ValidationError):
+                    addon.instance.schedule_manual_run()
                 run_addon_manually(addon.instance.pk)
+                self.assertFalse(
+                    AddonActivityLog.objects.filter(addon=addon.instance).exists()
+                )
+                addon.schedule_run(self.component.pk)
                 self.assertTrue(
                     AddonActivityLog.objects.filter(
                         addon=addon.instance, component=self.component
@@ -1532,6 +1624,237 @@ class AutomationTest(ReusableComponentTestCase):
         )
         self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS)
         self.assertFalse(units.filter(state=STATE_TRANSLATED).exists())
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_execution_form_preview_default_and_real_run(self, task: Mock) -> None:
+        addon = self.install()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        url = addon.instance.get_absolute_url()
+        page = self.client.get(url)
+        self.assertTrue(page.context["execution_form"]["preview"].value())
+        self.assertNotIn("preview_change", page.context["form"].fields)
+        page = self.client.post(url, {"run": "1", "execution-preview": "on"})
+        self.assertContains(page, "Automation preview")
+        task.assert_not_called()
+        self.assertFalse(AddonActivityLog.objects.filter(addon=addon.instance).exists())
+        response = self.client.post(url, {"run": "1"})
+        self.assertRedirects(response, url)
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        task.assert_called_once_with(activity.pk)
+        self.assertEqual(activity.details["requested_by"]["id"], self.user.pk)
+        page = self.client.get(url)
+        self.assertTrue(page.context["execution_form"]["preview"].value())
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_change_context_activity_log_displays_requester(self, task: Mock) -> None:
+        addon = self.install(
+            WORKFLOW
+            | {"triggers": [{"trigger": "change", "events": ["translation_changed"]}]}
+        )
+        author = create_another_user()
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=author
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        addon.instance.schedule_manual_run(
+            user_id=self.user.pk, component_id=self.component.pk, change_id=change.pk
+        )
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        task.assert_called_once_with(activity.pk)
+        for status in (AddonActivityLogStatus.PENDING, AddonActivityLogStatus.SUCCESS):
+            with self.subTest(status=status):
+                if status == AddonActivityLogStatus.SUCCESS:
+                    run_automation(activity.pk)
+                activity.refresh_from_db()
+                self.assertEqual(activity.status, status)
+                details = deepcopy(activity.details)
+                response = self.client.get(
+                    reverse("addon-logs", kwargs={"pk": addon.instance.pk})
+                )
+                self.assertEqual(response.status_code, 200)
+                rendered = html.fromstring(response.content).xpath("//td/pre")
+                self.assertEqual(len(rendered), 1)
+                result = json.loads(rendered[0].text_content())
+                self.assertEqual(
+                    result.pop("requested_by"),
+                    {"id": self.user.pk, "username": self.user.username},
+                )
+                self.assertEqual(
+                    result["context"]["actor"],
+                    {"id": author.pk, "username": author.username},
+                )
+                self.assertEqual(result, details["result"])
+                self.assertEqual(activity.details, details)
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_change_execution_context_and_validation(self, task: Mock) -> None:
+        addon = self.install(
+            WORKFLOW
+            | {
+                "triggers": [{"trigger": "change", "events": ["translation_changed"]}],
+                "actions": [BULK | {"scope": "trigger"}],
+            }
+        )
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, user=self.user
+        )
+        other = Change.objects.create(
+            unit=unit, action=ActionEvents.COMMENT, user=self.user
+        )
+        unitless = Change.objects.create(
+            component=self.component, action=ActionEvents.CHANGE
+        )
+        for change_id in (None, other.pk, unitless.pk, 999999):
+            with self.subTest(change_id=change_id):
+                with self.assertRaises(ValidationError):
+                    addon.preview(
+                        addon.instance.configuration["workflow"],
+                        self.component.pk,
+                        change_id,
+                    )
+                with self.assertRaises(ValidationError):
+                    addon.schedule_run(self.component.pk, change_id, self.user)
+        task.assert_not_called()
+        preview = addon.preview(
+            addon.instance.configuration["workflow"],
+            self.component.pk,
+            change.pk,
+            self.user,
+        )
+        addon.schedule_run(self.component.pk, change.pk, self.user)
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        self.assertEqual(preview["context"], activity.details["result"]["context"])
+        self.assertEqual(activity.event, AddonEvent.EVENT_MANUAL)
+        self.assertEqual(
+            activity.details["result"]["context"]["trigger"]["unit_ids"], [unit.pk]
+        )
+        # Saving new settings after submission must not change the queued workflow.
+        addon.configure({"workflow": WORKFLOW})
+        activity.refresh_from_db()
+        self.assertEqual(
+            activity.details["result"]["workflow"]["actions"][0]["scope"], "trigger"
+        )
+
+    def test_execution_form_validation_preserves_checkbox(self) -> None:
+        addon = self.install(
+            WORKFLOW | {"triggers": [{"trigger": "change", "events": ["change"]}]}
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        for checked in (False, True):
+            data = {"run": "1"}
+            if checked:
+                data["execution-preview"] = "on"
+            response = self.client.post(addon.instance.get_absolute_url(), data)
+            self.assertContains(response, "Select a change for this automation.")
+            self.assertEqual(
+                bool(response.context["execution_form"]["preview"].value()), checked
+            )
+        self.assertFalse(AddonActivityLog.objects.filter(addon=addon.instance).exists())
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_inherited_execution_requires_target_and_validates_change_scope(
+        self, task: Mock
+    ) -> None:
+        addon = self.install(project=self.project)
+        with self.assertRaises(ValidationError):
+            addon.preview(WORKFLOW, None)
+        with self.assertRaises(ValidationError):
+            addon.schedule_run()
+        # A different existing component is outside a component installation.
+        other = self.create_po_new_base(
+            name="Other", slug="other", project=self.project
+        )
+        component_addon = self.install(
+            WORKFLOW
+            | {
+                "triggers": [{"trigger": "change", "events": ["change"]}],
+            }
+        )
+        foreign = Change.objects.create(component=other, action=ActionEvents.CHANGE)
+        for component_id, change_id in (
+            (other.pk, foreign.pk),
+            (self.component.pk, foreign.pk),
+        ):
+            with self.subTest(component=component_id):
+                with self.assertRaises(ValidationError):
+                    component_addon.preview(
+                        component_addon.instance.configuration["workflow"],
+                        component_id,
+                        change_id,
+                    )
+                with self.assertRaises(ValidationError):
+                    component_addon.schedule_run(component_id, change_id)
+        with self.assertRaises(ValidationError):
+            component_addon.instance.schedule_manual_run()
+        run_addon_manually(component_addon.instance.pk)
+        task.assert_not_called()
+        self.assertFalse(
+            AddonActivityLog.objects.filter(addon=component_addon.instance).exists()
+        )
+
+    def test_editor_renders_yaml_after_database_reload_and_preserves_invalid_input(
+        self,
+    ) -> None:
+        addon = self.install(
+            WORKFLOW
+            | {
+                "triggers": [{"trigger": "change", "events": ["change"]}],
+            }
+        )
+        # Simulate a workflow saved before public identifiers were supported.
+        addon.instance.configuration["workflow"]["triggers"][0]["events"] = ["change"]
+        addon.instance.save(update_fields=["configuration"])
+        addon.instance.refresh_from_db()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        url = addon.instance.get_absolute_url()
+        response = self.client.get(url)
+        rendered = response.context["form"]["workflow"].as_widget()
+        self.assertIn("version: 1", rendered)
+        self.assertIn("translation_changed", rendered)
+        self.assertLess(rendered.index("version:"), rendered.index("triggers:"))
+        self.assertLess(rendered.index("triggers:"), rendered.index("actions:"))
+        invalid = "version: [unfinished"
+        response = self.client.post(url, {"workflow": invalid})
+        self.assertEqual(response.context["form"]["workflow"].value(), invalid)
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration["workflow"]["version"], 1)
+
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
+    def test_saved_preview_and_context_trigger_api(self, task: Mock) -> None:
+        addon = self.install(
+            WORKFLOW | {"triggers": [{"trigger": "change", "events": ["change"]}]}
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        client = APIClient()
+        client.force_authenticate(self.user)
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        change = Change.objects.create(unit=unit, action=ActionEvents.CHANGE)
+        for action, success in (("preview", 200), ("trigger", 202)):
+            url = reverse(f"api:addon-{action}", kwargs={"pk": addon.instance.pk})
+            response = client.post(url, {}, format="json")
+            self.assertEqual(response.status_code, 400, response.data)
+            self.assertEqual(response.data["errors"][0]["attr"], "change")
+            response = client.post(url, {"change": change.pk}, format="json")
+            self.assertEqual(response.status_code, success, response.data)
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        task.assert_called_once_with(activity.pk)
 
     def test_preview_api(self) -> None:
         addon = self.install()

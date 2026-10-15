@@ -432,19 +432,22 @@ class Addon(models.Model):
     def can_run_manually(self) -> bool:
         return self.is_valid and self.has_event(AddonEvent.EVENT_MANUAL)
 
-    def schedule_manual_run(self, user_id: int | None = None) -> None:
+    def schedule_manual_run(
+        self,
+        user_id: int | None = None,
+        *,
+        component_id: int | None = None,
+        change_id: int | None = None,
+    ) -> None:
         if not self.can_run_manually:
             raise ValueError(gettext("This add-on cannot be triggered manually."))
         if self.pk is None:
             msg = "Cannot schedule a manual run for an unsaved add-on."
             raise ValueError(msg)
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.addons.tasks import (
-            run_addon_manually,
+        self.addon.schedule_manual_run(
+            user_id=user_id, component_id=component_id, change_id=change_id
         )
-
-        run_addon_manually.delay_on_commit(self.pk, user_id=user_id)
 
     def _drop_addons_cache(self) -> None:
         if self.component:

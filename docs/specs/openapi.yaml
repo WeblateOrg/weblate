@@ -806,7 +806,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AutomationPreviewRequest'
-        required: true
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -959,7 +958,9 @@ paths:
   /api/addons/{id}/trigger/:
     post:
       operationId: api_addons_trigger_create
-      summary: Trigger manual execution of an add-on that supports manual triggering.
+      description: Automations accept component and change context and run their saved
+        workflow.
+      summary: Trigger manual execution of an add-on.
       parameters:
       - in: path
         name: id
@@ -969,6 +970,11 @@ paths:
         required: true
       tags:
       - addons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationExecutionRequest'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -1057,6 +1063,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -35677,19 +35697,25 @@ components:
           description: URL for tracking a background automatic translation.
       required:
       - details
-    AutomationPreviewRequest:
+    AutomationExecutionRequest:
       type: object
       properties:
-        workflow: {}
         component:
           type: integer
           minimum: 1
         change:
           type: integer
           minimum: 1
-      required:
-      - component
-      - workflow
+    AutomationPreviewRequest:
+      type: object
+      properties:
+        component:
+          type: integer
+          minimum: 1
+        change:
+          type: integer
+          minimum: 1
+        workflow: {}
     AutomationPreviewResponse:
       type: object
       properties:

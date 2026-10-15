@@ -6,9 +6,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from django.utils.translation import override
+
 from weblate.addons.events import AddonEvent
 from weblate.automation.operations import OPERATIONS, object_schema
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.utils.state import StringState
 
 TRIGGERS = {
@@ -20,7 +22,19 @@ TRIGGERS = {
     "post_push": AddonEvent.EVENT_POST_PUSH,
     "manual": AddonEvent.EVENT_MANUAL,
 }
-CHANGE_ACTIONS = {action.name.lower(): action.value for action in ActionEvents}
+# Event identifiers are public API and must not depend on the active locale.
+with override("en"):
+    CANONICAL_CHANGE_ACTIONS = {
+        get_change_action_identifier(action.label): action.value
+        for action in ActionEvents
+    }
+    CHANGE_ALIASES = {
+        action.name.lower(): get_change_action_identifier(action.label)
+        for action in ActionEvents
+    }
+CHANGE_ACTIONS = CANONICAL_CHANGE_ACTIONS | {
+    alias: CANONICAL_CHANGE_ACTIONS[name] for alias, name in CHANGE_ALIASES.items()
+}
 
 
 STRING = {"type": "string", "maxLength": 4096}
