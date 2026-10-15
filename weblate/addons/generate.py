@@ -312,7 +312,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
             report_error("add-on error", project=component.project)
-            self.instance.disable()
+            self.instance.disable(user=self.user)
             return
         var_multiplier = self.instance.configuration.get("var_multiplier")
         # As it is optional, it can be stored as None

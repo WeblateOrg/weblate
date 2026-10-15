@@ -45,6 +45,7 @@ from weblate.trans.alerts.vcs import RepositoryOutdated
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ReusableViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
@@ -704,13 +705,17 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
         alert_name = RecommendedXgettextAddon.__name__
         self.component.add_alert(alert_name)
 
-        XgettextAddon.create(component=self.component, run=False)
+        XgettextAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
 
     def test_addon_guidance_not_created_when_addon_is_removed(self) -> None:
         alert_name = RecommendedXgettextAddon.__name__
-        addon = XgettextAddon.create(component=self.component, run=False)
+        addon = XgettextAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         addon.instance.delete()
 
         self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())

@@ -100,7 +100,9 @@ class CommentManager(models.Manager):
                 ):
                     unit_scope.original_state = STATE_NEEDS_REWRITING
                     unit_scope.save(update_fields=["original_state"], same_content=True)
-                    PendingUnitChange.store_unit_change(unit_scope, author=user)
+                    PendingUnitChange.store_unit_change(
+                        unit_scope, author=user, user=user
+                    )
                     unit_scope.generate_change(
                         user, user, ActionEvents.MARKED_EDIT, check_new=False
                     )

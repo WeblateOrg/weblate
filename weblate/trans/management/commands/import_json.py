@@ -12,6 +12,7 @@ from django.utils.text import slugify
 from rest_framework.exceptions import ValidationError
 
 from weblate.api.serializers import ComponentSerializer
+from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
 
@@ -20,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class ImportUser:
-    """User object granting permissions for serializer validation."""
+    """Grant CLI permissions during validation, without supplying a history actor."""
 
     needs_component_restrictions_filter = False
     needs_project_filter = False
@@ -67,6 +68,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
+            "--user", required=True, help="Username to record as the import actor"
+        )
+        parser.add_argument(
             "--project", default=None, required=True, help="Project where to operate"
         )
         parser.add_argument(
@@ -95,6 +99,14 @@ class Command(BaseCommand):
     # ruff: ignore[complex-structure]
     def handle(self, *args, **options) -> None:
         """Automatic import of components."""
+        try:
+            user = User.objects.get(username=options["user"])
+        except User.DoesNotExist as error:
+            msg = "User does not exist!"
+            raise CommandError(msg) from error
+        if user.is_anonymous:
+            msg = "An anonymous user cannot import components."
+            raise CommandError(msg)
         # Get project
         try:
             project = Project.objects.get(slug=options["project"])
@@ -148,7 +160,7 @@ class Command(BaseCommand):
                 serializer = get_component_serializer(project, item)
                 try:
                     serializer.is_valid(raise_exception=True)
-                    component = serializer.save()
+                    component = serializer.save(acting_user=user)
                 except ValidationError as error:
                     self.stderr.write(format_serializer_error(error))
                     msg = "Component failed validation!"
@@ -164,7 +176,7 @@ class Command(BaseCommand):
                     serializer = get_component_serializer(project, item, component)
                     try:
                         serializer.is_valid(raise_exception=True)
-                        serializer.save()
+                        serializer.save(acting_user=user)
                     except ValidationError as error:
                         self.stderr.write(format_serializer_error(error))
                         msg = "Component failed validation!"

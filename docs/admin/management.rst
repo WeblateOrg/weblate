@@ -79,10 +79,15 @@ In case you need to pass it a file, you can temporary add a volume:
 add_suggestions
 ---------------
 
-.. weblate-admin:: add_suggestions <project> <component> <language> <file>
+.. weblate-admin:: add_suggestions --user USERNAME <project> <component> <language> <file>
 
 Imports a translation from the file to use as a suggestion for the given translation.
 It skips duplicated translations; only different ones are added.
+
+.. weblate-admin-option:: --user USERNAME
+
+    Existing user to record as the import actor in history. This is independent of
+    the suggestion author selected with ``--author``.
 
 .. weblate-admin-option:: --author USER@EXAMPLE.COM
 
@@ -93,7 +98,7 @@ Example:
 
 .. code-block:: sh
 
-    weblate --author michal@cihar.com add_suggestions weblate application cs /tmp/suggestions-cs.po
+    weblate add_suggestions --user admin --author michal@cihar.com weblate application cs /tmp/suggestions-cs.po
 
 
 analyze_translator_work
@@ -459,7 +464,7 @@ Dumps userdata to a file for later use by :wladmin:`importuserdata`.
 import_demo
 -----------
 
-.. weblate-admin:: import_demo
+.. weblate-admin:: import_demo --user USERNAME
 
 .. versionadded:: 4.1
 
@@ -467,6 +472,11 @@ Creates a demo project with components based on <https://github.com/WeblateOrg/d
 Make sure the celery tasks are running before running this command.
 
 This can be useful when developing Weblate.
+
+.. weblate-admin-option:: --user USERNAME
+
+   Required. Existing account to attribute the imported components and add-on
+   configuration to. Anonymous users are not accepted.
 
 .. weblate-admin-option:: --delete
 
@@ -481,13 +491,18 @@ This can be useful when developing Weblate.
 import_json
 -----------
 
-.. weblate-admin:: import_json <json-file>
+.. weblate-admin:: import_json --user USERNAME <json-file>
 
 Batch import of components based on JSON data.
 
 The imported JSON file structure pretty much corresponds to the component
 object (see :http:get:`/api/components/(string:project)/(string:component)/`).
 You have to include the ``name`` and ``filemask`` fields.
+
+.. weblate-admin-option:: --user USERNAME
+
+    Required. Existing account to attribute imported components and configuration
+    changes to. Anonymous users are not accepted.
 
 .. weblate-admin-option:: --project PROJECT
 
@@ -556,7 +571,7 @@ for formats other than JSON and TMX.
 import_project
 --------------
 
-.. weblate-admin:: import_project <project> <gitrepo> <branch> <filemask>
+.. weblate-admin:: import_project --user USERNAME <project> <gitrepo> <branch> <filemask>
 
 Batch imports components into project based on the file mask. It is based on
 the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to use
@@ -581,6 +596,11 @@ for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``.
 
 The import matches existing components based on files and adds the ones that
 do not exist. It does not change already existing ones.
+
+.. weblate-admin-option:: --user USERNAME
+
+    Required. Record the import and its configuration changes as this existing
+    Weblate user. Anonymous users cannot perform imports.
 
 .. weblate-admin-option:: --name-template TEMPLATE
 
@@ -635,7 +655,7 @@ separate a folder with the translations of each chapter:
 
 .. code-block:: sh
 
-    weblate import_project \
+    weblate import_project --user admin \
         debian-handbook \
         https://salsa.debian.org/hertzog/debian-handbook.git \
         bullseye/main \
@@ -647,7 +667,7 @@ are located in single folder:
 
 .. code-block:: sh
 
-    weblate import_project \
+    weblate import_project --user admin \
         --file-format=properties \
         --base-file-template=web-app/tgol-web-app/src/main/resources/i18n/%s-I18N.properties \
         tanaguru \
@@ -661,7 +681,7 @@ language out of a filename like
 
 .. code-block:: sh
 
-    weblate import_project \
+    weblate import_project --user admin \
         tails \
         git://git.tails.boum.org/tails master \
         'wiki/src/security/(?P<component>.*)\.(?P<language>[^.]*)\.po$'
@@ -670,7 +690,7 @@ Filtering only translations in a chosen language:
 
 .. code-block:: sh
 
-    ./manage import_project \
+    ./manage import_project --user admin \
         --language-regex '^(cs|sk)$' \
         weblate \
         https://github.com/WeblateOrg/weblate.git \
@@ -680,7 +700,7 @@ Importing Sphinx documentation split to multiple files:
 
 .. code-block:: console
 
-    $ weblate import_project --name-template 'Documentation: %s' \
+    $ weblate import_project --user admin --name-template 'Documentation: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/**.po'
@@ -689,11 +709,11 @@ Importing Sphinx documentation split to multiple files and directories:
 
 .. code-block:: console
 
-    $ weblate import_project --name-template 'Directory 1: %s' \
+    $ weblate import_project --user admin --name-template 'Directory 1: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/dir1/**.po'
-    $ weblate import_project --name-template 'Directory 2: %s' \
+    $ weblate import_project --user admin --name-template 'Directory 2: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/dir2/**.po'
@@ -753,9 +773,14 @@ You can dump users from the existing Django site using:
 install_addon
 -------------
 
-.. weblate-admin:: install_addon --addon ADDON <project|project/component>
+.. weblate-admin:: install_addon --user USERNAME --addon ADDON <project|project/component>
 
 Installs an add-on to a set of components.
+
+.. weblate-admin-option:: --user USERNAME
+
+   Required. Existing account to attribute add-on configuration changes to.
+   Anonymous users are not accepted.
 
 .. weblate-admin-option:: --addon ADDON
 
@@ -776,7 +801,7 @@ To install :ref:`addon-weblate.gettext.mo` for all components:
 
 .. code-block:: shell
 
-   weblate install_addon --addon weblate.gettext.mo --configuration '{"fuzzy": true}' --update --all
+   weblate install_addon --user admin --addon weblate.gettext.mo --configuration '{"fuzzy": true}' --update --all
 
 .. seealso::
 

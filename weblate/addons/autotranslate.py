@@ -141,7 +141,7 @@ class AutoTranslateAddon(
     ) -> AddonEventOutcome:
         conf = self.get_configuration()
         source_component_id = conf["component"]
-        task_user_id = self.get_task_user_id(conf["auto_source"], user_id)
+        task_user_id = self.get_task_user_id(user_id)
         if component is None:
             auto_translate.delay_on_commit(
                 mode=conf["mode"],
@@ -174,10 +174,8 @@ class AutoTranslateAddon(
             )
         return AddonEventOutcome.pending()
 
-    def get_task_user_id(
-        self, auto_source: Literal["mt", "others"], user_id: int | None
-    ) -> int | None:
-        if user_id is not None or auto_source == "mt":
+    def get_task_user_id(self, user_id: int | None) -> int:
+        if user_id is not None:
             return user_id
         return self.user.id
 

@@ -9,18 +9,20 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 from html import escape
 from typing import TYPE_CHECKING, cast
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.core import serializers
 from django.db import connection
 from django.http import QueryDict
 from django.template.loader import render_to_string
-from django.test.utils import CaptureQueriesContext
+from django.test import TestCase
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
 from lxml import html
 
+from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
@@ -35,8 +37,10 @@ from weblate.trans.tests.test_views import (
     ReusableViewTestCase,
     ViewTestCase,
 )
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.views.changes import ChangesView
 from weblate.utils.change_origin import change_origin_context
+from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
 
@@ -65,7 +69,7 @@ class ChangeOriginTest(FixtureTestCase):
     def test_bulk_creation_and_historical_records(self) -> None:
         details = {"reason": "test"}
         with change_origin_context({"scope": "api"}):
-            change = Change(project=self.project, details=details)
+            change = Change(project=self.project, details=details, user=self.user)
             Change.objects.bulk_create([change])
         change.refresh_from_db()
         self.assertEqual(change.details["change_origin"], {"scope": "api"})
@@ -101,7 +105,7 @@ class ChangeOriginTest(FixtureTestCase):
             {"change_origin": {"scope": "api"}},
         ):
             with self.subTest(details=details):
-                change = Change.objects.create(project=self.project)
+                change = Change.objects.create(project=self.project, user=self.user)
                 Change.objects.filter(pk=change.pk).update(details=details)
                 change.refresh_from_db()
                 serialized = serializers.serialize("json", [change])
@@ -142,6 +146,7 @@ class ChangeOriginTest(FixtureTestCase):
 
     def test_historical_component_creation_origin(self) -> None:
         change = Change.objects.create(
+            user=self.user,
             component=self.component,
             action=ActionEvents.CREATE_COMPONENT,
             details={"origin": "vcs"},
@@ -331,7 +336,210 @@ class ChangeOriginTest(FixtureTestCase):
                 )
 
 
+class ChangeUserTest(TestCase):
+    def test_fixture_actor_is_reused_within_test(self) -> None:
+        actor = get_test_actor(self)
+        with self.assertNumQueries(0):
+            self.assertIs(get_test_actor(self), actor)
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.user = User.objects.create_user("history-user", "history@example.com")
+
+    def test_missing_user_is_reported_on_insert(self) -> None:
+        for values in ({}, {"user": None}):
+            with (
+                self.subTest(values=values),
+                patch("weblate.trans.models.change.report_message") as report,
+            ):
+                change = Change(**values)
+                report.assert_not_called()
+                with self.assertWarnsRegex(
+                    RuntimeWarning, "History entry created without a user"
+                ):
+                    change.save()
+                report.assert_called_once_with(
+                    "History entry created without a user",
+                    level="error",
+                    project=None,
+                    extra_log=f"Change action: {change.action}",
+                )
+                change.refresh_from_db()
+                self.assertIsNone(change.user_id)
+                change.save()
+                report.assert_called_once()
+
+    def test_missing_user_is_reported_by_manager(self) -> None:
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertWarnsRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            change = Change.objects.create()
+        self.assertIsNone(change.user_id)
+        report.assert_called_once()
+
+    def test_bulk_insert_reports_only_missing_users(self) -> None:
+        changes = [
+            Change(),
+            Change(user=None),
+            Change(user=self.user),
+            Change(user_id=self.user.pk),
+            Change(user=get_anonymous()),
+        ]
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertWarnsRegex(
+                RuntimeWarning, "History entry created without a user"
+            ) as warning,
+        ):
+            Change.objects.bulk_create(changes)
+        self.assertEqual(len(warning.warnings), 2)
+        self.assertEqual(report.call_count, 2)
+        self.assertEqual(
+            Change.objects.filter(pk__in=[change.pk for change in changes]).count(),
+            len(changes),
+        )
+        self.assertIsNone(Change.objects.get(pk=changes[-1].pk).user_id)
+
+    def test_explicit_users_are_not_reported(self) -> None:
+        for values in (
+            {"user": self.user},
+            {"user_id": self.user.pk},
+            {"user": get_anonymous()},
+        ):
+            with (
+                self.subTest(values=values),
+                patch("weblate.trans.models.change.report_message") as report,
+            ):
+                change = Change.objects.create(**values)
+                change.refresh_from_db()
+                change.save()
+                report.assert_not_called()
+
+    def test_anonymous_user_keeps_ip_address(self) -> None:
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            patch.object(Change, "get_ip_address", return_value="192.0.2.1"),
+        ):
+            change = Change.objects.create(user=get_anonymous())
+        change.refresh_from_db()
+        self.assertIsNone(change.user_id)
+        self.assertEqual(change.details["ip_address"], "192.0.2.1")
+        report.assert_not_called()
+
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    def test_missing_user_reaches_sentry_as_error_message(self) -> None:
+        sentry = Mock()
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry),
+            self.assertWarnsRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            change = Change.objects.create()
+        sentry.capture_message.assert_called_once_with(
+            "History entry created without a user"
+        )
+        sentry.set_level.assert_called_once_with("error")
+        sentry.capture_exception.assert_not_called()
+        self.assertTrue(Change.objects.filter(pk=change.pk, user=None).exists())
+
+    def test_missing_user_warning_is_an_error(self) -> None:
+        change = Change()
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertRaisesRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            change.save()
+        report.assert_called_once()
+        self.assertIsNone(change.pk)
+
+    def test_missing_user_warning_stops_bulk_insert(self) -> None:
+        changes = [Change(user=self.user), Change()]
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertRaisesRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            Change.objects.bulk_create(changes)
+        report.assert_called_once()
+        self.assertFalse(Change.objects.exists())
+
+
+class ChangeCompletionTest(ViewTestCase):
+    def complete_component(self, user: User) -> None:
+        last_unit = self.get_unit("Hello, world!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            last_unit.translate(self.user, "", STATE_EMPTY)
+        for translation in self.component.translation_set.exclude_source():
+            for unit in (
+                translation.unit_set.exclude(pk=last_unit.pk)
+                .exclude(state=STATE_READONLY)
+                .order_by("pk")
+            ):
+                if unit.state < STATE_TRANSLATED:
+                    with self.captureOnCommitCallbacks(execute=True):
+                        unit.translate(
+                            self.user,
+                            [
+                                "Completed translation"
+                                for _ in range(translation.plural.number)
+                            ]
+                            if unit.is_plural
+                            else "Completed translation",
+                            STATE_TRANSLATED,
+                        )
+
+        last_unit.translation.stats.update_stats()
+        self.assertEqual(
+            last_unit.translation.stats.translated,
+            last_unit.translation.stats.all - 1,
+        )
+        previous_change = self.component.change_set.latest("pk")
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            last_unit.translate(user, "Completed translation", STATE_TRANSLATED)
+        report.assert_not_called()
+
+        completions = self.component.change_set.filter(
+            pk__gt=previous_change.pk,
+            action__in=(ActionEvents.COMPLETE, ActionEvents.COMPLETED_COMPONENT),
+        )
+        self.assertCountEqual(
+            completions.values_list("action", flat=True),
+            (ActionEvents.COMPLETE, ActionEvents.COMPLETED_COMPONENT),
+        )
+        self.assertFalse(
+            completions.exclude(user=None if user.is_anonymous else user).exists()
+        )
+
+    def test_anonymous_completion(self) -> None:
+        self.complete_component(get_anonymous())
+
+    def test_authenticated_completion(self) -> None:
+        self.complete_component(self.user)
+
+
 class ChangeScopeTest(ViewTestCase):
+    def test_settings_change_requires_actor(self) -> None:
+        self.component.acting_user = None
+        self.component.restricted = True
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertRaisesRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            self.component.save(update_fields=["restricted"])
+        report.assert_called_once()
+
     def test_language_scoped_history(self) -> None:
         language = self.translation.language
         category = self.create_category(self.project)
@@ -355,7 +563,10 @@ class ChangeScopeTest(ViewTestCase):
                 with self.subTest(scope=scope, action=action):
                     if action == ActionEvents.ANNOUNCEMENT:
                         announcement = Announcement.objects.create(
-                            language=language, message="Scoped announcement", **scope
+                            language=language,
+                            message="Scoped announcement",
+                            user=self.user,
+                            **scope,
                         )
                         change = Change.objects.get(announcement=announcement)
                     else:
@@ -801,9 +1012,11 @@ class ChangesTest(ReusableViewTestCase):
                     self.assertContains(response, "Translation changed")
 
     def test_pagination(self) -> None:
-        self.component.change_set.create(action=ActionEvents.NEW_UNIT_UPLOAD)
+        self.component.change_set.create(
+            user=self.user, action=ActionEvents.NEW_UNIT_UPLOAD
+        )
         for _index in range(20):
-            self.component.change_set.create(action=ActionEvents.LOCK)
+            self.component.change_set.create(user=self.user, action=ActionEvents.LOCK)
 
         end = timezone.now()
         start = end - timedelta(days=1)
@@ -823,7 +1036,7 @@ class ChangesTest(ReusableViewTestCase):
     def create_cursor_changes(self, count: int = 45) -> list[Change]:
         Change.objects.all().delete()
         changes = [
-            self.component.change_set.create(action=ActionEvents.LOCK)
+            self.component.change_set.create(user=self.user, action=ActionEvents.LOCK)
             for _ in range(count)
         ]
         # Exercise the ID tie breaker across multiple full pages.
@@ -892,7 +1105,7 @@ class ChangesTest(ReusableViewTestCase):
         changes = self.create_cursor_changes()
         response = self.get_cursor_page()
         changes[19].delete()
-        self.component.change_set.create(action=ActionEvents.LOCK)
+        self.component.change_set.create(user=self.user, action=ActionEvents.LOCK)
         response = self.get_cursor_page(response.context["older_cursor"])
         self.assertEqual(list(response.context["object_list"]), changes[20:40])
 
@@ -1011,7 +1224,7 @@ class ChangesTest(ReusableViewTestCase):
             access_control=Project.ACCESS_PRIVATE,
         )
         hidden = Change.objects.create(
-            project=private_project, action=ActionEvents.LOCK
+            user=self.user, project=private_project, action=ActionEvents.LOCK
         )
         cursor = ChangesView.cursor_params(hidden.timestamp, hidden.pk, "older")
         response = self.get_cursor_page(cursor)

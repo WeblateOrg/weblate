@@ -12,6 +12,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from weblate.auth.bots import InternalBot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert, ErrorAlert, MultiAlert
 from weblate.trans.alerts.registry import (
@@ -103,6 +104,7 @@ class Alert(models.Model):
         if is_new and self.is_actionable:
             self.component.change_set.create(
                 action=ActionEvents.ALERT,
+                user=InternalBot.ALERTS.get_user(),
                 alert=self,
                 details={
                     "alert": self.name,

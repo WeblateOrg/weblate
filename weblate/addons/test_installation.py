@@ -21,7 +21,8 @@ from weblate.addons.defaults import DEFAULT_WEBLATE_ADDONS
 from weblate.addons.models import ADDONS, Addon
 from weblate.machinery.models import MachineryInstallation
 from weblate.machinery.openai import OpenAITranslation
-from weblate.trans.models import Component
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Component
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.utils.unittest import tempdir_setting
 
@@ -244,6 +245,7 @@ class AddonInstallationTest(ReusableComponentTestCase):
                 **({"edit_template": True} if fixture == "json_mono" else {}),
             )
         component = Component.objects.get(pk=self.component.pk)
+        component.acting_user = self.user
         root = Path(component.full_path)
         if fixture in {"xgettext", "meson"}:
             (root / "src").mkdir(exist_ok=True)
@@ -314,6 +316,10 @@ class AddonInstallationTest(ReusableComponentTestCase):
         self.assertIsNotNone(storage.pk)
         storage = Addon.objects.get(pk=storage.pk)
         self.assertEqual(storage.name, name)
+        self.assertEqual(
+            Change.objects.get(addon=storage, action=ActionEvents.ADDON_CREATE).user,
+            self.user,
+        )
         self.assertEqual(storage.configuration, configuration)
         self.assertEqual(
             storage.component_id, component.pk if case.scope == "component" else None

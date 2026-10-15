@@ -40,7 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
-from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES
+from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES, get_test_actor
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
     cleanup_session,
@@ -1191,7 +1191,7 @@ class EditResxTest(EditTest):
 
     def create_component(self):
         component = self.create_resx()
-        ResxUpdateAddon.create(component=component)
+        ResxUpdateAddon.create(acting_user=get_test_actor(self), component=component)
         return component
 
 
@@ -1710,6 +1710,7 @@ class EditPropagateTest(EditTest):
         self.component.save(update_fields=["allow_translation_propagation"])
         second_component.allow_translation_propagation = True
         second_component.restricted = True
+        second_component.acting_user = self.user
         second_component.save(
             update_fields=["allow_translation_propagation", "restricted"]
         )
@@ -1789,7 +1790,7 @@ class EditPropagateTest(EditTest):
         unit = self.get_unit()
         test_edit = "Test edit\n"
         unit.translate(
-            None,
+            get_test_actor(self),
             test_edit,
             STATE_TRANSLATED,
             change_action=ActionEvents.AUTO,
@@ -1802,7 +1803,7 @@ class EditPropagateTest(EditTest):
 
         # Resync them
         unit.translate(
-            None,
+            get_test_actor(self),
             self.second_target,
             STATE_TRANSLATED,
             change_action=ActionEvents.AUTO,
@@ -3335,7 +3336,7 @@ class EditComplexTest(ReusableViewTestCase):
         unit = self.get_unit()
         unit.state = STATE_TRANSLATED
         unit.target = "Hello, world!\n"
-        unit.save_backend(None)
+        unit.save_backend(self.user)
         unit.pending_changes.all().delete()
 
         # Enforce same check, the unit should become fuzzy with pending change

@@ -307,12 +307,17 @@ def update_parent(
         )
     if changed or old_parent != unit.translation_parent_id or old_blocked != blocked:
         recheck_previous_source_peers(unit, previous_source, previous_language_id)
+    actor = (
+        author
+        if author is not None
+        else unit.translation.component.get_update_user(None)
+    )
     if unit.state != old_state or changed:
-        PendingUnitChange.store_unit_change(unit=unit, author=author)
+        PendingUnitChange.store_unit_change(unit=unit, author=author, user=actor)
     change = None
     if changed:
         change = unit.generate_change(
-            author,
+            actor,
             author,
             ActionEvents.SOURCE_CHANGE,
             check_new=False,

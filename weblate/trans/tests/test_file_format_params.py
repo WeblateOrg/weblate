@@ -26,7 +26,7 @@ from weblate.trans.file_format_params import (
 )
 from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_optional_path
+from weblate.trans.tests.utils import get_optional_path, get_test_actor
 from weblate.utils.views import get_form_data
 
 if TYPE_CHECKING:
@@ -543,7 +543,9 @@ class GettextParamsTest(BaseFileFormatsTest):
     def test_msgmerge(self, wrapped=True) -> None:
         self.assertTrue(MsgmergeAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = MsgmergeAddon.create(component=self.component)
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -559,7 +561,9 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.test_msgmerge(False)
 
     def test_msgmerge_imports_changed_source(self) -> None:
-        addon = MsgmergeAddon.create(component=self.component, run=False)
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         template = get_optional_path(self.component.get_new_base_filename())
         template.write_text(
             template.read_text(encoding="utf-8").replace(
@@ -588,7 +592,9 @@ class GettextParamsTest(BaseFileFormatsTest):
 
     def test_msgmerge_removes_obsolete(self) -> None:
         self.update_component_file_params(po_remove_obsolete=True)
-        addon = MsgmergeAddon.create(component=self.component, run=False)
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         self.translate_thank_you()
         self.remove_thank_you_from_template()
 
@@ -600,7 +606,9 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertNotIn("#~ msgid", content)
 
     def test_msgmerge_keeps_obsolete_by_default(self) -> None:
-        addon = MsgmergeAddon.create(component=self.component, run=False)
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         self.translate_thank_you()
         self.remove_thank_you_from_template()
 
@@ -645,7 +653,9 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev = self.component.repository.last_revision
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("#: main.c:", commit)
-        addon = MsgmergeAddon.create(component=self.component)
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, rev, False, [self.component.new_base])

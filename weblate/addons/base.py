@@ -398,7 +398,12 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
-                postconfigure_addon.delay_on_commit(self.instance.pk)
+                postconfigure_addon.delay_on_commit(
+                    self.instance.pk,
+                    user_id=self.instance.acting_user.pk
+                    if self.instance.acting_user is not None
+                    else None,
+                )
 
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing

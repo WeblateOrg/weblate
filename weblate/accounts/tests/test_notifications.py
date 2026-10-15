@@ -49,7 +49,6 @@ from weblate.accounts.tasks import (
     notify_weekly,
     send_mails,
 )
-from weblate.addons.models import Addon
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
@@ -68,7 +67,11 @@ from weblate.trans.tests.test_views import (
     RegistrationTestMixin,
     ReusableViewTestCase,
 )
-from weblate.trans.tests.utils import create_test_billing
+from weblate.trans.tests.utils import (
+    create_test_addon,
+    create_test_billing,
+    get_test_actor,
+)
 from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
@@ -211,6 +214,9 @@ class NotificationHeadersTest(SimpleTestCase):
 class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
+        self.automation_user = get_test_actor(self)
+        self.component.acting_user = self.automation_user
+        self.project.acting_user = self.automation_user
         self.user.email = "noreply+notify@weblate.org"
         self.user.save()
         czech = Language.objects.get(code="cs")
@@ -274,6 +280,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def create_with_callbacks[ModelT: Model](
         self, manager: Manager[ModelT], **kwargs: object
     ) -> ModelT:
+        kwargs.setdefault("user", self.automation_user)
         with self.captureOnCommitCallbacks(execute=True):
             return manager.create(**kwargs)
 
@@ -282,6 +289,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
             obj.save(**kwargs)
 
     def create_announcement(self, **kwargs: object) -> Announcement:
+        kwargs.setdefault("user", self.automation_user)
         with self.captureOnCommitCallbacks(execute=True):
             return Announcement.objects.create(**kwargs)
 
@@ -1140,7 +1148,8 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
         self.assertFalse(self.user.has_perm("component.edit", self.component))
-        addon = Addon.objects.create(
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             name="weblate.gettext.msgmerge",
         )
@@ -1176,7 +1185,9 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("management.addons"))
         self.assertFalse(self.user.has_perm("management.use"))
-        msgmerge = Addon.objects.create(name="weblate.gettext.msgmerge")
+        msgmerge = create_test_addon(
+            acting_user=get_test_actor(self), name="weblate.gettext.msgmerge"
+        )
 
         with self.captureOnCommitCallbacks(execute=True):
             self.component.add_alert(
@@ -1193,7 +1204,9 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
 
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
         mail.outbox.clear()
-        Addon.objects.create(name="weblate.gettext.xgettext")
+        create_test_addon(
+            acting_user=get_test_actor(self), name="weblate.gettext.xgettext"
+        )
 
         with self.captureOnCommitCallbacks(execute=True):
             self.component.add_alert("ExtractPotMissingMsgmerge")
@@ -1217,11 +1230,13 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("component.edit", self.component))
         self.assertFalse(self.user.has_perm("project.edit", self.component.project))
-        project_addon = Addon.objects.create(
+        project_addon = create_test_addon(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             name="weblate.gettext.msgmerge",
         )
-        Addon.objects.create(
+        create_test_addon(
+            acting_user=get_test_actor(self),
             component=self.component,
             name="weblate.gettext.msgmerge",
         )
@@ -1340,7 +1355,8 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
         self.assertFalse(self.user.has_perm("component.edit", self.component))
-        Addon.objects.create(
+        create_test_addon(
+            acting_user=get_test_actor(self),
             component=self.component,
             name="weblate.gettext.xgettext",
         )
@@ -1450,6 +1466,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
             notification__in=("MergeFailureNotification", "NewTranslationNotificaton"),
         ).update(frequency=frequency)
         self.component.change_set.create(
+            user=get_test_actor(self),
             details={
                 "error": "Failed merge",
                 "status": "Error\nstatus",
@@ -1492,6 +1509,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         changes = Change.objects.bulk_create(
             [
                 Change(
+                    user=self.automation_user,
                     action=ActionEvents.COMMIT,
                     project=self.project,
                     component=self.component,
@@ -1543,7 +1561,11 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         )
         changes = Change.objects.bulk_create(
             [
-                Change(action=ActionEvents.COMMIT, project=project)
+                Change(
+                    user=self.automation_user,
+                    action=ActionEvents.COMMIT,
+                    project=project,
+                )
                 for _round in range(2)
                 for project in projects
             ]
@@ -1579,8 +1601,16 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         )
         changes = Change.objects.bulk_create(
             [
-                Change(action=ActionEvents.COMMIT, project=self.project),
-                Change(action=ActionEvents.COMMIT, project=second_project),
+                Change(
+                    user=self.automation_user,
+                    action=ActionEvents.COMMIT,
+                    project=self.project,
+                ),
+                Change(
+                    user=self.automation_user,
+                    action=ActionEvents.COMMIT,
+                    project=second_project,
+                ),
             ]
         )
         until = timezone.now() + timedelta(seconds=1)
@@ -1622,7 +1652,11 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         )
         Change.objects.bulk_create(
             [
-                Change(action=ActionEvents.COMMIT, project=project)
+                Change(
+                    user=self.automation_user,
+                    action=ActionEvents.COMMIT,
+                    project=project,
+                )
                 for project in projects
             ]
         )
@@ -1659,7 +1693,11 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
             slug="unadministered-notification-project",
             web="https://example.com/",
         )
-        Change.objects.create(action=ActionEvents.COMMIT, project=self.project)
+        Change.objects.create(
+            user=get_test_actor(self),
+            action=ActionEvents.COMMIT,
+            project=self.project,
+        )
         until = timezone.now() + timedelta(seconds=1)
 
         self.assertQuerySetEqual(
@@ -1817,8 +1855,10 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
             frequency=NotificationFrequency.FREQ_WEEKLY,
         )
         unit = self.get_unit()
-        unit.change_set.create(action=ActionEvents.NEW_UNIT)
-        unit.change_set.create(action=ActionEvents.SOURCE_CHANGE)
+        unit.change_set.create(user=get_test_actor(self), action=ActionEvents.NEW_UNIT)
+        unit.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.SOURCE_CHANGE
+        )
         unit.change_set.create(user=self.anotheruser, action=ActionEvents.CHANGE)
         unit.change_set.create(user=self.anotheruser, action=ActionEvents.APPROVE)
         unit.change_set.create(user=self.anotheruser, action=ActionEvents.MARKED_EDIT)
@@ -1853,7 +1893,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.assertFalse(self.user.can_access_component(self.component))
 
         unit = self.get_unit()
-        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+        unit.change_set.create(user=get_test_actor(self), action=ActionEvents.NEW_UNIT)
 
         notify_weekly()
 
@@ -1878,7 +1918,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.assertTrue(self.user.can_access_component(self.component))
 
         unit = self.get_unit()
-        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+        unit.change_set.create(user=get_test_actor(self), action=ActionEvents.NEW_UNIT)
 
         notify_weekly()
 
@@ -1931,6 +1971,7 @@ class SubscriptionTest(FixtureComponentTestCase):
         action: ActionEvents = ActionEvents.FAILED_MERGE,
     ):
         change = self.component.change_set.create(
+            user=get_test_actor(self),
             action=action,
             details={"error": "error", "status": "status"},
         )

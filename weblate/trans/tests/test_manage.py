@@ -27,6 +27,7 @@ from weblate.trans.forms import ComponentRenameForm
 from weblate.trans.models import Announcement, Category, Component, Project, Translation
 from weblate.trans.models.component import ComponentLink, ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -43,6 +44,8 @@ class ProjectSaveTransactionTest(TransactionTestCase):
         self.project = Project.objects.create(
             name="Save transaction", slug="save-transaction", web="https://example.com/"
         )
+
+        self.project.acting_user = get_test_actor(self)
 
     def test_failed_setup_discards_audit_without_outer_transaction(self) -> None:
         self.assertFalse(connection.in_atomic_block)
@@ -968,12 +971,16 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.assertIsNone(announcement.project)
         self.assertIsNone(announcement.component)
         Announcement.objects.create(
-            category=parent, language=obj.language, message="Inherited announcement"
+            user=self.user,
+            category=parent,
+            language=obj.language,
+            message="Inherited announcement",
         )
         Announcement.objects.create(
-            project=self.project, message="Project announcement"
+            user=self.user, project=self.project, message="Project announcement"
         )
         Announcement.objects.create(
+            user=self.user,
             category=category,
             language=Language.objects.get(code="de"),
             message="Other language announcement",
@@ -1041,16 +1048,19 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         second_component = self.create_link_existing()
 
         announcement = Announcement.objects.create(
+            user=self.user,
             message="test component",
             component=self.component,
             project=self.project,
         )
         second_announcement = Announcement.objects.create(
+            user=self.user,
             message="test second announcement",
             component=second_component,
             project=self.project,
         )
         project_announcement = Announcement.objects.create(
+            user=self.user,
             message="test project announcement",
             project=self.project,
         )
@@ -1058,6 +1068,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             project=self.project, name="Test Category", slug="test-category"
         )
         category_announcement = Announcement.objects.create(
+            user=self.user,
             message="test category announcement",
             category=category,
         )
@@ -1133,7 +1144,9 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.assertEqual(Announcement.objects.count(), 0)
 
     def test_delete_global_announcement(self) -> None:
-        announcement = Announcement.objects.create(message="test global")
+        announcement = Announcement.objects.create(
+            user=self.user, message="test global"
+        )
 
         group = Group.objects.create(
             name="Project deleters",
@@ -1158,7 +1171,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
     def test_language_announcement(self) -> None:
         czech = Language.objects.get(code="cs")
         announcement = Announcement.objects.create(
-            language=czech, message="test language"
+            user=self.user, language=czech, message="test language"
         )
 
         response = self.client.get(
@@ -1264,6 +1277,7 @@ class CategoryLanguageAnnouncementTest(ViewTestCase):
                         self.user.clear_permissions_cache()
                         obj = CategoryLanguage(category, language)
                         announcement = Announcement.objects.create(
+                            user=self.user,
                             category=category,
                             language=language,
                             message="Scoped deletion",
@@ -1292,6 +1306,7 @@ class CategoryLanguageAnnouncementTest(ViewTestCase):
     def test_delete_after_last_translation_unlinked(self) -> None:
         announcements = [
             Announcement.objects.create(
+                user=self.user,
                 category=self.category,
                 language=language,
                 message="Orphaned announcement",
@@ -1336,6 +1351,7 @@ class CategoryLanguageAnnouncementTest(ViewTestCase):
         for category in (self.parent, self.category):
             for language in (None, self.czech, self.german):
                 Announcement.objects.create(
+                    user=self.user,
                     category=category,
                     language=language,
                     message=f"Linked category {category.pk} {language}",
@@ -1386,7 +1402,7 @@ class AnnouncementTest(AnnouncementPermissionTestCase):
         self.assertEqual(Announcement.objects.count(), 0)
 
     def test_delete_deny(self) -> None:
-        message = Announcement.objects.create(message="test")
+        message = Announcement.objects.create(user=self.user, message="test")
         response = self.client.post(
             reverse("announcement-delete", kwargs={"pk": message.pk})
         )
@@ -1403,6 +1419,7 @@ class AnnouncementTest(AnnouncementPermissionTestCase):
             project=private_project, name="private-announcement"
         )
         announcement = Announcement.objects.create(
+            user=self.user,
             project=private_project,
             component=private_component,
             message="Hidden announcement",

@@ -1173,6 +1173,7 @@ class GlossaryTest(ReusableViewTestCase):
         self.do_add_unit()
         component = self.glossary_component
         component.manage_units = False
+        component.acting_user = self.user
         component.save(update_fields=["manage_units"])
         name = "GlossaryStringManagementDisabled"
         update_alerts(component, {name})
@@ -1205,6 +1206,7 @@ class GlossaryTest(ReusableViewTestCase):
     def test_string_management_alert_render(self) -> None:
         component = self.glossary_component
         component.manage_units = False
+        component.acting_user = self.user
         component.save(update_fields=["manage_units"])
         name = "GlossaryStringManagementDisabled"
         update_alerts(component, {name})

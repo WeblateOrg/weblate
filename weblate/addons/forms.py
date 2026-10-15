@@ -129,6 +129,8 @@ class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
         return cast("StoredConfigurationT", self.cleaned_data)
 
     def save(self):
+        if self.user is not None:
+            self._addon.instance.acting_user = self.user
         self._addon.configure(self.serialize_form())
         return self._addon.instance
 

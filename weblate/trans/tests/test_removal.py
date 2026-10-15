@@ -105,6 +105,14 @@ class RemovalAlertTest(RepoTestCase):
         finally:
             post_delete.disconnect(request_alerts, sender=Screenshot)
 
+    def test_removal_backup_preserves_actor(self) -> None:
+        with (
+            patch("weblate.trans.tasks.create_project_backup") as backup,
+            patch("weblate.trans.tasks._remove_project"),
+        ):
+            project_removal.run(self.project.pk, self.user.pk)
+        backup.assert_called_once_with(self.project.pk, self.user.pk)
+
     def test_project_removal_defers_alerts(self) -> None:
         self.assert_removal_defers_alerts("project")
 

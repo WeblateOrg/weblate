@@ -450,6 +450,7 @@ class PendingUnitChange(models.Model):
         unit_id: int | None = None,
         author: User | None = None,
         author_id: int | None = None,
+        user_id: int | None = None,
         target: str,
         explanation: str,
         state: int,
@@ -486,7 +487,21 @@ class PendingUnitChange(models.Model):
         if timestamp is not None:
             kwargs["timestamp"] = timestamp
 
-        return cls(**kwargs)
+        pending = cls(**kwargs)
+        if user_id is not None:
+            pending.metadata["actor_id"] = user_id
+        return pending
+
+    def get_actor(self) -> User | None:
+        """Resolve the initiating account without confusing it with authorship."""
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        actor_id = self.metadata.get("actor_id")
+        if actor_id is None:
+            # Older or restored entries may not have retained their actor.
+            # Let history reporting detect this instead of blaming the author.
+            return None
+        return User.objects.filter(pk=actor_id).first()
 
     @classmethod
     def store_unit_change(
@@ -494,6 +509,7 @@ class PendingUnitChange(models.Model):
         unit: Unit,
         *,
         author: User | None = None,
+        user: User | None = None,
         target: str | None = None,
         explanation: str | None = None,
         state: int | None = None,
@@ -504,7 +520,7 @@ class PendingUnitChange(models.Model):
         store_disk_state: bool = True,
         save: bool = True,
     ) -> PendingUnitChange:
-        """Store complete change data for a unit by a specific author."""
+        """Store pending data with separate content authorship and initiating actor."""
         # update current fields in disk_state details for comparison of
         # uncommitted disk state with incoming changes during check_sync.
         if store_disk_state:
@@ -529,9 +545,12 @@ class PendingUnitChange(models.Model):
         if automatically_translated is None:
             automatically_translated = unit.automatically_translated
 
+        if user is not None and hasattr(user, "get_token_user"):
+            user = user.get_token_user()
         pending_unit_change = cls.build_unit_change(
             unit=unit,
             author=author,
+            user_id=user.pk if user is not None else None,
             target=target,
             explanation=explanation,
             state=state,

@@ -23,6 +23,7 @@ from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from weblate.addons.models import Addon
 from weblate.auth.models import User, bot_cache, get_anonymous
 from weblate.billing.models import Billing, Invoice, Plan
 from weblate.formats.models import FILE_FORMATS
@@ -91,6 +92,33 @@ def create_test_user() -> User:
         password=TESTPASSWORD,
         full_name="Weblate Test",
     )
+
+
+def get_test_actor(test_case: object) -> User:
+    """Reuse an explicit history actor within a single test instance."""
+    actor: User | None = vars(test_case).get("_history_fixture_actor")
+    if actor is not None:
+        return actor
+    actor = User.objects.get_or_create(
+        username="test-history",
+        defaults={
+            "email": "test-history@example.org",
+            "full_name": "History fixture",
+            "is_active": False,
+            "is_bot": True,
+            "password": "!",
+        },
+    )[0]
+    vars(test_case)["_history_fixture_actor"] = actor
+    return actor
+
+
+def create_test_addon(*, acting_user: User, **kwargs) -> Addon:
+    """Persist an add-on fixture with an explicit actor."""
+    addon = Addon(**kwargs)
+    addon.acting_user = acting_user
+    addon.save(force_insert=True)
+    return addon
 
 
 def create_another_user(suffix: str = "") -> User:
@@ -199,17 +227,22 @@ class RepoTestMixin:
         self, name: str = "Test", slug: str = "test", **kwargs
     ) -> Project:
         """Create test project."""
-        project = Project.objects.create(
+        project = Project(
             name=name, slug=slug, web="https://nonexisting.weblate.org/", **kwargs
         )
+        project.acting_user = get_test_actor(self)
+        project.save()
         self.addCleanup(remove_tree, project.full_path, True)
         return project
 
     def create_category(self, project: Project, **kwargs) -> Category:
         """Create test category."""
-        return Category.objects.create(
+        category = Category(
             name="Test category", slug="test-category", project=project, **kwargs
         )
+        category.acting_user = get_test_actor(self)
+        category.save()
+        return category
 
     @staticmethod
     def format_file_url(path: str) -> str:
@@ -279,7 +312,7 @@ class RepoTestMixin:
                 branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            return Component.objects.create(
+            component = Component(
                 repo=repo,
                 push=push,
                 branch=branch,
@@ -291,6 +324,9 @@ class RepoTestMixin:
                 vcs=vcs,
                 **kwargs,
             )
+            component.acting_user = get_test_actor(self)
+            component.save()
+            return component
 
     @staticmethod
     def configure_mt() -> None:
@@ -505,7 +541,7 @@ class RepoTestMixin:
     def create_link(self, **kwargs) -> Component:
         parent = self.create_iphone(*kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            return Component.objects.create(
+            component = Component(
                 name="Test2",
                 slug="test2",
                 project=parent.project,
@@ -515,6 +551,9 @@ class RepoTestMixin:
                 new_lang="contact",
                 **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
             )
+            component.acting_user = get_test_actor(self)
+            component.save()
+            return component
 
     def create_link_existing(
         self, name: str = "Test2", slug: str = "test2", **kwargs
@@ -532,11 +571,14 @@ class RepoTestMixin:
         }
         params.update(kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            return Component.objects.create(
+            linked = Component(
                 name=name,
                 slug=slug,
                 **params,
             )
+            linked.acting_user = get_test_actor(self)
+            linked.save()
+            return linked
 
 
 class TempDirMixin:

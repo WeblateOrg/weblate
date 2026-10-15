@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.core.management.base import CommandError
 
 from weblate.addons.models import ADDONS, Addon
+from weblate.auth.models import User
 from weblate.utils.management.base import WeblateComponentCommand
 
 if TYPE_CHECKING:
@@ -21,6 +22,11 @@ class Command(WeblateComponentCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
+        parser.add_argument(
+            "--user",
+            required=True,
+            help="Username to record as the configuration actor",
+        )
         parser.add_argument("--addon", required=True, help="Add-on name")
         parser.add_argument(
             "--configuration", default="{}", help="Add-on configuration in JSON"
@@ -43,6 +49,14 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options) -> None:
         try:
+            user = User.objects.get(username=options["user"])
+        except User.DoesNotExist as error:
+            msg = "User does not exist!"
+            raise CommandError(msg) from error
+        if user.is_anonymous:
+            msg = "An anonymous user cannot configure add-ons."
+            raise CommandError(msg)
+        try:
             addon = ADDONS[options["addon"]]
         except KeyError as error:
             msg = f"Add-on not found: {options['addon']}"
@@ -54,12 +68,13 @@ class Command(WeblateComponentCommand):
             raise CommandError(msg) from error
         for component in self.get_components(*args, **options):
             if addon.has_settings():
-                form = addon.get_add_form(None, component=component, data=configuration)
+                form = addon.get_add_form(user, component=component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:
                 if options["update"]:
                     for addon_component in addons:
+                        addon_component.acting_user = user
                         addon_component.addon.configure(configuration)
                     self.stdout.write(f"Successfully updated on {component}")
                 else:
@@ -73,7 +88,9 @@ class Command(WeblateComponentCommand):
                 continue
 
             try:
-                addon.create(component=component, configuration=configuration)
+                addon.create(
+                    component=component, configuration=configuration, acting_user=user
+                )
             except ValidationError as error:
                 raise CommandError(" ".join(error.messages)) from error
             self.stdout.write(f"Successfully installed on {component}")

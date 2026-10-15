@@ -712,6 +712,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
+        project.acting_user = self.user
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
         Component.objects.filter(pk=component.pk).update(
@@ -759,6 +760,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
+        project.acting_user = self.user
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
         Component.objects.filter(pk=component.pk).update(
@@ -783,6 +785,7 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         project.web = "https://example.org/"
         project.access_control = Project.ACCESS_PUBLIC
+        project.acting_user = self.user
         project.save(update_fields=["web", "access_control"])
         passing_component = self.add_component(project, "000000")
         Component.objects.filter(pk=passing_component.pk).update(
@@ -1043,6 +1046,7 @@ class BillingTest(BaseTestCase):
 
     def test_first_project_preserves_manual_workspace_name(self) -> None:
         self.billing.workspace.name = "Manual workspace name"
+        self.billing.workspace.acting_user = self.user
         self.billing.workspace.save(update_fields=["name"])
         project = Project.objects.create(
             name="Hosted app",
@@ -1145,6 +1149,7 @@ class BillingTest(BaseTestCase):
             yearly_price=299,
         )
         self.billing.workspace.name = "Manual workspace name"
+        self.billing.workspace.acting_user = self.user
         self.billing.workspace.save(update_fields=["name"])
 
         self.billing.plan = paid_plan
@@ -1790,6 +1795,7 @@ class BillingTest(BaseTestCase):
         other = Billing.objects.create(plan=self.plan)
 
         project.workspace = other.workspace
+        project.acting_user = self.user
         project.save(update_fields=["workspace"])
 
         self.refresh_from_db()
@@ -1827,6 +1833,7 @@ class BillingTest(BaseTestCase):
             ),
             self.assertRaisesMessage(RuntimeError, "memory cleanup failed"),
         ):
+            project.acting_user = self.user
             project.save(update_fields=["workspace"])
 
         self.assertEqual(project.billing_original_workspace_id, original_tracker)
@@ -1839,6 +1846,7 @@ class BillingTest(BaseTestCase):
         self.assertFalse(self.billing.in_limits)
         self.assertEqual(other.count_projects, 0)
 
+        project.acting_user = self.user
         project.save(update_fields=["workspace"])
         self.refresh_from_db()
         other = Billing.objects.get(pk=other.pk)
@@ -1855,6 +1863,7 @@ class BillingTest(BaseTestCase):
         other = Billing.objects.create(plan=self.plan)
 
         project.workspace = other.workspace
+        project.acting_user = self.user
         project.save(update_fields=["workspace"])
 
         self.billing.workspace.refresh_from_db()

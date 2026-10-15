@@ -84,7 +84,13 @@ from weblate.trans.tests.test_views import (
     ReusableViewTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import TEST_DATA, RepoTestMixin, get_optional_path
+from weblate.trans.tests.utils import (
+    TEST_DATA,
+    RepoTestMixin,
+    create_test_addon,
+    get_optional_path,
+    get_test_actor,
+)
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -382,7 +388,35 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def test_postconfigure_task_preserves_actor(self) -> None:
+        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
+
+        addon = NoOpAddon.create(
+            component=self.component, acting_user=self.user, run=False
+        )
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(postconfigure_addon, "delay_on_commit") as delay,
+        ):
+            addon.post_configure()
+        delay.assert_called_once_with(addon.instance.pk, user_id=self.user.pk)
+
+        with patch.object(NoOpAddon, "post_configure_run", autospec=True) as run:
+            postconfigure_addon(addon.instance.pk, user_id=self.user.pk)
+        self.assertEqual(run.call_args.args[0].instance.acting_user, self.user)
+
+    def test_configuration_requires_actor(self) -> None:
+        with (
+            patch("weblate.trans.models.change.report_message") as report,
+            self.assertRaisesRegex(
+                RuntimeWarning, "History entry created without a user"
+            ),
+        ):
+            Addon.objects.create(name=NoOpAddon.name, component=self.component)
+        report.assert_called_once()
+
     def create_change_addon(self, **kwargs) -> Addon:
+        kwargs.setdefault("acting_user", self.user)
         with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
             addon = Addon.objects.create(name=NoOpAddon.name, **kwargs)
         Event.objects.create(addon=addon, event=AddonEvent.EVENT_CHANGE)
@@ -392,6 +426,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         component = component or self.component
         with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
             return Change.objects.create(
+                user=get_test_actor(self),
                 action=ActionEvents.CHANGE,
                 category=component.category,
                 component=component,
@@ -410,11 +445,15 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
     def test_example(self) -> None:
         self.assertTrue(ExampleAddon.can_install(component=self.component))
-        addon = ExampleAddon.create(component=self.component)
+        addon = ExampleAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon.pre_commit(None, "", True)
 
     def test_create(self) -> None:
-        addon = NoOpAddon.create(component=self.component)
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
 
@@ -426,6 +465,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
             "webhook_url": "https://example.com/private-hook",
         }
         addon = WebhookAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration=configuration,
             run=False,
@@ -478,7 +518,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
     def test_create_project_addon(self) -> None:
         self.component.project.acting_user = self.component.acting_user
-        addon = NoOpAddon.create(project=self.component.project)
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), project=self.component.project
+        )
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.project.addon_set.count(), 1)
         self.assertEqual("Test add-on: Test", str(addon.instance))
@@ -497,7 +539,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
             project=self.project,
         )
         for component in (self.component, second_component):
-            addon = NoOpAddon.create(component=component, run=False).instance
+            addon = NoOpAddon.create(
+                acting_user=get_test_actor(self), component=component, run=False
+            ).instance
             Event.objects.create(addon=addon, event=AddonEvent.EVENT_DAILY)
 
         with CaptureQueriesContext(connection) as queries:
@@ -524,7 +568,8 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         with CaptureQueriesContext(connection) as queries:
             addon_change.run([change.pk])
 
-        self.assertEqual(11, len(queries), [query["sql"] for query in queries])
+        # Includes prefetching the history actor.
+        self.assertEqual(12, len(queries), [query["sql"] for query in queries])
         component_queries = [
             query["sql"]
             for query in queries
@@ -557,7 +602,8 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         with CaptureQueriesContext(connection) as queries:
             addon_change.run([change.pk])
 
-        self.assertEqual(14, len(queries), [query["sql"] for query in queries])
+        # Includes prefetching the history actor.
+        self.assertEqual(15, len(queries), [query["sql"] for query in queries])
         activity_log_select_queries = [
             query["sql"]
             for query in queries
@@ -567,7 +613,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertTrue(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_manual_returns_component_result(self) -> None:
-        addon = ManualResultAddon.create(component=self.component, run=False)
+        addon = ManualResultAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         self.assertEqual(addon.manual(component=self.component), {"component": "test"})
 
@@ -577,7 +625,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
             slug="test-2",
             project=self.project,
         )
-        addon = ManualResultAddon.create(project=self.project, run=False)
+        addon = ManualResultAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
 
         self.assertEqual(
             addon.manual(project=self.project),
@@ -595,7 +645,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
             slug="test-2",
             project=self.project,
         )
-        addon = NoOpAddon.create(project=self.project, run=False)
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
         handler = MagicMock(
             side_effect=[
                 None,
@@ -612,20 +664,26 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(handler.call_count, 2)
 
     def test_can_run_manually_for_manual_addon(self) -> None:
-        addon = ManualResultAddon.create(component=self.component, run=False)
+        addon = ManualResultAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         self.assertTrue(addon.instance.can_run_manually)
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
     def test_schedule_manual_run(self, mocked_delay: Mock) -> None:
-        addon = ManualResultAddon.create(component=self.component, run=False)
+        addon = ManualResultAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         addon.instance.schedule_manual_run()
 
         mocked_delay.assert_called_once_with(addon.instance.pk, user_id=None)
 
     def test_run_addon_manually(self) -> None:
-        addon = ManualResultAddon.create(component=self.component, run=False)
+        addon = ManualResultAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         run_addon_manually(addon.instance.pk)
 
@@ -685,7 +743,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(activity.status, AddonActivityLog.Status.PENDING)
 
     def test_no_log_event_does_not_create_activity(self) -> None:
-        addon = NoOpAddon.create(component=self.component, run=False).instance
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
         unit = self.get_unit()
 
         handle_addon_event(
@@ -699,7 +759,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertFalse(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_add_form(self) -> None:
-        form = NoOpAddon.get_add_form(None, component=self.component, data={})
+        form = NoOpAddon.get_add_form(self.user, component=self.component, data={})
         assert form is not None
         self.assertTrue(form.is_valid())
         form.save()
@@ -710,7 +770,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
     def test_add_form_category_addon(self) -> None:
         category = self.create_category(self.project)
-        form = NoOpAddon.get_add_form(None, category=category, data={})
+        form = NoOpAddon.get_add_form(self.user, category=category, data={})
         assert form is not None
         self.assertTrue(form.is_valid())
         form.save()
@@ -720,7 +780,9 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
     def test_add_form_project_addon(self) -> None:
-        form = NoOpAddon.get_add_form(None, project=self.component.project, data={})
+        form = NoOpAddon.get_add_form(
+            self.user, project=self.component.project, data={}
+        )
         assert form is not None
         self.assertTrue(form.is_valid())
         form.save()
@@ -730,7 +792,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
     def test_add_form_site_wide_addon(self) -> None:
-        form = NoOpAddon.get_add_form(None, data={})
+        form = NoOpAddon.get_add_form(self.user, data={})
         assert form is not None
         self.assertTrue(form.is_valid())
         form.save()
@@ -1135,13 +1197,17 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         return self.create_po_new_base(new_lang="add")
 
     def test_registry(self) -> None:
-        GenerateMoAddon.create(component=self.component)
+        GenerateMoAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon = self.component.addon_set.all()[0]
         self.assertIsInstance(addon.addon, GenerateMoAddon)
 
     def test_commit(self) -> None:
-        GenerateMoAddon.create(component=self.component)
-        NoOpAddon.create(component=self.component)
+        GenerateMoAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        NoOpAddon.create(acting_user=get_test_actor(self), component=self.component)
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
@@ -1150,9 +1216,13 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertIn("po/cs.mo", commit)
 
     def test_add(self) -> None:
-        UpdateLinguasAddon.create(component=self.component)
-        UpdateConfigureAddon.create(component=self.component)
-        NoOpAddon.create(component=self.component)
+        UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        UpdateConfigureAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        NoOpAddon.create(acting_user=get_test_actor(self), component=self.component)
         rev = self.component.repository.last_revision
         self.component.add_new_language(Language.objects.get(code="sk"), None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -1161,9 +1231,13 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertIn("configure", commit)
 
     def test_remove(self) -> None:
-        UpdateLinguasAddon.create(component=self.component)
-        UpdateConfigureAddon.create(component=self.component)
-        NoOpAddon.create(component=self.component)
+        UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        UpdateConfigureAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        NoOpAddon.create(acting_user=get_test_actor(self), component=self.component)
         translation = self.component.translation_set.get(language_code="cs")
         rev = self.component.repository.last_revision
         translation.remove(self.user)
@@ -1174,8 +1248,8 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
     def test_update(self) -> None:
         rev = self.component.repository.last_revision
-        MsgmergeAddon.create(component=self.component)
-        NoOpAddon.create(component=self.component)
+        MsgmergeAddon.create(acting_user=get_test_actor(self), component=self.component)
+        NoOpAddon.create(acting_user=get_test_actor(self), component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         self.component.trigger_post_update(
@@ -1189,7 +1263,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
     def test_update_passes_changed_files(self) -> None:
         changed_files = ["po/cs.po"]
-        MsgmergeAddon.create(component=self.component)
+        MsgmergeAddon.create(acting_user=get_test_actor(self), component=self.component)
 
         with (
             patch.object(
@@ -1213,7 +1287,9 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
     def test_crash(self) -> None:
         self.assertEqual([], self.component.addons_cache.names)
 
-        addon = CrashAddon.create(component=self.component)
+        addon = CrashAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertEqual(["weblate.base.crash"], self.component.addons_cache.names)
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
@@ -1229,9 +1305,13 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
         self.assertEqual([], self.component.addons_cache.names)
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
+        change = self.component.change_set.get(action=ActionEvents.ADDON_REMOVE)
+        self.assertEqual(change.user, self.component.get_update_user(None))
 
     def test_process_error(self) -> None:
-        addon = NoOpAddon.create(component=self.component)
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon.execute_process(self.component, ["false"])
         self.assertEqual(len(addon.alerts), 1)
 
@@ -1242,6 +1322,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_alerts_include_addon_id(self) -> None:
         addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             run=False,
         )
@@ -1264,7 +1345,9 @@ class GettextAddonTest(ReusableViewTestCase):
     def test_gettext_mo(self) -> None:
         translation = self.get_translation()
         self.assertTrue(GenerateMoAddon.can_install(component=translation.component))
-        addon = GenerateMoAddon.create(component=translation.component)
+        addon = GenerateMoAddon.create(
+            acting_user=get_test_actor(self), component=translation.component
+        )
         addon.pre_commit(translation, "", True)
         self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
@@ -1280,6 +1363,7 @@ class GettextAddonTest(ReusableViewTestCase):
         self.addCleanup(shutil.rmtree, outside_dir, True)
         output.symlink_to(outside_target)
         addon = GenerateMoAddon.create(
+            acting_user=get_test_actor(self),
             component=translation.component,
             run=False,
             configuration={"path": "po/broken.mo"},
@@ -1304,7 +1388,9 @@ class GettextAddonTest(ReusableViewTestCase):
     def test_update_linguas(self) -> None:
         translation = self.get_translation()
         self.assertTrue(UpdateLinguasAddon.can_install(component=translation.component))
-        addon = UpdateLinguasAddon.create(component=translation.component)
+        addon = UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=translation.component
+        )
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs\n", commit)
@@ -1315,7 +1401,7 @@ class GettextAddonTest(ReusableViewTestCase):
             "po", "po-duplicates/*.dpo", name="Other", project=self.project
         )
         self.assertTrue(UpdateLinguasAddon.can_install(component=other))
-        UpdateLinguasAddon.create(component=other)
+        UpdateLinguasAddon.create(acting_user=get_test_actor(self), component=other)
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
@@ -1330,7 +1416,9 @@ class GettextAddonTest(ReusableViewTestCase):
         self.component.save(update_fields=["new_base"])
 
         self.assertTrue(UpdateLinguasAddon.can_install(component=self.component))
-        addon = UpdateLinguasAddon.create(component=self.component)
+        addon = UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/LINGUAS", commit)
         self.assertIn("\n+cs\n", commit)
@@ -1340,7 +1428,9 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_update_linguas_rejects_symlink(self) -> None:
         translation = self.get_translation()
-        addon = UpdateLinguasAddon.create(component=translation.component)
+        addon = UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=translation.component
+        )
 
         with tempfile.NamedTemporaryFile(
             delete=False, mode="w", encoding="utf-8"
@@ -1364,7 +1454,9 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_update_linguas_invalid_new_base_uses_po_path(self) -> None:
         translation = self.get_translation()
-        addon = UpdateLinguasAddon.create(component=self.component)
+        addon = UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
 
         with tempfile.NamedTemporaryFile(delete=False) as handle:
             handle.write(b"outside repository")
@@ -1385,7 +1477,9 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_update_linguas_post_add_propagates_validation_error(self) -> None:
         translation = self.get_translation()
-        addon = UpdateLinguasAddon.create(component=translation.component)
+        addon = UpdateLinguasAddon.create(
+            acting_user=get_test_actor(self), component=translation.component
+        )
 
         with (
             patch.object(
@@ -1440,7 +1534,9 @@ class GettextAddonTest(ReusableViewTestCase):
         self.assertTrue(
             UpdateConfigureAddon.can_install(component=translation.component)
         )
-        addon = UpdateConfigureAddon.create(component=translation.component)
+        addon = UpdateConfigureAddon.create(
+            acting_user=get_test_actor(self), component=translation.component
+        )
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
 
@@ -1736,6 +1832,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_settings_form_hides_install_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -1755,6 +1852,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_settings_form_ignores_posted_install_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -1784,6 +1882,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_settings_form_roundtrips_source_patterns(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -1806,6 +1905,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_settings_form_roundtrips_potfiles_path(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -1827,6 +1927,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_settings_form_roundtrips_parameters(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2168,6 +2269,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2218,6 +2320,7 @@ class GettextAddonTest(ReusableViewTestCase):
                     'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
                 )
                 addon = XgettextAddon.create(
+                    acting_user=get_test_actor(self),
                     component=self.component,
                     run=False,
                     configuration=configuration,
@@ -2251,6 +2354,7 @@ class GettextAddonTest(ReusableViewTestCase):
         manifest.parent.mkdir(parents=True, exist_ok=True)
         manifest.write_text("src/messages.py\n", encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2282,6 +2386,7 @@ class GettextAddonTest(ReusableViewTestCase):
             "src/skip.py\n", encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2302,6 +2407,7 @@ class GettextAddonTest(ReusableViewTestCase):
         manifest = Path(self.component.full_path) / "po"
         manifest.mkdir(parents=True, exist_ok=True)
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2330,6 +2436,7 @@ class GettextAddonTest(ReusableViewTestCase):
         manifest = Path(self.component.full_path) / "po"
         manifest.mkdir(parents=True, exist_ok=True)
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2362,6 +2469,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2390,6 +2498,7 @@ class GettextAddonTest(ReusableViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
         ):
             XgettextAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 configuration={
                     "interval": "weekly",
@@ -2408,7 +2517,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         form = XgettextAddon.get_add_form(
-            None,
+            self.user,
             component=self.component,
             data={
                 "interval": "weekly",
@@ -2438,6 +2547,7 @@ class GettextAddonTest(ReusableViewTestCase):
         self.component.file_format_params = params
         self.component.save(update_fields=["file_format_params"])
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2469,6 +2579,7 @@ class GettextAddonTest(ReusableViewTestCase):
         self.component.file_format_params = params
         self.component.save(update_fields=["file_format_params"])
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2496,6 +2607,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2523,6 +2635,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2555,6 +2668,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2587,6 +2701,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2620,6 +2735,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('tr("Hello");\n', encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2653,6 +2769,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('tr("Hello");\n', encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2684,6 +2801,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.write_text('tr("Hello")\n', encoding="utf-8")
         # Simulate old configuration where keyword was stored as a string
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2711,6 +2829,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
         # Simulate old configuration with newline-separated keywords
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2742,6 +2861,7 @@ class GettextAddonTest(ReusableViewTestCase):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('_("Hello")\n', encoding="utf-8")
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2779,6 +2899,7 @@ class GettextAddonTest(ReusableViewTestCase):
         (gettext_dir / "meson.build").write_text("", encoding="utf-8")
         (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
         addon = MesonAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2817,6 +2938,7 @@ class GettextAddonTest(ReusableViewTestCase):
         (gettext_dir / "meson.build").write_text("", encoding="utf-8")
         (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
         addon = MesonAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2857,6 +2979,7 @@ class GettextAddonTest(ReusableViewTestCase):
         (gettext_dir / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
         (gettext_dir / "POTFILES.in").write_text("src/other.c\n", encoding="utf-8")
         addon = MesonAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2884,6 +3007,7 @@ class GettextAddonTest(ReusableViewTestCase):
         (gettext_dir / "meson.build").write_text("", encoding="utf-8")
         (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
         addon = MesonAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2924,6 +3048,7 @@ class GettextAddonTest(ReusableViewTestCase):
         )
         (gettext_dir / "POTFILES.skip").write_text("src/skip.c\n", encoding="utf-8")
         addon = MesonAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2937,6 +3062,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_skip_without_relevant_change(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2969,6 +3095,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_potfiles_change_detection_tracks_manifest(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3002,6 +3129,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_potfiles_change_detection_tracks_manifest_entries(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3035,6 +3163,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_potfiles_change_detection_tracks_skip_manifest(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3072,6 +3201,7 @@ class GettextAddonTest(ReusableViewTestCase):
             self.skipTest("symlinks are not supported")
 
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3103,6 +3233,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_weekly_schedule(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3124,6 +3255,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_monthly_schedule(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3147,6 +3279,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_post_configure_bypasses_schedule(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3173,6 +3306,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_manual_bypasses_schedule(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3200,6 +3334,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_manual_commits_pending_changes(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3222,6 +3357,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_commit_parses_without_followup_parse(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3250,6 +3386,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_commit_uses_followup_parse(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3287,6 +3424,7 @@ class GettextAddonTest(ReusableViewTestCase):
             encoding="utf-8",
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3322,6 +3460,7 @@ class GettextAddonTest(ReusableViewTestCase):
             encoding="utf-8",
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3351,6 +3490,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_manual_does_not_parse_without_commit(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3371,6 +3511,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3400,6 +3541,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_falls_back_to_full_run_on_missing_last_revision(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3430,6 +3572,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_change_detection_uses_same_glob_semantics(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3460,6 +3603,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3495,6 +3639,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3531,6 +3676,7 @@ class GettextAddonTest(ReusableViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3566,6 +3712,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_xgettext_configuration_change_is_relevant(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3599,6 +3746,7 @@ class GettextAddonTest(ReusableViewTestCase):
             slug="project-scoped",
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             run=False,
             configuration={
@@ -3622,6 +3770,7 @@ class GettextAddonTest(ReusableViewTestCase):
             slug="project-scoped-merge",
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             run=False,
             configuration={
@@ -3648,6 +3797,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_commit_not_blocked_by_alerts(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -3681,6 +3831,7 @@ class GettextAddonTest(ReusableViewTestCase):
         self, expect_report_bugs_to: bool = True
     ) -> None:
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": True},
@@ -3723,6 +3874,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_normalize_header_uses_component_url_for_bugs(self) -> None:
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": True},
@@ -3752,6 +3904,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_normalize_header_is_idempotent(self) -> None:
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": True},
@@ -3775,6 +3928,7 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_extract_pot_normalize_header_removes_blank_copyright(self) -> None:
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": True},
@@ -3805,6 +3959,7 @@ msgstr ""
     def test_django_command(self) -> None:
         self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -3843,6 +3998,7 @@ msgstr ""
         self.component.new_base = "locale/en/LC_MESSAGES/django.po"
         self.component.language_regex = "^(?!en$).+$"
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -3876,6 +4032,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "weblate"
         source_dir.mkdir(parents=True, exist_ok=True)
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -3907,6 +4064,7 @@ msgstr ""
         conf_dir = Path(self.component.full_path) / "conf"
         conf_dir.mkdir(parents=True, exist_ok=True)
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -3940,6 +4098,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "django"
         source_dir.mkdir(parents=True, exist_ok=True)
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -3973,6 +4132,7 @@ msgstr ""
         self.component.file_format_params = params
         self.component.save(update_fields=["file_format_params"])
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4005,6 +4165,7 @@ msgstr ""
         self.component.file_format_params = params
         self.component.save(update_fields=["file_format_params"])
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4036,6 +4197,7 @@ msgstr ""
     def test_django_can_omit_pot_locations(self) -> None:
         self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4067,6 +4229,7 @@ msgstr ""
     def test_sphinx_scopes_to_repo_root_locales(self) -> None:
         self.component.new_base = "locales/docs.pot"
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4196,6 +4359,7 @@ msgstr ""
         ) = self.prepare_django_extraction_fixture()
 
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4236,6 +4400,7 @@ msgstr ""
         source_dir.mkdir(parents=True, exist_ok=True)
         (source_dir / "index.rst").write_text("Heading\n=======\n", encoding="utf-8")
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4289,6 +4454,7 @@ msgstr ""
         template = source_dir / "locales" / "docs.pot"
         template.parent.mkdir(parents=True, exist_ok=True)
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4339,6 +4505,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "docs"
         source_dir.mkdir(parents=True, exist_ok=True)
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4375,6 +4542,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "docs"
         source_dir.mkdir(parents=True, exist_ok=True)
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4403,6 +4571,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "docs"
         source_dir.mkdir(parents=True, exist_ok=True)
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4438,6 +4607,7 @@ msgstr ""
         source_dir = Path(self.component.full_path) / "docs"
         source_dir.parent.mkdir(parents=True, exist_ok=True)
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4488,6 +4658,7 @@ msgstr ""
         )
 
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4531,6 +4702,7 @@ msgstr ""
         )
 
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4549,6 +4721,7 @@ msgstr ""
         self,
     ) -> None:
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4651,6 +4824,7 @@ msgstr ""
         )
 
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4688,6 +4862,7 @@ msgstr ""
             encoding="utf-8",
         )
         addon = SphinxAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4713,6 +4888,7 @@ msgstr ""
 
         self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={"interval": "weekly", "normalize_header": False},
@@ -4739,6 +4915,7 @@ msgstr ""
 
     def test_extract_pot_installs_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4765,6 +4942,7 @@ msgstr ""
 
     def test_extract_pot_post_configure_triggers_newly_installed_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4789,6 +4967,11 @@ msgstr ""
             addon.post_configure_run()
 
         mocked.assert_called_once()
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE,
+            target=MsgmergeAddon.name,
+        )
+        self.assertEqual(change.user, get_test_actor(self))
 
     def test_extract_pot_installs_msgmerge_for_project_scope(self) -> None:
         self.create_po_new_base(
@@ -4797,6 +4980,7 @@ msgstr ""
             slug="project-scoped-msgmerge",
         )
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             run=False,
             configuration={
@@ -4822,9 +5006,12 @@ msgstr ""
         self.assertNotIn("_install_msgmerge", addon.instance.configuration)
 
     def test_extract_pot_reuses_inherited_msgmerge_on_install(self) -> None:
-        MsgmergeAddon.create(project=self.component.project, run=False)
+        MsgmergeAddon.create(
+            acting_user=get_test_actor(self), project=self.component.project, run=False
+        )
         self.component.drop_addons_cache()
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4846,6 +5033,7 @@ msgstr ""
 
     def test_extract_pot_warns_without_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4872,6 +5060,7 @@ msgstr ""
 
     def test_extract_pot_runtime_uses_existing_msgmerge_even_if_disabled(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4881,7 +5070,9 @@ msgstr ""
                 "source_patterns": ["src/*.py"],
             },
         )
-        msgmerge = MsgmergeAddon.create(component=self.component, run=False)
+        msgmerge = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text(
@@ -4902,6 +5093,7 @@ msgstr ""
 
     def test_extract_pot_forces_msgmerge_after_local_template_update(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4911,7 +5103,9 @@ msgstr ""
                 "source_patterns": ["src/*.py"],
             },
         )
-        msgmerge = MsgmergeAddon.create(component=self.component, run=False)
+        msgmerge = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text(
@@ -4937,6 +5131,7 @@ msgstr ""
 
     def test_extract_pot_uses_project_level_msgmerge(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4946,7 +5141,9 @@ msgstr ""
                 "source_patterns": ["src/*.py"],
             },
         )
-        msgmerge = MsgmergeAddon.create(project=self.component.project, run=False)
+        msgmerge = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), project=self.component.project, run=False
+        )
         self.component.drop_addons_cache()
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -4968,6 +5165,7 @@ msgstr ""
 
     def test_extract_pot_msgmerge_imports_changed_source(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -4976,7 +5174,9 @@ msgstr ""
                 "source_patterns": ["src/*.py"],
             },
         )
-        MsgmergeAddon.create(component=self.component, run=False)
+        MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text(
@@ -5013,6 +5213,7 @@ msgstr ""
 
     def test_extract_pot_timeout(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5037,6 +5238,7 @@ msgstr ""
 
     def test_extract_pot_uses_runtime_interpreter_path_for_commands(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5087,6 +5289,7 @@ msgstr ""
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))
         with self.captureOnCommitCallbacks(execute=True):
             GenerateFileAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 configuration={
                     "filename": "stats/{{ language_code }}.json",
@@ -5112,6 +5315,7 @@ msgstr ""
 
     def test_generate_translation_scope_skips_component_events(self) -> None:
         addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5145,6 +5349,7 @@ msgstr ""
     def test_generate_component(self) -> None:
         with self.captureOnCommitCallbacks(execute=True):
             addon = GenerateFileAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 configuration={
                     "scope": "component",
@@ -5200,6 +5405,7 @@ msgstr ""
 
     def test_generate_component_python(self) -> None:
         GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "scope": "component",
@@ -5215,6 +5421,7 @@ msgstr ""
 
     def test_generate_component_reconfigure(self) -> None:
         addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "scope": "component",
@@ -5232,6 +5439,7 @@ msgstr ""
 
     def test_generate_component_metadata_refresh(self) -> None:
         addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "scope": "component",
@@ -5262,6 +5470,7 @@ msgstr ""
         output.parent.mkdir(parents=True)
         output.symlink_to(outside_target)
         addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5299,6 +5508,7 @@ msgstr ""
         output.parent.mkdir(parents=True)
         output.symlink_to(outside_target)
         addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5327,6 +5537,7 @@ msgstr ""
     def test_pseudolocale(self) -> None:
         self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
         PseudolocaleAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "source": self.component.translation_set.get(language_code="en").pk,
@@ -5346,6 +5557,7 @@ msgstr ""
     def test_pseudolocale_variable(self) -> None:
         self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
         PseudolocaleAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "source": self.component.translation_set.get(language_code="en").pk,
@@ -5366,13 +5578,14 @@ msgstr ""
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
         for addon in self.component.addon_set.all():
+            addon.acting_user = get_test_actor(self)
             addon.delete()
         translation = self.component.translation_set.get(language_code="de")
         self.assertEqual(translation.check_flags, "")
 
     def test_prefill(self) -> None:
         self.assertTrue(PrefillAddon.can_install(component=self.component))
-        PrefillAddon.create(component=self.component)
+        PrefillAddon.create(acting_user=get_test_actor(self), component=self.component)
         for translation in self.component.translation_set.prefetch():
             self.assertEqual(translation.stats.nottranslated, 0)
             for unit in translation.unit_set.all():
@@ -5384,7 +5597,9 @@ msgstr ""
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
         with self.captureOnCommitCallbacks(execute=True):
-            addon = FillReadOnlyAddon.create(component=self.component)
+            addon = FillReadOnlyAddon.create(
+                acting_user=get_test_actor(self), component=self.component
+            )
         for translation in self.component.translation_set.prefetch():
             if translation.is_source:
                 continue
@@ -5411,7 +5626,9 @@ msgstr ""
 
     def test_read_only_daily_reuses_prefetched_units(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
-        addon = FillReadOnlyAddon.create(component=self.component)
+        addon = FillReadOnlyAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         unit = self.get_unit().source_unit
         unit.extra_flags = "read-only"
         unit.save(same_content=True, update_fields=["extra_flags"])
@@ -5434,6 +5651,7 @@ class GenerateComponentTransactionTest(RepoTestMixin, TransactionTestCase):
     def test_generate_component_repository_update(self) -> None:
         component = self.create_component()
         GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
             component=component,
             configuration={
                 "scope": "component",
@@ -5459,7 +5677,9 @@ class AppStoreAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5476,7 +5696,9 @@ class AndroidAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5494,7 +5716,9 @@ class WindowsRCAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5512,7 +5736,9 @@ class IntermediateAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5531,7 +5757,9 @@ class ResxAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         # Unshallow the local repo
         with self.component.repository.lock:
             self.component.repository.execute(
@@ -5547,7 +5775,9 @@ class ResxAddonTest(ComponentTestCase):
 
     def test_update(self) -> None:
         self.assertTrue(ResxUpdateAddon.can_install(component=self.component))
-        addon = ResxUpdateAddon.create(component=self.component)
+        addon = ResxUpdateAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         rev = self.component.repository.last_revision
         # Unshallow the local repo
         with self.component.repository.lock:
@@ -5570,7 +5800,9 @@ class CSVAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
@@ -5581,7 +5813,9 @@ class CSVAddonTest(ComponentTestCase):
     def test_remove_blank(self) -> None:
         self.assertTrue(RemoveBlankAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = RemoveBlankAddon.create(component=self.component)
+        addon = RemoveBlankAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
@@ -5590,7 +5824,9 @@ class CSVAddonTest(ComponentTestCase):
         self.assertIn("csv-mono/cs.csv", commit)
 
     def test_remove_blank_post_commit_parse_error(self) -> None:
-        addon = RemoveBlankAddon.create(component=self.component, run=False)
+        addon = RemoveBlankAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         with patch.object(
             RemoveBlankAddon,
@@ -5617,7 +5853,9 @@ class JsonAddonTest(ComponentTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5628,7 +5866,9 @@ class JsonAddonTest(ComponentTestCase):
     def test_remove_blank(self) -> None:
         self.assertTrue(RemoveBlankAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
-        addon = RemoveBlankAddon.create(component=self.component)
+        addon = RemoveBlankAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -5640,9 +5880,13 @@ class JsonAddonTest(ComponentTestCase):
         self.assertTrue(SourceEditAddon.can_install(component=self.component))
         self.assertTrue(TargetEditAddon.can_install(component=self.component))
         self.assertTrue(SameEditAddon.can_install(component=self.component))
-        SourceEditAddon.create(component=self.component)
-        TargetEditAddon.create(component=self.component)
-        SameEditAddon.create(component=self.component)
+        SourceEditAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        TargetEditAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
+        SameEditAddon.create(acting_user=get_test_actor(self), component=self.component)
 
         Unit.objects.filter(translation__language__code="cs").delete()
         self.component.create_translations_immediate(force=True)
@@ -5772,6 +6016,7 @@ class ViewTests(ViewTestCase):
 
     def test_manual_run_button(self) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5794,7 +6039,9 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Uninstall")
 
     def test_non_daily_addon_has_no_manual_run_button(self) -> None:
-        MsgmergeAddon.create(component=self.component, run=False)
+        MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         addon = self.component.addon_set.get()
         response = self.client.get(addon.get_absolute_url())
@@ -5804,6 +6051,7 @@ class ViewTests(ViewTestCase):
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
     def test_manual_run(self, mocked_delay: Mock) -> None:
         addon = XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -5897,7 +6145,9 @@ class ViewTests(ViewTestCase):
         self.assertEqual(change.user, self.user)
 
     def test_no_settings_detail_shows_description(self) -> None:
-        addon = MsgmergeAddon.create(component=self.component, run=False).instance
+        addon = MsgmergeAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
 
         response = self.client.get(addon.get_absolute_url())
 
@@ -5965,6 +6215,7 @@ class ViewTests(ViewTestCase):
         self.component.category = category
         self.component.save()
         addon_component = self.project.component_set.exclude(pk=self.component.pk).get()
+        addon_component.acting_user = self.user
         addon_component.category = category
         addon_component.save()
         self.assert_language_consistency_confirmation(
@@ -6099,7 +6350,9 @@ class ViewTests(ViewTestCase):
         self.assertRedirects(response, addon.get_absolute_url())
 
     def test_delete(self) -> None:
-        addon = SourceEditAddon.create(component=self.component)
+        addon = SourceEditAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         response = self.client.post(
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
         )
@@ -6116,6 +6369,7 @@ class AddonPreviewTests(ReusableViewTestCase):
 
     def test_preview_without_manual_trigger(self) -> None:
         addon = PreviewAddon.create(
+            acting_user=self.user,
             component=self.component,
             configuration={"workflow": {"saved": True}},
             run=False,
@@ -6149,7 +6403,10 @@ class AddonPreviewTests(ReusableViewTestCase):
 
     def test_preview_validation_errors(self) -> None:
         addon = PreviewAddon.create(
-            component=self.component, configuration={"workflow": {}}, run=False
+            acting_user=self.user,
+            component=self.component,
+            configuration={"workflow": {}},
+            run=False,
         ).instance
         with patch.object(PreviewAddon, "preview") as preview:
             response = self.client.post(
@@ -6165,7 +6422,10 @@ class AddonPreviewTests(ReusableViewTestCase):
     ) -> None:
         with patch.object(PreviewAddon, "events", {AddonEvent.EVENT_MANUAL}):
             addon = PreviewAddon.create(
-                component=self.component, configuration={"workflow": {}}, run=False
+                acting_user=self.user,
+                component=self.component,
+                configuration={"workflow": {}},
+                run=False,
             ).instance
         response = self.client.get(addon.get_absolute_url())
         self.assertContains(response, 'name="preview"')
@@ -6186,7 +6446,10 @@ class AddonPreviewTests(ReusableViewTestCase):
 
     def test_preview_capability_remains_available_through_api(self) -> None:
         addon = PreviewAddon.create(
-            component=self.component, configuration={"workflow": {}}, run=False
+            acting_user=self.user,
+            component=self.component,
+            configuration={"workflow": {}},
+            run=False,
         ).instance
         client = APIClient()
         client.force_authenticate(self.user)
@@ -6202,7 +6465,10 @@ class AddonPreviewTests(ReusableViewTestCase):
 
     def test_preview_api_requires_explicit_positive_component(self) -> None:
         addon = PreviewAddon.create(
-            component=self.component, configuration={"workflow": {}}, run=False
+            acting_user=self.user,
+            component=self.component,
+            configuration={"workflow": {}},
+            run=False,
         ).instance
         client = APIClient()
         client.force_authenticate(self.user)
@@ -6227,7 +6493,10 @@ class AddonPreviewTests(ReusableViewTestCase):
 
     def test_preview_api_requires_explicit_workflow(self) -> None:
         addon = PreviewAddon.create(
-            component=self.component, configuration={"workflow": {}}, run=False
+            acting_user=self.user,
+            component=self.component,
+            configuration={"workflow": {}},
+            run=False,
         ).instance
         client = APIClient()
         client.force_authenticate(self.user)
@@ -6257,10 +6526,14 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.component.save(update_fields=["category"])
 
         manual_addon = ManualResultAddon.create(
-            project=self.project, run=False
+            acting_user=get_test_actor(self), project=self.project, run=False
         ).instance
-        category_addon = NoOpAddon.create(category=category, run=False).instance
-        sitewide_addon = NoOpAddon.create(run=False).instance
+        category_addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), category=category, run=False
+        ).instance
+        sitewide_addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), run=False
+        ).instance
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
 
@@ -6290,7 +6563,9 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.assertNotContains(response, "Configure")
 
     def test_inherited_addon_does_not_block_local_install(self) -> None:
-        NoOpAddon.create(project=self.project, run=False)
+        NoOpAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
 
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -6308,7 +6583,10 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
     def test_component_repo_scope_addon_keeps_repository_badge(self) -> None:
         GitSquashAddon.create(
-            component=self.component, run=False, configuration={"squash": "all"}
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={"squash": "all"},
         )
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
@@ -6318,7 +6596,10 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
     def test_repository_scope_addon_components_view(self) -> None:
         linked_component = self.create_link_existing(name="Linked", slug="linked")
         addon = GitSquashAddon.create(
-            component=self.component, run=False, configuration={"squash": "all"}
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={"squash": "all"},
         ).instance
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
@@ -6349,7 +6630,9 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
     def test_project_addon_components_view(self) -> None:
         self.create_ts(project=self.project, name="TS")
-        addon = NoOpAddon.create(project=self.project, run=False).instance
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        ).instance
 
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
 
@@ -6367,7 +6650,9 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.component.category = category
         self.component.save(update_fields=["category"])
         outside_component = self.create_ts(project=self.project, name="Outside")
-        addon = NoOpAddon.create(category=category, run=False).instance
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), category=category, run=False
+        ).instance
 
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
 
@@ -6379,7 +6664,9 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.assertNotIn(outside_component, components)
 
     def test_addon_components_view_shows_incompatible_components(self) -> None:
-        addon = Addon.objects.create(project=self.project, name=CrashAddon.name)
+        addon = create_test_addon(
+            acting_user=get_test_actor(self), project=self.project, name=CrashAddon.name
+        )
 
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
 
@@ -6387,7 +6674,9 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.assertContains(response, "Not compatible")
 
     def test_component_addon_components_view_not_available(self) -> None:
-        addon = NoOpAddon.create(component=self.component, run=False).instance
+        addon = NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
 
         detail_response = self.client.get(addon.get_absolute_url())
         self.assertNotContains(
@@ -6399,7 +6688,7 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_sitewide_addon_components_view_requires_management_access(self) -> None:
-        addon = NoOpAddon.create(run=False).instance
+        addon = NoOpAddon.create(acting_user=get_test_actor(self), run=False).instance
 
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
         self.assertEqual(response.status_code, 403)
@@ -6418,7 +6707,9 @@ class PropertiesAddonTest(ViewTestCase):
     def test_sort(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertTrue(PropertiesSortAddon.can_install(component=self.component))
-        PropertiesSortAddon.create(component=self.component)
+        PropertiesSortAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
@@ -6427,7 +6718,9 @@ class PropertiesAddonTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertTrue(PropertiesSortAddon.can_install(component=self.component))
         PropertiesSortAddon.create(
-            component=self.component, configuration={"case_sensitive": True}
+            acting_user=get_test_actor(self),
+            component=self.component,
+            configuration={"case_sensitive": True},
         )
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -6436,7 +6729,9 @@ class PropertiesAddonTest(ViewTestCase):
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(component=self.component))
         init_rev = self.component.repository.last_revision
-        addon = CleanupAddon.create(component=self.component)
+        addon = CleanupAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False, [])
@@ -6464,7 +6759,9 @@ class ResetAddonTest(ComponentTestCase):
         self.assertFalse(ResetAddon.can_install(component=other))
 
     def test_daily(self) -> None:
-        ResetAddon.create(component=self.component, run=False)
+        ResetAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
 
         with patch.object(Component, "do_reset", autospec=True) as mocked_reset:
             daily_addons(modulo=False)
@@ -6474,6 +6771,14 @@ class ResetAddonTest(ComponentTestCase):
 
 class CommandTest(ComponentTestCase):
     """Test for management commands."""
+
+    def test_install_requires_actor(self) -> None:
+        for options in ({}, {"user": "missing-actor"}):
+            with self.subTest(options=options), self.assertRaises(CommandError):
+                call_command(
+                    "install_addon", "--all", addon="weblate.gettext.mo", **options
+                )
+        self.assertFalse(Addon.objects.filter(component=self.component).exists())
 
     def test_list_addons(self) -> None:
         output = StringIO()
@@ -6502,6 +6807,7 @@ class CommandTest(ComponentTestCase):
             "weblate.flags.same_edit",
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Can not install on Test/Test", output.getvalue())
 
@@ -6514,6 +6820,7 @@ class CommandTest(ComponentTestCase):
             "weblate.gettext.msgmerge",
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
@@ -6526,6 +6833,7 @@ class CommandTest(ComponentTestCase):
             "weblate.gettext.mo",
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
@@ -6540,6 +6848,7 @@ class CommandTest(ComponentTestCase):
             '{"fuzzy":true}',
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
         # Test when component is None
@@ -6557,6 +6866,7 @@ class CommandTest(ComponentTestCase):
             '{"fuzzy":false}',
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Already installed on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
@@ -6572,10 +6882,18 @@ class CommandTest(ComponentTestCase):
             '{"fuzzy":false}',
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Successfully updated on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {"fuzzy": False})
+        self.assertFalse(
+            self.component.change_set.filter(
+                action__in=(ActionEvents.ADDON_CREATE, ActionEvents.ADDON_CHANGE)
+            )
+            .exclude(user=get_test_actor(self))
+            .exists()
+        )
 
     def test_install_addon_wrong(self) -> None:
         output = StringIO()
@@ -6587,6 +6905,7 @@ class CommandTest(ComponentTestCase):
                 "weblate.gettext.nonexisting",
                 "--configuration",
                 '{"width":77}',
+                user=get_test_actor(self).username,
             )
         with self.assertRaises(CommandError):
             call_command(
@@ -6596,6 +6915,7 @@ class CommandTest(ComponentTestCase):
                 "weblate.gettext.mo",
                 "--configuration",
                 "{",
+                user=get_test_actor(self).username,
             )
         with self.assertRaises(CommandError):
             call_command(
@@ -6606,6 +6926,7 @@ class CommandTest(ComponentTestCase):
                 "--configuration",
                 "{}",
                 stdout=output,
+                user=get_test_actor(self).username,
             )
         with self.assertRaises(CommandError):
             call_command(
@@ -6616,6 +6937,7 @@ class CommandTest(ComponentTestCase):
                 "--configuration",
                 '{"width":-65535}',
                 stderr=output,
+                user=get_test_actor(self).username,
             )
 
     def test_install_pseudolocale(self) -> None:
@@ -6634,6 +6956,7 @@ class CommandTest(ComponentTestCase):
             ),
             stdout=output,
             stderr=output,
+            user=get_test_actor(self).username,
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
@@ -6641,6 +6964,7 @@ class CommandTest(ComponentTestCase):
 class DiscoveryTest(ReusableViewTestCase):
     def test_limit_failure_is_reported(self) -> None:
         addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "file_format": "po",
@@ -6666,6 +6990,7 @@ class DiscoveryTest(ReusableViewTestCase):
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon = DiscoveryAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 configuration={
                     "file_format": "po",
@@ -6677,6 +7002,13 @@ class DiscoveryTest(ReusableViewTestCase):
                 },
             )
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
+        self.assertEqual(addon.user.username, "addon:discovery")
+        history = Change.objects.filter(
+            component__repo=link,
+            action__in=(ActionEvents.CREATE_COMPONENT, ActionEvents.ADDON_CREATE),
+        )
+        self.assertTrue(history.exists())
+        self.assertFalse(history.exclude(user=addon.user).exists())
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon.post_update(self.component, "", False, [])
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
@@ -7327,6 +7659,7 @@ class DiscoveryTest(ReusableViewTestCase):
         self.user.is_superuser = True
         self.user.save()
         addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "file_format": "po",
@@ -7429,7 +7762,9 @@ class ScriptsTest(TestAddonMixin, ComponentTestCase):
     def test_example_pre(self) -> None:
         self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
-        addon = ExamplePreAddon.create(component=self.component)
+        addon = ExamplePreAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         addon.pre_commit(translation, "", True)
         self.assertIn(
             os.path.join(
@@ -7596,7 +7931,9 @@ class LanguageConsistencyTest(ComponentTestCase):
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_consistency_post_add_not_skipped(self) -> None:
         """Project-level consistency addon must not be skipped on post_add."""
-        LanguageConsistencyAddon.create(project=self.project)
+        LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project
+        )
         translation = self.component.translation_set.get(language__code="cs")
 
         self.component.drop_addons_cache()
@@ -7615,7 +7952,9 @@ class LanguageConsistencyTest(ComponentTestCase):
     def test_consistency_daily_project_level(self) -> None:
         """Test consistency addon at project level runs once via daily_addons."""
         self.create_po(new_base="po/project.pot", project=self.project, name="Second")
-        LanguageConsistencyAddon.create(project=self.project)
+        LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project
+        )
 
         before = AddonActivityLog.objects.count()
         daily_addons(modulo=False)
@@ -7631,7 +7970,9 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.component.category = category
         self.component.save()
         self.create_po(new_base="po/project.pot", project=self.project, name="Second")
-        LanguageConsistencyAddon.create(category=category)
+        LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), category=category
+        )
 
         before = AddonActivityLog.objects.count()
         daily_addons(modulo=False)
@@ -7647,7 +7988,9 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.component.save()
 
         before = AddonActivityLog.objects.count()
-        LanguageConsistencyAddon.create(category=category)
+        LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), category=category
+        )
         after = AddonActivityLog.objects.count()
 
         self.assertEqual(after - before, 1)
@@ -7710,7 +8053,9 @@ class LanguageConsistencyTest(ComponentTestCase):
 
         # Install consistency addon at top_category level
         with self.captureOnCommitCallbacks(execute=True):
-            LanguageConsistencyAddon.create(category=top_category)
+            LanguageConsistencyAddon.create(
+                acting_user=get_test_actor(self), category=top_category
+            )
 
         # comp_nested should gain languages from comp_top (they share the category tree)
         nested_langs_after = set(
@@ -7776,7 +8121,9 @@ class LanguageConsistencyTest(ComponentTestCase):
         """Test sitewide consistency addon runs once per project."""
         project_b = self.create_project(name="Project B", slug="project-b")
         self.create_po(new_base="po/project.pot", project=project_b, name="Comp B")
-        LanguageConsistencyAddon.create()
+        LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self),
+        )
 
         before = AddonActivityLog.objects.count()
         daily_addons(modulo=False)
@@ -7798,7 +8145,9 @@ class LanguageConsistencyTest(ComponentTestCase):
 
         # Installation should make languages consistent
         with self.captureOnCommitCallbacks(execute=True):
-            addon = LanguageConsistencyAddon.create(project=self.project)
+            addon = LanguageConsistencyAddon.create(
+                acting_user=get_test_actor(self), project=self.project
+            )
         self.component.drop_addons_cache()
         self.assertEqual(Translation.objects.count(), 12)
 
@@ -7846,7 +8195,9 @@ class LanguageConsistencyTest(ComponentTestCase):
             project=self.component.project,
         )
 
-        addon = LanguageConsistencyAddon.create(project=self.project)
+        addon = LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project
+        )
         activity_log = AddonActivityLog.objects.create(
             addon=addon.instance,
             component=self.component,
@@ -7876,7 +8227,9 @@ class LanguageConsistencyTest(ComponentTestCase):
         )
 
     def test_language_consistency_failure_updates_activity_log(self) -> None:
-        addon = LanguageConsistencyAddon.create(project=self.project, run=False)
+        addon = LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
         activity_log = AddonActivityLog.objects.create(
             addon=addon.instance,
             event=AddonEvent.EVENT_DAILY,
@@ -7918,7 +8271,9 @@ class LanguageConsistencyTest(ComponentTestCase):
             new_base="ts/cs.ts",
             project=self.project,
         )
-        addon = LanguageConsistencyAddon.create(project=self.project, run=False)
+        addon = LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
         activity_log = AddonActivityLog.objects.create(
             addon=addon.instance,
             event=AddonEvent.EVENT_DAILY,
@@ -7951,7 +8306,9 @@ class LanguageConsistencyTest(ComponentTestCase):
             new_base="ts/cs.ts",
             project=self.project,
         )
-        addon = LanguageConsistencyAddon.create(project=self.project, run=False)
+        addon = LanguageConsistencyAddon.create(
+            acting_user=get_test_actor(self), project=self.project, run=False
+        )
         activity_log = AddonActivityLog.objects.create(
             addon=addon.instance,
             event=AddonEvent.EVENT_DAILY,
@@ -7988,7 +8345,9 @@ class GitSquashAddonTest(ViewTestCase):
             # in a different request so local caching does not apply
             self.component.drop_addons_cache()
         return GitSquashAddon.create(
-            component=component, configuration={"squash": mode}
+            acting_user=get_test_actor(self),
+            component=component,
+            configuration={"squash": mode},
         )
 
     def edit(self, *, repeated: bool = False) -> None:
@@ -8086,7 +8445,9 @@ class GitSquashAddonTest(ViewTestCase):
         self.test_squash("file", 2)
 
     def test_mo(self) -> None:
-        GenerateMoAddon.create(component=self.component)
+        GenerateMoAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         self.test_squash("file", 3)
 
     def test_author(self) -> None:
@@ -8135,6 +8496,7 @@ class GitSquashAddonTest(ViewTestCase):
     def test_commit_message(self) -> None:
         commit_message = "Squashed commit message"
         GitSquashAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={"squash": "all", "commit_message": commit_message},
         )
@@ -8147,6 +8509,7 @@ class GitSquashAddonTest(ViewTestCase):
 
     def test_append_trailers(self) -> None:
         GitSquashAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={"squash": "all", "append_trailers": True},
         )
@@ -8201,7 +8564,8 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
         migration = importlib.import_module(
             "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
         )
-        addon = Addon.objects.create(
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
             name=FedoraMessagingAddon.name,
             configuration={
                 "amqp_host": "broker.example",
@@ -8230,7 +8594,8 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
         migration = importlib.import_module(
             "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
         )
-        addon = Addon.objects.create(
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
             name=FedoraMessagingAddon.name,
             configuration={
                 "amqp_url": "amqp://broker.example/%2F",
@@ -8256,7 +8621,8 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
         migration = importlib.import_module(
             "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
         )
-        addon = Addon.objects.create(
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
             name=FedoraMessagingAddon.name,
             configuration={
                 "amqp_url": "amqp://broker.example/%2F?connection_attempts=4&retry_delay=6&heartbeat=30",
@@ -8282,7 +8648,9 @@ class AddonChangeDetailsMigrationTest(TestCase):
         self, *, action: ActionEvents, target: str, details: dict[str, object]
     ) -> Change:
         """Seed the metadata as it existed before origin tracking."""
-        change = Change.objects.create(action=action, target=target, details=details)
+        change = Change.objects.create(
+            user=get_test_actor(self), action=action, target=target, details=details
+        )
         Change.objects.filter(pk=change.pk).update(details=details)
         return change
 
@@ -8460,12 +8828,14 @@ class TestRemoval(ComponentTestCase):
             addon_component = self.component
         return (
             RemoveSuggestions.create(
+                acting_user=get_test_actor(self),
                 configuration={"age": 7},
                 component=addon_component,
                 project=addon_project,
                 category=addon_category,
             ),
             RemoveComments.create(
+                acting_user=get_test_actor(self),
                 configuration={"age": 7},
                 component=addon_component,
                 project=addon_project,
@@ -8673,6 +9043,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         ).unit_set.get(source=unit.source)
         source_unit.translate(self.user, "Ahoj svete!\n", STATE_TRANSLATED)
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             run=False,
             configuration={
@@ -8723,6 +9094,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -8747,7 +9119,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
-            user_id=None,
+            user_id=addon.user.id,
             activity_log_id=None,
             enforce_permissions=False,
         )
@@ -8756,6 +9128,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
     @override_settings(BACKGROUND_TASKS="never")
     def test_daily_disabled_is_skipped(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -8781,6 +9154,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             project=self.project,
         )
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             run=False,
             configuration={
@@ -8821,6 +9195,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_auto_passes_activity_log_id(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -8845,13 +9220,14 @@ class AutoTranslateAddonTest(ComponentTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
-            user_id=None,
+            user_id=addon.user.id,
             activity_log_id=123,
             enforce_permissions=False,
         )
 
     def test_auto_others_component_uses_addon_user(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -8883,6 +9259,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             run=False,
             configuration={
@@ -8922,6 +9299,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_auto_change_event_passes_fanout_task_count(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             run=False,
             configuration={
@@ -8957,6 +9335,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_render_activity_log_formats_task_result(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -8988,6 +9367,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_activity_log_keeps_repeated_task_results_structured(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -9041,6 +9421,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_activity_log_aggregates_fanout_status(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -9104,6 +9485,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
     def test_activity_log_aggregates_fanout_task_failure(self) -> None:
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -9157,6 +9539,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         component_2.allow_translation_propagation = False
         component_2.save()
         addon = AutoTranslateAddon.create(
+            acting_user=get_test_actor(self),
             project=self.project,
             configuration={
                 "component": None,
@@ -9340,9 +9723,12 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             )
         )
 
-        with patch(
-            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
-        ) as mocked:
+        with (
+            patch(
+                "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+            ) as mocked,
+            patch.object(AutoTranslateAddon, "get_task_user_id", return_value=42),
+        ):
             addon.trigger_autotranslate(
                 component=Component(pk=123, source_language_id=1)
             )
@@ -9355,7 +9741,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
-            user_id=None,
+            user_id=42,
             activity_log_id=None,
             enforce_permissions=False,
         )
@@ -9555,6 +9941,7 @@ class BulkEditAddonTest(ViewTestCase):
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(component=self.component))
         addon = BulkEditAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "q": "state:translated",
@@ -9567,10 +9954,18 @@ class BulkEditAddonTest(ViewTestCase):
         )
         addon.component_update(self.component)
         self.assertEqual(label.unit_set.count(), 1)
+        change = Change.objects.get(
+            action=ActionEvents.LABEL_ADD,
+            unit=Unit.objects.get(labels=label),
+            details__label=label.name,
+        )
+        self.assertEqual(change.user, addon.user)
+        self.assertEqual(change.author, addon.user)
 
     def test_translation_flags(self) -> None:
         unit = self.get_unit()
         addon = BulkEditAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             configuration={
                 "q": f"language:{unit.translation.language.code}",
@@ -9628,6 +10023,7 @@ class CDNJSAddonTest(ViewTestCase):
     ) -> CDNJSAddon:
         with self.captureOnCommitCallbacks(execute=True):
             return CDNJSAddon.create(
+                acting_user=get_test_actor(self),
                 component=component,
                 configuration=configuration,
                 run=run,
@@ -10180,7 +10576,9 @@ class CDNFilesAddonTest(ViewTestCase):
         self.make_manager()
         self.assertTrue(CDNFilesAddon.can_install(component=self.component))
 
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
 
         source = self.component.source_translation
         translation = self.get_translation()
@@ -10213,7 +10611,9 @@ class CDNFilesAddonTest(ViewTestCase):
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_configuration(self) -> None:
         self.make_manager()
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
 
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_files_url)
@@ -10221,7 +10621,9 @@ class CDNFilesAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_component_update_removes_stale_files(self) -> None:
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         stale_file = Path(addon.cdn_path("de.json"))
         stale_file.write_text("stale", encoding="utf-8")
 
@@ -10234,7 +10636,9 @@ class CDNFilesAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_post_update_refreshes_file_bytes(self) -> None:
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         translation = self.get_translation()
         filename = translation.get_filename()
         self.assertIsNotNone(filename)
@@ -10250,7 +10654,9 @@ class CDNFilesAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_normalizes_file_permissions(self) -> None:
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         translation = self.get_translation()
         filename = translation.get_filename()
         self.assertIsNotNone(filename)
@@ -10264,7 +10670,10 @@ class CDNFilesAddonTest(ViewTestCase):
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_refuses_weblate_js(self) -> None:
         addon = CDNFilesAddon.create(
-            component=self.component, configuration={}, run=False
+            acting_user=get_test_actor(self),
+            component=self.component,
+            configuration={},
+            run=False,
         )
 
         with (
@@ -10278,7 +10687,9 @@ class CDNFilesAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_remove_translation_removes_stale_file(self) -> None:
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
 
         self.translation.remove(self.user)
@@ -10294,7 +10705,9 @@ class CDNFilesBilingualAddonTest(ViewTestCase):
         self.make_manager()
         self.assertTrue(CDNFilesAddon.can_install(component=self.component))
 
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         translation = self.get_translation()
         translation_filename = translation.get_filename()
         self.assertIsNotNone(translation_filename)
@@ -10314,7 +10727,9 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn_files_multifile_preserves_relative_paths(self) -> None:
-        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
         translation = self.get_translation()
         self.assertFalse(self.component.file_format_cls.simple_filename)
 
@@ -10429,7 +10844,9 @@ class SiteWideAddonsTest(ViewTestCase):
         self.assertContains(response, logs_url)
 
     def test_gettext(self) -> None:
-        MsgmergeAddon.create()
+        MsgmergeAddon.create(
+            acting_user=get_test_actor(self),
+        )
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
         self.component.drop_addons_cache()
@@ -10491,7 +10908,9 @@ class TargetChangeAddonTest(ComponentTestCase):
 
     def test_fuzzy_string_from_repo(self) -> None:
         self.assertTrue(TargetRepoUpdateAddon.can_install(component=self.component))
-        TargetRepoUpdateAddon.create(component=self.component)
+        TargetRepoUpdateAddon.create(
+            acting_user=get_test_actor(self), component=self.component
+        )
         unit = self.update_unit_from_repo()
         self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
@@ -10734,7 +11153,9 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         exception: BaseException | None = None,
     ) -> None:
         """Install addon, edit unit and assert outgoing calls."""
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
         if exception is None:
             http_mock.register(
                 "POST",
@@ -10767,7 +11188,9 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.addon_configuration["events"].append(ActionEvents.PROPAGATED_EDIT)
 
         self.WEBHOOK_CLS.create(
-            configuration=self.addon_configuration, project=self.project
+            acting_user=self.user,
+            configuration=self.addon_configuration,
+            project=self.project,
         )
         self.component.drop_addons_cache()
         http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
@@ -10806,9 +11229,13 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
     def test_announcement(self) -> None:
         """Test project and site wide events."""
         self.addon_configuration["events"].append(ActionEvents.ANNOUNCEMENT)
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
         self.WEBHOOK_CLS.create(
-            configuration=self.addon_configuration, project=self.project
+            acting_user=self.user, configuration=self.addon_configuration
+        )
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user,
+            configuration=self.addon_configuration,
+            project=self.project,
         )
         http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
 
@@ -10837,8 +11264,12 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         config1 = self.addon_configuration.copy()
         config2 = self.addon_configuration.copy() | {"webhook_url": secondary_url}
 
-        self.WEBHOOK_CLS.create(configuration=config1, component=component1)
-        self.WEBHOOK_CLS.create(configuration=config2, component=component2)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=config1, component=component1
+        )
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=config2, component=component2
+        )
 
         resp1 = http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
         resp2 = http_mock.register("POST", secondary_url, status_code=200)
@@ -10881,8 +11312,12 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         config_a = self.addon_configuration.copy()
         config_b = self.addon_configuration.copy() | {"webhook_url": secondary_url}
 
-        self.WEBHOOK_CLS.create(configuration=config_a, project=project_a)
-        self.WEBHOOK_CLS.create(configuration=config_b, project=project_b)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=config_a, project=project_a
+        )
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=config_b, project=project_b
+        )
 
         resp_a = http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
         resp_b = http_mock.register("POST", secondary_url, status_code=200)
@@ -10921,7 +11356,9 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
             new_base="po/project.pot", project=project_b, name="Component B1"
         )
 
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
         http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
 
         translation_a1 = self.get_translation()
@@ -10968,6 +11405,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 with self.subTest(addon=addon_class.name, oversized=oversized):
                     http_mock.reset()
                     addon = addon_class.create(
+                        acting_user=self.user,
                         configuration={
                             "webhook_url": self.WEBHOOK_URL,
                             "events": [str(ActionEvents.NEW)],
@@ -11304,7 +11742,9 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.project.add_user(self.user, "Administration")
         self.addon_configuration["events"] = [ActionEvents.RENAME_COMPONENT]
         self.WEBHOOK_CLS.create(
-            configuration=self.addon_configuration, component=self.component
+            acting_user=self.user,
+            configuration=self.addon_configuration,
+            component=self.component,
         )
         parent_category = Category.objects.create(
             name="Parent Category", slug="parent-category", project=self.project
@@ -11347,7 +11787,9 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         return_value=[(0, 0, 0, "", ("127.0.0.1", 80))],
     )
     def test_private_webhook_target_is_blocked(self, mocked_getaddrinfo) -> None:
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
 
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -11642,10 +12084,11 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def test_change_event_applies_topic_prefix(self) -> None:
         self.WEBHOOK_CLS.create(
+            acting_user=self.user,
             configuration={
                 **self.addon_configuration,
                 "topic_prefix": ".org.fedoraproject.",
-            }
+            },
         )
 
         with (
@@ -11670,7 +12113,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         )
 
     def test_change_event_serializes_configuration_and_publish(self) -> None:
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
         locked = False
         lock = MagicMock()
 
@@ -11715,7 +12160,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         lock.__exit__.assert_called_once()
 
     def test_render_activity_log_formats_message_id(self) -> None:
-        addon = self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        addon = self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
         activity = AddonActivityLog(
             addon=addon.instance,
             details={"result": {"message_id": "77a2b12e-9f82-4411-aa83-249c984886fb"}},
@@ -12209,7 +12656,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         )
 
     def test_reported_publish_failure_is_not_reported_twice(self) -> None:
-        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            acting_user=self.user, configuration=self.addon_configuration
+        )
 
         with (
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),

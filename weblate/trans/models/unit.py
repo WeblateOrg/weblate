@@ -1657,6 +1657,7 @@ class Unit(models.Model, LoggerMixin):
         """Update Unit from ttkit unit."""
         translation = self.translation
         component = translation.component
+        user = user or component.get_update_user(None)
         self.is_batch_update = True
         self.trigger_update_variants = False
         self.source_updated = True
@@ -1887,6 +1888,7 @@ class Unit(models.Model, LoggerMixin):
             self.clear_disk_state()
         # Remove pending changes for existing units
         pending_author = author
+        pending_user = user
         if not created and not preserve_pending_target:
             pending_changes = PendingUnitChange.objects.filter(unit=self)
             if pending and pending_author is None:
@@ -1899,10 +1901,14 @@ class Unit(models.Model, LoggerMixin):
                 )
                 if replaced is not None:
                     pending_author = replaced.author
+                    if pending_user is None:
+                        pending_user = replaced.get_actor()
             pending_changes.delete()
 
         if pending:
-            PendingUnitChange.store_unit_change(unit=self, author=pending_author)
+            PendingUnitChange.store_unit_change(
+                unit=self, author=pending_author, user=pending_user
+            )
         # Track updated sources for source checks
         if translation.is_template:
             component.updated_sources.add(self.id)
@@ -2229,6 +2235,7 @@ class Unit(models.Model, LoggerMixin):
                 PendingUnitChange.store_unit_change(
                     unit=unit,
                     author=author,
+                    user=user,
                 )
 
                 to_update.append(unit)
@@ -2352,6 +2359,7 @@ class Unit(models.Model, LoggerMixin):
         self.pending_unit_change = PendingUnitChange.store_unit_change(
             unit=self,
             author=author,
+            user=user or author,
             save=not self.is_batch_update,
         )
         if self.is_batch_update:
@@ -2426,6 +2434,7 @@ class Unit(models.Model, LoggerMixin):
                         self.translation.detect_completed_translation,
                         change,
                         old_translated,
+                        user=user or author,
                     )
                 )
 
@@ -2443,6 +2452,7 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
+        user = user or self.translation.component.get_update_user(None)
         with start_span(op="unit.update_source_units", name=f"{self.pk}"):
             changes = []
             translation_parent_stats = {}
@@ -2457,6 +2467,7 @@ class Unit(models.Model, LoggerMixin):
                     previous_source,
                     author,
                     translation_delta_data,
+                    user=user,
                 ):
                     delta_failed = True
                 # Generate change
@@ -2506,7 +2517,12 @@ class Unit(models.Model, LoggerMixin):
                 transaction.on_commit(update_source_stats_on_commit)
 
     def update_source_unit_state(
-        self, unit, previous_source: str, author: User | None
+        self,
+        unit,
+        previous_source: str,
+        author: User | None,
+        *,
+        user: User | None = None,
     ) -> None:
         # Update source and number of words
         unit.source = self.target
@@ -2519,7 +2535,7 @@ class Unit(models.Model, LoggerMixin):
         ):
             # Unset fuzzy on reverted
             unit.original_state = unit.state = STATE_TRANSLATED
-            PendingUnitChange.store_unit_change(unit=unit, author=author)
+            PendingUnitChange.store_unit_change(unit=unit, author=author, user=user)
             unit.previous_source = ""
             return
         if (
@@ -2536,7 +2552,7 @@ class Unit(models.Model, LoggerMixin):
             unit.original_state = STATE_NEEDS_REWRITING
             if unit.state < STATE_READONLY:
                 unit.state = STATE_NEEDS_REWRITING
-                PendingUnitChange.store_unit_change(unit=unit, author=author)
+                PendingUnitChange.store_unit_change(unit=unit, author=author, user=user)
             unit.previous_source = previous_source
 
     def update_unit_from_source_change(
@@ -2545,13 +2561,15 @@ class Unit(models.Model, LoggerMixin):
         previous_source: str,
         author: User | None,
         translation_delta_data: dict[int, TranslationDeltaEntry],
+        *,
+        user: User | None = None,
     ) -> bool:
         stats = unit.translation.stats
         old_stats_snapshot = (
             stats.capture_unit_snapshot(unit) if stats.can_apply_delta() else None
         )
 
-        self.update_source_unit_state(unit, previous_source, author)
+        self.update_source_unit_state(unit, previous_source, author, user=user)
         with unit.translation.suppress_cache_invalidation():
             unit.save()
 
@@ -3062,7 +3080,9 @@ class Unit(models.Model, LoggerMixin):
                     msg = "Updating unit, but pending unit change is not set!"
                     raise ValueError(msg)
                 # Generate pending unit change otherwise
-                PendingUnitChange.store_unit_change(unit=self, author=author)
+                PendingUnitChange.store_unit_change(
+                    unit=self, author=author, user=user or author
+                )
                 # Indicate as saved
                 saved = True
 
@@ -3426,6 +3446,7 @@ class Unit(models.Model, LoggerMixin):
                 PendingUnitChange.store_unit_change(
                     unit=unit,
                     author=user,
+                    user=user,
                 )
 
             # translation file does not exist for source strings in bilingual formats
@@ -3436,6 +3457,7 @@ class Unit(models.Model, LoggerMixin):
                 PendingUnitChange.store_unit_change(
                     unit=self,
                     author=user,
+                    user=user,
                 )
 
         if save:

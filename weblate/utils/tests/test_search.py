@@ -17,6 +17,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
     SearchQueryError,
@@ -1041,13 +1042,19 @@ class SearchTest(ViewTestCase, SearchTestCase):
         other_user = User.objects.create(username="other-user")
 
         authorless_change = Change.objects.create(
-            unit=unit, action=ActionEvents.CHANGE, author=None
+            user=get_test_actor(self),
+            unit=unit,
+            action=ActionEvents.CHANGE,
+            author=None,
         )
         Change.objects.filter(pk=authorless_change.pk).update(
             timestamp=datetime(2025, 1, 1, 0, 0, tzinfo=UTC)
         )
         authored_change = Change.objects.create(
-            unit=unit, action=ActionEvents.CHANGE, author=other_user
+            user=get_test_actor(self),
+            unit=unit,
+            action=ActionEvents.CHANGE,
+            author=other_user,
         )
         Change.objects.filter(pk=authored_change.pk).update(
             timestamp=datetime(2026, 1, 1, 0, 0, tzinfo=UTC)
@@ -1061,7 +1068,10 @@ class SearchTest(ViewTestCase, SearchTestCase):
         self.assertFalse(self.search_matches_unit(grouped_query, unit))
 
         authorless_2026_change = Change.objects.create(
-            unit=unit, action=ActionEvents.CHANGE, author=None
+            user=get_test_actor(self),
+            unit=unit,
+            action=ActionEvents.CHANGE,
+            author=None,
         )
         Change.objects.filter(pk=authorless_2026_change.pk).update(
             timestamp=datetime(2026, 6, 1, 0, 0, tzinfo=UTC)

@@ -64,6 +64,8 @@ class InternalBotEmailTest(TestCase):
 
     def test_fixed_bot_identities(self) -> None:
         expected = (
+            (InternalBot.ALERTS, "weblate:alerts", "Automatic alerts"),
+            (InternalBot.BACKUP, "weblate:backup", "Automatic backups"),
             (InternalBot.COMMIT, "weblate:commit", "Background commit"),
             (InternalBot.UPDATE, "weblate:update", "Background update"),
             (InternalBot.PUSH, "weblate:push", "Background push"),

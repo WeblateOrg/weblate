@@ -6,9 +6,11 @@ from __future__ import annotations
 from time import sleep
 from typing import TYPE_CHECKING
 
+from django.core.management.base import CommandError
 from django.test.utils import override_settings
 
 from weblate.addons.discovery import DiscoveryAddon
+from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.trans.tasks import project_removal
 from weblate.utils.management.base import BaseCommand
@@ -25,6 +27,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
+            "--user", required=True, help="Username to record as the import actor"
+        )
+        parser.add_argument(
             "--additional", type=int, default=0, help="number of additional components"
         )
         parser.add_argument(
@@ -34,6 +39,14 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options) -> None:
+        try:
+            user = User.objects.get(username=options["user"])
+        except User.DoesNotExist as error:
+            msg = "User does not exist!"
+            raise CommandError(msg) from error
+        if user.is_anonymous:
+            msg = "An anonymous user cannot import projects."
+            raise CommandError(msg)
         with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
             if options["delete"]:
                 try:
@@ -42,14 +55,14 @@ class Command(BaseCommand):
                     pass
                 else:
                     # Remove without creating a backup
-                    project_removal.run(project.pk, None, backup=False)
+                    project_removal.run(project.pk, user.pk, backup=False)
             # Create project
             project = Project.objects.create(
                 name="Demo", slug="demo", web="https://demo.weblate.org/"
             )
 
             # Create main component
-            component = Component.objects.create(
+            component = Component(
                 name="Gettext",
                 slug="gettext",
                 project=project,
@@ -65,6 +78,8 @@ class Command(BaseCommand):
                 file_format="po",
                 license="GPL-3.0-or-later",
             )
+            component.acting_user = user
+            component.save()
             while component.in_progress():
                 self.stdout.write(
                     f"Importing base component: {component.get_progress()[0]}%"
@@ -74,6 +89,7 @@ class Command(BaseCommand):
 
             # Install discovery
             DiscoveryAddon.create(
+                acting_user=user,
                 component=component,
                 configuration={
                     "file_format": "po",
@@ -89,7 +105,7 @@ class Command(BaseCommand):
             )
 
             # Manually add Android
-            Component.objects.create(
+            android = Component(
                 name="Android",
                 slug="android",
                 project=project,
@@ -100,9 +116,11 @@ class Command(BaseCommand):
                 file_format="aresource",
                 license="GPL-3.0-or-later",
             )
+            android.acting_user = user
+            android.save()
 
             for i in range(options["additional"]):
-                Component.objects.create(
+                additional = Component(
                     name=f"Additional {i}",
                     slug=f"additional-{i}",
                     project=project,
@@ -113,3 +131,5 @@ class Command(BaseCommand):
                     file_format="po",
                     license="GPL-3.0-or-later",
                 )
+                additional.acting_user = user
+                additional.save()

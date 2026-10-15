@@ -29,6 +29,7 @@ from django.utils.translation import override as translation_override
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, get_anonymous
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryInstallation
@@ -50,6 +51,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
+from weblate.trans.tests.utils import create_test_addon, get_test_actor
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
     RepositoryDiagnosis,
@@ -559,7 +561,9 @@ class AlertTest(ReusableViewTestCase):
                 {},
             ):
                 with self.subTest(name=name, scope=scope):
-                    addon = Addon.objects.create(name=addon_name, **scope)
+                    addon = create_test_addon(
+                        acting_user=self.user, name=addon_name, **scope
+                    )
                     self.component.drop_addons_cache()
                     for identity in (
                         {},
@@ -597,8 +601,11 @@ class AlertTest(ReusableViewTestCase):
         )
         Component.objects.filter(pk=self.component.pk).update(linked_component=owner)
         self.component.refresh_from_db()
-        addon = Addon.objects.create(
-            name="weblate.gettext.msgmerge", component=owner, repo_scope=True
+        addon = create_test_addon(
+            acting_user=get_test_actor(self),
+            name="weblate.gettext.msgmerge",
+            component=owner,
+            repo_scope=True,
         )
         self.component.drop_addons_cache()
         self.component.add_alert(
@@ -628,7 +635,9 @@ class AlertTest(ReusableViewTestCase):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("management.addons"))
-        addon = Addon.objects.create(name="weblate.gettext.msgmerge")
+        addon = create_test_addon(
+            acting_user=get_test_actor(self), name="weblate.gettext.msgmerge"
+        )
         details = {
             "occurrences": [
                 {
@@ -1094,6 +1103,8 @@ class AlertTest(ReusableViewTestCase):
     def test_reopen_dismissed_alert_on_details_change(self) -> None:
         self.component.add_alert("BrokenProjectURL", error="first failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
+        created = self.component.change_set.get(action=ActionEvents.ALERT, alert=alert)
+        self.assertEqual(created.user, InternalBot.ALERTS.get_user())
         old_timestamp = timezone.now() - timedelta(days=30)
         self.component.alert_set.filter(pk=alert.pk).update(timestamp=old_timestamp)
         alert.refresh_from_db()
@@ -1107,6 +1118,10 @@ class AlertTest(ReusableViewTestCase):
         self.assertEqual(alert.dismissal_reason, "")
         self.assertEqual(alert.dismissal_fingerprint, "")
         self.assertGreater(alert.timestamp, old_timestamp)
+        reopened = self.component.change_set.get(
+            action=ActionEvents.ALERT_REOPENED, alert=alert
+        )
+        self.assertEqual(reopened.user, InternalBot.ALERTS.get_user())
         self.assertEqual(
             self.component.change_set.filter(
                 action=ActionEvents.ALERT_REOPENED, alert=alert
@@ -2029,6 +2044,7 @@ class ExtractPotAlertTest(ViewTestCase):
         )
         with self.captureOnCommitCallbacks(execute=True):
             XgettextAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 run=False,
                 configuration={
@@ -2051,6 +2067,7 @@ class ExtractPotAlertTest(ViewTestCase):
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
         XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2061,7 +2078,9 @@ class ExtractPotAlertTest(ViewTestCase):
             },
         )
         self.component.update_alerts()
-        MsgmergeAddon.create(project=self.component.project, run=False)
+        MsgmergeAddon.create(
+            acting_user=get_test_actor(self), project=self.component.project, run=False
+        )
         self.component.refresh_from_db()
 
         self.assertFalse(
@@ -2072,6 +2091,7 @@ class ExtractPotAlertTest(ViewTestCase):
         self,
     ) -> None:
         SphinxAddon.create(
+            acting_user=get_test_actor(self),
             project=self.component.project,
             run=False,
             configuration={
@@ -2095,6 +2115,7 @@ class ExtractPotAlertTest(ViewTestCase):
         )
         with self.captureOnCommitCallbacks(execute=True):
             XgettextAddon.create(
+                acting_user=get_test_actor(self),
                 component=self.component,
                 run=False,
                 configuration={
@@ -2115,6 +2136,7 @@ class ExtractPotAlertTest(ViewTestCase):
 
     def test_unrelated_addon_does_not_reopen_missing_msgmerge_alert(self) -> None:
         XgettextAddon.create(
+            acting_user=get_test_actor(self),
             component=self.component,
             run=False,
             configuration={
@@ -2128,7 +2150,8 @@ class ExtractPotAlertTest(ViewTestCase):
         alert = self.component.alert_set.get(name="ExtractPotMissingMsgmerge")
         self.assertTrue(alert.dismiss(self.user))
 
-        Addon.objects.create(
+        create_test_addon(
+            acting_user=get_test_actor(self),
             component=self.component,
             name="weblate.cleanup.generic",
         )

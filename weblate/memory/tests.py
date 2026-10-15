@@ -79,7 +79,7 @@ from weblate.trans.tasks import (
     delete_component_memory,
 )
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.tests.utils import create_another_user, get_test_file
+from weblate.trans.tests.utils import create_another_user, get_test_actor, get_test_file
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
@@ -1081,18 +1081,21 @@ class MemoryModelTest(FixtureTestCase):
         Component.objects.filter(pk=self.component.pk).update(category=category)
         self.component.refresh_from_db()
         Change.objects.create(
+            user=get_test_actor(self),
             project=self.project,
             action=ActionEvents.RENAME_PROJECT,
             old="old-cleanup-project",
             target=self.project.slug,
         )
         Change.objects.create(
+            user=get_test_actor(self),
             project=self.project,
             action=ActionEvents.RENAME_CATEGORY,
             old="old-cleanup-category",
             target=category.slug,
         )
         Change.objects.create(
+            user=get_test_actor(self),
             component=self.component,
             action=ActionEvents.RENAME_COMPONENT,
             old="old-cleanup-component",
@@ -1117,6 +1120,7 @@ class MemoryModelTest(FixtureTestCase):
             slug="old-cleanup-project",
         )
         Change.objects.create(
+            user=get_test_actor(self),
             component=self.component,
             action=ActionEvents.MOVE_COMPONENT,
             old=old_project.slug,
@@ -2450,6 +2454,7 @@ msgstr "Nazdar svete!\n"
         target_language = Language.objects.get(code="cs")
         old_slug = "old-project-slug"
         Change.objects.create(
+            user=get_test_actor(self),
             project=self.project,
             action=ActionEvents.RENAME_PROJECT,
             old=old_slug,

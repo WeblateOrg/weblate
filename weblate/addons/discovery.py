@@ -37,6 +37,8 @@ class DiscoveryAddon(BaseAddon):
     repo_scope = True
     needs_component = True
     trigger_update = True
+    user_name = "discovery"
+    user_verbose = "Component discovery add-on"
 
     def post_update(
         self,
@@ -72,5 +74,6 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration["filemask_template"] = ""
         return ComponentDiscovery(
             component,
+            user=self.user,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration),
         )

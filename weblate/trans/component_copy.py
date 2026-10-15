@@ -17,6 +17,7 @@ from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 if TYPE_CHECKING:
     from collections.abc import Collection
 
+    from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.vcs.git import GitRepository
 
@@ -76,6 +77,7 @@ def copy_component_addons(
     source_component: Component,
     *,
     same_project_only: bool,
+    acting_user: User | None,
 ) -> None:
     """Copy compatible component-scoped add-ons from the source component."""
     if same_project_only and component.project_id != source_component.project_id:
@@ -90,7 +92,11 @@ def copy_component_addons(
         ) or not addon.addon.api_available(component):
             continue
         try:
-            addon.addon.create(component=component, configuration=addon.configuration)
+            addon.addon.create(
+                component=component,
+                configuration=addon.configuration,
+                acting_user=acting_user,
+            )
         except ValidationError as error:
             component.log_warning("could not copy addon %s: %s", addon.name, error)
 
@@ -159,11 +165,12 @@ def auto_translate_component_copy(
     """Overlay current source translations on the copied checkout."""
     auto = BatchAutoTranslate(
         component,
-        user=None,
+        user=component.get_update_user(None),
         q="",
         mode="translate",
         component_wide=True,
         allow_non_shared_tm_source_components=True,
+        enforce_permissions=False,
     )
     try:
         auto.perform(
@@ -207,4 +214,9 @@ def seed_component_from_source(
 
 def clone_component_addons(component: Component, source_component: Component) -> None:
     """Clone component-scoped add-ons from the source component."""
-    copy_component_addons(component, source_component, same_project_only=True)
+    copy_component_addons(
+        component,
+        source_component,
+        same_project_only=True,
+        acting_user=component.acting_user,
+    )
