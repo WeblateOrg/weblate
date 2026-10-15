@@ -334,11 +334,6 @@ real_patterns = [
         name="label_delete",
     ),
     path(
-        "saved-searches/",
-        weblate.trans.views.saved_searches.user_saved_searches,
-        name="saved-searches",
-    ),
-    path(
         "saved-searches/create/",
         weblate.trans.views.saved_searches.saved_search_create,
         name="saved-search-create",

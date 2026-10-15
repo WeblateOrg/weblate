@@ -7,10 +7,14 @@
     <li class="breadcrumb-item">
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'project-saved-searches' project=project.slug %}">{% translate "Saved searches" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'profile' %}#searches">{% translate "Your profile" %}</a>
+    </li>
   {% endif %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'saved-searches' %}">{% translate "Saved searches" %}</a>
-  </li>
 {% endblock breadcrumbs %}
 
 {% block content %}

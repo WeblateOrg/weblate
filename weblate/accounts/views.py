@@ -578,6 +578,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
             "auditlog": user.auditlog_set.order()[:20],
+            "saved_searches": user.savedsearch_set.order(),
             "totp_keys": user.totpdevice_set.filter(confirmed=True),
             "webauthn_keys": user.webauthncredential_set.all(),
             "recovery_keys_count": StaticToken.objects.filter(

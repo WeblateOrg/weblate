@@ -51,6 +51,16 @@
          href="#">{% translate "Preferences" %}</a>
     </li>
     <li class="nav-item" role="presentation">
+      <a id="profile-tab-searches"
+         class="nav-link"
+         data-bs-toggle="tab"
+         data-bs-target="#searches"
+         role="tab"
+         aria-controls="searches"
+         aria-selected="false"
+         href="#">{% translate "Saved searches" %}</a>
+    </li>
+    <li class="nav-item" role="presentation">
       <a id="profile-tab-notifications"
          class="nav-link"
          data-bs-toggle="tab"
@@ -301,12 +311,32 @@
           <div class="card-body">
             {% crispy usersettingsform %}
             {% crispy dashboardsettingsform %}
-            <p>
-              <a href="{% url 'saved-searches' %}">{% translate "Manage saved searches" %}</a>
-            </p>
           </div>
           <div class="card-footer">
             <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane"
+           id="searches"
+           role="tabpanel"
+           aria-labelledby="profile-tab-searches"
+           tabindex="0">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/search' 'saved-searches' right=True %}{% translate "Saved searches" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <p>{% translate "Your saved searches are offered in the search filters everywhere." %}</p>
+            {% url 'search' as search_url %}
+            {% include "snippets/saved-search-table.html" with search_url=search_url project=None %}
+          </div>
+          <div class="card-footer">
+            <a href="{% url 'saved-search-create' %}?next={% filter urlencode:'' %}{% url 'profile' %}#searches{% endfilter %}"
+               class="btn btn-primary">{% translate "Add saved search" %}</a>
           </div>
         </div>
       </div>

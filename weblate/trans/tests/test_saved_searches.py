@@ -130,22 +130,31 @@ class ProjectSavedSearchTest(SavedSearchTestCase):
 class UserSavedSearchTest(SavedSearchTestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.list_url = reverse("saved-searches")
+        self.create_url = reverse("saved-search-create")
+        self.profile_url = reverse("profile")
+        self.list_url = f"{self.profile_url}#searches"
 
     def test_create(self) -> None:
         response = self.client.post(
-            self.list_url,
-            {"name": "Mine", "query": "state:<translated"},
-            follow=True,
+            self.create_url, {"name": "Mine", "query": "state:<translated"}
         )
         self.assertRedirects(response, self.list_url)
-        self.assertContains(response, "Mine")
         saved_search = SavedSearch.objects.get()
         self.assertEqual(saved_search.user, self.user)
         self.assertIsNone(saved_search.project)
 
+    def test_profile_tab(self) -> None:
+        self.create_user_search(name="Mine")
+        response = self.client.get(self.profile_url)
+        self.assertContains(response, 'id="profile-tab-searches"')
+        self.assertContains(response, "Mine")
+        self.assertContains(
+            response,
+            f'href="{self.create_url}?next=%2Faccounts%2Fprofile%2F%23searches"',
+        )
+
     def test_prefill(self) -> None:
-        response = self.client.get(self.list_url, {"q": "has:comment"})
+        response = self.client.get(self.create_url, {"q": "has:comment"})
         self.assertContains(response, "has:comment")
 
     def test_create_duplicate(self) -> None:
@@ -154,18 +163,18 @@ class UserSavedSearchTest(SavedSearchTestCase):
         other = self.anotheruser
         self.create_user_search(user=other, name="Other")
         response = self.client.post(
-            self.list_url, {"name": "Mine", "query": "state:approved"}
+            self.create_url, {"name": "Mine", "query": "state:approved"}
         )
         self.assertContains(response, "A saved search with this name already exists.")
         response = self.client.post(
-            self.list_url, {"name": "Other", "query": "state:approved"}
+            self.create_url, {"name": "Other", "query": "state:approved"}
         )
         self.assertRedirects(response, self.list_url)
 
     def test_isolation(self) -> None:
         other = self.anotheruser
         saved_search = self.create_user_search(user=other, name="Not mine")
-        response = self.client.get(self.list_url)
+        response = self.client.get(self.profile_url)
         self.assertNotContains(response, "Not mine")
         response = self.client.get(
             reverse("saved-search-edit", kwargs={"pk": saved_search.pk})
@@ -195,7 +204,7 @@ class UserSavedSearchTest(SavedSearchTestCase):
 
     def test_anonymous(self) -> None:
         self.client.logout()
-        response = self.client.get(self.list_url)
+        response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 302)
 
 
@@ -259,7 +268,7 @@ class SavedSearchCreateTest(SavedSearchTestCase):
                 "next": "https://example.com/",
             },
         )
-        self.assertRedirects(response, reverse("saved-searches"))
+        self.assertRedirects(response, f"{reverse('profile')}#searches")
 
 
 class SavedSearchDropdownTest(SavedSearchTestCase):

@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -22,32 +23,14 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+USER_SEARCHES_URL = reverse_lazy("profile", fragment="searches")
+
+
 def get_initial(request: AuthenticatedHttpRequest) -> dict[str, str]:
     """Prefill the query when coming from the search form."""
     if query := request.GET.get("q"):
         return {"query": query}
     return {}
-
-
-@login_required
-@never_cache
-def user_saved_searches(request: AuthenticatedHttpRequest) -> HttpResponse:
-    if request.method == "POST":
-        form = SavedSearchForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("saved-searches")
-    else:
-        form = SavedSearchForm(user=request.user, initial=get_initial(request))
-
-    return render(
-        request,
-        "accounts/saved-searches.html",
-        {
-            "form": form,
-            "saved_searches": request.user.savedsearch_set.order(),
-        },
-    )
 
 
 @login_required
@@ -63,7 +46,7 @@ def user_saved_search_edit(request: AuthenticatedHttpRequest, pk: int) -> HttpRe
         )
         if form.is_valid():
             form.save()
-            return redirect("saved-searches")
+            return redirect(USER_SEARCHES_URL)
     else:
         form = SavedSearchForm(user=request.user, instance=saved_search)
 
@@ -86,7 +69,7 @@ async def user_saved_search_delete(
 
     await saved_search.adelete()
 
-    return redirect("saved-searches")
+    return redirect(USER_SEARCHES_URL)
 
 
 @login_required
@@ -193,7 +176,7 @@ def saved_search_create(request: AuthenticatedHttpRequest) -> HttpResponse:
         )
         if form.is_valid():
             form.save()
-            return redirect_next(next_url, "saved-searches")
+            return redirect_next(next_url, USER_SEARCHES_URL)
     else:
         form = SavedSearchForm(
             user=request.user,
