@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.core.management.base import CommandError
 
+from weblate.auth.models import User
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -34,6 +35,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
+        parser.add_argument(
+            "--user", required=True, help="Username to record as the import actor"
+        )
         parser.add_argument(
             "--name-template",
             default="{{ component }}",
@@ -117,6 +121,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.filemask: str
+        self.user: User
         self.file_format: str
         self.language_regex: str
         self.license: str
@@ -213,6 +218,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """Automatic import of project."""
+        try:
+            self.user = User.objects.get(username=options["user"])
+        except User.DoesNotExist as error:
+            msg = "User does not exist!"
+            raise CommandError(msg) from error
+        if self.user.is_anonymous:
+            msg = "An anonymous user cannot import projects."
+            raise CommandError(msg)
         # Read params
         repo = options["repo"]
         branch = options["branch"]
@@ -247,6 +260,7 @@ class Command(BaseCommand):
         """Return discovery for an existing component."""
         return ComponentDiscovery(
             component,
+            user=self.user,
             match=self.filemask,
             name_template=self.name_template,
             language_regex=self.language_regex,
@@ -282,6 +296,7 @@ class Command(BaseCommand):
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
         discovery = ComponentDiscovery.for_repository_import(
+            user=self.user,
             path=workdir,
             match=self.filemask,
             name_template=self.name_template,
@@ -327,6 +342,7 @@ class Command(BaseCommand):
                 match["slug"],
             )
             remove_tree(workdir)
+            component.acting_user = self.user
             if not component.do_update():
                 msg = f"Could not update existing component {component.full_slug}"
                 raise CommandError(msg)

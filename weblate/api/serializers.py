@@ -2845,20 +2845,20 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def create(self, validated_data):
         source_component = validated_data.pop("from_component", None)
+        acting_user = validated_data.pop("acting_user", self.context["request"].user)
         if (
             "enforced_checks" in validated_data
             and "inherit_enforced_checks" not in validated_data
         ):
             validated_data["inherit_enforced_checks"] = False
-        if source_component is None:
-            return super().create(validated_data)
-
         component = Component(**validated_data)
-        component.prepare_seed_from_component(
-            source_component.pk,
-            copy_addons=True,
-            seed_author=self.context["request"].user.get_author_name(),
-        )
+        component.acting_user = acting_user
+        if source_component is not None:
+            component.prepare_seed_from_component(
+                source_component.pk,
+                copy_addons=True,
+                seed_author=acting_user.get_author_name(),
+            )
         component.save(force_insert=True)
         return component
 

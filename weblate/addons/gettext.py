@@ -603,7 +603,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
                 }
             )
             return False
-        MsgmergeAddon.create(run=False, **kwargs)
+        MsgmergeAddon.create(run=False, acting_user=self.instance.acting_user, **kwargs)
         return True
 
     def has_applicable_msgmerge_addon(self, addon_model) -> bool:

@@ -31,6 +31,7 @@ from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
+from weblate.auth.bots import InternalBot
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import AutoGroup, Group, Permission, Role, TeamMembership, User
 from weblate.checks.models import Check
@@ -77,7 +78,11 @@ from weblate.trans.tasks import (
     import_project_backup,
 )
 from weblate.trans.tests.test_views import ReusableViewTestCase
-from weblate.trans.tests.utils import TEST_VCS_ALLOW_SCHEMES, get_test_file
+from weblate.trans.tests.utils import (
+    TEST_VCS_ALLOW_SCHEMES,
+    get_test_actor,
+    get_test_file,
+)
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
@@ -594,7 +599,7 @@ class BackupsTest(ReusableViewTestCase):
         backup.backup_project(self.project)
 
         change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
-        self.assertIsNone(change.user)
+        self.assertEqual(change.user, InternalBot.BACKUP.get_user())
         self.assertEqual(
             change.details,
             {
@@ -940,6 +945,7 @@ class BackupsTest(ReusableViewTestCase):
         restore = ProjectBackup(backup.filename)
         restore.validate()
         WebhookAddon.create(
+            acting_user=get_test_actor(self),
             configuration={
                 "webhook_url": "https://example.com/hook",
                 "events": [ActionEvents.PROJECT_RESTORE],
@@ -1555,7 +1561,7 @@ class BackupsTest(ReusableViewTestCase):
             component_category_mapping(restored),
         )
         # Verify that Git operations work on restored repos
-        restored.do_reset()
+        restored.do_reset(self.get_request())
 
     def test_backup_inherited_settings(self) -> None:
         workspace = Workspace.objects.create(
@@ -2379,6 +2385,7 @@ class BackupsTest(ReusableViewTestCase):
         )
         self.assertEqual(restore.renamed_teams, [("Review", "Review (2)")])
         restored.translation_review = True
+        restored.acting_user = self.user
         restored.save(update_fields=["translation_review"])
         internal.refresh_from_db()
         self.assertEqual(restored.defined_groups.get(name="Review").pk, internal.pk)
@@ -3522,7 +3529,7 @@ class BackupsTest(ReusableViewTestCase):
                     [security_test.name],
                 )
             self.assertFalse(marker.exists())
-            restored.do_reset()
+            restored.do_reset(self.get_request())
 
     @override_settings(VCS_ALLOW_SCHEMES=TEST_VCS_ALLOW_SCHEMES)
     def test_restore_git_svn_metadata_allowlist(self) -> None:

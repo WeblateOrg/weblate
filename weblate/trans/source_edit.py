@@ -227,6 +227,7 @@ def _update_unit(
         PendingUnitChange.store_unit_change(
             unit=item,
             author=user,
+            user=user,
             source_unit_explanation=explanation,
             state=(
                 STATE_TRANSLATED

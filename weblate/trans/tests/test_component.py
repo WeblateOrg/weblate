@@ -59,6 +59,7 @@ from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
     RepoTestMixin,
     create_test_user,
+    get_test_actor,
 )
 from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
@@ -1531,6 +1532,7 @@ class ComponentChangeTest(RepoTestCase):
         link_component = self.create_link()
         self.assertIsNotNone(link_component.linked_component)
         component = cast("Component", link_component.linked_component)
+        component.acting_user = get_test_actor(self)
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
 
         old_path = component.full_path
@@ -2583,6 +2585,7 @@ class ComponentErrorTest(RepoTestCase):
         self.assertFalse(self.component.update_remote_branch())
 
     def test_failed_push(self) -> None:
+        self.component.acting_user = None
         testfile = os.path.join(self.component.full_path, "README.md")
         with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
@@ -2996,7 +2999,9 @@ class ExistingIntermediateLanguageFileTest(ComponentTestCase):
         target_unit = source_unit.unit_set.get(translation__language_code="cs")
         self.assertNotEqual(target_unit.state, STATE_READONLY)
 
-        source_unit.translate(None, "Hello, world!\n", STATE_NEEDS_CHECKING)
+        source_unit.translate(
+            get_test_actor(self), "Hello, world!\n", STATE_NEEDS_CHECKING
+        )
         target_unit.refresh_from_db()
         self.assertEqual(target_unit.state, STATE_READONLY)
 

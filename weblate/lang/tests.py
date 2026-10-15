@@ -36,6 +36,7 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -907,7 +908,11 @@ class PluralMapperTestCase(FixtureComponentTestCase):
         unit = Unit.objects.get(
             translation__language=czech, id_hash=2097404709965985808
         )
-        unit.translate(None, ["one\n", "few\n", "other\n"], STATE_TRANSLATED)
+        unit.translate(
+            get_test_actor(self),
+            ["one\n", "few\n", "other\n"],
+            STATE_TRANSLATED,
+        )
         unit = Unit.objects.get(
             translation__language=german, id_hash=2097404709965985808
         )

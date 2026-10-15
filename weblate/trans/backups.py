@@ -46,6 +46,7 @@ from django.utils.translation import gettext
 from packaging.version import InvalidVersion, Version
 from weblate_schemas import load_schema, validate_schema
 
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import (
     AutoGroup,
     Group,
@@ -1161,6 +1162,8 @@ class ProjectBackup:
         self.log_backup(project, user)
 
     def log_backup(self, project: Project, user: User | None = None) -> None:
+        if user is None:
+            user = InternalBot.BACKUP.get_user()
         project.log_info("project backup completed")
         project.change_set.create(
             action=ActionEvents.PROJECT_BACKUP,

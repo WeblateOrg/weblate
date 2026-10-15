@@ -41,6 +41,7 @@ if TYPE_CHECKING:
 
     from translation_finder import DiscoveryResult
 
+    from weblate.auth.models import User
     from weblate.formats.base import TranslationFormat
 
 COPY_ATTRIBUTES = get_inherited_component_fields("project", "category_id")
@@ -484,6 +485,7 @@ class ComponentDiscovery:
         filemask_template: str = "",
         path: str | None = None,
         copy_addons: bool = True,
+        user: User | None = None,
     ) -> None:
         self._initialize(
             component,
@@ -497,6 +499,7 @@ class ComponentDiscovery:
             filemask_template=filemask_template,
             path=component.full_path if path is None else path,
             copy_addons=copy_addons,
+            user=user,
         )
 
     @classmethod
@@ -513,6 +516,7 @@ class ComponentDiscovery:
         intermediate_template: str = "",
         filemask_template: str = "",
         copy_addons: bool = True,
+        user: User | None = None,
     ) -> Self:
         """Create discovery for inspecting a repository before a component exists."""
         instance = cls.__new__(cls)
@@ -528,6 +532,7 @@ class ComponentDiscovery:
             filemask_template=filemask_template,
             path=path,
             copy_addons=copy_addons,
+            user=user,
         )
         return instance
 
@@ -545,8 +550,10 @@ class ComponentDiscovery:
         filemask_template: str,
         path: str,
         copy_addons: bool,
+        user: User | None,
     ) -> None:
         self.component = component
+        self.user = user
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
         self.limit_exceeded = False
@@ -584,6 +591,7 @@ class ComponentDiscovery:
             intermediate_template=self.intermediate_template,
             filemask_template=self.filemask_template,
             copy_addons=self.copy_addons,
+            user=self.user,
         )
         discovery.errors = self.errors.copy()
         discovery.limit_exceeded = self.limit_exceeded
@@ -1133,6 +1141,10 @@ class ComponentDiscovery:
         if preview:
             return component
 
+        if self.user is None:
+            msg = "Component discovery requires an acting user"
+            raise ValueError(msg)
+        kwargs["user_id"] = self.user.pk
         self.log("Creating component %s", name)
 
         # Can't pass objects, pass only IDs
@@ -1162,6 +1174,7 @@ class ComponentDiscovery:
             # Delete as needed files seem to be missing
             deleted.append((None, component))
             if not preview:
+                component.acting_user = self.user
                 component.delete()
 
         return deleted
@@ -1190,6 +1203,11 @@ class ComponentDiscovery:
 
     def perform(self, preview=False, remove=False, background=False):
         main = self._require_component()
+        if not preview:
+            if self.user is None:
+                msg = "Component discovery requires an acting user"
+                raise ValueError(msg)
+            main.acting_user = self.user
         created: list[tuple[DiscoveryMatch, Component | None]] = []
         matched: list[tuple[DiscoveryMatch, Component]] = []
         deleted: list[tuple[None, Component]] = []

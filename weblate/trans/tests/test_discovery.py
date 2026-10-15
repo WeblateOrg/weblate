@@ -30,7 +30,7 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import TEST_DATA
+from weblate.trans.tests.utils import TEST_DATA, create_test_addon, get_test_actor
 from weblate.utils.change_origin import change_origin_context
 from weblate.utils.files import remove_tree
 
@@ -47,7 +47,9 @@ class RepositoryImportDiscoveryTest(SimpleTestCase):
             translation = pathlib.Path(tempdir, "new-component", "cs.po")
             translation.parent.mkdir()
             translation.touch()
+            actor = MagicMock()
             discovery = ComponentDiscovery.for_repository_import(
+                user=actor,
                 path=tempdir,
                 file_format="po",
                 match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
@@ -59,6 +61,7 @@ class RepositoryImportDiscoveryTest(SimpleTestCase):
             attached = discovery.with_component(component)
 
             self.assertIs(attached.component, component)
+            self.assertIs(attached.user, actor)
             self.assertEqual(attached.matched_components, expected)
 
     def test_filters_managed_vcs_metadata(self) -> None:
@@ -107,11 +110,31 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.component = self.create_component()
         self.discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
             language_regex="^(?!xx).+$",
         )
+
+    def test_legacy_discovery_job_uses_addon_actor(self) -> None:
+        match = self.discovery.matched_components["second-po/*.po"]
+        with patch("weblate.trans.discovery.create_component.delay") as delay:
+            self.discovery.create_component(
+                self.component,
+                match,
+                background=True,
+                existing_slugs=set(),
+                existing_names=set(),
+            )
+        payload = dict(delay.call_args.kwargs)
+        payload.pop("user_id")
+        result = create_component(**payload)
+        component = Component.objects.get(pk=result["component"])
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        assert change.user is not None
+        self.assertEqual(change.user.username, "addon:discovery")
+        self.assertFalse(component.change_set.filter(user=None).exists())
 
     def test_matched_files(self) -> None:
         self.assertEqual(
@@ -255,6 +278,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
             name_template="{{ component }}",
@@ -344,6 +368,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Create new discover as it caches matches
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
@@ -387,6 +412,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.component.manage_units = True
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>.+?)_(?P<language>[^/.]+)\.md",
             name_template="{{ component }}",
@@ -414,6 +440,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="po",
             match=r"locale/(?P<component>[^/]+)\.pot",
             name_template="{{ component }}",
@@ -447,6 +474,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>[^/_]+)\.md",
             name_template="{{ component }}",
@@ -481,6 +509,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="po",
             match=r"locale/(?P<language>[^/.]+)/(?P<component>[^/]+)\.po",
             name_template="{{ component }}",
@@ -504,6 +533,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>[^/_]+)\.md",
             name_template="{{ component }}",
@@ -537,6 +567,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>[^/_]+)\.md",
             name_template="{{ component }}",
@@ -570,6 +601,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>[^/_]+)\.md",
             name_template="{{ component }}",
@@ -623,6 +655,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                 (root / "translation.po").touch()
                 discovery = ComponentDiscovery(
                     self.component,
+                    user=get_test_actor(self),
                     file_format="po",
                     match=r"(?P<language>[^/]*)\.po",
                     name_template="{{ language }}",
@@ -638,6 +671,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             (metadata / "translation.po").touch()
             discovery = ComponentDiscovery(
                 self.component,
+                user=get_test_actor(self),
                 file_format="po",
                 match=r"(?P<language>[^/]*)\.po",
                 name_template="{{ language }}",
@@ -663,6 +697,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="po",
             match=r"templates/(?P<prefix>[^/]+)/(?P<component>[^/]+)\.pot",
             name_template="{{ component }}",
@@ -683,6 +718,7 @@ class ComponentDiscoveryTest(RepoTestCase):
 
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             file_format="markdown",
             match=r"docs/(?P<component>[^/]+)_en\.md",
             name_template="{{ component }}",
@@ -785,9 +821,14 @@ class ComponentDiscoveryTest(RepoTestCase):
             )
 
         delay.assert_called_once()
+        self.assertEqual(delay.call_args.kwargs["user_id"], get_test_actor(self).pk)
         with change_origin_context({"scope": "api"}):
             result = create_component(**delay.call_args.kwargs)
         component = Component.objects.get(pk=result["component"])
+        created = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(created.user, get_test_actor(self))
+        self.assertEqual(created.author, created.user)
+        self.assertFalse(component.change_set.filter(user=None).exists())
         self.assertEqual(component.license, "")
         self.assertTrue(component.inherit_license)
         self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
@@ -865,11 +906,16 @@ class ComponentDiscoveryTest(RepoTestCase):
             slug="copy-source",
             project=self.component.project,
         )
-        source_component.addon_set.create(name="weblate.gettext.linguas")
+        create_test_addon(
+            component=source_component,
+            name="weblate.gettext.linguas",
+            acting_user=get_test_actor(self),
+        )
         copy_from = source_component.pk
         source_component.delete()
 
         result = create_component(
+            user_id=get_test_actor(self).pk,
             copy_from=copy_from,
             copy_addons=True,
             in_task=True,
@@ -894,6 +940,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Create all components with desired name po
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             match=r"[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
             language_regex="^(?!xx).+$",
@@ -909,6 +956,7 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_multi_language(self) -> None:
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             match=r"localization/(?P<language>[^/]*)/"
             r"(?P<component>[^/]*)\.(?P=language)\.po",
             name_template="{{ component }}",
@@ -985,6 +1033,7 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(
             self.component,
+            user=get_test_actor(self),
             match=r"(?P<path>[^/]+)/(?P<language>[^/]*)/"
             r"(?P<component>[^/]*)\.(?P=language)\.po",
             name_template="{{ path }}: {{ component }}",

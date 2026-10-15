@@ -37,7 +37,7 @@ from weblate.kotlin_sdk.translations import LocaleSnapshot, LocaleValues
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Category, Component, Translation, Unit
 from weblate.trans.tests.test_views import ReusableViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.unittest import tempdir_setting
@@ -202,7 +202,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
-            component=self.create_android(), configuration={}, run=False
+            acting_user=get_test_actor(self),
+            component=self.create_android(),
+            configuration={},
+            run=False,
         )
         build = KotlinSDKBuild.objects.create(
             addon=addon.instance,
@@ -254,7 +257,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
 
         addon = KotlinSDKAddon.create(
-            component=self.create_android(), configuration={}, run=False
+            acting_user=get_test_actor(self),
+            component=self.create_android(),
+            configuration={},
+            run=False,
         )
 
         def worker() -> None:
@@ -290,7 +296,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         for action in ("register", "retire", "uninstall", "reinstall", "expire"):
             with self.subTest(action=action):
                 adapter = KotlinSDKAddon.create(
-                    component=component, configuration={}, run=False
+                    acting_user=get_test_actor(self),
+                    component=component,
+                    configuration={},
+                    run=False,
                 )
                 addon_id = adapter.instance.pk
                 build = KotlinSDKBuild.objects.create(
@@ -346,6 +355,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                             with connections["default"].cursor() as cursor:
                                 cursor.execute("SET LOCAL lock_timeout = '2s'")
                             current = Addon.objects.select_for_update().get(pk=addon_id)
+                            current.acting_user = get_test_actor(self)
                             if action == "register":
                                 serializer = BuildMetadataSerializer(data=metadata(2))
                                 serializer.is_valid(raise_exception=True)
@@ -373,7 +383,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                                 current.delete()
                                 if action == "reinstall":
                                     KotlinSDKAddon.create(
-                                        component=component, configuration={}, run=False
+                                        acting_user=get_test_actor(self),
+                                        component=component,
+                                        configuration={},
+                                        run=False,
                                     )
                     finally:
                         barrier.wait(timeout=10)
@@ -391,7 +404,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         component = self.create_android()
         addon = Publication(
             KotlinSDKAddon.create(
-                component=component, configuration={}, run=False
+                acting_user=get_test_actor(self),
+                component=component,
+                configuration={},
+                run=False,
             ).instance
         )
         barrier = Barrier(2)
@@ -426,7 +442,10 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         component = self.create_android()
         addon = Publication(
             KotlinSDKAddon.create(
-                component=component, configuration={}, run=False
+                acting_user=get_test_actor(self),
+                component=component,
+                configuration={},
+                run=False,
             ).instance
         )
         build = KotlinSDKBuild.objects.create(
@@ -646,7 +665,10 @@ class KotlinSDKTest(ReusableViewTestCase):
     def install(self) -> Publication:
         return Publication(
             KotlinSDKAddon.create(
-                component=self.component, configuration={}, run=False
+                acting_user=get_test_actor(self),
+                component=self.component,
+                configuration={},
+                run=False,
             ).instance
         )
 
@@ -1662,6 +1684,7 @@ class KotlinSDKTest(ReusableViewTestCase):
             "maximum_versions": 1,
             "maximum_age": 1,
         }
+        addon.instance.acting_user = get_test_actor(self)
         addon.instance.save()
         KotlinSDKBuild.objects.filter(pk=build.pk).update(
             created=timezone.now() - timedelta(days=2)

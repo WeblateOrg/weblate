@@ -635,6 +635,8 @@ class Translation(
     def update_units_from_store(  # ruff: ignore[complex-structure]
         self, *, user: User | None, author: User | None
     ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        if user is None:
+            user = self.component.get_update_user(None)
         store = self.store
         translation_store = None
 
@@ -851,7 +853,9 @@ class Translation(
         with start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
                 change = ActionEvents.UPDATE
-            user = request.user if request is not None else author
+            user = (
+                request.user if request is not None else author
+            ) or self.component.get_update_user(request)
 
             details = {
                 "filename": self.filename,
@@ -1530,6 +1534,8 @@ class Translation(
         self._mark_failed_unit(unit)
         unit.change_set.create(
             action=ActionEvents.SAVE_FAILED,
+            user=pending_change.get_actor(),
+            author=pending_change.author,
             target=self.component.get_parse_error_message(error),
         )
 
@@ -1670,6 +1676,8 @@ class Translation(
             )
             if committed:
                 self.log_info("committed %s as %s", files, author)
+                if user is None:
+                    user = InternalBot.COMMIT.get_user()
                 self.change_set.create(
                     action=ActionEvents.COMMIT, user=user, author=user
                 )
@@ -1821,6 +1829,8 @@ class Translation(
                     self._mark_failed_unit(unit)
                     unit.change_set.create(
                         action=ActionEvents.SAVE_FAILED,
+                        user=pending_change.get_actor(),
+                        author=pending_change.author,
                         target="Could not find string in the translation file",
                     )
                     pending_change.metadata.update(
@@ -2668,6 +2678,7 @@ class Translation(
         fuzzy: Literal["", "process", "approve"] = "",
         *,
         ignore_language: bool = False,
+        author: User | None = None,
     ) -> UploadResult:
         """Top level handler for file uploads."""
         from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
@@ -2675,9 +2686,10 @@ class Translation(
         component = self.component
 
         # Get User object for author
-        author = User.objects.get_author_by_email(
-            author_name, author_email, request.user, request
-        )
+        if author is None:
+            author = User.objects.get_author_by_email(
+                author_name, author_email, request.user, request
+            )
         result: UploadResult
 
         if method == "replace":
@@ -2756,12 +2768,14 @@ class Translation(
         self._stats_delta_requires_full_rebuild = False
         return True
 
-    def detect_completed_translation(self, change: Change, old_translated: int) -> None:
+    def detect_completed_translation(
+        self, change: Change, old_translated: int, *, user: User | None
+    ) -> None:
         translated = self.stats.translated
         if old_translated < translated and translated == self.stats.all:
             self.change_set.create(
                 action=ActionEvents.COMPLETE,
-                user=change.user,
+                user=user,
                 author=change.author,
             )
 
@@ -2770,7 +2784,7 @@ class Translation(
             if component.stats.translated == component.stats.all:
                 self.component.change_set.create(
                     action=ActionEvents.COMPLETED_COMPONENT,
-                    user=change.user,
+                    user=user,
                     author=change.author,
                 )
 
@@ -3172,7 +3186,7 @@ class Translation(
                         )
                         if pending:
                             PendingUnitChange.store_unit_change(
-                                unit=unit, author=user, add_unit=True
+                                unit=unit, author=user, user=user, add_unit=True
                             )
                         changes.append(
                             unit.generate_change(

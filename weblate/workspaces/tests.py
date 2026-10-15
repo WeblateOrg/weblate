@@ -29,6 +29,7 @@ from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
     create_test_user,
+    get_test_actor,
 )
 from weblate.utils.tests import http_mock
 from weblate.utils.views import UnsupportedPathObjectError, parse_path
@@ -327,14 +328,17 @@ class WorkspaceViewTest(BaseTestCase):
             slug="moved-before-workspace-removal",
         )
         moved_project_change = Change.objects.create(
+            user=get_test_actor(self),
             project=moved_project,
             action=ActionEvents.CREATE_PROJECT,
         )
         workspace_change = Change.objects.create(
+            user=get_test_actor(self),
             workspace=workspace,
             action=ActionEvents.WORKSPACE_SETTING_CHANGE,
         )
         moved_project.workspace = None
+        moved_project.acting_user = user
         moved_project.save(update_fields=["workspace"])
         moved_project_change.refresh_from_db()
         self.assertEqual(moved_project_change.workspace_id, workspace.pk)
@@ -725,8 +729,12 @@ class WorkspaceViewTest(BaseTestCase):
             slug="hidden-tab-history-project",
             access_control=Project.ACCESS_PRIVATE,
         )
-        visible.change_set.create(action=ActionEvents.CREATE_PROJECT)
-        hidden.change_set.create(action=ActionEvents.CREATE_PROJECT)
+        visible.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
+        hidden.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
 
         response = self.client.get(workspace.get_absolute_url())
 
@@ -783,9 +791,15 @@ class WorkspaceViewTest(BaseTestCase):
             name="Other history project",
             slug="other-history-project",
         )
-        visible.change_set.create(action=ActionEvents.CREATE_PROJECT)
-        hidden.change_set.create(action=ActionEvents.CREATE_PROJECT)
-        other.change_set.create(action=ActionEvents.CREATE_PROJECT)
+        visible.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
+        hidden.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
+        other.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
 
         response = self.client.get(
             reverse("changes", kwargs={"path": workspace.get_url_path()})
@@ -802,7 +816,9 @@ class WorkspaceViewTest(BaseTestCase):
             name="RSS history project",
             slug="rss-history-project",
         )
-        project.change_set.create(action=ActionEvents.CREATE_PROJECT)
+        project.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.CREATE_PROJECT
+        )
 
         response = self.client.get(
             reverse("changes-rss", kwargs={"path": workspace.get_url_path()})

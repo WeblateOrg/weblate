@@ -31,6 +31,7 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ReusableComponentTestCase,
 )
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
 from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
@@ -112,7 +113,9 @@ class TranslatedCheckTest(FixtureTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.edit_unit("Hello, world!\n", "")
         unit = self.get_unit()
-        unit.change_set.create(action=ActionEvents.SOURCE_CHANGE)
+        unit.change_set.create(
+            user=get_test_actor(self), action=ActionEvents.SOURCE_CHANGE
+        )
         self.assertFalse(self.run_check())
 
     def test_get_description(self) -> None:
@@ -491,6 +494,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
         excluded = self.add_unit(self.translation_2, "two", "Two", "Shared")
         self.other.allow_translation_propagation = False
+        self.other.acting_user = self.user
         self.other.save()
         Check.objects.filter(unit__in=[first, excluded], name="reused").delete()
         with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
@@ -499,6 +503,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             Check.objects.filter(unit__in=[first, excluded], name="reused").exists()
         )
         self.other.allow_translation_propagation = True
+        self.other.acting_user = self.user
         self.other.save()
         self.translation_2.plural = self.component.source_translation.plural
         self.translation_2.save()
@@ -795,6 +800,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
     def test_consistency_skips_singleton_plurals(self) -> None:
         check = ConsistencyCheck()
         self.other.allow_translation_propagation = False
+        self.other.acting_user = self.user
         self.other.save(update_fields=["allow_translation_propagation"])
 
         with CaptureQueriesContext(connection) as queries:

@@ -523,8 +523,9 @@ class Addon(models.Model):
             addon.post_uninstall()
         return result
 
-    def disable(self) -> None:
+    def disable(self, *, user: User) -> None:
         self.log_warning("disabling no longer compatible add-on: %s", self.name)
+        self.acting_user = user
         self.delete()
 
     @cached_property
@@ -764,7 +765,7 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
             _report_addon_error(addon, component, scope, error)
             # Uninstall no longer compatible add-ons
             if component and not addon.addon.can_process(component=component):
-                addon.disable()
+                addon.disable(user=component.get_update_user(None))
                 component.drop_addons_cache()
         else:
             if isinstance(log_result, AddonEventOutcome):

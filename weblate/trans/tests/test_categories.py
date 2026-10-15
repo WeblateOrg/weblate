@@ -147,6 +147,39 @@ class CategoriesTest(ViewTestCase):
         self.assertContains(response, "Test category")
         self.assertContains(response, "Nothing to list here.")
 
+    def test_move_nested_category_preserves_actor(self) -> None:
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        parent = self.create_category(self.project)
+        child = self.create_category(self.project, category=parent)
+        self.component.category = child
+        self.component.save(update_fields=["category"])
+        previous_change = self.component.change_set.latest("pk").pk
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": parent.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "name": parent.name,
+                "slug": parent.slug,
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        for obj in (parent, child, self.component):
+            obj.refresh_from_db()
+            self.assertEqual(obj.project, destination)
+        category_changes = destination.change_set.filter(
+            pk__gt=previous_change, action=ActionEvents.MOVE_CATEGORY
+        )
+        self.assertEqual(category_changes.count(), 2)
+        component_change = self.component.change_set.get(
+            pk__gt=previous_change, action=ActionEvents.MOVE_COMPONENT
+        )
+        self.assertEqual(component_change.user, self.user)
+        self.assertFalse(category_changes.exclude(user=self.user).exists())
+
     def test_move_wrong(self) -> None:
         project = Project.objects.create(name="other", slug="other")
         category = Category.objects.create(name="other", slug="oc", project=project)

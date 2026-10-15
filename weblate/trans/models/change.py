@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import logging
+import warnings
 from copy import deepcopy
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
@@ -40,6 +41,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.errors import report_message
 from weblate.utils.state import StringState
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.tracing import start_span
@@ -302,6 +304,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         objs = list(objs)
         for change in objs:
             change.fixup_references()
+            change.check_user()
 
         changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
             objs,  # type: ignore[arg-type]
@@ -389,16 +392,6 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 class ChangeManager(models.Manager["Change"]):
     def get_queryset(self) -> ChangeQuerySet:
         return cast("ChangeQuerySet", super().get_queryset())
-
-    def create(self, *, user: User | None = None, **kwargs) -> Change:
-        """
-        Create a change object.
-
-        Wrapper to avoid using anonymous user as change owner.
-        """
-        if user is not None and not user.is_authenticated:
-            user = None
-        return super().create(user=user, **kwargs)
 
     def _last_category_changes(
         self,
@@ -758,6 +751,10 @@ class Change(models.Model, UserDisplayMixin):
             if user is not None and hasattr(user, "get_token_user"):
                 # ProjectToken / ProjectUser integration
                 kwargs[attr] = user.get_token_user()
+        user = kwargs.get("user")
+        self._anonymous_user = user is not None and not user.is_authenticated
+        if self._anonymous_user:
+            kwargs["user"] = None
         super().__init__(*args, **kwargs)
         # Database loading uses positional values, including deferred fields;
         # fixture loading uses keyword fields with an existing primary key.
@@ -770,6 +767,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def save(self, *args, **kwargs) -> None:
         self.fixup_references()
+        self.check_user()
 
         super().save(*args, **kwargs)
 
@@ -800,6 +798,23 @@ class Change(models.Model, UserDisplayMixin):
         if self.path_object is not None:
             return self.path_object.get_absolute_url()
         return "/"
+
+    def check_user(self) -> None:
+        """Report and warn about missing actors on new history entries."""
+        if not self._state.adding or self.user_id is not None or self._anonymous_user:
+            return
+        # Message reporting captures the calling stack instead of a synthetic exception.
+        report_message(
+            "History entry created without a user",
+            level="error",
+            project=self.project,
+            extra_log=f"Change action: {self.action}",
+        )
+        warnings.warn(
+            "History entry created without a user",
+            RuntimeWarning,
+            stacklevel=3,
+        )
 
     def log_event(self) -> None:
         if self.action in ACTIONS_LOG:

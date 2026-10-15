@@ -378,6 +378,7 @@ class CreateComponent(BaseCreateView):
     @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
+            form.instance.acting_user = self.request.user
             lock = (
                 nullcontext()
                 if form.instance.is_repo_link
@@ -833,7 +834,9 @@ class CreateComponentSelection(CreateComponent):
     def form_valid(self, form):
         if self.origin == "scratch":
             project = form.cleaned_data["project"]
-            component = project.scratch_create_component(**form.cleaned_data)
+            component = project.scratch_create_component(
+                **form.cleaned_data, acting_user=self.request.user
+            )
             component.post_create(self.request.user, origin="scratch")
             return redirect(
                 reverse("show_progress", kwargs={"path": component.get_url_path()})
@@ -862,6 +865,7 @@ class CreateComponentSelection(CreateComponent):
                 kwargs[inherit_field] = getattr(component, inherit_field)
             return self.redirect_create(**kwargs)
         if self.origin == "branch":
+            form.instance.acting_user = self.request.user
             form.instance.save()
             form.instance.post_create(self.request.user, origin="branch")
             return redirect(

@@ -189,6 +189,7 @@ class ITSExtractionTest(ViewTestCase):
         self, addon_class: type[XgettextAddon] = XgettextAddon, **configuration: object
     ) -> XgettextAddon:
         return addon_class.create(
+            acting_user=self.user,
             component=self.component,
             run=False,
             configuration={

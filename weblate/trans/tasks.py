@@ -1118,9 +1118,13 @@ def component_after_save(
     retry_backoff=60,
 )
 @transaction.atomic
-def update_enforced_checks(component: int | Component) -> None:
+def update_enforced_checks(
+    component: int | Component, *, user_id: int | None = None
+) -> None:
     if isinstance(component, int):
         component = Component.objects.get(pk=component)
+    if user_id is not None:
+        component.acting_user = User.objects.get(pk=user_id)
     component.update_enforced_checks()
 
 
@@ -1372,7 +1376,7 @@ def project_removal(
 ) -> None:
     """Backup and remove project."""
     if backup:
-        create_project_backup(pk)
+        create_project_backup(pk, uid)
 
     try:
         _remove_project(pk, uid)
@@ -1492,8 +1496,19 @@ def auto_translate(
     enforce_permissions: bool = True,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
-    user = User.objects.get(pk=user_id) if user_id else None
-    with override(user.profile.language if user else "en"):
+    if user_id is None:
+        # Older queued add-on jobs did not carry an actor for MT operations.
+        from weblate.addons.autotranslate import AutoTranslateAddon  # ruff: ignore[import-outside-top-level]
+
+        user = User.objects.get_or_create_bot(
+            scope="addon",
+            name=AutoTranslateAddon.user_name,
+            verbose=AutoTranslateAddon.user_verbose,
+        )
+        enforce_permissions = False
+    else:
+        user = User.objects.get(pk=user_id)
+    with override(user.profile.language):
         try:
             obj, target_result = get_auto_translate_target(
                 translation_id=translation_id,
@@ -1589,7 +1604,28 @@ def auto_translate_component(
 
 
 @app.task(trail=False)
-def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
+def create_component(
+    copy_from=None,
+    copy_addons=False,
+    in_task=False,
+    *,
+    user_id: int | None = None,
+    **kwargs,
+):
+    if user_id is None:
+        if not in_task:
+            msg = "Component creation requires an acting user"
+            raise ValueError(msg)
+        # Jobs queued before actor propagation were all discovery add-on jobs.
+        from weblate.addons.discovery import DiscoveryAddon  # ruff: ignore[import-outside-top-level]
+
+        user = User.objects.get_or_create_bot(
+            scope="addon",
+            name=DiscoveryAddon.user_name,
+            verbose=DiscoveryAddon.user_verbose,
+        )
+    else:
+        user = User.objects.get(pk=user_id)
     explicit_fields = set(kwargs)
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
@@ -1599,11 +1635,16 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
         )
     apply_create_inheritance_defaults(kwargs, explicit_fields)
     component = Component(**kwargs)
+    component.acting_user = user
     # Perform validation to avoid creating duplicate components via background
     # tasks in discovery
     component.full_clean()
     component.save(force_insert=True)
-    component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
+    component.change_set.create(
+        action=ActionEvents.CREATE_COMPONENT,
+        user=component.acting_user,
+        author=component.acting_user,
+    )
     if copy_from:
         source_component = Component.objects.filter(pk=copy_from).first()
         # Copy non-automatic component lists
@@ -1617,6 +1658,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
                 component,
                 source_component,
                 same_project_only=False,
+                acting_user=user,
             )
     if in_task:
         return {"component": component.id}

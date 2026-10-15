@@ -94,6 +94,7 @@ from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
     create_test_user,
+    get_test_actor,
     get_test_file,
     social_core_override_settings,
 )
@@ -3389,7 +3390,7 @@ class SeleniumTests(
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        component = Component.objects.create(
+        component = Component(
             name="Android",
             slug="android",
             project=project,
@@ -3398,6 +3399,8 @@ class SeleniumTests(
             template="app/src/main/res/values/strings.xml",
             file_format="aresource",
         )
+        component.acting_user = get_test_actor(self)
+        component.save()
         self.clear_project_stats_cache(project)
         return component
 
@@ -3408,8 +3411,15 @@ class SeleniumTests(
             for day in range(365)
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30)))
         ]
+        user = get_test_actor(self)
         changes = Change.objects.bulk_create(
-            [Change(action=ActionEvents.CREATE_PROJECT) for _unused in days]
+            [
+                Change(
+                    user=user,
+                    action=ActionEvents.CREATE_PROJECT,
+                )
+                for _unused in days
+            ]
         )
         # auto_now_add sets timestamps during insertion; backdate them together
         # afterwards, without dispatching thousands of individual save signals.
@@ -3862,16 +3872,17 @@ class SeleniumTests(
         ConfigurationError.objects.create(
             name="test", message="Testing configuration error"
         )
-        self.do_login(superuser=True)
+        user = self.do_login(superuser=True)
         self.screenshot("admin-wrench.png")
         project = self.create_component()
         language = Language.objects.get(code="cs")
         Announcement.objects.create(
+            user=user,
             project=project,
             message="Translations will be used only if they reach 60%.",
         )
         Announcement.objects.create(
-            language=language, message="Czech translators rock!"
+            user=user, language=language, message="Czech translators rock!"
         )
 
         # Announcement display
@@ -4355,6 +4366,7 @@ class SeleniumTests(
             "po",
             new_base="fr.po",
             new_lang="add",
+            acting_user=user,
         )
         # Secondary-language choices only include languages used by the site.
         self.assertIsNotNone(
@@ -4656,6 +4668,7 @@ class SeleniumTests(
             "Translations are contributed under the project license."
         )
         language_names.inherit_agreement = False
+        language_names.acting_user = get_test_actor(self)
         language_names.save(update_fields=["agreement", "inherit_agreement"])
         user = self.do_login(superuser=True)
 
@@ -4965,6 +4978,7 @@ class SeleniumTests(
             project = Project.objects.get(name="WeblateOrg")
             self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
             project.public_sharing = True
+            project.acting_user = user
             project.save(update_fields=["public_sharing"])
             with self.wait_for_page_load():
                 self.driver.refresh()

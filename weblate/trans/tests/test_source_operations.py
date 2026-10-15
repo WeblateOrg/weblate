@@ -24,7 +24,7 @@ from weblate.trans.models.source import (
     source_project_gate,
     source_workflows,
 )
-from weblate.trans.tests.utils import RepoTestMixin, clear_users_cache
+from weblate.trans.tests.utils import RepoTestMixin, clear_users_cache, get_test_actor
 from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -230,7 +230,12 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
             source_language=self.parent.translation.language,
         )
         self.child.refresh_from_db()
-        self.child.translate(None, "Accepted target", STATE_TRANSLATED, propagate=False)
+        self.child.translate(
+            get_test_actor(self),
+            "Accepted target",
+            STATE_TRANSLATED,
+            propagate=False,
+        )
         stale = Unit.objects.get(pk=self.child.pk)
         submitted_hash = stale.edit_content_hash
         pid_queue: Queue[int] = Queue()
@@ -240,7 +245,7 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 cursor.execute("SELECT pg_backend_pid()")
                 pid_queue.put(cursor.fetchone()[0])
             stale.translate(
-                None,
+                get_test_actor(self),
                 "Obsolete target",
                 STATE_TRANSLATED,
                 propagate=False,
@@ -250,7 +255,10 @@ class SourceOperationConcurrencyTest(RepoTestMixin, TransactionTestCase):
         with ThreadPoolExecutor(max_workers=1) as executor:
             with transaction.atomic():
                 self.parent.translate(
-                    None, "New parent", STATE_TRANSLATED, propagate=False
+                    get_test_actor(self),
+                    "New parent",
+                    STATE_TRANSLATED,
+                    propagate=False,
                 )
                 future = executor.submit(connected, edit)
                 self.wait_for_blocked(pid_queue.get(timeout=10))

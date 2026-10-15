@@ -380,7 +380,8 @@ class BatchUpdateTest(ViewTestCase):
         other = self.do_base()
         translation = other.translation_set.get(language_code="cs")
         auto_translate(
-            user_id=None,
+            user_id=self.user.pk,
+            enforce_permissions=False,
             mode="translate",
             q="state:<translated",
             auto_source="others",

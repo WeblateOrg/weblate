@@ -598,6 +598,7 @@ class SettingsTest(ReusableViewTestCase):
             "tbx",
             has_template=False,
             license="GPL-3.0-or-later",
+            acting_user=self.user,
         )
 
         self.assertFalse(component.inherit_license)

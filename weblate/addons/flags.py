@@ -122,11 +122,13 @@ class BulkEditAddon(BaseAddon):
     description = gettext_lazy("Bulk edit flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
+    user_name = "bulk"
+    user_verbose = "Bulk edit add-on"
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> None:
-        bulk_edit(component, self.instance.configuration)
+        bulk_edit(component, self.instance.configuration, self.user)
 
 
 class TargetRepoUpdateAddon(BaseAddon):
