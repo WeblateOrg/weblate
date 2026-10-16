@@ -532,15 +532,16 @@ class ProjectTest(RepoTestCase):
 
     def test_glossary_automaton_cache_invalidation(self) -> None:
         project = self.create_project()
-        project.__dict__["glossaries"] = [
+        glossaries = [
             SimpleNamespace(glossary_sources=["hello"], glossary_sources_key="test")
         ]
         clear_glossary_automaton_cache()
         cache.delete(project.glossary_automaton_cache_key)
 
-        with patch(
-            "weblate.trans.models.component.prefetch_glossary_terms"
-        ) as prefetch:
+        with (
+            patch.object(Project, "glossaries", glossaries),
+            patch("weblate.trans.models.component.prefetch_glossary_terms") as prefetch,
+        ):
             first = get_glossary_automaton(project)
             second = get_glossary_automaton(project)
             self.assertIs(first, second)
@@ -555,19 +556,19 @@ class ProjectTest(RepoTestCase):
         self,
     ) -> None:
         project = self.create_project()
-        project.__dict__["glossaries"] = [
+        glossaries = [
             SimpleNamespace(glossary_sources=["hello"], glossary_sources_key="test")
         ]
         clear_glossary_automaton_cache()
         cache.delete(project.glossary_automaton_cache_key)
 
         with (
+            patch.object(Project, "glossaries", glossaries),
             patch("weblate.trans.models.project.time.time_ns", side_effect=[100, 200]),
             patch("weblate.trans.models.component.prefetch_glossary_terms") as prefetch,
         ):
             first = get_glossary_automaton(project)
             cache.delete(project.glossary_automaton_cache_key)
-            del project.__dict__["glossary_automaton_cache_version"]
 
             second = get_glossary_automaton(project)
 

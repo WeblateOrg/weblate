@@ -620,6 +620,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     billing_original_workspace_id: UUID | Deferred | None
     # Old workspace captured by pre_save for one post_save billing recalculation.
     billing_previous_workspace_id: UUID | None
+    _all_glossaries_cache: tuple[int, list[Component]] | None = None
+    _glossaries_cache: tuple[int, list[Component]] | None = None
+    _glossary_automaton_cache: tuple[int, AhoCorasick] | None = None
 
     class Meta:
         required_db_vendor = "postgresql"
@@ -1534,9 +1537,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return cached[1]
 
     def get_glossary_tsv_cache_key(
-        self, source_language: Language, language: Language
+        self,
+        source_language: Language,
+        language: Language,
+        *,
+        version: int | None = None,
     ) -> str:
-        return f"project-glossary-tsv-{self.pk}-{source_language.code}-{language.code}"
+        if version is None:
+            version = self.glossary_automaton_cache_version
+        return (
+            f"project-glossary-tsv-v2-{self.pk}-{version}-"
+            f"{source_language.code}-{language.code}"
+        )
 
     def invalidate_source_language_cache(self) -> None:
         cache.delete(self.source_language_cache_key)
@@ -1572,6 +1584,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             template = f"{source_language.code}.{format_cls.extension()}"
         else:
             template = ""
+        kwargs.setdefault("restricted", settings.DEFAULT_RESTRICTED_COMPONENT)
         kwargs.update(
             {
                 "project": self,
@@ -1608,11 +1621,33 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             raise
         return component
 
-    @cached_property
-    def glossaries(self) -> list[Component]:
-        return list(
+    @property
+    def all_glossaries(self) -> list[Component]:
+        """All configured glossary components, including restricted ones."""
+        version = self.glossary_automaton_cache_version
+        cached = self._all_glossaries_cache
+        if cached is not None and cached[0] == version:
+            return cached[1]
+        result = list(
             self.get_child_components_filter(lambda qs: qs.filter(is_glossary=True))
         )
+        self._all_glossaries_cache = (version, result)
+        return result
+
+    @property
+    def glossaries(self) -> list[Component]:
+        """Unrestricted glossaries active for project-wide use."""
+        version = self.glossary_automaton_cache_version
+        cached = self._glossaries_cache
+        if cached is not None and cached[0] == version:
+            return cached[1]
+        result = list(
+            self.get_child_components_filter(
+                lambda qs: qs.filter(is_glossary=True, restricted=False)
+            )
+        )
+        self._glossaries_cache = (version, result)
+        return result
 
     def invalidate_glossary_cache(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -1620,17 +1655,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             clear_glossary_automaton_cache,
         )
 
-        if "glossary_automaton" in self.__dict__:
-            del self.__dict__["glossary_automaton"]
-        if "glossary_automaton_cache_version" in self.__dict__:
-            del self.__dict__["glossary_automaton_cache_version"]
+        previous_version = self.glossary_automaton_cache_version
+        self._all_glossaries_cache = None
+        self._glossaries_cache = None
+        self._glossary_automaton_cache = None
         clear_glossary_automaton_cache(self.pk)
         try:
             cache.incr(self.glossary_automaton_cache_key)
         except ValueError:
             cache.set(self.glossary_automaton_cache_key, time.time_ns(), None)
         tsv_cache_keys = [
-            self.get_glossary_tsv_cache_key(source_language, language)
+            self.get_glossary_tsv_cache_key(
+                source_language, language, version=previous_version
+            )
             for source_language in Language.objects.filter(
                 Q(component__project=self) | Q(source_workflow_settings__project=self)
             ).distinct()
@@ -1638,18 +1675,24 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ]
         cache.delete_many(tsv_cache_keys)
 
-    @cached_property
+    @property
     def glossary_automaton(self) -> AhoCorasick:
         # ruff: ignore[import-outside-top-level]
         from weblate.glossary.models import get_glossary_automaton
 
-        return get_glossary_automaton(self)
+        version = self.glossary_automaton_cache_version
+        cached = self._glossary_automaton_cache
+        if cached is not None and cached[0] == version:
+            return cached[1]
+        result = get_glossary_automaton(self)
+        self._glossary_automaton_cache = (version, result)
+        return result
 
     @cached_property
     def glossary_automaton_cache_key(self) -> str:
         return f"project-glossary-automaton-{self.pk}"
 
-    @cached_property
+    @property
     def glossary_automaton_cache_version(self) -> int:
         version = cache.get(self.glossary_automaton_cache_key)
         if version is None:

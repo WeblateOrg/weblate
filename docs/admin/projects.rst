@@ -1488,6 +1488,11 @@ You can configure how it will be listed using :ref:`component-glossary_color`.
 
 The glossary will be accessible in all projects defined by :ref:`component-links`.
 
+A restricted component is not used as a glossary in its own project or in
+projects where it is shared. Weblate displays a diagnostic when both settings
+are enabled so that you can either remove restricted access or disable
+:guilabel:`Use as a glossary` without changing the component automatically.
+
 It is recommended to enable :ref:`component-manage_units` on glossaries in
 order to allow adding new words to them.
 

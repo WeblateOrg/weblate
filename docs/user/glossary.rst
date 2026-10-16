@@ -50,6 +50,13 @@ Managing glossaries
 Use any component as a glossary by turning on :ref:`component-is_glossary`.
 You can create multiple glossaries for one project.
 
+Restricted components are not used as glossaries. Their terms are not shown in
+other components, included in glossary quality checks, synchronized as
+terminology, or sent to translation services. Weblate displays a diagnostic
+when both :ref:`component-restricted` and :ref:`component-is_glossary` are
+enabled. Remove restricted access to use the glossary project-wide, or disable
+:guilabel:`Use as a glossary` to keep an ordinary restricted component.
+
 An empty glossary for a given project is automatically created with the
 project. Glossaries are shared among all components of the same project, and
 optionally with other projects using :ref:`component-links` from the respective

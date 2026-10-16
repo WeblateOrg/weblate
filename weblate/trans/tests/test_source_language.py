@@ -2462,6 +2462,12 @@ class SourceLanguageTest(FixtureComponentTestCase):
         )
         cache.set(key, "stale glossary", 3600)
         self.project.invalidate_glossary_cache()
+        self.assertNotEqual(
+            key,
+            self.project.get_glossary_tsv_cache_key(
+                self.parent.translation.language, self.child.translation.language
+            ),
+        )
         self.assertIsNone(cache.get(key))
 
     def test_parent_changes_schedule_memory_update(self) -> None:

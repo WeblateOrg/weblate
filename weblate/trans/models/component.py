@@ -11,6 +11,7 @@ from collections import defaultdict
 from contextlib import contextmanager, nullcontext, suppress
 from copy import deepcopy
 from dataclasses import dataclass
+from functools import partial
 from glob import glob
 from itertools import chain
 from typing import (
@@ -1298,7 +1299,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         else:
             self._save(*args, **kwargs)
 
-    def _save(  # ruff: ignore[complex-structure, too-many-locals]
+    def _save(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
         self, *args, **kwargs
     ) -> None:
         """
@@ -1346,6 +1347,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # enabled later for units that already exist.
         update_tm = False
         restricted_changed = False
+        glossary_settings_changed = False
         old_full_slug = None
         old_source_project_id = None
         old_workspace_id = None
@@ -1365,6 +1367,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             old_source_project_id = old.project_id
             old_workspace_id = old.project.workspace_id
             restricted_changed = old.restricted != self.restricted
+            glossary_settings_changed = old.is_glossary != self.is_glossary
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -1413,6 +1416,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             restricted_changed = restricted_changed and (
                 update_fields is None or "restricted" in update_fields
             )
+            glossary_settings_changed = (
+                glossary_settings_changed
+                and (update_fields is None or "is_glossary" in update_fields)
+            ) or (restricted_changed and (old.is_glossary or self.is_glossary))
 
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
@@ -1450,7 +1457,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.new_lang = "none"
             self.inherit_new_lang = False
             # Make sure it is listed in project glossaries now
-            self.project.glossaries.append(self)
+            self.project.all_glossaries.append(self)
+            if not self.restricted:
+                self.project.glossaries.append(self)
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -1468,6 +1477,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Save/Create object
         super().save(*args, **kwargs)
+        if glossary_settings_changed or (create and self.is_glossary):
+            transaction.on_commit(
+                partial(
+                    self._update_glossary_configuration,
+                    update_checks=glossary_settings_changed,
+                    sync_terminology=(
+                        glossary_settings_changed
+                        and self.is_glossary
+                        and not self.restricted
+                    ),
+                )
+            )
         if restricted_changed and self.restricted:
             # TODO(2028.1): Legacy unattributed shared scopes keep their
             # pre-upgrade behavior until the component backfill processes them.
@@ -1983,7 +2004,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         project = self.project
 
         # Does glossary already exist?
-        if self.is_glossary or project.glossaries or len(project.child_components) > 2:
+        if (
+            self.is_glossary
+            or project.all_glossaries
+            or len(project.child_components) > 2
+        ):
             return
 
         component_names = {component.name for component in project.child_components}
@@ -5372,8 +5397,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             cache.set(self.glossary_sources_key, result, 24 * 3600)
         return result
 
-    def invalidate_glossary_cache(self) -> None:
-        if not self.is_glossary:
+    def invalidate_glossary_cache(self, *, force: bool = False) -> None:
+        if not self.is_glossary and not force:
             return
         cache.delete_many(
             [self.glossary_sources_key, f"{self.glossary_sources_key}-index"]
@@ -5384,6 +5409,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             project.invalidate_glossary_cache()
         if "glossary_sources" in self.__dict__:
             del self.__dict__["glossary_sources"]
+
+    def _update_glossary_configuration(
+        self, *, update_checks: bool, sync_terminology: bool
+    ) -> None:
+        """Apply glossary configuration changes after the database commit."""
+        self.invalidate_glossary_cache(force=True)
+        if update_checks:
+            for project in (self.project, *self.cached_links):
+                project.schedule_component_check_updates()
+        if sync_terminology:
+            self.schedule_sync_terminology()
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
@@ -7414,4 +7450,4 @@ def change_component_link(sender, instance, **kwargs) -> None:
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)
-        project.invalidate_glossary_cache()
+        transaction.on_commit(project.invalidate_glossary_cache)

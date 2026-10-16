@@ -531,6 +531,30 @@ class MonolingualGlossary(BaseAlert):
 
 
 @register
+class RestrictedGlossary(BaseAlert):
+    verbose = gettext_lazy("Restricted glossary is not used.")
+    severity = AlertSeverity.WARNING
+    doc_page = "user/glossary"
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        return reverse("settings", kwargs={"path": component.get_url_path()})
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        result.update(
+            can_configure=self.can_user_act(user, component),
+            configure_url=self.get_url(component),
+        )
+        return result
+
+    @staticmethod
+    def check_component(component: Component) -> bool:
+        return component.is_glossary and component.restricted
+
+
+@register
 class GlossaryStringManagementDisabled(BaseAlert):
     verbose = gettext_lazy("Glossary string management is disabled")
     severity = AlertSeverity.WARNING
