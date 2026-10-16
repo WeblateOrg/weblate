@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<p>{% translate "Restricted components are not used as glossaries. Their terms are not shown in other components, included in quality checks, or sent to translation services." %}</p>
+
+<p>{% translate "Remove restricted access to use this glossary project-wide, or disable ‘Use as a glossary’ to keep it as an ordinary restricted component." %}</p>
+
+{% if can_configure %}
+  <p>
+    <a class="btn btn-primary" href="{{ configure_url }}">{% translate "Configure" %}</a>
+  </p>
+{% endif %}

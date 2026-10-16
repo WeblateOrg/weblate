@@ -187,11 +187,12 @@ def get_non_glossary_stats(
         from weblate.trans.models import Translation
 
         glossaries = Translation.objects.filter(
-            language=stats_obj.language, component__in=stats_obj.project.glossaries
+            language=stats_obj.language,
+            component__in=stats_obj.project.all_glossaries,
         ).prefetch()
     elif isinstance(stats_obj, ProjectStats):
         # ruff: ignore[private-member-access]
-        glossaries = stats_obj._object.glossaries
+        glossaries = stats_obj._object.all_glossaries
     elif isinstance(stats_obj, GlobalStats):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Component

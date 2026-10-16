@@ -28,6 +28,8 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
     """Add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)
+    if component.restricted or not component.is_glossary:
+        return
 
     language_ids = set(component.translation_set.values_list("language_id", flat=True))
     missing = (
@@ -72,7 +74,9 @@ def get_stale_glossary_translations(
         return Translation.objects.none()
 
     stale_glossaries = Translation.objects.filter(
-        component__project=project, component__is_glossary=True
+        component__project=project,
+        component__is_glossary=True,
+        component__restricted=False,
     )
     if component is not None:
         stale_glossaries = stale_glossaries.filter(component=component)
@@ -124,6 +128,8 @@ def sync_terminology(pk: int, component: Component | None = None) -> dict[str, i
     """Sync terminology and add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)
+    if component.restricted or not component.is_glossary:
+        return {"component": pk}
 
     sync_glossary_languages(pk, component)
 

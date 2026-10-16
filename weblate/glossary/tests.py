@@ -14,8 +14,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
+from django.core.cache import cache
 from django.db import transaction
 from django.template.loader import render_to_string
+from django.test import override_settings
 from django.urls import reverse
 from django.utils.translation import override as translation_override
 from lxml import etree
@@ -35,7 +37,10 @@ from weblate.glossary.tasks import (
 from weblate.lang.models import Language
 from weblate.machinery.llm import BaseLLMTranslation
 from weblate.trans.alerts.base import AlertSeverity
-from weblate.trans.alerts.config import GlossaryStringManagementDisabled
+from weblate.trans.alerts.config import (
+    GlossaryStringManagementDisabled,
+    RestrictedGlossary,
+)
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ReusableViewTestCase
@@ -204,6 +209,97 @@ class GlossaryTest(ReusableViewTestCase):
             extra_flags=target_flags,
         )
         self.glossary.invalidate_cache()
+
+    def test_restricted_glossary_is_inactive(self) -> None:
+        edited = self.get_unit()
+        self.add_term(edited.source, "Confidential term")
+
+        self.assertEqual(len(get_glossary_terms(edited)), 1)
+        self.assertIn("Confidential term", get_glossary_tsv(edited.translation))
+        old_tsv_key = self.project.get_glossary_tsv_cache_key(
+            edited.effective_source_language, edited.translation.language
+        )
+        self.assertIn(self.glossary_component, self.project.glossaries)
+        self.assertIn(self.glossary_component, self.project.all_glossaries)
+
+        self.glossary_component.acting_user = self.user
+        self.glossary_component.restricted = True
+        with self.captureOnCommitCallbacks(execute=True):
+            self.glossary_component.save(update_fields=["restricted"])
+
+        edited.glossary_terms = None
+        new_tsv_key = self.project.get_glossary_tsv_cache_key(
+            edited.effective_source_language, edited.translation.language
+        )
+        self.assertNotEqual(new_tsv_key, old_tsv_key)
+        cache.set(old_tsv_key, "Confidential term", 3600)
+        self.assertEqual(get_glossary_terms(edited), [])
+        self.assertEqual(get_glossary_tsv(edited.translation), "")
+        self.assertNotIn(self.glossary_component, self.project.glossaries)
+        self.assertIn(self.glossary_component, self.project.all_glossaries)
+        glossary_count = self.project.component_set.filter(is_glossary=True).count()
+        self.component.create_glossary()
+        self.assertEqual(
+            self.project.component_set.filter(is_glossary=True).count(), glossary_count
+        )
+
+        self.glossary_component.restricted = False
+        with self.captureOnCommitCallbacks(execute=True):
+            self.glossary_component.save(update_fields=["restricted"])
+
+        edited.glossary_terms = None
+        self.assertEqual(len(get_glossary_terms(edited)), 1)
+        self.assertIn("Confidential term", get_glossary_tsv(edited.translation))
+        self.assertIn(self.glossary_component, self.project.glossaries)
+
+    def test_restricted_glossary_terminology_sync_is_inactive(self) -> None:
+        self.glossary_component.restricted = True
+        with (
+            patch("weblate.glossary.tasks.sync_glossary_languages") as sync_languages,
+            patch(
+                "weblate.trans.models.translation.Translation.sync_terminology"
+            ) as sync_terms,
+        ):
+            result = sync_terminology(
+                self.glossary_component.pk, self.glossary_component
+            )
+
+        self.assertEqual(result, {"component": self.glossary_component.pk})
+        sync_languages.assert_not_called()
+        sync_terms.assert_not_called()
+
+    @override_settings(DEFAULT_RESTRICTED_COMPONENT=True)
+    def test_automatically_created_restricted_glossary_is_inactive(self) -> None:
+        glossary = self.project.scratch_create_component(
+            "Restricted glossary",
+            "restricted-glossary",
+            self.component.source_language,
+            "tbx",
+            has_template=False,
+            is_glossary=True,
+            acting_user=self.user,
+        )
+
+        self.assertTrue(glossary.restricted)
+        self.assertIn(glossary, self.project.all_glossaries)
+        self.assertNotIn(glossary, self.project.glossaries)
+        update_alerts(glossary, {"RestrictedGlossary"})
+        self.assertTrue(glossary.alert_set.filter(name="RestrictedGlossary").exists())
+
+    def test_restricted_glossary_alert(self) -> None:
+        component = self.glossary_component
+        self.assertFalse(RestrictedGlossary.check_component(component))
+
+        component.restricted = True
+        self.assertTrue(RestrictedGlossary.check_component(component))
+        update_alerts(component, {"RestrictedGlossary"})
+        alert = component.alert_set.get(name="RestrictedGlossary")
+        self.assertEqual(alert.severity, AlertSeverity.WARNING)
+        self.assertFalse(alert.can_user_dismiss(self.user))
+
+        component.is_glossary = False
+        update_alerts(component, {"RestrictedGlossary"})
+        self.assertFalse(component.alert_set.filter(name="RestrictedGlossary").exists())
 
     def test_custom_source_glossary_discovery_and_tsv(self) -> None:
         self.add_term("Hello", "Ahoj")
@@ -1344,6 +1440,17 @@ class GlossaryTest(ReusableViewTestCase):
                 )
             ),
             ["de"],
+        )
+
+        self.glossary_component.acting_user = self.user
+        self.glossary_component.restricted = True
+        with self.captureOnCommitCallbacks(execute=True):
+            self.glossary_component.save(update_fields=["restricted"])
+
+        self.assertFalse(get_stale_glossary_translations(self.project).exists())
+        cleanup_stale_glossaries(self.project)
+        self.assertTrue(
+            self.glossary_component.translation_set.filter(language_code="de").exists()
         )
 
         self.component.delete()
