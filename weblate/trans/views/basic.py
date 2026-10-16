@@ -295,10 +295,11 @@ def show_project_language(
         .recent()
     )
 
+    translation_set = obj.get_translation_set_access(user)
     translations = translation_prefetch_tasks(
         get_paginator(
             request,
-            obj.translation_set,
+            translation_set,
             stats=True,
             sort_by=request.GET.get("sort_by"),
         )
@@ -307,10 +308,11 @@ def show_project_language(
 
     # Add ghost translations
     if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.id for translation in obj.translation_set}
+        existing = {translation.component.id for translation in translation_set}
         missing = project_object.get_child_components_filter(
             lambda qs: (
-                qs.exclude(id__in=existing)
+                qs.filter_access(user)
+                .exclude(id__in=existing)
                 .prefetch()
                 .prefetch_related("source_language")
             )
@@ -393,9 +395,10 @@ def show_category_language(
         language=language_object,
     ).recent()
 
+    translation_set = obj.get_translation_set_access(user)
     translations = get_paginator(
         request,
-        obj.translation_set,
+        translation_set,
         stats=True,
         sort_by=request.GET.get("sort_by"),
     )
@@ -403,8 +406,10 @@ def show_category_language(
 
     # Add ghost translations
     if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.id for translation in obj.translation_set}
-        missing = category_object.component_set.exclude(id__in=existing)
+        existing = {translation.component.id for translation in translation_set}
+        missing = category_object.component_set.filter_access(user).exclude(
+            id__in=existing
+        )
         extra_translations = [
             GhostTranslation(obj.project, language_object, component)
             for component in missing

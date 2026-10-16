@@ -1721,6 +1721,86 @@ class BasicViewTest(ReusableViewTestCase):
 
         self.assert_upload_placeholder(response, "#components")
 
+    def test_language_views_filter_restricted_components(self) -> None:
+        category = self.create_category(self.project)
+        project_component = self.create_po_new_base(
+            project=self.project,
+            name="restricted-project-language",
+            new_lang="add",
+            restricted=True,
+        )
+        category_component = self.create_po_new_base(
+            project=self.project,
+            category=category,
+            name="restricted-category-language",
+            new_lang="add",
+            restricted=True,
+        )
+        visible_category_component = self.create_po(
+            project=self.project,
+            category=category,
+            name="visible-category-language",
+        )
+        language = self.translation.language
+        project_language = ProjectLanguage(self.project, language)
+        category_language = CategoryLanguage(category, language)
+        pages = (
+            (
+                project_language.get_absolute_url(),
+                project_component,
+                self.translation.get_absolute_url(),
+                sum(
+                    translation.stats.all
+                    for translation in project_language.translation_set
+                ),
+            ),
+            (
+                category_language.get_absolute_url(),
+                category_component,
+                visible_category_component.translation_set.get(
+                    language=language
+                ).get_absolute_url(),
+                sum(
+                    translation.stats.all
+                    for translation in category_language.translation_set
+                ),
+            ),
+        )
+
+        for component in (project_component, category_component):
+            self.assertTrue(component.can_add_new_language(self.user, fast=True))
+
+        self.user.clear_permissions_cache()
+        for url, component, visible_url, expected_total in pages:
+            with self.subTest(url=url, user="project-access"):
+                response = self.client.get(url)
+                self.assertNotContains(response, component.name, status_code=200)
+                self.assertContains(response, visible_url)
+                self.assertEqual(response.context["language_stats"].all, expected_total)
+
+        self.client.logout()
+        for url, component, visible_url, expected_total in pages:
+            with self.subTest(url=url, user="anonymous"):
+                response = self.client.get(url)
+                self.assertNotContains(response, component.name, status_code=200)
+                self.assertContains(response, visible_url)
+                self.assertEqual(response.context["language_stats"].all, expected_total)
+
+        group = Group.objects.create(
+            name="Restricted language page access", language_selection=SELECTION_ALL
+        )
+        group.components.add(project_component, category_component)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.client.login(username="testuser", password="testpassword")
+        for url, component, visible_url, expected_total in pages:
+            with self.subTest(url=url, user="component-access"):
+                response = self.client.get(url)
+                self.assertContains(response, component.name, status_code=200)
+                self.assertContains(response, visible_url)
+                self.assertEqual(response.context["language_stats"].all, expected_total)
+
     def test_view_translation_others(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             other = Component.objects.create(
