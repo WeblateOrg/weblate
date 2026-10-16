@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-12 19:01+0000\n"
 "Last-Translator: Nicat <nijat@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -74,8 +74,38 @@ msgstr "Bu istifadəçi adı artıq mövcuddur. Zəhmət olmasa, başqasın seç
 msgid "Full name"
 msgstr "Tam adınız"
 
-msgid "Name is also used in version control commits."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
 msgstr ""
+
+#, fuzzy
+#| msgid "User comments"
+msgid "User data file"
+msgstr "İstifadəçi şərhləri"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Import general notification settings"
+msgstr "Tərcümə statusu"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The user data file is too large."
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
+#, fuzzy, python-format
+#| msgid "Translation is now locked for you."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
+#, fuzzy
+#| msgid "New translation"
+msgid "The uploaded file contains too many settings."
+msgstr "Yeni tərcümə"
 
 msgid "Commit e-mail"
 msgstr "Töhfə e-poçtu"
@@ -96,11 +126,27 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Version control identity"
+msgstr "Kontekst sətirlərində axtar"
+
 msgid "Public e-mail"
 msgstr "Hamıya açıq e-poçt"
 
 msgid "Hide e-mail address from public view"
 msgstr "E-poçt ünvanının hər kəsə görünməsinin qarşısını al"
+
+#, fuzzy
+#| msgid "Used languages"
+msgid "Display"
+msgstr "istifadə olunan dil"
+
+msgid "Translation"
+msgstr "Tərcümə"
+
+msgid "Dashboard"
+msgstr "Panel"
 
 #, python-format
 msgid "Component list: %s"
@@ -113,6 +159,11 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+
+#, fuzzy
+#| msgid "Persian"
+msgid "Personal information"
+msgstr "farsca"
 
 msgid "Human verification"
 msgstr "İnsan tərəfindən təsdiqlənmə"
@@ -352,6 +403,11 @@ msgid "Enter the code from the app"
 msgstr ""
 
 #, fuzzy
+#| msgid "Authentication"
+msgid "Authentication app"
+msgstr "İdentifikasiya"
+
+#, fuzzy
 #| msgid "Subproject is now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "Alt layihə artıq tərcümə yenilikləri üçün açıqdır."
@@ -369,6 +425,16 @@ msgstr "Yanlış(invalid) təklif!"
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Notification setting"
+msgstr "Fəaliyyət"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved search"
+msgstr "axtar"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1369,11 +1435,21 @@ msgstr ""
 msgid "Authentication app (%s)"
 msgstr "İdentifikasiya"
 
+#, fuzzy, python-format
+#| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "Cari filtr: %(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Parol sıfırlama"
 
 msgid "Remove account"
 msgstr "Hesabı sil"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "İnsan tərəfindən təsdiqlənmə"
 
 msgid "User registration"
 msgstr "İstifadəçi qeydiyyatı"
@@ -1476,7 +1552,9 @@ msgstr "Daxil ol"
 msgid "Signed out"
 msgstr "Çıxış"
 
-msgid "Register e-mail"
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Verify new e-mail address"
 msgstr "Mail qeydiyyatdan keçirt"
 
 msgid "Please confirm your identity using a second factor before proceeding."
@@ -1490,6 +1568,20 @@ msgstr "Parolu dəyiş"
 
 msgid "Password reset has been already completed."
 msgstr "Şifrə sıfırlanması artıq başa çatdı."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid suggestion!"
+msgid "Some settings could not be imported: %s"
+msgstr "Yanlış(invalid) təklif!"
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Profiliniz yeniləndi."
 
 msgid "Could not remove user identity"
 msgstr "İstifadəçi şəxsiyyətini silmək olmur"
@@ -3954,9 +4046,9 @@ msgstr "Tərcümə tarixini yaddaşa ver"
 
 #. Translators: Permission name
 #, fuzzy
-#| msgid "Machame"
-msgid "Manage machinery"
-msgstr "maçam"
+#| msgid "Machine translation suggestions"
+msgid "Manage translation services"
+msgstr "Maşın tərcümə təklifləri"
 
 #. Translators: Permission name
 #, fuzzy
@@ -4640,9 +4732,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Select a component for this automation."
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, fuzzy
 #| msgid "New comment in %(subproject)s"
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "%(subproject)s içində yeni şərh"
+
+#, fuzzy
+#| msgid "Browse all changes for user"
+msgid "Select a change for this automation."
+msgstr "İstifadəçi üçün bütün dəyişikliklərə baxın"
 
 #, fuzzy
 #| msgid "All subprojects"
@@ -4650,11 +4752,25 @@ msgid "The change does not belong to this component."
 msgstr "Bütün alt layihələr"
 
 #, fuzzy
+#| msgid "All subprojects"
+msgid "The change event does not match this automation's triggers."
+msgstr "Bütün alt layihələr"
+
+#, fuzzy
+#| msgid "Currently associated:"
+msgid "Trigger scope requires a change with a string."
+msgstr "Cari əlaqələnmişlər:"
+
+#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automation nesting is too deep."
 msgstr "Avtomatik tərcümə"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4713,20 +4829,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Preview component ID"
-msgstr "Digər Komponentlər"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Komponent"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "changes"
+msgid "Change ID"
+msgstr "dəyişikliklər"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Son dəyişikliklər"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Əlavə mesaj"
@@ -6333,9 +6454,6 @@ msgstr "Uğursuz yoxlamalar"
 msgid "Check"
 msgstr "Yoxla"
 
-msgid "Translation"
-msgstr "Tərcümə"
-
 #, fuzzy
 #| msgid "Possible configuration"
 msgid "Weblate configuration"
@@ -7291,24 +7409,32 @@ msgstr "Xidmət şərtləri ilə razılaşma {date}."
 msgid "You have to agree to the General Terms and Conditions"
 msgstr ""
 
-#, fuzzy
-#| msgid "Source string:"
-msgid "Please read the following legal documents:"
-msgstr "Qaynaq sətir:"
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Xidmət şərtləri ilə razılaşma {date}."
 
-msgid "General Terms and Conditions"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Xidmət şərtləri ilə razılaşma {date}."
 
-msgid "Privacy Policy"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Xidmət şərtləri ilə razılaşma {date}."
 
 #, fuzzy
 #| msgid "Agreement with Terms of Service {date}."
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Xidmət şərtləri ilə razılaşma {date}."
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgid "General Terms and Conditions"
 msgstr ""
 
 msgid "Submit"
@@ -7341,6 +7467,9 @@ msgid ""
 "document to fully understand it:"
 msgstr ""
 
+msgid "Privacy Policy"
+msgstr ""
+
 msgid "Cookies are used on this site for the following:"
 msgstr ""
 
@@ -7358,6 +7487,38 @@ msgid ""
 msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
+msgstr ""
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Xidmət şərtləri ilə razılaşma {date}."
+
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
 msgstr ""
 
 msgid "Legal Terms Overview"
@@ -7386,6 +7547,122 @@ msgstr "Uyğun gələn dil tapma uğursuz oldu!"
 #| msgid "Failed to save translation!"
 msgid "Could not fetch translation: %s"
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Tərcümə lisenziyası"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "The language pair is not supported by this domain"
+msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, fuzzy
+#| msgid "Source string age"
+msgid "The text is too long"
+msgstr "Qaynaq sətir yaşı"
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Quality estimation is not available"
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "The translation backend failed"
+msgstr "Tərcümə yaddaşa verildi!"
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "The translation request timed out"
+msgstr "Tərcümə hal-hazırda kilidlidir."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Daxili Server Xətası"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Unknown"
+msgid "Unknown error"
+msgstr "Bilinmir"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid check flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Etibarsız yoxlama işarəsi: \"%s\""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No eTranslation domains available"
+msgstr "Tərcümə Bildirişləri"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to save translation!"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
+
+#, fuzzy, python-format
+#| msgid "Translation notifications"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Tərcümə Bildirişləri"
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Uğursuz birləşdirmə sorğusu!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse changes"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Dəyişikliklərə göz at"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 #, fuzzy
 #| msgid "Source change"
@@ -7423,6 +7700,63 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "Adınız"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Şifrə"
+
+#, fuzzy
+#| msgid "Language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Dil Kodu"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Sayt domeyni"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Sayt domeyni"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment added"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Şərh əlavə olundu"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Invalid eTranslation domain code."
+msgstr "Tərcümə Bildirişləri"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Digər Komponentlər"
 
 #, fuzzy
 #| msgid "Committer e-mail"
@@ -7908,6 +8242,63 @@ msgid "@@PH1@@ failed checks"
 msgstr "Uğursuz yoxlamalar"
 
 #, fuzzy
+#| msgid "Translation file"
+msgid "Choose only one installation scope."
+msgstr "Tərcümə faylı"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This scope already has 20 service installations."
+msgstr "Tərcümə hal-hazırda kilidlidir."
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "This service is already installed here."
+msgstr "Tərcümə tamamlandı"
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "All subprojects"
+msgid "This slug is already used in an affected project."
+msgstr "Bütün alt layihələr"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Choose one exclusion scope."
+msgstr "Tərcümə faylı"
+
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Choose an installation or a translation service."
+msgstr "Maşın tərcümə təklifləri"
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Tərcümə yaddaşa verildi!"
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Translation services conflict with the new workspace."
+msgstr "Tərcümə yaddaşa verildi!"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Service is currently not available."
+msgstr "Uyğun deyil"
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
+#, fuzzy
 #| msgid "Automatic detection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
@@ -7924,11 +8315,6 @@ msgstr "Şərh əlavə olundu"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "%(translation)s içində yeni dil istəyi"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Service is currently not available."
-msgstr "Uyğun deyil"
 
 msgid "File"
 msgstr "Fayl"
@@ -8311,9 +8697,6 @@ msgstr "İcazə verilmədi"
 #| msgid "You don't have privileges to display this page."
 msgid "Insufficient privileges to display this page."
 msgstr "Bu səhifəyə baxmaq üçün hüqunuz yoxdur."
-
-msgid "Dashboard"
-msgstr "Panel"
 
 #, fuzzy
 #| msgid "Browse changes"
@@ -8707,6 +9090,11 @@ msgstr "Parolunuz dəyişdirildi."
 msgid "Account removal almost complete"
 msgstr "Parolunuz dəyişdirildi."
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Qeydiyyat demək olarki tamamlanıb"
+
 msgid "Registration almost complete"
 msgstr "Qeydiyyat demək olarki tamamlanıb"
 
@@ -8716,6 +9104,11 @@ msgstr ""
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
+msgstr ""
+
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
 msgstr ""
 
 msgid ""
@@ -8735,6 +9128,11 @@ msgstr[1] ""
 msgid "Request a new confirmation link if it expires."
 msgstr ""
 
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr ""
+
 msgid "Register again if the confirmation link expires."
 msgstr ""
 
@@ -8745,21 +9143,30 @@ msgstr ""
 
 #, fuzzy
 #| msgid "If there is a problem with your registration, please contact us:"
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr ""
+"Əgər qeydiyyatınız ilə əlaqədar problem yaşayırsınızsa, zəhmət olmasa "
+"bizimlə əlaqəyə keçin:"
+
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 "Əgər qeydiyyatınız ilə əlaqədar problem yaşayırsınızsa, zəhmət olmasa "
 "bizimlə əlaqəyə keçin:"
 
-msgid "Please fix errors in the registration form."
-msgstr "Zəhmət olmasa qeydiyyat formundakı xətaları düzəldin."
+msgid "Please fix errors in the form."
+msgstr "Zəhmət olmasa formdakı xətaları düzəldin."
 
 #, fuzzy
-#| msgid "Register e-mail"
-msgid "Verify new e-mail address"
+#| msgid "Register email"
+msgid "Send verification e-mail"
 msgstr "Mail qeydiyyatdan keçirt"
 
-msgid "Register"
-msgstr "Qeydiyyatdan keç"
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Back to account settings"
+msgstr "Kontekst sətirlərində axtar"
 
 #, fuzzy
 #| msgid "Subscriptions"
@@ -8991,39 +9398,126 @@ msgstr ""
 msgid "Change my password"
 msgstr "Parolu dəyişdir"
 
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Back to security settings"
+msgstr "Kontekst sətirlərində axtar"
+
+#, fuzzy
+#| msgid "Source string:"
+msgid "Profile settings"
+msgstr "Qaynaq sətir:"
+
+msgid "Account"
+msgstr "Hesab"
+
+#, fuzzy
+#| msgid "Your public profile"
+msgid "Public profile"
+msgstr "İctimai profiliniz"
+
 msgid "Preferences"
 msgstr "Seçimlər"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved searches"
+msgstr "axtar"
 
 #, fuzzy
 #| msgid "Action"
 msgid "Notifications"
 msgstr "Fəaliyyət"
 
-msgid "Account"
-msgstr "Hesab"
+#, fuzzy
+#| msgid "Revert"
+msgid "Security"
+msgstr "Geri qaytar"
 
-msgid "Profile"
-msgstr "Profil"
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Qaynaq sətirlər"
 
 msgid "Licenses"
 msgstr "Lisenziyalar"
 
-msgid "Audit log"
+msgid "Activity"
+msgstr "Fəaliyyət"
+
+msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 
-msgid "API access"
-msgstr "API"
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Add and verify e-mail address"
+msgstr "Mail qeydiyyatdan keçirt"
 
-msgid "Please fix errors in the form."
-msgstr "Zəhmət olmasa formdakı xətaları düzəldin."
+msgid "Save"
+msgstr "Yaddaşa ver"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Account management"
+msgstr "Tam adınız"
+
+#, fuzzy
+#| msgid "Download"
+msgid "Download user data"
+msgstr "Endir"
+
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "You can download all your private data."
+msgstr "Hesabınızın silinməsi bütün şəxsi informasiyalarınızı silər."
+
+#, fuzzy
+#| msgid "Source string:"
+msgid "Import settings"
+msgstr "Qaynaq sətir:"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Çıxarılma"
+
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "Account removal deletes all your private data."
+msgstr "Hesabınızın silinməsi bütün şəxsi informasiyalarınızı silər."
+
+msgid "Remove my account"
+msgstr "Hesabımı sil"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+
+msgid "Your avatar"
+msgstr "Avatarınız"
+
+#, fuzzy, python-format
+#| msgid "Avatars are provided using libravatar."
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Avatarlar libravatar ilə təmin edilir."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
 
-msgid "Save"
-msgstr "Yaddaşa ver"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new word"
+msgid "Add saved search"
+msgstr "Yeni söz əlavə et"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -9050,37 +9544,23 @@ msgstr "Fəaliyyət"
 msgid "Remove this notification setting"
 msgstr "Tərcümə statusu"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr ""
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Parolla daxil olma"
 
 #, fuzzy
-#| msgid "User identities"
-msgid "Current user identities"
-msgstr "İstifadəçi kimlikləri"
+#| msgid "Configuration errors"
+msgid "Configured"
+msgstr "Konfiqurasiya xətaları"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Not configured"
+msgstr "Konfiqurasiya xətaları"
 
 msgid "Set password"
 msgstr "Parolu nizamla"
-
-msgid "Disconnect"
-msgstr "Əlaqəni kəs"
-
-#, fuzzy
-#| msgid "Add new word"
-msgid "Add new user identity"
-msgstr "Yeni söz əlavə et"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Olan Tərcümələr"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Manage code-hosting connections"
-msgstr "Administrasiya"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9100,21 +9580,22 @@ msgstr ""
 msgid "No WebAuthn keys registered yet."
 msgstr "Tərcümə hal-hazırda kilidlidir."
 
+#, fuzzy, python-format
+#| msgid "Translation is currently not locked."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Tərcümə hal-hazırda kilidlidir."
+msgstr[1] "Tərcümə hal-hazırda kilidlidir."
+
+#, fuzzy
+#| msgid "Secret key"
+msgid "Add security key"
+msgstr "Gizli açar"
+
 #, fuzzy
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Çıxarılma"
-
-msgid "Name your security key"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove my account"
-msgid "Register new security key"
-msgstr "Hesabımı sil"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr ""
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9125,6 +9606,13 @@ msgstr "İdentifikasiya"
 #| msgid "Translation is currently not locked."
 msgid "No authenticator apps registered yet."
 msgstr "Tərcümə hal-hazırda kilidlidir."
+
+#, fuzzy, python-format
+#| msgid "Translation is currently not locked."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Tərcümə hal-hazırda kilidlidir."
+msgstr[1] "Tərcümə hal-hazırda kilidlidir."
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -9139,9 +9627,6 @@ msgstr ""
 msgid "No recovery codes generated yet."
 msgstr "Tərcümə hal-hazırda kilidlidir."
 
-msgid "Generate new recovery codes"
-msgstr ""
-
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -9150,87 +9635,28 @@ msgid_plural "%(count)s recovery codes available."
 msgstr[0] ", %(count)s səs"
 msgstr[1] ", %(count)s səs"
 
+msgid "Generate new recovery codes"
+msgstr ""
+
 msgid "View recovery codes"
 msgstr ""
 
-#, fuzzy
-#| msgid "User comments"
-msgid "User data"
-msgstr "İstifadəçi şərhləri"
-
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
-msgid "You can download all your private data."
-msgstr "Hesabınızın silinməsi bütün şəxsi informasiyalarınızı silər."
-
-#, fuzzy
-#| msgid "Download"
-msgid "Download user data"
-msgstr "Endir"
-
-msgid "Removal"
-msgstr "Çıxarılma"
-
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
-msgid "Account removal deletes all your private data."
-msgstr "Hesabınızın silinməsi bütün şəxsi informasiyalarınızı silər."
-
-msgid "Remove my account"
-msgstr "Hesabımı sil"
-
-#, fuzzy
-#| msgid "Your public profile"
-msgid "Public profile"
-msgstr "İctimai profiliniz"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
 
-msgid "Your avatar"
-msgstr "Avatarınız"
-
-#, fuzzy, python-format
-#| msgid "Avatars are provided using libravatar."
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatarlar libravatar ilə təmin edilir."
+msgid "Disconnect"
+msgstr "Əlaqəni kəs"
 
 #, fuzzy
-#| msgid "Administration"
-msgid "Pending invitation"
-msgstr "Administrasiya"
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "Hesabı sil"
 
-msgid "Description"
-msgstr "Açıqlama"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
+msgid "Add sign-in method"
 msgstr ""
 
-msgid "When"
-msgstr "Nə vaxt"
-
-#, fuzzy
-#| msgid "Email addresses"
-msgid "IP address"
-msgstr "Mail adresləri"
-
-#, fuzzy
-#| msgid "User comments"
-msgid "User agent"
-msgstr "İstifadəçi şərhləri"
-
-#, fuzzy
-#| msgid "No recent activity has been recorded."
-msgid "No recent activity found."
-msgstr "Qeyd edilmiş son fəaliyyət yoxdur."
-
-msgid "Report suspicious activity"
-msgstr ""
+msgid "API access"
+msgstr "API"
 
 #, fuzzy
 #| msgid ""
@@ -9276,6 +9702,26 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Olan Tərcümələr"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Manage code-hosting connections"
+msgstr "Administrasiya"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Pending invitation"
+msgstr "Administrasiya"
+
+#, fuzzy
 #| msgid ""
 #| "Please pay attention to the licensing information as these specify how "
 #| "others are allowed to use your translations."
@@ -9307,6 +9753,35 @@ msgstr ""
 #| msgid "Hosting translations"
 msgid "Licenses for individual translations"
 msgstr "Olan Tərcümələr"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+
+msgid "Audit log"
+msgstr ""
+
+msgid "When"
+msgstr "Nə vaxt"
+
+#, fuzzy
+#| msgid "Email addresses"
+msgid "IP address"
+msgstr "Mail adresləri"
+
+#, fuzzy
+#| msgid "User comments"
+msgid "User agent"
+msgstr "İstifadəçi şərhləri"
+
+#, fuzzy
+#| msgid "No recent activity has been recorded."
+msgid "No recent activity found."
+msgstr "Qeyd edilmiş son fəaliyyət yoxdur."
+
+msgid "Report suspicious activity"
+msgstr ""
 
 msgid "Two-factor recovery codes"
 msgstr ""
@@ -9342,11 +9817,6 @@ msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
 #, fuzzy
-#| msgid "Search in context strings"
-msgid "Back to account settings"
-msgstr "Kontekst sətirlərində axtar"
-
-#, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Redirecting you to the authentication provider."
 msgstr ""
@@ -9363,10 +9833,16 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr ""
 
+msgid "Please fix errors in the registration form."
+msgstr "Zəhmət olmasa qeydiyyat formundakı xətaları düzəldin."
+
 #, fuzzy, python-format
 #| msgid "Your registration on %(site_title)s"
 msgid "Register in %(formatted_site_title)s"
 msgstr "%(site_title)s qeydiyyatınız"
+
+msgid "Register"
+msgstr "Qeydiyyatdan keç"
 
 msgid "Create an account using:"
 msgstr ""
@@ -9433,6 +9909,11 @@ msgstr "Parolu nizamla"
 
 msgid "Reset my password"
 msgstr "Parolu sıfırla"
+
+#, fuzzy
+#| msgid "Source string:"
+msgid "Edit saved search"
+msgstr "Qaynaq sətir:"
 
 #, fuzzy
 #| msgid "Sent by Weblate translation system"
@@ -9626,9 +10107,6 @@ msgstr[1] ", %(count)s səs"
 msgid "Translates"
 msgstr "Tərcümə et"
 
-msgid "Activity"
-msgstr "Fəaliyyət"
-
 msgid "Recent changes"
 msgstr "Son dəyişikliklər"
 
@@ -9795,6 +10273,22 @@ msgstr ""
 msgid "Continue"
 msgstr "kontekst(məzmun)"
 
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Register new security key"
+msgstr "Hesabımı sil"
+
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+
+msgid "Name your security key"
+msgstr ""
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr ""
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -9874,14 +10368,33 @@ msgid "Configure add-on"
 msgstr "Konfiqurasiya xətaları"
 
 #, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Son dəyişikliklər"
-
-#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
 msgstr "Bu əlavə skripti icra edir."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Gözdən keçirmə"
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "No operations were executed."
+msgstr "Aktivasiya maili buraya göndəriləcək."
+
+#, fuzzy
+#| msgid "Enable ACL"
+msgid "Run add-on"
+msgstr "ACL icazə ver"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatic detection"
@@ -9892,11 +10405,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable ACL"
-msgid "Run add-on"
-msgstr "ACL icazə ver"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -11499,9 +12007,7 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Commit pending changes"
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
+msgid "Write pending Weblate translations to the repository."
 msgstr "Gözləyən dəyişiklikləri işlə"
 
 #, fuzzy, python-format
@@ -11532,10 +12038,9 @@ msgstr[0] ", %(count)s səs"
 msgstr[1] ", %(count)s səs"
 
 #, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"Tərcüməni kilidləmək digərlərinin tərcümə üzərində işləməsini əngəlləyəcək."
+#| msgid "Commit pending changes"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Gözləyən dəyişiklikləri işlə"
 
 #, fuzzy
 #| msgid "Commit pending changes"
@@ -11581,8 +12086,15 @@ msgstr "Tərcümələriniz"
 msgid "Weblate translations are locked"
 msgstr "Tərcümələriniz"
 
-msgid "Locking prevents translators from doing changes."
-msgstr ""
+#, fuzzy
+#| msgid "Translation change:"
+msgid "Lock to pause translation changes."
+msgstr "Tərcümə dəyişikliyi:"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Choose which translations to keep"
+msgstr "Tərcümə faylı"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -11590,26 +12102,35 @@ msgstr ""
 msgid "Discard local changes"
 msgstr "Yaxşı tərcümələr"
 
-#, fuzzy
-#| msgid "Git maintenance"
-msgid "Discard local changes and reset to upstream"
-msgstr "Git sazlaması"
-
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Use when:"
 msgstr ""
 
 #, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-"Tərcüməni kilidləmək digərlərinin tərcümə üzərində işləməsini əngəlləyəcək."
+#| msgid "Translation has been saved!"
+msgid "Upstream has the translations you want to keep."
+msgstr "Tərcümə yaddaşa verildi!"
 
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
-msgstr ""
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "Nəticə"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Repozitoriyanı sıfırlayın"
+
+#, fuzzy
+#| msgid "Data export"
+msgid "Data loss:"
+msgstr "Veriləni eksport etmə"
+
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Local commits and pending translation changes are discarded."
+msgstr "Yeni br tərcümə üçün istək layihənin idarəçilərinə göndəildi."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -11617,77 +12138,69 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Yeni tərcümələr üçün baza faylı"
 
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr "Yeni br tərcümə üçün istək layihənin idarəçilərinə göndəildi."
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "%(translation)s içində yeni tərcümə"
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
 #, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Weblate-in tərcümə tarixini saxlaması saxlamaması"
+#| msgid "Translation file"
+msgid "Refresh translation files"
+msgstr "Tərcümə faylı"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr ""
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Write all Weblate translations to the files."
+msgstr "Tərcümələriniz"
+
+msgid "Rescan"
+msgstr ""
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Load translations from the files into Weblate."
+msgstr "Tərcümə faylı"
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr ""
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
-msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr ""
-
-#, fuzzy
-#| msgid "Commit pending changes"
-msgid "Forces writing all strings to the translation files."
-msgstr "Gözləyən dəyişiklikləri işlə"
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation file"
-msgid "Loads translations from the files into Weblate."
-msgstr "Tərcümə faylı"
-
-#, fuzzy
-#| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-"%(site_title)s saytında %(subproject)s layihəsini birləşdirmək uğursuz oldu."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
 
 #, fuzzy
@@ -11701,63 +12214,40 @@ msgid "Remove duplicates"
 msgstr "Çıxarılma"
 
 #, fuzzy
-#| msgid "Commit pending changes"
-msgid "Remove duplicated strings from the translation file"
-msgstr "Gözləyən dəyişiklikləri işlə"
+#| msgid "Translation uploaded"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Tərcümə göndərildi"
 
 #, fuzzy
 #| msgid "Removes strings without a translation from translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "Tərcümə fayllarından tərcüməsi olmayan sətirləri silir."
-
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
 
 msgid "Cleanup unused"
 msgstr ""
 
 #, fuzzy
+#| msgid "Imported %d words from file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Fayldan %d söz import edildi."
+
+#, fuzzy
 #| msgid "Commit pending changes"
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Gözləyən dəyişiklikləri işlə"
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Tərcümə fayllarından tərcüməsi olmayan sətirləri silir."
-
-#, fuzzy
-#| msgid "Format of translation base file could not be recognized."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Tərcümə baza faylının formatı tanınmadı."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "Boş sətirləri çıxarın"
 
-#, fuzzy
-#| msgid "Commit pending changes"
-msgid "Remove obsolete strings from the translation file"
-msgstr "Gözləyən dəyişiklikləri işlə"
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "Boş sətirləri çıxarın"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "New translation in %(translation)s"
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "%(translation)s içində yeni tərcümə"
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "Boş sətirləri çıxarın"
 
 #, fuzzy, python-format
 #| msgid "Merge failure in %(subproject)s"
@@ -11971,8 +12461,20 @@ msgstr ""
 msgid "site wide"
 msgstr "Hesabatlar"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This service is installed in the workspace."
+msgstr "Tərcümə hal-hazırda kilidlidir."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Boşluqlar"
+
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This service is disabled."
+msgstr "Bu mail adresi ilə istifadəçi tapılmadı."
 
 msgid "disabled"
 msgstr ""
@@ -11982,10 +12484,16 @@ msgstr ""
 msgid "Service is no longer available"
 msgstr "Uyğun deyil"
 
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
 #, fuzzy
-#| msgid "Autoaccept suggestions"
-msgid "Automatic suggestions"
-msgstr "Təklifləri avtomatik qəbul et"
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Tərcümə Bildirişləri"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11994,17 +12502,36 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Autoaccept suggestions"
-msgid "Configured automatic suggestion services"
-msgstr "Təklifləri avtomatik qəbul et"
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Tərcümə sənədlərini təmizləyin"
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Stop using this installation without removing its configuration."
+msgstr "{0} adresində Weblate-i Dəstəklə"
 
 msgid "Disable"
+msgstr ""
+
+msgid "Stop using this inherited installation here."
 msgstr ""
 
 #, fuzzy
 #| msgid "Enable ACL"
 msgid "Enable"
 msgstr "ACL icazə ver"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Remove this installation and its configuration."
+msgstr "Tərcümə statusu"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 #, fuzzy
 #| msgid "Configuration errors"
@@ -12025,9 +12552,9 @@ msgstr[0] "%(count)s dənə çevrilməmiş sətir var."
 msgstr[1] "%(count)s dənə çevrilməmiş sətir var."
 
 #, fuzzy
-#| msgid "Autoaccept suggestions"
-msgid "Available automatic suggestion services"
-msgstr "Təklifləri avtomatik qəbul et"
+#| msgid "Machine translation suggestions"
+msgid "Available translation services"
+msgstr "Maşın tərcümə təklifləri"
 
 #, fuzzy
 #| msgid "Failed to save translation!"
@@ -13566,6 +14093,9 @@ msgstr "Dilin adı"
 msgid "Color"
 msgstr ""
 
+msgid "Description"
+msgstr "Açıqlama"
+
 #. Translators: Header for column showing the number of source strings with this label
 #, fuzzy
 #| msgid "Source string:"
@@ -13576,6 +14106,11 @@ msgstr "Qaynaq sətir:"
 #| msgid "Used languages"
 msgid "Add label"
 msgstr "istifadə olunan dil"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download compiled translation"
@@ -13686,6 +14221,14 @@ msgstr "Yaxşı tərcümələr"
 #| msgid "Download"
 msgid "Download reStructuredText"
 msgstr "Endir"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "search"
+msgid "Save search"
+msgstr "axtar"
 
 #, fuzzy
 #| msgid "Source string:"
@@ -13926,9 +14469,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 
 msgid ""
@@ -13939,9 +14481,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 
 msgid "This might be caused by missing subscription."
@@ -14493,6 +15034,22 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Email addresses"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "Mail adresləri"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "Depo əməliyyatı"
+
 msgid "Revert"
 msgstr "Geri qaytar"
 
@@ -14836,6 +15393,11 @@ msgstr "Avtomatik tərcümə"
 msgid "Translated strings in a certain language"
 msgstr "Hər hansı uğursuz yoxlaması olan sətir"
 
+#, fuzzy
+#| msgid "Search for %s"
+msgid "Save search…"
+msgstr "%s axtar"
+
 msgid "Query"
 msgstr "Sorğu"
 
@@ -14953,6 +15515,19 @@ msgstr "Yeni tərcümə başlat"
 #| msgid "No matching strings found!"
 msgid "Configure translation workflow"
 msgstr "Uyğun gələn sətirlər yoxdur!"
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Saved search name"
+msgstr "Müəllifin adı"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Axtarış filteri"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -15309,8 +15884,8 @@ msgstr "Şərh"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 #, fuzzy
@@ -15383,6 +15958,27 @@ msgstr ""
 #| msgid "Full name"
 msgid "Filename"
 msgstr "Tam adınız"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -16003,6 +16599,9 @@ msgid ""
 "translation component."
 msgstr ""
 
+msgid "Retry"
+msgstr ""
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -16509,6 +17108,11 @@ msgstr "Son dəyişdirmə"
 #| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
 msgstr "Maşın tərcümə təklifləri"
+
+#, fuzzy
+#| msgid "Autoaccept suggestions"
+msgid "Automatic suggestions"
+msgstr "Təklifləri avtomatik qəbul et"
 
 #, fuzzy
 #| msgid "Translation is now open for translation updates."
@@ -17202,9 +17806,6 @@ msgstr "Hesabımı sil"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -17399,11 +18000,6 @@ msgstr ""
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "Gözdən keçirmə"
 
 #, fuzzy
 #| msgid "Browse changes"
@@ -18760,6 +19356,11 @@ msgid "Duplicate label name."
 msgstr "Tərcümələriniz"
 
 #, fuzzy
+#| msgid "Your translations"
+msgid "Duplicate saved search name."
+msgstr "Tərcümələriniz"
+
+#, fuzzy
 #| msgid "Screenshot context"
 msgid "Screenshot image is missing."
 msgstr "Ekran görüntüsü konteksti"
@@ -19813,11 +20414,6 @@ msgstr "Tərcümə tamamlandı"
 msgid "Machine translation"
 msgstr "Maşın tərcüməsi"
 
-#, fuzzy
-#| msgid "Machine translation suggestions"
-msgid "Machine translation engines"
-msgstr "Maşın tərcümə təklifləri"
-
 msgid "Score threshold"
 msgstr ""
 
@@ -20085,6 +20681,16 @@ msgstr "Dilin əlavəsi yoxdur"
 #| msgid "Support Weblate at {0}"
 msgid "Select an existing component configuration to copy."
 msgstr "{0} adresində Weblate-i Dəstəklə"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Çox mesaj göndərildi, daha sonra yenidən cəhd edin."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "Çox mesaj göndərildi, daha sonra yenidən cəhd edin."
 
 #, fuzzy
 #| msgid "New translation"
@@ -20409,6 +21015,24 @@ msgstr "Müəllifin adı"
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "Qoşulduğu tarih"
+
+#, fuzzy
+#| msgid "Enable ACL"
+msgid "Available to"
+msgstr "ACL icazə ver"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Everybody in project {}"
+msgstr "İzlənilən layiəhlər"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "A saved search with this name already exists."
+msgstr "Tərcümə faylı"
 
 msgid "Expiry cannot be in the past."
 msgstr ""
@@ -20866,6 +21490,64 @@ msgstr ""
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr ""
 "%(user)s tərəfındən %(translation)s Dilində %(time)s tarixində %(action)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "Fev"
+
+#, fuzzy
+#| msgid "Reports"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Hesabatlar"
+
+#, fuzzy
+#| msgid "checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "yoxlamalar"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Avtomatik aşkarlama"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Tərcümələriniz"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "There are some not committed changes!"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Bəzi işlənməmiş dəyişikliklər var!"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source strings review"
@@ -21359,7 +22041,7 @@ msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Failed to save translation!"
-msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
 #, python-format
@@ -21941,6 +22623,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Tərcümə yaddaşa verildi!"
+
+#, fuzzy
 #| msgid "Translation completed"
 msgid ""
 "Shared translation memory can not be enabled while the project has "
@@ -21960,6 +22647,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "%(translation)s içində yeni tərcümə"
+
+#, fuzzy
+#| msgid "Description"
+msgid "Search description"
+msgstr "Açıqlama"
 
 #, fuzzy
 #| msgid "Autoaccept suggestions"
@@ -22211,6 +22903,11 @@ msgstr "Bütün alt layihələr"
 #| msgid "Source change"
 msgid "Source languages cannot form a cycle."
 msgstr "Qaynaq fərqi"
+
+#, fuzzy
+#| msgid "Commit pending changes"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Gözləyən dəyişiklikləri işlə"
 
 #, fuzzy
 #| msgid "Source string age"
@@ -23522,6 +24219,16 @@ msgid "More possible users were found."
 msgstr ""
 
 #, fuzzy
+#| msgid "Project Information"
+msgid "Project searches"
+msgstr "Layihə informasiyası"
+
+#, fuzzy
+#| msgid "search"
+msgid "My searches"
+msgstr "axtar"
+
+#, fuzzy
 #| msgid "Strings with comments (%d)"
 msgid "Strings with comments by me"
 msgstr "Şərhləri olan sətirlər(%d)"
@@ -23947,6 +24654,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "All repositories were updated."
+msgid "The local repository checkout is missing."
+msgstr "Bütün hovuzlar yeniləndi."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The local repository checkout is invalid."
+msgstr "Tərcümə artıq sizin üçün kilidlidir."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -24260,6 +24977,14 @@ msgstr ""
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
 "%(site_title)s saytında %(subproject)s layihəsini birləşdirmək uğursuz oldu."
+
+msgid "Invalid file path during repository recovery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Reconstructed repository is not usable."
+msgstr "Repozitor prosesi"
 
 #, fuzzy
 #| msgid "Possible configuration"
@@ -25156,6 +25881,121 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Hesabınız silindi."
 
+#~ msgid "Register e-mail"
+#~ msgstr "Mail qeydiyyatdan keçirt"
+
+#, fuzzy
+#~| msgid "Machame"
+#~ msgid "Manage machinery"
+#~ msgstr "maçam"
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Preview component ID"
+#~ msgstr "Digər Komponentlər"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Son dəyişikliklər"
+
+#, fuzzy
+#~| msgid "Source string:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Qaynaq sətir:"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#, fuzzy
+#~| msgid "User identities"
+#~ msgid "Current user identities"
+#~ msgstr "İstifadəçi kimlikləri"
+
+#, fuzzy
+#~| msgid "Add new word"
+#~ msgid "Add new user identity"
+#~ msgstr "Yeni söz əlavə et"
+
+#, fuzzy
+#~| msgid "Commit pending changes"
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr "Gözləyən dəyişiklikləri işlə"
+
+#, fuzzy
+#~| msgid "Locking the translation will prevent others to work on translation."
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr ""
+#~ "Tərcüməni kilidləmək digərlərinin tərcümə üzərində işləməsini "
+#~ "əngəlləyəcək."
+
+#, fuzzy
+#~| msgid "Git maintenance"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Git sazlaması"
+
+#, fuzzy
+#~| msgid "Locking the translation will prevent others to work on translation."
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr ""
+#~ "Tərcüməni kilidləmək digərlərinin tərcümə üzərində işləməsini "
+#~ "əngəlləyəcək."
+
+#, fuzzy
+#~| msgid "Whether Weblate should keep history of translations"
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Weblate-in tərcümə tarixini saxlaması saxlamaması"
+
+#, fuzzy
+#~| msgid "Commit pending changes"
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Gözləyən dəyişiklikləri işlə"
+
+#, fuzzy
+#~| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "%(site_title)s saytında %(subproject)s layihəsini birləşdirmək uğursuz "
+#~ "oldu."
+
+#, fuzzy
+#~| msgid "Commit pending changes"
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Gözləyən dəyişiklikləri işlə"
+
+#, fuzzy
+#~| msgid "Commit pending changes"
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Gözləyən dəyişiklikləri işlə"
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Tərcümə fayllarından tərcüməsi olmayan sətirləri silir."
+
+#, fuzzy
+#~| msgid "Format of translation base file could not be recognized."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Tərcümə baza faylının formatı tanınmadı."
+
+#, fuzzy
+#~| msgid "Autoaccept suggestions"
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Təklifləri avtomatik qəbul et"
+
+#, fuzzy
+#~| msgid "Autoaccept suggestions"
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Təklifləri avtomatik qəbul et"
+
+#, fuzzy
+#~| msgid "Machine translation suggestions"
+#~ msgid "Machine translation engines"
+#~ msgstr "Maşın tərcümə təklifləri"
+
 #, fuzzy, python-format
 #~| msgid "Failed to generate key: %s"
 #~ msgid "Could not authenticate: %s"
@@ -25172,11 +26012,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Authentication"
 #~ msgid "Authentication failed: %s"
 #~ msgstr "İdentifikasiya"
-
-#, fuzzy
-#~| msgid "Your translations"
-#~ msgid "Duplicate team name."
-#~ msgstr "Tərcümələriniz"
 
 #, fuzzy
 #~| msgid "Subproject"
@@ -25504,11 +26339,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Comment added"
 #~ msgid "Components are being updated…"
 #~ msgstr "Şərh əlavə olundu"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Qaynaq sətirlər"
 
 #, fuzzy
 #~| msgid "New comment in %(subproject)s"
@@ -25922,11 +26752,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Password needs to have at least six characters."
 #~ msgid "Your password can't contain repeated words or characters."
 #~ msgstr "Parol minimum altı simvoldan ibarət olmalıdır."
-
-#, fuzzy
-#~| msgid "Invalid merge request!"
-#~ msgid "Invalid revert request!"
-#~ msgstr "Uğursuz birləşdirmə sorğusu!"
 
 #, fuzzy
 #~| msgid "Source string:"
@@ -27119,11 +27944,6 @@ msgstr "Hesabınız silindi."
 #~ msgstr "Hər hansı uğursuz yoxlaması olan sətir"
 
 #, fuzzy
-#~| msgid "Machine translation suggestions"
-#~ msgid "Use machine translation services"
-#~ msgstr "Maşın tərcümə təklifləri"
-
-#, fuzzy
 #~| msgid "Save translation history"
 #~ msgid "Manage translation memory (on the entire platform)"
 #~ msgstr "Tərcümə tarixini yaddaşa ver"
@@ -27228,11 +28048,6 @@ msgstr "Hesabınız silindi."
 #~ msgstr "Yoxlamaları siyahıla"
 
 #, fuzzy
-#~| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "Cari filtr: %(filter_name)s (%(filter_count)s)"
-
-#, fuzzy
 #~| msgid "Search in context strings"
 #~ msgid "Percent interpolation"
 #~ msgstr "Kontekst sətirlərində axtar"
@@ -27256,11 +28071,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Version control"
 #~ msgid "Project access control"
 #~ msgstr "Versiya nəzarəti"
-
-#, fuzzy
-#~| msgid "changes"
-#~ msgid "Change"
-#~ msgstr "dəyişikliklər"
 
 #, fuzzy
 #~| msgid "Overwrite existing translations"
@@ -27314,9 +28124,6 @@ msgstr "Hesabınız silindi."
 #~| msgid "Login to Weblate"
 #~ msgid "Log in to use Weblate."
 #~ msgstr "Weblate Daxil ol"
-
-#~ msgid "Password login"
-#~ msgstr "Parolla daxil olma"
 
 #, fuzzy
 #~| msgid "You can review it at:"
@@ -27813,11 +28620,6 @@ msgstr "Hesabınız silindi."
 #~ msgstr "Salam,"
 
 #, fuzzy
-#~| msgid "Email addresses"
-#~ msgid "IP address:"
-#~ msgstr "Mail adresləri"
-
-#, fuzzy
 #~| msgid "User comments"
 #~ msgid "User agent:"
 #~ msgstr "İstifadəçi şərhləri"
@@ -28248,9 +29050,6 @@ msgstr "Hesabınız silindi."
 #~ msgid "Debug mode"
 #~ msgstr "Debug modu"
 
-#~ msgid "Site domain"
-#~ msgstr "Sayt domeyni"
-
 #~ msgid "Django caching"
 #~ msgstr "Django keşləməsi"
 
@@ -28262,9 +29061,6 @@ msgstr "Hesabınız silindi."
 
 #~ msgid "Allowed hosts"
 #~ msgstr "İcazə verilən hostlar"
-
-#~ msgid "Result"
-#~ msgstr "Nəticə"
 
 #~ msgid "Indexing offloading"
 #~ msgstr "İndeksləmə boşaldılır"
@@ -29816,9 +30612,6 @@ msgstr "Hesabınız silindi."
 
 #~ msgid "Translation license:"
 #~ msgstr "Tərcümə lisenziyası:"
-
-#~ msgid "search"
-#~ msgstr "axtar"
 
 #, fuzzy
 #~| msgid "Machine redable data"

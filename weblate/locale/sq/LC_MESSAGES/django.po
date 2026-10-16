@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -79,8 +79,38 @@ msgstr ""
 msgid "Full name"
 msgstr "Emër i plotë"
 
-msgid "Name is also used in version control commits."
-msgstr "Emri përdoret gjithashtu në parashtrime nën kontroll versionesh."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "Të dhëna përdoruesi"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "Hiqe këtë rregullim njoftimesh"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "The user data file is too large."
+msgstr "Kartela e ngarkuar është shumë e madhe."
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Figura e ngarkuar qe e pavlefshme."
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many settings."
+msgstr "Kartela ZIP përmban shumë zëra."
 
 msgid "Commit e-mail"
 msgstr "Email parashtrimi"
@@ -105,11 +135,27 @@ msgstr ""
 "Përdorur në depozitime me kontroll versionesh. Emri mbetet në depo "
 "përgjithmonë, pasi të jenë depozituar ndryshime nga Weblate-i."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "Rregullime kontrolli versionesh"
+
 msgid "Public e-mail"
 msgstr "Email publik"
 
 msgid "Hide e-mail address from public view"
 msgstr "Fshihe adresën email nga pamje publike"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Emër në ekran"
+
+msgid "Translation"
+msgstr "Përkthim"
+
+msgid "Dashboard"
+msgstr "Pult"
 
 #, python-format
 msgid "Component list: %s"
@@ -124,6 +170,11 @@ msgid ""
 msgstr ""
 "Përdorur për njoftime me email dhe si email për depozitimet, nëse s’është "
 "formësuar më poshtë."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "Të dhëna personale"
 
 msgid "Human verification"
 msgstr "Verifikim nga qenie njerëzore"
@@ -363,6 +414,11 @@ msgid "Enter the code from the app"
 msgstr "Jepni kodin prej aplikacionit"
 
 #, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Aplikacion mirëfilltësimi (%s)"
+
+#, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "Krejt përbërësit tani janë të hapur për përditësime përkthimesh."
@@ -380,6 +436,16 @@ msgstr "Jepni një kod të vlefshëm gjuhe."
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "Rregullime njoftimesh"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved search"
+msgstr "Kërkim"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1277,11 +1343,21 @@ msgstr "Kyç sigurie (%s)"
 msgid "Authentication app (%s)"
 msgstr "Aplikacion mirëfilltësimi (%s)"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Ricaktim fjalëkalimi"
 
 msgid "Remove account"
 msgstr "Hiqe llogarinë"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Verifikim nga qenie njerëzore"
 
 msgid "User registration"
 msgstr "Regjistrim përdoruesi"
@@ -1372,8 +1448,8 @@ msgstr "Hyni"
 msgid "Signed out"
 msgstr "U bë dalja"
 
-msgid "Register e-mail"
-msgstr "Regjistroni"
+msgid "Verify new e-mail address"
+msgstr "Verifikoni adresë të re email"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
@@ -1389,6 +1465,21 @@ msgstr "Ndryshoni fjalëkalimin"
 
 msgid "Password reset has been already completed."
 msgstr "Ricaktimi i fjalëkalimit është kryer një herë."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "Vargu s’u përhap dot nëpër %d përbërës."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Profili juaj u përditësua."
 
 msgid "Could not remove user identity"
 msgstr "S’u hoq dot identitet përdoruesi"
@@ -3588,8 +3679,10 @@ msgid "Manage translation memory"
 msgstr "Të administrojë kujtesë përkthimesh"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "Të përdorë përkthim nga makina"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Manage translation services"
+msgstr "Të përdorë shërbime përkthimi nga makina"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4167,9 +4260,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "Përzgjidhni një formësim përbërësi ekzistues prej nga të kopjohet."
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "Ky përbërës s’është ujdisur saktë."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "Shfletoni krejt ndryshimet për këtë gjuhë"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4177,11 +4280,25 @@ msgid "The change does not belong to this component."
 msgstr "Kategoria s’i përket këtij projekti."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "Kategoria s’i përket këtij projekti."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "Shmangni vite që kanë lidhje me ju."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "Mënyrë përkthim i automatizuar"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4240,20 +4357,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "Krijoni përbërës"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Përbërës"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "Ndryshoje"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Ndryshime së fundi"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Mesazh shtesë"
@@ -5583,9 +5705,6 @@ msgstr "Kontrolle të dështuar"
 msgid "Check"
 msgstr "Kontroll"
 
-msgid "Translation"
-msgstr "Përkthim"
-
 msgid "Weblate configuration"
 msgstr "Formësim Weblate-i"
 
@@ -6379,21 +6498,33 @@ msgstr "Duhet të pajtoheni me Terma dhe Kushte të Përgjithshme"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Duhet të pajtoheni me Terma dhe Kushte të Përgjithshme"
 
-msgid "Please read the following legal documents:"
-msgstr "Ju lutemi, lexoni dokumentet ligjore vijuese:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Pajtohem me dokumentin Termave dhe Kushteve të Përgjithshme"
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Ju lutemi, lexoni dokumentin vijues Terma dhe Kushte të Përgjithshme:"
+
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Pajtohem me dokumentin Termave dhe Kushteve të Përgjithshme"
+
+#, fuzzy
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
+msgstr "Ju lutemi, lexoni dokumentin vijues Terma dhe Kushte të Përgjithshme:"
 
 msgid "General Terms and Conditions"
 msgstr "Terma dhe Kushte të Përgjithshme"
-
-msgid "Privacy Policy"
-msgstr "Rregulla Privatësie"
-
-msgid "Please read the following General Terms and Conditions document:"
-msgstr "Ju lutemi, lexoni dokumentin vijues Terma dhe Kushte të Përgjithshme:"
-
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
 
 msgid "Submit"
 msgstr "Parashtroje"
@@ -6442,6 +6573,9 @@ msgstr ""
 "Privatësie, që t’i kuptoni duhet prapëseprapë të lexoni dokumentet "
 "origjinale:"
 
+msgid "Privacy Policy"
+msgstr "Rregulla Privatësie"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "Cookie-t përdoren në këtë sajt për sa vijon:"
 
@@ -6467,6 +6601,44 @@ msgstr ""
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr "Ky sajt përdor Google Analytics për të analizuar trafik sajti."
 
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Ju lutemi, lexoni dokumentin vijues Terma dhe Kushte të Përgjithshme:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"Kjo listë përfshin vetëm gjuhët bazë. Ju lutemi, për të shtuar të tjera, "
+"lidhuni me mirëmbajtësit e projektit."
+
 msgid "Legal Terms Overview"
 msgstr "Përmbledhje e Termave Ligjore"
 
@@ -6490,6 +6662,123 @@ msgstr "U gjetën gjuhë të mbuluara: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "S’u soll dot përkthim: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Licencë përkthimi"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language addition is not supported by any of the components."
+msgid "The language pair is not supported by this domain"
+msgstr "Shtimi i gjuhës nuk mbulohet nga ndonjë nga përbërësit."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "Vargu burimi lyp shqyrtim."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Token-i dhënë s’është i vlefshëm."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "Përkthimi mbërriti në fund."
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "The translation request timed out"
+msgstr "Ky përkthim lyp përpunim."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Gabim i Brendshëm Shërbyesi"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "Gabim i panjohur"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Flamurkë përkthimi e pavlefshme: “%s”"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "Përkatësi përkthimi"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "S’u soll dot përkthim: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Përkatësi përkthimi"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Kërkesë e pavlefshme prapësimi!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Për krejt gjuhët"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6523,6 +6812,66 @@ msgstr "ID klienti"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "E fshehtë klienti"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "URL bazë aplikacioni"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Fjalëkalim"
+
+#, fuzzy
+#| msgid "Repeated language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Kod gjuhe i përsëritur"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Përbërës të tjerë"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Përbërës të tjerë"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Gjuhë burimi përbërësi"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "Përkatësi përkthimi"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Inherited component defaults"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Parazgjedhje të trashëguara projekti"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -6963,6 +7312,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "Kontrolle @@PH1@@ të dështuar"
 
+#, fuzzy
+#| msgid "Choose what to work on"
+msgid "Choose only one installation scope."
+msgstr "Zgjidhni me se të merreni"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "This scope already has 20 service installations."
+msgstr "Ky përbërës është i dhënë tashmë në %s."
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "Ky shërbim është instaluar për krejt sajtin."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "Përdorues i bllokuar tashmë te ky projekt."
+
+#, fuzzy
+#| msgid "Choose what to work on"
+msgid "Choose one exclusion scope."
+msgstr "Zgjidhni me se të merreni"
+
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Choose an installation or a translation service."
+msgstr "Të përdorë shërbime përkthimi nga makina"
+
+#, fuzzy
+#| msgid "Use the translation license configured in the workspace."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Përdor licencë përkthimi të formësuar te hapësira e punës."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use the translation license configured in the workspace."
+msgid "Translation services conflict with the new workspace."
+msgstr "Përdor licencë përkthimi të formësuar te hapësira e punës."
+
+msgid "Service is currently not available."
+msgstr "Shërbimi është hëpërhë jashtë përdorimi."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Përzgjedhje e automatizuar"
@@ -6974,9 +7378,6 @@ msgstr "Gjuhë burimi përbërësi"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Gjuhë dytësore e përkufizuar në projekt ose përbërës"
-
-msgid "Service is currently not available."
-msgstr "Shërbimi është hëpërhë jashtë përdorimi."
 
 msgid "File"
 msgstr "Kartelë"
@@ -7315,9 +7716,6 @@ msgstr "Leje e Mohuar"
 msgid "Insufficient privileges to display this page."
 msgstr "Privilegje të pamjaftueshme për të shfaqur këtë faqe."
 
-msgid "Dashboard"
-msgstr "Pult"
-
 msgid "Browse all projects"
 msgstr "Shfletoni krejt projektet"
 
@@ -7638,6 +8036,11 @@ msgstr "Ricaktimi i fjalëkalimit thuajse i plotësuar"
 msgid "Account removal almost complete"
 msgstr "Heqje llogarie thuajse e plotësuar"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Regjistrim thuajse i plotësuar"
+
 msgid "Registration almost complete"
 msgstr "Regjistrim thuajse i plotësuar"
 
@@ -7651,6 +8054,17 @@ msgid ""
 msgstr ""
 "Hiqeni llogarinë tuaj duke klikuar lidhjen e ripohimit dërguar te email-i "
 "për ju."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"Klikoni lidhjen e ripohimit të dërguar te mesazhet tuaj email dhe filloni të "
+"përdorni llogarinë tuaj."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7673,6 +8087,13 @@ msgstr[1] "Lidhja e ripohimit do të skadojë pas %(count)s orësh."
 msgid "Request a new confirmation link if it expires."
 msgstr "Kërkoni një lidhje të re ripohimi, nëse skadon."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "Kërkoni një lidhje të re ripohimi, nëse skadon."
+
 msgid "Register again if the confirmation link expires."
 msgstr "Nëse lidhja e ripohimit skadon, riregjistrohuni."
 
@@ -7683,17 +8104,24 @@ msgstr ""
 "Email-i s’është teknologji e menjëhershme. Ju lutemi, prisni të paktën 30 "
 "minuta për një email ripohimi, para se të na shkruani rreth problemesh."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "Nëse ka problem me regjistrimin tuaj, ju lutemi, lidhuni me ne."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Nëse ka problem me regjistrimin tuaj, ju lutemi, lidhuni me ne."
 
-msgid "Please fix errors in the registration form."
-msgstr "Ju lutemi, ndreqni gabimet te formulari i regjistrimeve."
+msgid "Please fix errors in the form."
+msgstr "Ju lutemi, ndreqni gabimet te formulari."
 
-msgid "Verify new e-mail address"
-msgstr "Verifikoni adresë të re email"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "Dërgoni një email provë"
 
-msgid "Register"
-msgstr "Regjistrohuni"
+msgid "Back to account settings"
+msgstr "Mbrapsht te rregullime llogarie"
 
 msgid "Trial subscriptions"
 msgstr "Pajtime provë"
@@ -7916,29 +8344,105 @@ msgstr ""
 msgid "Change my password"
 msgstr "Ndryshoje fjalëkalimin tim"
 
-msgid "Preferences"
-msgstr "Parapëlqime"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "Mbrapsht te rregullime llogarie"
 
-msgid "Notifications"
-msgstr "Njoftime"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "Të përpunojë rregullime projekti"
 
 msgid "Account"
 msgstr "Llogari"
 
-msgid "Profile"
-msgstr "Profil"
+msgid "Public profile"
+msgstr "Profil publik"
+
+msgid "Preferences"
+msgstr "Parapëlqime"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved searches"
+msgstr "Kërkim"
+
+msgid "Notifications"
+msgstr "Njoftime"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "FAQ Sigurie"
+
+#, fuzzy
+#| msgid "Workspace settings"
+msgid "Developer settings"
+msgstr "Rregullime hapësire pune"
 
 msgid "Licenses"
 msgstr "Licenca"
 
-msgid "Audit log"
-msgstr "Auditim regjistri"
+msgid "Activity"
+msgstr "Veprimtari"
 
-msgid "API access"
-msgstr "Përdorim API"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr "Adresa email mund të zgjidhet vetëm prej adresash të verifikuara."
 
-msgid "Please fix errors in the form."
-msgstr "Ju lutemi, ndreqni gabimet te formulari."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Verifikoni adresë të re email"
+
+msgid "Save"
+msgstr "Ruaje"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "Emra kartelash"
+
+msgid "Download user data"
+msgstr "Shkarkoni të dhëna përdoruesi"
+
+msgid "You can download all your private data."
+msgstr "Mund të shkarkoni krejt të dhënat tuaja private."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "Të përpunojë rregullime projekti"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Heqje"
+
+msgid "Account removal deletes all your private data."
+msgstr "Heqja e llogarisë fshin krejt të dhënat tuaja private."
+
+msgid "Remove my account"
+msgstr "Hiqe llogarinë time"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Krejt fushat në këtë faqe janë opsionale dhe mund të fshihen kur të doni, "
+"dhe duke i plotësuar, na jepni pranimin për t’i ndarë këto të dhëna me të "
+"tjerë kudo ku shfaqet profili juaj i përdoruesit."
+
+msgid "Your avatar"
+msgstr "Avatari juaj"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Avatarët furnizohen duke përdorur %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -7947,8 +8451,13 @@ msgstr ""
 "Për shtimin e një gjuhe që mungon, dërgoni një kërkesë te projekti që doni "
 "të përktheni."
 
-msgid "Save"
-msgstr "Ruaje"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "Shtoni një përdorues"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -7973,33 +8482,23 @@ msgstr "Rregullime njoftimesh"
 msgid "Remove this notification setting"
 msgstr "Hiqe këtë rregullim njoftimesh"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Adresa email mund të zgjidhet vetëm prej adresash të verifikuara."
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Hyrje me fjalëkalim"
 
-msgid "Current user identities"
-msgstr "Identitete të përdoruesit të tanishëm"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "Formësoni"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "Formësoni"
 
 msgid "Set password"
 msgstr "Caktoni fjalëkalim"
-
-msgid "Disconnect"
-msgstr "Shkëputu"
-
-msgid "Add new user identity"
-msgstr "Shtoni identitet përdoruesi të ri"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Strehim përkthimesh"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Ftesa pezull"
 
 msgid "Two-factor authentication"
 msgstr "Mirëfilltësim dyfaktorësh"
@@ -8017,23 +8516,34 @@ msgstr "Kyçe sigurie (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Ende s’ka të regjistruar kyçe WebAuthn."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Kyçi i sigurisë %s u regjistrua."
+msgstr[1] "Kyçi i sigurisë %s u regjistrua."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "Kyç të fshehte API"
+
 msgid "Remove"
 msgstr "Hiqe"
-
-msgid "Name your security key"
-msgstr "Emërtoni kyçin tuaj të sigurisë"
-
-msgid "Register new security key"
-msgstr "Regjistroni kyç të ri sigurie"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "Shfletuesit tuaj i mungon mbulim për WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "Aplikacione mirëfilltësimesh (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "Ende pa regjistrim aplikacioni mirëfilltësimesh."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Ende pa regjistrim aplikacioni mirëfilltësimesh."
+msgstr[1] "Ende pa regjistrim aplikacioni mirëfilltësimesh."
 
 msgid "Register new authenticator app"
 msgstr "Regjistroni aplikacion të ri mirëfilltësimesh"
@@ -8044,81 +8554,34 @@ msgstr "Kode rimarrjesh"
 msgid "No recovery codes generated yet."
 msgstr "Ende s’ka të prodhuar kode rimarrjesh."
 
-msgid "Generate new recovery codes"
-msgstr "Prodho kode të ri rimarrjesh"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "Ka %(count)s kod rimarrjeje."
 msgstr[1] "Ka %(count)s kode rimarrjeje."
 
+msgid "Generate new recovery codes"
+msgstr "Prodho kode të ri rimarrjesh"
+
 msgid "View recovery codes"
 msgstr "Shihni kode rimarrjesh"
 
-msgid "User data"
-msgstr "Të dhëna përdoruesi"
-
-msgid "You can download all your private data."
-msgstr "Mund të shkarkoni krejt të dhënat tuaja private."
-
-msgid "Download user data"
-msgstr "Shkarkoni të dhëna përdoruesi"
-
-msgid "Removal"
-msgstr "Heqje"
-
-msgid "Account removal deletes all your private data."
-msgstr "Heqja e llogarisë fshin krejt të dhënat tuaja private."
-
-msgid "Remove my account"
-msgstr "Hiqe llogarinë time"
-
-msgid "Public profile"
-msgstr "Profil publik"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"Krejt fushat në këtë faqe janë opsionale dhe mund të fshihen kur të doni, "
-"dhe duke i plotësuar, na jepni pranimin për t’i ndarë këto të dhëna me të "
-"tjerë kudo ku shfaqet profili juaj i përdoruesit."
 
-msgid "Your avatar"
-msgstr "Avatari juaj"
+msgid "Disconnect"
+msgstr "Shkëputu"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatarët furnizohen duke përdorur %(avatar_url_prefix)s."
+#, fuzzy
+#| msgid "Do not have an account yet?"
+msgid "No linked sign-in accounts."
+msgstr "Ende s’keni llogari?"
 
-msgid "Pending invitation"
-msgstr "Fesë pezull"
-
-msgid "Description"
-msgstr "Përshkrim"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
+msgid "Add sign-in method"
 msgstr ""
-"Lidhuni menjëherë, nëse vini re diçka të dyshimtë te regjistri i auditimit."
 
-msgid "When"
-msgstr "Kur"
-
-msgid "IP address"
-msgstr "Adresë IP"
-
-msgid "User agent"
-msgstr "Agjent përdoruesi"
-
-msgid "No recent activity found."
-msgstr "S’u gjet veprimtari së fundi."
-
-msgid "Report suspicious activity"
-msgstr "Njoftoni veprimtari të dyshimtë"
+msgid "API access"
+msgstr "Përdorim API"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -8155,6 +8618,24 @@ msgstr ""
 "Kyçi API përdoret gjithashtu për mirëfilltësim te depo Git të eksportuara "
 "automatikisht."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Strehim përkthimesh"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "Ftesa pezull"
+
+msgid "Pending invitation"
+msgstr "Fesë pezull"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8176,6 +8657,30 @@ msgstr "Keni rënë dakord me sa vijon si kontribues:"
 
 msgid "Licenses for individual translations"
 msgstr "Licenca për përkthime individuale"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+"Lidhuni menjëherë, nëse vini re diçka të dyshimtë te regjistri i auditimit."
+
+msgid "Audit log"
+msgstr "Auditim regjistri"
+
+msgid "When"
+msgstr "Kur"
+
+msgid "IP address"
+msgstr "Adresë IP"
+
+msgid "User agent"
+msgstr "Agjent përdoruesi"
+
+msgid "No recent activity found."
+msgstr "S’u gjet veprimtari së fundi."
+
+msgid "Report suspicious activity"
+msgstr "Njoftoni veprimtari të dyshimtë"
 
 msgid "Two-factor recovery codes"
 msgstr "Kode dyfaktorësh rimarrjesh"
@@ -8217,9 +8722,6 @@ msgstr ""
 "Kodet tuaj të dikurshëm do të bëhen të pavlefshëm dhe s’do të funksionojnë "
 "më."
 
-msgid "Back to account settings"
-msgstr "Mbrapsht te rregullime llogarie"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "Po ridrejtoheni te furnizuesi i mirëfilltësimit."
 
@@ -8236,9 +8738,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr "Ju lutemi, plotësoni regjistrimin, që të pranoni ftesën."
 
+msgid "Please fix errors in the registration form."
+msgstr "Ju lutemi, ndreqni gabimet te formulari i regjistrimeve."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "Regjistrohuni te %(formatted_site_title)s"
+
+msgid "Register"
+msgstr "Regjistrohuni"
 
 msgid "Create an account using:"
 msgstr "Krijoni një llogari duke përdorur:"
@@ -8298,6 +8806,11 @@ msgstr "Cakto fjalëkalimin tim"
 
 msgid "Reset my password"
 msgstr "Ricakto fjalëkalimin tim"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "Përpunoni përdorues"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "Përkthim <strong>i vazhdueshëm</strong> me bazë në internet"
@@ -8488,9 +9001,6 @@ msgstr[1] "%(count)s komente"
 msgid "Translates"
 msgstr "Përkthime"
 
-msgid "Activity"
-msgstr "Veprimtari"
-
 msgid "Recent changes"
 msgstr "Ndryshime së fundi"
 
@@ -8620,6 +9130,27 @@ msgstr "Vazhdoni vetëm nëse i zini besë kësaj vendmbërritjeje."
 msgid "Continue"
 msgstr "Vazhdo"
 
+msgid "Register new security key"
+msgstr "Regjistroni kyç të ri sigurie"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"Aplikacionet e mirëfilltësimit prodhojnë fjalëkalime për përdorim një herë "
+"të vetme, që skadojnë pas njëfarë kohe, që përdoren si një faktor i dytë për "
+"të verifikuar identitetin tuaj, kur kjo kërkohet gjatë hyrjes."
+
+msgid "Name your security key"
+msgstr "Emërtoni kyçin tuaj të sigurisë"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "Shfletuesit tuaj i mungon mbulim për WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8688,13 +9219,32 @@ msgstr "S’u gjetën përbërës"
 msgid "Configure add-on"
 msgstr "Formësoni shtesë"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Ndryshime së fundi"
-
 msgid "This add-on has no settings."
 msgstr "Kjo shtesë s’ka rregullime."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Shqyrtim"
+
+#, fuzzy
+#| msgid "No invitations were created."
+msgid "No operations were executed."
+msgstr "S’u krijua ndonjë ftesë."
+
+#, fuzzy
+#| msgid "Enable add-on:"
+msgid "Run add-on"
+msgstr "Aktivizoni shtesë:"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -8705,11 +9255,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable add-on:"
-msgid "Run add-on"
-msgstr "Aktivizoni shtesë:"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10085,12 +10630,10 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] "%(errors_count)s i anashkaluar për shkak gabimesh"
 msgstr[1] "%(errors_count)s të anashkaluar për shkak gabimesh"
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"Kjo do të sjellë depozitim të çfarëdo ndryshimesh në pritje të miratimit te "
-"Weblate dhe jo te depoja."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Shkrim i detyruar i krejt përkthimeve te depoja Weblate"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10113,8 +10656,10 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "%(count)s parashtrim që mungon"
 msgstr[1] "%(count)s parashtrime që mungojnë"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Kjo do përmirësojë depon Weblate me ndryshimet që nga upstream-i."
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Lejo ndryshime te depoja Weblate"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Lejo ndryshime te depoja Weblate"
@@ -10150,8 +10695,15 @@ msgstr "Përkthimet Weblate janë shkyçur"
 msgid "Weblate translations are locked"
 msgstr "Përkthimet Weblate janë kyçur"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "Kyçja u pengon përkthyesve të bëjnë ndryshime."
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "Shfletoni krejt ndryshimet e përkthimit"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "Zgjidhni kartela përkthimi për importim"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10159,25 +10711,34 @@ msgstr "Kyçja u pengon përkthyesve të bëjnë ndryshime."
 msgid "Discard local changes"
 msgstr "Të shkarkojë ndryshime"
 
+msgid "Use when:"
+msgstr ""
+
 #, fuzzy
-#| msgid "Repository changes are being processed…"
-msgid "Discard local changes and reset to upstream"
-msgstr "Ndryshimet në depo po kryhen…"
+#| msgid "Use the translation license configured in the workspace."
+msgid "Upstream has the translations you want to keep."
+msgstr "Përdor licencë përkthimi të formësuar te hapësira e punës."
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Result:"
 msgstr ""
 
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-"Përdoreni kur dëshironi që depoja e zhvillimit të jetë autoriteti për "
-"përkthimet."
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Ktheje depon te gjendja e burimit"
 
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "Eksportime të dhënash"
+
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
+"Weblate-i ka ndryshime të pashqyrtuara përkthimesh për këto projekte që nga %"
+"(date)s."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10185,80 +10746,77 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Riktheje dhe riaplikoji"
 
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
+"Weblate-i ka ndryshime të pashqyrtuara përkthimesh për këto projekte që nga %"
+"(date)s."
 
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr ""
-"Përdoreni kur dëshironi që Weblate-i të jetë autoriteti për përkthimet."
-
+#, fuzzy
+#| msgid "Use these operations with caution, they can lead to data loss."
 msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
-msgstr ""
-"Kartela gjuhësh që mungojnë duhet të ekzistojnë tashmë te burimi, ose "
-"Weblate-i duhet të jetë në gjendje t’i krijojë ato për përbërësin."
-
-msgid "Cleanup"
-msgstr "Pastrim"
-
-msgid "Remove untracked files and unused local branches"
-msgstr ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "Përdorini me kujdes këto veprime, mund të shpien në humbje të dhënash."
 
 msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
-msgstr ""
-"Spastrimi heq nga depoja krejt kartelat që nuk ndiqen nga kontroll "
-"versionesh."
-
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
+#, fuzzy
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "Kartela përkthimi"
 
 msgid "Synchronize"
 msgstr "Njëkohësoje"
 
-msgid "Forces writing all strings to the translation files."
-msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
+#, fuzzy
+#| msgid ""
+#| "Use this when repository files became out of sync with Weblate for some "
+#| "reason."
+msgid "Repository files are out of sync with Weblate."
 msgstr ""
 "Përdoreni këtë kur kartelat e depos, për ndonjë arsye nuk janë më të "
 "njëkohësuara me Weblate-in."
 
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Përkthimet Weblate janë kyçur"
+
 msgid "Rescan"
 msgstr "Rikontrollo"
 
-msgid "Loads translations from the files into Weblate."
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
 msgstr "Ngarkon në Weblate përkthime nga kartela."
 
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
+msgid "Edits blocked by the commit policy may be discarded."
 msgstr ""
-"Përdoreni kur Weblate-i s’pruri dot disa nga vargjet pas përditësimit të "
-"depos."
 
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
+msgid "Clean the local checkout"
 msgstr ""
-"Kjo mund të hedhë tej përpunime që s’mund të depozitohen, për shkak të "
-"rregullave të formësuar për depozitime."
 
-msgid "Use these operations with caution, they can lead to data loss."
-msgstr "Përdorini me kujdes këto veprime, mund të shpien në humbje të dhënash."
+msgid "Cleanup"
+msgstr "Pastrim"
+
+msgid "Untracked files or unused local branches need removal."
+msgstr ""
+
+msgid "Remove untracked files and other local Git branches."
+msgstr ""
+
+msgid "Unpushed commits on those branches are deleted."
+msgstr ""
 
 #, fuzzy
 #| msgid "File names"
@@ -10271,30 +10829,18 @@ msgid "Remove duplicates"
 msgstr "U hoq përdorues"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "U zëvendësua përkthim nga ngarkim"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr ""
 "Ju lutemi, ndreqeni këtë duke hequr vargje të përsëdytura me të njëjtin "
 "identifikues prej kartelave të përkthimit."
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"Kjo mund të ndodhë nëse shtegu brenda kartelave të përkthimit përmban "
-"referenca te një drejtori mëmë, ose është absolut."
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10302,44 +10848,27 @@ msgid "Cleanup unused"
 msgstr "Pastrim"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Prej kartelës së ngarkuar s’u importuan vargje."
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Heq nga kartelat e përkthimit vargje pa përkthim."
-
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Shtesa për CDN kartelash përkthimi s’mund të botojë weblate.js."
 
 #, fuzzy
 #| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
 msgstr "Hiq vargje të vjetëruar"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
-
-#, fuzzy
-#| msgid "Remove obsolete strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "Hiq vargje të vjetëruar"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "Përdorini me kujdes këto veprime, mund të shpien në humbje të dhënash."
+#| msgid "Remove obsolete strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "Hiq vargje të vjetëruar"
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10522,9 +11051,20 @@ msgstr "Ky shërbim është instaluar për krejt sajtin."
 msgid "site wide"
 msgstr "për krejt sajtin"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
-"Ky shërbim është i instaluar për krejt sajtin, por është i çaktivizuar."
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "Ky shërbim është instaluar për krejt sajtin."
+
+#, fuzzy
+#| msgid "Workspace"
+msgid "workspace"
+msgstr "Hapësirë pune"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "Ky shërbim është instaluar për krejt sajtin."
 
 msgid "disabled"
 msgstr "i çaktivizuar"
@@ -10532,8 +11072,16 @@ msgstr "i çaktivizuar"
 msgid "Service is no longer available"
 msgstr "Shërbimi është mbyllur"
 
-msgid "Automatic suggestions"
-msgstr "Sugjerime të automatizuara"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Shpjegim përkthimi"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10544,14 +11092,35 @@ msgstr ""
 "te një shërbim palë e tretë. Para se ta aktivizoni, shqyrtoni kushte dhe "
 "rregulla privatësie të shërbimit."
 
-msgid "Configured automatic suggestion services"
-msgstr "Shërbime sugjerimesh të automatizuara të formësuar"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Spastro kartela përkthimi"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr "Shtimi i vargjeve është i çaktivizuar te formësimi i përbërësit."
 
 msgid "Disable"
 msgstr "Çaktivizoje"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "Aktivizoje"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "Hiqe këtë rregullim njoftimesh"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "Formësoni"
@@ -10565,8 +11134,10 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "Aktualisht ka të instaluar %(count)s shërbim."
 msgstr[1] "Aktualisht ka të instaluar %(count)s shërbime."
 
-msgid "Available automatic suggestion services"
-msgstr "Shërbime sugjerimesh të automatizuara të passhëm"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Available translation services"
+msgstr "Të përdorë shërbime përkthimi nga makina"
 
 msgid "Could not find any additional services."
 msgstr "S’u gjetën dot shërbime shtesë."
@@ -11890,12 +12461,20 @@ msgstr "Emër etikete"
 msgid "Color"
 msgstr "Ngjyrë"
 
+msgid "Description"
+msgstr "Përshkrim"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "Vargje burim të etiketuar"
 
 msgid "Add label"
 msgstr "Shtoni etiketë"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -11997,6 +12576,14 @@ msgstr "Shkarkojeni si TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Save search"
+msgstr "Kërkim"
 
 msgid "Assigned source strings"
 msgstr "Vargje burim caktuar diçkaje/dikujt"
@@ -12190,10 +12777,14 @@ msgstr ""
 "Përkthimi i automatizuar merr përkthime ekzistuese në këtë hapësirë pune dhe "
 "i aplikon ato te vargje që përkojnë."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this workspace."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "Përkthimi i automatizuar përmes përkthimi nga makina përdor motorë aktivë "
 "përkthimi nga makina për të pasur përkthimet më të mira të mundshme dhe i "
@@ -12210,10 +12801,14 @@ msgstr ""
 "një degë tjetër, për të ndrequr njëtrajtshmërinë e përkthimeve ose për të "
 "përkthyer një përbërës të ri duke përdorur kujtesë përkthimesh."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "Përkthimi i automatizuar përmes përkthimi nga makina përdor motorë aktivë "
 "përkthimi nga makina për të pasur përkthimet më të mira të mundshme dhe i "
@@ -12677,6 +13272,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "Etiketa shtesë mund të përkufizohen nga përgjegjësit e projektit."
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "Origjinë"
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "Adresë IP"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "Adresa IP u kopjua në të papastër."
+
 msgid "Revert"
 msgstr "Riktheje"
 
@@ -12939,6 +13552,11 @@ msgstr "Vargje të përkthyer në mënyrë të automatizuar"
 msgid "Translated strings in a certain language"
 msgstr "Vargje të përkthyer në një gjuhë"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "Kërkoni për…"
+
 msgid "Query"
 msgstr "Kërkesë"
 
@@ -13062,6 +13680,20 @@ msgstr "Përshtatni rrjedhe pune përkthimi për këtë gjuhë"
 #| msgid "Manage translation memory"
 msgid "Configure translation workflow"
 msgstr "Të administrojë kujtesë përkthimesh"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "Emër përdoruesi SAP"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Filtër kërkimi"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -13374,8 +14006,8 @@ msgstr "Urdhër"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13445,6 +14077,27 @@ msgstr "Shtesa CDN Weblate-i s’përtypi dot kartelat HTML."
 
 msgid "Filename"
 msgstr "Emër kartele"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -14086,6 +14739,11 @@ msgstr ""
 "Krijoni një përbërës të ri përkthimi për një dege shtesë të përbërësit "
 "ekzistues të përkthimit."
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Hollësi depoje"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14554,6 +15212,9 @@ msgstr "Hasje të tjera"
 
 msgid "Computer-aided translation suggestions"
 msgstr "Sugjerime përkthimi nga makina"
+
+msgid "Automatic suggestions"
+msgstr "Sugjerime të automatizuara"
 
 msgid "Translations of this string in the other languages"
 msgstr "Përkthime të këtij vargu në gjuhët e tjera"
@@ -15171,9 +15832,6 @@ msgstr "Hiqe llogarinë time"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -15339,11 +15997,6 @@ msgstr "Kod Trupëzimi"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "Shqyrtim"
 
 msgid "Browse all workspace changes"
 msgstr "Shfletoni krejt ndryshimet në hapësirë punësh"
@@ -16478,6 +17131,11 @@ msgstr "Përkthim i përsëdytur."
 msgid "Duplicate label name."
 msgstr "Maskë e përsëdytur kartelash."
 
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "Përkthim i përsëdytur."
+
 msgid "Screenshot image is missing."
 msgstr "Mungon figurë fotoje ekrani."
 
@@ -17351,9 +18009,6 @@ msgstr "Përbërës të tjerë përkthimi"
 msgid "Machine translation"
 msgstr "Përkthim nga makina"
 
-msgid "Machine translation engines"
-msgstr "Motorë përkthimi nga makina"
-
 msgid "Score threshold"
 msgstr "Prag vlerësimi"
 
@@ -17574,6 +18229,16 @@ msgstr "Shtim gjuhësh të reja"
 
 msgid "Select an existing component configuration to copy."
 msgstr "Përzgjidhni një formësim përbërësi ekzistues prej nga të kopjohet."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Shumë kërkesa për kërkim, ju lutemi, riprovoni më vonë."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "S’u hap dot çështje, ju lutemi, riprovoni më vonë."
 
 msgid "ZIP file containing translations"
 msgstr "Kartelë ZIP që përmban përkthime"
@@ -17859,6 +18524,24 @@ msgstr "Përjashto autorin (emër përdoruesi)"
 
 msgid "Date range"
 msgstr "Interval datash"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "Shtesa të gatshme"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "Ndaje te projekte"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "Ka tashmë një përdorues me atë emër përdoruesi."
 
 msgid "Expiry cannot be in the past."
 msgstr "Data e skadimit s’mund të bjerë në të shkuarën."
@@ -18248,6 +18931,64 @@ msgstr "%(action)s më %(time)s te %(translation)s nga %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s më %(time)s te %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "Shk"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Depo"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Kontrolle sistemi"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Pikasje e vetvetishme"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Krijoni përkthim"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Rikontrollo krejt kartelat e përkthimeve te depoja Weblate"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "Burimi lyp shqyrtim"
@@ -18702,8 +19443,9 @@ msgstr "S’u krye dot push %(component)s: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr "Aktet push janë të çaktivizuara për %s."
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "S’u krye dot reset te dega e largët në %s."
 
 #, python-format
@@ -19264,6 +20006,11 @@ msgstr ""
 "Si mesazh kërkese përzierjeje përdor atë të formësuar te hapësira e punës."
 
 #, fuzzy
+#| msgid "Use the translation license configured in the workspace."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Përdor licencë përkthimi të formësuar te hapësira e punës."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19283,6 +20030,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "Te kartela e përkthimit shkruhen vetëm përkthime të miratuara."
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "Përshkrim etikete"
 
 msgid "Could not accept suggestion!"
 msgstr "S’u arrit të pranohej sugjerimi!"
@@ -19517,6 +20269,11 @@ msgstr "Përdoruesi s’është bllokuar te ky projekt."
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "Tekst në gjuhën burim"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Shkrim i detyruar i krejt përkthimeve te depoja Weblate"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20657,6 +21414,15 @@ msgid "More possible users were found."
 msgstr "U gjetën më tepër përdorues të mundshëm."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "Krijues projekti"
+
+msgid "My searches"
+msgstr ""
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "Vargje me komente"
@@ -21035,6 +21801,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "Kartela ZIP përmban një zë të ngjeshur që është shumë i madh."
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "Depoja vendore është e përditësuar."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "Figura e ngarkuar qe e pavlefshme."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -21342,6 +22118,16 @@ msgstr "Kjo do të vendosë ndryshimet te depoja “upstream” përmes “force
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "Kjo do të vendosë ndryshimet te depoja “upstream” Git."
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "Lidhje simbolike e pavlefshme në një depo."
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "Dështoi “rebase” e depos"
 
 msgid "Possible cleanups:"
 msgstr "Pastrime të mundshme:"
@@ -22182,6 +22968,142 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Burimi u hoq."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "Emri përdoret gjithashtu në parashtrime nën kontroll versionesh."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Regjistroni"
+
+#~ msgid "Manage machinery"
+#~ msgstr "Të përdorë përkthim nga makina"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "Krijoni përbërës"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Ndryshime së fundi"
+
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Ju lutemi, lexoni dokumentet ligjore vijuese:"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Current user identities"
+#~ msgstr "Identitete të përdoruesit të tanishëm"
+
+#~ msgid "Add new user identity"
+#~ msgstr "Shtoni identitet përdoruesi të ri"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "Kjo do të sjellë depozitim të çfarëdo ndryshimesh në pritje të miratimit "
+#~ "te Weblate dhe jo te depoja."
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr "Kjo do përmirësojë depon Weblate me ndryshimet që nga upstream-i."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "Kyçja u pengon përkthyesve të bëjnë ndryshime."
+
+#, fuzzy
+#~| msgid "Repository changes are being processed…"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Ndryshimet në depo po kryhen…"
+
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr ""
+#~ "Përdoreni kur dëshironi që depoja e zhvillimit të jetë autoriteti për "
+#~ "përkthimet."
+
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr ""
+#~ "Përdoreni kur dëshironi që Weblate-i të jetë autoriteti për përkthimet."
+
+#~ msgid ""
+#~ "Missing language files must already exist upstream or Weblate must be "
+#~ "able to create them for the component."
+#~ msgstr ""
+#~ "Kartela gjuhësh që mungojnë duhet të ekzistojnë tashmë te burimi, ose "
+#~ "Weblate-i duhet të jetë në gjendje t’i krijojë ato për përbërësin."
+
+#~ msgid ""
+#~ "Cleanup removes all files which are not tracked by the version control "
+#~ "from the repository."
+#~ msgstr ""
+#~ "Spastrimi heq nga depoja krejt kartelat që nuk ndiqen nga kontroll "
+#~ "versionesh."
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "Përdoreni kur Weblate-i s’pruri dot disa nga vargjet pas përditësimit të "
+#~ "depos."
+
+#~ msgid ""
+#~ "This might discard edits that cannot be committed because of the "
+#~ "configured commit policy."
+#~ msgstr ""
+#~ "Kjo mund të hedhë tej përpunime që s’mund të depozitohen, për shkak të "
+#~ "rregullave të formësuar për depozitime."
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr ""
+#~ "Përdorini me kujdes këto veprime, mund të shpien në humbje të dhënash."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "Kjo mund të ndodhë nëse shtegu brenda kartelave të përkthimit përmban "
+#~ "referenca te një drejtori mëmë, ose është absolut."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Heq nga kartelat e përkthimit vargje pa përkthim."
+
+#, fuzzy
+#~| msgid "The translation files CDN add-on cannot publish weblate.js."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Shtesa për CDN kartelash përkthimi s’mund të botojë weblate.js."
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr ""
+#~ "Ky shërbim është i instaluar për krejt sajtin, por është i çaktivizuar."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Shërbime sugjerimesh të automatizuara të formësuar"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Shërbime sugjerimesh të automatizuara të passhëm"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "Motorë përkthimi nga makina"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "S’u arrit të bëhej mirëfilltësimi: %s"
@@ -22223,11 +23145,6 @@ msgstr "Burimi u hoq."
 #~ msgstr ""
 #~ "E rikthen depon Weblate që të përputhet me burimin e projektit dhe "
 #~ "riaplikon përkthime pezull mbi gjendjen e rikthyer të depos."
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "Përkthim i përsëdytur."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22374,9 +23291,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Suggested change"
 #~ msgstr "Ndryshimi i sugjeruar"
-
-#~ msgid "Origin"
-#~ msgstr "Origjinë"
 
 #~ msgid "Similarity"
 #~ msgstr "Ngjashmëri"
@@ -22738,9 +23652,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "Përbërësit po përditësohen…"
-
-#~ msgid "Workspace settings"
-#~ msgstr "Rregullime hapësire pune"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
@@ -23273,9 +24184,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "S’u gjet dot varg i përzier."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "Kërkesë e pavlefshme prapësimi!"
 
 #~ msgid ""
 #~ "Contributing to this translation requires accepting its contributor "
@@ -24179,9 +25087,6 @@ msgstr "Burimi u hoq."
 #~ "Zhvillimi i Weblate-it ndjek Praktikat Më të Mira të Core Infrastructure "
 #~ "Initiative të Linux Foundation."
 
-#~ msgid "Security FAQ"
-#~ msgstr "FAQ Sigurie"
-
 #~ msgid "How are user passwords stored?"
 #~ msgstr "Si depozitohen fjalëkalimet e përdoruesit?"
 
@@ -24574,9 +25479,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Manage translation memory (site wide)"
 #~ msgstr "Të administrojë kujtesë përkthimesh"
 
-#~ msgid "Use machine translation services"
-#~ msgstr "Të përdorë shërbime përkthimi nga makina"
-
 #~ msgid "Manage users (on the entire platform)"
 #~ msgstr "Të administrojë përdorues (në krejt platformën)"
 
@@ -24696,9 +25598,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Jump to position"
 #~ msgstr "Hidhu te pozicioni"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #~ msgid "Render as HTML"
 #~ msgstr "Vizatoje si HTML"
 
@@ -24753,9 +25652,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Project access control"
 #~ msgstr "Kontroll hyrjesh te projekti"
 
-#~ msgid "Change"
-#~ msgstr "Ndryshoje"
-
 #~ msgid "Import existing translations"
 #~ msgstr "Importo përkthime ekzistuese"
 
@@ -24788,9 +25684,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Log in"
 #~ msgstr "Hyni"
-
-#~ msgid "Password login"
-#~ msgstr "Hyrje me fjalëkalim"
 
 #~ msgid "You can reset it."
 #~ msgstr "Mund ta ricaktoni."

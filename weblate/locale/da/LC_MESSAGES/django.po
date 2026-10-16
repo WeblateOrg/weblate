@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -86,8 +86,38 @@ msgstr "Dette brugernavn er allerede taget. Vælg venligst et andet."
 msgid "Full name"
 msgstr "Fulde navn"
 
-msgid "Name is also used in version control commits."
-msgstr "Navn bruges også i versionskontrol-commits."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "Brugerdata"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "Fjern denne notifikationsindstilling"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The user data file is too large."
+msgstr "Den indtastede token er ugyldigt."
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Det uploadede billede var ugyldigt."
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many settings."
+msgstr "ZIP-fil med oversættelser"
 
 msgid "Commit e-mail"
 msgstr "Commit-email"
@@ -116,11 +146,27 @@ msgstr ""
 "Brugt i versionskontrol-commits. Adressen forbliver i repositoriet for "
 "evigt, når ændringer er committet af Weblate."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "Versionsstyringsindstillinger"
+
 msgid "Public e-mail"
 msgstr "Offentlig email"
 
 msgid "Hide e-mail address from public view"
 msgstr "Skjul email-adresse for offentligheden"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Visningsnavn"
+
+msgid "Translation"
+msgstr "Oversættelse"
+
+msgid "Dashboard"
+msgstr "Kontrolpanel"
 
 #, python-format
 msgid "Component list: %s"
@@ -135,6 +181,11 @@ msgid ""
 msgstr ""
 "Bruges til email-notifikationer og som en commit-email, hvis den ikke er "
 "konfigureret nedenfor."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "Personlige oplysninger"
 
 msgid "Human verification"
 msgstr "Menneskevalidering"
@@ -368,6 +419,11 @@ msgid "Enter the code from the app"
 msgstr "Indtast koden fra appen"
 
 #, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Godkendelsesapp (%s)"
+
+#, fuzzy
 #| msgid "Subproject is now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "Delprojekt er nu åbnet for oversættelsesopdateringer."
@@ -385,6 +441,16 @@ msgstr "Ugyldigt sprog valgt!"
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "Notifikationsindstillinger"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved search"
+msgstr "søg"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1344,11 +1410,21 @@ msgstr "Loginnøgle (%s)"
 msgid "Authentication app (%s)"
 msgstr "Godkendelsesapp (%s)"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Nulstil adgangskode"
 
 msgid "Remove account"
 msgstr "Fjern konto"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Menneskevalidering"
 
 msgid "User registration"
 msgstr "Brugertilmelding"
@@ -1447,8 +1523,8 @@ msgstr "Log ind"
 msgid "Signed out"
 msgstr "Logget ud"
 
-msgid "Register e-mail"
-msgstr "Registrér email"
+msgid "Verify new e-mail address"
+msgstr "Bekræft ny email-adresse"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr "Fuldfør venligst dit login med din tofaktorgodkendelsesmetode."
@@ -1461,6 +1537,21 @@ msgstr "Skift adgangskode"
 
 msgid "Password reset has been already completed."
 msgstr "Nulstilling af adgangskoden er allerede fuldført."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "Strengen kunne ikke udbredes til %d komponent."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Din profil er blevet opdateret."
 
 msgid "Could not remove user identity"
 msgstr "Kunne ikke fjerne brugeridentitet"
@@ -3761,8 +3852,10 @@ msgid "Manage translation memory"
 msgstr "Administrere oversættelseshukommelse"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "Administrere maskiner"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Manage translation services"
+msgstr "Bruge maskinoversættelse"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4341,9 +4434,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "Vælg en eksisterende komponentkonfiguration at kopiere."
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "Denne komponent er opsat forkert."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "Gennemsé alle ændringer for dette sprog"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4351,11 +4454,25 @@ msgid "The change does not belong to this component."
 msgstr "Kategori hører ikke til dette projekt."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "Kategori hører ikke til dette projekt."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "Undgå årstal, der er forbundet med dig."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "Automatisk oversættelsestilstand"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4414,20 +4531,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "Opret komponent"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Komponent"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "Ændring"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Seneste ændringer"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Ekstra besked"
@@ -5848,9 +5970,6 @@ msgstr "Fejlslagne tjek"
 msgid "Check"
 msgstr "Tjek"
 
-msgid "Translation"
-msgstr "Oversættelse"
-
 msgid "Weblate configuration"
 msgstr "Weblate-konfiguration"
 
@@ -6662,25 +6781,33 @@ msgstr "Du skal acceptere de Generelle Vilkår og Betingelser"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Du skal acceptere de Generelle Vilkår og Betingelser"
 
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
-msgid "Please read the following legal documents:"
-msgstr "Læs venligst følgende licensaftale for bidragydere:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Jeg accepterer dokumentet om Generelle Vilkår og Betingelser"
 
-msgid "General Terms and Conditions"
-msgstr "Generelle Vilkår og Betingelser"
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Læs venligst følgende dokument om Generelle Vilkår og Betingelser:"
 
-msgid "Privacy Policy"
-msgstr "Privatlivspolitik"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Jeg accepterer dokumentet om Generelle Vilkår og Betingelser"
 
 #, fuzzy
 #| msgid "Please read following General Terms and Conditions document:"
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Læs venligst følgende dokument om Generelle Vilkår og Betingelser:"
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
+msgid "General Terms and Conditions"
+msgstr "Generelle Vilkår og Betingelser"
 
 msgid "Submit"
 msgstr "Indsend"
@@ -6727,6 +6854,9 @@ msgstr ""
 "Siden er baseret på vilkår for tjeneste, det originale dokument bør dog "
 "stadig læses for at fuldt ud at forstå dem."
 
+msgid "Privacy Policy"
+msgstr "Privatlivspolitik"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "Cookies bruges på dette websted til følgende:"
 
@@ -6748,6 +6878,44 @@ msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr "Dette websted bruger Google Analytics til at analysere trafik."
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Læs venligst følgende dokument om Generelle Vilkår og Betingelser:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"Denne liste indeholder kun basale sprog. Kontakt venligst "
+"projektvedligeholdere for at tilføje andre."
 
 msgid "Legal Terms Overview"
 msgstr "Oversigt over Juridiske Vilkår"
@@ -6772,6 +6940,123 @@ msgstr "Ingen understøttede sprog fundet: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Kunne ikke hente oversættelse: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Oversættelseslicens"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Plurals are not supported by the file format."
+msgid "The language pair is not supported by this domain"
+msgstr "Flertal understøttes ikke af filformatet."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "Kildestrengen skal gennemgås."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Den indtastede token er ugyldigt."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "Oversættelsen har nået slutningen."
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "The translation request timed out"
+msgstr "Denne oversættelse er låst."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Intern serverfejl"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "Ukendt fejl"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Ugyldigt oversættelsesflag: \"%s\""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "Oversættelsesdomæne"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Kunne ikke hente oversættelse: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Oversættelsesdomæne"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Ugyldig tilbageførelsesanmodning!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "For alle sprog"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6803,6 +7088,66 @@ msgstr "Klient-ID"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Klient hemmelighed"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "URL til applikationsbase"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Adgangskode"
+
+#, fuzzy
+#| msgid "Repeated language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Gentagen sprogkode"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Webstedsdomæne"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Webstedsdomæne"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Komponentens kildesprog"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "Oversættelsesdomæne"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Begrænset komponent"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -7262,6 +7607,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "Fejlslagne tjek"
 
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose only one installation scope."
+msgstr "Vælg et filformat til rapporten"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "This scope already has 20 service installations."
+msgstr "Denne komponent er i øjeblikket låst."
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "Denne tjeneste er installeret på hele siden."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "Bruger er allerede blokeret på dette projekt."
+
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose one exclusion scope."
+msgstr "Vælg et filformat til rapporten"
+
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Choose an installation or a translation service."
+msgstr "Bruge maskinoversættelse"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Oversættelsen opdateres i baggrunden."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "Oversættelsen opdateres i baggrunden."
+
+msgid "Service is currently not available."
+msgstr "Tjenesten er i øjeblikket utilgængelig."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Automatisk valg"
@@ -7273,9 +7673,6 @@ msgstr "Komponentens kildesprog"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Sekundært sprog defineret i projekt eller komponent"
-
-msgid "Service is currently not available."
-msgstr "Tjenesten er i øjeblikket utilgængelig."
 
 msgid "File"
 msgstr "Fil"
@@ -7631,9 +8028,6 @@ msgstr "Tilladelse nægtet"
 msgid "Insufficient privileges to display this page."
 msgstr "Utilstrækkelige rettigheder til at vise denne side."
 
-msgid "Dashboard"
-msgstr "Kontrolpanel"
-
 msgid "Browse all projects"
 msgstr "Gennemsé alle projekter"
 
@@ -7981,6 +8375,11 @@ msgstr "Nulstilling af adgangskode er næsten fuldført"
 msgid "Account removal almost complete"
 msgstr "Fjernelse af konto er næsten fuldført"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Tilmelding er næsten fuldført"
+
 msgid "Registration almost complete"
 msgstr "Tilmelding er næsten fuldført"
 
@@ -7995,6 +8394,17 @@ msgid ""
 msgstr ""
 "Fjern din konto ved at klikke på bekræftelseslinket, der er sendt til din "
 "email-indbakke."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"Klik på bekræftelseslinket, der er sendt til din email-indbakke, og begynd "
+"at bruge din konto."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8015,6 +8425,13 @@ msgstr[1] "Bekræftelseslinket udløber efter %(count)s timer."
 msgid "Request a new confirmation link if it expires."
 msgstr "Anmod om et nyt bekræftelseslink, hvis det udløber."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "Anmod om et nyt bekræftelseslink, hvis det udløber."
+
 msgid "Register again if the confirmation link expires."
 msgstr "Tilmeld dig igen, hvis bekræftelseslinket udløber."
 
@@ -8025,17 +8442,24 @@ msgstr ""
 "Email er ikke en øjeblikkelig teknologi. Vent venligst på bekræftelses-"
 "emailen i mindst 30 minutter, før du skriver til os om problemer."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "Hvis der er problemer med din tilmelding, bedes du kontakte os."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Hvis der er problemer med din tilmelding, bedes du kontakte os."
 
-msgid "Please fix errors in the registration form."
-msgstr "Ret venligst fejl i tilmeldingsformularen."
+msgid "Please fix errors in the form."
+msgstr "Ret venligst fejl i formularen."
 
-msgid "Verify new e-mail address"
-msgstr "Bekræft ny email-adresse"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "Send test-email"
 
-msgid "Register"
-msgstr "Tilmeld"
+msgid "Back to account settings"
+msgstr "Tilbage til kontoindstillinger"
 
 msgid "Trial subscriptions"
 msgstr "Prøveabonnementer"
@@ -8252,29 +8676,105 @@ msgstr ""
 msgid "Change my password"
 msgstr "Skift min adgangskode"
 
-msgid "Preferences"
-msgstr "Præferencer"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "Tilbage til kontoindstillinger"
 
-msgid "Notifications"
-msgstr "Notifikationer"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "Redigere projektindstillinger"
 
 msgid "Account"
 msgstr "Konto"
 
-msgid "Profile"
-msgstr "Profil"
+msgid "Public profile"
+msgstr "Offentlig profil"
+
+msgid "Preferences"
+msgstr "Præferencer"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved searches"
+msgstr "søg"
+
+msgid "Notifications"
+msgstr "Notifikationer"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "Sikkerheds OSS"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Kildestrenge"
 
 msgid "Licenses"
 msgstr "Licenser"
 
-msgid "Audit log"
-msgstr "Revisionslog"
+msgid "Activity"
+msgstr "Aktivitet"
 
-msgid "API access"
-msgstr "API-adgang"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr "Email-adressen kan kun vælges blandt bekræftede adresser."
 
-msgid "Please fix errors in the form."
-msgstr "Ret venligst fejl i formularen."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Bekræft ny email-adresse"
+
+msgid "Save"
+msgstr "Gem"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "Filnavne"
+
+msgid "Download user data"
+msgstr "Hent brugerdata"
+
+msgid "You can download all your private data."
+msgstr "Du kan hente alle dine private data."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "Redigere projektindstillinger"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Fjernelse"
+
+msgid "Account removal deletes all your private data."
+msgstr "Fjernelse af konto sletter alle dine private data."
+
+msgid "Remove my account"
+msgstr "Fjern min konto"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Alle felter på denne side er valgfrie og kan slettes når som helst, og ved "
+"at udfylde dem giver du os samtykke til at dele disse data, uanset hvor din "
+"brugerprofil vises."
+
+msgid "Your avatar"
+msgstr "Din avatar"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Avatarer leveres med %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -8283,8 +8783,13 @@ msgstr ""
 "Send en anmodning til det projekt, du vil oversætte, om at tilføje et "
 "manglende sprog."
 
-msgid "Save"
-msgstr "Gem"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "Tilføj en bruger"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8309,33 +8814,23 @@ msgstr "Notifikationsindstillinger"
 msgid "Remove this notification setting"
 msgstr "Fjern denne notifikationsindstilling"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Email-adressen kan kun vælges blandt bekræftede adresser."
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Log ind med adgangskode"
 
-msgid "Current user identities"
-msgstr "Nuværende brugeridentiteter"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "Konfigurer"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "Konfigurer"
 
 msgid "Set password"
 msgstr "Angiv adgangskode"
-
-msgid "Disconnect"
-msgstr "Afbryd"
-
-msgid "Add new user identity"
-msgstr "Tilføj ny brugeridentitet"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Hosting af oversættelser"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Afventende invitationer"
 
 msgid "Two-factor authentication"
 msgstr "Tofaktorgodkendelse"
@@ -8353,23 +8848,34 @@ msgstr "Loginnøgler (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Ingen WebAuthn-nøgler registreret endnu."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Loginnøglen %s blev registreret."
+msgstr[1] "Loginnøglen %s blev registreret."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "Hemmelig API-nøgle"
+
 msgid "Remove"
 msgstr "Fjern"
-
-msgid "Name your security key"
-msgstr "Navngiv din loginnøgle"
-
-msgid "Register new security key"
-msgstr "Registrér ny loginnøgle"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "Din webbrowser understøtter ikke WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "Godkendelsesapps (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "Ingen godkendelsesapps registreret endnu."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Ingen godkendelsesapps registreret endnu."
+msgstr[1] "Ingen godkendelsesapps registreret endnu."
 
 msgid "Register new authenticator app"
 msgstr "Registrér ny godkendelsesapp"
@@ -8380,80 +8886,34 @@ msgstr "Gendannelseskoder"
 msgid "No recovery codes generated yet."
 msgstr "Ingen gendannelseskoder genereret endnu."
 
-msgid "Generate new recovery codes"
-msgstr "Generér nye gendannelseskoder"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "%(count)s gendannelseskode tilgængelig."
 msgstr[1] "%(count)s gendannelseskoder tilgængelige."
 
+msgid "Generate new recovery codes"
+msgstr "Generér nye gendannelseskoder"
+
 msgid "View recovery codes"
 msgstr "Se gendannelseskoder"
 
-msgid "User data"
-msgstr "Brugerdata"
-
-msgid "You can download all your private data."
-msgstr "Du kan hente alle dine private data."
-
-msgid "Download user data"
-msgstr "Hent brugerdata"
-
-msgid "Removal"
-msgstr "Fjernelse"
-
-msgid "Account removal deletes all your private data."
-msgstr "Fjernelse af konto sletter alle dine private data."
-
-msgid "Remove my account"
-msgstr "Fjern min konto"
-
-msgid "Public profile"
-msgstr "Offentlig profil"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"Alle felter på denne side er valgfrie og kan slettes når som helst, og ved "
-"at udfylde dem giver du os samtykke til at dele disse data, uanset hvor din "
-"brugerprofil vises."
 
-msgid "Your avatar"
-msgstr "Din avatar"
+msgid "Disconnect"
+msgstr "Afbryd"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatarer leveres med %(avatar_url_prefix)s."
+#, fuzzy
+#| msgid "Do not have an account yet?"
+msgid "No linked sign-in accounts."
+msgstr "Har du endnu ikke en konto?"
 
-msgid "Pending invitation"
-msgstr "Afventende invitation"
+msgid "Add sign-in method"
+msgstr ""
 
-msgid "Description"
-msgstr "Beskrivelse"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr "Kontakt os straks, hvis du opdager noget mistænkeligt i auditloggen."
-
-msgid "When"
-msgstr "Hvornår"
-
-msgid "IP address"
-msgstr "IP-adresse"
-
-msgid "User agent"
-msgstr "Brugeragent"
-
-msgid "No recent activity found."
-msgstr "Ingen nylig aktivitet fundet."
-
-msgid "Report suspicious activity"
-msgstr "Rapportér mistænkelig aktivitet"
+msgid "API access"
+msgstr "API-adgang"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -8490,6 +8950,24 @@ msgstr ""
 "API-nøglen bruges også til at godkende automatisk eksporterede Git-"
 "repositorier."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Hosting af oversættelser"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "Afventende invitationer"
+
+msgid "Pending invitation"
+msgstr "Afventende invitation"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8511,6 +8989,29 @@ msgstr "Du har accepteret følgende som bidragyder:"
 
 msgid "Licenses for individual translations"
 msgstr "Licenser til individuelle oversættelser"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr "Kontakt os straks, hvis du opdager noget mistænkeligt i auditloggen."
+
+msgid "Audit log"
+msgstr "Revisionslog"
+
+msgid "When"
+msgstr "Hvornår"
+
+msgid "IP address"
+msgstr "IP-adresse"
+
+msgid "User agent"
+msgstr "Brugeragent"
+
+msgid "No recent activity found."
+msgstr "Ingen nylig aktivitet fundet."
+
+msgid "Report suspicious activity"
+msgstr "Rapportér mistænkelig aktivitet"
 
 msgid "Two-factor recovery codes"
 msgstr "Anden faktor-gendannelseskoder"
@@ -8548,9 +9049,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr "Dine gamle koder bliver ugyldige og vil ikke længere virke."
 
-msgid "Back to account settings"
-msgstr "Tilbage til kontoindstillinger"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "Omdirigerer dig til godkendelsesudbyderen."
 
@@ -8565,10 +9063,16 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr "Udfyld venligst tilmeldingen for at acceptere invitationen."
 
+msgid "Please fix errors in the registration form."
+msgstr "Ret venligst fejl i tilmeldingsformularen."
+
 #, fuzzy, python-format
 #| msgid "Your registration on %(site_title)s"
 msgid "Register in %(formatted_site_title)s"
 msgstr "Din tilmelding på %(site_title)s"
+
+msgid "Register"
+msgstr "Tilmeld"
 
 msgid "Create an account using:"
 msgstr "Opret en konto med:"
@@ -8627,6 +9131,11 @@ msgstr "Indstil min adgangskode"
 
 msgid "Reset my password"
 msgstr "Nulstil min adgangskode"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "Rediger bruger"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "Webbaseret <strong>kontinuerlig</strong> lokalisering"
@@ -8808,9 +9317,6 @@ msgstr[1] "%(count)s kommentarer"
 msgid "Translates"
 msgstr "Oversæt"
 
-msgid "Activity"
-msgstr "Aktivitet"
-
 msgid "Recent changes"
 msgstr "Seneste ændringer"
 
@@ -8942,6 +9448,26 @@ msgstr ""
 msgid "Continue"
 msgstr "Fortsæt"
 
+msgid "Register new security key"
+msgstr "Registrér ny loginnøgle"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"Godkendelsesapps genererer tidsbaserede engangskoder, der bruges som en "
+"anden faktor til at bekræfte din identitet ved login."
+
+msgid "Name your security key"
+msgstr "Navngiv din loginnøgle"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "Din webbrowser understøtter ikke WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -9016,13 +9542,32 @@ msgstr "Ingen komponenter er angivet"
 msgid "Configure add-on"
 msgstr "Konfigurer tilføjelse"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Seneste ændringer"
-
 msgid "This add-on has no settings."
 msgstr "Denne tilføjelse har ingen indstillinger."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Gennemgang"
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "No operations were executed."
+msgstr "Brugerinvitation blev fjernet."
+
+#, fuzzy
+#| msgid "Enable add-on:"
+msgid "Run add-on"
+msgstr "Aktivér tilføjelse:"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -9033,11 +9578,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable add-on:"
-msgid "Run add-on"
-msgstr "Aktivér tilføjelse:"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10406,12 +10946,10 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"Dette vil commit alle afventende ændringer, der findes i Weblate og ikke i "
-"repositoriet."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Tving skrivning af alle oversættelser til Weblate-repositoriet"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10434,8 +10972,10 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "%(count)s mangler commit"
 msgstr[1] "%(count)s mangler commits"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Dette opdaterer Weblate-repositoriet med upstream-ændringerne."
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Tillad ændringer i Weblate-repositoriet"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Tillad ændringer i Weblate-repositoriet"
@@ -10471,8 +11011,15 @@ msgstr "Weblate-oversættelser er låst op"
 msgid "Weblate translations are locked"
 msgstr "Weblate-oversættelser er låst"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "Låsning forhindrer oversættere i at foretage ændringer."
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "Gennemsé alle oversættelsesændringer"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "Vælg oversættelsesfiler at importere"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10480,27 +11027,37 @@ msgstr "Låsning forhindrer oversættere i at foretage ændringer."
 msgid "Discard local changes"
 msgstr "Kassér flag"
 
-#, fuzzy
-#| msgid "Repository changes"
-msgid "Discard local changes and reset to upstream"
-msgstr "Ændringer i repository"
-
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Use when:"
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "Oversættelsen opdateres i baggrunden."
+
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "Resultat"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Nulstil repository til upstream"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "Dataeksport"
 
 #, fuzzy
 #| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Beskriv oversættelsens kontekst for at forbedre nøjagtigheden."
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
+"En anmodning om en ny oversættelse er blevet sendt til projektets "
+"vedligeholdere."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10508,76 +11065,78 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Definer basisfilen for nye oversættelser"
 
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr ""
+"En anmodning om en ny oversættelse er blevet sendt til projektets "
+"vedligeholdere."
+
+#, fuzzy
+#| msgid "Use these operations with caution, they can lead to data loss."
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "Brug disse operationer med omtanke. De kan medføre datatab."
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
 #, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Om Weblate skal bevare en historik over oversættelser"
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "Oversættelsesfiler"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr "Synkroniser"
+
+#, fuzzy
+#| msgid ""
+#| "Use this when repository files became out of sync with Weblate for some "
+#| "reason."
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+"Brug dette, når repository-filer af en eller anden grund ikke synkroniseres "
+"med Weblate."
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Weblate-oversættelser er låst"
+
+msgid "Rescan"
+msgstr "Scan igen"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
+msgstr "Indlæser oversættelser fra filerne til Weblate."
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "Ryd op"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
-msgstr ""
-"Oprydning fjerner alle filer, som ikke spores af versionskontrollen, fra "
-"repositoriet."
-
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
-
-msgid "Synchronize"
-msgstr "Synkroniser"
-
-msgid "Forces writing all strings to the translation files."
-msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-"Brug dette, når repository-filer af en eller anden grund ikke synkroniseres "
-"med Weblate."
-
-msgid "Rescan"
-msgstr "Scan igen"
-
-msgid "Loads translations from the files into Weblate."
-msgstr "Indlæser oversættelser fra filerne til Weblate."
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-"Bruges, når Weblate overså nogle strenge efter opdatering af repositoriet."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
-msgstr "Brug disse operationer med omtanke. De kan medføre datatab."
 
 #, fuzzy
 #| msgid "File names"
@@ -10590,30 +11149,18 @@ msgid "Remove duplicates"
 msgstr "Fjernet bruger"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Oversættelse erstattede fil ved upload"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr ""
 "Ret det venligst ved at fjerne duplikerede strenge med samme identifikator "
 "fra oversættelsesfilerne."
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"Det kan ske, hvis stien i oversættelsesfilerne indeholder henvisninger til "
-"en overordnet mappe eller er absolut."
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10621,44 +11168,27 @@ msgid "Cleanup unused"
 msgstr "Ryd op"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Ingen strenge blev importeret fra den uploadede fil."
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Fjerner strenge uden en oversættelse fra oversættelsesfiler."
-
-#, fuzzy
-#| msgid "The translation base language can not be edited."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Oversættelsens grundsprog kan ikke redigeres."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "Fjern tomme strenge"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "Fjern tomme strenge"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "Brug disse operationer med omtanke. De kan medføre datatab."
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "Fjern tomme strenge"
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10837,8 +11367,20 @@ msgstr "Denne tjeneste er installeret på hele siden."
 msgid "site wide"
 msgstr "hele siden"
 
-msgid "This service is installed site wide, but disabled."
-msgstr "Denne tjeneste er installeret på hele siden, men er deaktiveret."
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "Denne tjeneste er installeret på hele siden."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Mellemrum"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "Denne tjeneste er installeret på hele siden."
 
 msgid "disabled"
 msgstr "deaktiveret"
@@ -10846,8 +11388,16 @@ msgstr "deaktiveret"
 msgid "Service is no longer available"
 msgstr "Tjeneste er ikke længere tilgængelig"
 
-msgid "Automatic suggestions"
-msgstr "Automatiske forslag"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Forklaring på oversættelse"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10855,14 +11405,35 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "Konfigurerede automatiske forslagstjenester"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Ryd op i oversættelsesfiler"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr "Tilføjelse af strenge er deaktiveret i komponentkonfigurationen."
 
 msgid "Disable"
 msgstr "Deaktivér"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "Aktivér"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "Fjern denne notifikationsindstilling"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "Konfigurer"
@@ -10876,8 +11447,10 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "Der er i øjeblikket installeret %(count)s tjeneste."
 msgstr[1] "Der er i øjeblikket installeret %(count)s tjenester."
 
-msgid "Available automatic suggestion services"
-msgstr "Tilgængelige automatiske forslagstjenester"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Available translation services"
+msgstr "Bruge maskinoversættelse"
 
 msgid "Could not find any additional services."
 msgstr "Kunne ikke finde nogen ekstra tjenester."
@@ -12242,12 +12815,20 @@ msgstr "Etikettens navn"
 msgid "Color"
 msgstr "Farve"
 
+msgid "Description"
+msgstr "Beskrivelse"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "Mærkede kildestrenge"
 
 msgid "Add label"
 msgstr "Tilføj etiket"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -12350,6 +12931,14 @@ msgstr "Hent som TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "search"
+msgid "Save search"
+msgstr "søg"
 
 msgid "Assigned source strings"
 msgstr "Tildelte kildestrenge"
@@ -12568,9 +13157,8 @@ msgstr ""
 #| "translation engines to get the best possible translations and applies "
 #| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "Automatisk oversættelse via maskinoversættelse bruger aktive "
 "maskinoversættelsesmotorer for at få den bedst mulige oversættelse og "
@@ -12587,10 +13175,14 @@ msgstr ""
 "anden branch, rette inkonsistente oversættelser eller oversætte en ny "
 "komponent med oversættelseshukommelse."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "Automatisk oversættelse via maskinoversættelse bruger aktive "
 "maskinoversættelsesmotorer for at få den bedst mulige oversættelse og "
@@ -13057,6 +13649,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "Yderligere etiketter kan defineres af projektadministratorer."
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "Oprindelse"
+
+#, fuzzy
+#| msgid "IP address:"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "IP-adresse:"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "IP-adresse kopieret til udklipsholder."
+
 msgid "Revert"
 msgstr "Fortryd"
 
@@ -13320,6 +13930,11 @@ msgstr "Oversat automatisk"
 msgid "Translated strings in a certain language"
 msgstr "Oversatte strenge på et bestemt sprog"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "Søg efter…"
+
 msgid "Query"
 msgstr "Forespørgsel"
 
@@ -13442,6 +14057,20 @@ msgstr "Tilpas oversættelsesarbejdsgangen for dette sprog"
 #| msgid "No matching translations found!"
 msgid "Configure translation workflow"
 msgstr "Ingen matchende oversættelser fundet!"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "SAP-brugernavn"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Søgefilter"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -13760,8 +14389,8 @@ msgstr "Kommando"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13834,6 +14463,27 @@ msgstr "Weblate CDN-tilføjelsen kunne ikke analysere HTML-filerne."
 
 msgid "Filename"
 msgstr "Filnavn"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -14475,6 +15125,11 @@ msgstr ""
 "Opret en ny oversættelseskomponent til en ekstra branch af den eksisterende "
 "oversættelseskomponent."
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Detaljer om repository"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14934,6 +15589,9 @@ msgstr "Andre forekomster"
 
 msgid "Computer-aided translation suggestions"
 msgstr "Computerstøttede oversættelsesforslag"
+
+msgid "Automatic suggestions"
+msgstr "Automatiske forslag"
 
 msgid "Translations of this string in the other languages"
 msgstr "Oversættelser af strengen til andre sprog"
@@ -15552,9 +16210,6 @@ msgstr "Fjern min konto"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -15719,11 +16374,6 @@ msgstr "Indlejringskode"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "Gennemgang"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16916,6 +17566,11 @@ msgid "Duplicate label name."
 msgstr "Duplikeret filmaske."
 
 #, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "Duplikeret oversættelse."
+
+#, fuzzy
 #| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
 msgstr "Skærmbillede viser brugen af strengen"
@@ -17855,9 +18510,6 @@ msgstr "Andre oversættelseskomponenter"
 msgid "Machine translation"
 msgstr "Maskinoversættelse"
 
-msgid "Machine translation engines"
-msgstr "Maskinoversættelsesmotorer"
-
 msgid "Score threshold"
 msgstr "Pointgrænse"
 
@@ -18095,6 +18747,16 @@ msgstr "Tilføjelse af nye sprog"
 
 msgid "Select an existing component configuration to copy."
 msgstr "Vælg en eksisterende komponentkonfiguration at kopiere."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "For mange søgeforespørgsler. Prøv igen senere."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "Kunne ikke åbne en billet. Prøv venligst igen senere."
 
 msgid "ZIP file containing translations"
 msgstr "ZIP-fil med oversættelser"
@@ -18373,6 +19035,24 @@ msgstr "Forfatterens brugernavn"
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "Tilmeldingsdato"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "Tilgængelige tilføjelser"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "Del i projekter"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "En bruger med det brugernavn findes allerede."
 
 msgid "Expiry cannot be in the past."
 msgstr "Udløbsdato kan ikke være i fortiden."
@@ -18794,6 +19474,64 @@ msgstr "%(action)s %(time)s på %(translation)s af %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s %(time)s på %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "Feb"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Arkiv"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Systemkontrol"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Automatisk genkendelse"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Opret oversættelse"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Scan alle oversættelsesfiler i Weblate-repositoriet igen"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "Kilde skal gennemgås"
@@ -19256,8 +19994,9 @@ msgstr "Kunne ikke pushe %(component)s: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr "Push er deaktiveret for %s."
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "Kunne ikke nulstille til ekstern branch på %s."
 
 #, python-format
@@ -19780,6 +20519,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Oversættelsen opdateres i baggrunden."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19800,6 +20544,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "Godkendt oversættelse i %(translation)s"
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "Etiketbeskrivelse"
 
 msgid "Could not accept suggestion!"
 msgstr "Kunne ikke acceptere forslag!"
@@ -20043,6 +20792,11 @@ msgstr "Bruger er blevet blokeret på dette projekt."
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "Kildesprogets tekst"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Tving skrivning af alle oversættelser til Weblate-repositoriet"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -21232,6 +21986,17 @@ msgid "More possible users were found."
 msgstr "Flere mulige brugere blev fundet."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "Projektskabere"
+
+#, fuzzy
+#| msgid "search"
+msgid "My searches"
+msgstr "søg"
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "Strenge med kommentarer"
@@ -21619,6 +22384,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "Det lokale arkiv er opdateret."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "Det uploadede billede var ugyldigt."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -21926,6 +22701,16 @@ msgstr "Dette vil force push ændringer til upstream-repositoriet."
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "Dette vil pushe ændringer til det upstream Git-repository."
+
+#, fuzzy
+#| msgid "Invalid link to repository!"
+msgid "Invalid file path during repository recovery."
+msgstr "Ugyldig henvisning til arkiv!"
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "Repository-rebase mislykkedes"
 
 msgid "Possible cleanups:"
 msgstr "Mulige oprydninger:"
@@ -22789,6 +23574,130 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Kilde er blevet fjernet."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "Navn bruges også i versionskontrol-commits."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Registrér email"
+
+#~ msgid "Manage machinery"
+#~ msgstr "Administrere maskiner"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "Opret komponent"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Seneste ændringer"
+
+#, fuzzy
+#~| msgid "Please read the following contributor license agreement:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Læs venligst følgende licensaftale for bidragydere:"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Current user identities"
+#~ msgstr "Nuværende brugeridentiteter"
+
+#~ msgid "Add new user identity"
+#~ msgstr "Tilføj ny brugeridentitet"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "Dette vil commit alle afventende ændringer, der findes i Weblate og ikke "
+#~ "i repositoriet."
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr "Dette opdaterer Weblate-repositoriet med upstream-ændringerne."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "Låsning forhindrer oversættere i at foretage ændringer."
+
+#, fuzzy
+#~| msgid "Repository changes"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Ændringer i repository"
+
+#, fuzzy
+#~| msgid ""
+#~| "Describe the context of the translation to improve the accuracy of the "
+#~| "translation."
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "Beskriv oversættelsens kontekst for at forbedre nøjagtigheden."
+
+#, fuzzy
+#~| msgid "Whether Weblate should keep history of translations"
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Om Weblate skal bevare en historik over oversættelser"
+
+#~ msgid ""
+#~ "Cleanup removes all files which are not tracked by the version control "
+#~ "from the repository."
+#~ msgstr ""
+#~ "Oprydning fjerner alle filer, som ikke spores af versionskontrollen, fra "
+#~ "repositoriet."
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "Bruges, når Weblate overså nogle strenge efter opdatering af repositoriet."
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr "Brug disse operationer med omtanke. De kan medføre datatab."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "Det kan ske, hvis stien i oversættelsesfilerne indeholder henvisninger "
+#~ "til en overordnet mappe eller er absolut."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Tvinger skrivning af alle strenge til oversættelsesfilerne."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Fjerner strenge uden en oversættelse fra oversættelsesfiler."
+
+#, fuzzy
+#~| msgid "The translation base language can not be edited."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Oversættelsens grundsprog kan ikke redigeres."
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr "Denne tjeneste er installeret på hele siden, men er deaktiveret."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Konfigurerede automatiske forslagstjenester"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Tilgængelige automatiske forslagstjenester"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "Maskinoversættelsesmotorer"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Kunne ikke godkende: %s"
@@ -22821,11 +23730,6 @@ msgstr "Kilde er blevet fjernet."
 #~ msgstr ""
 #~ "Weblate-repositoriet mangler nogle commits fra upstream. Det modtager "
 #~ "muligvis ikke meddelelser om opdateringer af det eksterne repository."
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "Duplikeret oversættelse."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22936,9 +23840,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Suggested change"
 #~ msgstr "Foreslået ændring"
-
-#~ msgid "Origin"
-#~ msgstr "Oprindelse"
 
 #~ msgid "Similarity"
 #~ msgstr "Lighed"
@@ -23308,11 +24209,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "Komponenter bliver opdateret…"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Kildestrenge"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
@@ -23847,9 +24743,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "Kunne ikke finde sammenlagt streng."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "Ugyldig tilbageførelsesanmodning!"
 
 #~ msgid ""
 #~ "Contributing to this translation requires accepting its contributor "
@@ -24837,9 +25730,6 @@ msgstr "Kilde er blevet fjernet."
 #~ "Weblate udvikling følger Linux Foundation Core Infrastructure Initiative "
 #~ "Best Practices."
 
-#~ msgid "Security FAQ"
-#~ msgstr "Sikkerheds OSS"
-
 #, fuzzy
 #~| msgid "How do you store user passwords?"
 #~ msgid "How are user passwords stored?"
@@ -25235,9 +26125,6 @@ msgstr "Kilde er blevet fjernet."
 #~ msgid "Failing check"
 #~ msgstr "Fejlslagne tjek"
 
-#~ msgid "Use machine translation services"
-#~ msgstr "Bruge maskinoversættelse"
-
 #~ msgid "Manage users (on the entire platform)"
 #~ msgstr "Tilføj brugere (på hele platformen)"
 
@@ -25348,9 +26235,6 @@ msgstr "Kilde er blevet fjernet."
 #~ msgid "Jump to position"
 #~ msgstr "Hop til placering"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #~ msgid "Render as HTML"
 #~ msgstr "Gengiv som HTML"
 
@@ -25411,9 +26295,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Project access control"
 #~ msgstr "Projektet adgangskontrol"
-
-#~ msgid "Change"
-#~ msgstr "Ændring"
 
 #~ msgid "Import existing translations"
 #~ msgstr "Importér eksisterende oversættelser"
@@ -25476,9 +26357,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Log in"
 #~ msgstr "Log ind"
-
-#~ msgid "Password login"
-#~ msgstr "Log ind med adgangskode"
 
 #~ msgid "You can reset it."
 #~ msgstr "Du kan nulstille den."
@@ -25975,9 +26853,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Hi,"
 #~ msgstr "Hej,"
-
-#~ msgid "IP address:"
-#~ msgstr "IP-adresse:"
 
 #~ msgid "User agent:"
 #~ msgstr "Brugeragent:"
@@ -26513,9 +27388,6 @@ msgstr "Kilde er blevet fjernet."
 #~ msgid "Debug mode"
 #~ msgstr "Fejlsøgningstilstand"
 
-#~ msgid "Site domain"
-#~ msgstr "Webstedsdomæne"
-
 #~ msgid "Django caching"
 #~ msgstr "Django-cachelagring"
 
@@ -26527,9 +27399,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Allowed hosts"
 #~ msgstr "Tilladte værter"
-
-#~ msgid "Result"
-#~ msgstr "Resultat"
 
 #~ msgid ""
 #~ "The fulltext search might not work properly as the fulltext index for "
@@ -28209,9 +29078,6 @@ msgstr "Kilde er blevet fjernet."
 
 #~ msgid "Translation license:"
 #~ msgstr "Oversættelseslicens:"
-
-#~ msgid "search"
-#~ msgstr "søg"
 
 #, fuzzy
 #~| msgid "Machine readable data"

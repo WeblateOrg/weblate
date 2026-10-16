@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-09 14:14+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -91,8 +91,38 @@ msgstr "このユーザー名はすでに使用されています。別の名前
 msgid "Full name"
 msgstr "フルネーム"
 
-msgid "Name is also used in version control commits."
-msgstr "名前はバージョンコントロールシステムのコミットにも使われます。"
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "ユーザー データ"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "この通知設定の削除"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "The user data file is too large."
+msgstr "アップロードしたファイルは大きすぎます。"
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "アップロードした画像は不正です。"
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many settings."
+msgstr "翻訳を含む ZIP ファイル"
 
 msgid "Commit e-mail"
 msgstr "コミット用メールアドレス"
@@ -117,11 +147,27 @@ msgstr ""
 "バージョン管理のコミットに使用します。Weblate から変更がコミットされると、こ"
 "の名前はリポジトリに永久に残ります。"
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "バージョンコントロールの設定"
+
 msgid "Public e-mail"
 msgstr "公開用メールアドレス"
 
 msgid "Hide e-mail address from public view"
 msgstr "メールアドレスを非公開にする"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "表示名"
+
+msgid "Translation"
+msgstr "翻訳"
+
+msgid "Dashboard"
+msgstr "ダッシュボード"
 
 #, python-format
 msgid "Component list: %s"
@@ -136,6 +182,11 @@ msgid ""
 msgstr ""
 "メール通知と、以下で設定していない場合はコミット用メールアドレスとしても使用"
 "します。"
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "個人情報"
 
 msgid "Human verification"
 msgstr "人間かどうか確認"
@@ -367,6 +418,11 @@ msgid "Enter the code from the app"
 msgstr "アプリからコードを入力"
 
 #, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "認証アプリ（%s）"
+
+#, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "全コンポーネントの翻訳の更新を許可しました。"
@@ -384,6 +440,16 @@ msgstr "正しい GitHub ホストを入力してください。"
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "通知の設定"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved search"
+msgstr "検索"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1256,11 +1322,21 @@ msgstr "セキュリティキー（%s）"
 msgid "Authentication app (%s)"
 msgstr "認証アプリ（%s）"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "パスワードのリセット"
 
 msgid "Remove account"
 msgstr "アカウントの削除"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "人間かどうか確認"
 
 msgid "User registration"
 msgstr "ユーザー登録"
@@ -1351,8 +1427,8 @@ msgstr "サインイン"
 msgid "Signed out"
 msgstr "サインアウトしました"
 
-msgid "Register e-mail"
-msgstr "メールアドレスの登録"
+msgid "Verify new e-mail address"
+msgstr "新しいメールアドレスの確認"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr "続行するには、二要素認証による本人確認が必要です。"
@@ -1365,6 +1441,21 @@ msgstr "パスワードの変更"
 
 msgid "Password reset has been already completed."
 msgstr "パスワードのリセットはすでに完了しています。"
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "文字列を %d 個のコンポーネントへ反映できませんでした。"
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "ユーザー情報を更新しました。"
 
 msgid "Could not remove user identity"
 msgstr "ユーザー認証方法を削除できませんでした"
@@ -3456,8 +3547,10 @@ msgid "Manage translation memory"
 msgstr "翻訳メモリの管理"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "機械翻訳の管理"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Manage translation services"
+msgstr "機械翻訳サービスの使用"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4005,9 +4098,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "コピーする既存のコンポーネントの設定を選択してください。"
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "このコンポーネントは正しく設定されていません。"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "この言語のすべての変更箇所を表示"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4015,11 +4118,25 @@ msgid "The change does not belong to this component."
 msgstr "カテゴリーはこのプロジェクトに属していません。"
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "カテゴリーはこのプロジェクトに属していません。"
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "あなた自身に関係のある西暦／和暦年も避けておくことを推奨します。"
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "自動翻訳モード"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4078,20 +4195,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "コンポーネントの作成"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "コンポーネント"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "変更"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "最近の更新"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "補足メッセージ"
@@ -5380,9 +5502,6 @@ msgstr "検査に不合格"
 msgid "Check"
 msgstr "検査項目"
 
-msgid "Translation"
-msgstr "翻訳"
-
 msgid "Weblate configuration"
 msgstr "Weblate の設定"
 
@@ -6160,21 +6279,33 @@ msgstr "一般利用規約とプライバシーポリシーへの同意が必要
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "利用規約への同意が必要です"
 
-msgid "Please read the following legal documents:"
-msgstr "以下の法的文書をお読みください:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "利用規約とプライバシーポリシーに同意する"
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "以下の一般利用規約の文書をご確認ください:"
+
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "利用規約とプライバシーポリシーに同意する"
+
+#, fuzzy
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
+msgstr "以下の一般利用規約の文書をご確認ください:"
 
 msgid "General Terms and Conditions"
 msgstr "利用規約"
-
-msgid "Privacy Policy"
-msgstr "プライバシーポリシー"
-
-msgid "Please read the following General Terms and Conditions document:"
-msgstr "以下の一般利用規約の文書をご確認ください:"
-
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
 
 msgid "Submit"
 msgstr "送信"
@@ -6219,6 +6350,9 @@ msgstr ""
 "このページは サービス利用規約 をベースにしているものです。詳しくお読みになり"
 "たい場合は、左記の文書をお読みください。"
 
+msgid "Privacy Policy"
+msgstr "プライバシーポリシー"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "本サイトでは、Cookie を以下の用途で使用しています:"
 
@@ -6241,6 +6375,44 @@ msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
 "このサイトは Google Analytics を使用して Web サイトのトラフィックを分析してい"
 "ます。"
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "以下の一般利用規約の文書をご確認ください:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"このリストには基本的な言語のみが含まれています。他の言語を追加するには、プロ"
+"ジェクト管理者に連絡してください。"
 
 msgid "Legal Terms Overview"
 msgstr "法律上の告知事項の概要"
@@ -6265,6 +6437,123 @@ msgstr "対応している言語が見つかりませんでした: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "翻訳の取得に失敗しました: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "翻訳のライセンス"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language addition is not supported by any of the components."
+msgid "The language pair is not supported by this domain"
+msgstr "どのコンポーネントも言語の追加には対応していません。"
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "原文の査読が必要です。"
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "Quality estimation is not available"
+msgstr "必要なファイルが利用できません。"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "翻訳が最後まで到達しました。"
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "The translation request timed out"
+msgstr "この翻訳は編集が必要です。"
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "サーバー内部エラー"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "翻訳フラグが正しくありません: \"%s\""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "翻訳のドメイン"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "翻訳の取得に失敗しました: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "翻訳のドメイン"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "差し戻し要求が正しくありません！"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "すべての言語"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6300,6 +6589,66 @@ msgstr "クライアント ID"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "クライアント シークレット"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "アプリケーションのベース URL"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "パスワード"
+
+#, fuzzy
+#| msgid "Repeated language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "言語コードの反復"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "サイトドメイン"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "サイトドメイン"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "コンポーネントの原文の言語"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "翻訳のドメイン"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid component path."
+msgid "Invalid component path or eTranslation domain code."
+msgstr "コンポーネントのパスが間違っています。"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -6727,6 +7076,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "検査不合格"
 
+#, fuzzy
+#| msgid "Choose at most one report scope."
+msgid "Choose only one installation scope."
+msgstr "最大1つのレポート範囲を選んでください。"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "This scope already has 20 service installations."
+msgstr "このコンポーネントは既に %s で共有されています。"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "このサービスはサイト全体にインストールされています。"
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "ユーザーは、すでにこのプロジェクトからブロックされています。"
+
+#, fuzzy
+#| msgid "Choose at most one report scope."
+msgid "Choose one exclusion scope."
+msgstr "最大1つのレポート範囲を選んでください。"
+
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Choose an installation or a translation service."
+msgstr "機械翻訳サービスの使用"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "翻訳はバックグラウンドで更新されます。"
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "翻訳はバックグラウンドで更新されます。"
+
+msgid "Service is currently not available."
+msgstr "現在、サービスは利用できません。"
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "自動選択"
@@ -6738,9 +7142,6 @@ msgstr "コンポーネントの原文の言語"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "プロジェクトまたはコンポーネントで設定された第二言語"
-
-msgid "Service is currently not available."
-msgstr "現在、サービスは利用できません。"
 
 msgid "File"
 msgstr "ファイル"
@@ -7060,9 +7461,6 @@ msgstr "アクセスが拒否されました"
 
 msgid "Insufficient privileges to display this page."
 msgstr "このページを表示する権限がありません。"
-
-msgid "Dashboard"
-msgstr "ダッシュボード"
 
 msgid "Browse all projects"
 msgstr "すべてのプロジェクトの閲覧"
@@ -7391,6 +7789,11 @@ msgstr "パスワードリセットまであと少しです"
 msgid "Account removal almost complete"
 msgstr "アカウントの削除まであと少しです"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "登録完了まであと少しです"
+
 msgid "Registration almost complete"
 msgstr "登録完了まであと少しです"
 
@@ -7403,6 +7806,17 @@ msgid ""
 msgstr ""
 "送られてきたメールに記載の確認用のリンクをクリックして、アカウントを削除しま"
 "す。"
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"メールで送られてきた確認用のリンクをクリックして、アカウントを開始してくださ"
+"い。"
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7422,6 +7836,13 @@ msgstr[0] "確認用のリンクは、%(count)s 時間後に期限が切れま�
 msgid "Request a new confirmation link if it expires."
 msgstr "有効期限が切れた場合は、新しい確認用のリンクをリクエストしてください。"
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "有効期限が切れた場合は、新しい確認用のリンクをリクエストしてください。"
+
 msgid "Register again if the confirmation link expires."
 msgstr "確認用のリンクの有効期限が切れた場合は、再度登録してください。"
 
@@ -7432,17 +7853,24 @@ msgstr ""
 "電子メールは、即時性の高い技術ではありません。問題が発生した場合は、確認メー"
 "ルが送信されるまで少なくとも 30 分お待ちください。"
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "登録に問題がある場合は、以下にお問い合わせください。"
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "登録に問題がある場合は、以下にお問い合わせください。"
 
-msgid "Please fix errors in the registration form."
-msgstr "登録フォーム内のエラーを修正してください。"
+msgid "Please fix errors in the form."
+msgstr "フォームのエラー箇所を修正してください。"
 
-msgid "Verify new e-mail address"
-msgstr "新しいメールアドレスの確認"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "メールのテスト送信"
 
-msgid "Register"
-msgstr "登録"
+msgid "Back to account settings"
+msgstr "アカウント設定に戻る"
 
 msgid "Trial subscriptions"
 msgstr "サブスクリプションの無料体験"
@@ -7659,29 +8087,105 @@ msgstr ""
 msgid "Change my password"
 msgstr "パスワードを変更"
 
-msgid "Preferences"
-msgstr "環境設定"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "アカウント設定に戻る"
 
-msgid "Notifications"
-msgstr "通知"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "プロジェクト設定の編集"
 
 msgid "Account"
 msgstr "アカウント"
 
-msgid "Profile"
-msgstr "ユーザー情報"
+msgid "Public profile"
+msgstr "公開するユーザー情報"
+
+msgid "Preferences"
+msgstr "環境設定"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved searches"
+msgstr "検索"
+
+msgid "Notifications"
+msgstr "通知"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "セキュリティ FAQ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "原文"
 
 msgid "Licenses"
 msgstr "ライセンス"
 
-msgid "Audit log"
-msgstr "監査ログ"
+msgid "Activity"
+msgstr "作業履歴のグラフ"
 
-msgid "API access"
-msgstr "API アクセス"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr "メールアドレスは、検証済みのアドレスからのみ選択できます。"
 
-msgid "Please fix errors in the form."
-msgstr "フォームのエラー箇所を修正してください。"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "新しいメールアドレスの確認"
+
+msgid "Save"
+msgstr "保存"
+
+#, fuzzy
+#| msgid "File management"
+msgid "Account management"
+msgstr "ファイル管理"
+
+msgid "Download user data"
+msgstr "ユーザー データのダウンロード"
+
+msgid "You can download all your private data."
+msgstr "すべての個人情報をダウンロードできます。"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "プロジェクト設定の編集"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "削除"
+
+msgid "Account removal deletes all your private data."
+msgstr "アカウントを削除すると、すべての個人情報が削除されます。"
+
+msgid "Remove my account"
+msgstr "アカウントを削除"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力"
+"すると、あなたのユーザー情報が表示されるすべての場所で、そのデータが共有され"
+"ることに同意したとみなされます。"
+
+msgid "Your avatar"
+msgstr "アバター"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "アバターは %(avatar_url_prefix)s を使用して提供されています。"
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -7689,8 +8193,13 @@ msgid ""
 msgstr ""
 "翻訳したいプロジェクトにリクエストを送り、不足している言語を追加します。"
 
-msgid "Save"
-msgstr "保存"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "ユーザーの追加"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -7715,33 +8224,23 @@ msgstr "通知の設定"
 msgid "Remove this notification setting"
 msgstr "この通知設定の削除"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "メールアドレスは、検証済みのアドレスからのみ選択できます。"
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "パスワードでログイン"
 
-msgid "Current user identities"
-msgstr "現在のユーザー認証方法"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "設定"
+
+#, fuzzy
+#| msgid "configured"
+msgid "Not configured"
+msgstr "設定済"
 
 msgid "Set password"
 msgstr "パスワードを設定"
-
-msgid "Disconnect"
-msgstr "切断"
-
-msgid "Add new user identity"
-msgstr "新しいユーザー認証方法の追加"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "翻訳のホスティング"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "保留中の招待状"
 
 msgid "Two-factor authentication"
 msgstr "二要素認証"
@@ -7759,23 +8258,32 @@ msgstr "セキュリティ キー（WebAuthn）"
 msgid "No WebAuthn keys registered yet."
 msgstr "まだ WebAuthn キーは登録されていません。"
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "セキュリティキー %s が登録されました。"
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "API 秘密鍵"
+
 msgid "Remove"
 msgstr "削除"
-
-msgid "Name your security key"
-msgstr "セキュリティ キー名の設定"
-
-msgid "Register new security key"
-msgstr "新しいセキュリティ キーの登録"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "ご利用のブラウザーは WebAuthn に対応していません。"
 
 msgid "Authenticator apps (TOTP)"
 msgstr "認証アプリ（TOTP）"
 
 msgid "No authenticator apps registered yet."
 msgstr "まだ認証アプリが登録されていません。"
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "まだ認証アプリが登録されていません。"
 
 msgid "Register new authenticator app"
 msgstr "新しい認証アプリの登録"
@@ -7786,79 +8294,33 @@ msgstr "回復コード"
 msgid "No recovery codes generated yet."
 msgstr "まだ回復コードは生成されていません。"
 
-msgid "Generate new recovery codes"
-msgstr "新しい回復コードの生成"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "%(count)s 個の回復コードが使用できます。"
 
+msgid "Generate new recovery codes"
+msgstr "新しい回復コードの生成"
+
 msgid "View recovery codes"
 msgstr "回復コードの表示"
 
-msgid "User data"
-msgstr "ユーザー データ"
-
-msgid "You can download all your private data."
-msgstr "すべての個人情報をダウンロードできます。"
-
-msgid "Download user data"
-msgstr "ユーザー データのダウンロード"
-
-msgid "Removal"
-msgstr "削除"
-
-msgid "Account removal deletes all your private data."
-msgstr "アカウントを削除すると、すべての個人情報が削除されます。"
-
-msgid "Remove my account"
-msgstr "アカウントを削除"
-
-msgid "Public profile"
-msgstr "公開するユーザー情報"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力"
-"すると、あなたのユーザー情報が表示されるすべての場所で、そのデータが共有され"
-"ることに同意したとみなされます。"
 
-msgid "Your avatar"
-msgstr "アバター"
+msgid "Disconnect"
+msgstr "切断"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "アバターは %(avatar_url_prefix)s を使用して提供されています。"
+#, fuzzy
+#| msgid "No connected accounts yet."
+msgid "No linked sign-in accounts."
+msgstr "接続したアカウントがまだありません。"
 
-msgid "Pending invitation"
-msgstr "保留中の招待"
+msgid "Add sign-in method"
+msgstr ""
 
-msgid "Description"
-msgstr "説明"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr "監査ログに不審な点が見つかった場合は、すぐにご連絡ください。"
-
-msgid "When"
-msgstr "日時"
-
-msgid "IP address"
-msgstr "IP アドレス"
-
-msgid "User agent"
-msgstr "ユーザーエージェント"
-
-msgid "No recent activity found."
-msgstr "最近の活動が見つかりませんでした。"
-
-msgid "Report suspicious activity"
-msgstr "疑わしい活動の報告"
+msgid "API access"
+msgstr "API アクセス"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -7895,6 +8357,24 @@ msgstr ""
 "API キーは、自動的に公開された git リポジトリに対して認証を行う際にも使用しま"
 "す。"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "翻訳のホスティング"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "保留中の招待状"
+
+msgid "Pending invitation"
+msgstr "保留中の招待"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -7914,6 +8394,29 @@ msgstr "貢献者として以下の内容に合意しています:"
 
 msgid "Licenses for individual translations"
 msgstr "個々の翻訳のライセンス"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr "監査ログに不審な点が見つかった場合は、すぐにご連絡ください。"
+
+msgid "Audit log"
+msgstr "監査ログ"
+
+msgid "When"
+msgstr "日時"
+
+msgid "IP address"
+msgstr "IP アドレス"
+
+msgid "User agent"
+msgstr "ユーザーエージェント"
+
+msgid "No recent activity found."
+msgstr "最近の活動が見つかりませんでした。"
+
+msgid "Report suspicious activity"
+msgstr "疑わしい活動の報告"
 
 msgid "Two-factor recovery codes"
 msgstr "ニ要素認証用の回復コード"
@@ -7952,9 +8455,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr "古い回復コードは無効化され、使用できなくなります。"
 
-msgid "Back to account settings"
-msgstr "アカウント設定に戻る"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "認証プロバイダに転送します。"
 
@@ -7969,9 +8469,15 @@ msgstr "認証メール内のリンクをクリックすると、後でパスワ
 msgid "Please complete the registration to accept the invitation."
 msgstr "招待を承諾するために登録を完了してください。"
 
+msgid "Please fix errors in the registration form."
+msgstr "登録フォーム内のエラーを修正してください。"
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "%(formatted_site_title)s に登録"
+
+msgid "Register"
+msgstr "登録"
 
 msgid "Create an account using:"
 msgstr "登録に使用するアカウント:"
@@ -8030,6 +8536,11 @@ msgstr "パスワードの設定"
 
 msgid "Reset my password"
 msgstr "パスワードをリセットする"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "ユーザーの編集"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr ""
@@ -8203,9 +8714,6 @@ msgstr[0] "%(count)s 個のコメント"
 msgid "Translates"
 msgstr "翻訳"
 
-msgid "Activity"
-msgstr "作業履歴のグラフ"
-
 msgid "Recent changes"
 msgstr "最近の更新"
 
@@ -8344,6 +8852,26 @@ msgstr ""
 msgid "Continue"
 msgstr "続行"
 
+msgid "Register new security key"
+msgstr "新しいセキュリティ キーの登録"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"認証アプリは、ニ要素認証でのサインイン時に必要なワンタイム パスワードを時間に"
+"基づいて生成します。"
+
+msgid "Name your security key"
+msgstr "セキュリティ キー名の設定"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "ご利用のブラウザーは WebAuthn に対応していません。"
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8414,13 +8942,30 @@ msgstr "コンポーネントが見つかりません。"
 msgid "Configure add-on"
 msgstr "アドオンの設定"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "最近の更新"
-
 msgid "This add-on has no settings."
 msgstr "このアドオンには設定項目がありません。"
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "査読"
+
+#, fuzzy
+#| msgid "No invitations were created."
+msgid "No operations were executed."
+msgstr "招待メールは作成されていません。"
+
+msgid "Run add-on"
+msgstr "アドオンを実行"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -8431,9 +8976,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-msgid "Run add-on"
-msgstr "アドオンを実行"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -9746,12 +10288,10 @@ msgid "%(errors_count)s skipped because of errors"
 msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] "エラーのため %(errors_count)s 件がスキップされました"
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"これにより、Weblate に存在し、リポジトリに存在しない保留中の変更がコミットさ"
-"れます。"
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "すべての翻訳を Weblate リポジトリに強制的に書き込む"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -9771,8 +10311,10 @@ msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
 msgstr[0] "%(count)s 個の不足したコミット"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "これにより、Weblate のリポジトリが上流の変更と同期されます。"
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Weblate のリポジトリに対する変更を許可する"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Weblate のリポジトリに対する変更を許可する"
@@ -9806,8 +10348,15 @@ msgstr "Weblate 翻訳のロックは解除されています"
 msgid "Weblate translations are locked"
 msgstr "Weblate 翻訳はロックされています"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "ロックすると、翻訳者は変更ができなくなります。"
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "翻訳の変更をすべて表示"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "インポートする翻訳ファイルを選択"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -9815,23 +10364,35 @@ msgstr "ロックすると、翻訳者は変更ができなくなります。"
 msgid "Discard local changes"
 msgstr "破棄フラグ"
 
+msgid "Use when:"
+msgstr ""
+
 #, fuzzy
-#| msgid "Repository changes alert"
-msgid "Discard local changes and reset to upstream"
-msgstr "リポジトリ変更の警告"
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "翻訳はバックグラウンドで更新されます。"
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "結果"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "リポジトリを上流にリセット"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "データのエクスポート"
+
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
-
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "上流を翻訳の正としたい場合に利用します。"
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
-msgstr ""
+"Weblate は %(date)s からこれらのプロジェクトへの翻訳の変更を保留しています。"
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -9839,80 +10400,77 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "リセットして再適用"
 
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
+"Weblate は %(date)s からこれらのプロジェクトへの翻訳の変更を保留しています。"
 
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "翻訳の主導権を Weblate に与える場合に使用します。"
-
+#, fuzzy
+#| msgid ""
+#| "Use these operations with caution, they rewrite the translation file."
 msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
-msgstr ""
-"不足している言語ファイルは、上流に存在している必要があります。存在しない場合"
-"は、Weblate がコンポーネント設定に基づいて作成できる必要があります。"
-
-msgid "Cleanup"
-msgstr "クリーンアップ"
-
-msgid "Remove untracked files and unused local branches"
-msgstr ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "これらの操作は注意して使用してください、翻訳ファイルを書き換えます。"
 
 msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
-msgstr ""
-"バージョンコントロールシステムで追跡されていない全てのファイルをリポジトリか"
-"ら削除します。"
-
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
+#, fuzzy
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "翻訳ファイル"
 
 msgid "Synchronize"
 msgstr "同期"
 
-msgid "Forces writing all strings to the translation files."
-msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
+#, fuzzy
+#| msgid ""
+#| "Use this when repository files became out of sync with Weblate for some "
+#| "reason."
+msgid "Repository files are out of sync with Weblate."
 msgstr ""
 "何らかの理由でリポジトリのファイルが Weblate と同期しなくなった場合に使用しま"
 "す。"
 
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Weblate 翻訳はロックされています"
+
 msgid "Rescan"
 msgstr "再スキャン"
 
-msgid "Loads translations from the files into Weblate."
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
 msgstr "翻訳をファイルから Weblate に読み込みます。"
 
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
+msgid "Edits blocked by the commit policy may be discarded."
 msgstr ""
-"リポジトリの更新後に Weblate で一部の文字列が欠落した場合に使用します。"
 
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
+msgid "Clean the local checkout"
 msgstr ""
-"設定されたコミットポリシーにより、現在コミットできない編集が、破棄される可能"
-"性があります。"
 
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Cleanup"
+msgstr "クリーンアップ"
+
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
-"これらの操作は注意して使用してください。データの損失が発生することがありま"
-"す。"
+
+msgid "Remove untracked files and other local Git branches."
+msgstr ""
+
+msgid "Unpushed commits on those branches are deleted."
+msgstr ""
 
 msgid "File management"
 msgstr "ファイル管理"
@@ -9921,28 +10479,16 @@ msgid "Remove duplicates"
 msgstr "重複の削除"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "ファイルアップロードによる翻訳置き換え"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "同じ識別子の重複文字列を翻訳ファイルから削除して、修復してください。"
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"この問題は、翻訳ファイルのパスに親ディレクトリへの参照が含まれていたり、絶対"
-"パスである場合に発生します。"
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -9950,42 +10496,27 @@ msgid "Cleanup unused"
 msgstr "クリーンアップ"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "アップロードしたファイルからは文字列をインポートしていません。"
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "翻訳ファイルから翻訳されていない文字列を削除します。"
-
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "翻訳ファイル CDN アドオンでは weblate.js を公開できません。"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "空白文字列の削除"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+msgid "Obsolete PO entries should be removed now."
+msgstr ""
 
 #, fuzzy
 #| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
+msgid "Remove obsolete strings from the PO file."
 msgstr "空白文字列の削除"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
-msgstr ""
-
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "これらの操作は注意して使用してください、翻訳ファイルを書き換えます。"
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10165,8 +10696,20 @@ msgstr "このサービスはサイト全体にインストールされていま
 msgid "site wide"
 msgstr "サイト全体"
 
-msgid "This service is installed site wide, but disabled."
-msgstr "このサービスはサイト全体にインストールされていますが、無効中です。"
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "このサービスはサイト全体にインストールされています。"
+
+#, fuzzy
+#| msgid "Workspace"
+msgid "workspace"
+msgstr "ワークスペース"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "このサービスはサイト全体にインストールされています。"
 
 msgid "disabled"
 msgstr "無効"
@@ -10174,8 +10717,16 @@ msgstr "無効"
 msgid "Service is no longer available"
 msgstr "サービスは利用できなくなりました"
 
-msgid "Automatic suggestions"
-msgstr "自動提案"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "翻訳の説明"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10183,14 +10734,35 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "自動提案サービスの設定"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "翻訳ファイルのクリーンアップ"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr "文字列の追加はコンポーネントの設定で無効になっています。"
 
 msgid "Disable"
 msgstr "無効化"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "有効化"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "この通知設定の削除"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "設定"
@@ -10203,8 +10775,10 @@ msgid "There is currently %(count)s service installed."
 msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "インストール済みのサービスは %(count)s 個あります。"
 
-msgid "Available automatic suggestion services"
-msgstr "使用可能な自動提案サービス"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Available translation services"
+msgstr "機械翻訳サービスの使用"
 
 msgid "Could not find any additional services."
 msgstr "その他のサービスは見つかりませんでした。"
@@ -11517,12 +12091,20 @@ msgstr "ラベル名"
 msgid "Color"
 msgstr "色"
 
+msgid "Description"
+msgstr "説明"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "ラベル付き原文"
 
 msgid "Add label"
 msgstr "ラベルの追加"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -11622,6 +12204,14 @@ msgstr "HTMLをダウンロード"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Save search"
+msgstr "検索"
 
 msgid "Assigned source strings"
 msgstr "割り当てられた原文"
@@ -11825,9 +12415,8 @@ msgstr ""
 #| "translation engines to get the best possible translations and applies "
 #| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "機械翻訳による自動翻訳は、有望な機械翻訳エンジンを使用して最適な翻訳を取得し"
 "て、プロジェクトに適用します。"
@@ -11843,10 +12432,14 @@ msgstr ""
 "のほか、一貫性のない翻訳の修正や、翻訳メモリを使用した新しいコンポーネントの"
 "翻訳にも使用できます。"
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "機械翻訳による自動翻訳は、有望な機械翻訳エンジンを使用して最適な翻訳を取得し"
 "て、プロジェクトに適用します。"
@@ -12283,6 +12876,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "追加のラベルは、プロジェクト管理者が定義できます。"
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "出典"
+
+#, fuzzy
+#| msgid "IP address:"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "IP アドレス:"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "IP アドレスがクリップボードにコピーされました。"
+
 msgid "Revert"
 msgstr "取り消す"
 
@@ -12543,6 +13154,11 @@ msgstr "自動翻訳された文字列"
 msgid "Translated strings in a certain language"
 msgstr "特定の言語で翻訳済みの文字列"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "検索…"
+
 msgid "Query"
 msgstr "検索文字列"
 
@@ -12655,6 +13271,20 @@ msgstr "この言語の翻訳ワークフローをカスタマイズする"
 #| msgid "Your translation is foo"
 msgid "Configure translation workflow"
 msgstr "あなたの翻訳は foo になっています"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "SAP ユーザー名"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "検索フィルター"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -12957,8 +13587,8 @@ msgstr "コマンド"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13027,6 +13657,27 @@ msgstr "Weblate CDN アドオンは HTML ファイルを解析できませんで
 
 msgid "Filename"
 msgstr "ファイル名"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -13657,6 +14308,11 @@ msgstr ""
 "既存の翻訳コンポーネントの追加ブランチ用に、新しい翻訳コンポーネントを作成し"
 "ます。"
 
+#, fuzzy
+#| msgid "Retry delay"
+msgid "Retry"
+msgstr "再試行の遅延"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14117,6 +14773,9 @@ msgstr "その他の出現箇所"
 
 msgid "Computer-aided translation suggestions"
 msgstr "機械翻訳による提案"
+
+msgid "Automatic suggestions"
+msgstr "自動提案"
 
 msgid "Translations of this string in the other languages"
 msgstr "この文字列に対する他の言語への翻訳"
@@ -14689,9 +15348,6 @@ msgstr "まず接続したアカウントを削除してください。"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr "Weblate GitHub App を削除しますか？"
 
@@ -14847,11 +15503,6 @@ msgstr "埋め込みコード"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "査読"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -15996,6 +16647,11 @@ msgstr "重複した翻訳。"
 msgid "Duplicate label name."
 msgstr "重複したファイル マスク。"
 
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "重複した翻訳。"
+
 msgid "Screenshot image is missing."
 msgstr "スクリーンショット画像がありません。"
 
@@ -16897,9 +17553,6 @@ msgstr "その他の翻訳コンポーネント"
 msgid "Machine translation"
 msgstr "機械翻訳"
 
-msgid "Machine translation engines"
-msgstr "機械翻訳エンジン"
-
 msgid "Score threshold"
 msgstr "スコアしきい値"
 
@@ -17144,6 +17797,16 @@ msgstr "新しい言語の追加"
 
 msgid "Select an existing component configuration to copy."
 msgstr "コピーする既存のコンポーネントの設定を選択してください。"
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "問い合わせ回数が多すぎます。時間をおいて実行してください。"
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "チケットを起票できませんでした。後でもう一度お試しください。"
 
 msgid "ZIP file containing translations"
 msgstr "翻訳を含む ZIP ファイル"
@@ -17418,6 +18081,24 @@ msgstr "作成者（ユーザー名）を除外"
 
 msgid "Date range"
 msgstr "日付範囲"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "利用可能なアドオン"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "プロジェクトで共有"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "指定したユーザー名はすでに存在しています。"
 
 msgid "Expiry cannot be in the past."
 msgstr "過去の日付は、有効期限として設定できません。"
@@ -17830,6 +18511,64 @@ msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(time)s に、 %(translation)s で %(action)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "2 月"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "リポジトリ"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "システム チェック"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "自動検出"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "翻訳の作成"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Weblate リポジトリ内のすべての翻訳ファイルを再スキャンします"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "査読が必要な原文"
@@ -18285,8 +19024,9 @@ msgstr "%(component)s のプッシュに失敗しました: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr "%s に対する送信は無効化されています。"
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "%s のリモート ブランチにリセットできません。"
 
 #, python-format
@@ -18838,6 +19578,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "翻訳はバックグラウンドで更新されます。"
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -18858,6 +19603,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "承認された翻訳のみ翻訳ファイルに書き込みます。"
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "ラベルの説明"
 
 msgid "Could not accept suggestion!"
 msgstr "提案を採用できませんでした！"
@@ -19092,6 +19842,11 @@ msgstr "このユーザーは、このプロジェクトでブロックされて
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "原文の言語のテキスト"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "すべての翻訳を Weblate リポジトリに強制的に書き込む"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20259,6 +21014,17 @@ msgid "More possible users were found."
 msgstr "該当するユーザーが複数見つかりました。"
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "プロジェクトの作成者"
+
+#, fuzzy
+#| msgid "Search"
+msgid "My searches"
+msgstr "検索"
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "コメントがある文字列"
@@ -20627,6 +21393,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "ローカルリポジトリは最新の状態です。"
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "アップロードした画像は不正です。"
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -20931,6 +21707,16 @@ msgstr "これにより、変更が上流リポジトリに強制的にプッシ
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "これにより、変更が上流の Git リポジトリにプッシュされます。"
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "リポジトリ内のシンボリックリンクが無効です。"
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "リポジトリのリベースに失敗"
 
 msgid "Possible cleanups:"
 msgstr "可能なクリーンアップ:"
@@ -21769,6 +22555,138 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "ワークスペースを削除しました。"
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "名前はバージョンコントロールシステムのコミットにも使われます。"
+
+#~ msgid "Register e-mail"
+#~ msgstr "メールアドレスの登録"
+
+#~ msgid "Manage machinery"
+#~ msgstr "機械翻訳の管理"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "コンポーネントの作成"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "最近の更新"
+
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "以下の法的文書をお読みください:"
+
+#~ msgid "Profile"
+#~ msgstr "ユーザー情報"
+
+#~ msgid "Current user identities"
+#~ msgstr "現在のユーザー認証方法"
+
+#~ msgid "Add new user identity"
+#~ msgstr "新しいユーザー認証方法の追加"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "これにより、Weblate に存在し、リポジトリに存在しない保留中の変更がコミット"
+#~ "されます。"
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr "これにより、Weblate のリポジトリが上流の変更と同期されます。"
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "ロックすると、翻訳者は変更ができなくなります。"
+
+#, fuzzy
+#~| msgid "Repository changes alert"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "リポジトリ変更の警告"
+
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "上流を翻訳の正としたい場合に利用します。"
+
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "翻訳の主導権を Weblate に与える場合に使用します。"
+
+#~ msgid ""
+#~ "Missing language files must already exist upstream or Weblate must be "
+#~ "able to create them for the component."
+#~ msgstr ""
+#~ "不足している言語ファイルは、上流に存在している必要があります。存在しない場"
+#~ "合は、Weblate がコンポーネント設定に基づいて作成できる必要があります。"
+
+#~ msgid ""
+#~ "Cleanup removes all files which are not tracked by the version control "
+#~ "from the repository."
+#~ msgstr ""
+#~ "バージョンコントロールシステムで追跡されていない全てのファイルをリポジトリ"
+#~ "から削除します。"
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "リポジトリの更新後に Weblate で一部の文字列が欠落した場合に使用します。"
+
+#~ msgid ""
+#~ "This might discard edits that cannot be committed because of the "
+#~ "configured commit policy."
+#~ msgstr ""
+#~ "設定されたコミットポリシーにより、現在コミットできない編集が、破棄される可"
+#~ "能性があります。"
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr ""
+#~ "これらの操作は注意して使用してください。データの損失が発生することがありま"
+#~ "す。"
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "この問題は、翻訳ファイルのパスに親ディレクトリへの参照が含まれていたり、絶"
+#~ "対パスである場合に発生します。"
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "翻訳ファイルから翻訳されていない文字列を削除します。"
+
+#, fuzzy
+#~| msgid "The translation files CDN add-on cannot publish weblate.js."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "翻訳ファイル CDN アドオンでは weblate.js を公開できません。"
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr "このサービスはサイト全体にインストールされていますが、無効中です。"
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "自動提案サービスの設定"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "使用可能な自動提案サービス"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "機械翻訳エンジン"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "認証できませんでした: %s"
@@ -21808,11 +22726,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgstr ""
 #~ "Weblate のリポジトリを上流に合わせてリセットし、保留中の翻訳をリセット後の"
 #~ "状態に戻します。"
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "重複した翻訳。"
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -21943,9 +22856,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Suggested change"
 #~ msgstr "提案された変更案"
-
-#~ msgid "Origin"
-#~ msgstr "出典"
 
 #~ msgid "Similarity"
 #~ msgstr "類似性"
@@ -22305,11 +23215,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Components are being updated…"
 #~ msgstr "コンポーネントを更新しています…"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "原文"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr "翻訳がないため、このコンポーネントの設定は不完全です。"
@@ -22847,9 +23752,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Could not find merged string."
 #~ msgstr "マージされた文字列が見つかりません。"
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "差し戻し要求が正しくありません！"
 
 #~ msgid ""
 #~ "Contributing to this translation requires accepting its contributor "
@@ -23759,9 +24661,6 @@ msgstr "ワークスペースを削除しました。"
 #~ "Weblate の開発は、 Linux Foundation の Core Infrastructure Initiative の "
 #~ "Best Practices な方式に従っています。"
 
-#~ msgid "Security FAQ"
-#~ msgstr "セキュリティ FAQ"
-
 #~ msgid "How are user passwords stored?"
 #~ msgstr "パスワードをどのように保存しますか？"
 
@@ -24152,9 +25051,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Failing check"
 #~ msgstr "整合性に問題"
 
-#~ msgid "Use machine translation services"
-#~ msgstr "機械翻訳サービスの使用"
-
 #~ msgid "Manage users (on the entire platform)"
 #~ msgstr "利用者の管理（プラットフォーム全体）"
 
@@ -24268,9 +25164,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Jump to position"
 #~ msgstr "位置にジャンプ"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #~ msgid "Render as HTML"
 #~ msgstr "HTML として表示"
 
@@ -24323,9 +25216,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Project access control"
 #~ msgstr "プロジェクトのアクセス制御"
-
-#~ msgid "Change"
-#~ msgstr "変更"
 
 #~ msgid "Import existing translations"
 #~ msgstr "既存の翻訳のインポート"
@@ -24380,9 +25270,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Log in"
 #~ msgstr "ログイン"
-
-#~ msgid "Password login"
-#~ msgstr "パスワードでログイン"
 
 #~ msgid "You can reset it."
 #~ msgstr "リセットできます。"
@@ -24863,9 +25750,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Hi,"
 #~ msgstr "こんにちは。"
-
-#~ msgid "IP address:"
-#~ msgstr "IP アドレス:"
 
 #~ msgid "User agent:"
 #~ msgstr "ユーザエージェント:"
@@ -25393,9 +26277,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Debug mode"
 #~ msgstr "デバッグモード"
 
-#~ msgid "Site domain"
-#~ msgstr "サイトドメイン"
-
 #~ msgid "Django caching"
 #~ msgstr "Django キャッシュ"
 
@@ -25407,9 +26288,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Allowed hosts"
 #~ msgstr "許可済みホスト"
-
-#~ msgid "Result"
-#~ msgstr "結果"
 
 #~ msgid ""
 #~ "The fulltext search might not work properly as the fulltext index for "
@@ -27092,11 +27970,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Translation license:"
 #~ msgstr "翻訳物のライセンス："
-
-#, fuzzy
-#~| msgid "Search"
-#~ msgid "search"
-#~ msgstr "検索"
 
 #, fuzzy
 #~| msgid "Machine translation"

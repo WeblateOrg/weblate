@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -80,8 +80,38 @@ msgstr "Αυτό το όνομα χρήστη υπάρχει ήδη. Παρακ�
 msgid "Full name"
 msgstr "Πλήρες όνομα"
 
-msgid "Name is also used in version control commits."
-msgstr "Το όνομα χρησιμοποιείται επίσης στις αλλαγές ελέγχου εκδόσεων."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "Δεδομένα χρήστη"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "Κατάργηση αυτής της ρύθμισης ειδοποίησης"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The user data file is too large."
+msgstr "Το διακριτικό που εισαγάγατε δεν είναι έγκυρο."
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Η ανεβασμένη εικόνα δεν ήταν έγκυρη."
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many settings."
+msgstr "Το αρχείο ZIP περιέχει πάρα πολλές καταχωρίσεις."
 
 msgid "Commit e-mail"
 msgstr "Δήλωση ηλεκτρονικής διευθυνσης"
@@ -106,11 +136,27 @@ msgstr ""
 "Χρησιμοποιείται σε υποβολές ελέγχου έκδοσης. Το όνομα παραμένει στο "
 "αποθετήριο για πάντα μόλις υποβληθούν αλλαγές από το Weblate."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "Ρυθμίσεις ελέγχου έκδοσης"
+
 msgid "Public e-mail"
 msgstr "Δημόσιο ηλεκτρονικό ταχυδρομείο"
 
 msgid "Hide e-mail address from public view"
 msgstr "Απόκρυψη διεύθυνσης ηλεκτρονικού ταχυδρομείου από κοινή θέα"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Προβολή ονόματος"
+
+msgid "Translation"
+msgstr "Μετάφραση"
+
+msgid "Dashboard"
+msgstr "Κεντρικός πίνακας"
 
 #, python-format
 msgid "Component list: %s"
@@ -125,6 +171,11 @@ msgid ""
 msgstr ""
 "Χρησιμοποιείται για ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου και ως "
 "ηλεκτρονικού ταχυδρομείου αλλαγών, εάν δεν έχει ρυθμιστεί παρακάτω."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "Προσωπικές πληροφορίες"
 
 msgid "Human verification"
 msgstr "Ανθρώπινη επαλήθευση"
@@ -360,6 +411,11 @@ msgid "Enter the code from the app"
 msgstr "Εισαγάγετε τον κωδικό από την εφαρμογή"
 
 #, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Εφαρμογής πιστοποίησης (%s)"
+
+#, fuzzy
 #| msgid "Subproject is now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "Το υποέργο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
@@ -377,6 +433,16 @@ msgstr "Επιλέχθηκε μη έγκυρη γλώσσα!"
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "Ρυθμίσεις ειδοποιήσεων"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved search"
+msgstr "αναζήτηση"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1313,11 +1379,21 @@ msgstr "Κλειδί ασφαλείας (%s)"
 msgid "Authentication app (%s)"
 msgstr "Εφαρμογής πιστοποίησης (%s)"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
 msgid "Remove account"
 msgstr "Απομάκρυνση λογαριασμού"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Ανθρώπινη επαλήθευση"
 
 msgid "User registration"
 msgstr "Εγγραφή χρήστη"
@@ -1414,8 +1490,8 @@ msgstr "Σύνδεση"
 msgid "Signed out"
 msgstr "Έγινε αποσύνδεση"
 
-msgid "Register e-mail"
-msgstr "Εγγραφή ηλεκτρονικής διεύθυνσης"
+msgid "Verify new e-mail address"
+msgstr "Επαληθεύστε τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
@@ -1430,6 +1506,21 @@ msgstr "Αλλαγή κωδικού πρόσβασης"
 
 msgid "Password reset has been already completed."
 msgstr "Η επαναφορά του κωδικού πρόσβασης έχει ήδη ολοκληρωθεί."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "Δεν ήταν δυνατή η διάδοση της συμβολοσειράς σε %d στοιχείο."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Το προφίλ σας έχει ενημερωθεί."
 
 msgid "Could not remove user identity"
 msgstr "Δεν ήταν δυνατή η κατάργηση της ταυτότητας χρήστη"
@@ -3709,8 +3800,10 @@ msgid "Manage translation memory"
 msgstr "Διαχείριση μεταφραστικής μνήμης"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "Διαχείριση μηχανημάτων"
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Manage translation services"
+msgstr "Προτάσεις μεταφραστικής μηχανής"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4315,9 +4408,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "Επιλέξτε μια υπάρχουσα διαμόρφωση στοιχείου για αντιγραφή."
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "Αυτό το στοιχείο έχει ρυθμιστεί εσφαλμένα."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "Περιήγηση σε όλες τις αλλαγές για αυτή τη γλώσσα"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4325,11 +4428,25 @@ msgid "The change does not belong to this component."
 msgstr "Η κατηγορία δεν ανήκει σε αυτό το έργο."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "Η κατηγορία δεν ανήκει σε αυτό το έργο."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "Αποφύγετε έτη που συσχετίζονται με εσάς."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "Μέθοδος αυτόματης μετάφρασης"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4388,20 +4505,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "Δημιουργία στοιχείου"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Στοιχείο"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "Αλλαγή"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Πρόσφατες Αλλαγές"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Πρόσθετο μήνυμα"
@@ -5858,9 +5980,6 @@ msgstr "Αποτυχημένοι έλεγχοι"
 msgid "Check"
 msgstr "Έλεγχος"
 
-msgid "Translation"
-msgstr "Μετάφραση"
-
 msgid "Weblate configuration"
 msgstr "Ρύθμιση του Weblate"
 
@@ -6655,25 +6774,33 @@ msgstr "Πρέπει να συμφωνήσετε με τους Γενικούς 
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Πρέπει να συμφωνήσετε με τους Γενικούς Όρους και Προϋποθέσεις"
 
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
-msgid "Please read the following legal documents:"
-msgstr "Παρακαλούμε διαβάστε την ακόλουθη συμφωνία συνεισφοράς:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Συμφωνώ με τους Γενικούς Όρους και Προϋποθέσεις"
 
-msgid "General Terms and Conditions"
-msgstr "Γενικοί Όροι και Προϋποθέσεις"
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Παρακαλώ διαβάστε το ακόλουθο έγγραφο Γενικών Όρων και Προϋποθέσεων:"
 
-msgid "Privacy Policy"
-msgstr "Πολιτική απορρήτου"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Συμφωνώ με τους Γενικούς Όρους και Προϋποθέσεις"
 
 #, fuzzy
 #| msgid "Please read following General Terms and Conditions document:"
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Παρακαλώ διαβάστε το ακόλουθο έγγραφο Γενικών Όρων και Προϋποθέσεων:"
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
+msgid "General Terms and Conditions"
+msgstr "Γενικοί Όροι και Προϋποθέσεις"
 
 msgid "Submit"
 msgstr "Υποβολή"
@@ -6720,6 +6847,9 @@ msgstr ""
 "Αυτή η σελίδα βασίζεται στο Όροι Χρήσης, μπορείτε ακόμη να διαβάσετε το "
 "πρωτότυπο έγγραφο για να τους καταλάβετε πλήρως."
 
+msgid "Privacy Policy"
+msgstr "Πολιτική απορρήτου"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "Τα cookies χρησιμοποιούνται σε αυτόν τον ιστότοπο για τα εξής:"
 
@@ -6747,6 +6877,44 @@ msgstr ""
 "Αυτή η σελίδα χρησιμοποιεί Google Analytics για να αναλύσει τη κυκλοφορία "
 "της ιστοσελίδας."
 
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Παρακαλώ διαβάστε το ακόλουθο έγγραφο Γενικών Όρων και Προϋποθέσεων:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"Αυτός ο κατάλογος περιλαμβάνει μόνο τις βασικές γλώσσες. Επικοινωνήστε με "
+"τους συντηρητές του έργου για να προσθέσετε άλλες."
+
 msgid "Legal Terms Overview"
 msgstr "Περίληψη νομικών όρων"
 
@@ -6770,6 +6938,123 @@ msgstr "Δεν βρέθηκαν υποστηριζόμενες γλώσσες: %
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Δεν ήταν δυνατή η ανάκτηση της μετάφρασης: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Άδεια μετάφρασης"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Plurals are not supported by the file format."
+msgid "The language pair is not supported by this domain"
+msgstr "Ο πληθυντικός αριθμός δεν υποστηρίζεται από τη μορφή αρχείου."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "Το κείμενο προέλευσης χρειάζεται αναθεώρηση."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Το διακριτικό που εισαγάγατε δεν είναι έγκυρο."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "Η μετάφραση έφτασε στο τέλος της."
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "The translation request timed out"
+msgstr "Αυτή η μετάφραση είναι κλειδωμένη."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Εσωτερικό Σφάλμα Διακομιστή"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "Άγνωστο σφάλμα"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Άκυρος δείκτης μετάφρασης: \"%s\""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "Τομέας μετάφρασης"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Δεν ήταν δυνατή η ανάκτηση της μετάφρασης: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Τομέας μετάφρασης"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Μη έγκυρο αίτημα επαναφοράς!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Για όλες τις γλώσσες"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6801,6 +7086,65 @@ msgstr "Αναγνωριστικό πελάτη"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Μυστικό πελάτη"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "URL βάση της εφαρμογής"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Κωδικός"
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Κωδικοί γλώσσας με ψευδώνυμο"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Τομέας σελίδας"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Τομέας σελίδας"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component renamed"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Το στοιχείο μετονομάστηκε"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "Τομέας μετάφρασης"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Περιορισμένο στοιχείο"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -7237,6 +7581,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose only one installation scope."
+msgstr "Επιλέξτε μια μορφή αρχείου για την αναφορά"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "This scope already has 20 service installations."
+msgstr "Αυτή η μετάφραση είναι προς το παρόν κλειδωμένη."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This service is already installed here."
+msgstr "Το πρόσθετο μπορεί μόνο να εγκατασταθεί στο στοιχείο."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "Ο χρήστης είναι ήδη αποκλεισμένος σε αυτό το έργο."
+
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose one exclusion scope."
+msgstr "Επιλέξτε μια μορφή αρχείου για την αναφορά"
+
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Choose an installation or a translation service."
+msgstr "Προτάσεις μεταφραστικής μηχανής"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Η μετάφραση θα ενημερώνεται στο παρασκήνιο."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "Η μετάφραση θα ενημερώνεται στο παρασκήνιο."
+
+msgid "Service is currently not available."
+msgstr "Η υπηρεσία δεν είναι διαθέσιμη."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Αυτόματη επιλογή"
@@ -7252,9 +7651,6 @@ msgstr "Το στοιχείο μετονομάστηκε"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Προστέθηκε νέα γλώσσα στο %(component)s"
-
-msgid "Service is currently not available."
-msgstr "Η υπηρεσία δεν είναι διαθέσιμη."
 
 msgid "File"
 msgstr "Αρχείο"
@@ -7610,9 +8006,6 @@ msgstr "Άρνηση Δικαιώματος"
 
 msgid "Insufficient privileges to display this page."
 msgstr "Μη επαρκή δικαιώματα για προβολή αυτής της σελίδας."
-
-msgid "Dashboard"
-msgstr "Κεντρικός πίνακας"
 
 msgid "Browse all projects"
 msgstr "Περιήγηση σε όλα τα έργα"
@@ -7977,6 +8370,11 @@ msgstr "Η επαναφορά του συνθηματικού σας έχει σ
 msgid "Account removal almost complete"
 msgstr "Η διαγραφή του λογαριασμού σχεδόν ολοκληρώθηκε"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Η εγγραφή σχεδόν ολοκληρώθηκε"
+
 msgid "Registration almost complete"
 msgstr "Η εγγραφή σχεδόν ολοκληρώθηκε"
 
@@ -7991,6 +8389,17 @@ msgid ""
 msgstr ""
 "Καταργήστε το λογαριασμό σας κάνοντας κλικ στο σύνδεσμο επιβεβαίωσης που "
 "στάλθηκε στα εισερχόμενα του email σας."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"Κάντε κλικ στο σύνδεσμο επιβεβαίωσης που στάλθηκε στα εισερχόμενα του email "
+"σας και ξεκινήστε να χρησιμοποιείτε τον λογαριασμό σας."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8013,6 +8422,13 @@ msgstr[1] "Ο σύνδεσμος επιβεβαίωσης θα λήξει μετ
 msgid "Request a new confirmation link if it expires."
 msgstr "Ζητήστε έναν νέο σύνδεσμο επιβεβαίωσης εάν λήξει."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "Ζητήστε έναν νέο σύνδεσμο επιβεβαίωσης εάν λήξει."
+
 msgid "Register again if the confirmation link expires."
 msgstr "Εγγραφείτε ξανά εάν λήξει ο σύνδεσμος επιβεβαίωσης."
 
@@ -8023,17 +8439,24 @@ msgstr ""
 "Το email δεν είναι άμεση τεχνολογία. Παρακαλούμε περιμένετε για το email "
 "επιβεβαίωσης τουλάχιστον 30 λεπτά πριν μας γράψετε για προβλήματα."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, επικοινωνήστε μαζί μας."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, επικοινωνήστε μαζί μας."
 
-msgid "Please fix errors in the registration form."
-msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
+msgid "Please fix errors in the form."
+msgstr "Παρακαλούμε διορθώστε τα σφάλματα στη φόρμα."
 
-msgid "Verify new e-mail address"
-msgstr "Επαληθεύστε τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "Αποστολή δοκιμαστικού ηλεκτρονικού ταχυδρομείου"
 
-msgid "Register"
-msgstr "Εγγραφή"
+msgid "Back to account settings"
+msgstr "Πίσω στις ρυθμίσεις λογαριασμού"
 
 msgid "Trial subscriptions"
 msgstr "Δοκιμαστικές συνδρομές"
@@ -8257,29 +8680,106 @@ msgstr ""
 msgid "Change my password"
 msgstr "Αλλαγή του κωδικού μου"
 
-msgid "Preferences"
-msgstr "Προτιμήσεις"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "Πίσω στις ρυθμίσεις λογαριασμού"
 
-msgid "Notifications"
-msgstr "Ειδοποιήσεις"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "Επεξεργασία ρυθμίσεων έργου"
 
 msgid "Account"
 msgstr "Λογαριασμός"
 
-msgid "Profile"
-msgstr "Προφίλ"
+msgid "Public profile"
+msgstr "Δημόσιο προφίλ"
+
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved searches"
+msgstr "αναζήτηση"
+
+msgid "Notifications"
+msgstr "Ειδοποιήσεις"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "Συχνές ερωτήσεις ασφαλείας"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Κείμενα προέλευσης"
 
 msgid "Licenses"
 msgstr "Άδειες"
 
-msgid "Audit log"
-msgstr "Εξέταση καταγραφών"
+msgid "Activity"
+msgstr "Δραστηριότητα"
 
-msgid "API access"
-msgstr "Πρόσβαση API"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr ""
+"Η διεύθυνση email μπορεί να επιλεγεί από επαληθευμένες διευθύνσεις μόνο."
 
-msgid "Please fix errors in the form."
-msgstr "Παρακαλούμε διορθώστε τα σφάλματα στη φόρμα."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Επαληθεύστε τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου"
+
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "Ονόματα αρχείων"
+
+msgid "Download user data"
+msgstr "Λήψη δεδομένων χρήστη"
+
+msgid "You can download all your private data."
+msgstr "Μπορείτε να κατεβάσετε όλα τα προσωπικά σας δεδομένα."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "Επεξεργασία ρυθμίσεων έργου"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Διαγραφή"
+
+msgid "Account removal deletes all your private data."
+msgstr "Η διαγραφή του λογαριασμού διαγράφει όλα τα προσωπικά δεδομένα."
+
+msgid "Remove my account"
+msgstr "Απομάκρυνση του λογαριασμού μου"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Όλα τα πεδία σε αυτή τη σελίδα είναι προαιρετικά και μπορούν να διαγραφούν "
+"ανά πάσα στιγμή, και με τη συμπλήρωσή τους, μας δίνετε τη συγκατάθεσή σας να "
+"μοιραζόμαστε αυτά τα δεδομένα οπουδήποτε εμφανίζεται το προφίλ χρήστη σας."
+
+msgid "Your avatar"
+msgstr "Το άβαταρ σας"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Τα άβαταρ παρέχονται με χρήση του %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -8288,8 +8788,13 @@ msgstr ""
 "Στείλτε ένα αίτημα στο έργο που θέλετε να μεταφράσετε για να προσθέσετε μια "
 "γλώσσα που λείπει."
 
-msgid "Save"
-msgstr "Αποθήκευση"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "Προσθήκη χρήστη"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8314,34 +8819,23 @@ msgstr "Ρυθμίσεις ειδοποιήσεων"
 msgid "Remove this notification setting"
 msgstr "Κατάργηση αυτής της ρύθμισης ειδοποίησης"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr ""
-"Η διεύθυνση email μπορεί να επιλεγεί από επαληθευμένες διευθύνσεις μόνο."
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Σύνδεση με κωδικό"
 
-msgid "Current user identities"
-msgstr "Ταυτότητες τρέχοντος χρήστη"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "Διαμόρφωση"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "Διαμόρφωση"
 
 msgid "Set password"
 msgstr "Ορισμός κωδικού"
-
-msgid "Disconnect"
-msgstr "Αποσύνδεση"
-
-msgid "Add new user identity"
-msgstr "Προσθήκη νέας ταυτότητας χρήστη"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Φιλοξενούμενες μεταφράσεις"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Εκκρεμείς προσκλήσεις"
 
 msgid "Two-factor authentication"
 msgstr "Έλεγχος ταυτότητας δύο παραγόντων"
@@ -8360,23 +8854,34 @@ msgstr "Κλειδιά ασφαλείας (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Δεν υπάρχουν εγγεγραμμένα κλειδιά WebAuthn ακόμη."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Το κλειδί ασφαλείας %s καταχωρήθηκε."
+msgstr[1] "Το κλειδί ασφαλείας %s καταχωρήθηκε."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "Μυστικό κλειδί API"
+
 msgid "Remove"
 msgstr "Αφαίρεση"
-
-msgid "Name your security key"
-msgstr "Όνομα του κλειδιού ασφαλείας σας"
-
-msgid "Register new security key"
-msgstr "Εγγραφή νέου κλειδιού ασφαλείας"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "Ο περιηγητής σας δεν υποστηρίζει το WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "Εφαρμογές πιστοποίησης (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "Καμία εφαρμογή πιστοποίησης δεν καταχωρήθηκε ακόμη."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Καμία εφαρμογή πιστοποίησης δεν καταχωρήθηκε ακόμη."
+msgstr[1] "Καμία εφαρμογή πιστοποίησης δεν καταχωρήθηκε ακόμη."
 
 msgid "Register new authenticator app"
 msgstr "Εγγραφή νέας εφαρμογής πιστοποίησης"
@@ -8387,85 +8892,34 @@ msgstr "Κωδικοί ανάκτησης"
 msgid "No recovery codes generated yet."
 msgstr "Δεν υπάρχουν κωδικοί ανάκτησης ακόμη."
 
-msgid "Generate new recovery codes"
-msgstr "Δημιουργία νέων κωδικών ανάκτησης"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "%(count)s διαθέσιμος κωδικός ανάκτησης."
 msgstr[1] "%(count)s διαθέσιμοι κωδικοί ανάκτησης."
 
+msgid "Generate new recovery codes"
+msgstr "Δημιουργία νέων κωδικών ανάκτησης"
+
 msgid "View recovery codes"
 msgstr "Προβολή κωδικών ανάκτησης"
 
-msgid "User data"
-msgstr "Δεδομένα χρήστη"
-
-msgid "You can download all your private data."
-msgstr "Μπορείτε να κατεβάσετε όλα τα προσωπικά σας δεδομένα."
-
-msgid "Download user data"
-msgstr "Λήψη δεδομένων χρήστη"
-
-msgid "Removal"
-msgstr "Διαγραφή"
-
-msgid "Account removal deletes all your private data."
-msgstr "Η διαγραφή του λογαριασμού διαγράφει όλα τα προσωπικά δεδομένα."
-
-msgid "Remove my account"
-msgstr "Απομάκρυνση του λογαριασμού μου"
-
-msgid "Public profile"
-msgstr "Δημόσιο προφίλ"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"Όλα τα πεδία σε αυτή τη σελίδα είναι προαιρετικά και μπορούν να διαγραφούν "
-"ανά πάσα στιγμή, και με τη συμπλήρωσή τους, μας δίνετε τη συγκατάθεσή σας να "
-"μοιραζόμαστε αυτά τα δεδομένα οπουδήποτε εμφανίζεται το προφίλ χρήστη σας."
 
-msgid "Your avatar"
-msgstr "Το άβαταρ σας"
-
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Τα άβαταρ παρέχονται με χρήση του %(avatar_url_prefix)s."
-
-msgid "Pending invitation"
-msgstr "Εκκρεμεί πρόσκληση"
-
-msgid "Description"
-msgstr "Περιγραφή"
+msgid "Disconnect"
+msgstr "Αποσύνδεση"
 
 #, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "Απομάκρυνση λογαριασμού"
+
+msgid "Add sign-in method"
 msgstr ""
-"Επικοινωνήστε μαζί μας αμέσως αν δείτε κάτι ύποπτο στο αρχείο καταγραφής "
-"ελέγχου."
 
-msgid "When"
-msgstr "Πότε"
-
-msgid "IP address"
-msgstr "Διεύθυνση IP"
-
-msgid "User agent"
-msgstr "Πράκτορας χρήστη"
-
-msgid "No recent activity found."
-msgstr "Δεν βρέθηκε πρόσφατη δραστηριότητα."
-
-msgid "Report suspicious activity"
-msgstr "Αναφορά ύποπτης δραστηριότητας"
+msgid "API access"
+msgstr "Πρόσβαση API"
 
 #, fuzzy
 #| msgid ""
@@ -8506,6 +8960,24 @@ msgstr ""
 "Το κλειδί API χρησιμοποιείται επίσης για τον έλεγχο ταυτότητας σε αποθετήρια "
 "Git που εξάγονται αυτόματα."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Φιλοξενούμενες μεταφράσεις"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "Εκκρεμείς προσκλήσεις"
+
+msgid "Pending invitation"
+msgstr "Εκκρεμεί πρόσκληση"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8527,6 +8999,34 @@ msgstr "Έχετε συμφωνήσει με τα ακόλουθα ως συνε
 
 msgid "Licenses for individual translations"
 msgstr "Άδειες για μεμονωμένες μεταφράσεις"
+
+#, fuzzy
+#| msgid ""
+#| "Contact us immediately if you see anything suspicious in the audit log."
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+"Επικοινωνήστε μαζί μας αμέσως αν δείτε κάτι ύποπτο στο αρχείο καταγραφής "
+"ελέγχου."
+
+msgid "Audit log"
+msgstr "Εξέταση καταγραφών"
+
+msgid "When"
+msgstr "Πότε"
+
+msgid "IP address"
+msgstr "Διεύθυνση IP"
+
+msgid "User agent"
+msgstr "Πράκτορας χρήστη"
+
+msgid "No recent activity found."
+msgstr "Δεν βρέθηκε πρόσφατη δραστηριότητα."
+
+msgid "Report suspicious activity"
+msgstr "Αναφορά ύποπτης δραστηριότητας"
 
 msgid "Two-factor recovery codes"
 msgstr "Κωδικοί ανάκτησης δύο παραγόντων"
@@ -8557,9 +9057,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
-msgid "Back to account settings"
-msgstr "Πίσω στις ρυθμίσεις λογαριασμού"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "Ανακατεύθυνση στον πάροχο πιστοποίησης."
 
@@ -8574,9 +9071,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr "Παρακαλώ συμπληρώστε την εγγραφή για να αποδεχτείτε την πρόσκληση."
 
+msgid "Please fix errors in the registration form."
+msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "Εγγραφείτε στο %(formatted_site_title)s"
+
+msgid "Register"
+msgstr "Εγγραφή"
 
 msgid "Create an account using:"
 msgstr "Δημιουργείστε ένα λογαριασμό χρησιμοποιώντας:"
@@ -8640,6 +9143,11 @@ msgstr "Ορισμός του συνθηματικού μου"
 
 msgid "Reset my password"
 msgstr "Επαναφορά του κωδικού μου"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "Επεξεργασία χρήστη"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "<strong>Συνεχής</strong> μετάφραση σε περιβάλλον περιηγητή"
@@ -8825,9 +9333,6 @@ msgstr[1] "%(count)s σχόλια"
 msgid "Translates"
 msgstr "Μεταφράζει"
 
-msgid "Activity"
-msgstr "Δραστηριότητα"
-
 msgid "Recent changes"
 msgstr "Πρόσφατες Αλλαγές"
 
@@ -8971,6 +9476,20 @@ msgstr "Συνεχίστε μόνο εάν εμπιστεύεστε αυτόν �
 msgid "Continue"
 msgstr "Συνέχεια"
 
+msgid "Register new security key"
+msgstr "Εγγραφή νέου κλειδιού ασφαλείας"
+
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+
+msgid "Name your security key"
+msgstr "Όνομα του κλειδιού ασφαλείας σας"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "Ο περιηγητής σας δεν υποστηρίζει το WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -9045,13 +9564,32 @@ msgstr "Κανένα στοιχείο δεν καθορίζεται"
 msgid "Configure add-on"
 msgstr "Διαμόρφωση πρόσθετου"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Πρόσφατες Αλλαγές"
-
 msgid "This add-on has no settings."
 msgstr "Αυτό το πρόσθετο δεν έχει ρυθμίσεις."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Έλεγχος"
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "No operations were executed."
+msgstr "Η πρόσκληση χρήστη αφαιρέθηκε."
+
+#, fuzzy
+#| msgid "Enable add-on:"
+msgid "Run add-on"
+msgstr "Ενεργοποίηση πρόσθετου:"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -9062,11 +9600,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable add-on:"
-msgid "Run add-on"
-msgstr "Ενεργοποίηση πρόσθετου:"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10423,12 +10956,10 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"Αυτό θα υποβάλει όλες τις εκκρεμείς αλλαγές που υπάρχουν στο Weblate και όχι "
-"στο αποθετήριο."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Αναγκαστική εγγραφή όλων των μεταφράσεων στο αποθετήριο του Weblate"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10451,9 +10982,10 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "Λείπει %(count)s υποβολή"
 msgstr[1] "Λείπουν %(count)s υποβολές"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"Αυτό θα ενημερώσει το αποθετήριο του Weblate με τις αλλαγές που έγιναν."
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Επιτροπή αλλαγών στο αποθετήριο Weblate"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Επιτροπή αλλαγών στο αποθετήριο Weblate"
@@ -10489,8 +11021,15 @@ msgstr "Οι μεταφράσεις του Weblate είναι ξεκλείδωτ
 msgid "Weblate translations are locked"
 msgstr "Οι μεταφράσεις του Weblate είναι κλειδωμένες"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "Το κλείδωμα εμποδίζει τους μεταφραστές να κάνουν αλλαγές."
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "Αναζήτηση όλων των αλλαγών μετάφρασης"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "Διαλέξτε αρχεία μετάφρασης για εισαγωγή"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10498,29 +11037,35 @@ msgstr "Το κλείδωμα εμποδίζει τους μεταφραστές
 msgid "Discard local changes"
 msgstr "Απόρριψη δείκτη"
 
-#, fuzzy
-#| msgid "Repository changes"
-msgid "Discard local changes and reset to upstream"
-msgstr "Αλλαγές αποθετηρίου"
-
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Use when:"
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "Η μετάφραση θα ενημερώνεται στο παρασκήνιο."
+
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "Αποτέλεσμα"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Επαναφορά αποθετηρίου στο ανάντη"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "Εξαγωγές δεδομένων"
 
 #, fuzzy
 #| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-"Περιγράψτε το πλαίσιο της μετάφρασης για να βελτιώσετε την ακρίβεια της "
-"μετάφρασης."
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
-msgstr ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Local commits and pending translation changes are discarded."
+msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10528,75 +11073,72 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Επαναφορά και εκ νέου εφαρμογή"
 
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
+
+#, fuzzy
+#| msgid "Use these operations with caution, they can lead to data loss."
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr ""
+"Χρησιμοποιήστε αυτές τις λειτουργίες με προσοχή, καθώς μπορεί να οδηγήσουν "
+"σε απώλεια δεδομένων."
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
 #, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Ορίστε αν το Weblate θα πρέπει να ιστορικό των μεταφράσεων"
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "Αρχεία μετάφρασης"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr "Συγχρονισμός"
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Οι μεταφράσεις του Weblate είναι κλειδωμένες"
+
+msgid "Rescan"
+msgstr "Νέα σάρωση"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
+msgstr "Φορτώνει μεταφράσεις από τα αρχεία στο Weblate."
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "Καθαρισμός"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr "Συγχρονισμός"
-
-msgid "Forces writing all strings to the translation files."
-msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr "Νέα σάρωση"
-
-msgid "Loads translations from the files into Weblate."
-msgstr "Φορτώνει μεταφράσεις από τα αρχεία στο Weblate."
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-"Χρησιμοποιήστε το όταν το Weblate δεν έχει βρει κάποια από τα κείμενα μετά "
-"την ενημέρωση του αποθετηρίου."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
-"Χρησιμοποιήστε αυτές τις λειτουργίες με προσοχή, καθώς μπορεί να οδηγήσουν "
-"σε απώλεια δεδομένων."
 
 #, fuzzy
 #| msgid "File names"
@@ -10609,30 +11151,18 @@ msgid "Remove duplicates"
 msgstr "Ο χρήστης αφαιρέθηκε"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Η μετάφραση αντικαταστάθηκε από το μεταφορτωμένο"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr ""
 "Διορθώστε το αφαιρώντας τα διπλότυπα κείμενα με το ίδιο αναγνωριστικό από τα "
 "αρχεία μετάφρασης."
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"Αυτό μπορεί να συμβεί εάν η διαδρομή μέσα στα αρχεία μετάφρασης περιέχει "
-"αναφορές σε έναν γονικό κατάλογο ή είναι απόλυτη."
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10640,46 +11170,27 @@ msgid "Cleanup unused"
 msgstr "Καθαρισμός"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Κανένα κείμενο δεν εισήχθει από το αρχείου που εστάλει."
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Αφαιρεί κείμενα χωρίς μετάφραση από τα αρχεία μετάφρασης."
-
-#, fuzzy
-#| msgid "The translation base language can not be edited."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Η γλώσσα βάσης της μετάφρασης δεν μπορεί να επεξεργαστεί."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "Κατάργηση κενών κειμένων"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+msgid "Obsolete PO entries should be removed now."
+msgstr ""
 
 #, fuzzy
 #| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
+msgid "Remove obsolete strings from the PO file."
 msgstr "Κατάργηση κενών κειμένων"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
-msgstr ""
-
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr ""
-"Χρησιμοποιήστε αυτές τις λειτουργίες με προσοχή, καθώς μπορεί να οδηγήσουν "
-"σε απώλεια δεδομένων."
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10867,8 +11378,20 @@ msgstr ""
 msgid "site wide"
 msgstr "σε όλο τον ιστότοπο"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "This service is installed in the workspace."
+msgstr "Αυτή η μετάφραση είναι προς το παρόν κλειδωμένη."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Κενά"
+
+#, fuzzy
+#| msgid "This e-mail address is disallowed."
+msgid "This service is disabled."
+msgstr "Αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν επιτρέπεται."
 
 msgid "disabled"
 msgstr "απενεργοποιημένο"
@@ -10876,8 +11399,16 @@ msgstr "απενεργοποιημένο"
 msgid "Service is no longer available"
 msgstr "Η υπηρεσία δεν είναι πλέον διαθέσιμη"
 
-msgid "Automatic suggestions"
-msgstr "Αυτόματες προτάσεις"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Επεξήγηση της μετάφρασης"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10885,14 +11416,37 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "Ρυθμισμένες υπηρεσίες αυτόματων προτάσεων"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Εκκαθάριση αρχείων μετάφρασης"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr ""
+"Η προσθήκη κειμένου είναι απενεργοποιημένη στη ρύθμιση παραμέτρων του "
+"στοιχείου."
 
 msgid "Disable"
 msgstr "Απενεργοποίηση"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "Ενεργοποίηση"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "Κατάργηση αυτής της ρύθμισης ειδοποίησης"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "Διαμόρφωση"
@@ -10906,8 +11460,10 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "Αυτή τη στιγμή είναι εγκατεστημένη %(count)s υπηρεσία."
 msgstr[1] "Αυτή τη στιγμή είναι εγκατεστημένες %(count)s υπηρεσίες."
 
-msgid "Available automatic suggestion services"
-msgstr "Διαθέσιμες υπηρεσίες αυτόματων προτάσεων"
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Available translation services"
+msgstr "Προτάσεις μεταφραστικής μηχανής"
 
 msgid "Could not find any additional services."
 msgstr "Δεν ήταν δυνατή η εύρεση πρόσθετων υπηρεσιών."
@@ -12267,12 +12823,20 @@ msgstr "Όνομα ετικέτας"
 msgid "Color"
 msgstr "Χρώμα"
 
+msgid "Description"
+msgstr "Περιγραφή"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "Κείμενα πηγής με ετικέτα"
 
 msgid "Add label"
 msgstr "Προσθήκη ετικέτας"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -12373,6 +12937,14 @@ msgstr "Λήψη ως TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "search"
+msgid "Save search"
+msgstr "αναζήτηση"
 
 msgid "Assigned source strings"
 msgstr "Συσχετισμένα κείμενα προέλευσης"
@@ -12592,9 +13164,8 @@ msgstr ""
 #| "translation engines to get the best possible translations and applies "
 #| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "Η αυτόματη μετάφραση μέσω μηχανικής μετάφρασης χρησιμοποιεί ενεργές μηχανές "
 "μηχανικής μετάφρασης για να πάρει τις καλύτερες δυνατές μεταφράσεις και τις "
@@ -12611,10 +13182,14 @@ msgstr ""
 "μεταφράσεων σε διαφορετικό κλάδο, για την επιδιόρθωση ασυνεπών μεταφράσεων ή "
 "για τη μετάφραση ενός νέου στοιχείου χρησιμοποιώντας μεταφραστική μνήμη."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "Η αυτόματη μετάφραση μέσω μηχανικής μετάφρασης χρησιμοποιεί ενεργές μηχανές "
 "μηχανικής μετάφρασης για να πάρει τις καλύτερες δυνατές μεταφράσεις και τις "
@@ -13081,6 +13656,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "Οι πρόσθετες ετικέτες μπορούν να οριστούν από τους διαχειριστές έργων."
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "Προέλευση"
+
+#, fuzzy
+#| msgid "IP address:"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "Διεύθυνση IP:"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "Η διεύθυνση IP αντιγράφηκε στο πρόχειρο."
+
 msgid "Revert"
 msgstr "Αναίρεση"
 
@@ -13345,6 +13938,11 @@ msgstr "Αυτόματα μεταφρασμένες συμβολοσειρές"
 msgid "Translated strings in a certain language"
 msgstr "Μεταφρασμένα κείμενα σε μία συγκεκριμένη γλώσσα"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "Αναζήτηση για…"
+
 msgid "Query"
 msgstr "Ερώτημα"
 
@@ -13469,6 +14067,20 @@ msgstr "Προσαρμόστε τη ροή εργασιών μετάφρασης
 #| msgid "Your translation is foo"
 msgid "Configure translation workflow"
 msgstr "Η μετάφρασή σας είναι foo"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "Όνομα χρήστη SAP"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Φίλτρο αναζήτησης"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -13800,8 +14412,8 @@ msgstr "Εντολή"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13875,6 +14487,27 @@ msgstr "Το πρόσθετο CDN του Weblate δεν μπόρεσε να αν
 
 msgid "Filename"
 msgstr "Όνομα αρχείου"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -14494,6 +15127,11 @@ msgstr ""
 "Δημιουργήστε ένα νέο στοιχείο μετάφρασης για έναν πρόσθετο κλάδο του "
 "υπάρχοντος στοιχείου μετάφρασης."
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Λεπτομέρειες αποθετηρίου"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14962,6 +15600,9 @@ msgstr "Άλλες περιπτώσεις"
 
 msgid "Computer-aided translation suggestions"
 msgstr "Προτάσεις μετάφρασης με τη βοήθεια υπολογιστή"
+
+msgid "Automatic suggestions"
+msgstr "Αυτόματες προτάσεις"
 
 msgid "Translations of this string in the other languages"
 msgstr "Μεταφράσεις του κειμένου σε άλλες γλώσσες"
@@ -15585,9 +16226,6 @@ msgstr "Απομάκρυνση του λογαριασμού μου"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -15756,11 +16394,6 @@ msgstr "Ενσωμάτωση κώδικα"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "Έλεγχος"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16913,6 +17546,11 @@ msgid "Duplicate label name."
 msgstr "Διπλότυπη μάσκα αρχείου."
 
 #, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "Διπλότυπη μετάφραση."
+
+#, fuzzy
 #| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
 msgstr "Το στιγμιότυπο δείχνει τη χρήση αυτού του κειμένου"
@@ -17822,9 +18460,6 @@ msgstr "Άλλα στοιχεία μετάφρασης"
 msgid "Machine translation"
 msgstr "Μεταφραστική μηχανή"
 
-msgid "Machine translation engines"
-msgstr "Μηχανές αυτόματης μετάφρασης"
-
 msgid "Score threshold"
 msgstr "Κατώφλι βαθμολογίας"
 
@@ -18064,6 +18699,16 @@ msgstr "Προσθήκη νέων γλωσσών"
 
 msgid "Select an existing component configuration to copy."
 msgstr "Επιλέξτε μια υπάρχουσα διαμόρφωση στοιχείου για αντιγραφή."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Πάρα πολλές αιτήσεις αναζήτησης, δοκιμάστε ξανά αργότερα."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "Δεν ήταν δυνατό το άνοιγμα ενός αιτήματος, δοκιμάστε ξανά αργότερα."
 
 msgid "ZIP file containing translations"
 msgstr "Αρχείο ZIP που εμπεριέχει μεταφράσεις"
@@ -18354,6 +18999,24 @@ msgstr "Εξαίρεση συντάκτη (όνομα χρήστη)"
 
 msgid "Date range"
 msgstr "Εύρος ημερομηνιών"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "Διαθέσιμα πρόσθετα"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "Κοινή χρήση σε έργα"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "Ένας χρήστης με αυτό το όνομα χρήστη υπάρχει ήδη."
 
 msgid "Expiry cannot be in the past."
 msgstr "Η λήξη δεν μπορεί να είναι στο παρελθόν."
@@ -18781,6 +19444,64 @@ msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s στις %(time)s στην %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "Φεβ"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Αποθετήριο"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Ελέγχοι συστήματος"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Αυτόματη ανίχνευση"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Δημιουργία μετάφρασης"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Επανέλεγχος όλων των αρχείων μετάφρασης στο αποθετήριο του Weblate"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "Η πηγή χρειάζεται αναθεώρηση"
@@ -19255,8 +19976,9 @@ msgstr "Δεν ήταν δυνατή η ώθηση του %(component)s: %(error
 msgid "Push is turned off for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "Δεν ήταν δυνατή η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
 #, python-format
@@ -19789,6 +20511,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Η μετάφραση θα ενημερώνεται στο παρασκήνιο."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19810,6 +20537,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "Εγκεκριμένη μετάφραση στο %(translation)s"
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "Περιγραφή ετικέτας"
 
 msgid "Could not accept suggestion!"
 msgstr "Δεν ήταν δυνατή η αποδοχή της πρότασης!"
@@ -20061,6 +20793,11 @@ msgstr "Ο χρήστης έχει αποκλειστεί σε αυτό το έ�
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "Κείμενο γλώσσας προέλευσης"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Αναγκαστική εγγραφή όλων των μεταφράσεων στο αποθετήριο του Weblate"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -21254,6 +21991,17 @@ msgid "More possible users were found."
 msgstr "Βρέθηκαν περισσότεροι πιθανοί χρήστες."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "Δημιουργοί του έργου"
+
+#, fuzzy
+#| msgid "search"
+msgid "My searches"
+msgstr "αναζήτηση"
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "Κείμενα με σχόλια"
@@ -21628,6 +22376,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "Το τοπικό αποθετήριο έχει ενημερωθεί."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "Η ανεβασμένη εικόνα δεν ήταν έγκυρη."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -21936,6 +22694,16 @@ msgstr "Αυτό θα επιβάλει την προώθηση των αλλαγ
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "Αυτό θα προωθήσει τις αλλαγές στο ανάντη Git αποθετήριο."
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "Μη έγκυρος συμβολικός σύνδεσμος μέσα σε αποθετήριο."
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "Η αλλαγή βάσης του αποθετηρίου απέτυχε"
 
 msgid "Possible cleanups:"
 msgstr "Πιθανές εργασίες καθαρισμού:"
@@ -22821,6 +23589,126 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Η προέλευση απομακρύνθηκε."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "Το όνομα χρησιμοποιείται επίσης στις αλλαγές ελέγχου εκδόσεων."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Εγγραφή ηλεκτρονικής διεύθυνσης"
+
+#~ msgid "Manage machinery"
+#~ msgstr "Διαχείριση μηχανημάτων"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "Δημιουργία στοιχείου"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Πρόσφατες Αλλαγές"
+
+#, fuzzy
+#~| msgid "Please read following contributor agreement:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Παρακαλούμε διαβάστε την ακόλουθη συμφωνία συνεισφοράς:"
+
+#~ msgid "Profile"
+#~ msgstr "Προφίλ"
+
+#~ msgid "Current user identities"
+#~ msgstr "Ταυτότητες τρέχοντος χρήστη"
+
+#~ msgid "Add new user identity"
+#~ msgstr "Προσθήκη νέας ταυτότητας χρήστη"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "Αυτό θα υποβάλει όλες τις εκκρεμείς αλλαγές που υπάρχουν στο Weblate και "
+#~ "όχι στο αποθετήριο."
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr ""
+#~ "Αυτό θα ενημερώσει το αποθετήριο του Weblate με τις αλλαγές που έγιναν."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "Το κλείδωμα εμποδίζει τους μεταφραστές να κάνουν αλλαγές."
+
+#, fuzzy
+#~| msgid "Repository changes"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Αλλαγές αποθετηρίου"
+
+#, fuzzy
+#~| msgid ""
+#~| "Describe the context of the translation to improve the accuracy of the "
+#~| "translation."
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr ""
+#~ "Περιγράψτε το πλαίσιο της μετάφρασης για να βελτιώσετε την ακρίβεια της "
+#~ "μετάφρασης."
+
+#, fuzzy
+#~| msgid "Whether Weblate should keep history of translations"
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Ορίστε αν το Weblate θα πρέπει να ιστορικό των μεταφράσεων"
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "Χρησιμοποιήστε το όταν το Weblate δεν έχει βρει κάποια από τα κείμενα "
+#~ "μετά την ενημέρωση του αποθετηρίου."
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr ""
+#~ "Χρησιμοποιήστε αυτές τις λειτουργίες με προσοχή, καθώς μπορεί να "
+#~ "οδηγήσουν σε απώλεια δεδομένων."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "Αυτό μπορεί να συμβεί εάν η διαδρομή μέσα στα αρχεία μετάφρασης περιέχει "
+#~ "αναφορές σε έναν γονικό κατάλογο ή είναι απόλυτη."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Αφαιρεί κείμενα χωρίς μετάφραση από τα αρχεία μετάφρασης."
+
+#, fuzzy
+#~| msgid "The translation base language can not be edited."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Η γλώσσα βάσης της μετάφρασης δεν μπορεί να επεξεργαστεί."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Ρυθμισμένες υπηρεσίες αυτόματων προτάσεων"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Διαθέσιμες υπηρεσίες αυτόματων προτάσεων"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "Μηχανές αυτόματης μετάφρασης"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Δεν ήταν δυνατός ο έλεγχος ταυτότητας: %s"
@@ -22843,11 +23731,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Reset and discard"
 #~ msgstr "Επαναφορά και απόρριψη"
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "Διπλότυπη μετάφραση."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22955,9 +23838,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Suggested change"
 #~ msgstr "Προτεινόμενη αλλαγή"
-
-#~ msgid "Origin"
-#~ msgstr "Προέλευση"
 
 #~ msgid "Similarity"
 #~ msgstr "Ομοιότητα"
@@ -23325,11 +24205,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "Τα στοιχεία ενημερώνονται…"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Κείμενα προέλευσης"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
@@ -23876,9 +24751,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "Δεν ήταν δυνατή η εύρεση συγχωνευμένου κειμένου."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "Μη έγκυρο αίτημα επαναφοράς!"
 
 #, fuzzy
 #~| msgid ""
@@ -24772,9 +25644,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ "Η ανάπτυξη του Weblate ακολουθεί τις βέλτιστες πρακτικές της πρωτοβουλίας "
 #~ "υποδομής πυρήνα του ιδρύματος Linux."
 
-#~ msgid "Security FAQ"
-#~ msgstr "Συχνές ερωτήσεις ασφαλείας"
-
 #~ msgid "How are user passwords stored?"
 #~ msgstr "Πώς αποθηκεύονται οι κωδικοί των χρηστών;"
 
@@ -25166,11 +26035,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgstr "Αποτυχημένος έλεγχος"
 
 #, fuzzy
-#~| msgid "Machine translation suggestions"
-#~ msgid "Use machine translation services"
-#~ msgstr "Προτάσεις μεταφραστικής μηχανής"
-
-#, fuzzy
 #~| msgid "Save translation history"
 #~ msgid "Manage translation memory (on the entire platform)"
 #~ msgstr "Αποθήκευση ιστορικού μετάφρασης"
@@ -25275,9 +26139,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Checks listing"
 #~ msgstr "Κατάλογος ελέγχων"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #, fuzzy
 #~| msgid "Version control system"
 #~ msgid "Percent interpolation"
@@ -25308,9 +26169,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Project access control"
 #~ msgstr "Έλεγχος πρόσβασης έργου"
-
-#~ msgid "Change"
-#~ msgstr "Αλλαγή"
 
 #, fuzzy
 #~| msgid "Overwrite existing translations"
@@ -25370,9 +26228,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Log in"
 #~ msgstr "Σύνδεση"
-
-#~ msgid "Password login"
-#~ msgstr "Σύνδεση με κωδικό"
 
 #, fuzzy
 #~| msgid "You can review it at:"
@@ -25915,9 +26770,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Hi,"
 #~ msgstr "Γεια σας,"
 
-#~ msgid "IP address:"
-#~ msgstr "Διεύθυνση IP:"
-
 #~ msgid "User agent:"
 #~ msgstr "Πράκτορας χρήστη:"
 
@@ -26458,9 +27310,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Debug mode"
 #~ msgstr "Κατάσταση αποσφαλμάτωσης"
 
-#~ msgid "Site domain"
-#~ msgstr "Τομέας σελίδας"
-
 #~ msgid "Django caching"
 #~ msgstr "Λανθάνουσα μνήμη Django"
 
@@ -26472,9 +27321,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Allowed hosts"
 #~ msgstr "Επιτρεπόμενοι φιλοξενητές"
-
-#~ msgid "Result"
-#~ msgstr "Αποτέλεσμα"
 
 #~ msgid "The query string has to be longer!"
 #~ msgstr "Το κείμενο ερωτήματος πρέπει να είναι μεγαλύτερο!"
@@ -28095,9 +28941,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Translation license:"
 #~ msgstr "Άδεια μετάφρασης:"
-
-#~ msgid "search"
-#~ msgstr "αναζήτηση"
 
 #, fuzzy
 #~| msgid "Machine readable data"

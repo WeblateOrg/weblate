@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-15 23:13+0000\n"
 "Last-Translator: Milo Ivir <milotype@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -77,8 +77,38 @@ msgstr "Ovo se korisničko ime već koristi. Odaberi nešto drugo."
 msgid "Full name"
 msgstr "Ime i prezime"
 
-msgid "Name is also used in version control commits."
-msgstr "Ime se također koristi u promjenama kontrole verzija."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "Korisnički podatci"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "Ukloni ovu postavku obavijesti"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "The user data file is too large."
+msgstr "Prenesena datoteka je prevelika."
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Prenesena slika nije ispravna."
+
+#, fuzzy
+#| msgid "The uploaded file contains too many language declarations."
+msgid "The uploaded file contains too many settings."
+msgstr "Prenesena datoteka sadrži previše jezičnih deklaracija."
 
 msgid "Commit e-mail"
 msgstr "E-mail adresa podnositelja promjene"
@@ -103,11 +133,27 @@ msgstr ""
 "Koristi se u promjenama u sustavu kontrole verzija. Ime zauvijek ostaje u "
 "repozitoriju nakon što se promjene izvrše na Weblateu."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "Postavke za kontrolu verzija"
+
 msgid "Public e-mail"
 msgstr "Javna e-mail adresa"
 
 msgid "Hide e-mail address from public view"
 msgstr "Sakrij e-mail adresu iz javnog prikaza"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Prikazano ime"
+
+msgid "Translation"
+msgstr "Prijevod"
+
+msgid "Dashboard"
+msgstr "Pregledna ploča"
 
 #, python-format
 msgid "Component list: %s"
@@ -122,6 +168,11 @@ msgid ""
 msgstr ""
 "Koristi se za e-mail obavijesti i kao e-mail adresa podnositelja promjene "
 "ako nije konfigurirano niže dolje."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "Osobni podatci"
 
 msgid "Human verification"
 msgstr "Ljudska provjera"
@@ -356,6 +407,11 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Upiši kod od aplikacije"
 
+#, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Aplikacija za autentifikaciju (%s)"
+
 msgid "Project, category, component, or translation path"
 msgstr "Projekt, kategorija, komponenta ili staza prijevoda"
 
@@ -373,6 +429,16 @@ msgstr "Upiši jednu ispravnu stazu objekta."
 
 msgid "The target does not exist or you cannot access it."
 msgstr "Cilja ne postoji ili nemaš pristup."
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "Postavke obavijesti"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved search"
+msgstr "Traži"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1277,11 +1343,21 @@ msgstr "Sigurnosni ključ (%s)"
 msgid "Authentication app (%s)"
 msgstr "Aplikacija za autentifikaciju (%s)"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Ponovno postavljanje lozinke"
 
 msgid "Remove account"
 msgstr "Ukloni račun"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Ljudska provjera"
 
 msgid "User registration"
 msgstr "Registracija korisnika"
@@ -1368,8 +1444,8 @@ msgstr "Prijavi se"
 msgid "Signed out"
 msgstr "Odjavljen"
 
-msgid "Register e-mail"
-msgstr "Registriraj e-mail adresu"
+msgid "Verify new e-mail address"
+msgstr "Potvrdi novu e-mail adresu"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
@@ -1386,6 +1462,21 @@ msgstr "Promijeni lozinku"
 
 msgid "Password reset has been already completed."
 msgstr "Ponovno postavljanje lozinke je već završeno."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "Nije bilo moguće dijeliti izraz sa %d komponentom."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Tvoj profil je aktualiziran."
 
 msgid "Could not remove user identity"
 msgstr "Nije bilo moguće ukloniti identitet korisnika"
@@ -3588,8 +3679,10 @@ msgid "Manage translation memory"
 msgstr "Upravljaj prevodilačkom memorijom"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "Upravljaj strojnim prevođenjem"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Manage translation services"
+msgstr "Koristi usluge za strojno prevođenje"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4157,9 +4250,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "Odaberi jednu postojeću konfiguraciju komponente koju želiš kopirati."
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "Ova je komponenta neispravno postavljena."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "Pregledaj sve promjene za ovaj jezik"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4167,11 +4270,25 @@ msgid "The change does not belong to this component."
 msgstr "Kategorija ne pripada ovom projektu."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "Kategorija ne pripada ovom projektu."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "Nemoj koristiti godine koje imaju veze s tobom."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "Modus automatskog prevođenja"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4229,20 +4346,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "Stvori komponentu"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Komponenta"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "Promijeni"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Nedavne promjene"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Dodatna poruka"
@@ -5616,9 +5738,6 @@ msgstr "Neuspjele provjere"
 msgid "Check"
 msgstr "Provjera"
 
-msgid "Translation"
-msgstr "Prijevod"
-
 msgid "Weblate configuration"
 msgstr "Weblate konfiguracija"
 
@@ -6407,25 +6526,33 @@ msgstr "Moraš prihvatiti Opće uvjete poslovanja"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Moraš prihvatiti Opće uvjete poslovanja"
 
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
-msgid "Please read the following legal documents:"
-msgstr "Pročitaj sljedeći licencni ugovor za doprinositelje:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Slažem se s dokumentom „Opći uvjeti poslovanja”"
 
-msgid "General Terms and Conditions"
-msgstr "Opći uvjeti poslovanja"
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Pročitaj sljedeći dokument s Općim uvjetima poslovanja:"
 
-msgid "Privacy Policy"
-msgstr "Politika privatnosti"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Slažem se s dokumentom „Opći uvjeti poslovanja”"
 
 #, fuzzy
 #| msgid "Please read following General Terms and Conditions document:"
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Pročitaj sljedeći dokument s Općim uvjetima poslovanja:"
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
+msgid "General Terms and Conditions"
+msgstr "Opći uvjeti poslovanja"
 
 msgid "Submit"
 msgstr "Pošalji"
@@ -6471,6 +6598,9 @@ msgstr ""
 "Ova se stranica zasniva na Općim uvjetima poslovanja i Politici privatnosti. "
 "Za bolje razumijevanje pročitaj izvorne dokumente:"
 
+msgid "Privacy Policy"
+msgstr "Politika privatnosti"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "Kolačići se koriste za sljedeće:"
 
@@ -6495,6 +6625,44 @@ msgstr ""
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr "Za analiziranje prometa na web-stranicama koristimo Google Analytics."
 
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Pročitaj sljedeći dokument s Općim uvjetima poslovanja:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"Ovaj popis uključuje samo osnovne jezike. Kontaktiraj održavatelje projekta "
+"za dodavanje drugih jezika."
+
 msgid "Legal Terms Overview"
 msgstr "Pregled pravnih uvjeta"
 
@@ -6518,6 +6686,123 @@ msgstr "Nema podržanih jezika: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Nije bilo moguće dohvatiti prijevode: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Licenca prijevoda"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language addition is not supported by any of the components."
+msgid "The language pair is not supported by this domain"
+msgstr "Dodavanje jezika nije podržano ni od jedne komponente."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "Izvorni izraz treba pregledati."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Upisani token nije ispravan."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "Kraj prijevoda."
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "The translation request timed out"
+msgstr "Ovaj prijevod treba urediti."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Interna greška servera"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "Nepoznata greška"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Neispravna prevodilačka oznaka: „%s”"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "Domena prijevoda"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Nije bilo moguće dohvatiti prijevode: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Domena prijevoda"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Neispravan zahtjev za vraćanje!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Za sve jezike"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6549,6 +6834,66 @@ msgstr "ID klijenta"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Tajna klijenta"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "Osnovni URL programa"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Lozinka"
+
+#, fuzzy
+#| msgid "Repeated language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Ponavljajući jezični kodovi"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Druge komponente"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Druge komponente"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Izvorni jezik komponente"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "Domena prijevoda"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid component path."
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Neispravna staza komponente."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -7003,6 +7348,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "@@PH1@@ neuspjele provjere"
 
+#, fuzzy
+#| msgid "Choose at most one report scope."
+msgid "Choose only one installation scope."
+msgstr "Odaberi najviše jedan opseg izvještaja."
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "This scope already has 20 service installations."
+msgstr "Ova se komponenta već dijeli u %s."
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "Ova je usluga instalirana na svim stranicama web-mjesta."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "Korisnik je već blokiran za ovaj projekt."
+
+#, fuzzy
+#| msgid "Choose at most one report scope."
+msgid "Choose one exclusion scope."
+msgstr "Odaberi najviše jedan opseg izvještaja."
+
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Choose an installation or a translation service."
+msgstr "Koristi usluge za strojno prevođenje"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Prijevod će se aktualizirati u pozadini."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "Prijevod će se aktualizirati u pozadini."
+
+msgid "Service is currently not available."
+msgstr "Usluga trenutačno nije dostupna."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Automatski odabir"
@@ -7014,9 +7414,6 @@ msgstr "Izvorni jezik komponente"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "U projektu ili komponenti definiran sekundarni jezik"
-
-msgid "Service is currently not available."
-msgstr "Usluga trenutačno nije dostupna."
 
 msgid "File"
 msgstr "Datoteka"
@@ -7372,9 +7769,6 @@ msgstr "Nije dozvoljeno"
 msgid "Insufficient privileges to display this page."
 msgstr "Nedovoljne dozvole za prikaz ove stranice."
 
-msgid "Dashboard"
-msgstr "Pregledna ploča"
-
 msgid "Browse all projects"
 msgstr "Pregledaj sve projekte"
 
@@ -7718,6 +8112,11 @@ msgstr "Ponovno postavljanje lozinke je skoro završeno"
 msgid "Account removal almost complete"
 msgstr "Uklanjanje računa je skoro završeno"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Registracija je skoro završena"
+
 msgid "Registration almost complete"
 msgstr "Registracija je skoro završena"
 
@@ -7732,6 +8131,17 @@ msgid ""
 msgstr ""
 "Ukloni svoj račun pritiskom na poveznicu za potvrdu koja je poslana u tvoj "
 "sandučić dolazne e-pošte."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"Pritisni poveznicu za potvrdu poslanu u tvoj sandučić dolazne e-pošte i "
+"počni koristiti svoj račun."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7754,6 +8164,13 @@ msgstr[2] "Poveznica za potvrdu isteći će nakon %(count)s sati."
 msgid "Request a new confirmation link if it expires."
 msgstr "Zatraži novu poveznicu za potvrdu, ako istekne."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "Zatraži novu poveznicu za potvrdu, ako istekne."
+
 msgid "Register again if the confirmation link expires."
 msgstr "Registriraj se ponovo ako poveznica za potvrdu istekne."
 
@@ -7764,17 +8181,24 @@ msgstr ""
 "E-pošta nije trenutna tehnologija. Pričekaj na e-mail za potvrđivanje barem "
 "30 minuta prije nego što nam prijaviš probleme."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "Ako imaš problema s registracijom, slobodno nas kontaktiraj."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Ako imaš problema s registracijom, slobodno nas kontaktiraj."
 
-msgid "Please fix errors in the registration form."
-msgstr "Popravi greške u obrascu za registraciju."
+msgid "Please fix errors in the form."
+msgstr "Ispravi greške u obrascu."
 
-msgid "Verify new e-mail address"
-msgstr "Potvrdi novu e-mail adresu"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "Pošalji probnu e-poruku"
 
-msgid "Register"
-msgstr "Registriraj se"
+msgid "Back to account settings"
+msgstr "Natrag na postavke računa"
 
 msgid "Trial subscriptions"
 msgstr "Probne pretplate"
@@ -7986,29 +8410,105 @@ msgstr "Upiši novu lozinku dva puta, kako bismo provjerili ispravnost lozinke."
 msgid "Change my password"
 msgstr "Promijeni moju lozinku"
 
-msgid "Preferences"
-msgstr "Postavke"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "Natrag na postavke računa"
 
-msgid "Notifications"
-msgstr "Obavijesti"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "Uredi postavke projekta"
 
 msgid "Account"
 msgstr "Račun"
 
-msgid "Profile"
-msgstr "Profil"
+msgid "Public profile"
+msgstr "Javni profil"
+
+msgid "Preferences"
+msgstr "Postavke"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved searches"
+msgstr "Traži"
+
+msgid "Notifications"
+msgstr "Obavijesti"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "Često postavljena pitanja o privatnosti"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Izvorni izrazi"
 
 msgid "Licenses"
 msgstr "Licence"
 
-msgid "Audit log"
-msgstr "Dnevnik aktivnosti"
+msgid "Activity"
+msgstr "Aktivnost"
 
-msgid "API access"
-msgstr "API pristup"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr "E-mail adresa se može odabrati samo iz provjerenih adresa."
 
-msgid "Please fix errors in the form."
-msgstr "Ispravi greške u obrascu."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Potvrdi novu e-mail adresu"
+
+msgid "Save"
+msgstr "Spremi"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "Imena datoteka"
+
+msgid "Download user data"
+msgstr "Preuzmi korisničke podatke"
+
+msgid "You can download all your private data."
+msgstr "Možeš preuzeti sve svoje privatne podatke."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "Uredi postavke projekta"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Uklanjanje"
+
+msgid "Account removal deletes all your private data."
+msgstr "Uklanjanjem računa uklanjaju se svi tvoji privatni podatci."
+
+msgid "Remove my account"
+msgstr "Ukloni moj račun"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Sva polja na ovoj stranici su opcionalna i mogu se izbrisati u bilo kojem "
+"trenutku. Ispunjavanjem tih polja daješ suglasnost, da te podatke dijelimo "
+"gdje god se pojavi tvoj korisnički profil."
+
+msgid "Your avatar"
+msgstr "Tvoj avatar"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Avatare omogućuje %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -8017,8 +8517,13 @@ msgstr ""
 "Za dodavanje nedostajućeg jezika, pošalji zahtjev projektu koji želiš "
 "prevoditi."
 
-msgid "Save"
-msgstr "Spremi"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "Dodaj korisnika"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8043,33 +8548,23 @@ msgstr "Postavke obavijesti"
 msgid "Remove this notification setting"
 msgstr "Ukloni ovu postavku obavijesti"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "E-mail adresa se može odabrati samo iz provjerenih adresa."
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Prijava s lozinkom"
 
-msgid "Current user identities"
-msgstr "Identiteti trenutačnog korisnika"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "Podesi"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "Podesi"
 
 msgid "Set password"
 msgstr "Postavi lozinku"
-
-msgid "Disconnect"
-msgstr "Odspoji se"
-
-msgid "Add new user identity"
-msgstr "Dodaj novi identitet korisnika"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Hosting prijevoda"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Pozivnice na čekanju"
 
 msgid "Two-factor authentication"
 msgstr "Dvofaktorska autentifikacija"
@@ -8087,23 +8582,36 @@ msgstr "Sigurnosni ključevi (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Još nije registriran nijedan WebAuthn ključ."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Sigurnosni ključ %s je registriran."
+msgstr[1] "Sigurnosni ključ %s je registriran."
+msgstr[2] "Sigurnosni ključ %s je registriran."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "Tajni ključ API-a"
+
 msgid "Remove"
 msgstr "Ukloni"
-
-msgid "Name your security key"
-msgstr "Zadaj ime za tvoj sigurnosni ključ"
-
-msgid "Register new security key"
-msgstr "Registriraj novi sigurnosni ključ"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "Tvoj web preglednik ne podržava WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "Aplikacije za autentikaciju (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "Još nije registrirana nijedna aplikacija za autentifikaciju."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Još nije registrirana nijedna aplikacija za autentifikaciju."
+msgstr[1] "Još nije registrirana nijedna aplikacija za autentifikaciju."
+msgstr[2] "Još nije registrirana nijedna aplikacija za autentifikaciju."
 
 msgid "Register new authenticator app"
 msgstr "Registriraj novu aplikaciju za autentikaciju"
@@ -8114,9 +8622,6 @@ msgstr "Kodovi za obnavljanje"
 msgid "No recovery codes generated yet."
 msgstr "Još nije stvoren nijedan kod za obnavljanje."
 
-msgid "Generate new recovery codes"
-msgstr "Stvori nove kodove za obnavljanje"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
@@ -8124,71 +8629,28 @@ msgstr[0] "Dostupan je %(count)s kod za obnavljanje."
 msgstr[1] "Dostupna su %(count)s koda za obnavljanje."
 msgstr[2] "Dostupno je %(count)s kodova za obnavljanje."
 
+msgid "Generate new recovery codes"
+msgstr "Stvori nove kodove za obnavljanje"
+
 msgid "View recovery codes"
 msgstr "Pogledaj kodove za obnavljanje"
 
-msgid "User data"
-msgstr "Korisnički podatci"
-
-msgid "You can download all your private data."
-msgstr "Možeš preuzeti sve svoje privatne podatke."
-
-msgid "Download user data"
-msgstr "Preuzmi korisničke podatke"
-
-msgid "Removal"
-msgstr "Uklanjanje"
-
-msgid "Account removal deletes all your private data."
-msgstr "Uklanjanjem računa uklanjaju se svi tvoji privatni podatci."
-
-msgid "Remove my account"
-msgstr "Ukloni moj račun"
-
-msgid "Public profile"
-msgstr "Javni profil"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"Sva polja na ovoj stranici su opcionalna i mogu se izbrisati u bilo kojem "
-"trenutku. Ispunjavanjem tih polja daješ suglasnost, da te podatke dijelimo "
-"gdje god se pojavi tvoj korisnički profil."
 
-msgid "Your avatar"
-msgstr "Tvoj avatar"
+msgid "Disconnect"
+msgstr "Odspoji se"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatare omogućuje %(avatar_url_prefix)s."
+#, fuzzy
+#| msgid "No connected accounts yet."
+msgid "No linked sign-in accounts."
+msgstr "Još nema povezanih računa."
 
-msgid "Pending invitation"
-msgstr "Pozivnica na čekanju"
+msgid "Add sign-in method"
+msgstr ""
 
-msgid "Description"
-msgstr "Opis"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr "Odmah nas kontaktiraj, ako u dnevniku aktivnosti uočiš nešto sumnjivo."
-
-msgid "When"
-msgstr "Kada"
-
-msgid "IP address"
-msgstr "IP adresa"
-
-msgid "User agent"
-msgstr "Korisnički agent"
-
-msgid "No recent activity found."
-msgstr "Nema nedavnih radnji."
-
-msgid "Report suspicious activity"
-msgstr "Prijavi sumnjive radnje"
+msgid "API access"
+msgstr "API pristup"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -8225,6 +8687,24 @@ msgstr ""
 "API ključ se također koristi za autentifikaciju za automatski izvezene Git "
 "repozitorije."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Hosting prijevoda"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "Pozivnice na čekanju"
+
+msgid "Pending invitation"
+msgstr "Pozivnica na čekanju"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8246,6 +8726,29 @@ msgstr "Kao doprinositelj si prihvatio/la sljedeće:"
 
 msgid "Licenses for individual translations"
 msgstr "Licence za pojedinačne prijevode"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr "Odmah nas kontaktiraj, ako u dnevniku aktivnosti uočiš nešto sumnjivo."
+
+msgid "Audit log"
+msgstr "Dnevnik aktivnosti"
+
+msgid "When"
+msgstr "Kada"
+
+msgid "IP address"
+msgstr "IP adresa"
+
+msgid "User agent"
+msgstr "Korisnički agent"
+
+msgid "No recent activity found."
+msgstr "Nema nedavnih radnji."
+
+msgid "Report suspicious activity"
+msgstr "Prijavi sumnjive radnje"
 
 msgid "Two-factor recovery codes"
 msgstr "Kodovi za obnavljanje dvofaktorske autentifikacije"
@@ -8284,9 +8787,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr "Tvoji stari kodovi više neće vrijediti."
 
-msgid "Back to account settings"
-msgstr "Natrag na postavke računa"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "Preusmjeravamo te na pružatelja usluge autentifikacije."
 
@@ -8302,9 +8802,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr "Završi registraciju za prihvaćanje pozivnice."
 
+msgid "Please fix errors in the registration form."
+msgstr "Popravi greške u obrascu za registraciju."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "Registriraj se na %(formatted_site_title)s"
+
+msgid "Register"
+msgstr "Registriraj se"
 
 msgid "Create an account using:"
 msgstr "Stvori račun putem:"
@@ -8363,6 +8869,11 @@ msgstr "Postavi moju lozinku"
 
 msgid "Reset my password"
 msgstr "Ponovo postavi moju lozinku"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "Uredi korisnika"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "<strong>Kontinuirana</strong> lokalizacija putem interneta"
@@ -8550,9 +9061,6 @@ msgstr[2] "%(count)s komentara"
 msgid "Translates"
 msgstr "Prevodi"
 
-msgid "Activity"
-msgstr "Aktivnost"
-
 msgid "Recent changes"
 msgstr "Nedavne promjene"
 
@@ -8686,6 +9194,27 @@ msgstr ""
 msgid "Continue"
 msgstr "Nastavi"
 
+msgid "Register new security key"
+msgstr "Registriraj novi sigurnosni ključ"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"Aplikacije za autentifikaciju generiraju vremenski ograničene jednokratne "
+"lozinke koje se koriste kao drugi faktor za provjeru tvog identiteta kada se "
+"to od tebe zatraži tijekom prijave."
+
+msgid "Name your security key"
+msgstr "Zadaj ime za tvoj sigurnosni ključ"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "Tvoj web preglednik ne podržava WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8752,13 +9281,31 @@ msgstr "Nijedna komponenta nije pronađena."
 msgid "Configure add-on"
 msgstr "Konfiguriraj dodatak"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Nedavne promjene"
-
 msgid "This add-on has no settings."
 msgstr "Ovaj dodatak nema postavke."
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Pregled"
+
+#, fuzzy
+#| msgid "No invitations were created."
+msgid "No operations were executed."
+msgstr "Nije stvorena nijedna pozivnica."
+
+msgid "Run add-on"
+msgstr "Pokreni dodatak"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -8769,9 +9316,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-msgid "Run add-on"
-msgstr "Pokreni dodatak"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr "Planiraj ovaj dodatak da se što prije pokrene."
@@ -10133,12 +10677,10 @@ msgstr[0] "%(errors_count)s preskočena zbog grešaka"
 msgstr[1] "%(errors_count)s preskočene zbog grešaka"
 msgstr[2] "%(errors_count)s preskočeno zbog grešaka"
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"Ovo će spremiti sve promjene na čekanju koje postoje u Weblateu ali ne u "
-"repozitoriju."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Prisili zapisivanje svih prijevoda u Weblate repozitorij"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10164,8 +10706,10 @@ msgstr[0] "%(count)s nedostajuća promjena"
 msgstr[1] "%(count)s nedostajuće promjene"
 msgstr[2] "%(count)s nedostajućih promjena"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Ovo će aktualizirati Weblate repozitorij s promjenama u glavnoj grani."
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Dozvoli promjene u Weblate repozitoriju"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Dozvoli promjene u Weblate repozitoriju"
@@ -10203,8 +10747,15 @@ msgstr "Weblate prijevodi su otključani"
 msgid "Weblate translations are locked"
 msgstr "Weblate prijevodi su zaključani"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "Zaključavanje sprečava prevodioce da učine promjene."
+#, fuzzy
+#| msgid "Evaluate translation changes"
+msgid "Lock to pause translation changes."
+msgstr "Evaluiraj promjene prijevoda"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "Odaberi prevodilačke datoteke za uvoz"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10212,25 +10763,33 @@ msgstr "Zaključavanje sprečava prevodioce da učine promjene."
 msgid "Discard local changes"
 msgstr "Odbaci oznaku"
 
+msgid "Use when:"
+msgstr ""
+
 #, fuzzy
-#| msgid "Repository changes were rebased on upstream."
-msgid "Discard local changes and reset to upstream"
-msgstr ""
-"Promjene u repozitoriju su usklađene i postavljene na najnoviju verziju na "
-"glavnoj grani."
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "Prijevod će se aktualizirati u pozadini."
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Result:"
 msgstr ""
 
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Koristi kada želiš da glavna grana bude autoritet za prijevode."
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Resetiraj repozitorij na izvorni"
 
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "Izvoz podataka"
+
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
+"Weblate sadrži promjene prijevoda na čekanju za ove projekte, od %(date)s."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10238,77 +10797,78 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Resetiraj i primijeni ponovo"
 
+#, fuzzy
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr ""
+"Weblate sadrži promjene prijevoda na čekanju za ove projekte, od %(date)s."
+
+#, fuzzy
+#| msgid ""
+#| "Use these operations with caution, they rewrite the translation file."
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr ""
+"Koristi ove operacije s oprezom, jer one prepisuju prevodilačku datoteku."
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Koristi kada želiš da Weblate bude autoritet za prijevode."
+#, fuzzy
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "Prevodilačke datoteke"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr "Sinkroniziraj"
+
+#, fuzzy
+#| msgid ""
+#| "Use this when repository files became out of sync with Weblate for some "
+#| "reason."
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+"Koristi ovo kada datoteke repozitorija iz nekog razloga nisu sinkronizirane "
+"s Weblateom."
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Weblate prijevodi su zaključani"
+
+msgid "Rescan"
+msgstr "Snimi ponovo"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
+msgstr "Učitava prijevode iz datoteka u Weblate."
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "Čišćenje"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
-msgstr ""
-"Čišćenje uklanja sve datoteke iz repozitorija koje kontrola verzija ne prati."
-
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
-
-msgid "Synchronize"
-msgstr "Sinkroniziraj"
-
-msgid "Forces writing all strings to the translation files."
-msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-"Koristi ovo kada datoteke repozitorija iz nekog razloga nisu sinkronizirane "
-"s Weblateom."
-
-msgid "Rescan"
-msgstr "Snimi ponovo"
-
-msgid "Loads translations from the files into Weblate."
-msgstr "Učitava prijevode iz datoteka u Weblate."
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-"Koristi ovo kada je Weblate propustio neke izraze nakon aktualiziranja "
-"repozitorija."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-"Ovo bi moglo odbaciti uređivanja koja se ne mogu preuzeti zbog konfigurirane "
-"politike promjena."
-
-msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
-"Koristi ove opreacje s oprezom jer mogu prouzročiti gubljenje podataka."
 
 #, fuzzy
 #| msgid "File names"
@@ -10321,29 +10881,17 @@ msgid "Remove duplicates"
 msgstr "Uklonjena kategorija"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Datoteka zamijenjena prenesenim prijevodom"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr ""
 "Ukloni duple izraze s istim identifikatorom u prevodilačkim datotekama."
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"To se može dogoditi, ako staza unutar prevodilačke datoteke sadrži reference "
-"na nadređenu mapu ili ako je staza apsolutna."
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10351,37 +10899,25 @@ msgid "Cleanup unused"
 msgstr "Čišćenje"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
-msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Nijedan izraz nije uvezen iz prenesene datoteke."
 
 #, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Uklanja neprevedene izraze iz provodilačke datoteke."
-
-#, fuzzy
-#| msgid "The translation base language can not be edited."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Osnovni jezik prijevoda se ne može urediti."
+#| msgid "Remove obsolete strings from the translation file"
+msgid "Remove those strings from the translation file."
+msgstr "Ukloni zastarjele izraze iz prevodilačke datoteke"
 
 msgid "Remove obsolete"
 msgstr "Ukloni zastarjele"
 
-msgid "Remove obsolete strings from the translation file"
-msgstr "Ukloni zastarjele izraze iz prevodilačke datoteke"
+msgid "Obsolete PO entries should be removed now."
+msgstr ""
 
-msgid "Removes obsolete strings from PO files."
+#, fuzzy
+#| msgid "Removes obsolete strings from PO files."
+msgid "Remove obsolete strings from the PO file."
 msgstr "Ukloni zastarjele izraze iz PO datoteka."
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
-msgstr ""
-
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr ""
-"Koristi ove operacije s oprezom, jer one prepisuju prevodilačku datoteku."
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10559,9 +11095,20 @@ msgstr "Ova je usluga instalirana na svim stranicama web-mjesta."
 msgid "site wide"
 msgstr "na svim stranicama web-mjesta"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
-"Ova je usluga instalirana na svim stranicama web-mjesta, ali je deaktivirana."
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "Ova je usluga instalirana na svim stranicama web-mjesta."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Razmaci"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "Ova je usluga instalirana na svim stranicama web-mjesta."
 
 msgid "disabled"
 msgstr "deaktivirano"
@@ -10569,8 +11116,16 @@ msgstr "deaktivirano"
 msgid "Service is no longer available"
 msgstr "Usluga više nije dostupna"
 
-msgid "Automatic suggestions"
-msgstr "Automatski prijedlozi"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr "Identifikator"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Objašnjenje za prijevod"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10578,14 +11133,35 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "Konfigurirane usluge za automatske prijedloge"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Počisti prevodilačke datoteke"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr "Dodavanje izraza je deaktivirano u konfiguraciji komponente."
 
 msgid "Disable"
 msgstr "Deaktiviraj"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "Aktiviraj"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "Ukloni ovu postavku obavijesti"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "Podesi"
@@ -10600,8 +11176,10 @@ msgstr[0] "Trenutačno je instalirana %(count)s usluga."
 msgstr[1] "Trenutačno su instalirane %(count)s usluge."
 msgstr[2] "Trenutačno je instalirano %(count)s usluga."
 
-msgid "Available automatic suggestion services"
-msgstr "Dostupne usluge za automatske prijedloge"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Available translation services"
+msgstr "Koristi usluge za strojno prevođenje"
 
 msgid "Could not find any additional services."
 msgstr "Nije bilo moguće pronaći dodatne usluge."
@@ -11931,12 +12509,20 @@ msgstr "Ime etikete"
 msgid "Color"
 msgstr "Boja"
 
+msgid "Description"
+msgstr "Opis"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "Označeni izvorni izrazi"
 
 msgid "Add label"
 msgstr "Dodaj etiketu"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, python-format
 msgid "Download translations as %(format_name)s in a ZIP file"
@@ -12037,6 +12623,14 @@ msgstr "Preuzmi kao TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Save search"
+msgstr "Traži"
 
 msgid "Assigned source strings"
 msgstr "Dodijeljeni izvorni izrazi"
@@ -12242,9 +12836,8 @@ msgstr ""
 #| "translation engines to get the best possible translations and applies "
 #| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "Automatski prijevod putem strojnog prevođenja koristi aktivne strojeve za "
 "strojno prevođenje, kako bi se dobili najbolji mogući prijevodi te se "
@@ -12261,10 +12854,14 @@ msgstr ""
 "jednu drugu granu, za ispravljanje nedosljednih prijevoda ili za prevođenje "
 "nove komponente pomoću prevodilačke memorije."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "Automatski prijevod putem strojnog prevođenja koristi aktivne strojeve za "
 "strojno prevođenje, kako bi se dobili najbolji mogući prijevodi te se "
@@ -12715,6 +13312,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "Dodatne etikete mogu definirati administratori projekta."
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "Porijeklo"
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "IP adresa"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "API adresa je kopirana u međuspremnik."
+
 msgid "Revert"
 msgstr "Vrati"
 
@@ -12977,6 +13592,11 @@ msgstr "Automatski prevedeni izrazi"
 msgid "Translated strings in a certain language"
 msgstr "Prevedeni izrazi u određenom jeziku"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "Traži …"
+
 msgid "Query"
 msgstr "Upit"
 
@@ -13095,6 +13715,20 @@ msgstr "Prilagodi radni tok prevođenja za ovaj jezik"
 #| msgid "Your translation is foo"
 msgid "Configure translation workflow"
 msgstr "Tvoj prijevod je foo"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "SAP korisničko ime"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Filtar pretrage"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -13430,8 +14064,8 @@ msgstr "Naredba"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13500,6 +14134,27 @@ msgstr "CDN dodatak za Weblate nije uspio analizirati HTML datoteke."
 
 msgid "Filename"
 msgstr "Ime datoteke"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -14143,6 +14798,11 @@ msgstr ""
 "Stvori novu prevodilačku komponentu za dodatnu granu postojeće prevodilačke "
 "komponente."
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Detalji repozitorija"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14610,6 +15270,9 @@ msgstr "Ostala pojavljivanja"
 
 msgid "Computer-aided translation suggestions"
 msgstr "Prijedlozi računalno potpomognutog prevođenja"
+
+msgid "Automatic suggestions"
+msgstr "Automatski prijedlozi"
 
 msgid "Translations of this string in the other languages"
 msgstr "Prijevodi ovog izraza u drugim jezicima"
@@ -15214,9 +15877,6 @@ msgstr "Najprije ukloni povezane račune."
 msgid "App ID"
 msgstr "ID aplikacije"
 
-msgid "Slug"
-msgstr "Identifikator"
-
 msgid "Remove Weblate GitHub App?"
 msgstr "Ukloniti Weblate GitHub aplikaciju?"
 
@@ -15381,12 +16041,6 @@ msgstr "Kod za ugradnju"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Review"
-msgid "Preview"
-msgstr "Pregled"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16493,6 +17147,11 @@ msgstr "Dupli prijevod."
 msgid "Duplicate label name."
 msgstr "Dupla maska datoteke."
 
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "Dupli prijevod."
+
 msgid "Screenshot image is missing."
 msgstr "Nedostaje snimka ekrana."
 
@@ -17395,9 +18054,6 @@ msgstr "Ostale prevodilačke komponente"
 msgid "Machine translation"
 msgstr "Strojno prevođenje"
 
-msgid "Machine translation engines"
-msgstr "Uređaji za strojno prevođenje"
-
 msgid "Score threshold"
 msgstr "Prag rezultata"
 
@@ -17631,6 +18287,18 @@ msgstr "Dodavanje novih jezika"
 
 msgid "Select an existing component configuration to copy."
 msgstr "Odaberi jednu postojeću konfiguraciju komponente koju želiš kopirati."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Previše upita za pretraživanje. Pokušaj ponovo kasnije."
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not load repository branches. Please try again."
+msgstr ""
+"Nije bilo moguće izraditi vlastitu kopiju (fork) repozitorija na %"
+"(hostname)s. Pokušaj kasnije ponovo."
 
 msgid "ZIP file containing translations"
 msgstr "ZIP datoteka s prijevodima"
@@ -17909,6 +18577,24 @@ msgstr "Isključi autora (korisničko ime)"
 
 msgid "Date range"
 msgstr "Raspon datuma"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "Dostupni dodaci"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "Dijeli u projektima"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "Korisnik s tim korisničkim imenom već postoji."
 
 msgid "Expiry cannot be in the past."
 msgstr "Istek ne može biti u prošlosti."
@@ -18323,6 +19009,64 @@ msgstr "%(action)s u %(time)s za %(translation)s od %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s u %(time)s za %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "Velj"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Repozitorij"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Provjere sustava"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Automatsko otkrivanje"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Stvori prijevod"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Pretraži ponovo sve prevodilačke datoteke u Weblate repozitoriju"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "Izvor treba pregledati"
@@ -18775,8 +19519,9 @@ msgstr "Nije bilo moguće prenijeti %(component)s: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr "Prijenos je isključen za %s."
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "Nije bilo moguće obnoviti na udaljenu granu na %s."
 
 #, python-format
@@ -19326,6 +20071,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Prijevod će se aktualizirati u pozadini."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19346,6 +20096,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "U prevodilačku datoteku se zapisuju samo odobreni prijevodi."
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "Opis etikete"
 
 msgid "Could not accept suggestion!"
 msgstr "Nije bilo moguće prihvatiti prijedlog!"
@@ -19551,6 +20306,11 @@ msgstr "Izvorni jezik mora postojati u ovom projektu."
 
 msgid "Source languages cannot form a cycle."
 msgstr "Izvorni jezici ne smiju tvoriti petlju."
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Prisili zapisivanje svih prijevoda u Weblate repozitorij"
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "Izvorni izraz se promijenio. Učitaj ga ponovo prije uređivanja."
@@ -20731,6 +21491,15 @@ msgid "More possible users were found."
 msgstr "Pronađeno je još više mogućih korisnika."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "Osnivači projekta"
+
+msgid "My searches"
+msgstr ""
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "Izrazi s komentarima"
@@ -21092,6 +21861,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "Lokalni repozitorij je aktualan."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "Prenesena slika nije ispravna."
+
 #, python-format
 msgid "%(detail)s"
 msgstr "%(detail)s"
@@ -21392,6 +22171,16 @@ msgstr "Ovo će prisilno poslati promjene u izvorni repozitorij."
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "Ovo će poslati promjene u izvorni Git repozitorij."
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "Nevaljana simbolička poveznica u repozitoriju."
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "Premještanje repozitorija neuspjelo"
 
 msgid "Possible cleanups:"
 msgstr "Moguća čišćenja:"
@@ -22242,6 +23031,138 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Izvor je uklonjen."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "Ime se također koristi u promjenama kontrole verzija."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Registriraj e-mail adresu"
+
+#~ msgid "Manage machinery"
+#~ msgstr "Upravljaj strojnim prevođenjem"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "Stvori komponentu"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Nedavne promjene"
+
+#, fuzzy
+#~| msgid "Please read the following contributor license agreement:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Pročitaj sljedeći licencni ugovor za doprinositelje:"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Current user identities"
+#~ msgstr "Identiteti trenutačnog korisnika"
+
+#~ msgid "Add new user identity"
+#~ msgstr "Dodaj novi identitet korisnika"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "Ovo će spremiti sve promjene na čekanju koje postoje u Weblateu ali ne u "
+#~ "repozitoriju."
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr ""
+#~ "Ovo će aktualizirati Weblate repozitorij s promjenama u glavnoj grani."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "Zaključavanje sprečava prevodioce da učine promjene."
+
+#, fuzzy
+#~| msgid "Repository changes were rebased on upstream."
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr ""
+#~ "Promjene u repozitoriju su usklađene i postavljene na najnoviju verziju "
+#~ "na glavnoj grani."
+
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "Koristi kada želiš da glavna grana bude autoritet za prijevode."
+
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Koristi kada želiš da Weblate bude autoritet za prijevode."
+
+#~ msgid ""
+#~ "Cleanup removes all files which are not tracked by the version control "
+#~ "from the repository."
+#~ msgstr ""
+#~ "Čišćenje uklanja sve datoteke iz repozitorija koje kontrola verzija ne "
+#~ "prati."
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "Koristi ovo kada je Weblate propustio neke izraze nakon aktualiziranja "
+#~ "repozitorija."
+
+#~ msgid ""
+#~ "This might discard edits that cannot be committed because of the "
+#~ "configured commit policy."
+#~ msgstr ""
+#~ "Ovo bi moglo odbaciti uređivanja koja se ne mogu preuzeti zbog "
+#~ "konfigurirane politike promjena."
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr ""
+#~ "Koristi ove opreacje s oprezom jer mogu prouzročiti gubljenje podataka."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "To se može dogoditi, ako staza unutar prevodilačke datoteke sadrži "
+#~ "reference na nadređenu mapu ili ako je staza apsolutna."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Uklanja neprevedene izraze iz provodilačke datoteke."
+
+#, fuzzy
+#~| msgid "The translation base language can not be edited."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Osnovni jezik prijevoda se ne može urediti."
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr ""
+#~ "Ova je usluga instalirana na svim stranicama web-mjesta, ali je "
+#~ "deaktivirana."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Konfigurirane usluge za automatske prijedloge"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Dostupne usluge za automatske prijedloge"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "Uređaji za strojno prevođenje"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Nije bilo moguće autentificirati: %s"
@@ -22283,11 +23204,6 @@ msgstr "Izvor je uklonjen."
 #~ msgstr ""
 #~ "Resetira Weblateov repozitorij kako bi ga uskladio s glavnom granom i "
 #~ "ponovno primjenjuje prijevode na resetirano stanje repozitorija."
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "Dupli prijevod."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22429,9 +23345,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Suggested change"
 #~ msgstr "Predložena promjena"
-
-#~ msgid "Origin"
-#~ msgstr "Porijeklo"
 
 #~ msgid "Similarity"
 #~ msgstr "Sličnost"
@@ -22808,11 +23721,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "Komponente se aktualiziraju …"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Izvorni izrazi"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr "Postava ove komponente je nepotpuna, jer nema nijedan prijevod."
@@ -23357,9 +24265,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "Nije bilo moguće pronaći sjedinjeni izraz."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "Neispravan zahtjev za vraćanje!"
 
 #~ msgid ""
 #~ "Contributing to this translation requires accepting its contributor "
@@ -24257,9 +25162,6 @@ msgstr "Izvor je uklonjen."
 #~ "Weblate razvoj slijedi najbolju praksu inicijative Linux zaklade za "
 #~ "osnovnu infrastrukturu."
 
-#~ msgid "Security FAQ"
-#~ msgstr "Često postavljena pitanja o privatnosti"
-
 #~ msgid "How are user passwords stored?"
 #~ msgstr "Kako se spremaju korisničke lozinke?"
 
@@ -24652,9 +25554,6 @@ msgstr "Izvor je uklonjen."
 #~ msgid "Manage translation memory (site wide)"
 #~ msgstr "Upravljaj prevodilačkom memorijom (globalno)"
 
-#~ msgid "Use machine translation services"
-#~ msgstr "Koristi usluge za strojno prevođenje"
-
 #~ msgid "Manage users (on the entire platform)"
 #~ msgstr "Upravljaj korisnicama (na cijeloj platformi)"
 
@@ -24754,9 +25653,6 @@ msgstr "Izvor je uklonjen."
 #~ msgid "Jump to position"
 #~ msgstr "Skoči na poziciju"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #~ msgid "Render as HTML"
 #~ msgstr "Prikaži kao HTML"
 
@@ -24810,9 +25706,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Project access control"
 #~ msgstr "Upravljanje pristupima projektu"
-
-#~ msgid "Change"
-#~ msgstr "Promijeni"
 
 #~ msgid "Import existing translations"
 #~ msgstr "Uvezi postojeće prijevode"
@@ -24868,9 +25761,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Log in"
 #~ msgstr "Prijavi se"
-
-#~ msgid "Password login"
-#~ msgstr "Prijava s lozinkom"
 
 #~ msgid "You can reset it."
 #~ msgstr "Možeš je ponovo postaviti."

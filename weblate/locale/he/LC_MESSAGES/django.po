@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-10 03:09+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -79,8 +79,38 @@ msgstr "שם משתמש זה כבר תפוס. נא לבחור משהו אחר."
 msgid "Full name"
 msgstr "שם מלא"
 
-msgid "Name is also used in version control commits."
-msgstr "בשם נעשה שימוש גם לקיבועים בבקרת הגרסאות."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "נתוני משתמש"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "הסרת הגדרת התראה זו"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Image is too big."
+msgid "The user data file is too large."
+msgstr "התמונה גדולה מדי."
+
+#, fuzzy, python-format
+#| msgid "The uploaded image was invalid."
+msgid "The uploaded file is not valid user data: %s"
+msgstr "התמונה שהועלתה הייתה שגויה."
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many settings."
+msgstr "קובץ ה־ZIP מכיל יותר מדי רשומות."
 
 msgid "Commit e-mail"
 msgstr "כתובת דוא״ל לקיבועים"
@@ -105,11 +135,27 @@ msgstr ""
 "משמש בקיבועים למערכת בקרת הגרסאות. השם נשאר במאגר לעד לאחר שהתקבעו שינויים "
 "על ידי Weblate."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "מערכת בקרת גרסאות"
+
 msgid "Public e-mail"
 msgstr "דוא״ל ציבורי"
 
 msgid "Hide e-mail address from public view"
 msgstr "הסתרת כתובת דוא״ל מעיני הציבור"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "שם תצוגה"
+
+msgid "Translation"
+msgstr "תרגום"
+
+msgid "Dashboard"
+msgstr "לוח ראשי"
 
 #, python-format
 msgid "Component list: %s"
@@ -122,6 +168,11 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr "משמש להודעות דוא״ל וכדוא״ל לקיבוע אם לא מוגדר להלן."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "פרטים אישיים"
 
 msgid "Human verification"
 msgstr "אימות אנושי"
@@ -340,6 +391,11 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "נא למלא קוד מהיישומון"
 
+#, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "יישומון אימות (%s)"
+
 msgid "Project, category, component, or translation path"
 msgstr "מיזם, קטגוריה, רכיב או נתיב תרגום"
 
@@ -356,6 +412,16 @@ msgstr "נא למלא קוד שפה תקף."
 
 msgid "The target does not exist or you cannot access it."
 msgstr "היעד לא קיים או שאין לך גישה אליו."
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "הגדרות התראה"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved search"
+msgstr "חיפוש"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1219,11 +1285,21 @@ msgstr "מפתח אבטחה (%s)"
 msgid "Authentication app (%s)"
 msgstr "יישומון אימות (%s)"
 
+#, fuzzy, python-format
+#| msgid "%(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "איפוס סיסמה"
 
 msgid "Remove account"
 msgstr "הסרת חשבון"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "אימות אנושי"
 
 msgid "User registration"
 msgstr "רישום משתמש"
@@ -1315,8 +1391,8 @@ msgstr "כניסה"
 msgid "Signed out"
 msgstr "יצאת"
 
-msgid "Register e-mail"
-msgstr "הרשמה עם דוא״ל"
+msgid "Verify new e-mail address"
+msgstr "אימות כתובת דוא״ל חדשה"
 
 #, fuzzy
 #| msgid "Please complete your sign-in using second factor credential."
@@ -1331,6 +1407,21 @@ msgstr "החלפת סיסמה"
 
 msgid "Password reset has been already completed."
 msgstr "איפוס הסיסמה כבר הושלם."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "לא ניתן להפיץ את המחרוזת הזאת לרכיב."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "הפרופיל שלך עודכן."
 
 msgid "Could not remove user identity"
 msgstr "לא ניתן להסיר את זהות המשתמש"
@@ -3528,8 +3619,10 @@ msgid "Manage translation memory"
 msgstr "ניהול זיכרון תרגום"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "ניהול מכונה"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Manage translation services"
+msgstr "שימוש בשירותי תרגום מכונה"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4104,9 +4197,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select a component for this automation."
+msgstr "נא לבחור בתצורת רכיב קיימת להעתיק ממנה."
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "רכיב זה לא מוגדר נכון."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "עיון בכל השינויים לשפה הזאת"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4114,11 +4217,25 @@ msgid "The change does not belong to this component."
 msgstr "הקטגוריה לא שייכת למיזם הזה."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "הקטגוריה לא שייכת למיזם הזה."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "יש להימנע משנים שקשורות אליך."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "מצב תרגום אוטומטי"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4177,20 +4294,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "יצירת רכיב"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "רכיב"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change"
+msgid "Change ID"
+msgstr "שינוי"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "שינויים אחרונים"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "הודעה נוספת"
@@ -5547,9 +5669,6 @@ msgstr "בדיקות שנכשלו"
 msgid "Check"
 msgstr "בדיקה"
 
-msgid "Translation"
-msgstr "תרגום"
-
 msgid "Weblate configuration"
 msgstr "הגדרות Weblate"
 
@@ -6330,23 +6449,33 @@ msgstr "עליך להסכים לתנאים ולהתניות הכלליים"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "עליך להסכים לתנאים ולהתניות הכלליים"
 
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "התנאים וההתניות הכלליים ומדיניות הפרטיות מקובלים עליי"
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "נא לקרוא את מסמך התנאים וההתניות הכלליים הבא:"
+
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "התנאים וההתניות הכלליים ומדיניות הפרטיות מקובלים עליי"
+
 #, fuzzy
-#| msgid "Please read the following contributor license agreement:"
-msgid "Please read the following legal documents:"
-msgstr "נא לקרוא את הסכם רישוי התרומה הבא:"
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
+msgstr "נא לקרוא את מסמך התנאים וההתניות הכלליים הבא:"
 
 msgid "General Terms and Conditions"
 msgstr "תנאים והתניות כלליים"
-
-msgid "Privacy Policy"
-msgstr "מדיניות פרטיות"
-
-msgid "Please read the following General Terms and Conditions document:"
-msgstr "נא לקרוא את מסמך התנאים וההתניות הכלליים הבא:"
-
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
 
 msgid "Submit"
 msgstr "שליחה"
@@ -6391,6 +6520,9 @@ msgstr ""
 "עמוד זה מבוסס על תנאי השירות, עליך עדיין לקרוא את המסמך המקורי כדי להבין "
 "אותם במלואם."
 
+msgid "Privacy Policy"
+msgstr "מדיניות פרטיות"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "אנו משתמשים בעוגיות באתר הזה עבור:"
 
@@ -6411,6 +6543,44 @@ msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr "אתר זה משתמש ב־Google Analytics כדי לנתח תעבורה באתר."
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read the following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "נא לקרוא את מסמך התנאים וההתניות הכלליים הבא:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"רשימה זו כוללת שפות בסיסיות בלבד. נא ליצור קשר עם מתחזקי המיזם כדי להוסיף "
+"עוד."
 
 msgid "Legal Terms Overview"
 msgstr "סקירת התנאים המשפטיים"
@@ -6435,6 +6605,123 @@ msgstr "לא נמצאו שפות נתמכות: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "לא יתן למשוך את התרגומים: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "רישיון תרגום"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language addition is not supported by any of the components."
+msgid "The language pair is not supported by this domain"
+msgstr "אין תמיכה בהוספת שפות באף אחד מהרכיבים."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "מחרוזת המקור דורשת סקירה."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "האסימון שסופק לא תקף."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "התרגום הגיע לקצו."
+
+#, fuzzy
+#| msgid "This translation needs editing."
+msgid "The translation request timed out"
+msgstr "התרגום הזה טעון שיפור."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "שגיאת שרת פנימית"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "שגיאה לא ידועה"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "דגל תרגום שגוי: „%s”"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "תחום תרגום"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "לא יתן למשוך את התרגומים: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "תחום תרגום"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "בקשת השחזור שגויה!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "לכל השפות"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6466,6 +6753,66 @@ msgstr "מזהה לקוח"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "סוד לקוח"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "כתובת בסיס של היישום"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "סיסמה"
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "כינויי קודים של שפות"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "מתחם האתר"
+
+#, fuzzy
+#| msgid "Site domain"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "מתחם האתר"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "שפת המקור של הרכיב"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "תחום תרגום"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "רכיב מוגבל"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -6910,6 +7257,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "בדיקות שנכשלו"
 
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose only one installation scope."
+msgstr "יש לבחור בתבנית קובץ לדוח"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "This scope already has 20 service installations."
+msgstr "הרכיב הזה נעול כרגע."
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "השירות הזה מותקן לכלל האתר."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "המשתמש כבר נחסם במיזם הזה."
+
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose one exclusion scope."
+msgstr "יש לבחור בתבנית קובץ לדוח"
+
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Choose an installation or a translation service."
+msgstr "שימוש בשירותי תרגום מכונה"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "התרגום יעודכן ברקע."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "התרגום יעודכן ברקע."
+
+msgid "Service is currently not available."
+msgstr "השירות אינו זמין כעת."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "בחירה אוטומטית"
@@ -6921,9 +7323,6 @@ msgstr "שפת המקור של הרכיב"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "הוגדרה שפה משנית במיזם או רכיב"
-
-msgid "Service is currently not available."
-msgstr "השירות אינו זמין כעת."
 
 msgid "File"
 msgstr "קובץ"
@@ -7273,9 +7672,6 @@ msgstr "הגישה נדחתה"
 msgid "Insufficient privileges to display this page."
 msgstr "אין לך מספיק הרשאות להצגת עמוד זה."
 
-msgid "Dashboard"
-msgstr "לוח ראשי"
-
 msgid "Browse all projects"
 msgstr "עיון בכל המיזמים"
 
@@ -7614,6 +8010,11 @@ msgstr "איפוס הסיסמה כמעט הושלם"
 msgid "Account removal almost complete"
 msgstr "הסרת החשבון כמעט הושלמה"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "ההרשמה כמעט הושלמה"
+
 msgid "Registration almost complete"
 msgstr "ההרשמה כמעט הושלמה"
 
@@ -7625,6 +8026,17 @@ msgid ""
 "inbox."
 msgstr ""
 "ניתן להסיר את החשבון שלך בלחיצה על אישור האימות בהודעה שנשלחה לתיבת הדוא״ל "
+"שלך."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"יש ללחוץ על קישור האימות שנשלח לתיבת הדוא״ל הנכנס שלך ולהתחיל להשתמש בחשבון "
 "שלך."
 
 msgid ""
@@ -7648,6 +8060,13 @@ msgstr[3] "קישור האימות יפוג לאחר %(count)s שעות."
 msgid "Request a new confirmation link if it expires."
 msgstr "ניתן לבקש קישור אישור חדש אם הוא פג."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "ניתן לבקש קישור אישור חדש אם הוא פג."
+
 msgid "Register again if the confirmation link expires."
 msgstr "יש להירשם שוב אם קישור האימות פג."
 
@@ -7658,17 +8077,24 @@ msgstr ""
 "דוא״ל זאת אינה טכנולוגיה מיידית. נא להמתין להודעת האימות לפחות עוד 30 דקות "
 "לפני דיווח על תקלה אצלנו."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr "אם התגלתה בעיה ברישום שלך, נא ליצור עמנו קשר."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr "אם התגלתה בעיה ברישום שלך, נא ליצור עמנו קשר."
 
-msgid "Please fix errors in the registration form."
-msgstr "נא לתקן שגיאות בטופס ההרשמה."
+msgid "Please fix errors in the form."
+msgstr "נא לתקן שגיאות בטופס."
 
-msgid "Verify new e-mail address"
-msgstr "אימות כתובת דוא״ל חדשה"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "שליחת דוא״ל לבדיקה"
 
-msgid "Register"
-msgstr "רישום"
+msgid "Back to account settings"
+msgstr "חזרה להגדרות החשבון"
 
 msgid "Trial subscriptions"
 msgstr "מינויים ניסיוניים"
@@ -7888,37 +8314,117 @@ msgstr "נא להזין את הסיסמה החדשה שלך פעמיים כדי 
 msgid "Change my password"
 msgstr "החלפת הסיסמה שלי"
 
-msgid "Preferences"
-msgstr "העדפות"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "חזרה להגדרות החשבון"
 
-msgid "Notifications"
-msgstr "התראות"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "עריכת הגדרות המיזם"
 
 msgid "Account"
 msgstr "חשבון"
 
-msgid "Profile"
-msgstr "פרופיל"
+msgid "Public profile"
+msgstr "פרופיל ציבורי"
+
+msgid "Preferences"
+msgstr "העדפות"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved searches"
+msgstr "חיפוש"
+
+msgid "Notifications"
+msgstr "התראות"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "שו״ת אבטחה"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "מחרוזות מקור"
 
 msgid "Licenses"
 msgstr "רשיונות"
 
-msgid "Audit log"
-msgstr "יומן פיקוח"
+msgid "Activity"
+msgstr "פעילות"
 
-msgid "API access"
-msgstr "גישת API"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr "אפשר לבחור את כתובות הדוא״ל מכתובות מאומתות בלבד."
 
-msgid "Please fix errors in the form."
-msgstr "נא לתקן שגיאות בטופס."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "אימות כתובת דוא״ל חדשה"
+
+msgid "Save"
+msgstr "שמירה"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "שמות קבצים"
+
+msgid "Download user data"
+msgstr "הורדת נתוני משתמש"
+
+msgid "You can download all your private data."
+msgstr "יש לך אפשרות להוריד את כל הנתונים הפרטיים שלך."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "עריכת הגדרות המיזם"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "הסרה"
+
+msgid "Account removal deletes all your private data."
+msgstr "הסרת חשבון מוחקת את כל הנתונים הפרטיים שלך."
+
+msgid "Remove my account"
+msgstr "הסרת החשבון שלי"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"כל השדות בעמוד הזה הם בגדר רשות והם עלולים להימחק בכל עת, עצם המילוי שלהם "
+"מעניק לנו את הסכמתך לשתף את הנתונים האלה בכל מקום בו מופיע פרופיל המשתמש שלך."
+
+msgid "Your avatar"
+msgstr "התמונה שלך"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "תמונות משתמש מסופקות דרך %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr "ניתן לשלוח בקשה למיזם אותו ברצונך לתרגם כדי להוסיף שפה חסרה."
 
-msgid "Save"
-msgstr "שמירה"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "הוספת משתמש"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -7943,33 +8449,23 @@ msgstr "הגדרות התראה"
 msgid "Remove this notification setting"
 msgstr "הסרת הגדרת התראה זו"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "אפשר לבחור את כתובות הדוא״ל מכתובות מאומתות בלבד."
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "כניסה עם ססמה"
 
-msgid "Current user identities"
-msgstr "זהויות משתמשים נוכחיות"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "הגדרה"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "הגדרה"
 
 msgid "Set password"
 msgstr "הגדרת סיסמה"
-
-msgid "Disconnect"
-msgstr "יציאה"
-
-msgid "Add new user identity"
-msgstr "הוספת זהות משתמש חדשה"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "אירוח תרגומים"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "הזמנות ממתינות"
 
 msgid "Two-factor authentication"
 msgstr "אימות דו־שלבי"
@@ -7987,23 +8483,38 @@ msgstr "מפתחות אבטחה (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "עדיין לא נרשמו מפתחות WebAuthn."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "מפתח האבטחה %s נרשם."
+msgstr[1] "מפתח האבטחה %s נרשם."
+msgstr[2] "מפתח האבטחה %s נרשם."
+msgstr[3] "מפתח האבטחה %s נרשם."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "מפתח API סודי"
+
 msgid "Remove"
 msgstr "הסרה"
-
-msgid "Name your security key"
-msgstr "מתן שם למפתח האבטחה שלך"
-
-msgid "Register new security key"
-msgstr "רישום מפתח אבטחה חדש"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "לדפדפן שלך חסרה תמיכה ב־WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "יישומוני אימות (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "טרם נרשמו יישומוני אימות."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "טרם נרשמו יישומוני אימות."
+msgstr[1] "טרם נרשמו יישומוני אימות."
+msgstr[2] "טרם נרשמו יישומוני אימות."
+msgstr[3] "טרם נרשמו יישומוני אימות."
 
 msgid "Register new authenticator app"
 msgstr "רישום יישומון אימות חדש"
@@ -8014,9 +8525,6 @@ msgstr "קודים לשחזור"
 msgid "No recovery codes generated yet."
 msgstr "לא נוצרו קודים לשחזור עדיין."
 
-msgid "Generate new recovery codes"
-msgstr "יצירת קודים חדשים לשחזור"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
@@ -8025,70 +8533,28 @@ msgstr[1] "%(count)s קודים לשחזור זמינים."
 msgstr[2] "%(count)s קודים לשחזור זמינים."
 msgstr[3] "%(count)s קודים לשחזור זמינים."
 
+msgid "Generate new recovery codes"
+msgstr "יצירת קודים חדשים לשחזור"
+
 msgid "View recovery codes"
 msgstr "הצגת קודים לשחזור"
 
-msgid "User data"
-msgstr "נתוני משתמש"
-
-msgid "You can download all your private data."
-msgstr "יש לך אפשרות להוריד את כל הנתונים הפרטיים שלך."
-
-msgid "Download user data"
-msgstr "הורדת נתוני משתמש"
-
-msgid "Removal"
-msgstr "הסרה"
-
-msgid "Account removal deletes all your private data."
-msgstr "הסרת חשבון מוחקת את כל הנתונים הפרטיים שלך."
-
-msgid "Remove my account"
-msgstr "הסרת החשבון שלי"
-
-msgid "Public profile"
-msgstr "פרופיל ציבורי"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"כל השדות בעמוד הזה הם בגדר רשות והם עלולים להימחק בכל עת, עצם המילוי שלהם "
-"מעניק לנו את הסכמתך לשתף את הנתונים האלה בכל מקום בו מופיע פרופיל המשתמש שלך."
 
-msgid "Your avatar"
-msgstr "התמונה שלך"
+msgid "Disconnect"
+msgstr "יציאה"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "תמונות משתמש מסופקות דרך %(avatar_url_prefix)s."
+#, fuzzy
+#| msgid "Do not have an account yet?"
+msgid "No linked sign-in accounts."
+msgstr "אין לך חשבון עדיין?"
 
-msgid "Pending invitation"
-msgstr "הזמנה ממתינה"
+msgid "Add sign-in method"
+msgstr ""
 
-msgid "Description"
-msgstr "תיאור"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr "נא ליצור קשר אם הבחנת במשהו חשוד ביומן הפיקוח."
-
-msgid "When"
-msgstr "מתי"
-
-msgid "IP address"
-msgstr "כתובת IP"
-
-msgid "User agent"
-msgstr "סוכן משתמש"
-
-msgid "No recent activity found."
-msgstr "לא נרשמו פעילויות לאחרונה."
-
-msgid "Report suspicious activity"
-msgstr "דיווח על פעילות חשודה"
+msgid "API access"
+msgstr "גישת API"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -8123,6 +8589,24 @@ msgid ""
 "repositories."
 msgstr "מפתח ה־API משמש גם לצורך אימות מול מאגרי Git שיוצאו באופן אוטומטי."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "אירוח תרגומים"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "הזמנות ממתינות"
+
+msgid "Pending invitation"
+msgstr "הזמנה ממתינה"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8141,6 +8625,29 @@ msgstr "הסכמת לתנאים הבאים במסגרת התנדבותך:"
 
 msgid "Licenses for individual translations"
 msgstr "רישיונות לתרגומים יחידניים"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr "נא ליצור קשר אם הבחנת במשהו חשוד ביומן הפיקוח."
+
+msgid "Audit log"
+msgstr "יומן פיקוח"
+
+msgid "When"
+msgstr "מתי"
+
+msgid "IP address"
+msgstr "כתובת IP"
+
+msgid "User agent"
+msgstr "סוכן משתמש"
+
+msgid "No recent activity found."
+msgstr "לא נרשמו פעילויות לאחרונה."
+
+msgid "Report suspicious activity"
+msgstr "דיווח על פעילות חשודה"
 
 msgid "Two-factor recovery codes"
 msgstr "קודים לשחזור אימות דו־שלבי"
@@ -8176,9 +8683,6 @@ msgstr "כשמייצרים קודים חדשים לשחזור, יש להוריד
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr "הקודים הישנים שלך יאבדו את תוקפם ולא יעבדו עוד."
 
-msgid "Back to account settings"
-msgstr "חזרה להגדרות החשבון"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "הופנית לספק האימות."
 
@@ -8193,9 +8697,15 @@ msgstr "אפשר להגדיר את הסיסמה שלך בהמשך על ידי ל
 msgid "Please complete the registration to accept the invitation."
 msgstr "נא להשלים את ההרשמה כדי לקבל את ההזמנה."
 
+msgid "Please fix errors in the registration form."
+msgstr "נא לתקן שגיאות בטופס ההרשמה."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "להירשם דרך %(formatted_site_title)s"
+
+msgid "Register"
+msgstr "רישום"
 
 msgid "Create an account using:"
 msgstr "יצירת חשבון עם:"
@@ -8248,6 +8758,11 @@ msgstr "הגדרת הסיסמה שלי"
 
 msgid "Reset my password"
 msgstr "איפוס הסיסמה שלי"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "עריכת משתמש"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "ניהול תרגומים <strong>באופן שוטף</strong> עם ממשק דפדפן"
@@ -8435,9 +8950,6 @@ msgstr[3] "%(count)s תגובות"
 msgid "Translates"
 msgstr "נתרם תרגום"
 
-msgid "Activity"
-msgstr "פעילות"
-
 msgid "Recent changes"
 msgstr "שינויים אחרונים"
 
@@ -8568,6 +9080,26 @@ msgstr ""
 msgid "Continue"
 msgstr "המשך"
 
+msgid "Register new security key"
+msgstr "רישום מפתח אבטחה חדש"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"יישומוני אימות מייצרים סיסמאות חד־פעמיות וקצובות בזמן שמשמשות כגורם נוסף "
+"לאימות הזהות שלך כשמופיעה הבקשה כחלק מהכניסה למערכת."
+
+msgid "Name your security key"
+msgstr "מתן שם למפתח האבטחה שלך"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "לדפדפן שלך חסרה תמיכה ב־WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8647,13 +9179,32 @@ msgstr "לא צוינו רכיבים"
 msgid "Configure add-on"
 msgstr "הגדרת תוסף"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "שינויים אחרונים"
-
 msgid "This add-on has no settings."
 msgstr "לתוסף הזה אין הגדרות."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "סקירה"
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "No operations were executed."
+msgstr "ההזמנה למשתמש הוסרה."
+
+#, fuzzy
+#| msgid "Enable add-on:"
+msgid "Run add-on"
+msgstr "הפעלת תוסף:"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -8664,11 +9215,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable add-on:"
-msgid "Run add-on"
-msgstr "הפעלת תוסף:"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10034,10 +10580,10 @@ msgstr[1] "%(errors_count)s נפסחו עקב שגיאה"
 msgstr[2] "%(errors_count)s נפסחו עקב שגיאה"
 msgstr[3] "%(errors_count)s נפסחו עקב שגיאה"
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr "פעולה זו תקבע את כל השינויים הממתינים שקיימים ב־Weblate ולא במאגר."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "לאלץ את כתיבת כל התרגומים למאגר של Weblate"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10066,8 +10612,10 @@ msgstr[1] "%(count)s קיבועים חסרים"
 msgstr[2] "%(count)s קיבועים חסרים"
 msgstr[3] "%(count)s קיבועים חסרים"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "פעולה זו תעדכן את המאגר ב־Weblate בשינויים מהמקור."
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "לאפשר שינויים למאגר ב־Weblate"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "לאפשר שינויים למאגר ב־Weblate"
@@ -10107,8 +10655,15 @@ msgstr "תרגומי Weblate משוחררים"
 msgid "Weblate translations are locked"
 msgstr "תרגומי Weblate נעולים"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "נעילה מונעת ממתרגמים לבצע שינויים."
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "עיון בכל שינויי התרגום"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "נא לבחור קובצי תרגום לייבוא"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10116,23 +10671,35 @@ msgstr "נעילה מונעת ממתרגמים לבצע שינויים."
 msgid "Discard local changes"
 msgstr "מחיקת סימון דגל"
 
+msgid "Use when:"
+msgstr ""
+
 #, fuzzy
-#| msgid "Repository changes"
-msgid "Discard local changes and reset to upstream"
-msgstr "שינויים במאגר"
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "התרגום יעודכן ברקע."
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
-msgstr ""
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "תוצאה"
 
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "מיועד לשימוש כשהמקור הוא הסמכות הבכירה לתרגומים."
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "איפוס המאגר לפי מאגר המקור"
 
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
-msgstr ""
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "היטלי נתונים"
+
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Local commits and pending translation changes are discarded."
+msgstr "הבקשה להוספת תרגום חדש נשלחה לאחראים על המיזם."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10140,69 +10707,74 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "איפוס והחלה מחדש"
 
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr "הבקשה להוספת תרגום חדש נשלחה לאחראים על המיזם."
+
+#, fuzzy
+#| msgid "Use these operations with caution, they can lead to data loss."
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "יש להשתמש בפעולות האלו בזהירות, הן עלולות להוביל לאובדן מידע."
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "כדאי להשתמש כאשר Weblate הוא הסמכות הבכירה לתרגומים."
+#, fuzzy
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "קובצי תרגום"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr "סנכרון"
+
+#, fuzzy
+#| msgid ""
+#| "Use this when repository files became out of sync with Weblate for some "
+#| "reason."
+msgid "Repository files are out of sync with Weblate."
+msgstr "יש להשתמש כאשר קובצי המאגר יוצאים מסנכרון מול Weblate מסיבה כלשהי."
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "תרגומי Weblate נעולים"
+
+msgid "Rescan"
+msgstr "סריקה מחדש"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
+msgstr "טען תרגומים מהקבצים ל־Weblate."
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "ניקוי"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
-msgstr "ניקוי מפנה את כל הקבצים שאינם במעקב על ידי בקרת הגרסאות מהמאגר."
-
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
-
-msgid "Synchronize"
-msgstr "סנכרון"
-
-msgid "Forces writing all strings to the translation files."
-msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr "יש להשתמש כאשר קובצי המאגר יוצאים מסנכרון מול Weblate מסיבה כלשהי."
-
-msgid "Rescan"
-msgstr "סריקה מחדש"
-
-msgid "Loads translations from the files into Weblate."
-msgstr "טען תרגומים מהקבצים ל־Weblate."
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr "להשתמש כאשר התפספסו כמה מהמחרוזות על ידי Weblate לאחר עדכון המאגר."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr "עלול להשמיט עריכות שלא ניתן לקבע עקב מדיניות הקיבוע המוגדרת."
-
-msgid "Use these operations with caution, they can lead to data loss."
-msgstr "יש להשתמש בפעולות האלו בזהירות, הן עלולות להוביל לאובדן מידע."
 
 #, fuzzy
 #| msgid "File names"
@@ -10215,28 +10787,16 @@ msgid "Remove duplicates"
 msgstr "קטגוריה הוסרה"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "קובץ תרגום הוחלף בהעלאה"
 
 #, fuzzy
 #| msgid ""
 #| "Please fix this by removing duplicated strings with same identifier from "
 #| "the translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "נא לתקן זאת על ידי הסרת המחרוזות הכפולות עם אותו המזהה מקובצי התרגום."
-
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
-"מצב זה יכול לקרות אם הנתיב בתוך קובצי התרגום מכיל הפניות לתיקיית הורה או "
-"מיקום מוחלט."
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10244,44 +10804,27 @@ msgid "Cleanup unused"
 msgstr "ניקוי"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "לא יובאו מחרוזות מהקובץ שהועלה."
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "הסרת מחרוזות ללא תרגומים מקובצי התרגום."
-
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "תוסף ה־CDN של קובצי התרגום לא יכול לפרסם weblate.js."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "הסרת מחרוזות ריקות"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "הסרת מחרוזות ריקות"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "יש להשתמש בפעולות האלו בזהירות, הן עלולות להוביל לאובדן מידע."
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "הסרת מחרוזות ריקות"
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10460,8 +11003,20 @@ msgstr "השירות הזה מותקן לכלל האתר."
 msgid "site wide"
 msgstr "כלל האתר"
 
-msgid "This service is installed site wide, but disabled."
-msgstr "השירות הזה מותקן לכלל האתר, אך מושבת."
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "השירות הזה מותקן לכלל האתר."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "רווחים"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "השירות הזה מותקן לכלל האתר."
 
 msgid "disabled"
 msgstr "מושבת"
@@ -10469,8 +11024,16 @@ msgstr "מושבת"
 msgid "Service is no longer available"
 msgstr "השירות לא זמין עוד"
 
-msgid "Automatic suggestions"
-msgstr "הצעות אוטומטיות"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "הסבר על תרגום"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10478,14 +11041,35 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "הגדרת שירותי הצעות אוטומטיות"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "ניקוי קובצי תרגום"
+
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Stop using this installation without removing its configuration."
+msgstr "הוספת מחרוזות מושבתת בהגדרות הרכיב."
 
 msgid "Disable"
 msgstr "השבתה"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "הפעלה"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "הסרת הגדרת התראה זו"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "הגדרה"
@@ -10501,8 +11085,10 @@ msgstr[1] "%(count)s שירותים מותקנים כרגע."
 msgstr[2] "%(count)s שירותים מותקנים כרגע."
 msgstr[3] "%(count)s שירותים מותקנים כרגע."
 
-msgid "Available automatic suggestion services"
-msgstr "שירותי הצעות אוטומטיות זמינים"
+#, fuzzy
+#| msgid "Use machine translation services"
+msgid "Available translation services"
+msgstr "שימוש בשירותי תרגום מכונה"
 
 msgid "Could not find any additional services."
 msgstr "לא ניתן למצוא שירותים נוספים כלשהם."
@@ -11810,12 +12396,20 @@ msgstr "שם התווית"
 msgid "Color"
 msgstr "צבע"
 
+msgid "Description"
+msgstr "תיאור"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "מחרוזות מקור עם תווית"
 
 msgid "Add label"
 msgstr "הוספת תווית"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -11915,6 +12509,14 @@ msgstr "הורדה בתור TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Save search"
+msgstr "חיפוש"
 
 msgid "Assigned source strings"
 msgstr "מחרוזות מקור משויכות"
@@ -12131,9 +12733,8 @@ msgstr ""
 #| "translation engines to get the best possible translations and applies "
 #| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 "תרגום אוטומטית באמצעות תרגום מכונה משתמש במנועי תרגום פעילים כדי לקבל את "
 "התרגומים הטובים ביותר ולהחיל אותם על המיזם הזה."
@@ -12148,10 +12749,14 @@ msgstr ""
 "להשתמש בו כדי לדחוף תרגומים לענף שונה, כדי לתקן תרגומים בלתי אחידים או כדי "
 "לתרגם רכיב חדש באמצעות זיכרון תרגום."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation via machine translation uses active machine "
+#| "translation engines to get the best possible translations and applies "
+#| "them in this project."
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 "תרגום אוטומטית באמצעות תרגום מכונה משתמש במנועי תרגום פעילים כדי לקבל את "
 "התרגומים הטובים ביותר ולהחיל אותם על המיזם הזה."
@@ -12611,6 +13216,24 @@ msgstr "ניתן להגדיר תוויות נוספות ב<a href=\"%(url)s\">ה
 msgid "Additional labels can be defined by project administrators."
 msgstr "להנהלת המיזם יש אפשרות להגדיר תוויות נוספות."
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "מקור"
+
+#, fuzzy
+#| msgid "IP address:"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "כתובת IP:"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "כתובת ה־IP הועתקה ללוח הגזירים."
+
 msgid "Revert"
 msgstr "שחזור"
 
@@ -12866,6 +13489,11 @@ msgstr "מחרוזות שתורגמו אוטומטית"
 msgid "Translated strings in a certain language"
 msgstr "מחרוזות מתורגמות בשפה מסוימת"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "חיפוש אחר…"
+
 msgid "Query"
 msgstr "שאילתה"
 
@@ -12986,6 +13614,20 @@ msgstr "התאמת רצף התרגום לשפה הזאת"
 #| msgid "Your translation is foo"
 msgid "Configure translation workflow"
 msgstr "התרגום שלך הוא foo"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "שם המשתמש ב־SAP"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "מסנן חיפוש"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid ""
@@ -13308,8 +13950,8 @@ msgstr "פקודה"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13382,6 +14024,27 @@ msgstr "לתוסף ה־CDN שלWeblate אין אפשרות לעבד את קוב�
 
 msgid "Filename"
 msgstr "שם קובץ"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -13991,6 +14654,11 @@ msgid ""
 "translation component."
 msgstr "יצירת רכיב תרגום חדש לענף נוסף של רכיב תרגום קיים."
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "פרטי מאגר"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14441,6 +15109,9 @@ msgstr "מופעים נוספים"
 
 msgid "Computer-aided translation suggestions"
 msgstr "הצעות תרגום בסיוע מחשב"
+
+msgid "Automatic suggestions"
+msgstr "הצעות אוטומטיות"
 
 msgid "Translations of this string in the other languages"
 msgstr "תרגום המחרוזת הזאת בשפות האחרות"
@@ -15064,9 +15735,6 @@ msgstr "הסרת החשבון שלי"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -15233,11 +15901,6 @@ msgstr "קוד הטמעה"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "סקירה"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16410,6 +17073,11 @@ msgid "Duplicate label name."
 msgstr "מסכת קובץ כפולה."
 
 #, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "תרגום כפול."
+
+#, fuzzy
 #| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
 msgstr "מסכת שם קובץ צילום מסך"
@@ -17334,9 +18002,6 @@ msgstr "רכיבי תרגום אחרים"
 msgid "Machine translation"
 msgstr "תרגום מכונה"
 
-msgid "Machine translation engines"
-msgstr "מנועי תרגום מכונה"
-
 msgid "Score threshold"
 msgstr "סף ניקוד"
 
@@ -17574,6 +18239,16 @@ msgstr "הוספת שפות חדשות"
 
 msgid "Select an existing component configuration to copy."
 msgstr "נא לבחור בתצורת רכיב קיימת להעתיק ממנה."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "יותר מדי שאילתות חיפוש, נא לנסות שוב מאוחר יותר."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "לא ניתן לפתוח קריאה, נא לנסות שוב מאוחר יותר."
 
 msgid "ZIP file containing translations"
 msgstr "קובץ ZIP שמכיל תרגומים"
@@ -17853,6 +18528,24 @@ msgstr "החרגת המחבר/ת (שם משתמש/ת)"
 
 msgid "Date range"
 msgstr "טווח תאריכים"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "תוספים זמינים"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "שיתוף במיזמים"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "כבר קיים משתמש בשם הזה."
 
 msgid "Expiry cannot be in the past."
 msgstr "התפוגה לא יכולה להיות בעבר."
@@ -18251,6 +18944,64 @@ msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "פבר׳"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "מאגר"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "בדיקות מערכת"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "זיהוי אוטומטי"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "יצירת תרגום"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "לסרוק מחדש את כל קובצי התרגום במאגר ה־Weblate"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "המקור זקוק לסקירה"
@@ -18669,8 +19420,9 @@ msgstr "לא ניתן לדחוף את %(component)s‏: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr "בוטלה דחיפה עבור %s."
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
+#, fuzzy, python-format
+#| msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "לא ניתן לאפס את הענף המרוחק ב־%s."
 
 #, python-format
@@ -19200,6 +19952,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "התרגום יעודכן ברקע."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19218,6 +19975,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "רק תרגומים מאושרים נכתבים לקובץ התרגום."
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "תיאור תווית"
 
 msgid "Could not accept suggestion!"
 msgstr "לא ניתן לקבל הצעה!"
@@ -19461,6 +20223,11 @@ msgstr "המשתמש נחסם במיזם הזה."
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "טקסט בשפת המקור"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "לאלץ את כתיבת כל התרגומים למאגר של Weblate"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20680,6 +21447,17 @@ msgid "More possible users were found."
 msgstr "נמצאו משתמשים אפשריים נוספים."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "יוצרי המיזם"
+
+#, fuzzy
+#| msgid "Search"
+msgid "My searches"
+msgstr "חיפוש"
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "מחרוזות עם הערות"
@@ -21048,6 +21826,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "קובץ ה־ZIP מכיל רשומה דחוסה גדולה מדי."
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "המאגר המקומי עדכני."
+
+#, fuzzy
+#| msgid "The uploaded image was invalid."
+msgid "The local repository checkout is invalid."
+msgstr "התמונה שהועלתה הייתה שגויה."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -21356,6 +22144,16 @@ msgstr "פעולה זו תדחף את השינויים למאגר המקור."
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "פעולה זו תדחף את השינויים למאגר המקור ב־Git."
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "קישור סמלי שגוי במאגר."
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "הסבת בסיס המאגר נכשלה"
 
 msgid "Possible cleanups:"
 msgstr "ניקיונות אפשריים:"
@@ -22145,6 +22943,124 @@ msgstr "אי אפשר להסיר את מרחב העבודה כיוון שהוא 
 msgid "The workspace has been removed."
 msgstr "מרחב העבודה הוסר."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "בשם נעשה שימוש גם לקיבועים בבקרת הגרסאות."
+
+#~ msgid "Register e-mail"
+#~ msgstr "הרשמה עם דוא״ל"
+
+#~ msgid "Manage machinery"
+#~ msgstr "ניהול מכונה"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "יצירת רכיב"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "שינויים אחרונים"
+
+#, fuzzy
+#~| msgid "Please read the following contributor license agreement:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "נא לקרוא את הסכם רישוי התרומה הבא:"
+
+#~ msgid "Profile"
+#~ msgstr "פרופיל"
+
+#~ msgid "Current user identities"
+#~ msgstr "זהויות משתמשים נוכחיות"
+
+#~ msgid "Add new user identity"
+#~ msgstr "הוספת זהות משתמש חדשה"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr "פעולה זו תקבע את כל השינויים הממתינים שקיימים ב־Weblate ולא במאגר."
+
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr "פעולה זו תעדכן את המאגר ב־Weblate בשינויים מהמקור."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "נעילה מונעת ממתרגמים לבצע שינויים."
+
+#, fuzzy
+#~| msgid "Repository changes"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "שינויים במאגר"
+
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "מיועד לשימוש כשהמקור הוא הסמכות הבכירה לתרגומים."
+
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "כדאי להשתמש כאשר Weblate הוא הסמכות הבכירה לתרגומים."
+
+#~ msgid ""
+#~ "Cleanup removes all files which are not tracked by the version control "
+#~ "from the repository."
+#~ msgstr "ניקוי מפנה את כל הקבצים שאינם במעקב על ידי בקרת הגרסאות מהמאגר."
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr "להשתמש כאשר התפספסו כמה מהמחרוזות על ידי Weblate לאחר עדכון המאגר."
+
+#~ msgid ""
+#~ "This might discard edits that cannot be committed because of the "
+#~ "configured commit policy."
+#~ msgstr "עלול להשמיט עריכות שלא ניתן לקבע עקב מדיניות הקיבוע המוגדרת."
+
+#~ msgid "Use these operations with caution, they can lead to data loss."
+#~ msgstr "יש להשתמש בפעולות האלו בזהירות, הן עלולות להוביל לאובדן מידע."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
+
+#, fuzzy
+#~| msgid ""
+#~| "This can happen if the path within the translation files contains "
+#~| "references to a parent directory, or is absolute."
+#~ msgid ""
+#~ "Use when the translation file contains duplicate strings that are not "
+#~ "present in Weblate."
+#~ msgstr ""
+#~ "מצב זה יכול לקרות אם הנתיב בתוך קובצי התרגום מכיל הפניות לתיקיית הורה או "
+#~ "מיקום מוחלט."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "הסרת מחרוזות ללא תרגומים מקובצי התרגום."
+
+#, fuzzy
+#~| msgid "The translation files CDN add-on cannot publish weblate.js."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "תוסף ה־CDN של קובצי התרגום לא יכול לפרסם weblate.js."
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr "השירות הזה מותקן לכלל האתר, אך מושבת."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "הגדרת שירותי הצעות אוטומטיות"
+
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "שירותי הצעות אוטומטיות זמינים"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "מנועי תרגום מכונה"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "לא ניתן להתאמת: %s"
@@ -22188,11 +23104,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgstr ""
 #~ "איפוס המאגר של Weblate כך שיוצמד למאגר המקור ויחליף את תרגומי המקור במצב "
 #~ "הנוכחי מ־Weblate."
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "תרגום כפול."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22336,9 +23247,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Suggested change"
 #~ msgstr "שינוי מוצע"
-
-#~ msgid "Origin"
-#~ msgstr "מקור"
 
 #~ msgid "Similarity"
 #~ msgstr "דימיון"
@@ -22704,11 +23612,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "הרכיבים מתעדכנים…"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "מחרוזות מקור"
 
 #, python-format
 #~ msgid ""
@@ -23250,9 +24153,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "לא ניתן למצוא את המחרוזת שמוזגה."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "בקשת השחזור שגויה!"
 
 #~ msgid ""
 #~ "Contributing to this translation requires accepting its contributor "
@@ -24150,9 +25050,6 @@ msgstr "מרחב העבודה הוסר."
 #~ "הפיתוח של Weblate הולך יד ביד עם גישות העבודה המומלצות על תשתיות הליבה של "
 #~ "עמותת הלינוקס."
 
-#~ msgid "Security FAQ"
-#~ msgstr "שו״ת אבטחה"
-
 #~ msgid "How are user passwords stored?"
 #~ msgstr "איך מאוחסנות ססמאות המשתמשים?"
 
@@ -24545,9 +25442,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "Failing check"
 #~ msgstr "בדיקות שנכשלו"
 
-#~ msgid "Use machine translation services"
-#~ msgstr "שימוש בשירותי תרגום מכונה"
-
 #~ msgid "Manage users (on the entire platform)"
 #~ msgstr "ניהול משתמשים (בכל הפלטפורמה)"
 
@@ -24673,9 +25567,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "Jump to position"
 #~ msgstr "קפיצה למיקום"
 
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "%(filter_name)s (%(filter_count)s)"
-
 #~ msgid "Render as HTML"
 #~ msgstr "עיבוד ל־HTML"
 
@@ -24727,9 +25618,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Project access control"
 #~ msgstr "בקרת גישה למיזם"
-
-#~ msgid "Change"
-#~ msgstr "שינוי"
 
 #~ msgid "Import existing translations"
 #~ msgstr "ייבוא תרגומים קיימים"
@@ -24786,9 +25674,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Log in"
 #~ msgstr "כניסה"
-
-#~ msgid "Password login"
-#~ msgstr "כניסה עם ססמה"
 
 #~ msgid "You can reset it."
 #~ msgstr "ניתן לאפס אותה."
@@ -25256,9 +26141,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Hi,"
 #~ msgstr "שלום,"
-
-#~ msgid "IP address:"
-#~ msgstr "כתובת IP:"
 
 #~ msgid "User agent:"
 #~ msgstr "סוכן משתמש:"
@@ -25782,9 +26664,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "Debug mode"
 #~ msgstr "מצב ניפוי שגיאות"
 
-#~ msgid "Site domain"
-#~ msgstr "מתחם האתר"
-
 #~ msgid "Django caching"
 #~ msgstr "המטמון של Django"
 
@@ -25796,9 +26675,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Allowed hosts"
 #~ msgstr "מארחים מורשים"
-
-#~ msgid "Result"
-#~ msgstr "תוצאה"
 
 #~ msgid ""
 #~ "The fulltext search might not work properly as the fulltext index for "
@@ -27407,11 +28283,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Translation license:"
 #~ msgstr "רישיון התרגום:"
-
-#, fuzzy
-#~| msgid "Search"
-#~ msgid "search"
-#~ msgstr "חיפוש"
 
 #, fuzzy
 #~| msgid "Machine translation"

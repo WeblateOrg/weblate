@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -77,8 +77,38 @@ msgstr "Þetta notandanafn er þegar í notkun. Veldu eitthvað annað."
 msgid "Full name"
 msgstr "Fullt nafn"
 
-msgid "Name is also used in version control commits."
-msgstr "Nafn er einnig notað í innsendingum útgáfustýringar."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "Notandagögn"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Import general notification settings"
+msgstr "Fjarlægja þessa stillingu á tilkynningum"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The user data file is too large."
+msgstr "Teiknið sem þú settir inn er ógilt."
+
+#, fuzzy, python-format
+#| msgid "The context vector is not valid: %s"
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Samhengisábendingin er ekki gild: %s"
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many settings."
+msgstr "ZIP-skrá sem inniheldur þýðingar"
 
 msgid "Commit e-mail"
 msgstr "Tölvupóstfang tengiliðar"
@@ -109,11 +139,27 @@ msgstr ""
 "Notað í innsendingum útgáfustýringar. Tölvupóstfangið helst að eilífu í "
 "gagnasafninu eftir að Weblate hefur sent inn viðkomandi breytingar."
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control identity"
+msgstr "Útgáfustýringarstillingar"
+
 msgid "Public e-mail"
 msgstr "Opinbera tölvupóstfangið þitt"
 
 msgid "Hide e-mail address from public view"
 msgstr "Fela tölvupóstfang frá opinberri birtingu"
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Birtingarnafn"
+
+msgid "Translation"
+msgstr "Þýðing"
+
+msgid "Dashboard"
+msgstr "Stjórnborð"
 
 #, python-format
 msgid "Component list: %s"
@@ -128,6 +174,11 @@ msgid ""
 msgstr ""
 "Notað fyrir tilkynningar í tölvupósti og sem tölvupóstfang í innsendingum ef "
 "annað er ekki skilgreint hér fyrir neðan."
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "Persónulegar upplýsingar"
 
 msgid "Human verification"
 msgstr "Mannleg sannvottun"
@@ -363,6 +414,11 @@ msgid "Enter the code from the app"
 msgstr "Settu inn kóðann úr forritinu"
 
 #, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Auðkenningarforrit (%s)"
+
+#, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "Allir þýðingarhlutar eru núna opnir fyrir uppfærslum á þýðingum."
@@ -380,6 +436,16 @@ msgstr "Samheiti tungumálakóða"
 
 msgid "The target does not exist or you cannot access it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "Stillingar á tilkynningum"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved search"
+msgstr "Leita"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1342,11 +1408,20 @@ msgstr "Öryggislykill (%s)"
 msgid "Authentication app (%s)"
 msgstr "Auðkenningarforrit (%s)"
 
+#, python-format
+msgid "%(name)s (#%(id)s)"
+msgstr ""
+
 msgid "Password reset"
 msgstr "Endurstilling lykilorðs"
 
 msgid "Remove account"
 msgstr "Fjarlægja reikning"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Mannleg sannvottun"
 
 msgid "User registration"
 msgstr "Nýskráning notanda"
@@ -1444,8 +1519,8 @@ msgstr "Skrá inn"
 msgid "Signed out"
 msgstr "Skráð/ur út"
 
-msgid "Register e-mail"
-msgstr "Skrá tölvupóst"
+msgid "Verify new e-mail address"
+msgstr "Sannreyna nýja tölvupóstfangið"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
@@ -1458,6 +1533,21 @@ msgstr "Breyta lykilorði"
 
 msgid "Password reset has been already completed."
 msgstr "Endurstillingu lykilorðs er þegar lokið."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "String could not be propagated to %d component."
+#| msgid_plural "String could not be propagated to %d components."
+msgid "Some settings could not be imported: %s"
+msgstr "Strengurinn var ekki áframsendur í %d þýðingahluta."
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Notandasnið þitt hefur verið uppfært."
 
 msgid "Could not remove user identity"
 msgstr "Gat ekki fjarlægt auðkenni notandans"
@@ -3716,8 +3806,10 @@ msgid "Manage translation memory"
 msgstr "Sýsla með þýðingaminni"
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr "Sýsla með vélþýðingar"
+#, fuzzy
+#| msgid "Manage translation memory"
+msgid "Manage translation services"
+msgstr "Sýsla með þýðingaminni"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4305,9 +4397,20 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "Select a component for this automation."
+msgstr "Nýr þýðingarhluti var útbúinn"
+
+#, fuzzy
 #| msgid "This component is set up incorrectly."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "Þessi þýðingarhluti er ekki rétt uppsettur."
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Select a change for this automation."
+msgstr "Skoða allar breytingar fyrir þetta tungumál"
 
 #, fuzzy
 #| msgid "Category does not belong to this project."
@@ -4315,11 +4418,25 @@ msgid "The change does not belong to this component."
 msgstr "Flokkur tilheyrir ekki þessu verkefni."
 
 #, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change event does not match this automation's triggers."
+msgstr "Flokkur tilheyrir ekki þessu verkefni."
+
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Trigger scope requires a change with a string."
+msgstr "Forðastu ártöl sem tengjast þér."
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
 msgstr "Sjálfvirkur þýðingarhamur"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4376,20 +4493,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Create component"
-msgid "Preview component ID"
-msgstr "Búa til þýðingarhluta"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Þýðingarhluti"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change ID"
+msgstr "Breytingar"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Recent changes"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Nýlegar breytingar"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Viðbótarskilaboð"
@@ -5716,9 +5838,6 @@ msgstr "Fell á prófunum"
 msgid "Check"
 msgstr "Prófa"
 
-msgid "Translation"
-msgstr "Þýðing"
-
 msgid "Weblate configuration"
 msgstr "Uppsetning Weblate"
 
@@ -6524,25 +6643,33 @@ msgstr "Þú verður að samþykkja almennu þjónustuskilmálana"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Þú verður að samþykkja almennu þjónustuskilmálana"
 
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
-msgid "Please read the following legal documents:"
-msgstr "Lestu vel skilmálana vegna framlags:"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Ég samþykki almennu þjónustuskilmálana"
 
-msgid "General Terms and Conditions"
-msgstr "Almennir þjónustuskilmálar og kvaðir"
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Lestu vel almennu þjónustuskilmálana:"
 
-msgid "Privacy Policy"
-msgstr "Persónuverndarstefna"
+#, fuzzy, python-format
+#| msgid "I agree with the General Terms and Conditions document"
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Ég samþykki almennu þjónustuskilmálana"
 
 #, fuzzy
 #| msgid "Please read following General Terms and Conditions document:"
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Lestu vel almennu þjónustuskilmálana:"
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr ""
+msgid "General Terms and Conditions"
+msgstr "Almennir þjónustuskilmálar og kvaðir"
 
 msgid "Submit"
 msgstr "Senda inn"
@@ -6591,6 +6718,9 @@ msgstr ""
 "'Meðferð persónuupplýsinga', þú ættir samt að lesa upprunalegu skjölin til "
 "að skilja þetta til fulls:"
 
+msgid "Privacy Policy"
+msgstr "Persónuverndarstefna"
+
 msgid "Cookies are used on this site for the following:"
 msgstr "Vefkökur eru notaðar á þessu vefsvæði fyrir eftirfarandi virkni:"
 
@@ -6615,6 +6745,44 @@ msgstr ""
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr "Þetta vefsvæði notar Google Analytics til að greina umferð um vefinn."
 
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Please read following General Terms and Conditions document:"
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Lestu vel almennu þjónustuskilmálana:"
+
+#, fuzzy
+#| msgid ""
+#| "This list includes only basic languages. Please contact project "
+#| "maintainers to add others."
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
+msgstr ""
+"Þessi listi inniheldur bara algengustu tungumálin. Hafðu samband við "
+"umsjónarmenn verkefnisins til að bæta við fleiri."
+
 msgid "Legal Terms Overview"
 msgstr "Yfirlit yfir lagatæknileg atriði"
 
@@ -6638,6 +6806,124 @@ msgstr "Engin studd tungumál fundust: %s"
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Gat ekki náð í þýðingu: %s"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation services"
+msgstr "Notkunarleyfi þýðingar"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Plurals are not supported by the file format."
+msgid "The language pair is not supported by this domain"
+msgstr "Fleirtala er ekki studd í þessu skráasniði."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long"
+msgstr "Upprunastrengurinn þarfnast yfirferðar."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Teiknið sem þú settir inn er ógilt."
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The translation backend failed"
+msgstr "Þýðingunni er lokið."
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "The translation request timed out"
+msgstr "Þessi þýðing er læst."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "Innvær villa í þjóni"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Unknown"
+msgid "Unknown error"
+msgstr "Óþekkt"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid translation flag: \"%s\""
+msgid "Invalid eTranslation domains response"
+msgstr "Ógilt þýðingaflagg: \"%s\""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "Þýðingarumdæmi"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Gat ekki náð í þýðingu: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Þýðingarumdæmi"
+
+#, fuzzy
+#| msgid "Invalid revert request!"
+msgid "Invalid eTranslation request ID"
+msgstr "Ógild afturköllunarbeiðni!"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Fyrir öll tungumál"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6669,6 +6955,66 @@ msgstr "Auðkenni biðlara"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Leynilykill biðlara"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "Grunnslóð forritsins"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Lykilorð"
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Samheiti tungumálakóða"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Aðrir þýðingarhlutar"
+
+#, fuzzy
+#| msgid "Other components"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Aðrir þýðingarhlutar"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Upprunatungumál þýðingarhluta"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "Þýðingarumdæmi"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Takmarkaður þýðingarhluti"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -7104,6 +7450,61 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "Féll á prófunum:"
 
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose only one installation scope."
+msgstr "Veldu skráasnið fyrir skýrsluna"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "This scope already has 20 service installations."
+msgstr "Þessi þýðingarhluti er í augnablikinu læst."
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is already installed here."
+msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is already blocked on this project."
+msgid "This slug is already used in an affected project."
+msgstr "Notandinn er nú þegar í banni í þessu verkefni."
+
+#, fuzzy
+#| msgid "Choose a file format for the report"
+msgid "Choose one exclusion scope."
+msgstr "Veldu skráasnið fyrir skýrsluna"
+
+#, fuzzy
+#| msgid "Changed translation in %(translation)s"
+msgid "Choose an installation or a translation service."
+msgstr "Breytt þýðing í %(translation)s"
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Þýðingin verður uppfærð í bakgrunni."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation services conflict with the new workspace."
+msgstr "Þýðingin verður uppfærð í bakgrunni."
+
+msgid "Service is currently not available."
+msgstr "Þjónusta er ekki í boði sem stendur."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Sjálfvirkt val"
@@ -7115,9 +7516,6 @@ msgstr "Upprunatungumál þýðingarhluta"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Aukatungumál skráð í verkefni eða þýðingarhluta"
-
-msgid "Service is currently not available."
-msgstr "Þjónusta er ekki í boði sem stendur."
 
 msgid "File"
 msgstr "Skrá"
@@ -7469,9 +7867,6 @@ msgstr "Heimild hafnað"
 msgid "Insufficient privileges to display this page."
 msgstr "Ekki nægar heimildir til að birta þessa síðu ."
 
-msgid "Dashboard"
-msgstr "Stjórnborð"
-
 msgid "Browse all projects"
 msgstr "Skoða öll verkefni"
 
@@ -7778,6 +8173,11 @@ msgstr "Endurstillingu lykilorðs er næstum lokið"
 msgid "Account removal almost complete"
 msgstr "Fjarlægingu notandaaðgangs er næstum lokið"
 
+#, fuzzy
+#| msgid "Registration almost complete"
+msgid "E-mail verification almost complete"
+msgstr "Nýskráningu er næstum lokið"
+
 msgid "Registration almost complete"
 msgstr "Nýskráningu er næstum lokið"
 
@@ -7792,6 +8192,17 @@ msgid ""
 msgstr ""
 "Þú getur fjarlægt aðganginn þinn með því að smella á staðfestingartengillinn "
 "sem var sendur á tölvupóstfangið þitt."
+
+#, fuzzy
+#| msgid ""
+#| "Click the confirmation link sent to your e-mail inbox and start using "
+#| "your account."
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
+msgstr ""
+"Smelltu á staðfestingartengillinn sem var sendur á tölvupóstfangið þitt og "
+"byrjaðu svo að nota aðganginn þinn."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7813,6 +8224,13 @@ msgstr[1] "Staðfestingartengillinn mun renna út eftir %(count)s klukkustundir.
 msgid "Request a new confirmation link if it expires."
 msgstr "Biddu um nýjan staðfestingartengil ef hann rennur út."
 
+#, fuzzy
+#| msgid "Request a new confirmation link if it expires."
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr "Biddu um nýjan staðfestingartengil ef hann rennur út."
+
 msgid "Register again if the confirmation link expires."
 msgstr "Skráðu þig aftur ef staðfestingartengillinn rennur út."
 
@@ -7824,19 +8242,28 @@ msgstr ""
 "í að minnsta kosti 30 mínútur áður en þú skrifar okkur um vandamál varðandi "
 "þetta."
 
+#, fuzzy
+#| msgid "If there is a problem with your registration, please contact us."
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr ""
+"Ef upp kemur vandamál með skrásetninguna þína, ættirðu að hafa samband við "
+"okkur."
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 "Ef upp kemur vandamál með skrásetninguna þína, ættirðu að hafa samband við "
 "okkur."
 
-msgid "Please fix errors in the registration form."
-msgstr "Leiðréttu villur í skráningarforminu."
+msgid "Please fix errors in the form."
+msgstr "Leiðréttu villur í reitunum."
 
-msgid "Verify new e-mail address"
-msgstr "Sannreyna nýja tölvupóstfangið"
+#, fuzzy
+#| msgid "Send test e-mail"
+msgid "Send verification e-mail"
+msgstr "Senda prufupóst"
 
-msgid "Register"
-msgstr "Nýskrá"
+msgid "Back to account settings"
+msgstr "Til baka í stillingar aðgangs"
 
 msgid "Trial subscriptions"
 msgstr "Prufuáskriftir"
@@ -8053,29 +8480,107 @@ msgstr ""
 msgid "Change my password"
 msgstr "Breyta lykilorðinu mínu"
 
-msgid "Preferences"
-msgstr "Kjörstillingar"
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to security settings"
+msgstr "Til baka í stillingar aðgangs"
 
-msgid "Notifications"
-msgstr "Tilkynningar"
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "Breyta stillingum verkefnis"
 
 msgid "Account"
 msgstr "Notandaaðgangur"
 
-msgid "Profile"
-msgstr "Notandasnið"
+msgid "Public profile"
+msgstr "Opinbert notandasnið"
+
+msgid "Preferences"
+msgstr "Kjörstillingar"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Saved searches"
+msgstr "Leita"
+
+msgid "Notifications"
+msgstr "Tilkynningar"
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security"
+msgstr "Algengar spurningar varðandi öryggi"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Upprunastrengir"
 
 msgid "Licenses"
 msgstr "Notkunarleyfi"
 
-msgid "Audit log"
-msgstr "Atvikaskrá"
+msgid "Activity"
+msgstr "Virkni"
 
-msgid "API access"
-msgstr "API-aðgangur"
+msgid "The e-mail address can be chosen from verified addresses only."
+msgstr ""
+"Aðeins er hægt að velja tölvupóstfangið úr þegar staðfestum tölvupóstföngum."
 
-msgid "Please fix errors in the form."
-msgstr "Leiðréttu villur í reitunum."
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
+msgstr "Sannreyna nýja tölvupóstfangið"
+
+msgid "Save"
+msgstr "Vista"
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "Skráaheiti"
+
+msgid "Download user data"
+msgstr "Sækja notandagögn"
+
+msgid "You can download all your private data."
+msgstr "Þú getur sótt öll þín einkagögn."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "Breyta stillingum verkefnis"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "Fjarlæging"
+
+msgid "Account removal deletes all your private data."
+msgstr "Fjarlæging aðgangs eyðir öllum þínum einkagögnum."
+
+msgid "Remove my account"
+msgstr "Eyða notandaaðgangnum mínum"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Allar upplýsingar sem gefnar eru upp á þessari síðu eru valkvæðar og er hægt "
+"að eyða út hvenær sem er. Með því að fylla út í þessa reiti ert þú að gefa "
+"okkur leyfi til að deila þessum upplýsingum í hvert skipti sem notandasniðið "
+"þitt birtist."
+
+msgid "Your avatar"
+msgstr "Auðkennismyndin þín"
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Auðkennismyndir koma frá %(avatar_url_prefix)s."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
@@ -8084,8 +8589,13 @@ msgstr ""
 "Sendu beiðni til verkefnisins sem þú vilt þýða til að bæta við þeim "
 "tungumálum sem vantar."
 
-msgid "Save"
-msgstr "Vista"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "Bæta við notanda"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8110,34 +8620,21 @@ msgstr "Stillingar á tilkynningum"
 msgid "Remove this notification setting"
 msgstr "Fjarlægja þessa stillingu á tilkynningum"
 
-msgid "The e-mail address can be chosen from verified addresses only."
+msgid "Password-based sign-in"
 msgstr ""
-"Aðeins er hægt að velja tölvupóstfangið úr þegar staðfestum tölvupóstföngum."
 
-msgid "Current user identities"
-msgstr "Núverandi auðkenni notanda"
+#, fuzzy
+#| msgid "Configure"
+msgid "Configured"
+msgstr "Stilla"
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Not configured"
+msgstr "Stilla"
 
 msgid "Set password"
 msgstr "Skrá lykilorð"
-
-msgid "Disconnect"
-msgstr "Aftengjast"
-
-msgid "Add new user identity"
-msgstr "Bæta við nýju auðkenni notanda"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Hýsing þýðinga"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Boð í bið"
 
 msgid "Two-factor authentication"
 msgstr "Tveggja-þátta auðkenning"
@@ -8155,23 +8652,34 @@ msgstr "Öryggislyklar (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Engir WebAuthn-lyklar skráðir ennþá."
 
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Öryggislykillinn %s var skráður."
+msgstr[1] "Öryggislykillinn %s var skráður."
+
+#, fuzzy
+#| msgctxt "AWS Translate configuration"
+#| msgid "API secret key"
+msgid "Add security key"
+msgstr "API-leynilykill"
+
 msgid "Remove"
 msgstr "Fjarlægja"
-
-msgid "Name your security key"
-msgstr "Gefðu öryggislyklinum þínum heiti"
-
-msgid "Register new security key"
-msgstr "Skrá nýjan öryggislykil"
-
-msgid "Your web browser lacks WebAuthn support."
-msgstr "Vafrinn þinn er ekki með stuðning við WebAuthn."
 
 msgid "Authenticator apps (TOTP)"
 msgstr "Auðkenningarforrit (TOTP)"
 
 msgid "No authenticator apps registered yet."
 msgstr "Engin auðkenningarforrit eru skráð."
+
+#, fuzzy, python-format
+#| msgid "No authenticator apps registered yet."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Engin auðkenningarforrit eru skráð."
+msgstr[1] "Engin auðkenningarforrit eru skráð."
 
 msgid "Register new authenticator app"
 msgstr "Skrá nýtt auðkenningarforrit"
@@ -8182,83 +8690,34 @@ msgstr "Endurheimtukóðar"
 msgid "No recovery codes generated yet."
 msgstr "Engir endurheimtukóðar útbúnir ennþá."
 
-msgid "Generate new recovery codes"
-msgstr "Útbúa nýja endurheimtukóða"
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] "%(count)s endurheimtukóði er til taks."
 msgstr[1] "%(count)s endurheimtukóðar eru til taks."
 
+msgid "Generate new recovery codes"
+msgstr "Útbúa nýja endurheimtukóða"
+
 msgid "View recovery codes"
 msgstr "Skoða endurheimtukóða"
 
-msgid "User data"
-msgstr "Notandagögn"
-
-msgid "You can download all your private data."
-msgstr "Þú getur sótt öll þín einkagögn."
-
-msgid "Download user data"
-msgstr "Sækja notandagögn"
-
-msgid "Removal"
-msgstr "Fjarlæging"
-
-msgid "Account removal deletes all your private data."
-msgstr "Fjarlæging aðgangs eyðir öllum þínum einkagögnum."
-
-msgid "Remove my account"
-msgstr "Eyða notandaaðgangnum mínum"
-
-msgid "Public profile"
-msgstr "Opinbert notandasnið"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Linked sign-in accounts"
 msgstr ""
-"Allar upplýsingar sem gefnar eru upp á þessari síðu eru valkvæðar og er hægt "
-"að eyða út hvenær sem er. Með því að fylla út í þessa reiti ert þú að gefa "
-"okkur leyfi til að deila þessum upplýsingum í hvert skipti sem notandasniðið "
-"þitt birtist."
 
-msgid "Your avatar"
-msgstr "Auðkennismyndin þín"
+msgid "Disconnect"
+msgstr "Aftengjast"
 
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Auðkennismyndir koma frá %(avatar_url_prefix)s."
+#, fuzzy
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "Fjarlægja reikning"
 
-msgid "Pending invitation"
-msgstr "Boð í bið"
-
-msgid "Description"
-msgstr "Lýsing"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
+msgid "Add sign-in method"
 msgstr ""
-"Hafðu strax samband við okkur ef þú sérð eitthvað grunsamlegt í "
-"öryggisatvikaskránni (audit log)."
 
-msgid "When"
-msgstr "Hvenær"
-
-msgid "IP address"
-msgstr "IP-vistfang"
-
-msgid "User agent"
-msgstr "Kennisstrengur"
-
-msgid "No recent activity found."
-msgstr "Engin nýleg virkni fannst."
-
-msgid "Report suspicious activity"
-msgstr "Tilkynntu grunsamlega virkni"
+msgid "API access"
+msgstr "API-aðgangur"
 
 msgid ""
 "The API key can be used to control Weblate via the HTTP REST API and to "
@@ -8295,6 +8754,24 @@ msgstr ""
 "API-lykillinn er einnig notaður til að auðkenna gagnvart sjálfvirkt "
 "útfluttum Git-gagnasöfnum."
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Hýsing þýðinga"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "Boð í bið"
+
+msgid "Pending invitation"
+msgstr "Boð í bið"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8316,6 +8793,31 @@ msgstr "Þú sem þátttakandi hefur samþykkt eftirfarandi:"
 
 msgid "Licenses for individual translations"
 msgstr "Notkunarleyfi fyrir einstakar þýðingar"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+"Hafðu strax samband við okkur ef þú sérð eitthvað grunsamlegt í "
+"öryggisatvikaskránni (audit log)."
+
+msgid "Audit log"
+msgstr "Atvikaskrá"
+
+msgid "When"
+msgstr "Hvenær"
+
+msgid "IP address"
+msgstr "IP-vistfang"
+
+msgid "User agent"
+msgstr "Kennisstrengur"
+
+msgid "No recent activity found."
+msgstr "Engin nýleg virkni fannst."
+
+msgid "Report suspicious activity"
+msgstr "Tilkynntu grunsamlega virkni"
 
 msgid "Two-factor recovery codes"
 msgstr "Endurheimtukóðar tveggja-þátta auðkenningar"
@@ -8348,9 +8850,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
-msgid "Back to account settings"
-msgstr "Til baka í stillingar aðgangs"
-
 msgid "Redirecting you to the authentication provider."
 msgstr "Endurbeini þér á auðkenningarþjónustuna."
 
@@ -8365,9 +8864,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr "Ljúktu við að skrá þig til að samþykkja boðið."
 
+msgid "Please fix errors in the registration form."
+msgstr "Leiðréttu villur í skráningarforminu."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr "Skránðu þig á %(formatted_site_title)s"
+
+msgid "Register"
+msgstr "Nýskrá"
 
 msgid "Create an account using:"
 msgstr "Stofnaðu aðgang með:"
@@ -8431,6 +8936,11 @@ msgstr "Skrá lykilorðið mitt"
 
 msgid "Reset my password"
 msgstr "Endursetja lykilorðið mitt"
+
+#, fuzzy
+#| msgid "Edit user"
+msgid "Edit saved search"
+msgstr "Breyta notanda"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "<strong>Samfelld</strong> staðfærsla í vefumhverfi"
@@ -8616,9 +9126,6 @@ msgstr[1] "%(count)s athugasemdir"
 msgid "Translates"
 msgstr "Þýðir"
 
-msgid "Activity"
-msgstr "Virkni"
-
 msgid "Recent changes"
 msgstr "Nýlegar breytingar"
 
@@ -8750,6 +9257,26 @@ msgstr ""
 msgid "Continue"
 msgstr "Halda áfram"
 
+msgid "Register new security key"
+msgstr "Skrá nýjan öryggislykil"
+
+#, fuzzy
+#| msgid ""
+#| "Authenticator apps generate time-based one-time passwords that are used "
+#| "as a second factor to verify your identity when prompted during sign-in."
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+"Auðkenningarforrit útbúa tímabundin eins-skiptis lykilorð sem eru notuð í "
+"seinna þrepi innskráningar til að sannreyna hver þú sért."
+
+msgid "Name your security key"
+msgstr "Gefðu öryggislyklinum þínum heiti"
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr "Vafrinn þinn er ekki með stuðning við WebAuthn."
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8827,13 +9354,33 @@ msgstr "Engir þýðingarhlutar tilgreindir"
 msgid "Configure add-on"
 msgstr "Stilla kerfisviðbót"
 
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Preview without changes"
-msgstr "Nýlegar breytingar"
-
 msgid "This add-on has no settings."
 msgstr "Þessi viðbót er ekki með neinar stillingar."
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Yfirferð"
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "No operations were executed."
+msgstr "Boð til notanda var fjarlægt."
+
+#, fuzzy
+#| msgid "Enable add-on:"
+msgid "Run add-on"
+msgstr "Virkja forritsviðbót:"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatically recognize"
@@ -8844,11 +9391,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Enable add-on:"
-msgid "Run add-on"
-msgstr "Virkja forritsviðbót:"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10167,12 +10709,10 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
-"Þetta mun senda allar breytingar í bið inn í Weblate og ekki yfir í "
-"gagnasafnið."
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Þvinga ritun allra þýðinga í Weblate-gagnasafnið"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -10195,8 +10735,10 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "%(count)s athugasemd vantar"
 msgstr[1] "%(count)s athugasemdir vantar"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
+#, fuzzy
+#| msgid "Allow changes to the Weblate repository"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Leyfa breytingar á Weblate-gagnasafninu"
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Leyfa breytingar á Weblate-gagnasafninu"
@@ -10232,8 +10774,15 @@ msgstr "Weblate-þýðingar eru aflæstar"
 msgid "Weblate translations are locked"
 msgstr "Weblate-þýðingar eru læstar"
 
-msgid "Locking prevents translators from doing changes."
-msgstr "Læsing kemur í veg fyrir að þýðendur geti gert breytingar."
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Lock to pause translation changes."
+msgstr "Skoða allar breytingar á þýðingum"
+
+#, fuzzy
+#| msgid "Choose translation files to import"
+msgid "Choose which translations to keep"
+msgstr "Veldu þýðingaskrár til að flytja inn"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10241,27 +10790,35 @@ msgstr "Læsing kemur í veg fyrir að þýðendur geti gert breytingar."
 msgid "Discard local changes"
 msgstr "Henda flaggi"
 
-#, fuzzy
-#| msgid "Repository changes"
-msgid "Discard local changes and reset to upstream"
-msgstr "Breytingar í gagnasafni"
-
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Use when:"
 msgstr ""
+
+#, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Upstream has the translations you want to keep."
+msgstr "Þýðingin verður uppfærð í bakgrunni."
+
+msgid "Result:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Frumstilla gagnageymslu til samræmis við aðalsafn"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Data loss:"
+msgstr "Útflutningur gagna"
 
 #, fuzzy
 #| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Lýstu samhengi strengsins til að bæta nákvæmni þýðingarinnar."
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
+"Beiðni um þýðingu á nýju tungumáli hefur verið send til umsjónarmanna "
+"verkefnisins."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 #, fuzzy
@@ -10269,72 +10826,71 @@ msgstr ""
 msgid "Reset and reapply translations"
 msgstr "Skilgreindu grunnskrá fyrir nýjar þýðingar"
 
+#, fuzzy
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
+msgstr ""
+"Beiðni um þýðingu á nýju tungumáli hefur verið send til umsjónarmanna "
+"verkefnisins."
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "Samþykkti þýðingu í %(translation)s"
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
 msgstr ""
 
 #, fuzzy
-#| msgid "Memory will be then populated with the current translations."
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Minnið mun þá taka við fyrirliggjandi þýðingum."
+#| msgid "Translation files"
+msgid "Refresh translation files"
+msgstr "Þýðingaskrár"
 
-msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+msgid "Synchronize"
+msgstr "Samstilla"
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Weblate-þýðingar eru læstar"
+
+msgid "Rescan"
+msgstr "Skanna aftur"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loads translations from the files into Weblate."
+msgid "Load translations from the files into Weblate."
+msgstr "Hleður þýðingum úr skránum inn í Weblate."
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "Hreinsun"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
-msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr "Samstilla"
-
-msgid "Forces writing all strings to the translation files."
-msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr "Skanna aftur"
-
-msgid "Loads translations from the files into Weblate."
-msgstr "Hleður þýðingum úr skránum inn í Weblate."
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-"Notað þegar Weblate missir af einhverjum strengjum eftir að gagnasafnið er "
-"uppfært."
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
 
 #, fuzzy
@@ -10348,20 +10904,14 @@ msgid "Remove duplicates"
 msgstr "Notandi fjarlægður"
 
 #, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove duplicated strings from the translation file"
-msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+#| msgid "Translation replaced file by upload"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Skipti þýðingu út með innsendri skrá"
 
 #, fuzzy
 #| msgid "Removes strings without a translation from translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "Fjarlægir strengi án þýðinga úr þýðingaskrám."
-
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -10369,44 +10919,27 @@ msgid "Cleanup unused"
 msgstr "Hreinsun"
 
 #, fuzzy
+#| msgid "No strings were imported from the uploaded file."
+msgid "Translations still contain strings removed from the base file."
+msgstr "Engir strengir voru fluttir inn úr innsendu skránni."
+
+#, fuzzy
 #| msgid "Forces writing all strings to the translation files."
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Fjarlægir strengi án þýðinga úr þýðingaskrám."
-
-#, fuzzy
-#| msgid "The translation base language can not be edited."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Grunntungumáli þýðingar er ekki hægt að breyta."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "Fjarlægja auða strengi"
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
-msgid "Remove obsolete strings from the translation file"
-msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "Fjarlægja auða strengi"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Approved translation in %(translation)s"
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "Samþykkti þýðingu í %(translation)s"
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "Fjarlægja auða strengi"
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10574,8 +11107,20 @@ msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu."
 msgid "site wide"
 msgstr "á öllu vefsvæðinu"
 
-msgid "This service is installed site wide, but disabled."
-msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu, en er óvirk."
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is installed in the workspace."
+msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Bil"
+
+#, fuzzy
+#| msgid "This service is installed site wide."
+msgid "This service is disabled."
+msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu."
 
 msgid "disabled"
 msgstr "óvirkt"
@@ -10583,8 +11128,16 @@ msgstr "óvirkt"
 msgid "Service is no longer available"
 msgstr "Þjónusta er ekki lengur til staðar"
 
-msgid "Automatic suggestions"
-msgstr "Sjálfvirkar tillögur"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "Útskýring á þýðingu"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10592,14 +11145,33 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
-msgstr "Stilltar þjónustur fyrir sjálfvirkar tillögur"
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Taka til í þýðingaskrám"
+
+msgid "Stop using this installation without removing its configuration."
+msgstr ""
 
 msgid "Disable"
 msgstr "Gera óvirkt"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "Virkja"
+
+#, fuzzy
+#| msgid "Remove this notification setting"
+msgid "Remove this installation and its configuration."
+msgstr "Fjarlægja þessa stillingu á tilkynningum"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr "Stilla"
@@ -10613,7 +11185,9 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "Núna er %(count)s þjónusta uppsett."
 msgstr[1] "Núna eru %(count)s þjónustur uppsettar."
 
-msgid "Available automatic suggestion services"
+#, fuzzy
+#| msgid "Available automatic suggestion services"
+msgid "Available translation services"
 msgstr "Tiltækar þjónustur fyrir sjálfvirkar tillögur"
 
 msgid "Could not find any additional services."
@@ -11900,12 +12474,20 @@ msgstr "Heiti merkingar"
 msgid "Color"
 msgstr "Litur"
 
+msgid "Description"
+msgstr "Lýsing"
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr "Merktir upprunastrengir"
 
 msgid "Add label"
 msgstr "Bæta við merkingu"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translations as CSV in a ZIP file"
@@ -12005,6 +12587,14 @@ msgstr "Sækja sem TMX"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Save search"
+msgstr "Leita"
 
 msgid "Assigned source strings"
 msgstr "Úthlutaðir upprunastrengir"
@@ -12207,9 +12797,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 
 msgid ""
@@ -12220,9 +12809,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 
 msgid "This might be caused by missing subscription."
@@ -12679,6 +13267,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "Uppruni"
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "IP-vistfang"
+
+#, fuzzy
+#| msgid "IP address copied to clipboard."
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "IP-vistfang afritað á klippispjald."
+
 msgid "Revert"
 msgstr "Taka aftur"
 
@@ -12926,6 +13532,11 @@ msgstr "Sjálfvirk þýðing"
 msgid "Translated strings in a certain language"
 msgstr "Þýddir strengir í tilteknu tungumáli"
 
+#, fuzzy
+#| msgid "Search for…"
+msgid "Save search…"
+msgstr "Leita að…"
+
 msgid "Query"
 msgstr "Fyrirspurn"
 
@@ -13038,6 +13649,20 @@ msgstr ""
 #| msgid "No translation found."
 msgid "Configure translation workflow"
 msgstr "Engin þýðing fannst."
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "SAP username"
+msgid "Saved search name"
+msgstr "SAP-notandanafn"
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Leitarsía"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -13350,8 +13975,8 @@ msgstr "Skipun"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13416,6 +14041,27 @@ msgstr "Weblate CDN-viðbót gat ekki þáttað HTML-skrárnar."
 
 msgid "Filename"
 msgstr "Skráarheiti"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -13988,6 +14634,11 @@ msgid ""
 "translation component."
 msgstr ""
 
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "Nánar um gagnasafn"
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -14426,6 +15077,9 @@ msgstr "Önnur tilvik"
 
 msgid "Computer-aided translation suggestions"
 msgstr "Tölvustuddar þýðingatillögur"
+
+msgid "Automatic suggestions"
+msgstr "Sjálfvirkar tillögur"
 
 msgid "Translations of this string in the other languages"
 msgstr "Þýðingar þessa strengs á hinum tungumálunum"
@@ -15047,9 +15701,6 @@ msgstr "Eyða notandaaðgangnum mínum"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -15214,12 +15865,6 @@ msgstr "Ívefja kóða"
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Review"
-msgid "Preview"
-msgstr "Yfirferð"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16390,6 +17035,11 @@ msgid "Duplicate label name."
 msgstr "Tvítekin skráasía."
 
 #, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate saved search name."
+msgstr "Tvítekin þýðing."
+
+#, fuzzy
 #| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
 msgstr "Skráasía skjámyndar"
@@ -17307,9 +17957,6 @@ msgstr "Aðrir þýðingarhlutar"
 msgid "Machine translation"
 msgstr "Vélræn þýðing"
 
-msgid "Machine translation engines"
-msgstr "Þjónustur fyrir vélræna þýðingu"
-
 msgid "Score threshold"
 msgstr ""
 
@@ -17549,6 +18196,16 @@ msgstr "Bæta við nýjum tungumálum"
 
 msgid "Select an existing component configuration to copy."
 msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Of margar leitarbeiðnir., reyndu aftur síðar."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "Gat ekki opnað verkbeiðni, reyndu aftur síðar."
 
 msgid "ZIP file containing translations"
 msgstr "ZIP-skrá sem inniheldur þýðingar"
@@ -17815,6 +18472,24 @@ msgstr "Undanskilja höfund (notandanafn)"
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "Skráði sig þann"
+
+#, fuzzy
+#| msgid "Available add-ons"
+msgid "Available to"
+msgstr "Tiltækar viðbætur"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Share in projects"
+msgid "Everybody in project {}"
+msgstr "Deila milli verkefna"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "Notandi með þetta notandanafn er þegar til."
 
 msgid "Expiry cannot be in the past."
 msgstr "Lok gildistíma má ekki vera í fortíðinni."
@@ -18206,6 +18881,64 @@ msgstr "%(action)s kl. %(time)s í %(translation)s af %(user)s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s kl. %(time)s í %(translation)s"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "feb"
+
+#, fuzzy
+#| msgid "Repository"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Gagnasafn"
+
+#, fuzzy
+#| msgid "System checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Kerfisprófanir"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Sjálfvirk uppgötvun"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create translation"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Búa til þýðingu"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rescan all translation files in the Weblate repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Endurlesa allar þýðingaskrár í Weblate-gagnasafninu"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 msgid "Source needs review"
 msgstr "Frumtexti þarfnast yfirferðar"
@@ -18612,9 +19345,10 @@ msgstr "Mistókst að ýta %(component)s: %(error_text)s"
 msgid "Push is turned off for %s."
 msgstr ""
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
+msgstr "Mistókst að ýta %(component)s: %(error_text)s"
 
 #, python-format
 msgid ""
@@ -19111,6 +19845,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "The translation will be updated in the background."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Þýðingin verður uppfærð í bakgrunni."
+
+#, fuzzy
 #| msgid ""
 #| "Add-ons can also be installed at the project and the component levels."
 msgid ""
@@ -19131,6 +19870,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "Samþykkti þýðingu í %(translation)s"
+
+#, fuzzy
+#| msgid "Label description"
+msgid "Search description"
+msgstr "Lýsing merkingar"
 
 msgid "Could not accept suggestion!"
 msgstr "Gat ekki samþykkt tillögu!"
@@ -19371,6 +20115,11 @@ msgstr "Notandinn hefur verið útilokaður í þessu verkefni."
 #| msgid "Source language text"
 msgid "Source languages cannot form a cycle."
 msgstr "Texti á upprunatungumáli"
+
+#, fuzzy
+#| msgid "Force writing all translations to the Weblate repository"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Þvinga ritun allra þýðinga í Weblate-gagnasafnið"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20557,6 +21306,15 @@ msgid "More possible users were found."
 msgstr "Fleiri mögulegir notendur fundust."
 
 #, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Project creators"
+msgid "Project searches"
+msgstr "Stofnendur verkefnis"
+
+msgid "My searches"
+msgstr ""
+
+#, fuzzy
 #| msgid "Strings with comments"
 msgid "Strings with comments by me"
 msgstr "Strengir með athugasemdum"
@@ -20941,6 +21699,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "The local repository is up to date."
+msgid "The local repository checkout is missing."
+msgstr "Staðvært gagnasafn er uppfært."
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The local repository checkout is invalid."
+msgstr "Teiknið sem þú settir inn er ógilt."
+
 #, fuzzy, python-format
 #| msgid "Details"
 msgid "%(detail)s"
@@ -21248,6 +22016,14 @@ msgstr "Þetta mun þvinga ýtingu á breytingum yfir í yfirgagnasafnið."
 
 msgid "This will push changes to the upstream Git repository."
 msgstr "Þetta mun ýta breytingum yfir í Git-yfirgagnasafnið."
+
+msgid "Invalid file path during repository recovery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Reconstructed repository is not usable."
+msgstr "Endurmiðun (rebase) gagnasafns mistókst"
 
 msgid "Possible cleanups:"
 msgstr "Möguleg hreinsun:"
@@ -22075,6 +22851,104 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Frummyndin hefur verið fjarlægð."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr "Nafn er einnig notað í innsendingum útgáfustýringar."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Skrá tölvupóst"
+
+#~ msgid "Manage machinery"
+#~ msgstr "Sýsla með vélþýðingar"
+
+#, fuzzy
+#~| msgid "Create component"
+#~ msgid "Preview component ID"
+#~ msgstr "Búa til þýðingarhluta"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "Preview change ID"
+#~ msgstr "Nýlegar breytingar"
+
+#, fuzzy
+#~| msgid "Please read the following contributor license agreement:"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Lestu vel skilmálana vegna framlags:"
+
+#~ msgid "Profile"
+#~ msgstr "Notandasnið"
+
+#~ msgid "Current user identities"
+#~ msgstr "Núverandi auðkenni notanda"
+
+#~ msgid "Add new user identity"
+#~ msgstr "Bæta við nýju auðkenni notanda"
+
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr ""
+#~ "Þetta mun senda allar breytingar í bið inn í Weblate og ekki yfir í "
+#~ "gagnasafnið."
+
+#~ msgid "Locking prevents translators from doing changes."
+#~ msgstr "Læsing kemur í veg fyrir að þýðendur geti gert breytingar."
+
+#, fuzzy
+#~| msgid "Repository changes"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Breytingar í gagnasafni"
+
+#, fuzzy
+#~| msgid ""
+#~| "Describe the context of the translation to improve the accuracy of the "
+#~| "translation."
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "Lýstu samhengi strengsins til að bæta nákvæmni þýðingarinnar."
+
+#, fuzzy
+#~| msgid "Memory will be then populated with the current translations."
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Minnið mun þá taka við fyrirliggjandi þýðingum."
+
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+
+#~ msgid ""
+#~ "Use when Weblate missed some of the strings after updating the repository."
+#~ msgstr ""
+#~ "Notað þegar Weblate missir af einhverjum strengjum eftir að gagnasafnið "
+#~ "er uppfært."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+
+#, fuzzy
+#~| msgid "Forces writing all strings to the translation files."
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Fjarlægir strengi án þýðinga úr þýðingaskrám."
+
+#, fuzzy
+#~| msgid "The translation base language can not be edited."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Grunntungumáli þýðingar er ekki hægt að breyta."
+
+#~ msgid "This service is installed site wide, but disabled."
+#~ msgstr "Þessi þjónusta er sett upp á öllu vefsvæðinu, en er óvirk."
+
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Stilltar þjónustur fyrir sjálfvirkar tillögur"
+
+#~ msgid "Machine translation engines"
+#~ msgstr "Þjónustur fyrir vélræna þýðingu"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Tókst ekki að auðkenna: %s"
@@ -22090,11 +22964,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~| msgid "Authentication app (%s)"
 #~ msgid "Authentication failed: %s"
 #~ msgstr "Auðkenningarforrit (%s)"
-
-#, fuzzy
-#~| msgid "Duplicated translation."
-#~ msgid "Duplicate team name."
-#~ msgstr "Tvítekin þýðing."
 
 #~ msgid ""
 #~ "Uses and contributes to the pool of shared translations between projects."
@@ -22164,9 +23033,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Suggested change"
 #~ msgstr "Breyting sem stungið er upp á"
-
-#~ msgid "Origin"
-#~ msgstr "Uppruni"
 
 #~ msgid "Similarity"
 #~ msgstr "Líkindi"
@@ -22464,11 +23330,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Components are being updated…"
 #~ msgstr "Verið er að uppfæra þýðingarhluta…"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Upprunastrengir"
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
@@ -22943,9 +23804,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Could not find merged string."
 #~ msgstr "Gat ekki fundið sameinaða strenginn."
-
-#~ msgid "Invalid revert request!"
-#~ msgstr "Ógild afturköllunarbeiðni!"
 
 #, fuzzy
 #~| msgid ""
@@ -23613,9 +24471,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~ msgstr ""
 #~ "Hönnun Weblate fylgir ráðleggingum um bestu aðferðir - Best Practices - "
 #~ "frá Core Infrastructure Initiative á vegum Linux Foundation."
-
-#~ msgid "Security FAQ"
-#~ msgstr "Algengar spurningar varðandi öryggi"
 
 #~ msgid "How are user passwords stored?"
 #~ msgstr "Hvernig eru lykilorð notenda geymd?"

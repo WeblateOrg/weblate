@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-09 14:14+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -75,7 +75,32 @@ msgstr "მომხმარებლის სახელი უკვე დ
 msgid "Full name"
 msgstr "სრული სახელი"
 
-msgid "Name is also used in version control commits."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User data"
+msgid "User data file"
+msgstr "სამომხმარებლო მონაცემები"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Import general notification settings"
+msgstr "გაფრთხილებების მორგება"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+msgid "The user data file is too large."
+msgstr ""
+
+#, python-format
+msgid "The uploaded file is not valid user data: %s"
+msgstr ""
+
+msgid "The uploaded file contains too many settings."
 msgstr ""
 
 msgid "Commit e-mail"
@@ -99,11 +124,27 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
+#, fuzzy
+#| msgid "Version control"
+msgid "Version control identity"
+msgstr "ვერსიის კონტროლი"
+
 msgid "Public e-mail"
 msgstr ""
 
 msgid "Hide e-mail address from public view"
 msgstr ""
+
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "ნაჩვენები სახელი"
+
+msgid "Translation"
+msgstr "თარგმანი"
+
+msgid "Dashboard"
+msgstr "სამუშაო დაფა"
 
 #, python-format
 msgid "Component list: %s"
@@ -116,6 +157,11 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+
+#, fuzzy
+#| msgid "Project Information"
+msgid "Personal information"
+msgstr "პროექტის ინფორმაცია"
 
 #, fuzzy
 #| msgid "No notification"
@@ -336,6 +382,11 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr ""
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authentication app"
+msgstr "ავთენტიკაცია"
+
 msgid "Project, category, component, or translation path"
 msgstr ""
 
@@ -351,6 +402,14 @@ msgid "Enter a valid object path."
 msgstr "საწყისი ენა"
 
 msgid "The target does not exist or you cannot access it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification setting"
+msgstr "გაფრთხილებების მორგება"
+
+msgid "Saved search"
 msgstr ""
 
 #. Translators: Audit log entry
@@ -1263,11 +1322,20 @@ msgstr ""
 msgid "Authentication app (%s)"
 msgstr "ავთენტიკაცია"
 
+#, python-format
+msgid "%(name)s (#%(id)s)"
+msgstr ""
+
 msgid "Password reset"
 msgstr "პაროლის შეცვლა"
 
 msgid "Remove account"
 msgstr "ანგარიშის წაშლა"
+
+#, fuzzy
+#| msgid "No notification"
+msgid "E-mail verification"
+msgstr "გაფრთხილებების გრეშე"
 
 msgid "User registration"
 msgstr ""
@@ -1360,7 +1428,7 @@ msgstr "შესვლა"
 msgid "Signed out"
 msgstr "გასვლა"
 
-msgid "Register e-mail"
+msgid "Verify new e-mail address"
 msgstr ""
 
 msgid "Please confirm your identity using a second factor before proceeding."
@@ -1373,6 +1441,19 @@ msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
 msgid "Password reset has been already completed."
+msgstr ""
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Some settings could not be imported: %s"
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
+
+msgid "Your settings have been imported."
 msgstr ""
 
 msgid "Could not remove user identity"
@@ -3392,8 +3473,10 @@ msgid "Manage translation memory"
 msgstr ""
 
 #. Translators: Permission name
-msgid "Manage machinery"
-msgstr ""
+#, fuzzy
+#| msgid "Fluent translation syntax"
+msgid "Manage translation services"
+msgstr "თავისუფალი თარგმნის სინტაქსი"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3963,7 +4046,16 @@ msgstr "ენების ამორჩევა"
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
-msgid "The component is outside this add-on's scope."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "Select a component for this automation."
+msgstr "შექმნილია ხალი თარგმანის კომპონენტი"
+
+msgid "The component is outside this add-on's scope or is incompatible."
+msgstr ""
+
+msgid "Select a change for this automation."
 msgstr ""
 
 #, fuzzy
@@ -3971,10 +4063,24 @@ msgstr ""
 msgid "The change does not belong to this component."
 msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
 
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "The change event does not match this automation's triggers."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+#, fuzzy
+#| msgid "Screenshot file mask"
+msgid "Trigger scope requires a change with a string."
+msgstr "ეკრანის ანაბეჭდის ფაილის ნიღაბი"
+
 msgid "Automation nesting is too deep."
 msgstr ""
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4030,20 +4136,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Rename component"
-msgid "Preview component ID"
-msgstr "კომპონენტის სახელის გადარქმევა"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "კომპონენტი"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change ID"
+msgstr "ცვლილებები"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Do not change"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "არ შეცვალო"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr ""
@@ -5309,9 +5420,6 @@ msgstr ""
 msgid "Check"
 msgstr "შემოწმება"
 
-msgid "Translation"
-msgstr "თარგმანი"
-
 msgid "Weblate configuration"
 msgstr ""
 
@@ -6087,20 +6195,27 @@ msgstr ""
 msgid "You have to agree to the General Terms and Conditions"
 msgstr ""
 
-msgid "Please read the following legal documents:"
-msgstr ""
-
-msgid "General Terms and Conditions"
-msgstr ""
-
-msgid "Privacy Policy"
-msgstr "პირადულობის დაცვა"
-
-msgid "Please read the following General Terms and Conditions document:"
+#, python-format
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 #, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid "Please read the General Terms and Conditions below."
+msgstr ""
+
+msgid "General Terms and Conditions"
 msgstr ""
 
 msgid "Submit"
@@ -6131,6 +6246,9 @@ msgid ""
 "document to fully understand it:"
 msgstr ""
 
+msgid "Privacy Policy"
+msgstr "პირადულობის დაცვა"
+
 msgid "Cookies are used on this site for the following:"
 msgstr ""
 
@@ -6148,6 +6266,37 @@ msgid ""
 msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
+msgstr ""
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
 msgstr ""
 
 msgid "Legal Terms Overview"
@@ -6173,6 +6322,123 @@ msgstr ""
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Translation services"
+msgstr "ავთენტიკაციის სერვისის URL"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "The language pair is not supported by this domain"
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+#, fuzzy
+#| msgid "Source string reviews are not enabled."
+msgid "The text is too long"
+msgstr "საწყისი სტრიქონის გადახედვები ჩართული არაა."
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Quality estimation is not available"
+msgstr "ხელმიუწვდომელია"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "The translation backend failed"
+msgstr "თარგმანი"
+
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "The translation request timed out"
+msgstr "ეს თარგმანი მხოლოდ-კითხვადია."
+
+#, fuzzy
+#| msgid "Internal Server Error"
+msgid "Internal processing error"
+msgstr "სერვერის შიდა შეცდომა"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown encoding"
+msgid "Unknown error"
+msgstr "უცნობი კოდირება"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domains response"
+msgstr "თარგმანის დომენი"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No eTranslation domains available"
+msgstr "თარგმანის დომენი"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+#, fuzzy, python-format
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Unknown eTranslation domain: %s"
+msgstr "თარგმანის დომენი"
+
+#, fuzzy
+#| msgid "Bad request"
+msgid "Invalid eTranslation request ID"
+msgstr "ცუდი მოთხოვნა"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 #, fuzzy
 #| msgid "Language selection"
@@ -6206,6 +6472,60 @@ msgstr "კლიენტის ID"
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr ""
+
+#, fuzzy
+#| msgid "Group name"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "ჯგუფის სახელი"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Password"
+
+#, fuzzy
+#| msgid "Source language"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "საწყისი ენა"
+
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr ""
+
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr ""
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component renamed"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "კომპონენტის სახელი შეიცვალა"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "Invalid eTranslation domain code."
+msgstr "თარგმანის დომენი"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rename component"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "კომპონენტის სახელის გადარქმევა"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -6640,6 +6960,51 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr ""
 
+msgid "Choose only one installation scope."
+msgstr ""
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+msgid "This scope already has 20 service installations."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "This service is already installed here."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "This slug is already used in an affected project."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "Choose one exclusion scope."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Choose an installation or a translation service."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+msgid "Only site installations can be excluded by a workspace."
+msgstr ""
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+msgid "Translation services conflict with the new workspace."
+msgstr ""
+
+msgid "Service is currently not available."
+msgstr ""
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
 #, fuzzy
 #| msgid "Language selection"
 msgctxt "Source language selection"
@@ -6654,9 +7019,6 @@ msgstr "კომპონენტის სახელი შეიცვა�
 
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr ""
-
-msgid "Service is currently not available."
 msgstr ""
 
 msgid "File"
@@ -6999,9 +7361,6 @@ msgstr "წვდომა აკრძალულია"
 msgid "Insufficient privileges to display this page."
 msgstr ""
 
-msgid "Dashboard"
-msgstr "სამუშაო დაფა"
-
 msgid "Browse all projects"
 msgstr ""
 
@@ -7289,6 +7648,11 @@ msgstr ""
 msgid "Account removal almost complete"
 msgstr ""
 
+#, fuzzy
+#| msgid "Component renamed"
+msgid "E-mail verification almost complete"
+msgstr "კომპონენტის სახელი შეიცვალა"
+
 msgid "Registration almost complete"
 msgstr ""
 
@@ -7298,6 +7662,11 @@ msgstr ""
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
+msgstr ""
+
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
 msgstr ""
 
 msgid ""
@@ -7317,6 +7686,11 @@ msgstr[1] ""
 msgid "Request a new confirmation link if it expires."
 msgstr ""
 
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr ""
+
 msgid "Register again if the confirmation link expires."
 msgstr ""
 
@@ -7325,17 +7699,22 @@ msgid ""
 "at least 30 minutes before you write to us about issues."
 msgstr ""
 
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr ""
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 
-msgid "Please fix errors in the registration form."
+msgid "Please fix errors in the form."
 msgstr ""
 
-msgid "Verify new e-mail address"
-msgstr ""
+#, fuzzy
+#| msgid "No notification"
+msgid "Send verification e-mail"
+msgstr "გაფრთხილებების გრეშე"
 
-msgid "Register"
-msgstr "რესგისტრაცია"
+msgid "Back to account settings"
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr ""
@@ -7540,28 +7919,97 @@ msgstr ""
 msgid "Change my password"
 msgstr "პაროლის შეცვლა"
 
+#, fuzzy
+#| msgid "Project name"
+msgid "Back to security settings"
+msgstr "პროექტის სახელი"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Profile settings"
+msgstr "პროექტის სახელი"
+
+msgid "Account"
+msgstr "ანგარიში"
+
+msgid "Public profile"
+msgstr ""
+
 msgid "Preferences"
+msgstr ""
+
+msgid "Saved searches"
 msgstr ""
 
 msgid "Notifications"
 msgstr "შეტყობინებები"
 
-msgid "Account"
-msgstr "ანგარიში"
+#, fuzzy
+#| msgid "Revert"
+msgid "Security"
+msgstr "დაბრუნება"
 
-msgid "Profile"
-msgstr "პროფილი"
+#, fuzzy
+#| msgid "Removed string"
+msgid "Developer settings"
+msgstr "წაშლილი სტრიქონი"
 
 msgid "Licenses"
 msgstr "ლიცენზიები"
 
-msgid "Audit log"
-msgstr "აუდიტის ჟურნალი"
+msgid "Activity"
+msgstr "აქტივობა"
 
-msgid "API access"
+msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 
-msgid "Please fix errors in the form."
+msgid "Add and verify e-mail address"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+#, fuzzy
+#| msgid "File names"
+msgid "Account management"
+msgstr "ფაილის სახელები"
+
+msgid "Download user data"
+msgstr ""
+
+msgid "You can download all your private data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Import settings"
+msgstr "პროექტის სახელი"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr "წაშლა"
+
+msgid "Account removal deletes all your private data."
+msgstr ""
+
+msgid "Remove my account"
+msgstr ""
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+
+msgid "Your avatar"
+msgstr ""
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr ""
 
 msgid ""
@@ -7569,8 +8017,13 @@ msgid ""
 "language."
 msgstr ""
 
-msgid "Save"
+msgid "Your saved searches are offered in the search filters everywhere."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add saved search"
+msgstr "მომხმარებლის დამატება"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -7595,33 +8048,21 @@ msgstr "გაფრთხილებების მორგება"
 msgid "Remove this notification setting"
 msgstr "გაფრთხილებების მორგება"
 
-msgid "The e-mail address can be chosen from verified addresses only."
+msgid "Password-based sign-in"
 msgstr ""
 
-msgid "Current user identities"
-msgstr ""
+#, fuzzy
+#| msgid "Password changed."
+msgid "Configured"
+msgstr "პაროლი შეიცვალა."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Not configured"
+msgstr "პაროლი შეიცვალა."
 
 msgid "Set password"
 msgstr "პაროლის დაყენება"
-
-msgid "Disconnect"
-msgstr "გათიშვა"
-
-msgid "Add new user identity"
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Code-hosting connections"
-msgstr "დარჩენილი მოსაწვევები"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "დარჩენილი მოსაწვევები"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -7639,18 +8080,18 @@ msgstr ""
 msgid "No WebAuthn keys registered yet."
 msgstr ""
 
-msgid "Remove"
-msgstr ""
-
-msgid "Name your security key"
-msgstr ""
+#, python-format
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] ""
+msgstr[1] ""
 
 #, fuzzy
-#| msgid "Register new account"
-msgid "Register new security key"
-msgstr "ახალი ანგარიშის რეგისტრაცია"
+#| msgid "All projects"
+msgid "Add security key"
+msgstr "ყველა პროექტი"
 
-msgid "Your web browser lacks WebAuthn support."
+msgid "Remove"
 msgstr ""
 
 #, fuzzy
@@ -7660,6 +8101,13 @@ msgstr "ავთენტიკაცია"
 
 msgid "No authenticator apps registered yet."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Browse all watched projects"
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "ყველა თქვენი პროექტის ნახვა"
+msgstr[1] "ყველა თქვენი პროექტის ნახვა"
 
 #, fuzzy
 #| msgid "Register new account"
@@ -7672,76 +8120,33 @@ msgstr ""
 msgid "No recovery codes generated yet."
 msgstr ""
 
-msgid "Generate new recovery codes"
-msgstr ""
-
 #, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Generate new recovery codes"
+msgstr ""
+
 msgid "View recovery codes"
 msgstr ""
 
-msgid "User data"
-msgstr "სამომხმარებლო მონაცემები"
-
-msgid "You can download all your private data."
+msgid "Linked sign-in accounts"
 msgstr ""
 
-msgid "Download user data"
+msgid "Disconnect"
+msgstr "გათიშვა"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "ანგარიშის წაშლა"
+
+msgid "Add sign-in method"
 msgstr ""
 
-msgid "Removal"
-msgstr "წაშლა"
-
-msgid "Account removal deletes all your private data."
-msgstr ""
-
-msgid "Remove my account"
-msgstr ""
-
-msgid "Public profile"
-msgstr ""
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
-msgstr ""
-
-msgid "Your avatar"
-msgstr ""
-
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr ""
-
-msgid "Pending invitation"
-msgstr "დარჩენილი მოსაწვევი"
-
-msgid "Description"
-msgstr ""
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr ""
-
-msgid "When"
-msgstr "როდის"
-
-msgid "IP address"
-msgstr "IP-მისამართი"
-
-msgid "User agent"
-msgstr "მომხმარებლის აგენტი"
-
-msgid "No recent activity found."
-msgstr ""
-
-msgid "Report suspicious activity"
+msgid "API access"
 msgstr ""
 
 msgid ""
@@ -7775,6 +8180,24 @@ msgid ""
 "repositories."
 msgstr ""
 
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Code-hosting connections"
+msgstr "დარჩენილი მოსაწვევები"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Manage code-hosting connections"
+msgstr "დარჩენილი მოსაწვევები"
+
+msgid "Pending invitation"
+msgstr "დარჩენილი მოსაწვევი"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -7790,6 +8213,29 @@ msgid "You have agreed to the following as a contributor:"
 msgstr ""
 
 msgid "Licenses for individual translations"
+msgstr ""
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+
+msgid "Audit log"
+msgstr "აუდიტის ჟურნალი"
+
+msgid "When"
+msgstr "როდის"
+
+msgid "IP address"
+msgstr "IP-მისამართი"
+
+msgid "User agent"
+msgstr "მომხმარებლის აგენტი"
+
+msgid "No recent activity found."
+msgstr ""
+
+msgid "Report suspicious activity"
 msgstr ""
 
 msgid "Two-factor recovery codes"
@@ -7823,9 +8269,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
-msgid "Back to account settings"
-msgstr ""
-
 msgid "Redirecting you to the authentication provider."
 msgstr ""
 
@@ -7840,9 +8283,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr ""
 
+msgid "Please fix errors in the registration form."
+msgstr ""
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr ""
+
+msgid "Register"
+msgstr "რესგისტრაცია"
 
 msgid "Create an account using:"
 msgstr ""
@@ -7892,6 +8341,12 @@ msgstr ""
 
 msgid "Reset my password"
 msgstr "პაროლის შეცვლა"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit saved search"
+msgstr "წყაროს ჩასწორება"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr ""
@@ -8058,9 +8513,6 @@ msgstr[1] ""
 msgid "Translates"
 msgstr "თარგმნა"
 
-msgid "Activity"
-msgstr "აქტივობა"
-
 msgid "Recent changes"
 msgstr ""
 
@@ -8201,6 +8653,22 @@ msgstr ""
 msgid "Continue"
 msgstr "გაგრძელება"
 
+#, fuzzy
+#| msgid "Register new account"
+msgid "Register new security key"
+msgstr "ახალი ანგარიშის რეგისტრაცია"
+
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+
+msgid "Name your security key"
+msgstr ""
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr ""
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -8278,12 +8746,33 @@ msgstr "მინიშნებები"
 msgid "Configure add-on"
 msgstr ""
 
-#, fuzzy
-#| msgid "Do not change"
-msgid "Preview without changes"
-msgstr "არ შეცვალო"
-
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Მიმოხილვა"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "No operations were executed."
+msgstr "შექმნილია ხალი თარგმანის კომპონენტი"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Run add-on"
+msgstr "მხოლოდ წასაკითხად"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
 msgstr ""
 
 #, fuzzy
@@ -8295,11 +8784,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Read-only"
-msgid "Run add-on"
-msgstr "მხოლოდ წასაკითხად"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -9617,10 +10101,10 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr ""
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Write pending Weblate translations to the repository."
+msgstr "აღდგენის რეპოზიტორია"
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -9643,7 +10127,7 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "This will update the Weblate repository with the upstream changes."
+msgid "Pull upstream changes into the Weblate repository."
 msgstr ""
 
 msgid "Allow changes to the Weblate repository"
@@ -9682,8 +10166,15 @@ msgstr "Weblate-ის თარგმანები განბლოკი�
 msgid "Weblate translations are locked"
 msgstr "Weblate-ის თარგმანები დაბლოკილია"
 
-msgid "Locking prevents translators from doing changes."
-msgstr ""
+#, fuzzy
+#| msgid "Weblate translations are unlocked"
+msgid "Lock to pause translation changes."
+msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#| msgid "Component renamed"
+msgid "Choose which translations to keep"
+msgstr "კომპონენტის სახელი შეიცვალა"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -9691,22 +10182,24 @@ msgstr ""
 msgid "Discard local changes"
 msgstr "ყველა ენა"
 
+msgid "Use when:"
+msgstr ""
+
+msgid "Upstream has the translations you want to keep."
+msgstr ""
+
+msgid "Result:"
+msgstr ""
+
 #, fuzzy
 #| msgid "Repositories"
-msgid "Discard local changes and reset to upstream"
+msgid "Reset the configured branch to upstream."
 msgstr "საცავები"
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Data loss:"
 msgstr ""
 
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
@@ -9716,67 +10209,62 @@ msgid "Reset and reapply translations"
 msgstr "თავიდან გამოყენებული თარგმანი"
 
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
-msgstr ""
-
-msgid "Use when you want Weblate to be the authority for translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
 
 msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr ""
+
+msgid ""
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
+msgstr ""
+
+#, fuzzy
+#| msgid "Fluent translation syntax"
+msgid "Refresh translation files"
+msgstr "თავისუფალი თარგმნის სინტაქსი"
+
+msgid "Synchronize"
+msgstr "სინქრონიზაცია"
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate translations are locked"
+msgid "Write all Weblate translations to the files."
+msgstr "Weblate-ის თარგმანები დაბლოკილია"
+
+msgid "Rescan"
+msgstr "თავიდან სკანირება"
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Fluent translation syntax"
+msgid "Load translations from the files into Weblate."
+msgstr "თავისუფალი თარგმნის სინტაქსი"
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr "გასუფთავება"
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
-msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr "სინქრონიზაცია"
-
-msgid "Forces writing all strings to the translation files."
-msgstr ""
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr "თავიდან სკანირება"
-
-msgid "Loads translations from the files into Weblate."
-msgstr ""
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
 
 #, fuzzy
@@ -9789,17 +10277,15 @@ msgstr "ფაილის სახელები"
 msgid "Remove duplicates"
 msgstr "წაშლილი კატეგორია"
 
-msgid "Remove duplicated strings from the translation file"
-msgstr ""
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "თარგმანის ახსნა"
 
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
-msgstr ""
-
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
+#, fuzzy
+#| msgid "Removed string"
+msgid "Remove repeated identifiers from the file."
+msgstr "წაშლილი სტრიქონი"
 
 #, fuzzy
 #| msgid "Cleanup"
@@ -9808,37 +10294,26 @@ msgstr "გასუფთავება"
 
 #, fuzzy
 #| msgid "Could not fetch translation: %s"
-msgid "Remove unused strings from the translation file"
+msgid "Translations still contain strings removed from the base file."
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
-msgid "Removes strings that are no longer present in the base file."
-msgstr ""
-
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr ""
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Remove those strings from the translation file."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 #, fuzzy
 #| msgid "Removed string"
 msgid "Remove obsolete"
 msgstr "წაშლილი სტრიქონი"
 
-#, fuzzy
-#| msgid "Could not fetch translation: %s"
-msgid "Remove obsolete strings from the translation file"
-msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+msgid "Obsolete PO entries should be removed now."
+msgstr ""
 
 #, fuzzy
 #| msgid "Removed string"
-msgid "Removes obsolete strings from PO files."
+msgid "Remove obsolete strings from the PO file."
 msgstr "წაშლილი სტრიქონი"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
-msgstr ""
-
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr ""
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -10013,7 +10488,15 @@ msgstr ""
 msgid "site wide"
 msgstr ""
 
-msgid "This service is installed site wide, but disabled."
+msgid "This service is installed in the workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "სივრცეები"
+
+msgid "This service is disabled."
 msgstr ""
 
 msgid "disabled"
@@ -10022,8 +10505,16 @@ msgstr "გამორთულია"
 msgid "Service is no longer available"
 msgstr ""
 
-msgid "Automatic suggestions"
+msgid "ID"
 msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "თარგმანის ახსნა"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10031,14 +10522,33 @@ msgid ""
 "enabling it."
 msgstr ""
 
-msgid "Configured automatic suggestion services"
+#, fuzzy
+#| msgid "Fluent translation syntax"
+msgid "Configured translation services"
+msgstr "თავისუფალი თარგმნის სინტაქსი"
+
+msgid "Stop using this installation without removing its configuration."
 msgstr ""
 
 msgid "Disable"
 msgstr "გამორთვა"
 
+msgid "Stop using this inherited installation here."
+msgstr ""
+
 msgid "Enable"
 msgstr "ჩართვა"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Remove this installation and its configuration."
+msgstr "გაფრთხილებების მორგება"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr ""
@@ -10052,8 +10562,10 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Available automatic suggestion services"
-msgstr ""
+#, fuzzy
+#| msgid "Weblate translations are unlocked"
+msgid "Available translation services"
+msgstr "Weblate-ის თარგმანები განბლოკილია"
 
 msgid "Could not find any additional services."
 msgstr ""
@@ -11293,12 +11805,20 @@ msgstr "ჭდის სახელი"
 msgid "Color"
 msgstr ""
 
+msgid "Description"
+msgstr ""
+
 #. Translators: Header for column showing the number of source strings with this label
 msgid "Labeled source strings"
 msgstr ""
 
 msgid "Add label"
 msgstr "ჭდის დამატება"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, python-format
 msgid "Download translations as %(format_name)s in a ZIP file"
@@ -11396,6 +11916,12 @@ msgstr "ჩამოტვირთვა"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+msgid "Save search"
+msgstr ""
 
 msgid "Assigned source strings"
 msgstr ""
@@ -11595,9 +12121,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 
 msgid ""
@@ -11608,9 +12133,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 
 msgid "This might be caused by missing subscription."
@@ -12042,6 +12566,24 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
+#, fuzzy
+#| msgid "Origin"
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr "საწყისი"
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "IP-მისამართი"
+
+#, fuzzy
+#| msgid "Copy to clipboard"
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "ბუფერში კოპირება"
+
 msgid "Revert"
 msgstr "დაბრუნება"
 
@@ -12303,6 +12845,9 @@ msgstr "ავტომატური თარგმანის შეცდ�
 msgid "Translated strings in a certain language"
 msgstr ""
 
+msgid "Save search…"
+msgstr ""
+
 msgid "Query"
 msgstr "მოთხოვნა"
 
@@ -12406,6 +12951,17 @@ msgstr ""
 #| msgid "Fluent translation syntax"
 msgid "Configure translation workflow"
 msgstr "თავისუფალი თარგმნის სინტაქსი"
+
+msgid "Saved search name"
+msgstr ""
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "ძებნის ფილტრი"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -12705,8 +13261,8 @@ msgstr "ბრძანება"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -12767,6 +13323,27 @@ msgstr ""
 
 msgid "Filename"
 msgstr "ფაილის სახელი"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -13318,6 +13895,9 @@ msgid ""
 "translation component."
 msgstr ""
 
+msgid "Retry"
+msgstr ""
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -13732,6 +14312,9 @@ msgid "Other occurrences"
 msgstr ""
 
 msgid "Computer-aided translation suggestions"
+msgstr ""
+
+msgid "Automatic suggestions"
 msgstr ""
 
 msgid "Translations of this string in the other languages"
@@ -14330,9 +14913,6 @@ msgstr "ანგარიშის წაშლა"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -14499,12 +15079,6 @@ msgstr ""
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Review"
-msgid "Preview"
-msgstr "Მიმოხილვა"
 
 #, fuzzy
 #| msgid "Browse all watched projects"
@@ -15698,6 +16272,11 @@ msgid "Duplicate label name."
 msgstr "ჩასანაცვლებელი სტრიქონი"
 
 #, fuzzy
+#| msgid "Component"
+msgid "Duplicate saved search name."
+msgstr "კომპონენტი"
+
+#, fuzzy
 #| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
 msgstr "ეკრანის ანაბეჭდის ფაილის ნიღაბი"
@@ -16566,9 +17145,6 @@ msgstr ""
 msgid "Machine translation"
 msgstr ""
 
-msgid "Machine translation engines"
-msgstr ""
-
 msgid "Score threshold"
 msgstr ""
 
@@ -16799,6 +17375,16 @@ msgstr ""
 
 msgid "Select an existing component configuration to copy."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "მოგვიანებით სცადეთ."
+
+#, fuzzy
+#| msgid "Please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "მოგვიანებით სცადეთ."
 
 msgid "ZIP file containing translations"
 msgstr ""
@@ -17042,6 +17628,20 @@ msgstr ""
 #| msgid "Orange"
 msgid "Date range"
 msgstr "ნარინჯისფერი"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Available to"
+msgstr "საცავები"
+
+msgid "Only me"
+msgstr ""
+
+msgid "Everybody in project {}"
+msgstr ""
+
+msgid "A saved search with this name already exists."
+msgstr ""
 
 msgid "Expiry cannot be in the past."
 msgstr ""
@@ -17416,6 +18016,60 @@ msgstr ""
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "თებ"
+
+#, fuzzy
+#| msgid "Repositories"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "საცავები"
+
+msgctxt "Change origin badge"
+msgid "System"
+msgstr ""
+
+#, fuzzy
+#| msgid "Language selection"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "ენების ამორჩევა"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "აღდგენის რეპოზიტორია"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
+
 msgid "Source needs review"
 msgstr ""
 
@@ -17782,9 +18436,10 @@ msgstr ""
 msgid "Push is turned off for %s."
 msgstr ""
 
-#, python-format
-msgid "Could not reset to remote branch on %s."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 #, python-format
 msgid ""
@@ -18231,6 +18886,11 @@ msgstr ""
 msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "აღდგენის რეპოზიტორია"
+
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
@@ -18245,6 +18905,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr ""
+
+#, fuzzy
+#| msgid "Search string"
+msgid "Search description"
+msgstr "საძებნი სტრიქონი"
 
 msgid "Could not accept suggestion!"
 msgstr ""
@@ -18441,6 +19106,11 @@ msgstr ""
 #| msgid "Language selection"
 msgid "Source languages cannot form a cycle."
 msgstr "ენების ამორჩევა"
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 #, fuzzy
 #| msgid "Source string reviews are not enabled."
@@ -19511,6 +20181,14 @@ msgid "More possible users were found."
 msgstr ""
 
 #, fuzzy
+#| msgid "Project Information"
+msgid "Project searches"
+msgstr "პროექტის ინფორმაცია"
+
+msgid "My searches"
+msgstr ""
+
+#, fuzzy
 #| msgid "Strings with screenshots"
 msgid "Strings with comments by me"
 msgstr "სტრიქონები ეკრანის ანაბეჭდებით"
@@ -19867,6 +20545,14 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+msgid "The local repository checkout is missing."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "The local repository checkout is invalid."
+msgstr "საცავები"
+
 #, fuzzy, python-format
 #| msgid "View details"
 msgid "%(detail)s"
@@ -20163,6 +20849,15 @@ msgstr ""
 
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
+
+msgid "Invalid file path during repository recovery."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Reconstructed repository is not usable."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
 
 msgid "Possible cleanups:"
 msgstr ""
@@ -20911,6 +21606,29 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "კომპონენტი"
 
+#, fuzzy
+#~| msgid "Rename component"
+#~ msgid "Preview component ID"
+#~ msgstr "კომპონენტის სახელის გადარქმევა"
+
+#, fuzzy
+#~| msgid "Do not change"
+#~ msgid "Preview change ID"
+#~ msgstr "არ შეცვალო"
+
+#~ msgid "Profile"
+#~ msgstr "პროფილი"
+
+#, fuzzy
+#~| msgid "Repositories"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "საცავები"
+
+#, fuzzy
+#~| msgid "Could not fetch translation: %s"
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
 #, fuzzy, python-format
 #~| msgid "Could not fetch translation: %s"
 #~ msgid "Could not authenticate: %s"
@@ -20920,11 +21638,6 @@ msgstr "კომპონენტი"
 #~| msgid "Authentication"
 #~ msgid "Authentication failed: %s"
 #~ msgstr "ავთენტიკაცია"
-
-#, fuzzy
-#~| msgid "Component"
-#~ msgid "Duplicate team name."
-#~ msgstr "კომპონენტი"
 
 #, fuzzy
 #~| msgid "XLIFF 1.2 translation file"
@@ -20943,9 +21656,6 @@ msgstr "კომპონენტი"
 
 #~ msgid "Suggested change"
 #~ msgstr "ნარჩევი ცვლილება"
-
-#~ msgid "Origin"
-#~ msgstr "საწყისი"
 
 #~ msgid "Similarity"
 #~ msgstr "მსგავსება"
@@ -21065,11 +21775,6 @@ msgstr "კომპონენტი"
 #~ msgid "Components are being updated…"
 #~ msgstr "კომპონენტი"
 
-#, fuzzy
-#~| msgid "Removed string"
-#~ msgid "Workspace settings"
-#~ msgstr "წაშლილი სტრიქონი"
-
 #~ msgid "Owners"
 #~ msgstr "მფლობელები"
 
@@ -21080,11 +21785,6 @@ msgstr "კომპონენტი"
 #~| msgid "Please try again later."
 #~ msgid "Verification failed. Try again later."
 #~ msgstr "მოგვიანებით სცადეთ."
-
-#, fuzzy
-#~| msgid "Component renamed"
-#~ msgid "Verification completed"
-#~ msgstr "კომპონენტის სახელი შეიცვალა"
 
 #, fuzzy
 #~| msgid "Revert"

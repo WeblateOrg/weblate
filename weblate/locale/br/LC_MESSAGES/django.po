@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-10-12 09:51+0000\n"
 "Last-Translator: Alexis Launay <yorunohikage@gmail.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
@@ -83,8 +83,38 @@ msgstr "Tapet eo an anv implijer-mañ dija. Dibabit unan all mar plij."
 msgid "Full name"
 msgstr "Anv klok"
 
-msgid "Name is also used in version control commits."
-msgstr "Implijet eo an anv-mañ e dielloù reizhiad kontrollañ ar stummoù ivez."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
+msgstr ""
+
+#, fuzzy
+#| msgid "User comments"
+msgid "User data file"
+msgstr "Evezhiadennoù an implijer"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Import general notification settings"
+msgstr "Stad an treiñ"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The user data file is too large."
+msgstr "Direizh eo ar jedouer merket."
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "The uploaded file is not valid user data: %s"
+msgstr "Troidigezh nevez"
+
+#, fuzzy
+#| msgid "New translation"
+msgid "The uploaded file contains too many settings."
+msgstr "Troidigezh nevez"
 
 msgid "Commit e-mail"
 msgstr "Postel diellaouiñ"
@@ -109,11 +139,27 @@ msgstr ""
 "Implijet e dielloù kontrollañ ar stummoù. Chom a ra an anv er c'havlec'h da "
 "viken ur wech kadarnaet ar c'hemmoù gant Weblate."
 
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Version control identity"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
 msgid "Public e-mail"
 msgstr "Chomlec'h postel foran"
 
 msgid "Hide e-mail address from public view"
 msgstr "Kuzhat ar chomlec'h postel diouzh an dud voutin"
+
+#, fuzzy
+#| msgid "Used languages"
+msgid "Display"
+msgstr "Yezhoù implijet"
+
+msgid "Translation"
+msgstr "Troidigezh"
+
+msgid "Dashboard"
+msgstr "Taolenn-stur"
 
 #, python-format
 msgid "Component list: %s"
@@ -128,6 +174,11 @@ msgid ""
 msgstr ""
 "Implijet evit ar c'hemennadennoù dre bostel hag evel postel diellaouiñ ma "
 "n'eo ket kefluniet amañ a-is."
+
+#, fuzzy
+#| msgid "Persian"
+msgid "Personal information"
+msgstr "Perseg"
 
 msgid "Human verification"
 msgstr "Gwiriet gant tud"
@@ -369,6 +420,11 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Lakait ar c'hod adalek an arload"
 
+#, fuzzy
+#| msgid "Authentication app (%s)"
+msgid "Authentication app"
+msgstr "Arload dilesa (%s)"
+
 msgid "Project, category, component, or translation path"
 msgstr "Raktres, rummad, parzh, pe treug an droidigezh"
 
@@ -383,6 +439,16 @@ msgstr "Treug an ergorenn"
 
 msgid "The target does not exist or you cannot access it."
 msgstr "N'eus ket eus ar pal pe n'oc'h ket evit e dizhout."
+
+#, fuzzy
+#| msgid "Action"
+msgid "Notification setting"
+msgstr "Ober"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved search"
+msgstr "Klask"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -1303,11 +1369,21 @@ msgstr "Alc'hwez surentez (%s)"
 msgid "Authentication app (%s)"
 msgstr "Arload dilesa (%s)"
 
+#, fuzzy, python-format
+#| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
+msgid "%(name)s (#%(id)s)"
+msgstr "Sil red : %(filter_name)s (%(filter_count)s)"
+
 msgid "Password reset"
 msgstr "Adderaouekaat ar ger-tremen"
 
 msgid "Remove account"
 msgstr "Dilemel ar gont"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "E-mail verification"
+msgstr "Gwiriet gant tud"
 
 msgid "User registration"
 msgstr "Enrolladur implijer"
@@ -1402,8 +1478,10 @@ msgstr "Kevreañ"
 msgid "Signed out"
 msgstr "Digevreet"
 
-msgid "Register e-mail"
-msgstr "Enrollañ ar chomlec'h postel"
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Verify new e-mail address"
+msgstr "Enrolladur chomlec'h postel"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
@@ -1420,6 +1498,20 @@ msgstr "Cheñch ger-tremen"
 
 msgid "Password reset has been already completed."
 msgstr "Cheñchet eo bet ho ker-tremen ervat c'hoazh."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Suggestions"
+msgid "Some settings could not be imported: %s"
+msgstr "Kinnigoù"
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "Hizivaet eo bet ho profil ervat."
 
 msgid "Could not remove user identity"
 msgstr "Ne c'haller ket dilemel identelezh an implijer"
@@ -3772,9 +3864,9 @@ msgstr "Treiñ emgefre"
 
 #. Translators: Permission name
 #, fuzzy
-#| msgid "Manage all glossaries"
-msgid "Manage machinery"
-msgstr "Merañ an holl c'heriaouegi"
+#| msgid "Machine translation suggestions"
+msgid "Manage translation services"
+msgstr "Kinnigoù treiñ emgefre"
 
 #. Translators: Permission name
 #, fuzzy
@@ -4465,9 +4557,19 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Project Information"
+msgid "Select a component for this automation."
+msgstr "Titouroù diwar-benn ar raktres"
+
+#, fuzzy
 #| msgid "Translation is currently not locked."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Select a change for this automation."
+msgstr "Furchal er c'hemmoù"
 
 #, fuzzy
 #| msgid "Projects"
@@ -4475,11 +4577,25 @@ msgid "The change does not belong to this component."
 msgstr "Raktresoù"
 
 #, fuzzy
+#| msgid "Projects"
+msgid "The change event does not match this automation's triggers."
+msgstr "Raktresoù"
+
+#, fuzzy
+#| msgid "Currently associated:"
+msgid "Trigger scope requires a change with a string."
+msgstr "Stag evit ar poent :"
+
+#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automation nesting is too deep."
 msgstr "Treiñ emgefre"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4538,20 +4654,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Comments"
-msgid "Preview component ID"
-msgstr "Evezhiadennoù"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "Parzh"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change word"
+msgid "Change ID"
+msgstr "Cheñch ger"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "Git maintenance"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "Trezalc'h GIT"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "Kemennadenn ouzhpenn"
@@ -6168,9 +6289,6 @@ msgstr "Gwiriadennoù c'hwitet"
 msgid "Check"
 msgstr "Gwiriañ"
 
-msgid "Translation"
-msgstr "Troidigezh"
-
 #, fuzzy
 #| msgid "Your translations"
 msgid "Weblate configuration"
@@ -7076,24 +7194,32 @@ msgstr "Asant war an termenoù hollek an aozioù implijout hollek {date}."
 msgid "You have to agree to the General Terms and Conditions"
 msgstr ""
 
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Please read the following legal documents:"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
+#, fuzzy, python-format
+#| msgid "Agreement with General Terms and Conditions {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Asant war an termenoù hollek an aozioù implijout hollek {date}."
 
-msgid "General Terms and Conditions"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "Asant war an doareoù implij hollek {date}."
 
-msgid "Privacy Policy"
-msgstr "Reolennoù prevezded"
+#, fuzzy, python-format
+#| msgid "Agreement with General Terms and Conditions {date}."
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "Asant war an termenoù hollek an aozioù implijout hollek {date}."
 
 #, fuzzy
 #| msgid "Agreement with Terms of Service {date}."
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "Asant war an doareoù implij hollek {date}."
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgid "General Terms and Conditions"
 msgstr ""
 
 msgid "Submit"
@@ -7126,6 +7252,9 @@ msgid ""
 "document to fully understand it:"
 msgstr ""
 
+msgid "Privacy Policy"
+msgstr "Reolennoù prevezded"
+
 msgid "Cookies are used on this site for the following:"
 msgstr ""
 
@@ -7143,6 +7272,38 @@ msgid ""
 msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
+msgstr ""
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "Asant war an doareoù implij hollek {date}."
+
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
 msgstr ""
 
 msgid "Legal Terms Overview"
@@ -7173,6 +7334,121 @@ msgstr "Gwiriadennoù c'hwitet"
 #| msgid "Start new translation"
 msgid "Could not fetch translation: %s"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Translation services"
+msgstr "Troidigezhioù"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "The language pair is not supported by this domain"
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "The text is too long"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "Quality estimation is not available"
+msgstr "Direizh eo ar jedouer merket."
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "The translation backend failed"
+msgstr "Troidigezh enrollet !"
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "The translation request timed out"
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal processing error"
+msgstr "Fazi gant ar servijer"
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "Unknown error"
+msgstr "Fazi dianav"
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Invalid eTranslation domains response"
+msgstr "Troidigezh"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "No eTranslation domains available"
+msgstr "Stad an treiñ"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Start new translation"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Unknown eTranslation domain: %s"
+msgstr "Stad an treiñ"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Invalid eTranslation request ID"
+msgstr "Troidigezh"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse changes"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "Furchal er c'hemmoù"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 #, fuzzy
 #| msgid "Source change"
@@ -7208,6 +7484,64 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Application base URL"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "Gwrizienn URL an arload"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "Ger-tremen"
+
+#, fuzzy
+#| msgid "Repeated language code"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "Kod yezh adlavaret"
+
+#, fuzzy
+#| msgid "Comments"
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr "Evezhiadennoù"
+
+#, fuzzy
+#| msgid "Comments"
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr "Evezhiadennoù"
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "Anv ar raktres"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid eTranslation domain code."
+msgstr "Stad an treiñ"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Comments"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "Evezhiadennoù"
 
 #, fuzzy
 #| msgid "Register email"
@@ -7685,6 +8019,64 @@ msgid "@@PH1@@ failed checks"
 msgstr "Gwiriadennoù c'hwitet"
 
 #, fuzzy
+#| msgid "Translation"
+msgid "Choose only one installation scope."
+msgstr "Troidigezh"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This scope already has 20 service installations."
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Translation context"
+msgid "This service is already installed here."
+msgstr "Kendestenn ar meneg da dreiñ"
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "This slug is already used in an affected project."
+msgstr "Raktresoù"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Choose one exclusion scope."
+msgstr "Troidigezh"
+
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Choose an installation or a translation service."
+msgstr "Kinnigoù treiñ emgefre"
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Only site installations can be excluded by a workspace."
+msgstr "Troidigezh enrollet !"
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Translation services conflict with the new workspace."
+msgstr "Troidigezh enrollet !"
+
+#, fuzzy
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "Service is currently not available."
+msgstr "Chom a ra %(count)s neudennad didro."
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
+#, fuzzy
 #| msgid "Automatic translation"
 msgctxt "Source language selection"
 msgid "Automatic selection"
@@ -7701,12 +8093,6 @@ msgstr "Anv ar raktres"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Kemm er vammenn"
-
-#, fuzzy
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "Service is currently not available."
-msgstr "Chom a ra %(count)s neudennad didro."
 
 msgid "File"
 msgstr "Restr"
@@ -8092,9 +8478,6 @@ msgstr ""
 msgid "Insufficient privileges to display this page."
 msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
-msgid "Dashboard"
-msgstr "Taolenn-stur"
-
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all projects"
@@ -8463,6 +8846,11 @@ msgstr "Cheñchet eo bet ho ker-tremen."
 
 #, fuzzy
 #| msgid "Registration date"
+msgid "E-mail verification almost complete"
+msgstr "Deiziad enrollañ"
+
+#, fuzzy
+#| msgid "Registration date"
 msgid "Registration almost complete"
 msgstr "Deiziad enrollañ"
 
@@ -8472,6 +8860,11 @@ msgstr ""
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
+msgstr ""
+
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
 msgstr ""
 
 msgid ""
@@ -8494,6 +8887,11 @@ msgstr[4] ""
 msgid "Request a new confirmation link if it expires."
 msgstr ""
 
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr ""
+
 msgid "Register again if the confirmation link expires."
 msgstr ""
 
@@ -8502,21 +8900,24 @@ msgid ""
 "at least 30 minutes before you write to us about issues."
 msgstr ""
 
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr ""
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 
-#, fuzzy
-#| msgid "Please fix errors in registration form."
-msgid "Please fix errors in the registration form."
-msgstr "Reizhit ar fazioù er furmskrid enrollañ."
+msgid "Please fix errors in the form."
+msgstr "Reizhit ar fazioù zo er furmskrid."
 
 #, fuzzy
-#| msgid "Register e-mail"
-msgid "Verify new e-mail address"
+#| msgid "Register email"
+msgid "Send verification e-mail"
 msgstr "Enrolladur chomlec'h postel"
 
-msgid "Register"
-msgstr "En em enrollañ"
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Back to account settings"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #, fuzzy
 #| msgid "Subscriptions"
@@ -8756,39 +9157,127 @@ msgstr ""
 msgid "Change my password"
 msgstr "Cheñch ger-tremen"
 
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Back to security settings"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Profile settings"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+msgid "Account"
+msgstr "Kont"
+
+msgid "Public profile"
+msgstr "Profil foran"
+
 msgid "Preferences"
 msgstr "Penndibaboù"
+
+#, fuzzy
+#| msgid "search"
+msgid "Saved searches"
+msgstr "Klask"
 
 #, fuzzy
 #| msgid "Notification hooks"
 msgid "Notifications"
 msgstr "Poentoù istribilhañ evit ar c'hemennadennoù"
 
-msgid "Account"
-msgstr "Kont"
+#, fuzzy
+#| msgid "Revert"
+msgid "Security"
+msgstr "Adlakaat"
 
-msgid "Profile"
-msgstr "Profil"
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "Neudennadoù orin"
 
 msgid "Licenses"
 msgstr "Aotreoù-implijout"
 
-msgid "Audit log"
+msgid "Activity"
+msgstr "Obererezh"
+
+msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 
-msgid "API access"
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Add and verify e-mail address"
+msgstr "Enrolladur chomlec'h postel"
+
+msgid "Save"
+msgstr "Enrollañ"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Account management"
+msgstr "Hoc'h anv klok"
+
+#, fuzzy
+#| msgid "Download"
+msgid "Download user data"
+msgstr "Pellgargañ"
+
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "You can download all your private data."
+msgstr "Dilemel ho kont a ziverko ho holl roadennoù prevez."
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Import settings"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
 msgstr ""
 
-msgid "Please fix errors in the form."
-msgstr "Reizhit ar fazioù zo er furmskrid."
+msgid "Removal"
+msgstr "Dilemel"
+
+msgid "Account removal deletes all your private data."
+msgstr "Dilemel ho kont a ziverko ho holl roadennoù prevez."
+
+msgid "Remove my account"
+msgstr "Dilemel ma c'hont"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+"Diret eo holl vaeziennoù ar bajenn-mañ. Gallout a reont bezañ dilamet ne "
+"vern pegoulz. Ma leugnit anezho e talvez e roit asant deomp da rannañ ar "
+"roadennoù-se bep tro ma teu ho profil implijer war wel."
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Your avatar"
+msgstr "Hoc'h anv"
+
+#, fuzzy, python-format
+#| msgid "Avatars are provided using libravatar."
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr "Pourchaset eo an avataroù dre libravatar."
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
 
-msgid "Save"
-msgstr "Enrollañ"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new word"
+msgid "Add saved search"
+msgstr "Ouzhpennañ ur ger nevez"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8815,37 +9304,23 @@ msgstr "Ober"
 msgid "Remove this notification setting"
 msgstr "Stad an treiñ"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr ""
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "Kevreañ gant ur ger-tremen"
 
 #, fuzzy
-#| msgid "User comments"
-msgid "Current user identities"
-msgstr "Evezhiadennoù an implijer"
+#| msgid "Current password"
+msgid "Configured"
+msgstr "Ger-tremen en implij"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Not configured"
+msgstr "Ger-tremen en implij"
 
 msgid "Set password"
 msgstr "Termeniñ ar ger-termen"
-
-msgid "Disconnect"
-msgstr "Digevreañ"
-
-#, fuzzy
-#| msgid "Add new word"
-msgid "Add new user identity"
-msgstr "Ouzhpennañ ur ger nevez"
-
-#, fuzzy
-#| msgid "Your translations"
-msgid "Code-hosting connections"
-msgstr "Ho troidigezhioù"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Registration"
-msgid "Manage code-hosting connections"
-msgstr "Enrollañ"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -8865,19 +9340,23 @@ msgstr ""
 msgid "No WebAuthn keys registered yet."
 msgstr "N'eo ket prennet an treiñ."
 
-msgid "Remove"
-msgstr "Dilemel"
-
-msgid "Name your security key"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "The security key %s was registered."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "Enrollet eo bet an alc'hwez surentez %s."
+msgstr[1] "Enrollet eo bet an alc'hwez surentez %s."
+msgstr[2] "Enrollet eo bet an alc'hwez surentez %s."
+msgstr[3] "Enrollet eo bet an alc'hwez surentez %s."
+msgstr[4] "Enrollet eo bet an alc'hwez surentez %s."
 
 #, fuzzy
-#| msgid "Remove my account"
-msgid "Register new security key"
-msgstr "Dilemel ma c'hont"
+#| msgid "Security key (%s)"
+msgid "Add security key"
+msgstr "Alc'hwez surentez (%s)"
 
-msgid "Your web browser lacks WebAuthn support."
-msgstr ""
+msgid "Remove"
+msgstr "Dilemel"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -8888,6 +9367,16 @@ msgstr "Dilesadur"
 #| msgid "The authentication app %s was registered."
 msgid "No authenticator apps registered yet."
 msgstr "Enrollet eo bet an arload dilesa %s."
+
+#, fuzzy, python-format
+#| msgid "The authentication app %s was registered."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "Enrollet eo bet an arload dilesa %s."
+msgstr[1] "Enrollet eo bet an arload dilesa %s."
+msgstr[2] "Enrollet eo bet an arload dilesa %s."
+msgstr[3] "Enrollet eo bet an arload dilesa %s."
+msgstr[4] "Enrollet eo bet an arload dilesa %s."
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -8902,9 +9391,6 @@ msgstr ""
 msgid "No recovery codes generated yet."
 msgstr "N'eo ket prennet an treiñ."
 
-msgid "Generate new recovery codes"
-msgstr ""
-
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -8913,85 +9399,27 @@ msgid_plural "%(count)s recovery codes available."
 msgstr[0] ", %(count)s vot"
 msgstr[1] ", %(count)s vot"
 
+msgid "Generate new recovery codes"
+msgstr ""
+
 msgid "View recovery codes"
 msgstr ""
 
-#, fuzzy
-#| msgid "User comments"
-msgid "User data"
-msgstr "Evezhiadennoù an implijer"
-
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
-msgid "You can download all your private data."
-msgstr "Dilemel ho kont a ziverko ho holl roadennoù prevez."
-
-#, fuzzy
-#| msgid "Download"
-msgid "Download user data"
-msgstr "Pellgargañ"
-
-msgid "Removal"
-msgstr "Dilemel"
-
-msgid "Account removal deletes all your private data."
-msgstr "Dilemel ho kont a ziverko ho holl roadennoù prevez."
-
-msgid "Remove my account"
-msgstr "Dilemel ma c'hont"
-
-msgid "Public profile"
-msgstr "Profil foran"
-
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
-msgstr ""
-"Diret eo holl vaeziennoù ar bajenn-mañ. Gallout a reont bezañ dilamet ne "
-"vern pegoulz. Ma leugnit anezho e talvez e roit asant deomp da rannañ ar "
-"roadennoù-se bep tro ma teu ho profil implijer war wel."
-
-#, fuzzy
-#| msgid "Your name"
-msgid "Your avatar"
-msgstr "Hoc'h anv"
-
-#, fuzzy, python-format
-#| msgid "Avatars are provided using libravatar."
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Pourchaset eo an avataroù dre libravatar."
-
-#, fuzzy
-#| msgid "Registration"
-msgid "Pending invitation"
-msgstr "Enrollañ"
-
-msgid "Description"
-msgstr "Deskrivadur"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
+msgid "Linked sign-in accounts"
 msgstr ""
 
-msgid "When"
-msgstr "Pegoulz"
-
-msgid "IP address"
-msgstr "Chomlec'h IP"
+msgid "Disconnect"
+msgstr "Digevreañ"
 
 #, fuzzy
-#| msgid "User comments"
-msgid "User agent"
-msgstr "Evezhiadennoù an implijer"
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "Dilemel ar gont"
 
-#, fuzzy
-#| msgid "No recent activity has been recorded."
-msgid "No recent activity found."
-msgstr "N'eus ket bet enrollet tamm oberiantiz ebet nevez zo."
+msgid "Add sign-in method"
+msgstr ""
 
-msgid "Report suspicious activity"
+msgid "API access"
 msgstr ""
 
 msgid ""
@@ -9029,6 +9457,26 @@ msgid ""
 "repositories."
 msgstr ""
 
+#, fuzzy
+#| msgid "Your translations"
+msgid "Code-hosting connections"
+msgstr "Ho troidigezhioù"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Manage code-hosting connections"
+msgstr "Enrollañ"
+
+#, fuzzy
+#| msgid "Registration"
+msgid "Pending invitation"
+msgstr "Enrollañ"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -9050,6 +9498,33 @@ msgstr ""
 #| msgid "Your translations"
 msgid "Licenses for individual translations"
 msgstr "Ho troidigezhioù"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+
+msgid "Audit log"
+msgstr ""
+
+msgid "When"
+msgstr "Pegoulz"
+
+msgid "IP address"
+msgstr "Chomlec'h IP"
+
+#, fuzzy
+#| msgid "User comments"
+msgid "User agent"
+msgstr "Evezhiadennoù an implijer"
+
+#, fuzzy
+#| msgid "No recent activity has been recorded."
+msgid "No recent activity found."
+msgstr "N'eus ket bet enrollet tamm oberiantiz ebet nevez zo."
+
+msgid "Report suspicious activity"
+msgstr ""
 
 msgid "Two-factor recovery codes"
 msgstr ""
@@ -9084,11 +9559,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Back to account settings"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
-
 msgid "Redirecting you to the authentication provider."
 msgstr ""
 
@@ -9103,9 +9573,17 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Please fix errors in registration form."
+msgid "Please fix errors in the registration form."
+msgstr "Reizhit ar fazioù er furmskrid enrollañ."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr ""
+
+msgid "Register"
+msgstr "En em enrollañ"
 
 msgid "Create an account using:"
 msgstr "Krouiñ ur gont en ur implijout :"
@@ -9166,6 +9644,11 @@ msgstr "Termeniñ ar ger-termen"
 
 msgid "Reset my password"
 msgstr "Adtermeniñ ma ger-tremen"
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Edit saved search"
+msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr "Savenn niverel evit treiñ <strong>didroc'h</strong>"
@@ -9365,9 +9848,6 @@ msgstr[1] ", %(count)s vot"
 msgid "Translates"
 msgstr "Treiñ"
 
-msgid "Activity"
-msgstr "Obererezh"
-
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Recent changes"
@@ -9534,6 +10014,22 @@ msgstr ""
 msgid "Continue"
 msgstr "Kendestenn"
 
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Register new security key"
+msgstr "Dilemel ma c'hont"
+
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+
+msgid "Name your security key"
+msgstr ""
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr ""
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -9610,12 +10106,31 @@ msgstr "Evezhiadennoù"
 msgid "Configure add-on"
 msgstr "Ger-tremen en implij"
 
-#, fuzzy
-#| msgid "Git maintenance"
-msgid "Preview without changes"
-msgstr "Trezalc'h GIT"
-
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Adwelet"
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "No operations were executed."
+msgstr "Di e vo kaset ar postel kadarnaat."
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Run add-on"
+msgstr "Kinnigoù"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
 msgstr ""
 
 #, fuzzy
@@ -9627,11 +10142,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Suggestions"
-msgid "Run add-on"
-msgstr "Kinnigoù"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -11269,11 +11779,9 @@ msgstr[3] ""
 msgstr[4] ""
 
 #, fuzzy
-#| msgid "Browse changes"
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
-msgstr "Furchal er c'hemmoù"
+#| msgid "Git repository:"
+msgid "Write pending Weblate translations to the repository."
+msgstr "Kavlec'h Git :"
 
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
@@ -11303,9 +11811,9 @@ msgstr[0] ", %(count)s vot"
 msgstr[1] ", %(count)s vot"
 
 #, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Ma vez prennet an treiñ n'hallo den all ebet labourat warnañ."
+#| msgid "Git repository:"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "Kavlec'h Git :"
 
 #, fuzzy
 #| msgid "Git repository:"
@@ -11357,8 +11865,15 @@ msgstr "Ho troidigezhioù"
 msgid "Weblate translations are locked"
 msgstr "Ho troidigezhioù"
 
-msgid "Locking prevents translators from doing changes."
-msgstr ""
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Lock to pause translation changes."
+msgstr "Furchal er c'hemmoù"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Choose which translations to keep"
+msgstr "Troidigezh"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -11366,24 +11881,30 @@ msgstr ""
 msgid "Discard local changes"
 msgstr "Ho troidigezhioù"
 
-#, fuzzy
-#| msgid "Git maintenance"
-msgid "Discard local changes and reset to upstream"
-msgstr "Trezalc'h GIT"
-
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+msgid "Use when:"
 msgstr ""
 
 #, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Ma vez prennet an treiñ n'hallo den all ebet labourat warnañ."
+#| msgid "Translation has been saved!"
+msgid "Upstream has the translations you want to keep."
+msgstr "Troidigezh enrollet !"
 
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "Disoc'h"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "Adweredekaat ar c'havlec'h orin"
+
+#, fuzzy
+#| msgid "Data export"
+msgid "Data loss:"
+msgstr "Ezporzhiañ roadennoù"
+
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
@@ -11393,73 +11914,64 @@ msgid "Reset and reapply translations"
 msgstr "Termeniñ a ra ar restr diazez evit troidigezhioù nevez"
 
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
 
 #, fuzzy
-#| msgid "Project is now open for translation updates."
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Digor eo ar raktres d'an hizivadennoù treiñ bremañ."
+#| msgid "Your translations"
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "Ho troidigezhioù"
 
 msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Refresh translation files"
+msgstr "Troidigezh"
+
+msgid "Synchronize"
+msgstr ""
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Write all Weblate translations to the files."
+msgstr "Ho troidigezhioù"
+
+msgid "Rescan"
+msgstr ""
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Load translations from the files into Weblate."
+msgstr "Troidigezh"
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr ""
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
-msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr ""
-
-#, fuzzy
-#| msgid "Git repository:"
-msgid "Forces writing all strings to the translation files."
-msgstr "Kavlec'h Git :"
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation"
-msgid "Loads translations from the files into Weblate."
-msgstr "Troidigezh"
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
 
 #, fuzzy
@@ -11473,63 +11985,40 @@ msgid "Remove duplicates"
 msgstr "Dilemel"
 
 #, fuzzy
-#| msgid "Git repository:"
-msgid "Remove duplicated strings from the translation file"
-msgstr "Kavlec'h Git :"
+#| msgid "Translation has been saved!"
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "Troidigezh enrollet !"
 
 #, fuzzy
 #| msgid "Removes strings without a translation from translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "Dilemel a ra an neudennadoù hep troidigezh er restroù treiñ."
-
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
 
 msgid "Cleanup unused"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your translations"
+msgid "Translations still contain strings removed from the base file."
+msgstr "Ho troidigezhioù"
+
+#, fuzzy
 #| msgid "Git repository:"
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "Kavlec'h Git :"
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "Dilemel a ra an neudennadoù hep troidigezh er restroù treiñ."
-
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Ne c'hall ket an astenn DDN evit ar restroù treiñ embann weblate.js"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "Dilemel an neudennadoù goullo"
 
-#, fuzzy
-#| msgid "Git repository:"
-msgid "Remove obsolete strings from the translation file"
-msgstr "Kavlec'h Git :"
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "Dilemel an neudennadoù goullo"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Your translations"
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "Ho troidigezhioù"
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "Dilemel an neudennadoù goullo"
 
 #, fuzzy, python-format
 #| msgid "Browse changes"
@@ -11747,8 +12236,20 @@ msgstr ""
 msgid "site wide"
 msgstr "Danevelloù"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This service is installed in the workspace."
+msgstr "N'eo ket prennet an treiñ."
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "workspace"
+msgstr "Esaouennoù"
+
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This service is disabled."
+msgstr "N'eus bet kavet implijer ebet gant an anv-mañ."
 
 msgid "disabled"
 msgstr ""
@@ -11759,10 +12260,16 @@ msgstr ""
 msgid "Service is no longer available"
 msgstr "Chom a ra %(count)s neudennad didro."
 
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
 #, fuzzy
-#| msgid "Automatic translation"
-msgid "Automatic suggestions"
-msgstr "Treiñ emgefre"
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Evezhiadennoù war an troidigezhioù"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11771,17 +12278,36 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Suggestions"
-msgid "Configured automatic suggestion services"
-msgstr "Kinnigoù"
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Naetaat ar restroù treiñ"
+
+#, fuzzy
+#| msgid "Project Information"
+msgid "Stop using this installation without removing its configuration."
+msgstr "Titouroù diwar-benn ar raktres"
 
 msgid "Disable"
+msgstr ""
+
+msgid "Stop using this inherited installation here."
 msgstr ""
 
 #, fuzzy
 #| msgid "Suggestions"
 msgid "Enable"
 msgstr "Kinnigoù"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Remove this installation and its configuration."
+msgstr "Stad an treiñ"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr ""
@@ -11800,9 +12326,9 @@ msgstr[0] "Chom a ra %(count)s neudennad didro."
 msgstr[1] "Chom a ra %(count)s neudennad didro."
 
 #, fuzzy
-#| msgid "Suggestions"
-msgid "Available automatic suggestion services"
-msgstr "Kinnigoù"
+#| msgid "Machine translation suggestions"
+msgid "Available translation services"
+msgstr "Kinnigoù treiñ emgefre"
 
 #, fuzzy
 #| msgid "Start new translation"
@@ -13293,6 +13819,9 @@ msgstr "Yezh"
 msgid "Color"
 msgstr "Liv"
 
+msgid "Description"
+msgstr "Deskrivadur"
+
 #. Translators: Header for column showing the number of source strings with this label
 #, fuzzy
 #| msgid "Source strings review"
@@ -13303,6 +13832,11 @@ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 #| msgid "Used languages"
 msgid "Add label"
 msgstr "Yezhoù implijet"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Machine translation"
@@ -13411,6 +13945,14 @@ msgstr "Ho troidigezhioù"
 #| msgid "reStructuredText"
 msgid "Download reStructuredText"
 msgstr "reStructuredText"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+#, fuzzy
+#| msgid "search"
+msgid "Save search"
+msgstr "Klask"
 
 #, fuzzy
 #| msgid "Source strings review"
@@ -13658,9 +14200,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 
 #, fuzzy
@@ -13682,9 +14223,8 @@ msgstr ""
 "gant ar memor treiñ."
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 
 msgid "This might be caused by missing subscription."
@@ -14238,6 +14778,22 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr ""
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "Chomlec'h IP"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "Trezalc'h GIT"
+
 msgid "Revert"
 msgstr "Adlakaat"
 
@@ -14566,6 +15122,11 @@ msgstr "Treiñ emgefre"
 msgid "Translated strings in a certain language"
 msgstr "Neudennadoù enno gwiriadennoù c'hwitet"
 
+#, fuzzy
+#| msgid "Search"
+msgid "Save search…"
+msgstr "Klask"
+
 msgid "Query"
 msgstr ""
 
@@ -14681,6 +15242,19 @@ msgstr "Kregiñ gant un droidigezh nevez"
 #| msgid "No matching strings found!"
 msgid "Configure translation workflow"
 msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
+
+#, fuzzy
+#| msgid "Username"
+msgid "Saved search name"
+msgstr "Anv implijer"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Search query"
+msgstr "Klask"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -15030,8 +15604,8 @@ msgstr "Evezhiadenn"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 #, fuzzy
@@ -15100,6 +15674,27 @@ msgstr "Ma vez prennet an treiñ n'hallo den all ebet labourat warnañ."
 
 msgid "Filename"
 msgstr "Anv ar restr"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -15733,6 +16328,9 @@ msgid ""
 "translation component."
 msgstr ""
 
+msgid "Retry"
+msgstr ""
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -16251,6 +16849,11 @@ msgstr "Kemm diwezhañ"
 #| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
 msgstr "Kinnigoù treiñ emgefre"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic suggestions"
+msgstr "Treiñ emgefre"
 
 msgid "Translations of this string in the other languages"
 msgstr "Troidigezhioù an neudennad-mañ e yezhoù all"
@@ -16942,9 +17545,6 @@ msgstr "Dilemel ma c'hont"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -17142,11 +17742,6 @@ msgstr ""
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "Adwelet"
 
 #, fuzzy
 #| msgid "Browse changes"
@@ -18497,6 +19092,11 @@ msgid "Duplicate label name."
 msgstr "Ho troidigezhioù"
 
 #, fuzzy
+#| msgid "Your translations"
+msgid "Duplicate saved search name."
+msgstr "Ho troidigezhioù"
+
+#, fuzzy
 #| msgid "First name"
 msgid "Screenshot image is missing."
 msgstr "Anv-bihan"
@@ -19531,11 +20131,6 @@ msgstr "Kendestenn ar meneg da dreiñ"
 msgid "Machine translation"
 msgstr "Treiñ emgefre"
 
-#, fuzzy
-#| msgid "Machine translation suggestions"
-msgid "Machine translation engines"
-msgstr "Kinnigoù treiñ emgefre"
-
 msgid "Score threshold"
 msgstr ""
 
@@ -19802,6 +20397,16 @@ msgstr "Rannañ ho troidigezh gant unan bennak"
 #| msgid "Project Information"
 msgid "Select an existing component configuration to copy."
 msgstr "Titouroù diwar-benn ar raktres"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "Re a gemennadennoù zo bet kaset, klaskit c'hoazh diwezhatoc'h."
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "Dibosupl digeriñ un dikedenn, klaskit diwezhatoc'hik."
 
 #, fuzzy
 #| msgid "New translation"
@@ -20124,6 +20729,24 @@ msgstr "Anv implijer"
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "Deiziad emezelañ"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Available to"
+msgstr "Kinnigoù"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Hosting site"
+msgid "Everybody in project {}"
+msgstr "Lec'hienn herberc'hiañ"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "A saved search with this name already exists."
+msgstr "Troidigezh"
 
 msgid "Expiry cannot be in the past."
 msgstr ""
@@ -20557,6 +21180,64 @@ msgstr ""
 #| msgid "Your translations"
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "Ho troidigezhioù"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "C'hwe"
+
+#, fuzzy
+#| msgid "Reports"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "Danevelloù"
+
+#, fuzzy
+#| msgid "checks"
+msgctxt "Change origin badge"
+msgid "System"
+msgstr "Gwiriadennoù"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "Treiñ emgefre"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "Ho troidigezhioù"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Git repository:"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "Kavlec'h Git :"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source strings review"
@@ -21003,7 +21684,7 @@ msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Start new translation"
-msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "Kregiñ gant un droidigezh nevez"
 
 #, python-format
@@ -21553,6 +22234,11 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation has been saved!"
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "Troidigezh enrollet !"
+
+#, fuzzy
 #| msgid "Translation context"
 msgid ""
 "Shared translation memory can not be enabled while the project has "
@@ -21572,6 +22258,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "Ho troidigezhioù"
+
+#, fuzzy
+#| msgid "Description"
+msgid "Search description"
+msgstr "Deskrivadur"
 
 #, fuzzy
 #| msgid "Machine translation suggestions"
@@ -21825,6 +22516,11 @@ msgstr "Raktresoù"
 #| msgid "Source change"
 msgid "Source languages cannot form a cycle."
 msgstr "Kemm er vammenn"
+
+#, fuzzy
+#| msgid "Git repository:"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "Kavlec'h Git :"
 
 #, fuzzy
 #| msgid "Source strings review"
@@ -23154,6 +23850,16 @@ msgid "More possible users were found."
 msgstr ""
 
 #, fuzzy
+#| msgid "Project Information"
+msgid "Project searches"
+msgstr "Titouroù diwar-benn ar raktres"
+
+#, fuzzy
+#| msgid "search"
+msgid "My searches"
+msgstr "Klask"
+
+#, fuzzy
 #| msgid "Strings to check"
 msgid "Strings with comments by me"
 msgstr "Neudennadoù da wiriañ"
@@ -23577,6 +24283,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation"
+msgid "The local repository checkout is missing."
+msgstr "Troidigezh"
+
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "The local repository checkout is invalid."
+msgstr "Direizh eo ar jedouer merket."
+
 #, fuzzy, python-format
 #| msgid "Checks"
 msgid "%(detail)s"
@@ -23887,6 +24603,16 @@ msgstr "Kavlec'h Git :"
 #| msgid "Git repository:"
 msgid "This will push changes to the upstream Git repository."
 msgstr "Kavlec'h Git :"
+
+#, fuzzy
+#| msgid "Invalid symbolic link in a repository."
+msgid "Invalid file path during repository recovery."
+msgstr "Liamm arouezel direizh en ur c'havlec'h."
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Reconstructed repository is not usable."
+msgstr "Trezalc'h GIT"
 
 msgid "Possible cleanups:"
 msgstr ""
@@ -24742,6 +25468,113 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Dilamet eo bet ho kont."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr ""
+#~ "Implijet eo an anv-mañ e dielloù reizhiad kontrollañ ar stummoù ivez."
+
+#~ msgid "Register e-mail"
+#~ msgstr "Enrollañ ar chomlec'h postel"
+
+#, fuzzy
+#~| msgid "Manage all glossaries"
+#~ msgid "Manage machinery"
+#~ msgstr "Merañ an holl c'heriaouegi"
+
+#, fuzzy
+#~| msgid "Comments"
+#~ msgid "Preview component ID"
+#~ msgstr "Evezhiadennoù"
+
+#, fuzzy
+#~| msgid "Git maintenance"
+#~ msgid "Preview change ID"
+#~ msgstr "Trezalc'h GIT"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "Selladenn ouzh mammennoù an neudennadoù"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#, fuzzy
+#~| msgid "User comments"
+#~ msgid "Current user identities"
+#~ msgstr "Evezhiadennoù an implijer"
+
+#, fuzzy
+#~| msgid "Add new word"
+#~ msgid "Add new user identity"
+#~ msgstr "Ouzhpennañ ur ger nevez"
+
+#, fuzzy
+#~| msgid "Browse changes"
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr "Furchal er c'hemmoù"
+
+#, fuzzy
+#~| msgid "Locking the translation will prevent others to work on translation."
+#~ msgid "This will update the Weblate repository with the upstream changes."
+#~ msgstr "Ma vez prennet an treiñ n'hallo den all ebet labourat warnañ."
+
+#, fuzzy
+#~| msgid "Git maintenance"
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "Trezalc'h GIT"
+
+#, fuzzy
+#~| msgid "Locking the translation will prevent others to work on translation."
+#~ msgid "Use when you want the upstream to be the authority for translations."
+#~ msgstr "Ma vez prennet an treiñ n'hallo den all ebet labourat warnañ."
+
+#, fuzzy
+#~| msgid "Project is now open for translation updates."
+#~ msgid "Use when you want Weblate to be the authority for translations."
+#~ msgstr "Digor eo ar raktres d'an hizivadennoù treiñ bremañ."
+
+#, fuzzy
+#~| msgid "Git repository:"
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "Kavlec'h Git :"
+
+#, fuzzy
+#~| msgid "Git repository:"
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "Kavlec'h Git :"
+
+#, fuzzy
+#~| msgid "Git repository:"
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "Kavlec'h Git :"
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "Dilemel a ra an neudennadoù hep troidigezh er restroù treiñ."
+
+#, fuzzy
+#~| msgid "The translation files CDN add-on cannot publish weblate.js."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "Ne c'hall ket an astenn DDN evit ar restroù treiñ embann weblate.js"
+
+#, fuzzy
+#~| msgid "Suggestions"
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "Kinnigoù"
+
+#, fuzzy
+#~| msgid "Suggestions"
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "Kinnigoù"
+
+#, fuzzy
+#~| msgid "Machine translation suggestions"
+#~ msgid "Machine translation engines"
+#~ msgstr "Kinnigoù treiñ emgefre"
+
 #, python-format
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Ne c'haller ket dilesa : %s"
@@ -24756,11 +25589,6 @@ msgstr "Dilamet eo bet ho kont."
 #, python-format
 #~ msgid "Authentication failed: %s"
 #~ msgstr "C'hwitet eo bet an dilesa (%s)"
-
-#, fuzzy
-#~| msgid "Your translations"
-#~ msgid "Duplicate team name."
-#~ msgstr "Ho troidigezhioù"
 
 #, fuzzy
 #~| msgid "Subproject"
@@ -25085,11 +25913,6 @@ msgstr "Dilamet eo bet ho kont."
 #~| msgid "Project name"
 #~ msgid "Components are being updated…"
 #~ msgstr "Anv ar raktres"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "Neudennadoù orin"
 
 #, fuzzy
 #~| msgid "Project is now open for translation updates."
@@ -26344,11 +27167,6 @@ msgstr "Dilamet eo bet ho kont."
 #~ msgstr "Treiñ emgefre"
 
 #, fuzzy
-#~| msgid "Machine translation suggestions"
-#~ msgid "Use machine translation services"
-#~ msgstr "Kinnigoù treiñ emgefre"
-
-#, fuzzy
 #~| msgid "Machine translation"
 #~ msgid "Manage translation memory (on the entire platform)"
 #~ msgstr "Treiñ emgefre"
@@ -26434,11 +27252,6 @@ msgstr "Dilamet eo bet ho kont."
 #~ msgstr "Gwiriadennoù"
 
 #, fuzzy
-#~| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
-#~ msgid "%(filter_name)s (%(filter_count)s)"
-#~ msgstr "Sil red : %(filter_name)s (%(filter_count)s)"
-
-#, fuzzy
 #~| msgid "Source strings review"
 #~ msgid "Percent interpolation"
 #~ msgstr "Selladenn ouzh mammennoù an neudennadoù"
@@ -26462,11 +27275,6 @@ msgstr "Dilamet eo bet ho kont."
 #~| msgid "Source strings review"
 #~ msgid "Project access control"
 #~ msgstr "Selladenn ouzh mammennoù an neudennadoù"
-
-#, fuzzy
-#~| msgid "Change word"
-#~ msgid "Change"
-#~ msgstr "Cheñch ger"
 
 #, fuzzy
 #~| msgid "Tweet this translation!"
@@ -26505,9 +27313,6 @@ msgstr "Dilamet eo bet ho kont."
 #~| msgid "Donate to Weblate"
 #~ msgid "Log in to use Weblate."
 #~ msgstr "Reiñ un dra bennak da Weblate"
-
-#~ msgid "Password login"
-#~ msgstr "Kevreañ gant ur ger-tremen"
 
 #~ msgid "Third party login"
 #~ msgstr "Kevreañ dre dredeoù"
@@ -27058,9 +27863,6 @@ msgstr "Dilamet eo bet ho kont."
 #~ msgstr ""
 #~ "Peurliesañ e c'hallit lezel an dra-se goullo rak genel a ra Weblate ar "
 #~ "c'hemennoù commit diazez ent-emgefre."
-
-#~ msgid "Result"
-#~ msgstr "Disoc'h"
 
 #, fuzzy
 #~| msgid "Machine translation"
@@ -28249,9 +29051,6 @@ msgstr "Dilamet eo bet ho kont."
 
 #~ msgid "Project website:"
 #~ msgstr "Lec'hienn Web ar raktres :"
-
-#~ msgid "search"
-#~ msgstr "Klask"
 
 #, fuzzy
 #~| msgid "Machine readable data"

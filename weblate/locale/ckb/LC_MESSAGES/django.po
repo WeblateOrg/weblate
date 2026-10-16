@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-08 22:56-0500\n"
+"POT-Creation-Date: 2026-10-15 21:46-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -82,10 +82,38 @@ msgstr "ئەم ناوە پێشتر بەکارهێنراوە. تکایە یەکێ
 msgid "Full name"
 msgstr "ناوی تەواو"
 
-msgid "Name is also used in version control commits."
+msgid ""
+"Your full name may appear in version control commits, depending on the "
+"commit name setting below."
 msgstr ""
-"ناوەکە لە کاتی تۆمارکردنی گۆڕانکارییەکان (Commit) لە سیستمی کۆنترۆڵی وەشاندا "
-"بەکاردێت"
+
+#, fuzzy
+#| msgid "Username"
+msgid "User data file"
+msgstr "ناوی بەکارهێنەر"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Import general notification settings"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Import commit identity choices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "The user data file is too large."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "The uploaded file is not valid user data: %s"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "The uploaded file contains too many settings."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #, fuzzy
 #| msgid "Register email"
@@ -112,6 +140,11 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Version control identity"
+msgstr "ڕەوشی وەرگێڕان"
+
 msgid "Public e-mail"
 msgstr "ئیمەیڵی گشتی"
 
@@ -119,6 +152,17 @@ msgstr "ئیمەیڵی گشتی"
 #| msgid "User with this email address was not found."
 msgid "Hide e-mail address from public view"
 msgstr "هیچ بەکارهێنەرێک بەم ناونیشانی پۆستی ئەلیکترۆنییە نەدۆزرایەوە."
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Display"
+msgstr "زمانە وەرگێڕدراوەکان"
+
+msgid "Translation"
+msgstr "وەرگێڕان"
+
+msgid "Dashboard"
+msgstr ""
 
 #, python-format
 msgid "Component list: %s"
@@ -133,6 +177,11 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+
+#, fuzzy
+#| msgid "Personal info"
+msgid "Personal information"
+msgstr "زانیاری تایبەتی"
 
 #, fuzzy
 #| msgid "Instant notification"
@@ -379,6 +428,11 @@ msgid "Enter the code from the app"
 msgstr ""
 
 #, fuzzy
+#| msgid "Authentication"
+msgid "Authentication app"
+msgstr "سەلماندن"
+
+#, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Project, category, component, or translation path"
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
@@ -395,6 +449,14 @@ msgid "Enter a valid object path."
 msgstr "زمان"
 
 msgid "The target does not exist or you cannot access it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Notification setting"
+msgstr "کردار"
+
+msgid "Saved search"
 msgstr ""
 
 #. Translators: Audit log entry
@@ -1398,11 +1460,20 @@ msgstr ""
 msgid "Authentication app (%s)"
 msgstr "سەلماندن"
 
+#, python-format
+msgid "%(name)s (#%(id)s)"
+msgstr ""
+
 msgid "Password reset"
 msgstr "ڕێکخستنەوەی تێپەڕەوشە"
 
 msgid "Remove account"
 msgstr "لابردنی هەژمار"
+
+#, fuzzy
+#| msgid "Instant notification"
+msgid "E-mail verification"
+msgstr "ئاگانامەی خێرا"
 
 msgid "User registration"
 msgstr "تۆمارکردنی بەکارهێنەر"
@@ -1502,7 +1573,9 @@ msgstr "چوونەژوورەوە"
 msgid "Signed out"
 msgstr ""
 
-msgid "Register e-mail"
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Verify new e-mail address"
 msgstr "پۆستی ئەلیکترۆنی خۆتۆمارکردن"
 
 msgid "Please confirm your identity using a second factor before proceeding."
@@ -1516,6 +1589,20 @@ msgstr "گۆڕینی تێپەڕەوشە"
 
 msgid "Password reset has been already completed."
 msgstr "ڕیسێتکردنەوەی تێپەڕەوشە تەواو بووە."
+
+#, python-format
+msgid " and %s more"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Enable suggestions"
+msgid "Some settings could not be imported: %s"
+msgstr "چالاکردنی پێشنیار"
+
+#, fuzzy
+#| msgid "Your profile has been updated."
+msgid "Your settings have been imported."
+msgstr "پرۆفایلەکەت نوێکرایەوە."
 
 msgid "Could not remove user identity"
 msgstr "ناتوانێت ناسنامەی بەکارهێنەر لاببات"
@@ -3844,10 +3931,9 @@ msgstr "بەڕێوەبردنی بێرگەی وەرگێڕان"
 
 #. Translators: Permission name
 #, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage glossary"
-msgid "Manage machinery"
-msgstr "بەڕێوەبردنی فەرهەنگ"
+#| msgid "Suggested translations"
+msgid "Manage translation services"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -4487,13 +4573,33 @@ msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
 
 #, fuzzy
+#| msgid "Information"
+msgid "Select a component for this automation."
+msgstr "زانیاری"
+
+#, fuzzy
 #| msgid "Translation is now locked for you."
-msgid "The component is outside this add-on's scope."
+msgid "The component is outside this add-on's scope or is incompatible."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Select a change for this automation."
+msgstr "زمانی تۆ"
 
 #, fuzzy
 #| msgid "Managed projects"
 msgid "The change does not belong to this component."
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "The change event does not match this automation's triggers."
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Trigger scope requires a change with a string."
 msgstr "پڕۆژە بەڕێبراوەکان"
 
 #, fuzzy
@@ -4502,6 +4608,10 @@ msgid "Automation nesting is too deep."
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
 
 #, fuzzy
@@ -4560,20 +4670,25 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
 #, fuzzy
-#| msgid "Delete this account"
-msgid "Preview component ID"
-msgstr "سڕینەوەی ئەم هەژمارە"
+#| msgid "Component"
+msgid "Component ID"
+msgstr "پێکهاتە"
 
-msgid "Required for inherited automations. Used only for preview."
+msgid "Required for inherited automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change word"
+msgid "Change ID"
+msgstr "گۆڕینی وشە"
+
+msgid "Required for workflows using only change triggers."
 msgstr ""
 
 #, fuzzy
 #| msgid "License"
-msgid "Preview change ID"
+msgid "Preview without changes"
 msgstr "مۆڵەت"
-
-msgid "Optional event context. Used only for preview."
-msgstr ""
 
 msgid "Additional message"
 msgstr "نامەی زیادە"
@@ -6098,9 +6213,6 @@ msgstr ""
 msgid "Check"
 msgstr "پشکنین"
 
-msgid "Translation"
-msgstr "وەرگێڕان"
-
 #, fuzzy
 #| msgid "Administration"
 msgid "Weblate configuration"
@@ -6984,24 +7096,32 @@ msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {d
 msgid "You have to agree to the General Terms and Conditions"
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification on new comment"
-msgid "Please read the following legal documents:"
-msgstr "ئاگادارکردنەوە بۆ هەر سەرنجێکی نوێ"
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
+"and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {date}."
 
-msgid "General Terms and Conditions"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
+msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {date}."
 
-msgid "Privacy Policy"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the General Terms and Conditions below as well as the <a "
+"href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {date}."
 
 #, fuzzy
 #| msgid "Agreement with Terms of Service {date}."
-msgid "Please read the following General Terms and Conditions document:"
+msgid "Please read the General Terms and Conditions below."
 msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {date}."
 
-#, python-format
-msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgid "General Terms and Conditions"
 msgstr ""
 
 msgid "Submit"
@@ -7032,6 +7152,9 @@ msgid ""
 "document to fully understand it:"
 msgstr ""
 
+msgid "Privacy Policy"
+msgstr ""
+
 msgid "Cookies are used on this site for the following:"
 msgstr ""
 
@@ -7049,6 +7172,38 @@ msgid ""
 msgstr ""
 
 msgid "This site uses Google Analytics to analyze website traffic."
+msgstr ""
+
+msgid ""
+"This site has not provided information about its subcontractors, please "
+"contact the site maintainer to provide it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+
+msgid ""
+"This site has not defined a privacy policy, please contact the site "
+"maintainer to provide it."
+msgstr ""
+
+msgid ""
+"This site has not defined a summary of its terms and conditions and privacy "
+"policy, please contact the site maintainer to provide it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Agreement with Terms of Service {date}."
+msgid ""
+"Please read the <a href=\"%(external_terms_url)s\">General Terms and "
+"Conditions</a>."
+msgstr "ڕێککەوتن لەگەڵ مەرجەکانی خزمەتگوزاری {date}."
+
+msgid ""
+"This site has not defined any terms and conditions, please contact the site "
+"maintainer to provide them."
 msgstr ""
 
 msgid "Legal Terms Overview"
@@ -7077,6 +7232,117 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #| msgid "Failed to change a priority!"
 msgid "Could not fetch translation: %s"
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation services"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Application is not authorized to use eTranslation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The language pair is not supported by this domain"
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Source words"
+msgid "The text is too long"
+msgstr "وشەکانی سەرچاوە"
+
+msgid "The concurrency quota was exceeded"
+msgstr ""
+
+msgid "Quality estimation is not available for text snippets"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Quality estimation is not available"
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The translation backend failed"
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The translation request timed out"
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Internal processing error"
+msgstr ""
+
+msgid "The language pair is not available for this domain"
+msgstr ""
+
+msgid "Unknown error"
+msgstr ""
+
+#, python-format
+msgid ""
+"eTranslation failed in domain %(domain)s: %(description)s (error code "
+"%(code)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid eTranslation domains response"
+msgstr "ڕەوشی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "No eTranslation domains available"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "eTranslation requires a public HTTPS site domain for callbacks."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to change a priority!"
+msgid "Could not fetch eTranslation domains: %s"
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Unknown eTranslation domain: %s"
+msgstr "ڕەوشی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid eTranslation request ID"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Timed out waiting for eTranslation callback"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "General Text (GEN)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your languages"
+msgctxt "eTranslation domain"
+msgid "EU Formal Language (SPD)"
+msgstr "زمانی تۆ"
+
+msgctxt "eTranslation domain"
+msgid "Finance (ECB)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "European Court of Justice (ECJ)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "EIP Case Law (Intellectual Property) (IPO)"
+msgstr ""
+
+msgctxt "eTranslation domain"
+msgid "Quality Estimation (QE)"
+msgstr ""
 
 #, fuzzy
 #| msgid "Your languages"
@@ -7112,6 +7378,59 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgctxt "eTranslation configuration"
+msgid "Application name"
+msgstr "ناوت"
+
+#, fuzzy
+#| msgid "Password"
+msgctxt "eTranslation configuration"
+msgid "Password"
+msgstr "تێپەڕەوشە"
+
+#, fuzzy
+#| msgid "Language"
+msgctxt "eTranslation configuration"
+msgid "Default language domain"
+msgstr "زمان"
+
+msgctxt "eTranslation domain"
+msgid "Other domain code"
+msgstr ""
+
+msgctxt "eTranslation configuration"
+msgid "Other domain code"
+msgstr ""
+
+msgid "Enter a domain code from eTranslation when selecting Other domain code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgctxt "eTranslation configuration"
+msgid "Component language domains"
+msgstr "زانیاری"
+
+msgid ""
+"JSON object mapping full component paths to domain codes, for example {\"my-"
+"project/privacy-policy\": \"SPD\"}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid eTranslation domain code."
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Component language domains must be a JSON object."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Invalid component path or eTranslation domain code."
+msgstr "سڕینەوەی ئەم هەژمارە"
 
 #, fuzzy
 #| msgid "Register email"
@@ -7587,6 +7906,63 @@ msgid "@@PH1@@ failed checks"
 msgstr "پڕۆژە بەڕێبراوەکان"
 
 #, fuzzy
+#| msgid "Save translation history"
+msgid "Choose only one installation scope."
+msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
+msgid "A numeric slug is reserved for installation IDs."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "This scope already has 20 service installations."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "This service is already installed here."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Exclude the inherited installation before enabling this service."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "This slug is already used in an affected project."
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+#, fuzzy
+#| msgid "Save translation history"
+msgid "Choose one exclusion scope."
+msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Choose an installation or a translation service."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Only site installations can be excluded by a workspace."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Only inherited installations can be excluded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Translation services conflict with the new workspace."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Service is currently not available."
+msgstr "بەردەست نییە"
+
+msgid "Select an available installation using {}:<id>"
+msgstr ""
+
+#, fuzzy
 #| msgid "Automatic suggestions"
 msgctxt "Source language selection"
 msgid "Automatic selection"
@@ -7603,11 +7979,6 @@ msgstr "زانیاری"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "زمانی تۆ"
-
-#, fuzzy
-#| msgid "Not available"
-msgid "Service is currently not available."
-msgstr "بەردەست نییە"
 
 msgid "File"
 msgstr "پەڕگە"
@@ -7970,9 +8341,6 @@ msgstr ""
 msgid "Insufficient privileges to display this page."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
-msgid "Dashboard"
-msgstr ""
-
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Browse all projects"
@@ -8289,6 +8657,11 @@ msgstr "تێپەڕەوشەکەت گۆڕدرا."
 msgid "Account removal almost complete"
 msgstr "تێپەڕەوشەکەت گۆڕدرا."
 
+#, fuzzy
+#| msgid "Your password has been changed."
+msgid "E-mail verification almost complete"
+msgstr "تێپەڕەوشەکەت گۆڕدرا."
+
 msgid "Registration almost complete"
 msgstr ""
 
@@ -8298,6 +8671,11 @@ msgstr ""
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
+msgstr ""
+
+msgid ""
+"Click the confirmation link sent to your e-mail inbox to verify the address "
+"for your account."
 msgstr ""
 
 msgid ""
@@ -8317,6 +8695,11 @@ msgstr[1] ""
 msgid "Request a new confirmation link if it expires."
 msgstr ""
 
+msgid ""
+"Request a new verification e-mail from your account settings if the link "
+"expires."
+msgstr ""
+
 msgid "Register again if the confirmation link expires."
 msgstr ""
 
@@ -8325,19 +8708,24 @@ msgid ""
 "at least 30 minutes before you write to us about issues."
 msgstr ""
 
+msgid "If there is a problem verifying your e-mail address, please contact us."
+msgstr ""
+
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 
-msgid "Please fix errors in the registration form."
-msgstr "تکایە هەڵەکان ڕاستبکەوە لە فۆڕمی تۆمارکردن."
+msgid "Please fix errors in the form."
+msgstr "تکایە هەڵەکان ڕاستبکەوە لە فۆڕمەکە."
 
 #, fuzzy
-#| msgid "Register e-mail"
-msgid "Verify new e-mail address"
+#| msgid "Register email"
+msgid "Send verification e-mail"
 msgstr "پۆستی ئەلیکترۆنی خۆتۆمارکردن"
 
-msgid "Register"
-msgstr "خۆتۆمارکردن"
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to account settings"
+msgstr "دەستکاریکردنی ڕێکخستنەکانی پێکهاتە"
 
 #, fuzzy
 #| msgid "Subscriptions"
@@ -8566,39 +8954,121 @@ msgstr ""
 msgid "Change my password"
 msgstr "گۆڕینی تێپەڕەوشەکەم"
 
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to security settings"
+msgstr "دەستکاریکردنی ڕێکخستنەکانی پێکهاتە"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Profile settings"
+msgstr "دەستکاریکردنی ڕێکخستنەکانی پرۆژە"
+
+msgid "Account"
+msgstr "هەژمار"
+
+#, fuzzy
+#| msgid "Your public profile"
+msgid "Public profile"
+msgstr "پرۆفایلە گشتییەکەت"
+
 msgid "Preferences"
 msgstr "هەڵبژاردەکان"
+
+msgid "Saved searches"
+msgstr ""
 
 #, fuzzy
 #| msgid "Action"
 msgid "Notifications"
 msgstr "کردار"
 
-msgid "Account"
-msgstr "هەژمار"
+msgid "Security"
+msgstr ""
 
-msgid "Profile"
-msgstr "پرۆفایل"
+#, fuzzy
+#| msgid "Source strings"
+msgid "Developer settings"
+msgstr "زنجیرەکانی سەرچاوە"
 
 msgid "Licenses"
 msgstr "مۆڵەت"
 
-msgid "Audit log"
+msgid "Activity"
 msgstr ""
 
-msgid "API access"
+msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 
-msgid "Please fix errors in the form."
-msgstr "تکایە هەڵەکان ڕاستبکەوە لە فۆڕمەکە."
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Add and verify e-mail address"
+msgstr "پۆستی ئەلیکترۆنی خۆتۆمارکردن"
+
+msgid "Save"
+msgstr "پاشەکەوتکردن"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Account management"
+msgstr "ناوی تەواو"
+
+#, fuzzy
+#| msgid "Download"
+msgid "Download user data"
+msgstr "داگرتن"
+
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "You can download all your private data."
+msgstr "سڕینەوەی هەژمار هەموو داتا تایبەتییەکانت دەسڕێتەوە."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Import settings"
+msgstr "دەستکاریکردنی ڕێکخستنەکانی پرۆژە"
+
+msgid ""
+"Import settings from a user data file downloaded from another Weblate "
+"server. Your contribution history and account identifiers are not imported."
+msgstr ""
+
+msgid "Removal"
+msgstr ""
+
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "Account removal deletes all your private data."
+msgstr "سڕینەوەی هەژمار هەموو داتا تایبەتییەکانت دەسڕێتەوە."
+
+msgid "Remove my account"
+msgstr "هەژمارەکەم بسڕەوە"
+
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+
+msgid "Your avatar"
+msgstr ""
+
+#, python-format
+msgid "Avatars are provided using %(avatar_url_prefix)s."
+msgstr ""
 
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
 
-msgid "Save"
-msgstr "پاشەکەوتکردن"
+msgid "Your saved searches are offered in the search filters everywhere."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Add saved search"
+msgstr "زمانە وەرگێڕدراوەکان"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
@@ -8625,35 +9095,23 @@ msgstr "کردار"
 msgid "Remove this notification setting"
 msgstr "ڕەوشی وەرگێڕان"
 
-msgid "The e-mail address can be chosen from verified addresses only."
-msgstr ""
+#, fuzzy
+#| msgid "Password login"
+msgid "Password-based sign-in"
+msgstr "تێپەڕەوشەی چوونەژوورەوە"
 
-msgid "Current user identities"
-msgstr ""
+#, fuzzy
+#| msgid "Current password"
+msgid "Configured"
+msgstr "تێپەڕەوشەی ئێستا"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Not configured"
+msgstr "تێپەڕەوشەی ئێستا"
 
 msgid "Set password"
 msgstr "دانانی تێپەڕەوشە"
-
-msgid "Disconnect"
-msgstr "دەرهێڵکردن"
-
-#, fuzzy
-#| msgid "Translated languages"
-msgid "Add new user identity"
-msgstr "زمانە وەرگێڕدراوەکان"
-
-#, fuzzy
-#| msgid "Translation"
-msgid "Code-hosting connections"
-msgstr "وەرگێڕان"
-
-msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Manage code-hosting connections"
-msgstr "کارگێڕی"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -8673,18 +9131,19 @@ msgstr ""
 msgid "No WebAuthn keys registered yet."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
-msgid "Remove"
-msgstr ""
-
-msgid "Name your security key"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Translation is now locked for you."
+msgid "%(count)s security key registered."
+msgid_plural "%(count)s security keys registered."
+msgstr[0] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+msgstr[1] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 #, fuzzy
-#| msgid "Remove my account"
-msgid "Register new security key"
-msgstr "هەژمارەکەم بسڕەوە"
+#| msgid "Add screenshot"
+msgid "Add security key"
+msgstr "زیادکردنی گرتەی شاشە"
 
-msgid "Your web browser lacks WebAuthn support."
+msgid "Remove"
 msgstr ""
 
 #, fuzzy
@@ -8696,6 +9155,13 @@ msgstr "سەلماندن"
 #| msgid "Translation is now locked for you."
 msgid "No authenticator apps registered yet."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy, python-format
+#| msgid "Translation is now locked for you."
+msgid "%(count)s authenticator app registered."
+msgid_plural "%(count)s authenticator apps registered."
+msgstr[0] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+msgstr[1] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -8710,9 +9176,6 @@ msgstr ""
 msgid "No recovery codes generated yet."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
-msgid "Generate new recovery codes"
-msgstr ""
-
 #, fuzzy, python-format
 #| msgid "Translation"
 msgid "%(count)s recovery code available."
@@ -8720,83 +9183,27 @@ msgid_plural "%(count)s recovery codes available."
 msgstr[0] "وەرگێڕان"
 msgstr[1] "وەرگێڕان"
 
+msgid "Generate new recovery codes"
+msgstr ""
+
 msgid "View recovery codes"
 msgstr ""
 
-#, fuzzy
-#| msgid "Username"
-msgid "User data"
-msgstr "ناوی بەکارهێنەر"
-
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
-msgid "You can download all your private data."
-msgstr "سڕینەوەی هەژمار هەموو داتا تایبەتییەکانت دەسڕێتەوە."
-
-#, fuzzy
-#| msgid "Download"
-msgid "Download user data"
-msgstr "داگرتن"
-
-msgid "Removal"
+msgid "Linked sign-in accounts"
 msgstr ""
 
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
-msgid "Account removal deletes all your private data."
-msgstr "سڕینەوەی هەژمار هەموو داتا تایبەتییەکانت دەسڕێتەوە."
-
-msgid "Remove my account"
-msgstr "هەژمارەکەم بسڕەوە"
+msgid "Disconnect"
+msgstr "دەرهێڵکردن"
 
 #, fuzzy
-#| msgid "Your public profile"
-msgid "Public profile"
-msgstr "پرۆفایلە گشتییەکەت"
+#| msgid "Remove account"
+msgid "No linked sign-in accounts."
+msgstr "لابردنی هەژمار"
 
-msgid ""
-"All of the fields on this page are optional and can be deleted at any time, "
-"and by filling them out, you're giving us consent to share this data "
-"wherever your user profile appears."
+msgid "Add sign-in method"
 msgstr ""
 
-msgid "Your avatar"
-msgstr ""
-
-#, python-format
-msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Pending invitation"
-msgstr "کارگێڕی"
-
-msgid "Description"
-msgstr "پێناسە"
-
-msgid ""
-"Get in contact immediately if you notice anything suspicious in the audit "
-"log."
-msgstr ""
-
-msgid "When"
-msgstr ""
-
-msgid "IP address"
-msgstr "ناونیشانی ئای پی"
-
-#, fuzzy
-#| msgid "Username"
-msgid "User agent"
-msgstr "ناوی بەکارهێنەر"
-
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "No recent activity found."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-msgid "Report suspicious activity"
+msgid "API access"
 msgstr ""
 
 msgid ""
@@ -8834,6 +9241,26 @@ msgid ""
 "repositories."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation"
+msgid "Code-hosting connections"
+msgstr "وەرگێڕان"
+
+msgid ""
+"Manage code-hosting accounts connected to workspaces you administer. These "
+"connections are separate from sign-in identities."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Manage code-hosting connections"
+msgstr "کارگێڕی"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Pending invitation"
+msgstr "کارگێڕی"
+
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -8852,6 +9279,33 @@ msgstr ""
 #| msgid "Translation"
 msgid "Licenses for individual translations"
 msgstr "وەرگێڕان"
+
+msgid ""
+"Get in contact immediately if you notice anything suspicious in the audit "
+"log."
+msgstr ""
+
+msgid "Audit log"
+msgstr ""
+
+msgid "When"
+msgstr ""
+
+msgid "IP address"
+msgstr "ناونیشانی ئای پی"
+
+#, fuzzy
+#| msgid "Username"
+msgid "User agent"
+msgstr "ناوی بەکارهێنەر"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "No recent activity found."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid "Report suspicious activity"
+msgstr ""
 
 msgid "Two-factor recovery codes"
 msgstr ""
@@ -8886,11 +9340,6 @@ msgstr ""
 msgid "Your old codes will become invalid and won't work anymore."
 msgstr ""
 
-#, fuzzy
-#| msgid "Edit component settings"
-msgid "Back to account settings"
-msgstr "دەستکاریکردنی ڕێکخستنەکانی پێکهاتە"
-
 msgid "Redirecting you to the authentication provider."
 msgstr ""
 
@@ -8905,9 +9354,15 @@ msgstr ""
 msgid "Please complete the registration to accept the invitation."
 msgstr ""
 
+msgid "Please fix errors in the registration form."
+msgstr "تکایە هەڵەکان ڕاستبکەوە لە فۆڕمی تۆمارکردن."
+
 #, python-format
 msgid "Register in %(formatted_site_title)s"
 msgstr ""
+
+msgid "Register"
+msgstr "خۆتۆمارکردن"
 
 msgid "Create an account using:"
 msgstr ""
@@ -8964,6 +9419,12 @@ msgstr "دانانی تێپەڕەوشە"
 
 msgid "Reset my password"
 msgstr "ڕێکخستنەوەی تێپەڕەوشەکەم"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit saved search"
+msgstr "دەستکاریکردنی سەرچاوە"
 
 msgid "Web-based <strong>continuous</strong> localization"
 msgstr ""
@@ -9145,9 +9606,6 @@ msgstr[1] "وەرگێڕان"
 msgid "Translates"
 msgstr "وەرگێڕان"
 
-msgid "Activity"
-msgstr ""
-
 msgid "Recent changes"
 msgstr ""
 
@@ -9307,6 +9765,22 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Register new security key"
+msgstr "هەژمارەکەم بسڕەوە"
+
+msgid ""
+"Security keys can be used as a second factor to verify your identity when "
+"prompted during sign-in."
+msgstr ""
+
+msgid "Name your security key"
+msgstr ""
+
+msgid "Your web browser lacks WebAuthn support."
+msgstr ""
+
 msgid ""
 "Use a device where your passkey is available, or connect your registered "
 "security key. Your passkey might not be available on a new computer or in a "
@@ -9387,14 +9861,33 @@ msgid "Configure add-on"
 msgstr "تێپەڕەوشەی ئێستا"
 
 #, fuzzy
-#| msgid "License"
-msgid "Preview without changes"
-msgstr "مۆڵەت"
-
-#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
 msgstr "ئەم زیادکراوە دەقێک جێبەجێ دەکات."
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "پێداچوونەوە"
+
+#, fuzzy
+#| msgid "Activation e-mail will be sent here."
+msgid "No operations were executed."
+msgstr "نامەی چالاکردن لێرەوە دەنێردرێت."
+
+#, fuzzy
+#| msgid "Documentation"
+msgid "Run add-on"
+msgstr "بەڵگەنامەکردن"
+
+msgid ""
+"Uses the saved workflow. Clear “Preview without changes” to execute actions."
+msgstr ""
+
+msgid ""
+"Component scope selects strings across the component. Trigger scope selects "
+"strings affected by the change."
+msgstr ""
 
 #, fuzzy
 #| msgid "Automatic group assignments"
@@ -9405,11 +9898,6 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
-
-#, fuzzy
-#| msgid "Documentation"
-msgid "Run add-on"
-msgstr "بەڵگەنامەکردن"
 
 msgid "Schedule this add-on to run as soon as possible."
 msgstr ""
@@ -10899,9 +11387,7 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Failed to change a priority!"
-msgid ""
-"This will commit any pending changes present in Weblate and not in the "
-"repository."
+msgid "Write pending Weblate translations to the repository."
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy, python-format
@@ -10928,8 +11414,10 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "وەرگێڕان"
 msgstr[1] "وەرگێڕان"
 
-msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgid "Pull upstream changes into the Weblate repository."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
 #| msgid "Failed to change a priority!"
@@ -10975,8 +11463,15 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 msgid "Weblate translations are locked"
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
-msgid "Locking prevents translators from doing changes."
-msgstr ""
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Lock to pause translation changes."
+msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "Save translation history"
+msgid "Choose which translations to keep"
+msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
 #, fuzzy
@@ -10984,22 +11479,28 @@ msgstr ""
 msgid "Discard local changes"
 msgstr "داگرتنی گۆڕانکاریەکان"
 
+msgid "Use when:"
+msgstr ""
+
 #, fuzzy
-#| msgid "Your password has been changed."
-msgid "Discard local changes and reset to upstream"
-msgstr "تێپەڕەوشەکەت گۆڕدرا."
+#| msgid "Translation is now locked for you."
+msgid "Upstream has the translations you want to keep."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
-msgid ""
-"Replaces the configured branch with upstream, discarding local commits and "
-"pending translation changes."
+#, fuzzy
+#| msgid "Result"
+msgid "Result:"
+msgstr "ئەنجام"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Reset the configured branch to upstream."
+msgstr "دووبارە ڕێکخستنەوەی کۆگا بۆ سەرەوەی سترایم"
+
+msgid "Data loss:"
 msgstr ""
 
-msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-
-msgid ""
-"Only the configured branch is reset. Other local branches are kept; use "
-"Cleanup to remove them."
+msgid "Local commits and pending translation changes are discarded."
 msgstr ""
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
@@ -11009,71 +11510,64 @@ msgid "Reset and reapply translations"
 msgstr "پێناسەی فایلی بنەما بکە بۆ وەرگێڕانە نوێیەکان"
 
 msgid ""
-"Replaces the configured branch with upstream, then reapplies Weblate’s "
-"translations."
+"Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
 
-msgid "Use when you want Weblate to be the authority for translations."
-msgstr ""
+#, fuzzy
+#| msgid "Suggested translations"
+msgid ""
+"Reset the configured branch to upstream, then write Weblate translations "
+"again."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 msgid ""
-"Missing language files must already exist upstream or Weblate must be able "
-"to create them for the component."
+"Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
+"needs administrator repair."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Refresh translation files"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Synchronize"
+msgstr ""
+
+msgid "Repository files are out of sync with Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Write all Weblate translations to the files."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Rescan"
+msgstr ""
+
+msgid "Files contain strings Weblate has not loaded."
+msgstr ""
+
+#, fuzzy
+#| msgid "Save translation history"
+msgid "Load translations from the files into Weblate."
+msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
+msgid "Edits blocked by the commit policy may be discarded."
+msgstr ""
+
+msgid "Clean the local checkout"
 msgstr ""
 
 msgid "Cleanup"
 msgstr ""
 
-msgid "Remove untracked files and unused local branches"
+msgid "Untracked files or unused local branches need removal."
 msgstr ""
 
-msgid ""
-"Cleanup removes all files which are not tracked by the version control from "
-"the repository."
+msgid "Remove untracked files and other local Git branches."
 msgstr ""
 
-msgid ""
-"For Git repositories, it also deletes all local branches other than the "
-"configured branch, including any commits that have not been pushed."
-msgstr ""
-
-msgid ""
-"If switching to a branch with rewritten upstream history fails, switch to a "
-"working branch, run Cleanup, then switch back to recreate the affected "
-"branch from upstream."
-msgstr ""
-
-msgid "Synchronize"
-msgstr ""
-
-#, fuzzy
-#| msgid "Failed to change a priority!"
-msgid "Forces writing all strings to the translation files."
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
-
-msgid ""
-"Use this when repository files became out of sync with Weblate for some "
-"reason."
-msgstr ""
-
-msgid "Rescan"
-msgstr ""
-
-#, fuzzy
-#| msgid "Save translation history"
-msgid "Loads translations from the files into Weblate."
-msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
-
-msgid ""
-"Use when Weblate missed some of the strings after updating the repository."
-msgstr ""
-
-msgid ""
-"This might discard edits that cannot be committed because of the configured "
-"commit policy."
-msgstr ""
-
-msgid "Use these operations with caution, they can lead to data loss."
+msgid "Unpushed commits on those branches are deleted."
 msgstr ""
 
 #, fuzzy
@@ -11087,63 +11581,40 @@ msgid "Remove duplicates"
 msgstr "هەژمارەکەم بسڕەوە"
 
 #, fuzzy
-#| msgid "Failed to change a priority!"
-msgid "Remove duplicated strings from the translation file"
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+#| msgid "Your account has been removed."
+msgid "A translation file has repeated strings absent from Weblate."
+msgstr "هەژمارەکەت سڕدرایەوە."
 
 #, fuzzy
 #| msgid "Removes strings without a translation from translation files."
-msgid ""
-"Removes repeated strings with the same identifier from the translation file."
+msgid "Remove repeated identifiers from the file."
 msgstr "لابردنی زنجیرەکان بەبێ وەرگێڕان لە فایلەکانی وەرگێڕان."
-
-msgid ""
-"Use when the translation file contains duplicate strings that are not "
-"present in Weblate."
-msgstr ""
 
 msgid "Cleanup unused"
 msgstr ""
 
 #, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Translations still contain strings removed from the base file."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
 #| msgid "Failed to change a priority!"
-msgid "Remove unused strings from the translation file"
+msgid "Remove those strings from the translation file."
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
-
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
-msgid "Removes strings that are no longer present in the base file."
-msgstr "لابردنی زنجیرەکان بەبێ وەرگێڕان لە فایلەکانی وەرگێڕان."
-
-#, fuzzy
-#| msgid "Translation is now locked for you."
-msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove obsolete"
 msgstr "لابردنی زنجیرە بەتاڵەکان"
 
-#, fuzzy
-#| msgid "Failed to change a priority!"
-msgid "Remove obsolete strings from the translation file"
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Removes obsolete strings from PO files."
-msgstr "لابردنی زنجیرە بەتاڵەکان"
-
-msgid ""
-"Use when obsolete entries should be pruned without enabling automatic "
-"removal on save."
+msgid "Obsolete PO entries should be removed now."
 msgstr ""
 
 #, fuzzy
-#| msgid "Suggested translations"
-msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
+#| msgid "Remove blank strings"
+msgid "Remove obsolete strings from the PO file."
+msgstr "لابردنی زنجیرە بەتاڵەکان"
 
 #, fuzzy, python-format
 #| msgid "Translation is now locked for you."
@@ -11343,8 +11814,20 @@ msgstr ""
 msgid "site wide"
 msgstr "سەرپەرشتیکردنی وەشان"
 
-msgid "This service is installed site wide, but disabled."
-msgstr ""
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "This service is installed in the workspace."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "workspace"
+msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This service is disabled."
+msgstr "هیچ بەکارهێنەرێک بەم ناونیشانی پۆستی ئەلیکترۆنییە نەدۆزرایەوە."
 
 msgid "disabled"
 msgstr ""
@@ -11354,8 +11837,16 @@ msgstr ""
 msgid "Service is no longer available"
 msgstr "بەردەست نییە"
 
-msgid "Automatic suggestions"
-msgstr "پێشنیارە خۆکارەکان"
+msgid "ID"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "ئاگانامەکانی وەرگێڕان"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11364,17 +11855,36 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Use automatic suggestions"
-msgid "Configured automatic suggestion services"
-msgstr "پێشنیارە ئۆتۆماتیکیەکان بەکاربهێنە"
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "فایلەکانی وەرگێڕان پاک بکەرەوە."
+
+#, fuzzy
+#| msgid "Information"
+msgid "Stop using this installation without removing its configuration."
+msgstr "زانیاری"
 
 msgid "Disable"
+msgstr ""
+
+msgid "Stop using this inherited installation here."
 msgstr ""
 
 #, fuzzy
 #| msgid "Enable suggestions"
 msgid "Enable"
 msgstr "چالاکردنی پێشنیار"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Remove this installation and its configuration."
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Exclude all inherited installations of this service"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Configure"
 msgstr ""
@@ -11392,9 +11902,9 @@ msgstr[0] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ ک
 msgstr[1] "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 #, fuzzy
-#| msgid "Use automatic suggestions"
-msgid "Available automatic suggestion services"
-msgstr "پێشنیارە ئۆتۆماتیکیەکان بەکاربهێنە"
+#| msgid "Suggested translations"
+msgid "Available translation services"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #, fuzzy
 #| msgid "Failed to change a priority!"
@@ -12825,6 +13335,9 @@ msgstr "زمان"
 msgid "Color"
 msgstr ""
 
+msgid "Description"
+msgstr "پێناسە"
+
 #. Translators: Header for column showing the number of source strings with this label
 #, fuzzy
 #| msgid "Source words"
@@ -12835,6 +13348,11 @@ msgstr "وشەکانی سەرچاوە"
 #| msgid "Translated languages"
 msgid "Add label"
 msgstr "زمانە وەرگێڕدراوەکان"
+
+msgid ""
+"Saved searches of this project are offered in the search filters to "
+"everybody translating it."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Suggested translations"
@@ -12943,6 +13461,12 @@ msgstr "وەرگێڕانە پێشنیارکراوەکان"
 #| msgid "Download reports"
 msgid "Download reStructuredText"
 msgstr "داگرتنی ڕاپۆرتەکان"
+
+msgid "Saved searches are offered in the search filters."
+msgstr ""
+
+msgid "Save search"
+msgstr ""
 
 msgid "Assigned source strings"
 msgstr ""
@@ -13162,9 +13686,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this workspace."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this workspace."
 msgstr ""
 
 msgid ""
@@ -13175,9 +13698,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Automatic translation via machine translation uses active machine "
-"translation engines to get the best possible translations and applies them "
-"in this project."
+"Automatic translation uses active translation services to get the best "
+"possible translations and applies them in this project."
 msgstr ""
 
 msgid "This might be caused by missing subscription."
@@ -13710,6 +14232,22 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
+msgctxt "Change metadata badge label"
+msgid "Origin:"
+msgstr ""
+
+#, fuzzy
+#| msgid "IP address"
+msgctxt "Change metadata badge label"
+msgid "IP address:"
+msgstr "ناونیشانی ئای پی"
+
+#, fuzzy
+#| msgid "Repository operation"
+msgctxt "Change metadata tooltip"
+msgid "IP address recorded for this change."
+msgstr "ئەمبراسیۆن"
+
 msgid "Revert"
 msgstr ""
 
@@ -14013,6 +14551,9 @@ msgstr "وەرگێڕانی ئۆتۆماتیکی"
 msgid "Translated strings in a certain language"
 msgstr "وەرگێڕان ئێستا کراوەیە بۆ بەڕۆژکردنی وەگێڕان."
 
+msgid "Save search…"
+msgstr ""
+
 msgid "Query"
 msgstr ""
 
@@ -14128,6 +14669,19 @@ msgstr "وشەیەکی نوێ زیادبکە"
 #| msgid "Suggested translations"
 msgid "Configure translation workflow"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#| msgid "Username"
+msgid "Saved search name"
+msgstr "ناوی بەکارهێنەر"
+
+#, fuzzy
+#| msgid "Per file"
+msgid "Search query"
+msgstr "بۆ هەر فایلێک"
+
+msgid "No saved searches yet."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -14457,8 +15011,8 @@ msgstr "وشەکانی سەرچاوە"
 
 msgid ""
 "The configured evaluation service is unavailable. Select a configured LLM "
-"service in the add-on configuration, or restore the service in Automatic "
-"suggestions settings."
+"service in the add-on configuration, or restore the service in Translation "
+"services settings."
 msgstr ""
 
 #, fuzzy
@@ -14529,6 +15083,27 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #| msgid "Full name"
 msgid "Filename"
 msgstr "ناوی تەواو"
+
+msgid ""
+"The local repository checkout or its Git directory is missing. Repeated "
+"updates or pushes cannot reconstruct it."
+msgstr ""
+
+msgid ""
+"Open repository maintenance and use Reset and reapply translations to "
+"recover the checkout and reapply translations stored in Weblate."
+msgstr ""
+
+msgid ""
+"Ask a maintainer with repository reset permission to reconstruct the "
+"checkout."
+msgstr ""
+
+msgid ""
+"The local repository checkout is unusable or contains invalid Git metadata. "
+"Ask an instance administrator to inspect and repair it. Reset and reapply "
+"translations only reconstructs missing checkouts or missing Git directories."
+msgstr ""
 
 msgid ""
 "The repository URL returned a permanent HTTP redirect. Weblate automatically "
@@ -15121,6 +15696,9 @@ msgid ""
 "translation component."
 msgstr ""
 
+msgid "Retry"
+msgstr ""
+
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -15610,6 +16188,9 @@ msgstr ""
 #| msgid "Suggested translations"
 msgid "Computer-aided translation suggestions"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid "Automatic suggestions"
+msgstr "پێشنیارە خۆکارەکان"
 
 #, fuzzy
 #| msgid "Translation is now open for translation updates."
@@ -16263,9 +16844,6 @@ msgstr "هەژمارەکەم بسڕەوە"
 msgid "App ID"
 msgstr ""
 
-msgid "Slug"
-msgstr ""
-
 msgid "Remove Weblate GitHub App?"
 msgstr ""
 
@@ -16437,11 +17015,6 @@ msgstr ""
 
 msgid "Write"
 msgstr ""
-
-#, fuzzy
-#| msgid "Review"
-msgid "Preview"
-msgstr "پێداچوونەوە"
 
 #, fuzzy
 #| msgid "Your languages"
@@ -17732,6 +18305,11 @@ msgid "Duplicate label name."
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #, fuzzy
+#| msgid "Suggested translations"
+msgid "Duplicate saved search name."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
 #| msgid "Managed projects"
 msgid "Screenshot image is missing."
 msgstr "پڕۆژە بەڕێبراوەکان"
@@ -18724,11 +19302,6 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 msgid "Machine translation"
 msgstr ""
 
-#, fuzzy
-#| msgid "Save translation history"
-msgid "Machine translation engines"
-msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
-
 msgid "Score threshold"
 msgstr ""
 
@@ -18989,6 +19562,16 @@ msgstr "زمانە وەرگێڕدراوەکان"
 #| msgid "Information"
 msgid "Select an existing component configuration to copy."
 msgstr "زانیاری"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many branch requests. Please try again later."
+msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not load repository branches. Please try again."
+msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
 
 #, fuzzy
 #| msgid "Suggested translations"
@@ -19301,6 +19884,24 @@ msgstr "ناوی بەکارهێنەر"
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "بەرواری پەیوەندیکردن"
+
+#, fuzzy
+#| msgid "Example addon"
+msgid "Available to"
+msgstr "نموونەی زیادکراو"
+
+msgid "Only me"
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Everybody in project {}"
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A saved search with this name already exists."
+msgstr "بەکارهێنەرێک بەو ناوی بەکارهێنەرەوە پێشتر هەیە."
 
 msgid "Expiry cannot be in the past."
 msgstr ""
@@ -19734,6 +20335,62 @@ msgstr ""
 #| msgid "Suggested translations"
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgctxt "Change origin badge"
+msgid "API"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Feb"
+msgctxt "Change origin badge"
+msgid "Web"
+msgstr "شوبات"
+
+#, fuzzy
+#| msgid "Version control"
+msgctxt "Change origin badge"
+msgid "Repository"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+msgctxt "Change origin badge"
+msgid "System"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic suggestions"
+msgctxt "Change origin badge"
+msgid "Automation"
+msgstr "پێشنیارە خۆکارەکان"
+
+#, python-format
+msgctxt "Change origin tooltip"
+msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgctxt "Change origin tooltip"
+msgid "Created by an automation."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the API using an authentication token."
+msgstr ""
+
+msgctxt "Change origin tooltip"
+msgid "Initiated through the web interface."
+msgstr ""
+
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgctxt "Change origin tooltip"
+msgid "Imported from translation files in the repository."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+msgctxt "Change origin tooltip"
+msgid "Created by Weblate without a recorded initiating request."
+msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -20170,7 +20827,7 @@ msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Failed to change a priority!"
-msgid "Could not reset to remote branch on %s."
+msgid "Could not reset to remote branch on %(component)s: %(error)s"
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, python-format
@@ -20693,6 +21350,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation is now locked for you."
+msgid "Translation service slugs conflict with the new workspace."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
@@ -20711,6 +21373,11 @@ msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#| msgid "Description"
+msgid "Search description"
+msgstr "پێناسە"
 
 #, fuzzy
 #| msgid "Autoaccept suggestions"
@@ -20955,6 +21622,11 @@ msgstr "پڕۆژە بەڕێبراوەکان"
 #| msgid "Your languages"
 msgid "Source languages cannot form a cycle."
 msgstr "زمانی تۆ"
+
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgid "Could not reapply translations to the reconstructed repository."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
 #| msgid "Source words"
@@ -22192,6 +22864,14 @@ msgid "More possible users were found."
 msgstr ""
 
 #, fuzzy
+#| msgid "Contact us"
+msgid "Project searches"
+msgstr "پەیوەندیمان پێوە بکە"
+
+msgid "My searches"
+msgstr ""
+
+#, fuzzy
 #| msgid "Enable suggestions"
 msgid "Strings with comments by me"
 msgstr "چالاکردنی پێشنیار"
@@ -22601,6 +23281,16 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The local repository checkout is missing."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "The local repository checkout is invalid."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
 #, fuzzy, python-format
 #| msgid "Check details"
 msgid "%(detail)s"
@@ -22909,6 +23599,14 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #| msgid "Failed to change a priority!"
 msgid "This will push changes to the upstream Git repository."
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+msgid "Invalid file path during repository recovery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Reconstructed repository is not usable."
+msgstr "ئەمبراسیۆن"
 
 msgid "Possible cleanups:"
 msgstr ""
@@ -23746,6 +24444,95 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "هەژمارەکەت سڕدرایەوە."
 
+#~ msgid "Name is also used in version control commits."
+#~ msgstr ""
+#~ "ناوەکە لە کاتی تۆمارکردنی گۆڕانکارییەکان (Commit) لە سیستمی کۆنترۆڵی "
+#~ "وەشاندا بەکاردێت"
+
+#~ msgid "Register e-mail"
+#~ msgstr "پۆستی ئەلیکترۆنی خۆتۆمارکردن"
+
+#, fuzzy
+#~| msgctxt "Access-control role"
+#~| msgid "Manage glossary"
+#~ msgid "Manage machinery"
+#~ msgstr "بەڕێوەبردنی فەرهەنگ"
+
+#, fuzzy
+#~| msgid "Delete this account"
+#~ msgid "Preview component ID"
+#~ msgstr "سڕینەوەی ئەم هەژمارە"
+
+#, fuzzy
+#~| msgid "License"
+#~ msgid "Preview change ID"
+#~ msgstr "مۆڵەت"
+
+#, fuzzy
+#~| msgid "Notification on new comment"
+#~ msgid "Please read the following legal documents:"
+#~ msgstr "ئاگادارکردنەوە بۆ هەر سەرنجێکی نوێ"
+
+#~ msgid "Profile"
+#~ msgstr "پرۆفایل"
+
+#, fuzzy
+#~| msgid "Translated languages"
+#~ msgid "Add new user identity"
+#~ msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid ""
+#~ "This will commit any pending changes present in Weblate and not in the "
+#~ "repository."
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#~| msgid "Your password has been changed."
+#~ msgid "Discard local changes and reset to upstream"
+#~ msgstr "تێپەڕەوشەکەت گۆڕدرا."
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid "Forces writing all strings to the translation files."
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid "Remove duplicated strings from the translation file"
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid "Remove unused strings from the translation file"
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#~| msgid "Removes strings without a translation from translation files."
+#~ msgid "Removes strings that are no longer present in the base file."
+#~ msgstr "لابردنی زنجیرەکان بەبێ وەرگێڕان لە فایلەکانی وەرگێڕان."
+
+#, fuzzy
+#~| msgid "Translation is now locked for you."
+#~ msgid "The cleanup translation files add-on can perform this automatically."
+#~ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#~| msgid "Use automatic suggestions"
+#~ msgid "Configured automatic suggestion services"
+#~ msgstr "پێشنیارە ئۆتۆماتیکیەکان بەکاربهێنە"
+
+#, fuzzy
+#~| msgid "Use automatic suggestions"
+#~ msgid "Available automatic suggestion services"
+#~ msgstr "پێشنیارە ئۆتۆماتیکیەکان بەکاربهێنە"
+
+#, fuzzy
+#~| msgid "Save translation history"
+#~ msgid "Machine translation engines"
+#~ msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
 #, fuzzy, python-format
 #~| msgid "Register email"
 #~ msgid "Could not authenticate: %s"
@@ -23760,11 +24547,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Authentication"
 #~ msgid "Authentication failed: %s"
 #~ msgstr "سەلماندن"
-
-#, fuzzy
-#~| msgid "Suggested translations"
-#~ msgid "Duplicate team name."
-#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #, fuzzy
 #~| msgid "Delete this account"
@@ -24037,11 +24819,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "پرۆفایلەکەت نوێکرایەوە."
 
 #, fuzzy
-#~| msgid "Source strings"
-#~ msgid "Workspace settings"
-#~ msgstr "زنجیرەکانی سەرچاوە"
-
-#, fuzzy
 #~| msgid "Project is now open for translation updates."
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
@@ -24101,11 +24878,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Please fix errors in the form."
 #~ msgid "Verification failed. Try again later."
 #~ msgstr "تکایە هەڵەکان ڕاستبکەوە لە فۆڕمەکە."
-
-#, fuzzy
-#~| msgid "Your password has been changed."
-#~ msgid "Verification completed"
-#~ msgstr "تێپەڕەوشەکەت گۆڕدرا."
 
 #, fuzzy
 #~| msgid "Failed to change a priority!"
@@ -24816,11 +25588,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "چالاکییەکانی 30 ڕۆژی ڕابردوو"
 
 #, fuzzy
-#~| msgid "Suggested translations"
-#~ msgid "Use machine translation services"
-#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-#, fuzzy
 #~| msgid "Translated languages"
 #~ msgid "Add new projects (on the entire platform)"
 #~ msgstr "زمانە وەرگێڕدراوەکان"
@@ -24900,11 +25667,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "سەرپەرشتیکردنی وەشان"
 
 #, fuzzy
-#~| msgid "Change word"
-#~ msgid "Change"
-#~ msgstr "گۆڕینی وشە"
-
-#, fuzzy
 #~| msgid "Save translation history"
 #~ msgid "Wipe translation memory"
 #~ msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
@@ -24926,9 +25688,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Login to Weblate"
 #~ msgid "Log in to use Weblate."
 #~ msgstr "چوونەژوورەوە بۆ وێبلەیت"
-
-#~ msgid "Password login"
-#~ msgstr "تێپەڕەوشەی چوونەژوورەوە"
 
 #~ msgid "Logout"
 #~ msgstr "چوونەدەرەوە"
@@ -25202,9 +25961,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Save translation history"
 #~ msgid "XLIFF Translation File for XCode"
 #~ msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
-
-#~ msgid "Result"
-#~ msgstr "ئەنجام"
 
 #, fuzzy
 #~| msgid "Suggested translations"
