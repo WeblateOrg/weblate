@@ -49,15 +49,15 @@
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Background update <noreply-weblate-update@weblate.org>, 2026.
 # Artyom Rybakov <rib.artem@gmail.com>, 2026.
+# Andrei Stepanov <adem@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-16 02:48+0000\n"
-"PO-Revision-Date: 2026-10-16 04:37+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-10-16 07:12+0000\n"
+"Last-Translator: Andrei Stepanov <adem@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -17875,10 +17875,8 @@ msgstr ""
 "Любой пользователь может просмотреть из своего профиля все лицензии на "
 "перевод всех публичных проектов на экземпляре:"
 
-#, fuzzy
-#| msgid "Translation sources"
 msgid "Translation services"
-msgstr "Источники перевода"
+msgstr "Службы перевода"
 
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
@@ -21796,10 +21794,8 @@ msgstr ""
 "Чтобы фактически включить отправку, :guilabel:`Repository push URL` также "
 "должен быть настроен."
 
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Push on update"
-msgstr "Отправлять при коммите"
+msgstr "Отправлять при обновлении"
 
 msgid ""
 "Whether Weblate pushes after updating the repository from upstream, even "
@@ -67140,28 +67136,22 @@ msgstr "``custom`` — Пользовательская модель"
 msgid "Translator persona"
 msgstr "Личность переводчика"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the translator’s role or expertise. For example: “You are an "
 "experienced medical translator.”"
 msgstr ""
-"Опишите личность переводчика, чтобы повысить точность перевода. Например: "
-"«Вы разводите белок.»"
+"Опишите роль или специализацию переводчика. Например: «Вы опытный "
+"медицинский переводчик»."
 
 #, fuzzy
 #| msgid "Translator style"
 msgid "Translation style"
 msgstr "Стиль перевода"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the desired translation style. For example: “Use informal language.”"
-msgstr "Опишите стиль перевода. Например: «Используйте неформальный язык.»"
+msgstr ""
+"Опишите желаемый стиль перевода. Например: «Используйте неформальный язык.»"
 
 msgid "Language-specific instructions"
 msgstr "Инструкции для конкретного языка"
@@ -67179,15 +67169,14 @@ msgid ""
 "Required when ‘Custom model’ is selected. Enter the model identifier used by "
 "the API."
 msgstr ""
+"Требуется при выборе «Пользовательской модели». Введите идентификатор "
+"модели, используемый API."
 
 msgid "Max tokens"
 msgstr "Макс. токенов"
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "Maximum number of tokens in the generated response."
-msgstr ""
-"Максимальное количество токенов, которые могут быть сгенерированы в ответе."
+msgstr "Максимальное количество токенов в сгенерированном ответе."
 
 msgid "Performs translation using `Anthropic's Claude`_ models."
 msgstr "Выполняет перевод с использованием моделей `Anthropic Claude`_."
@@ -67538,7 +67527,7 @@ msgid "Other domain code"
 msgstr "Прочие заметки"
 
 msgid "Enter a domain code from eTranslation when selecting Other domain code."
-msgstr ""
+msgstr "Введите код домена из eTranslation при выборе «Другой код домена»."
 
 #, fuzzy
 #| msgid "Component filename match"
@@ -67549,6 +67538,8 @@ msgid ""
 "JSON object mapping full component paths to domain codes, for example {\"my-"
 "project/privacy-policy\": \"SPD\"}."
 msgstr ""
+"Объект JSON, сопоставляющий полные пути компонентов с кодами доменов, "
+"например {\"my-project/privacy-policy\": \"SPD\"}."
 
 msgid ""
 "Register an application with the European Commission to obtain its "
@@ -67934,6 +67925,8 @@ msgid ""
 "With ‘Automatic selection’, Weblate selects the first model available "
 "through the API from its predefined preference list."
 msgstr ""
+"При «Автоматическом выборе» Weblate выбирает первую модель, доступную через "
+"API, из своего предопределённого списка предпочтений."
 
 msgid "``mistral-small-latest`` -- Mistral Small 4"
 msgstr "``mistral-small-latest`` — Mistral Small 4"
@@ -68016,6 +68009,9 @@ msgid ""
 "is http://localhost:11434; localhost refers to the environment where Weblate "
 "runs."
 msgstr ""
+"Базовый URL-адрес API Ollama, доступный с сервера Weblate. По умолчанию "
+"используется http://localhost:11434; localhost относится к среде, где "
+"работает Weblate."
 
 msgid "Ollama model"
 msgstr "Модель Ollama"
@@ -68778,10 +68774,8 @@ msgstr "Управление объявлениями"
 msgid "Manage translation memory"
 msgstr "Управление памятью переводов"
 
-#, fuzzy
-#| msgid "machine translation services"
 msgid "Manage translation services"
-msgstr "службы машинного перевода"
+msgstr "Управление службами перевода"
 
 msgid "Manage component lists"
 msgstr "Управление списками компонентов"
@@ -70957,10 +70951,8 @@ msgstr ""
 msgid "Licenses"
 msgstr "Лицензии"
 
-#, fuzzy
-#| msgid "Generic settings"
 msgid "Developer settings"
-msgstr "Общие параметры"
+msgstr "Настройки разработчика"
 
 msgid ""
 "You can get or reset your API access token and view usage examples here. "
@@ -71545,10 +71537,8 @@ msgstr ""
 "позволяют вам быстро получить доступ к наиболее часто встречающимся "
 "поисковым запросам:"
 
-#, fuzzy
-#| msgid "Sitewide search"
 msgid "Saved searches"
-msgstr "Поиск по всему сайту"
+msgstr "Сохранённые поиски"
 
 msgid ""
 "Frequently used queries can be saved and are then offered in "
@@ -71579,10 +71569,8 @@ msgid ""
 "searches` tab of your :ref:`user-profile`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project searches"
-msgstr "Указан проект"
+msgstr "Поиски проекта"
 
 msgid ""
 "Offered to everybody searching within the project, for example a filter for "
