@@ -1374,7 +1374,7 @@ if "djangosaml2idp" in settings.INSTALLED_APPS:
         ),
     )
     real_patterns.append(
-        path("idp/", include("djangosaml2idp.urls")),
+        path("idp/", include("weblate.utils.djangosaml2idp_urls")),
     )
 
 # Handle URL prefix configuration

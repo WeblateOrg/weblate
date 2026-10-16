@@ -5,12 +5,21 @@
 from __future__ import annotations
 
 import base64
+import sys
 import zlib
+from types import ModuleType
 from typing import TYPE_CHECKING, Never
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
+import pytest
 from django.http import HttpResponse
-from django.test import RequestFactory, SimpleTestCase
+from django.test import (
+    RequestFactory,
+    SimpleTestCase,
+    modify_settings,
+    override_settings,
+)
+from django.urls import NoReverseMatch, Resolver404, include, path, resolve, reverse
 
 from weblate.middleware import INLINE_PATHS
 from weblate.utils.djangosaml2idp import WeblateSamlIDPErrorView
@@ -247,3 +256,63 @@ class Djangosaml2idpTest(SimpleTestCase):
 
         self.assertEqual(response.status_code, 200)
         entrypoint.assert_called_once_with(request, binding="redirect")
+
+
+@pytest.mark.filterwarnings(
+    "ignore:CFB has been moved:cryptography.utils.CryptographyDeprecationWarning"
+)
+@modify_settings(INSTALLED_APPS={"append": "djangosaml2idp"})
+class Djangosaml2idpURLTest(SimpleTestCase):
+    def setUp(self) -> None:
+        urlconf = ModuleType("djangosaml2idp_test_urls")
+        urlconf.__dict__["urlpatterns"] = [
+            path(
+                "idp/sso/<str:binding>/",
+                sso_entry,
+                name="saml_login_binding",
+            ),
+            path("idp/", include("weblate.utils.djangosaml2idp_urls")),
+        ]
+        self.enterContext(patch.dict(sys.modules, {urlconf.__name__: urlconf}))
+        self.enterContext(override_settings(ROOT_URLCONF=urlconf.__name__))
+
+    def test_slo_is_not_available(self) -> None:
+        for binding in ("redirect", "post"):
+            with self.subTest(binding=binding), self.assertRaises(Resolver404):
+                resolve(f"/idp/slo/{binding}/")
+
+        with self.assertRaises(NoReverseMatch):
+            reverse(
+                "djangosaml2idp:saml_logout_binding",
+                kwargs={"binding": "redirect"},
+            )
+
+    def test_sso_uses_guarded_view(self) -> None:
+        expected_url = "/idp/sso/redirect/"
+        self.assertEqual(
+            reverse("saml_login_binding", kwargs={"binding": "redirect"}),
+            expected_url,
+        )
+        self.assertEqual(
+            reverse(
+                "djangosaml2idp:saml_login_binding",
+                kwargs={"binding": "redirect"},
+            ),
+            expected_url,
+        )
+        self.assertIs(resolve(expected_url).func, sso_entry)
+
+    def test_remaining_routes_are_available(self) -> None:
+        expected_urls = {
+            "saml_idp_init": "/idp/sso/init/",
+            "saml_login_process": "/idp/login/process/",
+            "saml_multi_factor": "/idp/login/process_multi_factor/",
+            "saml2_idp_metadata": "/idp/metadata/",
+        }
+
+        for name, expected_url in expected_urls.items():
+            with self.subTest(name=name):
+                self.assertEqual(
+                    reverse(f"djangosaml2idp:{name}"),
+                    expected_url,
+                )
