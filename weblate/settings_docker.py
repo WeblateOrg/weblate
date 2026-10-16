@@ -961,6 +961,16 @@ INSTALLED_APPS = [
     "drf_standardized_errors",
 ]
 
+# Optional OpenID Connect identity provider
+OIDC_PROVIDER_ENABLED = get_env_bool("WEBLATE_OIDC_PROVIDER_ENABLED", False)
+if OIDC_PROVIDER_ENABLED:
+    INSTALLED_APPS += ["weblate.oidc", "oauth2_provider"]
+    OAUTH2_PROVIDER = {
+        "OIDC_RSA_PRIVATE_KEY": Path(
+            get_env_str("WEBLATE_OIDC_PROVIDER_RSA_PRIVATE_KEY_FILE", required=True)
+        ).read_text(encoding="utf-8")
+    }
+
 # django_zxcvbn_password_validator integration
 if PASSWORD_MINIMAL_STRENGTH > 0:
     INSTALLED_APPS.append("django_zxcvbn_password_validator")

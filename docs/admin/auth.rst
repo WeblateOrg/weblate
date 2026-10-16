@@ -619,6 +619,131 @@ passwords below a certain threshold.
    * :doc:`/security/passwords`
 
 
+.. _oidc-provider:
+
+OpenID Connect identity provider
+--------------------------------
+
+.. versionadded:: 2026.11
+
+Weblate can act as an optional OpenID Connect (OIDC) identity provider for
+other applications. This is separate from signing in to Weblate using an
+external OIDC provider. The existing SAML identity provider can remain enabled.
+
+Install the ``oidc`` extra (``uv pip install Weblate[oidc]``). Generate a
+signing key and keep it outside version control:
+
+.. code-block:: sh
+
+   openssl genrsa -out /path/to/oidc.key 4096
+
+Enable :setting:`OIDC_PROVIDER_ENABLED`, add the optional applications, and
+configure :setting:`OAUTH2_PROVIDER` in your settings:
+
+.. code-block:: python
+
+   from pathlib import Path
+
+   OIDC_PROVIDER_ENABLED = True
+   INSTALLED_APPS += ["weblate.oidc", "oauth2_provider"]
+   OAUTH2_PROVIDER = {
+       "OIDC_RSA_PRIVATE_KEY": Path("/path/to/oidc.key").read_text(encoding="utf-8"),
+   }
+
+Run :wladmin:`migrate` before starting Weblate and its workers. Disabled
+installations do not need these applications, dependencies, or database tables.
+For Docker, see :envvar:`WEBLATE_OIDC_PROVIDER_ENABLED`.
+
+Register each client in :guilabel:`Django administration` under
+:guilabel:`Applications`. Select :guilabel:`Authorization code` and
+:guilabel:`RSA with SHA-256`. For clients supporting a secret, select
+:guilabel:`Confidential` and securely copy the generated client ID and secret.
+Secrets are hashed when saved. For clients without a secret, select
+:guilabel:`Public`; S256 PKCE is required for both client types. Register the
+client's exact HTTPS callback URL. Only select
+:guilabel:`Skip authorization` for trusted clients; other clients require user
+consent before accessing identity information.
+
+The issuer is the canonical Weblate site URL followed by ``/oidc``, including
+any :setting:`URL_PREFIX`. The discovery URL is the issuer followed by
+``/.well-known/openid-configuration``. Configure clients to use this discovery
+URL, authorization code flow, S256 PKCE, and scopes ``openid profile email``.
+Confidential-client authentication supports HTTP Basic or a form-encoded
+client secret. For Zammad, register a public client, set its issuer to the
+Weblate issuer URL, select ``sub`` as the UID field, request
+``openid profile email``, and enable PKCE. Its callback is
+``https://zammad.example.com/auth/openid_connect/callback``. Nextcloud's
+``user_oidc`` app can use a confidential client with the discovery URL.
+Shared logout and automatic client registration are not provided.
+
+Authorization requests can use GET or form-encoded POST. Clients exchange tokens
+and fetch UserInfo through their servers.
+
+Clients can request fresh authentication using ``prompt=login`` or limit the
+age of the existing authentication using ``max_age`` in seconds. The limit
+also applies when submitting consent. ``max_age=0`` always requires a new login.
+With ``prompt=none``, Weblate returns ``login_required`` or ``consent_required``
+when authentication or consent needs user interaction.
+
+Federated sign-in can reuse an upstream session without revealing its
+authentication time. These sign-ins omit ``auth_time`` from ID tokens and
+cannot satisfy ``prompt=login`` or ``max_age`` requests; Weblate returns
+``login_required`` instead. Use a password-based sign-in or e-mail verification
+when fresh authentication is required. A failed freshness request does not
+prevent later ordinary federated sign-ins.
+
+The ``sub`` claim is the Weblate user ID as a string, stable across username
+and e-mail changes. The ``profile`` scope adds ``preferred_username``, ``name``,
+and ``family_name``; both name claims contain Weblate's full name. The ``email``
+scope adds ``email`` and ``email_verified``. Verification is reported only when
+the current address has a recorded verification. Claims are available in
+ID tokens and from ``/oidc/userinfo/`` using an access token.
+
+When :ref:`legal` is installed, clients can additionally request the optional
+``weblate:legal`` scope. It adds ``weblate_tos_version`` to ID tokens and
+UserInfo, containing the version the user actually accepted as an ISO date,
+for example ``"2026-09-01"``. Older accepted versions are returned unchanged;
+the claim is omitted when no acceptance is recorded. Reading it does not
+record consent or expose the acceptance timestamp, IP address, or user agent.
+Without the legal module, this scope is unavailable.
+
+Receiving servers using the same legal package, such as ``wllegal``, can use
+this date to match their legal version. They must explicitly trust the issuer
+and match the accepted version to their own documents before suppressing
+local confirmation. This provider only exposes the information; accepting
+shared consent on receiving Weblate servers requires separate integration.
+
+New browser sessions created for OIDC sign-in expire after 60 seconds,
+including when sign-in requires :ref:`2fa`. Existing browser sessions keep
+their expiry policy. Sessions created before the provider recorded an
+authentication time require a fresh sign-in before authorizing a client.
+If the browser session expires while the consent page is open, submitting
+the form restarts sign-in and displays a new consent page. The earlier
+approval or denial is discarded; the user must submit the new form.
+Concurrent authorization attempts are tracked separately. Pending attempts
+expire after 15 minutes; starting more than 16 discards the oldest attempt.
+
+Access and ID tokens last one hour. Refresh tokens rotate
+on use and expire after 30 days of inactivity beyond their associated access
+token's expiry. ID tokens retain the original authentication time across
+refreshes, including its absence for federated sign-ins, even when the user
+signs in again elsewhere. Reusing an already
+rotated refresh token revokes its token
+family. Tokens work independently of the browser session and do not authorize
+Weblate REST API access. Account removal deletes provider credentials, and
+inactive accounts cannot authorize or use provider tokens. Celery periodically
+cleans expired credentials.
+
+To rotate signing keys, replace ``OIDC_RSA_PRIVATE_KEY`` and retain old private
+keys in ``OIDC_RSA_PRIVATE_KEYS_INACTIVE`` until outstanding ID tokens and
+cached key sets have expired. Only public key material is published by JWKS.
+
+When migrating a client from SAML, explicitly map its existing identities to
+the OIDC issuer and subject. Do not assume SAML NameIDs equal OIDC subjects,
+or link accounts solely by matching e-mail addresses. For weblate.org, existing
+accounts are linked by persistent SAML provider/identity pairs; its client
+integration and identity mapping require a separate migration.
+
 .. _saml-auth:
 
 SAML authentication
