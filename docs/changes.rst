@@ -36,6 +36,7 @@ Weblate 2026.11
 * Fixed role permission revocation through partial API updates.
 * Limited SAML identity-provider request parsing and disabled Single Logout to prevent compressed request resource exhaustion.
 * Prevented component duplication from exposing repository credentials to users without repository access.
+* Prevented project-language and category-language pages from disclosing restricted component metadata.
 
 .. rubric:: Bug fixes
 

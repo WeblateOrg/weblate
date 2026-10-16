@@ -1,6 +1,6 @@
 {% load i18n permissions translations %}
 
-{% get_review_workflows workflow_translation as review_workflows %}
+{% get_review_workflows workflow_translation user as review_workflows %}
 {% for review_workflow in review_workflows %}
   {% if review_workflow.role %}
     <h5>

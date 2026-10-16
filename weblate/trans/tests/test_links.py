@@ -16,7 +16,7 @@ from django.urls import reverse
 from weblate.trans.models import Category, Project
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ReusableViewTestCase
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import CategoryLanguage, GlobalStats, ProjectLanguage
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -48,6 +48,29 @@ class ComponentLinkTestCase(ReusableViewTestCase):
         self.assertContains(response, self.component.get_absolute_url())
         response = self.client.get(self.other.get_absolute_url())
         self.assertContains(response, self.component.get_absolute_url())
+
+    def test_language_views_hide_restricted_shared_component(self) -> None:
+        category = Category.objects.create(
+            name="Target category", slug="target-category", project=self.other
+        )
+        self.link.category = category
+        self.link.save(update_fields=["category"])
+        self.project.name = "restricted-shared-project"
+        self.project.save(update_fields=["name"])
+        self.component.name = "restricted-shared-language"
+        self.component.restricted = True
+        self.component.save(update_fields=["name", "restricted"])
+        self.user.clear_permissions_cache()
+
+        language = self.component.translation_set.get(language_code="cs").language
+        for url in (
+            ProjectLanguage(self.other, language).get_absolute_url(),
+            CategoryLanguage(category, language).get_absolute_url(),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertNotContains(response, self.component.name, status_code=200)
+                self.assertNotContains(response, self.project.name)
 
     def test_shared_with_source_category_visible_at_root(self) -> None:
         """Shared component with a category in its source project should still appear at root of target project when the link has no category."""

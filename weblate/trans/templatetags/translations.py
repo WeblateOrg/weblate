@@ -978,12 +978,15 @@ def get_review_workflow(translation: Translation) -> dict:
 
 
 @register.simple_tag
-def get_review_workflows(obj: Translation | ProjectLanguage) -> list[dict]:
+def get_review_workflows(
+    obj: Translation | ProjectLanguage,
+    user: User,
+) -> list[dict]:
     """Group language-page workflows by owning project and source/target role."""
     if isinstance(obj, Translation):
         return [get_review_workflow(obj)]
     representatives: dict[tuple[int, bool], Translation] = {}
-    for translation in obj.translation_set:
+    for translation in obj.get_translation_set_access(user):
         representatives.setdefault(
             (translation.component.project_id, translation.is_source), translation
         )

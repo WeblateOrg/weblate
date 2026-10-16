@@ -43,7 +43,8 @@ if TYPE_CHECKING:
 
     from django.db.models import Model
 
-    from weblate.trans.models import Category, Change, Component, Project
+    from weblate.auth.models import User
+    from weblate.trans.models import Category, Change, Component, Project, Translation
     from weblate.workspaces.models import Workspace
 
 StatItem = int | float | str | datetime | None
@@ -1313,9 +1314,15 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
     def has_restricted_action_translations(self) -> bool:
         return self.action_translation_set.filter(component__restricted=True).exists()
 
-    @cached_property
-    def translation_set(self):
-        all_langs = self.language.translation_set.prefetch()
+    def get_translation_set_access(self, user: User) -> list[Translation]:
+        """Return translations the user can access."""
+        return self._get_translation_set(user)
+
+    def _get_translation_set(self, user: User | None = None) -> list[Translation]:
+        all_langs = self.language.translation_set
+        if user is not None:
+            all_langs = all_langs.filter_access(user)
+        all_langs = all_langs.prefetch()
         result = all_langs.filter(component__project=self.project)
         if self.project.has_shared_components:
             result |= all_langs.filter(component__links=self.project)
@@ -1330,6 +1337,10 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
             result,
             key=lambda trans: (trans.component.priority, trans.component.name.lower()),
         )
+
+    @cached_property
+    def translation_set(self) -> list[Translation]:
+        return self._get_translation_set()
 
     @cached_property
     def is_source(self) -> bool:
@@ -1503,9 +1514,15 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     def has_restricted_action_translations(self) -> bool:
         return self.action_translation_set.filter(component__restricted=True).exists()
 
-    @cached_property
-    def translation_set(self):
-        result = self.language.translation_set.filter(
+    def get_translation_set_access(self, user: User) -> list[Translation]:
+        """Return translations the user can access."""
+        return self._get_translation_set(user)
+
+    def _get_translation_set(self, user: User | None = None) -> list[Translation]:
+        translations = self.language.translation_set
+        if user is not None:
+            translations = translations.filter_access(user)
+        result = translations.filter(
             component_id__in=self.category.get_component_ids_with_links()
         ).prefetch()
         for item in result:
@@ -1518,6 +1535,10 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
             result,
             key=lambda trans: (trans.component.priority, trans.component.name.lower()),
         )
+
+    @cached_property
+    def translation_set(self) -> list[Translation]:
+        return self._get_translation_set()
 
     @cached_property
     def is_source(self) -> bool:

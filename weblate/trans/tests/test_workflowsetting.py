@@ -640,7 +640,7 @@ class MixedReviewWorkflowTest(ViewTestCase):
                         translation_review=override,
                     )
                 obj = ProjectLanguage(Project.objects.get(pk=self.project.pk), language)
-                summaries = get_review_workflows(obj)
+                summaries = get_review_workflows(obj, self.user)
                 self.assertEqual(len(summaries), 3)
                 expected = [
                     (
@@ -693,7 +693,10 @@ class MixedReviewWorkflowTest(ViewTestCase):
             self.user.is_superuser = manager
             rendered = render_to_string(
                 "snippets/review-workflow.html",
-                {"workflow_translation": obj, "user": self.user},
+                {
+                    "workflow_translation": obj,
+                    "user": self.user,
+                },
             )
             self.assertNotIn("Reviews are", rendered)
             self.assertNotIn("written to the translation file", rendered)
