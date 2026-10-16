@@ -8,6 +8,8 @@
 
 import os
 import warnings
+from importlib.util import find_spec
+from pathlib import Path
 from tempfile import TemporaryDirectory
 
 # ruff: ignore[undefined-local-with-import-star]
@@ -31,6 +33,16 @@ ADMINS = ("Weblate test <noreply@weblate.org>",)
 # The secret key is needed for tests
 # ruff: ignore[hardcoded-password-string]
 SECRET_KEY = "secret key used for tests only"
+
+# Exercise the opt-in provider when its extra is installed in the test environment.
+if find_spec("oauth2_provider") is not None:
+    OIDC_PROVIDER_ENABLED = True
+    INSTALLED_APPS += ["weblate.oidc", "oauth2_provider"]
+    OAUTH2_PROVIDER = {
+        "OIDC_RSA_PRIVATE_KEY": (
+            Path(__file__).resolve().parent / "trans/tests/data/saml.key"
+        ).read_text(encoding="utf-8")
+    }
 
 SITE_DOMAIN = "example.com"
 OTP_WEBAUTHN_RP_NAME = SITE_DOMAIN

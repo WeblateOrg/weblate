@@ -1945,6 +1945,25 @@ Slack
     Enables Slack authentication, see :ref:`slack-auth`.
 
 
+OpenID Connect identity provider
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2026.11
+
+.. envvar:: WEBLATE_OIDC_PROVIDER_ENABLED
+
+   Enable the optional :ref:`oidc-provider`. Defaults to ``False``. The image
+   must include the ``oidc`` installation extra; see :ref:`docker-custom-config`.
+   Enabling the provider installs its Django applications and migrations.
+
+.. envvar:: WEBLATE_OIDC_PROVIDER_RSA_PRIVATE_KEY_FILE
+
+   Required when :envvar:`WEBLATE_OIDC_PROVIDER_ENABLED` is enabled. Path to
+   a mounted, unencrypted RSA private key used to sign ID tokens. Generate it
+   as described in :ref:`oidc-provider`. Weblate does not generate this key.
+   To retain inactive keys during rotation, configure
+   :setting:`OAUTH2_PROVIDER` in :file:`settings-override.py`.
+
 OpenID Connect
 ~~~~~~~~~~~~~~
 

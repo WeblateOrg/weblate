@@ -2510,6 +2510,52 @@ contain too many changes. Defaults to 25.
 
    :ref:`alerts`
 
+.. setting:: OIDC_PROVIDER_ENABLED
+
+OIDC_PROVIDER_ENABLED
+---------------------
+
+.. versionadded:: 2026.11
+
+Enable Weblate's optional :ref:`oidc-provider`. Defaults to ``False``.
+Install the ``oidc`` extra, add ``weblate.oidc`` and ``oauth2_provider`` to
+:setting:`django:INSTALLED_APPS`, and configure signing keys before enabling it.
+
+.. setting:: OAUTH2_PROVIDER
+
+OAUTH2_PROVIDER
+---------------
+
+.. versionadded:: 2026.11
+
+Configuration dictionary for the optional :ref:`oidc-provider`, using
+`Django OAuth Toolkit settings <https://django-oauth-toolkit.readthedocs.io/en/stable/settings.html>`_.
+``OIDC_RSA_PRIVATE_KEY`` must contain an unencrypted RSA private key of at
+least 2048 bits. ``OIDC_RSA_PRIVATE_KEYS_INACTIVE`` can contain previous keys
+for rotation. Load keys from protected files rather than storing them in
+version control.
+
+Weblate supplies identity scopes, its claim validator, the canonical issuer,
+HTTPS redirect requirements, S256 PKCE, one-hour access and ID token lifetimes,
+and rotating refresh tokens with a 30-day idle expiry. Entries in this
+dictionary override these defaults. Keep the Weblate claim validator to
+preserve account eligibility checks and identity claim mapping. The provider
+accepts RS256 authorization-code clients and refresh tokens. Public clients
+authenticate using S256 PKCE without a client secret.
+
+Weblate enables the toolkit's RFC 9700 protections by default. Authorization
+responses include the ``iss`` issuer parameter, and newly issued access and
+refresh tokens are stored as hashes. Enabling hashed storage does not erase
+plaintext token values already present in the database.
+
+``REFRESH_TOKEN_GRACE_PERIOD_SECONDS`` defaults to ``0``. A client that loses a
+refresh response may need the user to sign in again. A nonzero grace period
+requires setting ``COMPLIANT_BCP_RFC9700_TOKEN_STORAGE`` to ``False``, which stores
+usable token values in the database. The toolkit's deployment checks reject
+combining hashed storage with a nonzero grace period. They also reject disabling
+refresh-token replay protection or PKCE, allowing HTTP callbacks, or enabling
+wildcard redirect matching while the corresponding compliance gates are enabled.
+
 .. setting:: REQUIRE_LOGIN
 
 REQUIRE_LOGIN
