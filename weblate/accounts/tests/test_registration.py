@@ -1999,6 +1999,38 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertIsNone(DjangoStorage.partial.load(partial_token))
         self.assertIsNone(DjangoStorage.code.get_code(verification_code))
 
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_authenticated_user_cannot_confirm_anonymous_registration(self) -> None:
+        """A forwarded registration link cannot attach to the signed-in user."""
+        response = self.do_register()
+        self.assertContains(response, REGISTRATION_SUCCESS)
+        url = self.assert_registration_mailbox()
+        query = parse_qs(urlparse(url).query)
+        partial_token = query["partial_token"][0]
+        verification_code = query["verification_code"][0]
+        victim = User.objects.create_user(
+            "victim", "victim@example.com", "password", full_name="Victim User"
+        )
+        victim_client = Client()
+        victim_client.force_login(victim)
+
+        response = victim_client.get(url)
+
+        self.assertRedirects(response, reverse("login"), fetch_redirect_response=False)
+        self.assertNotContains(response, "Confirm registration", status_code=302)
+        self.assertIsNotNone(DjangoStorage.partial.load(partial_token))
+        code = DjangoStorage.code.get_code(verification_code)
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertFalse(
+            victim.social_auth.filter(uid=REGISTRATION_DATA["email"]).exists()
+        )
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+        victim.refresh_from_db()
+        self.assertEqual(victim.full_name, "Victim User")
+
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalidated_on_password_change_case_insensitive(self) -> None:
         user = User.objects.create_user("testuser", "test@example.com", "old-password")
