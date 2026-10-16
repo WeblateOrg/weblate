@@ -31,7 +31,7 @@ Weblate 2026.11
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Fixed role permission revocation through partial API updates.
-* Limited SAML identity-provider request parsing to prevent compressed request resource exhaustion.
+* Limited SAML identity-provider request parsing and disabled Single Logout to prevent compressed request resource exhaustion.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 
 .. rubric:: Bug fixes
