@@ -243,6 +243,10 @@ Django REST Framework
        - | :pypi:`mercurial`
        - :ref:`vcs-mercurial`
 
+     * - ``oidc``
+       - | :pypi:`django-oauth-toolkit`
+       - :ref:`oidc-provider`
+
      * - ``postgres``
        - | :pypi:`psycopg`
        - PostgreSQL, see :ref:`database-setup`

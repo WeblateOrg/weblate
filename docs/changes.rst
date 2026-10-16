@@ -5,6 +5,7 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added an optional :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts.
 * Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
 * User settings can be imported from a :ref:`user data export <schema-userdata>` on the account page.
 * Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.

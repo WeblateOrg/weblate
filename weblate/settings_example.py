@@ -495,6 +495,11 @@ INSTALLED_APPS = [
     "drf_standardized_errors",
 ]
 
+# Optional OpenID Connect identity provider
+OIDC_PROVIDER_ENABLED = False
+# To enable the optional provider, install Weblate[oidc], add weblate.oidc and
+# oauth2_provider to INSTALLED_APPS, and configure OAUTH2_PROVIDER signing keys.
+
 # django_zxcvbn_password_validator integration
 if PASSWORD_MINIMAL_STRENGTH > 0:
     INSTALLED_APPS.append("django_zxcvbn_password_validator")

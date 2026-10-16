@@ -1364,6 +1364,10 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
         path("hosted/api/", include("wlhosted.integrations.urls")),
     )
 
+# Optional OpenID Connect identity provider
+if getattr(settings, "OIDC_PROVIDER_ENABLED", False):
+    real_patterns.append(path("oidc/", include("weblate.oidc.urls")))
+
 # Django SAML2 Identity Provider
 if "djangosaml2idp" in settings.INSTALLED_APPS:
     real_patterns.append(

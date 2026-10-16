@@ -185,6 +185,14 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Client browser/API client to Weblate
      - Untrusted or authenticated requests become permission-checked
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Weblate identity provider to relying applications
+     - Administrators register trusted OIDC clients and callback URLs. Users
+       authenticate through Weblate and share consented identity claims, or
+       administrators explicitly permit a client to skip consent. Newly issued
+       access and refresh token values are hashed by default. Provider
+       tokens remain valid independently of browser sessions and do not grant
+       Weblate REST API access. Relying applications control their own account
+       linking and sessions. *(documented)* (source: :ref:`oidc-provider`)
    * - Weblate to public CDN storage and clients
      - Enabling CDN publication deliberately moves selected translations and
        public build identifiers and resource mappings outside

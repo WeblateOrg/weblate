@@ -136,6 +136,7 @@ from weblate.accounts.notifications import (
     get_email_headers,
     send_notification_email,
 )
+from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
@@ -1236,7 +1237,16 @@ def redirect_single(request: AuthenticatedHttpRequest, backend: str):
     )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class BaseLoginView(LoginView):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        if response := prepare_oidc_login(
+            request,
+            request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
+        ):
+            return response
+        return super().dispatch(request, *args, **kwargs)
+
     def form_invalid(self, form):
         rotate_token(self.request)
         return super().form_invalid(form)
@@ -1929,6 +1939,11 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    if response := prepare_oidc_login(
+        request,
+        request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
+    ):
+        return response
     # Fill in idp in case it is not provided
     if backend == "saml" and "idp" not in request.GET:
         request.GET = request.GET.copy()  # type: ignore[assignment]
@@ -2203,6 +2218,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
 
     - Handles backend errors gracefully
     """
+    if response := prepare_oidc_login(
+        request, request.session.get(REDIRECT_FIELD_NAME)
+    ):
+        return response
     try:
         response = complete(request, backend)
     except (SocialAuthBaseException, ValidationError) as error:
@@ -2212,6 +2231,12 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):
         device = Device.from_persistent_id(persistent_id)
         otp_login(request, device)
+
+    if request.user.is_authenticated and request.session.get("oidc_only"):
+        # social-auth sets its own timeout after the pipeline and login signal.
+        adjust_session_expiry(
+            request=request, user=request.user, is_login=False, force=True
+        )
 
     return response
 
