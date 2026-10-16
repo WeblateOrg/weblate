@@ -3361,6 +3361,9 @@ Changes
     :>json object details: additional details about the change
     :>json int id: change identifier
 
+    When an IP address is recorded for an anonymous change, the ``ip_address``
+    attribute in ``details`` is included only for superusers.
+
     New changes include a ``change_origin`` object in ``details``, for example
     ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,
     including session-authenticated API requests, or ``api`` for successful

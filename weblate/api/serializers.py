@@ -4456,6 +4456,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
         request = self.context.get("request")
         return request is not None and bool(request.user.is_authenticated)
 
+    def can_view_ip_address(self) -> bool:
+        request = self.context.get("request")
+        return request is not None and bool(request.user.is_superuser)
+
     @extend_schema_field(AlertSerializer(allow_null=True))
     def get_alert(self, change: Change) -> dict[str, Any] | None:
         serializer = AlertSerializer(context=self.context)
@@ -4496,6 +4500,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        details = data.get("details")
+        if isinstance(details, dict) and not self.can_view_ip_address():
+            details = deepcopy(details)
+            details.pop("ip_address", None)
+            data["details"] = details
         if instance.action in Change.ACTIONS_ADDON:
             if not is_public_addon_change_details(instance.details):
                 data["details"] = (
