@@ -3443,7 +3443,11 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         ]
 
     def perform_discovery(self, request: AuthenticatedHttpRequest, kwargs):
+        self.discovery_truncated = False
         if "data" in kwargs and "create_discovery" in request.session:
+            self.discovery_truncated = request.session.get(
+                "create_discovery_truncated", False
+            )
             discovered = []
             for i, data in enumerate(request.session["create_discovery"]):
                 item = DiscoveryResult(data)
@@ -3452,13 +3456,17 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             return discovered
         try:
             self.clean_instance(kwargs["initial"])
-            discovered = self.discover()
-            if not discovered:
-                discovered = self.discover(eager=True)
+            initial_discovered = self.discover()
+            discovered = initial_discovered or self.discover(eager=True)
         except ValidationError:
             discovered = []
+        else:
+            self.discovery_truncated = (
+                initial_discovered.truncated or discovered.truncated
+            )
         request.session["create_discovery"] = [x.data for x in discovered]
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
+        request.session["create_discovery_truncated"] = self.discovery_truncated
         return discovered
 
     def discover(self, eager: bool = False):

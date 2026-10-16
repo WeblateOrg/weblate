@@ -52,6 +52,7 @@ from fedora_messaging.exceptions import ConfigurationException
 from OpenSSL import SSL
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
+from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.forms import (
@@ -64,6 +65,7 @@ from weblate.addons.forms import (
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
@@ -202,6 +204,7 @@ from .webhooks import (
 if TYPE_CHECKING:
     from unittest.mock import Mock
 
+    from weblate.trans.discovery import DetectedDiscoveryPreset
     from weblate.trans.models import (
         Project,
     )
@@ -7471,7 +7474,7 @@ class DiscoveryTest(ReusableViewTestCase):
         self.user.save()
         with patch(
             "weblate.addons.forms.get_component_detected_discovery_presets",
-            return_value=[],
+            return_value=DetectedDiscoveryPresets(),
         ) as mocked:
             response = self.client.post(
                 reverse("addons", kwargs=self.kw_component),
@@ -7506,10 +7509,46 @@ class DiscoveryTest(ReusableViewTestCase):
         self.assertNotContains(response, 'id="addon-discovery-section-detected"')
         mocked.assert_called_once_with(self.component)
 
+    def test_discovery_page_warns_about_incomplete_presets(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        discovered = [
+            DiscoveryResult({"file_format": "po", "filemask": "first/*.po"}),
+            DiscoveryResult({"file_format": "po", "filemask": "second/*.po"}),
+        ]
+        warning = "Translation discovery reached a resource limit."
+        for results in ([], discovered):
+            for truncated in (False, True):
+                with (
+                    self.subTest(results=results, truncated=truncated),
+                    patch(
+                        "weblate.trans.discovery.discover",
+                        return_value=DiscoveryResults(
+                            results,
+                            limit_reasons=[DiscoveryLimit.RESULTS] if truncated else [],
+                        ),
+                    ) as mocked,
+                ):
+                    response = self.client.post(
+                        reverse("addons", kwargs=self.kw_component),
+                        {"name": "weblate.discovery.discovery"},
+                        follow=True,
+                    )
+                    if truncated:
+                        self.assertContains(response, warning, count=1)
+                    else:
+                        self.assertNotContains(response, warning)
+                    self.assertContains(response, "Generic presets")
+                    if results:
+                        self.assertContains(
+                            response, 'data-addon-discovery-preset="detected-1"'
+                        )
+                    self.assertEqual(mocked.call_count, 1 if results else 2)
+
     def test_discovery_page_renders_detected_ui_presets(self) -> None:
         self.user.is_superuser = True
         self.user.save()
-        detected = [
+        detected: list[DetectedDiscoveryPreset] = [
             {
                 "examples": (
                     "weblate/locale/*/LC_MESSAGES/django.po",
@@ -7523,12 +7562,13 @@ class DiscoveryTest(ReusableViewTestCase):
                     "base_file_template": "",
                     "new_base_template": "",
                     "intermediate_template": "",
+                    "filemask_template": "",
                 },
             }
         ]
         with patch(
             "weblate.addons.forms.get_component_detected_discovery_presets",
-            return_value=detected,
+            return_value=DetectedDiscoveryPresets(presets=detected),
         ) as mocked:
             response = self.client.post(
                 reverse("addons", kwargs=self.kw_component),
@@ -7605,6 +7645,7 @@ class DiscoveryTest(ReusableViewTestCase):
                     "base_file_template": "docs/{{ component }}.md",
                     "new_base_template": "",
                     "intermediate_template": "",
+                    "filemask_template": "",
                 },
             },
             1,
@@ -7622,20 +7663,23 @@ class DiscoveryTest(ReusableViewTestCase):
     def test_get_ui_presets_lists_detected_before_generic_presets(self) -> None:
         with patch(
             "weblate.addons.forms.get_component_detected_discovery_presets",
-            return_value=[
-                {
-                    "examples": ("docs/news_*.md", "docs/guide_*.md"),
-                    "values": {
-                        "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
-                        "file_format": "markdown",
-                        "name_template": "{{ component }}",
-                        "language_regex": "^[^.]+$",
-                        "base_file_template": "",
-                        "new_base_template": "",
-                        "intermediate_template": "",
-                    },
-                }
-            ],
+            return_value=DetectedDiscoveryPresets(
+                presets=[
+                    {
+                        "examples": ("docs/news_*.md", "docs/guide_*.md"),
+                        "values": {
+                            "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
+                            "file_format": "markdown",
+                            "name_template": "{{ component }}",
+                            "language_regex": "^[^.]+$",
+                            "base_file_template": "",
+                            "new_base_template": "",
+                            "intermediate_template": "",
+                            "filemask_template": "",
+                        },
+                    }
+                ]
+            ),
         ):
             form = DiscoveryAddon.get_add_form(self.user, component=self.component)
             self.assertIsNotNone(form)
@@ -7696,7 +7740,7 @@ class DiscoveryTest(ReusableViewTestCase):
         self.assertNotContains(response, "addon-ui-presets")
 
     def test_detected_ui_presets_skip_builtin_equivalent_matches(self) -> None:
-        detected = [
+        detected: list[DetectedDiscoveryPreset] = [
             {
                 "examples": ("*/application.po", "*/other.po"),
                 "values": {
@@ -7707,12 +7751,13 @@ class DiscoveryTest(ReusableViewTestCase):
                     "base_file_template": "",
                     "new_base_template": "",
                     "intermediate_template": "",
+                    "filemask_template": "",
                 },
             }
         ]
         with patch(
             "weblate.addons.forms.get_component_detected_discovery_presets",
-            return_value=detected,
+            return_value=DetectedDiscoveryPresets(presets=detected),
         ):
             form = DiscoveryAddon.get_add_form(self.user, component=self.component)
             self.assertIsNotNone(form)

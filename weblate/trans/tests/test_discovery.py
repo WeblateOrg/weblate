@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from lxml import html
-from translation_finder import DiscoveryResult
+from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 
 from weblate.auth.models import User
 from weblate.trans.actions import ActionEvents
@@ -1283,12 +1283,13 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
 
         with patch(
             "weblate.trans.discovery.discover",
-            side_effect=[[], discovered],
+            side_effect=[DiscoveryResults(), DiscoveryResults(discovered)],
         ) as mocked:
             presets = get_component_detected_discovery_presets(component)
 
-        self.assertEqual(len(presets), 1)
-        self.assertEqual(presets[0]["values"]["file_format"], "aresource")
+        self.assertEqual(len(presets.presets), 1)
+        self.assertEqual(presets.presets[0]["values"]["file_format"], "aresource")
+        self.assertFalse(presets.truncated)
         self.assertEqual(
             mocked.call_args_list,
             [
@@ -1305,6 +1306,34 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
                 ),
             ],
         )
+
+    def test_component_detected_presets_preserve_truncation(self) -> None:
+        component = self.make_mock_component()
+        results = [
+            self.make_discovery_result(file_format="po", filemask="first/*.po"),
+            self.make_discovery_result(file_format="po", filemask="second/*.po"),
+        ]
+        truncated = (DiscoveryLimit.RESULTS,)
+        for scans in (
+            [DiscoveryResults(results, limit_reasons=truncated)],
+            [
+                DiscoveryResults(limit_reasons=truncated),
+                DiscoveryResults(results),
+            ],
+            [
+                DiscoveryResults(),
+                DiscoveryResults(results, limit_reasons=truncated),
+            ],
+            [DiscoveryResults(limit_reasons=truncated), DiscoveryResults()],
+        ):
+            with (
+                self.subTest(scans=scans),
+                patch("weblate.trans.discovery.discover", side_effect=scans) as mocked,
+            ):
+                detected = get_component_detected_discovery_presets(component)
+                self.assertTrue(detected.truncated)
+                self.assertEqual(bool(detected.presets), bool(scans[-1]))
+                self.assertEqual(mocked.call_count, len(scans))
 
     def test_detected_preset_key_matches_builtin_equivalent_po_layout(self) -> None:
         first = self.make_discovery_result(

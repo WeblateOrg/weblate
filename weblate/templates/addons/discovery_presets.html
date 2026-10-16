@@ -1,6 +1,9 @@
 {% load i18n %}
 
 <div class="mb-4">
+  {% if discovery_truncated %}
+    {% include "trans/discovery-warning.html" %}
+  {% endif %}
   <div class="mb-3">
     <div class="fw-semibold">{% translate "Guided presets" %}</div>
     <div class="form-text">

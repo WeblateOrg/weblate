@@ -13,7 +13,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
-from translation_finder import DiscoveryResult
+from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
@@ -727,7 +727,10 @@ class CreateTest(ViewTestCase):
         }
 
         with (
-            patch("weblate.trans.forms.discover", return_value=[discovery]),
+            patch(
+                "weblate.trans.forms.discover",
+                return_value=DiscoveryResults([discovery]),
+            ),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             response = self.client.post(create_url, params)
@@ -1177,7 +1180,7 @@ class CreateTest(ViewTestCase):
         self.assertEqual(session_data["branch"], "")
 
         url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
-        with patch("weblate.trans.forms.discover", return_value=[]):
+        with patch("weblate.trans.forms.discover", return_value=DiscoveryResults()):
             response = self.client.get(url)
 
         form = response.context["form"]
@@ -1245,7 +1248,7 @@ class CreateTest(ViewTestCase):
         url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
         with (
             patch.object(Component, "clean_repo"),
-            patch("weblate.trans.forms.discover", return_value=[]),
+            patch("weblate.trans.forms.discover", return_value=DiscoveryResults()),
         ):
             response = self.client.get(url)
 
@@ -1273,7 +1276,7 @@ class CreateTest(ViewTestCase):
         url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
         with (
             patch.object(Component, "clean_repo"),
-            patch("weblate.trans.forms.discover", return_value=[]),
+            patch("weblate.trans.forms.discover", return_value=DiscoveryResults()),
         ):
             response = self.client.get(url)
             self.assertEqual(response.context["stage"], "init")
@@ -1300,6 +1303,91 @@ class CreateTest(ViewTestCase):
         self.assertEqual(response.context["form"].errors, {})
         self.assertEqual(response.context["stage"], "create")
 
+    def test_component_discover_form_truncation(self) -> None:
+        discovery = DiscoveryResult({"file_format": "po", "filemask": "po/*.po"})
+        truncated = (DiscoveryLimit.RESULTS,)
+        for scans in (
+            [DiscoveryResults([discovery])],
+            [DiscoveryResults(), DiscoveryResults()],
+            [DiscoveryResults([discovery], limit_reasons=truncated)],
+            [DiscoveryResults(limit_reasons=truncated), DiscoveryResults([discovery])],
+            [
+                DiscoveryResults(),
+                DiscoveryResults([discovery], limit_reasons=truncated),
+            ],
+            [DiscoveryResults(limit_reasons=truncated), DiscoveryResults()],
+        ):
+            with (
+                self.subTest(scans=scans),
+                patch.object(ComponentDiscoverForm, "clean_instance"),
+                patch.object(
+                    ComponentDiscoverForm, "discover", side_effect=scans
+                ) as mocked,
+            ):
+                request = self.get_request()
+                # A fresh scan must replace the previous run's truncation status.
+                request.session = {"create_discovery_truncated": True}
+                form = ComponentDiscoverForm(request, initial={})
+                expected = any(scan.truncated for scan in scans)
+                self.assertEqual(form.discovery_truncated, expected)
+                self.assertEqual(
+                    request.session["create_discovery_truncated"], expected
+                )
+                self.assertEqual(mocked.call_count, len(scans))
+
+                restored = ComponentDiscoverForm(request, initial={}, data={})
+                self.assertEqual(restored.discovery_truncated, expected)
+                self.assertEqual(restored.discovered, form.discovered)
+                self.assertEqual(mocked.call_count, len(scans))
+
+                del request.session["create_discovery_truncated"]
+                restored = ComponentDiscoverForm(request, initial={}, data={})
+                self.assertFalse(restored.discovery_truncated)
+
+    def test_create_component_wizard_warns_about_incomplete_discovery(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        url = reverse("create-component-vcs")
+        params = {
+            "name": "Incomplete discovery",
+            "slug": "incomplete-discovery",
+            "project": self.project.pk,
+            "vcs": "git",
+            "repo": self.component.repo,
+            "source_language": get_default_lang(),
+        }
+        discovery = DiscoveryResult({"file_format": "po", "filemask": "po/*.po"})
+        warning = "Translation discovery reached a resource limit."
+        for results in ([], [discovery]):
+            with (
+                self.subTest(results=results),
+                patch(
+                    "weblate.trans.forms.discover",
+                    return_value=DiscoveryResults(
+                        results, limit_reasons=[DiscoveryLimit.RESULTS]
+                    ),
+                ),
+            ):
+                response = self.client.post(url, params)
+                self.assertContains(response, warning, count=1)
+                self.assertContains(response, "Specify configuration manually")
+
+            with patch("weblate.trans.forms.discover") as mocked:
+                response = self.client.post(url, {**params, "discovery": "invalid"})
+                self.assertContains(response, warning, count=1)
+                self.assertIn("discovery", response.context["form"].errors)
+                mocked.assert_not_called()
+
+            response = self.client.post(
+                url, {**params, "discovery": "0" if results else "manual"}
+            )
+            self.assertEqual(response.context["stage"], "create")
+            self.assertNotContains(response, warning)
+
+        with patch("weblate.trans.forms.discover", return_value=DiscoveryResults()):
+            response = self.client.post(url, params)
+        self.assertNotContains(response, warning)
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_component_discover_form_shows_hidden_field_errors(self) -> None:
         repo = self.make_github_app_component()
@@ -1318,7 +1406,7 @@ class CreateTest(ViewTestCase):
 
         request = self.get_request()
         request.session = {}
-        with patch("weblate.trans.forms.discover", return_value=[]):
+        with patch("weblate.trans.forms.discover", return_value=DiscoveryResults()):
             form = ComponentDiscoverForm(request, initial=initial, data=data)
 
         self.assertFalse(form.is_valid())
@@ -1379,7 +1467,7 @@ class CreateTest(ViewTestCase):
         url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
         with (
             patch.object(Component, "clean_repo", autospec=True) as clean_repo,
-            patch("weblate.trans.forms.discover", return_value=[]),
+            patch("weblate.trans.forms.discover", return_value=DiscoveryResults()),
         ):
             clean_repo.side_effect = canonicalize
             response = self.client.get(url)

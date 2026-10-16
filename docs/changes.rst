@@ -14,6 +14,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* :ref:`Component creation <adding-components>` and :ref:`discovery presets <addon-weblate.discovery.discovery>` warn when resource limits might make discovery results incomplete.
 * Renamed provider configuration and selection to :ref:`Translation services <machine-translation-setup>`, while keeping the translation editor's :guilabel:`Automatic suggestions` tab.
 * :ref:`Translation history <translation-history>` records change origins, distinguishing user interface, API, repository, system, and :ref:`automation <automation-reference>` activity, including automation installation and execution identifiers.
 * :ref:`Automations <automation-reference>` use a YAML editor and documented change-event identifiers, with a separate execution form that previews by default and supports change context for real runs.

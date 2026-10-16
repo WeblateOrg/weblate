@@ -34,6 +34,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
     ComponentDiscovery,
+    DetectedDiscoveryPresets,
     get_component_detected_discovery_presets,
     get_detected_discovery_preset_values_key,
 )
@@ -1114,6 +1115,7 @@ class DiscoveryForm(BaseAddonForm):
                     context={
                         "guided_presets": self.guided_presets,
                         "guided_preset_sections": self.guided_preset_sections,
+                        "discovery_truncated": self.detected_discovery_presets.truncated,
                     },
                 ),
             )
@@ -1305,17 +1307,20 @@ class DiscoveryForm(BaseAddonForm):
         return tuple(rendered) or preset["examples"]
 
     @cached_property
-    def detected_ui_presets(self) -> list[dict[str, object]]:
+    def detected_discovery_presets(self) -> DetectedDiscoveryPresets:
         component = self._addon.instance.component
         if component is None or self._addon.instance.pk is not None:
-            return []
+            return DetectedDiscoveryPresets()
+        return get_component_detected_discovery_presets(component)
 
+    @cached_property
+    def detected_ui_presets(self) -> list[dict[str, object]]:
         builtins = {
             self.get_preset_values_key(values) for values in self.PRESETS.values()
         }
         detected: list[dict[str, object]] = []
         seen: set[tuple[str, ...]] = set()
-        for preset in get_component_detected_discovery_presets(component):
+        for preset in self.detected_discovery_presets.presets:
             key = self.get_preset_values_key(preset["values"])
             if key in builtins or key in seen:
                 continue
