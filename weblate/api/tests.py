@@ -75,6 +75,7 @@ from weblate.api.views import MemoryFilter, MemoryViewSet
 from weblate.auth.data import (
     ROLES,
     SELECTION_ALL,
+    SELECTION_ALL_PUBLIC,
     SELECTION_COMPONENT_LIST,
     SELECTION_MANUAL,
 )
@@ -87,6 +88,7 @@ from weblate.auth.models import (
     TeamMembership,
     User,
     UserBlock,
+    get_anonymous,
 )
 from weblate.auth.permissions import get_project_repository_selection
 from weblate.lang.models import Language
@@ -109,6 +111,7 @@ from weblate.trans.models import (
     Announcement,
     Category,
     Change,
+    Comment,
     Component,
     ComponentLink,
     ComponentList,
@@ -17575,6 +17578,126 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": Change.objects.all()[0].pk})
         )
         self.assertIn("translation", response.data)
+
+    def test_ip_address_visibility(self) -> None:
+        ip_address = "192.0.2.10"
+        translation = self.component.translation_set.get(language__code="cs")
+        unit = translation.unit_set.order_by("pk").first()
+        assert unit is not None
+        anonymous = get_anonymous()
+
+        suggestion = Suggestion.objects.create(
+            unit=unit,
+            target="Anonymous suggestion",
+            user=anonymous,
+            userdetails={"address": ip_address, "agent": "Test agent"},
+        )
+        suggestion_change = unit.change_set.create(
+            action=ActionEvents.SUGGESTION,
+            user=anonymous,
+            author=anonymous,
+            suggestion=suggestion,
+        )
+        comment = Comment.objects.create(
+            unit=unit,
+            comment="Anonymous comment",
+            user=anonymous,
+            userdetails={"address": ip_address, "agent": "Test agent"},
+        )
+        comment_change = unit.change_set.create(
+            action=ActionEvents.COMMENT,
+            user=anonymous,
+            author=anonymous,
+            comment=comment,
+            details={"comment": comment.comment},
+        )
+        changes = (suggestion_change, comment_change)
+        for change in changes:
+            self.assertEqual(change.details["ip_address"], ip_address)
+
+        reader_group = Group.objects.create(
+            name="Read-only API users",
+            project_selection=SELECTION_ALL_PUBLIC,
+            language_selection=SELECTION_ALL,
+        )
+        reader = User.objects.create_user("change_reader", "reader@example.com")
+        reader.groups.set([reader_group])
+        reader.clear_permissions_cache()
+        self.assertTrue(reader.can_access_project(self.project))
+        self.assertFalse(reader.has_perm("unit.edit", unit))
+
+        editor = self.user
+        self.assertTrue(editor.has_perm("unit.edit", unit))
+
+        project_admin = User.objects.create_user(
+            "change_project_admin", "project-admin@example.com"
+        )
+        self.project.add_user(project_admin, "Administration")
+        project_admin.clear_permissions_cache()
+        self.assertTrue(project_admin.has_perm("project.permissions", self.project))
+
+        superuser = User.objects.create_user(
+            "change_superuser", "superuser@example.com", is_superuser=True
+        )
+        endpoints = (
+            (
+                reverse("api:change-detail", kwargs={"pk": suggestion_change.pk}),
+                (suggestion_change,),
+            ),
+            (
+                reverse("api:change-detail", kwargs={"pk": comment_change.pk}),
+                (comment_change,),
+            ),
+            (reverse("api:change-list"), changes),
+            (
+                reverse("api:project-changes", kwargs=self.project_kwargs),
+                changes,
+            ),
+            (
+                reverse("api:component-changes", kwargs=self.component_kwargs),
+                changes,
+            ),
+            (
+                reverse("api:translation-changes", kwargs=self.translation_kwargs),
+                changes,
+            ),
+        )
+        callers = (
+            ("anonymous", None, False),
+            ("reader", reader, False),
+            ("editor", editor, False),
+            ("project_admin", project_admin, False),
+            ("superuser", superuser, True),
+        )
+
+        for caller_name, user, can_view_ip_address in callers:
+            if user is None:
+                self.client.credentials()
+            else:
+                self.client.credentials(
+                    HTTP_AUTHORIZATION=f"Token {user.auth_token.key}"
+                )
+            for url, expected_changes in endpoints:
+                with self.subTest(caller=caller_name, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    if "results" in response.data:
+                        records = {
+                            item["id"]: item for item in response.data["results"]
+                        }
+                    else:
+                        records = {response.data["id"]: response.data}
+                    for change in expected_changes:
+                        self.assertIn(change.pk, records)
+                        details = records[change.pk]["details"]
+                        if can_view_ip_address:
+                            self.assertEqual(details["ip_address"], ip_address)
+                        else:
+                            self.assertNotIn("ip_address", details)
+
+        for change in changes:
+            change.refresh_from_db()
+            self.assertEqual(change.details["ip_address"], ip_address)
 
     def test_addon_configuration_details(self) -> None:
         details = build_addon_change_details(
