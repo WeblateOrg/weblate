@@ -32,6 +32,9 @@
           </h4>
         </div>
         <div class="card-body">
+          {% if stage == "discover" and form.discovery_truncated %}
+            {% include "trans/discovery-warning.html" %}
+          {% endif %}
           {% crispy form %}
           {% if stage == "create" %}
             <div class="alert alert-info">

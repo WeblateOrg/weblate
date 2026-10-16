@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 import re
+from dataclasses import dataclass, field
 from itertools import islice
 from operator import itemgetter
 from pathlib import Path
@@ -111,6 +112,12 @@ class DetectedDiscoveryPresetValues(TypedDict):
 class DetectedDiscoveryPreset(TypedDict):
     examples: tuple[str, ...]
     values: DetectedDiscoveryPresetValues
+
+
+@dataclass
+class DetectedDiscoveryPresets:
+    presets: list[DetectedDiscoveryPreset] = field(default_factory=list)
+    truncated: bool = False
 
 
 get_detected_discovery_preset_values_key = cast(
@@ -447,13 +454,14 @@ def get_detected_discovery_presets_from_results(
 
 def get_component_detected_discovery_presets(
     component: Component,
-) -> list[DetectedDiscoveryPreset]:
+) -> DetectedDiscoveryPresets:
     try:
         discovered = discover(
             component.full_path,
             source_language=component.source_language.code,
             hint=component.filemask,
         )
+        truncated = discovered.truncated
         if not discovered:
             discovered = discover(
                 component.full_path,
@@ -461,13 +469,17 @@ def get_component_detected_discovery_presets(
                 eager=True,
                 hint=component.filemask,
             )
-        return get_detected_discovery_presets_from_results(discovered)
+            truncated |= discovered.truncated
+        return DetectedDiscoveryPresets(
+            presets=get_detected_discovery_presets_from_results(discovered),
+            truncated=truncated,
+        )
     except Exception:  # pragma: no cover - defensive fallback
         report_error(
             "Component discovery preset detection failed",
             project=component.project,
         )
-        return []
+        return DetectedDiscoveryPresets()
 
 
 class ComponentDiscovery:
