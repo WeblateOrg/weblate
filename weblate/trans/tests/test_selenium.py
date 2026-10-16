@@ -38,8 +38,9 @@ from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
-    ElementNotVisibleException,
+    ElementNotInteractableException,
     NoSuchElementException,
+    TimeoutException,
     WebDriverException,
 )
 from selenium.webdriver.common.by import By
@@ -988,16 +989,61 @@ class SeleniumTests(
             print(self.driver.page_source)
             raise
 
+        def click_when_ready(driver: WebDriver) -> bool:
+            if not element_to_be_clickable(element)(driver):
+                return False
+            # Bootstrap enables smooth scrolling. Finish scrolling before the
+            # native click so WebDriver does not race an ongoing scroll.
+            driver.execute_script(
+                """
+                arguments[0].scrollIntoView({
+                    behavior: "instant", block: "center", inline: "nearest"
+                });
+                """,
+                element,
+            )
+            element.click()
+            return True
+
         try:
-            element.click()
-        except ElementNotVisibleException:
-            self.actions.move_to_element(element).perform()
-            element.click()
-        except ElementClickInterceptedException:
-            wait = WebDriverWait(self.driver, timeout=2)
-            wait.until(lambda _: element.is_displayed())
-            self.actions.move_to_element(element).perform()
-            element.click()
+            WebDriverWait(
+                self.driver,
+                timeout=10,
+                ignored_exceptions=(
+                    ElementClickInterceptedException,
+                    ElementNotInteractableException,
+                ),
+            ).until(click_when_ready)
+        except TimeoutException as error:
+            try:
+                state = self.driver.execute_script(
+                    """
+                    const target = arguments[0];
+                    const style = getComputedStyle(target);
+                    return {
+                        activeTabs: Array.from(
+                            document.querySelectorAll('.tab-pane.active'),
+                            pane => pane.id
+                        ),
+                        target: {
+                            id: target.id,
+                            pane: target.closest('.tab-pane')?.id,
+                            rect: target.getBoundingClientRect().toJSON(),
+                            display: style.display,
+                            visibility: style.visibility,
+                            disabled: target.matches(':disabled')
+                        },
+                        scroll: {x: window.scrollX, y: window.scrollY},
+                        viewport: {width: innerWidth, height: innerHeight}
+                    };
+                    """,
+                    element,
+                )
+            except WebDriverException as diagnostic_error:
+                error.add_note(f"Could not inspect click target: {diagnostic_error}")
+            else:
+                error.add_note(f"Click state: {state}")
+            raise
 
     def select_component_license(self, license_id: str) -> None:
         inherit_license = self.driver.find_element(By.ID, "id_inherit_license")
