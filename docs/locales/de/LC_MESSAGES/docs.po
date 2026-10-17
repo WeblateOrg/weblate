@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-16 02:48+0000\n"
-"PO-Revision-Date: 2026-10-17 05:32+0000\n"
+"PO-Revision-Date: 2026-10-18 04:27+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -3137,16 +3137,11 @@ msgstr ""
 "Passwort. Wir empfehlen, sie mit einem Passwortmanager wie Bitwarden, "
 "1Password, Authy oder Keeper zu speichern."
 
-#, fuzzy
-#| msgid ""
-#| "Each user can configure this in :ref:`profile-account` and second factor "
-#| "will be required to sign in addition to the existing authentication "
-#| "method."
 msgid ""
 "Each user can configure this in :ref:`profile-security` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
-"Jeder Benutzer kann dies im :ref:`profile-account` konfigurieren und der "
+"Jeder Benutzer kann dies in ::ref:`profile-security` konfigurieren und der "
 "zweite Faktor wird zusätzlich zur bestehenden Authentifizierungsmethode "
 "benötigt."
 
@@ -6995,17 +6990,6 @@ msgstr ""
 msgid "Defaults to ``[]``."
 msgstr "Der Standardwert ist ``[]``."
 
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. Matching hosts are also exempt "
-#| "from private-target restrictions. For direct connections, Weblate does "
-#| "not resolve, pin, or verify the peer address of matching hosts. Only add "
-#| "hosts or domains whose network destinations are trusted. When a "
-#| "configured :ref:`http-proxy` is used, the proxy is trusted to resolve the "
-#| "destination hostname."
 msgid ""
 "The allowlist affects project-managed translation services in two ways: it "
 "permits the configured endpoint during outbound validation, and it marks "
@@ -7018,7 +7002,7 @@ msgid ""
 "destination hostname."
 msgstr ""
 "Die Positivliste wirkt sich in zweierlei Hinsicht auf projektverwaltete "
-"Maschinendienste aus: Sie lässt den konfigurierten Endpunkt während der "
+"Übersetzungsdienste aus: Sie lässt den konfigurierten Endpunkt während der "
 "Validierung ausgehender Verbindungen zu und markiert übereinstimmende Hosts "
 "als vertrauenswürdig, wenn entschieden wird, ob Fehlerdetails oder "
 "Antwortinhalte von Remote-Anbietern dem Benutzer angezeigt werden dürfen. "
@@ -7702,21 +7686,20 @@ msgstr "`rebase` – Standard"
 msgid "`merge`"
 msgstr "`merge`"
 
-#, fuzzy
-#| msgid "Default add-ons to install for every created component."
 msgid "Default notification settings for every newly created user."
 msgstr ""
-"Standarderweiterungen, die für jede erstellte Komponente installiert werden."
+"Standardmäßige Benachrichtigungseinstellungen für jeden neu erstellten "
+"Benutzer."
 
 msgid ""
 "A list of 3-tuples consisting of notification scope, notification frequency "
 "and notification handler."
 msgstr ""
+"Eine Liste von 3-Tupeln, bestehend aus Benachrichtigungsbereich, "
+"Benachrichtigungshäufigkeit und Benachrichtigungshandler."
 
-#, fuzzy
-#| msgid "This setting affects only newly created components."
 msgid "This setting affects only newly created users."
-msgstr "Diese Einstellung wirkt sich nur auf neu erstellte Komponenten aus."
+msgstr "Diese Einstellung wirkt sich nur auf neu erstellte Benutzer aus."
 
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` "
@@ -8291,19 +8274,15 @@ msgstr ""
 "anstatt :file:`legal/documents/tos.html` einzubetten. Wenn ein Link zur "
 "Datenschutzerklärung vorhanden ist, umfasst die Bestätigung beide Dokumente."
 
-#, fuzzy
-#| msgid ""
-#| "In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` "
-#| "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so "
-#| "the API schema terms link uses the same fallback."
 msgid ""
 "In non-Docker deployments, define :setting:`LEGAL_URL` and "
 "any :setting:`LEGAL_HIDDEN_DOCUMENTS` before ``SPECTACULAR_SETTINGS`` is "
 "created so the API schema terms link uses the same URL."
 msgstr ""
-"Bei Nicht-Docker-Bereitstellungen sollten :setting:`LEGAL_HIDDEN_DOCUMENTS` "
-"und :setting:`LEGAL_URL` definiert werden, bevor ``SPECTACULAR_SETTINGS`` "
-"erstellt wird, damit der Link zum API-Schema denselben Fallback verwendet."
+"Bei Nicht-Docker-Bereitstellungen sollten :setting:`LEGAL_URL` und alle "
+":setting:`LEGAL_HIDDEN_DOCUMENTS` definiert werden, bevor "
+"``SPECTACULAR_SETTINGS`` erstellt wird, damit der Link zum API-Schema "
+"dieselbe URL verwendet."
 
 msgid "You need :ref:`legal` installed to make this work."
 msgstr "Sie müssen :ref:`legal` installiert haben, damit dies funktioniert."
@@ -8484,14 +8463,8 @@ msgid ""
 "to this URL when visited directly."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid "Configures whether the private commit e-mail is opt-in or opt-out."
-msgstr ""
-"Legt fest, ob es sich bei der privaten Commit-E-Mail um eine Opt-In- oder "
-"Opt-Out-E-Mail handelt (standardmäßig ist sie Opt-In)."
+msgstr "Legt fest, ob die private Commit-E-Mail Opt-in oder Opt-out ist."
 
 msgid ""
 "With ``True`` (the default), users use their account e-mail unless they "
@@ -8541,14 +8514,8 @@ msgstr ""
 "konfiguriert. Benutzer können ihre Commit-E-Mails im :ref:`profile` "
 "konfigurieren."
 
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit name is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid "Configures whether the private commit name is opt-in or opt-out."
-msgstr ""
-"Legt fest, ob der private Commit-Name Opt-In- oder Opt-Out ist(standardmäßig "
-"ist er Opt-In)."
+msgstr "Legt fest, ob der private Commit-Name Opt-in oder Opt-out ist."
 
 msgid ""
 "With ``True`` (the default), users use their account name unless they choose "
@@ -9689,15 +9656,13 @@ msgstr ""
 "Glossare in verschiedenen Dateiformaten anbieten."
 
 msgid "List of file formats available for use."
-msgstr "Liste der Dateiformate, die verwendet werden können."
+msgstr "Liste der verfügbaren Dateiformate."
 
 msgid "The default list already has the common formats."
 msgstr "Die Standardliste enthält bereits die gängigen Formate."
 
-#, fuzzy
-#| msgid "List of machinery services available for use."
 msgid "List of translation services available for use."
-msgstr "Liste der zur Verfügung stehenden Maschinendienste."
+msgstr "Liste der verfügbaren Übersetzungsdienste."
 
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
@@ -10285,16 +10250,13 @@ msgstr ""
 msgid ":guilabel:`Discard local changes`"
 msgstr ":guilabel:`Lokale Änderungen verwerfen`"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream, discards pending Weblate "
-#| "changes, and reconciles translation files."
 msgid ""
 "Resets Weblate's local repository to upstream, discards local commits and "
 "pending translation changes, and reconciles translation files."
 msgstr ""
-"Setzt das lokale Repository von Weblate auf Upstream zurück, verwirft "
-"ausstehende Weblate-Änderungen, und gleicht die Übersetzungsdateien ab."
+"Setzt das lokale Repository von Weblate auf Upstream zurück, verwirft lokale "
+"Commits und ausstehende Übersetzungsänderungen, und gleicht die "
+"Übersetzungsdateien ab."
 
 msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
@@ -10304,18 +10266,13 @@ msgstr ""
 msgid ":guilabel:`Reset and reapply translations`"
 msgstr ":guilabel:`Übersetzungen zurücksetzen und erneut anwenden`"
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream, reconciles translation "
-#| "files, and reapplies pending translations. See :ref:`manage-vcs-reset-"
-#| "reapply`."
 msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
 "and reapplies Weblate's translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
 "Setzt das lokale Weblate-Repository auf Upstream zurück, gleicht die "
-"Übersetzungsdateien ab, und wendet ausstehende Übersetzungen erneut an. "
-"Siehe :ref:`manage-vcs-reset-reapply`."
+"Übersetzungsdateien ab, und wendet Weblates Übersetzungen erneut an. Siehe "
+":ref:`manage-vcs-reset-reapply`."
 
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
@@ -11093,12 +11050,10 @@ msgstr ""
 "Führen Sie :samp:`weblate collectstatic --noinput` aus, um statische Dateien "
 "zu sammeln, die an Clients geliefert werden."
 
-#, fuzzy
-#| msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
 msgid "Custom quality checks, add-ons, translation services and auto-fixes"
 msgstr ""
-"Benutzerdefinierte Qualitätsprüfungen, Erweiterungen, automatische "
-"Vorschläge und automatische Korrekturen"
+"Benutzerdefinierte Qualitätsprüfungen, Erweiterungen, Übersetzungsdienste "
+"und automatische Korrekturen"
 
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
@@ -13848,10 +13803,8 @@ msgstr ""
 "Für den Fall, dass Sie sehr viele CPU-Kerne haben und auf Speicherprobleme "
 "stoßen, versuchen Sie die Zahl der Worker zu reduzieren:"
 
-#, fuzzy
-#| msgid "You can also fine-tune individual worker categories:"
 msgid "You can fine-tune the combined worker:"
-msgstr "Sie können auch einzelne Worker-Kategorien feinabstimmen:"
+msgstr "Sie können den kombinierten Worker feinabstimmen:"
 
 #, fuzzy
 #| msgid "You can also fine-tune individual worker categories:"
@@ -14875,21 +14828,15 @@ msgstr ""
 "Konfiguriert :ref:`code-hosting-azure-devops-pull-requests` durch Ändern "
 "von :setting:`AZURE_DEVOPS_CREDENTIALS`."
 
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Translation services settings"
-msgstr "Übersetzungsanweisungen"
+msgstr "Übersetzungsdiensteinstellungen"
 
-#, fuzzy
-#| msgid ""
-#| "Automatic suggestion services are now configured in the user interface, "
-#| "see :ref:`machine-translation-setup`."
 msgid ""
 "Translation services are now configured in the user interface, "
 "see :ref:`machine-translation-setup`."
 msgstr ""
-"Automatische Vorschlagsdienste werden jetzt in der Bedienoberfläche "
-"konfiguriert, siehe :ref:`machine-translation-setup`."
+"Übersetzungsdienste werden nun über die Bedienoberfläche konfiguriert, siehe "
+":ref:`machine-translation-setup`."
 
 msgid ""
 "The existing environment variables are imported during the migration to "
@@ -15491,28 +15438,21 @@ msgstr ""
 "Speicherort. Siehe :ref:`cdn-server-security` für eine Anleitung zur "
 "sicheren Bereitstellung."
 
-#, fuzzy
-#| msgid ""
-#| "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, translation services, or "
 "autofixes"
 msgstr ""
 "Aktivierte Apps, Qualitätsprüfungen, Formate, Erweiterungen, "
-"Maschinendienste oder Autofixes ändern"
+"Übersetzungsdienste oder Autofixes ändern"
 
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, file formats, add-ons, "
-#| "machinery, or autofixes can be adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "translation services, or autofixes can be adjusted by the following "
 "variables:"
 msgstr ""
 "Die integrierte Konfiguration der aktivierten Qualitätsprüfungen, "
-"Dateiformate, Erweiterungen, Maschinendienste oder Autofixes kann durch die "
-"folgenden Variablen angepasst werden:"
+"Dateiformate, Erweiterungen, Übersetzungsdienste oder Autofixes kann durch "
+"die folgenden Variablen angepasst werden:"
 
 msgid "Container settings"
 msgstr "Container-Einstellungen"
@@ -16174,14 +16114,8 @@ msgstr ""
 msgid "Access the Weblate admin interface"
 msgstr "Auf die Adminoberfläche von Weblate zugreifen"
 
-#, fuzzy
-#| msgid ""
-#| "Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic "
-#| "suggestions`"
 msgid "Navigate to :guilabel:`Manage` → :guilabel:`Translation services`"
-msgstr ""
-"Zu :guilabel:`Maschinelle Übersetzung` → :guilabel:`Automatische Vorschläge` "
-"navigieren"
+msgstr "Zu :guilabel:`Verwalten` → :guilabel:`Übersetzungsdienste` navigieren"
 
 msgid "Add a new LibreTranslate service with:"
 msgstr "Einen neuen LibreTranslate-Dienst hinzufügen:"
@@ -17456,14 +17390,10 @@ msgid ""
 "when more than one site installation of a service exists."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Per-project automatic suggestion can also be configured via "
-#| "the :ref:`api`."
 msgid ""
 "Translation service installations can also be configured via the :ref:`api`."
 msgstr ""
-"Automatische Vorschläge für einzelne Projekte können auch über :ref:`api` "
+"Installationen der Übersetzungsdienste können auch über :ref:`api` "
 "konfiguriert werden."
 
 msgid ""
@@ -17559,14 +17489,6 @@ msgstr ""
 msgid "LLM translation context"
 msgstr "LLM-Übersetzungskontext"
 
-#, fuzzy
-#| msgid ""
-#| "LLM-based automatic suggestion services receive additional context about "
-#| "each translated string, when available. This includes the string context "
-#| "or monolingual key, additional explanation, configured secondary-language "
-#| "translation, plural information, failing quality checks, and placeholder "
-#| "contents. Matching glossary entries are passed with their explanations "
-#| "and selected flags, so duplicate glossary terms can be disambiguated."
 msgid ""
 "LLM-based translation services receive additional context about each "
 "translated string, when available. This includes the string context or "
@@ -17575,14 +17497,14 @@ msgid ""
 "contents. Matching glossary entries are passed with their explanations and "
 "selected flags, so duplicate glossary terms can be disambiguated."
 msgstr ""
-"LLM-basierte automatische Vorschlagsdienste erhalten, sofern verfügbar, "
-"zusätzliche Kontextinformationen zu jeder übersetzten Zeichenkette. Dazu "
-"gehören der Zeichenkettenkontext oder der einsprachige Schlüssel, "
-"zusätzliche Erklärungen, konfigurierte Übersetzungen in die Zweitsprache, "
-"Informationen zur Pluralform, fehlgeschlagene Qualitätsprüfungen sowie "
-"Platzhalterinhalte. Übereinstimmende Glossareinträge werden zusammen mit "
-"ihren Erläuterungen und ausgewählten Markierungen übermittelt, sodass "
-"doppelte Glossarbegriffe eindeutig zugeordnet werden können."
+"LLM-basierte Übersetzungsdienste erhalten, sofern verfügbar, zusätzliche "
+"Kontextinformationen zu jeder übersetzten Zeichenkette. Dazu gehören der "
+"Zeichenkettenkontext oder der einsprachige Schlüssel, zusätzliche "
+"Erklärungen, konfigurierte Übersetzungen in die Zweitsprache, Informationen "
+"zur Pluralform, fehlgeschlagene Qualitätsprüfungen sowie Platzhalterinhalte. "
+"Übereinstimmende Glossareinträge werden zusammen mit ihren Erläuterungen und "
+"ausgewählten Markierungen übermittelt, sodass doppelte Glossarbegriffe "
+"eindeutig zugeordnet werden können."
 
 msgid ""
 "You can add target-language-specific instructions in :guilabel:`Language-"
@@ -18077,10 +17999,8 @@ msgid "To install :ref:`addon-weblate.gettext.mo` for all components:"
 msgstr ""
 "Um :ref:`addon-weblate.gettext.mo` für alle Komponenten zu installieren:"
 
-#, fuzzy
-#| msgid "Installs a site-wide automatic suggestion service."
 msgid "Installs a site-wide translation service."
-msgstr "Installiert einen plattformweiten automatischen Vorschlagsdienst."
+msgstr "Installiert einen plattformweiten Übersetzungsdienst."
 
 msgid "To install :ref:`mt-deepl`:"
 msgstr "Um :ref:`mt-deepl` zu installieren:"
@@ -18136,16 +18056,12 @@ msgstr ""
 "Dies wird zum Erstellen von <https://www.l10n.cz/wiki/Slovn%C3%ADky/"
 "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF/> verwendet."
 
-#, fuzzy
-#| msgid ""
-#| "Lists automatic suggestions services in reStructuredText as a template "
-#| "for :doc:`/admin/machine`."
 msgid ""
 "Lists translation services in reStructuredText as a template for :doc:`/"
 "admin/machine`."
 msgstr ""
-"Listet automatische Vorschlagsdienste in reStructuredText als Vorlage "
-"für :doc:`/admin/machine` auf."
+"Listet Übersetzungsdienste in reStructuredText als Vorlage für :doc:`/admin/"
+"machine` auf."
 
 #, fuzzy
 #| msgid ""
@@ -19619,15 +19535,11 @@ msgstr "Neues Projekt erstellen"
 msgid "Connecting a GitHub account"
 msgstr "Ein GitHub-Konto verbinden"
 
-#, fuzzy
-#| msgid "Creating component"
 msgid "Loading component branches"
-msgstr "Komponente erstellen"
+msgstr "Komponenten-Branches laden"
 
-#, fuzzy
-#| msgid "Turning on reviews"
 msgid "Rendering a Markdown preview"
-msgstr "Überprüfungen einschalten"
+msgstr "Eine Markdown-Vorschau rendern"
 
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
@@ -23872,10 +23784,8 @@ msgstr ""
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
-#, fuzzy
-#| msgid "Weblate 2026.10.1"
 msgid "Weblate 2026.11"
-msgstr "Weblate 2026.10.1"
+msgstr "Weblate 2026.11"
 
 msgid "*Not yet released.*"
 msgstr "*Noch nicht veröffentlicht.*"
@@ -24035,24 +23945,18 @@ msgstr ""
 msgid "Contributors"
 msgstr "Mitwirkende"
 
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "74?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/174?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"74?closed=1>`__."
+"174?closed=1>`__."
 
 msgid "Weblate 2026.10.1"
 msgstr "Weblate 2026.10.1"
 
-#, fuzzy
-#| msgid "*Released on October 1st 2026.*"
 msgid "*Released on October 9th 2026.*"
-msgstr "*Veröffentlicht am 1. Oktober 2026.*"
+msgstr "*Veröffentlicht am 9. Oktober 2026.*"
 
 msgid ""
 "Added opt-in :ref:`team synchronization from identity providers <sso-team-"
@@ -27351,10 +27255,8 @@ msgstr ""
 "krisnaparahita, krisna, Claude Opus 5.5, spatterlight, Dr Alex Mitre, Aditi "
 "Tarate, Kartik Ohri, Suleyman Arif Uzun"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, Kartik Ohri, Karen Konou, Philipp R, michael\\-smt"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, Kartik Ohri, Karen Konou, Philipp R, michael\\-smt"
 
 msgid ""
 "Michal Čihař, VfBFan, Eduardo Addad de Oliveira, Basheer Radman, Любомир "
@@ -27366,11 +27268,17 @@ msgid ""
 "Szafranek13, LaKato, Daniel Nylander, Massimo Pissarello, Aindriú Mac Giolla "
 "Eoin, Dan, Eduard Ereza Martínez"
 msgstr ""
+"Michal Čihař, VfBFan, Eduardo Addad de Oliveira, Basheer Radman, Любомир "
+"Василев, Watchman89, Matthaiks, Peter Vančo, Negonkey, Andrei Stepanov, "
+"Fjuro, justcontributor, reducedradius, Lee Vincent, Arif Budiman, Florent, "
+"Alexis Launay, Alagirisamy Rengaraj, Sup\\! 0\\_0, Milo Ivir, Adolfo Jayme "
+"Barrientos, Yaron Shahrabani, Kristoffer Grundström, Dick Groskamp, Ldm "
+"Public, hoanghuy309, Nicat, Nitin Jangra, Temuri Doghonadze, Horus68, "
+"Szafranek13, LaKato, Daniel Nylander, Massimo Pissarello, Aindriú Mac Giolla "
+"Eoin, Dan, Eduard Ereza Martínez"
 
-#, fuzzy
-#| msgid "Michal Čihař, Shweta Singh, michael\\-smt"
 msgid "Michal Čihař, Kartik Ohri, Philipp R, michael\\-smt"
-msgstr "Michal Čihař, Shweta Singh, michael\\-smt"
+msgstr "Michal Čihař, Kartik Ohri, Philipp R, michael\\-smt"
 
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
 msgstr "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
@@ -45704,10 +45612,8 @@ msgstr ""
 "automatisch gepusht, so dass ein manuelles Verwalten in der Regel nicht "
 "erforderlich ist."
 
-#, fuzzy
-#| msgid "Kotlin SDK builds"
 msgid "Kotlin SDK for Android"
-msgstr "Kotlin-SDK-Builds"
+msgstr "Kotlin-SDK für Android"
 
 msgid ""
 "The official Kotlin SDK for Weblate delivers translation updates to Android "
@@ -45730,26 +45636,22 @@ msgid ""
 "match. Breaking changes can occur before a stable release."
 msgstr ""
 
-#, fuzzy
-#| msgid "Meson requirements"
 msgid "Requirements"
-msgstr "Meson-Anforderungen"
+msgstr "Anforderungen"
 
-#, fuzzy
-#| msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
 msgid ""
 "Weblate 2026.10 or newer with the :ref:`addon-weblate.cdn.kotlin` add-on."
 msgstr ""
-"Remote-HTML-Downloads für die Erweiterung :ref:`addon-weblate.cdn.cdnjs`"
+"Weblate 2026.10 oder neuer mit der :ref:`addon-weblate.cdn.kotlin`-"
+"Erweiterung."
 
 msgid "Android Gradle Plugin 9.x."
-msgstr ""
+msgstr "Android-Gradle-Plugin 9.x."
 
 msgid "Android 11 (API 30) or newer for SDK runtime use."
 msgstr ""
+"Android 11 (API 30) oder neuer für die Nutzung der SDK-Laufzeitumgebung."
 
-#, fuzzy
-#| msgid "Configuring Weblate"
 msgid "Configure Weblate"
 msgstr "Weblate konfigurieren"
 
@@ -45769,10 +45671,8 @@ msgid ""
 "upload metadata. Keep the token out of source control and the application."
 msgstr ""
 
-#, fuzzy
-#| msgid "Configured at project level."
 msgid "Configure the Android project"
-msgstr "Auf Projektebene konfiguriert."
+msgstr "Das Android-Projekt konfigurieren"
 
 msgid ""
 "In your application module's :file:`build.gradle.kts`, add the plugin and "
@@ -45816,10 +45716,8 @@ msgid ""
 "compatibility with older application versions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Lot of translation updates."
 msgid "Enable translation updates"
-msgstr "Viele Aktualisierungen der Übersetzungen."
+msgstr "Übersetzungsaktualisierungen aktivieren"
 
 msgid "Initialize the SDK in your application's ``onCreate`` method:"
 msgstr ""
@@ -45842,35 +45740,40 @@ msgid ""
 msgstr ""
 
 msgid "Libraries and SDKs"
-msgstr ""
+msgstr "Bibliotheken und SDKs"
 
 msgid ""
 "Use these tools to integrate Weblate into your application or build workflow."
 msgstr ""
+"Nutzen Sie diese Tools, um Weblate in Ihre Anwendung oder Ihren Ablauf zu "
+"integrieren."
 
 msgid "Official tools"
-msgstr ""
+msgstr "Offizielle Tools"
 
 msgid ""
 ":doc:`kotlin-sdk` delivers translation updates to Android applications "
 "without rebuilding or redistributing the application."
 msgstr ""
+":doc:`kotlin-sdk` liefert Übersetzungsaktualisierungen für Android-"
+"Anwendungen, ohne dass die Anwendung neu kompiliert oder erneut verteilt "
+"werden muss."
 
 msgid ":doc:`/python` provides a Python client for :doc:`/api`."
-msgstr ""
+msgstr ":doc:`/python` bietet einen Python-Client für :doc:`/api`."
 
 msgid ":doc:`/wlc` provides command-line access to Weblate."
-msgstr ""
+msgstr ":doc:`/wlc` bietet Zugriff auf Weblate über die Befehlszeile."
 
-#, fuzzy
-#| msgid "Site integration"
 msgid "Third-party integrations"
-msgstr "Website-Integration"
+msgstr "Drittanbieter-Integrationen"
 
 msgid ""
 "These community-maintained libraries and packages integrate Weblate into "
 "other frameworks and tools, including through :doc:`/api`."
 msgstr ""
+"Diese von der Community betreuten Bibliotheken und Pakete integrieren "
+"Weblate in andere Frameworks und Tools, unter anderem über :doc:`/api`."
 
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
@@ -53072,10 +52975,8 @@ msgid ""
 "see :doc:`incident-reporting`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Gitea notifications"
 msgid "User notifications"
-msgstr "Gitea-Benachrichtigungen"
+msgstr "Benutzerbenachrichtigungen"
 
 msgid ""
 "Weblate informs impacted users of active exploitation or severe security "
@@ -54429,20 +54330,14 @@ msgstr "Weblate-Bedrohungsmodell"
 msgid "Project: Weblate"
 msgstr "Projekt: Weblate"
 
-#, fuzzy
-#| msgid "Last reviewed for Weblate |release| at commit ``491e79010b2``."
 msgid "Last reviewed for Weblate |release| at commit ``af7a54c07c``."
-msgstr "Zuletzt überprüft für Weblate |release| beim Commit ``491e79010b2``."
+msgstr "Zuletzt überprüft für Weblate |release| beim Commit ``af7a54c07c``."
 
-#, fuzzy
-#| msgid "Date: 2026-05-14."
 msgid "Date: 2026-09-24."
-msgstr "Datum: 14.05.2026."
+msgstr "Datum: 24.09.2026."
 
-#, fuzzy
-#| msgid "Status: Accepted, 2026-05-14."
 msgid "Status: Accepted, 2026-09-01."
-msgstr "Status: Angenommen, 14.05.2026."
+msgstr "Status: Angenommen, 01.09.2026."
 
 msgid ""
 "Version binding: This model is versioned with Weblate releases. A report "
@@ -54800,10 +54695,8 @@ msgid ""
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Weblate to local VCS repositories"
 msgid "Weblate to public CDN storage and clients"
-msgstr "Weblate zu lokalen VCS-Repositorys"
+msgstr "Weblate zu öffentlichen CDN-Speicher und -Clients"
 
 msgid ""
 "Enabling CDN publication deliberately moves selected translations and public "
@@ -54861,10 +54754,8 @@ msgid ""
 "webhook`, :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "eTranslation service to Weblate"
-msgstr "Mit Weblate übersetzen"
+msgstr "eTranslation-Dienst zu Weblate"
 
 msgid ""
 "A public callback carries text suggestions or failures into a short-lived "
@@ -55123,16 +55014,14 @@ msgid ""
 "Production deployments restrict this to instance hostnames. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
-#| "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`API_RATELIMIT_USER_OVERRIDES`, :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
-":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
-"und ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
+":setting:`API_RATELIMIT_USER_OVERRIDES`, "
+":setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`, und "
+"``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 msgid ""
 "Rate limits are configurable. *(documented)* (source: :doc:`/api`, :doc:`/"
@@ -55407,10 +55296,8 @@ msgid ""
 "*(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "Issues lifecycle"
 msgid "GitHub App lifecycle"
-msgstr "Lebenszyklus von Problemen"
+msgstr "Lebenszyklus der GitHub-App"
 
 msgid ""
 "Registration and installation callbacks, GitHub OAuth code, signed Weblate "
@@ -55543,10 +55430,8 @@ msgstr ""
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "Component configuration"
 msgid "Deployment configuration"
-msgstr "Komponentenkonfiguration"
+msgstr "Bereitstellungskonfiguration"
 
 msgid ""
 "Environment variables, container arguments, mounted configuration, image "
@@ -56906,10 +56791,8 @@ msgstr "Yandex v2"
 msgid "Youdao Zhiyun"
 msgstr "Youdao Zhiyun"
 
-#, fuzzy
-#| msgid "Translations"
 msgid "eTranslation"
-msgstr "Übersetzungen"
+msgstr "eTranslation"
 
 msgid "tmserver"
 msgstr "tmserver"
@@ -57903,10 +57786,10 @@ msgid ""
 msgstr ""
 
 msgid ":ref:`automation-workflows` for the script definition and reference."
-msgstr ""
+msgstr ":ref:`automation-workflows` für die Skriptdefinition und -referenz."
 
 msgid ":ref:`automation-cookbook` for complete examples."
-msgstr ""
+msgstr ":ref:`automation-cookbook` für vollständige Beispiele."
 
 #, fuzzy
 #| msgid ""
@@ -58175,10 +58058,8 @@ msgid ""
 "responsible for compatibility with older application code."
 msgstr ""
 
-#, fuzzy
-#| msgid "Generic settings"
 msgid "Lifecycle settings"
-msgstr "Allgemeine Einstellungen"
+msgstr "Lebenszykluseinstellungen"
 
 msgid ""
 ":guilabel:`Maximum build age (days)` defaults to 365 and accepts 1 through "
@@ -61812,15 +61693,11 @@ msgstr "Laravel-Format"
 msgid "Laravel format string does not match source."
 msgstr "Laravel-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
-#, fuzzy
-#| msgid ""
-#| "`Laravel translation formatting <https://laravel.com/docs/"
-#| "localization#replacing-parameters-in-translation-strings>`_"
 msgid ""
 "`Laravel translation formatting <https://laravel.com/framework/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
-"`Laravel-Übersetzungsformatierung <https://laravel.com/docs/"
+"`Laravel-Übersetzungsformatierung <https://laravel.com/framework/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 
 msgid "Lua format"
@@ -63027,15 +62904,11 @@ msgstr ""
 msgid "Ellipsis"
 msgstr "Auslassungspunkte"
 
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots ``(...)`` instead of an ellipsis character "
-#| "``(…)``."
 msgid ""
 "The string uses three dots ``...`` instead of an ellipsis character ``…``."
 msgstr ""
-"Die Zeichenkette verwendet drei Punkte ``(...)`` anstelle der "
-"Auslassungspunkte ``(…)``."
+"Die Zeichenkette verwendet drei Punkte ``...`` anstelle der "
+"Auslassungspunkte ``…``."
 
 msgid "source strings"
 msgstr "Ausgangszeichenketten"
@@ -63441,7 +63314,7 @@ msgid "UTF-8"
 msgstr "UTF-8"
 
 msgid "csv_escape_formulas"
-msgstr ""
+msgstr "csv_escape_formulas"
 
 msgid "Escape spreadsheet formulas"
 msgstr "Tabellenkalkulationsformeln maskieren"
@@ -63576,7 +63449,7 @@ msgstr ""
 "übersetzt werden sollen."
 
 msgid "md_frontmatter_translate_values"
-msgstr ""
+msgstr "md_frontmatter_translate_values"
 
 msgid "Translate front matter values"
 msgstr "Front-Matter-Werte übersetzen"
@@ -63617,10 +63490,8 @@ msgstr ""
 "von Dateien oder Neuanordnen von Tabellen, indem positionsabhängiger Kontext "
 "entfernt wird."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "po_contributor_comments"
-msgstr "Mitwirkende im Kommentar"
+msgstr "po_contributor_comments"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
@@ -63887,11 +63758,10 @@ msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgstr ""
 "Unterstützt schreibgeschützte Zeichenketten :ref:`ⓘ <read-only-strings>`"
 
-#, fuzzy
-#| msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
 msgstr ""
-"Unterstützt schreibgeschützte Zeichenketten :ref:`ⓘ <read-only-strings>`"
+"Unterstützt das Entfernen veralteter Zeichenketten :ref:`ⓘ <obsolete-strings>"
+"`"
 
 msgid "Both monolingual and bilingual"
 msgstr "Sowohl einsprachig als auch zweisprachig"
@@ -64106,15 +63976,11 @@ msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
 msgstr "``claude-sonnet-5`` -- Claude Sonnet 5"
 
-#, fuzzy
-#| msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
 msgid "``claude-opus-5`` -- Claude Opus 5"
-msgstr "``claude-opus-4-8`` -- Claude Opus 4.8"
+msgstr "``claude-opus-5`` -- Claude Opus 5"
 
-#, fuzzy
-#| msgid "``claude-fable-5`` -- Claude Fable 5"
 msgid "``claude-fable-5-1`` -- Claude Fable 5.1"
-msgstr "``claude-fable-5`` -- Claude Fable 5"
+msgstr "``claude-fable-5-1`` -- Claude Fable 5.1"
 
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
 msgstr "``claude-opus-4-8`` -- Claude Opus 4.8"
@@ -64420,15 +64286,12 @@ msgstr ""
 "Dokumentation zum Übersetzungskontext <https://developers.deepl.com/docs/"
 "learning-how-tos/examples-and-guides/how-to-use-context-parameter>`_."
 
-#, fuzzy
-#| msgid ""
-#| "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgid ""
 "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`. "
 "Glossary integration is not available with API v1."
 msgstr ""
 "Der Dienst verwendet automatisch ein :ref:`glossary`, siehe :ref:`glossary-"
-"mt`."
+"mt`. Die Glossarintegration ist bei API v1 nicht verfügbar."
 
 msgid "Rephrasing existing translations"
 msgstr "Vorhandene Übersetzungen umformulieren"
@@ -64466,51 +64329,43 @@ msgstr ""
 "`DeepL-API-Dokumentation <https://developers.deepl.com/docs/getting-started/"
 "quickstart>`_"
 
-#, fuzzy
-#| msgid "Application base URL"
 msgid "Application name"
-msgstr "Basis-URL der Anwendung"
+msgstr "Anwendungsname"
 
 msgid "Password"
 msgstr "Passwort"
 
-#, fuzzy
-#| msgid "Delete language from a group."
 msgid "Default language domain"
-msgstr "Löscht die Sprache aus einer Gruppe."
+msgstr "Standardsprachdomain"
 
 msgid "``GEN`` -- General Text (GEN)"
-msgstr ""
+msgstr "``GEN`` -- Allgemeiner Text (GEN)"
 
 msgid "``SPD`` -- EU Formal Language (SPD)"
-msgstr ""
+msgstr "``SPD`` -- EU-Amtssprache (SPD)"
 
 msgid "``ECB`` -- Finance (ECB)"
-msgstr ""
+msgstr "``ECB`` -- Finanzen (EZB)"
 
 msgid "``ECJ`` -- European Court of Justice (ECJ)"
-msgstr ""
+msgstr "``ECJ`` -- Europäischer Gerichtshof (EuGH)"
 
 msgid "``IPO`` -- EIP Case Law (Intellectual Property) (IPO)"
-msgstr ""
+msgstr "``IPO`` -- EIP-Rechtsprechung (Geistiges Eigentum) (IPO)"
 
 msgid "``_OTHER`` -- Other domain code"
-msgstr ""
+msgstr "``_OTHER`` -- Sonstiger Domaincode"
 
-#, fuzzy
-#| msgid "Other notes"
 msgid "Other domain code"
-msgstr "Sonstige Anmerkungen"
+msgstr "Sonstiger Domaincode"
 
 msgid "Enter a domain code from eTranslation when selecting Other domain code."
 msgstr ""
 "Geben Sie einen Domaincode von eTranslation ein, wenn Sie „Sonstiger "
 "Domaincode“ auswählen."
 
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Component language domains"
-msgstr "Übereinstimmung des Dateinamens mit der Komponente"
+msgstr "Komponentensprachdomains"
 
 msgid ""
 "JSON object mapping full component paths to domain codes, for example {\"my-"
@@ -65060,20 +64915,14 @@ msgstr "``gpt-5.6`` -- GPT-5.6 Sol"
 msgid "``gpt-5.5`` -- GPT-5.5"
 msgstr "``gpt-5.5`` -- GPT-5.5"
 
-#, fuzzy
-#| msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1 mini"
-msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1 mini"
 
-#, fuzzy
-#| msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
-msgstr "``gpt-5.4-mini`` -- GPT-5.4 mini"
+msgstr "``gpt-4o-mini`` -- GPT-4o mini"
 
-#, fuzzy
-#| msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
 msgid "``gpt-4.1-nano`` -- GPT-4.1 nano"
-msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1 nano"
 
 msgid "``gpt-4.1`` -- GPT-4.1"
 msgstr "``gpt-4.1`` -- GPT-4.1"
@@ -65084,10 +64933,8 @@ msgstr "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4-turbo`` -- GPT-4 Turbo"
 msgstr "``gpt-4-turbo`` -- GPT-4 Turbo"
 
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4`` -- GPT-4"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4`` -- GPT-4"
 
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
@@ -65300,169 +65147,109 @@ msgstr ""
 "`Youdao-Zhiyun-Übersetzungsdienst für natürliche Sprache <https://"
 "ai.youdao.com/product-fanyi-text.s>`_"
 
-#, fuzzy
-#| msgid "Scope"
 msgid "Scopes:"
-msgstr "Bereich"
+msgstr "Bereiche:"
 
-#, fuzzy
-#| msgid ":guilabel:`Billing`"
 msgid ":guilabel:`All`"
-msgstr ":guilabel:`Abrechnung`"
+msgstr ":guilabel:`Alle`"
 
-#, fuzzy
-#| msgid ":guilabel:`Update`"
 msgid ":guilabel:`Watched`"
-msgstr ":guilabel:`Aktualisieren`"
+msgstr ":guilabel:`Beobachtet`"
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Administered`"
-msgstr ":guilabel:`Verwaltung`"
+msgstr ":guilabel:`Verwaltet`"
 
 msgid "Frequencies:"
-msgstr ""
+msgstr "Häufigkeit:"
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`No notification`"
-msgstr ":guilabel:`Verwaltung`"
+msgstr ":guilabel:`Keine Benachrichtigung`"
 
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Instant notification`"
-msgstr ":guilabel:`Verwaltung`"
+msgstr ":guilabel:`Sofortige Benachrichtigung`"
 
-#, fuzzy
-#| msgid ":guilabel:`Billing`"
 msgid ":guilabel:`Daily digest`"
-msgstr ":guilabel:`Abrechnung`"
+msgstr ":guilabel:`Tägliche Zusammenfassung`"
 
-#, fuzzy
-#| msgid ":guilabel:`Review strings`"
 msgid ":guilabel:`Weekly digest`"
-msgstr ":guilabel:`Zeichenketten überprüfen`"
+msgstr ":guilabel:`Wöchentliche Zusammenfassung`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`Monthly digest`"
-msgstr ":guilabel:`Änderungen herunterladen`"
+msgstr ":guilabel:`Monatliche Zusammenfassung`"
 
 msgid "Handlers:"
-msgstr ""
+msgstr "Handler:"
 
-#, fuzzy
-#| msgid ":guilabel:`Edit strings`"
 msgid ":guilabel:`String was approved`"
-msgstr ":guilabel:`Zeichenketten bearbeiten`"
+msgstr ":guilabel:`Zeichenkette wurde genehmigt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`String was changed`"
-msgstr ":guilabel:`Änderungen herunterladen`"
+msgstr ":guilabel:`Zeichenkette wurde geändert`"
 
-#, fuzzy
-#| msgid ":guilabel:`Component source language`"
 msgid ":guilabel:`Component was translated`"
-msgstr ":guilabel:`Ausgangssprache der Komponente`"
+msgstr ":guilabel:`Komponente wurde übersetzt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`Language was translated`"
-msgstr ":guilabel:`Sprache zur Übersetzung hinzufügen`"
+msgstr ":guilabel:`Sprache wurde übersetzt`"
 
 msgid ":guilabel:`String you contributed to received a comment`"
 msgstr ""
+":guilabel:`Zur von Ihnen beigetragenen Zeichenkette wurde ein Kommentar "
+"abgegeben`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download changes`"
 msgid ":guilabel:`License was changed`"
-msgstr ":guilabel:`Änderungen herunterladen`"
+msgstr ":guilabel:`Lizenz wurde geändert`"
 
-#, fuzzy
-#| msgid ":guilabel:`Component source language`"
 msgid ":guilabel:`Component was locked or unlocked`"
-msgstr ":guilabel:`Ausgangssprache der Komponente`"
+msgstr ":guilabel:`Komponente wurde gesperrt oder entsperrt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Delete comment`"
 msgid ":guilabel:`You were mentioned in a comment`"
-msgstr ":guilabel:`Kommentar löschen`"
+msgstr ":guilabel:`Sie wurden in einem Kommentar erwähnt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Download translation file`"
 msgid ":guilabel:`Repository operation failed`"
-msgstr ":guilabel:`Übersetzungsdatei herunterladen`"
+msgstr ":guilabel:`Repository-Operation fehlgeschlagen`"
 
-#, fuzzy
-#| msgid ":guilabel:`Delete comment`"
 msgid ":guilabel:`New alert emerged in a component`"
-msgstr ":guilabel:`Kommentar löschen`"
+msgstr ":guilabel:`Neuer Alarm ist in einer Komponente aufgetreten`"
 
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Announcement was published`"
-msgstr ":guilabel:`Mitteilungen veröffentlichen`"
+msgstr ":guilabel:`Mitteilung wurde veröffentlicht`"
 
-#, fuzzy
-#| msgid ":guilabel:`Commit`"
 msgid ":guilabel:`Comment was added`"
-msgstr ":guilabel:`Commit`"
+msgstr ":guilabel:`Kommentar wurde hinzugefügt`"
 
-#, fuzzy
-#| msgid "A translation component was created."
 msgid ":guilabel:`New translation component was created`"
-msgstr "Eine Übersetzungskomponente wurde erstellt."
+msgstr ":guilabel:`Neue Übersetzungskomponente wurde erstellt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Automatic translation`"
 msgid ":guilabel:`Contributor made their first translation`"
-msgstr ":guilabel:`Automatische Übersetzung`"
+msgstr ":guilabel:`Mitwirkender hat seine erste Übersetzung vorgenommen`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`String is available for translation`"
-msgstr ":guilabel:`Sprache zur Übersetzung hinzufügen`"
+msgstr ":guilabel:`Zeichenkette zum Übersetzen verfügbar`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add suggestion`"
 msgid ":guilabel:`Suggestion was added`"
-msgstr ":guilabel:`Vorschlag hinzufügen`"
+msgstr ":guilabel:`Vorschlag wurde hinzugefügt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid ":guilabel:`New language was added or requested`"
-msgstr ":guilabel:`Sprache zur Übersetzung hinzufügen`"
+msgstr ":guilabel:`Neue Sprache wurde hinzugefügt oder gewünscht`"
 
-#, fuzzy
-#| msgid ":guilabel:`Protected`"
 msgid ":guilabel:`Parse error occurred`"
-msgstr ":guilabel:`Geschützt`"
+msgstr ":guilabel:`Analysefehler aufgetreten`"
 
-#, fuzzy
-#| msgid ":guilabel:`Add suggestion`"
 msgid ":guilabel:`Pending suggestions exist`"
-msgstr ":guilabel:`Vorschlag hinzufügen`"
+msgstr ":guilabel:`Ausstehende Vorschläge vorhanden`"
 
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Operation was performed in the repository`"
-msgstr ":guilabel:`Aktualisieren des internen Repositorys`"
+msgstr ":guilabel:`Operation im Repository wurde durchgeführt`"
 
-#, fuzzy
-#| msgid ":guilabel:`Review strings`"
 msgid ":guilabel:`Unfinished strings exist`"
-msgstr ":guilabel:`Zeichenketten überprüfen`"
+msgstr ":guilabel:`Unvollständige Zeichenketten vorhanden`"
 
-#, fuzzy
-#| msgid ":guilabel:`Power user`"
 msgid ":guilabel:`String was edited by user`"
-msgstr ":guilabel:`Hauptbenutzer`"
+msgstr ":guilabel:`Zeichenkette wurde vom Benutzer bearbeitet`"
 
-#, fuzzy
-#| msgid ":guilabel:`Translation coordinator`"
 msgid ":guilabel:`Translation activity summary`"
-msgstr ":guilabel:`Übersetzungskoordinator`"
+msgstr ":guilabel:`Zusammenfassung der Übersetzungstätigkeit`"
 
 msgid ""
 "Weblate provided callback URL during the authentication includes configured "
@@ -65822,10 +65609,8 @@ msgstr ":guilabel:`Projekteinstellungen bearbeiten`"
 msgid ":guilabel:`Manage project access`"
 msgstr ":guilabel:`Projektzugriff verwalten`"
 
-#, fuzzy
-#| msgid ":guilabel:`Manage repository`"
 msgid ":guilabel:`Manage reports`"
-msgstr ":guilabel:`Repository verwalten`"
+msgstr ":guilabel:`Berichte verwalten`"
 
 msgid ":guilabel:`Add screenshot`"
 msgstr ":guilabel:`Bildschirmfoto hinzufügen`"
@@ -67147,23 +66932,16 @@ msgid ""
 "should use a specific translation instead."
 msgstr ""
 
-#, fuzzy
-#| msgid "machine translation services"
 msgid "Glossaries in translation services"
-msgstr "Maschinelle Übersetzungsdienste"
+msgstr "Glossare in Übersetzungsdiensten"
 
-#, fuzzy
-#| msgid ""
-#| "Some automatic suggestion services utilize glossaries during the "
-#| "translation, please consult their documentation in :doc:`/admin/machine` "
-#| "to see the support."
 msgid ""
 "Some translation services utilize glossaries during the translation, please "
 "consult their documentation in :doc:`/admin/machine` to see the support."
 msgstr ""
-"Einige automatische Vorschlagsdienste verwenden während der Übersetzung "
-"Glossare. Bitte berücksichtigen Sie deren Dokumentation unter :doc:`/admin/"
-"machine`, um die Unterstützung zu überprüfen."
+"Einige Übersetzungsdienste verwenden während der Übersetzung Glossare. Bitte "
+"berücksichtigen Sie deren Dokumentation unter :doc:`/admin/machine`, um die "
+"Unterstützung zu überprüfen."
 
 msgid "The glossary is processed before exposed to the service:"
 msgstr ""
@@ -67672,19 +67450,14 @@ msgid ""
 "actions."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "The list of services depends on your Weblate configuration, but can be "
-#| "made to include popular sites such as GitLab, GitHub, Google, Facebook, "
-#| "or Bitbucket or other OAuth 2.0 providers."
 msgid ""
 "The list of sign-in services depends on your Weblate configuration, but can "
 "include sites such as GitLab, GitHub, Google, Facebook, or Bitbucket and "
 "other OAuth 2.0 providers."
 msgstr ""
-"Die Liste der Dienste hängt von Ihrer Weblate-Konfiguration ab, kann aber so "
-"gestaltet werden, dass sie beliebte Websites wie GitLab, GitHub, Google, "
-"Facebook, Bitbucket oder andere OAuth 2.0-Anbieter umfasst."
+"Die Liste der Anmeldedienste hängt von Ihrer Weblate-Konfiguration ab, kann "
+"jedoch Plattformen wie GitLab, GitHub, Google, Facebook oder Bitbucket sowie "
+"andere OAuth 2.0-Anbieter umfassen."
 
 msgid ""
 "Previously connected services remain listed after an administrator removes "
@@ -67708,11 +67481,6 @@ msgstr ""
 msgid "Activity"
 msgstr "Aktivität"
 
-#, fuzzy
-#| msgid ""
-#| "Audit log keeps track of the actions performed with your account. It logs "
-#| "IP address and browser for every important action with your account. The "
-#| "critical actions also trigger a notification to a primary e-mail address."
 msgid ""
 "The audit log keeps track of the actions performed with your account. It "
 "logs IP address and browser for every important action with your account. "
@@ -67726,10 +67494,8 @@ msgstr ""
 msgid "Searching"
 msgstr "Suche"
 
-#, fuzzy
-#| msgid "Variants while translating"
 msgid "Results while translating"
-msgstr "Varianten beim Übersetzen"
+msgstr "Ergebnisse beim Übersetzen"
 
 msgid ""
 "The translation editor keeps the current search results while you translate. "
@@ -69061,15 +68827,11 @@ msgstr ":kbd:`Cmd+Umschalt+Eingabe`"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Übersetzung als bearbeitungsbedürftig aufheben und einreichen."
 
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Enter` or"
 msgid ":kbd:`Ctrl+Alt+Enter` or"
-msgstr ":kbd:`Strg+Eingabe` oder"
+msgstr ":kbd:`Strg+Alt+Eingabe` oder"
 
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Cmd+Alt+Enter`"
-msgstr ":kbd:`Cmd+Eingabe`"
+msgstr ":kbd:`Cmd+Alt+Eingabe`"
 
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
@@ -69320,10 +69082,8 @@ msgstr ""
 "Wenn Sie direkte Links möchten, muss das Übersetzungsformat dies "
 "unterstützen."
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Adding an existing screenshot"
-msgstr "Bildschirmfoto hinzufügen"
+msgstr "Ein vorhandenes Bildschirmfoto hinzufügen"
 
 msgid ""
 "To link a screenshot that has already been uploaded, open the string in the "
@@ -70602,37 +70362,29 @@ msgstr ""
 msgid "Installing:"
 msgstr "Installieren:"
 
-#, fuzzy
-#| msgid "The following commands are available:"
 msgid "The following tags are available:"
-msgstr "Die folgenden Befehle sind verfügbar:"
+msgstr "Die folgenden Tags sind verfügbar:"
 
-#, fuzzy
-#| msgid "Weblate stable release"
 msgid "Latest stable release."
-msgstr "Stabile Weblate-Version"
+msgstr "Neueste stabile Version."
 
 msgid "Full version, for example ``2.2.0``"
-msgstr ""
+msgstr "Vollversion, zum Beispiel ``2.2.0``"
 
-#, fuzzy
-#| msgid "Weblate stable release"
 msgid "A specific stable release."
-msgstr "Stabile Weblate-Version"
+msgstr "Eine bestimmte stabile Version."
 
 msgid "Major version, for example ``2``"
-msgstr ""
+msgstr "Hauptversion, zum Beispiel ``2``"
 
-#, fuzzy
-#| msgid "Weblate stable release, matches latest tagged release"
 msgid "Latest stable release in that major series."
-msgstr "Stabile Version von Weblate, entspricht der neuesten getaggten Version"
+msgstr "Neueste stabile Version dieser Hauptreihe."
 
 msgid "Current development version from the main branch."
-msgstr ""
+msgstr "Aktuelle Entwicklungsversion aus dem Haupt-Branch."
 
 msgid "A specific development snapshot."
-msgstr ""
+msgstr "Ein bestimmter Entwicklungssnapshot."
 
 msgid "To build an image from the source checkout:"
 msgstr ""
@@ -70755,10 +70507,8 @@ msgstr ""
 "die zu verwendende Weblate-Instanz definieren. Diese müssen vor jedem Befehl "
 "eingegeben werden."
 
-#, fuzzy
-#| msgid "Specify the output format."
 msgid "Specify the output format. The default is ``text``."
-msgstr "Gibt das Ausgabeformat an."
+msgstr "Gibt das Ausgabeformat an. Der Standard ist ``text``."
 
 msgid ""
 "Print the program version and exit. The :option:`version` command supports "
@@ -71024,11 +70774,11 @@ msgid ""
 "standard input."
 msgstr ""
 
-#, fuzzy
-#| msgid "Upload method to use, see :ref:`upload-method`."
 msgid ""
 "Upload method to use, see :ref:`upload-method`. The default is ``translate``."
-msgstr "Zu verwendende Upload-Methode, siehe :ref:`upload-method`."
+msgstr ""
+"Zu verwendende Upload-Methode, siehe :ref:`upload-method`. Der Standard ist "
+"``translate``."
 
 #, fuzzy
 #| msgid "percentage of fuzzy (marked for edit) words"
@@ -71590,10 +71340,8 @@ msgid ""
 "glossary language synchronization <glossary-language-sync>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Limit which translation files Weblate discovers"
 msgid "Limit which translation files Weblate discovers or creates"
-msgstr "Von Weblate erkannte Übersetzungsdateien begrenzen"
+msgstr "Von Weblate erkannte oder erstellte Übersetzungsdateien begrenzen"
 
 msgid ""
 "Configure :ref:`component-language_regex` on each component. For example, "
@@ -71936,10 +71684,8 @@ msgid ""
 "review permission for that language."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Machine translation and LLM workflows"
-msgstr "Übersetzungsabläufe"
+msgstr "Maschinelle Übersetzung und LLM-Arbeitsabläufe"
 
 msgid ""
 "Machine translation services, including large language model (LLM) services, "
@@ -71965,10 +71711,8 @@ msgid ""
 "strings`."
 msgstr ""
 
-#, fuzzy
-#| msgid "machine translation services"
 msgid "Human translation assisted by services"
-msgstr "Maschinelle Übersetzungsdienste"
+msgstr "Menschliche Übersetzung, unterstützt durch Dienste"
 
 msgid ""
 "Use this workflow when translators should choose when to use machine "
@@ -71983,10 +71727,8 @@ msgid ""
 "translation add-on and can be combined with :ref:`reviews`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid "Service translation with human editing"
-msgstr "Verbesserte Handhabung von Übersetzungssperren."
+msgstr "Übersetzungsdienst mit menschlicher Bearbeitung"
 
 msgid ""
 "Use this workflow to fill translations automatically and let humans improve "
@@ -72038,10 +71780,8 @@ msgid ""
 "commit_policy` to :guilabel:`Skip translations marked as needing editing`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Suggestion accepted"
 msgid "Service suggestions with human acceptance"
-msgstr "Vorschlag angenommen"
+msgstr "Dienstvorschläge mit menschlicher Zustimmung"
 
 msgid ""
 "Use this workflow when humans should check service output before it becomes "
@@ -72072,10 +71812,8 @@ msgid ""
 "the :ref:`dedicated review workflow <reviews>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Starting translation into a new language"
 msgid "Service translation with review and a quality gateway"
-msgstr "Beginn der Übersetzung in eine neue Sprache"
+msgstr "Dienstübersetzung mit Überprüfung und einem Qualitätsgateway"
 
 msgid ""
 "Use this workflow when humans should edit machine translations in Weblate, "
@@ -72120,7 +71858,7 @@ msgid ""
 msgstr ""
 
 msgid "AI-assisted quality evaluation"
-msgstr ""
+msgstr "KI-gestützte Qualitätsevaluierung"
 
 msgid ""
 "Use the :ref:`addon-weblate.ai.quality` add-on to check existing human or "
@@ -72153,10 +71891,8 @@ msgid ""
 "diagnostic links maintainers to the installed add-on's configuration."
 msgstr ""
 
-#, fuzzy
-#| msgid "Removing existing translations"
 msgid "Reusing existing translations"
-msgstr "Vorhandene Übersetzungen entfernen"
+msgstr "Vorhandene Übersetzungen wiederverwenden"
 
 msgid ""
 "Use existing translations to bootstrap a new language or component, then "
@@ -72182,7 +71918,7 @@ msgid ""
 msgstr ""
 
 msgid "Quality gateway for the source strings"
-msgstr "Qualitäts-Gateway für die Ausgangszeichenketten"
+msgstr "Qualitätsgateway für die Ausgangszeichenketten"
 
 msgid ""
 "The original source language strings usually come from developers, since "
@@ -72197,8 +71933,8 @@ msgstr ""
 "bereitstellen. Die Entwickler sind jedoch oft keine Muttersprachler der "
 "Ausgangssprache und liefern nicht die gewünschte Qualität der "
 "Ausgangszeichenketten. Die Zwischenübersetzung kann Ihnen dabei helfen, dies "
-"zu beheben – es gibt ein zusätzliches Qualitäts-Gateway für die "
-"Zeichenketten zwischen Entwicklern und Übersetzern."
+"zu beheben – es gibt ein zusätzliches Qualitätsgateway für die Zeichenketten "
+"zwischen Entwicklern und Übersetzern."
 
 msgid ""
 "By setting the :ref:`component-intermediate`, this file is used for "
