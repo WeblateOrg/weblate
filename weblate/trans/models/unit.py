@@ -357,8 +357,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
         filters, annotations = parse_query(query, **context)
-        result = self.annotate(**annotations).filter(filters)
-        return result.distinct()
+        return self.annotate(**annotations).filter(filters)
 
     def exclude_blocked(self, *, custom_sources: bool = True) -> UnitQuerySet:
         """Exclude targets whose translation parent is not ready."""

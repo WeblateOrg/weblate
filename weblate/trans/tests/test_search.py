@@ -563,6 +563,32 @@ class SearchViewTest(ReusableViewTestCase):
         self.assertEqual(self.get_search_result_count('comment_author:="testuser"'), 1)
         self.assertEqual(self.get_search_result_count("has:comment"), 1)
 
+    def test_related_search_totals(self) -> None:
+        unit = self.get_unit()
+        Comment.objects.bulk_create(
+            [Comment(unit=unit, user=self.user, comment="alpha") for _ in range(3)]
+        )
+        for path in (
+            None,
+            self.project.get_url_path(),
+            self.translation.get_url_path(),
+        ):
+            with self.subTest(path=path):
+                url = reverse("search", kwargs={"path": path} if path else None)
+                response = self.client.get(
+                    url,
+                    {"q": f"id:{unit.pk} AND comment:alpha", "sort_by": "num_comments"},
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context["total_strings"], 1)
+                self.assertEqual(response.context["total_words"], unit.num_words)
+                self.assertEqual(
+                    [result.pk for result in response.context["page_obj"]], [unit.pk]
+                )
+                self.assertFalse(
+                    response.context["page_obj"].paginator.object_list.query.distinct
+                )
+
     def test_mass_action_filters_require_a_query(self) -> None:
         for form in (
             AutoForm(self.component, user=self.user),
@@ -1199,6 +1225,25 @@ class BulkEditTest(ReusableViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+
+    def test_related_filter_updates_unit_once(self) -> None:
+        Comment.objects.bulk_create(
+            [Comment(unit=self.unit, user=self.user, comment="alpha") for _ in range(3)]
+        )
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+            {
+                "q": f"id:{self.unit.pk} AND comment:alpha",
+                "state": STATE_TRANSLATED,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(
+            self.unit.change_set.filter(action=ActionEvents.BULK_EDIT).count(), 1
+        )
 
     def test_no_match(self) -> None:
         response = self.client.post(
