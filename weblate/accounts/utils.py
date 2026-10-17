@@ -6,13 +6,15 @@ from __future__ import annotations
 
 import os
 import time
-from typing import TYPE_CHECKING, Literal
+from datetime import timedelta
+from typing import TYPE_CHECKING, Final, Literal
 
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, Value
 from django.db.models.functions import Lower
+from django.utils import timezone
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -44,17 +46,19 @@ SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
-SESSION_EXPIRY_SCOPE_SAML = "saml"
-SESSION_EXPIRY_SCOPE_2FA = "2fa"
-SESSION_EXPIRY_SCOPE_LOGIN = "login"
-SESSION_EXPIRY_SCOPE_AUTHENTICATED = "authenticated"
+SESSION_OIDC_LOGIN_NEXT = "weblate:oidc_login_next"
+SESSION_EXPIRY_SCOPE_SAML: Final = "saml"
+SESSION_EXPIRY_SCOPE_OIDC: Final = "oidc"
+SESSION_EXPIRY_SCOPE_2FA: Final = "2fa"
+SESSION_EXPIRY_SCOPE_LOGIN: Final = "login"
+SESSION_EXPIRY_SCOPE_AUTHENTICATED: Final = "authenticated"
 SESSION_EXPIRY_REFRESH_MIN_SECONDS = 60
 SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
 SESSION_EXPIRY_SAML_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
 TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
-SessionExpiryScope = Literal["saml", "2fa", "login", "authenticated"]
+SessionExpiryScope = Literal["saml", "oidc", "2fa", "login", "authenticated"]
 
 
 def create_api_token(user: User) -> Token:
@@ -229,6 +233,19 @@ def get_session_expiry_refresh_seconds(expiry_age: int) -> int:
     )
 
 
+def clear_abandoned_oidc_login(request: HttpRequest, next_url: str | None) -> None:
+    """Discard OIDC login intent when a different sign-in is started."""
+    target = request.session.get(SESSION_OIDC_LOGIN_NEXT)
+    if target is None or target == next_url:
+        return
+    request.session.pop(SESSION_OIDC_LOGIN_NEXT, None)
+    request.session.pop("oidc_only", None)
+    request.session.pop("weblate:oidc_reauthentication", None)
+    # social-auth otherwise reuses a previous redirect when no next is supplied.
+    if request.session.get("next") == target:
+        request.session.pop("next")
+
+
 def get_session_expiry_scope(
     *,
     request: AuthenticatedHttpRequest,
@@ -247,6 +264,8 @@ def get_session_expiry_scope(
     if saml_only:
         return SESSION_EXPIRY_SCOPE_SAML
 
+    if request.session.get("oidc_only", False):
+        return SESSION_EXPIRY_SCOPE_OIDC
     if (
         user.profile.has_2fa
         and DEVICE_ID_SESSION_KEY not in request.session
@@ -262,7 +281,7 @@ def get_session_expiry_scope(
 
 def get_session_expiry_age(scope: SessionExpiryScope) -> int:
     """Return session expiry age for a session scope."""
-    if scope == SESSION_EXPIRY_SCOPE_SAML:
+    if scope in {SESSION_EXPIRY_SCOPE_SAML, SESSION_EXPIRY_SCOPE_OIDC}:
         return SESSION_EXPIRY_SAML_SECONDS
     if scope == SESSION_EXPIRY_SCOPE_2FA:
         return settings.SESSION_COOKIE_AGE_2FA
@@ -307,7 +326,7 @@ def adjust_session_expiry(
     Adjust session expiry based on scope.
 
     - Set longer expiry for authenticated users.
-    - Set short lived session for SAML authentication flow.
+    - Set short lived sessions for identity-provider authentication flows.
     """
     if scope is None:
         scope = get_session_expiry_scope(
@@ -326,7 +345,10 @@ def adjust_session_expiry(
     ):
         return
 
-    request.session.set_expiry(expiry_age)
+    if scope == SESSION_EXPIRY_SCOPE_OIDC:
+        request.session.set_expiry(timezone.now() + timedelta(seconds=expiry_age))
+    else:
+        request.session.set_expiry(expiry_age)
     request.session[SESSION_EXPIRY_SCOPE] = scope
     request.session[SESSION_EXPIRY_AGE] = expiry_age
     request.session[SESSION_EXPIRY_REFRESHED] = now

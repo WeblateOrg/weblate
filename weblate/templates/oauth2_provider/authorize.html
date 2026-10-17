@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="container">
+    <h1>{% translate "Authorize application" %}</h1>
+    {% if error %}
+      <p role="alert">{{ error.description }}</p>
+    {% else %}
+      <p>{% blocktranslate with application=application.name %}Allow {{ application }} to access your account?{% endblocktranslate %}</p>
+      <ul>
+        {% for description in scopes_descriptions %}<li>{{ description }}</li>{% endfor %}
+      </ul>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form.hidden_fields %}{{ field }}{{ field.errors }}{% endfor %}
+        <button type="submit"
+                name="allow"
+                value="Authorize"
+                class="btn btn-primary">{% translate "Authorize" %}</button>
+        <button type="submit" class="btn btn-outline-danger">{% translate "Deny" %}</button>
+      </form>
+    {% endif %}
+  </div>
+{% endblock content %}

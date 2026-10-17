@@ -147,6 +147,7 @@ from weblate.accounts.utils import (
     SESSION_WEBAUTHN_AUDIT,
     TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
+    clear_abandoned_oidc_login,
     clear_second_factor_session,
     cycle_session_keys,
     get_key_name,
@@ -1236,7 +1237,15 @@ def redirect_single(request: AuthenticatedHttpRequest, backend: str):
     )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class BaseLoginView(LoginView):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        clear_abandoned_oidc_login(
+            request,
+            request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
+        )
+        return super().dispatch(request, *args, **kwargs)
+
     def form_invalid(self, form):
         rotate_token(self.request)
         return super().form_invalid(form)
@@ -1929,6 +1938,10 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    clear_abandoned_oidc_login(
+        request,
+        request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
+    )
     # Fill in idp in case it is not provided
     if backend == "saml" and "idp" not in request.GET:
         request.GET = request.GET.copy()  # type: ignore[assignment]
@@ -2212,6 +2225,12 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):
         device = Device.from_persistent_id(persistent_id)
         otp_login(request, device)
+
+    if request.user.is_authenticated and request.session.get("oidc_only"):
+        # social-auth sets its own timeout after the pipeline and login signal.
+        adjust_session_expiry(
+            request=request, user=request.user, is_login=False, force=True
+        )
 
     return response
 
