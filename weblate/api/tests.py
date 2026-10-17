@@ -15293,6 +15293,43 @@ class UnitAPITest(APIBaseTest):
         response = self.client.get(reverse("api:unit-list"), {"q": "is:translated"})
         self.assertEqual(response.data["count"], 6)
 
+    def test_list_units_related_filter_visibility(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        Comment.objects.bulk_create(
+            [Comment(unit=unit, user=self.user, comment="alpha") for _ in range(3)]
+        )
+        self.authenticate()
+        url = reverse("api:unit-list")
+        query = {"q": f"id:{unit.pk} AND comment:alpha"}
+
+        def assert_matches(count: int) -> None:
+            response = self.client.get(url, query)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.data["count"], count)
+            self.assertEqual(
+                [result["id"] for result in response.data["results"]],
+                [unit.pk] if count else [],
+            )
+
+        assert_matches(1)
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        assert_matches(0)
+        self.project.add_user(self.user, "Translate")
+        assert_matches(1)
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        assert_matches(0)
+        self.authenticate(superuser=True)
+        assert_matches(1)
+        self.authenticate()
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+        UserBlock.objects.create(user=self.user, project=self.project)
+        assert_matches(0)
+
     def test_get_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"

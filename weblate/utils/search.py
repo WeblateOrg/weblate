@@ -15,8 +15,10 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
+from django.core.exceptions import FieldDoesNotExist
 from django.db import transaction
-from django.db.models import Count, Exists, F, OuterRef, Q, Value
+from django.db.models import Count, Exists, F, OuterRef, Q, Subquery, Value
+from django.db.models.functions import Coalesce
 from django.db.utils import DataError
 from django.http import Http404
 from django.utils import timezone
@@ -53,7 +55,7 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from django.db.models import Expression
+    from django.db.models import Expression, Model
 
 
 class SearchQueryError(Exception):
@@ -1077,7 +1079,14 @@ class UnitTermExpr(BaseTermExpr):
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "labels_count":
-            return {"labels_count": Count("source_unit__labels")}
+            labels = (
+                Label.objects.filter(unit=OuterRef("source_unit_id"))
+                .order_by()
+                .values("unit")
+                .annotate(count=Count("pk"))
+                .values("count")
+            )
+            return {"labels_count": Coalesce(Subquery(labels), 0)}
         return super().get_annotations(context)
 
 
@@ -1344,8 +1353,72 @@ def parse_string(text: str, parser: SearchParser) -> ParseResults:
             ) from error
 
 
+@lru_cache(maxsize=128)
+def unit_lookup_spawns_duplicates(lookup: str) -> bool:
+    """Identify lookups which can match several related rows per unit."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Unit
+
+    model: type[Model] = Unit
+    for part in lookup.split("__"):
+        try:
+            field = model._meta.get_field(part)  # ruff: ignore[private-member-access]
+        except FieldDoesNotExist:
+            # The remainder is a lookup, transform, or annotation.
+            return False
+        if field.one_to_many or field.many_to_many:
+            return True
+        related_model = field.related_model if field.is_relation else None
+        if related_model is None:
+            return False
+        model = related_model
+    return False
+
+
+def unit_query_spawns_duplicates(query: Q) -> bool:
+    """Check predicates without inspecting Django's compiled query joins."""
+    return any(
+        unit_query_spawns_duplicates(child)
+        if isinstance(child, Q)
+        else isinstance(child, tuple) and unit_lookup_spawns_duplicates(child[0])
+        for child in query.children
+    )
+
+
+def unit_query_without_duplicates(query: Q, annotations: dict[str, Expression]) -> Q:
+    """Keep related-row matching inside a single correlated existence check."""
+    if not unit_query_spawns_duplicates(query):
+        return query
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Unit
+
+    # Keep scalar predicates outside the subquery where AND permits it. Related
+    # predicates must stay together: separate EXISTS expressions would allow
+    # comment text and author, for example, to match different comments. Keeping
+    # the original Q tree also preserves Django's multivalued negation rules.
+    scalar = Q()
+    related = Q()
+    if query.connector == Q.AND and not query.negated:
+        for child in query.children:
+            condition = child if isinstance(child, Q) else Q(child)
+            if unit_query_spawns_duplicates(condition):
+                related &= condition
+            else:
+                scalar &= condition
+    else:
+        related = query
+
+    matches = Unit.objects.alias(**annotations).filter(related, pk=OuterRef("pk"))
+    return scalar & Q(Exists(matches))
+
+
 def parse_query(
     text: str, parser: SearchParser = "unit", **context
 ) -> tuple[Q, dict[str, Expression]]:
     parsed = parse_string(text, parser)
-    return parser_to_query(parsed, context), parser_annotations(parsed, context)
+    filters = parser_to_query(parsed, context)
+    annotations = parser_annotations(parsed, context)
+    if parser == "unit":
+        filters = unit_query_without_duplicates(filters, annotations)
+    return filters, annotations

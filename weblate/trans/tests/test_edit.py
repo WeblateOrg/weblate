@@ -2682,10 +2682,13 @@ class EditComplexTest(ReusableViewTestCase):
         )
 
     def test_translate_mutable_sort_uses_cached_search_ids(self) -> None:
+        # Empty targets tie; use file order to select the same singular unit.
+        sort_by = "target,position"
         response = self.client.get(
-            self.translate_url, {"sort_by": "target", "offset": "1"}
+            self.translate_url, {"sort_by": sort_by, "offset": "1"}
         )
         unit = response.context["unit"]
+        self.assertEqual(unit.pk, self.get_unit("Hello, world!\n").pk)
 
         session = self.client.session
         session_keys = session.keys()
@@ -2702,7 +2705,7 @@ class EditComplexTest(ReusableViewTestCase):
 
         with CaptureQueriesContext(connection) as queries:
             response = self.client.post(
-                f"{self.translate_url}?sort_by=target&offset=1", params
+                f"{self.translate_url}?sort_by={sort_by}&offset=1", params
             )
 
         self.assert_redirects_offset(response, self.translate_url, 2)
@@ -2717,6 +2720,11 @@ class EditComplexTest(ReusableViewTestCase):
             unit_id_searches,
             "\n".join(query["sql"] for query in queries),
         )
+
+        response = self.client.get(
+            self.translate_url, {"sort_by": sort_by, "offset": "2"}
+        )
+        self.assertEqual(response.context["unit"].pk, session[search_key]["ids"][1])
 
     def test_translate_sort_change_reorders_cached_ids_and_keeps_current_unit(
         self,

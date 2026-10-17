@@ -7,15 +7,24 @@ from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
 from unittest.mock import patch
 
-from django.db.models import Count, F, Q
+from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
 from pyparsing import ParserElement
 
 from weblate.auth.models import User
+from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Project, Unit
+from weblate.trans.models import (
+    Change,
+    Comment,
+    PendingUnitChange,
+    Project,
+    Suggestion,
+    Unit,
+)
+from weblate.trans.models.variant import Variant
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
@@ -24,6 +33,8 @@ from weblate.utils.search import (
     UnitTermExpr,
     build_parser,
     parse_query,
+    parse_string,
+    parser_to_query,
 )
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -45,6 +56,16 @@ if TYPE_CHECKING:
 class SearchTestCase(TestCase):
     object_class: ClassVar[type[Unit | User | Screenshot]] = Unit
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
+
+    def assert_related_query(self, string: str, expected: Q) -> None:
+        filters, annotations = parse_query(string)
+        self.assertEqual(annotations, {})
+        expected_filter = Q(Exists(Unit.objects.filter(expected, pk=OuterRef("pk"))))
+        self.assertEqual(
+            Unit.objects.filter(filters).query.sql_with_params(),
+            Unit.objects.filter(expected_filter).query.sql_with_params(),
+        )
+        self.assertFalse(Unit.objects.filter(filters).exists())
 
     def assert_query(
         self,
@@ -203,18 +224,18 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("location:'TEXT'\r\n", Q(location__substring="TEXT"))
 
     def test_comment(self) -> None:
-        self.assert_query(
+        self.assert_related_query(
             "comment:TEXT",
             Q(comment__comment__substring="TEXT") & Q(comment__resolved=False),
         )
-        self.assert_query(
+        self.assert_related_query(
             "resolved_comment:TEXT",
             Q(comment__comment__substring="TEXT") & Q(comment__resolved=True),
         )
-        self.assert_query(
+        self.assert_related_query(
             "comment_author:nijel", Q(comment__user__username__iexact="nijel")
         )
-        self.assert_query(
+        self.assert_related_query(
             "source_comment:TEXT",
             (
                 Q(source_unit__comment__comment__substring="TEXT")
@@ -225,7 +246,7 @@ class UnitQueryParserTest(SearchTestCase):
                 & Q(translation_parent__comment__resolved=False)
             ),
         )
-        self.assert_query(
+        self.assert_related_query(
             "resolved_source_comment:TEXT",
             (
                 Q(source_unit__comment__comment__substring="TEXT")
@@ -236,7 +257,7 @@ class UnitQueryParserTest(SearchTestCase):
                 & Q(translation_parent__comment__resolved=True)
             ),
         )
-        self.assert_query(
+        self.assert_related_query(
             "source_comment_author:nijel",
             Q(source_unit__comment__user__username__iexact="nijel")
             | Q(translation_parent__comment__user__username__iexact="nijel"),
@@ -387,7 +408,7 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_bool(self) -> None:
-        self.assert_query("pending:true", Q(pending_changes__isnull=False))
+        self.assert_related_query("pending:true", Q(pending_changes__isnull=False))
 
     def test_nonexisting(self) -> None:
         with self.assertRaises(SearchQueryError):
@@ -478,10 +499,12 @@ class UnitQueryParserTest(SearchTestCase):
             parse_query("(source:c OR target:c OR context:c) AND is:translated"),
         )
         self.assertEqual(
-            parse_query("c is:translated OR has:dismissed-check"),
-            parse_query(
+            Unit.objects.search(
+                "c is:translated OR has:dismissed-check"
+            ).query.sql_with_params(),
+            Unit.objects.search(
                 "((source:c OR target:c OR context:c) AND is:translated) OR has:dismissed-check"
-            ),
+            ).query.sql_with_params(),
         )
 
     def test_language(self) -> None:
@@ -528,25 +551,25 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "has:plural", source_query(source__trgm_search=PLURAL_SEPARATOR)
         )
-        self.assert_query("has:suggestion", Q(suggestion__isnull=False))
-        self.assert_query("has:check", Q(check__dismissed=False))
-        self.assert_query("has:comment", Q(comment__resolved=False))
+        self.assert_related_query("has:suggestion", Q(suggestion__isnull=False))
+        self.assert_related_query("has:check", Q(check__dismissed=False))
+        self.assert_related_query("has:comment", Q(comment__resolved=False))
         self.assert_query("has:note", ~Q(note=""))
         self.assert_query("has:location", ~Q(location=""))
-        self.assert_query("has:resolved-comment", Q(comment__resolved=True))
+        self.assert_related_query("has:resolved-comment", Q(comment__resolved=True))
         source_comment = Q(source_unit__comment__resolved=False) | Q(
             translation_parent__comment__resolved=False
         )
-        self.assert_query("has:source-comment", source_comment)
-        self.assert_query("has:source_comment", source_comment)
-        self.assert_query(
+        self.assert_related_query("has:source-comment", source_comment)
+        self.assert_related_query("has:source_comment", source_comment)
+        self.assert_related_query(
             "has:resolved-source-comment",
             Q(source_unit__comment__resolved=True)
             | Q(translation_parent__comment__resolved=True),
         )
-        self.assert_query("has:dismissed-check", Q(check__dismissed=True))
+        self.assert_related_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
-        self.assert_query(
+        self.assert_related_query(
             "has:variant",
             Q(defined_variants__isnull=False)
             | (
@@ -554,9 +577,9 @@ class UnitQueryParserTest(SearchTestCase):
                 & Q(context__regex=F("variant__variant_regex"))
             ),
         )
-        self.assert_query("has:label", Q(source_unit__labels__isnull=False))
+        self.assert_related_query("has:label", Q(source_unit__labels__isnull=False))
         self.assert_query("has:context", ~Q(context=""))
-        self.assert_query(
+        self.assert_related_query(
             "has:screenshot",
             Q(screenshots__isnull=False) | Q(source_unit__screenshots__isnull=False),
         )
@@ -565,7 +588,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("has:glossary", Q(source__isnull=True))
 
     def test_is(self) -> None:
-        self.assert_query("is:pending", Q(pending_changes__isnull=False))
+        self.assert_related_query("is:pending", Q(pending_changes__isnull=False))
         self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
@@ -658,8 +681,10 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_suggestions(self) -> None:
-        self.assert_query("suggestion:text", Q(suggestion__target__substring="text"))
-        self.assert_query(
+        self.assert_related_query(
+            "suggestion:text", Q(suggestion__target__substring="text")
+        )
+        self.assert_related_query(
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
         )
 
@@ -801,22 +826,24 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query('source:"', parse_query("""source:'"'"""))
 
     def test_labels_count(self) -> None:
-        annotation = {"labels_count": Count("source_unit__labels")}
-        self.assert_query(
-            "labels_count:2", Q(labels_count=2), expected_annotations=annotation
-        )
-        self.assert_query(
-            "labels_count:=2", Q(labels_count__exact=2), expected_annotations=annotation
-        )
-        self.assert_query(
-            "labels_count:>3", Q(labels_count__gt=3), expected_annotations=annotation
-        )
-        self.assert_query(
-            "labels_count:<=1", Q(labels_count__lte=1), expected_annotations=annotation
-        )
+        for query, expected in (
+            ("labels_count:2", Q(labels_count=2)),
+            ("labels_count:=2", Q(labels_count__exact=2)),
+            ("labels_count:>3", Q(labels_count__gt=3)),
+            ("labels_count:<=1", Q(labels_count__lte=1)),
+        ):
+            with self.subTest(query=query):
+                filters, annotations = parse_query(query)
+                self.assertEqual(filters, expected)
+                queryset = Unit.objects.annotate(**annotations).filter(filters)
+                sql = str(queryset.query)
+                self.assertIn("COALESCE", sql)
+                self.assertIn("COUNT(", sql)
+                self.assertIsNone(queryset.query.group_by)
+                self.assertFalse(queryset.exists())
 
         with self.assertRaises(SearchQueryError):
-            self.assert_query("labels_count:invalid", Q())
+            parse_query("labels_count:invalid")
 
 
 class ScreenshotQueryParserTest(SearchTestCase):
@@ -1035,6 +1062,164 @@ class SearchTest(ViewTestCase, SearchTestCase):
     def search_matches_unit(self, query: str, unit: Unit) -> bool:
         filters, annotations = parse_query(query, parser=self.parser)
         return Unit.objects.annotate(**annotations).filter(filters, pk=unit.pk).exists()
+
+    def test_related_search_preserves_matching_without_duplicates(self) -> None:
+        unit = self.get_unit()
+        other = User.objects.create(username="search-other")
+        Comment.objects.bulk_create(
+            [
+                Comment(unit=unit, user=self.user, comment="alpha"),
+                Comment(unit=unit, user=other, comment="beta"),
+                Comment(unit=unit, user=self.user, comment="alpha", resolved=True),
+                Comment(unit=unit.source_unit, user=other, comment="alpha"),
+                Comment(unit=unit.source_unit, user=self.user, comment="beta"),
+            ]
+        )
+        Suggestion.objects.bulk_create(
+            [
+                Suggestion(unit=unit, user=self.user, target="alpha"),
+                Suggestion(unit=unit, user=other, target="beta"),
+            ]
+        )
+        PendingUnitChange.objects.bulk_create(
+            [PendingUnitChange(unit=unit, author=self.user) for _ in range(2)]
+        )
+        for name in ("php_format", "bbcode"):
+            Check.objects.get_or_create(unit=unit, name=name)
+        for name in ("first", "second"):
+            label = self.project.label_set.create(name=name, color="black")
+            unit.source_unit.labels.add(label)
+            screenshot = Screenshot.objects.create(
+                name=name, translation=unit.translation, user=self.user
+            )
+            screenshot.units.add(unit, unit.source_unit)
+            variant = Variant.objects.create(component=self.component, key=name)
+            variant.defining_units.add(unit)
+
+        units = Unit.objects.filter(pk__in=(unit.pk, unit.source_unit.pk))
+        queries = (
+            "hello",
+            "has:comment",
+            "has:resolved-comment",
+            "has:source-comment",
+            "has:resolved-source-comment",
+            "has:suggestion",
+            "has:check",
+            "has:dismissed-check",
+            "has:label",
+            "has:screenshot",
+            "has:variant",
+            "has:shaping",
+            "pending:true",
+            "pending:false",
+            "is:pending",
+            "NOT has:comment",
+            "NOT pending:true",
+            "comment:alpha AND comment:beta",
+            "comment:alpha comment:beta",
+            "comment:alpha OR comment:beta",
+            f"comment:alpha AND comment_author:={other.username}",
+            f"(comment:alpha OR comment:beta) AND comment_author:={other.username}",
+            f"NOT (comment:alpha AND comment_author:={other.username})",
+            f"comment:alpha AND NOT comment_author:={other.username}",
+            "comment:alpha AND resolved_comment:alpha",
+            "NOT (comment:alpha OR resolved_comment:alpha)",
+            "source_comment:alpha AND source_comment:beta",
+            f"source_comment:alpha AND source_comment_author:={self.user.username}",
+            "source_comment:alpha AND comment:beta",
+            f"suggestion:alpha AND suggestion_author:={other.username}",
+            "comment:alpha AND suggestion:beta",
+            f"suggestion:alpha OR id:{unit.source_unit_id}",
+            f"(comment:alpha OR id:{unit.source_unit_id}) AND comment:beta",
+            f"(comment:alpha AND suggestion:beta) OR id:{unit.source_unit_id}",
+            "NOT (comment:alpha AND suggestion:beta)",
+            "comment:alpha AND has:check AND has:label",
+            "label:first AND label:second",
+            "screenshot:first AND screenshot:second",
+            "check:php_format AND check:bbcode",
+        )
+        for query in queries:
+            with self.subTest(query=query):
+                # Compare with the original join-based predicate, including its
+                # shared-row and negation semantics, rather than a new oracle.
+                original = parser_to_query(
+                    parse_string(query, "unit"), {"project": self.project}
+                )
+                expected = sorted(
+                    set(units.filter(original).values_list("pk", flat=True))
+                )
+                matching = units.search(query, project=self.project).order_by("pk")
+                self.assertEqual(list(matching.values_list("pk", flat=True)), expected)
+                self.assertEqual(matching.count(), len(expected))
+                self.assertEqual(
+                    matching.aggregate(words=Sum("num_words"))["words"],
+                    units.filter(pk__in=expected).aggregate(words=Sum("num_words"))[
+                        "words"
+                    ],
+                )
+                self.assertFalse(matching.query.distinct)
+                sql = str(matching.values("pk").query)
+                outer = sql.split(" WHERE ", 1)[0]
+                for table in (
+                    "trans_comment",
+                    "trans_suggestion",
+                    "trans_pendingunitchange",
+                    "trans_unit_labels",
+                    "trans_variant_defining_units",
+                    "checks_check",
+                    "screenshots_screenshot_units",
+                ):
+                    self.assertNotIn(f'JOIN "{table}"', outer)
+
+        self.assertFalse(
+            units.filter(pk=unit.pk)
+            .search(f"comment:alpha AND comment_author:={other.username}")
+            .exists()
+        )
+        self.assertFalse(
+            units.filter(pk=unit.pk)
+            .search(f"suggestion:alpha AND suggestion_author:={other.username}")
+            .exists()
+        )
+        self.assertTrue(units.distinct().search("has:comment").query.distinct)
+        self.assertEqual(
+            units.distinct("target").search("has:comment").query.distinct_fields,
+            ("target",),
+        )
+
+    def test_label_count_is_independent_of_related_matches(self) -> None:
+        unit = self.get_unit()
+        units = Unit.objects.filter(pk=unit.pk)
+        Comment.objects.bulk_create(
+            [Comment(unit=unit, user=self.user, comment="alpha") for _ in range(3)]
+        )
+        self.assertEqual(units.search("labels_count:0").count(), 1)
+        self.assertEqual(units.search("labels_count:>0").count(), 0)
+        for name in ("first", "second"):
+            label = self.project.label_set.create(name=name, color="black")
+            unit.source_unit.labels.add(label)
+
+        for query in (
+            "labels_count:2",
+            "labels_count:=2 AND comment:alpha",
+            "labels_count:>=2 AND label:first",
+            "labels_count:<=2 AND NOT comment:beta",
+            "(labels_count:2 OR comment:beta) AND has:comment",
+        ):
+            with self.subTest(query=query):
+                matching = units.search(query)
+                self.assertEqual(list(matching.values_list("pk", flat=True)), [unit.pk])
+                for sort_by in ("num_comments", "num_failing_checks", "labels"):
+                    ordered = matching.order_by_request({"sort_by": sort_by}, None)
+                    self.assertEqual(
+                        list(ordered.values_list("pk", flat=True)), [unit.pk]
+                    )
+                self.assertEqual(
+                    matching.order_by_request({"sort_by": "num_comments"}, None)
+                    .values_list("comment__count", flat=True)
+                    .get(),
+                    3,
+                )
 
     def test_change_search_same_event_semantics(self) -> None:
         unit = self.get_unit()
