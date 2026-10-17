@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-15 21:46-0500\n"
-"PO-Revision-Date: 2026-10-17 10:06+0000\n"
+"PO-Revision-Date: 2026-10-17 11:46+0000\n"
 "Last-Translator: Milo Ivir <milotype@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1953,20 +1953,24 @@ msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Odaberi kako izdvajanje zapisuje izvorna mjesta u POT datoteku. Koristi ovo "
+"za zadržavanje mjesta u predlošku i istovremeno izostavljanje iz prevedenih "
+"PO datoteka."
 
 msgid "Keyword entries have to be strings."
 msgstr "Unosi ključnih riječi moraju biti izrazi."
 
-#, fuzzy
-#| msgid "Database latency"
 msgid "ITS data directories"
-msgstr "Latencija baze podataka"
+msgstr "Direktoriji ITS podataka"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"Direktoriji relativni u odnosu na repozitorij odvojeni novim retkom, koji "
+"sadrže its poddirektorij, na primjer po za po/its. Raniji direktoriji "
+"nadjačavaju kasnije direktorije i u njima sadržana pravila."
 
 msgid "Do not extract comments"
 msgstr "Ne izdvajaj komentare"
@@ -1984,6 +1988,8 @@ msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Odaberi treba li xgettext izdvojiti nijedan komentar, sve komentare ili samo "
+"komentare koji su označeni određenom oznakom."
 
 msgid "Comment tag"
 msgstr "Oznake komentara"
@@ -1991,35 +1997,42 @@ msgstr "Oznake komentara"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Oznaka koja se proslijeđuje xgettextu za izdvajanje komentara pri korištenju "
+"modus označenih komentara."
 
 msgid "xgettext checks"
 msgstr "xgettext provjere"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
+msgstr "Dodatne provjere validacije xgettexta za aktiviranje izdvojenih poruka."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "Dodatna ključna riječ"
+msgstr "Dodatne ključne riječi"
 
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
+"Dodatne ključne riječi odvojene novim retkom koje se prosljeđuju xgettextu "
+"pomoću --keyword."
 
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Koristi isključivo ključne riječi"
 
 msgid ""
 "When enabled, passes --keyword without a value to xgettext before the "
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Kada je aktivirano, prosljeđuje --keyword bez vrijednosti xgettextu prije "
+"dodatne ključne riječi, deaktivirajući sve zadane ključne riječi tako da se "
+"prepoznaje samo gore navedena ključna riječ."
 
 msgid "This field is required."
 msgstr "Ovo je obavezno polje."
 
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"Prilikom korištenja isključivo ključnih riječi je potrebna dodatna ključna "
+"riječ."
 
 msgid "Input source"
 msgstr "Izvor unosa"
@@ -2040,13 +2053,12 @@ msgstr ""
 msgid "xgettext language"
 msgstr "xgettext jezik"
 
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
-"Programski jezik koji se proslijeđuje xgettextu, na primjer Python ili C."
+"Programski jezik koji se prosljeđuje xgettextu, na primjer Python ili C. "
+"Ostavi prazno kako bi xgettext pogodio jezik na temelju ekstenzija datoteka."
 
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
@@ -2058,17 +2070,14 @@ msgstr ""
 msgid "POTFILES path"
 msgstr "POTFILES staza"
 
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Relativna staza u odnosu na repozitorij do POTFILES ili POTFILES.in. Unosi "
-"se rješavaju u odnosu na tu datoteku."
+"se rješavaju relativno u odnosu na korijen repozitorija. Ako je prisutan "
+"pored manifesta, POTFILES.skip isključuje navedene datoteke iz izdvajanja."
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Nevaljana simbolička poveznica u repozitoriju."
@@ -2080,7 +2089,7 @@ msgid "Meson preset"
 msgstr "Unaprijed postavljene postavke za Meson"
 
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
@@ -2096,16 +2105,12 @@ msgstr ""
 msgid "The component has to define a gettext template for new translations."
 msgstr "Komponenta mora definirati gettext predložak za nove prijevode."
 
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Dodatak Django očekuje da se predložak za nove prijevode zove „django.pot” "
-"ili „djangojs.pot”."
+"Dodatak Django očekuje da se predložak za nove prijevode zove „django.pot”, „"
+"djangojs.pot”, „django.po” ili „djangojs.po”."
 
 msgid "Filtering"
 msgstr "Filtriranje"
@@ -2141,17 +2146,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Nije bilo moguće odrediti izvorni direktorij Sphinxa."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Opseg rezultata"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "Uključi samo odobrene prijevode"
+msgstr "Jedna datoteka po prijevodu"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "Organiziraj komponentu"
+msgstr "Jedna datoteka po komponenti"
 
 msgid "Name of generated file"
 msgstr "Ime stvorene datoteke"
@@ -2174,10 +2175,8 @@ msgstr "Po datoteci"
 msgid "Per author"
 msgstr "Po autoru"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "Po jeziku"
+msgstr "Po autoru i jeziku"
 
 msgid "Append trailers to squashed commit message"
 msgstr "Dodaj krajnje retke združenoj poruci promjena"
@@ -2206,19 +2205,15 @@ msgstr "Broj dana za zadržavanje"
 msgid "Voting threshold"
 msgstr "Prag glasanja"
 
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Prag za uklanjanje. Ovo polje nema utjecaja, ako je glasanje isključeno."
+"Prag za uklanjanje. Ostavi prazno kako bi se uklonili prijedlozi bez obzira "
+"na glasove. Ovo polje nema utjecaja kada je glasanje isključeno."
 
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Potvrđujem da gornja poklapanja izgledaju ispravno"
+msgstr "Potvrđujem da gornje radnje izgledaju ispravno"
 
 msgid "Please review and confirm the missing language changes."
 msgstr "Pregledaj i potvrdi nedostajuće promjene jezika."
@@ -2241,30 +2236,28 @@ msgstr "Prilagodi ime komponente"
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Koristi sintaksu Django predloška. Ovaj predložak mora sadržavati {{ "
+"component }}."
 
 msgid "Define the monolingual base filename"
 msgstr "Odredi jednojezično osnovno ime datoteke"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Ostavi prazno za dvojezične prevodilačke datoteke."
+msgstr ""
+"Ostavi prazno za dvojezične prevodilačke datoteke. Kada je postavljen, ovaj "
+"predložak mora sadržavati {{ component }}."
 
 msgid "Define the base file for new translations"
 msgstr "Odredi osnovnu datoteku za nove prijevode"
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Ime datoteke koja se koristi za stvaranje novih prijevoda. Za gettext, "
-"odaberi .pot datoteku."
+"Ime datoteke koja se koristi za stvaranje novih prijevoda. Za gettext "
+"odaberi .pot datoteku. Ovaj predložak mora sadržavati {{ component }}."
 
 msgid "Intermediate language file"
 msgstr "Datoteka posrednog jezika"
@@ -2314,63 +2307,57 @@ msgstr "Potvrđujem da gornja poklapanja izgledaju ispravno"
 
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Opća unaprijed postavljena postavka:: %(name)s [%(details)s]"
 
-#, fuzzy
-#| msgid "Meson preset"
 msgid "format not preset"
-msgstr "Unaprijed postavljene postavke za Meson"
+msgstr "format nije unaprijed postavljen"
 
 #, python-format
 msgid "monolingual base: %(base)s"
 msgstr "jednojezična osnova: %(base)s"
 
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Odredi jednojezično osnovno ime datoteke"
+msgstr "nema jednojezične osnove"
 
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s; %(base)s"
 
 msgid "One folder per language"
-msgstr "Pojedinačne mape za jezike"
+msgstr "Jedna mapa po jeziku"
 
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "Odgovara datotekama poput hr/application.po."
 
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Raspored gettext jezika"
 
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
-msgstr ""
+msgstr "Odgovara datotekama poput locale/hr/LC_MESSAGES/application.po."
 
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Podudaranje imena datoteke komponente"
+msgstr "Kompleksna imena datoteka"
 
 msgid "Matches files like src/locale/application.cs.po."
-msgstr ""
+msgstr "Odgovara datotekama poput src/locale/application.hr.po."
 
 msgid "Filename-based language variants"
-msgstr ""
+msgstr "Jezične varijante na osnovi imena datoteke"
 
 msgid "Matches files like news_en.md."
-msgstr ""
+msgstr "Odgovara datotekama poput news_en.md."
 
 msgid "Repeated language code"
 msgstr "Ponavljajući jezični kodovi"
 
 msgid "Matches files like locale/cs/application/cs.po."
-msgstr ""
+msgstr "Odgovara datotekama poput locale/hr/application/hr.po."
 
 msgid "Split Android strings"
 msgstr "Rastavljanje Android izraza"
 
 msgid "Matches files like res/values-cs/strings-about.xml."
-msgstr ""
+msgstr "Odgovara datotekama poput res/values-hr/strings-about.xml."
 
 msgid "Matching multiple paths"
 msgstr "Podudaranje više staza"
@@ -2379,20 +2366,18 @@ msgid ""
 "Matches nested Java properties layouts and also fills the component name "
 "template."
 msgstr ""
+"Odgovara rasporedima ugniježđenih Java svojstava te ispunjava predložak "
+"imena komponente."
 
 #, python-format
 msgid "Detected: %(pattern)s [%(details)s]"
-msgstr ""
+msgstr "Otkriveno: %(pattern)s [%(details)s]"
 
-#, fuzzy
-#| msgid "Merged repository"
 msgid "Detected from repository"
-msgstr "Sjedinjeni repozitorij"
+msgstr "Otkriveno iz repozitorija"
 
-#, fuzzy
-#| msgid "Meson preset"
 msgid "Generic presets"
-msgstr "Unaprijed postavljene postavke za Meson"
+msgstr "Opće unaprijed postavljene postavke"
 
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Ne možeš koristiti jednojezični prijevod bez osnovne datoteke."
@@ -2407,17 +2392,15 @@ msgstr ""
 "Odredi osnovnu datoteku za nove prijevode prilikom izrade komponenata iz "
 "predloška."
 
-#, fuzzy
-#| msgid ""
-#| "Please add a monolingual base language file in the component settings."
 msgid ""
 "Define a monolingual base or new base filename when creating components from "
 "a template."
 msgstr ""
-"Dodaj jednojezičnu osnovnu prevodilačku datoteku u postavkama komponente."
+"Definiraj jednojezičnu osnovu ili novi osnovno ime datoteke prilikom "
+"stvaranja komponenti iz predloška."
 
 msgid "The file mask must include a language wildcard (*)."
-msgstr ""
+msgstr "Maska datoteke mora sadržavati jezični zamjenski znak (*)."
 
 msgid "Please review and confirm the matched components."
 msgstr "Pregledaj i potvrdi odgovarajuće komponente."
@@ -2426,14 +2409,14 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
+"Izostavi jezično imenovanu grupu prilikom stvaranja komponenti iz "
+"jednojezične osnove ili nove osnovne datoteke."
 
 msgid "This template must include {{ component }}."
-msgstr ""
+msgstr "Ovaj predložak mora sadržavati {{ component }}."
 
-#, fuzzy
-#| msgid "Please include component markup in the template."
 msgid "This template must include component markup."
-msgstr "Uključi označavanje komponente u predlošku."
+msgstr "Ovaj predložak mora sadrđavati oznake komponenti."
 
 msgid "Translation threshold"
 msgstr "Prag prijevoda"
@@ -2510,29 +2493,20 @@ msgstr "Izvor i cilj moraju biti različiti jezici."
 msgid "Enable case-sensitive key sorting"
 msgstr "Aktiviraj razvrstavanje ključeva, razlikuj velika i mala slova"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Događaji promjena"
+msgstr "Događaji promjena za pokretanje"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Kontekst prijevoda"
+msgstr "Događaji sadržaja prijevoda"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Događaji promjena"
+msgstr "Svi događaji promjena"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Događaji promjena"
+msgstr "Odabrani događaji promjena"
 
 msgid "Choose which change events should trigger this add-on."
-msgstr ""
+msgstr "Odaberi koji događaji promjena trebaju pokrenuti ovaj dodatak."
 
 msgid "Webhook URL"
 msgstr "Webhook URL"
