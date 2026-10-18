@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-15 21:46-0500\n"
-"PO-Revision-Date: 2026-10-18 04:27+0000\n"
+"PO-Revision-Date: 2026-10-18 18:13+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -1440,16 +1440,12 @@ msgstr "Подновяването на паролата вече е завър�
 msgid " and %s more"
 msgstr " и още %s"
 
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %d component."
-#| msgid_plural "String could not be propagated to %d components."
+#, python-format
 msgid "Some settings could not be imported: %s"
-msgstr "Низът не може да бъде прехвърлен в %d компонент."
+msgstr "Някои настройки не могат да бъдат внесени: %s"
 
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Your settings have been imported."
-msgstr "Профилът е обновен."
+msgstr "Вашите настройки бяха внесени."
 
 msgid "Could not remove user identity"
 msgstr "Идентификационните данни на потребителя не могат да бъдат премахнати"
@@ -1468,28 +1464,30 @@ msgstr ""
 "Можете също така да поискате нова парола, ако сте загубили сегашната си."
 
 msgid "Please authenticate with the provider again."
-msgstr ""
+msgstr "Моля, впишете се отново чрез доставчика си."
 
-#, fuzzy
-#| msgid ""
-#| "The upstream repository could not be temporarily accessed. Please try it "
-#| "again later."
 msgid ""
 "The authentication response could not be verified. Please try signing in "
 "again."
 msgstr ""
-"Отдалеченото хранилище е временно недостъпно. Опитайте отново по-късно."
+"Отговорът на удостоверяването не може да бъде проверен. Моля, опитайте да се "
+"впишете отново."
 
 msgid "The authentication response has expired. Please try signing in again."
 msgstr ""
+"Отговорът на удостоверяването е с изтекла давност. Моля, опитайте да се "
+"впишете отново."
 
 msgid "The authorization code was rejected. Please try signing in again."
 msgstr ""
+"Кодът за удостоверяване беше отхвърлен. Моля, опитайте да се впишете отново."
 
 msgid ""
 "Authentication could not be completed. Please try signing in again. If the "
 "problem persists, contact the administrator."
 msgstr ""
+"Удостоверяването не може да бъде завършено. Моля, опитайте да се впишете "
+"отново. Ако проблемът се повтаря, свържете се с администратора."
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -1539,25 +1537,21 @@ msgstr "Посоченият адрес на електронна поща се 
 msgid "The supplied username is already in use for another account."
 msgstr "Посоченото потребителско име е заето."
 
-#, fuzzy
-#| msgid ""
-#| "The upstream repository could not be temporarily accessed. Please try it "
-#| "again later."
 msgid ""
 "The authentication provider is temporarily unavailable. Please try again "
 "later."
 msgstr ""
-"Отдалеченото хранилище е временно недостъпно. Опитайте отново по-късно."
+"Доставчикът за удостоверяване е временно недостъпен. Опитайте отново по-"
+"късно."
 
 msgid "Authentication needs an administrator to check its configuration."
-msgstr ""
+msgstr "Удостоверяването изисква администратор да провери конфигурацията."
 
-#, fuzzy
-#| msgid "Too many suggestions ({count}). Please contact an administrator."
 msgid ""
 "Authentication could not be completed. Please contact the administrator."
 msgstr ""
-"Твърде много предложения: ({count}). Моля, свържете се с администратор."
+"Удостоверението не може да бъде завършено. Моля, свържете се с "
+"администратора."
 
 msgid "Notification settings adjusted."
 msgstr "Настройките за известията са променени."
@@ -3556,10 +3550,8 @@ msgid "Manage translation memory"
 msgstr "Управление на паметта за преводи"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Manage translation services"
-msgstr "Предложения от машинния превод"
+msgstr "Управление на услугите за превод"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3839,10 +3831,8 @@ msgstr "Изисква потребителите да имат настроен
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr "Екипът може да бъде свързан с проект или с работно пространство."
 
-#, fuzzy
-#| msgid "A team with this name already exists in this workspace."
 msgid "A team with this name already exists in this project."
-msgstr "В това работно пространство вече има екип с това име."
+msgstr "В този проект вече има екип с това име."
 
 msgid "Limit languages"
 msgstr "Ограничаване на езиците"
@@ -4099,6 +4089,8 @@ msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
 "use."
 msgstr ""
+"Екипът %(name)s беше преименуван на %(new_name)s, тъй като името вече е "
+"заето."
 
 msgid "The anonymous user can not be assigned to teams."
 msgstr "Анонимните потребители не могат да бъдат добавяни към екипи."
@@ -4125,35 +4117,25 @@ msgstr "Автоматизация"
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr "Изпълнява подредени операции за превод с условия и разклонения."
 
-#, fuzzy
-#| msgid "Select at least one component to migrate."
 msgid "Select a component for this automation."
-msgstr "Изберете поне един компонент за мигриране."
+msgstr "Изберете компонент за тази автоматизация."
 
-#, fuzzy
-#| msgid "The component is outside this add-on's scope."
 msgid "The component is outside this add-on's scope or is incompatible."
-msgstr "Компонентът е извън обхвата на тази добавка."
+msgstr "Компонентът е извън обхвата на тази добавка или е несъвместим."
 
-#, fuzzy
-#| msgid "Browse all changes for this language"
 msgid "Select a change for this automation."
-msgstr "Преглед на всички промени по този език"
+msgstr "Изберете промяна за тази автоматизация."
 
 msgid "The change does not belong to this component."
 msgstr "Промяната не принадлежи на този компонент."
 
-#, fuzzy
-#| msgid "The change does not belong to this component."
 msgid "The change event does not match this automation's triggers."
-msgstr "Промяната не принадлежи на този компонент."
-
-#, fuzzy
-#| msgid "%(path)s: trigger scope requires only change triggers."
-msgid "Trigger scope requires a change with a string."
 msgstr ""
-"%(path)s: обхватът на действието изисква да се ползват само предизвиквания "
-"на изпълнение за промени."
+"Събитието за промяната не съвпада с никое от тези предизвикващи изпълнение в "
+"тази автоматизация."
+
+msgid "Trigger scope requires a change with a string."
+msgstr "Обхватът за предизвикване на изпълнение изисква промяна с низ."
 
 msgid "Automation nesting is too deep."
 msgstr "Твърде дълбоко влагане на автоматизацията."
@@ -4164,6 +4146,8 @@ msgstr "Дефинициите на автоматизацията не може
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
+"%(path)s: Неизвестно събитие за промяна „%(event)s“. Събития, които могат да "
+"се ползват: %(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "Не се поддържат псевдоними и етикети на YAML."
@@ -4218,25 +4202,19 @@ msgstr "Работен процес"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr "Въведете дефиниция за автоматизация във формат YAML или JSON."
 
-#, fuzzy
-#| msgid "Component"
 msgid "Component ID"
-msgstr "Компонент"
+msgstr "Идентификатор на компонента"
 
-#, fuzzy
-#| msgid "Required for inherited automations. Used only for preview."
 msgid "Required for inherited automations."
-msgstr ""
-"Задължително за наследените автоматизации. Използва се само за предварителен "
-"преглед."
+msgstr "Задължително за наследените автоматизации."
 
-#, fuzzy
-#| msgid "Change"
 msgid "Change ID"
-msgstr "Промяна"
+msgstr "Идентификатор на промяната"
 
 msgid "Required for workflows using only change triggers."
 msgstr ""
+"Задължително за работни процеси, които използват само събития за промени "
+"предизвикващи изпълнение."
 
 msgid "Preview without changes"
 msgstr "Преглед без промени"
@@ -6319,34 +6297,30 @@ msgstr ""
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Трябва да се съгласите с „Общите условия за ползване“"
 
-#, fuzzy, python-format
-#| msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+#, python-format
 msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
 "and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Моля, прочетете и <a href=\"%(privacy_url)s\">Политиката за поверителност</"
-"a>."
+"Моля, прочетете <a href=\"%(terms_url)s\">Общите условия за ползване</a> и "
+"<a href=\"%(privacy_url)s\">Политиката за поверителност</a>."
 
-#, fuzzy, python-format
-#| msgid "Please read the following General Terms and Conditions document:"
+#, python-format
 msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
-msgstr "Моля, прочетете следния документ относно „Общите условия за ползване“:"
+msgstr ""
+"Моля, прочетете <a href=\"%(terms_url)s\">Общите условия за ползване</a>."
 
-#, fuzzy, python-format
-#| msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+#, python-format
 msgid ""
 "Please read the General Terms and Conditions below as well as the <a "
 "href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Моля, прочетете и <a href=\"%(privacy_url)s\">Политиката за поверителност</"
-"a>."
+"Моля, прочетете Общите условия за ползване по-долу, както и <a href=\"%"
+"(privacy_url)s\">Политиката за поверителност</a>."
 
-#, fuzzy
-#| msgid "Please read the following General Terms and Conditions document:"
 msgid "Please read the General Terms and Conditions below."
-msgstr "Моля, прочетете следния документ относно „Общите условия за ползване“:"
+msgstr "Моля, прочетете Общите условия за ползване по-долу."
 
 msgid "General Terms and Conditions"
 msgstr "Общи условия за ползване"
@@ -6418,42 +6392,45 @@ msgid ""
 "This site has not provided information about its subcontractors, please "
 "contact the site maintainer to provide it."
 msgstr ""
+"Този уеб сайт не е предоставил информация относно подизпълнителите си. Моля, "
+"свържете се с отговорника на уеб сайта, за да я предостави."
 
-#, fuzzy, python-format
-#| msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+#, python-format
 msgid ""
 "Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Моля, прочетете и <a href=\"%(privacy_url)s\">Политиката за поверителност</"
-"a>."
+"Моля, прочетете <a href=\"%(external_privacy_url)s\">Политиката за "
+"поверителност</a>."
 
 msgid ""
 "This site has not defined a privacy policy, please contact the site "
 "maintainer to provide it."
 msgstr ""
+"Този уеб сайт не е предоставил политика за поверителност. Моля, свържете се "
+"с отговорника на уеб сайта, за да я предостави."
 
 msgid ""
 "This site has not defined a summary of its terms and conditions and privacy "
 "policy, please contact the site maintainer to provide it."
 msgstr ""
+"Този уеб сайт не е предоставил обобщение на условията си за ползване и "
+"политиката си за поверителност. Моля, свържете се с отговорника на уеб "
+"сайта, за да го предостави."
 
-#, fuzzy, python-format
-#| msgid "Please read the following General Terms and Conditions document:"
+#, python-format
 msgid ""
 "Please read the <a href=\"%(external_terms_url)s\">General Terms and "
 "Conditions</a>."
-msgstr "Моля, прочетете следния документ относно „Общите условия за ползване“:"
+msgstr ""
+"Моля, прочетете <a href=\"%(external_terms_url)s\">Общите условия за "
+"ползване</a>."
 
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers to add others."
 msgid ""
 "This site has not defined any terms and conditions, please contact the site "
 "maintainer to provide them."
 msgstr ""
-"Този списък съдържа само основните езици. Свържете се с отговорниците на "
-"проекта, за да добавят още."
+"Този уеб сайт не е предоставил условия за ползване. Моля, свържете се с "
+"отговорника на уеб сайта, за да ги предостави."
 
 msgid "Legal Terms Overview"
 msgstr "Обзор на правната информация"
@@ -6479,54 +6456,38 @@ msgstr "Няма намерени поддържани езици: %s"
 msgid "Could not fetch translation: %s"
 msgstr "Неуспешно получаване на превода: %s"
 
-#, fuzzy
-#| msgid "Translation license"
 msgid "Translation services"
-msgstr "Лиценз на превода"
+msgstr "Услуги за превод"
 
 msgid "Application is not authorized to use eTranslation"
-msgstr ""
+msgstr "Приложението няма право да използва eTranslation"
 
-#, fuzzy
-#| msgid "Language addition is not supported by any of the components."
 msgid "The language pair is not supported by this domain"
-msgstr "Добавянето на езици не се поддържа от нито един компонент."
+msgstr "Езиковата двойка не се поддържа от този домейн"
 
-#, fuzzy
-#| msgid "The text is too long to preview."
 msgid "The text is too long"
-msgstr "Текстът е твърде дълъг за предварителен преглед."
+msgstr "Текстът е твърде дълъг"
 
-#, fuzzy
-#| msgid "The API request rate limit was exceeded."
 msgid "The concurrency quota was exceeded"
-msgstr "Превишено е ограничението за честота на заявките къп ППИ."
+msgstr "Превишено е ограничението за паралелни заявки"
 
 msgid "Quality estimation is not available for text snippets"
-msgstr ""
+msgstr "Оценката на качеството не може да се ползва за текстови фрагменти"
 
-#, fuzzy
-#| msgid "AI quality evaluation service is unavailable."
 msgid "Quality estimation is not available"
-msgstr "Услугата за оценка на качеството на ИИ не е достъпна."
+msgstr "Оценката на качеството не е достъпна"
 
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation backend failed"
-msgstr "Преводът е приключен."
+msgstr "Сървърът за преводи се сблъска с грешка"
 
-#, fuzzy
-#| msgid "This translation needs editing."
 msgid "The translation request timed out"
-msgstr "Този превод се нуждае от редактиране."
+msgstr "Заявката за превод не получи отговор навреме"
 
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal processing error"
-msgstr "Вътрешна грешка на сървъра"
+msgstr "Вътрешна грешка при обработката"
 
 msgid "The language pair is not available for this domain"
-msgstr ""
+msgstr "Езиковата двойка не е налична за този домейн"
 
 msgid "Unknown error"
 msgstr "Неизвестна грешка"
@@ -6536,65 +6497,56 @@ msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
 msgstr ""
+"eTranslation се сблъска с грешка в домейна %(domain)s: %(description)s (код "
+"на грешката: %(code)s)."
 
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
 msgid "Invalid eTranslation domains response"
-msgstr "Неправилен флаг за превод: „%s“"
+msgstr "Неправилен отговори от домейните на eTranslation"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
 msgid "No eTranslation domains available"
-msgstr "Домейн за преводи"
+msgstr "Няма налични домейн за преводи на eTranslation"
 
 msgid "eTranslation requires a public HTTPS site domain for callbacks."
 msgstr ""
+"eTranslation изисква публичен домейн от тип HTTPS за обратни извиквания."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not fetch eTranslation domains: %s"
-msgstr "Неуспешно получаване на превода: %s"
+msgstr "Неуспешно получаване на домейните на eTranslation: %s"
 
-#, fuzzy, python-format
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
+#, python-format
 msgid "Unknown eTranslation domain: %s"
-msgstr "Домейн за преводи"
+msgstr "Неизвестен домейн на eTranslation: %s"
 
-#, fuzzy
-#| msgid "Invalid revert request!"
 msgid "Invalid eTranslation request ID"
-msgstr "Неправилна заявка за връщане!"
+msgstr "Неправилен идентификатор на заявка за връщане на eTranslation"
 
 msgid "Timed out waiting for eTranslation callback"
-msgstr ""
+msgstr "Времето за изчакване на обратното извикване на eTranslation изтече"
 
 msgctxt "eTranslation domain"
 msgid "General Text (GEN)"
-msgstr ""
+msgstr "Общ текст (GEN)"
 
-#, fuzzy
-#| msgid "For all languages"
 msgctxt "eTranslation domain"
 msgid "EU Formal Language (SPD)"
-msgstr "За всички езици"
+msgstr "Официален език на ЕС (SPD)"
 
 msgctxt "eTranslation domain"
 msgid "Finance (ECB)"
-msgstr ""
+msgstr "Финанси (ECB)"
 
 msgctxt "eTranslation domain"
 msgid "European Court of Justice (ECJ)"
-msgstr ""
+msgstr "Европейски съд (ECJ)"
 
 msgctxt "eTranslation domain"
 msgid "EIP Case Law (Intellectual Property) (IPO)"
-msgstr ""
+msgstr "Съдебна практика (интелектуална собственост) (IPO)"
 
 msgctxt "eTranslation domain"
 msgid "Quality Estimation (QE)"
-msgstr ""
+msgstr "Оценка на качеството (QE)"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
@@ -6633,65 +6585,50 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Клиентска тайна"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application base URL"
 msgctxt "eTranslation configuration"
 msgid "Application name"
-msgstr "Основен адрес на приложението"
+msgstr "Име на приложението"
 
 msgctxt "eTranslation configuration"
 msgid "Password"
 msgstr "Парола"
 
-#, fuzzy
-#| msgid "Repeated language code"
 msgctxt "eTranslation configuration"
 msgid "Default language domain"
-msgstr "Повтаряне на кода на езика"
+msgstr "Стандартен езиков домейн"
 
-#, fuzzy
-#| msgid "Site domain"
 msgctxt "eTranslation domain"
 msgid "Other domain code"
-msgstr "Домейн на уеб сайта"
+msgstr "Друг код на домейн"
 
-#, fuzzy
-#| msgid "Site domain"
 msgctxt "eTranslation configuration"
 msgid "Other domain code"
-msgstr "Домейн на уеб сайта"
+msgstr "Друг код на домейн"
 
 msgid "Enter a domain code from eTranslation when selecting Other domain code."
 msgstr ""
+"Въведете код на домейн от eTranslation, когато избирате „Друг код на домейн“."
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Component source language"
 msgctxt "eTranslation configuration"
 msgid "Component language domains"
-msgstr "Изходен език на компонента"
+msgstr "Езикови домейни за компонентите"
 
 msgid ""
 "JSON object mapping full component paths to domain codes, for example {\"my-"
 "project/privacy-policy\": \"SPD\"}."
 msgstr ""
+"Обект JSON, съпоставящ пълни имена на компоненти към кодове на домейни. "
+"Например {\"my-project/privacy-policy\": \"SPD\"}."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
 msgid "Invalid eTranslation domain code."
-msgstr "Домейн за преводи"
+msgstr "Неправилен код на домейн за eTranslation."
 
-#, fuzzy
-#| msgid "Language-specific instructions must be a JSON object."
 msgid "Component language domains must be a JSON object."
-msgstr "Езиково-специфичните инструкции трябва да бъдат обект на JSON."
+msgstr ""
+"Езиковите домейни за компонентите трябва да са оформени като обект JSON."
 
-#, fuzzy
-#| msgid "Invalid component path."
 msgid "Invalid component path or eTranslation domain code."
-msgstr "Неправилен път до компонент."
+msgstr "Неправилен път до компонент или код на домейн на eTranslation."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
