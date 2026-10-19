@@ -687,6 +687,17 @@ class UnitTermExpr(BaseTermExpr):
         "source_comment_author": "source_unit__comment__user__username",
     }
 
+    def language_field(self, text: str | RegexExpr | RangeExpr, context: dict) -> Q:
+        if isinstance(text, str) and self.operator in {":", ":="}:
+            lookup = "code__exact" if self.operator == ":=" else "code__iexact"
+            # Materialize IDs so PostgreSQL can use language-frequency statistics
+            # on translations instead of estimating through a language-code join.
+            language_ids = list(
+                Language.objects.filter(**{lookup: text}).values_list("pk", flat=True)
+            )
+            return Q(translation__language_id__in=language_ids)
+        return self.build_field_query("language", text)
+
     @staticmethod
     def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
         project = context.get("project")
