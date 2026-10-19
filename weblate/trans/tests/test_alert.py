@@ -53,6 +53,7 @@ from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_addon, get_test_actor
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
     RepositoryDiagnosis,
     RepositoryError,
@@ -89,6 +90,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
+    @mock_dns("example.com")
     def test_website_alerts_enabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"

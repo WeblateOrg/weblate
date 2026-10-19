@@ -47,6 +47,7 @@ from weblate.utils.render import (
     validate_render_commit,
     validate_render_component,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.github import GitHubInstallation
@@ -1847,6 +1848,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
 
+    @mock_dns("github.com", "example.com")
     def test_github_app_component_settings_lock_push_settings(self) -> None:
         self.project.add_user(self.user, "Administration")
         workspace = Workspace.objects.create(name="GitHub App settings")
