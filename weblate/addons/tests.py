@@ -25,6 +25,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
 from unittest.mock import MagicMock, patch
+from urllib.parse import urlsplit
 
 import fedora_messaging.api
 import fedora_messaging.config
@@ -104,6 +105,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
@@ -10970,6 +10972,10 @@ class TasksTest(TestCase):
 
 
 class WebhookDeliveryTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.enterContext(mock_dns("example.com"))
+
     def test_transport_errors(self) -> None:
         storage = MagicMock()
         storage.configuration = {"webhook_url": "https://example.com/webhooks"}
@@ -11178,6 +11184,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
     def setUp(self) -> None:
         super().setUp()
         self.reset_addon_configuration()
+        self.enterContext(mock_dns(cast("str", urlsplit(self.WEBHOOK_URL).hostname)))
 
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]

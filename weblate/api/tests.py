@@ -152,6 +152,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -5920,6 +5921,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Component.objects.count(), 1)
 
+    @mock_dns("github.com")
     def test_create_component(self) -> None:
         self.do_request(
             "api:project-components",
@@ -6017,6 +6019,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(change.user, self.user)
 
+    @mock_dns("github.com")
     def test_create_component_category(self) -> None:
         category = self.component.project.category_set.create(
             name="Category", slug="category"
@@ -7782,6 +7785,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertFalse(component.inherit_enforced_checks)
         self.assertEqual(component.effective_enforced_checks, ["same"])
 
+    @mock_dns("github.com")
     def test_create_component_with_file_format_params(self) -> None:
         payload: dict[str, object] = {
             "name": "API project",
@@ -7856,6 +7860,7 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(component.file_format_params["po_line_wrap"], -1)
 
+    @mock_dns("github.com")
     def test_create_component_with_vcs_params(self) -> None:
         payload: dict[str, object] = {
             "name": "API project",
@@ -9865,6 +9870,7 @@ class ComponentAPITest(APIBaseTest):
             "Component row should be locked before serializer validation runs",
         )
 
+    @mock_dns("github.com")
     def test_patch_rejects_github_app_repository_change(self) -> None:
         self.configure_github_app_component()
 

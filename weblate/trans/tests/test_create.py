@@ -38,6 +38,7 @@ from weblate.trans.views.create import (
     CreateComponent,
 )
 from weblate.utils.ratelimit import reset_rate_limit
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryError, RepositoryLock
 from weblate.vcs.git import GitRepository
@@ -1220,6 +1221,7 @@ class CreateTest(ViewTestCase):
 
     def make_github_app_component(self) -> str:
         """Turn the test component into a GitHub App one and return its repo."""
+        self.enterContext(mock_dns("github.com"))
         self.user.is_superuser = True
         self.user.save()
         self.project.workspace = Workspace.objects.create(name="GitHub App workspace")

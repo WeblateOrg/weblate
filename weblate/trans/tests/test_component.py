@@ -72,6 +72,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
     RepositoryError,
     RepositoryRecoveryEvent,
@@ -2094,6 +2095,7 @@ class ComponentValidationTest(RepoTestCase):
                     "managed by the repository integration", str(error.exception)
                 )
 
+    @mock_dns("github.com", "example.com")
     def test_github_app_clears_locked_push_fields(self) -> None:
         self.configure_github_app_component(push="https://example.com/other/repo.git")
 
