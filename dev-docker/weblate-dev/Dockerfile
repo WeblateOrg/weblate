@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:2026.10.1.1@sha256:b0f200f38d70ed0db026ee969898b96dbeee5e9961b8c40ed05433e94354b4a8
+FROM weblate/weblate:2026.10.1.1@sha256:b0f200f38d70ed0db026ee969898b96dbeee5e9961b8c40ed05433e94354b4a8 AS common
 
 ##########
 # WARNING!
@@ -88,7 +88,52 @@ RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-do
     && /usr/bin/env python3 --version
 
 
+# Compose selects this target with the existing small development context.
+FROM common AS development
 COPY --link --chmod=0755 start-dev /app/bin/
 
 ENTRYPOINT ["/app/bin/start-dev"]
 CMD ["runserver"]
+
+
+# OSS Scanner builds the final target with the repository root as context.
+# No application entrypoint or mounted checkout is needed at audit time.
+FROM common AS scanner
+USER root
+ENV DEBIAN_FRONTEND=noninteractive
+# The inherited PGDG source targets noble; use this image's Ubuntu packages.
+RUN rm -f /etc/apt/sources.list.d/pgdg.list \
+    && printf '%s\n' 'Package: postgresql*' 'Pin: release o=Ubuntu' 'Pin-Priority: 1001' \
+        > /etc/apt/preferences.d/oss-scanner-postgresql \
+    && apt-get update --error-on=any \
+    && apt-get install -y --no-install-recommends --allow-downgrades postgresql-18 valkey-server \
+    && rm -rf /var/lib/apt/lists/*
+
+# Keep prepared files outside the base image's /app/data and /app/cache volumes.
+ENV DJANGO_SETTINGS_MODULE=weblate.settings_test \
+    CI_DB_HOST=127.0.0.1 \
+    CI_DB_PORT=5432 \
+    CI_DB_NAME=weblate \
+    CI_DB_USER=weblate \
+    CI_REDIS_HOST=127.0.0.1 \
+    CI_REDIS_PORT=6379 \
+    CI_BASE_DIR=/opt/oss-scanner/tests \
+    UV_PROJECT_ENVIRONMENT=/opt/oss-scanner/venv \
+    VIRTUAL_ENV=/opt/oss-scanner/venv \
+    UV_CACHE_DIR=/opt/oss-scanner/uv-cache \
+    UV_PYTHON_DOWNLOADS=never \
+    PATH=/opt/oss-scanner/venv/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+
+COPY . /src
+WORKDIR /src
+RUN ./ci/pip-install latest \
+    && mkdir -p "$CI_BASE_DIR" \
+    && uv run --offline --no-sync ./manage.py compilemessages \
+    && uv run --offline --no-sync ./manage.py collectstatic --noinput --verbosity 0 \
+    && uv run --offline --no-sync ./manage.py shell -c \
+        'from weblate.screenshots.views import ensure_tesseract_language; ensure_tesseract_language("eng")'
+
+# The scanner replaces ENTRYPOINT; helpers must work when called from bash.
+HEALTHCHECK NONE
+ENTRYPOINT []
+CMD ["bash"]

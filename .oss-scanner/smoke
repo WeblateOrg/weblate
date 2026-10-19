@@ -1,0 +1,63 @@
+#!/bin/bash
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -euo pipefail
+cd /src
+show_logs() {
+    status=$?
+    if [ "$status" -ne 0 ]; then
+        for log in /opt/oss-scanner/{postgresql,valkey}/server.log; do
+            if [ -f "$log" ]; then
+                cat "$log"
+            fi
+        done
+    fi
+    exit "$status"
+}
+trap show_logs EXIT
+
+bash .oss-scanner/start-services
+bash .oss-scanner/start-services
+uv pip check --offline
+python - << 'PY'
+import os
+from pathlib import Path
+
+import django
+import weblate
+from django.conf import settings
+from django.db import connection
+from redis import Redis
+
+django.setup()
+assert Path(weblate.__file__).resolve().parent == Path('/src/weblate')
+assert any(Path(settings.STATIC_ROOT).iterdir())
+assert any(Path('/src/weblate/locale').glob('*/LC_MESSAGES/django.mo'))
+with connection.cursor() as cursor:
+    cursor.execute('SELECT 1')
+    assert cursor.fetchone() == (1,)
+cache = Redis(host=os.environ['CI_REDIS_HOST'], port=int(os.environ['CI_REDIS_PORT']))
+cache.set('oss-scanner-smoke', 'ready')
+assert cache.get('oss-scanner-smoke') == b'ready'
+cache.delete('oss-scanner-smoke')
+PY
+uv run --offline --no-sync ./manage.py check
+bash .oss-scanner/test -n 0 --maxfail=1 \
+    weblate/lang/tests.py \
+    weblate/vcs/tests/test_vcs.py::VCSGitTest::test_clone \
+    weblate/screenshots/tests.py::ViewTest::test_ocr_backend \
+    weblate/addons/tests.py::WebhooksAddonTest::test_all_events \
+    weblate/addons/tests.py::WebhookDeliveryTest::test_response_limits \
+    weblate/api/tests.py::ProjectAPITest::test_create_component \
+    weblate/trans/tests/test_alert.py::WebsiteAlertSettingTest::test_website_alerts_enabled \
+    weblate/trans/tests/test_create.py::CreateTest::test_create_component_github_app_link_survives_discovery
+# A second pytest process must reuse the database and prepared assets.
+bash .oss-scanner/test -n 0 --maxfail=1 weblate/lang/tests.py
+status=0
+bash .oss-scanner/test -n 0 /nonexistent-oss-scanner-test.py || status=$?
+if [ "$status" -ne 4 ]; then
+    echo "Expected pytest usage error 4, got $status" >&2
+    exit 1
+fi
