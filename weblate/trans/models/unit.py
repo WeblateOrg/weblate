@@ -114,6 +114,7 @@ UNIT_METADATA_UPDATE_FIELDS = (
     "automatically_translated",
     "flags",
     "last_updated",
+    "line_number",
 )
 
 
@@ -789,6 +790,7 @@ class UnitAttributesDict(TypedDict):
     unit: TranslationUnit
     created: bool
     pos: int
+    line_number: int | None
     id_hash: int
     automatically_translated: bool
 
@@ -819,6 +821,8 @@ class Unit(models.Model, LoggerMixin):
     details = models.JSONField(default=dict)
 
     position = models.IntegerField()
+
+    line_number = models.IntegerField(null=True, blank=True)
 
     num_words = models.IntegerField(default=0)
 
@@ -1489,6 +1493,7 @@ class Unit(models.Model, LoggerMixin):
         metadata_updates: dict[int, Unit] | None = None,
         tbx_terms: dict | None = None,
         tbx_flags: dict | None = None,
+        line_number: int | None = None,
     ) -> None:
         source_terms = (
             {"source": tbx_terms["source"], "target": tbx_terms["source"]}
@@ -1506,9 +1511,12 @@ class Unit(models.Model, LoggerMixin):
                 "location": location,
                 "explanation": explanation,
                 "flags": flags.format(),
-                "details": {"tbx_terms": deepcopy(source_terms), "tbx_flags": tbx_flags}
-                if source_terms is not None
-                else {},
+                "details": (
+                    {"tbx_terms": deepcopy(source_terms), "tbx_flags": tbx_flags}
+                    if source_terms is not None
+                    else {}
+                ),
+                "line_number": line_number,
             },
         )
         try:
@@ -1673,6 +1681,7 @@ class Unit(models.Model, LoggerMixin):
             "pos": pos,
             "id_hash": id_hash,
             "automatically_translated": unit.is_automatically_translated(),
+            "line_number": unit.line_number,
         }
 
     def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
@@ -1710,6 +1719,7 @@ class Unit(models.Model, LoggerMixin):
         unit = unit_attributes["unit"]
         created = unit_attributes["created"]
         pos = unit_attributes["pos"]
+        line_number = unit_attributes["line_number"]
         automatically_translated = unit_attributes["automatically_translated"]
 
         # Should not be needed again
@@ -1732,6 +1742,7 @@ class Unit(models.Model, LoggerMixin):
                 metadata_updates=metadata_updates,
                 tbx_terms=tbx_terms,
                 tbx_flags=unit_attributes["tbx_flags"],
+                line_number=line_number,
             )
 
         # Get comparison state (disk_state if exists, otherwise current state)
@@ -1801,6 +1812,7 @@ class Unit(models.Model, LoggerMixin):
             and location == self.location
             and note == self.note
             and pos == self.position
+            and line_number == self.line_number
             and automatically_translated == self.automatically_translated
             and not pending
         )
@@ -1859,6 +1871,7 @@ class Unit(models.Model, LoggerMixin):
         # Store updated values
         self.original_state = original_state
         self.position = pos
+        self.line_number = line_number
         self.location = location
         if (not same_data and not preserve_pending_target) or not supports_explanation:
             self.explanation = explanation
@@ -1885,6 +1898,7 @@ class Unit(models.Model, LoggerMixin):
                     "note",
                     "position",
                     "automatically_translated",
+                    "line_number",
                 ]
                 if not supports_explanation:
                     update_fields.append("explanation")
