@@ -76,6 +76,30 @@ jobs:
         BUILDX_BAKE_ENTITLEMENTS_FS: '0'
       run: python3 .devcontainer/smoke.py
 
+  oss-scanner:
+    name: OSS Scanner offline smoke test
+    runs-on: ubuntu-26.04
+    timeout-minutes: 65
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Build the scanner target from the checkout
+      timeout-minutes: 45
+      run: docker build --progress=plain -f dev-docker/weblate-dev/Dockerfile -t weblate-oss-scanner .
+    - name: Verify the image without network or mounted files
+      timeout-minutes: 15
+      run: >-
+        docker run --name weblate-oss-scanner-smoke --init --network none
+        --cpus 2 --memory 8g --user 0 --workdir /src --entrypoint bash
+        weblate-oss-scanner .oss-scanner/smoke
+    - name: Print scanner smoke logs
+      if: failure()
+      run: docker logs weblate-oss-scanner-smoke
+    - name: Remove the smoke container and its anonymous volumes
+      if: always()
+      run: docker rm --force --volumes weblate-oss-scanner-smoke
+
   browser:
     name: Browser tests (${{ matrix.runner }})
     runs-on: ${{ matrix.runner }}
