@@ -568,6 +568,9 @@ the same project.
 - The :guilabel:`Edit component settings` permission allows administrative
   operations that can affect repository contents. For example, users can choose
   files through component settings or install and configure component add-ons.
+  An automatic translation add-on can copy translations from an eligible
+  restricted source component into a component its manager can access, even if
+  that manager can not directly access the source; see :ref:`addons`.
   For a :ref:`linked component <internal-urls>`, these operations use the
   complete shared checkout. Grant this permission only to users trusted by the
   repository owner with that checkout. Ordinary translation permissions do not
