@@ -15,6 +15,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Improved :ref:`string search <search-strings>` performance when filtering by a language code.
 * Avoided unnecessary deduplication in :ref:`string searches <search-strings>` by matching related objects with subqueries.
 * :ref:`Component creation <adding-components>` and :ref:`discovery presets <addon-weblate.discovery.discovery>` warn when resource limits might make discovery results incomplete.
 * Renamed provider configuration and selection to :ref:`Translation services <machine-translation-setup>`, while keeping the translation editor's :guilabel:`Automatic suggestions` tab.
