@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import TYPE_CHECKING, Protocol, TypeVar, runtime_checkable
+from typing import TYPE_CHECKING, ClassVar, Protocol, TypeVar, runtime_checkable
 from weakref import WeakSet
 
 from django.conf import settings
@@ -52,7 +52,7 @@ T = TypeVar("T")
 class ClassLoader[T]:
     """Dict like object to lazy load list of classes."""
 
-    instances: WeakSet[ClassLoader] = WeakSet()
+    instances: ClassVar[WeakSet[ClassLoader]] = WeakSet()
 
     def __init__(
         self,
