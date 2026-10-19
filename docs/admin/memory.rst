@@ -104,9 +104,16 @@ enumerate the shared pool using the :ref:`memory API <api-memory>` without
 knowing a source string in advance.
 
 Restricted components do not contribute new entries to shared translation
-memory. On Hosted Weblate, a project with restricted components can not enable
-shared translation memory, and a component can not be restricted while its
-project uses shared translation memory.
+memory.
+
+This exclusion applies to shared translation memory entries. Saved automatic
+translation add-ons and automation workflows can use eligible
+restricted components directly as sources under add-on management authority.
+See :ref:`addons` and :ref:`automation-workflows`.
+
+On Hosted Weblate, a project with restricted components can not enable shared
+translation memory, and a component can not be restricted while its project
+uses shared translation memory.
 
 Unattributed legacy entries which are already in shared translation memory use
 the shared translation memory access rules.
