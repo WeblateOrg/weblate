@@ -6,19 +6,23 @@
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from threading import Event
 from types import SimpleNamespace
 from typing import Any
 from unittest.mock import MagicMock, patch
 
 from django.core.cache import cache
-from django.test import SimpleTestCase
+from django.db import close_old_connections, transaction
+from django.test import SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils.html import format_html
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
+from weblate.checks.locks import check_project_session_read_lock, lock_check_projects
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Project, Unit
@@ -26,6 +30,92 @@ from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.lock import WeblateLock
+
+
+class CheckBoundaryLockTest(TransactionTestCase):
+    def test_transaction_writer_finishes_before_transition(self) -> None:
+        entered = Event()
+        release = Event()
+        attempted = Event()
+        acquired = Event()
+
+        def writer() -> None:
+            close_old_connections()
+            try:
+                with transaction.atomic():
+                    lock_check_projects({123456}, exclusive=False)
+                    entered.set()
+                    if not release.wait(10):
+                        msg = "Writer was not released"
+                        raise TimeoutError(msg)
+            finally:
+                close_old_connections()
+
+        def transition() -> None:
+            close_old_connections()
+            try:
+                with transaction.atomic():
+                    attempted.set()
+                    lock_check_projects({123456}, exclusive=True)
+                    acquired.set()
+            finally:
+                close_old_connections()
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            writer_result = pool.submit(writer)
+            self.assertTrue(entered.wait(10))
+            transition_result = pool.submit(transition)
+            self.assertTrue(attempted.wait(10))
+            self.assertFalse(acquired.wait(0.1))
+            release.set()
+            writer_result.result(timeout=10)
+            transition_result.result(timeout=10)
+        self.assertTrue(acquired.is_set())
+
+    def test_chunked_worker_finishes_before_transition(self) -> None:
+        attempted = Event()
+        acquired = Event()
+
+        def transition() -> None:
+            close_old_connections()
+            try:
+                with transaction.atomic():
+                    attempted.set()
+                    lock_check_projects({123457}, exclusive=True)
+                    acquired.set()
+            finally:
+                close_old_connections()
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with check_project_session_read_lock(123457):
+                result = pool.submit(transition)
+                self.assertTrue(attempted.wait(10))
+                self.assertFalse(acquired.wait(0.1))
+            result.result(timeout=10)
+        self.assertTrue(acquired.is_set())
+
+    def test_writer_waits_for_committed_transition(self) -> None:
+        attempted = Event()
+        acquired = Event()
+
+        def writer() -> None:
+            close_old_connections()
+            try:
+                with transaction.atomic():
+                    attempted.set()
+                    lock_check_projects({123458}, exclusive=False)
+                    acquired.set()
+            finally:
+                close_old_connections()
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with transaction.atomic():
+                lock_check_projects({123458}, exclusive=True)
+                result = pool.submit(writer)
+                self.assertTrue(attempted.wait(10))
+                self.assertFalse(acquired.wait(0.1))
+            result.result(timeout=10)
+        self.assertTrue(acquired.is_set())
 
 
 class CheckLintTestCase(SimpleTestCase):
@@ -299,11 +389,17 @@ class BatchCheckMixinTest(SimpleTestCase):
             project=SimpleNamespace(checks_lock=project_lock),
         )
 
-        with patch.object(ConsistencyCheck, "_perform_batch") as perform_batch:
+        with (
+            patch.object(ConsistencyCheck, "_perform_batch") as perform_batch,
+            patch(
+                "weblate.checks.locks.check_component_session_read_lock"
+            ) as boundary_lock,
+        ):
             ConsistencyCheck().perform_batch(component)
 
         project_lock.__enter__.assert_called_once()
         project_lock.__exit__.assert_called_once()
+        boundary_lock.assert_called_once_with(component)
         perform_batch.assert_called_once_with(component)
 
     def test_perform_batch_sorts_bulk_create_by_unique_key(self) -> None:
