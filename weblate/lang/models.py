@@ -8,7 +8,7 @@ import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING, ClassVar, Self
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -1664,7 +1664,7 @@ class Plural(models.Model):
 
 
 class PluralMapper:
-    instances: WeakValueDictionary[tuple[str, str], PluralMapper] = (
+    instances: ClassVar[WeakValueDictionary[tuple[str, str], PluralMapper]] = (
         WeakValueDictionary()
     )
 
