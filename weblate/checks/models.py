@@ -163,7 +163,7 @@ class Check(models.Model):
         if recurse:
             for child in Check.objects.filter(
                 name=self.name,
-                unit__in=self.unit.propagated_units,
+                unit__in=self.unit.propagated_units.filter_restricted_peers(self.unit),
                 dismissed=not state,
             ).select_for_update():
                 child.set_dismiss(state=state, recurse=False)
