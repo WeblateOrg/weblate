@@ -181,25 +181,28 @@ def auto_translate_component_copy(
             threshold=0,
         )
     except PermissionDenied as error:
-        component.log_warning("automatic translation skipped: %s", error)
+        component.log_warning(
+            "automatic translation skipped: %s", error, dependencies=(source_component,)
+        )
 
     for warning in auto.get_warnings():
-        component.log_warning("%s", warning)
+        component.log_warning(
+            "%s",
+            warning,
+            sensitive=True,
+            public_message="Automatic translation reported a warning.",
+            dependencies=(source_component,),
+        )
 
 
 def seed_component_from_source(
     component: Component,
     source_component: Component,
     *,
-    author_name: str,
     skip_push: bool,
 ) -> bool:
     """Seed a newly created component from another component."""
-    component.log_info(
-        "copying repository checkout from %s as %s",
-        source_component.full_slug,
-        author_name,
-    )
+    component.log_info("copying repository checkout")
     if skip_push:
         component.log_debug("skipping push for repository copy seed")
 

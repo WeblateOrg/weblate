@@ -10,7 +10,7 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
@@ -24,6 +24,7 @@ from weblate.utils.celery import (
     reset_change_origin,
     restore_automation_origin,
     restore_change_origin,
+    sanitize_task_result,
     store_published_task_metadata,
     store_task_metadata,
 )
@@ -37,6 +38,7 @@ from weblate.utils.change_origin import (
     get_acting_user,
     get_change_origin,
 )
+from weblate.utils.messages import store_task_completion_message
 
 if TYPE_CHECKING:
     from celery import Celery
@@ -157,6 +159,51 @@ class TaskMetadataTest(SimpleTestCase):
             {"component_id": 1, "translation_id": None, "user_id": 2},
         )
 
+    def test_automatic_translation_warnings_without_reader(self) -> None:
+        store_task_metadata(
+            self.task_id, component_id=1, task_kind="automatic-translation"
+        )
+        result = {
+            "warnings": ["Private source warning."],
+            "_warning_details": [
+                {
+                    "message": "Private source warning.",
+                    "public_message": "Source warning.",
+                    "component_ids": [2],
+                }
+            ],
+        }
+        # No reader means no component query and no private details.
+        self.assertEqual(
+            sanitize_task_result(self.task_id, result),
+            {"warnings": ["Source warning."]},
+        )
+        for warnings in (["Private source warning."], "Private source warning."):
+            with self.subTest(warnings=warnings):
+                self.assertEqual(
+                    sanitize_task_result(self.task_id, {"warnings": warnings}),
+                    {"warnings": ["Automatic translation reported a warning."]},
+                )
+        self.assertEqual(
+            sanitize_task_result(self.task_id, {"progress": 42}), {"progress": 42}
+        )
+
+    def test_pending_results_do_not_query_components(self) -> None:
+        store_task_metadata(
+            self.task_id,
+            component_ids=[1, 2, 3],
+            translation_id=4,
+            task_kind="repository-operation",
+        )
+        # SimpleTestCase rejects database queries, including repository lookups.
+        for result in (
+            None,
+            {"progress": 42},
+            {"completion_message": {"text": None}},
+        ):
+            with self.subTest(result=result):
+                self.assertIs(sanitize_task_result(self.task_id, result), result)
+
     def test_updates_preserve_repository_operation_metadata(self) -> None:
         store_task_metadata(
             self.task_id,
@@ -179,6 +226,31 @@ class TaskMetadataTest(SimpleTestCase):
                 "cancellable": False,
             },
         )
+
+
+class TaskCompletionMessageTest(SimpleTestCase):
+    def test_already_stored_message_does_not_sanitize_result(self) -> None:
+        task = Mock(id="completed-task")
+        request = SimpleNamespace(
+            session={"task-completion-message-completed-task": True}
+        )
+        with patch("weblate.utils.celery.sanitize_task_result") as sanitize:
+            store_task_completion_message(request, task)
+        sanitize.assert_not_called()
+
+    def test_previously_sanitized_result_is_reused(self) -> None:
+        task = Mock(id="completed-task")
+        request = SimpleNamespace(session={})
+        result = {"completion_message": {"text": "Safe completion message."}}
+        with (
+            patch("weblate.utils.celery.sanitize_task_result") as sanitize,
+            patch("weblate.utils.messages.add_message") as add_message,
+        ):
+            store_task_completion_message(request, task, result=result)
+        sanitize.assert_not_called()
+        add_message.assert_called_once()
+        self.assertEqual(add_message.call_args.args[2], "Safe completion message.")
+        self.assertTrue(request.session["task-completion-message-completed-task"])
 
 
 class CeleryStartupTest(SimpleTestCase):

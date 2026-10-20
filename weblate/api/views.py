@@ -15,7 +15,6 @@ from urllib.parse import unquote
 from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
-from django.core.cache import cache
 from django.core.exceptions import (
     PermissionDenied,
 )
@@ -216,6 +215,7 @@ from weblate.trans.views.reports import get_report_scope_values, render_report_d
 from weblate.utils.celery import (
     get_task_metadata,
     get_task_progress,
+    sanitize_task_result,
     store_task_metadata,
 )
 from weblate.utils.docs import get_doc_url
@@ -237,6 +237,7 @@ from weblate.utils.stats import (
     iter_prefetch_stats,
     prefetch_stats,
 )
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
@@ -5689,15 +5690,17 @@ class TasksViewSet(ViewSet):
     )
     def retrieve(self, request: Request, pk=None):
         task, component, metadata = self.get_task(request, pk)
-        result = task.result
+        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
         if task.ready():
-            store_task_completion_message(request, task)
+            store_task_completion_message(request, task, result=result)
         serializer = self.serializer_class(
             {
                 "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
-                "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
+                "log": "\n".join(
+                    get_visible_task_log(task.id, cast("User", request.user))
+                ),
                 "cancellable": metadata.get("cancellable", component is not None),
             }
         )

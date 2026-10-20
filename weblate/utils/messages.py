@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from celery.result import AsyncResult
     from django.http import HttpRequest
 
+    from weblate.auth.models import User
+
 
 def get_request(request: object) -> HttpRequest:
     """Return Django request object even for DRF requests."""
@@ -41,9 +43,19 @@ def add_message(
         )
 
 
-def store_task_completion_message(request: object, task: AsyncResult) -> None:
+def store_task_completion_message(
+    request: object, task: AsyncResult, *, result: object = None
+) -> None:
     """Store an explicitly opted-in task completion message in the session."""
-    result = task.result
+    from weblate.utils.celery import sanitize_task_result  # ruff: ignore[import-outside-top-level]
+
+    request = get_request(request)
+    session_key = f"task-completion-message-{task.id}"
+    if request.session.get(session_key):
+        return
+
+    if result is None:
+        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
     if not isinstance(result, dict):
         return
 
@@ -53,11 +65,6 @@ def store_task_completion_message(request: object, task: AsyncResult) -> None:
 
     text = completion_message.get("text")
     if not text:
-        return
-
-    request = get_request(request)
-    session_key = f"task-completion-message-{task.id}"
-    if request.session.get(session_key):
         return
 
     message_levels = {

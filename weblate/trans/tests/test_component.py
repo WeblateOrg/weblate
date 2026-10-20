@@ -4059,6 +4059,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="git@private.example:owner/repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4066,6 +4069,41 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
 
         repository.validate_remote_url.assert_called_once_with(component.repo)
         add_host_key.assert_not_called()
+        self.assertNotIn("private.example", str(component.log_info.call_args_list))
+
+    def test_add_host_key_does_not_log_rejected_fork_hostname(self) -> None:
+        fork_url = "git@fork.example:owner/repo.git"
+        repository = Mock(spec=GitMergeRequestBase)
+        repository.get_fork_push_url.return_value = fork_url
+        repository.validate_remote_url.side_effect = [
+            SimpleNamespace(scheme="https"),
+            RepositoryError(
+                0, "Fetching VCS repository from fork.example is not allowed."
+            ),
+        ]
+        component = SimpleNamespace(
+            repository=repository,
+            repo="https://upstream.example/owner/repo.git",
+            push="",
+            log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        repository.validate_remote_url.assert_has_calls(
+            [call(component.repo), call(fork_url)]
+        )
+        add_host_key.assert_not_called()
+        component.log_info.assert_any_call(
+            "skipping SSH key for invalid repository URL: %s",
+            "Fetching VCS repository from fork.example is not allowed.",
+            sensitive=True,
+            public_message="skipping SSH key for invalid repository URL",
+        )
 
     def test_add_host_key_uses_generated_fork_remote(self) -> None:
         fork_url = "git@fork.example:owner/repo.git"
@@ -4086,6 +4124,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="https://upstream.example/owner/repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4106,6 +4147,13 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             restrict_private=True,
             validated_addresses=("93.184.216.34",),
         )
+        component.log_info.assert_any_call(
+            "adding SSH host key for %s:%s",
+            "fork.example",
+            22,
+            sensitive=True,
+            public_message="adding SSH host key",
+        )
 
     def test_add_host_key_uses_effective_validated_destination(self) -> None:
         target = SimpleNamespace(
@@ -4123,6 +4171,9 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             repo="git@alias.example:repo.git",
             push="",
             log_info=Mock(),
+            error_text=Mock(
+                return_value="Fetching VCS repository from fork.example is not allowed."
+            ),
         )
 
         with patch("weblate.trans.models.component.add_host_key") as add_host_key:
@@ -4135,6 +4186,13 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             2222,
             restrict_private=True,
             validated_addresses=("93.184.216.34", "2001:4860:4860::8888"),
+        )
+        component.log_info.assert_any_call(
+            "adding SSH host key for %s:%s",
+            "alias.example",
+            2222,
+            sensitive=True,
+            public_message="adding SSH host key",
         )
 
     def test_error_text_preserves_newlines(self) -> None:

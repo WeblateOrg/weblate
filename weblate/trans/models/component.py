@@ -190,6 +190,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import ComponentStats
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tracing import start_span
 from weblate.utils.validators import (
     validate_filename,
@@ -2319,35 +2320,96 @@ class Component(  # ruff: ignore[too-many-public-methods]
             state="PROGRESS", meta={"progress": progress, "component": self.pk}
         )
 
-    def store_log(self, slug, msg, *args) -> None:
+    def store_log(
+        self,
+        slug,
+        msg,
+        *args,
+        origin_component: Component | None = None,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        origin_component = origin_component or self
         if self.translations_count == -1 and self.linked_component:
-            self.linked_component.store_log(slug, msg, *args)
+            self.linked_component.store_log(
+                slug,
+                msg,
+                *args,
+                origin_component=origin_component,
+                sensitive=sensitive,
+                public_message=public_message,
+                dependencies=dependencies,
+            )
             return
-        entry = f"{slug}: {msg % args}"
         if current_task and current_task.request.id:
-            # ruff: ignore[import-outside-top-level]
-            from weblate.trans.repository_context import (
-                repository_task_inline_followups,
+            from weblate.utils.task_log import append_task_log, make_task_log_entry  # ruff: ignore[import-outside-top-level]
+
+            if origin_component.pk is None:
+                return
+            task_id = str(current_task.request.id)
+            suffix = (
+                slug[len(origin_component.full_slug) :]
+                if slug.startswith(f"{origin_component.full_slug}/")
+                else ""
+            )
+            if public_message is not None:
+                append_task_log(
+                    task_id,
+                    make_task_log_entry(
+                        origin_component, public_message, suffix=suffix
+                    ),
+                )
+            append_task_log(
+                task_id,
+                make_task_log_entry(
+                    origin_component,
+                    msg % args,
+                    suffix=suffix,
+                    sensitive=sensitive,
+                    dependencies=dependencies,
+                ),
+            )
+        else:
+            self.logs.append(f"{slug}: {msg % args}")
+
+    def log_hook(
+        self,
+        level,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        if level != "DEBUG":
+            has_exception = any(isinstance(arg, BaseException) for arg in args)
+            sensitive = sensitive or has_exception
+            if (
+                sensitive
+                and public_message is None
+                and (has_exception or level in {"WARNING", "ERROR"})
+            ):
+                public_message = (
+                    "An operation reported a warning."
+                    if level == "WARNING"
+                    else "An operation failed."
+                )
+            self.store_log(
+                self.full_slug,
+                msg,
+                *args,
+                sensitive=sensitive,
+                public_message=public_message,
+                dependencies=dependencies,
             )
 
-            task_log_key = f"task-log-{current_task.request.id}"
-            if repository_task_inline_followups.get():
-                self.logs = cache.get(task_log_key, [])
-            self.logs.append(entry)
-            cache.set(task_log_key, self.logs, 2 * 3600)
-        else:
-            self.logs.append(entry)
-
-    def log_hook(self, level, msg, *args) -> None:
-        if level != "DEBUG":
-            self.store_log(self.full_slug, msg, *args)
-
-    def get_progress(self):
+    def get_progress(self, user: User | None = None):
         task = self.background_task
         if task is None:
             return 100, []
         progress = get_task_progress(task)
-        return (progress, cache.get(f"task-log-{task.id}", []))
+        return (progress, get_visible_task_log(task.id, user) if user else [])
 
     def in_progress(self) -> bool:
         return (
@@ -2973,15 +3035,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
         repository = self.repository
 
         def add(repo: str) -> None:
-            self.log_info("checking for key to add for %s", repo)
+            self.log_info("checking SSH host key")
             try:
                 target = repository.validate_remote_url(repo)
             except RepositoryError as error:
-                self.log_info("skipping SSH key for invalid URL %s: %s", repo, error)
+                self.log_info(
+                    "skipping SSH key for invalid repository URL: %s",
+                    self.error_text(error),
+                    sensitive=True,
+                    public_message="skipping SSH key for invalid repository URL",
+                )
                 return
             if target is None or target.scheme != "ssh":
                 return
-            self.log_info("adding SSH key for %s:%s", target.hostname, target.port)
+            self.log_info(
+                "adding SSH host key for %s:%s",
+                target.hostname,
+                target.port,
+                sensitive=True,
+                public_message="adding SSH host key",
+            )
             add_host_key(
                 None,
                 target.hostname,
@@ -3072,6 +3145,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     user=user,
                 )
             error_text = self.error_text(error)
+            self.log_error(
+                "repository update failed: %s",
+                error_text,
+                public_message="Repository update attempt failed.",
+            )
             if validate and retry and should_auto_add_ssh_host_key(error_text):
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False, user=user)
@@ -3777,6 +3855,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     operation_log,
                     translation.filename,
                     reason,
+                    sensitive=True,
+                    public_message=f"Could not restore translation file {translation.filename}.",
                 )
 
             if request is not None:
@@ -3886,12 +3966,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 operation_log,
                 current_translation.filename,
                 error_message,
+                sensitive=True,
+                public_message=f"Could not restore translation file {current_translation.filename}.",
             )
         else:
             failed_component.log_error(
                 "%s failed before recreating missing translation files: %s",
                 operation_log,
                 error_message,
+                sensitive=True,
+                public_message="Could not restore missing translation files.",
             )
         if reset_repository_on_failure:
             try:
@@ -3905,7 +3989,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
-                    "reset/reapply failed to roll back partial missing translation restore"
+                    "reset/reapply failed to roll back partial missing translation restore",
+                    sensitive=False,
                 )
         elif rollback_revision is not None:
             try:
@@ -3920,7 +4005,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
-                    "file sync failed to roll back partial missing translation restore"
+                    "file sync failed to roll back partial missing translation restore",
+                    sensitive=False,
                 )
         if request is not None:
             if current_translation is not None:
@@ -5314,11 +5400,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Process linked repos
         for pos, component in enumerate(self.linked_children):
-            self.log_info(
-                "updating linked project %s [%d/%d]",
-                component,
-                pos + 1,
-                len(self.linked_children),
+            component.log_info(
+                "updating linked project [%d/%d]", pos + 1, len(self.linked_children)
             )
             component.translations_count = -1
             try:
@@ -6426,7 +6509,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seeded = seed_component_from_source(
                     self,
                     source_component,
-                    author_name=seed_author or "Weblate <noreply@weblate.org>",
                     skip_push=skip_push,
                 )
             if not seeded:
@@ -7108,6 +7190,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     else "Weblate <noreply@weblate.org>",
                     template=self.effective_add_message,
                     store_hash=False,
+                    log_author=request.user if request else None,
                 )
 
         # Trigger parsing of the newly added file
@@ -7186,6 +7269,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             signals=signals,
             template=self.effective_add_message,
             store_hash=False,
+            log_author=user,
         )
 
         # Delete no matches alert as we have just recreated the file

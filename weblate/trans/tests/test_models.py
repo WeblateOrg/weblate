@@ -1427,11 +1427,46 @@ class TranslationTest(RepoTestCase):
         component.save(update_fields=["file_format_params"])
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
-        translation.git_commit(user, "Jane <jane@example.com>")
+        with patch.object(translation, "log_info") as log_info:
+            translation.git_commit(user, "Jane <jane@example.com>", log_author=user)
+        log_info.assert_any_call(
+            "committed %s as %s", translation.filenames, user.username
+        )
         notes = translation.store.store.header().getnotes("translator")
         self.assertIn("SPDX-FileCopyrightText:", notes)
         self.assertIn("Jane <jane@example.com>", notes)
         self.assertEqual(translation.revision, translation.get_git_blob_hash())
+
+    def test_commit_log_uses_id_for_email_username(self) -> None:
+        component = self.create_component()
+        component.file_format_params = {"po_contributor_comments": "spdx"}
+        component.save(update_fields=["file_format_params"])
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+        user.username = user.email
+        user.save(update_fields=["username"])
+
+        with patch.object(translation, "log_info") as log_info:
+            translation.git_commit(user, user.get_author_name(), log_author=user)
+
+        log_info.assert_any_call(
+            "committed %s as %s", translation.filenames, f"<User:{user.pk}>"
+        )
+        self.assertNotIn(user.email, str(log_info.call_args_list))
+
+    def test_removal_log_uses_id_for_email_username(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        filenames = translation.filenames
+        user = create_test_user()
+        user.username = user.email
+        user.save(update_fields=["username"])
+
+        with patch.object(translation, "log_info") as log_info:
+            translation.remove(user)
+
+        log_info.assert_any_call("removing %s as %s", filenames, f"<User:{user.pk}>")
+        self.assertNotIn(user.email, str(log_info.call_args_list))
 
     def test_group_changes_by_author(self) -> None:
         component = self.create_component()

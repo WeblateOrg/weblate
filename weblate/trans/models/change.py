@@ -44,6 +44,7 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_message
 from weblate.utils.state import StringState
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
@@ -818,9 +819,9 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in ACTIONS_LOG:
             message = self.get_action_display()
             if self.user:
-                message = f"{message} ({self.user.username})"
+                message = f"{message} ({get_log_user_label(self.user)})"
             if self.author and self.author != self.user:
-                message = f"{message} ({self.author.username})"
+                message = f"{message} ({get_log_user_label(self.author)})"
             if self.target:
                 message = f"{message}: {self.target}"
             if self.translation:

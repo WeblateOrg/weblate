@@ -3784,6 +3784,8 @@ Reports
 
     Downloads a reStructuredText rendering of the stored report.
 
+.. _api-tasks:
+
 Tasks
 +++++
 
@@ -3806,6 +3808,19 @@ Tasks
     :>json object result: Task result or progress details
     :>json string log: Task log
     :>json boolean cancellable: Whether the task can be cancelled
+
+    Log entries are limited to components you can access. Sensitive diagnostics
+    additionally require the :guilabel:`View upstream repository location`
+    permission on the repository-owning component and access to all components
+    referenced by the entry. General progress and failure messages remain
+    available without this permission. Repository operations report start and
+    completion summaries under the linked components included in the task, even
+    when the repository-owning component is inaccessible. Failure results contain a summary;
+    authorized users can find the detailed explanation in the task log.
+    Automatic translation warnings identify source components only when you can
+    access them. Other readers receive a general explanation of the warning.
+    Aggregate automatic translation tasks without a component scope retain
+    cleaned failure diagnostics for the initiating user only.
 
 .. http:delete:: /api/tasks/(str:uuid)/
 
