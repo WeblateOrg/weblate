@@ -2,9 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""
-Metadata and node forms backing the visual automation editor.
-"""
+"""Metadata and node forms backing the visual automation editor."""
 
 from __future__ import annotations
 
@@ -107,9 +105,7 @@ def prepare_node_form(
     required: set[str],
     prefix: str,
 ) -> forms.Form:
-    """
-    Restrict a form to the keys of a node and annotate it for the editor.
-    """
+    """Restrict a form to the keys of a node and annotate it for the editor."""
     names = [name for name in properties if name in form.fields]
     for name in list(form.fields):
         if name not in names:
@@ -131,9 +127,7 @@ def prepare_node_form(
 
 
 def schema_variants(group: str, discriminator: str) -> list[tuple[str, dict[str, Any]]]:
-    """
-    Enumerate the schema variants of a node group by their discriminator.
-    """
+    """Enumerate the schema variants of a node group by their discriminator."""
     if group == "triggers":
         variants = SCHEMA["properties"]["triggers"]["items"]["oneOf"]
     else:

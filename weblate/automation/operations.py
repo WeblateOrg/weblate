@@ -63,9 +63,7 @@ class AutomationOperation:
 
     @classmethod
     def settings_form(cls, obj: Component | Project | None) -> forms.Form:
-        """
-        Return an unbound form rendering this operation's settings.
-        """
+        """Return an unbound form rendering this operation's settings."""
         raise NotImplementedError
 
     @classmethod

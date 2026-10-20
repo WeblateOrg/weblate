@@ -2,10 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""
-Forms rendering individual workflow nodes in the visual automation editor.
-
-"""
+"""Forms rendering individual workflow nodes in the visual automation editor."""
 
 from __future__ import annotations
 
