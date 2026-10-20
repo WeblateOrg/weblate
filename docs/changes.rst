@@ -15,6 +15,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
 * Improved :ref:`string search <search-strings>` performance when filtering by a language code.
 * Avoided unnecessary deduplication in :ref:`string searches <search-strings>` by matching related objects with subqueries.
 * :ref:`Component creation <adding-components>` and :ref:`discovery presets <addon-weblate.discovery.discovery>` warn when resource limits might make discovery results incomplete.

@@ -1420,27 +1420,35 @@ By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
-Restricting access at a component, or component-list level takes over
-access permission to a component, regardless of project-level permissions.
-You will have to grant access to it explicitly. This can be done through
-granting access to a new user group and putting users in it,
-or using the default `custom` or `private` access control groups.
+Restricting access at a component or component-list level requires an explicit
+grant for ordinary users, regardless of their project-level permissions.
+Grant access by creating a user group and adding users to it, or by using the
+default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
-Restricted access controls direct access to component pages, translations,
-files, APIs, and translation memory. It is not an isolation boundary for
-administrative capabilities whose documented scope includes the component. For
-example, project backups contain all project components, and project- or
-category-level add-ons process restricted components in their configured scope.
-Component add-ons can also use cross-component inputs documented by the add-on.
-Grant the corresponding management permissions only to users trusted with
-these effects. See :ref:`perm-check` and :ref:`addons`.
+Restricted access controls visibility of component pages, translations, API
+reads, and translation memory for users without component access or
+:guilabel:`Edit project settings` permission. Project administrators with that
+permission can open and manage every component in their project, including
+restricted ones. Editing strings, reviewing translations, downloading files,
+and other actions still require their respective permissions from a team scoped
+to the component or a component list containing it. Project-scoped action
+permissions do not apply to restricted components, including for project
+administrators.
+
+Administrative features can access restricted components within their
+documented scope. Project backups contain all project components. Project and
+category add-ons process restricted components in their configured scope.
+Component add-ons can also use cross-component inputs documented by the
+add-on. Grant management permissions only to users trusted with these effects.
+See :ref:`perm-check` and :ref:`addons`.
 
 .. hint::
 
-   This applies to project admins as well — please ensure you will not
-   lose access to the component after toggling the status.
+   Project administrators with :guilabel:`Edit project settings` permission
+   retain access after restricting a component. Other users need an explicit
+   component grant to keep direct access.
 
 Restricted components do not contribute new entries to :ref:`shared-tm`.
 Project and workspace translation memory entries attributed to an existing

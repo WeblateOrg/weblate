@@ -98,6 +98,11 @@ def get_permission_scope_query(
             if scope is not None:
                 result |= scope
 
+    if permission == "component.edit":
+        result |= Q(
+            **{f"{project_lookup}__in": user.accessible_managed_projects.values("pk")}
+        )
+
     blocked_project_ids = {
         project_id
         for project_id, scoped_permissions in user.project_permissions.items()

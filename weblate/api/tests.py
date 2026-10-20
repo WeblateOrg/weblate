@@ -6109,13 +6109,15 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="c-3")
         self.assertEqual(component.repo, repo)
 
-    def test_create_component_does_not_autoshare_inaccessible_component(self) -> None:
+    def test_project_admin_creation_autoshares_restricted_component(self) -> None:
         repo = self.component.repo
         branch = self.component.branch
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         self.do_request(
             "api:project-components",
@@ -6123,8 +6125,8 @@ class ProjectAPITest(APIBaseTest):
             method="post",
             code=201,
             request={
-                "name": "Independent repository",
-                "slug": "independent-repository",
+                "name": "Shared repository",
+                "slug": "shared-repository",
                 "repo": repo,
                 "branch": branch,
                 "filemask": "po/*.po",
@@ -6133,9 +6135,9 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
-        component = Component.objects.get(slug="independent-repository")
-        self.assertEqual(component.repo, repo)
-        self.assertIsNone(component.linked_component_id)
+        component = Component.objects.get(slug="shared-repository")
+        self.assertEqual(component.repo, self.component.get_repo_link_url())
+        self.assertEqual(component.linked_component_id, self.component.pk)
 
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
@@ -6176,7 +6178,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(component.repo, repo)
         self.assertIsNone(component.linked_component_id)
 
-    def test_create_restricted_component_requires_privileged_access(self) -> None:
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_can_create_restricted_component(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.project.use_shared_tm = False
+        self.project.contribute_shared_tm = False
+        self.project.save(update_fields=["use_shared_tm", "contribute_shared_tm"])
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
@@ -6184,7 +6193,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
+            code=201,
             request={
                 "name": "Restricted component",
                 "slug": "restricted-component",
@@ -6196,8 +6205,68 @@ class ProjectAPITest(APIBaseTest):
                 "restricted": True,
             },
         )
-        self.assertFalse(Component.objects.filter(slug="restricted-component").exists())
+        self.assertTrue(Component.objects.get(slug="restricted-component").restricted)
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_cannot_create_restricted_component_without_billing(
+        self,
+    ) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        request = {
+            "name": "Restricted component",
+            "slug": "restricted-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+        for default_restricted in (False, True):
+            with (
+                self.subTest(default_restricted=default_restricted),
+                override_settings(DEFAULT_RESTRICTED_COMPONENT=default_restricted),
+            ):
+                response = self.do_request(
+                    "api:project-components",
+                    self.project_kwargs,
+                    method="post",
+                    code=400,
+                    request=(
+                        request
+                        if default_restricted
+                        else {**request, "restricted": True}
+                    ),
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "restricted")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "The billing plan does not allow private access control.",
+                )
+                self.assertFalse(
+                    Component.objects.filter(slug="restricted-component").exists()
+                )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_can_remove_component_restriction(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=200,
+            request={"restricted": False},
+        )
+        self.component.refresh_from_db()
+        self.assertFalse(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     @override_settings(DEFAULT_RESTRICTED_COMPONENT=True)
     def test_create_component_can_override_restricted_default(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -6230,16 +6299,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
-            request=request,
-        )
-        self.assertFalse(Component.objects.filter(slug="default-restricted").exists())
-        self.do_request(
-            "api:project-components",
-            self.project_kwargs,
-            method="post",
             code=201,
-            superuser=True,
             request=request,
         )
         self.assertTrue(Component.objects.get(slug="default-restricted").restricted)
@@ -8734,7 +8794,7 @@ class ProjectAPITest(APIBaseTest):
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         self.user.clear_permissions_cache()
-        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.can_access_component(self.component))
 
         response = self.do_request(
             "api:project-backups",
@@ -10333,6 +10393,21 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_project_admin_can_delete_restricted_component(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertNotIn(self.component.pk, self.user.component_permissions)
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(Component.objects.filter(pk=self.component.pk).exists())
 
     def test_delete_component_memory_option_in_body(self) -> None:
         with patch("weblate.api.views.component_removal.delay") as mocked_removal:
@@ -12854,7 +12929,7 @@ class MemoryAPITest(APIBaseTest):
 
         self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
 
-    def test_delete_preserves_hidden_restricted_scope_from_compacted_entry(
+    def test_project_admin_delete_includes_restricted_scope_from_compacted_entry(
         self,
     ) -> None:
         self.component.project.add_user(self.user, "Administration")
@@ -12889,7 +12964,7 @@ class MemoryAPITest(APIBaseTest):
             code=204,
         )
 
-        self.assertTrue(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
+        self.assertFalse(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
         self.assertFalse(MemoryScope.objects.filter(pk=visible_scope.pk).exists())
 
     def test_delete_workspace_scope_requires_source_project_permission(self) -> None:
@@ -18705,7 +18780,7 @@ class AddonAPITest(APIBaseTest):
             code=404,
         )
 
-    def test_project_manager_cannot_access_restricted_component_addon(self) -> None:
+    def test_project_manager_can_access_restricted_component_addon(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         component_addon = create_test_addon(
@@ -18722,12 +18797,15 @@ class AddonAPITest(APIBaseTest):
         self.user.clear_permissions_cache()
 
         response = self.do_request("api:addon-list", code=200)
-        self.assertEqual(response.data["count"], 1)
-        self.assertEqual(response.data["results"][0]["id"], project_addon.pk)
+        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(
+            {item["id"] for item in response.data["results"]},
+            {component_addon.pk, project_addon.pk},
+        )
         self.do_request(
             "api:addon-detail",
             kwargs={"pk": component_addon.pk},
-            code=404,
+            code=200,
         )
 
     def test_project_addons_enforce_two_factor_requirement(self) -> None:

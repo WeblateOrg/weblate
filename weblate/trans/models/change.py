@@ -343,9 +343,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         if not user.needs_component_restrictions_filter:
             return self
         return self.filter(
-            Q(component__isnull=True)
-            | Q(component__restricted=False)
-            | Q(component_id__in=user.component_permissions)
+            Q(component__isnull=True) | user.get_component_access_query("component")
         )
 
     def filter_projects(self, user: User) -> Self:

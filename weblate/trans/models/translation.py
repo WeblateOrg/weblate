@@ -328,10 +328,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("component__project"))
         if user.needs_component_restrictions_filter:
-            result = result.filter(
-                Q(component__restricted=False)
-                | Q(component_id__in=user.component_permissions)
-            )
+            result = result.filter(user.get_component_access_query("component"))
         return result
 
     def filter_permission_scope(self, user: User, permission: str):

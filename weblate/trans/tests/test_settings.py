@@ -161,7 +161,15 @@ class SettingsTest(ReusableViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_restricted_component_permission_denial(self) -> None:
-        self.project.add_user(self.user, "Administration")
+        role = Role.objects.create(name="Project component settings")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Project component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
 
         form = ComponentSettingsForm(self.get_request(), instance=self.component)
 
@@ -178,6 +186,22 @@ class SettingsTest(ReusableViewTestCase):
         form = ComponentSettingsForm(self.get_request(), data, instance=self.component)
         self.assertTrue(form.is_valid(), form.errors)
         self.assertFalse(form.cleaned_data["restricted"])
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_project_admin_can_enable_restricted_component(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertNotIn(self.component.pk, self.user.component_permissions)
+
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+        self.assertFalse(form.fields["restricted"].disabled)
+        self.assertFalse(form.fields["restricted"].widget.is_hidden)
+
+        data = get_form_data(form.initial)
+        data["restricted"] = True
+        form = ComponentSettingsForm(self.get_request(), data, instance=self.component)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertTrue(form.cleaned_data["restricted"])
 
     def test_default_message_templates_render(self) -> None:
         validators = (
