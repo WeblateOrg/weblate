@@ -32,6 +32,7 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
