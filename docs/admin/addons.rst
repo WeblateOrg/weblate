@@ -72,6 +72,10 @@ masks. These fixed limits bound resource consumption when repository content
 determines the masks. When either limit is exceeded, discovery does not create
 or remove components.
 
+When configuring the add-on, Weblate also suggests presets detected from the
+repository. If this detection reaches a resource limit, Weblate warns that the
+suggestions might be incomplete. You can enter the configuration manually.
+
 .. _webhook-response-limits:
 
 The :ref:`addon-weblate.webhook.webhook` and

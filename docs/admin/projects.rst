@@ -100,6 +100,9 @@ On the next page, you are presented with a list of discovered translatable resou
 
 .. image:: /screenshots/user-add-component-discovery.webp
 
+If discovery reaches a resource limit, Weblate warns that the list might be
+incomplete. You can configure missing translation files manually.
+
 As a last step, you review the translation component info and fill in optional details:
 
 .. image:: /screenshots/user-add-component.webp
