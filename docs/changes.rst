@@ -11,6 +11,7 @@ Weblate 2026.11
 * Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
 * Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 * Added personal and project :ref:`saved-searches` offered in the search filters.
+* :ref:`Automations <automation-workflows>` can be edited visually, with a toggle to the raw YAML.
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 
 .. rubric:: Improvements

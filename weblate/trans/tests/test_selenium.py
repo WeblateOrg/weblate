@@ -11,11 +11,12 @@ import os
 import time
 import warnings
 from contextlib import contextmanager, suppress
+from copy import deepcopy
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Literal, cast, overload
+from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from unittest.mock import patch
 from urllib.parse import urlencode
 
@@ -55,6 +56,7 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.auth.models import AutoGroup, Group, Role, User
+from weblate.automation.addon import AutomationAddon
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
@@ -2653,6 +2655,196 @@ class SeleniumTests(
         )
         self.assertEqual(result["ascending"], ["Alpha", "Gamma", "Beta"])
         self.assertEqual(result["descending"], ["Beta", "Gamma", "Alpha"])
+
+    def test_automation_editor(self) -> None:
+        """The automation workflow editor round-trips between its panes."""
+        workflow: dict[str, Any] = {
+            "version": 1,
+            "triggers": [
+                {"trigger": "change", "events": ["translation_changed"]},
+            ],
+            "conditions": [{"condition": "language", "value": "cs"}],
+            "actions": [
+                {
+                    "action": "weblate.bulk_edit",
+                    "id": "flagit",
+                    "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                }
+            ],
+        }
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={"workflow": deepcopy(workflow)},
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+
+        editor = self.driver.find_element(By.CSS_SELECTOR, "[data-automation-editor]")
+        pane = editor.find_element(By.CSS_SELECTOR, "[data-automation-pane='editor']")
+        yaml_pane = self.driver.find_element(By.ID, "div_id_workflow")
+        self.assertTrue(pane.is_displayed())
+        self.assertFalse(yaml_pane.is_displayed())
+
+        # The saved workflow is shown as one node per trigger, condition, and
+        # action, and serializes back unchanged.
+        self.assertEqual(
+            self.driver.execute_script(
+                "return Array.from("
+                "document.querySelectorAll('[data-automation-legend]'),"
+                " (el) => el.textContent);"
+            ),
+            ["Change event", "Language", "Bulk editing"],
+        )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            workflow,
+        )
+
+        # Adding a node through the editor extends the workflow.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:daily")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-add='triggers']"
+            )
+        )
+        expected = deepcopy(workflow)
+        expected["triggers"].append({"trigger": "daily"})
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            expected,
+        )
+
+        # Switching to YAML writes the workflow out, and switching back parses
+        # it into the same tree.
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-yaml']"
+            )
+        )
+        self.assertFalse(pane.is_displayed())
+        self.assertTrue(yaml_pane.is_displayed())
+        self.assertIn(
+            "trigger: daily",
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value") or "",
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        self.assertTrue(pane.is_displayed())
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            expected,
+        )
+
+        # Saving submits what the editor produced.
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#addon-form input[type='submit']"
+                )
+            )
+        addon.instance.refresh_from_db()
+        self.assertEqual(
+            addon.instance.configuration["workflow"]["triggers"],
+            expected["triggers"],
+        )
+
+        # Workflows the editor cannot show yet stay in the YAML pane. Saving
+        # reloaded the page, so the earlier references are gone.
+        editor = self.driver.find_element(By.CSS_SELECTOR, "[data-automation-editor]")
+        pane = editor.find_element(By.CSS_SELECTOR, "[data-automation-pane='editor']")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-yaml']"
+            )
+        )
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys(
+            "version: 1\ntriggers: []\nactions:\n- choose:\n  - conditions: []\n    sequence: []\n"
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        alert = editor.find_element(By.CSS_SELECTOR, "[data-automation-alert]")
+        self.assertTrue(alert.is_displayed())
+        self.assertIn("does not handle yet", alert.text)
+        self.assertFalse(pane.is_displayed())
+        self.assertTrue(
+            self.driver.find_element(By.ID, "automation-mode-yaml").is_selected()
+        )
+
+        # A rejected workflow reopens in the YAML pane, where its message is.
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys("version: [unfinished")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#addon-form input[type='submit']"
+                )
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-pane='editor']"
+            ).is_displayed()
+        )
+        self.assertTrue(
+            self.driver.find_element(By.ID, "div_id_workflow").is_displayed()
+        )
+        self.assertEqual(
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value"),
+            "version: [unfinished",
+        )
+
+        # An action added through the editor keeps the defaults Django renders,
+        # while a saved action that omits a setting is left as it was saved.
+        addon.configure(
+            {
+                "workflow": {
+                    "version": 1,
+                    "triggers": [],
+                    "actions": [
+                        {"action": "weblate.automatic_translation", "settings": {}}
+                    ],
+                }
+            }
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        saved = self.driver.execute_script(
+            "return automationEditor.serializeWorkflow();"
+        )
+        # A select cannot express an absent key, so mode keeps the value the
+        # server would have defaulted to; the settings that would change what
+        # the action does are left alone.
+        self.assertEqual(saved["actions"][0]["settings"], {"mode": "suggest"})
+        Select(
+            self.driver.find_element(By.ID, "automation-add-action")
+        ).select_by_value("action:weblate.automatic_translation")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, "[data-automation-add='actions']")
+        )
+        added = self.driver.execute_script(
+            "return automationEditor.serializeWorkflow();"
+        )["actions"][1]["settings"]
+        self.assertEqual(added["q"], "state:<translated")
+        self.assertEqual(added["threshold"], MACHINERY_DEFAULT_THRESHOLD)
 
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
