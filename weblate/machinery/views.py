@@ -28,6 +28,7 @@ from django.views.generic.edit import FormView
 
 from weblate.machinery.base import (
     MachineTranslationError,
+    sanitize_machinery_error,
 )
 from weblate.machinery.models import (
     MACHINERY,
@@ -872,10 +873,10 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
             response["translations"] = translations
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
-            response["responseDetails"] = str(exc)
+            response["responseDetails"] = sanitize_machinery_error(str(exc))
         except Exception as error:
             report_error("Machinery failed", project=component.project, exception=error)
-            response["responseDetails"] = f"{error.__class__.__name__}: {error}"
+            response["responseDetails"] = gettext("Service is currently not available.")
 
     if response["responseStatus"] != 200:
         translation.log_info(
@@ -951,14 +952,14 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
             )
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
-            response["responseDetails"] = str(exc)
+            response["responseDetails"] = sanitize_machinery_error(str(exc))
         except Exception as error:
             await sync_to_async(report_error)(
                 "Machinery failed",
                 project=component.project,
                 exception=error,
             )
-            response["responseDetails"] = f"{error.__class__.__name__}: {error}"
+            response["responseDetails"] = gettext("Service is currently not available.")
 
     if response["responseStatus"] != 200:
         await sync_to_async(translation.log_info)(

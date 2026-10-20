@@ -49,6 +49,13 @@ from .types import (
 )
 
 MACHINERY_DEFAULT_THRESHOLD = 80
+ERROR_URL_RE = re.compile(r"https?://\S+", re.IGNORECASE)
+
+
+def sanitize_machinery_error(message: str) -> str:
+    """Hide URLs that can contain provider credentials or user information."""
+    return ERROR_URL_RE.sub("[redacted URL]", message)
+
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -582,7 +589,9 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         if self.supported_languages_error:
             if self.supported_languages_error_age + 3600 > time.time():
-                raise MachineTranslationError(repr(self.supported_languages_error))
+                raise MachineTranslationError(
+                    sanitize_machinery_error(repr(self.supported_languages_error))
+                )
             self.supported_languages_error = None
             self.supported_languages_error_age = 0
 
@@ -1133,7 +1142,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             self.report_error("Could not fetch translations", exception=exc)
             raise exc
 
-        original_message = str(exc)
+        original_message = sanitize_machinery_error(str(exc))
         fallback = f"{exc.__class__.__name__}: {original_message}"
         try:
             error_message = self.get_error_message(exc)
@@ -1142,6 +1151,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             error_message = fallback
         if not isinstance(error_message, str) or not error_message.strip():
             error_message = fallback
+        error_message = sanitize_machinery_error(error_message)
 
         extra_log = error_message.removeprefix(f"{exc.__class__.__name__}: ")
         extra_log = extra_log.removeprefix(original_message).strip(" :\r\n\t")
@@ -1222,12 +1232,12 @@ class BatchMachineTranslation(DocVersionsMixin):
         )(source_language, target_language, sources, user, threshold)
 
     def get_error_message(self, exc: Exception) -> str:
-        message = f"{exc.__class__.__name__}: {exc}"
+        message = sanitize_machinery_error(f"{exc.__class__.__name__}: {exc}")
         response = getattr(exc, "response", None)
         if isinstance(exc, httpx2.HTTPError) and response is not None:
             detail = self.get_error_detail(response)
             if detail and detail not in str(exc):
-                return f"{message}: {detail}"
+                return sanitize_machinery_error(f"{message}: {detail}")
         return message
 
     def signed_salt(self, appid, secret, text):

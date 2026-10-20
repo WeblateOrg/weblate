@@ -33,6 +33,7 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
+* Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
