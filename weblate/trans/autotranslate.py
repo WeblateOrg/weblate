@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 from celery import current_task
 from django.conf import settings
@@ -50,6 +50,12 @@ if TYPE_CHECKING:
     from weblate.auth.results import PermissionResult
     from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
     from weblate.utils.state import StringState
+
+
+class WarningDetail(TypedDict):
+    message: str
+    public_message: str
+    component_ids: list[int]
 
 
 def fetch_machinery_matches(
@@ -139,6 +145,7 @@ class BaseAutoTranslate:
         )
         self.failure_message: str | None = None
         self.warnings: list[str] = []
+        self.warning_details: list[WarningDetail] = []
         self.affected_unit_ids: set[int] = set()
         self.affected_source_unit_ids: set[int] = set()
 
@@ -159,9 +166,32 @@ class BaseAutoTranslate:
         """Return a metadata dictionary for Celery task progress tracking."""
         raise NotImplementedError
 
-    def add_warning(self, warning: str) -> None:
+    def add_warning(
+        self,
+        warning: str,
+        *,
+        public_message: str | None = None,
+        component_ids: Sequence[int] = (),
+    ) -> None:
         if warning not in self.warnings:
             self.warnings.append(warning)
+            self.warning_details.append(
+                {
+                    "message": warning,
+                    "public_message": public_message
+                    if public_message is not None
+                    else warning,
+                    "component_ids": sorted(set(component_ids)),
+                }
+            )
+        else:
+            detail = self.warning_details[self.warnings.index(warning)]
+            detail["component_ids"] = sorted(
+                set(detail["component_ids"]) | set(component_ids)
+            )
+
+    def get_warning_details(self) -> list[WarningDetail]:
+        return self.warning_details
 
     def get_warnings(self) -> list[str]:
         return self.warnings
@@ -350,7 +380,12 @@ class AutoTranslate(BaseAutoTranslate):
                     "Plural forms in %(component)s do not match the target translation. "
                     "Automatic translation skipped pluralized strings and processed only single-form strings."
                 )
-                % {"component": component}
+                % {"component": component},
+                public_message=gettext(
+                    "Plural forms in some source components do not match the target translation. "
+                    "Automatic translation skipped pluralized strings and processed only single-form strings."
+                ),
+                component_ids=[component.pk],
             )
 
         return context_translations, translations
@@ -954,8 +989,12 @@ class BatchAutoTranslate(BaseAutoTranslate):
             )
             if auto_translate.failure_message and self.failure_message is None:
                 self.failure_message = auto_translate.failure_message
-            for warning in auto_translate.get_warnings():
-                self.add_warning(warning)
+            for warning in auto_translate.get_warning_details():
+                self.add_warning(
+                    warning["message"],
+                    public_message=warning["public_message"],
+                    component_ids=warning["component_ids"],
+                )
             self.set_progress(pos)
 
         return self.failure_message or self.get_message()

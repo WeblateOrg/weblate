@@ -11,9 +11,10 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
+from contextlib import suppress
 from copy import deepcopy
 from functools import partial
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
@@ -28,7 +29,8 @@ from celery.signals import (
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
-from django.db import transaction
+from django.db import DatabaseError, transaction
+from django.utils.translation import gettext
 
 from weblate.automation.context import automation_origin
 from weblate.utils.change_origin import (
@@ -40,6 +42,11 @@ from weblate.utils.change_origin import (
     get_acting_user,
     get_change_origin,
 )
+from weblate.utils.task_log import record_task_failure
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]
@@ -179,6 +186,117 @@ def get_task_metadata(task_id: str) -> dict[str, Any] | None:
     return cache.get(get_task_metadata_key(task_id))
 
 
+def filter_task_warnings(result: dict, user: User | None) -> dict:
+    """Expose warning details only to readers of every named component."""
+    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
+
+    public_result = {
+        key: value for key, value in result.items() if key != "_warning_details"
+    }
+    warnings = result.get("warnings")
+    if not isinstance(warnings, list):
+        if "warnings" in result:
+            public_result["warnings"] = [
+                gettext("Automatic translation reported a warning.")
+            ]
+        return public_result
+    details = result.get("_warning_details")
+    validated: list[tuple[str, str, list[int]] | None] = []
+    for index, warning in enumerate(warnings):
+        detail = (
+            details[index]
+            if isinstance(details, list) and index < len(details)
+            else None
+        )
+        if (
+            isinstance(detail, dict)
+            and isinstance(warning, str)
+            and detail.get("message") == warning
+            and isinstance(detail.get("public_message"), str)
+            and isinstance(detail.get("component_ids"), list)
+            and all(
+                isinstance(pk, int) and not isinstance(pk, bool)
+                for pk in detail["component_ids"]
+            )
+        ):
+            validated.append(
+                (warning, detail["public_message"], detail["component_ids"])
+            )
+        else:
+            validated.append(None)
+    ids = {pk for detail in validated if detail is not None for pk in detail[2]}
+    accessible = (
+        set(
+            Component.objects.filter_access(user)
+            .filter(pk__in=ids)
+            .values_list("pk", flat=True)
+        )
+        if user is not None and ids
+        else set()
+    )
+    visible_warnings = []
+    for detail in validated:
+        if detail is None:
+            visible_warnings.append(
+                gettext("Automatic translation reported a warning.")
+            )
+        elif user is not None and set(detail[2]).issubset(accessible):
+            visible_warnings.append(detail[0])
+        else:
+            visible_warnings.append(detail[1])
+    public_result["warnings"] = visible_warnings
+    return public_result
+
+
+def sanitize_task_result(
+    task_id: str, result: object, user: User | None = None
+) -> object:
+    """Keep component task failure details in the permission-filtered log."""
+    if not isinstance(result, (Exception, dict)):
+        return result
+    metadata = get_task_metadata(task_id) or {}
+    if isinstance(result, dict) and "_automatic_translation_failed" in result:
+        failed = result.get("_automatic_translation_failed") is True
+        result = {
+            key: value
+            for key, value in result.items()
+            if key != "_automatic_translation_failed"
+        }
+        if failed:
+            result["message"] = gettext(
+                "Automatic translation failed. See the task log for details."
+            )
+    if isinstance(result, dict) and (
+        "_warning_details" in result
+        or metadata.get("task_kind") == "automatic-translation"
+    ):
+        result = filter_task_warnings(result, user)
+    if not any(
+        metadata.get(key)
+        for key in ("component_id", "component_ids", "translation_id", "task_kind")
+    ):
+        return result
+    if isinstance(result, Exception):
+        return gettext("Task could not be completed. See the task log for details.")
+    completion_message = result.get("completion_message")
+    if not isinstance(completion_message, dict) or not isinstance(
+        completion_message.get("text"), str
+    ):
+        return result
+    failed = result.get("result") is False or completion_message.get("level") == "error"
+    if metadata.get("task_kind") != "repository-operation" and not failed:
+        return result
+    if metadata.get("task_kind") == "repository-operation":
+        text = (
+            gettext("Repository operation completed with errors.")
+            if failed
+            else gettext("Repository operation completed.")
+        )
+    else:
+        text = gettext("Task could not be completed. See the task log for details.")
+    return {**result, "completion_message": {**completion_message, "text": text}}
+
+
 def delete_task_metadata(task_id: str | None) -> None:
     if not task_id:
         return
@@ -263,8 +381,35 @@ def reset_change_origin(task=None, **kwargs) -> None:
         change_origin.reset(token)
 
 
+@task_postrun.connect
+def handle_task_failure_result(task_id=None, retval=None, **kwargs) -> None:
+    """Preserve opted-in failure diagnostics before exposing a generic result."""
+    if not task_id or not isinstance(retval, dict):
+        return
+    if retval.get("_automatic_translation_failed") is True and isinstance(
+        retval.get("message"), str
+    ):
+        with suppress(DatabaseError, OSError):
+            record_task_failure(task_id, retval["message"])
+        return
+    message = retval.get("completion_message")
+    if not isinstance(message, dict) or not isinstance(message.get("text"), str):
+        return
+    if retval.get("result") is not False and message.get("level") != "error":
+        return
+    if (get_task_metadata(task_id) or {}).get("task_kind") == "repository-operation":
+        return
+    # Preserve the task's result even if diagnostics cannot be stored.
+    with suppress(DatabaseError, OSError):
+        record_task_failure(task_id, message["text"])
+
+
 @task_failure.connect
 def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
+    if exception is not None:
+        # A database outage must not prevent reporting the original failure.
+        with suppress(DatabaseError, OSError):
+            record_task_failure(task_id, exception)
     task_kwargs = kwargs.get("kwargs")
     if isinstance(task_kwargs, dict) and task_kwargs.get("activity_log_id") is not None:
         # ruff: ignore[import-outside-top-level]

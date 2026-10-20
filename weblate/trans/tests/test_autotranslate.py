@@ -892,6 +892,15 @@ class AutoTranslationTest(ReusableViewTestCase):
             "Automatic translation completed, 1 string was updated.",
         )
         self.assertEqual(len(result["warnings"]), 1)
+        self.assertEqual(
+            result["_warning_details"][0]["component_ids"], [self.component.pk]
+        )
+        self.assertEqual(
+            result["_warning_details"][0]["message"], result["warnings"][0]
+        )
+        self.assertNotIn(
+            str(self.component), result["_warning_details"][0]["public_message"]
+        )
         self.assertIn("do not match the target translation", result["warnings"][0])
         activity_log.refresh_from_db()
         self.assertEqual(activity_log.status, AddonActivityLog.Status.SUCCESS)
@@ -928,6 +937,7 @@ class AutoTranslationTest(ReusableViewTestCase):
             result["message"],
             "Automatic translation failed: Select an available installation using openai:<id>",
         )
+        self.assertTrue(result["_automatic_translation_failed"])
         activity_log.refresh_from_db()
         self.assertEqual(activity_log.details["result"], result)
 

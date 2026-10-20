@@ -55,7 +55,11 @@ def recover_checkout(component: Component) -> Generator[bool]:
         committed = True
 
     component.log_info(
-        "repository recovery started: component_id=%s path=%s", component.pk, original
+        "repository recovery started: component_id=%s path=%s",
+        component.pk,
+        original,
+        sensitive=True,
+        public_message="Repository recovery started.",
     )
     try:  # ruff: ignore[too-many-statements-in-try-clause]
         with (
@@ -71,6 +75,7 @@ def recover_checkout(component: Component) -> Generator[bool]:
                     "repository preserved: component_id=%s path=%s",
                     component.pk,
                     preserved,
+                    sensitive=True,
                 )
             original.parent.mkdir(parents=True, exist_ok=True)
             staged_path.rename(original)
@@ -86,6 +91,8 @@ def recover_checkout(component: Component) -> Generator[bool]:
             "repository recovery completed: component_id=%s path=%s",
             component.pk,
             original,
+            sensitive=True,
+            public_message="Repository recovery completed.",
         )
     except BaseException:
         if committed:

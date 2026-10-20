@@ -105,6 +105,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
 from weblate.utils.version import GIT_VERSION
 
@@ -449,8 +450,36 @@ class Translation(
     def code(self):
         return self.language.code
 
-    def log_hook(self, level, msg, *args) -> None:
-        self.component.store_log(self.full_slug, msg, *args)
+    def log_hook(
+        self,
+        level,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        has_exception = any(isinstance(arg, BaseException) for arg in args)
+        sensitive = sensitive or has_exception
+        if (
+            sensitive
+            and public_message is None
+            and (has_exception or level in {"WARNING", "ERROR"})
+        ):
+            public_message = (
+                "An operation reported a warning."
+                if level == "WARNING"
+                else "An operation failed."
+            )
+        self.component.store_log(
+            self.full_slug,
+            msg,
+            *args,
+            origin_component=self.component,
+            sensitive=sensitive,
+            public_message=public_message,
+            dependencies=dependencies,
+        )
 
     @property
     def project(self) -> Project:
@@ -1052,6 +1081,7 @@ class Translation(
                 user,
                 user.get_author_name(),
                 store_hash=False,
+                log_author=user,
             )
             reparsed = self.handle_store_change(
                 request, user, previous_revision, preserve_pending_units=True
@@ -1266,8 +1296,9 @@ class Translation(
             self.log_error(
                 "discarding %d pending changes due to missing filename",
                 len(pending_unit_ids),
+                sensitive=False,
             )
-        self.log_error("skipping commit due to missing filename")
+        self.log_error("skipping commit due to missing filename", sensitive=False)
         return False
 
     def _commit_pending_with_filename(self, reason: str, user: User | None) -> bool:
@@ -1350,6 +1381,7 @@ class Translation(
                     skip_push=True,
                     signals=False,
                     update_contributor=written,
+                    log_author=author,
                 )
 
         # Short-circuit when no changes were processed
@@ -1643,6 +1675,7 @@ class Translation(
         *,
         files: list[str] | None = None,
         update_contributor: bool = True,
+        log_author: User | None = None,
     ) -> bool:
         """Commit translation to git and return whether a commit was created."""
         repository = self.component.repository
@@ -1677,7 +1710,14 @@ class Translation(
                 store_hash=store_hash,
             )
             if committed:
-                self.log_info("committed %s as %s", files, author)
+                if log_author is None or not log_author.pk:
+                    self.log_info("committed %s", files)
+                else:
+                    self.log_info(
+                        "committed %s as %s",
+                        files,
+                        get_log_user_label(log_author),
+                    )
                 if user is None:
                     user = InternalBot.COMMIT.get_user()
                 self.change_set.create(
@@ -2275,6 +2315,7 @@ class Translation(
                 store_hash=False,
                 signals=False,
                 files=files,
+                log_author=author,
             )
 
             self.handle_store_change(
@@ -2819,7 +2860,11 @@ class Translation(
         author = user.get_author_name()
         component = self.component
         # Log
-        self.log_info("removing %s as %s", self.filenames, author)
+        self.log_info(
+            "removing %s as %s",
+            self.filenames,
+            get_log_user_label(user),
+        )
 
         # Build commit message before deleting (needs stats from DB)
         commit_message = self.get_commit_message(
@@ -3296,7 +3341,10 @@ class Translation(
                     translation.addon_commit_files.extend(extra_files)
                     translation.drop_store_cache()
                     translation.git_commit(
-                        user, user.get_author_name(), store_hash=False
+                        user,
+                        user.get_author_name(),
+                        store_hash=False,
+                        log_author=user,
                     )
                     # Adjust position as it will happen in most formats
                     if translation_unit.position:

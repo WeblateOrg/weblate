@@ -690,7 +690,7 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
         return redirect(return_url)
 
     metadata = get_task_metadata(task_id)
-    progress, log = component.get_progress()
+    progress, log = component.get_progress(request.user)
 
     return render(
         request,

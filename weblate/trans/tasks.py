@@ -78,7 +78,7 @@ from weblate.trans.repository_context import (
     repository_component_progress,
     suppress_repository_auto_push,
 )
-from weblate.utils.celery import app
+from weblate.utils.celery import app, store_task_metadata
 from weblate.utils.change_origin import (
     acting_user_context,
     change_origin_context,
@@ -91,6 +91,12 @@ from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
+from weblate.utils.task_log import (
+    get_task_components,
+    record_repository_failure,
+    record_repository_progress,
+    record_task_failure,
+)
 from weblate.vcs.base import RepositoryError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
@@ -412,6 +418,7 @@ def perform_repository_operation(
             except Retry:
                 release_reservation = False
                 raise
+        record_task_failure(task_id, retry.error)
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext(
                 "Repository operation could not be completed because it remained locked."
@@ -426,7 +433,8 @@ def perform_repository_operation(
         FileNotFoundError,
         TranslateParseError,
         ValueError,
-    ):
+    ) as error:
+        record_task_failure(task_id, error)
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext("Repository operation could not be completed.")
         return {
@@ -434,6 +442,7 @@ def perform_repository_operation(
             "completion_message": {"level": "error", "text": message},
         }
     except PermissionDenied:
+        record_task_failure(task_id, "Repository access is no longer permitted.")
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext(
                 "Repository operation could not be completed because access is no longer permitted."
@@ -476,6 +485,11 @@ def execute_repository_operation(
     total = len(component_ids)
     permission = get_repository_operation_permission(operation)
     failure_messages = list(failure_messages or ())
+    display_components: dict[int, list[Component]] = {}
+    for source in get_task_components(task_id):
+        display_components.setdefault(source.effective_repo_component.pk, []).append(
+            source
+        )
 
     with (
         acting_user_context(user),
@@ -497,12 +511,16 @@ def execute_repository_operation(
                         "skipping repository operation: repository link changed"
                     )
                     successful = False
+                    record_repository_failure(task_id, component, operation)
                     resume_followup = None
                     followup_previous_head = None
                 else:
                     if not user.has_perm(permission, component):
                         raise PermissionDenied
-                    component.log_info("running repository operation: %s", operation)
+                    sources = display_components.get(component.pk, [])
+                    record_repository_progress(
+                        task_id, component, operation, "started", sources=sources
+                    )
                     # Repository methods use request messages for actionable VCS
                     # failures. Give each operation fresh in-memory storage.
                     request = RepositoryOperationRequest(user)
@@ -545,10 +563,22 @@ def execute_repository_operation(
                         str(message) for message in get_messages(request)
                     ]
                     for method_message in method_messages:
-                        component.log_info("repository operation: %s", method_message)
+                        component.log_info(
+                            "repository operation: %s", method_message, sensitive=True
+                        )
                     if result is False:
                         successful = False
-                        failure_messages.extend(method_messages)
+                        record_repository_failure(
+                            task_id,
+                            component,
+                            operation,
+                            sources=sources,
+                        )
+                        failure_messages.append("Repository operation failed.")
+                    else:
+                        record_repository_progress(
+                            task_id, component, operation, "completed", sources=sources
+                        )
             task.update_state(
                 state="PROGRESS",
                 meta={"progress": 100 * completed // total if total else 100},
@@ -558,9 +588,7 @@ def execute_repository_operation(
             message = gettext("Repository operation completed.")
             level = "success"
         else:
-            message = "\n".join(dict.fromkeys(failure_messages)) or gettext(
-                "Repository operation completed with errors."
-            )
+            message = gettext("Repository operation completed with errors.")
             level = "error"
     return {
         "result": successful,
@@ -1501,6 +1529,14 @@ def auto_translate(
     activity_log_task_count: int | None = None,
     enforce_permissions: bool = True,
 ) -> dict[str, Any]:
+    if current_task and current_task.request.id:
+        store_task_metadata(
+            str(current_task.request.id),
+            user_id=user_id,
+            component_id=component_id,
+            translation_id=translation_id,
+            task_kind="automatic-translation",
+        )
     result: dict[str, Any] = {"warnings": []}
     if user_id is None:
         # Older queued add-on jobs did not carry an actor for MT operations.
@@ -1555,14 +1591,28 @@ def auto_translate(
                 ),
             )
         except PermissionDenied as error:
-            result.update({"message": str(error), "warnings": auto.get_warnings()})
+            result.update(
+                {
+                    "message": str(error),
+                    "_automatic_translation_failed": True,
+                    "warnings": auto.get_warnings(),
+                    "_warning_details": auto.get_warning_details(),
+                }
+            )
             return store_auto_translate_activity_log(
                 activity_log_id,
                 result,
                 status=AddonActivityLogStatus.ERROR,
                 task_count=activity_log_task_count,
             )
-        result.update({"message": message, "warnings": auto.get_warnings()})
+        result.update(
+            {
+                "message": message,
+                "_automatic_translation_failed": bool(auto.failure_message),
+                "warnings": auto.get_warnings(),
+                "_warning_details": auto.get_warning_details(),
+            }
+        )
         return store_auto_translate_activity_log(
             activity_log_id,
             result,

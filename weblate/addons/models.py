@@ -532,7 +532,7 @@ class Addon(models.Model):
 
     def log_warning(self, message: str, *args) -> None:
         if self.component:
-            self.component.log_warning(message, *args)
+            self.component.log_warning(message, *args, sensitive=True)
         elif self.category:
             self.category.log_warning(message, *args)
         elif self.project:
