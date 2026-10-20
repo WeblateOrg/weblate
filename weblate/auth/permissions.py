@@ -354,6 +354,10 @@ def check_permission(
     if isinstance(obj, Component):
         return (
             (
+                permission == "component.edit"
+                and check_permission(user, "project.edit", obj.project)
+            )
+            or (
                 not obj.restricted
                 and any(
                     _has_scoped_permission(
@@ -1470,15 +1474,25 @@ def check_billing_component_permissions(
     """Return whether user can change component restricted access."""
     if user.is_superuser:
         return Allowed()
-    if obj.pk is None:
+    if obj.project_id is None:
         return Denied(
             gettext(
                 "Create the component and grant yourself explicit access before enabling restricted access."
             )
         )
-    if not obj.restricted and not billing_plan_allows_access_control(obj.project):
+    if (
+        obj.pk is None or not obj.restricted
+    ) and not billing_plan_allows_access_control(obj.project):
         return Denied(
             gettext("The billing plan does not allow private access control.")
+        )
+    if check_permission(user, "project.edit", obj.project):
+        return Allowed()
+    if obj.pk is None:
+        return Denied(
+            gettext(
+                "Create the component and grant yourself explicit access before enabling restricted access."
+            )
         )
     if not any(
         _has_scoped_permission("component.edit", permissions, languages)

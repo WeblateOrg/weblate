@@ -43,7 +43,9 @@ source components as follows:
   they do not create shared translation-memory entries; the add-on reads the
   explicitly selected component as an administrative input instead.
 
-Restricted components remain filtered from ordinary listings and direct access.
+Restricted components remain filtered from ordinary listings and direct access
+for users without an explicit grant or :guilabel:`Edit project settings`
+permission.
 Grant add-on management permissions only to users trusted with the add-on's
 complete input and effect scope. See :ref:`perm-check` and
 :ref:`component-restricted`.

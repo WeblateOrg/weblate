@@ -490,8 +490,9 @@ Component-browsing access
 
 Granting browsing access to a user in one project gives it access to
 any component with derived browsing permissions.
-With :ref:`component-restricted` on, access to components
-(or component lists) are granted explicitly.
+With :ref:`component-restricted` on, ordinary component access requires an
+explicit grant. Users with :guilabel:`Edit project settings` permission can
+also browse all components in that project.
 
 .. _perm-check:
 
@@ -582,11 +583,16 @@ the same project.
 
 - The :guilabel:`Edit project settings` permission authorizes persistent
   administration across the project. Project backups contain all components,
-  including restricted ones. Project and category add-ons also operate on all
-  compatible components in their configured scope. Grant this permission only
-  to users trusted with the complete project data and these administrative
-  effects, even when restricted components remain hidden from their ordinary
-  component listings.
+  including restricted ones. It also grants direct access to all project
+  components and allows editing their settings, deleting them, and changing
+  restricted access, subject to billing limits. It does not grant translation,
+  review, or download permissions. On restricted components, these action
+  permissions must come from a team scoped to the component or a component list
+  containing it; project-scoped action permissions do not apply, including for
+  project administrators. Project and category add-ons also operate on
+  all compatible components in their configured scope. Grant this permission
+  only to users trusted with the complete project data and these administrative
+  effects.
 
 - Add-on configuration is stored system configuration rather than a delegation
   from the account which saved it. Component add-ons can consume inputs outside

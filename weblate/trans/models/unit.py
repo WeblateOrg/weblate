@@ -683,8 +683,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("translation__component")
             )
         return result
 

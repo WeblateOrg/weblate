@@ -995,6 +995,7 @@ class User(AbstractBaseUser):
             "watched_projects",
             "owned_projects",
             "managed_projects",
+            "accessible_managed_projects",
             "global_permissions",
             "cached_memberships",
         )
@@ -1102,6 +1103,7 @@ class User(AbstractBaseUser):
             _ = self.global_permissions
             _ = self.needs_project_filter
             _ = self.needs_component_restrictions_filter
+            _ = self.accessible_managed_projects
 
         await sync_to_async(prepare, thread_sensitive=True)()
 
@@ -1144,7 +1146,26 @@ class User(AbstractBaseUser):
             return True
         if not self.can_access_project(component.project):
             return False
-        return not component.restricted or component.pk in self.component_permissions
+        return (
+            not component.restricted
+            or component.pk in self.component_permissions
+            or bool(self.has_perm("project.edit", component.project))
+        )
+
+    def get_component_access_query(self, path: str = "") -> Q:
+        """Return the visibility filter for components at a relation path."""
+        prefix = f"{path}__" if path else ""
+        return (
+            Q(**{f"{prefix}restricted": False})
+            | Q(**{f"{prefix}pk__in": self.component_permissions})
+            | Q(
+                **{
+                    f"{prefix}project_id__in": self.accessible_managed_projects.values(
+                        "pk"
+                    )
+                }
+            )
+        )
 
     def check_access_component(self, component) -> None:
         """Raise an error if user is not allowed to access this component."""
@@ -1229,6 +1250,14 @@ class User(AbstractBaseUser):
     @cached_property
     def managed_projects(self):
         return self.projects_with_perm("project.edit")
+
+    @cached_property
+    def accessible_managed_projects(self):
+        """Projects where project administration also grants component access."""
+        result = self.managed_projects.filter(pk__in=self.allowed_projects)
+        if not self.is_bot and not self.profile.has_2fa:
+            result = result.filter(enforced_2fa=False)
+        return result
 
     @cached_property
     def administered_group_ids(self):

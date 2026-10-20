@@ -997,7 +997,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         with self.captureOnCommitCallbacks(execute=True):
             self.component.add_alert("BrokenProjectURL", error="failure")
@@ -1147,7 +1147,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         addon = create_test_addon(
             acting_user=get_test_actor(self),
             project=self.component.project,
@@ -1354,7 +1354,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         create_test_addon(
             acting_user=get_test_actor(self),
             component=self.component,

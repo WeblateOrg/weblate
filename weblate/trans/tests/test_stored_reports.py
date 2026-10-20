@@ -513,9 +513,15 @@ class StoredReportsTest(BaseReportsTest):
         self.component.save(update_fields=["restricted"])
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
-        self.user.groups.add(Group.objects.get(name="Managers"))
+        role = Role.objects.create(name="Project reports only")
+        role.permissions.add(Permission.objects.get(codename="reports.view"))
+        group = Group.objects.create(name="Project report viewers")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("reports.view", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
         self.assertFalse(self.user.can_access_component(self.component))
 
         for kind in Report.Kind:

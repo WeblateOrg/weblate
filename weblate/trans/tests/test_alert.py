@@ -967,7 +967,7 @@ class AlertTest(ReusableViewTestCase):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         self.component.add_alert("BrokenProjectURL", error="failure")
 
         response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")

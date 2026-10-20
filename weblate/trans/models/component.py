@@ -499,9 +499,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("project"))
         if user.needs_component_restrictions_filter:
-            result = result.filter(
-                Q(restricted=False) | Q(id__in=user.component_permissions)
-            )
+            result = result.filter(user.get_component_access_query())
         return result
 
     def filter_permission_scope(self, user: User, permission: str):

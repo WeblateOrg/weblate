@@ -225,6 +225,8 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             query |= Q(
                 source_component_id__in=user.component_permissions,
             ) & user.get_project_access_query("source_component__project")
+        if user is not None:
+            query |= Q(source_component__project__in=user.accessible_managed_projects)
         return query
 
     @staticmethod

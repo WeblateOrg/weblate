@@ -13,7 +13,6 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -51,8 +50,7 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("translation__component")
             )
         return result
 

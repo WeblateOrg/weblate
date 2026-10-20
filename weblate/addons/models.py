@@ -115,6 +115,7 @@ class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
             project__in=accessible_projects
         ).filter(
             Q(project__in=component_managed_projects, restricted=False)
+            | Q(project__in=user.accessible_managed_projects)
             | Q(pk__in=explicitly_managed_component_ids)
         )
 
