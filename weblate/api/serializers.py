@@ -102,6 +102,7 @@ from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
 )
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
 from weblate.utils.site import get_site_url
@@ -2846,32 +2847,34 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def create(self, validated_data):
         source_component = validated_data.pop("from_component", None)
         acting_user = validated_data.pop("acting_user", self.context["request"].user)
-        if (
-            "enforced_checks" in validated_data
-            and "inherit_enforced_checks" not in validated_data
-        ):
-            validated_data["inherit_enforced_checks"] = False
-        component = Component(**validated_data)
-        component.acting_user = acting_user
-        if source_component is not None:
-            component.prepare_seed_from_component(
-                source_component.pk,
-                copy_addons=True,
-                seed_author=acting_user.get_author_name(),
-            )
-        component.save(force_insert=True)
-        return component
+        with acting_user_context(acting_user):
+            if (
+                "enforced_checks" in validated_data
+                and "inherit_enforced_checks" not in validated_data
+            ):
+                validated_data["inherit_enforced_checks"] = False
+            component = Component(**validated_data)
+            if source_component is not None:
+                component.prepare_seed_from_component(
+                    source_component.pk,
+                    copy_addons=True,
+                    seed_author=acting_user.get_author_name(),
+                )
+            component.save(force_insert=True)
+            return component
 
     def update(self, instance, validated_data):
-        if "enforced_checks" in validated_data:
-            validated_data.setdefault("inherit_enforced_checks", False)
-        instance.preserve_enforced_checks_inheritance = validated_data.get(
-            "inherit_enforced_checks"
-        )
-        try:
-            return super().update(instance, validated_data)
-        finally:
-            del instance.preserve_enforced_checks_inheritance
+        actor = validated_data.pop("acting_user", get_acting_user())
+        with acting_user_context(actor):
+            if "enforced_checks" in validated_data:
+                validated_data.setdefault("inherit_enforced_checks", False)
+            instance.preserve_enforced_checks_inheritance = validated_data.get(
+                "inherit_enforced_checks"
+            )
+            try:
+                return super().update(instance, validated_data)
+            finally:
+                del instance.preserve_enforced_checks_inheritance
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
@@ -4740,7 +4743,6 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         return attrs
 
     def create(self, validated_data):
-        validated_data["acting_user"] = self.context["request"].user
         addon_class = ADDONS[validated_data.pop("name")]
         try:
             instance = addon_class.create_object(**validated_data)

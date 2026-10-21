@@ -72,6 +72,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_actor,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
@@ -215,8 +216,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.automation_user = get_test_actor(self)
-        self.component.acting_user = self.automation_user
-        self.project.acting_user = self.automation_user
+        self.enterContext(acting_user_context(self.automation_user))
         self.user.email = "noreply+notify@weblate.org"
         self.user.save()
         czech = Language.objects.get(code="cs")

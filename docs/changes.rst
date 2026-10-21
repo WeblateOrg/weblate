@@ -52,6 +52,7 @@ Weblate 2026.11
 
 .. rubric:: Compatibility
 
+* Custom integrations must use :ref:`acting-user-context` instead of transient model ``acting_user`` attributes. Stop task producers and schedulers, drain queued work and deferred repository follow-ups, and upgrade the application and workers together; redundant actor task arguments have been removed.
 * :wladmin:`import_project`, :wladmin:`import_json`, :wladmin:`import_demo`, :wladmin:`add_suggestions`, and :wladmin:`install_addon` now require ``--user USERNAME`` to attribute component and configuration changes to an existing account.
 
 .. rubric:: Upgrading

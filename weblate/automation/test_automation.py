@@ -61,7 +61,11 @@ from weblate.trans.tests.test_views import (
     ReusableComponentTestCase,
 )
 from weblate.trans.tests.utils import create_another_user, get_test_actor
-from weblate.utils.change_origin import change_origin, change_origin_context
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin,
+    change_origin_context,
+)
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1469,7 +1473,7 @@ class AutomationTest(ReusableComponentTestCase):
             slug="restricted-automation-source",
             allow_translation_propagation=False,
         )
-        source.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         source.restricted = True
         source.save(update_fields=["restricted"])
 

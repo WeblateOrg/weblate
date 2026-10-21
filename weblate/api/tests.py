@@ -142,6 +142,7 @@ from weblate.trans.validators import (
     get_translation_text_max_length,
 )
 from weblate.utils.celery import get_task_metadata_key
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -5085,7 +5086,7 @@ class ProjectAPITest(APIBaseTest):
         self.component.save(update_fields=["restricted"])
         glossary = self.project.component_set.get(slug="glossary")
         glossary.restricted = True
-        glossary.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         glossary.save(update_fields=["restricted"])
         other_project = self.create_project(name="Other", slug="other")
         self.create_link_existing(
@@ -10023,7 +10024,7 @@ class ComponentAPITest(APIBaseTest):
         original_clean = Component.clean
 
         def record_clean(instance):
-            self.assertEqual(instance.acting_user, self.user)
+            self.assertEqual(get_acting_user(), self.user)
             return original_clean(instance)
 
         with patch.object(
@@ -16027,7 +16028,7 @@ class UnitAPITest(APIBaseTest):
         )
         component = unit.translation.component
         component.enforced_checks = ["same"]
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.save(update_fields=["enforced_checks"])
         for flags, expected_state in (
             ("ignore-same", STATE_TRANSLATED),
@@ -16457,7 +16458,7 @@ class UnitAPITest(APIBaseTest):
         # Enable reviews to test report comments
         project = unit.translation.component.project
         project.source_review = True
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
@@ -16517,7 +16518,7 @@ class UnitAPITest(APIBaseTest):
         # test user has permission to view project but not edit
         project = unit.translation.component.project
         project.access_control = Project.ACCESS_PROTECTED
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),

@@ -42,6 +42,11 @@ from weblate.trans.inherited_settings import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.change_origin import (
+    acting_user_context,
+    capture_change_origin,
+    get_acting_user,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
@@ -642,7 +647,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
         self.old_source_review = self.__dict__.get("source_review", models.DEFERRED)
         self.stats = ProjectStats(self)
-        self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: set[int] = set()
         self.languages_cache: dict[str, Language] = {}
@@ -686,7 +690,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             with transaction.atomic(using=using):
                 # Register first: a later commit callback failing must not undo
                 # a filesystem move after the database has already committed.
-                transaction.on_commit(mark_committed, using=using)
+                transaction.on_commit(
+                    capture_change_origin(mark_committed), using=using
+                )
                 old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
                 renamed_paths = self._get_rename_paths(old) if old is not None else None
                 self._save_project(old, created_paths, *args, **kwargs)
@@ -817,10 +823,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 ).update(name=Replace("name", Value(old.name), Value(self.name)))
             if old_effective_check_flags != self.effective_check_flags.format():
                 transaction.on_commit(
-                    lambda: self.schedule_component_check_updates(update_state=True)
+                    capture_change_origin(
+                        lambda: self.schedule_component_check_updates(update_state=True)
+                    )
                 )
             if old.effective_enforced_checks != self.effective_enforced_checks:
-                transaction.on_commit(self.schedule_component_enforced_checks_updates)
+                transaction.on_commit(
+                    capture_change_origin(
+                        self.schedule_component_enforced_checks_updates
+                    )
+                )
             update_tm = self.update_memory_scope_changes(
                 old,
                 old_effective_contribute_workspace_tm,
@@ -945,10 +957,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.component_set.iterator():
-            update_enforced_checks.delay_on_commit(
-                component.pk,
-                user_id=self.acting_user.pk if self.acting_user is not None else None,
-            )
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def clean(self) -> None:
         super().clean()
@@ -1040,7 +1049,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     action=action,
                     old=old_value,
                     target=current_value,
-                    user=self.acting_user,
+                    user=get_acting_user(),
                 )
         if (
             should_track_field(self, "access_control", update_fields)
@@ -1048,7 +1057,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ):
             self.change_set.create(
                 action=ActionEvents.ACCESS_EDIT,
-                user=self.acting_user,
+                user=get_acting_user(),
                 details={
                     "access_control": self.access_control,
                     "old_access_control": old.access_control,
@@ -1069,7 +1078,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 old=str(old.workspace_id or ""),
                 target=str(self.workspace_id or ""),
                 workspace=self.workspace,
-                user=self.acting_user,
+                user=get_acting_user(),
                 details={
                     "old_workspace": (
                         str(old.workspace_id) if old.workspace_id else None
@@ -1084,7 +1093,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.PROJECT_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 
@@ -1409,19 +1418,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing: Billing | None = None) -> None:
-        self.acting_user = user
-        if billing:
-            billing.add_project(self)
-            if billing.plan.change_access_control:
-                self.access_control = Project.ACCESS_PRIVATE
-            else:
-                self.access_control = Project.ACCESS_PUBLIC
-            self.save()
-        if not user.is_superuser:
-            self.add_user(user, "Administration")
-        self.change_set.create(
-            action=ActionEvents.CREATE_PROJECT, user=user, author=user
-        )
+        with acting_user_context(user):
+            if billing:
+                billing.add_project(self)
+                if billing.plan.change_access_control:
+                    self.access_control = Project.ACCESS_PRIVATE
+                else:
+                    self.access_control = Project.ACCESS_PUBLIC
+                self.save()
+            if not user.is_superuser:
+                self.add_user(user, "Administration")
+            self.change_set.create(
+                action=ActionEvents.CREATE_PROJECT, user=user, author=user
+            )
 
     @cached_property
     def all_active_alerts(self) -> QuerySet[Alert]:
@@ -1577,49 +1586,51 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Component:
-        format_cls = FILE_FORMATS[file_format]
-        if has_template is None:
-            has_template = format_cls.monolingual is None or format_cls.monolingual
-        if has_template:
-            template = f"{source_language.code}.{format_cls.extension()}"
-        else:
-            template = ""
-        kwargs.setdefault("restricted", settings.DEFAULT_RESTRICTED_COMPONENT)
-        kwargs.update(
-            {
-                "project": self,
-                "file_format": file_format,
-                "filemask": f"*.{format_cls.extension()}",
-                "template": template,
-                "vcs": "local",
-                "repo": "local:",
-                "source_language": source_language,
-                "manage_units": True,
-                "is_glossary": is_glossary,
-            }
-        )
-        for field in INHERITABLE_COMPONENT_SETTINGS:
-            inherit = get_inherit_field_name(field)
-            kwargs.setdefault(inherit, field not in kwargs)
-        # Create component
-        if is_glossary:
-            try:
-                return self.component_set.get(name=name, slug=slug)
-            except self.component_set.model.DoesNotExist:
-                pass
-        component = self.component_set.model(name=name, slug=slug, **kwargs)
-        component.acting_user = acting_user
-        try:
-            with transaction.atomic():
-                component.save(force_insert=True)
-        except IntegrityError:
+        with acting_user_context(
+            acting_user if acting_user is not None else get_acting_user()
+        ):
+            format_cls = FILE_FORMATS[file_format]
+            if has_template is None:
+                has_template = format_cls.monolingual is None or format_cls.monolingual
+            if has_template:
+                template = f"{source_language.code}.{format_cls.extension()}"
+            else:
+                template = ""
+            kwargs.setdefault("restricted", settings.DEFAULT_RESTRICTED_COMPONENT)
+            kwargs.update(
+                {
+                    "project": self,
+                    "file_format": file_format,
+                    "filemask": f"*.{format_cls.extension()}",
+                    "template": template,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "source_language": source_language,
+                    "manage_units": True,
+                    "is_glossary": is_glossary,
+                }
+            )
+            for field in INHERITABLE_COMPONENT_SETTINGS:
+                inherit = get_inherit_field_name(field)
+                kwargs.setdefault(inherit, field not in kwargs)
+            # Create component
             if is_glossary:
                 try:
                     return self.component_set.get(name=name, slug=slug)
                 except self.component_set.model.DoesNotExist:
                     pass
-            raise
-        return component
+            component = self.component_set.model(name=name, slug=slug, **kwargs)
+            try:
+                with transaction.atomic():
+                    component.save(force_insert=True)
+            except IntegrityError:
+                if is_glossary:
+                    try:
+                        return self.component_set.get(name=name, slug=slug)
+                    except self.component_set.model.DoesNotExist:
+                        pass
+                raise
+            return component
 
     @property
     def all_glossaries(self) -> list[Component]:

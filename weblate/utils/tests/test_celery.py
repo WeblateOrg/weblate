@@ -9,6 +9,7 @@ import os
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 from types import SimpleNamespace
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
@@ -27,12 +28,18 @@ from weblate.utils.celery import (
     store_task_metadata,
 )
 from weblate.utils.change_origin import (
+    ACTING_USER_HEADER,
     CHANGE_ORIGIN_HEADER,
     ChangeOrigin,
+    acting_user_context,
     change_origin,
     change_origin_context,
+    get_acting_user,
     get_change_origin,
 )
+
+if TYPE_CHECKING:
+    from celery import Celery
 
 
 class TaskOriginTest(SimpleTestCase):
@@ -305,3 +312,137 @@ print(repr(os.environ["CELERY_SKIP_CHECKS"]))
         )
 
         self.assertEqual(output, "''")
+
+
+class TaskActorTest(SimpleTestCase):
+    def setUp(self) -> None:
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        self.user = User(pk=101, username="actor")
+        self.other_user = User(pk=102, username="other-actor")
+
+    def test_deferred_publication(self) -> None:
+        task = OriginTask()
+        task.bind(cast("Celery", app))
+        for method in (task.delay_on_commit, task.apply_async_on_commit):
+            with (
+                self.subTest(method=method.__name__),
+                patch("weblate.utils.celery.transaction.on_commit") as on_commit,
+                patch("celery.contrib.django.task.DjangoTask.apply_async") as publish,
+            ):
+                with acting_user_context(self.user):
+                    method()
+                with acting_user_context(self.other_user):
+                    on_commit.call_args.args[0]()
+                    self.assertIs(get_acting_user(), self.other_user)
+                self.assertEqual(
+                    publish.call_args.kwargs["headers"][ACTING_USER_HEADER],
+                    self.user.pk,
+                )
+                self.assertIsNone(get_acting_user())
+
+    def test_signature_publication_and_explicit_clear(self) -> None:
+        with acting_user_context(self.user):
+            headers: dict[str, object] = {}
+            store_published_task_metadata(headers=headers)
+            self.assertEqual(headers[ACTING_USER_HEADER], self.user.pk)
+            headers = {ACTING_USER_HEADER: None}
+            store_published_task_metadata(headers=headers)
+            self.assertIsNone(headers[ACTING_USER_HEADER])
+
+    def test_worker_actor_and_cleanup(self) -> None:
+        task = OriginTask()
+        task.bind(cast("Celery", app))
+        for headers, expected in (
+            ({ACTING_USER_HEADER: self.user.pk}, self.user),
+            ({ACTING_USER_HEADER: None}, None),
+            ({}, None),
+        ):
+            with (
+                self.subTest(headers=headers),
+                acting_user_context(self.other_user),
+                patch("weblate.auth.models.User.objects.get", return_value=self.user),
+                patch.object(task, "run", side_effect=get_acting_user),
+            ):
+                task.push_request(
+                    headers=headers, called_directly=False, is_eager=False
+                )
+                try:
+                    self.assertIs(task(), expected)
+                finally:
+                    task.pop_request()
+                self.assertIs(get_acting_user(), self.other_user)
+
+    def test_worker_rejects_invalid_or_deleted_actor(self) -> None:
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        task = OriginTask()
+        task.bind(cast("Celery", app))
+        for user_id, exception in (
+            (True, ValueError),
+            ("101", ValueError),
+            (-1, ValueError),
+            (101, User.DoesNotExist),
+        ):
+            with (
+                self.subTest(user_id=user_id),
+                acting_user_context(self.other_user),
+                patch(
+                    "weblate.auth.models.User.objects.get",
+                    side_effect=User.DoesNotExist,
+                ),
+                patch.object(task, "run") as run,
+            ):
+                task.push_request(
+                    headers={ACTING_USER_HEADER: user_id},
+                    called_directly=False,
+                    is_eager=False,
+                )
+                try:
+                    with self.assertRaises(exception):
+                        task()
+                finally:
+                    task.pop_request()
+                run.assert_not_called()
+                self.assertIs(get_acting_user(), self.other_user)
+
+    def test_worker_exception_cleanup(self) -> None:
+        task = OriginTask()
+        task.bind(cast("Celery", app))
+        with (
+            acting_user_context(self.other_user),
+            patch("weblate.auth.models.User.objects.get", return_value=self.user),
+            patch.object(task, "run", side_effect=ValueError),
+        ):
+            task.push_request(
+                headers={ACTING_USER_HEADER: self.user.pk},
+                called_directly=False,
+                is_eager=False,
+            )
+            try:
+                with self.assertRaises(ValueError):
+                    task()
+            finally:
+                task.pop_request()
+            self.assertIs(get_acting_user(), self.other_user)
+
+    def test_eager_nested_tasks_and_retry(self) -> None:
+        @app.task(name="weblate.utils.tests.actor_child")
+        def child() -> int | None:
+            user = get_acting_user()
+            return user.pk if user is not None else None
+
+        @app.task(bind=True, name="weblate.utils.tests.actor_parent")
+        def parent(task: OriginTask) -> int | None:
+            if not task.request.retries:
+                raise task.retry()
+            return child.delay().get(disable_sync_subtasks=False)
+
+        with (
+            acting_user_context(self.user),
+            patch("weblate.auth.models.User.objects.get", return_value=self.user),
+        ):
+            result = parent.apply_async(throw=False)
+            self.assertEqual(result.get(disable_sync_subtasks=False), self.user.pk)
+            self.assertIs(get_acting_user(), self.user)
+        self.assertIsNone(get_acting_user())

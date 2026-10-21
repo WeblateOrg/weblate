@@ -30,7 +30,11 @@ from weblate.trans.models import (
 from weblate.trans.tasks import component_after_save, perform_update
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL, TEST_VCS_ALLOW_SCHEMES
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin_context,
+    get_acting_user,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -109,7 +113,7 @@ class MultiRepoTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
-        self.component2.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         # Both components originally shared this project instance, including
         # policy changes made by tests before either component is used.
         self.component2.project = self.project
@@ -148,7 +152,7 @@ class MultiRepoTest(ReusableViewTestCase):
             self.component.commit_pending("test", self.user, skip_push=True)
         )
         self.assertTrue(self.component.repo_needs_push())
-        self.component.acting_user = None
+        self.enterContext(acting_user_context(None))
         self.assertTrue(
             self.component.do_push(None, force_commit=False, do_update=False)
         )
@@ -288,7 +292,7 @@ class MultiRepoTest(ReusableViewTestCase):
         """Test background update attribution in case remote has changed."""
         self.push_first(False)
 
-        self.component2.acting_user = None
+        self.enterContext(acting_user_context(None))
         self.assertTrue(self.component2.do_update(None))
 
         translation = self.component2.translation_set.get(language_code="cs")
@@ -497,7 +501,7 @@ class MultiRepoTest(ReusableViewTestCase):
     @override_settings(AUTO_UPDATE="remote")
     def test_remote_only_background_update_uses_bot_user(self) -> None:
         """Test remote-only background updates use the update bot."""
-        self.component2.acting_user = None
+        self.enterContext(acting_user_context(None))
         with patch.object(
             self.component2, "update_remote_branch", return_value=True
         ) as update_remote_branch:
@@ -511,7 +515,15 @@ class MultiRepoTest(ReusableViewTestCase):
 
     def test_component_after_save_preserves_acting_user(self) -> None:
         """Test after-save repository sync keeps the acting user."""
-        with patch.object(Component, "after_save", autospec=True) as after_save:
+        actors = []
+        with (
+            acting_user_context(self.user),
+            patch.object(
+                Component,
+                "after_save",
+                side_effect=lambda **_kwargs: actors.append(get_acting_user()),
+            ),
+        ):
             component_after_save(
                 self.component2.pk,
                 changed_git=True,
@@ -521,11 +533,9 @@ class MultiRepoTest(ReusableViewTestCase):
                 changed_enforced_checks=False,
                 skip_push=False,
                 create=False,
-                acting_user_id=self.user.pk,
             )
 
-        component = after_save.call_args.args[0]
-        self.assertEqual(component.acting_user, self.user)
+        self.assertEqual(actors, [self.user])
 
     def test_failed_rebase_history_when_status_fails(self) -> None:
         """Test rebase failures are recorded even if status collection fails."""
@@ -609,7 +619,7 @@ class MultiRepoTest(ReusableViewTestCase):
         """Test background update attribution for units added in a repository."""
         self.push_replace(EXTRA_PO, "a")
 
-        self.component2.acting_user = None
+        self.enterContext(acting_user_context(None))
         self.assertTrue(self.component2.do_update(None))
 
         translation = self.component2.translation_set.get(language_code="cs")
@@ -655,7 +665,7 @@ class MultiRepoTest(ReusableViewTestCase):
         component1.save()
         component2.merge_style = "merge"
         component2.allow_translation_propagation = False
-        component2.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component2.save()
         self.commit_policy_testing(component1, component2)
 

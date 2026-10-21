@@ -60,6 +60,12 @@ For application-developer workflows and broader product integration guidance, us
   pytest treats as an error. This is temporary soft enforcement in production,
   not permission to omit the actor. Do not suppress the warning to hide missing
   actors in tests; supply the correct user instead.
+- Weblate does not maintain compatibility for queued Celery task messages across
+  upgrades. Task signatures and payloads may change without legacy argument
+  adapters. Do not flag incompatibility with messages published by an older
+  release as a defect unless cross-version compatibility is explicitly required
+  for the change. The requirement to preserve initiating users through queued
+  work concerns actor attribution, not cross-version task compatibility.
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend

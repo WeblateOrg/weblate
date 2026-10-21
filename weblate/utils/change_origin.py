@@ -15,6 +15,8 @@ from weblate.automation.context import automation_origin
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
+    from weblate.auth.models import User
+
 
 class ChangeOriginToken(TypedDict):
     """A future token's stable identifier, never its credential."""
@@ -40,6 +42,31 @@ change_origin: ContextVar[ChangeOrigin | None] = ContextVar(
     "change_origin", default=None
 )
 CHANGE_ORIGIN_HEADER = "weblate_change_origin"
+ACTING_USER_HEADER = "weblate_acting_user_id"
+acting_user: ContextVar[User | None] = ContextVar("acting_user", default=None)
+
+
+def get_acting_user() -> User | None:
+    """Return the operation's actor, independently of its content author."""
+    return acting_user.get()
+
+
+def set_acting_user(user: User | None) -> None:
+    """Update an actor inside an existing request or operation scope."""
+    if user is not None and hasattr(user, "get_token_user"):
+        user = user.get_token_user()
+    acting_user.set(user)
+
+
+@contextmanager
+def acting_user_context(user: User | None) -> Generator[None]:
+    """Scope attribution without attaching transient state to model instances."""
+    token = acting_user.set(None)
+    try:
+        set_acting_user(user)
+        yield
+    finally:
+        acting_user.reset(token)
 
 
 def get_change_origin() -> ChangeOrigin:
@@ -64,15 +91,16 @@ def change_origin_context(origin: ChangeOrigin) -> Generator[None]:
 
 
 def capture_change_origin[**P, R](callback: Callable[P, R]) -> Callable[P, R]:
-    """Keep provenance when a callback runs after the originating scope exits."""
+    """Keep provenance and actor when a callback outlives its operation scope."""
     origin = get_change_origin()
     automation = automation_origin.get()
+    user = get_acting_user()
 
     @wraps(callback)
     def wrapped(*args: P.args, **kwargs: P.kwargs) -> R:
         token = automation_origin.set(automation)
         try:
-            with change_origin_context(origin):
+            with change_origin_context(origin), acting_user_context(user):
                 return callback(*args, **kwargs)
         finally:
             automation_origin.reset(token)

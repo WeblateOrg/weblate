@@ -38,6 +38,7 @@ from weblate.trans.mixins import (
     PathMixin,
 )
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.change_origin import capture_change_origin, get_acting_user
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -350,7 +351,6 @@ class Category(
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
-        self.acting_user: User | None = None
 
     def save(self, *args, **kwargs) -> None:
         old = None
@@ -389,11 +389,17 @@ class Category(
                 self.move_to_project(self.project)
             if old_effective_check_flags != self.effective_check_flags.format():
                 transaction.on_commit(
-                    lambda: self.schedule_component_check_updates(update_state=True)
+                    capture_change_origin(
+                        lambda: self.schedule_component_check_updates(update_state=True)
+                    )
                 )
             # Propagate enforced checks changes to descendant components
             if old.effective_enforced_checks != self.effective_enforced_checks:
-                transaction.on_commit(self.schedule_component_enforced_checks_updates)
+                transaction.on_commit(
+                    capture_change_origin(
+                        self.schedule_component_enforced_checks_updates
+                    )
+                )
 
     @property
     def effective_enforced_checks(self) -> list[str]:
@@ -406,10 +412,7 @@ class Category(
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.all_components.iterator():
-            update_enforced_checks.delay_on_commit(
-                component.pk,
-                user_id=self.acting_user.pk if self.acting_user is not None else None,
-            )
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""
@@ -417,14 +420,12 @@ class Category(
         for category in self.category_set.all():
             category.rename_repository_locks = locks
             category.project = project
-            category.acting_user = self.acting_user
             category.save()
         for component in self.component_set.all():
             for lock in locks:
                 if component.repository.lock.replace_lock_if_matching(lock):
                     break
             component.project = project
-            component.acting_user = self.acting_user
             component.save()
 
     def get_url_path(self) -> tuple[str, ...]:
@@ -697,7 +698,7 @@ class Category(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    user=self.acting_user,
+                    user=get_acting_user(),
                 )
 
     @cached_property

@@ -17,7 +17,7 @@ from rest_framework.authentication import (
 )
 from rest_framework.exceptions import AuthenticationFailed
 
-from weblate.utils.change_origin import change_origin
+from weblate.utils.change_origin import change_origin, set_acting_user
 
 if TYPE_CHECKING:
     from django.contrib.auth.base_user import AbstractBaseUser
@@ -34,6 +34,7 @@ class WeblateTokenAuthentication(TokenAuthentication):
         if result is not None:
             # Token.pk is currently the credential, not a safe token identifier.
             change_origin.set({"scope": "api"})
+            set_acting_user(result[0])
         return result
 
 

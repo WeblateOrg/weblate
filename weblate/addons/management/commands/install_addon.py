@@ -11,6 +11,7 @@ from django.core.management.base import CommandError
 
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import User
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.management.base import WeblateComponentCommand
 
 if TYPE_CHECKING:
@@ -66,31 +67,37 @@ class Command(WeblateComponentCommand):
         except json.JSONDecodeError as error:
             msg = f"Invalid add-on configuration: {error}"
             raise CommandError(msg) from error
-        for component in self.get_components(*args, **options):
-            if addon.has_settings():
-                form = addon.get_add_form(user, component=component, data=configuration)
-                self.validate_form(form)
-            addons = Addon.objects.filter_component(component).filter(name=addon.name)
-            if addons:
-                if options["update"]:
-                    for addon_component in addons:
-                        addon_component.acting_user = user
-                        addon_component.addon.configure(configuration)
-                    self.stdout.write(f"Successfully updated on {component}")
-                else:
-                    self.stderr.write(f"Already installed on {component}")
-                continue
-
-            if not addon.can_install(component=component) or not addon.api_available(
-                component
-            ):
-                self.stderr.write(f"Can not install on {component}")
-                continue
-
-            try:
-                addon.create(
-                    component=component, configuration=configuration, acting_user=user
+        with acting_user_context(user):
+            for component in self.get_components(*args, **options):
+                if addon.has_settings():
+                    form = addon.get_add_form(
+                        user, component=component, data=configuration
+                    )
+                    self.validate_form(form)
+                addons = Addon.objects.filter_component(component).filter(
+                    name=addon.name
                 )
-            except ValidationError as error:
-                raise CommandError(" ".join(error.messages)) from error
-            self.stdout.write(f"Successfully installed on {component}")
+                if addons:
+                    if options["update"]:
+                        for addon_component in addons:
+                            addon_component.addon.configure(configuration)
+                        self.stdout.write(f"Successfully updated on {component}")
+                    else:
+                        self.stderr.write(f"Already installed on {component}")
+                    continue
+
+                if not addon.can_install(
+                    component=component
+                ) or not addon.api_available(component):
+                    self.stderr.write(f"Can not install on {component}")
+                    continue
+
+                try:
+                    addon.create(
+                        component=component,
+                        configuration=configuration,
+                        acting_user=user,
+                    )
+                except ValidationError as error:
+                    raise CommandError(" ".join(error.messages)) from error
+                self.stdout.write(f"Successfully installed on {component}")

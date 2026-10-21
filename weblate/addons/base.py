@@ -32,6 +32,7 @@ from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.utils import messages
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
@@ -229,7 +230,6 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component | None = None,
         category: Category | None = None,
         project: Project | None = None,
-        acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
         from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
@@ -239,7 +239,6 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             category=category,
             component=component,
             name=cls.name,
-            acting_user=acting_user,  # type: ignore[misc]
             **kwargs,
         )
 
@@ -257,17 +256,19 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Self:
-        storage = cls.create_object(
-            component=component,
-            category=category,
-            project=project,
-            acting_user=acting_user,
-            **kwargs,
-        )
-        storage.save(force_insert=True)
-        result = cls(storage)
-        result.post_configure(run=run)
-        return result
+        with acting_user_context(
+            acting_user if acting_user is not None else get_acting_user()
+        ):
+            storage = cls.create_object(
+                component=component,
+                category=category,
+                project=project,
+                **kwargs,
+            )
+            storage.save(force_insert=True)
+            result = cls(storage)
+            result.post_configure(run=run)
+            return result
 
     @classmethod
     def get_add_form(
@@ -283,7 +284,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         if cls.settings_form is None:
             return None
         storage = cls.create_object(
-            component=component, project=project, category=category, acting_user=user
+            component=component, project=project, category=category
         )
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
@@ -398,12 +399,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
-                postconfigure_addon.delay_on_commit(
-                    self.instance.pk,
-                    user_id=self.instance.acting_user.pk
-                    if self.instance.acting_user is not None
-                    else None,
-                )
+                postconfigure_addon.delay_on_commit(self.instance.pk)
 
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing

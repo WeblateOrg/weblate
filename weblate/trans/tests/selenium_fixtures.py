@@ -105,6 +105,8 @@ class ReusableSeleniumDemoMixin(TestCase):
             remove_tree(path, True)
             shutil.copytree(saved, path, symlinks=True)
         self._demo_fixture_project_pk = cls._demo_fixture_pk
+        # Restoring the snapshot can replace users cached by earlier requests.
+        clear_users_cache()
         # This manager cache survives cache.clear() and can retain primary keys
         # from the baseline rows recreated by TransactionTestCase's flush.
         ContentType.objects.clear_cache()

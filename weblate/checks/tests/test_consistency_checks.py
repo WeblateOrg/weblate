@@ -34,6 +34,7 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -341,7 +342,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         )
 
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with patch(
             "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
         ) as schedule:
@@ -362,7 +363,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         stale, _ = Check.objects.get_or_create(unit=hidden, name="reused")
 
         self.component.restricted = True
-        self.component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
             self.component.save(update_fields=["restricted"])
 
@@ -379,7 +380,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         )
 
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
             self.other.save(update_fields=["restricted"])
 
@@ -388,7 +389,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
 
     def test_restricting_component_queues_only_enabled_checks(self) -> None:
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with (
             patch.dict(CHECKS.data, {"reused": CHECKS["reused"]}, clear=True),
             patch(
@@ -403,7 +404,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
         Check.objects.update_or_create(unit=visible, name="reused")
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with (
             patch.dict(CHECKS.data, {}, clear=True),
             patch(
@@ -423,7 +424,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
 
         self.other.project = target_project
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with patch(
             "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
         ) as schedule:
@@ -443,7 +444,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         stale, _ = Check.objects.get_or_create(unit=visible, name="reused")
 
         self.other.project = target_project
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
             self.other.save(update_fields=["project"])
 
@@ -459,7 +460,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             )
             Check.objects.update_or_create(unit=visible, name="reused")
         self.other.restricted = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         with (
             patch.object(ReusedCheck, "check_target_unit") as reused,
             patch.object(ConsistencyCheck, "check_target_unit") as inconsistent,
@@ -755,7 +756,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
         excluded = self.add_unit(self.translation_2, "two", "Two", "Shared")
         self.other.allow_translation_propagation = False
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save()
         Check.objects.filter(unit__in=[first, excluded], name="reused").delete()
         with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
@@ -764,7 +765,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             Check.objects.filter(unit__in=[first, excluded], name="reused").exists()
         )
         self.other.allow_translation_propagation = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save()
         self.translation_2.plural = self.component.source_translation.plural
         self.translation_2.save()
@@ -1163,7 +1164,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
     def test_consistency_skips_singleton_plurals(self) -> None:
         check = ConsistencyCheck()
         self.other.allow_translation_propagation = False
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save(update_fields=["allow_translation_propagation"])
 
         with CaptureQueriesContext(connection) as queries:

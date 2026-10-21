@@ -28,6 +28,7 @@ from weblate.trans.models import Announcement, Category, Component, Project, Tra
 from weblate.trans.models.component import ComponentLink, ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_actor
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -45,7 +46,7 @@ class ProjectSaveTransactionTest(TransactionTestCase):
             name="Save transaction", slug="save-transaction", web="https://example.com/"
         )
 
-        self.project.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
 
     def test_failed_setup_discards_audit_without_outer_transaction(self) -> None:
         self.assertFalse(connection.in_atomic_block)
