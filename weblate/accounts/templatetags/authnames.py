@@ -16,6 +16,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 from social_core.backends.utils import get_backend
 from social_core.exceptions import AuthConfigurationError
+from social_django.utils import load_strategy
 
 from weblate.accounts.utils import get_key_name, get_totp_device_label
 
@@ -64,7 +65,7 @@ def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
             if error.code != "backend_missing":
                 raise
         else:
-            params["name"] = backend.title or auth.title()
+            params["name"] = backend.get_title(load_strategy()) or auth.title()
             if backend.icon:
                 params["image"] = f"social_auth/icons/{backend.icon}"
 
