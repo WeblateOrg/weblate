@@ -112,6 +112,27 @@ class AuthMetadataTest(SimpleTestCase):
         self.assertEqual(get_auth_name("unknown-provider"), "Unknown-Provider")
 
     @override_settings(
+        AUTHENTICATION_BACKENDS=[
+            "social_core.backends.weblate.WeblateOpenIdConnect",
+        ]
+    )
+    def test_weblate_metadata(self) -> None:
+        self.assertEqual(get_auth_name("weblate"), "Hosted Weblate")
+        self.assertEqual(
+            get_auth_params("weblate")["image"], "social_auth/icons/weblate.svg"
+        )
+        with override_settings(
+            SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT="https://weblate.example.com/oidc"
+        ):
+            self.assertEqual(get_auth_name("weblate"), "Weblate")
+            with override_settings(
+                SOCIAL_AUTH_WEBLATE_TITLE="Company translations",
+                SOCIAL_AUTH_WEBLATE_IMAGE="company.svg",
+            ):
+                self.assertEqual(get_auth_name("weblate"), "Company translations")
+                self.assertEqual(get_auth_params("weblate")["image"], "company.svg")
+
+    @override_settings(
         SOCIAL_AUTH_GITHUB_TITLE="Company <account>",
         SOCIAL_AUTH_GITHUB_IMAGE="company.svg",
     )

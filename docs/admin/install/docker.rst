@@ -1982,6 +1982,51 @@ OpenID Connect
 
       :doc:`psa:backends/oidc`
 
+.. _docker-weblate-auth:
+
+Weblate OpenID Connect
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2026.11
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET
+
+   Enable authentication through Hosted Weblate or another Weblate installation
+   (see :ref:`weblate-auth`) using the client ID and client secret registered with its
+   :ref:`oidc-provider`. Register the exact HTTPS callback URL of this
+   installation, for example
+   ``https://weblate.example.com/accounts/complete/weblate/``.
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_SOCIAL_AUTH_WEBLATE_KEY: your-client-id
+        WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET_FILE: /run/secrets/weblate-client-secret
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT
+
+   Optional issuer URL. Defaults to ``https://hosted.weblate.org/oidc``.
+   For another installation, use its base URL followed by ``/oidc``, including
+   any deployment prefix, for example
+   ``https://example.com/translations/oidc``. Do not append
+   ``/.well-known/openid-configuration``.
+
+   Changing the issuer requires an explicit migration of existing account
+   associations: the same subject identifier on different servers can refer
+   to different people.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_WEBLATE_IMAGE
+
+   Optional sign-in label and icon overrides. By default, the label is
+   :guilabel:`Hosted Weblate` for Hosted Weblate and :guilabel:`Weblate` for
+   other installations; both use the Weblate icon.
+
+.. seealso::
+
+   :doc:`psa:backends/weblate`
+
 Fedora OpenID Connect
 ~~~~~~~~~~~~~~~~~~~~~
 

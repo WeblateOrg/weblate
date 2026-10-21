@@ -578,6 +578,20 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
         SOCIAL_AUTH_OIDC_USERNAME_KEY = oidc_username_key
     del oidc_username_key
 
+# Weblate OpenID Connect
+SOCIAL_AUTH_WEBLATE_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_KEY")
+if SOCIAL_AUTH_WEBLATE_KEY:
+    SOCIAL_AUTH_WEBLATE_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_WEBLATE_SECRET", required=True
+    )
+    weblate_oidc_endpoint = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT")
+    if weblate_oidc_endpoint is not None:
+        SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT = weblate_oidc_endpoint
+    del weblate_oidc_endpoint
+    SOCIAL_AUTH_WEBLATE_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_TITLE")
+    SOCIAL_AUTH_WEBLATE_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_WEBLATE_IMAGE")
+    AUTHENTICATION_BACKENDS += ("social_core.backends.weblate.WeblateOpenIdConnect",)
+
 # Gitea
 SOCIAL_AUTH_GITEA_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_KEY")
 if SOCIAL_AUTH_GITEA_KEY:
