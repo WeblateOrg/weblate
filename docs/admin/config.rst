@@ -1206,7 +1206,7 @@ List for credentials for Bitbucket Data Center.
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
 
 BITBUCKETCLOUD_CREDENTIALS
----------------------------
+--------------------------
 
 .. versionadded:: 5.8
 
@@ -2444,7 +2444,7 @@ You can use it to restrict registration to a single e-mail domain:
 .. setting:: REGISTRATION_ALLOW_DISPOSABLE_EMAILS
 
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS
--------------------------------------
+------------------------------------
 
 .. versionadded:: 5.16.1
 

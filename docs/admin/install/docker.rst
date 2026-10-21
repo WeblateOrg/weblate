@@ -2583,7 +2583,7 @@ Localization CDN
 
 
 Changing enabled apps, checks, formats, add-ons, translation services, or autofixes
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The built-in configuration of enabled checks, file formats, add-ons,
 translation services, or autofixes can be adjusted by the following variables:

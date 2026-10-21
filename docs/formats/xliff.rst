@@ -38,7 +38,7 @@ Weblate supports XLIFF in several variants:
 
 
 Translation states
-+++++++++++++++++++
+++++++++++++++++++
 
 The ``state`` attribute in the file is partially processed and mapped to the
 "Needs edit" state in Weblate (the following states are used to flag the string as

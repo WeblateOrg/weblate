@@ -5,7 +5,7 @@ Configuration
 +++++++++++++
 
 How do I restrict which languages can be translated?
------------------------------------------------------
+----------------------------------------------------
 
 To prevent users from starting new translations across a project, open the
 project settings, select :guilabel:`Workflow`, and set
@@ -364,7 +364,7 @@ Usage
 +++++
 
 How do I review the translations of others?
----------------------------------------------
+-------------------------------------------
 
 - There are several review based workflows available in Weblate, see :ref:`workflows`.
 - You can subscribe to any changes made in :ref:`notifications` and then check

@@ -1329,7 +1329,7 @@ configuration, but this might need customization for your environment.
 .. _nginx-granian:
 
 Sample configuration for NGINX and Granian
-+++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate using Granian with the NGINX webserver:
 
@@ -1476,7 +1476,7 @@ number of blocking threads.
 .. _running-granian-asgi:
 
 Sample configuration to start Granian with ASGI
-++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. versionadded:: 2026.8
 
@@ -1881,7 +1881,7 @@ replication if your database supports it.
    Migrating between databases described in :ref:`database-migration`.
 
 Migrating VCS repositories
-+++++++++++++++++++++++++++
+++++++++++++++++++++++++++
 
 The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration

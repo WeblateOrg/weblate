@@ -251,7 +251,7 @@ well.
 .. _project-autoclean_tm:
 
 Autoclean translation memory
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++
 
 .. versionadded:: 5.13
 
@@ -656,7 +656,7 @@ might want to strip leading directory by ``parentdir`` filter (see
 .. _component-repoweb-translations:
 
 Repository browser for translations
-++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++
 
 URL of repository browser used to display translation files. When empty, the
 :ref:`component-repoweb` URL will be used as a fallback. This is useful when
@@ -1398,7 +1398,7 @@ Optionally, it can be also used as a source for the machine translation.
 .. _component-priority:
 
 Priority
-+++++++++
+++++++++
 
 Components with higher priority are offered first to translators.
 
@@ -1690,7 +1690,7 @@ resource limitations of your server.
 * Additional CPU cores might help improve performance of background tasks (see :ref:`celery`).
 
 Disable unneeded checks
-+++++++++++++++++++++++++
++++++++++++++++++++++++
 
 Some quality checks can be quite expensive, and if not needed,
 can save you some time during import if omitted. See :setting:`CHECK_LIST` for

@@ -22,6 +22,9 @@ Please respect these guidelines while writing:
    1. Rewrite
    2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
 
+7. Match heading underline and overline lengths to the title's source text,
+   including any inline markup. The pre-commit checks enforce matching lengths.
+
 Building the documentation locally
 ----------------------------------
 

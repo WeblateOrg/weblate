@@ -3738,7 +3738,7 @@ Component lists
     :type component_slug: string
 
 Glossary
-+++++++++
+++++++++
 
 .. versionchanged:: 4.5
 
@@ -3912,7 +3912,7 @@ character counts; suggestions; comments; and translated and approved
 percentages.
 
 Search
-+++++++
+++++++
 
 .. http:get:: /api/search/
 
