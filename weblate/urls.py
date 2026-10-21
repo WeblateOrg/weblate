@@ -13,7 +13,6 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_not_required
 from django.shortcuts import redirect
 from django.urls import include, path, re_path
-from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
@@ -1367,19 +1366,6 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 # Optional OpenID Connect identity provider
 if getattr(settings, "OIDC_PROVIDER_ENABLED", False):
     real_patterns.append(path("oidc/", include("weblate.oidc.urls")))
-
-# Django SAML2 Identity Provider
-if "djangosaml2idp" in settings.INSTALLED_APPS:
-    real_patterns.append(
-        path(
-            "idp/sso/<str:binding>/",
-            import_string("weblate.utils.djangosaml2idp_views.sso_entry"),
-            name="saml_login_binding",
-        ),
-    )
-    real_patterns.append(
-        path("idp/", include("weblate.utils.djangosaml2idp_urls")),
-    )
 
 # Handle URL prefix configuration
 if not URL_PREFIX:
