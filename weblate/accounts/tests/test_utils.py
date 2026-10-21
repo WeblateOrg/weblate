@@ -29,7 +29,6 @@ from weblate.accounts.utils import (
     SESSION_EXPIRY_SCOPE_2FA,
     SESSION_EXPIRY_SCOPE_AUTHENTICATED,
     SESSION_EXPIRY_SCOPE_LOGIN,
-    SESSION_EXPIRY_SCOPE_SAML,
     adjust_session_expiry,
     get_session_expiry_refresh_seconds,
     invalidate_reset_codes,
@@ -199,46 +198,6 @@ class SessionExpiryTest(TestCase):
             request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_AUTHENTICATED
         )
         self.assertEqual(request.session.get_expiry_age(), 1200)
-
-    def test_saml_session_expiry_is_not_refreshed(self) -> None:
-        request = self.get_request({"next": "/idp/login/process/"})
-
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
-            adjust_session_expiry(request=request, user=self.user)
-        self.assertTrue(request.session["saml_only"])
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-        self.assertEqual(request.session.get_expiry_age(), 60)
-
-        request.session.modified = False
-        with mock.patch("weblate.accounts.utils.time.time", return_value=10_000):
-            adjust_session_expiry(request=request, user=self.user, is_login=False)
-        self.assertFalse(request.session.modified)
-
-    def test_saml_second_factor_session_stays_short_after_completion(self) -> None:
-        request = self.get_request({"next": "/idp/login/process/"})
-        TOTPDevice.objects.create(user=self.user)
-
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1000):
-            adjust_session_expiry(request=request, user=self.user)
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-
-        request.session[DEVICE_ID_SESSION_KEY] = "otp_totp.totpdevice/1"
-        with mock.patch("weblate.accounts.utils.time.time", return_value=1001):
-            adjust_session_expiry(
-                request=request,
-                user=self.user,
-                is_login=False,
-                force=True,
-            )
-
-        self.assertEqual(
-            request.session[SESSION_EXPIRY_SCOPE], SESSION_EXPIRY_SCOPE_SAML
-        )
-        self.assertEqual(request.session.get_expiry_age(), 60)
 
 
 class TasksTest(TestCase):

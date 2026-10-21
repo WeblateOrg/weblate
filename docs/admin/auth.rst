@@ -628,7 +628,7 @@ OpenID Connect identity provider
 
 Weblate can act as an optional OpenID Connect (OIDC) identity provider for
 other applications. This is separate from signing in to Weblate using an
-external OIDC provider. The existing SAML identity provider can remain enabled.
+external OIDC provider.
 
 Install the ``oidc`` extra (``uv pip install Weblate[oidc]``). Generate a
 signing key and keep it outside version control:

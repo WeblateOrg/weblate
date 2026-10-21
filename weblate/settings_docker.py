@@ -1100,12 +1100,6 @@ LOGGING: dict = {
             "level": DEFAULT_LOGLEVEL,
             "propagate": False,
         },
-        # SAML IdP
-        "djangosaml2idp": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-            "propagate": False,
-        },
         # Fedora messaging
         "fedora_messaging": {
             "handlers": [*DEFAULT_LOG],

@@ -40,7 +40,6 @@ Weblate 2026.11
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Fixed role permission revocation through partial API updates.
-* Limited SAML identity-provider request parsing and disabled Single Logout to prevent compressed request resource exhaustion.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
 
@@ -53,6 +52,8 @@ Weblate 2026.11
 .. rubric:: Compatibility
 
 * Custom integrations must use :ref:`acting-user-context` instead of transient model ``acting_user`` attributes. Stop task producers and schedulers, drain queued work and deferred repository follow-ups, and upgrade the application and workers together; redundant actor task arguments have been removed.
+* Removed the SAML identity provider integration and the ``saml2idp`` extra. Remove ``djangosaml2idp`` from ``INSTALLED_APPS`` and its configuration before upgrading. Use the :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts. SAML sign-in to Weblate remains supported.
+
 * :wladmin:`import_project`, :wladmin:`import_json`, :wladmin:`import_demo`, :wladmin:`add_suggestions`, and :wladmin:`install_addon` now require ``--user USERNAME`` to attribute component and configuration changes to an existing account.
 
 .. rubric:: Upgrading

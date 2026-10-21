@@ -1869,37 +1869,6 @@ class OIDCProviderTest(TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_saml_coexistence(self) -> None:
-        # App installation registers admin models for the life of the process.
-        # Check a real startup without leaving SAML registrations in this worker.
-        script = dedent("""
-            import warnings
-            from cryptography.utils import CryptographyDeprecationWarning
-            from django.conf import settings
-
-            warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
-            settings.INSTALLED_APPS = [*settings.INSTALLED_APPS, "djangosaml2idp"]
-            settings.ALLOWED_HOSTS = ["testserver"]
-
-            import django
-            django.setup()
-            from django.test import RequestFactory
-            from django.urls import resolve, reverse
-
-            assert reverse("saml_login_binding", args=["redirect"]) == "/idp/sso/redirect/"
-            path = reverse("oauth2_provider:oidc-connect-discovery-info")
-            response = resolve(path).func(RequestFactory().get(path))
-            assert response.status_code == 200, response.content
-        """)
-        result = subprocess.run(
-            [sys.executable, "-c", script],
-            env={**os.environ, "DJANGO_SETTINGS_MODULE": "weblate.settings_test"},
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        self.assertEqual(result.returncode, 0, result.stderr)
-
     def test_fresh_authentication(self) -> None:
         for params in (
             {"prompt": "login"},

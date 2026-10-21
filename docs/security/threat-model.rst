@@ -582,8 +582,6 @@ Size and rate assumptions:
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
-* SAML identity-provider authentication requests are bounded in encoded and
-  expanded size before XML parsing. *(maintainer)*
 * Project backup metadata, object references, repository paths, outbound URLs,
   regular expressions, and screenshot content are validated before restore
   writes project state. Failed restores remove repository and media objects

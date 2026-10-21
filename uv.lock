@@ -1644,21 +1644,6 @@ wheels = [
 ]
 
 [[package]]
-name = "djangosaml2idp2"
-version = "0.9.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "arrow" },
-    { name = "django" },
-    { name = "pysaml2" },
-    { name = "pytz" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/2d/2b/58678b3db205fa9abd479d5991684fff3873bafb0c2fed8ca0d860addb09/djangosaml2idp2-0.9.1.tar.gz", hash = "sha256:8f9fe478988081bc26226ea34c202861698df9780d567d19f8d4b198b984fefd", size = 41749, upload-time = "2026-03-09T16:40:14.099Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/0f/93/65339528134c49d2c29cbb69eaccabd1f6bd0eb24cec4ce7b910e00c69b4/djangosaml2idp2-0.9.1-py2.py3-none-any.whl", hash = "sha256:79ccfc36a6e6d8c8824a570d6ac3324f2c368d961125cd5527688e7a53452b49", size = 30398, upload-time = "2026-03-09T16:40:12.201Z" },
-]
-
-[[package]]
 name = "docutils"
 version = "0.21.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1718,15 +1703,6 @@ wheels = [
 openapi = [
     { name = "drf-spectacular" },
     { name = "inflection" },
-]
-
-[[package]]
-name = "elementpath"
-version = "4.8.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ac/41/afdd82534c80e9675d1c51dc21d0889b72d023bfe395a2f5a44d751d3a73/elementpath-4.8.0.tar.gz", hash = "sha256:5822a2560d99e2633d95f78694c7ff9646adaa187db520da200a8e9479dc46ae", size = 358528, upload-time = "2025-03-03T20:51:08.397Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/95/615af832e7f507fe5ce4562b4be1bd2fec080c4ff6da88dcd0c2dbfca582/elementpath-4.8.0-py3-none-any.whl", hash = "sha256:5393191f84969bcf8033b05ec4593ef940e58622ea13cefe60ecefbbf09d58d9", size = 243271, upload-time = "2025-03-03T20:51:03.027Z" },
 ]
 
 [[package]]
@@ -4467,23 +4443,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pysaml2"
-version = "7.5.5"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "cryptography" },
-    { name = "defusedxml" },
-    { name = "pyopenssl" },
-    { name = "python-dateutil" },
-    { name = "requests" },
-    { name = "xmlschema" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/3c/38/3f26d8b6e211dfe95dedb8c0c1072ad7781f1c33176a32b4f11c97268d79/pysaml2-7.5.5.tar.gz", hash = "sha256:bd1c3f3667807de61d70d8e5cf32618719d9dc1b91a6d16a291ef7a1eaa52fff", size = 334463, upload-time = "2026-09-17T16:09:55.004Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e6/1a/a0ec7b91ca71dd2c8baf5f48a1f590040f7e62c115c875e906f506c75f31/pysaml2-7.5.5-py3-none-any.whl", hash = "sha256:c64cfd6c0348c53da1768538733c55ec15b23d1cc0e942564ea546515b45a199", size = 420791, upload-time = "2026-09-17T16:09:53.161Z" },
-]
-
-[[package]]
 name = "pysocks"
 version = "1.7.1"
 source = { registry = "https://pypi.org/simple" }
@@ -6453,9 +6412,6 @@ saml = [
     { name = "python3-saml" },
     { name = "xmlsec" },
 ]
-saml2idp = [
-    { name = "djangosaml2idp2" },
-]
 sphinx = [
     { name = "sphinx" },
 ]
@@ -6639,7 +6595,6 @@ requires-dist = [
     { name = "django-zxcvbn-password-validator", marker = "extra == 'zxcvbn'", specifier = "==1.7.0" },
     { name = "djangorestframework", specifier = "==3.18.3" },
     { name = "djangorestframework-csv", specifier = "==3.0.2" },
-    { name = "djangosaml2idp2", marker = "extra == 'saml2idp'", specifier = "==0.9.1" },
     { name = "docutils", specifier = "==0.21.2" },
     { name = "drf-spectacular", extras = ["sidecar"], specifier = "==0.30.0" },
     { name = "drf-standardized-errors", extras = ["openapi"], specifier = "==0.16.0" },
@@ -6716,7 +6671,7 @@ requires-dist = [
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = "==2026.6" },
     { name = "xmlsec", marker = "extra == 'saml'", specifier = "==1.3.17" },
 ]
-provides-extras = ["all", "amazon", "asgi", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "oidc", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["all", "amazon", "asgi", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "oidc", "postgres", "rollbar", "saml", "sphinx", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -7004,18 +6959,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c7/79/12135bdf8b9c9367b8701c2c19a14c913c120b882d50b014ca0d38083c2c/wsproto-1.3.2.tar.gz", hash = "sha256:b86885dcf294e15204919950f666e06ffc6c7c114ca900b060d6e16293528294", size = 50116, upload-time = "2025-11-20T18:18:01.871Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a4/f5/10b68b7b1544245097b2a1b8238f66f2fc6dcaeb24ba5d917f52bd2eed4f/wsproto-1.3.2-py3-none-any.whl", hash = "sha256:61eea322cdf56e8cc904bd3ad7573359a242ba65688716b0710a5eb12beab584", size = 24405, upload-time = "2025-11-20T18:18:00.454Z" },
-]
-
-[[package]]
-name = "xmlschema"
-version = "2.5.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "elementpath" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/59/af/42e9e773eaa6bc8e8c322f93c75454b0d370979048b250bfef7786ff26ec/xmlschema-2.5.1.tar.gz", hash = "sha256:4f7497de6c8b6dc2c28ad7b9ed6e21d186f4afe248a5bea4f54eedab4da44083", size = 539267, upload-time = "2023-12-19T15:51:57.663Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/5e/2a/c2bc97fd20efe65cfcfc21666d1b0213969133d37ea093761d264d9ed9f8/xmlschema-2.5.1-py3-none-any.whl", hash = "sha256:ec2b2a15c8896c1fcd14dcee34ca30032b99456c3c43ce793fdb9dca2fb4b869", size = 395065, upload-time = "2023-12-19T15:51:53.136Z" },
 ]
 
 [[package]]

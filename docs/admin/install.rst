@@ -260,9 +260,6 @@ Django REST Framework
          | :pypi:`xmlsec`
        - :ref:`saml-auth`
 
-     * - ``saml2idp``
-       - | :pypi:`djangosaml2idp2`
-       - Integrating SAML 2 IDP into Weblate
      * - ``sphinx``
        - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`

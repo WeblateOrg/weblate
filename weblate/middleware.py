@@ -83,8 +83,6 @@ CSP_DIRECTIVES: CSP_TYPE = {
 # URLs requiring inline javascript
 INLINE_PATHS = {
     "social:begin",
-    "saml_login_binding",
-    "djangosaml2idp:saml_login_process",
 }
 
 
