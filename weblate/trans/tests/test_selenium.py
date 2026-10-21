@@ -2817,17 +2817,21 @@ class SeleniumTests(
 
         # An action added through the editor keeps the defaults Django renders,
         # while a saved action that omits a setting is left as it was saved.
-        addon.configure(
-            {
-                "workflow": {
-                    "version": 1,
-                    "triggers": [],
-                    "actions": [
-                        {"action": "weblate.automatic_translation", "settings": {}}
-                    ],
+        with acting_user_context(user):
+            addon.configure(
+                {
+                    "workflow": {
+                        "version": 1,
+                        "triggers": [],
+                        "actions": [
+                            {
+                                "action": "weblate.automatic_translation",
+                                "settings": {},
+                            }
+                        ],
+                    }
                 }
-            }
-        )
+            )
         with self.wait_for_page_load():
             self.driver.get(
                 f"{self.live_server_url}{addon.instance.get_absolute_url()}"
