@@ -302,6 +302,9 @@
         return null;
       }
       node.dataset.automationExtra = JSON.stringify(extra);
+      if (fields.childElementCount === 0) {
+        fields.remove();
+      }
       return node;
     }
 
