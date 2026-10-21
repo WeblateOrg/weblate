@@ -6,7 +6,6 @@
 
 from __future__ import annotations
 
-import json
 import os
 import shutil
 from contextlib import contextmanager
@@ -249,9 +248,9 @@ class Publication:
                         msg = "Staged Kotlin SDK artifact has an invalid size."
                         raise OSError(msg)  # ruff: ignore[raise-within-try]
                 artifacts_valid = True
-                self.cdn.write_cdn_text(
+                self.cdn.write_cdn_json(
                     f"{build.package_name}/{build.version_code}/manifest.json",
-                    json.dumps(manifest, sort_keys=True),
+                    manifest,
                 )
             except (OSError, SchemaValidationError) as error:
                 if not artifacts_valid:

@@ -8,6 +8,7 @@ import ast
 import base64
 import contextlib
 import gzip
+import hashlib
 import importlib
 import json
 import math
@@ -10221,16 +10222,77 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertIn(".l10n", content)
         self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        translation_bytes = Path(addon.cdn_path("cs.json")).read_bytes()
+        self.assertEqual(manifest["schemaVersion"], 1)
+        self.assertEqual(
+            manifest["locales"]["cs"],
+            [
+                {
+                    "url": "cs.json",
+                    "sha256": hashlib.sha256(translation_bytes).hexdigest(),
+                    "size": len(translation_bytes),
+                }
+            ],
+        )
 
         translation = self.get_translation()
         with self.captureOnCommitCallbacks(execute=True):
             translation.remove(self.user)
         self.assertNotIn('"cs"', Path(jsname).read_text(encoding="utf-8"))
         self.assertFalse(os.path.isfile(addon.cdn_path("cs.json")))
+        self.assertNotIn(
+            "cs",
+            json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())["locales"],
+        )
 
         # Configuration
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_js_url)
+        self.assertContains(response, addon.cdn_manifest_url)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_empty_above_threshold(self) -> None:
+        addon = self.create_addon(
+            component=self.component,
+            configuration={
+                "threshold": 100,
+                "files": "",
+                "cookie_name": "",
+                "css_selector": ".l10n",
+            },
+        )
+        self.assertEqual(
+            json.loads(Path(addon.cdn_path("manifest.json")).read_bytes()),
+            {"schemaVersion": 1, "locales": {}},
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_failure_preserves_previous_publication(self) -> None:
+        addon = self.create_addon(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "",
+                "cookie_name": "",
+                "css_selector": ".l10n",
+            },
+        )
+        manifest = Path(addon.cdn_path("manifest.json"))
+        previous = manifest.read_bytes()
+        stale = Path(addon.cdn_path("stale.json"))
+        stale.write_bytes(b"stale")
+        for method in ("write_cdn_bytes", "write_cdn_json"):
+            with (
+                self.subTest(method=method),
+                patch.object(addon, method, side_effect=OSError("write failed")),
+                self.assertRaisesMessage(OSError, "write failed"),
+            ):
+                addon.publish_localization(self.component)
+            self.assertEqual(manifest.read_bytes(), previous)
+            self.assertTrue(stale.exists())
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -10616,6 +10678,27 @@ class CDNFilesAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono()
 
+    def assert_manifest(
+        self, addon: CDNFilesAddon, locales: dict[str, list[str]]
+    ) -> None:
+        expected = {}
+        for language, filenames in locales.items():
+            entries = []
+            for filename in sorted(filenames):
+                content = Path(addon.cdn_path(filename)).read_bytes()
+                entries.append(
+                    {
+                        "url": filename,
+                        "sha256": hashlib.sha256(content).hexdigest(),
+                        "size": len(content),
+                    }
+                )
+            expected[language] = entries
+        self.assertEqual(
+            json.loads(Path(addon.cdn_path("manifest.json")).read_bytes()),
+            {"schemaVersion": 1, "locales": expected},
+        )
+
     @override_settings(LOCALIZE_CDN_URL=None)
     def test_noconfigured(self) -> None:
         self.assertFalse(CDNFilesAddon.can_install(component=self.component))
@@ -10666,6 +10749,7 @@ class CDNFilesAddonTest(ViewTestCase):
         self.assertIn(
             "Nazdar svete", Path(addon.cdn_path("cs.json")).read_text(encoding="utf-8")
         )
+        self.assert_manifest(addon, {"en": ["en.json"], "cs": ["cs.json"]})
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -10677,6 +10761,7 @@ class CDNFilesAddonTest(ViewTestCase):
 
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_files_url)
+        self.assertContains(response, addon.cdn_manifest_url)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -10710,6 +10795,78 @@ class CDNFilesAddonTest(ViewTestCase):
             Path(addon.cdn_path("cs.json")).read_bytes(),
             get_optional_path(filename).read_bytes(),
         )
+        self.assert_manifest(addon, {"en": ["en.json"], "cs": ["cs.json"]})
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_write_failure_preserves_previous_publication(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        manifest = Path(addon.cdn_path("manifest.json"))
+        previous = manifest.read_bytes()
+        stale = Path(addon.cdn_path("stale.json"))
+        stale.write_bytes(b"stale")
+        for method in ("copy_cdn_file", "write_cdn_bytes"):
+            with (
+                self.subTest(method=method),
+                patch.object(addon, method, side_effect=OSError("write failed")),
+                self.assertRaisesMessage(OSError, "write failed"),
+            ):
+                addon.publish_files(self.component)
+            self.assertEqual(manifest.read_bytes(), previous)
+            self.assertTrue(stale.exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_skips_missing_files(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        with patch.object(
+            addon,
+            "get_translations",
+            return_value=[
+                SimpleNamespace(
+                    language=self.translation.language,
+                    filenames=[addon.cdn_path("missing")],
+                )
+            ],
+        ):
+            addon.publish_files(self.component)
+        self.assert_manifest(addon, {})
+        self.assertFalse(Path(addon.cdn_path("cs.json")).exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_encodes_file_urls(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        with (
+            patch.object(addon, "get_translations", return_value=[self.translation]),
+            patch.object(addon, "get_output_filename", return_value="cs/file #?.json"),
+        ):
+            addon.publish_files(self.component)
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        self.assertEqual(manifest["locales"]["cs"][0]["url"], "cs/file%20%23%3F.json")
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_filename_is_reserved(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        manifest = Path(addon.cdn_path("manifest.json"))
+        previous = manifest.read_bytes()
+        with (
+            patch.object(addon, "get_output_filename", return_value="manifest.json"),
+            patch.object(addon, "copy_cdn_file") as copy_file,
+            self.assertRaisesRegex(ValueError, "manifest.json"),
+        ):
+            addon.publish_files(self.component)
+        copy_file.assert_not_called()
+        self.assertEqual(manifest.read_bytes(), previous)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -10756,6 +10913,7 @@ class CDNFilesAddonTest(ViewTestCase):
 
         self.assertFalse(os.path.exists(addon.cdn_path("cs.json")))
         self.assertTrue(os.path.isfile(addon.cdn_path("en.json")))
+        self.assert_manifest(addon, {"en": ["en.json"]})
 
 
 class CDNFilesBilingualAddonTest(ViewTestCase):
@@ -10778,6 +10936,9 @@ class CDNFilesBilingualAddonTest(ViewTestCase):
             Path(addon.cdn_path("cs.po")).read_bytes(),
             get_optional_path(translation_filename).read_bytes(),
         )
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        self.assertNotIn("en", manifest["locales"])
+        self.assertEqual(manifest["locales"]["cs"][0]["url"], "cs.po")
 
 
 class CDNFilesAppStoreAddonTest(ViewTestCase):
@@ -10803,6 +10964,21 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
 
         self.assertEqual(addon.get_output_filename(translation, filename), expected)
         self.assertTrue(os.path.isfile(addon.cdn_path(expected)))
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        entries = manifest["locales"][translation.language.code]
+        self.assertEqual(
+            [entry["url"] for entry in entries],
+            sorted(
+                f"{translation.language.code}/{Path(path).relative_to(Path(self.component.full_path, translation.filename)).as_posix()}"
+                for path in translation.filenames
+                if Path(path).is_file()
+            ),
+        )
+        self.assertGreater(len(entries), 1)
+        for entry in entries:
+            content = Path(addon.cdn_path(entry["url"])).read_bytes()
+            self.assertEqual(entry["sha256"], hashlib.sha256(content).hexdigest())
+            self.assertEqual(entry["size"], len(content))
 
 
 class SiteWideAddonsTest(ViewTestCase):
