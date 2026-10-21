@@ -27,6 +27,7 @@ from weblate.trans.inherited_settings import (
 )
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.validators import validate_check_flags, validate_enforced_checks
+from weblate.utils.change_origin import capture_change_origin, get_acting_user
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -252,7 +253,6 @@ class Workspace(models.Model, CacheKeyMixin):
         self.workspace_original_name_managed = self.__dict__.get(
             "name_managed", models.DEFERRED
         )
-        self.acting_user: User | None = None
         self.stats_languages: int | None = None
         self.stats = WorkspaceStats(self)
 
@@ -295,12 +295,16 @@ class Workspace(models.Model, CacheKeyMixin):
 
         super().save(*args, **kwargs)
         if old is not None and old.check_flags != self.check_flags:
-            transaction.on_commit(self.schedule_component_check_updates)
+            transaction.on_commit(
+                capture_change_origin(self.schedule_component_check_updates)
+            )
         if old is not None and (
             old.enforced_checks != self.enforced_checks
             or old.inherit_enforced_checks != self.inherit_enforced_checks
         ):
-            transaction.on_commit(self.schedule_component_enforced_checks_updates)
+            transaction.on_commit(
+                capture_change_origin(self.schedule_component_enforced_checks_updates)
+            )
         if (
             old is not None
             and old.contribute_workspace_tm
@@ -372,10 +376,7 @@ class Workspace(models.Model, CacheKeyMixin):
         from weblate.trans.tasks import update_enforced_checks
 
         for component in Component.objects.filter(project__workspace=self).iterator():
-            update_enforced_checks.delay_on_commit(
-                component.pk,
-                user_id=self.acting_user.pk if self.acting_user is not None else None,
-            )
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def schedule_workspace_memory_updates(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -456,7 +457,7 @@ class Workspace(models.Model, CacheKeyMixin):
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.WORKSPACE_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 

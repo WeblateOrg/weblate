@@ -37,6 +37,7 @@ from weblate.trans.signals import (
     vcs_pre_push,
     vcs_pre_update,
 )
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -269,10 +270,6 @@ class Addon(models.Model):
     def __str__(self) -> str:
         return f"{self.addon.verbose}: {self.component or self.category or self.project or 'site-wide'}"
 
-    def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.acting_user = acting_user
-
     @transaction.atomic
     # pylint: disable-next=arguments-differ
     def save(
@@ -364,7 +361,7 @@ class Addon(models.Model):
         Change.objects.create(
             action=action,
             addon=self,
-            user=self.acting_user,
+            user=get_acting_user(),
             project=self.project,
             category=self.category,
             component=self.component,
@@ -525,9 +522,9 @@ class Addon(models.Model):
         return result
 
     def disable(self, *, user: User) -> None:
-        self.log_warning("disabling no longer compatible add-on: %s", self.name)
-        self.acting_user = user
-        self.delete()
+        with acting_user_context(user):
+            self.log_warning("disabling no longer compatible add-on: %s", self.name)
+            self.delete()
 
     @cached_property
     def logger(self) -> logging.Logger:
@@ -748,7 +745,12 @@ def execute_addon_event(  # ruff: ignore[complex-structure]
 
         try:
             # Execute event in tracing span to track performance.
-            with start_span(op=f"addon.{event.name}", name=addon.name):
+            with (
+                acting_user_context(
+                    addon.addon.user if addon.addon.user_name else None
+                ),
+                start_span(op=f"addon.{event.name}", name=addon.name),
+            ):
                 log_result = getattr(addon.addon, method)(
                     *args,
                     **kwargs,

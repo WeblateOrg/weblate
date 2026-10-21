@@ -46,6 +46,7 @@ from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -222,7 +223,7 @@ class GlossaryTest(ReusableViewTestCase):
         self.assertIn(self.glossary_component, self.project.glossaries)
         self.assertIn(self.glossary_component, self.project.all_glossaries)
 
-        self.glossary_component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.glossary_component.restricted = True
         with self.captureOnCommitCallbacks(execute=True):
             self.glossary_component.save(update_fields=["restricted"])
@@ -1269,7 +1270,7 @@ class GlossaryTest(ReusableViewTestCase):
         self.do_add_unit()
         component = self.glossary_component
         component.manage_units = False
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.save(update_fields=["manage_units"])
         name = "GlossaryStringManagementDisabled"
         update_alerts(component, {name})
@@ -1302,7 +1303,7 @@ class GlossaryTest(ReusableViewTestCase):
     def test_string_management_alert_render(self) -> None:
         component = self.glossary_component
         component.manage_units = False
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.save(update_fields=["manage_units"])
         name = "GlossaryStringManagementDisabled"
         update_alerts(component, {name})
@@ -1442,7 +1443,7 @@ class GlossaryTest(ReusableViewTestCase):
             ["de"],
         )
 
-        self.glossary_component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.glossary_component.restricted = True
         with self.captureOnCommitCallbacks(execute=True):
             self.glossary_component.save(update_fields=["restricted"])

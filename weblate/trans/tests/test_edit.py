@@ -46,6 +46,7 @@ from weblate.trans.views.edit import (
     cleanup_session,
     format_newly_failing_checks_message,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1710,7 +1711,7 @@ class EditPropagateTest(EditTest):
         self.component.save(update_fields=["allow_translation_propagation"])
         second_component.allow_translation_propagation = True
         second_component.restricted = True
-        second_component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         second_component.save(
             update_fields=["allow_translation_propagation", "restricted"]
         )

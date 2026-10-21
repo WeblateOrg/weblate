@@ -40,6 +40,7 @@ from weblate.trans.discovery import (
 )
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Translation
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.forms import (
     CachedModelChoiceField,
@@ -130,10 +131,11 @@ class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
         return cast("StoredConfigurationT", self.cleaned_data)
 
     def save(self):
-        if self.user is not None:
-            self._addon.instance.acting_user = self.user
-        self._addon.configure(self.serialize_form())
-        return self._addon.instance
+        with acting_user_context(
+            self.user if self.user is not None else get_acting_user()
+        ):
+            self._addon.configure(self.serialize_form())
+            return self._addon.instance
 
 
 class GenerateMoForm(BaseAddonForm):

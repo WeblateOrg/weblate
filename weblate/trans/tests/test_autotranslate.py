@@ -43,6 +43,7 @@ from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -75,8 +76,7 @@ class AutoTranslationTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
-        self.component2.acting_user = self.user
-        self.component2.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
 
     def create_limited_auto_user(self, *, review: bool = False) -> User:
         user = User.objects.create_user(

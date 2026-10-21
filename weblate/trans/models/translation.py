@@ -87,6 +87,11 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags, validate_multivalue_size
 from weblate.utils import messages
+from weblate.utils.change_origin import (
+    acting_user_context,
+    capture_change_origin,
+    get_acting_user,
+)
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
@@ -943,7 +948,7 @@ class Translation(
             self.store_update_changes()
 
             # Invalidate keys cache
-            transaction.on_commit(self.invalidate_keys)
+            transaction.on_commit(capture_change_origin(self.invalidate_keys))
             self.log_info("updating completed")
 
         # Use up to date list as prefetch for source
@@ -1027,7 +1032,7 @@ class Translation(
             messages.info(request, no_changes_message)
             return False
 
-        user = self.component.acting_user or (request.user if request else None)
+        user = get_acting_user() or (request.user if request else None)
         if user is None:
             user = get_anonymous()
 
@@ -2251,36 +2256,36 @@ class Translation(
         *,
         files: list[str] | None = None,
     ) -> None:
-        component = self.component
-        if files is None:
-            files = self.filenames
-        if not component.repository.needs_commit(files):
-            return
+        with acting_user_context(request.user):
+            component = self.component
+            if files is None:
+                files = self.filenames
+            if not component.repository.needs_commit(files):
+                return
 
-        self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
-        self.update_unit_change_action = ActionEvents.STRING_UPLOAD_UPDATE
-        self.component.acting_user = author
+            self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
+            self.update_unit_change_action = ActionEvents.STRING_UPLOAD_UPDATE
 
-        previous_revision = component.repository.last_revision
-        self.drop_store_cache()
+            previous_revision = component.repository.last_revision
+            self.drop_store_cache()
 
-        self.git_commit(
-            author,
-            author=author.get_author_name(),
-            store_hash=False,
-            signals=False,
-            files=files,
-        )
+            self.git_commit(
+                author,
+                author=author.get_author_name(),
+                store_hash=False,
+                signals=False,
+                files=files,
+            )
 
-        self.handle_store_change(
-            request, author, previous_revision, change=change_action
-        )
-        # Emit signals later to avoid cleanup add-on to store translation
-        # revision before parsing
-        component.send_post_commit_signal()
+            self.handle_store_change(
+                request, author, previous_revision, change=change_action
+            )
+            # Emit signals later to avoid cleanup add-on to store translation
+            # revision before parsing
+            component.send_post_commit_signal()
 
-        self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
-        self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
+            self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
+            self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
 
     def validate_upload_language(
         self, store: TranslationFormat, *, source: bool = False
@@ -2746,7 +2751,7 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_trigger)
+        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
 
     @contextmanager
     def suppress_cache_invalidation(self):
@@ -2824,11 +2829,13 @@ class Translation(
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set
         self.delete()
-        transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(component.schedule_update_checks)
+        transaction.on_commit(capture_change_origin(self.stats.update_parents))
+        transaction.on_commit(capture_change_origin(component.schedule_update_checks))
         if component.is_glossary:
             transaction.on_commit(
-                lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+                capture_change_origin(
+                    lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+                )
             )
 
         # Remove file from VCS
@@ -3332,8 +3339,10 @@ class Translation(
             self.handle_store_change(request, user, previous_revision)
             if source_unit_deleted:
                 transaction.on_commit(
-                    lambda: update_alerts(
-                        component, {"MissingScreenshots", "UnusedScreenshot"}
+                    capture_change_origin(
+                        lambda: update_alerts(
+                            component, {"MissingScreenshots", "UnusedScreenshot"}
+                        )
                     )
                 )
 

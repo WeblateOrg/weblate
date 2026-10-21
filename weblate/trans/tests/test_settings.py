@@ -41,6 +41,7 @@ from weblate.trans.models import (
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
@@ -1283,7 +1284,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertTrue(self.project.public_sharing)
 
     def test_project_audit_settings(self) -> None:
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.public_sharing = True
         self.project.enforced_2fa = True
@@ -1592,7 +1593,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(component.effective_license, "MIT")
 
     def test_component_audit_settings(self) -> None:
-        self.component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.component.restricted = True
         self.component.enable_suggestions = False
         self.component.suggestion_voting = True

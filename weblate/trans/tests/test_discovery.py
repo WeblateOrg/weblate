@@ -31,7 +31,7 @@ from weblate.trans.tasks import create_component
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import TEST_DATA, create_test_addon, get_test_actor
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
@@ -117,7 +117,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             language_regex="^(?!xx).+$",
         )
 
-    def test_legacy_discovery_job_uses_addon_actor(self) -> None:
+    def test_discovery_job_without_actor_is_rejected(self) -> None:
         match = self.discovery.matched_components["second-po/*.po"]
         with patch("weblate.trans.discovery.create_component.delay") as delay:
             self.discovery.create_component(
@@ -129,12 +129,13 @@ class ComponentDiscoveryTest(RepoTestCase):
             )
         payload = dict(delay.call_args.kwargs)
         payload.pop("user_id")
-        result = create_component(**payload)
-        component = Component.objects.get(pk=result["component"])
-        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
-        assert change.user is not None
-        self.assertEqual(change.user.username, "addon:discovery")
-        self.assertFalse(component.change_set.filter(user=None).exists())
+        with (
+            acting_user_context(None),
+            self.assertRaisesMessage(
+                ValueError, "Component creation requires an acting user"
+            ),
+        ):
+            create_component(**payload)
 
     def test_matched_files(self) -> None:
         self.assertEqual(

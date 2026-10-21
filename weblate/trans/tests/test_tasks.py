@@ -70,7 +70,12 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
-from weblate.utils.change_origin import change_origin_context, get_change_origin
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin_context,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
@@ -1411,9 +1416,11 @@ class TasksTest(ReusableComponentTestCase):
 
     def test_deferred_commit_preserves_queued_origin(self) -> None:
         origins: list[ChangeOrigin] = []
+        actors: list[User | None] = []
 
         def publish(*args: object, **kwargs: object) -> None:
             origins.append(get_change_origin())
+            actors.append(get_acting_user())
 
         self.addCleanup(self.component.delete_commit_task)
         with (
@@ -1427,15 +1434,18 @@ class TasksTest(ReusableComponentTestCase):
                     "force_scan": False,
                     "previous_head": None,
                     "origin": {"scope": "api"},
+                    "acting_user_id": self.user.pk,
                 },
             ),
             patch.object(perform_commit, "apply_async", side_effect=publish),
             self.captureOnCommitCallbacks(execute=True),
         ):
-            with change_origin_context({"scope": "ui"}):
+            with acting_user_context(None), change_origin_context({"scope": "ui"}):
                 schedule_deferred_commit(self.component)
+                self.assertIsNone(get_acting_user())
             self.assertEqual(get_change_origin(), {"scope": "system"})
         self.assertEqual(origins, [{"scope": "api"}])
+        self.assertEqual(actors, [self.user])
 
     def test_perform_commit_schedules_deferred_commit_request(self) -> None:
         cache.set(self.component.commit_task_key, "commit-task-id")

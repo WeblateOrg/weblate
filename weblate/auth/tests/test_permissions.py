@@ -36,6 +36,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.change_origin import acting_user_context
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -479,7 +480,7 @@ class PermissionsTest(FixtureComponentTestCase):
         billing.plan.change_access_control = False
         billing.plan.save(update_fields=["change_access_control"])
         project.access_control = Project.ACCESS_PROTECTED
-        project.acting_user = self.admin
+        self.enterContext(acting_user_context(self.admin))
         project.save(update_fields=["access_control"])
         component = Component.objects.select_related("project").get(
             pk=self.component.pk
@@ -490,7 +491,7 @@ class PermissionsTest(FixtureComponentTestCase):
         )
 
         component.restricted = True
-        component.acting_user = self.admin
+        self.enterContext(acting_user_context(self.admin))
         component.save(update_fields=["restricted"])
         self.assertTrue(self.admin.has_perm("billing:component.permissions", component))
 

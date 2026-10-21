@@ -150,7 +150,11 @@ from weblate.utils.celery import (
     get_task_progress,
     store_task_metadata,
 )
-from weblate.utils.change_origin import capture_change_origin, get_change_origin
+from weblate.utils.change_origin import (
+    capture_change_origin,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -319,6 +323,7 @@ class CommitTaskPayload(TypedDict):
     force_scan: bool
     previous_head: str | None
     origin: NotRequired[ChangeOrigin]
+    acting_user_id: int | None
 
 
 def prefetch_tasks(components):
@@ -1251,7 +1256,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.logs: list[str] = []
         self.translations_count: int | None = None
         self.translations_progress = 0
-        self.acting_user: User | None = None
         self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
         self.batched_checks: set[str] = set()
@@ -1317,7 +1321,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 *kwargs["update_fields"],
                 *(field for field, _old, _new in repository_redirect_changes),
             }
-        acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
         self.set_default_branch()
@@ -1551,14 +1554,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                             )
         if glossary_settings_changed or (create and self.is_glossary):
             transaction.on_commit(
-                partial(
-                    self._update_glossary_configuration,
-                    update_checks=glossary_settings_changed,
-                    sync_terminology=(
-                        glossary_settings_changed
-                        and self.is_glossary
-                        and not self.restricted
-                    ),
+                capture_change_origin(
+                    partial(
+                        self._update_glossary_configuration,
+                        update_checks=glossary_settings_changed,
+                        sync_terminology=(
+                            glossary_settings_changed
+                            and self.is_glossary
+                            and not self.restricted
+                        ),
+                    )
                 )
             )
         if restricted_changed and self.restricted:
@@ -1578,8 +1583,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if cleanup_conflicting_repository_setup:
             transaction.on_commit(
-                lambda: self.cleanup_conflicting_repository_setup_alerts(
-                    cleanup_configs
+                capture_change_origin(
+                    lambda: self.cleanup_conflicting_repository_setup_alerts(
+                        cleanup_configs
+                    )
                 )
             )
 
@@ -1618,7 +1625,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seed_source_component_id=seed_source_component_id,
                 copy_seed_addons=copy_seed_addons,
                 seed_author=seed_author,
-                acting_user_id=acting_user_id,
             )
 
         if (
@@ -1627,7 +1633,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             or self.old_component_settings["category_id"] != self.category_id
         ):
             transaction.on_commit(
-                lambda: self.schedule_update_checks(update_state=True)
+                capture_change_origin(
+                    lambda: self.schedule_update_checks(update_state=True)
+                )
             )
 
         self.old_component_settings = self.get_old_component_settings()
@@ -1815,8 +1823,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         repository = self.repository
         with repository.lock, transaction.atomic():
             locked_component = queryset.get_for_update(pk=self.pk)
-            if self.acting_user is not None:
-                locked_component.acting_user = self.acting_user
             locked_component.__dict__["repository"] = locked_component.build_repository(
                 lock_override=repository.lock
             )
@@ -2009,14 +2015,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     action=action,
                     old=old_value,
                     target=current_value,
-                    user=self.acting_user,
+                    user=get_acting_user(),
                 )
         log_setting_changes(
             self,
             old,
             self.AUDIT_SETTINGS,
             ActionEvents.COMPONENT_SETTING_CHANGE,
-            self.acting_user,
+            get_acting_user(),
             update_fields,
         )
 
@@ -2067,7 +2073,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     component=component,
                     run=False,
                     configuration=configuration,
-                    acting_user=self.acting_user,
+                    acting_user=get_acting_user(),
                 )
             except ValidationError as error:
                 component.log_warning("could not enable addon %s: %s", name, error)
@@ -2098,7 +2104,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             has_template=False,
             allow_translation_propagation=False,
             license=self.effective_license,
-            acting_user=self.acting_user,
+            acting_user=get_acting_user(),
         )
 
     @cached_property
@@ -2168,7 +2174,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if deferred is None:
             transaction.on_commit(publish)
         else:
-            transaction.on_commit(lambda: deferred.append(publish))
+            transaction.on_commit(
+                capture_change_origin(lambda: deferred.append(publish))
+            )
 
     @staticmethod
     def get_current_task_id() -> str | None:
@@ -2213,12 +2221,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         @capture_change_origin
         def schedule_commit() -> None:
+            actor = get_acting_user()
             payload: CommitTaskPayload = {
                 "reason": reason,
                 "user_id": user_id,
                 "force_scan": force_scan,
                 "previous_head": previous_head,
                 "origin": get_change_origin(),
+                "acting_user_id": actor.pk if actor is not None else None,
             }
             task_kwargs = {
                 "user_id": user_id,
@@ -2759,7 +2769,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 filename,
                 line,
                 template,
-                user=user or self.acting_user,
+                user=user or get_acting_user(),
                 is_translation=is_translation,
             )
         if not template:
@@ -3302,7 +3312,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_update_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for background update events."""
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         if user is not None:
             return user
 
@@ -3359,7 +3369,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_push_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for push events."""
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         if user is not None:
             return user
 
@@ -3615,7 +3625,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import perform_commit, perform_component_commit
 
-        user = request.user if request else self.acting_user
+        user = request.user if request else get_acting_user()
         try:
             previous_head = reset_with_recovery(
                 self, request, user, keep_changes=keep_changes
@@ -3998,7 +4008,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.REPO_CLEANUP,
-            user=self.acting_user
+            user=get_acting_user()
             or (request.user if request else None)
             or self.get_repository_maintenance_user(),
         )
@@ -4135,19 +4145,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
-            user=self.acting_user or self.get_update_user(request),
+            user=get_acting_user() or self.get_update_user(request),
         )
 
         if do_commit:
             if not self.restore_pending_translation_files(
                 request=request,
-                user=request.user if request else self.acting_user,
+                user=request.user if request else get_acting_user(),
                 apply_pending_filters=True,
                 reset_repository_on_failure=False,
             ):
                 return False
             if repository_task_inline_followups.get():
-                user = request.user if request else self.acting_user
+                user = request.user if request else get_acting_user()
 
                 @capture_change_origin
                 def commit_file_sync() -> None:
@@ -4173,7 +4183,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.commit_pending("file-scan", request.user if request else None)
         self.change_set.create(
             action=ActionEvents.FORCE_SCAN,
-            user=self.acting_user or self.get_update_user(request),
+            user=get_acting_user() or self.get_update_user(request),
         )
 
         self.create_translations(request=request, force=True)
@@ -5368,7 +5378,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         effective = self.get_effective_setting("enforced_checks")
         if effective:
-            update_enforced_checks.delay_on_commit(component=self.pk, user_id=user.pk)
+            update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
         return was_change
@@ -5441,7 +5451,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
 
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_trigger)
+        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
 
     @cached_property
     def glossary_sources_key(self) -> str:
@@ -5534,7 +5544,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.configure_repo(validate, pull=False)
         if self.id:
-            if not self.update_remote_branch(validate, user=self.acting_user):
+            if not self.update_remote_branch(validate, user=get_acting_user()):
                 return False
             if not skip_commit:
                 self.commit_pending("sync", None, skip_push=skip_push)
@@ -5551,7 +5561,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset to upstream in case not yet saved model (this is called
         # from the clean method only)
         with self.repository.lock:
-            self.update_remote_branch(validate, user=self.acting_user)
+            self.update_remote_branch(validate, user=get_acting_user())
             self.configure_branch()
             self.repository.reset()
         return True
@@ -6564,7 +6574,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
 
         self._alerts_scheduled = True
-        transaction.on_commit(self._update_alerts)
+        transaction.on_commit(capture_change_origin(self._update_alerts))
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
@@ -7263,7 +7273,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     sync_glossary_languages(glossary.pk, component=glossary)
         elif not self._glossary_sync_scheduled:
             self._glossary_sync_scheduled = True
-            transaction.on_commit(self._schedule_sync_terminology)
+            transaction.on_commit(
+                capture_change_origin(self._schedule_sync_terminology)
+            )
 
     def _schedule_sync_terminology(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -7522,4 +7534,4 @@ def change_component_link(sender, instance, **kwargs) -> None:
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)
-        transaction.on_commit(project.invalidate_glossary_cache)
+        transaction.on_commit(capture_change_origin(project.invalidate_glossary_cache))

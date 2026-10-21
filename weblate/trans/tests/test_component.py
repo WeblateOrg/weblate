@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, call, patch
 
 from django.contrib.messages import get_messages
@@ -62,6 +62,7 @@ from weblate.trans.tests.utils import (
     get_test_actor,
 )
 from weblate.trans.util import join_plural
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -82,6 +83,9 @@ from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
@@ -1533,7 +1537,7 @@ class ComponentChangeTest(RepoTestCase):
         link_component = self.create_link()
         self.assertIsNotNone(link_component.linked_component)
         component = cast("Component", link_component.linked_component)
-        component.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
 
         old_path = component.full_path
@@ -2587,7 +2591,7 @@ class ComponentErrorTest(RepoTestCase):
         self.assertFalse(self.component.update_remote_branch())
 
     def test_failed_push(self) -> None:
-        self.component.acting_user = None
+        self.enterContext(acting_user_context(None))
         testfile = os.path.join(self.component.full_path, "README.md")
         with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
@@ -2810,6 +2814,7 @@ class ComponentErrorTest(RepoTestCase):
                 "force_scan": False,
                 "previous_head": None,
                 "origin": {"scope": "system"},
+                "acting_user_id": cast("User", get_acting_user()).pk,
             },
         )
         self.component.delete_commit_task()
@@ -4490,7 +4495,7 @@ class ComponentRepoWebTestCase(FixtureTestCase):
     def test_repo_link_generation_linked_github_with_acting_user(self) -> None:
         """Test generated repository browser links delegate acting user."""
         component = self.create_github_repo_link()
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
 
         self.assertEqual(
             "https://github.com/marcus/project-x/blob/main/test.py#L42",

@@ -13,6 +13,12 @@ including ``Addon``, ``Component``, ``Translation``, ``Category``, ``Project``,
 ``Unit``, ``Change``, and ``User``. Add-on configuration forms should subclass
 ``weblate.addons.forms.BaseAddonForm``.
 
+Use :ref:`acting-user-context` when saving configuration outside a request.
+``BaseAddon.create(..., acting_user=user)`` scopes the complete installation
+operation. ``create_object()`` returns an unsaved object and no longer accepts
+``acting_user``; scope the subsequent save instead. Hook execution uses the
+add-on bot, while installation and configuration retain the initiating actor.
+
 Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py

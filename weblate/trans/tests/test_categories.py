@@ -21,6 +21,7 @@ from weblate.trans.models import Category, Component, ComponentLink, Project
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import category_removal
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.stats import CategoryLanguage, GlobalStats
 
 
@@ -225,7 +226,7 @@ class CategoriesTest(ViewTestCase):
 
         # Rename category
         category.slug = "other"
-        category.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         category.save()
         self.assertFalse(os.path.exists(old_category_path))
         self.assertTrue(os.path.exists(category.full_path))

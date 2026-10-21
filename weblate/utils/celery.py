@@ -32,9 +32,12 @@ from django.db import transaction
 
 from weblate.automation.context import automation_origin
 from weblate.utils.change_origin import (
+    ACTING_USER_HEADER,
     CHANGE_ORIGIN_HEADER,
+    acting_user_context,
     capture_change_origin,
     change_origin,
+    get_acting_user,
     get_change_origin,
 )
 
@@ -56,9 +59,41 @@ os.environ.setdefault("CELERY_SKIP_CHECKS", "1")
 class OriginTask(DjangoTask):
     """Capture provenance before publication, including deferred and eager tasks."""
 
+    # Celery's custom task base does not preserve individual task return types.
+    # ruff: ignore[any-type]
+    def __call__(self, *args: object, **kwargs: object) -> Any:
+        # Resolve within execution, not a signal receiver: Celery logs receiver
+        # exceptions and would otherwise continue executing with a missing actor.
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        headers = self.request.headers or {}
+        user = (
+            get_acting_user()
+            if self.request.is_eager or self.request.called_directly
+            else None
+        )
+        if ACTING_USER_HEADER in headers:
+            user_id = headers[ACTING_USER_HEADER]
+            if user_id is not None and (
+                not isinstance(user_id, int)
+                or isinstance(user_id, bool)
+                or user_id <= 0
+            ):
+                msg = "Invalid task acting user ID"
+                raise ValueError(msg)
+            user = User.objects.get(pk=user_id) if user_id is not None else None
+        with acting_user_context(user):
+            if self.request.called_directly:
+                return super().__call__(*args, **kwargs)
+            # The worker/eager tracer already installed the execution request.
+            # Task.__call__ would replace it, losing retry and header state.
+            return self.run(*args, **kwargs)
+
     def apply_async(self, *args: object, **options: object):
         headers = dict(cast("dict[str, object] | None", options.get("headers")) or {})
         headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+        user = get_acting_user()
+        headers.setdefault(ACTING_USER_HEADER, user.pk if user is not None else None)
         options["headers"] = headers
         return super().apply_async(*cast("Any", args), **cast("Any", options))
 
@@ -164,6 +199,8 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
     if not isinstance(headers, dict):
         return
     headers.setdefault(CHANGE_ORIGIN_HEADER, get_change_origin())
+    user = get_acting_user()
+    headers.setdefault(ACTING_USER_HEADER, user.pk if user is not None else None)
     automation = headers[CHANGE_ORIGIN_HEADER].get("automation")
     if automation:
         headers["weblate_automation_origin"] = automation["activity_id"]

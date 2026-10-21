@@ -24,6 +24,7 @@ from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component
 from weblate.trans.tests.test_views import ReusableComponentTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.unittest import tempdir_setting
 
 if TYPE_CHECKING:
@@ -245,7 +246,7 @@ class AddonInstallationTest(ReusableComponentTestCase):
                 **({"edit_template": True} if fixture == "json_mono" else {}),
             )
         component = Component.objects.get(pk=self.component.pk)
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         root = Path(component.full_path)
         if fixture in {"xgettext", "meson"}:
             (root / "src").mkdir(exist_ok=True)

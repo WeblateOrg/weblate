@@ -125,7 +125,6 @@ class LanguageConsistencyAddon(BaseAddon):
             component=component,
             category=category,
             project=project,
-            acting_user=user,
         )
         return LanguageConsistencyPreviewForm(user, cls(storage), **kwargs)
 

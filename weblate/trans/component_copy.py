@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
+from weblate.utils.change_origin import get_acting_user
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -218,5 +219,5 @@ def clone_component_addons(component: Component, source_component: Component) ->
         component,
         source_component,
         same_project_only=True,
-        acting_user=component.acting_user,
+        acting_user=get_acting_user(),
     )

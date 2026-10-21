@@ -47,6 +47,7 @@ from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
@@ -1316,7 +1317,7 @@ class AdminTest(ReusableViewTestCase):
         billing = Billing.objects.create(plan=plan, customer_name="Acme Billing LLC")
         workspace = billing.workspace
         workspace.name = "Manually renamed workspace"
-        workspace.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         workspace.save(update_fields=["name"])
         Workspace.objects.create(name="Acme localization workspace")
 

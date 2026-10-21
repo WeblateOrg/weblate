@@ -468,7 +468,6 @@ class AddonDetail(BaseAddonView, UpdateView):
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         self.object = obj
-        obj.acting_user = request.user
         if "delete" in request.POST:
             target = obj.component or obj.category or obj.project
             obj.delete()

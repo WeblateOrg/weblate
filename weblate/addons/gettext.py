@@ -46,6 +46,7 @@ from weblate.addons.gettext_rules import (
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 from weblate.trans.file_format_params import GettextReportMsgidBugsTo
+from weblate.utils.change_origin import get_acting_user
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
@@ -603,7 +604,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
                 }
             )
             return False
-        MsgmergeAddon.create(run=False, acting_user=self.instance.acting_user, **kwargs)
+        MsgmergeAddon.create(run=False, acting_user=get_acting_user(), **kwargs)
         return True
 
     def has_applicable_msgmerge_addon(self, addon_model) -> bool:
