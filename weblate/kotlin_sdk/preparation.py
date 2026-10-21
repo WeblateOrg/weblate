@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING, Any
 from arsc_writer import generate
 from weblate_schemas import validate_schema
 
+from weblate.utils.cdn import content_metadata
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
     from pathlib import Path
@@ -114,7 +116,8 @@ def prepare(
             continue
         content = generate(resources, package=mapping["packageName"], locale=locale)
         del resources
-        digest = hashlib.sha256(content).hexdigest()
+        artifact_metadata = content_metadata(content)
+        digest = artifact_metadata["sha256"]
         if digest not in result.outputs:
             if staged_size + len(content) > staging_limit:
                 msg = "Kotlin SDK temporary storage limit reached."
@@ -125,8 +128,7 @@ def prepare(
             staged_size += len(content)
         result.locales[language] = {
             "url": f"../../artifacts/{digest}.arsc",
-            "sha256": digest,
-            "size": len(content),
+            **artifact_metadata,
         }
         del content
     return result
