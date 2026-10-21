@@ -112,6 +112,11 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: \bbtn-secondary\b
     language: pygrep
+  - id: rst-heading-length
+    name: rst heading adornment matches title length
+    entry: python scripts/check-rst-headings.py
+    language: python
+    types: [rst]
   - id: rst-double-space
     name: rst text with double space
     description: Detect mistake of rst containing double space

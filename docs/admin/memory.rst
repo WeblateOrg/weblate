@@ -148,7 +148,7 @@ translation becomes active.
 .. _autoclean-tm:
 
 Autoclean translation memory
------------------------------
+----------------------------
 
 .. versionadded:: 5.13
 

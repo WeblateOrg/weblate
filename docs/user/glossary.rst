@@ -304,7 +304,7 @@ Forbidden translations
 .. _glossary-mt:
 
 Glossaries in translation services
-------------------------------------
+----------------------------------
 
 .. versionadded:: 5.3
 

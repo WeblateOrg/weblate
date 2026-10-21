@@ -414,7 +414,7 @@ ensure you mark the `read_user` scope.
 .. _gitea_auth:
 
 Gitea OAuth 2
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 For using Gitea OAuth 2, you need to register an application at
 ``https://GITEA SERVER/user/settings/applications``.

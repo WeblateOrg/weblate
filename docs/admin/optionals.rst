@@ -237,7 +237,7 @@ policy documents.
 .. _legal-customization:
 
 Customizing legal documents and styles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Provide your own legal documents by overriding these templates in a
 :ref:`custom-module`:
