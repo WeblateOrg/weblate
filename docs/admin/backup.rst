@@ -507,7 +507,7 @@ Restoring manual backup
          weblate updategit --all
 
 Moving a Weblate installation
-------------------------------
+-----------------------------
 
 Relocate your installation to a different system
 by following the backing up and restoration instructions above.

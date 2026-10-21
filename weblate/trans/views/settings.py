@@ -120,7 +120,6 @@ def change(request: AuthenticatedHttpRequest, path):
 
 def change_workspace(request: AuthenticatedHttpRequest, obj: Workspace):
     if request.method == "POST":
-        obj.acting_user = request.user
         settings_form = WorkspaceSettingsForm(request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
@@ -141,7 +140,6 @@ def change_workspace(request: AuthenticatedHttpRequest, obj: Workspace):
 
 def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
-        obj.acting_user = request.user
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
@@ -199,7 +197,6 @@ def change_project_language(request: AuthenticatedHttpRequest, obj):
 
 def change_category(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
-        obj.acting_user = request.user
         settings_form = CategorySettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
@@ -223,7 +220,6 @@ def change_component(request: AuthenticatedHttpRequest, obj):
         raise Http404
 
     if request.method == "POST":
-        obj.acting_user = request.user
         with obj.locked_for_update() as locked_obj:
             form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
             if form.is_valid():
@@ -380,8 +376,6 @@ def perform_rename(
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied
 
-    if isinstance(obj, Component):
-        obj.acting_user = request.user
     with _locked_for_rename(obj) as locked_obj:
         # Make sure any non-rename related issues are resolved first
         try:
@@ -437,7 +431,6 @@ def move(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
 
-    obj.acting_user = request.user
     try:
         obj.full_clean()
     except ValidationError as err:
@@ -697,7 +690,7 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
         return redirect(return_url)
 
     metadata = get_task_metadata(task_id)
-    progress, log = component.get_progress()
+    progress, log = component.get_progress(request.user)
 
     return render(
         request,

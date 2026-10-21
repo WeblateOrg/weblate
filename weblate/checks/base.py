@@ -433,6 +433,24 @@ class BatchCheckMixin(BaseCheck):
         raise NotImplementedError
 
     def perform_batch(self, component: Component) -> None:
+        if self.check_id in {"inconsistent", "reused"}:
+            from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+                check_component_session_read_lock,
+            )
+
+            with check_component_session_read_lock(component):
+                boundary_lock = (
+                    component.project.checks_lock
+                    if component.allow_translation_propagation
+                    else nullcontext()
+                )
+                with (
+                    boundary_lock,
+                    start_span(op="check.perform_batch", name=self.check_id),
+                ):
+                    self._perform_batch(component)
+            return
+
         lock = nullcontext()
         if self.batch_project_wide and component.allow_translation_propagation:
             lock = component.project.checks_lock

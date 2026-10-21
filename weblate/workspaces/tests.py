@@ -31,6 +31,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
     get_test_actor,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.tests import http_mock
 from weblate.utils.views import UnsupportedPathObjectError, parse_path
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
@@ -338,7 +339,7 @@ class WorkspaceViewTest(BaseTestCase):
             action=ActionEvents.WORKSPACE_SETTING_CHANGE,
         )
         moved_project.workspace = None
-        moved_project.acting_user = user
+        self.enterContext(acting_user_context(user))
         moved_project.save(update_fields=["workspace"])
         moved_project_change.refresh_from_db()
         self.assertEqual(moved_project_change.workspace_id, workspace.pk)
@@ -677,7 +678,7 @@ class WorkspaceViewTest(BaseTestCase):
         user = create_test_user()
         workspace = Workspace.objects.create(name="Original workspace")
 
-        workspace.acting_user = user
+        self.enterContext(acting_user_context(user))
         workspace.name = "Renamed workspace"
         workspace.save()
 
@@ -697,7 +698,7 @@ class WorkspaceViewTest(BaseTestCase):
         user = create_test_user()
         workspace = Workspace.objects.create(name="Original tab workspace")
         workspace.add_owner(user)
-        workspace.acting_user = user
+        self.enterContext(acting_user_context(user))
         workspace.name = "Renamed tab workspace"
         workspace.save()
 
@@ -745,7 +746,7 @@ class WorkspaceViewTest(BaseTestCase):
         user = create_test_user()
         workspace = Workspace.objects.create(name="Original browse workspace")
         workspace.add_owner(user)
-        workspace.acting_user = user
+        self.enterContext(acting_user_context(user))
         workspace.name = "Renamed browse workspace"
         workspace.save()
 

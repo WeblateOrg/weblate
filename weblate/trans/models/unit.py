@@ -477,6 +477,16 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             result = result.exclude(pk=unit.id)
         return result
 
+    def filter_restricted_peers(self, unit: Unit) -> UnitQuerySet:
+        """Limit cross-component check peers to a stable visibility boundary."""
+        component = unit.translation.component
+        if component.restricted:
+            return self.filter(
+                Q(translation__component__restricted=False)
+                | Q(translation__component_id=component.pk)
+            )
+        return self.filter(translation__component__restricted=False)
+
     def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
         """
         Get units with same target but different source.
@@ -513,6 +523,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 check_source_formula=plural.formula,
                 check_source_type=plural.type,
             )
+        result = result.filter_restricted_peers(unit)
         if not unit.translation.language.is_case_sensitive():
             result = result.exclude(
                 check_source__lower__md5=MD5(Lower(Value(unit.effective_source)))
@@ -672,8 +683,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("translation__component")
             )
         return result
 
@@ -2746,7 +2756,29 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # ruff: ignore[complex-structure]
+    def run_checks(
+        self, *, force_propagate: bool = False, skip_propagate: bool = False
+    ) -> None:
+        """Update checks under the current component access boundary."""
+        if self.is_source or not (CHECKS.get("inconsistent") or CHECKS.get("reused")):
+            self._run_checks_unlocked(
+                force_propagate=force_propagate, skip_propagate=skip_propagate
+            )
+            return
+
+        from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+            check_project_read_lock,
+        )
+
+        with check_project_read_lock(self.translation.component) as changed:
+            if changed:
+                self.clear_checks_cache()
+                self.invalidate_checks_cache()
+            self._run_checks_unlocked(
+                force_propagate=force_propagate, skip_propagate=skip_propagate
+            )
+
+    def _run_checks_unlocked(  # ruff: ignore[complex-structure]
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""

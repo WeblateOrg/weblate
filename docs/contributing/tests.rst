@@ -74,10 +74,38 @@ The simple execution can look like:
    ./ci/run-test
    ./ci/run-docs
 
+OSS Scanner verification
+++++++++++++++++++++++++
+
+The development Dockerfile shares its native dependencies and tooling between
+the ``development`` and ``scanner`` targets. VS Code, agent verification, and
+:file:`rundev.sh` select ``development`` and retain mounted checkouts and
+separate Compose services. The final ``scanner`` target includes the checkout,
+locked Python dependencies, compiled assets, and local PostgreSQL and Valkey
+for verification without Internet access.
+
+Build it from the repository root and run its offline smoke test:
+
+.. code-block:: sh
+
+   docker build -f dev-docker/weblate-dev/Dockerfile -t weblate-oss-scanner .
+   docker run --rm --init --network none --user 0 --workdir /src --entrypoint bash \
+       weblate-oss-scanner .oss-scanner/smoke
+
+To run the complete backend suite, replace ``.oss-scanner/smoke`` with
+``.oss-scanner/test``. Append pytest selections or ``-n 0`` for focused tests.
+No host mounts or external service containers are needed. The
+:file:`.github/workflows/rundev.yml` workflow runs the focused smoke test on
+amd64, alongside the existing development-container checks.
+
+The scanner uses :doc:`/security/threat-model`. The permissive test settings
+and local service authentication are test fixtures, not production deployment
+defaults.
+
 .. _local-tests:
 
 Local testing of Weblate
-+++++++++++++++++++++++++
+++++++++++++++++++++++++
 
 For an isolated environment with dependencies and test services already
 configured, use the :ref:`development container <devcontainer>`. Its CLI can

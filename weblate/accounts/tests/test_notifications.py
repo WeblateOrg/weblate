@@ -72,6 +72,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_actor,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
@@ -215,8 +216,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.automation_user = get_test_actor(self)
-        self.component.acting_user = self.automation_user
-        self.project.acting_user = self.automation_user
+        self.enterContext(acting_user_context(self.automation_user))
         self.user.email = "noreply+notify@weblate.org"
         self.user.save()
         czech = Language.objects.get(code="cs")
@@ -997,7 +997,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         with self.captureOnCommitCallbacks(execute=True):
             self.component.add_alert("BrokenProjectURL", error="failure")
@@ -1147,7 +1147,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         addon = create_test_addon(
             acting_user=get_test_actor(self),
             project=self.component.project,
@@ -1354,7 +1354,7 @@ class NotificationTest(ReusableViewTestCase, RegistrationTestMixin):
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.component.project))
-        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
         create_test_addon(
             acting_user=get_test_actor(self),
             component=self.component,

@@ -1105,7 +1105,6 @@ def github_app_migration(request, workspace_id):
                 vcs_params = component.vcs_params.copy()
                 if component.vcs == "git":
                     vcs_params["create_merge_request"] = False
-                component.acting_user = request.user
                 component.vcs = "github-app"
                 component.repo = canonical_url
                 component.push = ""

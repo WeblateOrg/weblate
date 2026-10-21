@@ -70,16 +70,23 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ComponentTestCase, ReusableComponentTestCase
 from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
-from weblate.utils.change_origin import change_origin_context, get_change_origin
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin_context,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.tasks import (
     update_language_stats_parents,
     update_project_stats_link,
     update_translation_stats_parents,
 )
 from weblate.utils.version import GIT_VERSION
+from weblate.vcs.base import RepositoryInternalError
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
@@ -143,6 +150,10 @@ class CleanupTest(ComponentTestCase):
 
 
 class TasksTest(ReusableComponentTestCase):
+    def tearDown(self) -> None:
+        cache.delete("task-log-task-id")
+        super().tearDown()
+
     def test_repository_commit_uses_locked_wrapper(self) -> None:
         method = Mock()
 
@@ -644,7 +655,7 @@ class TasksTest(ReusableComponentTestCase):
         self.assertFalse(result["result"])
         cleanup.assert_not_called()
 
-    def test_repository_operation_preserves_failure_message(self) -> None:
+    def test_repository_operation_returns_generic_failure(self) -> None:
         task = SimpleNamespace(update_state=Mock())
 
         def cleanup(component, request) -> bool:
@@ -666,8 +677,73 @@ class TasksTest(ReusableComponentTestCase):
         self.assertFalse(result["result"])
         self.assertEqual(
             result["completion_message"],
-            {"level": "error", "text": "Specific repository failure."},
+            {"level": "error", "text": "Repository operation completed with errors."},
         )
+
+    def test_repository_operation_redacts_component_identifiers(self) -> None:
+        task = SimpleNamespace(update_state=Mock())
+
+        def cleanup(component, request) -> bool:
+            messages.error(
+                request,
+                f"Could not push {component}: specific failure in {component.full_slug}",
+            )
+            return False
+
+        with (
+            patch.object(User, "has_perm", return_value=True),
+            patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
+        ):
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+
+        self.assertEqual(
+            result["completion_message"],
+            {"level": "error", "text": "Repository operation completed with errors."},
+        )
+
+    def test_repository_operation_redacts_fork_account(self) -> None:
+        task = SimpleNamespace(
+            update_state=Mock(), request=SimpleNamespace(id="task-id")
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://git.internal/owner/repo.git"
+        )
+        error = RepositoryInternalError(
+            0,
+            "repository_fork_not_found",
+            params={"hostname": "git.internal", "username": "private-service-account"},
+        )
+
+        def cleanup(component, request) -> bool:
+            messages.error(
+                request, f"Could not push {component}: {component.error_text(error)}"
+            )
+            return False
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(User, "has_perm", return_value=True),
+            patch.object(Component, "do_cleanup", autospec=True, side_effect=cleanup),
+        ):
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+
+        text = result["completion_message"]["text"]
+        self.assertEqual(text, "Repository operation completed with errors.")
+        self.assertNotIn("private-service-account", text)
+        self.assertNotIn("git.internal", text)
+        self.assertEqual(error.params["username"], "private-service-account")
+        with patch.object(self.user, "has_perm", return_value=True):
+            log = "\n".join(get_visible_task_log("task-id", self.user))
+        self.assertIn("private-service-account", log)
+        self.assertIn("Repository not found", log)
+        with patch.object(self.user, "has_perm", return_value=False):
+            log = "\n".join(get_visible_task_log("task-id", self.user))
+        self.assertIn("Repository cleanup failed", log)
+        self.assertNotIn("private-service-account", log)
 
     def test_repository_operation_retries_only_file_sync_commit(self) -> None:
         task = SimpleNamespace(update_state=Mock())
@@ -900,7 +976,7 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertEqual(raised.exception.start_index, 1)
         self.assertEqual(
-            raised.exception.failure_messages, ["Earlier repository failure."]
+            raised.exception.failure_messages, ["Repository operation failed."]
         )
 
         with (
@@ -921,7 +997,8 @@ class TasksTest(ReusableComponentTestCase):
 
         self.assertFalse(result["result"])
         self.assertEqual(
-            result["completion_message"]["text"], "Earlier repository failure."
+            result["completion_message"]["text"],
+            "Repository operation completed with errors.",
         )
         self.assertEqual(calls, [self.component.pk, second.pk, second.pk])
 
@@ -1411,9 +1488,11 @@ class TasksTest(ReusableComponentTestCase):
 
     def test_deferred_commit_preserves_queued_origin(self) -> None:
         origins: list[ChangeOrigin] = []
+        actors: list[User | None] = []
 
         def publish(*args: object, **kwargs: object) -> None:
             origins.append(get_change_origin())
+            actors.append(get_acting_user())
 
         self.addCleanup(self.component.delete_commit_task)
         with (
@@ -1427,15 +1506,18 @@ class TasksTest(ReusableComponentTestCase):
                     "force_scan": False,
                     "previous_head": None,
                     "origin": {"scope": "api"},
+                    "acting_user_id": self.user.pk,
                 },
             ),
             patch.object(perform_commit, "apply_async", side_effect=publish),
             self.captureOnCommitCallbacks(execute=True),
         ):
-            with change_origin_context({"scope": "ui"}):
+            with acting_user_context(None), change_origin_context({"scope": "ui"}):
                 schedule_deferred_commit(self.component)
+                self.assertIsNone(get_acting_user())
             self.assertEqual(get_change_origin(), {"scope": "system"})
         self.assertEqual(origins, [{"scope": "api"}])
+        self.assertEqual(actors, [self.user])
 
     def test_perform_commit_schedules_deferred_commit_request(self) -> None:
         cache.set(self.component.commit_task_key, "commit-task-id")

@@ -4725,10 +4725,18 @@ class MemoryViewTest(FixtureTestCase):
         )
 
     def test_delete_preserves_inaccessible_scope_on_compacted_entry(self) -> None:
-        self.project.add_user(self.user, "Administration")
+        role = Role.objects.create(name="Project memory deletion")
+        role.permissions.add(Permission.objects.get(codename="memory.delete"))
+        group = Group.objects.create(name="Project memory managers")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.user.groups.add(group)
         Component.objects.filter(pk=self.component.pk).update(restricted=True)
         self.component.refresh_from_db()
         self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("memory.delete", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
         memory = Memory.objects.create(
             source_language=Language.objects.get(code="en"),
             target_language=Language.objects.get(code="cs"),
@@ -4759,7 +4767,7 @@ class MemoryViewTest(FixtureTestCase):
         self.assertTrue(MemoryScope.objects.filter(pk=automatic_scope.pk).exists())
         self.assertFalse(MemoryScope.objects.filter(pk=file_scope.pk).exists())
 
-    def test_project_rebuild_skips_restricted_components(self) -> None:
+    def test_project_admin_rebuild_includes_restricted_components(self) -> None:
         self.project.add_user(self.user, "Administration")
         Component.objects.filter(pk=self.component.pk).update(restricted=True)
         self.component.refresh_from_db()
@@ -4776,7 +4784,9 @@ class MemoryViewTest(FixtureTestCase):
             response,
             "Translation memory entries created from current translations",
         )
-        mocked_import.assert_not_called()
+        mocked_import.assert_called_once_with(
+            project_id=self.project.pk, component_id=self.component.pk
+        )
 
     def test_project_memory_delete_removes_unattributed_origin(self) -> None:
         self.project.add_user(self.user, "Administration")

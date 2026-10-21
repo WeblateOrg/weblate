@@ -13,6 +13,7 @@ from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.checks.base import BatchCheckMixin
+from weblate.checks.locks import check_project_session_read_lock
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.util import split_plural
@@ -187,7 +188,7 @@ def refresh_propagated_checks(
         return
     # Commit warning changes in chunks so the worker does not hold row locks
     # for the entire group and block concurrent translation saves.
-    with project.checks_lock:
+    with project.checks_lock, check_project_session_read_lock(project_id):
         project.log_info("refreshing %d propagated check groups", len(groups))
         custom_sources = bool(project.translation_parent_language_ids)
         translations: dict[int, Translation] = {}

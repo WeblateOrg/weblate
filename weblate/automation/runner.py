@@ -22,7 +22,7 @@ from weblate.automation.operations import (
 )
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -455,15 +455,17 @@ def run_automation(activity_id: int) -> None:
                 workflow = validate_operations(
                     parse_workflow(result["workflow"]), activity.component
                 )
-                runner = Runner(
-                    workflow,
-                    result["context"],
-                    activity.component,
-                    addon.addon.user,
-                    persist=persist,
-                )
-                status = runner.run()
-                result = runner.result()
+                actor = addon.addon.user
+                with acting_user_context(actor):
+                    runner = Runner(
+                        workflow,
+                        result["context"],
+                        activity.component,
+                        actor,
+                        persist=persist,
+                    )
+                    status = runner.run()
+                    result = runner.result()
     except Exception as error:
         status = AddonActivityLogStatus.ERROR
         result.setdefault("trace", []).append(

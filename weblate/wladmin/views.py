@@ -1100,7 +1100,6 @@ class WorkspaceCreateView(CreateView):
     @transaction.atomic
     def form_valid(self, form: ModelForm[Workspace]) -> HttpResponse:
         self.object = form.save(commit=False)
-        self.object.acting_user = self.request.user
         self.object.save()
         self.object.add_owner(self.request.user, self.request)
         self.request.user.clear_permissions_cache()

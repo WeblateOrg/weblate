@@ -46,18 +46,17 @@ SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
-SESSION_EXPIRY_SCOPE_SAML: Final = "saml"
 SESSION_EXPIRY_SCOPE_OIDC: Final = "oidc"
 SESSION_EXPIRY_SCOPE_2FA: Final = "2fa"
 SESSION_EXPIRY_SCOPE_LOGIN: Final = "login"
 SESSION_EXPIRY_SCOPE_AUTHENTICATED: Final = "authenticated"
 SESSION_EXPIRY_REFRESH_MIN_SECONDS = 60
 SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
-SESSION_EXPIRY_SAML_SECONDS = 60
+SESSION_EXPIRY_OIDC_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
 TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
-SessionExpiryScope = Literal["saml", "oidc", "2fa", "login", "authenticated"]
+SessionExpiryScope = Literal["oidc", "2fa", "login", "authenticated"]
 
 
 def create_api_token(user: User) -> Token:
@@ -239,17 +238,6 @@ def get_session_expiry_scope(
     is_login: bool,
 ) -> SessionExpiryScope:
     """Return the session expiry scope for current authentication state."""
-    saml_only = bool(request.session.get("saml_only", False))
-    if is_login:
-        next_url = request.POST.get("next", request.GET.get("next"))
-        if next_url == "/idp/login/process/":
-            saml_only = True
-            if request.session.get("saml_only") is not True:
-                request.session["saml_only"] = True
-
-    if saml_only:
-        return SESSION_EXPIRY_SCOPE_SAML
-
     if request.session.get("oidc_only", False):
         return SESSION_EXPIRY_SCOPE_OIDC
     if (
@@ -267,8 +255,8 @@ def get_session_expiry_scope(
 
 def get_session_expiry_age(scope: SessionExpiryScope) -> int:
     """Return session expiry age for a session scope."""
-    if scope in {SESSION_EXPIRY_SCOPE_SAML, SESSION_EXPIRY_SCOPE_OIDC}:
-        return SESSION_EXPIRY_SAML_SECONDS
+    if scope == SESSION_EXPIRY_SCOPE_OIDC:
+        return SESSION_EXPIRY_OIDC_SECONDS
     if scope == SESSION_EXPIRY_SCOPE_2FA:
         return settings.SESSION_COOKIE_AGE_2FA
     if scope == SESSION_EXPIRY_SCOPE_LOGIN:

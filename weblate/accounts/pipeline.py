@@ -279,9 +279,9 @@ def verify_open(
     **kwargs,
 ) -> None:
     """Check whether it is possible to create new user."""
-    # Ensure it's still same user (if sessions was kept as this is to avoid
-    # completing authentication under different user than initiated it, with
-    # new session, it will complete as new user)
+    # Keep ordinary provider callbacks bound to the local user who initiated
+    # them. social-auth-core separately enforces this for external partial
+    # resumes, but callbacks without a partial still need this application guard.
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get("social_auth_user")
     if strategy.request.session.session_key and current_user != init_user:
@@ -403,7 +403,8 @@ def ensure_valid(
             )
         return
 
-    # Add e-mail/register should stay on same user
+    # Preserve Weblate action ownership in addition to core's external-partial
+    # binding. This also covers non-partial registration and account workflows.
     current_user = user.pk if user and user.is_authenticated else None
 
     if current_user != registering_user:

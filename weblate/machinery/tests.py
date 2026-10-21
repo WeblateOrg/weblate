@@ -54,6 +54,7 @@ from weblate.machinery.base import (
     InternalMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
+    sanitize_machinery_error,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
@@ -835,6 +836,45 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
 
 class MachineTranslationErrorLoggingTest(SimpleTestCase):
+    def test_sanitize_machinery_error_keeps_status_and_provider_message(self) -> None:
+        message = (
+            "HTTPStatusError: Client error '429 Too Many Requests' for url "
+            "'https://admin:pass'word@example.com/api'endpoint?key=SECRET&de=admin%40example.com#token'"
+            ": Rate limit exceeded"
+        )
+        sanitized = sanitize_machinery_error(message)
+        self.assertIn("429 Too Many Requests", sanitized)
+        self.assertIn("Rate limit exceeded", sanitized)
+        self.assertIn("[redacted URL]", sanitized)
+        for secret in (
+            "pass'word",
+            "word@example.com",
+            "api'endpoint",
+            "SECRET",
+            "admin%40example.com",
+            "#token",
+        ):
+            self.assertNotIn(secret, sanitized)
+
+    def test_language_discovery_error_hides_request_url(self) -> None:
+        machine = YandexTranslation({"key": "SECRET"})
+        machine.__dict__["supported_languages"] = set()
+        response = make_error_response(
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=SECRET",
+            429,
+        )
+        with self.assertRaises(HTTPError) as raised:
+            response.raise_for_status()
+        machine.supported_languages_error = raised.exception
+        machine.supported_languages_error_age = float("inf")
+
+        with self.assertRaises(MachineTranslationError) as exposed:
+            machine.get_languages(Mock(code="en"), Mock(code="cs"))
+
+        self.assertIn("429 Too Many Requests", str(exposed.exception))
+        self.assertNotIn("SECRET", str(exposed.exception))
+        self.assertNotIn("key=", str(exposed.exception))
+
     def test_supplemental_log_output(self) -> None:
         for message, extra in (
             ("ValueError: Provider failed", None),
@@ -1362,6 +1402,8 @@ class MyMemoryTranslationTest(BaseMachineTranslationTest):
 
         self.assertIsInstance(raised.exception.__cause__, HTTPError)
         self.assertIn("403 Forbidden", str(raised.exception))
+        for secret in ("key=", "de=", "user=", "test%40weblate.org"):
+            self.assertNotIn(secret, str(raised.exception))
 
 
 class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
@@ -2029,6 +2071,28 @@ class YandexTranslationTest(BaseMachineTranslationTest):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 200, "lang": "en-cs", "text": ["svet"]},
         )
+
+    @http_mock.activate
+    def test_http_error_hides_key(self) -> None:
+        http_mock.register(
+            "GET",
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            json={"langs": {"en": "English", "cs": "Czech"}},
+        )
+        http_mock.register(
+            "GET",
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
+            status_code=429,
+            text="Rate limit exceeded.",
+        )
+
+        with self.assertRaises(MachineTranslationError) as raised:
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+        self.assertIn("429 Too Many Requests", str(raised.exception))
+        self.assertIn("Rate limit exceeded.", str(raised.exception))
+        self.assertNotIn("key=KEY", str(raised.exception))
+        self.assertNotIn("/tr.json/translate", str(raised.exception))
 
     @http_mock.activate
     def test_error_message(self) -> None:
@@ -10383,7 +10447,7 @@ class ViewsTest(FixtureTestCase):
         self.ensure_dummy_mt()
         unit = self.get_unit()
         project = unit.translation.component.project
-        error = ValueError("Provider failed")
+        error = ValueError("Provider failed with key=SECRET")
         self.async_client.force_login(self.user)
 
         with (
@@ -10403,11 +10467,73 @@ class ViewsTest(FixtureTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["responseStatus"], 500)
+        self.assertEqual(
+            response.json()["responseDetails"], "Service is currently not available."
+        )
+        self.assertNotIn("SECRET", response.content.decode())
         report_error.assert_called_once_with(
             "Machinery failed",
             project=project,
             exception=error,
         )
+
+    def test_translate_hides_error_request_url(self) -> None:
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        error = MachineTranslationError(
+            "HTTPStatusError: 429 Too Many Requests for url "
+            "'https://admin:pass'word@example.com/translate?key=SECRET'"
+        )
+
+        with (
+            patch.object(
+                DummyTranslation, "atranslate", new=AsyncMock(side_effect=error)
+            ),
+            patch.object(unit.translation.__class__, "log_info") as log_info,
+        ):
+            response = self.client.post(
+                reverse("js-translate", kwargs={"unit_id": unit.id, "service": "dummy"})
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 500)
+        self.assertIn("429 Too Many Requests", data["responseDetails"])
+        self.assertNotIn("SECRET", data["responseDetails"])
+        self.assertNotIn("key=", data["responseDetails"])
+        self.assertNotIn("word@example.com", data["responseDetails"])
+        log_info.assert_called_once()
+        self.assertNotIn("SECRET", str(log_info.call_args))
+        self.assertNotIn("word@example.com", str(log_info.call_args))
+
+    def test_memory_hides_error_request_url(self) -> None:
+        unit = self.get_unit()
+        MachineryInstallation.objects.get_or_create(
+            engine=WeblateMemory.get_identifier(),
+            project=None,
+            workspace=None,
+        )
+        error = MachineTranslationError(
+            "HTTPStatusError: 429 Too Many Requests for url "
+            "'https://example.com/search'path?key=SECRET'"
+        )
+
+        with (
+            patch.object(WeblateMemory, "search", side_effect=error),
+            patch.object(unit.translation.__class__, "log_info") as log_info,
+        ):
+            response = self.client.post(
+                reverse("js-memory", kwargs={"unit_id": unit.id}), {"q": "Hello"}
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 500)
+        self.assertIn("429 Too Many Requests", data["responseDetails"])
+        self.assertNotIn("SECRET", data["responseDetails"])
+        self.assertNotIn("key=", data["responseDetails"])
+        self.assertNotIn("path?key", data["responseDetails"])
+        log_info.assert_called_once()
+        self.assertNotIn("SECRET", str(log_info.call_args))
+        self.assertNotIn("path?key", str(log_info.call_args))
 
     def test_translate_escapes_html(self) -> None:
         self.ensure_dummy_mt()

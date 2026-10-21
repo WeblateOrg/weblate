@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-16 02:48+0000\n"
-"PO-Revision-Date: 2026-10-17 11:46+0000\n"
+"PO-Revision-Date: 2026-10-21 08:57+0000\n"
 "Last-Translator: Milo Ivir <milotype@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -3145,10 +3145,8 @@ msgid ""
 "has its own maximum score."
 msgstr ""
 
-#, fuzzy
-#| msgid "Examples"
 msgid "Example"
-msgstr "Primjeri"
+msgstr "Primjer"
 
 msgid ""
 "Apply local translation memory matches scoring at least 95 to strings still "
@@ -3163,19 +3161,17 @@ msgid ""
 "translation service."
 msgstr "Poboljšano automatsko prevođenje."
 
-#, fuzzy
-#| msgid "slug of component"
 msgid "Outputs"
-msgstr "URL identifikator komponente"
+msgstr "Rezultati"
 
 msgid "``component`` (integer)"
-msgstr ""
+msgstr "``component`` (cijeli broj)"
 
 msgid "ID of the component processed, not the optional source component."
-msgstr ""
+msgstr "ID obrađene komponente, a ne opcionalne izvorne komponente."
 
 msgid "``updated`` (integer)"
-msgstr ""
+msgstr "``updated`` (cijeli broj)"
 
 msgid ""
 "Number of translation updates or new suggestions reported across the "
@@ -3186,20 +3182,16 @@ msgid ""
 "error by itself."
 msgstr ""
 
-#, fuzzy
-#| msgid "target string"
 msgid "``message`` (string)"
-msgstr "izraz cilja"
+msgstr "``message`` (izraz)"
 
 msgid ""
 "Human-readable completion summary in English. Use ``updated`` for conditions "
 "instead of parsing this message."
 msgstr ""
 
-#, fuzzy
-#| msgid "Handling duplicate strings"
 msgid "``warnings`` (list of strings)"
-msgstr "Baratanje duplim izrazima"
+msgstr "``warnings`` (popis izraza)"
 
 msgid ""
 "Warnings reported by automatic translation, or an empty list when none were "
@@ -3209,7 +3201,7 @@ msgid ""
 msgstr ""
 
 msgid "``warnings_omitted`` (integer)"
-msgstr ""
+msgstr "``warnings_omitted`` (cijeli broj)"
 
 msgid ""
 "Number of warning messages omitted beyond the first 20. This does not count "
@@ -7151,12 +7143,8 @@ msgid ""
 "dictionary."
 msgstr ""
 
-#, fuzzy
-#| msgid "The datastore server hostname or IP address. Defaults to ``cache``."
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
-msgstr ""
-"Ime hosta ili IP adresa servera za spremanje podataka. Zadana vrijednost je "
-"``cache``."
+msgstr "Ime usluge OpenTelemetry. Standardno je ``weblate``."
 
 msgid ""
 "Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all "
@@ -32175,21 +32163,14 @@ msgstr ":doc:`/formats/csv` bolje obrađuje datoteke sa samo dva polja."
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/statistics/` instead; it allows "
-#| "access to ACL controlled projects as well."
 msgid ""
 "``GET /api/components/(string:project)/(string:component)/credits/`` and "
 "``GET /api/projects/(string:project)/credits/`` API endpoints for components "
 "and projects."
 msgstr ""
-"Umjesto toga koristi :http:get:`/api/components/(string:project)/"
-"(string:component)/statistics/` i :http:get:`/api/translations/"
-"(string:project)/(string:component) )/(string:language)/statistics/`; "
-"također omogućuje pristup ACL upravljanim projektima."
+"``GET /api/components/(string:project)/(string:component)/credits/`` and "
+"``GET /api/projects/(string:project)/credits/`` API krajnje točke za "
+"komponente projekte."
 
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
@@ -37276,11 +37257,11 @@ msgstr ""
 msgid "Requirements"
 msgstr "Zahtjevi sustava"
 
-#, fuzzy
-#| msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
 msgid ""
 "Weblate 2026.10 or newer with the :ref:`addon-weblate.cdn.kotlin` add-on."
-msgstr "Udaljena HTML preuzimanja za dodatak :ref:`addon-weblate.cdn.cdnjs`"
+msgstr ""
+"Weblate 2026.10 ili novija verzija s dodatkom :ref:`addon-"
+"weblate.cdn.kotlin`."
 
 msgid "Android Gradle Plugin 9.x."
 msgstr ""
@@ -45913,10 +45894,8 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Exported repository URL"
 msgid "External repository content"
-msgstr "URL izvezenog repozitorija"
+msgstr "Sadržaj eksternog repozitorija"
 
 msgid "Translation files, paths, branch names, commit metadata"
 msgstr ""
@@ -47187,24 +47166,17 @@ msgstr ""
 msgid "Repository post-remove"
 msgstr "dnevno, naknadno dodavanje u repozitoriju"
 
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Triggered just after a translation is removed."
-msgstr "Aktualizira LINGUAS datoteku kad se doda novi prijevod."
+msgstr "Pokreće se odmah nakon uklanjanja prijevoda."
 
 #, fuzzy
 #| msgid "repository post-update"
 msgid "Repository post-update"
 msgstr "naknadno aktualiziranje repozitorija"
 
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid "Triggered whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Aktualizira PO datoteke za izjednačavanje s POT datotekom pomoću msgmerge. "
-"Pokreće se svaki put, kad se nove promjene preuzmu iz izvornog repozitorija."
+"Pokreće se svaki put kada se nove promjene preuzmu iz izvornog repozitorija."
 
 #, fuzzy
 #| msgid "repository wide"
@@ -47543,10 +47515,8 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#, fuzzy
-#| msgid "API identifier"
 msgid "Identifier"
-msgstr "Identifikator API-ja"
+msgstr "Identifikator"
 
 msgid "Resource updated"
 msgstr "Resurs aktualiziran"
@@ -48049,10 +48019,8 @@ msgstr "Prati promjene izraza u repozitoriju."
 msgid "String updated in the upload"
 msgstr "Izraz aktualiziran u prijenos"
 
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Neuspjela obrada prenešene ZIP datoeke."
+msgstr "Tijekom obrade prenesene datoteke je jedan izraz promijenjen."
 
 msgid "String added in the upload"
 msgstr "Izraz dodan u prijenos"
@@ -49390,6 +49358,8 @@ msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
+"Korisničko ime autora (može se razlikovati od korisničkog imena, na primjer "
+"prilikom prihvaćanja prijedloga)"
 
 #, fuzzy
 #| msgid "SAP username"
@@ -56618,11 +56588,10 @@ msgid ""
 "upload the file second time with :guilabel:`Add as translation`."
 msgstr ""
 
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
-msgstr "Nijedan izraz nije uvezen iz prenesene datoteke."
+msgstr ""
+"Iz prenesene datoteke se koriste samo izvor, prijevod i ključ (kontekst)."
 
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on "

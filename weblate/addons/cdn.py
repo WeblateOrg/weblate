@@ -32,7 +32,6 @@ CDN_JS_FILENAME = "weblate.js"
 
 if TYPE_CHECKING:
     from weblate.addons.models import Addon
-    from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project, Translation
 
 
@@ -49,7 +48,6 @@ class CDNBaseAddon(BaseAddon):
         component: Component | None = None,
         category: Category | None = None,
         project: Project | None = None,
-        acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
         # Generate UUID for the CDN
@@ -59,7 +57,6 @@ class CDNBaseAddon(BaseAddon):
             component=component,
             category=category,
             project=project,
-            acting_user=acting_user,
             **kwargs,
         )
 

@@ -1,0 +1,45 @@
+#!/bin/bash
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -euo pipefail
+
+# These loopback-only, trust-authenticated services are disposable test fixtures.
+postgres_bin=/usr/lib/postgresql/18/bin
+postgres_data=/opt/oss-scanner/postgresql
+valkey_data=/opt/oss-scanner/valkey
+install -d -o postgres -g postgres -m 700 "$postgres_data"
+install -d -o valkey -g valkey "$valkey_data"
+if [ ! -f "$postgres_data/PG_VERSION" ]; then
+    runuser -u postgres -- "$postgres_bin/initdb" -D "$postgres_data" \
+        --auth-local=trust --auth-host=trust --encoding=UTF8 --locale=C.UTF-8
+fi
+if ! runuser -u postgres -- "$postgres_bin/pg_ctl" -D "$postgres_data" status > /dev/null; then
+    runuser -u postgres -- "$postgres_bin/pg_ctl" -D "$postgres_data" \
+        -l "$postgres_data/server.log" -o '-h 127.0.0.1 -p 5432 -k /opt/oss-scanner/postgresql' -w -t 60 start
+fi
+if ! valkey-cli -h 127.0.0.1 ping > /dev/null 2>&1; then
+    runuser -u valkey -- valkey-server --bind 127.0.0.1 --port 6379 \
+        --daemonize yes --dir "$valkey_data" --logfile "$valkey_data/server.log" \
+        --pidfile "$valkey_data/server.pid" --save '' --appendonly no
+fi
+for attempt in {1..60}; do
+    if valkey-cli -h 127.0.0.1 ping | grep -qx PONG; then
+        break
+    fi
+    if [ "$attempt" -eq 60 ]; then
+        echo 'Valkey did not become ready within 60 seconds.' >&2
+        exit 1
+    fi
+    sleep 1
+done
+
+export PGHOST=127.0.0.1 PGPORT=5432 PGUSER=postgres
+if ! psql -d postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname = 'weblate'" | grep -qx 1; then
+    createuser --createdb weblate
+fi
+psql -d postgres -v ON_ERROR_STOP=1 -c "ALTER ROLE weblate SET timezone = 'UTC'"
+if ! psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = 'weblate'" | grep -qx 1; then
+    createdb --owner=weblate weblate
+fi

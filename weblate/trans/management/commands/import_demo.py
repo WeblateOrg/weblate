@@ -13,6 +13,7 @@ from weblate.addons.discovery import DiscoveryAddon
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.trans.tasks import project_removal
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
@@ -47,7 +48,10 @@ class Command(BaseCommand):
         if user.is_anonymous:
             msg = "An anonymous user cannot import projects."
             raise CommandError(msg)
-        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+        with (
+            acting_user_context(user),
+            override_settings(CELERY_TASK_ALWAYS_EAGER=True),
+        ):
             if options["delete"]:
                 try:
                     project = Project.objects.get(slug="demo")
@@ -78,7 +82,6 @@ class Command(BaseCommand):
                 file_format="po",
                 license="GPL-3.0-or-later",
             )
-            component.acting_user = user
             component.save()
             while component.in_progress():
                 self.stdout.write(
@@ -116,7 +119,6 @@ class Command(BaseCommand):
                 file_format="aresource",
                 license="GPL-3.0-or-later",
             )
-            android.acting_user = user
             android.save()
 
             for i in range(options["additional"]):
@@ -131,5 +133,4 @@ class Command(BaseCommand):
                     file_format="po",
                     license="GPL-3.0-or-later",
                 )
-                additional.acting_user = user
                 additional.save()

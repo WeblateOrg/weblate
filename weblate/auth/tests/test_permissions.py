@@ -7,22 +7,36 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+from asgiref.sync import async_to_sync
 from django.test.utils import modify_settings, override_settings
+from django.urls import reverse
 from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from rest_framework.test import APIClient
 
 from weblate.auth.data import (
     GLOBAL_PERM_NAMES,
     PERMISSION_NAMES,
+    SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
     SELECTION_COMPONENT_LIST,
     SELECTION_MANUAL,
 )
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
-from weblate.trans.models import Comment, Component, ComponentList, Project
+from weblate.auth.permissions import check_permission
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import (
+    Change,
+    Comment,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.change_origin import acting_user_context
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -251,6 +265,153 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertFalse(self.admin.has_perm("unit.edit", self.component))
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
 
+    def test_project_edit_grants_restricted_component_administration(self) -> None:
+        role = Role.objects.create(name="Project settings only")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project settings administrators")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        unit = self.get_unit()
+        change = Change.objects.create(
+            component=self.component, action=ActionEvents.CHANGE, user=self.admin
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        self.assertNotIn(self.component.pk, self.user.component_permissions)
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(
+            Component.objects.filter_permission_scope(self.user, "component.edit")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.assertFalse(self.user.has_perm("unit.edit", unit))
+        self.assertFalse(self.user.has_perm("translation.download", unit.translation))
+        self.assertFalse(
+            Component.objects.filter_permission_scope(self.user, "translation.download")
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+
+        urls = (
+            reverse(
+                "api:component-detail",
+                kwargs={
+                    "project__slug": self.project.slug,
+                    "slug": self.component.slug,
+                },
+            ),
+            reverse("api:unit-detail", kwargs={"pk": unit.pk}),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        outsider = User.objects.create_user(
+            "restricted-outsider", "restricted-outsider@example.com"
+        )
+        self.assertFalse(outsider.can_access_component(self.component))
+        client = APIClient()
+        for user, expected_status in (
+            (self.user, 200),
+            (self.admin, 200),
+            (outsider, 404),
+        ):
+            client.force_authenticate(user)
+            for url in urls:
+                with self.subTest(user=user.username, url=url):
+                    self.assertEqual(client.get(url).status_code, expected_status)
+
+        self.client.force_login(self.user)
+        self.assertEqual(
+            self.client.get(self.component.get_absolute_url()).status_code, 200
+        )
+
+        self.user.groups.remove(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertFalse(
+            Component.objects.filter_access(self.user)
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertFalse(
+            Component.objects.filter_access(self.user)
+            .filter(pk=self.component.pk)
+            .exists()
+        )
+
+    def test_project_admin_restricted_actions_require_component_grants(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        translation = self.get_unit().translation
+        actions = ("unit.edit", "unit.review", "translation.download")
+        role = Role.objects.create(name="Restricted translation actions")
+        role.permissions.add(*Permission.objects.filter(codename__in=actions))
+        group = Group.objects.create(
+            name="Restricted translation editors", language_selection=SELECTION_ALL
+        )
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.admin.groups.add(group)
+        self.admin.clear_permissions_cache()
+
+        self.assertTrue(self.admin.can_access_component(self.component))
+        self.assertTrue(self.admin.has_perm("component.edit", self.component))
+        for component_grant in (False, True):
+            if component_grant:
+                group.components.add(self.component)
+                self.admin.clear_permissions_cache()
+            for permission in actions:
+                with self.subTest(
+                    component_grant=component_grant, permission=permission
+                ):
+                    self.assertTrue(
+                        check_permission(self.admin, permission, self.project)
+                    )
+                    self.assertEqual(
+                        bool(check_permission(self.admin, permission, translation)),
+                        component_grant,
+                    )
+                    self.assertEqual(
+                        Translation.objects.filter_permission_scope(
+                            self.admin, permission
+                        )
+                        .filter(pk=translation.pk)
+                        .exists(),
+                        component_grant,
+                    )
+
+    def test_async_restricted_access_prepares_profile(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        async def check_access(user: User) -> None:
+            await user.aprepare_permissions()
+            self.assertTrue(user.needs_component_restrictions_filter)
+            self.assertTrue(
+                await Component.objects.filter_access(user)
+                .filter(pk=self.component.pk)
+                .aexists()
+            )
+
+        for load_profile in (False, True):
+            with self.subTest(load_profile=load_profile):
+                users = User.objects.all()
+                if load_profile:
+                    users = users.select_related("profile")
+                user = users.get(pk=self.admin.pk)
+                # ruff: ignore[private-member-access]
+                self.assertEqual("profile" in user._state.fields_cache, load_profile)
+                async_to_sync(check_access)(user)
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_billing_component_permissions(self) -> None:
         self.assertTrue(
@@ -258,28 +419,37 @@ class PermissionsTest(FixtureComponentTestCase):
         )
         self.assertTrue(self.admin.has_perm("component.edit", self.component))
         self.assertNotIn(self.component.pk, self.admin.component_permissions)
-        self.assert_denied_reason(
-            self.admin.has_perm("billing:component.permissions", self.component),
-            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        self.assertTrue(
+            self.admin.has_perm("billing:component.permissions", self.component)
         )
         self.assertNotIn(self.component.pk, self.admin.component_permissions)
         self.component.restricted = True
-        self.assertFalse(self.admin.can_access_component(self.component))
+        self.assertTrue(self.admin.can_access_component(self.component))
         self.component.restricted = False
+
+        self.assertTrue(
+            self.admin.has_perm(
+                "billing:component.permissions", Component(project=self.project)
+            )
+        )
+        self.assert_denied_reason(
+            self.user.has_perm("billing:component.permissions", self.component),
+            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        )
 
         role = Role.objects.create(name="Restricted component editor")
         role.permissions.add(Permission.objects.get(codename="component.edit"))
         group = Group.objects.create(name="Restricted component editors")
         group.roles.add(role)
         group.components.add(self.component)
-        self.admin.groups.add(group)
-        self.admin.clear_permissions_cache()
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
 
         self.assertTrue(
-            self.admin.has_perm("billing:component.permissions", self.component)
+            self.user.has_perm("billing:component.permissions", self.component)
         )
         self.assert_denied_reason(
-            self.admin.has_perm("billing:component.permissions", Component()),
+            self.user.has_perm("billing:component.permissions", Component()),
             "Create the component and grant yourself explicit access before enabling restricted access.",
         )
 
@@ -310,7 +480,7 @@ class PermissionsTest(FixtureComponentTestCase):
         billing.plan.change_access_control = False
         billing.plan.save(update_fields=["change_access_control"])
         project.access_control = Project.ACCESS_PROTECTED
-        project.acting_user = self.admin
+        self.enterContext(acting_user_context(self.admin))
         project.save(update_fields=["access_control"])
         component = Component.objects.select_related("project").get(
             pk=self.component.pk
@@ -321,7 +491,7 @@ class PermissionsTest(FixtureComponentTestCase):
         )
 
         component.restricted = True
-        component.acting_user = self.admin
+        self.enterContext(acting_user_context(self.admin))
         component.save(update_fields=["restricted"])
         self.assertTrue(self.admin.has_perm("billing:component.permissions", component))
 
@@ -334,20 +504,20 @@ class PermissionsTest(FixtureComponentTestCase):
         group = Group.objects.create(name="Language limited component editors")
         group.roles.add(role)
         group.components.add(self.component)
-        self.admin.groups.add(group)
-        membership = TeamMembership.objects.get(user=self.admin, group=group)
+        self.user.groups.add(group)
+        membership = TeamMembership.objects.get(user=self.user, group=group)
         membership.limit_languages.add(self.component.source_language)
-        self.admin.clear_permissions_cache()
+        self.user.clear_permissions_cache()
 
-        self.assertTrue(self.admin.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
         self.assert_denied_reason(
-            self.admin.has_perm("billing:component.permissions", self.component),
+            self.user.has_perm("billing:component.permissions", self.component),
             "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
         )
 
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.assertFalse(self.admin.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
 
     def assert_denied_reason(
         self, result: bool | PermissionResult, reason: str

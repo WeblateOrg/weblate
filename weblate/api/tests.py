@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -98,8 +99,12 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.component_copy import (
+    auto_translate_component_copy,
     normalize_local_copy_branch,
     replace_component_checkout,
+)
+from weblate.trans.component_copy import (
+    seed_component_from_source as seed_component,
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import (
@@ -128,7 +133,7 @@ from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
 )
-from weblate.trans.tasks import auto_translate
+from weblate.trans.tasks import auto_translate, execute_repository_operation
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
     create_test_addon,
@@ -141,7 +146,13 @@ from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
     get_translation_text_max_length,
 )
-from weblate.utils.celery import get_task_metadata_key
+from weblate.utils.celery import (
+    TASK_METADATA_TTL,
+    get_task_metadata_key,
+    handle_task_failure,
+    handle_task_failure_result,
+)
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -152,9 +163,19 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.task_log import (
+    append_task_log,
+    append_task_logs,
+    get_visible_task_log,
+    make_task_log_entry,
+    record_repository_failure,
+    record_repository_progress,
+    record_task_failure,
+)
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
-from weblate.vcs.base import RepositoryError, RepositoryLock
+from weblate.vcs.base import RepositoryError, RepositoryInternalError, RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.workspaces.models import Workspace
 
@@ -5084,7 +5105,7 @@ class ProjectAPITest(APIBaseTest):
         self.component.save(update_fields=["restricted"])
         glossary = self.project.component_set.get(slug="glossary")
         glossary.restricted = True
-        glossary.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         glossary.save(update_fields=["restricted"])
         other_project = self.create_project(name="Other", slug="other")
         self.create_link_existing(
@@ -5920,6 +5941,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Component.objects.count(), 1)
 
+    @mock_dns("github.com")
     def test_create_component(self) -> None:
         self.do_request(
             "api:project-components",
@@ -6017,6 +6039,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(change.user, self.user)
 
+    @mock_dns("github.com")
     def test_create_component_category(self) -> None:
         category = self.component.project.category_set.create(
             name="Category", slug="category"
@@ -6106,13 +6129,15 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="c-3")
         self.assertEqual(component.repo, repo)
 
-    def test_create_component_does_not_autoshare_inaccessible_component(self) -> None:
+    def test_project_admin_creation_autoshares_restricted_component(self) -> None:
         repo = self.component.repo
         branch = self.component.branch
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         self.do_request(
             "api:project-components",
@@ -6120,8 +6145,8 @@ class ProjectAPITest(APIBaseTest):
             method="post",
             code=201,
             request={
-                "name": "Independent repository",
-                "slug": "independent-repository",
+                "name": "Shared repository",
+                "slug": "shared-repository",
                 "repo": repo,
                 "branch": branch,
                 "filemask": "po/*.po",
@@ -6130,9 +6155,9 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
-        component = Component.objects.get(slug="independent-repository")
-        self.assertEqual(component.repo, repo)
-        self.assertIsNone(component.linked_component_id)
+        component = Component.objects.get(slug="shared-repository")
+        self.assertEqual(component.repo, self.component.get_repo_link_url())
+        self.assertEqual(component.linked_component_id, self.component.pk)
 
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
@@ -6173,7 +6198,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(component.repo, repo)
         self.assertIsNone(component.linked_component_id)
 
-    def test_create_restricted_component_requires_privileged_access(self) -> None:
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_can_create_restricted_component(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.project.use_shared_tm = False
+        self.project.contribute_shared_tm = False
+        self.project.save(update_fields=["use_shared_tm", "contribute_shared_tm"])
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
@@ -6181,7 +6213,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
+            code=201,
             request={
                 "name": "Restricted component",
                 "slug": "restricted-component",
@@ -6193,8 +6225,68 @@ class ProjectAPITest(APIBaseTest):
                 "restricted": True,
             },
         )
-        self.assertFalse(Component.objects.filter(slug="restricted-component").exists())
+        self.assertTrue(Component.objects.get(slug="restricted-component").restricted)
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_cannot_create_restricted_component_without_billing(
+        self,
+    ) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        request = {
+            "name": "Restricted component",
+            "slug": "restricted-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+        for default_restricted in (False, True):
+            with (
+                self.subTest(default_restricted=default_restricted),
+                override_settings(DEFAULT_RESTRICTED_COMPONENT=default_restricted),
+            ):
+                response = self.do_request(
+                    "api:project-components",
+                    self.project_kwargs,
+                    method="post",
+                    code=400,
+                    request=(
+                        request
+                        if default_restricted
+                        else {**request, "restricted": True}
+                    ),
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "restricted")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "The billing plan does not allow private access control.",
+                )
+                self.assertFalse(
+                    Component.objects.filter(slug="restricted-component").exists()
+                )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_admin_can_remove_component_restriction(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=200,
+            request={"restricted": False},
+        )
+        self.component.refresh_from_db()
+        self.assertFalse(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     @override_settings(DEFAULT_RESTRICTED_COMPONENT=True)
     def test_create_component_can_override_restricted_default(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -6227,16 +6319,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
-            request=request,
-        )
-        self.assertFalse(Component.objects.filter(slug="default-restricted").exists())
-        self.do_request(
-            "api:project-components",
-            self.project_kwargs,
-            method="post",
             code=201,
-            superuser=True,
             request=request,
         )
         self.assertTrue(Component.objects.get(slug="default-restricted").restricted)
@@ -7782,6 +7865,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertFalse(component.inherit_enforced_checks)
         self.assertEqual(component.effective_enforced_checks, ["same"])
 
+    @mock_dns("github.com")
     def test_create_component_with_file_format_params(self) -> None:
         payload: dict[str, object] = {
             "name": "API project",
@@ -7856,6 +7940,7 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(component.file_format_params["po_line_wrap"], -1)
 
+    @mock_dns("github.com")
     def test_create_component_with_vcs_params(self) -> None:
         payload: dict[str, object] = {
             "name": "API project",
@@ -8729,7 +8814,7 @@ class ProjectAPITest(APIBaseTest):
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         self.user.clear_permissions_cache()
-        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.can_access_component(self.component))
 
         response = self.do_request(
             "api:project-backups",
@@ -9865,6 +9950,7 @@ class ComponentAPITest(APIBaseTest):
             "Component row should be locked before serializer validation runs",
         )
 
+    @mock_dns("github.com")
     def test_patch_rejects_github_app_repository_change(self) -> None:
         self.configure_github_app_component()
 
@@ -9957,7 +10043,7 @@ class ComponentAPITest(APIBaseTest):
         original_clean = Component.clean
 
         def record_clean(instance):
-            self.assertEqual(instance.acting_user, self.user)
+            self.assertEqual(get_acting_user(), self.user)
             return original_clean(instance)
 
         with patch.object(
@@ -10327,6 +10413,21 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_project_admin_can_delete_restricted_component(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertNotIn(self.component.pk, self.user.component_permissions)
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(Component.objects.filter(pk=self.component.pk).exists())
 
     def test_delete_component_memory_option_in_body(self) -> None:
         with patch("weblate.api.views.component_removal.delay") as mocked_removal:
@@ -10887,7 +10988,6 @@ class ComponentAPITest(APIBaseTest):
         seed_component_from_source.assert_called_once_with(
             duplicate,
             self.component,
-            author_name=self.user.get_author_name(),
             skip_push=True,
         )
 
@@ -10928,7 +11028,6 @@ class ComponentAPITest(APIBaseTest):
         seed_component_from_source.assert_called_once_with(
             duplicate,
             self.component,
-            author_name=self.user.get_author_name(),
             skip_push=True,
         )
 
@@ -10968,7 +11067,6 @@ class ComponentAPITest(APIBaseTest):
         seed_component_from_source.assert_called_once_with(
             duplicate,
             self.component,
-            author_name=self.user.get_author_name(),
             skip_push=True,
         )
 
@@ -12101,7 +12199,785 @@ class TasksAPITest(APIBaseTest):
 
     def tearDown(self) -> None:
         cache.delete(get_task_metadata_key(self.task_id))
+        cache.delete(f"task-log-{self.task_id}")
+        cache.delete(f"task-user-log-{self.task_id}")
         super().tearDown()
+
+    def test_retrieve_sanitizes_and_scopes_component_log(self) -> None:
+        hidden_component = self.create_acl()
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id},
+            3600,
+        )
+        cache.set(
+            f"task-log-{self.task_id}",
+            [
+                make_task_log_entry(self.component, "checking locale/cs.po at abc123"),
+                make_task_log_entry(hidden_component, "hidden file"),
+            ],
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self) -> bool:
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertIn("locale/cs.po at abc123", response.data["log"])
+        self.assertNotIn("hidden file", response.data["log"])
+
+    def test_component_task_log_filters_sensitive_details(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+        with patch("weblate.trans.models.component.current_task", task):
+            self.component.store_log(
+                self.component.full_slug,
+                "checking %s at internal.example.net in %s",
+                "locale/cs.po",
+                self.component.full_path,
+                sensitive=True,
+                public_message="Checking translation files.",
+            )
+        entries = cache.get(f"task-log-{self.task_id}")
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(entries[1]["component_id"], self.component.pk)
+        self.assertIn("internal.example.net", entries[1]["message"])
+        self.assertNotIn(self.component.full_path, entries[1]["message"])
+        with patch.object(self.user, "has_perm", return_value=False):
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("Checking translation files", log)
+        self.assertNotIn("internal.example.net", log)
+        with patch.object(self.user, "has_perm", return_value=True) as has_perm:
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        has_perm.assert_called_once_with("vcs.view", self.component)
+        self.assertIn("internal.example.net", log)
+        self.assertIn("locale/cs.po", log)
+
+    def test_error_output_is_sensitive_and_has_public_fallback(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+        with patch("weblate.trans.models.component.current_task", task):
+            translation.log_error("program output: %s", "private-service-account")
+            self.component.log_info("add-on failed: %s", RuntimeError("private-host"))
+        with patch.object(self.user, "has_perm", return_value=False):
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("An operation failed", log)
+        self.assertIn(f"{translation.full_slug}:", log)
+        self.assertNotIn("private-service-account", log)
+        self.assertNotIn("private-host", log)
+        with patch.object(self.user, "has_perm", return_value=True):
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("private-service-account", log)
+        self.assertIn("private-host", log)
+
+    def test_automatic_translation_failure_message_is_public_summary(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk, "task_kind": "automatic-translation"},
+            TASK_METADATA_TTL,
+        )
+        result = {
+            "message": "Automatic translation failed: private provider diagnostic",
+            "warnings": [],
+            "_warning_details": [],
+            "_automatic_translation_failed": True,
+        }
+        handle_task_failure_result(task_id=self.task_id, retval=result)
+        task = SimpleNamespace(
+            id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+        )
+        for allowed in (False, True):
+            with self.subTest(allowed=allowed):
+                with (
+                    patch("weblate.api.views.AsyncResult", return_value=task),
+                    patch.object(User, "has_perm", return_value=allowed),
+                ):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        code=200,
+                    )
+                self.assertEqual(
+                    response.data["result"],
+                    {
+                        "message": "Automatic translation failed. See the task log for details.",
+                        "warnings": [],
+                    },
+                )
+                self.assertEqual(
+                    "private provider diagnostic" in response.data["log"], allowed
+                )
+
+    def test_aggregate_automatic_translation_exception_is_initiator_only(self) -> None:
+        other = User.objects.create_user("other-task-reader")
+        error = RuntimeError(
+            "Provider failed at https://private.example/api: broken response"
+        )
+        for scope in ("category_id", "project_id", "workspace_id"):
+            with self.subTest(scope=scope):
+                cache.delete(get_task_metadata_key(self.task_id))
+                cache.delete(f"task-user-log-{self.task_id}")
+                with (
+                    patch(
+                        "weblate.trans.tasks.get_auto_translate_target",
+                        side_effect=error,
+                    ),
+                    patch("weblate.utils.errors.report_error"),
+                ):
+                    task = auto_translate.apply(
+                        kwargs={
+                            "user_id": self.user.pk,
+                            "mode": "translate",
+                            "q": "",
+                            "auto_source": "mt",
+                            "source_component_id": None,
+                            "engines": [],
+                            "threshold": 0,
+                            scope: str(self.project.pk)
+                            if scope == "workspace_id"
+                            else self.project.pk,
+                        },
+                        task_id=self.task_id,
+                        throw=False,
+                    )
+                with patch("weblate.api.views.AsyncResult", return_value=task):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        code=200,
+                    )
+                self.assertEqual(
+                    response.data["result"],
+                    "Task could not be completed. See the task log for details.",
+                )
+                self.assertIn("broken response", response.data["log"])
+                self.assertNotIn("private.example", response.data["log"])
+                self.assertEqual(get_visible_task_log(self.task_id, other), [])
+                self.client.force_authenticate(user=other)
+                with patch("weblate.api.views.AsyncResult", return_value=task):
+                    self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        authenticated=False,
+                        code=404,
+                    )
+                self.client.force_authenticate(user=None)
+
+    def test_aggregate_returned_failure_retains_user_diagnostic(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "user_id": self.user.pk,
+                "task_kind": "automatic-translation",
+            },
+            TASK_METADATA_TTL,
+        )
+        with patch("weblate.utils.task_log.cache.set", wraps=cache.set) as cache_set:
+            handle_task_failure_result(
+                task_id=self.task_id,
+                retval={
+                    "_automatic_translation_failed": True,
+                    "message": "Provider configuration failed.",
+                },
+            )
+        cache_set.assert_called_once()
+        self.assertEqual(cache_set.call_args.args[2], TASK_METADATA_TTL)
+        self.assertEqual(
+            get_visible_task_log(self.task_id, self.user),
+            ["Provider configuration failed."],
+        )
+
+    def test_user_diagnostics_do_not_bypass_missing_component_scope(self) -> None:
+        missing_id = self.component.pk + 100000
+        for scope in (
+            {"component_id": missing_id},
+            {"component_ids": [missing_id]},
+            {"translation_id": missing_id},
+            {},
+        ):
+            with self.subTest(scope=scope):
+                # The unscoped case deliberately has no initiating user.
+                metadata = {"task_kind": "automatic-translation", **scope}
+                if scope:
+                    metadata["user_id"] = self.user.pk
+                cache.set(
+                    get_task_metadata_key(self.task_id), metadata, TASK_METADATA_TTL
+                )
+                record_task_failure(self.task_id, RuntimeError("private detail"))
+                self.assertIsNone(cache.get(f"task-user-log-{self.task_id}"))
+                self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+
+    def test_returned_failure_preserves_details_only_in_sensitive_log(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            3600,
+        )
+        handle_task_failure_result(
+            task_id=self.task_id,
+            retval={
+                "result": False,
+                "completion_message": {
+                    "level": "error",
+                    "text": "Private backend detail.",
+                },
+            },
+        )
+        with patch.object(self.user, "has_perm", return_value=False):
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("Task could not be completed", log)
+        self.assertNotIn("Private backend detail", log)
+        with patch.object(self.user, "has_perm", return_value=True):
+            self.assertIn(
+                "Private backend detail",
+                "\n".join(get_visible_task_log(self.task_id, self.user)),
+            )
+
+    def test_sensitive_log_requires_access_to_repository_owner(self) -> None:
+        owner = self.create_acl()
+        self.component.linked_component = owner
+        append_task_log(
+            self.task_id,
+            make_task_log_entry(
+                self.component, "private-account failed", sensitive=True
+            ),
+        )
+        with patch.object(self.user, "has_perm", return_value=True):
+            self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+        self.user.is_superuser = True
+        self.assertIn(
+            "private-account failed",
+            "\n".join(get_visible_task_log(self.task_id, self.user)),
+        )
+
+    def test_sensitive_log_checks_captured_owner_permissions(self) -> None:
+        linked = self.create_link_existing()
+        append_task_log(
+            self.task_id,
+            make_task_log_entry(linked, "owner diagnostic", sensitive=True),
+        )
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=lambda _permission, obj: obj.pk == linked.pk,
+        ):
+            self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=lambda _permission, obj: obj.pk == self.component.pk,
+        ):
+            self.assertIn(
+                "owner diagnostic",
+                "\n".join(get_visible_task_log(self.task_id, self.user)),
+            )
+        with patch.object(self.user, "has_perm", return_value=False):
+            self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+        # Changing the link cannot give permission to read its former owner's data.
+        Component.objects.filter(pk=linked.pk).update(
+            linked_component=None, repo="local:"
+        )
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=lambda _permission, obj: obj.pk == linked.pk,
+        ):
+            self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+
+    def test_unverifiable_log_entries_are_omitted(self) -> None:
+        entry = make_task_log_entry(self.component, "visible progress")
+        missing = {**entry, "component_id": self.component.pk + 100000}
+        cache.set(
+            f"task-log-{self.task_id}",
+            [
+                "legacy",
+                (self.component.pk, "old tuple"),
+                {"message": "unknown"},
+                missing,
+                entry,
+            ],
+            3600,
+        )
+        self.assertEqual(
+            get_visible_task_log(self.task_id, self.user),
+            [f"{self.component.full_slug}: visible progress"],
+        )
+
+    def test_aggregate_failure_details_require_all_repository_permissions(self) -> None:
+        other = self.create_link_existing()
+        Component.objects.filter(pk=other.pk).update(
+            linked_component=None, repo="local:"
+        )
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_ids": [self.component.pk, other.pk]},
+            3600,
+        )
+        with patch("weblate.utils.errors.report_error") as report_error:
+            handle_task_failure(
+                task_id=self.task_id,
+                exception=RuntimeError("aggregate private diagnostic"),
+            )
+        report_error.assert_called_once()
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=lambda _permission, obj: obj.pk == self.component.pk,
+        ):
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn(f"{self.component.full_slug}: Task could not be completed", log)
+        self.assertIn(f"{other.full_slug}: Task could not be completed", log)
+        self.assertNotIn("aggregate private diagnostic", log)
+        with patch.object(self.user, "has_perm", return_value=True):
+            self.assertIn(
+                "aggregate private diagnostic",
+                "\n".join(get_visible_task_log(self.task_id, self.user)),
+            )
+
+    def test_linked_component_log_preserves_its_access_scope(self) -> None:
+        hidden_component = self.create_acl()
+        hidden_component.linked_component = self.component
+        hidden_component.translations_count = -1
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+
+        with patch("weblate.trans.models.component.current_task", task):
+            hidden_component.store_log(hidden_component.full_slug, "checking secret.po")
+
+        entries = cache.get(f"task-log-{self.task_id}")
+        self.assertEqual(entries[0]["component_id"], hidden_component.pk)
+        self.assertIn("secret.po", entries[0]["message"])
+        self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+
+    def test_copy_task_log_does_not_disclose_source_component(self) -> None:
+        source_component = self.create_acl()
+        self.assertFalse(self.user.can_access_component(source_component))
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch(
+                "weblate.trans.component_copy.replace_component_checkout",
+                return_value=False,
+            ),
+        ):
+            seed_component(self.component, source_component, skip_push=True)
+
+        log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("copying repository checkout", log)
+        self.assertNotIn(source_component.full_slug, log)
+
+    def test_copy_warning_details_require_source_access(self) -> None:
+        source = self.create_acl()
+        detail = f"Plural forms in {source.full_slug} do not match."
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+        for permission_error in (False, True):
+            with self.subTest(permission_error=permission_error):
+                cache.delete(f"task-log-{self.task_id}")
+                self.user.is_superuser = False
+                with (
+                    patch("weblate.trans.models.component.current_task", task),
+                    patch("weblate.trans.component_copy.BatchAutoTranslate") as batch,
+                ):
+                    batch.return_value.get_warnings.return_value = (
+                        [] if permission_error else [detail]
+                    )
+                    if permission_error:
+                        batch.return_value.perform.side_effect = PermissionDenied(
+                            detail
+                        )
+                    auto_translate_component_copy(self.component, source)
+
+                with patch.object(self.user, "has_perm", return_value=True):
+                    log = "\n".join(get_visible_task_log(self.task_id, self.user))
+                self.assertIn("warning", log)
+                self.assertNotIn(source.full_slug, log)
+                self.user.is_superuser = True
+                with patch.object(self.user, "has_perm", return_value=True):
+                    log = "\n".join(get_visible_task_log(self.task_id, self.user))
+                self.assertIn(detail, log)
+                with patch.object(self.user, "has_perm", return_value=False):
+                    log = "\n".join(get_visible_task_log(self.task_id, self.user))
+                self.assertNotIn(detail, log)
+
+    def test_linked_repository_operation_has_safe_summaries(self) -> None:
+        owner = self.create_acl()
+        other = self.create_link_existing()
+        Component.objects.filter(pk__in=[self.component.pk, other.pk]).update(
+            repo=owner.get_repo_link_url(), linked_component=owner
+        )
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_ids": [self.component.pk, other.pk]},
+            TASK_METADATA_TTL,
+        )
+        task = SimpleNamespace(
+            request=SimpleNamespace(id=self.task_id), update_state=MagicMock()
+        )
+
+        def operate(component, *_args, **_kwargs):
+            component.log_info("owner-only progress")
+            component.log_error("private backend detail")
+            return successful
+
+        for successful in (True, False):
+            with self.subTest(successful=successful):
+                cache.delete(f"task-log-{self.task_id}")
+                with (
+                    patch.object(User, "has_perm", return_value=True),
+                    patch.object(
+                        Component, "do_cleanup", autospec=True, side_effect=operate
+                    ),
+                    patch("weblate.trans.models.component.current_task", task),
+                ):
+                    result = execute_repository_operation(
+                        task, "cleanup", [owner.pk], self.user.pk, self.task_id
+                    )
+                self.assertEqual(result["result"], successful)
+                log = "\n".join(get_visible_task_log(self.task_id, self.user))
+                for source in (self.component, other):
+                    self.assertEqual(
+                        log.count(f"{source.full_slug}: Repository cleanup started."), 1
+                    )
+                    state = "completed" if successful else "failed"
+                    self.assertIn(
+                        f"{source.full_slug}: Repository cleanup {state}.", log
+                    )
+                self.assertNotIn(owner.full_slug, log)
+                self.assertNotIn("owner-only progress", log)
+                self.assertNotIn("private backend detail", log)
+
+    def test_direct_repository_operation_has_one_start_summary(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        with (
+            patch.object(User, "has_perm", return_value=True),
+            patch.object(Component, "do_cleanup", return_value=True),
+        ):
+            execute_repository_operation(
+                MagicMock(), "cleanup", [self.component.pk], self.user.pk, self.task_id
+            )
+        self.assertEqual(
+            get_visible_task_log(self.task_id, self.user),
+            [
+                f"{self.component.full_slug}: Repository cleanup started.",
+                f"{self.component.full_slug}: Repository cleanup completed.",
+            ],
+        )
+
+    def test_task_log_producers_batch_cache_updates(self) -> None:
+        other = self.create_link_existing()
+        sources = [self.component, other]
+        for producer in ("progress", "failure", "aggregate"):
+            with self.subTest(producer=producer):
+                initial = make_task_log_entry(self.component, "earlier progress")
+                cache.set(f"task-log-{self.task_id}", [initial], TASK_METADATA_TTL)
+                with (
+                    patch(
+                        "weblate.utils.task_log.cache.get", wraps=cache.get
+                    ) as cache_get,
+                    patch(
+                        "weblate.utils.task_log.cache.set", wraps=cache.set
+                    ) as cache_set,
+                    patch(
+                        "weblate.utils.task_log.get_task_components",
+                        return_value=sources,
+                    ),
+                ):
+                    if producer == "progress":
+                        record_repository_progress(
+                            self.task_id,
+                            self.component,
+                            "pull",
+                            "started",
+                            sources=sources,
+                        )
+                    elif producer == "failure":
+                        record_repository_failure(
+                            self.task_id, self.component, "pull", sources=sources
+                        )
+                    else:
+                        record_task_failure(
+                            self.task_id, RuntimeError("private detail")
+                        )
+                cache_get.assert_called_once_with(f"task-log-{self.task_id}", [])
+                cache_set.assert_called_once()
+                entries = cache_set.call_args.args[1]
+                self.assertEqual(entries[0], initial)
+                self.assertEqual(
+                    [entry["component_id"] for entry in entries[1:3]],
+                    [source.pk for source in sources],
+                )
+                self.assertEqual(len(entries), 4 if producer == "aggregate" else 3)
+                self.assertEqual(cache_set.call_args.args[2], TASK_METADATA_TTL)
+        with patch("weblate.utils.task_log.cache.get") as cache_get:
+            append_task_logs(self.task_id, [])
+        cache_get.assert_not_called()
+
+    def test_automatic_translation_warning_visibility(self) -> None:
+        source = self.create_acl()
+        private = f"Plural forms in {source} do not match the target translation."
+        public = "Plural forms in some source components do not match the target translation."
+        result = {
+            "message": "Automatic translation completed, no strings were updated.",
+            "warnings": ["Safe warning.", private, "Unverifiable warning."],
+            "_warning_details": [
+                {
+                    "message": "Safe warning.",
+                    "public_message": "Safe warning.",
+                    "component_ids": [],
+                },
+                {
+                    "message": private,
+                    "public_message": public,
+                    "component_ids": [source.pk],
+                },
+                {"message": "Unverifiable warning.", "component_ids": "invalid"},
+            ],
+        }
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk, "task_kind": "automatic-translation"},
+            TASK_METADATA_TTL,
+        )
+        task = SimpleNamespace(
+            id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+        )
+        for allowed in (False, True, False):
+            with self.subTest(allowed=allowed):
+                with patch("weblate.api.views.AsyncResult", return_value=task):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        superuser=allowed,
+                        code=200,
+                    )
+                visible = response.data["result"]
+                self.assertNotIn("_warning_details", visible)
+                self.assertEqual(visible["message"], result["message"])
+                self.assertEqual(
+                    visible["warnings"],
+                    [
+                        "Safe warning.",
+                        private if allowed else public,
+                        "Automatic translation reported a warning.",
+                    ],
+                )
+        source.delete()
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                superuser=True,
+                code=200,
+            )
+        self.assertEqual(response.data["result"]["warnings"][1], public)
+        self.assertEqual(result["warnings"][1], private)
+
+    def test_task_log_retention_matches_metadata(self) -> None:
+        entry = make_task_log_entry(self.component, "progress")
+        with patch("weblate.utils.task_log.cache.set", wraps=cache.set) as cache_set:
+            append_task_log(self.task_id, entry)
+        cache_set.assert_called_once_with(
+            f"task-log-{self.task_id}", [entry], TASK_METADATA_TTL
+        )
+
+    def test_retrieve_sanitizes_repository_completion_message(self) -> None:
+        repository_url = "git@internal.example.net:owner/repo.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id],
+                "task_kind": "repository-operation",
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = {
+                    "result": False,
+                    "completion_message": {
+                        "level": "error",
+                        "text": f"Could not reach {repository_url}",
+                    },
+                }
+                self.state = "SUCCESS"
+
+            def ready(self) -> bool:
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertNotIn("internal.example.net", str(response.data))
+        self.assertNotIn(
+            "internal.example.net",
+            " ".join(str(message) for message in get_messages(response.wsgi_request)),
+        )
+
+    def test_retrieve_sanitizes_single_object_task_exception(self) -> None:
+        repository_url = "git@internal.example.net:owner/repo.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=repository_url)
+        translation = self.component.translation_set.get(language_code="cs")
+        checkout_path = self.component.full_path
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = RuntimeError(
+                    f"Could not fetch {repository_url} in {checkout_path}"
+                )
+                self.state = "FAILURE"
+
+            def ready(self) -> bool:
+                return True
+
+        for metadata in (
+            {"component_id": self.component.pk},
+            {"translation_id": translation.pk},
+        ):
+            with self.subTest(metadata=metadata):
+                cache.set(get_task_metadata_key(self.task_id), metadata, 3600)
+                with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+                    response = self.do_request(
+                        "api:task-detail",
+                        kwargs={"pk": self.task_id},
+                        method="get",
+                        code=200,
+                    )
+
+                self.assertIn("Task could not be completed", response.data["result"])
+                self.assertNotIn("internal.example.net", response.data["result"])
+                self.assertNotIn(checkout_path, response.data["result"])
+
+    def test_retrieve_redacts_fork_account_in_exception(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = RepositoryInternalError(
+                    0,
+                    "repository_fork_not_found",
+                    params={
+                        "hostname": "git.internal",
+                        "username": "private-service-account",
+                    },
+                )
+                self.state = "FAILURE"
+
+            def ready(self) -> bool:
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertIn("Task could not be completed", response.data["result"])
+        self.assertNotIn("private-service-account", str(response.data))
+
+    def test_retrieve_sanitizes_linked_repository_task_output(self) -> None:
+        repository_owner = self.create_acl()
+        self.assertFalse(self.user.can_access_component(repository_owner))
+        repository_name = str(repository_owner)
+        repository_slug = repository_owner.full_slug
+        repository_url = "git@internal.example.net:owner/repo.git"
+        Component.objects.filter(pk=repository_owner.pk).update(repo=repository_url)
+        repository_owner.repo = repository_url
+        linked_repo = f"weblate://{repository_owner.full_slug}"
+        Component.objects.filter(pk=self.component.pk).update(
+            repo=linked_repo, linked_component=repository_owner
+        )
+        self.component.repo = linked_repo
+        self.component.linked_component = repository_owner
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            3600,
+        )
+
+        task = SimpleNamespace(request=SimpleNamespace(id=self.task_id))
+        with patch("weblate.trans.models.component.current_task", task):
+            self.component.store_log(
+                self.component.full_slug,
+                "fetch failed at %s (internal.example.net) for %s (%s)",
+                repository_url,
+                repository_name,
+                repository_slug,
+                sensitive=True,
+            )
+        record_repository_failure(self.task_id, repository_owner, "push")
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = {
+                    "result": False,
+                    "completion_message": {
+                        "level": "error",
+                        "text": (
+                            f"Could not push {repository_name} ({repository_slug}): "
+                            "Could not fork repository at internal.example.net "
+                            f"({repository_url})"
+                        ),
+                    },
+                }
+                self.state = "SUCCESS"
+
+            def ready(self) -> bool:
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertIn("Repository push failed", response.data["log"])
+        self.assertIn("could not be completed", str(response.data["result"]))
+        self.assertNotIn("internal.example.net", str(response.data))
+        self.assertNotIn(repository_name, str(response.data))
+        self.assertNotIn(repository_slug, str(response.data))
+        self.assertNotIn(
+            "internal.example.net",
+            " ".join(str(message) for message in get_messages(response.wsgi_request)),
+        )
 
     def test_retrieve_uses_cached_component_metadata(self) -> None:
         cache.set(
@@ -12848,7 +13724,7 @@ class MemoryAPITest(APIBaseTest):
 
         self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
 
-    def test_delete_preserves_hidden_restricted_scope_from_compacted_entry(
+    def test_project_admin_delete_includes_restricted_scope_from_compacted_entry(
         self,
     ) -> None:
         self.component.project.add_user(self.user, "Administration")
@@ -12883,7 +13759,7 @@ class MemoryAPITest(APIBaseTest):
             code=204,
         )
 
-        self.assertTrue(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
+        self.assertFalse(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
         self.assertFalse(MemoryScope.objects.filter(pk=visible_scope.pk).exists())
 
     def test_delete_workspace_scope_requires_source_project_permission(self) -> None:
@@ -15946,7 +16822,7 @@ class UnitAPITest(APIBaseTest):
         )
         component = unit.translation.component
         component.enforced_checks = ["same"]
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.save(update_fields=["enforced_checks"])
         for flags, expected_state in (
             ("ignore-same", STATE_TRANSLATED),
@@ -16376,7 +17252,7 @@ class UnitAPITest(APIBaseTest):
         # Enable reviews to test report comments
         project = unit.translation.component.project
         project.source_review = True
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
@@ -16436,7 +17312,7 @@ class UnitAPITest(APIBaseTest):
         # test user has permission to view project but not edit
         project = unit.translation.component.project
         project.access_control = Project.ACCESS_PROTECTED
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         project.save()
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
@@ -18699,7 +19575,7 @@ class AddonAPITest(APIBaseTest):
             code=404,
         )
 
-    def test_project_manager_cannot_access_restricted_component_addon(self) -> None:
+    def test_project_manager_can_access_restricted_component_addon(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
         component_addon = create_test_addon(
@@ -18716,12 +19592,15 @@ class AddonAPITest(APIBaseTest):
         self.user.clear_permissions_cache()
 
         response = self.do_request("api:addon-list", code=200)
-        self.assertEqual(response.data["count"], 1)
-        self.assertEqual(response.data["results"][0]["id"], project_addon.pk)
+        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(
+            {item["id"] for item in response.data["results"]},
+            {component_addon.pk, project_addon.pk},
+        )
         self.do_request(
             "api:addon-detail",
             kwargs={"pk": component_addon.pk},
-            code=404,
+            code=200,
         )
 
     def test_project_addons_enforce_two_factor_requirement(self) -> None:

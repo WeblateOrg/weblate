@@ -7,13 +7,16 @@ from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
 from unittest.mock import patch
 
+from django.db import connection
 from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
 from django.utils.timezone import get_current_timezone
 from pyparsing import ParserElement
 
 from weblate.auth.models import User
 from weblate.checks.models import Check
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
@@ -508,10 +511,63 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_language(self) -> None:
-        self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
+        language = Language.objects.get(code="cs")
+        for query in ("language:cs", "language:CS", 'language:"cs"', "language:=cs"):
+            with self.subTest(query=query):
+                self.assert_query(query, Q(translation__language_id__in=[language.pk]))
+        for query in (
+            "language:=CS",
+            "language:unknown-search-code",
+            'language:"Czech"',
+        ):
+            with self.subTest(query=query):
+                self.assert_query(query, Q(translation__language_id__in=[]))
+
+    def test_language_case_collisions(self) -> None:
+        # Fixture loading can leave the sequence behind the restored language IDs.
+        lower = Language.objects.get(code="cs")
+        upper = Language.objects.get(code="en")
+        Language.objects.filter(pk=lower.pk).update(code="qaa_search")
+        Language.objects.filter(pk=upper.pk).update(code="QAA_SEARCH")
+        self.assert_query_sql(
+            "language:qaa_search",
+            sql_contains=('"trans_translation"."language_id" IN',),
+            sql_not_contains=('"lang_language"',),
+            params_contains=(lower.pk, upper.pk),
+        )
+        self.assert_query(
+            "language:=qaa_search", Q(translation__language_id__in=[lower.pk])
+        )
+        self.assert_query(
+            "language:=QAA_SEARCH", Q(translation__language_id__in=[upper.pk])
+        )
+
+    def test_language_cached_parse_resolves_current_ids(self) -> None:
+        query = "language:qaa_search"
+        self.assert_query(query, Q(translation__language_id__in=[]))
+        language = Language.objects.get(code="cs")
+        Language.objects.filter(pk=language.pk).update(code="qaa_search")
+        self.assert_query(query, Q(translation__language_id__in=[language.pk]))
+        Language.objects.filter(pk=language.pk).update(code="qaa_search_renamed")
+        self.assert_query(query, Q(translation__language_id__in=[]))
+
+    def test_language_nonliteral_lookups(self) -> None:
         self.assert_query(
             'language:r".*"', Q(translation__language__code__trgm_regex=".*")
         )
+        with self.assertRaises(SearchQueryError):
+            parse_query('language:r"["')
+        for operator, lookup in (
+            (":<", "lt"),
+            (":<=", "lte"),
+            (":>", "gt"),
+            (":>=", "gte"),
+        ):
+            with self.subTest(operator=operator):
+                self.assert_query(
+                    f"language{operator}cs",
+                    Q(**{f"translation__language__code__{lookup}": "cs"}),
+                )
 
     def test_component(self) -> None:
         self.assert_query(
@@ -1062,6 +1118,62 @@ class SearchTest(ViewTestCase, SearchTestCase):
     def search_matches_unit(self, query: str, unit: Unit) -> bool:
         filters, annotations = parse_query(query, parser=self.parser)
         return Unit.objects.annotate(**annotations).filter(filters, pk=unit.pk).exists()
+
+    def test_language_boolean_filters(self) -> None:
+        unit = self.get_unit()
+        units = Unit.objects.filter(pk__in=(unit.pk, unit.source_unit.pk))
+        czech = Q(translation__language__code__iexact="cs")
+        english = Q(translation__language__code__iexact="en")
+        unknown = Q(translation__language__code__iexact="unknown-search-code")
+        for query, original in (
+            ("language:CS", czech),
+            ('language:"cs"', czech),
+            ("language:=cs", Q(translation__language__code__exact="cs")),
+            ("language:=CS", Q(translation__language__code__exact="CS")),
+            ("language:unknown-search-code", unknown),
+            ("NOT language:unknown-search-code", ~unknown),
+            ("NOT language:cs", ~czech),
+            ("language:cs OR language:en", czech | english),
+            ("language:cs AND language:en", czech & english),
+            ("language:cs AND NOT language:unknown-search-code", czech & ~unknown),
+            ("NOT (language:cs OR language:unknown-search-code)", ~(czech | unknown)),
+            (
+                "(language:unknown-search-code OR language:cs) AND NOT language:en",
+                (unknown | czech) & ~english,
+            ),
+            (f"language:unknown-search-code OR id:{unit.pk}", unknown | Q(pk=unit.pk)),
+            (f"language:unknown-search-code AND id:{unit.pk}", unknown & Q(pk=unit.pk)),
+        ):
+            with self.subTest(query=query):
+                self.assertEqual(
+                    list(
+                        units.search(query).order_by("pk").values_list("pk", flat=True)
+                    ),
+                    list(
+                        units.filter(original)
+                        .order_by("pk")
+                        .values_list("pk", flat=True)
+                    ),
+                )
+
+    def test_language_lookup_is_reused_for_search_operations(self) -> None:
+        unit = self.get_unit()
+        base = Unit.objects.filter(pk__in=(unit.pk, unit.source_unit.pk))
+        with self.assertNumQueries(1):
+            units = base.search("language:cs")
+        with CaptureQueriesContext(connection) as queries:
+            count = units.count()
+            words = units.aggregate(words=Sum("num_words"))["words"]
+            page = list(units.order_by("-priority", "position", "pk")[:22])
+        self.assertEqual(count, 1)
+        self.assertEqual(words, unit.num_words)
+        self.assertEqual([result.pk for result in page], [unit.pk])
+        self.assertEqual(len(queries), 3)
+        for query in queries:
+            self.assertNotIn('"lang_language"', query["sql"])
+            self.assertIn('"trans_translation"."language_id"', query["sql"])
+        with self.assertNumQueries(2):
+            parse_query("language:cs OR language:en")
 
     def test_related_search_preserves_matching_without_duplicates(self) -> None:
         unit = self.get_unit()

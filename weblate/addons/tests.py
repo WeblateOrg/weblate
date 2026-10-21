@@ -25,6 +25,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
 from unittest.mock import MagicMock, patch
+from urllib.parse import urlsplit
 
 import fedora_messaging.api
 import fedora_messaging.config
@@ -94,6 +95,7 @@ from weblate.trans.tests.utils import (
     get_test_actor,
 )
 from weblate.utils.celery import handle_task_failure
+from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -104,6 +106,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
@@ -402,14 +405,23 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
             patch.object(postconfigure_addon, "delay_on_commit") as delay,
         ):
             addon.post_configure()
-        delay.assert_called_once_with(addon.instance.pk, user_id=self.user.pk)
+        delay.assert_called_once_with(addon.instance.pk)
 
-        with patch.object(NoOpAddon, "post_configure_run", autospec=True) as run:
-            postconfigure_addon(addon.instance.pk, user_id=self.user.pk)
-        self.assertEqual(run.call_args.args[0].instance.acting_user, self.user)
+        actors = []
+        with (
+            acting_user_context(self.user),
+            patch.object(
+                NoOpAddon,
+                "post_configure_run",
+                side_effect=lambda: actors.append(get_acting_user()),
+            ),
+        ):
+            postconfigure_addon(addon.instance.pk)
+        self.assertEqual(actors, [self.user])
 
     def test_configuration_requires_actor(self) -> None:
         with (
+            acting_user_context(None),
             patch("weblate.trans.models.change.report_message") as report,
             self.assertRaisesRegex(
                 RuntimeWarning, "History entry created without a user"
@@ -419,8 +431,11 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         report.assert_called_once()
 
     def create_change_addon(self, **kwargs) -> Addon:
-        kwargs.setdefault("acting_user", self.user)
-        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+        actor = kwargs.pop("acting_user", self.user)
+        with (
+            acting_user_context(actor),
+            patch("weblate.addons.tasks.addon_change.delay_on_commit"),
+        ):
             addon = Addon.objects.create(name=NoOpAddon.name, **kwargs)
         Event.objects.create(addon=addon, event=AddonEvent.EVENT_CHANGE)
         return addon
@@ -520,7 +535,6 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(sitewide.count(), 0)
 
     def test_create_project_addon(self) -> None:
-        self.component.project.acting_user = self.component.acting_user
         addon = NoOpAddon.create(
             acting_user=get_test_actor(self), project=self.component.project
         )
@@ -4964,6 +4978,7 @@ msgstr ""
         _ = self.component.addons_cache
 
         with (
+            acting_user_context(get_test_actor(self)),
             patch.object(XgettextAddon, "run_process", return_value=""),
             patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
         ):
@@ -5581,7 +5596,7 @@ msgstr ""
                 # We need to deal with automated fixups
                 self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
         for addon in self.component.addon_set.all():
-            addon.acting_user = get_test_actor(self)
+            self.enterContext(acting_user_context(get_test_actor(self)))
             addon.delete()
         translation = self.component.translation_set.get(language_code="de")
         self.assertEqual(translation.check_flags, "")
@@ -6218,7 +6233,7 @@ class ViewTests(ViewTestCase):
         self.component.category = category
         self.component.save()
         addon_component = self.project.component_set.exclude(pk=self.component.pk).get()
-        addon_component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         addon_component.category = category
         addon_component.save()
         self.assert_language_consistency_confirmation(
@@ -10970,6 +10985,10 @@ class TasksTest(TestCase):
 
 
 class WebhookDeliveryTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.enterContext(mock_dns("example.com"))
+
     def test_transport_errors(self) -> None:
         storage = MagicMock()
         storage.configuration = {"webhook_url": "https://example.com/webhooks"}
@@ -11178,6 +11197,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
     def setUp(self) -> None:
         super().setUp()
         self.reset_addon_configuration()
+        self.enterContext(mock_dns(cast("str", urlsplit(self.WEBHOOK_URL).hostname)))
 
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
@@ -13086,9 +13106,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         form = FedoraMessagingAddonForm(
             self.user,
-            FedoraMessagingAddon(
-                FedoraMessagingAddon.create_object(acting_user=self.user)
-            ),
+            FedoraMessagingAddon(FedoraMessagingAddon.create_object()),
             data=configuration,
         )
 
@@ -13116,9 +13134,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         ):
             form = FedoraMessagingAddonForm(
                 self.user,
-                FedoraMessagingAddon(
-                    FedoraMessagingAddon.create_object(acting_user=self.user)
-                ),
+                FedoraMessagingAddon(FedoraMessagingAddon.create_object()),
                 data=configuration,
             )
 
@@ -13132,9 +13148,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_form_rejects_too_long_topic_prefix(self) -> None:
         form = FedoraMessagingAddonForm(
             self.user,
-            FedoraMessagingAddon(
-                FedoraMessagingAddon.create_object(acting_user=self.user)
-            ),
+            FedoraMessagingAddon(FedoraMessagingAddon.create_object()),
             data={
                 **self.addon_configuration,
                 "amqp_url": "amqp://localhost",
@@ -13152,9 +13166,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_form_rejects_non_ascii_topic_prefix(self) -> None:
         form = FedoraMessagingAddonForm(
             self.user,
-            FedoraMessagingAddon(
-                FedoraMessagingAddon.create_object(acting_user=self.user)
-            ),
+            FedoraMessagingAddon(FedoraMessagingAddon.create_object()),
             data={
                 **self.addon_configuration,
                 "amqp_url": "amqp://localhost",
@@ -13172,9 +13184,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_form_allows_max_length_topic_prefix(self) -> None:
         form = FedoraMessagingAddonForm(
             self.user,
-            FedoraMessagingAddon(
-                FedoraMessagingAddon.create_object(acting_user=self.user)
-            ),
+            FedoraMessagingAddon(FedoraMessagingAddon.create_object()),
             data={
                 **self.addon_configuration,
                 "amqp_url": "amqp://localhost",
@@ -13190,7 +13200,6 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_tls_credentials_are_masked_in_settings_fields(self) -> None:
         addon = FedoraMessagingAddon(
             FedoraMessagingAddon.create_object(
-                acting_user=self.user,
                 configuration={
                     **self.get_tls_configuration(),
                     "events": [str(ActionEvents.NEW)],

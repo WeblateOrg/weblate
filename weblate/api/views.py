@@ -15,7 +15,6 @@ from urllib.parse import unquote
 from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
-from django.core.cache import cache
 from django.core.exceptions import (
     PermissionDenied,
 )
@@ -216,6 +215,7 @@ from weblate.trans.views.reports import get_report_scope_values, render_report_d
 from weblate.utils.celery import (
     get_task_metadata,
     get_task_progress,
+    sanitize_task_result,
     store_task_metadata,
 )
 from weblate.utils.docs import get_doc_url
@@ -237,6 +237,7 @@ from weblate.utils.stats import (
     iter_prefetch_stats,
     prefetch_stats,
 )
+from weblate.utils.task_log import get_visible_task_log
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
@@ -772,7 +773,6 @@ class WeblateViewSet(DownloadViewSet):
             obj, repository_components
         )
 
-        obj.acting_user = user
         with (
             reserve_repository_operation(
                 [component.pk for component in repositories],
@@ -2684,7 +2684,6 @@ class ProjectViewSet(
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
-        obj.acting_user = request.user
 
         if not request.user.has_perm("project.edit", obj):
             self.permission_denied(request, "Can not create addon")
@@ -2761,16 +2760,11 @@ class ProjectViewSet(
                     billing = serializer.instance.workspace.billing
             serializer.instance.post_create(self.request.user, billing)
 
-    def perform_update(self, serializer) -> None:
-        serializer.instance.acting_user = self.request.user
-        super().perform_update(serializer)
-
     def update(self, request: Request, *args, **kwargs):
         """Edit a project by a PUT request."""
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not edit project")
-        instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
@@ -2778,7 +2772,6 @@ class ProjectViewSet(
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
-        instance.acting_user = request.user
         task = project_removal.delay(instance.pk, request.user.pk)
         store_task_metadata(task.id, user_id=request.user.id)
         return Response(
@@ -3167,7 +3160,6 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
-        instance.acting_user = request.user
         with instance.locked_for_update(
             queryset=self.get_queryset()
         ) as locked_instance:
@@ -3391,7 +3383,6 @@ class ComponentViewSet(
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
-        obj.acting_user = request.user
 
         if not request.user.has_perm("component.edit", obj):
             self.permission_denied(request, "Can not create addon")
@@ -3469,7 +3460,6 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
-        instance.acting_user = request.user
         component_removal.delay(
             instance.pk, request.user.pk, get_delete_memory_option(request)
         )
@@ -5276,7 +5266,6 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
             self.permission_denied(
                 self.request, "Can not manage categories in this project"
             )
-        serializer.instance.acting_user = self.request.user
         serializer.save()
 
     @extend_schema(
@@ -5701,15 +5690,17 @@ class TasksViewSet(ViewSet):
     )
     def retrieve(self, request: Request, pk=None):
         task, component, metadata = self.get_task(request, pk)
-        result = task.result
+        result = sanitize_task_result(task.id, task.result, cast("User", request.user))
         if task.ready():
-            store_task_completion_message(request, task)
+            store_task_completion_message(request, task, result=result)
         serializer = self.serializer_class(
             {
                 "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
-                "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
+                "log": "\n".join(
+                    get_visible_task_log(task.id, cast("User", request.user))
+                ),
                 "cancellable": metadata.get("cancellable", component is not None),
             }
         )
@@ -5819,28 +5810,12 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     def update(self, request: Request, *args, **kwargs):
         """Edit full information about add-on."""
         instance = self.get_object()
-        if instance.component:
-            instance.component.acting_user = request.user
-        if instance.project:
-            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
-
-    def perform_update(self, serializer) -> None:
-        serializer.instance.acting_user = self.request.user
-        super().perform_update(serializer)
-
-    def perform_destroy(self, instance: Addon) -> None:
-        instance.acting_user = self.request.user
-        super().perform_destroy(instance)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete add-on."""
         instance = self.get_object()
-        if instance.component:
-            instance.component.acting_user = request.user
-        if instance.project:
-            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
 

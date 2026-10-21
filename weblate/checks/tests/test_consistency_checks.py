@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from hashlib import md5
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -33,6 +34,7 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -264,6 +266,266 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         # No units should be now failing
         self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 
+    def test_reuse_respects_restricted_component_boundary(self) -> None:
+        check = ReusedCheck()
+        visible = self.add_unit(
+            self.translation_1, "visible", "Visible source", "Shared"
+        )
+        hidden = self.add_unit(self.translation_2, "hidden", "Hidden source", "Shared")
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.other.restricted = True
+        hidden.translation.component.restricted = True
+
+        self.assertFalse(check.check_target_unit([], [], visible))
+        self.assertTrue(check.check_target_unit([], [], hidden))
+        self.assertEqual(list(check.check_component(self.component)), [hidden])
+        self.assertNotIn(
+            "Hidden source", str(check.get_description(Check(unit=visible)))
+        )
+        self.assertIn("Visible source", str(check.get_description(Check(unit=hidden))))
+
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(visible, {"reused"})
+        self.assertFalse(Check.objects.filter(unit=visible, name="reused").exists())
+        self.assertTrue(Check.objects.filter(unit=hidden, name="reused").exists())
+
+        visible.run_checks()
+        self.client.logout()
+        response = self.client.get(
+            f"{visible.translation.get_translate_url()}?checksum={visible.checksum}"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Hidden source")
+        self.assertNotContains(response, "Reused translation")
+
+    def test_reuse_within_restricted_component(self) -> None:
+        check = ReusedCheck()
+        first = self.add_unit(self.translation_2, "one", "One", "Shared")
+        second = self.add_unit(self.translation_2, "two", "Two", "Shared")
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.other.restricted = True
+        first.translation.component.restricted = True
+        second.translation.component.restricted = True
+
+        self.assertTrue(check.check_target_unit([], [], first))
+        self.assertCountEqual(check.check_component(self.component), [first, second])
+
+    def test_reuse_does_not_compare_different_restricted_components(self) -> None:
+        check = ReusedCheck()
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        first = self.add_unit(self.translation_2, "one", "First secret", "Shared")
+        second = self.add_unit(third_translation, "two", "Second secret", "Shared")
+        Component.objects.filter(pk__in=[self.other.pk, third.pk]).update(
+            restricted=True
+        )
+        first.translation.component.restricted = True
+        second.translation.component.restricted = True
+
+        self.assertFalse(check.check_target_unit([], [], first))
+        self.assertFalse(check.check_target_unit([], [], second))
+        self.assertEqual(list(check.check_component(self.component)), [])
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(first, {"reused"})
+        self.assertFalse(
+            Check.objects.filter(unit__in=[first, second], name="reused").exists()
+        )
+
+    def test_restricting_component_removes_stale_visible_checks(self) -> None:
+        visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
+        self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
+        stale = Check.objects.bulk_create(
+            [
+                Check(unit=visible, name="reused"),
+                Check(unit=visible, name="inconsistent"),
+            ]
+        )
+
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with patch(
+            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+        ) as schedule:
+            self.other.save(update_fields=["restricted"])
+
+        self.assertFalse(
+            Check.objects.filter(pk__in=[check.pk for check in stale]).exists()
+        )
+        schedule.assert_called_once_with(
+            self.other.pk, [], ["inconsistent", "reused"], batch_mode=True
+        )
+
+    def test_restricting_component_removes_stale_restricted_checks(self) -> None:
+        visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
+        hidden = self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.other.restricted = True
+        stale, _ = Check.objects.get_or_create(unit=hidden, name="reused")
+
+        self.component.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
+            self.component.save(update_fields=["restricted"])
+
+        self.assertFalse(Check.objects.filter(pk=stale.pk).exists())
+        self.assertFalse(ReusedCheck().check_target_unit([], [], visible))
+
+    def test_restricting_component_preserves_unrelated_dismissal(self) -> None:
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        first = self.add_unit(self.translation_1, "first", "First", "Shared")
+        self.add_unit(third_translation, "second", "Second", "Shared")
+        dismissed, _ = Check.objects.update_or_create(
+            unit=first, name="reused", defaults={"dismissed": True}
+        )
+
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
+            self.other.save(update_fields=["restricted"])
+
+        dismissed.refresh_from_db()
+        self.assertTrue(dismissed.dismissed)
+
+    def test_restricting_component_queues_only_enabled_checks(self) -> None:
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with (
+            patch.dict(CHECKS.data, {"reused": CHECKS["reused"]}, clear=True),
+            patch(
+                "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+            ) as schedule,
+        ):
+            self.other.save(update_fields=["restricted"])
+        schedule.assert_called_once_with(self.other.pk, [], ["reused"], batch_mode=True)
+
+    def test_restricting_component_with_checks_disabled(self) -> None:
+        visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
+        self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
+        Check.objects.update_or_create(unit=visible, name="reused")
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with (
+            patch.dict(CHECKS.data, {}, clear=True),
+            patch(
+                "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+            ) as schedule,
+        ):
+            self.other.save(update_fields=["restricted"])
+        schedule.assert_not_called()
+        self.assertFalse(Check.objects.filter(unit=visible, name="reused").exists())
+
+    def test_project_move_cleans_both_projects(self) -> None:
+        target_project = self.create_project(name="Other", slug="other")
+        visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
+        hidden = self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
+        old_check, _ = Check.objects.get_or_create(unit=visible, name="reused")
+        moved_check, _ = Check.objects.get_or_create(unit=hidden, name="reused")
+
+        self.other.project = target_project
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with patch(
+            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+        ) as schedule:
+            self.other.save(update_fields=["project", "restricted"])
+
+        self.assertFalse(Check.objects.filter(pk=old_check.pk).exists())
+        self.assertFalse(Check.objects.filter(pk=moved_check.pk).exists())
+        self.assertCountEqual(
+            [call.args[0] for call in schedule.call_args_list],
+            [self.component.pk, self.other.pk],
+        )
+
+    def test_project_move_alone_cleans_old_project(self) -> None:
+        target_project = self.create_project(name="Other", slug="other")
+        visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
+        self.add_unit(self.translation_2, "hidden", "Hidden", "Shared")
+        stale, _ = Check.objects.get_or_create(unit=visible, name="reused")
+
+        self.other.project = target_project
+        self.enterContext(acting_user_context(self.user))
+        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
+            self.other.save(update_fields=["project"])
+
+        self.assertFalse(Check.objects.filter(pk=stale.pk).exists())
+
+    def test_restriction_cleanup_does_not_evaluate_checks_one_by_one(self) -> None:
+        for index in range(30):
+            visible = self.add_unit(
+                self.translation_1, f"visible-{index}", f"Visible {index}", "Shared"
+            )
+            self.add_unit(
+                self.translation_2, f"hidden-{index}", f"Hidden {index}", "Shared"
+            )
+            Check.objects.update_or_create(unit=visible, name="reused")
+        self.other.restricted = True
+        self.enterContext(acting_user_context(self.user))
+        with (
+            patch.object(ReusedCheck, "check_target_unit") as reused,
+            patch.object(ConsistencyCheck, "check_target_unit") as inconsistent,
+            patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"),
+        ):
+            self.other.save(update_fields=["restricted"])
+        reused.assert_not_called()
+        inconsistent.assert_not_called()
+
+    def test_dismissal_does_not_propagate_to_restricted_peer(self) -> None:
+        visible = self.add_unit(self.translation_1, "same", "Same", "First")
+        hidden = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.other.restricted = True
+        visible_check, _ = Check.objects.get_or_create(
+            unit=visible, name="inconsistent"
+        )
+        hidden_check, _ = Check.objects.get_or_create(unit=hidden, name="inconsistent")
+        Check.objects.filter(pk__in=[visible_check.pk, hidden_check.pk]).update(
+            dismissed=False
+        )
+
+        visible_check.set_dismiss()
+
+        hidden_check.refresh_from_db()
+        self.assertFalse(hidden_check.dismissed)
+
+    def test_reuse_limit_counts_visible_matches(self) -> None:
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        Component.objects.filter(pk__in=[self.other.pk, third.pk]).update(
+            restricted=True
+        )
+        self.other.restricted = True
+        third.restricted = True
+        targets = [f"Target {index}" for index in range(61)]
+        visible_target = max(
+            targets,
+            key=lambda value: md5(
+                value.lower().encode(), usedforsecurity=False
+            ).hexdigest(),
+        )
+        for target in targets:
+            self.add_unit(self.translation_2, f"one-{target}", f"One {target}", target)
+            self.add_unit(third_translation, f"two-{target}", f"Two {target}", target)
+        first = self.add_unit(
+            self.translation_1, "visible-one", "Visible one", visible_target
+        )
+        second = self.add_unit(
+            self.translation_1, "visible-two", "Visible two", visible_target
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            result = {unit.pk for unit in ReusedCheck().check_component(self.component)}
+        self.assertTrue({first.pk, second.pk} <= result)
+        self.assertEqual(
+            sum(
+                "LIMIT 20" in query["sql"] and "EXISTS(" in query["sql"]
+                for query in queries
+            ),
+            1,
+        )
+
     def test_reuse_updates_related_checks_after_commit(self) -> None:
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
         edited = self.add_unit(self.translation_1, "two", "Two", "")
@@ -494,7 +756,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
         first = self.add_unit(self.translation_1, "one", "One", "Shared")
         excluded = self.add_unit(self.translation_2, "two", "Two", "Shared")
         self.other.allow_translation_propagation = False
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save()
         Check.objects.filter(unit__in=[first, excluded], name="reused").delete()
         with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
@@ -503,7 +765,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             Check.objects.filter(unit__in=[first, excluded], name="reused").exists()
         )
         self.other.allow_translation_propagation = True
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save()
         self.translation_2.plural = self.component.source_translation.plural
         self.translation_2.save()
@@ -709,6 +971,89 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
 
         self.assertNotEqual(check.check_component(self.component), [])
 
+    def test_consistency_respects_restricted_component_boundary(self) -> None:
+        check = ConsistencyCheck()
+        visible = self.add_unit(self.translation_1, "same", "Same", "Visible")
+        hidden = self.add_unit(
+            self.translation_2, "same", "Same", "Secret", increment=False
+        )
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.other.restricted = True
+        hidden.translation.component.restricted = True
+
+        self.assertFalse(check.check_target_unit([], [], visible))
+        self.assertTrue(check.check_target_unit([], [], hidden))
+        self.assertEqual(list(check.check_component(self.component)), [hidden])
+
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(visible, {"inconsistent"})
+        self.assertFalse(
+            Check.objects.filter(unit=visible, name="inconsistent").exists()
+        )
+        self.assertTrue(Check.objects.filter(unit=hidden, name="inconsistent").exists())
+
+        visible.run_checks()
+        self.client.logout()
+        response = self.client.get(
+            f"{visible.translation.get_translate_url()}?checksum={visible.checksum}"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Inconsistent")
+
+    def test_consistency_separates_restricted_components(self) -> None:
+        check = ConsistencyCheck()
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        first = self.add_unit(self.translation_2, "same", "Same", "First")
+        second = self.add_unit(
+            third_translation, "same", "Same", "Second", increment=False
+        )
+        Component.objects.filter(pk__in=[self.other.pk, third.pk]).update(
+            restricted=True
+        )
+        first.translation.component.restricted = True
+        second.translation.component.restricted = True
+
+        self.assertFalse(check.check_target_unit([], [], first))
+        self.assertFalse(check.check_target_unit([], [], second))
+        self.assertEqual(list(check.check_component(self.component)), [])
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(first, {"inconsistent"})
+        self.assertFalse(
+            Check.objects.filter(unit__in=[first, second], name="inconsistent").exists()
+        )
+
+    def test_consistency_untranslated_unit_respects_restriction(self) -> None:
+        check = ConsistencyCheck()
+        visible = self.add_unit(self.translation_1, "same", "Same", "")
+        hidden = self.add_unit(
+            self.translation_2, "same", "Same", "Secret", increment=False
+        )
+        Unit.objects.filter(pk=visible.pk).update(state=STATE_EMPTY)
+        visible.state = STATE_EMPTY
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        hidden.translation.component.restricted = True
+
+        self.assertFalse(check.check_target_unit([], [], visible))
+        self.assertTrue(check.check_target_unit([], [], hidden))
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(visible, {"inconsistent"})
+        self.assertFalse(
+            Check.objects.filter(unit=visible, name="inconsistent").exists()
+        )
+        self.assertTrue(Check.objects.filter(unit=hidden, name="inconsistent").exists())
+
+    def test_consistency_keeps_visible_component_comparisons(self) -> None:
+        check = ConsistencyCheck()
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            third_translation, "same", "Same", "Second", increment=False
+        )
+        self.assertTrue(check.check_target_unit([], [], first))
+        self.assertCountEqual(check.check_component(self.component), [first, second])
+
     def test_consistency_empty_target(self) -> None:
         check = ConsistencyCheck()
 
@@ -764,7 +1109,35 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             expected_ids,
         )
 
-    def test_consistency_query_uses_min_max_targets(self) -> None:
+    def test_consistency_limit_counts_visible_matches(self) -> None:
+        third = self.create_link_existing(name="Third", slug="third")
+        third_translation = third.translation_set.get(language__code="cs")
+        Component.objects.filter(pk__in=[self.other.pk, third.pk]).update(
+            restricted=True
+        )
+        self.other.restricted = True
+        third.restricted = True
+        for index in range(101):
+            self.add_unit(self.translation_2, str(index), "Source", "First")
+            hidden = self.add_unit(
+                third_translation, str(index), "Source", "Second", increment=False
+            )
+        self.add_unit(self.translation_1, "100", "Source", "First", increment=False)
+
+        with CaptureQueriesContext(connection) as queries:
+            result = {
+                unit.pk for unit in ConsistencyCheck().check_component(self.component)
+            }
+        self.assertIn(hidden.pk, result)
+        self.assertEqual(
+            sum(
+                "LIMIT 100" in query["sql"] and "EXISTS(" in query["sql"]
+                for query in queries
+            ),
+            1,
+        )
+
+    def test_consistency_query_limits_visible_matches(self) -> None:
         check = ConsistencyCheck()
 
         self.add_unit(self.translation_1, "one", "One", "Jeden")
@@ -774,25 +1147,16 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             list(check.check_component(self.component))
 
         sql = "\n".join(query["sql"].upper() for query in queries)
-        self.assertNotIn("COUNT(DISTINCT", sql)
-        self.assertIn("MIN(", sql)
-        self.assertIn("MAX(", sql)
-
-        aggregate_sql = next(
-            query["sql"].upper() for query in queries if "MIN(" in query["sql"].upper()
-        )
-        self.assertNotIn('"TRANS_COMPONENT"', aggregate_sql)
-        self.assertNotIn('"TRANS_TRANSLATION"', aggregate_sql)
-        self.assertNotIn("COALESCE(", aggregate_sql)
-        self.assertNotIn("'BLOCKED'", aggregate_sql)
-        self.assertIn('"TRANS_UNIT"."TRANSLATION_ID" IN', aggregate_sql)
+        self.assertIn("EXISTS(", sql)
+        self.assertIn("LIMIT 100", sql)
+        self.assertIn("SELECT DISTINCT", sql)
 
         unit_sql = next(
             query["sql"].upper()
             for query in queries
             if '"TRANS_UNIT"."TRANSLATION_ID" IN' in query["sql"].upper()
             and '"TRANS_UNIT"."ID_HASH" IN' in query["sql"].upper()
-            and "MIN(" not in query["sql"].upper()
+            and "EXISTS(" not in query["sql"].upper()
         )
         self.assertNotIn('"TRANS_COMPONENT"', unit_sql)
         self.assertNotIn('"TRANS_TRANSLATION"', unit_sql)
@@ -800,7 +1164,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
     def test_consistency_skips_singleton_plurals(self) -> None:
         check = ConsistencyCheck()
         self.other.allow_translation_propagation = False
-        self.other.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.other.save(update_fields=["allow_translation_propagation"])
 
         with CaptureQueriesContext(connection) as queries:

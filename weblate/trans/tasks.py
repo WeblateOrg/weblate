@@ -78,14 +78,25 @@ from weblate.trans.repository_context import (
     repository_component_progress,
     suppress_repository_auto_push,
 )
-from weblate.utils.celery import app
-from weblate.utils.change_origin import change_origin_context, get_change_origin
+from weblate.utils.celery import app, store_task_metadata
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin_context,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
+from weblate.utils.task_log import (
+    get_task_components,
+    record_repository_failure,
+    record_repository_progress,
+    record_task_failure,
+)
 from weblate.vcs.base import RepositoryError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
@@ -113,7 +124,12 @@ def commit_retries_exhausted() -> bool:
 def schedule_deferred_commit(component: Component) -> None:
     followup = component.finish_commit_task()
     if followup:
-        with change_origin_context(followup.get("origin", get_change_origin())):
+        actor_id = followup.get("acting_user_id")
+        actor = User.objects.get(pk=actor_id) if actor_id is not None else None
+        with (
+            change_origin_context(followup.get("origin", get_change_origin())),
+            acting_user_context(actor),
+        ):
             component.queue_commit_pending(
                 followup["reason"],
                 user_id=followup["user_id"],
@@ -402,6 +418,7 @@ def perform_repository_operation(
             except Retry:
                 release_reservation = False
                 raise
+        record_task_failure(task_id, retry.error)
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext(
                 "Repository operation could not be completed because it remained locked."
@@ -416,7 +433,8 @@ def perform_repository_operation(
         FileNotFoundError,
         TranslateParseError,
         ValueError,
-    ):
+    ) as error:
+        record_task_failure(task_id, error)
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext("Repository operation could not be completed.")
         return {
@@ -424,6 +442,7 @@ def perform_repository_operation(
             "completion_message": {"level": "error", "text": message},
         }
     except PermissionDenied:
+        record_task_failure(task_id, "Repository access is no longer permitted.")
         with override(User.objects.get(pk=user_id).profile.language):
             message = gettext(
                 "Repository operation could not be completed because access is no longer permitted."
@@ -466,8 +485,17 @@ def execute_repository_operation(
     total = len(component_ids)
     permission = get_repository_operation_permission(operation)
     failure_messages = list(failure_messages or ())
+    display_components: dict[int, list[Component]] = {}
+    for source in get_task_components(task_id):
+        display_components.setdefault(source.effective_repo_component.pk, []).append(
+            source
+        )
 
-    with override(user.profile.language), inline_repository_followups():
+    with (
+        acting_user_context(user),
+        override(user.profile.language),
+        inline_repository_followups(),
+    ):
         for index in range(start_index, total):
             component_id = component_ids[index]
             completed = index + 1
@@ -483,13 +511,16 @@ def execute_repository_operation(
                         "skipping repository operation: repository link changed"
                     )
                     successful = False
+                    record_repository_failure(task_id, component, operation)
                     resume_followup = None
                     followup_previous_head = None
                 else:
                     if not user.has_perm(permission, component):
                         raise PermissionDenied
-                    component.acting_user = user
-                    component.log_info("running repository operation: %s", operation)
+                    sources = display_components.get(component.pk, [])
+                    record_repository_progress(
+                        task_id, component, operation, "started", sources=sources
+                    )
                     # Repository methods use request messages for actionable VCS
                     # failures. Give each operation fresh in-memory storage.
                     request = RepositoryOperationRequest(user)
@@ -532,10 +563,22 @@ def execute_repository_operation(
                         str(message) for message in get_messages(request)
                     ]
                     for method_message in method_messages:
-                        component.log_info("repository operation: %s", method_message)
+                        component.log_info(
+                            "repository operation: %s", method_message, sensitive=True
+                        )
                     if result is False:
                         successful = False
-                        failure_messages.extend(method_messages)
+                        record_repository_failure(
+                            task_id,
+                            component,
+                            operation,
+                            sources=sources,
+                        )
+                        failure_messages.append("Repository operation failed.")
+                    else:
+                        record_repository_progress(
+                            task_id, component, operation, "completed", sources=sources
+                        )
             task.update_state(
                 state="PROGRESS",
                 meta={"progress": 100 * completed // total if total else 100},
@@ -545,9 +588,7 @@ def execute_repository_operation(
             message = gettext("Repository operation completed.")
             level = "success"
         else:
-            message = "\n".join(dict.fromkeys(failure_messages)) or gettext(
-                "Repository operation completed with errors."
-            )
+            message = gettext("Repository operation completed with errors.")
             level = "error"
     return {
         "result": successful,
@@ -1092,11 +1133,8 @@ def component_after_save(
     seed_source_component_id: int | None = None,
     copy_seed_addons: bool = False,
     seed_author: str | None = None,
-    acting_user_id: int | None = None,
 ) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
-    if acting_user_id is not None:
-        component.acting_user = User.objects.get(pk=acting_user_id)
     component.after_save(
         changed_git=changed_git,
         changed_setup=changed_setup,
@@ -1118,13 +1156,9 @@ def component_after_save(
     retry_backoff=60,
 )
 @transaction.atomic
-def update_enforced_checks(
-    component: int | Component, *, user_id: int | None = None
-) -> None:
+def update_enforced_checks(component: int | Component) -> None:
     if isinstance(component, int):
         component = Component.objects.get(pk=component)
-    if user_id is not None:
-        component.acting_user = User.objects.get(pk=user_id)
     component.update_enforced_checks()
 
 
@@ -1151,38 +1185,38 @@ def _component_removal(
     *,
     delete_memory: bool = False,
 ) -> None:
-    memory_cleanup = None
-    if delete_memory:
-        cleanup_batch = batch
-        if cleanup_batch is None:
-            cleanup_batch = RemovalBatch()
-            _collect_linked_removal_targets([component.pk], cleanup_batch)
-        memory_cleanup = collect_component_memory_cleanup(cleanup_batch)
-        # Remove attributed scopes while their component foreign keys exist.
-        delete_collected_component_memory(memory_cleanup)
-    if batch is not None:
-        component.removal_batch = batch
-    with component.repository.lock:
-        component.acting_user = user
-        component.project.change_set.create(
-            action=ActionEvents.REMOVE_COMPONENT,
-            target=component.slug,
-            user=user,
-            author=user,
-        )
-        component.delete()
-        if component.allow_translation_propagation:
-            components = component.project.component_set.filter(
-                allow_translation_propagation=True
-            ).exclude(pk=component.pk)
-            if batch is not None:
-                components = components.exclude(pk__in=batch.removed_component_ids)
-            for current in components.iterator():
-                current.schedule_update_checks()
-    if memory_cleanup is not None:
-        # Catch memory writes which raced with the initial cleanup. Current
-        # writers normalize origins to the component's current full slug.
-        delete_collected_component_memory(memory_cleanup)
+    with acting_user_context(user):
+        memory_cleanup = None
+        if delete_memory:
+            cleanup_batch = batch
+            if cleanup_batch is None:
+                cleanup_batch = RemovalBatch()
+                _collect_linked_removal_targets([component.pk], cleanup_batch)
+            memory_cleanup = collect_component_memory_cleanup(cleanup_batch)
+            # Remove attributed scopes while their component foreign keys exist.
+            delete_collected_component_memory(memory_cleanup)
+        if batch is not None:
+            component.removal_batch = batch
+        with component.repository.lock:
+            component.project.change_set.create(
+                action=ActionEvents.REMOVE_COMPONENT,
+                target=component.slug,
+                user=user,
+                author=user,
+            )
+            component.delete()
+            if component.allow_translation_propagation:
+                components = component.project.component_set.filter(
+                    allow_translation_propagation=True
+                ).exclude(pk=component.pk)
+                if batch is not None:
+                    components = components.exclude(pk__in=batch.removed_component_ids)
+                for current in components.iterator():
+                    current.schedule_update_checks()
+        if memory_cleanup is not None:
+            # Catch memory writes which raced with the initial cleanup. Current
+            # writers normalize origins to the component's current full slug.
+            delete_collected_component_memory(memory_cleanup)
 
 
 @dataclass(frozen=True)
@@ -1495,6 +1529,14 @@ def auto_translate(
     activity_log_task_count: int | None = None,
     enforce_permissions: bool = True,
 ) -> dict[str, Any]:
+    if current_task and current_task.request.id:
+        store_task_metadata(
+            str(current_task.request.id),
+            user_id=user_id,
+            component_id=component_id,
+            translation_id=translation_id,
+            task_kind="automatic-translation",
+        )
     result: dict[str, Any] = {"warnings": []}
     if user_id is None:
         # Older queued add-on jobs did not carry an actor for MT operations.
@@ -1549,14 +1591,28 @@ def auto_translate(
                 ),
             )
         except PermissionDenied as error:
-            result.update({"message": str(error), "warnings": auto.get_warnings()})
+            result.update(
+                {
+                    "message": str(error),
+                    "_automatic_translation_failed": True,
+                    "warnings": auto.get_warnings(),
+                    "_warning_details": auto.get_warning_details(),
+                }
+            )
             return store_auto_translate_activity_log(
                 activity_log_id,
                 result,
                 status=AddonActivityLogStatus.ERROR,
                 task_count=activity_log_task_count,
             )
-        result.update({"message": message, "warnings": auto.get_warnings()})
+        result.update(
+            {
+                "message": message,
+                "_automatic_translation_failed": bool(auto.failure_message),
+                "warnings": auto.get_warnings(),
+                "_warning_details": auto.get_warning_details(),
+            }
+        )
         return store_auto_translate_activity_log(
             activity_log_id,
             result,
@@ -1612,57 +1668,47 @@ def create_component(
     user_id: int | None = None,
     **kwargs,
 ):
-    if user_id is None:
-        if not in_task:
-            msg = "Component creation requires an acting user"
-            raise ValueError(msg)
-        # Jobs queued before actor propagation were all discovery add-on jobs.
-        from weblate.addons.discovery import DiscoveryAddon  # ruff: ignore[import-outside-top-level]
-
-        user = User.objects.get_or_create_bot(
-            scope="addon",
-            name=DiscoveryAddon.user_name,
-            verbose=DiscoveryAddon.user_verbose,
-        )
-    else:
-        user = User.objects.get(pk=user_id)
-    explicit_fields = set(kwargs)
-    kwargs["project"] = Project.objects.get(pk=kwargs["project"])
-    kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
-    if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
-        kwargs["secondary_language"] = Language.objects.get(
-            pk=kwargs["secondary_language"]
-        )
-    apply_create_inheritance_defaults(kwargs, explicit_fields)
-    component = Component(**kwargs)
-    component.acting_user = user
-    # Perform validation to avoid creating duplicate components via background
-    # tasks in discovery
-    component.full_clean()
-    component.save(force_insert=True)
-    component.change_set.create(
-        action=ActionEvents.CREATE_COMPONENT,
-        user=component.acting_user,
-        author=component.acting_user,
-    )
-    if copy_from:
-        source_component = Component.objects.filter(pk=copy_from).first()
-        # Copy non-automatic component lists
-        for clist in ComponentList.objects.filter(
-            components__id=copy_from, autocomponentlist__isnull=True
-        ):
-            clist.components.add(component)
-        # Copy add-ons
-        if copy_addons and source_component is not None:
-            copy_component_addons(
-                component,
-                source_component,
-                same_project_only=False,
-                acting_user=user,
+    user = User.objects.get(pk=user_id) if user_id is not None else get_acting_user()
+    if user is None:
+        msg = "Component creation requires an acting user"
+        raise ValueError(msg)
+    with acting_user_context(user):
+        explicit_fields = set(kwargs)
+        kwargs["project"] = Project.objects.get(pk=kwargs["project"])
+        kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
+        if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
+            kwargs["secondary_language"] = Language.objects.get(
+                pk=kwargs["secondary_language"]
             )
-    if in_task:
-        return {"component": component.id}
-    return component
+        apply_create_inheritance_defaults(kwargs, explicit_fields)
+        component = Component(**kwargs)
+        # Perform validation to avoid creating duplicate components via background
+        # tasks in discovery
+        component.full_clean()
+        component.save(force_insert=True)
+        component.change_set.create(
+            action=ActionEvents.CREATE_COMPONENT,
+            user=get_acting_user(),
+            author=get_acting_user(),
+        )
+        if copy_from:
+            source_component = Component.objects.filter(pk=copy_from).first()
+            # Copy non-automatic component lists
+            for clist in ComponentList.objects.filter(
+                components__id=copy_from, autocomponentlist__isnull=True
+            ):
+                clist.components.add(component)
+            # Copy add-ons
+            if copy_addons and source_component is not None:
+                copy_component_addons(
+                    component,
+                    source_component,
+                    same_project_only=False,
+                    acting_user=user,
+                )
+        if in_task:
+            return {"component": component.id}
+        return component
 
 
 @app.task(trail=False)

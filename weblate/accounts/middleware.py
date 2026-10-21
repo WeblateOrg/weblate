@@ -18,6 +18,7 @@ from django_otp.middleware import OTPMiddleware
 from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
+from weblate.utils.change_origin import acting_user_context, set_acting_user
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -58,17 +59,21 @@ class AuthenticationMiddleware(OTPMiddleware):
         if self._is_async:
             return self.__acall__(request)
 
-        user = self.prepare_request(request)
-        response = self.get_response(request)
-        return self.finalize_response(request, response, user)
+        with acting_user_context(None):
+            user = self.prepare_request(request)
+            response = self.get_response(request)
+            return self.finalize_response(request, response, user)
 
     async def __acall__(self, request: AuthenticatedHttpRequest):  # ruff: ignore[bad-dunder-method-name]
         # Sentry invokes this entry point directly, bypassing __call__.
-        user = await sync_to_async(self.prepare_request, thread_sensitive=True)(request)
-        response = await self.get_response(request)
-        return await sync_to_async(self.finalize_response, thread_sensitive=True)(
-            request, response, user
-        )
+        with acting_user_context(None):
+            user = await sync_to_async(self.prepare_request, thread_sensitive=True)(
+                request
+            )
+            response = await self.get_response(request)
+            return await sync_to_async(self.finalize_response, thread_sensitive=True)(
+                request, response, user
+            )
 
     def prepare_request(self, request: AuthenticatedHttpRequest):
         # ruff: ignore[import-outside-top-level]
@@ -77,6 +82,7 @@ class AuthenticationMiddleware(OTPMiddleware):
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
+        set_acting_user(user)
         request.auser = partial(aget_user, request)
         self._verify_user_sync(request, user)
 

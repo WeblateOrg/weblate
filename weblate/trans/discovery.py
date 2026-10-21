@@ -28,6 +28,7 @@ from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.errors import report_error
 from weblate.utils.files import (
     is_managed_vcs_metadata_path,
@@ -1170,26 +1171,26 @@ class ComponentDiscovery:
         return create_component(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
-        deleted = []
-        for component in main.linked_children.exclude(pk__in=processed):
-            if component.has_template():
-                # Valid template?
-                if os.path.exists(component.get_template_filename()):
+        with acting_user_context(self.user):
+            deleted = []
+            for component in main.linked_children.exclude(pk__in=processed):
+                if component.has_template():
+                    # Valid template?
+                    if os.path.exists(component.get_template_filename()):
+                        continue
+                elif component.new_base:
+                    # Valid new base?
+                    if os.path.exists(component.get_new_base_filename()):
+                        continue
+                elif component.get_mask_matches():
                     continue
-            elif component.new_base:
-                # Valid new base?
-                if os.path.exists(component.get_new_base_filename()):
-                    continue
-            elif component.get_mask_matches():
-                continue
 
-            # Delete as needed files seem to be missing
-            deleted.append((None, component))
-            if not preview:
-                component.acting_user = self.user
-                component.delete()
+                # Delete as needed files seem to be missing
+                deleted.append((None, component))
+                if not preview:
+                    component.delete()
 
-        return deleted
+            return deleted
 
     def get_skip_reason(self, match):
         component = self._require_component()
@@ -1214,67 +1215,71 @@ class ComponentDiscovery:
         return None
 
     def perform(self, preview=False, remove=False, background=False):
-        main = self._require_component()
-        if not preview:
-            if self.user is None:
+        with acting_user_context(self.user):
+            main = self._require_component()
+            if not preview and self.user is None:
                 msg = "Component discovery requires an acting user"
                 raise ValueError(msg)
-            main.acting_user = self.user
-        created: list[tuple[DiscoveryMatch, Component | None]] = []
-        matched: list[tuple[DiscoveryMatch, Component]] = []
-        deleted: list[tuple[None, Component]] = []
-        skipped: list[tuple[DiscoveryMatch, str]] = []
-        processed: set[int] = set()
+            created: list[tuple[DiscoveryMatch, Component | None]] = []
+            matched: list[tuple[DiscoveryMatch, Component]] = []
+            deleted: list[tuple[None, Component]] = []
+            skipped: list[tuple[DiscoveryMatch, str]] = []
+            processed: set[int] = set()
 
-        discovered = self.matched_components
-        if self.limit_exceeded:
-            return created, matched, deleted, skipped
+            discovered = self.matched_components
+            if self.limit_exceeded:
+                return created, matched, deleted, skipped
 
-        category_components = main.project.component_set.filter(category=main.category)
-        existing_children: dict[str, Component] = {
-            component.filemask: component for component in main.linked_children.all()
-        }
-        existing_slugs: set[str] = {
-            slug.lower() for slug in category_components.values_list("slug", flat=True)
-        }
-        existing_names: set[str] = {
-            name.lower() for name in category_components.values_list("name", flat=True)
-        }
+            category_components = main.project.component_set.filter(
+                category=main.category
+            )
+            existing_children: dict[str, Component] = {
+                component.filemask: component
+                for component in main.linked_children.all()
+            }
+            existing_slugs: set[str] = {
+                slug.lower()
+                for slug in category_components.values_list("slug", flat=True)
+            }
+            existing_names: set[str] = {
+                name.lower()
+                for name in category_components.values_list("name", flat=True)
+            }
 
-        for match in discovered.values():
-            # Skip invalid matches
-            reason = self.get_skip_reason(match)
-            if reason is not None:
-                skipped.append((match, reason))
-                continue
+            for match in discovered.values():
+                # Skip invalid matches
+                reason = self.get_skip_reason(match)
+                if reason is not None:
+                    skipped.append((match, reason))
+                    continue
 
-            try:
-                found = existing_children[match["mask"]]
-            except KeyError:
-                # Create new component
                 try:
-                    component = self.create_component(
-                        main,
-                        match,
-                        background=background,
-                        preview=preview,
-                        existing_slugs=existing_slugs,
-                        existing_names=existing_names,
-                    )
-                except ValidationError as error:
-                    skipped.append((match, str(error)))
+                    found = existing_children[match["mask"]]
+                except KeyError:
+                    # Create new component
+                    try:
+                        component = self.create_component(
+                            main,
+                            match,
+                            background=background,
+                            preview=preview,
+                            existing_slugs=existing_slugs,
+                            existing_names=existing_names,
+                        )
+                    except ValidationError as error:
+                        skipped.append((match, str(error)))
+                    else:
+                        # Correctly created
+                        if component is not None and component.id:
+                            processed.add(component.id)
+                        created.append((match, component))
+                        existing_children[match["mask"]] = component
                 else:
-                    # Correctly created
-                    if component is not None and component.id:
-                        processed.add(component.id)
-                    created.append((match, component))
-                    existing_children[match["mask"]] = component
-            else:
-                # Component already exists
-                matched.append((match, found))
-                processed.add(found.id)
+                    # Component already exists
+                    matched.append((match, found))
+                    processed.add(found.id)
 
-        if remove:
-            deleted = self.cleanup(main, processed, preview)
+            if remove:
+                deleted = self.cleanup(main, processed, preview)
 
-        return created, matched, deleted, skipped
+            return created, matched, deleted, skipped

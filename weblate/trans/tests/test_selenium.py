@@ -94,6 +94,7 @@ from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     TempDirMixin,
+    clear_users_cache,
     create_another_user,
     create_test_billing,
     create_test_user,
@@ -103,6 +104,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.trans.views.about import FALLBACK_STATS, DonateView
 from weblate.trans.widgets import WIDGETS
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
@@ -494,6 +496,9 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
+        # TransactionTestCase replaces users between tests; cached prototypes
+        # must refer to the current database before the live server handles requests.
+        clear_users_cache()
         self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
         self.driver.execute_cdp_cmd(
             "Storage.clearDataForOrigin",
@@ -3737,7 +3742,7 @@ class SeleniumTests(
             template="app/src/main/res/values/strings.xml",
             file_format="aresource",
         )
-        component.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
         component.save()
         self.clear_project_stats_cache(project)
         return component
@@ -5006,7 +5011,7 @@ class SeleniumTests(
             "Translations are contributed under the project license."
         )
         language_names.inherit_agreement = False
-        language_names.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
         language_names.save(update_fields=["agreement", "inherit_agreement"])
         user = self.do_login(superuser=True)
 
@@ -5316,7 +5321,7 @@ class SeleniumTests(
             project = Project.objects.get(name="WeblateOrg")
             self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
             project.public_sharing = True
-            project.acting_user = user
+            self.enterContext(acting_user_context(user))
             project.save(update_fields=["public_sharing"])
             with self.wait_for_page_load():
                 self.driver.refresh()

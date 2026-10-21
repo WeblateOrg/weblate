@@ -414,7 +414,7 @@ ensure you mark the `read_user` scope.
 .. _gitea_auth:
 
 Gitea OAuth 2
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 For using Gitea OAuth 2, you need to register an application at
 ``https://GITEA SERVER/user/settings/applications``.
@@ -543,6 +543,61 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
    :doc:`psa:backends/slack`
 
 
+.. _weblate-auth:
+
+Weblate OpenID Connect
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2026.11
+
+To sign in through Hosted Weblate or another Weblate installation, register a
+confidential authorization-code client with RSA SHA-256 signing on its
+:ref:`oidc-provider`. Register this installation's exact HTTPS callback URL,
+for example ``https://weblate.example.com/accounts/complete/weblate/``.
+
+Add the backend and client credentials to your settings:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.weblate.WeblateOpenIdConnect",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_WEBLATE_KEY = "Client ID"
+    SOCIAL_AUTH_WEBLATE_SECRET = "Client secret"
+
+The default issuer is ``https://hosted.weblate.org/oidc``. To authenticate
+against another installation, configure its issuer URL, including any
+deployment prefix:
+
+.. code-block:: python
+
+    SOCIAL_AUTH_WEBLATE_OIDC_ENDPOINT = "https://example.com/translations/oidc"
+
+Do not append ``/.well-known/openid-configuration``. The backend discovers the
+provider endpoints and requests the ``openid profile email`` scopes. Keep
+PKCE enabled; Weblate requires it.
+
+The sign-in label is :guilabel:`Hosted Weblate` for Hosted Weblate and
+:guilabel:`Weblate` for other installations. Override the label or icon with
+``SOCIAL_AUTH_WEBLATE_TITLE`` or ``SOCIAL_AUTH_WEBLATE_IMAGE``.
+
+Changing the issuer requires an explicit migration of existing account
+associations: the same subject identifier on different servers can refer to
+different people.
+
+.. include:: /snippets/oauth-site.rst
+
+.. seealso::
+
+   * :ref:`docker-weblate-auth`
+   * :doc:`psa:backends/weblate`
+
+
 Overriding authentication method names and icons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -628,7 +683,7 @@ OpenID Connect identity provider
 
 Weblate can act as an optional OpenID Connect (OIDC) identity provider for
 other applications. This is separate from signing in to Weblate using an
-external OIDC provider. The existing SAML identity provider can remain enabled.
+external OIDC provider.
 
 Install the ``oidc`` extra (``uv pip install Weblate[oidc]``). Generate a
 signing key and keep it outside version control:

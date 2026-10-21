@@ -760,7 +760,9 @@ class RepositoryOperationQueueTest(ViewTestCase):
         )
         stored_messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(stored_messages), 1)
-        self.assertEqual(stored_messages[0].message, "Repository operation failed.")
+        self.assertEqual(
+            stored_messages[0].message, "Repository operation completed with errors."
+        )
         self.assertTrue(
             response.wsgi_request.session[f"task-completion-message-{task_id}"]
         )

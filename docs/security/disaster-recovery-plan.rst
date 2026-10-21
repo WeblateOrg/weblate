@@ -33,7 +33,7 @@ in two geographically different locations. The backup retention policy ensures
 that recent backups are available daily and keeps six months of backups.
 
 Recovery Procedures
-----------------------
+-------------------
 
 .. _drp-host:
 

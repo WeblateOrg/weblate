@@ -474,7 +474,7 @@ Detailed Bitbucket Data Center pull request setup is covered in
 .. _bitbucket-cloud-push:
 
 Bitbucket Cloud pull requests
-------------------------------
+-----------------------------
 
 Detailed Bitbucket Cloud pull request setup is covered in
 :ref:`code-hosting-bitbucket-cloud-pull-requests`.

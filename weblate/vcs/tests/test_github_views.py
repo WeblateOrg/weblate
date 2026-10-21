@@ -24,6 +24,7 @@ from django.utils import timezone
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
@@ -1049,7 +1050,7 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
         )
         other_workspace = Workspace.objects.create(name="Other Workspace")
         other_project.workspace = other_workspace
-        other_project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         other_project.save(update_fields=["workspace"])
         GitHubInstallation.objects.create(
             installation_id="12345",

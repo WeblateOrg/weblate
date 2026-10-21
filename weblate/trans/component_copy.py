@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
+from weblate.utils.change_origin import get_acting_user
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -180,25 +181,28 @@ def auto_translate_component_copy(
             threshold=0,
         )
     except PermissionDenied as error:
-        component.log_warning("automatic translation skipped: %s", error)
+        component.log_warning(
+            "automatic translation skipped: %s", error, dependencies=(source_component,)
+        )
 
     for warning in auto.get_warnings():
-        component.log_warning("%s", warning)
+        component.log_warning(
+            "%s",
+            warning,
+            sensitive=True,
+            public_message="Automatic translation reported a warning.",
+            dependencies=(source_component,),
+        )
 
 
 def seed_component_from_source(
     component: Component,
     source_component: Component,
     *,
-    author_name: str,
     skip_push: bool,
 ) -> bool:
     """Seed a newly created component from another component."""
-    component.log_info(
-        "copying repository checkout from %s as %s",
-        source_component.full_slug,
-        author_name,
-    )
+    component.log_info("copying repository checkout")
     if skip_push:
         component.log_debug("skipping push for repository copy seed")
 
@@ -218,5 +222,5 @@ def clone_component_addons(component: Component, source_component: Component) ->
         component,
         source_component,
         same_project_only=True,
-        acting_user=component.acting_user,
+        acting_user=get_acting_user(),
     )

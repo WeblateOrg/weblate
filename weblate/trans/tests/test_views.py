@@ -62,6 +62,7 @@ from weblate.trans.tests.utils import (
     wait_for_celery,
 )
 from weblate.trans.views.basic import add_languages_to_component
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
@@ -320,8 +321,7 @@ class ComponentTestCase(RepoTestCase):
         # Create project to have some test base
         self.component = self.create_component()
         self.project = self.component.project
-        self.component.acting_user = self.user
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         if not self.project.defined_groups.exists():
             setup_project_groups(self, self.project)
         self.translation = self.get_translation()
@@ -621,8 +621,7 @@ class ReusableComponentTestCase(ComponentTestCase):
         self.user = User.objects.get(pk=self._fixture_user_pk)
         self.component = Component.objects.get(pk=self._fixture_component_pk)
         self.project = self.component.project
-        self.component.acting_user = self.user
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.translation = self.get_translation()
 
 
@@ -661,13 +660,13 @@ class FixtureComponentTestCase(ComponentTestCase):
     # pylint: disable=arguments-differ
     def create_project(self, name: str = "Test", slug: str = "test", **kwargs):
         project = Project.objects.all()[0]
-        project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         setup_project_groups(self, project)
         return project
 
     def create_component(self):
         component = self.create_project().component_set.all()[0]
-        component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         component.create_path()
         return component
 
@@ -1617,7 +1616,7 @@ class BasicViewTest(ReusableViewTestCase):
         self.component.create_glossary()
         glossary = Component.objects.get(project=self.project, is_glossary=True)
         glossary.category = category
-        glossary.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         glossary.save(update_fields=["category"])
         glossary_translation = glossary.translation_set.exclude(
             language=glossary.source_language

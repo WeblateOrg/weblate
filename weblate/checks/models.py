@@ -73,8 +73,7 @@ class CheckQuerySet(models.QuerySet["Check", "Check"]):
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
-                Q(unit__translation__component__restricted=False)
-                | Q(unit__translation__component_id__in=user.component_permissions)
+                user.get_component_access_query("unit__translation__component")
             )
         return result
 
@@ -163,7 +162,7 @@ class Check(models.Model):
         if recurse:
             for child in Check.objects.filter(
                 name=self.name,
-                unit__in=self.unit.propagated_units,
+                unit__in=self.unit.propagated_units.filter_restricted_peers(self.unit),
                 dismissed=not state,
             ).select_for_update():
                 child.set_dismiss(state=state, recurse=False)

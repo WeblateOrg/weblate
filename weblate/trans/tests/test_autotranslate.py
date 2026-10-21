@@ -43,6 +43,7 @@ from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_actor
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -75,8 +76,7 @@ class AutoTranslationTest(ReusableViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.component2 = Component.objects.get(pk=self._fixture_component2_pk)
-        self.component2.acting_user = self.user
-        self.component2.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
 
     def create_limited_auto_user(self, *, review: bool = False) -> User:
         user = User.objects.create_user(
@@ -892,6 +892,15 @@ class AutoTranslationTest(ReusableViewTestCase):
             "Automatic translation completed, 1 string was updated.",
         )
         self.assertEqual(len(result["warnings"]), 1)
+        self.assertEqual(
+            result["_warning_details"][0]["component_ids"], [self.component.pk]
+        )
+        self.assertEqual(
+            result["_warning_details"][0]["message"], result["warnings"][0]
+        )
+        self.assertNotIn(
+            str(self.component), result["_warning_details"][0]["public_message"]
+        )
         self.assertIn("do not match the target translation", result["warnings"][0])
         activity_log.refresh_from_db()
         self.assertEqual(activity_log.status, AddonActivityLog.Status.SUCCESS)
@@ -928,6 +937,7 @@ class AutoTranslationTest(ReusableViewTestCase):
             result["message"],
             "Automatic translation failed: Select an available installation using openai:<id>",
         )
+        self.assertTrue(result["_automatic_translation_failed"])
         activity_log.refresh_from_db()
         self.assertEqual(activity_log.details["result"], result)
 

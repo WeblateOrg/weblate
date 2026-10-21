@@ -83,6 +83,7 @@ from weblate.trans.tests.utils import (
     get_test_actor,
     get_test_file,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
@@ -2385,7 +2386,7 @@ class BackupsTest(ReusableViewTestCase):
         )
         self.assertEqual(restore.renamed_teams, [("Review", "Review (2)")])
         restored.translation_review = True
-        restored.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         restored.save(update_fields=["translation_review"])
         internal.refresh_from_db()
         self.assertEqual(restored.defined_groups.get(name="Review").pk, internal.pk)

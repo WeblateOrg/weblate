@@ -112,6 +112,11 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: \bbtn-secondary\b
     language: pygrep
+  - id: rst-heading-length
+    name: rst heading adornment matches title length
+    entry: python scripts/check-rst-headings.py
+    language: python
+    types: [rst]
   - id: rst-double-space
     name: rst text with double space
     description: Detect mistake of rst containing double space
@@ -196,7 +201,7 @@ repos:
     require_serial: true
     pass_filenames: false
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.30.1
+  rev: v1.31.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -217,7 +222,7 @@ repos:
   - id: rumdl
   - id: rumdl-fmt
 - repo: https://github.com/kjanat/actionlint
-  rev: v1.17
+  rev: v1.17.0
   hooks:
   - id: actionlint
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$

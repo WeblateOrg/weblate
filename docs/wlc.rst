@@ -197,6 +197,15 @@ Weblate instance to use. These must be entered before any command.
 
     Specify the output format. The default is ``text``.
 
+    Listing commands write results incrementally in all formats as API pages
+    are fetched, reducing memory use for large listings. Normal output buffering
+    still applies. Empty listings produce no output, including in JSON format.
+
+    If a later request fails, already written results remain on standard output,
+    and the command reports the error on standard error and exits with a nonzero
+    status. JSON and HTML output can be incomplete in this case. Check the exit
+    status before treating an export as complete.
+
 .. option:: --version
 
     Print the program version and exit. The :option:`version` command supports

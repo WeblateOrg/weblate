@@ -87,6 +87,11 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags, validate_multivalue_size
 from weblate.utils import messages
+from weblate.utils.change_origin import (
+    acting_user_context,
+    capture_change_origin,
+    get_acting_user,
+)
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
@@ -100,6 +105,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
 from weblate.utils.version import GIT_VERSION
 
@@ -328,10 +334,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         if user.needs_project_filter:
             result = result.filter(user.get_project_access_query("component__project"))
         if user.needs_component_restrictions_filter:
-            result = result.filter(
-                Q(component__restricted=False)
-                | Q(component_id__in=user.component_permissions)
-            )
+            result = result.filter(user.get_component_access_query("component"))
         return result
 
     def filter_permission_scope(self, user: User, permission: str):
@@ -447,8 +450,36 @@ class Translation(
     def code(self):
         return self.language.code
 
-    def log_hook(self, level, msg, *args) -> None:
-        self.component.store_log(self.full_slug, msg, *args)
+    def log_hook(
+        self,
+        level,
+        msg,
+        *args,
+        sensitive: bool = False,
+        public_message: str | None = None,
+        dependencies: tuple[Component, ...] = (),
+    ) -> None:
+        has_exception = any(isinstance(arg, BaseException) for arg in args)
+        sensitive = sensitive or has_exception
+        if (
+            sensitive
+            and public_message is None
+            and (has_exception or level in {"WARNING", "ERROR"})
+        ):
+            public_message = (
+                "An operation reported a warning."
+                if level == "WARNING"
+                else "An operation failed."
+            )
+        self.component.store_log(
+            self.full_slug,
+            msg,
+            *args,
+            origin_component=self.component,
+            sensitive=sensitive,
+            public_message=public_message,
+            dependencies=dependencies,
+        )
 
     @property
     def project(self) -> Project:
@@ -946,7 +977,7 @@ class Translation(
             self.store_update_changes()
 
             # Invalidate keys cache
-            transaction.on_commit(self.invalidate_keys)
+            transaction.on_commit(capture_change_origin(self.invalidate_keys))
             self.log_info("updating completed")
 
         # Use up to date list as prefetch for source
@@ -1030,7 +1061,7 @@ class Translation(
             messages.info(request, no_changes_message)
             return False
 
-        user = self.component.acting_user or (request.user if request else None)
+        user = get_acting_user() or (request.user if request else None)
         if user is None:
             user = get_anonymous()
 
@@ -1050,6 +1081,7 @@ class Translation(
                 user,
                 user.get_author_name(),
                 store_hash=False,
+                log_author=user,
             )
             reparsed = self.handle_store_change(
                 request, user, previous_revision, preserve_pending_units=True
@@ -1264,8 +1296,9 @@ class Translation(
             self.log_error(
                 "discarding %d pending changes due to missing filename",
                 len(pending_unit_ids),
+                sensitive=False,
             )
-        self.log_error("skipping commit due to missing filename")
+        self.log_error("skipping commit due to missing filename", sensitive=False)
         return False
 
     def _commit_pending_with_filename(self, reason: str, user: User | None) -> bool:
@@ -1348,6 +1381,7 @@ class Translation(
                     skip_push=True,
                     signals=False,
                     update_contributor=written,
+                    log_author=author,
                 )
 
         # Short-circuit when no changes were processed
@@ -1641,6 +1675,7 @@ class Translation(
         *,
         files: list[str] | None = None,
         update_contributor: bool = True,
+        log_author: User | None = None,
     ) -> bool:
         """Commit translation to git and return whether a commit was created."""
         repository = self.component.repository
@@ -1675,7 +1710,14 @@ class Translation(
                 store_hash=store_hash,
             )
             if committed:
-                self.log_info("committed %s as %s", files, author)
+                if log_author is None or not log_author.pk:
+                    self.log_info("committed %s", files)
+                else:
+                    self.log_info(
+                        "committed %s as %s",
+                        files,
+                        get_log_user_label(log_author),
+                    )
                 if user is None:
                     user = InternalBot.COMMIT.get_user()
                 self.change_set.create(
@@ -2254,36 +2296,37 @@ class Translation(
         *,
         files: list[str] | None = None,
     ) -> None:
-        component = self.component
-        if files is None:
-            files = self.filenames
-        if not component.repository.needs_commit(files):
-            return
+        with acting_user_context(request.user):
+            component = self.component
+            if files is None:
+                files = self.filenames
+            if not component.repository.needs_commit(files):
+                return
 
-        self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
-        self.update_unit_change_action = ActionEvents.STRING_UPLOAD_UPDATE
-        self.component.acting_user = author
+            self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
+            self.update_unit_change_action = ActionEvents.STRING_UPLOAD_UPDATE
 
-        previous_revision = component.repository.last_revision
-        self.drop_store_cache()
+            previous_revision = component.repository.last_revision
+            self.drop_store_cache()
 
-        self.git_commit(
-            author,
-            author=author.get_author_name(),
-            store_hash=False,
-            signals=False,
-            files=files,
-        )
+            self.git_commit(
+                author,
+                author=author.get_author_name(),
+                store_hash=False,
+                signals=False,
+                files=files,
+                log_author=author,
+            )
 
-        self.handle_store_change(
-            request, author, previous_revision, change=change_action
-        )
-        # Emit signals later to avoid cleanup add-on to store translation
-        # revision before parsing
-        component.send_post_commit_signal()
+            self.handle_store_change(
+                request, author, previous_revision, change=change_action
+            )
+            # Emit signals later to avoid cleanup add-on to store translation
+            # revision before parsing
+            component.send_post_commit_signal()
 
-        self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
-        self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
+            self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
+            self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
 
     def validate_upload_language(
         self, store: TranslationFormat, *, source: bool = False
@@ -2749,7 +2792,7 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_trigger)
+        transaction.on_commit(capture_change_origin(self._invalidate_trigger))
 
     @contextmanager
     def suppress_cache_invalidation(self):
@@ -2817,7 +2860,11 @@ class Translation(
         author = user.get_author_name()
         component = self.component
         # Log
-        self.log_info("removing %s as %s", self.filenames, author)
+        self.log_info(
+            "removing %s as %s",
+            self.filenames,
+            get_log_user_label(user),
+        )
 
         # Build commit message before deleting (needs stats from DB)
         commit_message = self.get_commit_message(
@@ -2827,11 +2874,13 @@ class Translation(
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set
         self.delete()
-        transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(component.schedule_update_checks)
+        transaction.on_commit(capture_change_origin(self.stats.update_parents))
+        transaction.on_commit(capture_change_origin(component.schedule_update_checks))
         if component.is_glossary:
             transaction.on_commit(
-                lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+                capture_change_origin(
+                    lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+                )
             )
 
         # Remove file from VCS
@@ -3292,7 +3341,10 @@ class Translation(
                     translation.addon_commit_files.extend(extra_files)
                     translation.drop_store_cache()
                     translation.git_commit(
-                        user, user.get_author_name(), store_hash=False
+                        user,
+                        user.get_author_name(),
+                        store_hash=False,
+                        log_author=user,
                     )
                     # Adjust position as it will happen in most formats
                     if translation_unit.position:
@@ -3335,8 +3387,10 @@ class Translation(
             self.handle_store_change(request, user, previous_revision)
             if source_unit_deleted:
                 transaction.on_commit(
-                    lambda: update_alerts(
-                        component, {"MissingScreenshots", "UnusedScreenshot"}
+                    capture_change_origin(
+                        lambda: update_alerts(
+                            component, {"MissingScreenshots", "UnusedScreenshot"}
+                        )
                     )
                 )
 

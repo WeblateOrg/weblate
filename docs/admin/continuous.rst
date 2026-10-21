@@ -348,7 +348,7 @@ afresh from upstream. If the affected branch is already configured, use
 .. _manage-vcs-reset-reapply:
 
 Reset and reapply translations recovery behavior
-```````````````````````````````````````````````````
+````````````````````````````````````````````````
 
 The :guilabel:`Reset and reapply translations` operation keeps translations from
 Weblate while resetting the local repository state to match upstream.

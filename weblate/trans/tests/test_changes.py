@@ -39,7 +39,7 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.views.changes import ChangesView
-from weblate.utils.change_origin import change_origin_context
+from weblate.utils.change_origin import acting_user_context, change_origin_context
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
@@ -529,7 +529,7 @@ class ChangeCompletionTest(ViewTestCase):
 
 class ChangeScopeTest(ViewTestCase):
     def test_settings_change_requires_actor(self) -> None:
-        self.component.acting_user = None
+        self.enterContext(acting_user_context(None))
         self.component.restricted = True
         with (
             patch("weblate.trans.models.change.report_message") as report,

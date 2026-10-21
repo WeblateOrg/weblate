@@ -41,12 +41,14 @@ from weblate.trans.models import (
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
     validate_render_component,
 )
+from weblate.utils.tests.network import mock_dns
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.github import GitHubInstallation
@@ -160,7 +162,15 @@ class SettingsTest(ReusableViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_restricted_component_permission_denial(self) -> None:
-        self.project.add_user(self.user, "Administration")
+        role = Role.objects.create(name="Project component settings")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Project component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
 
         form = ComponentSettingsForm(self.get_request(), instance=self.component)
 
@@ -177,6 +187,22 @@ class SettingsTest(ReusableViewTestCase):
         form = ComponentSettingsForm(self.get_request(), data, instance=self.component)
         self.assertTrue(form.is_valid(), form.errors)
         self.assertFalse(form.cleaned_data["restricted"])
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_project_admin_can_enable_restricted_component(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertNotIn(self.component.pk, self.user.component_permissions)
+
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+        self.assertFalse(form.fields["restricted"].disabled)
+        self.assertFalse(form.fields["restricted"].widget.is_hidden)
+
+        data = get_form_data(form.initial)
+        data["restricted"] = True
+        form = ComponentSettingsForm(self.get_request(), data, instance=self.component)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertTrue(form.cleaned_data["restricted"])
 
     def test_default_message_templates_render(self) -> None:
         validators = (
@@ -1258,7 +1284,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertTrue(self.project.public_sharing)
 
     def test_project_audit_settings(self) -> None:
-        self.project.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.public_sharing = True
         self.project.enforced_2fa = True
@@ -1567,7 +1593,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(component.effective_license, "MIT")
 
     def test_component_audit_settings(self) -> None:
-        self.component.acting_user = self.user
+        self.enterContext(acting_user_context(self.user))
         self.component.restricted = True
         self.component.enable_suggestions = False
         self.component.suggestion_voting = True
@@ -1847,6 +1873,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
 
+    @mock_dns("github.com", "example.com")
     def test_github_app_component_settings_lock_push_settings(self) -> None:
         self.project.add_user(self.user, "Administration")
         workspace = Workspace.objects.create(name="GitHub App settings")

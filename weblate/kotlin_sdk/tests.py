@@ -38,6 +38,7 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Category, Component, Translation, Unit
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.unittest import tempdir_setting
@@ -355,7 +356,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                             with connections["default"].cursor() as cursor:
                                 cursor.execute("SET LOCAL lock_timeout = '2s'")
                             current = Addon.objects.select_for_update().get(pk=addon_id)
-                            current.acting_user = get_test_actor(self)
+                            self.enterContext(acting_user_context(get_test_actor(self)))
                             if action == "register":
                                 serializer = BuildMetadataSerializer(data=metadata(2))
                                 serializer.is_valid(raise_exception=True)
@@ -1684,7 +1685,7 @@ class KotlinSDKTest(ReusableViewTestCase):
             "maximum_versions": 1,
             "maximum_age": 1,
         }
-        addon.instance.acting_user = get_test_actor(self)
+        self.enterContext(acting_user_context(get_test_actor(self)))
         addon.instance.save()
         KotlinSDKBuild.objects.filter(pk=build.pk).update(
             created=timezone.now() - timedelta(days=2)

@@ -16,6 +16,7 @@ from django.test import SimpleTestCase, TestCase
 
 from weblate.trans.models import Component, Project
 from weblate.utils.tests import http_mock
+from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -529,6 +530,7 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(http_mock.calls), 1)
 
     @http_mock.activate
+    @mock_dns("github.com")
     def test_github_repository_clone_uses_installation_token(self) -> None:
         _make_credentials()
         cache.clear()

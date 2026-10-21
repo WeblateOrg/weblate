@@ -16,6 +16,9 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Docker deployments support :ref:`signing in through Hosted Weblate or another Weblate installation <docker-weblate-auth>` using OpenID Connect.
+* Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
+* Improved :ref:`string search <search-strings>` performance when filtering by a language code.
 * Avoided unnecessary deduplication in :ref:`string searches <search-strings>` by matching related objects with subqueries.
 * :ref:`Component creation <adding-components>` and :ref:`discovery presets <addon-weblate.discovery.discovery>` warn when resource limits might make discovery results incomplete.
 * Renamed provider configuration and selection to :ref:`Translation services <machine-translation-setup>`, while keeping the translation editor's :guilabel:`Automatic suggestions` tab.
@@ -32,12 +35,14 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
+* Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
+* Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Fixed role permission revocation through partial API updates.
-* Limited SAML identity-provider request parsing and disabled Single Logout to prevent compressed request resource exhaustion.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
 
@@ -48,6 +53,9 @@ Weblate 2026.11
 * Fixed :ref:`legal document <legal>` links to prefer configured external URLs and kept privacy policy confirmation optional when hidden without a URL.
 
 .. rubric:: Compatibility
+
+* Custom integrations must use :ref:`acting-user-context` instead of transient model ``acting_user`` attributes. Stop task producers and schedulers, drain queued work and deferred repository follow-ups, and upgrade the application and workers together; redundant actor task arguments have been removed.
+* Removed the SAML identity provider integration and the ``saml2idp`` extra. Remove ``djangosaml2idp`` from ``INSTALLED_APPS`` and its configuration before upgrading. Use the :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts. SAML sign-in to Weblate remains supported.
 
 * :wladmin:`import_project`, :wladmin:`import_json`, :wladmin:`import_demo`, :wladmin:`add_suggestions`, and :wladmin:`install_addon` now require ``--user USERNAME`` to attribute component and configuration changes to an existing account.
 

@@ -43,7 +43,9 @@ source components as follows:
   they do not create shared translation-memory entries; the add-on reads the
   explicitly selected component as an administrative input instead.
 
-Restricted components remain filtered from ordinary listings and direct access.
+Restricted components remain filtered from ordinary listings and direct access
+for users without an explicit grant or :guilabel:`Edit project settings`
+permission.
 Grant add-on management permissions only to users trusted with the add-on's
 complete input and effect scope. See :ref:`perm-check` and
 :ref:`component-restricted`.
@@ -71,6 +73,10 @@ checked using the number of repository paths multiplied by the number of file
 masks. These fixed limits bound resource consumption when repository content
 determines the masks. When either limit is exceeded, discovery does not create
 or remove components.
+
+When configuring the add-on, Weblate also suggests presets detected from the
+repository. If this detection reaches a resource limit, Weblate warns that the
+suggestions might be incomplete. You can enter the configuration manually.
 
 .. _webhook-response-limits:
 

@@ -228,9 +228,9 @@ workflow settings are not copied into change history.
 
 Project, category, and site-wide automations include compatible restricted
 components in their configured scope. Automatic-translation actions can use
-eligible restricted source components even when the configuring administrator
-cannot open those components directly. Preview uses the same administrative
-scope and can inspect the selected component and optional change context. Grant
+eligible restricted source components outside the configuring administrator's
+direct access. Preview uses the same administrative scope and can inspect the
+selected component and optional change context. Grant
 add-on management permission only to users trusted with this complete scope.
 Changing or disabling the configuring user's account does not revoke a saved
 workflow.

@@ -582,8 +582,6 @@ Size and rate assumptions:
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
-* SAML identity-provider authentication requests are bounded in encoded and
-  expanded size before XML parsing. *(maintainer)*
 * Project backup metadata, object references, repository paths, outbound URLs,
   regular expressions, and screenshot content are validated before restore
   writes project state. Failed restores remove repository and media objects
@@ -683,9 +681,11 @@ Security properties Weblate provides
        Their service identities and configured authority do not depend on the
        configuring user's later account or permission state. Project backups
        similarly contain every component in the project, including restricted
-       components. Consequently, component restrictions protect ordinary direct
-       access but are not an isolation boundary against these documented
-       administrative capabilities.
+       components. Project administrators with ``project.edit`` can directly
+       access and manage restricted components in their project, but retain
+       separate permissions for translation, review, and download actions.
+       Component restrictions protect other users' direct access and are not an
+       isolation boundary against these documented administrative capabilities.
        Users with management rights for a workspace are trusted to connect and
        remove its GitHub App installations; removing the final workspace
        connection can uninstall the App from GitHub. GitHub App component
@@ -1056,8 +1056,9 @@ Known non-findings
   selected parent scope. That permission intentionally authorizes the complete
   report scope. *(documented)* (source: :doc:`/devel/reporting`,
   :doc:`/admin/access`)
-* A report that a project administrator can obtain restricted descendants from
-  a complete project backup, or that an add-on manager can configure a core
+* A report that a project administrator can directly access restricted
+  components in their project or obtain them from a complete project backup,
+  or that an add-on manager can configure a core
   add-on to process its documented restricted descendants or cross-component
   inputs, is not a vulnerability. These are persistent administrative
   capabilities and do not inherit the configuring user's direct component

@@ -292,7 +292,6 @@ def parse_path(
         return None
 
     allowed_types = {x for x in types if x is not None}
-    acting_user = request.user if request else None
 
     def check_type(cls) -> None:
         if cls not in allowed_types:
@@ -320,7 +319,6 @@ def parse_path(
         if request is not None and not workspace.can_view(request.user):
             msg = "Access denied"
             raise Http404(msg)
-        workspace.acting_user = acting_user
         return workspace
 
     # Language URL
@@ -336,7 +334,6 @@ def parse_path(
     )
     if request is not None:
         request.user.check_access(project)
-    project.acting_user = acting_user
     if not path:
         check_type(Project)
         return project
@@ -370,7 +367,6 @@ def parse_path(
             current = current.component_set.get(slug=slug, **category_args)
             if request is not None:
                 request.user.check_access_component(current)
-            current.acting_user = acting_user
             break
 
         # Try category
@@ -378,7 +374,6 @@ def parse_path(
             current = cast("Project | Category", current).category_set.get(
                 slug=slug, **category_args
             )
-            current.acting_user = acting_user
             category_args = {}
             continue
 
@@ -469,7 +464,6 @@ async def aparse_path(
         return None
 
     allowed_types = {x for x in types if x is not None}
-    acting_user = request.user if request else None
     if request is not None:
         await request.user.aprepare_permissions()
 
@@ -504,7 +498,6 @@ async def aparse_path(
         if request is not None and not await _workspace_can_view(request, workspace):
             msg = "Access denied"
             raise Http404(msg)
-        workspace.acting_user = acting_user
         return workspace
 
     # Language URL
@@ -520,7 +513,6 @@ async def aparse_path(
     )
     if request is not None:
         request.user.check_access(project)
-    project.acting_user = acting_user
     if not path:
         check_type(Project)
         return project
@@ -556,7 +548,6 @@ async def aparse_path(
             )
             if request is not None:
                 request.user.check_access_component(current)
-            current.acting_user = acting_user
             break
 
         # Try category
@@ -566,7 +557,6 @@ async def aparse_path(
                 .category_set.select_related("project", "category")
                 .aget(slug=slug, **category_args)
             )
-            current.acting_user = acting_user
             category_args = {}
             continue
 

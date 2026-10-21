@@ -671,27 +671,6 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertTrue(strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL])
 
-    def test_login_totp_saml_expiry(self) -> None:
-        device = self.add_totp()
-        self.client.logout()
-        response = self.client.post(
-            reverse("login"),
-            {
-                "username": "testuser",
-                "password": "testpassword",
-                "next": "/idp/login/process/",
-            },
-        )
-
-        second_factor_url = response["Location"]
-        totp_response = f"{totp(device.bin_key, device.step, device.t0, device.digits, device.drift):06d}"
-        response = self.client.post(second_factor_url, {"otp_token": totp_response})
-
-        self.assertRedirects(
-            response, "/idp/login/process/", fetch_redirect_response=False
-        )
-        self.assertEqual(self.client.session.get_expiry_age(), 60)
-
     def test_login_totp_rejects_unsafe_next(self) -> None:
         device = self.add_totp()
         self.client.logout()
