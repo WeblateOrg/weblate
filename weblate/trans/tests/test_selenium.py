@@ -2846,6 +2846,106 @@ class SeleniumTests(
         self.assertEqual(added["q"], "state:<translated")
         self.assertEqual(added["threshold"], MACHINERY_DEFAULT_THRESHOLD)
 
+    def test_automation_editor_result_scopes_and_focus(self) -> None:
+        """The automation editor shows result scopes and keeps keyboard focus."""
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={
+                "workflow": {
+                    "version": 1,
+                    "triggers": [],
+                    "actions": [
+                        {
+                            "action": "weblate.select",
+                            "id": "picked",
+                            "settings": {"q": "state:translated"},
+                        },
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:picked",
+                            "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                        },
+                        {
+                            "action": "weblate.automatic_translation",
+                            "settings": {"mode": "approved"},
+                        },
+                    ],
+                }
+            },
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        pane = self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-pane='editor']"
+        )
+        self.assertTrue(pane.is_displayed())
+        saved = addon.instance.configuration["workflow"]
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            saved,
+        )
+
+        # Earlier action IDs are offered as result scopes, including ones typed
+        # into the editor.
+        scope_options = (
+            "return Array.from(document.querySelectorAll("
+            "\"[data-automation-list='actions'] [data-workflow-key='scope']\"),"
+            " (el) => Array.from(el.options, (option) => option.value));"
+        )
+        self.assertEqual(
+            self.driver.execute_script(scope_options),
+            [
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+                ["", "component", "trigger", "result:picked"],
+            ],
+        )
+        self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-list='actions'] [data-workflow-key='id']",
+        )[1].send_keys("edited")
+        self.assertEqual(
+            self.driver.execute_script(scope_options)[2],
+            ["", "component", "trigger", "result:picked", "result:edited"],
+        )
+
+        # Removing a node moves focus to its neighbor instead of the page.
+        remove = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-list='actions'] [data-automation-remove]",
+        )[2]
+        remove.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const node = document.activeElement.closest("
+                "'[data-automation-instance]');"
+                " return node && node.dataset.automationInstance;"
+            ),
+            "action:weblate.bulk_edit",
+        )
+
+        # Adding a node with an enhanced select focuses its visible control.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:change")
+        self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-add='triggers']"
+        ).send_keys(Keys.ENTER)
+        self.assertTrue(
+            self.driver.execute_script(
+                "const active = document.activeElement;"
+                " return active.closest(\"[data-automation-list='triggers']\")"
+                " !== null && active.closest('.ts-wrapper') !== null;"
+            )
+        )
+
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
         # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.

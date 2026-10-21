@@ -1942,6 +1942,23 @@ class AutomationTest(ReusableComponentTestCase):
                 self.assertEqual(set(chrome.fields), {"id", "scope"})
                 for name, field in settings.fields.items():
                     self.assertEqual(field.widget.attrs["data-workflow-key"], name)
+                # The editor offers earlier action IDs to scopes accepting them.
+                self.assertEqual(
+                    "data-automation-result-scope"
+                    in chrome.fields["scope"].widget.attrs,
+                    "result" in OPERATIONS[node.name].supported_scopes,
+                )
+
+    def test_editor_offers_every_automatic_translation_mode(self) -> None:
+        # Workflows run as the add-on service identity, so the editor offers
+        # every mode that saving accepts, approved included.
+        for obj in (self.component, self.component.project, None):
+            with self.subTest(obj=obj):
+                form = AutomaticTranslationOperation.settings_form(obj)
+                self.assertIn(
+                    "approved",
+                    {choice[0] for choice in form.fields["mode"].choices},
+                )
 
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_saved_preview_and_context_trigger_api(self, task: Mock) -> None:

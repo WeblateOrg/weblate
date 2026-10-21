@@ -297,8 +297,18 @@ class AutomaticTranslationOperation(AutomationOperation):
     )
 
     @classmethod
+    def auto_form(
+        cls, obj: Component | Project | None, data: dict[str, Any] | None = None
+    ) -> AutoForm:
+        form = AutoForm(obj=obj, user=None, data=data)
+        cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
+            "forms.ChoiceField", AutoForm.base_fields["mode"]
+        ).choices
+        return form
+
+    @classmethod
     def settings_form(cls, obj: Component | Project | None) -> forms.Form:
-        form = AutoForm(obj=obj, user=None)
+        form = cls.auto_form(obj)
         if not isinstance(form.fields["component"], forms.ChoiceField):
             form.fields["component"] = forms.IntegerField(
                 label=gettext_lazy("Component"),
@@ -324,14 +334,9 @@ class AutomaticTranslationOperation(AutomationOperation):
             "engines": [],
             "threshold": 80,
         } | settings
-        # Workflows are persistent administrative configuration and execute as
-        # the add-on service identity, independently of the editor's later access.
-        form = AutoForm(obj=obj, user=None, data=data)
+        form = cls.auto_form(obj, data)
         if scope != "component":
             form.fields["q"].required = False
-        cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
-            "forms.ChoiceField", AutoForm.base_fields["mode"]
-        ).choices
         if obj is None:
             cast("forms.MultipleChoiceField", form.fields["engines"]).choices = [
                 (engine, engine) for engine in data["engines"]

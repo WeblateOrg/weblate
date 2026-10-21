@@ -102,6 +102,8 @@ def action_chrome_form(supported_scopes: frozenset[str]) -> forms.Form:
             *(choice for choice in scopes if choice[0] in supported_scopes),
         ],
     )
+    if "result" in supported_scopes:
+        form.fields["scope"].widget.attrs["data-automation-result-scope"] = "1"
     return form
 
 

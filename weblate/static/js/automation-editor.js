@@ -12,6 +12,7 @@
     actions: "action",
   };
   const WORKFLOW_KEYS = ["version", "triggers", "conditions", "actions"];
+  const RESULT_SCOPE = /^result:[a-z][a-z0-9_]{0,63}$/;
 
   const isPlainObject = (value) =>
     typeof value === "object" && value !== null && !Array.isArray(value);
@@ -56,11 +57,6 @@
 
     let counter = 0;
 
-    /* Cloned fields share the identifiers Django generated for the template,
-     * so make them unique per node and keep labels and help texts pointing at
-     * the right control. Radio and checkbox groups need a name to stay grouped,
-     * so they get a prefixed one; every other control loses its name, as the
-     * workflow is submitted through the `workflow` field alone. */
     function rewriteIdentifiers(root, prefix) {
       const renamed = new Map();
       for (const element of root.querySelectorAll("[id]")) {
@@ -158,11 +154,68 @@
       }
       const text = value === null || value === undefined ? "" : String(value);
       if (first.tagName === "SELECT") {
+        if (
+          first.dataset.automationResultScope &&
+          RESULT_SCOPE.test(text) &&
+          !Array.from(first.options, (option) => option.value).includes(text)
+        ) {
+          first.append(resultScopeOption(text));
+        }
         first.value = text;
         return first.value === text;
       }
       first.value = text;
       return true;
+    }
+
+    function resultScopeOption(scope) {
+      const option = document.createElement("option");
+      option.value = scope;
+      option.textContent = interpolate(gettext("Results of action %s"), [
+        scope.slice("result:".length),
+      ]);
+      return option;
+    }
+
+    function refreshResultScopes() {
+      const seen = [];
+      for (const node of lists.get("actions").children) {
+        const controls = nodeControls(node);
+        const select = controls.find(
+          (element) =>
+            element.dataset.workflowKey === "scope" &&
+            element.dataset.automationResultScope,
+        );
+        if (select !== undefined) {
+          const current = select.value;
+          for (const option of Array.from(select.options)) {
+            if (RESULT_SCOPE.test(option.value)) {
+              option.remove();
+            }
+          }
+          const offered = seen.map((id) => `result:${id}`);
+          if (RESULT_SCOPE.test(current) && !offered.includes(current)) {
+            offered.push(current);
+          }
+          select.append(...offered.map(resultScopeOption));
+          select.value = current;
+        }
+        const id = controls
+          .find((element) => element.dataset.workflowKey === "id")
+          ?.value.trim();
+        if (id && RESULT_SCOPE.test(`result:${id}`) && !seen.includes(id)) {
+          seen.push(id);
+        }
+      }
+    }
+
+    /* Enhanced selects hide the original control, so focus their own input. */
+    function focusControl(element) {
+      if (element.tomselect) {
+        element.tomselect.focus();
+      } else {
+        element.focus();
+      }
     }
 
     function clearGroupValue(entry) {
@@ -365,6 +418,7 @@
           notifyAdded(node);
         }
       }
+      refreshResultScopes();
       return true;
     }
 
@@ -477,12 +531,16 @@
         }
         lists.get(section).append(node);
         notifyAdded(node);
+        refreshResultScopes();
         announce(
           interpolate(gettext("Added %s."), [
             picker.options[picker.selectedIndex].textContent.trim(),
           ]),
         );
-        node.querySelector("input, select, textarea")?.focus();
+        const control = node.querySelector("input, select, textarea");
+        if (control !== null) {
+          focusControl(control);
+        }
         return;
       }
       const remove = event.target.closest("[data-automation-remove]");
@@ -491,7 +549,15 @@
         const label = node.querySelector(
           "[data-automation-legend]",
         ).textContent;
+        const neighbor = node.nextElementSibling ?? node.previousElementSibling;
+        const target =
+          neighbor?.querySelector("[data-automation-move]") ??
+          editor.querySelector(
+            `[data-automation-add='${node.parentElement.dataset.automationList}']`,
+          );
+        target.focus();
         node.remove();
+        refreshResultScopes();
         announce(interpolate(gettext("Removed %s."), [label]));
         return;
       }
@@ -509,6 +575,7 @@
         } else {
           sibling.after(node);
         }
+        refreshResultScopes();
         const selector = `[data-automation-move='${move.dataset.automationMove}']`;
         node.querySelector(selector).focus();
         announce(
@@ -516,6 +583,12 @@
             node.querySelector("[data-automation-legend]").textContent,
           ]),
         );
+      }
+    });
+
+    editor.addEventListener("input", (event) => {
+      if (event.target.dataset?.workflowKey === "id") {
+        refreshResultScopes();
       }
     });
 
