@@ -91,7 +91,7 @@ from weblate.auth.models import (
     UserBlock,
     get_anonymous,
 )
-from weblate.auth.permissions import get_project_repository_selection
+from weblate.auth.permissions import check_permission, get_project_repository_selection
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.memory.models import Memory, MemoryScope
@@ -17746,7 +17746,24 @@ class SuggestionAPITest(APIBaseTest):
             unit.change_set.filter(action=ActionEvents.SUGGESTION_DELETE).exists()
         )
 
-    def _setup_guest_user(self, authenticate: bool = False) -> None:
+    def test_delete_other_users_suggestion_with_permission(self) -> None:
+        unit = self._get_unit()
+        author = User.objects.create_user(
+            "suggestion_author", "suggestion-author@example.org", "x"
+        )
+        suggestion = Suggestion.objects.create(unit=unit, target="Navrh", user=author)
+        self.assertNotEqual(suggestion.user, self.user)
+        self.assertTrue(self.user.has_perm("suggestion.delete", suggestion))
+
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion.pk},
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+
+    def _setup_guest_user(self, authenticate: bool = False) -> User:
         guest_user = User.objects.create_user(
             "guest_suggestion_user", "guest-suggestion@example.org", "x"
         )
@@ -17757,6 +17774,7 @@ class SuggestionAPITest(APIBaseTest):
             self.client.credentials(
                 HTTP_AUTHORIZATION=f"Token {guest_user.auth_token.key}"
             )
+        return guest_user
 
     def test_delete_suggestion_reason_too_long(self) -> None:
         unit = self._get_unit()
@@ -17778,7 +17796,10 @@ class SuggestionAPITest(APIBaseTest):
         unit = self._get_unit()
         response = self._add_suggestion(unit, "Navrh")
         suggestion_id = response.data["id"]
-        self._setup_guest_user(authenticate=True)
+        guest_user = self._setup_guest_user(authenticate=True)
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertNotEqual(suggestion.user, guest_user)
+        self.assertFalse(guest_user.has_perm("suggestion.delete", suggestion))
         self.do_request(
             "api:suggestion-detail",
             kwargs={"pk": suggestion_id},
@@ -17786,6 +17807,46 @@ class SuggestionAPITest(APIBaseTest):
             authenticated=False,
             code=403,
         )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
+        self.assertFalse(
+            unit.change_set.filter(action=ActionEvents.SUGGESTION_DELETE).exists()
+        )
+
+    def test_delete_own_suggestion_without_permission(self) -> None:
+        unit = self._get_unit()
+        guest_user = self._setup_guest_user(authenticate=True)
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh", user=guest_user
+        )
+        self.assertFalse(
+            check_permission(guest_user, "suggestion.delete", unit.translation)
+        )
+        self.assertTrue(guest_user.has_perm("suggestion.delete", suggestion))
+
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion.pk},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+
+    def test_delete_inaccessible_suggestion(self) -> None:
+        acl_component = self.create_acl()
+        acl_unit = acl_component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=acl_unit, target="Secret", user=self.user
+        )
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion.pk},
+            method="delete",
+            code=404,
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion.pk).exists())
 
     def test_accept_suggestion(self) -> None:
         unit = self._get_unit()
