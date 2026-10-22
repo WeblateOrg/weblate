@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
@@ -89,6 +90,20 @@ def show_language(request: AuthenticatedHttpRequest, lang):
         )
     )
     project_languages = [ProjectLanguage(project, obj) for project in projects]
+
+    if project_languages:
+        workflows = {
+            setting.project_id: setting
+            for setting in WorkflowSetting.objects.filter(
+                Q(project=None)
+                | Q(project_id__in=[item.project.pk for item in project_languages]),
+                language=obj,
+            )
+        }
+        for item in project_languages:
+            item.__dict__["workflow_settings"] = workflows.get(
+                item.project.pk, workflows.get(None)
+            )
 
     ProjectLanguageStats.prefetch_many([project.stats for project in project_languages])
 
