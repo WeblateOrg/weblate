@@ -566,6 +566,34 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(change.user, user)
         self.assertEqual(change.details["field"], "name")
 
+    def test_workspace_propagation_settings(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Propagation settings")
+        workspace.add_owner(user)
+        url = reverse("settings", kwargs={"path": workspace.get_url_path()})
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(url)
+        self.assertContains(response, 'name="propagation_scope"')
+        self.assertEqual(workspace.propagation_scope, "project")
+        for scope in ("workspace", "component_name", "project"):
+            with self.subTest(scope=scope):
+                response = self.client.post(url, {"propagation_scope": scope})
+                self.assertEqual(response.status_code, 302)
+                workspace.refresh_from_db()
+                self.assertEqual(workspace.propagation_scope, scope)
+                change = workspace.change_set.filter(
+                    details__field="propagation_scope"
+                ).latest("pk")
+                self.assertEqual(change.user, user)
+        response = self.client.post(url, {"propagation_scope": "invalid"})
+        self.assertEqual(response.status_code, 200)
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.propagation_scope, "project")
+        self.client.post(url, {"propagation_scope": "workspace"})
+        self.client.post(url, {"name": "Renamed"})
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.propagation_scope, "workspace")
+
     def test_workspace_settings_update_denied_without_workspace_edit(self) -> None:
         workspace = Workspace.objects.create(name="Read-only workspace")
         self.create_project(
@@ -578,12 +606,13 @@ class WorkspaceViewTest(BaseTestCase):
         self.client.login(username=user.username, password="testpassword")
         response = self.client.post(
             reverse("settings", kwargs={"path": workspace.get_url_path()}),
-            {"name": "Denied workspace"},
+            {"name": "Denied workspace", "propagation_scope": "workspace"},
         )
 
         self.assertEqual(response.status_code, 404)
         workspace.refresh_from_db()
         self.assertEqual(workspace.name, "Read-only workspace")
+        self.assertEqual(workspace.propagation_scope, "project")
 
     def test_empty_billing_workspace_is_visible_to_workspace_owner(self) -> None:
         user = create_test_user()

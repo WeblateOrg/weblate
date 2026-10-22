@@ -22,14 +22,22 @@ from django.utils.html import format_html
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
-from weblate.checks.locks import check_project_session_read_lock, lock_check_projects
+from weblate.checks.locks import (
+    check_component_session_read_lock,
+    check_project_read_lock,
+    check_project_session_read_lock,
+    lock_check_projects,
+)
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import finalize_component_checks
-from weblate.trans.models import Project, Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import join_plural
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.lock import WeblateLock
+from weblate.workspaces.models import Workspace
 
 
 class CheckBoundaryLockTest(TransactionTestCase):
@@ -94,6 +102,39 @@ class CheckBoundaryLockTest(TransactionTestCase):
             result.result(timeout=10)
         self.assertTrue(acquired.is_set())
 
+    def test_workspace_worker_blocks_other_project_boundary_change(self) -> None:
+        actor = get_test_actor(self)
+        with acting_user_context(actor):
+            workspace = Workspace.objects.create(
+                name="Shared checks", propagation_scope="workspace"
+            )
+            first = Project.objects.create(
+                name="First", slug="first", workspace=workspace
+            )
+            second = Project.objects.create(
+                name="Second", slug="second", workspace=workspace
+            )
+        attempted = Event()
+        acquired = Event()
+
+        def transition() -> None:
+            close_old_connections()
+            try:
+                with transaction.atomic():
+                    attempted.set()
+                    lock_check_projects({second.pk}, exclusive=True)
+                    acquired.set()
+            finally:
+                close_old_connections()
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with check_project_session_read_lock(first.pk):
+                result = pool.submit(transition)
+                self.assertTrue(attempted.wait(10))
+                self.assertFalse(acquired.wait(0.1))
+            result.result(timeout=10)
+        self.assertTrue(acquired.is_set())
+
     def test_writer_waits_for_committed_transition(self) -> None:
         attempted = Event()
         acquired = Event()
@@ -116,6 +157,82 @@ class CheckBoundaryLockTest(TransactionTestCase):
                 self.assertFalse(acquired.wait(0.1))
             result.result(timeout=10)
         self.assertTrue(acquired.is_set())
+
+
+class CheckBoundaryRefreshTest(FixtureTestCase):
+    def test_unchanged_boundary_preserves_shared_project(self) -> None:
+        for lock in (check_project_read_lock, check_component_session_read_lock):
+            with self.subTest(lock=lock.__name__):
+                component = Component.objects.select_related("project__workspace").get(
+                    pk=self.component.pk
+                )
+                project = component.project
+                with lock(component):
+                    self.assertIs(component.project, project)
+                project.secondary_language = self.get_translation().language
+                with acting_user_context(get_test_actor(self)):
+                    project.save(update_fields=["secondary_language"])
+                self.assertEqual(
+                    component.project.secondary_language_id,
+                    project.secondary_language_id,
+                )
+
+    def test_changed_boundary_refreshes_project(self) -> None:
+        workspace = Workspace.objects.create(name="Check boundary workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        for lock in (check_project_read_lock, check_component_session_read_lock):
+            with self.subTest(lock=lock.__name__):
+                Workspace.objects.filter(pk=workspace.pk).update(
+                    propagation_scope="project"
+                )
+                component = Component.objects.select_related("project__workspace").get(
+                    pk=self.component.pk
+                )
+                original = component.project
+                Workspace.objects.filter(pk=workspace.pk).update(
+                    propagation_scope="workspace"
+                )
+                with lock(component):
+                    self.assertIsNot(component.project, original)
+                    current_workspace = component.project.workspace
+                    assert current_workspace is not None
+                    self.assertEqual(current_workspace.propagation_scope, "workspace")
+
+    def test_changed_project_access_refreshes_project(self) -> None:
+        for lock in (check_project_read_lock, check_component_session_read_lock):
+            with self.subTest(lock=lock.__name__):
+                Project.objects.filter(pk=self.project.pk).update(
+                    access_control=Project.ACCESS_PUBLIC
+                )
+                component = Component.objects.select_related("project__workspace").get(
+                    pk=self.component.pk
+                )
+                original = component.project
+                Project.objects.filter(pk=self.project.pk).update(
+                    access_control=Project.ACCESS_PRIVATE
+                )
+                with lock(component):
+                    self.assertIsNot(component.project, original)
+                    self.assertEqual(
+                        component.project.access_control, Project.ACCESS_PRIVATE
+                    )
+
+    def test_component_move_refreshes_project(self) -> None:
+        destination = self.create_project(
+            name="Moved component", slug="moved-component"
+        )
+        for lock in (check_project_read_lock, check_component_session_read_lock):
+            with self.subTest(lock=lock.__name__):
+                Component.objects.filter(pk=self.component.pk).update(
+                    project=self.project
+                )
+                component = Component.objects.select_related("project__workspace").get(
+                    pk=self.component.pk
+                )
+                Component.objects.filter(pk=component.pk).update(project=destination)
+                with lock(component):
+                    self.assertEqual(component.project_id, destination.pk)
+                    self.assertEqual(component.project.pk, destination.pk)
 
 
 class CheckLintTestCase(SimpleTestCase):
@@ -386,7 +503,7 @@ class BatchCheckMixinTest(SimpleTestCase):
         project_lock = MagicMock()
         component: Any = SimpleNamespace(
             allow_translation_propagation=True,
-            project=SimpleNamespace(checks_lock=project_lock),
+            project=SimpleNamespace(propagation_checks_lock=project_lock),
         )
 
         with (
