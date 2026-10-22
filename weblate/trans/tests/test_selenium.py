@@ -2000,6 +2000,7 @@ class SeleniumTests(
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
         project = Project.objects.create(name="Bulk selection", slug="bulk-selection")
+        project.label_set.create(name="Terminology", color="navy")
         component = fixture.create_po(project=project)
         translation = component.translation_set.get(language_code="cs")
         user = self.do_login(superuser=True)
@@ -2033,7 +2034,20 @@ class SeleniumTests(
         self.assertTrue(all(checkbox.is_selected() for checkbox in checkboxes))
         self.assertEqual(counter.text, f"{len(checkboxes)} strings selected")
         self.assertFalse(toggle.get_property("indeterminate"))
+        self.wait_for_screenshot_ready()
+        add_flags = self.driver.find_element(By.ID, "id_bulk_add_flags-ts-input")
+        remove_flags = self.driver.find_element(By.ID, "id_bulk_remove_flags-ts-input")
+        self.assertEqual(add_flags.get_attribute("placeholder"), "Choose flags to add…")
+        self.assertEqual(
+            remove_flags.get_attribute("placeholder"), "Choose flags to remove…"
+        )
+        self.assertEqual(add_flags.accessible_name, "Add flags")
+        self.assertEqual(remove_flags.accessible_name, "Remove flags")
         self.screenshot("bulk-edit-selection.png")
+        self.assertAlmostEqual(add_flags.rect["y"], remove_flags.rect["y"], delta=2)
+        self.driver.set_window_size(375, 900)
+        self.assertGreater(remove_flags.rect["y"], add_flags.rect["y"])
+        self.driver.set_window_size(1200, 1024)
 
         # Unselecting all strings on the page
         self.click(toggle)
