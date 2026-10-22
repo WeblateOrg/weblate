@@ -278,6 +278,36 @@ class SourceChangeCommitTest(RepoTestCase):
 
 
 class StateChangeCommitTest(RepoTestCase):
+    def test_subtitle_edit_is_committed(self) -> None:
+        component = self.create_srt()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!")
+        filename = get_optional_path(translation.get_filename())
+        revisions = set(component.repository.get_outgoing_revisions())
+        user = create_test_user()
+
+        unit.translate(user, "Edited subtitle", STATE_TRANSLATED)
+        self.assertTrue(unit.pending_changes.exists())
+        component.commit_pending("test", None)
+
+        self.assertIn("Edited subtitle", filename.read_text(encoding="utf-8"))
+        committed = set(component.repository.get_outgoing_revisions()) - revisions
+        self.assertEqual(len(committed), 1)
+        revision = committed.pop()
+        self.assertIn(
+            translation.filename,
+            component.repository.list_changed_files(f"{revision}^!"),
+        )
+        self.assertEqual(
+            component.repository.get_revision_info(revision)["author"],
+            user.get_author_name(),
+        )
+        translation.drop_store_cache()
+        backend, add = translation.store.find_unit(unit.context, unit.source)
+        self.assertFalse(add)
+        self.assertEqual(backend.target, "Edited subtitle")
+        self.assertFalse(unit.pending_changes.exists())
+
     def prepare_unit(self, component: Component) -> Unit:
         component.project.translation_review = True
         component.project.save()

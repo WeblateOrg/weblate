@@ -3321,7 +3321,7 @@ class SubtitleUnit(MonolingualIDUnit):
         """Return target string from a Translate Toolkit unit."""
         if not self.has_unit():
             return ""
-        return get_string(self.unit.source)
+        return get_string(self.unit.target)
 
     def is_translated(self):
         """Check whether unit is translated."""

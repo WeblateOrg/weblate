@@ -49,6 +49,7 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
 * Fixed initial installation of the :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`.
 * Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.
 * Fixed :ref:`legal document <legal>` links to prefer configured external URLs and kept privacy policy confirmation optional when hidden without a URL.
