@@ -430,12 +430,22 @@ def validate_slug(value) -> None:
 
 
 def validate_language_aliases(value) -> None:
-    """Validate language aliases - comma separated semi colon values."""
+    """Validate language aliases - comma separated code mappings."""
     if not value:
         return
+    # Imported here because language models also import validators from this module.
+    from weblate.lang.models import (  # ruff: ignore[import-outside-top-level]
+        Language,
+    )
+
+    code_field = Language._meta.get_field("code")  # ruff: ignore[private-member-access]
     for part in value.split(","):
         if part.count(":") != 1:
             raise ValidationError(gettext("Syntax error in language aliases."))
+        _source, target = part.split(":")
+        language = Language.objects.fuzzy_get(target)
+        code = language.code if isinstance(language, Language) else language
+        code_field.clean(code, None)
 
 
 def validate_project_name(value) -> None:

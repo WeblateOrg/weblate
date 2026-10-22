@@ -511,6 +511,8 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
 
         It is based on code and best guess of parameters.
         """
+        Language._meta.get_field("code").clean(code, None)  # ruff: ignore[private-member-access]
+
         # Create standard language
         name = f"{code} {GENERATED_SUFFIX}"
         if create:
