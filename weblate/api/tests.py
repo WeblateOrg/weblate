@@ -12332,16 +12332,50 @@ class LanguageAPITest(APIBaseTest):
                 "name": "New Language",
                 "direction": "rtl",
                 "population": 100,
-                "plural": {"number": 2, "formula": "n != 1"},
             },
         )
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
+
+    def test_update_rejects_plural(self) -> None:
+        language = Language.objects.get(code="cs")
+        original_name = language.name
+        original_plural_number = language.plural.number
+        original_plural_formula = language.plural.formula
+
+        for method in ("put", "patch"):
+            with self.subTest(method=method):
+                request = {
+                    "name": "Updated Language",
+                    "plural": {"number": 2, "formula": "n != 1"},
+                }
+                if method == "put":
+                    request.update(
+                        {
+                            "code": "cs",
+                            "direction": "rtl",
+                            "population": 100,
+                        }
+                    )
+                response = self.do_request(
+                    "api:language-detail",
+                    kwargs={"code": "cs"},
+                    method=method,
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request=request,
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "plural")
+                updated = Language.objects.get(code="cs")
+                self.assertEqual(updated.name, original_name)
+                self.assertEqual(updated.plural.number, original_plural_number)
+                self.assertEqual(updated.plural.formula, original_plural_formula)
 
     def test_patch(self) -> None:
         self.do_request(
             "api:language-detail",
             kwargs={"code": "cs"},
-            method="put",
+            method="patch",
             code=403,
         )
         self.do_request(

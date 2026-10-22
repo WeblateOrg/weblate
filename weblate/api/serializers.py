@@ -735,12 +735,27 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         plural.save()
         return language
 
+    def update(self, instance, validated_data):
+        if "plural" in validated_data:
+            msg = "Plural data cannot be updated."
+            raise serializers.ValidationError({"plural": msg})
+        return super().update(instance, validated_data)
+
     def get_value(self, dictionary):
         if self.is_source_language and "source_language" in dictionary:
             value = dictionary["source_language"]
             if isinstance(value, str):
                 return {"code": value}
         return super().get_value(dictionary)
+
+
+class LanguageUpdateSerializer(LanguageSerializer):
+    """Schema-only serializer for language update request bodies."""
+
+    class Meta(LanguageSerializer.Meta):
+        fields = tuple(
+            field for field in LanguageSerializer.Meta.fields if field != "plural"
+        )
 
 
 PROFILE_READONLY_FIELDS = (
