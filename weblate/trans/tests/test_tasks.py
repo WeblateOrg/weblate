@@ -49,6 +49,9 @@ from weblate.trans.repository_context import (
 )
 from weblate.trans.tasks import (
     RepositoryOperationRetryError,
+    _get_component_by_vcs_path,
+    _is_project_or_category_path,
+    _StaleRepositoryLookup,
     cleanup_repos,
     cleanup_stale_repos,
     cleanup_suggestions,
@@ -1296,6 +1299,178 @@ class TasksTest(ReusableComponentTestCase):
         cleanup_stale_repos()
 
         self.assertTrue(component_path.is_dir())
+
+    def test_cleanup_stale_repos_batches_lookups(self) -> None:
+        project_path = Path(self.project.full_path)
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(project_path))
+
+        parent = None
+        for depth in range(3):
+            parent = Category.objects.create(
+                project=self.project,
+                category=parent,
+                name=f"Cleanup {depth}",
+                slug=f"cleanup-{depth}",
+            )
+            category_path = Path(parent.full_path)
+            category_path.mkdir(parents=True, exist_ok=True)
+            self.create_po(
+                project=self.project,
+                category=parent,
+                name=f"cleanup-component-{depth}",
+                vcs="local",
+            )
+            unknown = category_path / "unknown" / "nested"
+            unknown.mkdir(parents=True)
+            (unknown / "keep").touch()
+
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(project_path))
+        with self.assertNumQueries(3):
+            self.assertFalse(cleanup_stale_repos(category_path))
+
+    def test_cleanup_stale_repos_lookup_matches_path_filters(self) -> None:
+        parent = Category.objects.create(
+            project=self.project, name="Parent", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.project, category=parent, name="Child", slug="child"
+        )
+        nested = Category.objects.create(
+            project=self.project, category=child, name="Nested", slug="nested"
+        )
+        other = Category.objects.create(
+            project=self.project, name="Other", slug="other"
+        )
+        Category.objects.create(
+            project=self.project, category=other, name="Child", slug="child"
+        )
+        component = self.create_po(
+            project=self.project, category=nested, name="cleanup", vcs="local"
+        )
+        with self.assertNumQueries(3):
+            lookup = _StaleRepositoryLookup.load(self.project.slug.upper())
+
+        paths = (
+            (),
+            ("parent",),
+            ("PARENT",),
+            ("parent", "CHILD"),
+            ("PARENT", "child"),
+            ("other", "child"),
+            ("child",),
+            ("parent", "child", "nested"),
+            ("child", "NESTED"),
+            ("parent", "child", "nested", component.slug.upper()),
+            ("child", "nested", component.slug),
+            ("nested", component.slug),
+            ("NESTED", component.slug),
+            (component.slug,),
+            ("missing",),
+        )
+        for path in paths:
+            parts = (self.project.slug.upper(), *path)
+            with self.subTest(path=path):
+                self.assertEqual(
+                    lookup.is_container(parts), _is_project_or_category_path(parts)
+                )
+                found = _get_component_by_vcs_path(parts)
+                self.assertEqual(
+                    lookup.component_is_link(parts),
+                    found.is_repo_link if found is not None else None,
+                )
+
+    def test_cleanup_stale_repos_removes_old_repositories(self) -> None:
+        project_path = Path(self.project.full_path)
+        linked = self.create_po(project=self.project, name="linked", vcs="local")
+        Component.objects.filter(pk=linked.pk).update(
+            repo=f"weblate://{self.component.full_slug}"
+        )
+        old_paths = [Path(linked.full_path)]
+        for dirname, metadata in (("old-git", ".git"), ("old-hg", ".hg")):
+            path = project_path / dirname
+            (path / metadata).mkdir(parents=True)
+            (path / metadata / "config").touch()
+            old_paths.append(path)
+        recent = project_path / "recent"
+        (recent / ".git").mkdir(parents=True)
+        empty = project_path / "empty-orphan"
+        empty.mkdir()
+        old_timestamp = time.time() - 2 * 86400
+        for path in old_paths:
+            os.utime(path, (old_timestamp, old_timestamp))
+
+        self.assertFalse(cleanup_stale_repos(project_path))
+
+        self.assertTrue(all(not path.exists() for path in old_paths))
+        self.assertFalse(empty.exists())
+        self.assertTrue(recent.is_dir())
+        self.assertTrue(Path(self.component.full_path).is_dir())
+
+    def test_cleanup_stale_repos_rechecks_link_status(self) -> None:
+        linked = self.create_po(project=self.project, name="linked", vcs="local")
+        Component.objects.filter(pk=linked.pk).update(
+            repo=f"weblate://{self.component.full_slug}"
+        )
+        path = Path(linked.full_path)
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(path, (old_timestamp, old_timestamp))
+        load = _StaleRepositoryLookup.load
+
+        def load_then_update(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Component.objects.filter(pk=linked.pk).update(repo="local:")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_update):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue((path / ".git" / "config").is_file())
+
+    def test_cleanup_stale_repos_rechecks_new_category(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Late category", slug="early-category"
+        )
+        path = Path(self.project.full_path) / "late-category"
+        (path / ".git").mkdir(parents=True)
+        metadata = path / ".git" / "config"
+        metadata.touch()
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(path, (old_timestamp, old_timestamp))
+        load = _StaleRepositoryLookup.load
+
+        def load_then_create(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Category.objects.filter(pk=category.pk).update(slug="late-category")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_create):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue(metadata.is_file())
+
+    def test_cleanup_stale_repos_rechecks_empty_component(self) -> None:
+        path = Path(self.project.full_path) / "late-component"
+        path.mkdir()
+        load = _StaleRepositoryLookup.load
+
+        def load_then_update(slug: str) -> _StaleRepositoryLookup:
+            lookup = load(slug)
+            Component.objects.filter(pk=self.component.pk).update(slug="late-component")
+            return lookup
+
+        with patch.object(_StaleRepositoryLookup, "load", side_effect=load_then_update):
+            cleanup_stale_repos(Path(self.project.full_path))
+
+        self.assertTrue(path.is_dir())
+
+    def test_cleanup_stale_repos_removes_empty_subtree(self) -> None:
+        path = Path(self.project.full_path) / "empty-orphan"
+        path.mkdir()
+
+        self.assertTrue(cleanup_stale_repos(path))
+        self.assertFalse(path.exists())
 
     def test_update_remotes(self) -> None:
         current_time = timezone.now().replace(hour=self.component.pk % 24)
