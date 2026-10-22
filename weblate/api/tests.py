@@ -54,6 +54,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.consistency import LanguageConsistencyAddon
@@ -18743,6 +18744,74 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_autotranslate_change_hides_restricted_source(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automatic translation source",
+            slug="restricted-automatic-translation-source",
+            restricted=True,
+            allow_translation_propagation=False,
+        )
+        reader_group = Group.objects.create(
+            name="Automatic translation history readers",
+            project_selection=SELECTION_ALL_PUBLIC,
+            language_selection=SELECTION_ALL,
+        )
+        reader = User.objects.create_user("autotranslate_reader", "reader@example.com")
+        reader.groups.set([reader_group])
+        reader.clear_permissions_cache()
+        self.assertTrue(reader.can_access_component(self.component))
+        self.assertFalse(reader.can_access_component(source))
+
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            configuration={
+                "auto_source": "others",
+                "component": source.pk,
+                "engines": [],
+                "mode": "suggest",
+                "q": "state:<translated",
+                "threshold": 80,
+            },
+            acting_user=self.user,
+            run=False,
+        )
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE, target=AutoTranslateAddon.name
+        )
+        self.assertEqual(addon.instance.configuration["component"], source.pk)
+
+        self.client.force_authenticate(user=reader)
+        restricted_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": source.project.slug, "slug": source.slug},
+        )
+        self.assertEqual(self.client.get(restricted_url).status_code, 404)
+        urls = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:component-changes", kwargs=self.component_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200, response.data)
+                if "results" in response.data:
+                    serialized = next(
+                        item
+                        for item in response.data["results"]
+                        if item["id"] == change.pk
+                    )
+                else:
+                    serialized = response.data
+                self.assertEqual(
+                    serialized["details"]["changed_fields"],
+                    ["auto_source", "component", "engines", "mode", "q", "threshold"],
+                )
+                self.assertIsNone(serialized["details"]["configuration"]["component"])
+                self.assertIn("component", serialized["details"]["redacted_fields"])
+        self.assertEqual(self.client.get(restricted_url).status_code, 404)
+
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
         self.assertEqual(response.data["count"], 35)
