@@ -25,6 +25,7 @@ from weblate.trans.file_format_params import get_effective_params_for_file_forma
 from weblate.trans.forms import (
     CategorySettingsForm,
     ComponentSettingsForm,
+    ProjectMoveForm,
     ProjectSettingsForm,
 )
 from weblate.trans.models import (
@@ -1408,6 +1409,37 @@ class SettingsTest(ReusableViewTestCase):
         billing.workspace.refresh_from_db()
         self.assertEqual(self.project.workspace_id, billing.workspace_id)
         self.assertEqual(billing.workspace.name, self.project.name)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_rechecks_billing_after_form_validation(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current move workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        self.user.clear_permissions_cache()
+        original_is_valid = ProjectMoveForm.is_valid
+
+        def fill_slot(form):
+            result = original_is_valid(form)
+            if result:
+                Project.objects.create(
+                    name="Competing browser move project",
+                    slug="competing-browser-move-project",
+                    workspace_id=billing.workspace_id,
+                )
+            return result
+
+        with patch.object(ProjectMoveForm, "is_valid", fill_slot):
+            response = self.client.post(
+                reverse("move", kwargs={"path": self.project.get_url_path()}),
+                {"workspace": str(billing.workspace_id)},
+                follow=True,
+            )
+        self.assertContains(response, "No valid billing found or limit exceeded.")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
 
     def test_project_move_requires_target_add_project(self) -> None:
         self.project.add_user(self.user, "Administration")

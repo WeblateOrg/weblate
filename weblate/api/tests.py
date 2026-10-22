@@ -10,11 +10,13 @@ import operator
 import os
 import tempfile
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager, nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
+from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
@@ -28,18 +30,18 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError, transaction
+from django.db import DatabaseError, close_old_connections, connection, transaction
 from django.db.models import Q
 from django.http import StreamingHttpResponse
 from django.templatetags.static import static
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
 from rest_framework.request import Request
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
@@ -72,7 +74,7 @@ from weblate.api.serializers import (
     ProjectSerializer,
     RepoOperations,
 )
-from weblate.api.views import MemoryFilter, MemoryViewSet
+from weblate.api.views import MemoryFilter, MemoryViewSet, ProjectViewSet
 from weblate.auth.data import (
     ROLES,
     SELECTION_ALL,
@@ -4457,6 +4459,74 @@ class RoleAPITest(APIBaseTest):
         self.assertFalse(role.permissions.exists())
 
 
+@modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+class ProjectCreationConcurrencyTest(TransactionTestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            "project-race", "project-race@example.org", "x"
+        )
+        billing = create_test_billing(self.user)
+        billing.plan.limit_projects = 3
+        billing.plan.display_limit_projects = 3
+        billing.plan.save(update_fields=["limit_projects", "display_limit_projects"])
+        self.workspace_id = billing.workspace_id
+        for index in range(2):
+            Project.objects.create(
+                name=f"Existing race project {index}",
+                slug=f"existing-race-project-{index}",
+                workspace_id=self.workspace_id,
+            )
+        self.token = self.user.auth_token.key
+
+    def create_project(self, index: int, *, explicit_workspace: bool) -> int:
+        close_old_connections()
+        try:
+            client = APIClient()
+            client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")
+            payload = {
+                "name": f"Race project {index}",
+                "slug": f"race-project-{index}",
+                "web": "https://example.org/",
+            }
+            if explicit_workspace:
+                payload["workspace"] = str(self.workspace_id)
+            return client.post(
+                reverse("api:project-list"), payload, format="json"
+            ).status_code
+        finally:
+            connection.close()
+
+    def test_one_concurrent_request_fills_last_project_slot(self) -> None:
+        for explicit_workspace in (True, False):
+            with self.subTest(explicit_workspace=explicit_workspace):
+                barrier = Barrier(2)
+                original_perform_create = ProjectViewSet.perform_create
+
+                def perform_create(
+                    view, serializer, gate=barrier, create=original_perform_create
+                ):
+                    gate.wait(timeout=10)
+                    return create(view, serializer)
+
+                with (
+                    patch.object(ProjectViewSet, "perform_create", perform_create),
+                    ThreadPoolExecutor(max_workers=2) as executor,
+                ):
+                    responses = list(
+                        executor.map(
+                            lambda index, explicit=explicit_workspace: (
+                                self.create_project(index, explicit_workspace=explicit)
+                            ),
+                            range(2),
+                        )
+                    )
+                self.assertCountEqual(responses, [201, 403])
+                self.assertEqual(
+                    Project.objects.filter(workspace_id=self.workspace_id).count(), 3
+                )
+                Project.objects.filter(slug__startswith="race-project-").delete()
+
+
 class ProjectAPITest(APIBaseTest):
     def test_language_aliases_validate_destination(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
@@ -5829,6 +5899,29 @@ class ProjectAPITest(APIBaseTest):
                 },
                 response.data,
             )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_with_unlimited_billing_projects(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.plan.limit_projects = 0
+        billing.plan.display_limit_projects = 0
+        billing.plan.save(update_fields=["limit_projects", "display_limit_projects"])
+
+        for index in range(2):
+            self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": f"Unlimited project {index}",
+                    "slug": f"unlimited-project-{index}",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace_id),
+                },
+            )
+        self.assertEqual(
+            Project.objects.filter(workspace_id=billing.workspace_id).count(), 2
+        )
 
     def test_create_with_source_language(self) -> None:
         self.do_request(
@@ -7273,6 +7366,39 @@ class ProjectAPITest(APIBaseTest):
         )
         self.project.refresh_from_db()
         self.assertEqual(self.project.workspace_id, current_workspace.pk)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_patch_workspace_rechecks_billing_after_validation(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current move workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        billing = create_test_billing(self.user)
+        self.user.clear_permissions_cache()
+        original_perform_update = ProjectViewSet.perform_update
+
+        def fill_slot(view, serializer):
+            Project.objects.create(
+                name="Competing move project",
+                slug="competing-move-project",
+                workspace_id=billing.workspace_id,
+            )
+            return original_perform_update(view, serializer)
+
+        with patch.object(ProjectViewSet, "perform_update", fill_slot):
+            self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"workspace": str(billing.workspace_id)},
+            )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
+        self.assertEqual(
+            Project.objects.filter(workspace_id=billing.workspace_id).count(), 1
+        )
 
     def test_patch_restricted_web(self) -> None:
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):

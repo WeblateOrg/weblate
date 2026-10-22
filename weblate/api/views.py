@@ -2750,15 +2750,40 @@ class ProjectViewSet(
 
     def perform_create(self, serializer) -> None:
         with transaction.atomic():
-            super().perform_create(serializer)
             billing = None
+            workspace = serializer.validated_data.get("workspace")
+            if "weblate.billing" in settings.INSTALLED_APPS and workspace:
+                # ruff: ignore[import-outside-top-level]
+                from weblate.billing.models import Billing
+
+                try:
+                    billing = Billing.objects.lock_project_creation(workspace.pk)
+                except DjangoValidationError:
+                    self.permission_denied(
+                        self.request, "No valid billing found or limit exceeded."
+                    )
+            super().perform_create(serializer)
+            serializer.instance.post_create(self.request.user, billing)
+
+    def perform_update(self, serializer) -> None:
+        with transaction.atomic():
+            workspace = serializer.validated_data.get("workspace")
             if (
                 "weblate.billing" in settings.INSTALLED_APPS
-                and serializer.instance.workspace_id
+                and workspace is not None
+                and workspace.pk != serializer.instance.workspace_id
             ):
-                with suppress(AttributeError):
-                    billing = serializer.instance.workspace.billing
-            serializer.instance.post_create(self.request.user, billing)
+                # ruff: ignore[import-outside-top-level]
+                from weblate.billing.models import Billing
+
+                try:
+                    Billing.objects.lock_project_creation(
+                        workspace.pk,
+                        source_workspace_id=serializer.instance.workspace_id,
+                    )
+                except DjangoValidationError as error:
+                    raise ValidationError({"workspace": error.messages}) from error
+            super().perform_update(serializer)
 
     def update(self, request: Request, *args, **kwargs):
         """Edit a project by a PUT request."""

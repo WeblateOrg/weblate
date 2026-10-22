@@ -36,6 +36,7 @@ from weblate.trans.views.create import (
     INTEGRATION_IMPORT_VCS_KEY,
     SESSION_CREATE_KEY,
     CreateComponent,
+    CreateProject,
 )
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.tests.network import mock_dns
@@ -108,6 +109,27 @@ class CreateTest(ViewTestCase):
             name="p2",
             slug="p2",
             workspace=billing.workspace_id,
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_project_rechecks_billing_after_form_validation(self) -> None:
+        billing = create_test_billing(self.user)
+        original_form_valid = CreateProject.form_valid
+
+        def fill_slot(view, form):
+            Project.objects.create(
+                name="Competing browser project",
+                slug="competing-browser-project",
+                workspace_id=billing.workspace_id,
+            )
+            return original_form_valid(view, form)
+
+        with patch.object(CreateProject, "form_valid", fill_slot):
+            response = self.client_create_project(False, workspace=billing.workspace_id)
+        self.assertContains(response, "No valid billing found or limit exceeded.")
+        self.assertFalse(Project.objects.filter(slug="create-project").exists())
+        self.assertEqual(
+            Project.objects.filter(workspace_id=billing.workspace_id).count(), 1
         )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
