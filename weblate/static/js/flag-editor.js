@@ -151,7 +151,7 @@
       optgroupField: "category",
       optgroupLabelField: "category",
       optgroupValueField: "category",
-      placeholder: gettext("Add a flag…"),
+      placeholder: input.getAttribute("placeholder") || gettext("Add a flag…"),
       hidePlaceholder: false,
       maxOptions: null,
       render: {

@@ -4609,35 +4609,26 @@ class BulkEditForm(forms.Form):
         choices=[(-1, gettext_lazy("Do not change"))],
     )
     path = forms.CharField(widget=forms.HiddenInput, required=False)
-    add_flags = FlagField(
-        label=gettext_lazy("Source flags to add — all languages"), required=False
-    )
-    remove_flags = FlagField(
-        label=gettext_lazy("Source flags to remove — all languages"), required=False
-    )
-    add_translation_flags = FlagField(
-        label=gettext_lazy("Translation flags to add — matching translations"),
-        required=False,
-        help_text=gettext_lazy(
-            "Applies only to matching translations, excluding source strings."
-        ),
-    )
+    add_flags = FlagField(label=gettext_lazy("Add flags"), required=False)
+    remove_flags = FlagField(label=gettext_lazy("Remove flags"), required=False)
+    add_translation_flags = FlagField(label=gettext_lazy("Add flags"), required=False)
     remove_translation_flags = FlagField(
-        label=gettext_lazy("Translation flags to remove — matching translations"),
+        label=gettext_lazy("Remove flags"),
         required=False,
         help_text=gettext_lazy(
-            "Removes locally set flags. Inherited flags remain in effect."
+            "Only flags set directly on these translations are removed. "
+            "Inherited flags remain in effect."
         ),
     )
     add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to add — all languages"),
+        label=gettext_lazy("Add labels"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to remove — all languages"),
+        label=gettext_lazy("Remove labels"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
@@ -4703,10 +4694,6 @@ class BulkEditForm(forms.Form):
             self.helper.layout = Layout(
                 Div(template="snippets/bulk-selection-help.html"),
                 Field("state"),
-                Field("add_flags"),
-                Field("remove_flags"),
-                Field("add_translation_flags"),
-                Field("remove_translation_flags"),
             )
         else:
             self.helper.layout = Layout(
@@ -4714,14 +4701,78 @@ class BulkEditForm(forms.Form):
                 SearchField("q", user=user, project=get_saved_search_project(obj)),
                 Field("path"),
                 Field("state"),
-                Field("add_flags"),
-                Field("remove_flags"),
-                Field("add_translation_flags"),
-                Field("remove_translation_flags"),
             )
+
+        groups = [
+            (
+                gettext("Source flags"),
+                gettext(
+                    "Flags are set on the source strings corresponding to your "
+                    "selection and apply to their translations in every language."
+                )
+                if selection
+                else gettext(
+                    "Flags are set on the source strings corresponding to your filter "
+                    "results and apply to their translations in every language."
+                ),
+                "add_flags",
+                "remove_flags",
+            ),
+            (
+                gettext("Translation flags"),
+                gettext(
+                    "Flags apply only to translations in your selection. "
+                    "Source strings are excluded."
+                )
+                if selection
+                else gettext(
+                    "Flags apply only to translations matching your filter. "
+                    "Source strings are excluded."
+                ),
+                "add_translation_flags",
+                "remove_translation_flags",
+            ),
+        ]
         if labels:
-            self.helper.layout.append(InlineCheckboxes("add_labels"))
-            self.helper.layout.append(InlineCheckboxes("remove_labels"))
+            groups.append(
+                (
+                    gettext("Labels"),
+                    gettext(
+                        "Labels apply to the source strings corresponding to your "
+                        "selection and are shared across all languages."
+                    )
+                    if selection
+                    else gettext(
+                        "Labels apply to the source strings corresponding to your filter "
+                        "results and are shared across all languages."
+                    ),
+                    "add_labels",
+                    "remove_labels",
+                )
+            )
+        for title, description, add_field, remove_field in groups:
+            description_id = f"{self[add_field].auto_id}_scope"
+            if add_field == "add_labels":
+                fields = [InlineCheckboxes(add_field), InlineCheckboxes(remove_field)]
+            else:
+                fields = [Field(add_field), Field(remove_field)]
+                self.fields[add_field].widget.attrs["placeholder"] = gettext(
+                    "Choose flags to add…"
+                )
+                self.fields[remove_field].widget.attrs["placeholder"] = gettext(
+                    "Choose flags to remove…"
+                )
+            self.helper.layout.append(
+                Fieldset(
+                    title,
+                    HTML(format_html('<p id="{}">{}</p>', description_id, description)),
+                    Div(
+                        *(Div(field, css_class="col-md-6") for field in fields),
+                        css_class="row",
+                    ),
+                    aria_describedby=description_id,
+                )
+            )
 
     def clean(self):
         cleaned_data = super().clean() or {}

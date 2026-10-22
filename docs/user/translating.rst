@@ -637,6 +637,8 @@ Bulk edit
 
 Bulk editing allows performing one operation for multiple strings.
 Define strings by searching for them and actions to perform on matching ones.
+Flag and label changes are grouped by what they affect, with separate
+:guilabel:`Add flags` and :guilabel:`Remove flags` fields for each flag group.
 Supported operations:
 
 * Change string state (for example to approve all unreviewed strings).
@@ -647,7 +649,7 @@ Source flag and label operations affect all languages of matching strings.
 Translation flag operations affect only matching translations and skip source
 strings. Removing translation flags removes local values; inherited flags
 remain in effect. To mark matching translations read-only, add ``read-only``
-under :guilabel:`Translation flags to add — matching translations`.
+using :guilabel:`Add flags` in the :guilabel:`Translation flags` section.
 
 .. hint::
 
