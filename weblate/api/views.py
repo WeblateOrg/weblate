@@ -96,6 +96,7 @@ from weblate.api.serializers import (
     GroupSerializer,
     LabelSerializer,
     LanguageSerializer,
+    LanguageUpdateSerializer,
     LockRequestSerializer,
     LockSerializer,
     MemoryLookupQuerySerializer,
@@ -4287,7 +4288,16 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         description="Return a list of all languages the user has access to."
     ),
     retrieve=extend_schema(description="Return information about a language."),
-    partial_update=extend_schema(description="Change the language parameters."),
+    update=extend_schema(
+        description="Change the language parameters.",
+        request=LanguageUpdateSerializer,
+        responses=LanguageSerializer,
+    ),
+    partial_update=extend_schema(
+        description="Change the language parameters.",
+        request=LanguageUpdateSerializer,
+        responses=LanguageSerializer,
+    ),
 )
 class LanguageViewSet(viewsets.ModelViewSet):
     """Languages API."""

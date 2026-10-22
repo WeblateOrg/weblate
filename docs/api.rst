@@ -979,7 +979,9 @@ Languages
     :<json string name: Language name
     :<json string direction: Text direction
     :<json int population: Number of speakers
-    :<json object plural: Language plural details
+
+    The ``plural`` field can only be set when creating a language and is
+    rejected on updates.
 
 .. http:patch:: /api/languages/(string:language)/
 
@@ -990,7 +992,9 @@ Languages
     :<json string name: Language name
     :<json string direction: Text direction
     :<json int population: Number of speakers
-    :<json object plural: Language plural details
+
+    The ``plural`` field can only be set when creating a language and is
+    rejected on updates.
 
 .. http:delete:: /api/languages/(string:language)/
 
