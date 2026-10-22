@@ -33,6 +33,7 @@ import fedora_messaging.config
 import httpx2
 import jsonschema.exceptions
 from crispy_forms.helper import FormHelper
+from crispy_forms.utils import render_crispy_form
 from django import forms
 from django.apps import apps
 from django.conf import settings
@@ -77,6 +78,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     PendingUnitChange,
+    Project,
     Suggestion,
     Translation,
     Unit,
@@ -97,6 +99,8 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
+from weblate.utils.forms import FormFieldGroup
+from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -177,7 +181,9 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
+from .management.commands.list_addons import Command as ListAddonsCommand
 from .models import (
+    ADDONS,
     Addon,
     AddonActivityLog,
     Event,
@@ -209,9 +215,6 @@ if TYPE_CHECKING:
     from unittest.mock import Mock
 
     from weblate.trans.discovery import DetectedDiscoveryPreset
-    from weblate.trans.models import (
-        Project,
-    )
 
 
 def get_webhook_request_data(
@@ -13579,6 +13582,138 @@ class TestCommand(SimpleTestCase):
 
         with self.assertRaises(FileNotFoundError):
             call_command("list_addons", "-o", "missing_fileXXX.rst", stdout=StringIO())
+
+    def test_configuration_groups(self) -> None:
+        output = StringIO()
+        call_command("list_addons", "--sections", "addons", stdout=output)
+        generated = output.getvalue()
+        expected = {
+            "weblate.flags.bulk": ("Source flags", "Translation flags", "Labels"),
+            "weblate.generate.pseudolocale": (
+                "Source and target",
+                "Prepended text",
+                "Appended text",
+                "Text expansion",
+            ),
+            "weblate.fedora_messaging.publish": (
+                "Broker connection",
+                "Timeouts and retries",
+                "TLS credentials",
+                "Event selection",
+            ),
+            "weblate.discovery.discovery": (
+                "File matching",
+                "Component naming and file templates",
+                "Component lifecycle",
+            ),
+            "weblate.gettext.xgettext": (
+                "Update behavior",
+                "Input files",
+                "Comment extraction",
+                "Keywords",
+                "Checks and ITS data",
+            ),
+            "weblate.gettext.meson": (
+                "Update behavior",
+                "Meson preset",
+                "Comment extraction",
+                "Keywords",
+                "Checks and ITS data",
+            ),
+        }
+        fake_addon = Addon(
+            component=Component(project=Project(pk=-1), pk=-1, source_language_id=-1)
+        )
+        for addon_name, titles in expected.items():
+            with self.subTest(addon=addon_name):
+                addon = ADDONS[addon_name](fake_addon)
+                addon.documentation_build = True
+                form = addon.get_settings_form(None)
+                assert form is not None
+                get_groups = getattr(form, "get_field_groups", None)
+                assert get_groups is not None
+                groups = get_groups()
+                self.assertEqual(tuple(str(group.title) for group in groups), titles)
+                section = generated.split(f".. _addon-{addon_name}:\n", 1)[1].split(
+                    ":Triggers:", 1
+                )[0]
+                position = 0
+                for group in groups:
+                    next_position = section.index(f"**{group.title}**")
+                    self.assertGreater(next_position, position)
+                    position = next_position
+                    for name in group.fields:
+                        if form.fields[name].widget.is_hidden:
+                            continue
+                        field_position = section.index(f"``{name}``", position)
+                        self.assertGreater(field_position, position)
+                        self.assertEqual(section.count(f"``{name}``"), 1)
+                        position = field_position
+                # Render the actual layouts without fetching database-backed choices.
+                for field in form.fields.values():
+                    if isinstance(
+                        field, (forms.ModelChoiceField, forms.ModelMultipleChoiceField)
+                    ):
+                        queryset = field.queryset
+                        assert queryset is not None
+                        field.queryset = queryset.none()
+                helper = getattr(form, "helper", None)
+                assert helper is not None
+                helper.disable_csrf = True
+                with patch(
+                    "weblate.utils.forms.SearchField.get_saved_search_choices",
+                    return_value=[],
+                ):
+                    rendered = render_crispy_form(form)
+                for title in titles:
+                    if addon_name == "weblate.flags.bulk" and title == "Labels":
+                        continue
+                    self.assertIn(f">{title}</legend>", rendered)
+        bulk = generated.split(".. _addon-weblate.flags.bulk:\n", 1)[1].split(
+            ":Triggers:", 1
+        )[0]
+        self.assertIn("apply to their translations in every language", bulk)
+        self.assertIn("Source strings are excluded", bulk)
+        self.assertIn("shared across all languages", bulk)
+
+    def test_configuration_groups_skip_hidden_and_internal_fields(self) -> None:
+        class GroupedForm(forms.Form):
+            general = forms.CharField(label="General")
+            path = forms.CharField()
+            hidden = forms.CharField(widget=forms.HiddenInput)
+            visible = forms.CharField(label="Visible")
+
+            def get_field_groups(self):
+                return [
+                    FormFieldGroup("Empty group", ("path", "hidden")),
+                    FormFieldGroup(
+                        "Visible group", ("visible", "visible"), "Scope description."
+                    ),
+                    FormFieldGroup("Duplicate group", ("visible",)),
+                ]
+
+        table = ListAddonsCommand().get_configuration_table(
+            "weblate.flags.bulk", GroupedForm, GroupedForm()
+        )
+        self.assertEqual(
+            table,
+            [
+                ["``general``", "General", ""],
+                FullWidthRow("**Visible group**\n\nScope description."),
+                ["``visible``", "Visible", ""],
+            ],
+        )
+
+    def test_ungrouped_configuration_table(self) -> None:
+        class PlainForm(forms.Form):
+            value = forms.CharField(label="Value", help_text="Help text.")
+
+        self.assertEqual(
+            ListAddonsCommand().get_configuration_table(
+                "plain", PlainForm, PlainForm()
+            ),
+            [["``value``", "Value", "Help text."]],
+        )
 
     def test_list_addons_split_output(self) -> None:
         with (
