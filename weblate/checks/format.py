@@ -468,12 +468,15 @@ class BaseFormatCheck(TargetCheck):
     def extract_string(self, match: re.Match) -> str:
         return extract_string_simple(match)
 
-    def extract_matches(self, string: str) -> list[str]:
+    def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         if self.regexp is None:
-            return []
+            return ()
+        return self.regexp.finditer(string)
+
+    def extract_matches(self, string: str) -> list[str]:
         return [
             self.cleanup_string(self.extract_string(match))
-            for match in self.regexp.finditer(string)
+            for match in self.iter_matches(string)
         ]
 
     def check_format(
@@ -526,10 +529,7 @@ class BaseFormatCheck(TargetCheck):
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        if self.regexp is None:
-            return
-        match_objects = self.regexp.finditer(source)
-        for match in match_objects:
+        for match in self.iter_matches(source):
             yield Highlight(match.start(), match.end(), match.group(), kind="grammar")
 
     def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:

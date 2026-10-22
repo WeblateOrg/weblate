@@ -35,6 +35,7 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented excessive CPU use when the :ref:`AngularJS interpolation check <check-angularjs-format>` processes unterminated expressions.
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
 * Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
