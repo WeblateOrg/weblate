@@ -45,6 +45,7 @@ from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
+    FormFieldGroup,
     SortedSelectMultiple,
     WeblateServiceURLField,
 )
@@ -380,6 +381,25 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
 
+    @staticmethod
+    def get_extraction_field_groups() -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Comment extraction"), ("comment_mode", "comment_tag")
+            ),
+            FormFieldGroup(gettext_lazy("Keywords"), ("keyword", "keyword_exclusive")),
+            FormFieldGroup(
+                gettext_lazy("Checks and ITS data"), ("checks", "data_dirs")
+            ),
+        ]
+
+    @staticmethod
+    def get_update_field_group() -> FormFieldGroup:
+        return FormFieldGroup(
+            gettext_lazy("Update behavior"),
+            ("interval", "normalize_header", "update_po_files", "location_mode"),
+        )
+
     def clean_data_dirs(self) -> list[str]:
         names = validate_data_dirs(
             [
@@ -479,25 +499,18 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
                 data["source_patterns"] = "\n".join(source_patterns)
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
-        self.helper.layout = Layout(*self.get_xgettext_layout_fields())
+        self.helper.layout = Layout(
+            *(group.as_fieldset(self) for group in self.get_field_groups())
+        )
 
-    @classmethod
-    def get_xgettext_layout_fields(cls) -> list[Field]:
+    def get_field_groups(self) -> list[FormFieldGroup]:
         return [
-            Field("interval"),
-            Field("normalize_header"),
-            Field("update_po_files"),
-            Field("input_mode"),
-            Field("language"),
-            Field("source_patterns"),
-            Field("potfiles_path"),
-            Field("comment_mode"),
-            Field("comment_tag"),
-            Field("checks"),
-            Field("data_dirs"),
-            Field("keyword"),
-            Field("keyword_exclusive"),
-            Field("location_mode"),
+            self.get_update_field_group(),
+            FormFieldGroup(
+                gettext_lazy("Input files"),
+                ("input_mode", "language", "source_patterns", "potfiles_path"),
+            ),
+            *self.get_extraction_field_groups(),
         ]
 
     @staticmethod
@@ -567,18 +580,15 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper.layout = Layout(
-            Field("interval"),
-            Field("normalize_header"),
-            Field("update_po_files"),
-            Field("preset"),
-            Field("comment_mode"),
-            Field("comment_tag"),
-            Field("checks"),
-            Field("data_dirs"),
-            Field("keyword"),
-            Field("keyword_exclusive"),
-            Field("location_mode"),
+            *(group.as_fieldset(self) for group in self.get_field_groups())
         )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            self.get_update_field_group(),
+            FormFieldGroup(gettext_lazy("Meson preset"), ("preset",)),
+            *self.get_extraction_field_groups(),
+        ]
 
     def clean(self) -> dict[str, Any]:
         super().clean()
@@ -1098,16 +1108,7 @@ class DiscoveryForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("match"),
-            Field("file_format"),
-            Field("name_template"),
-            Field("base_file_template"),
-            Field("new_base_template"),
-            Field("intermediate_template"),
-            Field("filemask_template"),
-            Field("language_regex"),
-            Field("copy_addons"),
-            Field("remove"),
+            *(group.as_fieldset(self) for group in self.get_field_groups())
         )
         if not self._addon.documentation_build and self.guided_preset_sections:
             self.helper.layout.insert(
@@ -1145,6 +1146,27 @@ class DiscoveryForm(BaseAddonForm):
                         },
                     ),
                 )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("File matching"),
+                ("match", "file_format", "language_regex"),
+            ),
+            FormFieldGroup(
+                gettext_lazy("Component naming and file templates"),
+                (
+                    "name_template",
+                    "base_file_template",
+                    "new_base_template",
+                    "intermediate_template",
+                    "filemask_template",
+                ),
+            ),
+            FormFieldGroup(
+                gettext_lazy("Component lifecycle"), ("copy_addons", "remove")
+            ),
+        ]
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
@@ -1804,18 +1826,20 @@ class PseudolocaleAddonForm(BaseAddonForm):
             self.fields["target"].queryset = queryset  # type: ignore[attr-defined]
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("source"),
-            Field("include_readonly"),
-            Field("target"),
-            Field("prefix"),
-            Field("var_prefix"),
-            Field("suffix"),
-            Field("var_suffix"),
-            Field("var_multiplier"),
-            ContextDiv(
-                template="addons/pseudolocale.html",
-            ),
+            *(group.as_fieldset(self) for group in self.get_field_groups()),
+            ContextDiv(template="addons/pseudolocale.html"),
         )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Source and target"),
+                ("source", "include_readonly", "target"),
+            ),
+            FormFieldGroup(gettext_lazy("Prepended text"), ("prefix", "var_prefix")),
+            FormFieldGroup(gettext_lazy("Appended text"), ("suffix", "var_suffix")),
+            FormFieldGroup(gettext_lazy("Text expansion"), ("var_multiplier",)),
+        ]
 
     def clean(self) -> None:
         if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
@@ -2056,18 +2080,28 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         required=False,
     )
 
-    field_order = [  # ruff: ignore[mutable-class-default]
-        "amqp_url",
-        "topic_prefix",
-        "publish_timeout",
-        "connection_attempts",
-        "retry_delay",
-        "ca_cert",
-        "client_key",
-        "client_cert",
-        "event_filter",
-        "events",
-    ]
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            *(group.as_fieldset(self) for group in self.get_field_groups())
+        )
+
+    def get_field_groups(self) -> list[FormFieldGroup]:
+        return [
+            FormFieldGroup(
+                gettext_lazy("Broker connection"), ("amqp_url", "topic_prefix")
+            ),
+            FormFieldGroup(
+                gettext_lazy("Timeouts and retries"),
+                ("publish_timeout", "connection_attempts", "retry_delay"),
+            ),
+            FormFieldGroup(
+                gettext_lazy("TLS credentials"),
+                ("ca_cert", "client_key", "client_cert"),
+            ),
+            FormFieldGroup(gettext_lazy("Event selection"), ("event_filter", "events")),
+        ]
 
     def serialize_form(self):
         # ruff: ignore[import-outside-top-level]

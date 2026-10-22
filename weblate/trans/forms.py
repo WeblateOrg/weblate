@@ -111,6 +111,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    FormFieldGroup,
     InheritedSetting,
     NormalizedNewlineCharField,
     QueryField,
@@ -4703,56 +4704,11 @@ class BulkEditForm(forms.Form):
                 Field("state"),
             )
 
-        groups = [
-            (
-                gettext("Source flags"),
-                gettext(
-                    "Flags are set on the source strings corresponding to your "
-                    "selection and apply to their translations in every language."
-                )
-                if selection
-                else gettext(
-                    "Flags are set on the source strings corresponding to your filter "
-                    "results and apply to their translations in every language."
-                ),
-                "add_flags",
-                "remove_flags",
-            ),
-            (
-                gettext("Translation flags"),
-                gettext(
-                    "Flags apply only to translations in your selection. "
-                    "Source strings are excluded."
-                )
-                if selection
-                else gettext(
-                    "Flags apply only to translations matching your filter. "
-                    "Source strings are excluded."
-                ),
-                "add_translation_flags",
-                "remove_translation_flags",
-            ),
-        ]
-        if labels:
-            groups.append(
-                (
-                    gettext("Labels"),
-                    gettext(
-                        "Labels apply to the source strings corresponding to your "
-                        "selection and are shared across all languages."
-                    )
-                    if selection
-                    else gettext(
-                        "Labels apply to the source strings corresponding to your filter "
-                        "results and are shared across all languages."
-                    ),
-                    "add_labels",
-                    "remove_labels",
-                )
-            )
-        for title, description, add_field, remove_field in groups:
-            description_id = f"{self[add_field].auto_id}_scope"
+        for group in self.get_field_groups(selection=selection):
+            add_field, remove_field = group.fields
             if add_field == "add_labels":
+                if not labels:
+                    continue
                 fields = [InlineCheckboxes(add_field), InlineCheckboxes(remove_field)]
             else:
                 fields = [Field(add_field), Field(remove_field)]
@@ -4763,16 +4719,58 @@ class BulkEditForm(forms.Form):
                     "Choose flags to remove…"
                 )
             self.helper.layout.append(
-                Fieldset(
-                    title,
-                    HTML(format_html('<p id="{}">{}</p>', description_id, description)),
+                group.as_fieldset(
+                    self,
                     Div(
                         *(Div(field, css_class="col-md-6") for field in fields),
                         css_class="row",
                     ),
-                    aria_describedby=description_id,
                 )
             )
+
+    def get_field_groups(self, *, selection: bool = False) -> list[FormFieldGroup]:
+        """Describe all operations, including labels without available UI choices."""
+        return [
+            FormFieldGroup(
+                gettext("Source flags"),
+                ("add_flags", "remove_flags"),
+                gettext(
+                    "Flags are set on the source strings corresponding to your "
+                    "selection and apply to their translations in every language."
+                )
+                if selection
+                else gettext(
+                    "Flags are set on the source strings corresponding to your filter "
+                    "results and apply to their translations in every language."
+                ),
+            ),
+            FormFieldGroup(
+                gettext("Translation flags"),
+                ("add_translation_flags", "remove_translation_flags"),
+                gettext(
+                    "Flags apply only to translations in your selection. "
+                    "Source strings are excluded."
+                )
+                if selection
+                else gettext(
+                    "Flags apply only to translations matching your filter. "
+                    "Source strings are excluded."
+                ),
+            ),
+            FormFieldGroup(
+                gettext("Labels"),
+                ("add_labels", "remove_labels"),
+                gettext(
+                    "Labels apply to the source strings corresponding to your "
+                    "selection and are shared across all languages."
+                )
+                if selection
+                else gettext(
+                    "Labels apply to the source strings corresponding to your filter "
+                    "results and are shared across all languages."
+                ),
+            ),
+        ]
 
     def clean(self):
         cleaned_data = super().clean() or {}

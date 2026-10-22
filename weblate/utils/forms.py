@@ -3,15 +3,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Literal
 
-from crispy_forms.layout import Div, Field, LayoutObject
+from crispy_forms.layout import HTML, Div, Field, Fieldset, LayoutObject
 from crispy_forms.utils import TEMPLATE_PACK, render_field
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
+from django.utils.html import format_html
 from django.utils.text import normalize_newlines
 from django.utils.translation import gettext, gettext_lazy
 
@@ -32,6 +34,27 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.trans.models import Project
+
+
+@dataclass(frozen=True)
+class FormFieldGroup:
+    """Share a group of configuration fields between forms and documentation."""
+
+    title: StrOrPromise
+    fields: tuple[str, ...]
+    description: StrOrPromise = ""
+
+    def as_fieldset(self, form: forms.Form, *layout: LayoutObject) -> Fieldset:
+        fields = list(layout) if layout else [Field(name) for name in self.fields]
+        if not self.description:
+            return Fieldset(self.title, *fields)
+        description_id = f"{form[self.fields[0]].auto_id}_scope"
+        return Fieldset(
+            self.title,
+            HTML(format_html('<p id="{}">{}</p>', description_id, self.description)),
+            *fields,
+            aria_describedby=description_id,
+        )
 
 
 class QueryField(forms.CharField):
