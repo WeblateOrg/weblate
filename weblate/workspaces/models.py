@@ -68,6 +68,7 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
 class Workspace(models.Model, CacheKeyMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "name",
+        "propagation_scope",
         "use_workspace_tm",
         "contribute_workspace_tm",
         "license",
@@ -97,6 +98,22 @@ class Workspace(models.Model, CacheKeyMixin):
         verbose_name=gettext_lazy("Workspace name"),
         max_length=WORKSPACE_NAME_LENGTH,
         help_text=gettext_lazy("Display name"),
+    )
+    propagation_scope = models.CharField(
+        verbose_name=gettext_lazy("Translation propagation scope"),
+        max_length=20,
+        choices=(
+            ("project", gettext_lazy("Project")),
+            ("workspace", gettext_lazy("Workspace")),
+            (
+                "component_name",
+                gettext_lazy("Matching component name within workspace"),
+            ),
+        ),
+        default="project",
+        help_text=gettext_lazy(
+            "Where translations of matching strings are propagated."
+        ),
     )
     name_managed = models.BooleanField(
         default=False,
@@ -260,6 +277,30 @@ class Workspace(models.Model, CacheKeyMixin):
         return self.name
 
     def save(self, *args, **kwargs) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.locks import lock_check_workspaces
+        from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
+
+        update_fields = kwargs.get("update_fields")
+        with transaction.atomic():
+            changed = False
+            if not self._state.adding and (
+                update_fields is None or "propagation_scope" in update_fields
+            ):
+                lock_check_workspaces({self.pk}, exclusive=True)
+                changed = self.propagation_scope != type(self).objects.values_list(
+                    "propagation_scope", flat=True
+                ).get(pk=self.pk)
+            self._save(*args, **kwargs)
+            if changed:
+                refresh_propagation_checks(
+                    set(self.projects.values_list("pk", flat=True))
+                )
+
+    def get_absolute_url(self) -> str:
+        return reverse("workspace", kwargs={"pk": self.pk})
+
+    def _save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
         update_fields = kwargs.get("update_fields")
         old = None
@@ -321,9 +362,6 @@ class Workspace(models.Model, CacheKeyMixin):
             self.setup_groups()
         self.workspace_original_name = self.name
         self.workspace_original_name_managed = self.name_managed
-
-    def get_absolute_url(self) -> str:
-        return reverse("workspace", kwargs={"pk": self.pk})
 
     def clean(self) -> None:
         """Validate workspace settings."""

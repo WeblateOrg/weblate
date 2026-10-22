@@ -48,6 +48,10 @@ from weblate.trans.models.source import (
 )
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
+from weblate.trans.propagation import (
+    propagation_filter,
+    propagation_uses_custom_sources,
+)
 from weblate.trans.signals import unit_post_sync, unit_pre_create
 from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
 from weblate.trans.util import (
@@ -432,10 +436,10 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:
-        """Get units with same source within same project."""
+        """Get units with the same source within the propagation group."""
         translation = unit.translation
         component = translation.component
-        custom_sources = bool(component.project.translation_parent_language_ids)
+        custom_sources = propagation_uses_custom_sources(component.project)
         result = self.exclude_blocked(
             custom_sources=custom_sources
         ).with_effective_source(custom_sources=custom_sources, select=False)
@@ -464,8 +468,12 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         result = result.filter(
             context__lower__md5=MD5(Lower(Value(unit.context))),
             context=unit.context,
-            translation__component__project_id=component.project_id,
             translation__language_id=translation.language_id,
+        )
+        result = result.filter(
+            propagation_filter(
+                component.project, "translation__component__", component.name
+            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -481,12 +489,16 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
     def filter_restricted_peers(self, unit: Unit) -> UnitQuerySet:
         """Limit cross-component check peers to a stable visibility boundary."""
         component = unit.translation.component
-        if component.restricted:
-            return self.filter(
-                Q(translation__component__restricted=False)
-                | Q(translation__component_id=component.pk)
+        public = (component.project.ACCESS_PUBLIC, component.project.ACCESS_PROTECTED)
+        project_peers = Q(translation__component__project_id=component.project_id)
+        if component.project.access_control in public:
+            project_peers |= Q(
+                translation__component__project__access_control__in=public
             )
-        return self.filter(translation__component__restricted=False)
+        return self.filter(project_peers).filter(
+            Q(translation__component__restricted=False)
+            | Q(translation__component_id=component.pk)
+        )
 
     def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
         """
@@ -501,7 +513,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             return self.none()
         translation = unit.translation
         component = translation.component
-        custom_sources = bool(component.project.translation_parent_language_ids)
+        custom_sources = propagation_uses_custom_sources(component.project)
         result = (
             self.exclude_blocked(custom_sources=custom_sources)
             .with_effective_source(custom_sources=custom_sources, select=False)
@@ -509,13 +521,17 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 state__gte=STATE_TRANSLATED,
                 target__lower__md5=MD5(Lower(Value(target))),
                 target=target,
-                translation__component__project_id=component.project_id,
                 check_source_language=unit.effective_source_language.pk,
                 translation__component__allow_translation_propagation=True,
                 translation__plural_id=translation.plural_id,
                 translation__plural__number__gt=1,
             )
             .exclude(check_source=unit.effective_source)
+        )
+        result = result.filter(
+            propagation_filter(
+                component.project, "translation__component__", component.name
+            )
         )
         if custom_sources:
             plural = unit.effective_source_plural
@@ -2220,15 +2236,19 @@ class Unit(models.Model, LoggerMixin):
 
         with start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
-            units = self.propagated_units.exclude(
-                target=self.target, state=self.state
-            ).select_for_update()
-            for unit in units:
+            units = self.propagated_units
+            if self.state != STATE_APPROVED:
+                units = units.exclude(target=self.target, state=self.state)
+            for unit in units.select_for_update():
                 if user is not None and not (
                     denied := user.has_perm("unit.edit", unit)
                 ):
                     component = unit.translation.component
-                    if request and isinstance(denied, PermissionResult):
+                    if (
+                        request
+                        and isinstance(denied, PermissionResult)
+                        and user.can_access_component(component)
+                    ):
                         warnings.append(
                             gettext(
                                 "String could not be propagated to %(component)s: %(reason)s"
@@ -2237,10 +2257,21 @@ class Unit(models.Model, LoggerMixin):
                         )
                     continue
 
+                state = self.state
+                if state == STATE_APPROVED and (
+                    not unit.translation.enable_review
+                    or user is None
+                    or not user.has_perm("unit.review", unit)
+                ):
+                    state = STATE_TRANSLATED
+                if unit.target == self.target and unit.state == state:
+                    continue
+
                 # Update unit attributes for the current instance, the database is bulk updated later
                 unit.store_old_unit(unit)
                 unit.target = self.target
-                unit.state = self.state
+                unit.state = unit.original_state = state
+                unit.last_updated = self.last_updated
 
                 PendingUnitChange.store_unit_change(
                     unit=unit,
@@ -2270,11 +2301,8 @@ class Unit(models.Model, LoggerMixin):
                 return False
 
             # Bulk update units
-            Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
-                target=self.target,
-                state=self.state,
-                original_state=self.state,
-                last_updated=self.last_updated,
+            Unit.objects.bulk_update(
+                to_update, ["target", "state", "original_state", "last_updated"]
             )
 
             from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]

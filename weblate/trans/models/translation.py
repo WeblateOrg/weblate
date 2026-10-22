@@ -73,6 +73,10 @@ from weblate.trans.models.source import (
 )
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
 from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
+from weblate.trans.propagation import (
+    propagation_filter,
+    propagation_uses_custom_sources,
+)
 from weblate.trans.repository_context import repository_changes
 from weblate.trans.signals import (
     component_post_update,
@@ -2168,11 +2172,13 @@ class Translation(
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
         candidates = Translation.objects.filter(
+            propagation_filter(
+                self.component.project, "component__", self.component.name
+            ),
             language=self.language,
-            component__project=self.component.project,
             component__allow_translation_propagation=True,
         ).exclude(pk=self.pk)
-        if not self.component.project.translation_parent_language_ids:
+        if not propagation_uses_custom_sources(self.component.project):
             candidates = candidates.filter(
                 component__source_language_id=self.component.source_language_id
             )

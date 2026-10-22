@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added :ref:`workspace translation propagation scopes <workspace-propagation-scope>` for sharing translations across projects or components with matching names.
+
 * Added :ref:`CDN manifests <cdn-manifest>` listing available languages and translation files with checksums and sizes.
 * Added an optional :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts.
 * Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.

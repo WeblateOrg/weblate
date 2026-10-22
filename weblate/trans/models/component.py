@@ -1482,7 +1482,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
         )
 
         # Stored cross-component warnings can outlive a restriction or project move.
-        boundary_changed = restricted_changed or project_changed
+        boundary_changed = (
+            restricted_changed
+            or project_changed
+            or (
+                not create
+                and any(
+                    (update_fields is None or field in update_fields)
+                    and getattr(old, field) != getattr(self, field)
+                    for field in ("name", "allow_translation_propagation")
+                )
+            )
+        )
         with transaction.atomic() if boundary_changed else nullcontext():
             if boundary_changed:
                 from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
@@ -1499,60 +1510,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )
             super().save(*args, **kwargs)
             if boundary_changed:
-                from weblate.checks.consistency import (  # ruff: ignore[import-outside-top-level]
-                    stale_project_check_units,
-                )
-                from weblate.checks.models import Check  # ruff: ignore[import-outside-top-level]
-                from weblate.checks.tasks import (  # ruff: ignore[import-outside-top-level]
-                    finalize_component_checks,
-                )
-                from weblate.trans.models.project import Project  # ruff: ignore[import-outside-top-level]
+                from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
 
-                affected: set[int] = set()
-                projects = list(
-                    Project.objects.filter(
-                        pk__in={self.project_id, old_source_project_id}
-                    ).order_by("pk")
+                refresh_propagation_checks(
+                    {
+                        project_id
+                        for project_id in (self.project_id, old_source_project_id)
+                        if project_id is not None
+                    }
                 )
-                enabled_checks = [
-                    name for name in ("inconsistent", "reused") if name in CHECKS
-                ]
-                for project in projects:
-                    for name in ("inconsistent", "reused"):
-                        stale = Check.objects.filter(
-                            name=name,
-                            unit__translation__component__project=project,
-                        )
-                        if name in enabled_checks:
-                            stale = stale.filter(
-                                unit_id__in=Subquery(
-                                    stale_project_check_units(project, name).values(
-                                        "pk"
-                                    )
-                                )
-                            )
-                        affected.update(
-                            stale.values_list("unit__translation_id", flat=True)
-                        )
-                        stale.delete()
-                for translation in Translation.objects.filter(pk__in=affected):
-                    translation.invalidate_cache()
-                if enabled_checks:
-                    for project in projects:
-                        candidate = (
-                            self
-                            if project.pk == self.project_id
-                            and self.allow_translation_propagation
-                            else Component.objects.filter(
-                                project=project, allow_translation_propagation=True
-                            )
-                            .order_by("pk")
-                            .first()
-                        )
-                        if candidate is not None:
-                            finalize_component_checks.delay_on_commit(
-                                candidate.pk, [], enabled_checks, batch_mode=True
-                            )
         if glossary_settings_changed or (create and self.is_glossary):
             transaction.on_commit(
                 capture_change_origin(

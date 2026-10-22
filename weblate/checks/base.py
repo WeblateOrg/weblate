@@ -440,7 +440,7 @@ class BatchCheckMixin(BaseCheck):
 
             with check_component_session_read_lock(component):
                 boundary_lock = (
-                    component.project.checks_lock
+                    component.project.propagation_checks_lock
                     if component.allow_translation_propagation
                     else nullcontext()
                 )
@@ -451,9 +451,11 @@ class BatchCheckMixin(BaseCheck):
                     self._perform_batch(component)
             return
 
-        lock = nullcontext()
-        if self.batch_project_wide and component.allow_translation_propagation:
-            lock = component.project.checks_lock
+        lock = (
+            component.project.propagation_checks_lock
+            if self.batch_project_wide and component.allow_translation_propagation
+            else nullcontext()
+        )
         with lock, start_span(op="check.perform_batch", name=self.check_id):
             self._perform_batch(component)
 
@@ -490,8 +492,12 @@ class BatchCheckMixin(BaseCheck):
         # Delete stale checks
         stale_checks = Check.objects.exclude(unit_id__in=handled)
         if self.batch_project_wide and component.allow_translation_propagation:
+            from weblate.trans.propagation import propagation_filter  # ruff: ignore[import-outside-top-level]
+
             stale_checks = stale_checks.filter(
-                unit__translation__component__project=component.project,
+                propagation_filter(
+                    component.project, "unit__translation__component__", component.name
+                ),
                 unit__translation__component__allow_translation_propagation=True,
                 name=self.check_id,
             )

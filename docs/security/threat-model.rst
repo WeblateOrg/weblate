@@ -709,6 +709,13 @@ Security properties Weblate provides
        restricted components below it. Complete workspace-level report access
        requires two-factor authentication for regular users if any project in
        the workspace enforces it. Superusers and bot accounts are exempt.
+       Workspace :ref:`translation propagation <workspace-propagation-scope>`
+       checks destination edit permissions and requires destination review
+       permission and enabled reviews to propagate an approved state. Otherwise,
+       propagated text awaits review where enabled. Its associated quality checks
+       compare strings across projects only when both projects use Public or
+       Protected access control, and preserve restricted-component boundaries
+       for warning presence and descriptions.
        Translation memory
        attributed to an existing restricted component follows that component's
        access rules.

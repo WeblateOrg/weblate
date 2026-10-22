@@ -94,6 +94,34 @@ Workspace name
 
 Verbose workspace name used in workspace listings and project organization.
 
+.. _workspace-propagation-scope:
+
+Translation propagation scope
++++++++++++++++++++++++++++++
+
+Select where :ref:`translation-propagation` shares translations of matching
+strings:
+
+* :guilabel:`Project` (default): components within the same project.
+* :guilabel:`Workspace`: components across all projects in this workspace.
+* :guilabel:`Matching component name within workspace`: components with the
+  same exact, case-sensitive display name across projects in this workspace.
+  Component slugs and categories do not affect matching.
+
+Projects without a workspace always use project-wide propagation. Components
+can still opt out using :ref:`component-allow_translation_propagation`.
+Propagation requires permission to edit each destination string and preserves
+translation authorship. Approved translations retain their state only when
+reviews are enabled at the destination and the initiating user has permission
+to review there. Otherwise, the text is propagated as translated, awaiting
+review where enabled. Changing the scope does not synchronize existing
+translations.
+
+The :ref:`check-inconsistent` and :ref:`check-reused` checks follow this scope.
+Cross-project check comparisons require both projects to use Public or Protected
+access control. Private and Custom projects compare strings only within their
+own project. Restricted components keep their existing visibility boundaries.
+
 .. _workspace-use-workspace-tm:
 
 Use workspace translation memory

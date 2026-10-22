@@ -70,6 +70,7 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
         model = Workspace
         fields = (
             "name",
+            "propagation_scope",
             "use_workspace_tm",
             "contribute_workspace_tm",
             "license",
@@ -111,6 +112,7 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             "name",
+            "propagation_scope",
             Fieldset(
                 gettext("Translation memory"),
                 "use_workspace_tm",
