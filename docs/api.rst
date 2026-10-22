@@ -3827,6 +3827,8 @@ Tasks
 .. http:delete:: /api/tasks/(str:uuid)/
 
     Cancels a running task when its ``cancellable`` property is ``true``.
+    Requires :guilabel:`Edit component settings` permission on every component
+    associated with the task.
     Repository operation tasks cannot be cancelled because interruption can
     leave a repository operation incomplete.
 

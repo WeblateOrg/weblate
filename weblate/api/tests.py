@@ -36,7 +36,7 @@ from django.http import StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
-from django.test.utils import modify_settings, override_settings
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
@@ -74,7 +74,7 @@ from weblate.api.serializers import (
     ProjectSerializer,
     RepoOperations,
 )
-from weblate.api.views import MemoryFilter, MemoryViewSet, ProjectViewSet
+from weblate.api.views import MemoryFilter, MemoryViewSet, ProjectViewSet, TasksViewSet
 from weblate.auth.data import (
     ROLES,
     SELECTION_ALL,
@@ -13354,6 +13354,94 @@ class TasksAPITest(APIBaseTest):
         self.assertEqual(response.data, {"detail": "This task cannot be cancelled."})
         assert DummyAsyncResult.latest is not None
         self.assertFalse(DummyAsyncResult.latest.revoked)
+
+    def test_destroy_requires_edit_permission_on_every_component(self) -> None:
+        second = self.create_link_existing()
+        self.grant_perm_to_user("component.edit", component=self.component)
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", second))
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_ids": [second.pk, self.component.pk]},
+            TASK_METADATA_TTL,
+        )
+        task = SimpleNamespace(
+            id=self.task_id,
+            result=None,
+            state="PENDING",
+            ready=MagicMock(return_value=False),
+            revoke=MagicMock(),
+        )
+
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                code=403,
+            )
+
+        task.revoke.assert_not_called()
+
+    def test_destroy_allows_edit_permission_on_every_component(self) -> None:
+        second = self.create_link_existing()
+        self.grant_perm_to_user("component.edit", component=self.component)
+        self.grant_perm_to_user(
+            "component.edit", group_name="Second component editors", component=second
+        )
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("component.edit", second))
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_ids": [second.pk, self.component.pk]},
+            TASK_METADATA_TTL,
+        )
+        task = SimpleNamespace(ready=MagicMock(return_value=False), revoke=MagicMock())
+
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                code=204,
+            )
+
+        task.revoke.assert_called_once_with(terminate=True)
+
+    def test_multi_component_permission_queries_do_not_grow_with_scope(self) -> None:
+        components = [
+            self.component,
+            self.create_link_existing(),
+            self.create_link_existing(name="Third", slug="third"),
+        ]
+        for component in components:
+            self.grant_perm_to_user("component.edit", component=component)
+        for component in components:
+            self.assertTrue(self.user.has_perm("component.edit", component))
+
+        # Warm access and permission caches before measuring database queries.
+        _ = self.user.needs_project_filter
+        _ = self.user.needs_component_restrictions_filter
+        request = SimpleNamespace(user=self.user)
+        query_counts = []
+        with patch("weblate.api.views.AsyncResult"):
+            for scoped_components in (components[:1], components):
+                cache.set(
+                    get_task_metadata_key(self.task_id),
+                    {"component_ids": [item.pk for item in scoped_components]},
+                    TASK_METADATA_TTL,
+                )
+                with CaptureQueriesContext(connection) as queries:
+                    TasksViewSet().get_task(request, self.task_id, "component.edit")
+                query_counts.append(len(queries))
+
+        self.assertEqual(query_counts[0], query_counts[1])
 
     def test_retrieve_rejects_other_user_metadata(self) -> None:
         cache.set(
