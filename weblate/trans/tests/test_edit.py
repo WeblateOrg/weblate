@@ -45,6 +45,7 @@ from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
     cleanup_session,
     format_newly_failing_checks_message,
+    perform_translation,
 )
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.docs import get_doc_url
@@ -137,6 +138,7 @@ class SearchRecoveryTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Díky za použití Weblate.",
             "review": "20",
         }
@@ -268,6 +270,7 @@ class SearchRecoveryTest(ReusableViewTestCase):
     def test_missing_search_keeps_nonmatching_submitted_unit(self) -> None:
         unit, _ids, url = self.prepare_search()
         Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+        unit.refresh_from_db()
         self.expire_search(missing=True)
         data = {**self.translation_data(unit), "save-stay": "1"}
 
@@ -286,6 +289,7 @@ class SearchRecoveryTest(ReusableViewTestCase):
     def test_expired_search_saves_when_no_strings_match(self) -> None:
         unit, ids, url = self.prepare_search()
         Unit.objects.filter(pk__in=ids).update(state=STATE_TRANSLATED)
+        unit.refresh_from_db()
         self.expire_search()
         response = self.client.post(
             url, {**self.translation_data(unit), "save-stay": "1"}, follow=True
@@ -542,6 +546,207 @@ class EditScreenshotContextTest(ViewTestCase):
         response = self.client.get(unit.get_absolute_url())
 
         self.assertEqual(list(response.context["screenshots"]), [screenshot])
+
+
+class ReviewStateTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+        self.unit = self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
+        self.url = self.unit.translation.get_translate_url()
+        self.data = {
+            "unit_id": str(self.unit.pk),
+            "checksum": self.unit.checksum,
+            "contentsum": hash_to_checksum(self.unit.edit_content_hash),
+            "translationsum": hash_to_checksum(self.unit.get_target_hash()),
+            "initial_state": str(self.unit.state),
+            "target_0": "Ahoj svete!\n",
+            "review": str(self.unit.state),
+            "save-stay": "1",
+        }
+
+    def test_state_conflict_preserves_draft(self) -> None:
+        for actor in (self.user, self.anotheruser):
+            with self.subTest(actor=actor.username):
+                self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
+                self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED, user=actor)
+                change_count = Change.objects.filter(unit=self.unit).count()
+                for _attempt in range(2):
+                    response = self.client.post(self.url, self.data)
+                    self.assertContains(
+                        response,
+                        "The review state of this string has changed from "
+                        "Needs editing (Needs rewriting) to Translated",
+                    )
+                    self.assertNotContains(
+                        response, "This review state is not available"
+                    )
+                    self.assertNotContains(response, "Select a valid choice")
+                    self.assertContains(response, self.data["target_0"])
+                    self.assertContains(response, 'name="initial_state" value="11"')
+                    self.assertContains(response, 'data-unsaved="true"')
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, "Nazdar svete!\n")
+                self.assertEqual(self.unit.state, STATE_TRANSLATED)
+                self.assertEqual(
+                    Change.objects.filter(unit=self.unit).count(), change_count
+                )
+
+    def test_conflict_with_still_available_choice(self) -> None:
+        self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_CHECKING)
+        response = self.client.post(self.url, {**self.data, "review": "20"})
+        self.assertContains(response, "The review state of this string has changed")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_NEEDS_CHECKING)
+
+    def test_source_conflict_takes_precedence(self) -> None:
+        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED)
+        response = self.client.post(self.url, {**self.data, "contentsum": "aaa"})
+        self.assertContains(response, "The source string has changed meanwhile.")
+        self.assertNotContains(response, "The review state of this string has changed")
+        self.assertNotContains(response, "This review state is not available")
+
+    def test_translation_conflict_takes_precedence(self) -> None:
+        self.change_unit("Jiný překlad\n", user=self.anotheruser)
+        response = self.client.post(self.url, self.data)
+        self.assertContains(
+            response, "The translation of the string has changed meanwhile."
+        )
+        self.assertNotContains(response, "The review state of this string has changed")
+
+    def test_unchanged_state_and_intentional_state_change(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        response = self.client.get(self.unit.get_absolute_url())
+        self.assertContains(response, 'name="initial_state" value="11"')
+        for review in ("11", "20"):
+            with self.subTest(review=review):
+                response = self.client.post(self.url, {**self.data, "review": review})
+                self.assertEqual(response.status_code, 302)
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.state, int(review))
+                self.assertEqual(self.unit.target, self.data["target_0"])
+                self.data["translationsum"] = hash_to_checksum(
+                    self.unit.get_target_hash()
+                )
+
+    def test_invalid_review_is_readable(self) -> None:
+        for review in ("12", "999", "invalid"):
+            with self.subTest(review=review):
+                response = self.client.post(self.url, {**self.data, "review": review})
+                self.assertContains(response, "Error in parameter Review state:")
+                self.assertContains(
+                    response, "This review state is not available for this string."
+                )
+                self.assertNotContains(response, "Select a valid choice")
+                self.assertNotContains(response, "Error in parameter review:")
+
+    def test_missing_or_invalid_initial_state(self) -> None:
+        for initial_state in (None, "", "invalid", "999"):
+            with self.subTest(initial_state=initial_state):
+                data = self.data.copy()
+                if initial_state is None:
+                    del data["initial_state"]
+                else:
+                    data["initial_state"] = initial_state
+                response = self.client.post(self.url, data)
+                self.assertContains(response, "The original review state is")
+                self.assertContains(response, "Reload the editor and try again.")
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_zen_state_conflict(self) -> None:
+        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED)
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation), self.data
+        )
+        data = response.json()
+        self.assertEqual(data["state"], "danger")
+        self.assertEqual(data["translationsum"], "")
+        self.assertIsNone(data["initial_state"])
+        self.assertEqual(len(data["messages"]), 1)
+        self.assertIn(
+            "The review state of this string has changed", data["messages"][0]["text"]
+        )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_zen_repeated_saves(self) -> None:
+        for target in ("Ahoj svete!\n", "Zdravím svete!\n"):
+            with self.subTest(target=target):
+                self.data.update(target_0=target, review="20")
+                response = self.client.post(
+                    reverse("save_zen", kwargs=self.kw_translation), self.data
+                )
+                data = response.json()
+                self.assertEqual(data["initial_state"], STATE_TRANSLATED)
+                self.assertNotEqual(data["translationsum"], "")
+                self.data.update(
+                    initial_state=data["initial_state"],
+                    translationsum=data["translationsum"],
+                )
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, target)
+
+    def test_suggestion_ignores_state_conflict(self) -> None:
+        self.change_unit("Nazdar svete!\n", state=STATE_TRANSLATED)
+        self.anotheruser.groups.set([Group.objects.get(name="Guests")])
+        for actor in (self.user, self.anotheruser):
+            with self.subTest(actor=actor.username):
+                self.assertEqual(
+                    bool(actor.has_perm("unit.edit", self.unit)), actor == self.user
+                )
+                self.client.force_login(actor)
+                target = f"Suggestion by {actor.username}\n"
+                response = self.client.post(
+                    self.url,
+                    {**self.data, "target_0": target, "suggest": "1"},
+                    follow=True,
+                )
+                self.assertNotContains(
+                    response, "The review state of this string has changed"
+                )
+                suggestion = self.unit.suggestion_set.get(target=target)
+                self.assertEqual(suggestion.user, actor)
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, "Nazdar svete!\n")
+                self.assertEqual(self.unit.state, STATE_TRANSLATED)
+
+    def test_state_change_after_validation(self) -> None:
+        def change_state(unit, form, request):
+            competing_unit = Unit.objects.get(pk=unit.pk)
+            competing_unit.translate(
+                self.anotheruser,
+                competing_unit.target,
+                STATE_TRANSLATED,
+                propagate=False,
+            )
+            return perform_translation(unit, form, request)
+
+        for zen in (False, True):
+            with self.subTest(zen=zen):
+                self.change_unit("Nazdar svete!\n", state=STATE_NEEDS_REWRITING)
+                url = (
+                    reverse("save_zen", kwargs=self.kw_translation) if zen else self.url
+                )
+                with patch(
+                    "weblate.trans.views.edit.perform_translation",
+                    side_effect=change_state,
+                ):
+                    response = self.client.post(url, self.data)
+                self.assertContains(
+                    response, "The review state of this string has changed"
+                )
+                if zen:
+                    data = response.json()
+                    self.assertEqual(data["translationsum"], "")
+                    self.assertIsNone(data["initial_state"])
+                else:
+                    self.assertContains(response, self.data["target_0"])
+                    self.assertContains(response, 'name="initial_state" value="11"')
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.target, "Nazdar svete!\n")
+                self.assertEqual(self.unit.state, STATE_TRANSLATED)
 
 
 class EditTest(ReusableViewTestCase):
@@ -1214,6 +1419,7 @@ class EditLanguageTest(EditTest):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": target,
             "review": "20",
         }
@@ -1947,6 +2153,7 @@ class ZenViewTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Zen translation",
             "review": "20",
         }
@@ -1967,6 +2174,7 @@ class ZenViewTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Zen translation",
             "review": "20",
         }
@@ -1985,6 +2193,7 @@ class ZenViewTest(ReusableViewTestCase):
                 "checksum": unit.checksum,
                 "contentsum": hash_to_checksum(unit.content_hash),
                 "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
                 "target_0": "Nazdar!\n",
                 "review": "20",
             },
@@ -2003,6 +2212,7 @@ class ZenViewTest(ReusableViewTestCase):
                 "checksum": unit.checksum,
                 "contentsum": hash_to_checksum(unit.content_hash),
                 "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
                 "target_0": "Nazdar!\n",
                 "review": "20",
             },
@@ -2091,6 +2301,7 @@ class ZenViewTest(ReusableViewTestCase):
         self.assertEqual(data["suggestions_html"], "")
         self.assertEqual(data["target"], ["Nazdar svete!\n"])
         self.assertEqual(data["review"], str(STATE_TRANSLATED))
+        self.assertEqual(data["initial_state"], STATE_TRANSLATED)
         self.assertFalse(data["fuzzy"])
         self.assertEqual(data["unit_state_class"], "unit-state-translated")
         unit = self.get_unit()
@@ -2146,6 +2357,7 @@ class ZenViewTest(ReusableViewTestCase):
         self.assertFalse(data["has_suggestions"])
         self.assertIsNone(data["target"])
         self.assertIsNone(data["review"])
+        self.assertIsNone(data["initial_state"])
         self.assertEqual(self.get_unit().target, original_target)
         self.assertEqual(Suggestion.objects.count(), 0)
         change = Change.objects.filter(action=ActionEvents.SUGGESTION_DELETE).get()
@@ -2591,6 +2803,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Translated first string",
             "review": "20",
         }
@@ -2614,6 +2827,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": first.checksum,
             "contentsum": hash_to_checksum(first.content_hash),
             "translationsum": hash_to_checksum(first.get_target_hash()),
+            "initial_state": str(first.state),
             "target_0": "Translated first string",
             "review": "20",
         }
@@ -2658,6 +2872,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Translated first string",
             "review": "20",
         }
@@ -2700,6 +2915,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": "Translated first string",
             "review": "20",
         }
@@ -2857,6 +3073,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": first.checksum,
             "contentsum": hash_to_checksum(first.content_hash),
             "translationsum": hash_to_checksum(first.get_target_hash()),
+            "initial_state": str(first.state),
             "review": "20",
         }
         params.update(get_targets(first))
@@ -2873,6 +3090,7 @@ class EditComplexTest(ReusableViewTestCase):
             "checksum": second.checksum,
             "contentsum": hash_to_checksum(second.content_hash),
             "translationsum": hash_to_checksum(second.get_target_hash()),
+            "initial_state": str(second.state),
             "review": "20",
         }
         params.update(get_targets(second))

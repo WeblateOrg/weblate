@@ -186,6 +186,27 @@
   const getStatusCell = (root, checksum) =>
     root?.querySelector(`[id="status-${checksum}"]`) ?? null;
 
+  function syncReviewState(form, state, syncControl = true) {
+    const initialState = form.querySelector("input[name=initial_state]");
+    if (initialState) {
+      initialState.value = state;
+    }
+    if (!syncControl) {
+      return;
+    }
+    const hiddenReview = form.querySelector(
+      'input[name=review][type="hidden"]',
+    );
+    if (hiddenReview) {
+      hiddenReview.value = state;
+    } else {
+      const review = form.querySelector(`input[name=review][value="${state}"]`);
+      if (review) {
+        review.checked = true;
+      }
+    }
+  }
+
   delegate(document, "focusin", ".translation-editor", function () {
     const row = this.closest("tr");
     if (!row) {
@@ -239,7 +260,8 @@
     if (!form || !statusdiv) {
       return;
     }
-    const payload = new URLSearchParams(new FormData(form)).toString();
+    const submittedData = new URLSearchParams(new FormData(form));
+    const payload = submittedData.toString();
     const lastPayload = statusdiv._lastPayload;
 
     // Guard: skip if a save is already happening
@@ -292,19 +314,33 @@
           addAlert(val.text, val.kind);
         }
 
-        row.classList.remove("translation-modified");
-        row.classList.add("translation-saved");
-        row.querySelector("#unsaved-label")?.remove();
-        for (const el of row.querySelectorAll(".translation-editor")) {
-          el.classList.remove("has-changes");
+        if (data.translationsum === "") {
+          row.classList.remove("translation-saved");
+          return;
         }
 
-        if (data.translationsum !== "") {
-          const sum = row.querySelector("input[name=translationsum]");
-          if (sum) {
-            sum.value = data.translationsum;
+        const currentData = new URLSearchParams(new FormData(form));
+        const unchanged = currentData.toString() === payload;
+        if (unchanged) {
+          row.classList.remove("translation-modified");
+          row.classList.add("translation-saved");
+          row.querySelector("#unsaved-label")?.remove();
+          for (const el of row.querySelectorAll(".translation-editor")) {
+            el.classList.remove("has-changes");
           }
+        } else {
+          row.classList.remove("translation-saved");
         }
+
+        const sum = row.querySelector("input[name=translationsum]");
+        if (sum) {
+          sum.value = data.translationsum;
+        }
+        syncReviewState(
+          form,
+          data.initial_state,
+          currentData.get("review") === submittedData.get("review"),
+        );
 
         // Suggestion diffs are against the saved target
         if ("has_suggestions" in data) {
@@ -573,7 +609,11 @@
     const editors = getUnitEditors(unit);
     if (unitHasChanges(unit)) {
       const sum = form?.querySelector("input[name=translationsum]");
-      if (sum && sum.value !== data.translationsum) {
+      const initialState = form?.querySelector("input[name=initial_state]");
+      if (
+        (sum && sum.value !== data.translationsum) ||
+        (initialState && initialState.value !== String(data.initial_state))
+      ) {
         addAlert(
           gettext(
             "The translation was changed while you were editing it, your unsaved changes were kept.",
@@ -589,13 +629,7 @@
       }
     });
     if (form) {
-      // Set checked directly
-      const review = form.querySelector(
-        `input[name=review][value="${data.review}"]`,
-      );
-      if (review) {
-        review.checked = true;
-      }
+      syncReviewState(form, data.initial_state);
       const fuzzy = form.querySelector("input[name=fuzzy]");
       if (fuzzy) {
         fuzzy.checked = data.fuzzy;

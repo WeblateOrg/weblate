@@ -2205,6 +2205,140 @@ class SeleniumTests(
             )
         )
 
+    def test_zen_review_state_conflict(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Zen review state", slug="zen-review-state"
+        )
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{zen_url}")
+
+        row = self.driver.find_element(By.ID, f"row-edit-{unit.checksum}")
+        editor = row.find_element(By.CSS_SELECTOR, ".translation-editor")
+        initial_state = row.find_element(By.CSS_SELECTOR, "input[name=initial_state]")
+
+        def edit(target: str) -> None:
+            self.driver.execute_script(
+                "arguments[0].classList.remove('translation-saved');", row
+            )
+            editor.clear()
+            editor.send_keys(target)
+            self.driver.execute_script("arguments[0].blur();", editor)
+
+        # Saving a state transition refreshes the baseline for subsequent saves.
+        self.assertEqual(initial_state.get_attribute("value"), str(STATE_EMPTY))
+        for target in ("Ahoj svete!", "Nazdar svete!"):
+            edit(target)
+            WebDriverWait(self.driver, 15).until(
+                lambda _driver: (
+                    "translation-saved" in (row.get_attribute("class") or "")
+                )
+            )
+            self.assertEqual(
+                initial_state.get_attribute("value"), str(STATE_TRANSLATED)
+            )
+            unit.refresh_from_db()
+            self.assertEqual(unit.target, f"{target}\n")
+
+        # A state-only change in another tab must leave the draft unsaved.
+        unit.translate(user, unit.target, STATE_FUZZY, propagate=False)
+        edit("Unsaved draft")
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: any(
+                "The review state of this string has changed" in alert.text
+                for alert in driver.find_elements(
+                    By.CSS_SELECTOR, "#popup-toasts .toast-body"
+                )
+            )
+        )
+        self.assertEqual(editor.get_attribute("value"), "Unsaved draft")
+        self.assertIn("has-changes", editor.get_attribute("class") or "")
+        self.assertIn("translation-modified", row.get_attribute("class") or "")
+        self.assertNotIn("translation-saved", row.get_attribute("class") or "")
+        self.assertEqual(initial_state.get_attribute("value"), str(STATE_TRANSLATED))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+    def test_zen_queued_review_change(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Zen queued review", slug="zen-queued-review", translation_review=True
+        )
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        unit.translate(user, "Nazdar svete!\n", STATE_TRANSLATED, propagate=False)
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{zen_url}")
+
+        # Hold the first save response while the reviewer makes another choice.
+        self.driver.execute_script(
+            """
+            const originalFetch = window.fetch;
+            const saveUrl = arguments[0];
+            window.zenReviewRequests = [];
+            window.fetch = function (url, options) {
+                if (url !== saveUrl) {
+                    return originalFetch.apply(this, arguments);
+                }
+                const payload = new URLSearchParams(options?.body);
+                if (!payload.has("initial_state")) {
+                    return originalFetch.apply(this, arguments);
+                }
+                window.zenReviewRequests.push({
+                    review: payload.get("review"),
+                    initial_state: payload.get("initial_state"),
+                });
+                const response = originalFetch.apply(this, arguments);
+                if (window.zenReviewRequests.length !== 1) {
+                    return response;
+                }
+                return response.then(result => new Promise(resolve => {
+                    window.releaseZenReview = () => resolve(result);
+                }));
+            };
+            """,
+            reverse("save_zen", kwargs={"path": translation.get_url_path()}),
+        )
+        row = self.driver.find_element(By.ID, f"row-edit-{unit.checksum}")
+        row.find_element(By.CSS_SELECTOR, 'input[name=review][value="30"]').click()
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: driver.execute_script(
+                "return typeof window.releaseZenReview === 'function';"
+            )
+        )
+        translated = row.find_element(By.CSS_SELECTOR, 'input[name=review][value="20"]')
+        translated.click()
+        self.driver.execute_script("window.releaseZenReview();")
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: driver.execute_script(
+                "return window.zenReviewRequests.length === 2 && "
+                "arguments[0].querySelector('input[name=initial_state]').value === '20' && "
+                "arguments[0].classList.contains('translation-saved');",
+                row,
+            )
+        )
+        self.assertEqual(
+            self.driver.execute_script("return window.zenReviewRequests;"),
+            [
+                {"review": "30", "initial_state": "20"},
+                {"review": "20", "initial_state": "30"},
+            ],
+        )
+        self.assertTrue(translated.is_selected())
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
     def test_zen_suggestions(self) -> None:
         """Suggestions are handled in place in the Zen editor."""
         fixture = RepoTestMixin()

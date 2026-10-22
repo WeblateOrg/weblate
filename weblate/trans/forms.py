@@ -709,6 +709,20 @@ class TranslationForm(UnitForm):
     checksum = ChecksumField(required=True)
     contentsum = ChecksumField(required=True)
     translationsum = ChecksumField(required=True)
+    initial_state = forms.TypedChoiceField(
+        label=gettext_lazy("Review state"),
+        choices=StringState.choices,
+        coerce=int,
+        widget=forms.HiddenInput,
+        error_messages={
+            "required": gettext_lazy(
+                "The original review state is missing. Reload the editor and try again."
+            ),
+            "invalid_choice": gettext_lazy(
+                "The original review state is invalid. Reload the editor and try again."
+            ),
+        },
+    )
     target = PluralField(required=False)
     fuzzy = FuzzyField(required=False)
     review = forms.ChoiceField(
@@ -720,6 +734,12 @@ class TranslationForm(UnitForm):
         ],
         required=False,
         widget=forms.RadioSelect,
+        error_messages={
+            "invalid_choice": gettext_lazy(
+                "This review state is not available for this string. "
+                "Reload the editor and select an available state."
+            ),
+        },
     )
     explanation = forms.CharField(
         widget=MarkdownTextarea,
@@ -739,6 +759,7 @@ class TranslationForm(UnitForm):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.edit_content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": unit.state,
             "target": unit,
             "fuzzy": unit.fuzzy,
             "review": unit.state,
@@ -801,6 +822,7 @@ class TranslationForm(UnitForm):
             Field("checksum"),
             Field("contentsum"),
             Field("translationsum"),
+            Field("initial_state"),
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
@@ -825,6 +847,12 @@ class TranslationForm(UnitForm):
             return
 
         unit = self.unit
+        initial_state = self.cleaned_data.get("initial_state")
+        state_changed = initial_state is not None and initial_state != unit.state
+        if state_changed:
+            # A formerly available choice can become invalid after a state change.
+            # Report the conflict instead of also reporting an invalid choice.
+            self.errors.pop("review", None)
 
         if self.cleaned_data["contentsum"] != unit.edit_content_hash:
             raise ValidationError(
@@ -844,6 +872,13 @@ class TranslationForm(UnitForm):
                         "Please check your changes."
                     )
                 )
+
+        if (
+            initial_state is not None
+            and self.user_can_edit
+            and "suggest" not in self.data
+        ):
+            unit.validate_review_state(initial_state)
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
