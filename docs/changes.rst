@@ -16,6 +16,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
 * Docker deployments support :ref:`signing in through Hosted Weblate or another Weblate installation <docker-weblate-auth>` using OpenID Connect.
 * Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
 * Improved :ref:`string search <search-strings>` performance when filtering by a language code.
