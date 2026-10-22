@@ -1673,7 +1673,11 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
                 0,
                 ContextDiv(
                     template="addons/cdnjs.html",
-                    context={"url": self._addon.cdn_js_url, "user": self.user},
+                    context={
+                        "url": self._addon.cdn_js_url,
+                        "manifest_url": self._addon.cdn_manifest_url,
+                        "user": self.user,
+                    },
                 ),
             )
 
@@ -1717,7 +1721,11 @@ class CDNFilesForm(BaseAddonForm[dict[str, object], "CDNFilesAddon"]):
             layout.append(
                 ContextDiv(
                     template="addons/cdnfiles.html",
-                    context={"url": self._addon.cdn_files_url, "user": self.user},
+                    context={
+                        "url": self._addon.cdn_files_url,
+                        "manifest_url": self._addon.cdn_manifest_url,
+                        "user": self.user,
+                    },
                 )
             )
         self.helper.layout = Layout(*layout)

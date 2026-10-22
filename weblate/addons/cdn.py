@@ -9,8 +9,10 @@ import json
 import os
 import shutil
 import tempfile
+from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
+from urllib.parse import quote
 from uuid import uuid4
 
 from django.conf import settings
@@ -26,9 +28,11 @@ from weblate.addons.events import (
 )
 from weblate.addons.forms import CDNFilesForm, CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
+from weblate.utils.cdn import CDNFileMetadata, content_metadata
 from weblate.utils.state import STATE_TRANSLATED
 
 CDN_JS_FILENAME = "weblate.js"
+CDN_MANIFEST_FILENAME = "manifest.json"
 
 if TYPE_CHECKING:
     from weblate.addons.models import Addon
@@ -94,6 +98,32 @@ class CDNBaseAddon(BaseAddon):
 
     def ensure_cdn_dir(self) -> None:
         Path(self.cdn_path("")).mkdir(parents=True, exist_ok=True)
+
+    @cached_property
+    def cdn_manifest_url(self) -> str:
+        return self.cdn_url(CDN_MANIFEST_FILENAME)
+
+    def write_cdn_json(self, filename: str, content: object) -> None:
+        self.write_cdn_text(filename, json.dumps(content, sort_keys=True))
+
+    @staticmethod
+    def validate_manifest_filename(filename: str) -> None:
+        if Path(filename).as_posix() == CDN_MANIFEST_FILENAME:
+            raise ValueError(
+                gettext("The CDN add-on cannot publish a translation as manifest.json.")
+            )
+
+    def write_manifest(self, locales: dict[str, list[CDNFileMetadata]]) -> None:
+        self.write_cdn_json(
+            CDN_MANIFEST_FILENAME,
+            {
+                "schemaVersion": 1,
+                "locales": {
+                    language: sorted(files, key=itemgetter("url"))
+                    for language, files in locales.items()
+                },
+            },
+        )
 
     def write_cdn_text(self, filename: str, content: str) -> None:
         self.write_cdn_bytes(filename, content.encode("utf-8"))
@@ -191,12 +221,14 @@ class CDNJSAddon(CDNBaseAddon):
             if (not translation.is_source or component.intermediate)
             and translation.stats.translated > threshold
         ]
+        for translation in translations:
+            self.validate_manifest_filename(f"{translation.language.code}.json")
 
         # Create output directory
         self.ensure_cdn_dir()
 
         # Generate JavaScript loader
-        expected = {CDN_JS_FILENAME}
+        expected = {CDN_JS_FILENAME, CDN_MANIFEST_FILENAME}
         self.write_cdn_text(
             CDN_JS_FILENAME,
             render_to_string(
@@ -213,21 +245,22 @@ class CDNJSAddon(CDNBaseAddon):
         )
 
         # Generate bilingual JSON files
+        locales: dict[str, list[CDNFileMetadata]] = {}
         for translation in translations:
             filename = f"{translation.language.code}.json"
-            self.write_cdn_text(
-                filename,
-                json.dumps(
-                    {
-                        unit.source: unit.target
-                        for unit in translation.unit_set.filter(
-                            state__gte=STATE_TRANSLATED
-                        )
-                    }
-                ),
-            )
+            content = json.dumps(
+                {
+                    unit.source: unit.target
+                    for unit in translation.unit_set.filter(state__gte=STATE_TRANSLATED)
+                }
+            ).encode("utf-8")
+            self.write_cdn_bytes(filename, content)
+            locales[translation.language.code] = [
+                {"url": quote(filename), **content_metadata(content)}
+            ]
             expected.add(filename)
 
+        self.write_manifest(locales)
         self.delete_stale_cdn_files(expected)
 
     def post_commit(
@@ -313,6 +346,7 @@ class CDNFilesAddon(CDNBaseAddon):
 
     @staticmethod
     def validate_output_filename(filename: str) -> None:
+        CDNBaseAddon.validate_manifest_filename(filename)
         if Path(filename).as_posix() == CDN_JS_FILENAME:
             raise ValueError(
                 gettext("The translation files CDN add-on cannot publish weblate.js.")
@@ -321,7 +355,7 @@ class CDNFilesAddon(CDNBaseAddon):
     def publish_files(self, component: Component) -> None:
         self.ensure_cdn_dir()
 
-        expected = set()
+        outputs: list[tuple[str, str, str]] = []
         for translation in self.get_translations(component):
             filenames = translation.filenames
             for filename in filenames:
@@ -332,9 +366,21 @@ class CDNFilesAddon(CDNBaseAddon):
                     filename,
                 )
                 self.validate_output_filename(output_filename)
-                self.copy_cdn_file(filename, output_filename)
-                expected.add(output_filename)
+                outputs.append((translation.language.code, filename, output_filename))
 
+        expected = {CDN_MANIFEST_FILENAME}
+        locales: dict[str, list[CDNFileMetadata]] = {}
+        for language, filename, output_filename in outputs:
+            self.copy_cdn_file(filename, output_filename)
+            locales.setdefault(language, []).append(
+                {
+                    "url": quote(output_filename),
+                    **content_metadata(Path(self.cdn_path(output_filename))),
+                }
+            )
+            expected.add(output_filename)
+
+        self.write_manifest(locales)
         self.delete_stale_cdn_files(expected)
 
     def post_commit(

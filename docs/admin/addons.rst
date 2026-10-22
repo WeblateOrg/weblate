@@ -64,6 +64,46 @@ mode is preserved, including for project-wide and site-wide add-ons whose target
 have different review settings. Configuring this mode requires the usual add-on
 management permission; it does not require the configuring user to be a reviewer.
 
+.. _cdn-manifest:
+
+The :ref:`addon-weblate.cdn.files` and :ref:`addon-weblate.cdn.cdnjs` add-ons
+publish :file:`manifest.json` at their CDN base URL. Clients can download it
+without an API token to discover available languages and translation files::
+
+   {
+     "schemaVersion": 1,
+     "locales": {
+       "cs": [
+         {
+           "url": "cs.json",
+           "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+           "size": 123
+         }
+       ]
+     }
+   }
+
+The ``locales`` keys are Weblate language codes. Each value lists the published
+files for that language, sorted by URL. The ``url`` is relative to the manifest
+URL, ``sha256`` is the SHA-256 checksum of the published bytes, and ``size`` is
+the file size in bytes. Multi-file translations have several entries per
+language. The JavaScript add-on includes only languages meeting its translation
+threshold. Source-language inclusion follows each add-on's existing publication
+rules. The JavaScript loader and the manifest itself are not listed.
+When no translation files are published, ``locales`` is an empty object.
+The root filename :file:`manifest.json` is reserved for this manifest.
+
+Translation files are written before the manifest is replaced, and stale files
+are removed afterwards. File URLs remain mutable, and CDN caches can refresh
+the manifest and translation files at different times. If a download fails or
+its checksum does not match, refresh the manifest and retry the download.
+The manifest does not provide an immutable snapshot or revoke cached copies
+of removed files. Existing add-on installations publish a manifest on their
+next successful publication.
+
+The :ref:`addon-weblate.cdn.kotlin` add-on uses a separate build-specific
+manifest format.
+
 .. _component-discovery-limits:
 
 The :ref:`addon-weblate.discovery.discovery` add-on stops with an error if the
