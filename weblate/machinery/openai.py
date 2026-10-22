@@ -36,7 +36,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
     def check_failure(self, response: httpx2.Response) -> None:
         if response.status_code == 429:
             message = self.get_error_detail(response) or "Rate limit exceeded"
-            raise MachineryRateLimitError(message)
+            raise MachineryRateLimitError(message, response=response)
         super().check_failure(response)
 
     def fetch_llm_translations(
@@ -114,6 +114,9 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
+    # Requests and tokens are limited per minute.
+    # https://developers.openai.com/api/docs/guides/rate-limits
+    rate_limit_window = 60
     default_api_url = "https://api.openai.com/v1"
     trusted_error_hosts: ClassVar[set[str]] = {"api.openai.com"}
 
@@ -270,6 +273,9 @@ class OpenAITranslation(BaseOpenAITranslation):
 
 class AzureOpenAITranslation(BaseOpenAITranslation):
     name = "Azure OpenAI"
+    # Deployment throughput limits are measured per minute.
+    # https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/quota
+    rate_limit_window = 60
     version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
