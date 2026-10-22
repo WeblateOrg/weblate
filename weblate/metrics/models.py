@@ -40,6 +40,8 @@ from weblate.utils.stats import (
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from weblate.trans.models.change import ChangeQuerySet
     from weblate.utils.stats import (
         BaseStats,
@@ -104,6 +106,36 @@ class ChangeMetricData(TypedDict):
     changes: int
     contributors: int
     contributors_total: int
+
+
+def get_user_change_metric_expressions() -> dict[str, Count]:
+    return {
+        "changes": Count("id"),
+        "comments": Count("id", filter=Q(action=ActionEvents.COMMENT)),
+        "suggestions": Count("id", filter=Q(action=ActionEvents.SUGGESTION)),
+        "translations": Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
+        "screenshots": Count(
+            "id",
+            filter=Q(
+                action__in=(
+                    ActionEvents.SCREENSHOT_ADDED,
+                    ActionEvents.SCREENSHOT_UPLOADED,
+                )
+            ),
+        ),
+    }
+
+
+def serialize_metric_data(data: dict) -> tuple[int, list[int] | None]:
+    """Extract the change count and serialize the remaining metric counters."""
+    changes = data.pop("changes")
+    db_data = None
+    if data:
+        db_data = [data.pop(name, 0) for name in METRIC_ORDER]
+        if data:
+            msg = f"Unsupported data: {data}"
+            raise ValueError(msg)
+    return changes, db_data
 
 
 def get_change_metric_data(changes: ChangeQuerySet, date: dt.date) -> ChangeMetricData:
@@ -217,13 +249,7 @@ class MetricManager(models.Manager["Metric"]):
             date = timezone.now().date()
 
         # Prepare data for database
-        db_data = None
-        changes = data.pop("changes")
-        if data:
-            db_data = [data.pop(name, 0) for name in METRIC_ORDER]
-            if data:
-                msg = f"Unsupported data: {data}"
-                raise ValueError(msg)
+        changes, db_data = serialize_metric_data(data)
 
         metric, created = self.get_or_create(
             scope=scope,
@@ -576,27 +602,58 @@ class MetricManager(models.Manager["Metric"]):
             date=date,
         )
 
-    @transaction.atomic
-    def collect_user(self, user: User, date: dt.date | None = None):
-        date = date or timezone.now().date()
-        data = user.change_set.filter_by_day(date - dt.timedelta(days=1)).aggregate(
-            changes=Count("id"),
-            comments=Count("id", filter=Q(action=ActionEvents.COMMENT)),
-            suggestions=Count("id", filter=Q(action=ActionEvents.SUGGESTION)),
-            translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
-            screenshots=Count(
-                "id",
-                filter=Q(
-                    action__in=(
-                        ActionEvents.SCREENSHOT_ADDED,
-                        ActionEvents.SCREENSHOT_UPLOADED,
-                    )
-                ),
-            ),
-        )
-        return self.create_metrics(
-            data, None, set(), Metric.SCOPE_USER, user.pk, date=date
-        )
+    def collect_users(self, user_ids: Collection[int], date: dt.date) -> None:
+        """Collect a batch of user metrics without per-user queries."""
+        if not user_ids:
+            return
+        user_ids = sorted(set(user_ids))
+        expressions = get_user_change_metric_expressions()
+        user_data = {}
+        for row in (
+            Change.objects.filter(user_id__in=user_ids)
+            .filter_by_day(date - dt.timedelta(days=1))
+            .order_by()
+            .values("user_id")
+            .annotate(**expressions)
+        ):
+            counters = dict(row)
+            user_data[counters.pop("user_id")] = counters
+        metrics = []
+        for user_id in user_ids:
+            changes, data = serialize_metric_data(
+                user_data.get(user_id, dict.fromkeys(expressions, 0))
+            )
+            metrics.append(
+                Metric(
+                    scope=Metric.SCOPE_USER,
+                    relation=user_id,
+                    secondary=0,
+                    date=date,
+                    changes=changes,
+                    data=data,
+                )
+            )
+
+        with transaction.atomic():
+            self.bulk_create(metrics, ignore_conflicts=True)
+            # Preserve completed metrics and existing change counts, just as
+            # create_metrics does. Lock incomplete rows before filling their data
+            # so overlapping collectors cannot overwrite a completed metric.
+            incomplete = list(
+                self.filter(
+                    Q(data__isnull=True) | Q(data=[]),
+                    scope=Metric.SCOPE_USER,
+                    relation__in=user_ids,
+                    secondary=0,
+                    date=date,
+                )
+                .order_by("relation")
+                .select_for_update()
+            )
+            data_by_user = {metric.relation: metric.data for metric in metrics}
+            for metric in incomplete:
+                metric.data = data_by_user[metric.relation]
+            self.bulk_update(incomplete, ["data"])
 
     @transaction.atomic
     def collect_language(self, language: Language, date: dt.date | None = None):
