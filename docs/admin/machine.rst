@@ -30,6 +30,28 @@ You can exclude an inherited installation, or all inherited installations of
 one service, in workspace or project settings. Pausing an installation keeps
 its configuration for later use.
 
+Select a service in the listing to open its details, settings, and controls.
+Installed services use their numeric installation ID in the detail-page URL.
+The detail page provides selectors to use in Automation workflows. Inherited
+services link to their owning scope when you have permission to manage them.
+The listing summarizes basic configuration such as the model, source-language
+selection, and region, together with the installation ID and slug. Credentials,
+API URLs, and free-form prompts are excluded from these summaries.
+
+A :guilabel:`Rate limited` badge indicates that Weblate has temporarily paused
+requests after a provider error. The default cooldown is 30 minutes, but its
+duration varies by service and provider-supplied retry delays; see
+:ref:`cooldown configuration <machinery-rate-limit-window>`. It applies to one
+installation, including all projects inheriting it. Separate installations have
+independent cooldowns, even when they use the same provider credentials.
+
+Administrators can use :guilabel:`Reset rate limit` on the installation's detail
+page at its owning site, workspace, or project scope. This clears Weblate's
+translation and rephrasing cooldowns without clearing cached suggestions. It
+does not reset the provider's quota; another provider error can apply the
+cooldown again. Inherited installations show the status, but their cooldown
+cannot be reset from a consuming workspace or project.
+
 Every installation has a numeric ID and can have an optional slug. Select one
 installation in automatic translation, Automation, or AI review with
 ``service:id`` or ``service:slug``. A bare service name is accepted when only

@@ -9,12 +9,15 @@
       <span class="badge float-end text-bg-secondary"
             title="{% translate "This service is installed in the workspace." %}">{% translate "workspace" %}</span>
     {% endif %}
+    {% if service.is_rate_limited %}
+      <span class="badge float-end text-bg-warning">{% translate "Rate limited" %}</span>
+    {% endif %}
     {% if not service.is_enabled %}
       <span class="badge float-end text-bg-secondary"
             title="{% translate "This service is disabled." %}">{% translate "disabled" %}</span>
     {% endif %}
   {% endif %}
-  {{ service.name }}
+  {% if link %}<a href="{{ service.get_absolute_url }}">{{ service.name }}</a>{% else %}{{ service.name }}{% endif %}
   {% if service.is_available %}
     {% documentation_icon "admin/machine" service.doc_anchor %}
   {% else %}
@@ -22,8 +25,13 @@
   {% endif %}
 </h4>
 {% if service.installation %}
-  <div class="text-muted small">
-    {% translate "ID" %}: {{ service.installation.pk }}
-    {% if service.installation.slug %}· {% translate "Slug" %}: {{ service.installation.slug }}{% endif %}
+  <div>
+    <span class="format-item">{% translate "ID" %} <span>{{ service.installation.pk }}</span></span>
+    {% if service.installation.slug %}
+      <span class="format-item">{% translate "Slug" %} <span>{{ service.installation.slug }}</span></span>
+    {% endif %}
+    {% for label, value in service.get_settings_fields %}
+      <span class="format-item">{{ label }} <span>{{ value }}</span></span>
+    {% endfor %}
   </div>
 {% endif %}

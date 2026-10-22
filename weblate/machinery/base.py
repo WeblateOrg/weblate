@@ -159,12 +159,27 @@ class BatchMachineTranslation(DocVersionsMixin):
         self.mtid = self.get_identifier()
         if installation_id := configuration.get("_installation_id"):
             self.mtid = f"{self.mtid}:{installation_id}"
-        self.rate_limit_cache = f"{self.mtid}-rate-limit"
+        self.rate_limit_cache = self.get_rate_limit_cache_keys(configuration)[0]
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error: Exception | None = None
         self.supported_languages_error_age: float = 0
         self.settings = configuration
+
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        """Identify cooldowns independently of the project consuming an installation."""
+        identifier = cls.get_identifier()
+        if installation_id := configuration.get("_installation_id"):
+            identifier = f"{identifier}:{installation_id}"
+        else:
+            cache_configuration = {
+                key: value
+                for key, value in configuration.items()
+                if not key.startswith("_")
+            }
+            identifier = f"{identifier}:{calculate_dict_hash(cache_configuration)}"
+        return (f"{identifier}-rate-limit",)
 
     def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -1860,8 +1875,13 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         except ValueError:
             cache.set(version_key, 1, None)
 
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        keys = super().get_rate_limit_cache_keys(configuration)
+        return (*keys, f"{keys[0]}-rephrase")
+
     def get_rephrase_rate_limit_cache_key(self) -> str:
-        return self.get_cache_key("rephrase-rate-limit")
+        return self.get_rate_limit_cache_keys(self.settings)[1]
 
     def is_rephrase_rate_limited(self) -> bool:
         return bool(cache.get(self.get_rephrase_rate_limit_cache_key()))
