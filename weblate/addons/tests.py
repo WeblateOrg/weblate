@@ -8715,6 +8715,50 @@ class AddonChangeDetailsMigrationTest(TestCase):
         Change.objects.filter(pk=change.pk).update(details=details)
         return change
 
+    def test_autotranslate_components_are_scrubbed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0120_change_addon_redact_autotranslate_component"
+        )
+        target = AutoTranslateAddon.name
+        versioned = self.create_historical_change(
+            action=ActionEvents.ADDON_CHANGE,
+            target=target,
+            details={
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"component": 123, "mode": "suggest"},
+                "changed_fields": ["component"],
+                "redacted_fields": [],
+            },
+        )
+        legacy = self.create_historical_change(
+            action=ActionEvents.ADDON_CREATE,
+            target=target,
+            details={"component": 123, "mode": "suggest"},
+        )
+        unrelated = self.create_historical_change(
+            action=ActionEvents.ADDON_CHANGE,
+            target=WebhookAddon.name,
+            details={"component": 123},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.redact_autotranslate_components(apps, schema_editor)
+
+        versioned.refresh_from_db()
+        legacy.refresh_from_db()
+        unrelated.refresh_from_db()
+        self.assertEqual(
+            versioned.details,
+            {
+                "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+                "configuration": {"component": None, "mode": "suggest"},
+                "changed_fields": ["component"],
+                "redacted_fields": ["component"],
+            },
+        )
+        self.assertEqual(legacy.details, {"component": None, "mode": "suggest"})
+        self.assertEqual(unrelated.details, {"component": 123})
+
     def test_automation_workflows_are_scrubbed(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0117_change_addon_redact_automation_workflow"
@@ -9036,6 +9080,56 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_change_history_redacts_source_component(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automatic translation source",
+            slug="restricted-automatic-translation-source",
+            restricted=True,
+            allow_translation_propagation=False,
+        )
+        configuration = {
+            "auto_source": "others",
+            "component": source.pk,
+            "engines": [],
+            "mode": "suggest",
+            "q": "state:<translated",
+            "threshold": 80,
+        }
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            configuration=configuration,
+            acting_user=self.user,
+            run=False,
+        )
+        created = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE, target=AutoTranslateAddon.name
+        )
+        self.assertIsNone(created.details["configuration"]["component"])
+        self.assertIn("component", created.details["changed_fields"])
+        self.assertIn("component", created.details["redacted_fields"])
+        self.assertIn(
+            "<code>component</code> (redacted)", created.get_details_display()
+        )
+
+        addon.instance.configuration = configuration | {"component": None}
+        addon.instance.save()
+        changed = self.component.change_set.get(
+            action=ActionEvents.ADDON_CHANGE, target=AutoTranslateAddon.name
+        )
+        self.assertIsNone(changed.details["configuration"]["component"])
+        self.assertEqual(changed.details["changed_fields"], ["component"])
+        self.assertIn("component", changed.details["redacted_fields"])
+
+        addon.instance.configuration = configuration
+        addon.instance.save()
+        addon.instance.delete()
+        removed = self.component.change_set.get(
+            action=ActionEvents.ADDON_REMOVE, target=AutoTranslateAddon.name
+        )
+        self.assertIsNone(removed.details["configuration"]["component"])
+        self.assertIn("component", removed.details["changed_fields"])
+        self.assertIn("component", removed.details["redacted_fields"])
+
     def test_category_source_scope(self) -> None:
         category = self.create_category(self.project)
         outside_project = self.create_project(name="Outside", slug="outside")
