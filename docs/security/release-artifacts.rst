@@ -123,12 +123,15 @@ The Weblate release workflow publishes verification material for the Weblate
 Python source distribution and wheel in `GitHub release assets`_. Release
 assets include the package archives, Sigstore signature bundles, release notes,
 and the release SBOM. The same package archives are uploaded to PyPI using
-trusted publishing, but the Sigstore bundle files are not uploaded to PyPI
-because the release workflow removes files not accepted by PyPI before
-publishing.
+trusted publishing. The PyPI publishing action generates and uploads a
+separate PyPI publish attestation for each archive. These attestations are
+available in the provenance details for each release file on :pypi:`weblate`.
+Existing releases uploaded without attestations do not gain provenance
+retroactively. The Sigstore bundle files remain available in GitHub release
+assets.
 
 Verify the files downloaded from GitHub release assets when you need the
-published signatures, attestations, and SBOM. PyPI package files can be
+published signatures, GitHub attestations, and SBOM. PyPI package files can be
 compared to the matching GitHub release assets by filename and digest.
 
 Release signatures

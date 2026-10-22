@@ -374,11 +374,10 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+    - name: Publish packages with attestations
+      uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
       with:
-        enable-cache: false
-        version: 0.13.1
-    - run: uv publish --trusted-publishing always
+        attestations: true
 
   publish_github:
     name: Publish to GitHub
