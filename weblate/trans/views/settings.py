@@ -450,6 +450,24 @@ def move(request: AuthenticatedHttpRequest, path):
         obj.refresh_from_db()
         return redirect_param(obj, "#organize")
 
+    workspace = form.cleaned_data["workspace"]
+    if (
+        workspace is not None
+        and workspace.pk != obj.workspace_id
+        and "weblate.billing" in settings.INSTALLED_APPS
+    ):
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
+
+        try:
+            Billing.objects.lock_project_creation(
+                workspace.pk, source_workspace_id=obj.workspace_id
+            )
+        except ValidationError as error:
+            form.add_error("workspace", error)
+            show_form_errors(request, form)
+            return redirect_param(obj, "#organize")
+
     old_stats = list(obj.stats.get_update_objects())
     moved = form.save()
     moved.stats.update_parents(extra_objects=old_stats)

@@ -252,6 +252,41 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
             ),
         )
 
+    def lock_project_creation(
+        self, workspace_id: UUID, *, source_workspace_id: UUID | None = None
+    ) -> Billing | None:
+        """
+        Check a project slot while holding its billing lock until commit.
+
+        Call this inside the transaction which adds the project to the workspace.
+        When moving a project, lock both billings in primary-key order. A fresh
+        database count is necessary because the display count is cached.
+        """
+        workspace_ids = {workspace_id}
+        if source_workspace_id is not None:
+            workspace_ids.add(source_workspace_id)
+        billings = list(
+            self.select_related("plan")
+            .select_for_update(of=("self",))
+            .filter(workspace_id__in=workspace_ids)
+            .order_by("pk")
+        )
+        billing = next(
+            (item for item in billings if item.workspace_id == workspace_id), None
+        )
+        if billing is None:
+            return None
+        limit = billing.plan.display_limit_projects
+        if not (
+            self.filter(pk=billing.pk).get_valid().exists()
+            and (
+                limit == 0
+                or Project.objects.filter(workspace_id=workspace_id).count() < limit
+            )
+        ):
+            raise ValidationError(gettext("No valid billing found or limit exceeded."))
+        return billing
+
     def active(self):
         return self.filter(state__in=Billing.ACTIVE_STATES)
 
