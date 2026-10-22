@@ -72,6 +72,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
+    get_state_label,
 )
 from weblate.utils.tracing import start_span
 
@@ -2951,10 +2952,33 @@ class Unit(models.Model, LoggerMixin):
             .order_by("context")
         )
 
+    def validate_review_state(self, expected_state: int) -> None:
+        """Reject an edit based on an outdated review state."""
+        if expected_state == self.state:
+            return
+        previous = StringState(expected_state)
+        current = StringState(self.state)
+        enable_review = self.translation.enable_review
+        raise ValidationError(
+            gettext(
+                "The review state of this string has changed from %(previous)s "
+                "to %(current)s while you were editing it. "
+                "Reload the editor and review your changes before saving."
+            ),
+            params={
+                "previous": get_state_label(previous, previous.label, enable_review),
+                "current": get_state_label(current, current.label, enable_review),
+            },
+        )
+
     def prepare_translation_update(
-        self, *, select_for_update: bool, expected_source_hash: int | None
+        self,
+        *,
+        select_for_update: bool,
+        expected_source_hash: int | None,
+        expected_state: int | None,
     ) -> None:
-        """Lock the current unit and revalidate the source used for this edit."""
+        """Lock the current unit and revalidate the source and review state."""
         if expected_source_hash is None:
             expected_source_hash = self.edit_content_hash
 
@@ -2987,6 +3011,10 @@ class Unit(models.Model, LoggerMixin):
                         "Please check your changes."
                     )
                 )
+        if expected_state is not None and expected_state != old_unit.state:
+            self.state = old_unit.state
+            self.original_state = old_unit.original_state
+            self.validate_review_state(expected_state)
         if "disk_identity" in old_unit.details:
             # A source edit may have happened since this editor loaded the unit.
             self.source = old_unit.source
@@ -3011,6 +3039,7 @@ class Unit(models.Model, LoggerMixin):
         select_for_update: bool = True,
         change_details: dict[str, Any] | None = None,
         expected_source_hash: int | None = None,
+        expected_state: int | None = None,
     ) -> bool:
         """
         Store new translation of a unit.
@@ -3025,6 +3054,7 @@ class Unit(models.Model, LoggerMixin):
         self.prepare_translation_update(
             select_for_update=select_for_update,
             expected_source_hash=expected_source_hash,
+            expected_state=expected_state,
         )
 
         # Handle simple string units
