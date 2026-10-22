@@ -8,11 +8,15 @@ import json
 import os
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
+from concurrent.futures import ThreadPoolExecutor
+from functools import partial
+from tempfile import TemporaryDirectory
+from threading import Event
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, patch
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 
 from weblate.automation.context import automation_origin
 from weblate.utils.celery import (
@@ -204,6 +208,86 @@ class TaskMetadataTest(SimpleTestCase):
             with self.subTest(result=result):
                 self.assertIs(sanitize_task_result(self.task_id, result), result)
 
+    def test_concurrent_updates_preserve_failure_dependencies(self) -> None:
+        for dependencies_first in (False, True):
+            with self.subTest(dependencies_first=dependencies_first):
+                self.check_concurrent_metadata_merge(
+                    dependencies_first=dependencies_first
+                )
+
+    def check_concurrent_metadata_merge(self, *, dependencies_first: bool) -> None:
+        with (
+            TemporaryDirectory() as data_dir,
+            override_settings(
+                DATA_DIR=data_dir,
+                CACHES={
+                    "default": {
+                        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+                        "LOCATION": "task-metadata-atomic-update",
+                    }
+                },
+            ),
+        ):
+            delete_task_metadata(self.task_id)
+            first_read = Event()
+            release_first = Event()
+            second_started = Event()
+            second_read = Event()
+            original_get = get_task_metadata
+            updates = [
+                partial(store_task_metadata, self.task_id, component_id=1),
+                partial(
+                    store_task_metadata,
+                    self.task_id,
+                    failure_component_ids=[2, 3],
+                    failure_repository_ids=[3],
+                ),
+            ]
+            if dependencies_first:
+                updates.reverse()
+
+            def read_snapshot(key: str) -> dict[str, object] | None:
+                snapshot = original_get(key)
+                if not first_read.is_set():
+                    first_read.set()
+                    if not release_first.wait(5):
+                        msg = "First metadata writer was not released"
+                        raise TimeoutError(msg)
+                else:
+                    second_read.set()
+                return snapshot
+
+            def second_update() -> None:
+                second_started.set()
+                updates[1]()
+
+            with (
+                ThreadPoolExecutor(max_workers=2) as executor,
+                patch(
+                    "weblate.utils.celery.get_task_metadata", side_effect=read_snapshot
+                ),
+            ):
+                first = executor.submit(updates[0])
+                try:
+                    self.assertTrue(first_read.wait(5))
+                    second = executor.submit(second_update)
+                    self.assertTrue(second_started.wait(5))
+                    # The second writer must wait before reading a stale snapshot.
+                    self.assertFalse(second_read.wait(0.2))
+                finally:
+                    release_first.set()
+                first.result(timeout=5)
+                second.result(timeout=5)
+            self.assertEqual(
+                get_task_metadata(self.task_id),
+                {
+                    "component_id": 1,
+                    "translation_id": None,
+                    "failure_component_ids": [2, 3],
+                    "failure_repository_ids": [3],
+                },
+            )
+
     def test_updates_preserve_repository_operation_metadata(self) -> None:
         store_task_metadata(
             self.task_id,
@@ -307,6 +391,7 @@ print(json.dumps({
         output = self.run_python(
             """
 from concurrent.futures import ThreadPoolExecutor
+from functools import partial
 from importlib import import_module
 
 from weblate.utils.celery import app
