@@ -151,35 +151,45 @@ def store_task_metadata(
     translation_id: int | None = None,
     user_id: int | None = None,
     task_kind: str | None = None,
+    failure_component_ids: list[int] | None = None,
+    failure_repository_ids: list[int] | None = None,
     cancellable: bool = True,
 ) -> None:
     if not task_id:
         return
-    existing = get_task_metadata(task_id)
-    if existing is None:
-        data: dict[str, Any] = {
-            "component_id": component_id,
-            "translation_id": translation_id,
-        }
-    else:
-        data = existing.copy()
-        if component_id is not None:
-            data["component_id"] = component_id
-        if translation_id is not None:
-            data["translation_id"] = translation_id
-    if component_ids is not None:
-        data["component_ids"] = component_ids
-    if user_id is not None:
-        data["user_id"] = user_id
-    if task_kind is not None:
-        data["task_kind"] = task_kind
-    if not cancellable:
-        data["cancellable"] = False
-    cache.set(
-        get_task_metadata_key(task_id),
-        data,
-        TASK_METADATA_TTL,
-    )
+    from weblate.utils.lock import WeblateLock  # ruff: ignore[import-outside-top-level]
+
+    # Publisher and worker updates must preserve each other's visibility metadata.
+    with WeblateLock(scope="task-metadata", key=task_id, slug=task_id, timeout=10):
+        existing = get_task_metadata(task_id)
+        if existing is None:
+            data: dict[str, Any] = {
+                "component_id": component_id,
+                "translation_id": translation_id,
+            }
+        else:
+            data = existing.copy()
+            if component_id is not None:
+                data["component_id"] = component_id
+            if translation_id is not None:
+                data["translation_id"] = translation_id
+        if component_ids is not None:
+            data["component_ids"] = component_ids
+        if user_id is not None:
+            data["user_id"] = user_id
+        if task_kind is not None:
+            data["task_kind"] = task_kind
+        if failure_component_ids is not None:
+            data["failure_component_ids"] = failure_component_ids
+        if failure_repository_ids is not None:
+            data["failure_repository_ids"] = failure_repository_ids
+        if not cancellable:
+            data["cancellable"] = False
+        cache.set(
+            get_task_metadata_key(task_id),
+            data,
+            TASK_METADATA_TTL,
+        )
 
 
 def get_task_metadata(task_id: str) -> dict[str, Any] | None:
@@ -283,17 +293,14 @@ def sanitize_task_result(
         completion_message.get("text"), str
     ):
         return result
-    failed = result.get("result") is False or completion_message.get("level") == "error"
-    if metadata.get("task_kind") != "repository-operation" and not failed:
+    if metadata.get("task_kind") != "repository-operation":
         return result
-    if metadata.get("task_kind") == "repository-operation":
-        text = (
-            gettext("Repository operation completed with errors.")
-            if failed
-            else gettext("Repository operation completed.")
-        )
-    else:
-        text = gettext("Task could not be completed. See the task log for details.")
+    failed = result.get("result") is False or completion_message.get("level") == "error"
+    text = (
+        gettext("Repository operation completed with errors.")
+        if failed
+        else gettext("Repository operation completed.")
+    )
     return {**result, "completion_message": {**completion_message, "text": text}}
 
 
@@ -392,16 +399,6 @@ def handle_task_failure_result(task_id=None, retval=None, **kwargs) -> None:
         with suppress(DatabaseError, OSError):
             record_task_failure(task_id, retval["message"])
         return
-    message = retval.get("completion_message")
-    if not isinstance(message, dict) or not isinstance(message.get("text"), str):
-        return
-    if retval.get("result") is not False and message.get("level") != "error":
-        return
-    if (get_task_metadata(task_id) or {}).get("task_kind") == "repository-operation":
-        return
-    # Preserve the task's result even if diagnostics cannot be stored.
-    with suppress(DatabaseError, OSError):
-        record_task_failure(task_id, message["text"])
 
 
 @task_failure.connect

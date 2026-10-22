@@ -123,7 +123,13 @@ def record_user_task_failure(task_id: str, exception: object) -> None:
         or not isinstance(metadata.get("user_id"), int)
         or any(
             metadata.get(key)
-            for key in ("component_id", "component_ids", "translation_id")
+            for key in (
+                "component_id",
+                "component_ids",
+                "translation_id",
+                "failure_component_ids",
+                "failure_repository_ids",
+            )
         )
     ):
         return
@@ -234,23 +240,54 @@ def record_repository_progress(
     )
 
 
+def store_task_failure_dependencies(task_id: str, component_ids: list[int]) -> None:
+    """Capture diagnostic dependencies without broadening task authorization."""
+    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+    owners = {
+        component.effective_repo_component.pk
+        for component in Component.objects.filter(pk__in=component_ids).prefetch(
+            alerts=False
+        )
+    }
+    store_task_metadata(
+        task_id,
+        failure_component_ids=sorted(set(component_ids) | owners),
+        failure_repository_ids=sorted(owners),
+    )
+
+
 def record_task_failure(task_id: str, exception: object) -> None:
     components = get_task_components(task_id)
     if not components:
         record_user_task_failure(task_id, exception)
         return
+    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.celery import get_task_metadata  # ruff: ignore[import-outside-top-level]
+
+    metadata = get_task_metadata(task_id) or {}
+    required_ids = set(metadata.get("failure_component_ids") or ())
+    repository_ids = set(metadata.get("failure_repository_ids") or ())
+    dependencies = list(
+        Component.objects.filter(pk__in=required_ids).prefetch(alerts=False)
+    )
+    detail = make_task_log_entry(
+        components[0],
+        str(exception),
+        sensitive=True,
+        dependencies=[*components[1:], *dependencies],
+    )
+    # Retain missing dependencies and the repository owners captured before the failure.
+    detail["required_component_ids"] = sorted(
+        set(detail["required_component_ids"]) | required_ids | repository_ids
+    )
+    detail["repository_ids"] = sorted(set(detail["repository_ids"]) | repository_ids)
     append_task_logs(
         task_id,
         [
             make_task_log_entry(component, "Task could not be completed.")
             for component in components
         ]
-        + [
-            make_task_log_entry(
-                components[0],
-                str(exception),
-                sensitive=True,
-                dependencies=components[1:],
-            )
-        ],
+        + [detail],
     )

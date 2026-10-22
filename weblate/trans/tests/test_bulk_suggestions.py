@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
+from django.core.cache import cache
 from django.test import override_settings
 from django.urls import reverse
 
@@ -17,6 +18,7 @@ from weblate.trans.tasks import (
     bulk_accept_user_suggestions as bulk_accept_user_suggestions_task,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.celery import delete_task_metadata, store_task_metadata
 from weblate.utils.state import STATE_APPROVED
 
 
@@ -578,6 +580,47 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertEqual(result["failed"], 0)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.state, STATE_APPROVED)
+
+    def test_queued_zero_acceptance_preserves_progress_message(self) -> None:
+        suggester = User.objects.create_user(username="unaccepted-suggester")
+        Suggestion.objects.create(
+            unit=self.unit, target="Suggestion!\n", user=suggester
+        )
+        task_id = "zero-acceptance-task"
+        store_task_metadata(
+            task_id, translation_id=self.translation.pk, user_id=self.user.pk
+        )
+        try:
+            with patch.object(Suggestion, "get_checks", return_value=["failed check"]):
+                task = bulk_accept_user_suggestions_task.apply(
+                    kwargs={
+                        "translation_id": self.translation.pk,
+                        "target_user_id": suggester.pk,
+                        "user_id": self.user.pk,
+                    },
+                    task_id=task_id,
+                    throw=True,
+                )
+            result = task.get(disable_sync_subtasks=False)
+            self.assertEqual(result["accepted"], 0)
+            self.assertEqual(result["completion_message"]["level"], "error")
+            self.component.store_background_task(task)
+            with patch("weblate.trans.models.component.AsyncResult", return_value=task):
+                response = self.client.get(
+                    reverse(
+                        "show_progress", kwargs={"path": self.component.get_url_path()}
+                    )
+                )
+            self.assertEqual(response.status_code, 302)
+            messages = list(get_messages(response.wsgi_request))
+            self.assertEqual(len(messages), 1)
+            self.assertEqual(messages[0].message, result["message"])
+            self.assertEqual(messages[0].level_tag, "error")
+            self.assertIsNone(cache.get(f"task-log-{task_id}"))
+            self.assertIsNone(cache.get(f"task-user-log-{task_id}"))
+        finally:
+            self.component.delete_background_task()
+            delete_task_metadata(task_id)
 
     def test_bulk_accept_task_returns_url(self) -> None:
         """Test that the task returns a URL for progress completion reload."""

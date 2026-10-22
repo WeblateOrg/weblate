@@ -3819,6 +3819,8 @@ Tasks
     authorized users can find the detailed explanation in the task log.
     Automatic translation warnings identify source components only when you can
     access them. Other readers receive a general explanation of the warning.
+    Normal task outcomes, including unsuccessful bulk suggestion acceptance,
+    retain their outcome messages. Backend failures use generic summaries.
     Aggregate automatic translation tasks without a component scope retain
     cleaned failure diagnostics for the initiating user only.
 

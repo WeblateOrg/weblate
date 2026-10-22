@@ -133,7 +133,11 @@ from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
 )
-from weblate.trans.tasks import auto_translate, execute_repository_operation
+from weblate.trans.tasks import (
+    auto_translate,
+    component_after_save,
+    execute_repository_operation,
+)
 from weblate.trans.tests.test_views import ReusableComponentTestCase
 from weblate.trans.tests.utils import (
     create_test_addon,
@@ -12422,30 +12426,92 @@ class TasksAPITest(APIBaseTest):
                 self.assertIsNone(cache.get(f"task-user-log-{self.task_id}"))
                 self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
 
-    def test_returned_failure_preserves_details_only_in_sensitive_log(self) -> None:
+    def test_domain_error_completion_does_not_create_failure_log(self) -> None:
         cache.set(
             get_task_metadata_key(self.task_id),
             {"component_id": self.component.pk},
             3600,
         )
-        handle_task_failure_result(
-            task_id=self.task_id,
-            retval={
-                "result": False,
-                "completion_message": {
-                    "level": "error",
-                    "text": "Private backend detail.",
-                },
+        result = {
+            "result": False,
+            "completion_message": {
+                "level": "error",
+                "text": "Accepted 0 of 3 suggestions.",
             },
-        )
-        with patch.object(self.user, "has_perm", return_value=False):
-            log = "\n".join(get_visible_task_log(self.task_id, self.user))
-        self.assertIn("Task could not be completed", log)
-        self.assertNotIn("Private backend detail", log)
+        }
+        handle_task_failure_result(task_id=self.task_id, retval=result)
+        self.assertEqual(get_visible_task_log(self.task_id, self.user), [])
+
+    def test_copy_failure_requires_captured_source_dependencies(self) -> None:
+        source = self.create_acl()
+        source_id = source.pk
+        source_path = source.full_path
+        with (
+            patch(
+                "weblate.trans.component_copy.replace_component_checkout",
+                side_effect=OSError(f"Could not copy {source_path}/secret.po"),
+            ),
+            patch("weblate.utils.errors.report_error"),
+        ):
+            task = component_after_save.apply(
+                args=[self.component.pk],
+                kwargs={
+                    "changed_git": False,
+                    "changed_setup": True,
+                    "changed_template": False,
+                    "changed_variant": False,
+                    "changed_enforced_checks": False,
+                    "skip_push": True,
+                    "create": True,
+                    "seed_source_component_id": source.pk,
+                },
+                task_id=self.task_id,
+                throw=False,
+            )
+        self.assertTrue(task.failed())
+        with (
+            patch.object(User, "has_perm", return_value=True),
+            patch("weblate.api.views.AsyncResult", return_value=task),
+        ):
+            response = self.do_request(
+                "api:task-detail", kwargs={"pk": self.task_id}, method="get", code=200
+            )
+        self.assertIn("Task could not be completed", response.data["log"])
+        self.assertNotIn(source.full_slug, response.data["log"])
+        self.assertNotIn("secret.po", response.data["log"])
+        self.user.is_superuser = True
         with patch.object(self.user, "has_perm", return_value=True):
-            self.assertIn(
-                "Private backend detail",
-                "\n".join(get_visible_task_log(self.task_id, self.user)),
+            log = "\n".join(get_visible_task_log(self.task_id, self.user))
+        self.assertIn("Could not copy", log)
+        self.assertNotIn(source_path, log)
+        Component.objects.filter(pk=source.pk).update(
+            linked_component=self.component, repo=self.component.get_repo_link_url()
+        )
+        cache.delete(f"task-log-{self.task_id}")
+        record_task_failure(
+            self.task_id, OSError(f"Could not copy {source_path}/secret.po")
+        )
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=lambda _permission, obj: obj.pk == self.component.pk,
+        ):
+            self.assertNotIn(
+                "secret.po", "\n".join(get_visible_task_log(self.task_id, self.user))
+            )
+        Component.objects.filter(pk=source.pk).update(
+            linked_component=None, repo="local:"
+        )
+        source.delete()
+        cache.delete(f"task-log-{self.task_id}")
+        record_task_failure(
+            self.task_id, OSError(f"Could not copy {source_path}/secret.po")
+        )
+        entry = cache.get(f"task-log-{self.task_id}")[-1]
+        self.assertIn(source_id, entry["required_component_ids"])
+        with patch.object(self.user, "has_perm", return_value=True):
+            self.assertNotIn(
+                "secret.po", "\n".join(get_visible_task_log(self.task_id, self.user))
             )
 
     def test_sensitive_log_requires_access_to_repository_owner(self) -> None:
@@ -12699,6 +12765,7 @@ class TasksAPITest(APIBaseTest):
                         "weblate.utils.task_log.get_task_components",
                         return_value=sources,
                     ),
+                    patch("weblate.utils.celery.get_task_metadata", return_value={}),
                 ):
                     if producer == "progress":
                         record_repository_progress(
@@ -12926,7 +12993,7 @@ class TasksAPITest(APIBaseTest):
         self.component.linked_component = repository_owner
         cache.set(
             get_task_metadata_key(self.task_id),
-            {"component_id": self.component.pk},
+            {"component_id": self.component.pk, "task_kind": "repository-operation"},
             3600,
         )
 
@@ -12970,7 +13037,9 @@ class TasksAPITest(APIBaseTest):
             )
 
         self.assertIn("Repository push failed", response.data["log"])
-        self.assertIn("could not be completed", str(response.data["result"]))
+        self.assertIn(
+            "Repository operation completed with errors", str(response.data["result"])
+        )
         self.assertNotIn("internal.example.net", str(response.data))
         self.assertNotIn(repository_name, str(response.data))
         self.assertNotIn(repository_slug, str(response.data))

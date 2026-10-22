@@ -247,7 +247,7 @@ class RepositoryRecoveryTest(ComponentTestCase):
         path = Path(self.component.full_path)
         remove_tree(path / ".git")
         original_units = list(
-            self.component.source_translation.unit_set.values_list(
+            self.component.source_translation.unit_set.order_by("pk").values_list(
                 "pk", "source", "target"
             )
         )
@@ -261,7 +261,7 @@ class RepositoryRecoveryTest(ComponentTestCase):
         self.assertFalse((path / ".git").exists())
         self.assertEqual(
             list(
-                self.component.source_translation.unit_set.values_list(
+                self.component.source_translation.unit_set.order_by("pk").values_list(
                     "pk", "source", "target"
                 )
             ),

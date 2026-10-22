@@ -96,6 +96,7 @@ from weblate.utils.task_log import (
     record_repository_failure,
     record_repository_progress,
     record_task_failure,
+    store_task_failure_dependencies,
 )
 from weblate.vcs.base import RepositoryError
 
@@ -1134,6 +1135,14 @@ def component_after_save(
     copy_seed_addons: bool = False,
     seed_author: str | None = None,
 ) -> dict[Literal["component"], int]:
+    if (
+        seed_source_component_id is not None
+        and current_task
+        and current_task.request.id
+    ):
+        task_id = str(current_task.request.id)
+        store_task_metadata(task_id, component_id=pk)
+        store_task_failure_dependencies(task_id, [seed_source_component_id])
     component = Component.objects.get(pk=pk)
     component.after_save(
         changed_git=changed_git,
