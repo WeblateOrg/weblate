@@ -17,6 +17,8 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
+* Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
+
 * Docker deployments support :ref:`signing in through Hosted Weblate or another Weblate installation <docker-weblate-auth>` using OpenID Connect.
 * Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
 * Improved :ref:`string search <search-strings>` performance when filtering by a language code.

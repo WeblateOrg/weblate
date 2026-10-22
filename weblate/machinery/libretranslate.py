@@ -170,6 +170,9 @@ class LibreTranslateTranslation(BaseLibreTranslateTranslation):
     """LibreTranslate machine translation support."""
 
     name = "LibreTranslate"
+    # Client request limits are configured per minute.
+    # https://docs.libretranslate.com/guides/installation/
+    rate_limit_window = 60
     trusted_error_hosts: ClassVar[set[str]] = {"libretranslate.com"}
     version_added = "4.7.1"
 

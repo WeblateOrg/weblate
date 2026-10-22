@@ -24,6 +24,10 @@ GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 
 
 class GoogleBaseTranslation(MachineTranslation):
+    # Per-minute content and request quotas.
+    # https://docs.cloud.google.com/translate/quotas
+    rate_limit_window = 60
+
     # Map codes used by Google to the ones used by Weblate
     language_map: ClassVar[dict[str, str]] = {
         "nb": "no",
