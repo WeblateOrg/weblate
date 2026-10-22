@@ -343,6 +343,27 @@ class LanguageCodeValidationTest(SimpleTestCase):
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
+    def test_auto_create_rejects_invalid_code(self) -> None:
+        count = Language.objects.count()
+
+        for invalid_code in ("../../../../tmp/pwn", "z" * 51):
+            for create in (False, True):
+                with (
+                    self.subTest(code=invalid_code, create=create),
+                    self.assertRaises(ValidationError),
+                ):
+                    Language.objects.auto_create(invalid_code, create=create)
+            with self.subTest(code=invalid_code), self.assertRaises(ValidationError):
+                Language.objects.auto_get_or_create(invalid_code)
+
+        self.assertEqual(Language.objects.count(), count)
+
+    def test_auto_create_accepts_maximum_code_length(self) -> None:
+        code = "z" * 50
+        language = Language.objects.auto_create(code, create=False)
+        self.assertEqual(language.code, code)
+        self.assertIsNone(language.pk)
+
     def run_create(self, original, expected, direction, plural, name, create) -> None:
         """Test that auto create correctly handles languages."""
         # Lookup language

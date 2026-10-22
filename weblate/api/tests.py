@@ -4458,6 +4458,36 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
+    def test_language_aliases_validate_destination(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        for target in ("../../../../tmp/pwn", "z" * 51):
+            with self.subTest(target=target):
+                response = self.do_request(
+                    "api:project-detail",
+                    self.project_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"language_aliases": f"zzq9:{target}"},
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "language_aliases")
+                self.project.refresh_from_db()
+                self.assertEqual(self.project.language_aliases, "")
+        self.assertFalse(Language.objects.filter(code__contains="/").exists())
+
+        valid_aliases = f"ia_FOO:ia,other:sr+latn,custom:zzq9,max:{'z' * 50}"
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"language_aliases": valid_aliases},
+        )
+        self.assertEqual(response.data["language_aliases"], valid_aliases)
+
     def grant_language_download(self, *, membership_limit: bool = False) -> None:
         self.authenticate()
         self.user.groups.clear()

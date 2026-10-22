@@ -39,6 +39,7 @@ Weblate 2026.11
 * Prevented excessive CPU use when the :ref:`AngularJS interpolation check <check-angularjs-format>` processes unterminated expressions.
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
 * Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
+* Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
