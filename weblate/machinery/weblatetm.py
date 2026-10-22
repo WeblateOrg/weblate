@@ -32,9 +32,8 @@ class WeblateTranslation(InternalMachineTranslation):
 
     name = "Weblate"
     rank_boost = 1
-    cache_translations = True
-    # Cache results for 1 hour to avoid frequent database hits
-    cache_expiry = 3600
+    # Results depend on the user's access and must not be shared through the cache.
+    cache_translations = False
     candidate_limit = 50
 
     def download_translations(

@@ -17,7 +17,7 @@ from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
 
 import httpx2
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from botocore.exceptions import ClientError
 from botocore.stub import ANY, Stubber
 from django.conf import settings as django_settings
@@ -40,6 +40,7 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
 from weblate.checks.utils import highlight_string
@@ -10844,6 +10845,90 @@ class ViewsTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["responseStatus"], 200)
+
+    def assert_weblate_suggestions_respect_access(self, protected: Component) -> None:
+        public_unit = self.get_unit()
+        protected_unit = protected.translation_set.get(language_code="cs").unit_set.get(
+            source=public_unit.source
+        )
+        secret = "Protected translation for automatic suggestions"
+        Unit.objects.filter(pk=protected_unit.pk).update(
+            target=secret, state=STATE_TRANSLATED
+        )
+        access_group = Group.objects.create(name="Protected suggestion access")
+        access_group.roles.add(Role.objects.get(name="Translate"))
+        access_group.components.add(protected)
+        self.user.groups.add(access_group)
+        self.anotheruser.groups.add(Group.objects.get(name="Users"))
+        self.user.clear_permissions_cache()
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(protected))
+        self.assertTrue(self.anotheruser.can_access_component(self.component))
+        self.assertFalse(self.anotheruser.can_access_component(protected))
+        machine = WeblateTranslation({})
+        base = machine.get_base_queryset(
+            self.user, self.component.source_language, public_unit.translation.language
+        )
+        self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
+
+        async def download_in_test_transaction(
+            service, source_language, target_language, text, unit, user, threshold
+        ):
+            return await sync_to_async(
+                lambda: list(
+                    service.download_translations(
+                        source_language, target_language, text, unit, user, threshold
+                    )
+                )
+            )()
+
+        installation, _ = MachineryInstallation.objects.get_or_create(engine="weblate")
+        url = reverse(
+            "js-translate",
+            kwargs={"unit_id": public_unit.pk, "service": installation.selector},
+        )
+        with patch.object(
+            WeblateTranslation, "adownload_translations", download_in_test_transaction
+        ):
+            self.client.force_login(self.user)
+            member_response = self.client.post(url)
+            self.client.force_login(self.anotheruser)
+            outsider_response = self.client.post(url)
+
+        self.assertEqual(member_response.status_code, 200)
+        self.assertEqual(member_response.json()["responseStatus"], 200)
+        member_results = member_response.json()["translations"]
+        self.assertTrue(
+            any(
+                item["text"] == secret
+                and item["origin"] == str(protected)
+                and item["origin_url"] == protected_unit.get_absolute_url()
+                for item in member_results
+            ),
+            member_results,
+        )
+
+        self.assertEqual(outsider_response.status_code, 200)
+        self.assertEqual(outsider_response.json()["responseStatus"], 200)
+        outsider_results = outsider_response.json()["translations"]
+        outsider_data = json.dumps(outsider_results)
+        self.assertNotIn(secret, outsider_data)
+        self.assertNotIn(str(protected), outsider_data)
+        self.assertNotIn(protected_unit.get_absolute_url(), outsider_data)
+
+    def test_weblate_suggestions_do_not_leak_private_project(self) -> None:
+        private = Project.objects.create(
+            name="Private suggestions",
+            slug="private-suggestions",
+            web="https://example.com/",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        protected = self.create_po(project=private, name="Private source")
+        self.assert_weblate_suggestions_respect_access(protected)
+
+    def test_weblate_suggestions_do_not_leak_restricted_component(self) -> None:
+        protected = self.create_po(name="Restricted source", restricted=True)
+        self.assert_weblate_suggestions_respect_access(protected)
 
     def test_translate_asgi_reports_original_exception(self) -> None:
         self.ensure_dummy_mt()
