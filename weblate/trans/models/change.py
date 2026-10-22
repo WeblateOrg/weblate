@@ -76,6 +76,7 @@ PREFETCH_FIELDS = (
     "project__secondary_language",
     "unit",
     "unit__source_unit",
+    "unit__source_unit__translation__plural",
     "translation__plural",
 )
 

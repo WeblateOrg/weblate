@@ -31,6 +31,7 @@ from weblate.trans.forms import ChangesDateForm
 from weblate.trans.models import Announcement, Change, Project, Translation, Unit
 from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.repository_context import repository_changes
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
@@ -636,12 +637,82 @@ class ChangeScopeTest(ViewTestCase):
                 setattr(change, field, None)
 
 
+class ChangeQueriesTest(FixtureTestCase):
+    def create_history_changes(
+        self, action: ActionEvents, *, snapshot: bool = False
+    ) -> list[Change]:
+        Change.objects.all().delete()
+        units = list(self.translation.unit_set.order_by("pk")[:3])
+        self.assertEqual(len(units), 3)
+        changes = []
+        for unit in units:
+            details = (
+                {
+                    "source_snapshot": SourceSnapshot.from_unit(
+                        unit, canonical=True
+                    ).as_dict()
+                }
+                if snapshot
+                else {}
+            )
+            changes.append(
+                Change.objects.create(
+                    unit=unit,
+                    user=self.user,
+                    action=action,
+                    old="Previous text",
+                    target="Updated text",
+                    details=details,
+                )
+            )
+        return changes
+
+    def test_recent_prefetches_source_translation_plurals(self) -> None:
+        changes = self.create_history_changes(ActionEvents.CHANGE)
+        recent = self.project.change_set.recent(skip_preload="project")
+        self.assertCountEqual(
+            [change.pk for change in recent], [change.pk for change in changes]
+        )
+        expected_plural = self.component.source_translation.plural
+
+        with self.assertNumQueries(0):
+            for change in recent:
+                assert change.unit is not None
+                self.assertEqual(
+                    change.unit.source_unit.translation.plural, expected_plural
+                )
+
+    def test_history_render_does_not_fetch_translation_metadata(self) -> None:
+        for action in (ActionEvents.CHANGE, ActionEvents.SOURCE_CHANGE):
+            for snapshot in (False, True):
+                with self.subTest(action=action, snapshot=snapshot):
+                    changes = self.create_history_changes(action, snapshot=snapshot)
+                    recent = self.project.change_set.recent(skip_preload="project")
+                    with CaptureQueriesContext(connection) as queries:
+                        rendered = render_to_string(
+                            "snippets/last-changes-content.html",
+                            format_last_changes_content(recent, ""),
+                        )
+                    self.assertEqual(
+                        rendered.count('class="history-data col-md-9"'), len(changes)
+                    )
+                    self.assertIn("Updated", html.fromstring(rendered).text_content())
+                    metadata_queries = [
+                        query["sql"]
+                        for query in queries
+                        if 'FROM "trans_translation"' in query["sql"]
+                        or 'FROM "lang_plural"' in query["sql"]
+                    ]
+                    self.assertEqual(metadata_queries, [])
+
+
 class FeedQueriesTest(FixtureTestCase):
     # Reverse managers populate different related objects up front, so the
     # fixed query budget differs between project/component/translation feeds.
-    PROJECT_FEED_QUERIES = 11
-    COMPONENT_FEED_QUERIES = 10
-    TRANSLATION_FEED_QUERIES = 10
+    # This includes two bulk queries for source translations and their plurals.
+    PROJECT_FEED_QUERIES = 13
+    COMPONENT_FEED_QUERIES = 12
+    TRANSLATION_FEED_QUERIES = 12
 
     def setUp(self) -> None:
         super().setUp()
