@@ -950,6 +950,60 @@ class CSharpFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_named_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "There are {count} apples",
+                "There are {count} apples",
+                False,
+                make_unit(),
+            )
+        )
+
+    def test_named_format_mismatch(self) -> None:
+        self.assertEqual(
+            self.check.check_format(
+                "There are {count} apples",
+                "There are {pocet} apples",
+                False,
+                make_unit(),
+            ),
+            {"missing": ["count"], "extra": ["pocet"]},
+        )
+
+    def test_named_format_with_width_and_flag(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "There are {count,5:D3} apples",
+                "There are {count,5:D3} apples",
+                False,
+                make_unit(),
+            )
+        )
+
+    def test_named_format_missing(self) -> None:
+        self.assertTrue(
+            self.check.check_format(
+                "There are {count} apples", "There are apples", False, make_unit()
+            )
+        )
+
+    def test_named_format_member_access(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "{user.Name} logged in", "{user.Name} logged in", False, make_unit()
+            )
+        )
+
+    def test_named_format_indexer_out_of_scope(self) -> None:
+        # Indexer/method-call interpolation is not matched: the check stays
+        # silent there rather than comparing a guessed placeholder.
+        self.assertFalse(
+            self.check.check_format(
+                "{items[0]} here", "different {items[1]} text", False, make_unit()
+            )
+        )
+
 
 class JavaFormatCheckTest(CheckTestCase):
     check = JavaFormatCheck()
