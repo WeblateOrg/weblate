@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-15 21:46-0500\n"
-"PO-Revision-Date: 2026-10-22 08:11+0000\n"
+"PO-Revision-Date: 2026-10-22 12:27+0000\n"
 "Last-Translator: Eduard Ereza Martínez "
 "<ereza@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -2516,7 +2516,7 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Activa l’ordenació de claus sensible a majúscules i minúscules"
 
 msgid "Change events to trigger"
-msgstr "Esdeveniments de canvi que s’invocaran"
+msgstr "Esdeveniments de canvi que s’activaran"
 
 msgid "Translation content events"
 msgstr "Esdeveniments del contingut de la traducció"
@@ -4054,15 +4054,13 @@ msgstr "Seleccioneu un canvi per a aquesta automatització."
 msgid "The change does not belong to this component."
 msgstr "El canvi no pertany a aquest component."
 
-#, fuzzy
-#| msgid "The change does not belong to this component."
 msgid "The change event does not match this automation's triggers."
-msgstr "El canvi no pertany a aquest component."
+msgstr ""
+"L’esdeveniment de canvi no coincideix amb els activadors d’aquesta "
+"automatització."
 
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Trigger scope requires a change with a string."
-msgstr "Eviteu els anys associats amb vós."
+msgstr "L’abast de l’activador requereix un canvi amb una cadena."
 
 msgid "Automation nesting is too deep."
 msgstr "La imbricació de l’automatització és massa profunda."
@@ -4121,26 +4119,20 @@ msgstr "Flux de treball"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
-#, fuzzy
-#| msgid "Component"
 msgid "Component ID"
-msgstr "Component"
+msgstr "Identificador del component"
 
 msgid "Required for inherited automations."
 msgstr ""
 
-#, fuzzy
-#| msgid "Change"
 msgid "Change ID"
-msgstr "Canvia"
+msgstr "Identificador del canvi"
 
 msgid "Required for workflows using only change triggers."
 msgstr ""
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Preview without changes"
-msgstr "Canvis recents"
+msgstr "Previsualitza sense canvis"
 
 msgid "Additional message"
 msgstr "Missatge addicional"
@@ -6204,30 +6196,29 @@ msgstr "Heu d’acceptar les condicions generals i la política de privadesa"
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Heu d’acceptar les condicions generals"
 
-#, fuzzy, python-format
-#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+#, python-format
 msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
 "and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "Estic d’acord amb les condicions generals i la política de privadesa"
+msgstr ""
+"Llegiu les <a href=\"%(terms_url)s\">condicions generals</a> i la <a href=\"%"
+"(privacy_url)s\">política de privadesa</a>."
 
-#, fuzzy, python-format
-#| msgid "Please read the following General Terms and Conditions document:"
+#, python-format
 msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a>."
-msgstr "Llegiu el següent document de condicions generals:"
+msgstr "Llegiu les <a href=\"%(terms_url)s\">condicions generals</a>."
 
-#, fuzzy, python-format
-#| msgid "I agree with the General Terms and Conditions and the Privacy Policy"
+#, python-format
 msgid ""
 "Please read the General Terms and Conditions below as well as the <a "
 "href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "Estic d’acord amb les condicions generals i la política de privadesa"
+msgstr ""
+"Llegiu les condicions generals a continuació i la <a href=\"%(privacy_url)"
+"s\">política de privadesa</a>."
 
-#, fuzzy
-#| msgid "Please read the following General Terms and Conditions document:"
 msgid "Please read the General Terms and Conditions below."
-msgstr "Llegiu el següent document de condicions generals:"
+msgstr "Llegiu les condicions generals a continuació."
 
 msgid "General Terms and Conditions"
 msgstr "Condicions generals"
@@ -6316,23 +6307,18 @@ msgid ""
 "policy, please contact the site maintainer to provide it."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Please read the following General Terms and Conditions document:"
+#, python-format
 msgid ""
 "Please read the <a href=\"%(external_terms_url)s\">General Terms and "
 "Conditions</a>."
-msgstr "Llegiu el següent document de condicions generals:"
+msgstr "Llegiu les <a href=\"%(external_terms_url)s\">condicions generals</a>."
 
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers to add others."
 msgid ""
 "This site has not defined any terms and conditions, please contact the site "
 "maintainer to provide them."
 msgstr ""
-"Aquesta llista inclou només llengües bàsiques. Contacteu amb els "
-"responsables del projecte per a afegir-ne d’altres."
+"Aquest lloc no ha definit unes condicions generals, contacteu amb el "
+"responsable del projecte perquè les proporcioni."
 
 msgid "Legal Terms Overview"
 msgstr "Resum de les condicions legals"
@@ -6358,23 +6344,17 @@ msgstr "No s’han trobat llengües admeses: %s"
 msgid "Could not fetch translation: %s"
 msgstr "No s’ha pogut obtenir la traducció: %s"
 
-#, fuzzy
-#| msgid "Translation license"
 msgid "Translation services"
-msgstr "Llicència de la traducció"
+msgstr "Serveis de traducció"
 
 msgid "Application is not authorized to use eTranslation"
 msgstr ""
 
-#, fuzzy
-#| msgid "Language addition is not supported by any of the components."
 msgid "The language pair is not supported by this domain"
-msgstr "No s’admet l’addició de llengües en cap dels components."
+msgstr "Aquest parell de llengües no està admès en aquest domini"
 
-#, fuzzy
-#| msgid "The source string needs review."
 msgid "The text is too long"
-msgstr "Cal revisar la cadena d’origen."
+msgstr "El text és massa llarg"
 
 msgid "The concurrency quota was exceeded"
 msgstr ""
@@ -6382,25 +6362,17 @@ msgstr ""
 msgid "Quality estimation is not available for text snippets"
 msgstr ""
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "Quality estimation is not available"
-msgstr "El testimoni que heu introduït no és vàlid."
+msgstr "L’estimació de la qualitat no està disponible"
 
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation backend failed"
-msgstr "La traducció ha finalitzat."
+msgstr "El rerefons de traducció ha fallat"
 
-#, fuzzy
-#| msgid "This translation needs editing."
 msgid "The translation request timed out"
-msgstr "Cal editar aquesta traducció."
+msgstr "La sol·licitud de traducció ha excedit el temps d’espera"
 
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal processing error"
-msgstr "Error intern del servidor"
+msgstr "Error intern de processament"
 
 msgid "The language pair is not available for this domain"
 msgstr ""
@@ -6414,35 +6386,25 @@ msgid ""
 "%(code)s)."
 msgstr ""
 
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
 msgid "Invalid eTranslation domains response"
-msgstr "Marca de traducció no vàlida: «%s»"
+msgstr "Resposta dels dominis d’eTranslation no vàlida"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
 msgid "No eTranslation domains available"
-msgstr "Domini de la traducció"
+msgstr "No hi ha cap domini d’eTranslation disponible"
 
 msgid "eTranslation requires a public HTTPS site domain for callbacks."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not fetch eTranslation domains: %s"
-msgstr "No s’ha pogut obtenir la traducció: %s"
+msgstr "No s’han pogut obtenir els dominis d’eTranslation: %s"
 
-#, fuzzy, python-format
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
+#, python-format
 msgid "Unknown eTranslation domain: %s"
-msgstr "Domini de la traducció"
+msgstr "Domini d’eTranslation desconegut: %s"
 
-#, fuzzy
-#| msgid "Invalid revert request!"
 msgid "Invalid eTranslation request ID"
-msgstr "Petició de reversió no vàlida!"
+msgstr "Identificador de sol·licitud d’eTranslation no vàlid"
 
 msgid "Timed out waiting for eTranslation callback"
 msgstr ""
@@ -6451,11 +6413,9 @@ msgctxt "eTranslation domain"
 msgid "General Text (GEN)"
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
 msgctxt "eTranslation domain"
 msgid "EU Formal Language (SPD)"
-msgstr "Per a totes les llengües"
+msgstr "Llengua formal de la UE (SPD)"
 
 msgctxt "eTranslation domain"
 msgid "Finance (ECB)"
@@ -6510,63 +6470,46 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Secret del client"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Application base URL"
 msgctxt "eTranslation configuration"
 msgid "Application name"
-msgstr "URL base de l’aplicació"
+msgstr "Nom de l’aplicació"
 
 msgctxt "eTranslation configuration"
 msgid "Password"
 msgstr "Contrasenya"
 
-#, fuzzy
-#| msgid "Repeated language code"
 msgctxt "eTranslation configuration"
 msgid "Default language domain"
-msgstr "Codi de llengua repetit"
+msgstr "Domini de llengua per defecte"
 
-#, fuzzy
-#| msgid "Site domain"
 msgctxt "eTranslation domain"
 msgid "Other domain code"
-msgstr "Domini del lloc web"
+msgstr "Un altre codi de domini"
 
-#, fuzzy
-#| msgid "Site domain"
 msgctxt "eTranslation configuration"
 msgid "Other domain code"
-msgstr "Domini del lloc web"
+msgstr "Un altre codi de domini"
 
 msgid "Enter a domain code from eTranslation when selecting Other domain code."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Component source language"
 msgctxt "eTranslation configuration"
 msgid "Component language domains"
-msgstr "Llengua d’origen del component"
+msgstr "Dominis de llengua del component"
 
 msgid ""
 "JSON object mapping full component paths to domain codes, for example {\"my-"
 "project/privacy-policy\": \"SPD\"}."
 msgstr ""
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
 msgid "Invalid eTranslation domain code."
-msgstr "Domini de la traducció"
+msgstr "Codi de domini d’eTranslation no vàlid."
 
 msgid "Component language domains must be a JSON object."
 msgstr ""
 
-#, fuzzy
-#| msgid "Invalid component path."
 msgid "Invalid component path or eTranslation domain code."
-msgstr "Camí del component no vàlid."
+msgstr "Camí o domini d’eTranslation del component no vàlid."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -6808,31 +6751,21 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Rol del traductor"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the translator’s role or expertise. For example: “You are an "
 "experienced medical translator.”"
 msgstr ""
-"Descriviu el rol del traductor per a millorar la precisió de la traducció. "
-"Per exemple, «Ets un criador d’esquirols»."
+"Descriviu el rol o l’expertesa del traductor. Per exemple, «Ets un traductor "
+"mèdic experimentat»."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translator style"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation style"
 msgstr "Estil de la traducció"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
-"Descriviu l’estil de la traducció. Per exemple, «Fes servir llenguatge "
+"Descriviu l’estil de traducció desitjat. Per exemple, «Utilitza llenguatge "
 "informal»."
 
 msgctxt "Automatic suggestion service configuration"
@@ -6980,12 +6913,10 @@ msgstr "Nom del model personalitzat"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr "Màxim de tokens"
+msgstr "Màxim de segments textuals"
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "Maximum number of tokens in the generated response."
-msgstr "Nombre màxim de fitxes per generar a la resposta."
+msgstr "Nombre màxim de segments textuals a la resposta generada."
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
