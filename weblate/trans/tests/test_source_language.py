@@ -1528,6 +1528,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                     "checksum": form.initial["checksum"],
                     "contentsum": form.initial["contentsum"],
                     "translationsum": form.initial["translationsum"],
+                    "initial_state": form.initial["initial_state"],
                     "target_0": "Stale translation",
                     "review": str(STATE_TRANSLATED),
                 }
@@ -2799,6 +2800,7 @@ class SourceLanguageFileTest(ReusableViewTestCase):
                     "checksum": form.initial["checksum"],
                     "contentsum": form.initial["contentsum"],
                     "translationsum": form.initial["translationsum"],
+                    "initial_state": form.initial["initial_state"],
                     "target_0": "Submitted target",
                     "review": str(STATE_TRANSLATED),
                 },

@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-21 10:52+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -1251,6 +1251,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Unvollständige Zeichenketten vorhanden"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Dieses Passwort besteht nur aus Leerzeichen."
 
@@ -1692,6 +1697,13 @@ msgid ""
 msgstr ""
 "Das Repository ist veraltet, Sie erhalten möglicherweise erst nach der "
 "Aktualisierung die erwarteten Ergebnisse."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr ""
+"Die Erweiterung für Übersetzungsdateien-CDN kann weblate.js nicht "
+"veröffentlichen."
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript-Lokalisierungs-CDN"
@@ -4238,8 +4250,8 @@ msgstr "Automatisierungsdefinitionen dürfen 64 KiB nicht überschreiten."
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
-"%(path)s: Unbekanntes Änderungsereignis „%(event)s“. Gültige Ereignisse: %"
-"(choices)s"
+"%(path)s: Unbekanntes Änderungsereignis „%(event)s“. Gültige Ereignisse: "
+"%(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "YAML-Aliase und -Tags werden nicht unterstützt."
@@ -4327,6 +4339,9 @@ msgid ""
 msgstr ""
 "Stellen Sie diese Abrechnung auf die reguläre Testphase um und heben Sie die "
 "geplante Löschung auf."
+
+msgid "No valid billing found or limit exceeded."
+msgstr "Keine gültige Abrechnung gefunden oder Limit überschritten."
 
 msgid "Workspace"
 msgstr "Arbeitsbereich"
@@ -6432,8 +6447,8 @@ msgid ""
 "and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 "Bitte lesen Sie die <a href=\"%(terms_url)s\">allgemeinen "
-"Geschäftsbedingungen</a> und die <a href=\"%(privacy_url)s\">"
-"Datenschutzerklärung</a>."
+"Geschäftsbedingungen</a> und die <a "
+"href=\"%(privacy_url)s\">Datenschutzerklärung</a>."
 
 #, python-format
 msgid ""
@@ -6533,8 +6548,8 @@ msgstr ""
 msgid ""
 "Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Bitte lesen Sie die <a href=\"%(external_privacy_url)s\">"
-"Datenschutzerklärung</a>."
+"Bitte lesen Sie die <a "
+"href=\"%(external_privacy_url)s\">Datenschutzerklärung</a>."
 
 msgid ""
 "This site has not defined a privacy policy, please contact the site "
@@ -7440,6 +7455,33 @@ msgstr "Dez"
 msgid "%s translation is currently not available, but can be added."
 msgstr ""
 "%s Übersetzung ist derzeit nicht verfügbar, kann aber hinzugefügt werden."
+
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "Okzidental"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Aktivierungstoken"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "E-Mail-Adresse des Kontos verwenden"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
 
 msgid "Image is too big."
 msgstr "Das Bild ist zu groß."
@@ -9192,6 +9234,9 @@ msgstr ""
 "Die lokalisierbaren Elemente müssen mit dem konfigurierten CSS-Selektor "
 "übereinstimmen."
 
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
+
 msgid "Guided presets"
 msgstr "Geführte Voreinstellungen"
 
@@ -10540,7 +10585,8 @@ msgid "Data loss:"
 msgstr "Datenverlust:"
 
 msgid "Local commits and pending translation changes are discarded."
-msgstr "Lokale Commits und ausstehende Übersetzungsänderungen werden verworfen."
+msgstr ""
+"Lokale Commits und ausstehende Übersetzungsänderungen werden verworfen."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 msgid "Reset and reapply translations"
@@ -12173,6 +12219,23 @@ msgstr "Neue Übersetzung anfordern"
 
 msgid "You don't have permission to start a new translation"
 msgstr "Sie haben keine Berechtigung, eine neue Übersetzung zu starten"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Authentifizierung"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Autor-Name"
+
+msgid "Deny"
+msgstr ""
 
 msgid "Click to edit position"
 msgstr "Klicken Sie zum Bearbeiten der Position"
@@ -14287,6 +14350,17 @@ msgstr ""
 "Repository. Bitte führen Sie Änderungen manuell zusammen oder richten Sie "
 "Hooks ein, um dies zu automatisieren."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Versionsverwaltung"
 
@@ -14672,6 +14746,11 @@ msgstr "Übersetzung zum Entfernen"
 
 msgid "The detected file format is not supported."
 msgstr "Das erkannte Dateiformat wird nicht unterstützt."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typischer Arbeitsablauf zum Beheben von Merge-Konflikten"
@@ -16575,6 +16654,11 @@ msgstr "Die Komponente scheint nicht verwendet zu werden."
 msgid "Glossary using monolingual files."
 msgstr "Das Glossar verwendet einsprachige Dateien."
 
+#, fuzzy
+#| msgid "Reconstructed repository is not usable."
+msgid "Restricted glossary is not used."
+msgstr "Das wiederhergestellte Repository ist nicht nutzbar."
+
 msgid "Glossary string management is disabled"
 msgstr "Verwaltung der Glossarzeichenketten ist deaktiviert"
 
@@ -16675,6 +16759,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"Pluralformen in %(component)s stimmen nicht mit der Zielübersetzung überein. "
+"Die automatische Übersetzung übersprang Zeichenketten mit Pluralformen und "
+"verarbeitete nur Zeichenketten in einfacher Form."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "Pluralformen in %(component)s stimmen nicht mit der Zielübersetzung überein. "
 "Die automatische Übersetzung übersprang Zeichenketten mit Pluralformen und "
@@ -17441,6 +17539,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Überprüfungsstatus"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -19750,6 +19859,13 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Zeichenkette konnte nicht an Komponente %d weitergegeben werden."
 msgstr[1] "Zeichenkette konnte nicht an Komponenten %d weitergegeben werden."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 msgid "Unmark as untranslatable for all languages"
 msgstr "Als nicht übersetzbar für alle Sprachen aufheben"
 
@@ -20765,9 +20881,6 @@ msgid_plural "languages"
 msgstr[0] "Sprache"
 msgstr[1] "Sprachen"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "Keine gültige Abrechnung gefunden oder Limit überschritten."
-
 msgid "The project is already assigned to this workspace."
 msgstr "Das Projekt ist diesem Arbeitsbereich bereits zugewiesen."
 
@@ -20791,6 +20904,20 @@ msgstr "Borg wurde mit Warnungen ohne jegliche Ausgabe abgeschlossen."
 
 msgid "Invalid host name given!"
 msgstr "Ungültiger Hostname angegeben!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Automatische Übersetzung"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr ""
+"Automatische Übersetzung übersprungen, da das Ziel nicht mehr existiert."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -24436,9 +24563,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Sortiert die Java-Eigenschaften-Datei."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Automatische Übersetzung"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Kontaktanfrage für Freies Projekt-Hosting"
 
@@ -27194,9 +27318,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Indonesian"
 #~ msgstr "Indonesisch"
-
-#~ msgid "Occidental"
-#~ msgstr "Okzidental"
 
 #~ msgid "Igbo"
 #~ msgstr "Igbo"

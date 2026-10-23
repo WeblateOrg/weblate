@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:35+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1309,6 +1309,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Ókláraðir strengir eru fyrirliggjandi"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Lykilorðið samanstendur einungis af bilum."
 
@@ -1758,6 +1763,11 @@ msgid ""
 msgstr ""
 "Hirslan er úrelt, þú færð mögulega ekki þær niðurstöður sem þú býst við fyrr "
 "en þú uppfærir hana."
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "Grunntungumáli þýðingar er ekki hægt að breyta."
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript-staðfærslu-CDN"
@@ -4531,6 +4541,9 @@ msgstr "Prófunartímabil hafið."
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
+msgstr ""
+
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 msgid "Workspace"
@@ -7720,6 +7733,31 @@ msgstr "des"
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s þýðinga er ekki í boði sem stendur, en er hægt að bæta við."
 
+msgid "Confidential"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Virkjunarteikn"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Nota tölvupóstfang notandans"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr ""
 
@@ -9488,6 +9526,9 @@ msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
 
 msgid "The localizable elements have to match configured CSS selector."
+msgstr ""
+
+msgid "Available languages and translation files are listed in the manifest:"
 msgstr ""
 
 #, fuzzy
@@ -12442,6 +12483,23 @@ msgstr "Biðja um nýja þýðingu"
 msgid "You don't have permission to start a new translation"
 msgstr "Þú hefur ekki heimild til að hefja nýja þýðingu"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Auðkenning"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Nafn höfundar"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Smelltu til að breyta staðsetningu"
 
@@ -14465,6 +14523,17 @@ msgid ""
 "changes manually or set up hooks to automate this."
 msgstr ""
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Útgáfustýringarkerfi"
 
@@ -14812,6 +14881,11 @@ msgstr "Þýðingar sem á að fjarlægja"
 
 msgid "The detected file format is not supported."
 msgstr "Ekki er stuðningur við skráasniðið sem fannst."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Algengt vinnuferli við að laga árekstra í samþættingu"
@@ -16877,6 +16951,11 @@ msgid "Glossary using monolingual files."
 msgstr "Orðasafn notar eins-tungumáls skrár."
 
 #, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Restricted glossary is not used."
+msgstr "Endurmiðun (rebase) gagnasafns mistókst"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "Breytingar á upprunastreng eru óvirkar."
@@ -16981,6 +17060,12 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 
 #, python-format
@@ -17826,6 +17911,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Staða yfirferðar"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Viðbótarskýring til að útskýra meiningu eða notkun strengsins."
@@ -20011,6 +20107,13 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Strengurinn var ekki áframsendur í %d þýðingahluta."
 msgstr[1] "Strengurinn var ekki áframsendur í %d þýðingahluta."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -21151,9 +21254,6 @@ msgid_plural "languages"
 msgstr[0] "tungumál"
 msgstr[1] "tungumál"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-
 #, fuzzy
 #| msgid "This component is currently locked."
 msgid "The project is already assigned to this workspace."
@@ -21184,6 +21284,19 @@ msgstr ""
 
 msgid "Invalid host name given!"
 msgstr "Ógilt heiti hýsilvélar tilgreint!"
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automatic translation reported a warning."
+msgstr "Sjálfvirkur þýðingarhamur"
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Automatic translation failed. See the task log for details."
+msgstr "Sjálfvirk þýðing í gangi"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"

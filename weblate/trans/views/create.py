@@ -11,7 +11,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -135,6 +135,16 @@ class CreateProject(BaseCreateView):
                 gettext("Creating a project without a workspace is not allowed."),
             )
             return self.form_invalid(form)
+        billing = None
+        if workspace is not None and self.has_billing:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.billing.models import Billing
+
+            try:
+                billing = Billing.objects.lock_project_creation(workspace.pk)
+            except ValidationError as error:
+                form.add_error("workspace", error)
+                return self.form_invalid(form)
         for field in INHERITABLE_COMPONENT_FLAGS:
             setattr(form.instance, field, workspace is not None)
         license_code = form.cleaned_data.get("license")
@@ -151,7 +161,6 @@ class CreateProject(BaseCreateView):
             else:
                 form.instance.inherit_license = workspace.license == license_code
         result = super().form_valid(form)
-        billing = self.get_billing(workspace)
         self.object.post_create(self.request.user, billing)
         return result
 

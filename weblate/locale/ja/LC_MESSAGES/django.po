@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:33+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1230,6 +1230,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "翻訳未完了の文字列があります"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "このパスワードには空白しか含まれていません。"
 
@@ -1663,6 +1668,11 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr "リポジトリは古く、更新するまで期待どおりの結果は得られません。"
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "翻訳ファイル CDN アドオンでは weblate.js を公開できません。"
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript 現地語化 CDN"
@@ -4232,6 +4242,9 @@ msgstr "無料体験期限をリセット"
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
+msgstr ""
+
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 msgid "Workspace"
@@ -7325,6 +7338,33 @@ msgstr "12 月"
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s の翻訳は今はありませんが、追加できます。"
 
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "オクツィデンタル"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "有効化トークン"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "アカウントのメールアドレスを使用する"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "画像が大きすぎます。"
 
@@ -9072,6 +9112,9 @@ msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
 "ローカライズ可能な要素は、設定されている CSS セレクタと一致する必要がありま"
 "す。"
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "ガイド付き初期設定"
@@ -12055,6 +12098,23 @@ msgstr "新しい翻訳のリクエスト"
 msgid "You don't have permission to start a new translation"
 msgstr "新しい翻訳を開始するための権限がありません"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "認証"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "翻訳者名"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "クリックして位置の編集"
 
@@ -14125,6 +14185,17 @@ msgstr ""
 "VCS のリポジトリは、上流のリポジトリと比較して最新の状態ではありません。変更"
 "を手動でマージするか、マージを自動化するためのフックを設定してください。"
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "バージョン管理システム"
 
@@ -14492,6 +14563,11 @@ msgstr "翻訳の削除"
 
 msgid "The detected file format is not supported."
 msgstr "検出したファイル形式はサポートしていません。"
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "マージの競合を解決する一般的な方法:"
@@ -16485,6 +16561,11 @@ msgid "Glossary using monolingual files."
 msgstr "用語集がモノリンガルのファイルを使っています。"
 
 #, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Restricted glossary is not used."
+msgstr "リポジトリのリベースに失敗"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "原文の編集は無効です。"
@@ -16586,6 +16667,19 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"%(component)s の複数形規則が翻訳先と一致しないため、自動翻訳は複数形の文字列"
+"をスキップし、単数形の文字列のみを処理しました。"
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "%(component)s の複数形規則が翻訳先と一致しないため、自動翻訳は複数形の文字列"
 "をスキップし、単数形の文字列のみを処理しました。"
@@ -17421,6 +17515,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "査読状態"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
@@ -19730,6 +19835,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "文字列を %d 個のコンポーネントへ反映できませんでした。"
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -20856,9 +20968,6 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "言語"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-
 #, fuzzy
 #| msgid "This component is already shared in %s."
 msgid "The project is already assigned to this workspace."
@@ -20889,6 +20998,19 @@ msgstr "Borg は警告付きで完了しましたが、出力はありません�
 
 msgid "Invalid host name given!"
 msgstr "無効なホスト名です！"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "自動翻訳の参照元"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "対象が存在しないため、自動翻訳されませんでした。"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -24351,9 +24473,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Java プロパティ ファイルをソートします。"
 
-#~ msgid "Automatic translation source"
-#~ msgstr "自動翻訳の参照元"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Libre プロジェクトのホスティングの依頼"
 
@@ -26994,9 +27113,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Indonesian"
 #~ msgstr "インドネシア語"
-
-#~ msgid "Occidental"
-#~ msgstr "オクツィデンタル"
 
 #~ msgid "Igbo"
 #~ msgstr "イボ語"

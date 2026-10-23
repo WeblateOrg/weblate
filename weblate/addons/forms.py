@@ -1534,7 +1534,7 @@ class AutoAddonForm(
     AutoForm,
 ):
     public_configuration_fields = frozenset(
-        {"auto_source", "component", "engines", "mode", "q", "threshold"}
+        {"auto_source", "engines", "mode", "q", "threshold"}
     )
 
     def __init__(

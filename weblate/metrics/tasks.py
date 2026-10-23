@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import time
 from datetime import date, timedelta
+from itertools import batched
 from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
@@ -135,9 +136,10 @@ def collect_user_metrics(date_value: str) -> None:
     started = time.monotonic()
     LOGGER.info("Collecting user metrics for %s", collection_date)
     count = 0
-    for user in User.objects.all().iterator(chunk_size=500):
-        Metric.objects.collect_user(user, collection_date)
-        count += 1
+    user_ids = User.objects.order_by("pk").values_list("pk", flat=True)
+    for batch in batched(user_ids.iterator(chunk_size=500), 500):
+        Metric.objects.collect_users(batch, collection_date)
+        count += len(batch)
     _log_finished("user", collection_date, count, started)
 
 

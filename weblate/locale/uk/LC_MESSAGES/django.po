@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:32+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -39,8 +39,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
-"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.11.dev0\n"
 
 msgctxt "No known user"
@@ -1248,6 +1248,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Маємо незавершені рядки"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Цей пароль складається тільки з пробілів."
 
@@ -1703,6 +1708,11 @@ msgid ""
 msgstr ""
 "Репозиторій застарів, ви можете отримати неочікувані наслідки, поки ви не "
 "оновите його."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "Додаток CDN для файлів перекладу не може опублікувати файл weblate.js."
 
 msgid "JavaScript localization CDN"
 msgstr "CDN локалізації JavaScript"
@@ -4331,6 +4341,9 @@ msgid ""
 msgstr ""
 "Встановити для цього рахунку звичайний тестовий період і скасувати "
 "заплановане вилучення."
+
+msgid "No valid billing found or limit exceeded."
+msgstr "Не знайдено чинного тарифу або перевищено обмеження."
 
 msgid "Workspace"
 msgstr "Робочий простір"
@@ -7482,6 +7495,31 @@ msgstr "Гру"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Перекладу мовою %s ще немає, але його можна додати."
 
+msgid "Confidential"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Токен активації"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Адреса е-пошти облікового запису"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "Зображення занадто велике."
 
@@ -9288,6 +9326,9 @@ msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
 "Придатні до локалізації елементи мають відповідати налаштованому засобу "
 "вибору CSS."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "Пресети з підказками"
@@ -12406,6 +12447,23 @@ msgstr "Прохання про новий переклад"
 msgid "You don't have permission to start a new translation"
 msgstr "У вас немає прав для початку нового перекладу"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Розпізнавання"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Ім’я автора"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Клацніть, щоб змінити позицію"
 
@@ -14503,6 +14561,17 @@ msgstr ""
 "Репозиторій VCS не оновлюється з поточною версією. Будь ласка, обʼєднайте "
 "зміни вручну або налаштуйте автоматизацію."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Система керування версіями"
 
@@ -14894,6 +14963,11 @@ msgstr "Переклад для вилучення"
 
 msgid "The detected file format is not supported."
 msgstr "Виявлений назвошир не підтримується."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Звичайний робочий процес для усунення конфліктів злиття"
@@ -16783,6 +16857,11 @@ msgid "Glossary using monolingual files."
 msgstr "Глосарій використовує одномовні файли."
 
 #, fuzzy
+#| msgid "Remote repository update failed"
+msgid "Restricted glossary is not used."
+msgstr "Не вдалося оновити дані віддаленого репозиторію"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "Редагування початкового рядка вимкнено."
@@ -16883,6 +16962,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"Форми множини в %(component)s не відповідають цільовому перекладу. "
+"Автоматичний переклад пропустив рядки у множині та обробив лише рядки в "
+"однині."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "Форми множини в %(component)s не відповідають цільовому перекладу. "
 "Автоматичний переклад пропустив рядки у множині та обробив лише рядки в "
@@ -17665,6 +17758,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Стан перевірки"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Додаткове пояснення щодо значення або використання рядка."
@@ -19993,6 +20097,13 @@ msgstr[1] "Рядок не може бути розповсюджений до %
 msgstr[2] "Рядок не може бути розповсюджений до %d компонентів."
 msgstr[3] "Рядок не може бути розповсюджений до %d компонентів."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -21107,9 +21218,6 @@ msgstr[1] "мови"
 msgstr[2] "мови"
 msgstr[3] "мов"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "Не знайдено чинного тарифу або перевищено обмеження."
-
 msgid "The project is already assigned to this workspace."
 msgstr "Проєкт вже пов'язано із цим робочим простором."
 
@@ -21132,6 +21240,20 @@ msgstr ""
 
 msgid "Invalid host name given!"
 msgstr "Указано неприпустиму назву вузла!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Джерело автоматичного перекладу"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr ""
+"Автоматичний переклад пропущено, оскільки цільова сторінка більше не існує."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -24726,9 +24848,6 @@ msgstr "Робочий простір було вилучено."
 
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Впорядковує файл властивостей Java."
-
-#~ msgid "Automatic translation source"
-#~ msgstr "Джерело автоматичного перекладу"
 
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Попросити про розміщення вільного проєкту"

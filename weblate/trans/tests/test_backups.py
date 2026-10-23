@@ -28,6 +28,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase, override_settings
+from django.test.utils import modify_settings
 from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
@@ -80,6 +81,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import (
     TEST_VCS_ALLOW_SCHEMES,
+    create_test_billing,
     get_test_actor,
     get_test_file,
 )
@@ -278,6 +280,38 @@ class BackupsTest(ReusableViewTestCase):
             )
         )
         self.enterContext(override_settings(MEDIA_ROOT=media_root))
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_restore_rechecks_full_billing_workspace(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        billing = create_test_billing(self.user)
+        Project.objects.create(
+            name="Project filling import slot",
+            slug="project-filling-import-slot",
+            workspace_id=billing.workspace_id,
+        )
+
+        for workspace in (billing.workspace, None):
+            with (
+                self.subTest(workspace=workspace),
+                self.assertRaisesMessage(
+                    ValidationError, "No valid billing found or limit exceeded."
+                ),
+            ):
+                restore.restore(
+                    project_name="Rejected billed restore",
+                    project_slug="rejected-billed-restore",
+                    user=self.user,
+                    billing=billing,
+                    workspace=workspace,
+                )
+        self.assertFalse(
+            Project.objects.filter(slug="rejected-billed-restore").exists()
+        )
+        self.assertEqual(Project.objects.filter(workspace=billing.workspace).count(), 1)
 
     def test_download_uses_configured_static_storage(self) -> None:
         storage = MagicMock()

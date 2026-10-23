@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 
 import httpx2
 from asgiref.sync import async_to_sync
+from botocore.exceptions import ClientError
 from botocore.stub import ANY, Stubber
 from django.conf import settings as django_settings
 from django.core.cache import cache
@@ -37,6 +38,7 @@ from google.cloud.translate import (
 )
 from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
+from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
@@ -835,6 +837,406 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         )
 
 
+@override_settings(
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
+)
+class MachineTranslationRateLimitTest(SimpleTestCase):
+    def test_default_window(self) -> None:
+        self.assert_window_expires(DeepLTranslation({}), 1800)
+
+    def test_custom_window(self) -> None:
+        class CustomTranslation(DeepLTranslation):
+            rate_limit_window = 15
+
+        self.assert_window_expires(CustomTranslation({}), 15)
+
+    def assert_window_expires(self, machine: DeepLTranslation, window: int) -> None:
+        cache.clear()
+        with patch("time.time", return_value=10000) as now:
+            machine.set_rate_limit()
+            self.assertTrue(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
+            machine.set_rephrase_rate_limit()
+
+            now.return_value += window - 1
+            self.assertTrue(machine.is_rate_limited())
+            self.assertTrue(machine.is_rephrase_rate_limited())
+            self.assertTrue(async_to_sync(machine.ais_rephrase_rate_limited)())
+
+            now.return_value += 1
+            self.assertFalse(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
+            self.assertFalse(async_to_sync(machine.ais_rephrase_rate_limited)())
+
+    def test_rephrase_cooldown_is_separate(self) -> None:
+        machine = DeepLTranslation({})
+        cache.clear()
+        machine.set_rephrase_rate_limit()
+        self.assertTrue(machine.is_rephrase_rate_limited())
+        self.assertFalse(machine.is_rate_limited())
+
+    def test_service_windows(self) -> None:
+        for machine_cls, window in (
+            (AlibabaTranslation, 60),
+            (AWSTranslation, 60),
+            (AnthropicTranslation, 60),
+            (BaiduTranslation, 60),
+            (GoogleTranslation, 60),
+            (GoogleV3Translation, 60),
+            (LibreTranslateTranslation, 60),
+            (MistralTranslation, 60),
+            (OpenAITranslation, 60),
+            (AzureOpenAITranslation, 60),
+            (DeepLTranslation, 1800),
+            (LTEngineTranslation, 1800),
+            (OllamaTranslation, 1800),
+        ):
+            with self.subTest(service=machine_cls.name):
+                machine = machine_cls({})
+                with patch("weblate.machinery.base.cache.set") as cache_set:
+                    machine.set_rate_limit()
+                cache_set.assert_called_once_with(
+                    machine.rate_limit_cache, True, window
+                )
+
+    def test_retry_headers(self) -> None:
+        for headers, expected in (
+            ({"Retry-After": "12"}, 12),
+            ({"Retry-After": "3600"}, 3600),
+            ({"Retry-After": "0"}, 0),
+            ({"Retry-After": "1.2"}, 2),
+            ({"retry-after-ms": "1501", "Retry-After": "30"}, 2),
+            ({"retry-after-ms": "invalid", "Retry-After": "30"}, 30),
+            ({"Retry-After": "Thu, 01 Jan 1970 03:00:00 GMT"}, 800),
+            ({"Retry-After": "Thu, 01 Jan 1970 00:00:00 GMT"}, 1800),
+            ({}, 1800),
+            ({"Retry-After": "bad date"}, 1800),
+            ({"Retry-After": "-1"}, 1800),
+            ({"Retry-After": "nan"}, 1800),
+            ({"Retry-After": "inf"}, 1800),
+            ({"Retry-After": "1e1000"}, 1800),
+            ({"Retry-After": "1e100"}, 1800),
+        ):
+            with self.subTest(headers=headers), patch("time.time", return_value=10000):
+                response = make_error_response("https://example.com/", 429)
+                response.headers.update(headers)
+                error = HTTPError(
+                    "throttled", request=response.request, response=response
+                )
+                self.assertEqual(
+                    DeepLTranslation({}).get_rate_limit_timeout(error), expected
+                )
+
+    def test_google_json_retry_info(self) -> None:
+        for details, headers, expected in (
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "2.5s",
+                    }
+                ],
+                {},
+                3,
+            ),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "120s",
+                    }
+                ],
+                {"Retry-After": "7"},
+                7,
+            ),
+            ([{"@type": "unrelated", "retryDelay": "5s"}], {}, 60),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "invalid",
+                    }
+                ],
+                {},
+                60,
+            ),
+            (
+                [
+                    {
+                        "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                        "retryDelay": "1e2s",
+                    }
+                ],
+                {},
+                60,
+            ),
+            ([None], {}, 60),
+            ("invalid", {}, 60),
+        ):
+            with self.subTest(details=details, headers=headers):
+                response = make_error_response(
+                    "https://example.com/",
+                    429,
+                    json_data={"error": {"details": details}},
+                )
+                response.headers.update(headers)
+                error = HTTPError(
+                    "throttled", request=response.request, response=response
+                )
+                self.assertEqual(
+                    OpenAITranslation({}).get_rate_limit_timeout(error), expected
+                )
+
+    def test_converted_errors_preserve_retry_headers(self) -> None:
+        for machine in (
+            AnthropicTranslation({}),
+            OpenAITranslation({}),
+            AzureOpenAITranslation({}),
+            MistralTranslation({}),
+            ApertiumAPYTranslation({}),
+            BaiduTranslation({}),
+        ):
+            with self.subTest(service=machine.name):
+                response = make_error_response(
+                    "https://example.com/",
+                    429,
+                    json_data={
+                        "responseStatus": 429,
+                        "responseDetails": "Throttled",
+                        "error_code": 54003,
+                        "error_msg": "Throttled",
+                    },
+                )
+                response.headers["Retry-After"] = "17"
+                with self.assertRaises(MachineryRateLimitError) as raised:
+                    machine.check_failure(response)
+                self.assertEqual(machine.get_rate_limit_timeout(raised.exception), 17)
+
+    def test_aws_errors(self) -> None:
+        machine = AWSTranslation({})
+        for code, status, limited in (
+            ("TooManyRequestsException", 400, True),
+            ("Throttling", 400, True),
+            ("ThrottlingException", 400, True),
+            ("RequestLimitExceeded", 400, True),
+            ("UnknownError", 429, True),
+            ("AccessDeniedException", 403, False),
+        ):
+            with self.subTest(code=code):
+                error = ClientError(
+                    {
+                        "Error": {"Code": code, "Message": "Request failed"},
+                        "ResponseMetadata": {
+                            "HTTPStatusCode": status,
+                            "HostId": "",
+                            "RequestId": "test",
+                            "RetryAttempts": 0,
+                            "HTTPHeaders": {"retry-after": "23"},
+                        },
+                    },
+                    "TranslateText",
+                )
+                self.assertEqual(machine.is_rate_limit_error(error), limited)
+                self.assertEqual(machine.get_rate_limit_timeout(error), 23)
+
+    def test_google_sdk_retry_info(self) -> None:
+        machine = GoogleV3Translation({})
+        info = RetryInfo()
+        info.retry_delay.seconds = 75
+        info.retry_delay.nanos = 1
+        error = google_api_exceptions.ResourceExhausted("Throttled", details=[info])
+        for exception in (
+            error,
+            google_api_exceptions.RetryError("Retries exhausted", error),
+        ):
+            with self.subTest(exception=type(exception)):
+                self.assertTrue(machine.is_rate_limit_error(exception))
+                self.assertEqual(machine.get_rate_limit_timeout(exception), 76)
+        response = Mock(headers={"retry-after": "3"})
+        header_error = google_api_exceptions.TooManyRequests(
+            "Throttled", details=[info], response=response
+        )
+        self.assertEqual(machine.get_rate_limit_timeout(header_error), 3)
+        rest_error = google_api_exceptions.ResourceExhausted(
+            "Throttled",
+            details=[
+                {
+                    "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                    "retryDelay": "4.1s",
+                }
+            ],
+        )
+        self.assertEqual(machine.get_rate_limit_timeout(rest_error), 5)
+        negative_info = RetryInfo()
+        negative_info.retry_delay.seconds = -1
+        self.assertEqual(
+            machine.get_rate_limit_timeout(
+                google_api_exceptions.ResourceExhausted(
+                    "Throttled", details=[negative_info]
+                )
+            ),
+            60,
+        )
+        self.assertFalse(
+            machine.is_rate_limit_error(
+                google_api_exceptions.RetryError(
+                    "Retries exhausted",
+                    google_api_exceptions.InvalidArgument("Invalid"),
+                )
+            )
+        )
+        self.assertFalse(
+            machine.is_rate_limit_error(
+                google_api_exceptions.InvalidArgument("Invalid")
+            )
+        )
+        self.assertEqual(
+            machine.get_rate_limit_timeout(
+                google_api_exceptions.ResourceExhausted("Throttled")
+            ),
+            60,
+        )
+
+    def test_sdk_translation_cooldown(self) -> None:
+        for machine, method, error in (
+            (
+                AWSTranslation({}),
+                "translate_text",
+                ClientError(
+                    {
+                        "Error": {
+                            "Code": "TooManyRequestsException",
+                            "Message": "Throttled",
+                        }
+                    },
+                    "TranslateText",
+                ),
+            ),
+            (
+                GoogleV3Translation({"project": "test", "location": "global"}),
+                "translate_text",
+                google_api_exceptions.ResourceExhausted("Throttled"),
+            ),
+        ):
+            with (
+                self.subTest(service=machine.name),
+                patch("time.time", return_value=10000) as now,
+            ):
+                cache.clear()
+                machine.cache_translations = False
+                translate = machine._translate_sources  # ruff: ignore[private-member-access]
+                client = Mock()
+                machine.client = client
+                request = getattr(client, method)
+                request.side_effect = error
+                with patch.object(machine, "report_error"):
+                    with self.assertRaises(MachineTranslationError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertTrue(machine.is_rate_limited())
+                    self.assertEqual(
+                        translate("en", "cs", [("Hello", None)]),
+                        [[]],
+                    )
+                    request.assert_called_once()
+                    now.return_value += 60
+                    with self.assertRaises(MachineTranslationError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertEqual(request.call_count, 2)
+
+    @http_mock.activate
+    def test_alibaba_translation_cooldown(self) -> None:
+        machine = AlibabaTranslation(
+            {"key": "key", "secret": "secret", "region": "cn-hangzhou"}
+        )
+        machine.cache_translations = False
+        translate = machine._translate_sources  # ruff: ignore[private-member-access]
+        for code, status in (
+            ("Throttling", 400),
+            ("Throttling.User", 400),
+            ("Throttling.Api", 400),
+            ("Unknown", 429),
+        ):
+            with self.subTest(code=code), patch("time.time", return_value=10000) as now:
+                cache.clear()
+                http_mock.register(
+                    "POST",
+                    AlibabaTranslationTest.API_URL,
+                    json={"Code": code, "Message": "Throttled"},
+                    status_code=status,
+                    headers={"Retry-After": "17"},
+                )
+                with patch.object(machine, "report_error"):
+                    with self.assertRaises(MachineryRateLimitError):
+                        translate("en", "cs", [("Hello", None)])
+                    call_count = len(http_mock.calls)
+                    self.assertEqual(
+                        translate("en", "cs", [("Hello", None)]),
+                        [[]],
+                    )
+                    self.assertEqual(len(http_mock.calls), call_count)
+                    now.return_value += 17
+                    with self.assertRaises(MachineryRateLimitError):
+                        translate("en", "cs", [("Hello", None)])
+                    self.assertEqual(len(http_mock.calls), call_count + 1)
+
+    def test_unrelated_error_with_retry_header(self) -> None:
+        machine = DeepLTranslation({})
+        response = make_error_response("https://example.com/", 400)
+        response.headers["Retry-After"] = "17"
+        error = HTTPError("Invalid", request=response.request, response=response)
+        cache.clear()
+        with (
+            patch.object(machine, "report_error"),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+        self.assertFalse(machine.is_rate_limited())
+
+    def test_rephrase_retry_delay(self) -> None:
+        for asynchronous in (False, True):
+            with (
+                self.subTest(asynchronous=asynchronous),
+                patch("time.time", return_value=10000) as now,
+            ):
+                cache.clear()
+                machine = DeepLTranslation({})
+                response = make_error_response(
+                    "https://api.deepl.com/v2/write/rephrase", 429
+                )
+                response.headers["Retry-After"] = "7"
+                error = HTTPError(
+                    "Throttled", request=response.request, response=response
+                )
+                with (
+                    patch.object(machine, "log_handled_error"),
+                    patch.object(
+                        machine,
+                        "_collect_rephrase_candidates",
+                        return_value=("de", [(0, "Hello", "Hallo")]),
+                    ),
+                    patch.object(
+                        machine, "download_rephrased_translations", side_effect=error
+                    ) as download,
+                    patch.object(
+                        machine, "adownload_rephrased_translations", side_effect=error
+                    ) as adownload,
+                ):
+                    if asynchronous:
+                        resolve = async_to_sync(machine._aappend_rephrase_suggestions)  # ruff: ignore[private-member-access]
+                        request = adownload
+                    else:
+                        resolve = machine._append_rephrase_suggestions  # ruff: ignore[private-member-access]
+                        request = download
+                    resolve([[]], [], "de")
+                    self.assertTrue(machine.is_rephrase_rate_limited())
+                    self.assertFalse(machine.is_rate_limited())
+                    resolve([[]], [], "de")
+                    request.assert_called_once()
+                    now.return_value += 7
+                    resolve([[]], [], "de")
+                    self.assertEqual(request.call_count, 2)
+
+
 class MachineTranslationErrorLoggingTest(SimpleTestCase):
     def test_sanitize_machinery_error_keeps_status_and_provider_message(self) -> None:
         message = (
@@ -931,7 +1333,7 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
             machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
         message = "Quota exceeded. The character limit has been reached."
         self.assertEqual(str(raised.exception), message)
-        set_rate_limit.assert_called_once_with()
+        set_rate_limit.assert_called_once_with(machine.rate_limit_window)
         report_error.assert_called_once_with(
             "machinery[DeepL]: Could not fetch translations",
             exception=original.exception,
@@ -992,7 +1394,7 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
             machine._handle_download_error(error)  # ruff: ignore[private-member-access]
         self.assertIs(raised.exception, error)
         extract.assert_not_called()
-        set_rate_limit.assert_called_once_with()
+        set_rate_limit.assert_called_once_with(machine.rate_limit_window)
         report_error.assert_called_once_with(
             "machinery[Dummy]: Could not fetch translations",
             exception=error,

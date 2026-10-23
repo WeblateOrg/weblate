@@ -203,6 +203,14 @@ if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed vulnerable automatic translation snapshots before upgrading.
+semver_compare "5.10" "<=" "$1" && semver_compare "$1" "<" "2026.11"
+autotranslate_audit_redaction_migrate=$?
+if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-autotranslate-audit-redaction.py"
+    check
+fi
+
 # Preserve populated automatic suggestion settings and project overrides.
 semver_compare "$1" "<" "2026.11"
 machinery_installations_migrate=$?
@@ -320,6 +328,10 @@ fi
 
 if [ "$automation_audit_redaction_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-automation-audit-redaction.py"
+    check
+fi
+if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-autotranslate-audit-redaction.py"
     check
 fi
 if [ "$machinery_installations_migrate" -eq 0 ]; then

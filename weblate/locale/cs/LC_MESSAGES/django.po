@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-18 04:27+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -1230,6 +1230,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Existují nedokončené řetězce"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Toto heslo je tvořeno jen prázdnými znaky."
 
@@ -1646,6 +1651,12 @@ msgid ""
 msgstr ""
 "Repozitář je zastaralý, dokud ho neobnovíte nemusí výsledky odpovídat "
 "očekávaným."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr ""
+"Doplněk CDN pro překladové soubory nedokáže publikovat soubor weblate.js."
 
 msgid "JavaScript localization CDN"
 msgstr "Lokalizační CDN pro JavaScript"
@@ -4186,6 +4197,10 @@ msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
 "Nastavte tuto fakturaci na běžnou zkušební dobu a zrušte naplánované zrušení."
+
+msgid "No valid billing found or limit exceeded."
+msgstr ""
+"Nebyla nalezena žádná platná fakturační adresa nebo byl překročen limit."
 
 msgid "Workspace"
 msgstr "Pracovní prostor"
@@ -7261,6 +7276,33 @@ msgstr "Pro"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Překlad do %s momentálně není k dispozici, ale lze jej přidat."
 
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "Occidental"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Aktivační klíč"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Použít e-mailovou adresu profilu"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "Obrázek je příliš velký."
 
@@ -8997,6 +9039,9 @@ msgstr "Chcete-li načíst lokalizaci z CDN, vložte následující úryvek:"
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "Překladatelné prvky musí odpovídat zvolenému CSS selektoru."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "Prováděné předvolby"
@@ -12020,6 +12065,23 @@ msgstr "Požádat o nový překlad"
 msgid "You don't have permission to start a new translation"
 msgstr "Nemáte oprávnění zahájit nový překlad"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Přihlašování"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Jméno autora"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Kliknutím upravte pozici"
 
@@ -14091,6 +14153,17 @@ msgstr ""
 "Repozitář je pozadu v porovnání s původním. Prosím začleňte změny ručně nebo "
 "nastavte hooky pro automatizaci dané úlohy."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Verzovací systém"
 
@@ -14471,6 +14544,11 @@ msgstr "Překlad k odstranění"
 
 msgid "The detected file format is not supported."
 msgstr "Zjištěný formát souboru není podporován."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typický postup pro vyřešení konfliktů"
@@ -16326,6 +16404,11 @@ msgstr "Součást vypadá, že je nepoužitá."
 msgid "Glossary using monolingual files."
 msgstr "Glosář používá jednojazyčné soubory."
 
+#, fuzzy
+#| msgid "Remote repository update failed"
+msgid "Restricted glossary is not used."
+msgstr "Aktualizace vzdáleného repozitáře se nezdařila"
+
 msgid "Glossary string management is disabled"
 msgstr "Správa řetězců glosáře je zakázána"
 
@@ -16422,6 +16505,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"Formy plurálů v součásti %(component)s neodpovídají cílovému překladu. "
+"Automatický překlad přeskočil pluralizované řetězce a zpracoval pouze "
+"řetězce v singulární formě."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "Formy plurálů v součásti %(component)s neodpovídají cílovému překladu. "
 "Automatický překlad přeskočil pluralizované řetězce a zpracoval pouze "
@@ -17185,6 +17282,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Stav kontroly řetezce"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Další vysvětlení k objasnění významu nebo použití řetězce."
@@ -19428,6 +19536,13 @@ msgstr[0] "Řetězec nemohl být rozšířen do %d součásti."
 msgstr[1] "Řetězec nemohl být rozšířen do %d součástí."
 msgstr[2] "Řetězec nemohl být rozšířen do %d součástí."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -20479,10 +20594,6 @@ msgstr[0] "jazyk"
 msgstr[1] "jazyky"
 msgstr[2] "jazyků"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-"Nebyla nalezena žádná platná fakturační adresa nebo byl překročen limit."
-
 msgid "The project is already assigned to this workspace."
 msgstr "Projekt je již přiřazen k tomuto pracovnímu prostoru."
 
@@ -20503,6 +20614,19 @@ msgstr "Borg dokončen s varováními bez jakéhokoli výstupu."
 
 msgid "Invalid host name given!"
 msgstr "Zadán chybný název stroje!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Zdroj automatického překladu"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -23977,9 +24101,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Seřadí soubor s Java vlastnostmi."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Zdroj automatického překladu"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Požádat o hostování svobodného projektu"
 
@@ -26627,9 +26748,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Indonesian"
 #~ msgstr "Indonéština"
-
-#~ msgid "Occidental"
-#~ msgstr "Occidental"
 
 #~ msgid "Igbo"
 #~ msgstr "Igboština"

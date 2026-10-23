@@ -131,6 +131,29 @@ of Python code. Place the code in a module Weblate can import (see
 :ref:`custom-module` or :ref:`docker-python-override`) and add fully qualified
 class name to :setting:`WEBLATE_MACHINERY`.
 
+.. _machinery-rate-limit-window:
+
+The ``rate_limit_window`` service class attribute controls the cooldown after
+Weblate detects rate limiting or certain service failures. Its default is
+1800 seconds. When a service returns a retry delay, Weblate uses it instead:
+``retry-after-ms`` takes precedence over ``Retry-After`` (seconds or an HTTP
+date), followed by Google ``RetryInfo`` details. Invalid delays are ignored.
+Valid delays can be shorter or longer than the service default.
+
+Services with documented short-term throttling can override the default;
+for example, add ``rate_limit_window = 60`` to your service class to retry after
+one minute. Translation and rephrasing use the same window with separate
+cooldown state.
+
+Built-in services use a 60-second cooldown for Alibaba, Amazon Translate,
+Anthropic, Baidu, Google Cloud Translation Basic and Advanced, LibreTranslate,
+Mistral, OpenAI, and Azure OpenAI. Other services retain the default.
+
+Cooldown expiry permits another request; it does not guarantee that a daily
+or billing quota has reset. The window also applies to custom endpoints
+configured for a service. Existing cached cooldowns expire at their original
+time.
+
 .. literalinclude:: ../../weblate/examples/mt_service.py
     :language: python
 

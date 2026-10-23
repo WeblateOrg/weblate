@@ -1099,7 +1099,11 @@ def get_form_errors(form):
     for field in form:
         for error in field.errors:
             yield gettext("Error in parameter %(field)s: %(error)s") % {
-                "field": field.name,
+                "field": (
+                    field.label
+                    if field.name in {"review", "initial_state"}
+                    else field.name
+                ),
                 "error": error,
             }
 

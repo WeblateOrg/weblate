@@ -3782,12 +3782,14 @@ msgstr "Nazdar svete!\n"
             self.assertLess(suggestion["quality"], 100)
 
     def approve_translation(self, unit, target: str, review: str = "30") -> None:
+        unit.refresh_from_db()
         # allow user to approve translations
         self.project.add_user(self.user, "Administration")
         params = {
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": target,
             "review": review,
         }

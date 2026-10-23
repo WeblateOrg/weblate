@@ -12579,7 +12579,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Language'
+              $ref: '#/components/schemas/LanguageUpdate'
         required: true
       security:
       - tokenAuth: []
@@ -12746,7 +12746,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedLanguage'
+              $ref: '#/components/schemas/PatchedLanguageUpdate'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -38216,6 +38216,55 @@ components:
       description: |-
         * `0` - As defined
         * `1` - All languages
+    LanguageUpdate:
+      type: object
+      description: Schema-only serializer for language update request bodies.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          title: Language code
+          pattern: ^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 100
+        aliases:
+          type: array
+          items: {}
+          readOnly: true
+        direction:
+          title: Text direction
+          oneOf:
+          - $ref: '#/components/schemas/DirectionEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        population:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          title: Number of speakers
+          description: Number of people speaking this language.
+        web_url:
+          type: string
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - aliases
+      - code
+      - id
+      - statistics_url
+      - url
+      - web_url
     Last2faEnum:
       enum:
       - totp
@@ -40031,8 +40080,9 @@ components:
           type:
           - integer
           - 'null'
-    PatchedLanguage:
+    PatchedLanguageUpdate:
       type: object
+      description: Schema-only serializer for language update request bodies.
       properties:
         id:
           type: integer
@@ -40045,8 +40095,6 @@ components:
         name:
           type: string
           maxLength: 100
-        plural:
-          $ref: '#/components/schemas/LanguagePlural'
         aliases:
           type: array
           items: {}

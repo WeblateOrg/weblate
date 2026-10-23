@@ -418,6 +418,10 @@ Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``
 
 Using non standard code: ``ia_FOO:ia``
 
+The mapped language code must resolve to an existing language or be a valid
+code for a new language. The source code can use non-standard naming from the
+translation files.
+
 .. hint::
 
    The language codes are mapped when matching the translation files and the

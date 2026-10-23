@@ -10,11 +10,13 @@ import operator
 import os
 import tempfile
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager, nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
+from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
@@ -28,18 +30,18 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError, transaction
+from django.db import DatabaseError, close_old_connections, connection, transaction
 from django.db.models import Q
 from django.http import StreamingHttpResponse
 from django.templatetags.static import static
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
 from rest_framework.request import Request
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
@@ -52,6 +54,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.consistency import LanguageConsistencyAddon
@@ -72,7 +75,7 @@ from weblate.api.serializers import (
     ProjectSerializer,
     RepoOperations,
 )
-from weblate.api.views import MemoryFilter, MemoryViewSet
+from weblate.api.views import MemoryFilter, MemoryViewSet, ProjectViewSet
 from weblate.auth.data import (
     ROLES,
     SELECTION_ALL,
@@ -4457,7 +4460,105 @@ class RoleAPITest(APIBaseTest):
         self.assertFalse(role.permissions.exists())
 
 
+@modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+class ProjectCreationConcurrencyTest(TransactionTestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            "project-race", "project-race@example.org", "x"
+        )
+        billing = create_test_billing(self.user)
+        billing.plan.limit_projects = 3
+        billing.plan.display_limit_projects = 3
+        billing.plan.save(update_fields=["limit_projects", "display_limit_projects"])
+        self.workspace_id = billing.workspace_id
+        for index in range(2):
+            Project.objects.create(
+                name=f"Existing race project {index}",
+                slug=f"existing-race-project-{index}",
+                workspace_id=self.workspace_id,
+            )
+        self.token = self.user.auth_token.key
+
+    def create_project(self, index: int, *, explicit_workspace: bool) -> int:
+        close_old_connections()
+        try:
+            client = APIClient()
+            client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")
+            payload = {
+                "name": f"Race project {index}",
+                "slug": f"race-project-{index}",
+                "web": "https://example.org/",
+            }
+            if explicit_workspace:
+                payload["workspace"] = str(self.workspace_id)
+            return client.post(
+                reverse("api:project-list"), payload, format="json"
+            ).status_code
+        finally:
+            connection.close()
+
+    def test_one_concurrent_request_fills_last_project_slot(self) -> None:
+        for explicit_workspace in (True, False):
+            with self.subTest(explicit_workspace=explicit_workspace):
+                barrier = Barrier(2)
+                original_perform_create = ProjectViewSet.perform_create
+
+                def perform_create(
+                    view, serializer, gate=barrier, create=original_perform_create
+                ):
+                    gate.wait(timeout=10)
+                    return create(view, serializer)
+
+                with (
+                    patch.object(ProjectViewSet, "perform_create", perform_create),
+                    ThreadPoolExecutor(max_workers=2) as executor,
+                ):
+                    responses = list(
+                        executor.map(
+                            lambda index, explicit=explicit_workspace: (
+                                self.create_project(index, explicit_workspace=explicit)
+                            ),
+                            range(2),
+                        )
+                    )
+                self.assertCountEqual(responses, [201, 403])
+                self.assertEqual(
+                    Project.objects.filter(workspace_id=self.workspace_id).count(), 3
+                )
+                Project.objects.filter(slug__startswith="race-project-").delete()
+
+
 class ProjectAPITest(APIBaseTest):
+    def test_language_aliases_validate_destination(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        for target in ("../../../../tmp/pwn", "z" * 51):
+            with self.subTest(target=target):
+                response = self.do_request(
+                    "api:project-detail",
+                    self.project_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"language_aliases": f"zzq9:{target}"},
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "language_aliases")
+                self.project.refresh_from_db()
+                self.assertEqual(self.project.language_aliases, "")
+        self.assertFalse(Language.objects.filter(code__contains="/").exists())
+
+        valid_aliases = f"ia_FOO:ia,other:sr+latn,custom:zzq9,max:{'z' * 50}"
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"language_aliases": valid_aliases},
+        )
+        self.assertEqual(response.data["language_aliases"], valid_aliases)
+
     def grant_language_download(self, *, membership_limit: bool = False) -> None:
         self.authenticate()
         self.user.groups.clear()
@@ -5799,6 +5900,29 @@ class ProjectAPITest(APIBaseTest):
                 },
                 response.data,
             )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_with_unlimited_billing_projects(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.plan.limit_projects = 0
+        billing.plan.display_limit_projects = 0
+        billing.plan.save(update_fields=["limit_projects", "display_limit_projects"])
+
+        for index in range(2):
+            self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": f"Unlimited project {index}",
+                    "slug": f"unlimited-project-{index}",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace_id),
+                },
+            )
+        self.assertEqual(
+            Project.objects.filter(workspace_id=billing.workspace_id).count(), 2
+        )
 
     def test_create_with_source_language(self) -> None:
         self.do_request(
@@ -7243,6 +7367,39 @@ class ProjectAPITest(APIBaseTest):
         )
         self.project.refresh_from_db()
         self.assertEqual(self.project.workspace_id, current_workspace.pk)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_patch_workspace_rechecks_billing_after_validation(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current move workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        billing = create_test_billing(self.user)
+        self.user.clear_permissions_cache()
+        original_perform_update = ProjectViewSet.perform_update
+
+        def fill_slot(view, serializer):
+            Project.objects.create(
+                name="Competing move project",
+                slug="competing-move-project",
+                workspace_id=billing.workspace_id,
+            )
+            return original_perform_update(view, serializer)
+
+        with patch.object(ProjectViewSet, "perform_update", fill_slot):
+            self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"workspace": str(billing.workspace_id)},
+            )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
+        self.assertEqual(
+            Project.objects.filter(workspace_id=billing.workspace_id).count(), 1
+        )
 
     def test_patch_restricted_web(self) -> None:
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
@@ -12175,16 +12332,50 @@ class LanguageAPITest(APIBaseTest):
                 "name": "New Language",
                 "direction": "rtl",
                 "population": 100,
-                "plural": {"number": 2, "formula": "n != 1"},
             },
         )
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
+
+    def test_update_rejects_plural(self) -> None:
+        language = Language.objects.get(code="cs")
+        original_name = language.name
+        original_plural_number = language.plural.number
+        original_plural_formula = language.plural.formula
+
+        for method in ("put", "patch"):
+            with self.subTest(method=method):
+                request = {
+                    "name": "Updated Language",
+                    "plural": {"number": 2, "formula": "n != 1"},
+                }
+                if method == "put":
+                    request.update(
+                        {
+                            "code": "cs",
+                            "direction": "rtl",
+                            "population": 100,
+                        }
+                    )
+                response = self.do_request(
+                    "api:language-detail",
+                    kwargs={"code": "cs"},
+                    method=method,
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request=request,
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "plural")
+                updated = Language.objects.get(code="cs")
+                self.assertEqual(updated.name, original_name)
+                self.assertEqual(updated.plural.number, original_plural_number)
+                self.assertEqual(updated.plural.formula, original_plural_formula)
 
     def test_patch(self) -> None:
         self.do_request(
             "api:language-detail",
             kwargs={"code": "cs"},
-            method="put",
+            method="patch",
             code=403,
         )
         self.do_request(
@@ -18587,6 +18778,74 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_autotranslate_change_hides_restricted_source(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automatic translation source",
+            slug="restricted-automatic-translation-source",
+            restricted=True,
+            allow_translation_propagation=False,
+        )
+        reader_group = Group.objects.create(
+            name="Automatic translation history readers",
+            project_selection=SELECTION_ALL_PUBLIC,
+            language_selection=SELECTION_ALL,
+        )
+        reader = User.objects.create_user("autotranslate_reader", "reader@example.com")
+        reader.groups.set([reader_group])
+        reader.clear_permissions_cache()
+        self.assertTrue(reader.can_access_component(self.component))
+        self.assertFalse(reader.can_access_component(source))
+
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            configuration={
+                "auto_source": "others",
+                "component": source.pk,
+                "engines": [],
+                "mode": "suggest",
+                "q": "state:<translated",
+                "threshold": 80,
+            },
+            acting_user=self.user,
+            run=False,
+        )
+        change = self.component.change_set.get(
+            action=ActionEvents.ADDON_CREATE, target=AutoTranslateAddon.name
+        )
+        self.assertEqual(addon.instance.configuration["component"], source.pk)
+
+        self.client.force_authenticate(user=reader)
+        restricted_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": source.project.slug, "slug": source.slug},
+        )
+        self.assertEqual(self.client.get(restricted_url).status_code, 404)
+        urls = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:component-changes", kwargs=self.component_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200, response.data)
+                if "results" in response.data:
+                    serialized = next(
+                        item
+                        for item in response.data["results"]
+                        if item["id"] == change.pk
+                    )
+                else:
+                    serialized = response.data
+                self.assertEqual(
+                    serialized["details"]["changed_fields"],
+                    ["auto_source", "component", "engines", "mode", "q", "threshold"],
+                )
+                self.assertIsNone(serialized["details"]["configuration"]["component"])
+                self.assertIn("component", serialized["details"]["redacted_fields"])
+        self.assertEqual(self.client.get(restricted_url).status_code, 404)
+
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
         self.assertEqual(response.data["count"], 35)

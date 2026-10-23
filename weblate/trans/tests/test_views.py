@@ -507,6 +507,7 @@ class ComponentTestCase(RepoTestCase):
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
             "target_0": target,
             "review": "20",
         }

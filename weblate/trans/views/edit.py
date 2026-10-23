@@ -977,6 +977,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             request=request,
             add_alternative=add_alternative,
             expected_source_hash=form.cleaned_data["contentsum"],
+            expected_state=form.cleaned_data["initial_state"],
         )
     except ValidationError as error:
         form.add_error(None, error)
@@ -1437,7 +1438,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     if isinstance(response, TranslationForm):
         form = response
         # The current source is shown, but the target still contains the draft.
-        # Preserve its translationsum so retrying cannot bypass a conflict.
+        # Preserve its translationsum and initial_state so retrying cannot
+        # bypass a conflict.
         form_data = request.POST.copy()
         for name in ("unit_id", "checksum", "contentsum"):
             form_data[name] = form.initial[name]
@@ -1939,6 +1941,7 @@ def save_zen(request: AuthenticatedHttpRequest, path):
         "messages": zen_messages,
         "state": state,
         "translationsum": translationsum,
+        "initial_state": unit.state if translationsum else None,
         "unit_state_class": unit_state_class(unit) if unit else "",
         "unit_state_title": unit_state_title(unit) if unit else "",
     }
@@ -2012,6 +2015,7 @@ def render_zen_unit_response(
             "translationsum": hash_to_checksum(unit.get_target_hash()),
             "target": unit.get_target_plurals() if sync_target else None,
             "review": str(unit.state) if sync_target else None,
+            "initial_state": unit.state if sync_target else None,
             "fuzzy": unit.fuzzy,
         }
     )

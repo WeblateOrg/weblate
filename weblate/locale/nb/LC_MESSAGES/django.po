@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:34+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1304,6 +1304,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Uferdige strenger"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Dette passordet består kun av mellomrom."
 
@@ -1772,6 +1777,11 @@ msgid ""
 msgstr ""
 "Kodelageret er utdatert, du får kanskje ikke forventede resultater før du "
 "oppdaterer det."
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "Oversettelsens grunnspråk kan ikke redigeres."
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript-lokaliseringsinnholdsleveransenettverk"
@@ -4663,6 +4673,9 @@ msgstr "Startet prøveperiode."
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
+msgstr ""
+
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 msgid "Workspace"
@@ -8139,6 +8152,33 @@ msgstr "Des"
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s-oversettelse er ikke tilgjengelig nå, men kan legges til."
 
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "Interlingue"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Aktiveringssymbol"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Bruk kontoens e-postadresse"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr ""
 
@@ -10053,6 +10093,9 @@ msgstr "Inkluder følgende kodesnutt for å laste inn lokalisering fra CDN-et:"
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "Lokaliserbare elementer må samsvare med oppsatt CSS-velger."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 #, fuzzy
 #| msgid "Billed projects"
@@ -13343,6 +13386,23 @@ msgstr "Be om ny oversettelse"
 msgid "You don't have permission to start a new translation"
 msgstr "Du har ikke tilgang til å starte ny oversettelse"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Identitetsbekreftelse"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Forfatternavn"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Klikk for å redigere posisjon"
 
@@ -15614,6 +15674,17 @@ msgstr ""
 "VKS-kodelageret har endringer som ikke finnes i det oppstrøms. Flett "
 "endringer manuelt, eller sett opp haker for å automatisere dette."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Versjonskontrollsystem"
 
@@ -16006,6 +16077,11 @@ msgstr "Oversettelse å fjerne"
 
 msgid "The detected file format is not supported."
 msgstr "Oppdaget filformat støttes ikke."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typisk arbeidsflyt for fiksing av flettingskonflikter"
@@ -18228,6 +18304,11 @@ msgid "Glossary using monolingual files."
 msgstr "Oversettelsen bruker enkeltspråklige filer."
 
 #, fuzzy
+#| msgid "Repository operation"
+msgid "Restricted glossary is not used."
+msgstr "Kodelageroperasjon"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "Kildestrengredigering er slått av."
@@ -18339,6 +18420,12 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 
 #, fuzzy, python-format
@@ -19236,6 +19323,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Gjennomgangsstatus"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -21688,6 +21786,13 @@ msgstr[0] ""
 msgstr[1] ""
 "Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable for all languages"
@@ -22909,9 +23014,6 @@ msgid_plural "languages"
 msgstr[0] "Språk"
 msgstr[1] "Språk"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "The project is already assigned to this workspace."
@@ -22942,6 +23044,19 @@ msgstr ""
 
 msgid "Invalid host name given!"
 msgstr "Ugyldig vertsnavn gitt!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Automatisk oversettelseskilde"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "Automatisk oversettelse hoppet over fordi målet ikke lenger finnes."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -26545,9 +26660,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Sorterer Java-egenskapsfilen."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Automatisk oversettelseskilde"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Spør om husing av fritt prosjekt"
 
@@ -29247,9 +29359,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "Indonesian"
 #~ msgstr "Indonesisk"
-
-#~ msgid "Occidental"
-#~ msgstr "Interlingue"
 
 #~ msgid "Igbo"
 #~ msgstr "Ibo"

@@ -17,6 +17,8 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components.
+* Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
+* Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
 
 * Docker deployments support :ref:`signing in through Hosted Weblate or another Weblate installation <docker-weblate-auth>` using OpenID Connect.
 * Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
@@ -38,8 +40,10 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Prevented excessive CPU use when the :ref:`AngularJS interpolation check <check-angularjs-format>` processes unterminated expressions.
+* Prevented the :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` from exposing restricted source component IDs in change history.
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
 * Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
+* Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
@@ -51,6 +55,7 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
 * Fixed initial installation of the :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`.
 * Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.
 * Fixed :ref:`legal document <legal>` links to prefer configured external URLs and kept privacy policy confirmation optional when hidden without a URL.

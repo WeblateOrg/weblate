@@ -2768,6 +2768,14 @@ class ProjectBackup:
         progress_callback: Callable[[int, int], None] | None,
     ) -> Project:
         """Apply a fully validated restore plan inside a database transaction."""
+        workspace_id = workspace.pk if workspace is not None else None
+        if workspace_id is None and billing is not None:
+            workspace_id = billing.workspace_id
+        if workspace_id is not None and "weblate.billing" in settings.INSTALLED_APPS:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.billing.models import Billing
+
+            billing = Billing.objects.lock_project_creation(workspace_id)
         restore_changes: list[Change] = []
 
         kwargs = self.data["project"].copy()

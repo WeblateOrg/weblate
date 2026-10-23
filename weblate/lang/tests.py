@@ -4,6 +4,8 @@
 
 """Test for language manipulations."""
 
+from __future__ import annotations
+
 import warnings
 from gettext import c2py
 from io import StringIO
@@ -29,7 +31,7 @@ from weblate.lang.models import (
     PluralMapper,
     get_plural_type,
 )
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Project, Translation, Unit, WorkflowSetting
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -341,6 +343,27 @@ class LanguageCodeValidationTest(SimpleTestCase):
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
+    def test_auto_create_rejects_invalid_code(self) -> None:
+        count = Language.objects.count()
+
+        for invalid_code in ("../../../../tmp/pwn", "z" * 51):
+            for create in (False, True):
+                with (
+                    self.subTest(code=invalid_code, create=create),
+                    self.assertRaises(ValidationError),
+                ):
+                    Language.objects.auto_create(invalid_code, create=create)
+            with self.subTest(code=invalid_code), self.assertRaises(ValidationError):
+                Language.objects.auto_get_or_create(invalid_code)
+
+        self.assertEqual(Language.objects.count(), count)
+
+    def test_auto_create_accepts_maximum_code_length(self) -> None:
+        code = "z" * 50
+        language = Language.objects.auto_create(code, create=False)
+        self.assertEqual(language.code, code)
+        self.assertIsNone(language.pk)
+
     def run_create(self, original, expected, direction, plural, name, create) -> None:
         """Test that auto create correctly handles languages."""
         # Lookup language
@@ -521,6 +544,119 @@ class VerifyPluralsTest(TestCase):
 
 
 class LanguagesViewTest(FixtureTestCase):
+    def create_language_projects(self, count: int) -> list[Project]:
+        projects = Project.objects.bulk_create(
+            Project(name=f"Workflow {index:02}", slug=f"workflow-{index}")
+            for index in range(count)
+        )
+        # Listing fixtures need translation metadata, without repositories or units.
+        components = Component.objects.bulk_create(
+            Component(
+                project=project,
+                name="Workflow",
+                slug="workflow",
+                source_language=self.component.source_language,
+            )
+            for project in projects
+        )
+        Translation.objects.bulk_create(
+            Translation(
+                component=component,
+                language=self.translation.language,
+                plural=self.translation.plural,
+                language_code=self.translation.language_code,
+                filename="cs.po",
+            )
+            for component in components
+        )
+        return projects
+
+    def test_language_preloads_workflow_settings(self) -> None:
+        projects = self.create_language_projects(3)
+        language = self.translation.language
+        local = WorkflowSetting.objects.create(
+            project=projects[0], language=language, translation_review=False
+        )
+        url = reverse("show_language", kwargs={"lang": language.code})
+
+        for authenticated in (True, False):
+            if not authenticated:
+                self.client.logout()
+            for site_wide in (False, True):
+                with self.subTest(authenticated=authenticated, site_wide=site_wide):
+                    fallback = (
+                        WorkflowSetting.objects.create(language=language)
+                        if site_wide
+                        else None
+                    )
+                    with CaptureQueriesContext(connection) as queries:
+                        response = self.client.get(url)
+
+                    self.assertEqual(response.status_code, 200)
+                    workflow_queries = [
+                        query
+                        for query in queries
+                        if query["sql"].startswith(
+                            'SELECT "trans_workflowsetting"."id"'
+                        )
+                    ]
+                    self.assertEqual(
+                        len(workflow_queries),
+                        1,
+                        "\n".join(query["sql"] for query in workflow_queries),
+                    )
+                    wrappers = {
+                        item.project.pk: item
+                        for item in response.context["project_languages"]
+                    }
+                    with self.assertNumQueries(0):
+                        self.assertEqual(
+                            wrappers[projects[0].pk].workflow_settings, local
+                        )
+                        for project in projects[1:]:
+                            self.assertEqual(
+                                wrappers[project.pk].workflow_settings, fallback
+                            )
+                    if fallback is not None:
+                        fallback.delete()
+
+    def test_language_preloads_only_displayed_projects(self) -> None:
+        self.create_language_projects(11)
+        language = self.translation.language
+        WorkflowSetting.objects.bulk_create(
+            WorkflowSetting(project=project, language=language)
+            for project in Project.objects.filter(slug__startswith="workflow-")
+        )
+        for page in (1, 2):
+            with self.subTest(page=page):
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(
+                        reverse("show_language", kwargs={"lang": language.code}),
+                        {"limit": 10, "page": page},
+                    )
+                self.assertEqual(response.status_code, 200)
+                wrappers = response.context["project_languages"]
+                displayed = {item.project.pk for item in wrappers}
+                workflow_queries = [
+                    query
+                    for query in queries
+                    if query["sql"].startswith('SELECT "trans_workflowsetting"."id"')
+                ]
+                self.assertEqual(len(workflow_queries), 1)
+                project_ids = ", ".join(str(item.project.pk) for item in wrappers)
+                self.assertIn(
+                    f'"project_id" IN ({project_ids})', workflow_queries[0]["sql"]
+                )
+                with self.assertNumQueries(0):
+                    self.assertEqual(
+                        {
+                            item.workflow_settings.project_id
+                            for item in wrappers
+                            if item.workflow_settings is not None
+                        },
+                        displayed - {self.project.pk},
+                    )
+
     def test_languages(self) -> None:
         response = self.client.get(reverse("languages"))
         self.assertContains(response, "Czech")
@@ -536,8 +672,13 @@ class LanguagesViewTest(FixtureTestCase):
         self.assertContains(response, "test/test")
 
     def test_language_br(self) -> None:
-        response = self.client.get(reverse("show_language", kwargs={"lang": "br"}))
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("show_language", kwargs={"lang": "br"}))
         self.assertContains(response, "Breton")
+        self.assertFalse(response.context["project_languages"])
+        self.assertFalse(
+            any('"trans_workflowsetting"' in query["sql"] for query in queries)
+        )
         # Example is listed
         self.assertContains(response, "1000000")
 

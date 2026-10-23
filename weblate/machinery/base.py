@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import contextlib
+import math
 import random
 import re
 import time
@@ -24,6 +25,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.http import parse_http_date_safe
 from django.utils.translation import gettext
 
 from weblate.checks.utils import highlight_string
@@ -58,7 +60,7 @@ def sanitize_machinery_error(message: str) -> str:
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Iterable, Iterator, Mapping
 
     from weblate.auth.models import User
     from weblate.checks.base import Highlight
@@ -86,6 +88,12 @@ class MachineTranslationError(Exception):
 
 class MachineryRateLimitError(MachineTranslationError):
     """Raised when rate limiting is detected."""
+
+    def __init__(
+        self, message: object, *, response: httpx2.Response | None = None
+    ) -> None:
+        super().__init__(message)
+        self.response = response
 
 
 class UnsupportedLanguageError(MachineTranslationError):
@@ -130,6 +138,8 @@ class BatchMachineTranslation(DocVersionsMixin):
     sends_data_to_third_party = True
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
+    # Cooldown in seconds after detecting a rate limit or service failure.
+    rate_limit_window = 1800
     is_available = True
     replacement_start = "[X"
     replacement_end = "X]"
@@ -452,8 +462,79 @@ class BatchMachineTranslation(DocVersionsMixin):
     def is_rate_limited(self) -> bool:
         return cache.get(self.rate_limit_cache, False)
 
-    def set_rate_limit(self) -> None:
-        cache.set(self.rate_limit_cache, True, 1800)
+    @staticmethod
+    def parse_retry_delay(value: str) -> int | None:
+        """Parse seconds, rounding up so a retry never precedes the delay."""
+        try:
+            delay = float(value)
+        except (ValueError, OverflowError):
+            return None
+        # Keep the timeout representable as a signed 64-bit millisecond value
+        # for cache backends, including the current Unix timestamp.
+        if (
+            not math.isfinite(delay)
+            or not 0 <= delay <= (2**63 - 1) // 1000 - time.time()
+        ):
+            return None
+        return math.ceil(delay)
+
+    @classmethod
+    def get_retry_after(cls, headers: Mapping[str, str]) -> int | None:
+        """Read HTTP retry hints, preferring the more precise millisecond form."""
+        headers = {key.lower(): value for key, value in headers.items()}
+        if value := headers.get("retry-after-ms"):
+            try:
+                delay = cls.parse_retry_delay(str(float(value) / 1000))
+            except (ValueError, OverflowError):
+                delay = None
+            if delay is not None:
+                return delay
+        if value := headers.get("retry-after"):
+            if (delay := cls.parse_retry_delay(value)) is not None:
+                return delay
+            if (timestamp := parse_http_date_safe(value)) is not None:
+                return cls.parse_retry_delay(str(timestamp - time.time()))
+        return None
+
+    @classmethod
+    def parse_retry_info(cls, detail: object) -> int | None:
+        """Read a Google RetryInfo JSON detail without inferring free-form text."""
+        if (
+            isinstance(detail, dict)
+            and detail.get("@type") == "type.googleapis.com/google.rpc.RetryInfo"
+            and isinstance(value := detail.get("retryDelay"), str)
+            and re.fullmatch(r"[0-9]+(?:\.[0-9]{1,9})?s", value)
+        ):
+            return cls.parse_retry_delay(value[:-1])
+        return None
+
+    def get_rate_limit_timeout(self, exc: Exception) -> int:
+        """Use the provider's retry hint, falling back to the service window."""
+        response = getattr(exc, "response", None)
+        if not isinstance(response, httpx2.Response):
+            return self.rate_limit_window
+        if (delay := self.get_retry_after(response.headers)) is not None:
+            return delay
+        try:
+            payload = response.json()
+        except JSON_RESPONSE_ERRORS:
+            return self.rate_limit_window
+        if isinstance(payload, dict) and isinstance(
+            error := payload.get("error"), dict
+        ):
+            details = error.get("details")
+            if isinstance(details, list):
+                for detail in details:
+                    if (delay := self.parse_retry_info(detail)) is not None:
+                        return delay
+        return self.rate_limit_window
+
+    def set_rate_limit(self, timeout: int | None = None) -> None:
+        cache.set(
+            self.rate_limit_cache,
+            True,
+            self.rate_limit_window if timeout is None else timeout,
+        )
 
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
@@ -1136,7 +1217,7 @@ class BatchMachineTranslation(DocVersionsMixin):
 
     def _handle_download_error(self, exc: Exception) -> None:
         if self.is_rate_limit_error(exc):
-            self.set_rate_limit()
+            self.set_rate_limit(self.get_rate_limit_timeout(exc))
 
         if isinstance(exc, MachineTranslationError):
             self.report_error("Could not fetch translations", exception=exc)
@@ -1788,12 +1869,16 @@ class RephraseMachineTranslationMixin(MachineTranslation):
     async def ais_rephrase_rate_limited(self) -> bool:
         return bool(await cache.aget(self.get_rephrase_rate_limit_cache_key()))
 
-    def set_rephrase_rate_limit(self) -> None:
-        cache.set(self.get_rephrase_rate_limit_cache_key(), True, 1800)
+    def set_rephrase_rate_limit(self, timeout: int | None = None) -> None:
+        cache.set(
+            self.get_rephrase_rate_limit_cache_key(),
+            True,
+            self.rate_limit_window if timeout is None else timeout,
+        )
 
     def _handle_rephrase_error(self, exc: Exception) -> None:
         if self.is_rate_limit_error(exc) or isinstance(exc, httpx2.TimeoutException):
-            self.set_rephrase_rate_limit()
+            self.set_rephrase_rate_limit(self.get_rate_limit_timeout(exc))
         self.log_handled_error("Could not rephrase translations")
 
     def get_rephrase_cache_version_key(self) -> str:
@@ -2050,7 +2135,7 @@ class ResponseStatusMachineTranslation(MachineTranslation):
                 ),
             )
             if response_status == 429:
-                raise MachineryRateLimitError(error_text)
+                raise MachineryRateLimitError(error_text, response=response)
             raise MachineTranslationError(error_text)
 
         super().check_failure(response)
