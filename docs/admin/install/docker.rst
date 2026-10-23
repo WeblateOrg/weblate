@@ -216,6 +216,8 @@ Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual val
 Trusting custom CA certificates
 +++++++++++++++++++++++++++++++
 
+.. versionadded:: 2026.11
+
 When Weblate connects to services secured by certificates issued by a private
 certificate authority (for example an internal SMTP, LDAP, or Git server),
 place the CA certificates into the Weblate data volume (see :ref:`docker-volume`):
@@ -223,14 +225,28 @@ place the CA certificates into the Weblate data volume (see :ref:`docker-volume`
 * :file:`ssl/ca-certificates/` containing one or more ``.crt`` files in PEM format
 
 On every container start, the certificates are combined with the system CA
-bundle and made available to Python (``requests``), OpenSSL, libcurl, and git
-via ``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, ``CURL_CA_BUNDLE``, and
-``GIT_SSL_CAINFO``. The system trust store is not modified, and removing a
-``.crt`` file from the directory removes it from the bundle on the next start.
+bundle and made available to Python (``requests``), OpenSSL, and libcurl via
+``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, and ``CURL_CA_BUNDLE``. The system
+trust store is not modified, and removing a ``.crt`` file from the directory
+removes it from the bundle on the next start.
 
 .. note::
 
    Only files with the ``.crt`` extension are picked up.
+
+.. note::
+
+   Weblate runs repository operations (clone, fetch, push) with a cleaned-up
+   environment, so the bundle variables above do not reach Git. To trust the
+   CA for HTTPS Git remotes, mount the combined bundle over the system CA
+   store as well:
+
+   .. code-block:: yaml
+
+      services:
+        weblate:
+          volumes:
+            - ./combined-ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro
 
 
 .. _docker-https-portal:
