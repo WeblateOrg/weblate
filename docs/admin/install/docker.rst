@@ -211,6 +211,28 @@ If you already host other sites on the same server, it is likely ports ``80`` an
 Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual values from your environment.
 
 
+.. _docker-custom-ca:
+
+Trusting custom CA certificates
++++++++++++++++++++++++++++++++
+
+When Weblate connects to services secured by certificates issued by a private
+certificate authority (for example an internal SMTP, LDAP, or Git server),
+place the CA certificates into the Weblate data volume (see :ref:`docker-volume`):
+
+* :file:`ssl/ca-certificates/` containing one or more ``.crt`` files in PEM format
+
+On every container start, the certificates are combined with the system CA
+bundle and made available to Python (``requests``), OpenSSL, libcurl, and git
+via ``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, ``CURL_CA_BUNDLE``, and
+``GIT_SSL_CAINFO``. The system trust store is not modified, and removing a
+``.crt`` file from the directory removes it from the bundle on the next start.
+
+.. note::
+
+   Only files with the ``.crt`` extension are picked up.
+
+
 .. _docker-https-portal:
 
 Automatic SSL certificates using Let’s Encrypt
