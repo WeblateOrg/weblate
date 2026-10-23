@@ -2264,11 +2264,14 @@ class SeleniumTests(
         unit.translate(user, unit.target, STATE_FUZZY, propagate=False)
         edit("Unsaved draft")
         WebDriverWait(self.driver, 15).until(
-            lambda driver: any(
-                "The review state of this string has changed" in alert.text
-                for alert in driver.find_elements(
-                    By.CSS_SELECTOR, "#popup-toasts .toast-body"
-                )
+            lambda driver: driver.execute_script(
+                """
+                const expectedText = arguments[0];
+                return Array.from(
+                    document.querySelectorAll("#popup-toasts .toast-body"),
+                ).some((alert) => alert.innerText.includes(expectedText));
+                """,
+                "The review state of this string has changed",
             )
         )
         self.assertEqual(editor.get_attribute("value"), "Unsaved draft")
