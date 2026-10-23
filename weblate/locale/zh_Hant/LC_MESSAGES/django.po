@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-19 08:24+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -1157,6 +1157,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "有未完成的字串"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "這個密碼只由空白組成。"
 
@@ -1529,6 +1534,11 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr "儲存庫不是最新狀態，更新前可能無法獲得預期結果。"
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "翻譯檔案 CDN 附加元件無法發佈 weblate.js。"
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript 在地化 CDN"
@@ -3923,6 +3933,9 @@ msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr "將此計費項目設為一般試用期，並清除排定的移除作業。"
 
+msgid "No valid billing found or limit exceeded."
+msgstr "找不到有效的計費項目，或已超過限制。"
+
 msgid "Workspace"
 msgstr "工作空間"
 
@@ -5883,8 +5896,8 @@ msgid ""
 "Please read the <a href=\"%(terms_url)s\">General Terms and Conditions</a> "
 "and the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"請閱讀<a href=\"%(terms_url)s\">一般條款與條件</a>及<a href=\"%(privacy_url)"
-"s\">隱私權政策</a>。"
+"請閱讀<a href=\"%(terms_url)s\">一般條款與條件</a>及<a "
+"href=\"%(privacy_url)s\">隱私權政策</a>。"
 
 #, python-format
 msgid ""
@@ -5895,7 +5908,8 @@ msgstr "請閱讀<a href=\"%(terms_url)s\">一般條款與條件</a>。"
 msgid ""
 "Please read the General Terms and Conditions below as well as the <a "
 "href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "請閱讀下方的一般條款與條件，以及<a href=\"%(privacy_url)s\">隱私權政策</a>。"
+msgstr ""
+"請閱讀下方的一般條款與條件，以及<a href=\"%(privacy_url)s\">隱私權政策</a>。"
 
 msgid "Please read the General Terms and Conditions below."
 msgstr "請閱讀下方的一般條款與條件。"
@@ -6054,8 +6068,8 @@ msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
 msgstr ""
-"eTranslation 在翻譯領域 %(domain)s 處理失敗：%(description)s (錯誤代碼 %"
-"(code)s)。"
+"eTranslation 在翻譯領域 %(domain)s 處理失敗：%(description)s (錯誤代碼 "
+"%(code)s)。"
 
 msgid "Invalid eTranslation domains response"
 msgstr "eTranslation 回傳的翻譯領域資料無效"
@@ -6808,6 +6822,33 @@ msgstr "12月"
 #, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s 翻譯目前無法取用，但可以加入。"
+
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "西方語"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "啟用權杖"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "使用帳號的電子郵件"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
 
 msgid "Image is too big."
 msgstr "影像過大。"
@@ -7702,7 +7743,8 @@ msgstr "程式碼代管連結"
 msgid ""
 "Manage code-hosting accounts connected to workspaces you administer. These "
 "connections are separate from sign-in identities."
-msgstr "管理已連結至您所管理工作空間的程式碼代管帳號。這些連線與登入身分分開管理。"
+msgstr ""
+"管理已連結至您所管理工作空間的程式碼代管帳號。這些連線與登入身分分開管理。"
 
 msgid "Manage code-hosting connections"
 msgstr "管理程式碼代管連結"
@@ -8348,6 +8390,9 @@ msgstr "請加入以下程式碼片段，以從 CDN 讀取在地化內容："
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "可在地化的元素必須跟設定的 CSS 選擇器一致。"
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "引導式預設集"
@@ -11059,6 +11104,23 @@ msgstr "請求開展新翻譯"
 msgid "You don't have permission to start a new translation"
 msgstr "您無權開展新翻譯"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "身分驗證"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "作者姓名"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "點按可編輯位置"
 
@@ -11359,7 +11421,8 @@ msgstr "自動翻譯會取得此工作空間中的現有翻譯，並套用至相
 msgid ""
 "Automatic translation uses active translation services to get the best "
 "possible translations and applies them in this workspace."
-msgstr "自動翻譯會使用啟用中的翻譯服務，取得盡可能理想的譯文，並套用至此工作空間。"
+msgstr ""
+"自動翻譯會使用啟用中的翻譯服務，取得盡可能理想的譯文，並套用至此工作空間。"
 
 msgid ""
 "Automatic translation takes existing translations in this project and "
@@ -12409,8 +12472,8 @@ msgid ""
 "service in the add-on configuration, or restore the service in Translation "
 "services settings."
 msgstr ""
-"目前無法使用已設定的評估服務。請在附加元件設定中選取已設定的 LLM 服務，或到「"
-"翻譯服務」設定中復原該服務。"
+"目前無法使用已設定的評估服務。請在附加元件設定中選取已設定的 LLM 服務，或到"
+"「翻譯服務」設定中復原該服務。"
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "翻譯語言的檔案所使用的語言代碼有歧義。"
@@ -12609,7 +12672,8 @@ msgstr ""
 msgid ""
 "GitHub rejected the API credentials. Check whether the configured token has "
 "expired or been revoked, and replace it if necessary."
-msgstr "GitHub 拒絕了 API 憑證。請檢查設定的權杖是否已過期或遭到撤銷，並視需要更換。"
+msgstr ""
+"GitHub 拒絕了 API 憑證。請檢查設定的權杖是否已過期或遭到撤銷，並視需要更換。"
 
 #, python-format
 msgid ""
@@ -12627,8 +12691,8 @@ msgid ""
 "access restriction even when the repository is readable. A successful Git "
 "push does not verify API access."
 msgstr ""
-"建立 Pull request 時，GitHub 回傳 404。即使能讀取儲存庫，這仍可能代表存取受限"
-"。Git 推送成功並不表示 API 存取權限已通過驗證。"
+"建立 Pull request 時，GitHub 回傳 404。即使能讀取儲存庫，這仍可能代表存取受"
+"限。Git 推送成功並不表示 API 存取權限已通過驗證。"
 
 msgid ""
 "Check the GitHub App installation's repository access and pull request "
@@ -12928,6 +12992,17 @@ msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr "VCS 儲存庫與上游間沒有同步。請手動合併變更，或是設定掛鈎自動完成作業。"
+
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
 
 msgid "Version control system"
 msgstr "版本控制系統"
@@ -13254,6 +13329,11 @@ msgstr "要移除的翻譯"
 
 msgid "The detected file format is not supported."
 msgstr "不支援偵測到的檔案格式。"
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "修正合併衝突的典型工作流程"
@@ -14980,6 +15060,11 @@ msgstr "此組件疑似未被使用。"
 msgid "Glossary using monolingual files."
 msgstr "採用單語言檔案的詞彙表。"
 
+#, fuzzy
+#| msgid "Reconstructed repository is not usable."
+msgid "Restricted glossary is not used."
+msgstr "重建的儲存庫無法使用。"
+
 msgid "Glossary string management is disabled"
 msgstr "詞彙表字串管理功能已停用"
 
@@ -15074,6 +15159,19 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"%(component)s 中的複數形式與目標翻譯不一致。自動翻譯已略過複數字串，只處理單"
+"數形字串。"
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "%(component)s 中的複數形式與目標翻譯不一致。自動翻譯已略過複數字串，只處理單"
 "數形字串。"
@@ -15785,6 +15883,17 @@ msgstr ""
 msgid "Review state"
 msgstr "檢閱狀態"
 
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
+
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "用來闡明意義或字串用法的額外解釋。"
 
@@ -16462,8 +16571,8 @@ msgid ""
 "and Custom projects. Public and Protected projects are always publicly "
 "shared regardless of this setting."
 msgstr ""
-"允許匿名存取「私人」與「自訂」專案的互動頁面及狀態小工具。「公開」與「受保護"
-"」專案一律公開分享，不受此設定影響。"
+"允許匿名存取「私人」與「自訂」專案的互動頁面及狀態小工具。「公開」與「受保"
+"護」專案一律公開分享，不受此設定影響。"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17713,6 +17822,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "無法將字串傳播到 %d 個組件上。"
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 msgid "Unmark as untranslatable for all languages"
 msgstr "取消所有語言的不可翻譯標記"
 
@@ -18616,9 +18732,6 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "語言"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "找不到有效的計費項目，或已超過限制。"
-
 msgid "The project is already assigned to this workspace."
 msgstr "專案已指派至此工作空間。"
 
@@ -18639,6 +18752,19 @@ msgstr "Borg 已完成，但出現警告且無任何輸出。"
 
 msgid "Invalid host name given!"
 msgstr "無效的主機名稱！"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "自動翻譯來源"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "由於目標已不存在，已略過自動翻譯。"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -21839,9 +21965,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "排序 Java properties 檔案。"
 
-#~ msgid "Automatic translation source"
-#~ msgstr "自動翻譯來源"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "申請自由軟體專案託管"
 
@@ -24296,9 +24419,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Indonesian"
 #~ msgstr "印度尼西亞語"
-
-#~ msgid "Occidental"
-#~ msgstr "西方語"
 
 #~ msgid "Igbo"
 #~ msgstr "伊博語"

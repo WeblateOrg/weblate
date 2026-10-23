@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 09:11+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
@@ -1232,6 +1232,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Istnieją niedokończone ciągi"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "To hasło składa się tylko ze spacji (białych znaków)."
 
@@ -1652,6 +1657,11 @@ msgid ""
 msgstr ""
 "Repozytorium jest nieaktualne, możesz nie uzyskać oczekiwanych wyników, "
 "dopóki go nie zaktualizujesz."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "Dodatek plików tłumaczeń CDN nie może publikować weblate.js."
 
 msgid "JavaScript localization CDN"
 msgstr "Lokalizacja JavaScript CDN"
@@ -4134,8 +4144,8 @@ msgstr "Definicje automatyzacji nie mogą przekraczać 64 KiB."
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
-"%(path)s: nieznane zdarzenie zmiany „%(event)s”. Poprawne zdarzenia: %"
-"(choices)s"
+"%(path)s: nieznane zdarzenie zmiany „%(event)s”. Poprawne zdarzenia: "
+"%(choices)s"
 
 msgid "YAML aliases and tags are not supported."
 msgstr "Aliasy i znaczniki YAML nie są obsługiwane."
@@ -4222,6 +4232,9 @@ msgid ""
 msgstr ""
 "Ustaw tę formę rozliczeń na standardowy okres próbny i wyczyść zaplanowane "
 "usunięcie."
+
+msgid "No valid billing found or limit exceeded."
+msgstr "Nie znaleziono ważnego rozliczenia lub przekroczono limit."
 
 msgid "Workspace"
 msgstr "Obszar roboczy"
@@ -7278,6 +7291,33 @@ msgstr "Gru"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Tłumaczenie na %s jest obecnie niedostępne, ale może zostać dodane."
 
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "occidental"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Token aktywacyjny"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Używaj adresu e-mail konta"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "Obraz jest za duży."
 
@@ -9003,6 +9043,9 @@ msgstr "Dołącz następujący fragment, aby załadować lokalizację z CDN:"
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "Lokalizowane elementy muszą pasować do skonfigurowanego selektora CSS."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "Predefiniowane ustawienia z przewodnikiem"
@@ -11997,6 +12040,23 @@ msgstr "Poproś o nowe tłumaczenie"
 msgid "You don't have permission to start a new translation"
 msgstr "Nie masz uprawnień do rozpoczynania nowego tłumaczenia"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Uwierzytelnienie"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Imię i nazwisko autora"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Kliknij, aby edytować pozycję"
 
@@ -14079,6 +14139,17 @@ msgstr ""
 "Repozytorium VCS ma wiele zmian w porównaniu do wyższej wersji. Scal zmiany "
 "ręcznie lub wciśnij przycisk, aby je zautomatyzować."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "System kontroli wersji"
 
@@ -14453,6 +14524,11 @@ msgstr "Tłumaczenie do usunięcia"
 
 msgid "The detected file format is not supported."
 msgstr "Wykryty format pliku nie jest obsługiwany."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typowy przepływ pracy do rozwiązywania konfliktów scalania"
@@ -16320,6 +16396,11 @@ msgstr "Komponent wydaje się nieużywany."
 msgid "Glossary using monolingual files."
 msgstr "Słownik korzystający z plików jednojęzycznych."
 
+#, fuzzy
+#| msgid "Reconstructed repository is not usable."
+msgid "Restricted glossary is not used."
+msgstr "Odtworzone repozytorium nie nadaje się do użytku."
+
 msgid "Glossary string management is disabled"
 msgstr "Zarządzanie elementami słownika jest wyłączone"
 
@@ -16416,6 +16497,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"Formy liczby mnogiej w %(component)s nie pasują do tłumaczenia docelowego. "
+"Automatyczne tłumaczenie pominęło ciągi w liczbie mnogiej i przetworzyło "
+"tylko ciągi w formie pojedynczej."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "Formy liczby mnogiej w %(component)s nie pasują do tłumaczenia docelowego. "
 "Automatyczne tłumaczenie pominęło ciągi w liczbie mnogiej i przetworzyło "
@@ -17182,6 +17277,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Stan przeglądu"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -18217,8 +18323,8 @@ msgstr "Automatyzacja"
 msgctxt "Change origin tooltip"
 msgid "Created by automation #%(addon_id)s (run #%(activity_id)s)."
 msgstr ""
-"Utworzone przez automatyzację nr %(addon_id)s (uruchomienie nr %(activity_id)"
-"s)."
+"Utworzone przez automatyzację nr %(addon_id)s (uruchomienie nr "
+"%(activity_id)s)."
 
 msgctxt "Change origin tooltip"
 msgid "Created by an automation."
@@ -19414,6 +19520,13 @@ msgstr[0] "Nie udało się spropagować ciągu do %d komponentu."
 msgstr[1] "Nie udało się spropagować ciągu do %d komponentów."
 msgstr[2] "Nie udało się spropagować ciągu do %d komponentów."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 msgid "Unmark as untranslatable for all languages"
 msgstr "Odznacz jako nieprzetłumaczalne dla wszystkich języków"
 
@@ -20410,9 +20523,6 @@ msgstr[0] "język"
 msgstr[1] "języki"
 msgstr[2] "języków"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "Nie znaleziono ważnego rozliczenia lub przekroczono limit."
-
 msgid "The project is already assigned to this workspace."
 msgstr "Projekt jest już przypisany do tego obszaru roboczego."
 
@@ -20434,6 +20544,21 @@ msgstr "Borg został ukończony z ostrzeżeniami i bez żadnego wyniku."
 
 msgid "Invalid host name given!"
 msgstr "Podano nieprawidłową nazwę hosta!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Źródło automatycznego tłumaczenia"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr ""
+"Automatyczne tłumaczenie zostało pominięte, ponieważ obiekt docelowy już nie "
+"istnieje."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -23993,9 +24118,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Sortuje plik właściwości Java."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Źródło automatycznego tłumaczenia"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Zapytaj o darmowy hosting projektu"
 
@@ -26707,9 +26829,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Indonesian"
 #~ msgstr "indonezyjski"
-
-#~ msgid "Occidental"
-#~ msgstr "occidental"
 
 #~ msgid "Igbo"
 #~ msgstr "lgbo"

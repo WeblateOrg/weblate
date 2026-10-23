@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:39+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1259,6 +1259,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr ""
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "個密碼都係吉嘅。"
 
@@ -1664,6 +1669,9 @@ msgstr ""
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
+msgstr ""
+
+msgid "The CDN add-on cannot publish a translation as manifest.json."
 msgstr ""
 
 msgid "JavaScript localization CDN"
@@ -4201,6 +4209,9 @@ msgstr "已經開始試用期。"
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
+msgstr ""
+
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 msgid "Workspace"
@@ -7249,6 +7260,31 @@ msgstr ""
 msgid "%s translation is currently not available, but can be added."
 msgstr ""
 
+msgid "Confidential"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Authorization code"
+msgstr "自動元件表分派"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "用返帳戶個電郵地址"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr ""
 
@@ -8864,6 +8900,9 @@ msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
 
 msgid "The localizable elements have to match configured CSS selector."
+msgstr ""
+
+msgid "Available languages and translation files are listed in the manifest:"
 msgstr ""
 
 #, fuzzy
@@ -11714,6 +11753,21 @@ msgstr ""
 msgid "You don't have permission to start a new translation"
 msgstr ""
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Authorize application"
+msgstr "自動翻譯"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+msgid "Authorize"
+msgstr ""
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr ""
 
@@ -13645,6 +13699,17 @@ msgid ""
 "changes manually or set up hooks to automate this."
 msgstr ""
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr ""
 
@@ -13958,6 +14023,11 @@ msgid "Translation to remove"
 msgstr ""
 
 msgid "The detected file format is not supported."
+msgstr ""
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
 msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
@@ -15958,6 +16028,11 @@ msgid "Glossary using monolingual files."
 msgstr "翻譯嘅通知"
 
 #, fuzzy
+#| msgid "Managed projects"
+msgid "Restricted glossary is not used."
+msgstr "管理緊嘅專案"
+
+#, fuzzy
 #| msgid "Translation notifications"
 msgid "Glossary string management is disabled"
 msgstr "翻譯嘅通知"
@@ -16062,6 +16137,12 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 
 #, fuzzy, python-format
@@ -16820,6 +16901,17 @@ msgid ""
 msgstr ""
 
 msgid "Review state"
+msgstr ""
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
 msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -18848,6 +18940,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] ""
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 msgid "Unmark as untranslatable for all languages"
 msgstr ""
 
@@ -19842,9 +19941,6 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "Weblate 語言"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "The project is already assigned to this workspace."
@@ -19866,6 +19962,19 @@ msgid "Borg completed with warnings without any output."
 msgstr ""
 
 msgid "Invalid host name given!"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Automatic translation reported a warning."
+msgstr "翻譯檔"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Automatic translation failed. See the task log for details."
+msgstr "翻譯檔"
+
+msgid "Task could not be completed. See the task log for details."
 msgstr ""
 
 #. Translators: Name of a color

@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-19 15:30+0000\n"
 "Last-Translator: Manuela Silva "
 "<mansil_alfalb@users.noreply.hosted.weblate.org>\n"
@@ -1250,6 +1250,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Existem cadeias de carateres não concluídas"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Esta palavra-passe contém apenas espaços em branco."
 
@@ -1699,6 +1704,11 @@ msgid ""
 msgstr ""
 "O repositório está desatualizado, pode não obter os resultados esperados até "
 "que o atualize."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "O extra CDN dos ficheiros de tradução não pode publicar weblate.js."
 
 msgid "JavaScript localization CDN"
 msgstr "CDN de localização JavaScript"
@@ -4352,6 +4362,9 @@ msgid ""
 msgstr ""
 "Define este plano para o período de avaliação regular e limpa a remoção "
 "agendada."
+
+msgid "No valid billing found or limit exceeded."
+msgstr "Não foi encontrada faturação válida ou limite excedido."
 
 msgid "Workspace"
 msgstr "Espaço de Trabalho"
@@ -7501,6 +7514,33 @@ msgstr "Dez"
 msgid "%s translation is currently not available, but can be added."
 msgstr "A tradução %s não está disponível atualmente, mas pode ser adicionada."
 
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "Provençal"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Código de ativação"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Utilizar endereço de correio eletrónico da conta"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "A imagem é muito grande."
 
@@ -9278,6 +9318,9 @@ msgstr "Incluir o seguinte trecho para carregar a localização a partir do CDN:
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
 "Os elementos traduzíveis têm de corresponder ao seletor de CSS configurado."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "Pré-ajustes guiados"
@@ -12304,6 +12347,23 @@ msgstr "Solicitar nova tradução"
 msgid "You don't have permission to start a new translation"
 msgstr "Não tem permissão para iniciar uma nova tradução"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Autenticação"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Nome do autor"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Clique para editar a posição"
 
@@ -14398,6 +14458,17 @@ msgstr ""
 "favor, mescle as alterações manualmente ou configure \"hooks\" para "
 "automatizar isto."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Sistema de controlo de versões"
 
@@ -14787,6 +14858,11 @@ msgstr "Tradução a remover"
 
 msgid "The detected file format is not supported."
 msgstr "O formato de ficheiro detectado não é suportado."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Fluxo de trabalho típico para reparar conflitos de mesclagem"
@@ -16671,6 +16747,11 @@ msgid "Glossary using monolingual files."
 msgstr "Glossário a utilizar ficheiros monolingues."
 
 #, fuzzy
+#| msgid "Remote repository update failed"
+msgid "Restricted glossary is not used."
+msgstr "Falha na atualização do repositório remoto"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "A edição da cadeia de carateres fonte está desativada."
@@ -16771,6 +16852,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"As formas de plural em %(component)s não correspondem à tradução de destino. "
+"A tradução automática ignorou as cadeias pluralizadas e processou apenas as "
+"cadeias na sua forma singular."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "As formas de plural em %(component)s não correspondem à tradução de destino. "
 "A tradução automática ignorou as cadeias pluralizadas e processou apenas as "
@@ -17549,6 +17644,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "Estado da Revisão"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -19851,6 +19957,13 @@ msgstr[0] "Não foi possível propagar a cadeia de carateres para %d componente.
 msgstr[1] ""
 "Não foi possível propagar a cadeia de carateres para %d componentes."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -20940,9 +21053,6 @@ msgid_plural "languages"
 msgstr[0] "idioma"
 msgstr[1] "idiomas"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "Não foi encontrada faturação válida ou limite excedido."
-
 msgid "The project is already assigned to this workspace."
 msgstr "O projeto já está atribuído a este espaço de trabalho."
 
@@ -20963,6 +21073,19 @@ msgstr "Borg completado com avisos e sem qualquer resultado."
 
 msgid "Invalid host name given!"
 msgstr "Nome de servidor inválido!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Fonte da tradução automática"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "Tradução automática ignorada porque o alvo já não existe."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -24536,9 +24659,6 @@ msgstr "O espaço de trabalho foi removido."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Ordena o ficheiro de propriedades Java."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Fonte da tradução automática"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Pedir alojamento para um projeto livre"
 
@@ -27181,9 +27301,6 @@ msgstr "O espaço de trabalho foi removido."
 
 #~ msgid "Indonesian"
 #~ msgstr "Indonésio"
-
-#~ msgid "Occidental"
-#~ msgstr "Provençal"
 
 #~ msgid "Igbo"
 #~ msgstr "Igbo"

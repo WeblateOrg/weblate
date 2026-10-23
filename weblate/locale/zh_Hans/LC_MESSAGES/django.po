@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-17 09:10+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
@@ -1159,6 +1159,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "有未完成的字符串"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "该密码只由空格组成。"
 
@@ -1531,6 +1536,11 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr "仓库已过期，您可能无法获得预期的结果，除非对其进行更新。"
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "翻译文件 CDN 附加组件无法发布 weblate.js。"
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript 本地化 CDN"
@@ -3917,6 +3927,9 @@ msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr "将此账单设为正常试用期并批准定时删除。"
 
+msgid "No valid billing found or limit exceeded."
+msgstr "未找到有效付账信息或超过限制。"
+
 msgid "Workspace"
 msgstr "工作区"
 
@@ -6038,7 +6051,8 @@ msgstr "未知错误"
 msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
-msgstr "eTranslation 在 %(domain)s 域名中失灵：%(description)s（错误码 %(code)s）。"
+msgstr ""
+"eTranslation 在 %(domain)s 域名中失灵：%(description)s（错误码 %(code)s）。"
 
 msgid "Invalid eTranslation domains response"
 msgstr "无效的 eTranslation 域名响应"
@@ -6787,6 +6801,32 @@ msgstr "12 月"
 #, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s 翻译当前不可用，但可添加。"
+
+#, fuzzy
+msgid "Confidential"
+msgstr "西方（Occidental）"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "激活令牌"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "使用账户电子邮件地址"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
 
 msgid "Image is too big."
 msgstr "图片太大。"
@@ -8323,6 +8363,9 @@ msgstr "包含以下用于从 CDN 加载本地化的代码片段："
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "可本地化的元素必须与配置的 CSS 选择器匹配。"
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "有引导的预设"
@@ -11020,6 +11063,23 @@ msgstr "请求新翻译"
 msgid "You don't have permission to start a new translation"
 msgstr "您没有开始新翻译的权限"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "身份认证"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "作者名称"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "点击编辑位次"
 
@@ -11319,7 +11379,8 @@ msgstr "自动翻译使用这个工作区中的现有译文并将它们应用到
 msgid ""
 "Automatic translation uses active translation services to get the best "
 "possible translations and applies them in this workspace."
-msgstr "自动翻译使用激活的翻译服务获得最佳的翻译结果，并将翻译应用于此工作区中。"
+msgstr ""
+"自动翻译使用激活的翻译服务获得最佳的翻译结果，并将翻译应用于此工作区中。"
 
 msgid ""
 "Automatic translation takes existing translations in this project and "
@@ -11333,7 +11394,8 @@ msgstr ""
 msgid ""
 "Automatic translation uses active translation services to get the best "
 "possible translations and applies them in this project."
-msgstr "自动翻译使用激活的翻译服务尽可能获得最佳的翻译结果，并将翻译应用于此项目中。"
+msgstr ""
+"自动翻译使用激活的翻译服务尽可能获得最佳的翻译结果，并将翻译应用于此项目中。"
 
 msgid "This might be caused by missing subscription."
 msgstr "这可能是因为您没有订阅。"
@@ -12889,6 +12951,17 @@ msgstr ""
 "版本控制系统仓库并不是最新的上游仓库版本。请手动合并更改或设置钩子来实现自动"
 "化操作。"
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "版本控制系统"
 
@@ -13213,6 +13286,11 @@ msgstr "要删除的翻译"
 
 msgid "The detected file format is not supported."
 msgstr "检测到的文件格式不支持。"
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "解决合并冲突的典型工作流程"
@@ -14928,6 +15006,11 @@ msgstr "该部件似乎未使用。"
 msgid "Glossary using monolingual files."
 msgstr "使用单语言文件的术语表。"
 
+#, fuzzy
+#| msgid "Reconstructed repository is not usable."
+msgid "Restricted glossary is not used."
+msgstr "重建的仓库不可用。"
+
 msgid "Glossary string management is disabled"
 msgstr "禁用了术语表字符串管理"
 
@@ -15022,6 +15105,19 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"%(component)s 复数形式不匹配目标翻译。自动翻译跳过了复数形式字符串，只处理了"
+"单数形式字符串。"
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "%(component)s 复数形式不匹配目标翻译。自动翻译跳过了复数形式字符串，只处理了"
 "单数形式字符串。"
@@ -15731,6 +15827,17 @@ msgstr "当源字符串更新或者被手动标记时，相应的字符串会被
 
 msgid "Review state"
 msgstr "审核状态"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "额外的解释，用于阐明字符串的含义或用法。"
@@ -17662,6 +17769,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "无法将字符串传播至 %d 个部件。"
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 msgid "Unmark as untranslatable for all languages"
 msgstr "在所有语言中取消标记为不可翻译"
 
@@ -18564,9 +18678,6 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "语言"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "未找到有效付账信息或超过限制。"
-
 msgid "The project is already assigned to this workspace."
 msgstr "该项目已分配到此工作区。"
 
@@ -18587,6 +18698,19 @@ msgstr "Borg 已完成，但有没有任何输出的警告。"
 
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "自动翻译的来源"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "跳过了自动翻译，因目标不再存在。"
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -21767,9 +21891,6 @@ msgstr "删除了工作区。"
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "排序 Java 属性文件。"
 
-#~ msgid "Automatic translation source"
-#~ msgstr "自动翻译的来源"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "请求自由软件项目托管"
 
@@ -24344,10 +24465,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Indonesian"
 #~ msgstr "印尼语（Bahasa Indonesia）"
-
-#, fuzzy
-#~ msgid "Occidental"
-#~ msgstr "西方（Occidental）"
 
 #, fuzzy
 #~ msgid "Igbo"

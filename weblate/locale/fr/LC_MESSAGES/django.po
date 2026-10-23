@@ -38,7 +38,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-20 15:45+0000\n"
 "Last-Translator: Ldm Public <ldmpub@users.noreply.hosted.weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
@@ -1280,6 +1280,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Des chaînes sont non terminées"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "Ce mot de passe contient uniquement des espaces."
 
@@ -1729,6 +1734,13 @@ msgid ""
 msgstr ""
 "Le dépôt est périmé, vous n’obtiendrez peut-être pas les résultats attendus "
 "tant que vous ne l’aurez pas mis à jour."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr ""
+"L'extension CDN pour les fichiers de traduction ne peut pas publier "
+"weblate.js."
 
 msgid "JavaScript localization CDN"
 msgstr "JavaScript localisation CDN"
@@ -4420,6 +4432,9 @@ msgstr ""
 "Définissez cette facturation sur la période d'essai standard et annulez la "
 "suppression programmée."
 
+msgid "No valid billing found or limit exceeded."
+msgstr "Aucune facturation valide ou limite dépassée."
+
 msgid "Workspace"
 msgstr "Espace de travail"
 
@@ -6781,8 +6796,8 @@ msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
 msgstr ""
-"Échec de la traduction eTranslation pour le domaine %(domain)s: %"
-"(description)s (code d'erreur : %(code)s)."
+"Échec de la traduction eTranslation pour le domaine %(domain)s: "
+"%(description)s (code d'erreur : %(code)s)."
 
 #, fuzzy
 #| msgid "Invalid translation flag: \"%s\""
@@ -7644,6 +7659,33 @@ msgstr "Déc"
 msgid "%s translation is currently not available, but can be added."
 msgstr ""
 "La traduction %s n’est pas disponible actuellement, mais peut être ajoutée."
+
+#, fuzzy
+#| msgid "Occidental"
+msgid "Confidential"
+msgstr "Occidental"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "Jeton d’activation"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "Utiliser l’adresse courriel du compte"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
 
 msgid "Image is too big."
 msgstr "L'image est trop grande."
@@ -9445,6 +9487,9 @@ msgstr ""
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
 "Les éléments traduisibles doivent correspondre au sélecteur CSS paramétré."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "Préréglages guidés"
@@ -12505,6 +12550,23 @@ msgstr "Demander une nouvelle traduction"
 msgid "You don't have permission to start a new translation"
 msgstr "Vous n’êtes pas autorisés à démarrer une nouvelle traduction"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "Authentification"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Nom de l’auteur"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "Cliquer pour modifier la position"
 
@@ -14659,6 +14721,17 @@ msgstr ""
 "modifications soit manuellement soit automatiquement en paramétrant les "
 "hooks."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Système de contrôle de version"
 
@@ -15043,6 +15116,11 @@ msgstr "Traduction à supprimer"
 
 msgid "The detected file format is not supported."
 msgstr "Le format de fichier détecté n’est pas pris en charge."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Workflow type pour corriger les conflits de fusion"
@@ -17103,6 +17181,11 @@ msgid "Glossary using monolingual files."
 msgstr "Le glossaire utilise des fichiers mono-langue."
 
 #, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Restricted glossary is not used."
+msgstr "Échec du rebasement du dépôt"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "La modification de la chaîne source est désactivée."
@@ -17205,6 +17288,20 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"Les formes plurielles dans %(component)s ne correspondent pas à la "
+"traduction cible. La traduction automatique a ignoré les chaînes au pluriel "
+"et n'a traité que les chaînes au singulier."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "Les formes plurielles dans %(component)s ne correspondent pas à la "
 "traduction cible. La traduction automatique a ignoré les chaînes au pluriel "
@@ -18051,6 +18148,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "État de révision"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -20487,6 +20595,13 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "La chaîne n’a pas pu être propagée à %d composant."
 msgstr[1] "La chaîne n’a pas pu être propagée à %d composants."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -21648,9 +21763,6 @@ msgid_plural "languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "Aucune facturation valide ou limite dépassée."
-
 msgid "The project is already assigned to this workspace."
 msgstr "Le projet est déjà associé à cet espace de travail."
 
@@ -21677,6 +21789,20 @@ msgstr ""
 
 msgid "Invalid host name given!"
 msgstr "Nom d’hôte incorrect !"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "Source de traduction automatique"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr ""
+"La traduction automatique a été ignorée parce que la cible n’existe plus."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -25426,9 +25552,6 @@ msgstr "La source a été retirée."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "Trie le fichier de propriétés Java."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "Source de traduction automatique"
-
 #~ msgid "Ask for libre project hosting"
 #~ msgstr "Demander l’hébergement d’un projet libre"
 
@@ -28188,9 +28311,6 @@ msgstr "La source a été retirée."
 
 #~ msgid "Indonesian"
 #~ msgstr "Indonésien"
-
-#~ msgid "Occidental"
-#~ msgstr "Occidental"
 
 #~ msgid "Igbo"
 #~ msgstr "Igbo"
