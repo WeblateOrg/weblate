@@ -121,8 +121,12 @@ determines the masks. When either limit is exceeded, discovery does not create
 or remove components.
 
 When configuring the add-on, Weblate also suggests presets detected from the
-repository. If this detection reaches a resource limit, Weblate warns that the
-suggestions might be incomplete. You can enter the configuration manually.
+repository. Preset detection analyzes at most 4,096 distinct results with file
+masks no longer than 512 characters or 16 path segments. It samples groups of
+more than 128 compatible results and limits itself to 8,192 comparisons, 50
+presets, and eight examples per preset. If a limit omits results or comparisons,
+Weblate warns that suggestions might be incomplete. You can enter the
+configuration manually.
 
 .. _webhook-response-limits:
 
