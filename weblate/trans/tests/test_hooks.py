@@ -1708,6 +1708,8 @@ class HooksViewTest(ReusableViewTestCase):
             ("gitlab", GITLAB_PAYLOAD, {}),
             ("pagure", PAGURE_PAYLOAD, {}),
         ]
+        regular = self.component
+        integrated = self.create_po(name="Integrated", project=self.project)
 
         for service, payload, headers in hook_cases:
             with self.subTest(service=service):
@@ -1718,13 +1720,8 @@ class HooksViewTest(ReusableViewTestCase):
                 repo = service_data["repos"][0]
                 branch = service_data["branch"] or "main"
 
-                integrated = self.create_po(
-                    name=f"Integrated {service}", project=self.project
-                )
-                regular = self.create_po(
-                    name=f"Regular {service}", project=self.project
-                )
                 for component, vcs in ((integrated, "github-app"), (regular, "git")):
+                    component.change_set.filter(action=ActionEvents.HOOK).delete()
                     type(component).objects.filter(pk=component.pk).update(
                         repo=repo, vcs=vcs, branch=branch
                     )
