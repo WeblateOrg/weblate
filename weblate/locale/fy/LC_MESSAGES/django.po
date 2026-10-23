@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-16 04:34+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1392,6 +1392,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "Boarnewiziging"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr ""
 
@@ -1836,6 +1841,11 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "Oersettingslisinsje"
 
 msgid "JavaScript localization CDN"
 msgstr ""
@@ -4784,6 +4794,9 @@ msgstr "C-formaat"
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
+msgstr ""
+
+msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 msgid "Workspace"
@@ -8339,6 +8352,33 @@ msgstr "des"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Oersettingslisinsje"
 
+#, fuzzy
+#| msgid "Occitan"
+msgid "Confidential"
+msgstr "Occitaansk"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Authorization code"
+msgstr "Oare oersettings"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Read your e-mail address"
+msgstr "Brûkersnamme of e-mail"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr ""
 
@@ -10133,6 +10173,9 @@ msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
 
 msgid "The localizable elements have to match configured CSS selector."
+msgstr ""
+
+msgid "Available languages and translation files are listed in the manifest:"
 msgstr ""
 
 #, fuzzy
@@ -13435,6 +13478,23 @@ msgstr "Nije oersetting"
 msgid "You don't have permission to start a new translation"
 msgstr "Nije oersetting yn %(translation)s"
 
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Authorize application"
+msgstr "Masjineoersetting"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "Namme auteur"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr ""
 
@@ -15652,6 +15712,17 @@ msgid ""
 "changes manually or set up hooks to automate this."
 msgstr ""
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "Ferzjebehearsysteem"
 
@@ -16010,6 +16081,11 @@ msgid "Translation to remove"
 msgstr "Oersettingslisinsje"
 
 msgid "The detected file format is not supported."
+msgstr ""
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
 msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
@@ -18283,6 +18359,11 @@ msgid "Glossary using monolingual files."
 msgstr "Oersettingslisinsje"
 
 #, fuzzy
+#| msgid "Other translations"
+msgid "Restricted glossary is not used."
+msgstr "Oare oersettings"
+
+#, fuzzy
 #| msgid "Source change"
 msgid "Glossary string management is disabled"
 msgstr "Boarnewiziging"
@@ -18407,6 +18488,12 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 
 #, fuzzy, python-format
@@ -19293,6 +19380,17 @@ msgstr ""
 #| msgid "Status"
 msgid "Review state"
 msgstr "Status"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -21653,6 +21751,13 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] ""
 msgstr[1] ""
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Other translations"
 msgid "Unmark as untranslatable for all languages"
@@ -22844,9 +22949,6 @@ msgid_plural "languages"
 msgstr[0] "Talen"
 msgstr[1] "Talen"
 
-msgid "No valid billing found or limit exceeded."
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation license"
 msgid "The project is already assigned to this workspace."
@@ -22876,6 +22978,19 @@ msgid "Borg completed with warnings without any output."
 msgstr ""
 
 msgid "Invalid host name given!"
+msgstr ""
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Automatic translation reported a warning."
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Automatic translation failed. See the task log for details."
+msgstr "Masjineoersetting"
+
+msgid "Task could not be completed. See the task log for details."
 msgstr ""
 
 #. Translators: Name of a color
@@ -25567,11 +25682,6 @@ msgstr "Oersettingslisinsje"
 #~ msgstr "Javaansk"
 
 #, fuzzy
-#~| msgid "Machine translation"
-#~ msgid "Automatic translation source"
-#~ msgstr "Masjineoersetting"
-
-#, fuzzy
 #~| msgid "Source change"
 #~ msgid "Age of string"
 #~ msgstr "Boarnewiziging"
@@ -26717,11 +26827,6 @@ msgstr "Oersettingslisinsje"
 
 #~ msgid "Indonesian"
 #~ msgstr "Yndonezysk"
-
-#, fuzzy
-#~| msgid "Occitan"
-#~ msgid "Occidental"
-#~ msgstr "Occitaansk"
 
 #~ msgid "Igbo"
 #~ msgstr "Igbo"

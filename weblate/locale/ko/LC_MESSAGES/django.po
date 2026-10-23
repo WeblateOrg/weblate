@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-15 21:46-0500\n"
+"POT-Creation-Date: 2026-10-22 19:01-0500\n"
 "PO-Revision-Date: 2026-10-18 18:13+0000\n"
 "Last-Translator: justcontributor <kty5663@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -1210,6 +1210,11 @@ msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "미완료 작업 현황"
 
+msgid ""
+"This sign-in request has expired or changed. Start signing in again from the "
+"application."
+msgstr ""
+
 msgid "This password consists of only whitespace."
 msgstr "이 비밀번호는 공백으로만 이루어져 있습니다."
 
@@ -1636,6 +1641,11 @@ msgid ""
 msgstr ""
 "저장소가 오래되었습니다. 업데이트할 때까지 원하는 결과를 얻지 못할 수 있습니"
 "다."
+
+#, fuzzy
+#| msgid "The translation files CDN add-on cannot publish weblate.js."
+msgid "The CDN add-on cannot publish a translation as manifest.json."
+msgstr "번역 파일 CDN 애드온이 weblate.js을 배포하지 못했습니다."
 
 msgid "JavaScript localization CDN"
 msgstr "자바스크립트 현지화 CDN"
@@ -4281,6 +4291,9 @@ msgstr "체험 기간 시작됨."
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+
+msgid "No valid billing found or limit exceeded."
+msgstr "유효한 결제를 찾을 수 없거나 한도를 초과했습니다."
 
 msgid "Workspace"
 msgstr "작업공간"
@@ -7374,6 +7387,33 @@ msgstr "12월"
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s 번역은 현재 사용할 수 없지만 추가할 수 있습니다."
 
+#, fuzzy
+#| msgid "Occitan"
+msgid "Confidential"
+msgstr "오크어"
+
+#, fuzzy
+#| msgid "Activation token"
+msgid "Authorization code"
+msgstr "활성화 토큰"
+
+msgid "RSA with SHA-256"
+msgstr ""
+
+msgid "Identify your account"
+msgstr ""
+
+msgid "Read your name and username"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Read your e-mail address"
+msgstr "계정 이메일 주소 사용"
+
+msgid "Read the version of the legal documents you accepted"
+msgstr ""
+
 msgid "Image is too big."
 msgstr "이미지가 너무 큽니다."
 
@@ -9050,6 +9090,9 @@ msgstr "CDN에서 현지화를 로드하려면 다음 스니펫을 포함하세�
 
 msgid "The localizable elements have to match configured CSS selector."
 msgstr "현지화 가능한 요소는 구성된 CSS 선택기와 일치해야 합니다."
+
+msgid "Available languages and translation files are listed in the manifest:"
+msgstr ""
 
 msgid "Guided presets"
 msgstr "가이드 프리셋"
@@ -11983,6 +12026,23 @@ msgstr "새 번역 요청"
 msgid "You don't have permission to start a new translation"
 msgstr "새 번역을 시작할 권한이 없습니다"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize application"
+msgstr "인증"
+
+#, python-format
+msgid "Allow %(application)s to access your account?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author name"
+msgid "Authorize"
+msgstr "작성자 이름"
+
+msgid "Deny"
+msgstr ""
+
 msgid "Click to edit position"
 msgstr "클릭하여 위치 편집"
 
@@ -14047,6 +14107,17 @@ msgstr ""
 "VCS 저장소가 업스트림과 최신 상태가 아닙니다. 수동으로 병합하거나 훅을 설정하"
 "여 자동화하세요."
 
+msgid ""
+"Restricted components are not used as glossaries. Their terms are not shown "
+"in other components, included in quality checks, or sent to translation "
+"services."
+msgstr ""
+
+msgid ""
+"Remove restricted access to use this glossary project-wide, or disable ‘Use "
+"as a glossary’ to keep it as an ordinary restricted component."
+msgstr ""
+
 msgid "Version control system"
 msgstr "버전 관리 시스템"
 
@@ -14404,6 +14475,11 @@ msgstr "제거할 번역"
 
 msgid "The detected file format is not supported."
 msgstr "감지된 파일 형식은 지원되지 않습니다."
+
+msgid ""
+"Translation discovery reached a resource limit. Results might be incomplete. "
+"You can configure missing translation files manually."
+msgstr ""
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "병합 충돌 해결을 위한 일반적인 워크플로"
@@ -16409,6 +16485,11 @@ msgid "Glossary using monolingual files."
 msgstr "단일 언어 파일을 사용하는 용어집."
 
 #, fuzzy
+#| msgid "Repository rebase failed"
+msgid "Restricted glossary is not used."
+msgstr "저장소 리베이스 실패함"
+
+#, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
 msgstr "원문 문자열 편집이 비활성화되어 있습니다."
@@ -16510,6 +16591,19 @@ msgid ""
 "Plural forms in %(component)s do not match the target translation. Automatic "
 "translation skipped pluralized strings and processed only single-form "
 "strings."
+msgstr ""
+"%(component)s의 복수형이 대상 번역과 일치하지 않습니다. 자동 번역에서 복수형 "
+"문자열을 건너뛰고 단수형 문자열만 처리했습니다."
+
+#, fuzzy
+#| msgid ""
+#| "Plural forms in %(component)s do not match the target translation. "
+#| "Automatic translation skipped pluralized strings and processed only "
+#| "single-form strings."
+msgid ""
+"Plural forms in some source components do not match the target translation. "
+"Automatic translation skipped pluralized strings and processed only single-"
+"form strings."
 msgstr ""
 "%(component)s의 복수형이 대상 번역과 일치하지 않습니다. 자동 번역에서 복수형 "
 "문자열을 건너뛰고 단수형 문자열만 처리했습니다."
@@ -17305,6 +17399,17 @@ msgstr ""
 
 msgid "Review state"
 msgstr "검토 상태"
+
+msgid "The original review state is missing. Reload the editor and try again."
+msgstr ""
+
+msgid "The original review state is invalid. Reload the editor and try again."
+msgstr ""
+
+msgid ""
+"This review state is not available for this string. Reload the editor and "
+"select an available state."
+msgstr ""
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "문자열의 의미나 용도를 명확히 하기 위한 추가 설명입니다."
@@ -19439,6 +19544,13 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "문자열을 %d개 구성요소로 전파할 수 없습니다."
 
+#, python-format
+msgid ""
+"The review state of this string has changed from %(previous)s to %(current)s "
+"while you were editing it. Reload the editor and review your changes before "
+"saving."
+msgstr ""
+
 #, fuzzy
 #| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
@@ -20514,9 +20626,6 @@ msgid "language"
 msgid_plural "languages"
 msgstr[0] "언어"
 
-msgid "No valid billing found or limit exceeded."
-msgstr "유효한 결제를 찾을 수 없거나 한도를 초과했습니다."
-
 msgid "The project is already assigned to this workspace."
 msgstr "프로젝트가 이미 이 작업공간에 할당되어 있습니다."
 
@@ -20537,6 +20646,19 @@ msgstr "Borg가 출력 없이 경고와 함께 완료되었습니다."
 
 msgid "Invalid host name given!"
 msgstr "잘못된 호스트 이름입니다!"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported a warning."
+msgstr "자동 번역 원본"
+
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Automatic translation failed. See the task log for details."
+msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
+
+msgid "Task could not be completed. See the task log for details."
+msgstr ""
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -23971,9 +24093,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Sorts the Java properties file."
 #~ msgstr "자바 속성 파일을 정렬합니다."
 
-#~ msgid "Automatic translation source"
-#~ msgstr "자동 번역 원본"
-
 #, fuzzy
 #~| msgid "Ask for project hosting"
 #~ msgid "Ask for libre project hosting"
@@ -26607,11 +26726,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Indonesian"
 #~ msgstr "인도네시아어"
-
-#, fuzzy
-#~| msgid "Occitan"
-#~ msgid "Occidental"
-#~ msgstr "오크어"
 
 #~ msgid "Igbo"
 #~ msgstr "이그보어"
