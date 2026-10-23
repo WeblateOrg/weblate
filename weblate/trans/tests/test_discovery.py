@@ -20,8 +20,12 @@ from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate.auth.models import User
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
+    MAX_DETECTED_PRESETS,
+    MAX_PRESET_COMPARISONS,
     ComponentDiscovery,
+    DetectedDiscoveryPreset,
     build_detected_discovery_preset,
+    detect_discovery_presets_from_results,
     get_component_detected_discovery_presets,
     get_detected_discovery_preset_values_key,
     get_detected_discovery_presets_from_results,
@@ -1107,6 +1111,90 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             presets[0]["values"]["base_file_template"],
             "{{ component }}/values/strings.xml",
         )
+
+    def test_detected_presets_bound_large_compatible_group(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"component-{index:04d}/*.po"
+            )
+            for index in range(4096)
+        ]
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            return_value=None,
+        ) as build:
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(build.call_count, 8128)
+        self.assertLess(build.call_count, MAX_PRESET_COMPARISONS)
+        self.assertEqual(detected.presets, [])
+        self.assertTrue(detected.truncated)
+
+    def test_detected_presets_share_comparison_budget_across_groups(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"{group}/{group}/component-{index:03d}/*.po"
+            )
+            for group in ("early", "late")
+            for index in range(128)
+        ]
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            return_value=None,
+        ) as build:
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(build.call_count, MAX_PRESET_COMPARISONS)
+        self.assertTrue(detected.truncated)
+        first_groups = {
+            call_args.args[0]["filemask"].split("/", 1)[0]
+            for call_args in build.call_args_list[:2]
+        }
+        self.assertEqual(first_groups, {"early", "late"})
+
+    def test_detected_presets_warn_when_mask_is_too_long(self) -> None:
+        detected = detect_discovery_presets_from_results(
+            [
+                self.make_discovery_result(
+                    file_format="po", filemask=f"{'long' * 128}/*.po"
+                )
+            ]
+        )
+
+        self.assertEqual(detected.presets, [])
+        self.assertTrue(detected.truncated)
+
+    def test_detected_presets_limit_output(self) -> None:
+        results = [
+            self.make_discovery_result(
+                file_format="po", filemask=f"component-{index:03d}/*.po"
+            )
+            for index in range(12)
+        ]
+        example = build_detected_discovery_preset(results[0], results[1])
+        self.assertIsNotNone(example)
+        if example is None:
+            self.fail("Expected a detected preset")
+
+        def build_unique(
+            first: DiscoveryResult, second: DiscoveryResult
+        ) -> DetectedDiscoveryPreset:
+            return {
+                "examples": (first["filemask"], second["filemask"]),
+                "values": {
+                    **example["values"],
+                    "match": f"{first['filemask']}:{second['filemask']}",
+                },
+            }
+
+        with patch(
+            "weblate.trans.discovery.build_detected_discovery_preset",
+            side_effect=build_unique,
+        ):
+            detected = detect_discovery_presets_from_results(results)
+
+        self.assertEqual(len(detected.presets), MAX_DETECTED_PRESETS)
+        self.assertTrue(detected.truncated)
 
     def test_detected_presets_preserve_language_regex(self) -> None:
         first = self.make_discovery_result(

@@ -883,8 +883,8 @@ repository size, project count, component count, and translation volume, Weblate
 does not claim a fixed universal resource ceiling independent of deployment
 capacity. *(maintainer)*
 
-Component discovery bounds repository traversal and file-mask matching work
-even when repository content controls the masks; see
+Component discovery bounds repository traversal, file-mask matching, and
+detected-preset comparison work even when repository content controls the masks; see
 :ref:`component discovery limits <component-discovery-limits>`. *(maintainer)*
 
 Security properties Weblate does not provide

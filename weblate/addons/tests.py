@@ -7564,6 +7564,24 @@ class DiscoveryTest(ReusableViewTestCase):
                         )
                     self.assertEqual(mocked.call_count, 1 if results else 2)
 
+    def test_discovery_page_warns_about_preset_analysis_limit(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        results = DiscoveryResults(
+            [DiscoveryResult({"file_format": "po", "filemask": f"{'long' * 128}/*.po"})]
+        )
+        with patch("weblate.trans.discovery.discover", return_value=results):
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {"name": "weblate.discovery.discovery"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response, "Translation discovery reached a resource limit.", count=1
+        )
+        self.assertContains(response, "Generic presets")
+
     def test_discovery_page_renders_detected_ui_presets(self) -> None:
         self.user.is_superuser = True
         self.user.save()
