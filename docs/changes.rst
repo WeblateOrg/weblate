@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Translation service installations have a :ref:`Logs tab <machinery-error-log>` showing provider errors, including rate limits.
+
 * Added :ref:`workspace translation propagation scopes <workspace-propagation-scope>` for sharing translations across projects or components with matching names.
 
 * Added :ref:`CDN manifests <cdn-manifest>` listing available languages and translation files with checksums and sizes.

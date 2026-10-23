@@ -1,40 +1,8 @@
-{% extends "base.html" %}
+{% extends "machinery/base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations %}
+{% load crispy_forms_tags i18n icons translations %}
 
-{% block breadcrumbs %}
-  {% if project %}
-    <li class="breadcrumb-item">
-      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Translation services" %}</a>
-    </li>
-  {% elif workspace %}
-    <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Translation services" %}</a></li>
-  {% else %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage-machinery' %}">{% translate "Translation services" %}</a>
-    </li>
-  {% endif %}
-  <li class="breadcrumb-item"><a href="{{ service.get_absolute_url }}">{{ service.name }}</a></li>
-{% endblock breadcrumbs %}
-
-{% block content %}
-  <h4>
-    {{ service.name }}
-    {% if service.is_available %}
-      {% documentation_icon 'admin/machine' service.doc_anchor %}
-    {% endif %}
-  </h4>
-  {% if not service.is_available %}
-    <p class="help-block">{% translate "Service is no longer available" %}</p>
-  {% endif %}
-
+{% block machinery_content %}
   {% if machinery_sends_data_to_third_party and service.is_available %}
     <div class="alert alert-warning" role="alert">
       {% translate "This service can send source strings, translations, and related context to a third-party provider. Review the provider's terms and privacy policy before enabling it." %}
@@ -52,6 +20,7 @@
       {% if management_url %}
         <div class="card-footer">
           <a class="btn btn-primary" href="{{ management_url }}">{% translate "Manage this installation" %}</a>
+          <a class="btn btn-primary" href="{{ management_logs_url }}">{% translate "Logs" %}</a>
         </div>
       {% endif %}
     </div>
@@ -234,4 +203,4 @@
       <button type="submit" name="install" value="1" class="btn btn-primary">{% translate "Install" %}</button>
     </form>
   {% endif %}
-{% endblock content %}
+{% endblock machinery_content %}

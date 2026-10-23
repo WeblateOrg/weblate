@@ -790,6 +790,23 @@ real_patterns = [
         weblate.machinery.views.EditMachineryProjectView.as_view(),
         name="machinery-edit",
     ),
+    path(
+        "manage/machinery/<int:machinery>/logs/",
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.MachineryLogsGlobalView.as_view()
+        ),
+        name="machinery-logs",
+    ),
+    path(
+        "machinery/workspace/<uuid:workspace>/<int:machinery>/logs/",
+        weblate.machinery.views.MachineryLogsWorkspaceView.as_view(),
+        name="machinery-logs",
+    ),
+    path(
+        "machinery/<name:project>/<int:machinery>/logs/",
+        weblate.machinery.views.MachineryLogsProjectView.as_view(),
+        name="machinery-logs",
+    ),
     # Languages browsing
     path("languages/", weblate.lang.views.show_languages, name="languages"),
     path(

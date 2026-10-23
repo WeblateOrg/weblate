@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  {% if project %}
+    <li class="breadcrumb-item">
+      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Translation services" %}</a>
+    </li>
+  {% elif workspace %}
+    <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Translation services" %}</a></li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-machinery' %}">{% translate "Translation services" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item"><a href="{{ service.get_absolute_url }}">{{ service.name }}</a></li>
+{% endblock breadcrumbs %}
+
+{% block nav_pills %}
+  {% if logs_url %}
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link{% if machinery_page == "configuration" %} active{% endif %}"
+           {% if machinery_page == "configuration" %}aria-current="page"{% endif %}
+           href="{{ service.get_absolute_url }}">{% translate "Configuration" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link{% if machinery_page == "logs" %} active{% endif %}"
+           {% if machinery_page == "logs" %}aria-current="page"{% endif %}
+           href="{{ logs_url }}">{% translate "Logs" %}</a>
+      </li>
+    </ul>
+  {% endif %}
+{% endblock nav_pills %}
+
+{% block content %}
+  <h4>
+    {{ service.name }}
+    {% if service.is_available %}
+      {% documentation_icon 'admin/machine' service.doc_anchor %}
+    {% endif %}
+  </h4>
+  {% if not service.is_available %}
+    <p class="help-block">{% translate "Service is no longer available" %}</p>
+  {% endif %}
+
+  {% block machinery_content %}
+  {% endblock machinery_content %}
+{% endblock content %}
