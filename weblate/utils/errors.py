@@ -89,7 +89,7 @@ def report_error(
                 (type(error), error, error.__traceback__), level=level
             )
 
-        if settings.SENTRY_DSN:
+        if getattr(settings, "SENTRY_DSN", None):
             sentry_sdk = get_sentry_sdk()
             sentry_sdk.set_tag("cause", cause)
             if project is not None:
