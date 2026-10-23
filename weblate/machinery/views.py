@@ -33,6 +33,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.models import (
     MACHINERY,
+    MachineryError,
     MachineryExclusion,
     MachineryInstallation,
     applicable_installations,
@@ -41,7 +42,7 @@ from weblate.machinery.models import (
 from weblate.trans.formatting import format_language_string
 from weblate.trans.models import Project, Unit
 from weblate.utils.errors import report_error
-from weblate.utils.views import parse_path
+from weblate.utils.views import get_paginator, parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
 
 if TYPE_CHECKING:
@@ -296,7 +297,9 @@ class MachineryConfiguration:
             return None
         return "workspace" if self.installation.workspace_id is not None else "site"
 
-    def get_management_url(self, user: User | AnonymousUser) -> str | None:
+    def get_management_url(
+        self, user: User | AnonymousUser, viewname: str = "machinery-edit"
+    ) -> str | None:
         if not self.installation or not self.inherited_scope:
             return None
         workspace = self.installation.workspace
@@ -310,15 +313,18 @@ class MachineryConfiguration:
             self.configuration,
             installation=self.installation,
             workspace=workspace,
-        ).get_absolute_url()
+        ).get_url(viewname)
 
     def get_absolute_url(self) -> str:
+        return self.get_url("machinery-edit")
+
+    def get_url(self, viewname: str) -> str:
         kwargs = {"machinery": self.id}
         if self.project:
             kwargs["project"] = self.project.slug
         if self.workspace:
             kwargs["workspace"] = self.workspace.pk
-        return reverse("machinery-edit", kwargs=kwargs)
+        return reverse(viewname, kwargs=kwargs)
 
 
 class ListMachineryView(MachineryMixin, TemplateView):
@@ -392,15 +398,17 @@ class ListMachineryWorkspaceView(MachineryWorkspaceMixin, ListMachineryView):
         return result
 
 
-class EditMachineryView(MachineryMixin, FormView):
-    template_name = "machinery/edit.html"
+class MachineryDetailView(MachineryMixin, TemplateView):
+    """Resolve an installation and enforce the permissions of its viewing scope."""
 
+    request: AuthenticatedHttpRequest
+    machinery_page: str
     machinery: DeprecatedMachinery | type[BatchMachineTranslation]
     workspace: Any
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
-        identifier = kwargs["machinery"]
+        identifier = str(kwargs["machinery"])
         self.installation = (
             get_object_or_404(MachineryInstallation, pk=identifier)
             if identifier.isdecimal()
@@ -466,6 +474,50 @@ class EditMachineryView(MachineryMixin, FormView):
             is_configured=False,
         )
 
+    def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
+        return
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
+        if self.project is not None:
+            permitted = request.user.has_perm("project.edit", self.project)
+        elif self.workspace is not None:
+            permitted = request.user.has_perm("workspace.edit", self.workspace)
+        else:
+            permitted = request.user.has_perm("machinery.edit")
+        if not permitted:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["machinery_id"] = self.machinery.get_identifier()
+        result["machinery_name"] = self.machinery.name
+        result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
+        result["machinery_sends_data_to_third_party"] = (
+            self.machinery.sends_data_to_third_party
+        )
+        result["machinery_page"] = self.machinery_page
+        result["service"] = self.service
+        result["management_url"] = self.service.get_management_url(self.request.user)
+        result["installation"] = self.installation
+        result["project"] = self.project
+        result["workspace"] = self.workspace
+        result["logs_url"] = None
+        result["management_logs_url"] = None
+        if self.installation:
+            if self.service.can_delete:
+                result["logs_url"] = self.service.get_url("machinery-logs")
+            elif result["management_url"]:
+                result["management_logs_url"] = self.service.get_management_url(
+                    self.request.user, "machinery-logs"
+                )
+        return result
+
+
+class EditMachineryView(MachineryDetailView, FormView):
+    template_name = "machinery/edit.html"
+    machinery_page = "configuration"
+
     def get_form(self, form_class=None):
         if not self.service.has_settings or not self.machinery.is_available:
             return None
@@ -499,20 +551,6 @@ class EditMachineryView(MachineryMixin, FormView):
         ):
             return self.installation.configuration
         return {}
-
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
-        result["machinery_id"] = self.machinery.get_identifier()
-        result["machinery_name"] = self.machinery.name
-        result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
-        result["machinery_sends_data_to_third_party"] = (
-            self.machinery.sends_data_to_third_party
-        )
-        result["service"] = self.service
-        result["management_url"] = self.service.get_management_url(self.request.user)
-        result["installation"] = self.installation
-        result["workspace"] = self.workspace
-        return result
 
     def install_service(self) -> None:
         self.save_settings({})
@@ -630,11 +668,6 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
             self.installation.enabled = True
             self.installation.save(update_fields=["enabled"])
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if not request.user.has_perm("machinery.edit"):
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
-
 
 def enable_inherited_installation(
     installation: MachineryInstallation,
@@ -712,20 +745,6 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
             project=self.project, engine=self.machinery_id
         )
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
-        super().setup(request, *args, **kwargs)
-        self.project = parse_path(request, [kwargs["project"]], (Project,))
-
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
-        result["project"] = self.project
-        return result
-
 
 class EditMachineryWorkspaceView(MachineryWorkspaceMixin, EditMachineryView):
     @property
@@ -776,10 +795,36 @@ class EditMachineryWorkspaceView(MachineryWorkspaceMixin, EditMachineryView):
             workspace=self.workspace, engine=self.machinery_id
         )
 
-    def dispatch(self, request: HttpRequest, *args, **kwargs):
-        if not request.user.has_perm("workspace.edit", self.workspace):
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
+
+class MachineryLogsView(MachineryDetailView):
+    template_name = "machinery/logs.html"
+    machinery_page = "logs"
+    http_method_names = ("get", "head", "options")
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        if not self.service.can_delete:
+            raise Http404
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["machinery_errors"] = get_paginator(
+            self.request,
+            MachineryError.objects.filter(installation=self.installation),
+        )
+        return result
+
+
+class MachineryLogsGlobalView(MachineryGlobalMixin, MachineryLogsView):
+    pass
+
+
+class MachineryLogsProjectView(MachineryProjectMixin, MachineryLogsView):
+    pass
+
+
+class MachineryLogsWorkspaceView(MachineryWorkspaceMixin, MachineryLogsView):
+    pass
 
 
 def format_string_helper(

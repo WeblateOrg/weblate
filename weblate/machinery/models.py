@@ -11,13 +11,14 @@ from appconf import AppConf
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy
 
 from weblate.utils.classloader import ClassRegistry
 
 from .base import BatchMachineTranslation
-from .defaults import DEFAULT_WEBLATE_MACHINERY
+from .defaults import DEFAULT_MACHINERY_ERROR_KEEP_DAYS, DEFAULT_WEBLATE_MACHINERY
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
@@ -42,6 +43,7 @@ class WeblateConf(AppConf):
 
     # List of machinery classes
     WEBLATE_MACHINERY = DEFAULT_WEBLATE_MACHINERY
+    MACHINERY_ERROR_KEEP_DAYS = DEFAULT_MACHINERY_ERROR_KEEP_DAYS
 
     class Meta:
         prefix = ""
@@ -185,6 +187,26 @@ class MachineryInstallation(models.Model):
     @property
     def selector(self) -> str:
         return f"{self.engine}:{self.id}"
+
+
+class MachineryError(models.Model):
+    """An operational error belonging to one translation service installation."""
+
+    installation = models.ForeignKey(MachineryInstallation, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+    error = models.TextField()
+
+    class Meta:
+        # ruff: ignore[mutable-class-default]
+        ordering = ["-timestamp", "-pk"]
+        indexes = [  # ruff: ignore[mutable-class-default]
+            models.Index(fields=["installation", "-timestamp", "-id"])
+        ]
+        verbose_name = "machinery error"
+        verbose_name_plural = "machinery errors"
+
+    def __str__(self) -> str:
+        return f"{self.installation_id}: {self.timestamp}"
 
 
 class MachineryExclusionQuerySet(models.QuerySet["MachineryExclusion"]):

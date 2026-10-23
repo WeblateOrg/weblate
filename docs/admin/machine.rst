@@ -52,6 +52,21 @@ does not reset the provider's quota; another provider error can apply the
 cooldown again. Inherited installations show the status, but their cooldown
 cannot be reset from a consuming workspace or project.
 
+.. _machinery-error-log:
+
+The :guilabel:`Logs` tab on an installation's detail page lists errors from
+fetching supported languages, translations, and rephrased suggestions, including
+provider rate limits. Logs belong to the installation, including when it is used
+by inheriting projects. Only administrators who can manage the installation at
+its owning scope can read its logs. Inherited services link to these logs when
+you have the required permission.
+
+Messages retain provider diagnostics with URLs and configured secrets redacted.
+Providers can echo translation content in their messages, so logs can still
+contain source strings or translations. Errors are kept for 30 days by default;
+configure :setting:`MACHINERY_ERROR_KEEP_DAYS` to change retention. Old entries
+are removed daily. Removing an installation also removes its logs.
+
 Every installation has a numeric ID and can have an optional slug. Select one
 installation in automatic translation, Automation, or AI review with
 ``service:id`` or ``service:slug``. A bare service name is accepted when only
