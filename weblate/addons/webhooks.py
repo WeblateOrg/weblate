@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.addons.models import AddonActivityLog
+    from weblate.auth.models import User
     from weblate.trans.models import Change
 
     PayloadType = Mapping[str, int | str | list["PayloadType"] | "PayloadType"]
@@ -177,6 +178,11 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
     settings_form = WebhooksAddonForm
 
+    def get_integration_instructions(self, user: User) -> str:
+        return render_to_string(
+            "addons/webhook_integration.html", {"addon": self, "user": user}
+        )
+
     def build_webhook_payload(self, change: Change) -> PayloadType:
         """Build a Schema-valid payload from change event."""
         data: dict[str, int | str | list] = {
@@ -284,6 +290,11 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
     version_added = "5.12"
+
+    def get_integration_instructions(self, user: User) -> str:
+        return render_to_string(
+            "addons/slack_integration.html", {"addon": self, "user": user}
+        )
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""

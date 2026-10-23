@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, ClassVar
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
+from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.cdn import CDNBaseAddon
@@ -18,12 +19,12 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.kotlin_sdk.api import get_api_urls
 from weblate.kotlin_sdk.publication import Publication
-from weblate.utils.forms import ContextDiv
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
     from django.urls.resolvers import URLPattern
 
+    from weblate.auth.models import User
     from weblate.trans.models import Component, Translation
 
 
@@ -54,30 +55,6 @@ class KotlinSDKForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(Field("maximum_age"), Field("maximum_versions"))
-        if self.is_bound and self._addon.instance.pk:
-            component = self._addon.instance.component
-            if component is not None:
-                component_path = "%2F".join(component.get_url_path()[1:])
-                snippet = (
-                    "weblate {\n"
-                    f'    serverUrl = "{get_site_url()}"\n'
-                    f'    cdnUrl = "{self._addon.cdn_base_url}"\n'
-                    '    authToken = "INSERT_TOKEN_HERE"\n'
-                    f'    project = "{component.project.slug}"\n'
-                    f'    component = "{component_path}"\n'
-                    "}"
-                )
-                self.helper.layout.insert(
-                    0,
-                    ContextDiv(
-                        template="addons/kotlin.html",
-                        context={
-                            "snippet": snippet,
-                            "project": component.project,
-                            "user": self.user,
-                        },
-                    ),
-                )
 
 
 class KotlinSDKAddon(CDNBaseAddon):
@@ -98,6 +75,25 @@ class KotlinSDKAddon(CDNBaseAddon):
         AddonEvent.EVENT_COMPONENT_UPDATE,
         AddonEvent.EVENT_DAILY,
     }
+
+    def get_integration_instructions(self, user: User) -> str:
+        component = self.instance.component
+        if not self.instance.pk or component is None:
+            return ""
+        component_path = "%2F".join(component.get_url_path()[1:])
+        snippet = (
+            "weblate {\n"
+            f'    serverUrl = "{get_site_url()}"\n'
+            f'    cdnUrl = "{self.cdn_base_url}"\n'
+            '    authToken = "INSERT_TOKEN_HERE"\n'
+            f'    project = "{component.project.slug}"\n'
+            f'    component = "{component_path}"\n'
+            "}"
+        )
+        return render_to_string(
+            "addons/kotlin.html",
+            {"snippet": snippet, "project": component.project, "user": user},
+        )
 
     @classmethod
     def get_api_urls(cls) -> tuple[URLPattern, ...]:

@@ -1,0 +1,10 @@
+{% load i18n translations %}
+
+<p>{% translate "Configure the AMQP broker connection below, including any TLS certificates required by your broker, and select the events to publish." %}</p>
+<p>{% translate "Configure your consumer to subscribe to Weblate message topics:" %}</p>
+<pre><code>weblate.&lt;action&gt;.&lt;project&gt;.&lt;category…&gt;.&lt;component&gt;.&lt;translation&gt;</code></pre>
+<p>{% translate "Topics include only the path segments available for the event. If you configure a topic prefix, it is prepended with a dot separator." %}</p>
+<p>
+  {% translate "See the add-on documentation for topic examples, the message schema, and consumer configuration." %}
+  {% documentation_icon 'admin/addons' addon.doc_anchor %}
+</p>

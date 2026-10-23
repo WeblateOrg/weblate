@@ -72,7 +72,6 @@ if TYPE_CHECKING:
         AutoTranslateAddonStoredConfiguration,
     )
     from weblate.addons.cdn import (  # ruff: ignore[unused-import]
-        CDNFilesAddon,
         CDNJSAddon,
     )
     from weblate.addons.consistency import (
@@ -1690,18 +1689,6 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             Field("cookie_name"),
             Field("files"),
         )
-        if self.is_bound and self._addon.instance.pk:
-            self.helper.layout.insert(
-                0,
-                ContextDiv(
-                    template="addons/cdnjs.html",
-                    context={
-                        "url": self._addon.cdn_js_url,
-                        "manifest_url": self._addon.cdn_manifest_url,
-                        "user": self.user,
-                    },
-                ),
-            )
 
     def clean_css_selector(self):
         try:
@@ -1732,25 +1719,6 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             raise forms.ValidationError(errors)
 
         return files
-
-
-class CDNFilesForm(BaseAddonForm[dict[str, object], "CDNFilesAddon"]):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        layout = []
-        if self.is_bound and self._addon.instance.pk:
-            layout.append(
-                ContextDiv(
-                    template="addons/cdnfiles.html",
-                    context={
-                        "url": self._addon.cdn_files_url,
-                        "manifest_url": self._addon.cdn_manifest_url,
-                        "user": self.user,
-                    },
-                )
-            )
-        self.helper.layout = Layout(*layout)
 
 
 class TranslationLanguageChoiceField(CachedModelChoiceField):

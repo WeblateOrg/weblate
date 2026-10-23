@@ -24,6 +24,7 @@ from weblate.utils.views import PathViewMixin, get_paginator
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+    from django.http import HttpResponseRedirect
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -331,7 +332,7 @@ class AddonList(PathViewMixin, ListView):
         )
         if form is None:
             try:
-                addon.create(
+                created = addon.create(
                     component=obj_component,
                     category=obj_category,
                     project=obj_project,
@@ -339,6 +340,8 @@ class AddonList(PathViewMixin, ListView):
                 )
             except ValidationError as error:
                 return self.redirect_list(" ".join(error.messages))
+            if addon.stay_on_create:
+                return self.redirect_installed(created.instance)
             return self.redirect_list()
 
         if "form" in request.POST and form.is_valid():
@@ -347,25 +350,32 @@ class AddonList(PathViewMixin, ListView):
             except ValidationError as error:
                 return self.redirect_list(" ".join(error.messages))
             if addon.stay_on_create:
-                messages.info(
-                    self.request,
-                    gettext(
-                        "Add-on installed, please review integration instructions."
-                    ),
-                )
-                return redirect(instance)
+                return self.redirect_installed(instance)
             return self.redirect_list()
 
         addon.pre_install(obj, request)
+        integration_addon = addon(
+            Addon(component=obj_component, category=obj_category, project=obj_project)
+        )
         return self.response_class(
             request=self.request,
             template=["addons/addon_detail.html"],
             context={
-                "addon": addon(Addon()),
+                "addon": integration_addon,
                 "form": form,
                 "object": self.path_object,
+                "integration_instructions": integration_addon.get_integration_instructions(
+                    request.user
+                ),
             },
         )
+
+    def redirect_installed(self, instance: Addon) -> HttpResponseRedirect:
+        messages.info(
+            self.request,
+            gettext("Add-on installed, please review integration instructions."),
+        )
+        return redirect(instance)
 
 
 class BaseAddonView(DetailView):
@@ -437,6 +447,9 @@ class AddonDetail(BaseAddonView, UpdateView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         if self.object.is_valid:
+            result["integration_instructions"] = (
+                self.object.addon.get_integration_instructions(self.request.user)
+            )
             execution_form = self.object.addon.get_execution_form()
             if execution_form is not None:
                 result.setdefault("execution_form", execution_form)
@@ -535,6 +548,8 @@ class AddonDetail(BaseAddonView, UpdateView):
             )
         if "run" in request.POST:
             return self.trigger_manual_run(request)
+        if not obj.addon.has_settings():
+            return redirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
 
 
