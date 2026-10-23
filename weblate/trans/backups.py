@@ -393,7 +393,7 @@ class ProjectBackup:
         # Relations are resolved separately from the archive graph. Fields absent
         # from older backup formats retain their model defaults without making an
         # otherwise compatible backup fail current validation. Empty values listed
-        # in allow_blank are synthesized later by the restore.
+        # in allow_blank are valid stored data or synthesized later by the restore.
         # ruff: ignore[private-member-access]
         field_exclude = {
             field.name
@@ -1517,7 +1517,8 @@ class ProjectBackup:
                 Unit,
                 item,
                 item_path,
-                allow_blank=frozenset({"details"}),
+                # File imports can store empty sources, including keyed strings.
+                allow_blank=frozenset({"details", "source"}),
                 exclude=frozenset(
                     {
                         "checks",

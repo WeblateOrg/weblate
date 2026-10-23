@@ -62,6 +62,7 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`projectbackup` imports rejecting strings with empty sources.
 * Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
 * Fixed initial installation of the :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`.
 * Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.
