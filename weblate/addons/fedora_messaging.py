@@ -21,6 +21,7 @@ from cryptography.hazmat.primitives import serialization
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
 from django.utils.translation import gettext, gettext_lazy
 from OpenSSL import SSL
 from siphashc import siphash
@@ -50,6 +51,7 @@ if TYPE_CHECKING:
     from weblate_schemas.messages import WeblateV1Message
 
     from weblate.addons.models import AddonActivityLog
+    from weblate.auth.models import User
     from weblate.trans.models import Category, Change, Component, Project
 
 
@@ -121,6 +123,11 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     )
     multiple = False
     version_added = "5.15"
+
+    def get_integration_instructions(self, user: User) -> str:
+        return render_to_string(
+            "addons/fedora_messaging_integration.html", {"addon": self, "user": user}
+        )
 
     @classmethod
     def can_install(

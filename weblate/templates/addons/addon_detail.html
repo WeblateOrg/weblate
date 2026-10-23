@@ -8,6 +8,15 @@
     {% include "addons/addon_head.html" with addon=addon hide_scope_badges=True %}
   {% endif %}
 
+  {% if integration_instructions %}
+    <section class="card" aria-labelledby="addon-integration-title">
+      <div class="card-header">
+        <h4 class="card-title" id="addon-integration-title">{% translate "Integration instructions" %}</h4>
+      </div>
+      <div class="card-body">{{ integration_instructions|safe }}</div>
+    </section>
+  {% endif %}
+
   {% if form %}
     <form method="post" id="addon-form">
       <div class="card">
@@ -32,7 +41,7 @@
         </div>
       </div>
     </form>
-  {% else %}
+  {% elif not integration_instructions %}
     <p class="help-block">{% translate "This add-on has no settings." %}</p>
   {% endif %}
 

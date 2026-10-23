@@ -10188,6 +10188,41 @@ class CDNJSAddonTest(ViewTestCase):
     def test_noconfigured(self) -> None:
         self.assertFalse(CDNJSAddon.can_install(component=self.component))
 
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_integration_instructions_separate_from_settings(self) -> None:
+        self.make_manager()
+        url = reverse("addons", kwargs=self.kw_component)
+        response = self.client.post(url, {"name": CDNJSAddon.name})
+        self.assertContains(response, 'id="addon-form"')
+        self.assertNotContains(response, "Integration instructions")
+
+        response = self.client.post(
+            url,
+            {
+                "name": CDNJSAddon.name,
+                "form": "1",
+                "threshold": 0,
+                "css_selector": ".l10n",
+                "files": "",
+                "cookie_name": "",
+            },
+        )
+        addon = self.component.addon_set.get(name=CDNJSAddon.name)
+        self.assertRedirects(response, addon.get_absolute_url())
+        response = self.client.post(addon.get_absolute_url(), {"threshold": 101})
+        self.assertTrue(response.context["form"].errors)
+        self.assertContains(response, CDNJSAddon(addon).cdn_js_url)
+        self.assertContains(response, CDNJSAddon(addon).cdn_manifest_url)
+        content = response.content.decode()
+        self.assertLess(
+            content.index('id="addon-integration-title"'),
+            content.index('id="addon-form"'),
+        )
+        self.assertLess(content.index("</section>"), content.index('id="addon-form"'))
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["threshold"], 0)
+
     def test_events(self) -> None:
         self.assertIn(AddonEvent.EVENT_POST_REMOVE, CDNJSAddon.events)
         self.assertIn(AddonEvent.EVENT_POST_UPDATE, CDNJSAddon.events)
@@ -10768,6 +10803,56 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertFalse(self.component.alert_set.filter(name="CDNAddonError").exists())
 
 
+class AddonIntegrationInstructionsTest(ViewTestCase):
+    def test_instructions_during_installation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        for addon_class, text in (
+            (WebhookAddon, "JSON POST requests"),
+            (SlackWebhookAddon, "incoming webhook in Slack"),
+            (FedoraMessagingAddon, "AMQP broker connection"),
+        ):
+            with self.subTest(addon=addon_class.name):
+                response = self.client.post(
+                    reverse("manage-addons"), {"name": addon_class.name}
+                )
+                self.assertContains(response, text)
+                self.assertContains(response, "Integration instructions", count=1)
+                content = response.content.decode()
+                self.assertLess(
+                    content.index('id="addon-integration-title"'),
+                    content.index('id="addon-form"'),
+                )
+
+    def test_instructions_with_invalid_settings(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        for addon_class in (WebhookAddon, SlackWebhookAddon, FedoraMessagingAddon):
+            with self.subTest(addon=addon_class.name):
+                addon = addon_class.create(
+                    acting_user=self.user,
+                    run=False,
+                    configuration={"webhook_url": "https://example.com/secret-hook"}
+                    if addon_class is not FedoraMessagingAddon
+                    else {"amqp_url": "amqp://user:secret-password@example.com"},
+                )
+                for response in (
+                    self.client.get(addon.instance.get_absolute_url()),
+                    self.client.post(addon.instance.get_absolute_url(), {"form": "1"}),
+                ):
+                    self.assertContains(response, "Integration instructions", count=1)
+                    content = response.content.decode()
+                    instructions = content.split('id="addon-integration-title"', 1)[
+                        1
+                    ].split("</section>", 1)[0]
+                    self.assertNotIn("secret-hook", instructions)
+                    self.assertNotIn("secret-password", instructions)
+                    self.assertLess(
+                        content.index("</section>"), content.index('id="addon-form"')
+                    )
+                self.assertTrue(response.context["form"].errors)
+
+
 class CDNFilesAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono()
@@ -10856,6 +10941,43 @@ class CDNFilesAddonTest(ViewTestCase):
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_files_url)
         self.assertContains(response, addon.cdn_manifest_url)
+        self.assertContains(response, "Integration instructions", count=1)
+        self.assertNotContains(response, 'id="addon-form"')
+        self.assertNotContains(response, 'value="Save"')
+        self.assertNotContains(response, "This add-on has no settings.")
+
+        before_changes = Change.objects.count()
+        response = self.client.post(addon.instance.get_absolute_url(), {"form": "1"})
+        self.assertRedirects(response, addon.instance.get_absolute_url())
+        self.assertEqual(Change.objects.count(), before_changes)
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration, {})
+
+        response = self.client.post(addon.instance.get_absolute_url(), {"delete": "1"})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Addon.objects.filter(pk=addon.instance.pk).exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_install_redirects_to_instructions(self) -> None:
+        self.make_manager()
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": CDNFilesAddon.name},
+        )
+        addon = self.component.addon_set.get(name=CDNFilesAddon.name)
+        self.assertRedirects(
+            response, addon.get_absolute_url(), fetch_redirect_response=False
+        )
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(
+            response, "Add-on installed, please review integration instructions."
+        )
+        self.assertContains(response, CDNFilesAddon(addon).cdn_files_url)
+
+        self.project.remove_user(self.user)
+        self.user.groups.clear()
+        self.assertEqual(self.client.get(addon.get_absolute_url()).status_code, 403)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")

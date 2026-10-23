@@ -35,6 +35,7 @@ Weblate 2026.11
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 * Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.
 * SVG status badges now use a blurred text shadow to match the shields.io style, improving text contrast.
+* Separated :ref:`add-on integration instructions <addons>` from settings, and added setup guidance for webhooks, Slack, and Fedora Messaging.
 
 .. rubric:: Security fixes
 

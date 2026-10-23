@@ -26,7 +26,7 @@ from weblate.addons.events import (
     AddonEvent,
     AddonEventOutcome,
 )
-from weblate.addons.forms import CDNFilesForm, CDNJSForm
+from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.cdn import CDNFileMetadata, content_metadata
 from weblate.utils.state import STATE_TRANSLATED
@@ -36,6 +36,7 @@ CDN_MANIFEST_FILENAME = "manifest.json"
 
 if TYPE_CHECKING:
     from weblate.addons.models import Addon
+    from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project, Translation
 
 
@@ -194,6 +195,14 @@ class CDNJSAddon(CDNBaseAddon):
 
     settings_form = CDNJSForm
 
+    def get_integration_instructions(self, user: User) -> str:
+        if not self.instance.pk:
+            return ""
+        return render_to_string(
+            "addons/cdnjs.html",
+            {"url": self.cdn_js_url, "manifest_url": self.cdn_manifest_url},
+        )
+
     @classmethod
     def can_install(
         cls,
@@ -314,7 +323,14 @@ class CDNFilesAddon(CDNBaseAddon):
         "Publishes translation files into a content delivery network."
     )
     needs_component = True
-    settings_form = CDNFilesForm
+
+    def get_integration_instructions(self, user: User) -> str:
+        if not self.instance.pk:
+            return ""
+        return render_to_string(
+            "addons/cdnfiles.html",
+            {"url": self.cdn_files_url, "manifest_url": self.cdn_manifest_url},
+        )
 
     @cached_property
     def cdn_files_url(self) -> str:

@@ -1,0 +1,8 @@
+{% load i18n translations %}
+
+<p>{% translate "Configure your service to receive JSON POST requests, enter its URL below, and select the events to send." %}</p>
+<p>{% translate "To verify request signatures, configure the same Standard Webhooks secret in Weblate and your receiver. Requests are signed only when a secret is configured." %}</p>
+<p>
+  {% translate "See the add-on documentation for the message payload and signature verification." %}
+  {% documentation_icon 'admin/addons' addon.doc_anchor %}
+</p>

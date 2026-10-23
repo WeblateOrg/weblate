@@ -219,6 +219,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def has_settings(cls) -> bool:
         return cls.settings_form is not None
 
+    def get_integration_instructions(self, user: User) -> str:
+        """Render integration instructions independently of the settings form."""
+        return ""
+
     @classmethod
     def get_identifier(cls) -> str:
         return cls.name
