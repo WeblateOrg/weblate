@@ -2955,6 +2955,22 @@ class SeleniumTests(
             )
         )
 
+        # Adding a node without fields focuses its own controls.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:daily")
+        self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-add='triggers']"
+        ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const node = document.activeElement.closest("
+                "'[data-automation-instance]');"
+                " return node && node.dataset.automationInstance;"
+            ),
+            "trigger:daily",
+        )
+
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
         # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.

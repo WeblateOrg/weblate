@@ -1531,7 +1531,7 @@ onReady(() => {
         placeholder: el.dataset.placeholder || gettext("Search…"),
         hidePlaceholder: el.dataset.hidePlaceholder === "true",
         persist: false,
-        create: false,
+        create: el.dataset.create === "true",
         allowEmptyOption: true,
       };
       if (el.dataset.maxOptions === "none") {

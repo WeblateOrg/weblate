@@ -538,7 +538,9 @@
           ]),
         );
         const control = node.querySelector("input, select, textarea");
-        if (control !== null) {
+        if (control === null) {
+          node.querySelector("[data-automation-move]").focus();
+        } else {
           focusControl(control);
         }
         return;

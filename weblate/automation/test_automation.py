@@ -1964,6 +1964,24 @@ class AutomationTest(ReusableComponentTestCase):
                     {choice[0] for choice in form.fields["mode"].choices},
                 )
 
+    def test_editor_accepts_label_names_without_project(self) -> None:
+        # Site-wide workflows have no project labels to choose from, so the
+        # editor lets users type the names that saving accepts.
+        for obj in (self.component, self.component.project, None):
+            form = BulkEditOperation.settings_form(obj)
+            for name in ("add_labels", "remove_labels"):
+                with self.subTest(obj=obj, field=name):
+                    self.assertEqual(
+                        form.fields[name].widget.attrs.get("data-create"),
+                        "true" if obj is None else None,
+                    )
+        self.assertEqual(
+            BulkEditOperation.normalize(
+                {"q": "state:translated", "add_labels": ["Typed"]}, None
+            )["add_labels"],
+            ["Typed"],
+        )
+
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_saved_preview_and_context_trigger_api(self, task: Mock) -> None:
         addon = self.install(

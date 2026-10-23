@@ -548,6 +548,8 @@ class BulkEditOperation(AutomationOperation):
             field.to_field_name = "name"
             field.widget = forms.SelectMultiple()
             field.widget.choices = field.choices
+            if project is None:
+                field.widget.attrs["data-create"] = "true"
         return form
 
     @classmethod
