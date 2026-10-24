@@ -52,6 +52,14 @@ class HTMLSanitizerTestCase(SimpleTestCase):
     def test_clean(self) -> None:
         self.assertEqual(self.sanitize("<b>translation</b>", "text"), "translation")
 
+    def test_clean_many_nonbreaking_spaces(self) -> None:
+        text = "\u00a0" * 20_000
+        self.assertEqual(self.sanitize(text, "source", "safe-html"), text)
+
+    def test_clean_special_tokens(self) -> None:
+        text = "[link](https://weblate.org/\u00a0) \u00a0 @@@@@weblate:99@@@@@"
+        self.assertEqual(self.sanitize(text, "source", "safe-html,md-text"), text)
+
     def test_clean_style(self) -> None:
         self.assertEqual(
             self.sanitize("<style>translation</style>", "<style>text</style>"),
