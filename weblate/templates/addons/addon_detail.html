@@ -110,4 +110,8 @@
   {% if form.guided_presets %}
     <script defer src="{% static 'js/addon-discovery.js' %}"></script>
   {% endif %}
+  {% if form.fields.workflow %}
+    <script defer src="{% static 'js/vendor/js-yaml.js' %}"></script>
+    <script defer src="{% static 'js/automation-editor.js' %}"></script>
+  {% endif %}
 {% endblock extra_script %}

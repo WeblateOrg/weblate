@@ -1,0 +1,46 @@
+{% load crispy_forms_tags i18n %}
+
+<template data-automation-chrome>
+  <fieldset class="card mb-2" data-automation-instance>
+    <legend class="card-header h6 mb-0 float-none w-100 d-flex align-items-center justify-content-between gap-2">
+      <span data-automation-legend></span>
+      <span class="btn-group btn-group-sm flex-shrink-0">
+        <button type="button"
+                class="btn btn-outline-secondary"
+                data-automation-move="-1">{% translate "Move up" %}</button>
+        <button type="button"
+                class="btn btn-outline-secondary"
+                data-automation-move="1">{% translate "Move down" %}</button>
+        <button type="button" class="btn btn-outline-danger" data-automation-remove>{% translate "Remove" %}</button>
+      </span>
+    </legend>
+    <div class="card-body" data-automation-fields></div>
+  </fieldset>
+</template>
+
+{% for node in editor.triggers %}
+  <template data-automation-node="{{ node.kind }}"
+            data-automation-title="{{ node.title }}"
+            data-automation-emit="{{ node.emit_json }}">
+    {% if node.form %}
+      {% crispy node.form %}
+    {% endif %}
+  </template>
+{% endfor %}
+
+{% for node in editor.conditions %}
+  <template data-automation-node="{{ node.kind }}"
+            data-automation-title="{{ node.title }}"
+            data-automation-emit="{{ node.emit_json }}">
+    {% crispy node.form %}
+  </template>
+{% endfor %}
+
+{% for node in editor.actions %}
+  <template data-automation-node="{{ node.kind }}"
+            data-automation-title="{{ node.title }}"
+            data-automation-emit="{{ node.emit_json }}">
+    {% crispy node.chrome %}
+    <div data-automation-group="{{ node.group }}">{% crispy node.form %}</div>
+  </template>
+{% endfor %}
