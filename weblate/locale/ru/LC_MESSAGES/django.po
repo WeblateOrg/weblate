@@ -41,7 +41,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-16 10:02+0000\n"
+"PO-Revision-Date: 2026-10-24 11:58+0000\n"
 "Last-Translator: Andrei Stepanov <adem@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1256,6 +1256,7 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
+"Этот запрос на вход истёк или изменился. Начните вход заново из приложения."
 
 msgid "This password consists of only whitespace."
 msgstr "Этот пароль состоит только из пробелов."
@@ -1683,10 +1684,8 @@ msgstr ""
 "Этот репозиторий устарел. Скорее всего вы не получите ожидаемых результатов, "
 "пока не обновите его."
 
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The CDN add-on cannot publish a translation as manifest.json."
-msgstr "Дополнение CDN файлов перевода не может опубликовать weblate.js."
+msgstr "Дополнение CDN не может опубликовать перевод как manifest.json."
 
 msgid "JavaScript localization CDN"
 msgstr "CDN локализации JavaScript"
@@ -7311,32 +7310,26 @@ msgstr "Дек"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Перевод на %s сейчас недоступен, но его можно добавить."
 
-#, fuzzy
-#| msgid "Occidental"
 msgid "Confidential"
-msgstr "Окциденталь"
+msgstr "Конфиденциально"
 
-#, fuzzy
-#| msgid "Activation token"
 msgid "Authorization code"
-msgstr "Токен активации"
+msgstr "Код авторизации"
 
 msgid "RSA with SHA-256"
-msgstr ""
+msgstr "RSA с SHA-256"
 
 msgid "Identify your account"
-msgstr ""
+msgstr "Идентифицировать вашу учётную запись"
 
 msgid "Read your name and username"
-msgstr ""
+msgstr "Читать ваше имя и имя пользователя"
 
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Read your e-mail address"
-msgstr "Использовать адрес эл. почты учётной записи"
+msgstr "Читать ваш адрес электронной почты"
 
 msgid "Read the version of the legal documents you accepted"
-msgstr ""
+msgstr "Читать версию юридических документов, которые вы приняли"
 
 msgid "Image is too big."
 msgstr "Изображение слишком велико."
@@ -9054,7 +9047,7 @@ msgstr ""
 "Локализуемые элементы должны соответствовать настроенному селектору CSS."
 
 msgid "Available languages and translation files are listed in the manifest:"
-msgstr ""
+msgstr "Доступные языки и файлы переводов перечислены в манифесте:"
 
 msgid "Guided presets"
 msgstr "Управляемые предустановки"
@@ -12028,22 +12021,18 @@ msgstr "Запросить новый перевод"
 msgid "You don't have permission to start a new translation"
 msgstr "У вас нет разрешения начинать новый перевод"
 
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authorize application"
-msgstr "Авторизация"
+msgstr "Авторизовать приложение"
 
 #, python-format
 msgid "Allow %(application)s to access your account?"
-msgstr ""
+msgstr "Разрешить %(application)s доступ к вашей учётной записи?"
 
-#, fuzzy
-#| msgid "Author name"
 msgid "Authorize"
-msgstr "Имя автора"
+msgstr "Авторизовать"
 
 msgid "Deny"
-msgstr ""
+msgstr "Отклонить"
 
 msgid "Click to edit position"
 msgstr "Нажмите, чтобы изменить позицию"
@@ -14113,11 +14102,17 @@ msgid ""
 "in other components, included in quality checks, or sent to translation "
 "services."
 msgstr ""
+"Компоненты с ограниченным доступом не используются как словари. Их термины "
+"не показываются в других компонентах, не включаются в проверки качества и не "
+"отправляются в службы перевода."
 
 msgid ""
 "Remove restricted access to use this glossary project-wide, or disable ‘Use "
 "as a glossary’ to keep it as an ordinary restricted component."
 msgstr ""
+"Снимите ограничение доступа, чтобы использовать этот словарь в пределах "
+"проекта, или отключите «Использовать как словарь», чтобы оставить его "
+"обычным компонентом с ограниченным доступом."
 
 msgid "Version control system"
 msgstr "Система контроля версий"
@@ -14502,6 +14497,8 @@ msgid ""
 "Translation discovery reached a resource limit. Results might be incomplete. "
 "You can configure missing translation files manually."
 msgstr ""
+"Обнаружение переводов достигло предела ресурсов. Результаты могут быть "
+"неполными. Вы можете настроить отсутствующие файлы переводов вручную."
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Обычная последовательность действий для устранения конфликтов слияния"
@@ -16357,10 +16354,8 @@ msgstr "Компонент похож на неиспользуемый."
 msgid "Glossary using monolingual files."
 msgstr "Словарь использует одноязычные файлы."
 
-#, fuzzy
-#| msgid "Reconstructed repository is not usable."
 msgid "Restricted glossary is not used."
-msgstr "Восстановленный репозиторий непригоден для использования."
+msgstr "Словарь с ограниченным доступом не используется."
 
 msgid "Glossary string management is disabled"
 msgstr "Управление строками словаря отключено"
@@ -16465,19 +16460,14 @@ msgstr ""
 "переводу. При автоматическом переводе множественные формы пропускались, и "
 "обрабатывались только строки с одной формой."
 
-#, fuzzy
-#| msgid ""
-#| "Plural forms in %(component)s do not match the target translation. "
-#| "Automatic translation skipped pluralized strings and processed only "
-#| "single-form strings."
 msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
 msgstr ""
-"Формы множественного числа в [%(component)s] не соответствуют целевому "
-"переводу. При автоматическом переводе множественные формы пропускались, и "
-"обрабатывались только строки с одной формой."
+"Формы множественного числа в некоторых исходных компонентах не соответствуют "
+"целевому переводу. Автоматический перевод пропустил строки с формами "
+"множественного числа и обработал только строки с одной формой."
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -17244,14 +17234,20 @@ msgstr "Статус рецензирования"
 
 msgid "The original review state is missing. Reload the editor and try again."
 msgstr ""
+"Исходное состояние рецензирования отсутствует. Перезагрузите редактор и "
+"повторите попытку."
 
 msgid "The original review state is invalid. Reload the editor and try again."
 msgstr ""
+"Исходное состояние рецензирования недействительно. Перезагрузите редактор и "
+"повторите попытку."
 
 msgid ""
 "This review state is not available for this string. Reload the editor and "
 "select an available state."
 msgstr ""
+"Это состояние рецензирования недоступно для этой строки. Перезагрузите "
+"редактор и выберите доступное состояние."
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -19475,6 +19471,9 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
+"Состояние рецензирования этой строки изменилось с %(previous)s на %(current)"
+"s во время вашего редактирования. Перезагрузите редактор и просмотрите свои "
+"изменения перед сохранением."
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "Снять метку «непереводимое» для всех языков"
@@ -20498,18 +20497,15 @@ msgstr "Borg завершился с предупреждениями без к�
 msgid "Invalid host name given!"
 msgstr "Указано недопустимое имя узла!"
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
-msgstr "Источник автоматического перевода"
+msgstr "Автоматический перевод сообщил предупреждение."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Automatic translation failed. See the task log for details."
-msgstr "Автоматический перевод пропущен, так как цель больше не существует."
+msgstr ""
+"Автоматический перевод завершился ошибкой. Подробности см. в журнале задачи."
 
 msgid "Task could not be completed. See the task log for details."
-msgstr ""
+msgstr "Задача не может быть выполнена. Подробности см. в журнале задачи."
 
 #. Translators: Name of a color
 msgid "Navy"
