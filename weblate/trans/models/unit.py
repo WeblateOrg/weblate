@@ -1548,14 +1548,18 @@ class Unit(models.Model, LoggerMixin):
         )
         same_flags = flags == parsed_flags
         same_explanation = explanation == source_unit.explanation
+        same_locators = (
+            pos == source_unit.position
+            and location == source_unit.location
+            and line_number == source_unit.line_number
+        )
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
             and (
                 not same_terms
-                or pos != source_unit.position
-                or location != source_unit.location
                 or not same_flags
+                or not same_locators
                 or note != source_unit.note
                 or explanation != source_unit.explanation
             )
@@ -1573,6 +1577,7 @@ class Unit(models.Model, LoggerMixin):
             source_unit.explanation = explanation
             source_unit.flags = flags.format()
             source_unit.note = note
+            source_unit.line_number = line_number
             if (
                 same_flags
                 and same_explanation
@@ -1587,6 +1592,7 @@ class Unit(models.Model, LoggerMixin):
                         "target",
                         "details",
                         "position",
+                        "line_number",
                         "location",
                         "explanation",
                         "flags",
