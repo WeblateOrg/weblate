@@ -6696,7 +6696,8 @@ paths:
   /api/components/{project__slug}/{slug}/file/:
     get:
       operationId: api_components_file_retrieve
-      summary: Download all translation files in the component.
+      summary: Download translation files in the component for which the user has
+        download permission, including language restrictions.
       parameters:
       - in: query
         name: format
