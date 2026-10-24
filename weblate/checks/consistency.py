@@ -7,8 +7,9 @@ from __future__ import annotations
 from collections import defaultdict
 from functools import reduce
 from itertools import batched
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal, NotRequired, TypedDict, cast
 
+from django.db import connection
 from django.db.models import (
     BooleanField,
     Case,
@@ -45,6 +46,135 @@ if TYPE_CHECKING:
     from weblate.trans.models.unit import UnitQuerySet
 
     from .base import FixupType
+
+
+class BatchCheckMatch(TypedDict):
+    check_source_language: int
+    plural_id: int
+    id_hash: NotRequired[int]
+    target: NotRequired[str]
+    target_hash: NotRequired[str]
+
+
+def _case_insensitive_languages() -> list[int]:
+    from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level]
+
+    return [
+        language.pk
+        for language in Language.objects.all()
+        if not language.is_case_sensitive()
+    ]
+
+
+def project_batch_matches(
+    project: Project, check_id: Literal["inconsistent", "reused"]
+) -> list[BatchCheckMatch]:
+    """
+    Select bounded conflict groups using project-scoped translation arrays.
+
+    This path requires canonical sources and project-only propagation. Build
+    eligible peer arrays once so the planner cannot probe units in unrelated
+    projects before checking their component's visibility.
+    """
+    reused = check_id == "reused"
+    language_group = "" if reused else "language_id,"
+    language_join = "" if reused else "AND g.language_id = t.language_id"
+    restricted_language_join = "" if reused else "AND r.language_id = t.language_id"
+    plural_join = "JOIN lang_plural p ON p.id = t.plural_id" if reused else ""
+    plural_filter = "AND p.number > 1" if reused else ""
+    outer_filter = (
+        "AND u.state >= %(translated)s AND MD5(LOWER(u.target)) <> MD5('')"
+        if reused
+        else ""
+    )
+    peer_filter = (
+        """AND peer.state >= %(translated)s
+           AND MD5(LOWER(peer.target)) = MD5(LOWER(u.target))
+           AND peer.target = u.target
+           AND CASE WHEN t.language_id = ANY (%(insensitive)s::integer[])
+               THEN MD5(LOWER(peer.source)) <> MD5(LOWER(u.source))
+               ELSE peer.source <> u.source END"""
+        if reused
+        else """AND peer.id_hash = u.id_hash
+                AND peer.context = u.context AND peer.source = u.source
+                AND peer.target <> u.target
+                AND (u.state >= %(translated)s OR peer.state >= %(translated)s)"""
+    )
+    columns = (
+        "u.target, t.plural_id, t.source_language_id AS check_source_language, "
+        "MD5(LOWER(u.target)) AS target_hash"
+        if reused
+        else "u.id_hash, t.source_language_id AS check_source_language, t.plural_id"
+    )
+    ordering = (
+        "target_hash, u.target, t.plural_id, t.source_language_id"
+        if reused
+        else "u.id_hash, t.plural_id, t.source_language_id"
+    )
+    limit = 20 if reused else 100
+    # All interpolated fragments are fixed SQL; runtime values are parameters.
+    sql = f"""
+        WITH eligible_translations AS MATERIALIZED (
+            SELECT t.id, t.component_id, t.language_id, t.plural_id,
+                   c.source_language_id, c.restricted
+            FROM trans_translation t
+            JOIN trans_component c ON c.id = t.component_id
+            {plural_join}
+            WHERE c.project_id = %(project_id)s
+              AND c.allow_translation_propagation {plural_filter}
+        ),
+        public_peer_groups AS MATERIALIZED (
+            SELECT {language_group} plural_id, source_language_id,
+                   ARRAY_AGG(id) FILTER (WHERE NOT restricted) AS translation_ids
+            FROM eligible_translations
+            GROUP BY {language_group} plural_id, source_language_id
+        ),
+        restricted_peer_groups AS MATERIALIZED (
+            SELECT component_id, {language_group} plural_id, source_language_id,
+                   ARRAY_AGG(id) AS translation_ids
+            FROM eligible_translations
+            WHERE restricted
+            GROUP BY component_id, {language_group} plural_id, source_language_id
+        )
+        SELECT DISTINCT {columns}
+        FROM trans_unit u
+        JOIN eligible_translations t ON t.id = u.translation_id
+        JOIN public_peer_groups g
+          ON g.plural_id = t.plural_id
+         AND g.source_language_id = t.source_language_id {language_join}
+        LEFT JOIN restricted_peer_groups r
+          ON t.restricted AND r.component_id = t.component_id
+         AND r.plural_id = t.plural_id
+         AND r.source_language_id = t.source_language_id {restricted_language_join}
+        WHERE u.translation_id = ANY (ARRAY(SELECT id FROM eligible_translations))
+          {outer_filter}
+          AND EXISTS(
+              SELECT 1 FROM trans_unit peer
+              WHERE peer.translation_id = ANY (
+                  g.translation_ids || r.translation_ids
+              ) {peer_filter}
+          )
+        ORDER BY {ordering}
+        LIMIT {limit}
+    """  # ruff: ignore[hardcoded-sql-expression]
+    with connection.cursor() as cursor:
+        cursor.execute(
+            sql,
+            {
+                "project_id": project.pk,
+                "translated": STATE_TRANSLATED,
+                "insensitive": _case_insensitive_languages() if reused else [],
+            },
+        )
+        fields = (
+            ("target", "plural_id", "check_source_language", "target_hash")
+            if reused
+            else ("id_hash", "check_source_language", "plural_id")
+        )
+        return [
+            cast("BatchCheckMatch", dict(zip(fields, row, strict=True)))
+            for row in cursor.fetchall()
+        ]
 
 
 def _visible_peer_query(project: Project, *, custom_sources: bool) -> UnitQuerySet:
@@ -138,16 +268,9 @@ def reused_peer_exists(
 
 def reused_peer_condition(project: Project, *, custom_sources: bool) -> Case:
     """Apply target-language case sensitivity to the reused peer lookup."""
-    from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level]
-
-    insensitive = [
-        language.pk
-        for language in Language.objects.all()
-        if not language.is_case_sensitive()
-    ]
     return Case(
         When(
-            translation__language_id__in=insensitive,
+            translation__language_id__in=_case_insensitive_languages(),
             then=reused_peer_exists(
                 project, custom_sources=custom_sources, folded=True
             ),
@@ -436,39 +559,43 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         )
         # Select only groups with an accessible conflicting peer before limiting.
         # This keeps rejected restricted-only groups out of the bounded result.
-        matches = (
-            Unit.objects.exclude_blocked(custom_sources=custom_sources)
-            .filter(
-                translation__component__project=component.project,
-                translation__component__allow_translation_propagation=True,
-            )
-            .with_effective_source(custom_sources=custom_sources)
-            .annotate(
-                has_peer=Case(
-                    When(
-                        state__gte=STATE_TRANSLATED,
-                        then=inconsistent_peer_exists(
-                            component.project, custom_sources=custom_sources
-                        ),
-                    ),
-                    default=inconsistent_peer_exists(
-                        component.project,
-                        custom_sources=custom_sources,
-                        translated_only=True,
-                    ),
-                    output_field=BooleanField(),
+        if custom_sources:
+            matches = (
+                Unit.objects.exclude_blocked(custom_sources=custom_sources)
+                .filter(
+                    translation__component__project=component.project,
+                    translation__component__allow_translation_propagation=True,
                 )
+                .with_effective_source(custom_sources=custom_sources)
+                .annotate(
+                    has_peer=Case(
+                        When(
+                            state__gte=STATE_TRANSLATED,
+                            then=inconsistent_peer_exists(
+                                component.project, custom_sources=custom_sources
+                            ),
+                        ),
+                        default=inconsistent_peer_exists(
+                            component.project,
+                            custom_sources=custom_sources,
+                            translated_only=True,
+                        ),
+                        output_field=BooleanField(),
+                    )
+                )
+                .filter(has_peer=True)
+                .values(*fields)
+                .annotate(plural_id=F("translation__plural_id"))
+                .order_by(*ordering)
+                .distinct()[:100]
             )
-            .filter(has_peer=True)
-            .values(*fields)
-            .annotate(plural_id=F("translation__plural_id"))
-            .order_by(*ordering)
-            .distinct()[:100]
-        )
+            match_rows = matches.iterator(chunk_size=100)
+        else:
+            match_rows = iter(project_batch_matches(component.project, "inconsistent"))
 
         found: list[Unit] = []
         valid_groups = 0
-        for match_batch in batched(matches.iterator(chunk_size=100), 100):
+        for match_batch in batched(match_rows, 100):
             query = Q()
             if custom_sources:
                 for match in match_batch:
@@ -699,31 +826,37 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             if custom_sources
             else ()
         )
-        matches = (
-            source_units.annotate(
-                has_peer=reused_peer_condition(
-                    component.project, custom_sources=custom_sources
+        if custom_sources:
+            matches = (
+                source_units.annotate(
+                    has_peer=reused_peer_condition(
+                        component.project, custom_sources=custom_sources
+                    )
                 )
+                .filter(has_peer=True)
+                .annotate(plural_id=F("translation__plural_id"))
+                .values(
+                    "target",
+                    "plural_id",
+                    "check_source_language",
+                    *plural_fields,
+                )
+                .annotate(target_hash=MD5(Lower("target")))
+                .order_by(
+                    "target_hash",
+                    "target",
+                    "translation__plural_id",
+                    "check_source_language",
+                    *plural_fields,
+                )
+                .distinct()[:20]
             )
-            .filter(has_peer=True)
-            .values(
-                "target",
-                "translation__plural_id",
-                "check_source_language",
-                *plural_fields,
-            )
-            .annotate(target_hash=MD5(Lower("target")))
-            .order_by(
-                "target_hash",
-                "target",
-                "translation__plural_id",
-                "check_source_language",
-                *plural_fields,
-            )
-            .distinct()[:20]
-        )
+            match_rows = matches.iterator(chunk_size=20)
+        else:
+            match_rows = iter(project_batch_matches(component.project, "reused"))
+
         valid_groups = 0
-        for match_batch in batched(matches.iterator(chunk_size=20), 20):
+        for match_batch in batched(match_rows, 20):
             result = (
                 source_units.filter(
                     reduce(
@@ -732,7 +865,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                             | (
                                 Q(target__lower__md5=MD5(Lower(Value(y["target"]))))
                                 & Q(target=y["target"])
-                                & Q(translation__plural_id=y["translation__plural_id"])
+                                & Q(translation__plural_id=y["plural_id"])
                                 & Q(check_source_language=y["check_source_language"])
                                 & Q(**{field: y[field] for field in plural_fields})
                             )
@@ -770,7 +903,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
             for match in match_batch:
                 key = (
-                    match["translation__plural_id"],
+                    match["plural_id"],
                     match["check_source_language"],
                     match["target"],
                     *(match[field] for field in plural_fields),

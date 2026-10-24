@@ -264,6 +264,52 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         # No units should be now failing
         self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 
+    def test_batch_checks_exclude_ineligible_translations(self) -> None:
+        self.add_unit(self.translation_1, "same", "Same", "First")
+        self.add_unit(self.translation_2, "same", "Same", "Second", increment=False)
+        self.add_unit(self.translation_1, "one", "One", "Shared")
+        self.add_unit(self.translation_2, "two", "Two", "Shared")
+
+        for check in (ConsistencyCheck(), ReusedCheck()):
+            self.assertNotEqual(list(check.check_component(self.component)), [])
+
+        Component.objects.filter(pk=self.other.pk).update(
+            allow_translation_propagation=False
+        )
+        for check in (ConsistencyCheck(), ReusedCheck()):
+            with self.subTest(check=check.check_id, boundary="disabled"):
+                self.assertEqual(list(check.check_component(self.component)), [])
+
+        other_project = self.create_project(name="Other", slug="other")
+        Component.objects.filter(pk=self.other.pk).update(
+            project=other_project, allow_translation_propagation=True
+        )
+        for check in (ConsistencyCheck(), ReusedCheck()):
+            with self.subTest(check=check.check_id, boundary="project"):
+                self.assertEqual(list(check.check_component(self.component)), [])
+
+    def test_reuse_batch_compares_languages_with_shared_plural_rules(self) -> None:
+        hebrew = Language.objects.get(code="he")
+        Translation.objects.filter(pk=self.translation_2.pk).update(language=hebrew)
+        self.translation_2.language = hebrew
+        first = self.add_unit(self.translation_1, "one", "One", "Shared")
+        second = self.add_unit(self.translation_2, "two", "one", "Shared")
+
+        # The Czech unit sees distinct sources; Hebrew ignores source casing.
+        check = ReusedCheck()
+        self.assertTrue(check.check_target_unit([], [], first))
+        self.assertFalse(check.check_target_unit([], [], second))
+        self.assertEqual(list(check.check_component(self.component)), [first])
+
+    def test_consistency_batch_separates_target_languages(self) -> None:
+        hebrew = Language.objects.get(code="he")
+        Translation.objects.filter(pk=self.translation_2.pk).update(language=hebrew)
+        self.translation_2.language = hebrew
+        self.add_unit(self.translation_1, "same", "Same", "First")
+        self.add_unit(self.translation_2, "same", "Same", "Second", increment=False)
+
+        self.assertEqual(list(ConsistencyCheck().check_component(self.component)), [])
+
     def test_reuse_existing(self) -> None:
         check = ReusedCheck()
         self.assertEqual(list(check.check_component(self.component)), [])
