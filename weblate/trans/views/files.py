@@ -351,12 +351,13 @@ def download(request: AuthenticatedHttpRequest, path):
             name=obj.slug,
         )
     if isinstance(obj, Component):
-        if not request.user.has_perm("translation.download", obj):
-            raise PermissionDenied
+        translations, components = prepare_download_scope(
+            request.user, obj.translation_set.all(), obj
+        )
         return download_multi(
             request,
-            obj.translation_set.prefetch_meta(),
-            [obj],
+            translations.prefetch_meta(),
+            components,
             request.GET.get("format"),
             name=obj.full_slug.replace("/", "-"),
         )

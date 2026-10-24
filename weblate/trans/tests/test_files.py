@@ -26,8 +26,8 @@ from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
-from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role, TeamMembership
 from weblate.auth.results import Denied
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.ttkit import CSVFormat, PoFormat, XliffFormat
@@ -1846,6 +1846,71 @@ class ImportSourceBrokenTest(ImportSourceTest):
 
 
 class DownloadMultiTest(ViewTestCase):
+    def grant_language_download(self, *, membership_limit: bool = False) -> Group:
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Scoped component downloads",
+            language_selection=SELECTION_ALL if membership_limit else SELECTION_MANUAL,
+        )
+        group.projects.add(self.project)
+        language = Language.objects.get(code="cs")
+        if not membership_limit:
+            group.languages.add(language)
+        role = Role.objects.create(name="Scoped download role")
+        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        if membership_limit:
+            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+                language
+            )
+        self.user.clear_permissions_cache()
+        return group
+
+    def assert_scoped_component_archive(self, fmt: str) -> None:
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component), {"format": fmt}
+        )
+        self.assertEqual(response.status_code, 200)
+        with ZipFile(BytesIO(response.content)) as archive:
+            names = archive.namelist()
+        suffix = ".csv" if fmt == "zip:csv" else ".po"
+        self.assertTrue(any(name.endswith(f"cs{suffix}") for name in names))
+        self.assertFalse(any(name.endswith(f"de{suffix}") for name in names))
+
+    def test_component_download_team_language_scope(self) -> None:
+        group = self.grant_language_download()
+
+        self.assertTrue(self.user.has_perm("translation.download", self.component))
+        response = self.client.get(
+            reverse("download", kwargs={"path": (*self.kw_component["path"], "de")})
+        )
+        self.assertEqual(response.status_code, 403)
+        for fmt in ("zip", "zip:csv"):
+            with self.subTest(fmt=fmt):
+                self.assert_scoped_component_archive(fmt)
+
+        group.languages.clear()
+        self.user.clear_permissions_cache()
+        response = self.client.get(reverse("download", kwargs=self.kw_component))
+        self.assertEqual(response.status_code, 403)
+
+    def test_component_download_membership_language_scope(self) -> None:
+        group = self.grant_language_download(membership_limit=True)
+
+        self.assertFalse(self.user.has_perm("translation.download", self.component))
+        self.assert_scoped_component_archive("zip")
+
+        unavailable = Language.objects.get(code="ja")
+        self.assertFalse(
+            self.component.translation_set.filter(language=unavailable).exists()
+        )
+        membership = TeamMembership.objects.get(user=self.user, group=group)
+        membership.limit_languages.set([unavailable])
+        self.user.clear_permissions_cache()
+        response = self.client.get(reverse("download", kwargs=self.kw_component))
+        self.assertEqual(response.status_code, 403)
+
     def test_component(self) -> None:
         response = self.client.get(reverse("download", kwargs=self.kw_component))
         self.assert_zip(response, "test/test/po/cs.po")

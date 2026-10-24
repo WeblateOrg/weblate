@@ -3565,7 +3565,10 @@ class ComponentViewSet(
         return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(
-        description="Download all translation files in the component.",
+        description=(
+            "Download translation files in the component for which the user "
+            "has download permission, including language restrictions."
+        ),
         methods=["get"],
         responses=binary_download_response_schema("Component translation download."),
         parameters=[
@@ -3582,10 +3585,12 @@ class ComponentViewSet(
     )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
-        # Implementation is analogous to files#download_component, but we can't reuse
-        #  that here because the lookup for the component is different
         instance = self.get_object()
-        if not request.user.has_perm("translation.download", instance):
+        try:
+            translations, components = prepare_download_scope(
+                cast("User", request.user), instance.translation_set.all(), instance
+            )
+        except PermissionDenied:
             self.permission_denied(
                 request, "Can not download all translations for the component"
             )
@@ -3593,8 +3598,8 @@ class ComponentViewSet(
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            instance.translation_set.prefetch_meta(),
-            [instance],
+            translations.prefetch_meta(),
+            components,
             requested_format,
             name=instance.full_slug.replace("/", "-"),
         )
