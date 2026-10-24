@@ -536,8 +536,8 @@ the following rules:
   team are not granted for that member.
 
 Aggregate translation downloads apply these rules to each translation. Project,
-category, component-list, and workspace archives contain only components and
-languages for which the user has :guilabel:`Download translation file`
+category, component, component-list, and workspace archives contain only
+components and languages for which the user has :guilabel:`Download translation file`
 permission. Restricted components therefore require an explicit component grant
 for this permission even when the user can download unrestricted components in
 the same project.

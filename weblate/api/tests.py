@@ -390,6 +390,29 @@ class APIBaseTest(APITestCase, ReusableComponentTestCase):
         self.project_kwargs = {"slug": "test"}
         self.project_language_kwargs = {"slug": "test", "language_code": "cs"}
 
+    def grant_language_download(self, *, membership_limit: bool = False) -> Group:
+        self.authenticate()
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Czech project downloads",
+            language_selection=(
+                SELECTION_ALL if membership_limit else SELECTION_MANUAL
+            ),
+        )
+        group.projects.add(self.project)
+        if not membership_limit:
+            group.languages.add(Language.objects.get(code="cs"))
+        role = Role.objects.create(name="Project language downloads")
+        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        if membership_limit:
+            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+                Language.objects.get(code="cs")
+            )
+        self.user.clear_permissions_cache()
+        return group
+
     def create_acl(self):
         project = Project.objects.create(
             name="ACL", slug="acl", access_control=Project.ACCESS_PRIVATE
@@ -4558,28 +4581,6 @@ class ProjectAPITest(APIBaseTest):
             request={"language_aliases": valid_aliases},
         )
         self.assertEqual(response.data["language_aliases"], valid_aliases)
-
-    def grant_language_download(self, *, membership_limit: bool = False) -> None:
-        self.authenticate()
-        self.user.groups.clear()
-        group = Group.objects.create(
-            name="Czech project downloads",
-            language_selection=(
-                SELECTION_ALL if membership_limit else SELECTION_MANUAL
-            ),
-        )
-        group.projects.add(self.project)
-        if not membership_limit:
-            group.languages.add(Language.objects.get(code="cs"))
-        role = Role.objects.create(name="Project language downloads")
-        role.permissions.add(Permission.objects.get(codename="translation.download"))
-        group.roles.add(role)
-        self.user.groups.add(group)
-        if membership_limit:
-            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
-                Language.objects.get(code="cs")
-            )
-        self.user.clear_permissions_cache()
 
     def attach_component_template(
         self, component: Component, filename: str = "template.pot"
@@ -11820,6 +11821,57 @@ class ComponentAPITest(APIBaseTest):
             request={"format": "zip:csv"},
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def assert_scoped_component_archive(self, fmt: str) -> None:
+        response = self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"format": fmt},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+            names = archive.namelist()
+        suffix = ".csv" if fmt == "zip:csv" else ".po"
+        self.assertTrue(any(name.endswith(f"cs{suffix}") for name in names))
+        self.assertFalse(any(name.endswith(f"de{suffix}") for name in names))
+
+    def test_download_translation_zip_team_language_scope(self) -> None:
+        group = self.grant_language_download()
+
+        self.assertTrue(self.user.has_perm("translation.download", self.component))
+        for fmt in ("zip", "zip:csv"):
+            with self.subTest(fmt=fmt):
+                self.assert_scoped_component_archive(fmt)
+
+        group.languages.clear()
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=403,
+        )
+
+    def test_download_translation_zip_membership_language_scope(self) -> None:
+        group = self.grant_language_download(membership_limit=True)
+
+        self.assertFalse(self.user.has_perm("translation.download", self.component))
+        self.assert_scoped_component_archive("zip")
+
+        unavailable = Language.objects.get(code="ja")
+        self.assertFalse(
+            self.component.translation_set.filter(language=unavailable).exists()
+        )
+        membership = TeamMembership.objects.get(user=self.user, group=group)
+        membership.limit_languages.set([unavailable])
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=403,
+        )
 
     def test_download_translation_zip_prohibited(self) -> None:
         project = self.component.project
