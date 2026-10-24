@@ -291,6 +291,7 @@ CLEAN_CONTENT_TAGS = {"script", "style"}
 # Allow some chars:
 # - non breakable space
 SANE_CHARS = re.compile(r"[\xa0]")
+SPECIAL_TOKEN = re.compile(r"@@@@@weblate:[0-9]+@@@@@")
 NH3_LOCK = threading.Lock()
 
 
@@ -561,9 +562,11 @@ class HTMLSanitizer:
         return SANE_CHARS.sub(self.handle_replace, text)
 
     def add_back_special(self, text: str) -> str:
-        for replacement, original in self.replacements.items():
-            text = text.replace(replacement, original)
-        return text
+        if not self.replacements:
+            return text
+        return SPECIAL_TOKEN.sub(
+            lambda match: self.replacements.get(match.group(0), match.group(0)), text
+        )
 
 
 MAIL_TEXT_OPTIONS = PlainText(width=78, links="inline", images=False, layout="strict")
