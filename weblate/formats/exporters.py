@@ -41,7 +41,7 @@ from weblate.trans.file_format_params import (
     GettextXGenerator,
 )
 from weblate.trans.util import split_plural, xliff_string_to_rich
-from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
+from weblate.utils.csv import escape_csv_formula
 
 from .base import BaseExporter
 
@@ -464,19 +464,7 @@ class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
     verbose = gettext_lazy("CSV")
 
     def string_filter(self, text):
-        """
-        Avoid Excel interpreting text as formula.
-
-        This is really bad idea, implemented in Excel, as this change leads to
-        displaying additional ' in all other tools, but this seems to be what most
-        people have gotten used to. Hopefully these characters are not widely used at
-        first position of translatable strings, so that harm is reduced.
-
-        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
-        """
-        if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            return "'{}'".format(text.replace("|", "\\|"))
-        return text
+        return escape_csv_formula(text)
 
 
 class MultiCSVExporter(CVSBaseExporter):
@@ -491,19 +479,7 @@ class MultiCSVExporter(CVSBaseExporter):
         return translation.component.file_format == "csv-multi"
 
     def string_filter(self, text):
-        """
-        Avoid Excel interpreting text as formula.
-
-        This is really bad idea, implemented in Excel, as this change leads to
-        displaying additional ' in all other tools, but this seems to be what most
-        people have gotten used to. Hopefully these characters are not widely used at
-        first position of translatable strings, so that harm is reduced.
-
-        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
-        """
-        if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            return "'{}'".format(text.replace("|", "\\|"))
-        return text
+        return escape_csv_formula(text)
 
     def add_units(self, units) -> None:
         # Override add_units to handle multivalue units by adding each translation

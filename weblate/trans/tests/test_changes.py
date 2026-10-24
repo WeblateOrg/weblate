@@ -6,8 +6,10 @@
 
 from __future__ import annotations
 
+import csv
 from datetime import UTC, datetime, timedelta
 from html import escape
+from io import StringIO
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, patch
 
@@ -884,6 +886,66 @@ class ChangesTest(ReusableViewTestCase):
         self.user.save()
         response = self.client.get(reverse("changes-csv"))
         self.assertContains(response, "timestamp,")
+
+    def test_csv_escapes_formula_cells(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.anotheruser.username = "@csv-user"
+        self.anotheruser.save(update_fields=["username"])
+        Change.objects.all().delete()
+        targets = (
+            '=HYPERLINK("https://example.com", "click")',
+            "+1+1",
+            "-1+1",
+            "@SUM(1+1)*cmd|' /C calc'!A0",
+            " =1+1",
+            "ordinary target",
+            "",
+        )
+        for target in targets:
+            Change.objects.create(
+                action=ActionEvents.CHANGE,
+                project=self.project,
+                user=self.anotheruser,
+                target=target,
+            )
+
+        response = self.client.get(
+            reverse("changes-csv", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertEqual(response.status_code, 200)
+        rows = list(csv.DictReader(StringIO(response.content.decode())))
+        self.assertEqual(len(rows), len(targets))
+        self.assertEqual(
+            {row["target"] for row in rows},
+            {
+                '\'=HYPERLINK("https://example.com", "click")\'',
+                "'+1+1'",
+                "'-1+1'",
+                "'@SUM(1+1)*cmd\\|' /C calc'!A0'",
+                "' =1+1'",
+                "ordinary target",
+                "",
+            },
+        )
+        self.assertTrue(all(row["user"] == "'@csv-user'" for row in rows))
+        self.assertEqual(
+            set(Change.objects.values_list("target", flat=True)), set(targets)
+        )
+
+    def test_csv_escapes_historical_translation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        Change.objects.all().delete()
+        self.change_unit("=1+1")
+        self.change_unit("corrected translation")
+
+        response = self.client.get(
+            reverse("changes-csv", kwargs={"path": self.project.get_url_path()})
+        )
+        rows = list(csv.DictReader(StringIO(response.content.decode())))
+        self.assertIn("'=1+1\n'", {row["target"] for row in rows})
+        self.assertIn("corrected translation\n", {row["target"] for row in rows})
 
     def test_filter(self) -> None:
         response = self.client.get(reverse("changes", kwargs={"path": ["test"]}))

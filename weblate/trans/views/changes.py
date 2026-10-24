@@ -27,6 +27,7 @@ from weblate.trans.feeds import get_change_feed_guid
 from weblate.trans.forms import ChangesDateForm, ChangesForm
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.models.change import Change
+from weblate.utils.csv import escape_csv_formula
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import PathViewMixin
@@ -376,9 +377,9 @@ class ChangesCSVView(ChangesView):
                 (
                     change.timestamp.isoformat(),
                     change.get_action_display(),
-                    change.user.username if change.user else "",
+                    escape_csv_formula(change.user.username) if change.user else "",
                     get_site_url(change.get_absolute_url()),
-                    change.target,
+                    escape_csv_formula(change.target),
                     change.get_distance(),
                 )
             )
