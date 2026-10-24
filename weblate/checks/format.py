@@ -164,7 +164,10 @@ PERL_BRACE_MATCH = re.compile(r"({([a-zA-Z0-9_]+)})")
 C_SHARP_MATCH = re.compile(
     r"""
         {                               # initial {
-        (?P<arg>\d+)                    # variable order
+        (?P<arg>\d+                     # variable order
+            |[a-zA-Z_][a-zA-Z0-9_]*     # or interpolated identifier
+            (?:\.[a-zA-Z_][a-zA-Z0-9_]*)*  # with member access
+        )
         (?P<width>
             [-,?\s]+                    # flags
             (?:\d+)?                    # width

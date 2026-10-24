@@ -20,6 +20,7 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components.
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
 * Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
 * Grouped related settings in :ref:`add-on configuration <addons>` and its generated documentation.
