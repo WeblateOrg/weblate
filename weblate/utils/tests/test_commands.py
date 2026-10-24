@@ -264,6 +264,28 @@ class RuntimeCommandTests(SimpleTestCase):
         self.assertNotIn("all_proxy", env)
         self.assertNotIn("no_proxy", env)
 
+    def test_get_clean_env_preserves_ca_certificates(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "SSL_CERT_FILE": "/custom/bundle.pem",
+                "SSL_CERT_DIR": "/custom/certs",
+                "GIT_SSL_CAINFO": "/custom/bundle.pem",
+                "GIT_SSL_CAPATH": "/custom/certs",
+                "REQUESTS_CA_BUNDLE": "/custom/bundle.pem",
+                "CURL_CA_BUNDLE": "/custom/bundle.pem",
+            },
+            clear=True,
+        ):
+            env = get_clean_env()
+
+        self.assertEqual(env["SSL_CERT_FILE"], "/custom/bundle.pem")
+        self.assertEqual(env["SSL_CERT_DIR"], "/custom/certs")
+        self.assertEqual(env["GIT_SSL_CAINFO"], "/custom/bundle.pem")
+        self.assertEqual(env["GIT_SSL_CAPATH"], "/custom/certs")
+        self.assertEqual(env["REQUESTS_CA_BUNDLE"], "/custom/bundle.pem")
+        self.assertEqual(env["CURL_CA_BUNDLE"], "/custom/bundle.pem")
+
     def test_get_clean_env_includes_runtime_and_venv_paths(self) -> None:
         with (
             patch("weblate.utils.commands.sys.executable", "/runtime/bin/python"),

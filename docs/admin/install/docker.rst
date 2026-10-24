@@ -225,10 +225,11 @@ place the CA certificates into the Weblate data volume (see :ref:`docker-volume`
 * :file:`ssl/ca-certificates/` containing one or more ``.crt`` files in PEM format
 
 On every container start, the certificates are combined with the system CA
-bundle and made available to Python (``requests``), OpenSSL, and libcurl via
-``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, and ``CURL_CA_BUNDLE``. The system
-trust store is not modified, and removing a ``.crt`` file from the directory
-removes it from the bundle on the next start.
+bundle and made available to Python (``requests``), OpenSSL, libcurl, and Git
+via ``REQUESTS_CA_BUNDLE``, ``SSL_CERT_FILE``, ``CURL_CA_BUNDLE``, and
+``GIT_SSL_CAINFO``. The system trust store is not modified, and removing a
+``.crt`` file from the directory removes it from the bundle on the next
+start.
 
 .. note::
 
@@ -237,16 +238,10 @@ removes it from the bundle on the next start.
 .. note::
 
    Weblate runs repository operations (clone, fetch, push) with a cleaned-up
-   environment, so the bundle variables above do not reach Git. To trust the
-   CA for HTTPS Git remotes, mount the combined bundle over the system CA
-   store as well:
-
-   .. code-block:: yaml
-
-      services:
-        weblate:
-          volumes:
-            - ./combined-ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro
+   environment, but passes the CA certificate variables (``SSL_CERT_FILE``,
+   ``SSL_CERT_DIR``, ``GIT_SSL_CAINFO``, ``GIT_SSL_CAPATH``,
+   ``REQUESTS_CA_BUNDLE`` and ``CURL_CA_BUNDLE``) through to Git and other
+   subprocesses, so HTTPS Git remotes trust the CA as well.
 
 
 .. _docker-https-portal:
