@@ -1,59 +1,206 @@
-{% extends "base.html" %}
+{% extends "machinery/base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations %}
+{% load crispy_forms_tags i18n icons translations %}
 
-{% block breadcrumbs %}
-  {% if project %}
-    <li class="breadcrumb-item">
-      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Translation services" %}</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a>
-    </li>
-  {% elif workspace %}
-    <li class="breadcrumb-item"><a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Translation services" %}</a></li>
-  {% else %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage-machinery' %}">{% translate "Translation services" %}</a>
-    </li>
+{% block machinery_content %}
+  {% if machinery_sends_data_to_third_party and service.is_available %}
+    <div class="alert alert-warning" role="alert">
+      {% translate "This service can send source strings, translations, and related context to a third-party provider. Review the provider's terms and privacy policy before enabling it." %}
+    </div>
   {% endif %}
-{% endblock breadcrumbs %}
 
-{% block content %}
-  <form method="post">
+  {% if service.inherited_scope %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Inherited service" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>{% translate "This service is managed at its installation scope." %}</p>
+      </div>
+      {% if management_url %}
+        <div class="card-footer">
+          <a class="btn btn-primary" href="{{ management_url }}">{% translate "Manage this installation" %}</a>
+          <a class="btn btn-primary" href="{{ management_logs_url }}">{% translate "Logs" %}</a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if form %}
+    <form method="post">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Settings" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label" for="machinery-slug">{% translate "Installation slug (optional)" %}</label>
+            <input class="form-control"
+                   id="machinery-slug"
+                   name="slug"
+                   value="{% if installation %}{{ installation.slug }}{% endif %}" />
+          </div>
+          {% crispy form %}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  {% elif not service.inherited_scope and service.is_available %}
+    <p class="help-block">{% translate "This service has no settings." %}</p>
+  {% endif %}
+
+  {% if service.is_configured %}
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">
-          {% documentation_icon 'admin/machine' machinery_doc_anchor right=True %}
-          {{ machinery_name }}
+          {% documentation_icon 'admin/automation' 'automation-translation-ordering' right=True %}
+          {% translate "Use in automations" %}
         </h4>
       </div>
       <div class="card-body">
-        <div class="mb-3">
-          <label class="form-label" for="machinery-slug">{% translate "Installation slug (optional)" %}</label>
-          <input class="form-control"
-                 id="machinery-slug"
-                 name="slug"
-                 value="{% if installation %}{{ installation.slug }}{% endif %}" />
-        </div>
-        {% if machinery_sends_data_to_third_party %}
-          <div class="alert alert-warning" role="alert">
-            {% translate "This service can send source strings, translations, and related context to a third-party provider. Review the provider's terms and privacy policy before enabling it." %}
-          </div>
+        <p>{% translate "Select this installation in the engines setting of an automatic translation action using its numeric ID:" %}</p>
+        <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.selector }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.selector }}"]</code></pre>
+        {% if installation.slug %}
+          <p>{% translate "You can also select it using its slug:" %}</p>
+          <pre><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ installation.engine }}:{{ installation.slug }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>engines: ["{{ installation.engine }}:{{ installation.slug }}"]</code></pre>
+          <p>{% translate "The numeric ID always selects this installation. The slug selects the installation currently using that name in the project." %}</p>
+        {% elif service.can_delete and form %}
+          <p>{% translate "Set an installation slug above to give this service a readable name in your automations." %}</p>
         {% endif %}
-        {% crispy form %}
-      </div>
-      <div class="card-footer">
-        <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
       </div>
     </div>
-  </form>
 
-{% endblock content %}
+    {% if service.is_rate_limited %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Rate limit" %}</h4>
+        </div>
+        <div class="card-body">
+          <p>{% translate "Requests to this service are temporarily paused after a provider error. Resetting the rate limit allows Weblate to try again; it does not reset the provider’s quota." %}</p>
+          {% if service.can_delete %}
+            <form method="post">
+              {% csrf_token %}
+              <button type="submit"
+                      name="reset_rate_limit"
+                      value="1"
+                      class="btn btn-primary">{% translate "Reset rate limit" %}</button>
+            </form>
+          {% else %}
+            <p>
+              {% translate "The rate limit can be reset at the service’s installation scope." %}
+              {% if management_url %}
+                <a href="{{ management_url }}">{% translate "Manage this installation" %}</a>
+              {% endif %}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Service control" %}</h4>
+      </div>
+      <div class="card-body">
+        {% if service.is_enabled %}
+          <div class="row g-3">
+            <div class="col-md-9">
+              <h5>{% translate "Disable installation" %}</h5>
+              <p id="disable-description">
+                {% if service.can_delete %}
+                  {% translate "Stop using this installation here and in scopes inheriting it. Its settings are kept so you can enable it again later." %}
+                {% else %}
+                  {% if workspace %}
+                    {% translate "Stop using this inherited installation in this workspace and its projects. Other installations of this service remain available." %}
+                  {% else %}
+                    {% translate "Stop using this inherited installation in this project. Other installations of this service and its use in other projects are unaffected." %}
+                  {% endif %}
+                {% endif %}
+              </p>
+            </div>
+            <form method="post" class="col-md-3 text-md-end">
+              {% csrf_token %}
+              {% if service.can_delete %}
+                <input type="hidden" name="pause" value="1" />
+              {% else %}
+                <input type="hidden" name="delete" value="1" />
+              {% endif %}
+              <button type="submit"
+                      class="btn btn-danger"
+                      aria-describedby="disable-description">{% translate "Disable" %}</button>
+            </form>
+          </div>
+        {% elif service.can_enable and service.is_available %}
+          <div class="row g-3">
+            <div class="col-md-9">
+              <h5>{% translate "Enable installation" %}</h5>
+              <p id="enable-description">
+                {% if service.can_delete %}
+                  {% translate "Resume using this installation with its saved settings here and in scopes inheriting it. Existing exclusions still apply." %}
+                {% else %}
+                  {% translate "Remove the local exclusion for this installation. It can provide suggestions here when it is enabled at its installation scope and is not excluded upstream. Other excluded installations remain excluded." %}
+                {% endif %}
+              </p>
+            </div>
+            <form method="post" class="col-md-3 text-md-end">
+              {% csrf_token %}
+              <button type="submit"
+                      name="enable"
+                      value="1"
+                      class="btn btn-primary"
+                      aria-describedby="enable-description">{% translate "Enable" %}</button>
+            </form>
+          </div>
+        {% else %}
+          <p>{% translate "This installation is disabled at its installation scope or excluded by an upstream scope." %}</p>
+        {% endif %}
+
+        {% if not service.can_delete and service.is_enabled %}
+          <div class="row g-3 mt-4 pt-4 border-top">
+            <div class="col-md-9">
+              <h5>{% translate "Exclude inherited service" %}</h5>
+              <p id="exclude-description">
+                {% if workspace %}
+                  {% translate "Stop using all site-wide installations of this service in this workspace and its projects, including installations added later. Installations configured directly in this workspace or its projects remain available." %}
+                {% else %}
+                  {% translate "Stop using all inherited installations of this service in this project, including installations added later. Installations configured directly in this project and use in other projects are unaffected." %}
+                {% endif %}
+              </p>
+            </div>
+            <form method="post" class="col-md-3 text-md-end">
+              {% csrf_token %}
+              <button type="submit"
+                      name="exclude_engine"
+                      value="1"
+                      class="btn btn-danger"
+                      aria-describedby="exclude-description">{% translate "Exclude" %}</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% if service.can_delete %}
+      <form method="post">
+        <div class="card">
+          <div class="card-header text-bg-danger">
+            <h4 class="card-title">{% translate "Danger zone" %}</h4>
+          </div>
+          <div class="card-body">
+            {% csrf_token %}
+            <p>{% translate "Removing this installation stops it from being used here and in scopes inheriting it, and deletes its saved settings. You will need to install and configure it again to use it later." %}</p>
+          </div>
+          <div class="card-footer">
+            <button type="submit" name="delete" value="1" class="btn btn-danger">{% translate "Remove" %}</button>
+          </div>
+        </div>
+      </form>
+    {% endif %}
+  {% elif not form and service.is_available %}
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" name="install" value="1" class="btn btn-primary">{% translate "Install" %}</button>
+    </form>
+  {% endif %}
+{% endblock machinery_content %}

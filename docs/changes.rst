@@ -5,6 +5,10 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Translation service installations have a :ref:`Logs tab <machinery-error-log>` showing provider errors, including rate limits.
+
+* Added :ref:`workspace translation propagation scopes <workspace-propagation-scope>` for sharing translations across projects or components with matching names.
+
 * Added :ref:`CDN manifests <cdn-manifest>` listing available languages and translation files with checksums and sizes.
 * Added an optional :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts.
 * Added :ref:`eTranslation automatic suggestions <mt-etranslation>` with a default language domain and per-component domain mapping.
@@ -13,13 +17,18 @@ Weblate 2026.11
 * Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 * Added personal and project :ref:`saved-searches` offered in the search filters.
 * Docker deployments can :ref:`trust custom CA certificates <docker-custom-ca>` for outgoing connections, including repository operations over HTTPS.
+* :ref:`Automations <automation-workflows>` can be edited visually, with a toggle to the raw YAML.
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 
 .. rubric:: Improvements
 
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
 * Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
+* Grouped related settings in :ref:`add-on configuration <addons>` and its generated documentation.
 
+* Clarified :ref:`bulk-edit` by grouping flags and labels by scope and separating add and remove actions.
+
+* PyPI releases include :ref:`publish attestations <verify>` recording package provenance.
 * Docker deployments support :ref:`signing in through Hosted Weblate or another Weblate installation <docker-weblate-auth>` using OpenID Connect.
 * Project administrators with :guilabel:`Edit project settings` can directly access and manage restricted components in their project; translation and download actions keep their separate permissions.
 * Improved :ref:`string search <search-strings>` performance when filtering by a language code.
@@ -31,11 +40,12 @@ Weblate 2026.11
 * Bounded :ref:`JSON webhook response bodies and headers <webhook-response-limits>` to limit worker memory use and activity-log growth.
 * Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
 * :ref:`Component creation <adding-components>` loads remote branches only for the selected component, avoiding repository queries when opening the page.
-
+* :ref:`Translation services <machine-translation-setup>` have detail pages with settings and controls, rate limit status badges, and manual cooldown reset. Cooldowns are scoped to individual installations.
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 * Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.
 * SVG status badges now use a blurred text shadow to match the shields.io style, improving text contrast.
+* Separated :ref:`add-on integration instructions <addons>` from settings, and added setup guidance for webhooks, Slack, and Fedora Messaging.
 
 .. rubric:: Security fixes
 
@@ -49,12 +59,14 @@ Weblate 2026.11
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
+* Prevented automatic suggestions from exposing private project or restricted component translations through a shared cache.
 * Fixed role permission revocation through partial API updates.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`projectbackup` imports rejecting strings with empty sources.
 * Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
 * Fixed initial installation of the :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`.
 * Fixed :ref:`Sphinx POT extraction <addon-weblate.gettext.sphinx>` to respect the component's gettext line wrapping setting.

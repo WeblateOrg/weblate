@@ -111,6 +111,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    FormFieldGroup,
     InheritedSetting,
     NormalizedNewlineCharField,
     QueryField,
@@ -4609,35 +4610,26 @@ class BulkEditForm(forms.Form):
         choices=[(-1, gettext_lazy("Do not change"))],
     )
     path = forms.CharField(widget=forms.HiddenInput, required=False)
-    add_flags = FlagField(
-        label=gettext_lazy("Source flags to add — all languages"), required=False
-    )
-    remove_flags = FlagField(
-        label=gettext_lazy("Source flags to remove — all languages"), required=False
-    )
-    add_translation_flags = FlagField(
-        label=gettext_lazy("Translation flags to add — matching translations"),
-        required=False,
-        help_text=gettext_lazy(
-            "Applies only to matching translations, excluding source strings."
-        ),
-    )
+    add_flags = FlagField(label=gettext_lazy("Add flags"), required=False)
+    remove_flags = FlagField(label=gettext_lazy("Remove flags"), required=False)
+    add_translation_flags = FlagField(label=gettext_lazy("Add flags"), required=False)
     remove_translation_flags = FlagField(
-        label=gettext_lazy("Translation flags to remove — matching translations"),
+        label=gettext_lazy("Remove flags"),
         required=False,
         help_text=gettext_lazy(
-            "Removes locally set flags. Inherited flags remain in effect."
+            "Only flags set directly on these translations are removed. "
+            "Inherited flags remain in effect."
         ),
     )
     add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to add — all languages"),
+        label=gettext_lazy("Add labels"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to remove — all languages"),
+        label=gettext_lazy("Remove labels"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
@@ -4703,10 +4695,6 @@ class BulkEditForm(forms.Form):
             self.helper.layout = Layout(
                 Div(template="snippets/bulk-selection-help.html"),
                 Field("state"),
-                Field("add_flags"),
-                Field("remove_flags"),
-                Field("add_translation_flags"),
-                Field("remove_translation_flags"),
             )
         else:
             self.helper.layout = Layout(
@@ -4714,14 +4702,75 @@ class BulkEditForm(forms.Form):
                 SearchField("q", user=user, project=get_saved_search_project(obj)),
                 Field("path"),
                 Field("state"),
-                Field("add_flags"),
-                Field("remove_flags"),
-                Field("add_translation_flags"),
-                Field("remove_translation_flags"),
             )
-        if labels:
-            self.helper.layout.append(InlineCheckboxes("add_labels"))
-            self.helper.layout.append(InlineCheckboxes("remove_labels"))
+
+        for group in self.get_field_groups(selection=selection):
+            add_field, remove_field = group.fields
+            if add_field == "add_labels":
+                if not labels:
+                    continue
+                fields = [InlineCheckboxes(add_field), InlineCheckboxes(remove_field)]
+            else:
+                fields = [Field(add_field), Field(remove_field)]
+                self.fields[add_field].widget.attrs["placeholder"] = gettext(
+                    "Choose flags to add…"
+                )
+                self.fields[remove_field].widget.attrs["placeholder"] = gettext(
+                    "Choose flags to remove…"
+                )
+            self.helper.layout.append(
+                group.as_fieldset(
+                    self,
+                    Div(
+                        *(Div(field, css_class="col-md-6") for field in fields),
+                        css_class="row",
+                    ),
+                )
+            )
+
+    def get_field_groups(self, *, selection: bool = False) -> list[FormFieldGroup]:
+        """Describe all operations, including labels without available UI choices."""
+        return [
+            FormFieldGroup(
+                gettext("Source flags"),
+                ("add_flags", "remove_flags"),
+                gettext(
+                    "Flags are set on the source strings corresponding to your "
+                    "selection and apply to their translations in every language."
+                )
+                if selection
+                else gettext(
+                    "Flags are set on the source strings corresponding to your filter "
+                    "results and apply to their translations in every language."
+                ),
+            ),
+            FormFieldGroup(
+                gettext("Translation flags"),
+                ("add_translation_flags", "remove_translation_flags"),
+                gettext(
+                    "Flags apply only to translations in your selection. "
+                    "Source strings are excluded."
+                )
+                if selection
+                else gettext(
+                    "Flags apply only to translations matching your filter. "
+                    "Source strings are excluded."
+                ),
+            ),
+            FormFieldGroup(
+                gettext("Labels"),
+                ("add_labels", "remove_labels"),
+                gettext(
+                    "Labels apply to the source strings corresponding to your "
+                    "selection and are shared across all languages."
+                )
+                if selection
+                else gettext(
+                    "Labels apply to the source strings corresponding to your filter "
+                    "results and are shared across all languages."
+                ),
+            ),
+        ]
 
     def clean(self):
         cleaned_data = super().clean() or {}

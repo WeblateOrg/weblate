@@ -42,11 +42,20 @@ from weblate.automation.operations import (
     AIQualityOperation,
     AutomaticTranslationOperation,
     AutomationOperation,
+    BulkEditOperation,
     SelectOperation,
     register,
 )
 from weblate.automation.runner import Runner, execution_context, run_automation
-from weblate.automation.schema import SCHEMA
+from weblate.automation.schema import SCHEMA, TRIGGERS
+from weblate.automation.ui import (
+    CONDITION_TITLES,
+    NESTING_ACTIONS,
+    NESTING_CONDITIONS,
+    TRIGGER_TITLES,
+    action_nodes,
+    schema_variants,
+)
 from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MachineryInstallation
@@ -143,6 +152,24 @@ class DefinitionTest(SimpleTestCase):
                 {option["const"] for option in scopes if "const" in option},
                 operation.supported_scopes - {"result"},
             )
+
+    def test_editor_names_every_schema_variant(self) -> None:
+        """The editor cannot render a node kind it has no name for."""
+        self.assertEqual(
+            {name for name, _ in schema_variants("triggers", "trigger")},
+            set(TRIGGER_TITLES),
+        )
+        self.assertEqual(
+            {name for name, _ in schema_variants("conditions", "condition")},
+            set(CONDITION_TITLES),
+        )
+        self.assertEqual(
+            {name for name, _ in schema_variants("actions", "action")},
+            set(OPERATIONS) | NESTING_ACTIONS,
+        )
+        with override("en"):
+            for operation in OPERATIONS.values():
+                self.assertEqual(str(operation.verbose), operation.title)
 
     def test_duplicate_operation_registration_is_rejected(self) -> None:
         class DuplicateOperation(AutomationOperation):
@@ -1847,6 +1874,113 @@ class AutomationTest(ReusableComponentTestCase):
         self.assertEqual(response.context["form"]["workflow"].value(), invalid)
         addon.instance.refresh_from_db()
         self.assertEqual(addon.instance.configuration["workflow"]["version"], 1)
+
+    def test_editor_renders_a_template_for_every_node_kind(self) -> None:
+        addon = self.install(WORKFLOW | {"actions": [BULK]})
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        response = self.client.get(addon.instance.get_absolute_url())
+        content = response.content.decode()
+        self.assertIn("data-automation-editor", content)
+        self.assertIn("data-automation-chrome", content)
+        # The visual editor is an addition; the YAML field keeps working
+        # without JavaScript and remains the only submitted field.
+        self.assertIn('name="workflow"', content)
+
+        tree = html.fromstring(content)
+        self.assertEqual(
+            set(tree.xpath("//template[@data-automation-node]/@data-automation-node")),
+            {f"trigger:{name}" for name in TRIGGERS}
+            | {
+                f"condition:{name}"
+                for name, _ in schema_variants("conditions", "condition")
+                if name not in NESTING_CONDITIONS
+            }
+            | {f"action:{name}" for name in OPERATIONS},
+        )
+
+        template = tree.xpath(
+            "//template[@data-automation-node='action:weblate.bulk_edit']"
+        )[0]
+        self.assertEqual(
+            json.loads(template.get("data-automation-emit")),
+            {"action": "weblate.bulk_edit", "settings": {}},
+        )
+        settings = template.xpath(".//div[@data-automation-group='settings']")[0]
+        self.assertEqual(
+            set(settings.xpath(".//*[@data-workflow-key]/@data-workflow-key")),
+            set(BulkEditOperation.settings_schema["properties"]),
+        )
+        self.assertEqual(
+            settings.xpath(".//*[@data-workflow-key='state']/@data-workflow-type"),
+            ["integer"],
+        )
+        # The schema requires the query at component scope, so the editor has
+        # to submit it even when it is left empty.
+        self.assertEqual(
+            settings.xpath(".//*[@data-workflow-key='q']/@data-workflow-required"),
+            ["1"],
+        )
+
+    def test_editor_settings_forms_cover_the_schema(self) -> None:
+        for obj in (self.component, self.component.project, None):
+            for operation in OPERATIONS.values():
+                with self.subTest(operation=operation.name, obj=obj):
+                    form = operation.settings_form(obj)
+                    self.assertLessEqual(
+                        set(operation.settings_schema["properties"]),
+                        set(form.fields),
+                    )
+
+    def test_editor_action_nodes_annotate_every_setting(self) -> None:
+        nodes = action_nodes(self.component)
+        self.assertEqual({node.name for node in nodes}, set(OPERATIONS))
+        for node in nodes:
+            with self.subTest(action=node.name):
+                settings, chrome = node.form, node.chrome
+                if settings is None or chrome is None:
+                    self.fail(f"{node.name} has no editor form")
+                properties = OPERATIONS[node.name].settings_schema["properties"]
+                self.assertEqual(set(settings.fields), set(properties))
+                self.assertEqual(set(chrome.fields), {"id", "scope"})
+                for name, field in settings.fields.items():
+                    self.assertEqual(field.widget.attrs["data-workflow-key"], name)
+                # The editor offers earlier action IDs to scopes accepting them.
+                self.assertEqual(
+                    "data-automation-result-scope"
+                    in chrome.fields["scope"].widget.attrs,
+                    "result" in OPERATIONS[node.name].supported_scopes,
+                )
+
+    def test_editor_offers_every_automatic_translation_mode(self) -> None:
+        # Workflows run as the add-on service identity, so the editor offers
+        # every mode that saving accepts, approved included.
+        for obj in (self.component, self.component.project, None):
+            with self.subTest(obj=obj):
+                form = AutomaticTranslationOperation.settings_form(obj)
+                self.assertIn(
+                    "approved",
+                    {choice[0] for choice in form.fields["mode"].choices},
+                )
+
+    def test_editor_accepts_label_names_without_project(self) -> None:
+        # Site-wide workflows have no project labels to choose from, so the
+        # editor lets users type the names that saving accepts.
+        for obj in (self.component, self.component.project, None):
+            form = BulkEditOperation.settings_form(obj)
+            for name in ("add_labels", "remove_labels"):
+                with self.subTest(obj=obj, field=name):
+                    self.assertEqual(
+                        form.fields[name].widget.attrs.get("data-create"),
+                        "true" if obj is None else None,
+                    )
+        self.assertEqual(
+            BulkEditOperation.normalize(
+                {"q": "state:translated", "add_labels": ["Typed"]}, None
+            )["add_labels"],
+            ["Typed"],
+        )
 
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_saved_preview_and_context_trigger_api(self, task: Mock) -> None:

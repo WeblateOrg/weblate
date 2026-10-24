@@ -3222,6 +3222,16 @@ List of file formats available for use.
     :ref:`formats`
 
 
+.. setting:: MACHINERY_ERROR_KEEP_DAYS
+
+MACHINERY_ERROR_KEEP_DAYS
+-------------------------
+
+.. versionadded:: 2026.11
+
+Configures how long :ref:`translation service error logs <machinery-error-log>`
+are kept, in days. Defaults to 30. A daily background task removes older entries.
+
 .. setting:: WEBLATE_MACHINERY
 
 WEBLATE_MACHINERY

@@ -7,13 +7,17 @@
 from __future__ import annotations
 
 from hashlib import md5
-from typing import TYPE_CHECKING
-from unittest.mock import patch
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, cast
+from unittest.mock import Mock, patch
 
 from django.db import connection, transaction
-from django.test import SimpleTestCase, TestCase
+from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role
+from weblate.auth.results import Denied
 from weblate.checks.base import TargetCheck
 from weblate.checks.consistency import (
     ConsistencyCheck,
@@ -23,21 +27,35 @@ from weblate.checks.consistency import (
     TranslatedCheck,
 )
 from weblate.checks.models import CHECKS, Check
-from weblate.checks.tasks import refresh_propagated_checks, schedule_propagated_checks
-from weblate.lang.models import Language
+from weblate.checks.tasks import (
+    _get_propagated_check_units,
+    refresh_propagated_checks,
+    schedule_propagated_checks,
+)
+from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import Component, Project, Translation, Unit, WorkflowSetting
+from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ReusableComponentTestCase,
 )
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import create_another_user, get_test_actor
 from weblate.trans.util import join_plural
 from weblate.utils.change_origin import acting_user_context
-from weblate.utils.state import STATE_EMPTY, STATE_NEEDS_REWRITING, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_NEEDS_REWRITING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.tests.test_views import ComponentTestCase
 
 
@@ -163,29 +181,17 @@ class ReusedCheckGuardTest(SimpleTestCase):
         handle_batch.assert_not_called()
 
 
-class ConsistencyCheckTest(ReusableComponentTestCase):
-    _fixture_other_pk: int
-
-    @classmethod
-    def build_fixture(cls, builder: ComponentTestCase) -> None:
-        super().build_fixture(builder)
-        cls._fixture_other_pk = builder.create_link_existing().pk
-
-    def setUp(self) -> None:
-        super().setUp()
-        self.other = Component.objects.get(pk=self._fixture_other_pk)
-        self.translation_1 = self.component.translation_set.get(language__code="cs")
-        self.translation_2 = self.other.translation_set.get(language__code="cs")
-        self._id_hash = 1000
+class ConsistencyUnitsMixin:
+    _id_hash: int
 
     def add_unit(
         self,
-        translation,
+        translation: Translation,
         context: str,
         source: str,
         target: str,
         increment: bool = True,
-    ):
+    ) -> Unit:
         if increment:
             self._id_hash += 1
         source_unit = translation.component.source_translation.unit_set.create(
@@ -205,6 +211,22 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             target=target,
             state=STATE_TRANSLATED,
         )
+
+
+class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
+    _fixture_other_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
+        cls._fixture_other_pk = builder.create_link_existing().pk
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.other = Component.objects.get(pk=self._fixture_other_pk)
+        self.translation_1 = self.component.translation_set.get(language__code="cs")
+        self.translation_2 = self.other.translation_set.get(language__code="cs")
+        self._id_hash = 1000
 
     def test_reuse(self) -> None:
         check = ReusedCheck()
@@ -352,7 +374,7 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             Check.objects.filter(pk__in=[check.pk for check in stale]).exists()
         )
         schedule.assert_called_once_with(
-            self.other.pk, [], ["inconsistent", "reused"], batch_mode=True
+            self.component.pk, [], ["inconsistent", "reused"], batch_mode=True
         )
 
     def test_restricting_component_removes_stale_restricted_checks(self) -> None:
@@ -397,7 +419,9 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             ) as schedule,
         ):
             self.other.save(update_fields=["restricted"])
-        schedule.assert_called_once_with(self.other.pk, [], ["reused"], batch_mode=True)
+        schedule.assert_called_once_with(
+            self.component.pk, [], ["reused"], batch_mode=True
+        )
 
     def test_restricting_component_with_checks_disabled(self) -> None:
         visible = self.add_unit(self.translation_1, "visible", "Visible", "Shared")
@@ -1093,14 +1117,18 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
             )
             # Make the source translations inconsistent as well, so the same
             # hashes match in two plural groups and exercise the ordering tie.
-            Unit.objects.filter(pk=other.source_unit_id).update(target="Different")
+            source = unit.source_unit
+            other_source = other.source_unit
+            assert source is not None
+            assert other_source is not None
+            Unit.objects.filter(pk=other_source.pk).update(target="Different")
             expected[unit.id_hash, self.translation_1.plural_id] = {
                 unit.pk,
                 other.pk,
             }
             expected[unit.id_hash, self.component.source_translation.plural_id] = {
-                unit.source_unit_id,
-                other.source_unit_id,
+                source.pk,
+                other_source.pk,
             }
 
         expected_ids = set().union(*(expected[key] for key in sorted(expected)[:100]))
@@ -1172,3 +1200,581 @@ class ConsistencyCheckTest(ReusableComponentTestCase):
 
         sql = "\n".join(query["sql"].upper() for query in queries)
         self.assertNotIn("MIN(", sql)
+
+
+class WorkspacePropagationTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
+    _fixture_other_pk: int
+
+    @classmethod
+    def build_fixture(cls, builder: ComponentTestCase) -> None:
+        super().build_fixture(builder)
+        cls._fixture_other_pk = builder.create_link_existing().pk
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.enterContext(acting_user_context(self.user))
+        self.workspace = Workspace.objects.create(name="Propagation workspace")
+        self.other_project = self.create_project(
+            name="Other project", slug="other-project", workspace=self.workspace
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=self.workspace)
+        Component.objects.filter(pk=self._fixture_other_pk).update(
+            project=self.other_project, name=self.component.name
+        )
+        self._id_hash = 1000
+        self.translation_1 = self.component.translation_set.get(language__code="cs")
+        self.other = Component.objects.get(pk=self._fixture_other_pk)
+        self.translation_2 = self.other.translation_set.get(language__code="cs")
+
+    def set_scope(self, scope: str) -> None:
+        type(self.workspace).objects.filter(pk=self.workspace.pk).update(
+            propagation_scope=scope
+        )
+
+    def test_scope_and_name_matching(self) -> None:
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        for scope, name, matches in (
+            ("project", self.component.name, False),
+            ("workspace", "Different", True),
+            ("component_name", self.component.name, True),
+            ("component_name", self.component.name.upper(), False),
+            ("component_name", "Different", False),
+        ):
+            with self.subTest(scope=scope, name=name):
+                self.set_scope(scope)
+                Component.objects.filter(pk=self.other.pk).update(name=name)
+                self.assertEqual(
+                    Unit.objects.get(pk=first.pk)
+                    .propagated_units.filter(pk=second.pk)
+                    .exists(),
+                    matches,
+                )
+        self.set_scope("workspace")
+        Project.objects.filter(pk=self.other_project.pk).update(workspace=None)
+        self.assertNotIn(second, Unit.objects.get(pk=first.pk).propagated_units)
+
+    def test_project_without_workspace(self) -> None:
+        self.set_scope("workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        Component.objects.filter(pk=self.other.pk).update(
+            project=self.project, name="Other component"
+        )
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        self.assertIn(second, Unit.objects.get(pk=first.pk).propagated_units)
+
+    def test_edit_propagates_state_and_actor(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            Unit.objects.get(pk=first.pk).translate(
+                self.user, "Changed", STATE_TRANSLATED
+            )
+        second.refresh_from_db()
+        self.assertEqual(second.target, "Changed")
+        self.assertEqual(second.state, STATE_TRANSLATED)
+        self.assertEqual(
+            second.change_set.get(action=ActionEvents.PROPAGATED_EDIT).user, self.user
+        )
+
+    def test_destination_exclusion(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        Component.objects.filter(pk=self.other.pk).update(
+            allow_translation_propagation=False
+        )
+        Unit.objects.get(pk=first.pk).translate(self.user, "Changed", STATE_TRANSLATED)
+        second.refresh_from_db()
+        self.assertEqual(second.target, "Second")
+
+    def test_destination_permissions(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        with patch.object(type(self.user), "has_perm", return_value=False):
+            first.target = "Changed"
+            self.assertFalse(first.propagate(self.user))
+        second.refresh_from_db()
+        self.assertEqual(second.target, "Second")
+
+    def check_visibility(
+        self, check, first, second, expected: bool, second_expected: bool | None = None
+    ) -> None:
+        if second_expected is None:
+            second_expected = expected
+        first = Unit.objects.get(pk=first.pk)
+        second = Unit.objects.get(pk=second.pk)
+        self.assertEqual(check.check_target_unit([], [], first), expected)
+        result = {
+            unit.pk for unit in check.check_component(first.translation.component)
+        }
+        self.assertEqual(first.pk in result, expected)
+        self.assertEqual(second.pk in result, second_expected)
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            schedule_propagated_checks(first, {check.check_id})
+        self.assertEqual(
+            Check.objects.filter(unit=first, name=check.check_id).exists(), expected
+        )
+        self.assertEqual(
+            Check.objects.filter(unit=second, name=check.check_id).exists(),
+            second_expected,
+        )
+
+    def test_consistency_visibility(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        for access in (
+            Project.ACCESS_PUBLIC,
+            Project.ACCESS_PROTECTED,
+            Project.ACCESS_PRIVATE,
+            Project.ACCESS_CUSTOM,
+        ):
+            with self.subTest(access=access):
+                Project.objects.filter(pk=self.other_project.pk).update(
+                    access_control=access
+                )
+                self.check_visibility(
+                    ConsistencyCheck(),
+                    first,
+                    second,
+                    access in {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED},
+                )
+
+    def test_reused_visibility_and_description(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "first", "First source", "Shared")
+        second = self.add_unit(self.translation_2, "second", "Secret source", "Shared")
+        for access in (Project.ACCESS_PUBLIC, Project.ACCESS_PRIVATE):
+            with self.subTest(access=access):
+                Project.objects.filter(pk=self.other_project.pk).update(
+                    access_control=access
+                )
+                self.check_visibility(
+                    ReusedCheck(), first, second, access == Project.ACCESS_PUBLIC
+                )
+                description = ReusedCheck().get_description(
+                    Check(unit=Unit.objects.get(pk=first.pk))
+                )
+                self.assertEqual(
+                    "Secret source" in description, access == Project.ACCESS_PUBLIC
+                )
+
+    def test_restricted_component_visibility(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        Component.objects.filter(pk=self.other.pk).update(restricted=True)
+        self.check_visibility(ConsistencyCheck(), first, second, False, True)
+
+    def test_named_check_groups_do_not_mix(self) -> None:
+        self.set_scope("component_name")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        self.check_visibility(ConsistencyCheck(), first, second, True)
+        self.other.name = "Different"
+        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
+            self.other.save(update_fields=["name"])
+        self.check_visibility(ConsistencyCheck(), first, second, False)
+
+    def test_scope_change_removes_warnings_without_changing_translations(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        Check.objects.get_or_create(unit=first, name="inconsistent")
+        Check.objects.get_or_create(unit=second, name="inconsistent")
+        self.workspace.propagation_scope = "project"
+        with patch(
+            "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+        ) as schedule:
+            self.workspace.save(update_fields=["propagation_scope"])
+        self.assertTrue(schedule.called)
+        self.assertFalse(
+            Check.objects.filter(unit__in=[first, second], name="inconsistent").exists()
+        )
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual((first.target, second.target), ("First", "Second"))
+
+    def test_boundary_change_removes_warnings(self) -> None:
+        self.set_scope("component_name")
+        first = self.add_unit(self.translation_1, "first", "First source", "Shared")
+        second = self.add_unit(self.translation_2, "second", "Second source", "Shared")
+        for boundary in (
+            "name",
+            "allow_translation_propagation",
+            "restricted",
+            "access_control",
+            "workspace",
+        ):
+            with self.subTest(boundary=boundary):
+                Component.objects.filter(pk=self.other.pk).update(
+                    name=self.component.name,
+                    allow_translation_propagation=True,
+                    restricted=False,
+                )
+                Project.objects.filter(pk=self.other_project.pk).update(
+                    workspace=self.workspace, access_control=Project.ACCESS_PUBLIC
+                )
+                Check.objects.get_or_create(unit=first, name="reused")
+                Check.objects.get_or_create(unit=second, name="reused")
+                obj: Project | Component
+                if boundary in {"access_control", "workspace"}:
+                    obj = Project.objects.get(pk=self.other_project.pk)
+                    setattr(
+                        obj,
+                        boundary,
+                        Project.ACCESS_PRIVATE
+                        if boundary == "access_control"
+                        else None,
+                    )
+                else:
+                    obj = Component.objects.get(pk=self.other.pk)
+                    setattr(
+                        obj,
+                        boundary,
+                        {
+                            "name": "Renamed",
+                            "allow_translation_propagation": False,
+                            "restricted": True,
+                        }[boundary],
+                    )
+                with patch(
+                    "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+                ):
+                    obj.save(update_fields=[boundary])
+                self.assertFalse(
+                    Check.objects.filter(unit=first, name="reused").exists()
+                )
+                self.assertEqual(
+                    Check.objects.filter(unit=second, name="reused").exists(),
+                    boundary == "restricted",
+                )
+
+    def test_worker_uses_current_group_membership(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        with (
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as schedule,
+            transaction.atomic(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            schedule_propagated_checks(first, {"inconsistent"})
+        self.workspace.propagation_scope = "project"
+        with patch("weblate.checks.tasks.finalize_component_checks.delay_on_commit"):
+            self.workspace.save(update_fields=["propagation_scope"])
+        refresh_propagated_checks(*schedule.call_args.args)
+        self.assertFalse(
+            Check.objects.filter(unit__in=[first, second], name="inconsistent").exists()
+        )
+
+    def test_worker_discards_groups_without_newly_required_source_rules(self) -> None:
+        for check_id in ("inconsistent", "reused"):
+            with self.subTest(check_id=check_id):
+                self.set_scope("project")
+                first = self.add_unit(
+                    self.translation_1, check_id, "First source", "Shared"
+                )
+                second = self.add_unit(
+                    self.translation_2,
+                    check_id,
+                    "First source" if check_id == "inconsistent" else "Second source",
+                    "Different" if check_id == "inconsistent" else "Shared",
+                    increment=False,
+                )
+                source_translation = second.source_unit.translation
+                original_plural = source_translation.plural
+                plural, _created = Plural.objects.get_or_create(
+                    language=source_translation.language,
+                    number=original_plural.number,
+                    formula="n > 1",
+                    type=original_plural.type,
+                )
+                Translation.objects.filter(pk=source_translation.pk).update(
+                    plural=plural
+                )
+                with (
+                    patch(
+                        "weblate.checks.tasks.refresh_propagated_checks.delay"
+                    ) as delay,
+                    transaction.atomic(),
+                    self.captureOnCommitCallbacks(execute=True),
+                ):
+                    schedule_propagated_checks(first, {check_id})
+                project_id, groups, unit_ids = delay.call_args.args
+                self.assertTrue(groups)
+                self.assertTrue(all("source_rules" not in group for group in groups))
+                self.workspace.propagation_scope = "workspace"
+                with patch(
+                    "weblate.checks.tasks.finalize_component_checks.delay_on_commit"
+                ):
+                    self.workspace.save(update_fields=["propagation_scope"])
+                check = (
+                    ConsistencyCheck() if check_id == "inconsistent" else ReusedCheck()
+                )
+                check.perform_batch(Component.objects.get(pk=self.component.pk))
+                for group in groups:
+                    self.assertFalse(
+                        _get_propagated_check_units(project_id, group).exists()
+                    )
+                refresh_propagated_checks(project_id, groups, unit_ids)
+                self.assertFalse(
+                    Check.objects.filter(
+                        unit__in=[first, second], name=check_id
+                    ).exists()
+                )
+
+    def test_upload_propagates_across_projects(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        request = cast("AuthenticatedHttpRequest", RequestFactory().post("/"))
+        request.user = self.user
+        uploaded = SimpleNamespace(
+            source=first.source,
+            context=first.context,
+            target="Uploaded",
+            import_id_hash=first.id_hash,
+            target_plural_forms=(),
+        )
+        store = Mock(content_units=[uploaded])
+        store.iterate_merge.return_value = [(False, uploaded)]
+        self.translation_1.merge_translations(
+            request, self.user, store, "replace-translated", "translate", ""
+        )
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertEqual((first.target, second.target), ("Uploaded", "Uploaded"))
+
+    def test_mixed_translation_parent_configuration(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Original", "First")
+        german = Language.objects.get(code="de")
+        parent = self.component.translation_set.get(language=german).unit_set.create(
+            id_hash=first.id_hash,
+            position=first.position,
+            source_unit=first.source_unit,
+            source=first.source,
+            context=first.context,
+            target="German source",
+            state=STATE_TRANSLATED,
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation_1.language,
+            source_language=german,
+        )
+        Component.objects.filter(pk=self.other.pk).update(source_language=german)
+        self.other.source_language = german
+        self.translation_2.component = self.other
+        second = self.add_unit(self.translation_2, "same", "German source", "Second")
+        first = Unit.objects.get(pk=first.pk)
+        self.assertEqual(first.translation_parent_id, parent.pk)
+        self.assertIn(second, first.propagated_units)
+        self.assertIn(first, Unit.objects.get(pk=second.pk).propagated_units)
+        self.check_visibility(ConsistencyCheck(), first, second, True)
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            first.translate(self.user, "Changed", STATE_TRANSLATED)
+        second.refresh_from_db()
+        self.assertEqual(second.target, "Changed")
+
+    def test_inaccessible_destination_is_not_named_in_warnings(self) -> None:
+        self.set_scope("workspace")
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        self.add_unit(self.translation_2, "same", "Same", "Second", increment=False)
+        with (
+            patch.object(
+                type(self.user), "has_perm", return_value=Denied("Access denied")
+            ),
+            patch.object(type(self.user), "can_access_component", return_value=False),
+            patch("weblate.trans.models.unit.messages.warning") as warning,
+        ):
+            self.assertFalse(first.propagate(self.user, request=Mock()))
+        warning.assert_not_called()
+
+    def create_review_units(self) -> tuple[Unit, Unit, User, Group]:
+        self.set_scope("workspace")
+        Project.objects.filter(pk__in=[self.project.pk, self.other_project.pk]).update(
+            translation_review=True
+        )
+        first = self.add_unit(self.translation_1, "same", "Same", "First")
+        second = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        user = create_another_user()
+        editors = Group.objects.create(
+            name="Propagation editors", language_selection=SELECTION_ALL
+        )
+        editors.roles.add(Role.objects.get(name="Translate"))
+        editors.projects.add(self.project, self.other_project)
+        reviewers = Group.objects.create(
+            name="Source reviewers", language_selection=SELECTION_ALL
+        )
+        reviewers.roles.add(Role.objects.get(name="Review strings"))
+        reviewers.projects.add(self.project)
+        user.groups.set([editors, reviewers])
+        user.clear_permissions_cache()
+        first = Unit.objects.get(pk=first.pk)
+        second = Unit.objects.get(pk=second.pk)
+        self.assertTrue(user.has_perm("unit.review", first))
+        self.assertTrue(user.has_perm("unit.edit", second))
+        self.assertFalse(user.has_perm("unit.review", second))
+        return first, second, user, reviewers
+
+    def test_approval_uses_each_destination_review_permission(self) -> None:
+        first, second, user, reviewers = self.create_review_units()
+        third_project = self.create_project(
+            name="Reviewed destination",
+            slug="reviewed-destination",
+            workspace=self.workspace,
+            translation_review=True,
+        )
+        third_component = self.create_link_existing(project=third_project)
+        third_translation = third_component.translation_set.get(language__code="cs")
+        third = self.add_unit(
+            third_translation, "same", "Same", "Third", increment=False
+        )
+        reviewers.projects.add(third_project)
+        user.clear_permissions_cache()
+        self.assertTrue(user.has_perm("unit.review", third))
+        with transaction.atomic(), self.captureOnCommitCallbacks(execute=True):
+            first.translate(user, "Approved source", STATE_APPROVED)
+        for unit, state in ((second, STATE_TRANSLATED), (third, STATE_APPROVED)):
+            with self.subTest(destination=unit.pk):
+                unit.refresh_from_db()
+                self.assertEqual(unit.target, first.target)
+                self.assertEqual(unit.state, state)
+                self.assertEqual(unit.original_state, state)
+                pending = PendingUnitChange.objects.get(unit=unit, target=first.target)
+                self.assertEqual(pending.state, state)
+                self.assertEqual(pending.metadata["actor_id"], user.pk)
+                change = unit.change_set.get(action=ActionEvents.PROPAGATED_EDIT)
+                self.assertEqual(change.user, user)
+                self.assertEqual(change.details["state"], state)
+
+    def test_approval_fallback_respects_destination_review_settings(self) -> None:
+        first, second, user, reviewers = self.create_review_units()
+        reviewers.projects.add(self.other_project)
+        for workflow_override in (False, True):
+            with self.subTest(workflow_override=workflow_override):
+                Project.objects.filter(pk=self.other_project.pk).update(
+                    translation_review=workflow_override
+                )
+                if workflow_override:
+                    WorkflowSetting.objects.create(
+                        project=self.other_project,
+                        language=second.translation.language,
+                        translation_review=False,
+                    )
+                user.clear_permissions_cache()
+                destination = Unit.objects.get(pk=second.pk)
+                self.assertFalse(destination.translation.enable_review)
+                self.assertFalse(user.has_perm("unit.review", destination))
+                target = f"Approved {workflow_override}"
+                # Disabling reviews can leave an existing approved state. Even
+                # with identical text, it must not bypass the destination rules.
+                Unit.objects.filter(pk=second.pk).update(
+                    target=target, state=STATE_APPROVED, original_state=STATE_APPROVED
+                )
+                first.translate(user, target, STATE_APPROVED)
+                second.refresh_from_db()
+                self.assertEqual(second.state, STATE_TRANSLATED)
+                self.assertEqual(second.original_state, STATE_TRANSLATED)
+                self.assertEqual(second.target, first.target)
+
+    def test_approval_fallback_skips_unchanged_translation(self) -> None:
+        first, second, user, _reviewers = self.create_review_units()
+        Unit.objects.filter(pk=second.pk).update(
+            target="Same target", original_state=STATE_TRANSLATED
+        )
+        count = second.change_set.count()
+        pending_count = PendingUnitChange.objects.filter(unit=second).count()
+        first.translate(user, "Same target", STATE_APPROVED)
+        second.refresh_from_db()
+        self.assertEqual(second.state, STATE_TRANSLATED)
+        self.assertEqual(second.original_state, STATE_TRANSLATED)
+        self.assertEqual(second.change_set.count(), count)
+        self.assertEqual(
+            PendingUnitChange.objects.filter(unit=second).count(), pending_count
+        )
+
+    def test_approval_does_not_change_protected_destination(self) -> None:
+        first, second, user, _reviewers = self.create_review_units()
+        for state in (STATE_APPROVED, STATE_READONLY):
+            with self.subTest(state=state):
+                Unit.objects.filter(pk=second.pk).update(
+                    state=state, original_state=state
+                )
+                user.clear_permissions_cache()
+                self.assertFalse(
+                    user.has_perm("unit.edit", Unit.objects.get(pk=second.pk))
+                )
+                first.translate(user, f"Approved {state}", STATE_APPROVED)
+                second.refresh_from_db()
+                self.assertEqual(second.target, "Second")
+                self.assertEqual(second.state, state)
+                self.assertFalse(
+                    second.change_set.filter(
+                        action=ActionEvents.PROPAGATED_EDIT
+                    ).exists()
+                )
+
+    def test_approval_fallback_is_blocked_by_commit_policy(self) -> None:
+        first, second, user, _reviewers = self.create_review_units()
+        Project.objects.filter(pk=self.other_project.pk).update(
+            commit_policy=CommitPolicyChoices.APPROVED_ONLY
+        )
+        first.translate(user, "Approved source", STATE_APPROVED)
+        second = Unit.objects.get(pk=second.pk)
+        self.assertTrue(second.is_blocked_by_commit_policy)
+        pending = PendingUnitChange.objects.get(unit=second, target=first.target)
+        self.assertEqual(pending.state, STATE_TRANSLATED)
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(second.translation)
+            .filter(pk=pending.pk)
+            .exists()
+        )
+        second.translation.commit_pending("test", user)
+        self.assertTrue(PendingUnitChange.objects.filter(pk=pending.pk).exists())
+
+    def test_project_propagation_also_checks_destination_review_permission(
+        self,
+    ) -> None:
+        first, second, user, reviewers = self.create_review_units()
+        self.set_scope("project")
+        Component.objects.filter(pk=self.other.pk).update(
+            project=self.project, name="Other component"
+        )
+        reviewers.components.add(self.component)
+        user.clear_permissions_cache()
+        self.assertFalse(user.has_perm("unit.review", Unit.objects.get(pk=second.pk)))
+        first.translate(user, "Approved source", STATE_APPROVED)
+        second.refresh_from_db()
+        self.assertEqual(second.target, first.target)
+        self.assertEqual(second.state, STATE_TRANSLATED)

@@ -2920,6 +2920,48 @@ class BackupsTest(ReusableViewTestCase):
 
         self.assertIn("project.web", error.exception.message_dict)
 
+    def test_backup_restore_empty_source(self) -> None:
+        unit = self.translation.unit_set.get(source="Hello, world!\n")
+        source_unit = unit.source_unit
+        context = "settings.tipsNotChosen"
+        Unit.objects.filter(
+            translation__component=self.component, id_hash=unit.id_hash
+        ).update(source="", context=context)
+        Unit.objects.filter(pk=source_unit.pk).update(target="")
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        restored_source = restored_component.source_translation.unit_set.get(
+            id_hash=source_unit.id_hash
+        )
+        restored_unit = restored_component.translation_set.get(
+            language_code=self.translation.language_code
+        ).unit_set.get(id_hash=unit.id_hash)
+        for restored_item in (restored_source, restored_unit):
+            with self.subTest(language=restored_item.translation.language_code):
+                self.assertEqual(restored_item.source, "")
+                self.assertEqual(restored_item.context, context)
+        self.assertEqual(restored_source.target, "")
+        self.assertEqual(restored_unit.target, unit.target)
+        self.assertEqual(restored_unit.source_unit_id, restored_source.pk)
+
+    def test_restore_rejects_null_source(self) -> None:
+        temp_name = self.write_tampered_component_backup(unit_updates={"source": None})
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(jsonschema.ValidationError) as error:
+                restore.validate()
+
+        self.assertEqual(error.exception.path[-1], "source")
+
     def test_restore_rejects_malformed_unit_checksum(self) -> None:
         temp_name = self.write_tampered_component_backup(
             unit_updates={"id_hash": "x0123456789abcdefy"}

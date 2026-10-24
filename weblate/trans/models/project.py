@@ -695,7 +695,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 )
                 old = Project.objects.using(using).get(pk=self.pk) if self.pk else None
                 renamed_paths = self._get_rename_paths(old) if old is not None else None
-                self._save_project(old, created_paths, *args, **kwargs)
+                self._save_project_with_checks(old, created_paths, *args, **kwargs)
         except Exception:
             if committed:
                 raise
@@ -744,6 +744,49 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     )
                 )
         validate_internal_installations_for_project(self)
+
+    def _save_project_with_checks(
+        self, old: Project | None, created_paths: list[str], *args, **kwargs
+    ) -> None:
+        update_fields = kwargs.get("update_fields")
+        boundary_changed = old is not None and any(
+            (
+                update_fields is None
+                or field.removesuffix("_id") in update_fields
+                or field in update_fields
+            )
+            and getattr(old, field) != getattr(self, field)
+            for field in ("workspace_id", "access_control")
+        )
+        if not boundary_changed or old is None:
+            self._save_project(old, created_paths, *args, **kwargs)
+            return
+
+        from weblate.checks.locks import lock_check_projects  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.propagation import refresh_propagation_checks  # ruff: ignore[import-outside-top-level]
+
+        lock_check_projects(
+            {self.pk},
+            workspace_ids={
+                workspace_id
+                for workspace_id in (old.workspace_id, self.workspace_id)
+                if workspace_id is not None
+            },
+            exclusive=True,
+        )
+        old = Project.objects.get(pk=self.pk)
+        affected = {self.pk}
+        affected.update(
+            Project.objects.filter(
+                workspace_id__in={
+                    workspace_id
+                    for workspace_id in (old.workspace_id, self.workspace_id)
+                    if workspace_id is not None
+                }
+            ).values_list("pk", flat=True)
+        )
+        self._save_project(old, created_paths, *args, **kwargs)
+        refresh_propagation_checks(affected)
 
     def _save_project(
         self, old: Project | None, created_paths: list[str], *args, **kwargs
@@ -1024,6 +1067,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if workspace is not None:
             return Flags(workspace.check_flags, self.check_flags)
         return Flags(self.check_flags)
+
+    @property
+    def propagation_checks_lock(self) -> WeblateLock:
+        from weblate.trans.propagation import workspace_propagation  # ruff: ignore[import-outside-top-level]
+
+        if workspace_propagation(self):
+            return WeblateLock(
+                scope="workspace:checks",
+                key=str(self.workspace_id),
+                slug=str(self.workspace_id),
+                timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
+                origin=self.full_slug,
+            )
+        return self.checks_lock
 
     @cached_property
     def checks_lock(self):

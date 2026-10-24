@@ -16,6 +16,11 @@ from weblate.checks.base import BatchCheckMixin
 from weblate.checks.locks import check_project_session_read_lock
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
+from weblate.trans.propagation import (
+    propagation_filter,
+    propagation_uses_custom_sources,
+    workspace_propagation,
+)
 from weblate.trans.util import split_plural
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -27,6 +32,7 @@ if TYPE_CHECKING:
 
 class PropagatedCheckGroup(TypedDict):
     check: str
+    component_id: int
     scope: Literal["source", "target"]
     source_language_id: int | None
     language_id: int
@@ -73,7 +79,7 @@ def schedule_propagated_checks(
     if refresh_unit:
         pending.unit_ids.add(unit.pk)
 
-    custom_sources = bool(component.project.translation_parent_language_ids)
+    custom_sources = propagation_uses_custom_sources(component.project)
     for check in sorted(checks):
         scope = CHECKS[check].propagates
         if scope is None:
@@ -89,6 +95,7 @@ def schedule_propagated_checks(
         for state in states:
             group: PropagatedCheckGroup = {
                 "check": check,
+                "component_id": component.pk,
                 "scope": scope,
                 "source_language_id": component.source_language_id,
                 "language_id": unit.translation.language_id,
@@ -131,14 +138,29 @@ def _store_propagated_checks(
 
 
 def _get_propagated_check_units(
-    project_id: int, group: PropagatedCheckGroup, *, custom_sources: bool
+    project_id: int, group: PropagatedCheckGroup
 ) -> UnitQuerySet:
     """Find peers sharing the check's effective source or target context."""
+    component = (
+        Component.objects.select_related("project__workspace")
+        .filter(pk=group["component_id"], project_id=project_id)
+        .first()
+    )
+    if component is None:
+        return Unit.objects.none()
+    # Membership and policy may have changed since the refresh was queued.
+    project = component.project
+    custom_sources = propagation_uses_custom_sources(project)
+    if custom_sources and "source_rules" not in group:
+        # A project-only group can outlive a scope/workflow change. The boundary
+        # rebuild handles the new groups; this incomplete payload must not
+        # expand its old group to incompatible effective source plural rules.
+        return Unit.objects.none()
     units = (
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
         .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
-            translation__component__project_id=project_id,
+            propagation_filter(project, "translation__component__", component.name),
             check_source_language=group["source_language_id"],
             translation__component__allow_translation_propagation=True,
             translation__plural_id=group["plural_id"],
@@ -164,6 +186,8 @@ def _get_propagated_check_units(
             target=group["target"],
             target__lower__md5=MD5(Lower(Value(group["target"]))),
         )
+    if workspace_propagation(project):
+        units = units.annotate(workspace_propagation=Value(True))
     return units.prefetch().prefetch_source().prefetch_all_checks()
 
 
@@ -182,78 +206,84 @@ def refresh_propagated_checks(
     groups: list[PropagatedCheckGroup],
     unit_ids: list[int] | None = None,
 ) -> None:
-    try:
-        project = Project.objects.get(pk=project_id)
-    except Project.DoesNotExist:
-        return
     # Commit warning changes in chunks so the worker does not hold row locks
     # for the entire group and block concurrent translation saves.
-    with project.checks_lock, check_project_session_read_lock(project_id):
-        project.log_info("refreshing %d propagated check groups", len(groups))
-        custom_sources = bool(project.translation_parent_language_ids)
-        translations: dict[int, Translation] = {}
-        sources: set[int] = set()
-        # Text propagation has already changed these units' content. They need
-        # their own checks updated, in addition to related propagated warnings.
-        if unit_ids:
-            for unit in (
-                Unit.objects.filter(
-                    pk__in=unit_ids, translation__component__project_id=project_id
-                )
-                .prefetch()
-                .prefetch_source()
-                .prefetch_all_checks()
-                .iterator(chunk_size=500)
-            ):
-                with transaction.atomic():
-                    unit.is_batch_update = True
-                    unit.run_checks(skip_propagate=True)
-                translations[unit.translation_id] = unit.translation
-                if unit.source_unit_id is not None:
-                    sources.add(unit.source_unit_id)
-        for group in groups:
-            check = CHECKS.get(group["check"])
-            if check is None or check.propagates != group["scope"]:
-                continue
-            if check.propagates == "target" and not any(split_plural(group["target"])):
-                continue
-            units = _get_propagated_check_units(
-                project_id, group, custom_sources=custom_sources
+    with check_project_session_read_lock(project_id):
+        project = (
+            Project.objects.select_related("workspace").filter(pk=project_id).first()
+        )
+        if project is None:
+            return
+        with project.propagation_checks_lock:
+            _refresh_propagated_checks(project, groups, unit_ids)
+
+
+def _refresh_propagated_checks(
+    project: Project, groups: list[PropagatedCheckGroup], unit_ids: list[int] | None
+) -> None:
+    project_id = project.pk
+    project.log_info("refreshing %d propagated check groups", len(groups))
+    translations: dict[int, Translation] = {}
+    sources: set[int] = set()
+    # Text propagation has already changed these units' content. They need
+    # their own checks updated, in addition to related propagated warnings.
+    if unit_ids:
+        for unit in (
+            Unit.objects.filter(
+                pk__in=unit_ids, translation__component__project_id=project_id
             )
-            create = []
-            remove = []
-            for unit, failed in check.evaluate_propagated(units):
-                # Also repair derived source warnings and stats on a retry
-                # after an earlier attempt committed only some chunks.
-                translations[unit.translation_id] = unit.translation
-                if not unit.is_source and unit.source_unit_id is not None:
-                    sources.add(unit.source_unit_id)
-                existing = check.check_id in unit.all_checks_names
-                if existing == failed:
-                    continue
-                if failed:
-                    create.append(Check(unit_id=unit.pk, name=check.check_id))
-                else:
-                    remove.append(unit.pk)
-                if len(create) + len(remove) >= 500:
-                    _store_propagated_checks(check.check_id, create, remove)
-                    create = []
-                    remove = []
-            _store_propagated_checks(check.check_id, create, remove)
-        for source in (
-            Unit.objects.filter(pk__in=sources)
             .prefetch()
+            .prefetch_source()
             .prefetch_all_checks()
             .iterator(chunk_size=500)
         ):
             with transaction.atomic():
-                source.is_batch_update = True
-                source.run_checks(skip_propagate=True)
-            translations[source.translation_id] = source.translation
+                unit.is_batch_update = True
+                unit.run_checks(skip_propagate=True)
+            translations[unit.translation_id] = unit.translation
+            if unit.source_unit_id is not None:
+                sources.add(unit.source_unit_id)
+    for group in groups:
+        check = CHECKS.get(group["check"])
+        if check is None or check.propagates != group["scope"]:
+            continue
+        if check.propagates == "target" and not any(split_plural(group["target"])):
+            continue
+        units = _get_propagated_check_units(project_id, group)
+        create = []
+        remove = []
+        for unit, failed in check.evaluate_propagated(units):
+            # Also repair derived source warnings and stats on a retry
+            # after an earlier attempt committed only some chunks.
+            translations[unit.translation_id] = unit.translation
+            if not unit.is_source and unit.source_unit_id is not None:
+                sources.add(unit.source_unit_id)
+            existing = check.check_id in unit.all_checks_names
+            if existing == failed:
+                continue
+            if failed:
+                create.append(Check(unit_id=unit.pk, name=check.check_id))
+            else:
+                remove.append(unit.pk)
+            if len(create) + len(remove) >= 500:
+                _store_propagated_checks(check.check_id, create, remove)
+                create = []
+                remove = []
+        _store_propagated_checks(check.check_id, create, remove)
+    for source in (
+        Unit.objects.filter(pk__in=sources)
+        .prefetch()
+        .prefetch_all_checks()
+        .iterator(chunk_size=500)
+    ):
         with transaction.atomic():
-            for translation in translations.values():
-                translation.require_full_stats_rebuild()
-                translation.invalidate_cache()
+            source.is_batch_update = True
+            source.run_checks(skip_propagate=True)
+        translations[source.translation_id] = source.translation
+    with transaction.atomic():
+        for translation in translations.values():
+            translation.require_full_stats_rebuild()
+            translation.invalidate_cache()
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:

@@ -922,8 +922,10 @@ Allow translation propagation
 +++++++++++++++++++++++++++++
 
 You can turn off propagation of translations to this component from other
-components within same project. This really depends on what you are
-translating, sometimes it's desirable to have make use of a translation more than once.
+components within the configured
+:ref:`workspace propagation scope <workspace-propagation-scope>`. By default,
+propagation stays within the same project. This depends on what you are
+translating; sometimes it is desirable to reuse a translation more than once.
 
 It's usually a good idea to turn this off for monolingual translations, unless
 you are using the same IDs across the whole project.

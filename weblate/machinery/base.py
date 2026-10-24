@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import contextlib
+import json
 import math
 import random
 import re
@@ -17,13 +18,14 @@ from hashlib import md5
 from html import escape, unescape
 from itertools import chain
 from typing import TYPE_CHECKING, ClassVar
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, quote_plus, urlparse
 
 import httpx2
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.utils.functional import cached_property
 from django.utils.http import parse_http_date_safe
 from django.utils.translation import gettext
@@ -159,12 +161,27 @@ class BatchMachineTranslation(DocVersionsMixin):
         self.mtid = self.get_identifier()
         if installation_id := configuration.get("_installation_id"):
             self.mtid = f"{self.mtid}:{installation_id}"
-        self.rate_limit_cache = f"{self.mtid}-rate-limit"
+        self.rate_limit_cache = self.get_rate_limit_cache_keys(configuration)[0]
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error: Exception | None = None
         self.supported_languages_error_age: float = 0
         self.settings = configuration
+
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        """Identify cooldowns independently of the project consuming an installation."""
+        identifier = cls.get_identifier()
+        if installation_id := configuration.get("_installation_id"):
+            identifier = f"{identifier}:{installation_id}"
+        else:
+            cache_configuration = {
+                key: value
+                for key, value in configuration.items()
+                if not key.startswith("_")
+            }
+            identifier = f"{identifier}:{calculate_dict_hash(cache_configuration)}"
+        return (f"{identifier}-rate-limit",)
 
     def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -416,11 +433,100 @@ class BatchMachineTranslation(DocVersionsMixin):
         extra_log: str | None = None,
     ) -> None:
         """Report error situations."""
+        self._save_machinery_error(exception, cause)
         report_error(
             f"machinery[{self.name}]: {cause}",
             extra_log=extra_log,
             exception=exception,
         )
+
+    def _get_machinery_error(self, exc: BaseException, cause: str) -> str:
+        """Format bounded diagnostics with private configuration redacted."""
+        response = getattr(exc, "response", None)
+        try:
+            if isinstance(
+                response, httpx2.Response
+            ) and not self.can_display_error_detail(response):
+                message = str(exc)
+            else:
+                message = (
+                    self.get_error_message(exc)
+                    if isinstance(exc, Exception)
+                    else str(exc)
+                )
+        except Exception:
+            # Provider response parsing must not hide the original error.
+            message = f"{type(exc).__name__}: {exc}"
+        status = (
+            str(response.status_code) if isinstance(response, httpx2.Response) else ""
+        )
+        if not isinstance(message, str) or not message.strip():
+            message = str(exc)
+        message = message.removeprefix(f"{type(exc).__name__}: ")
+        message = ": ".join(filter(None, [cause, type(exc).__name__, status, message]))
+        message = sanitize_machinery_error(message)
+
+        # Only explicitly public configuration may be echoed in diagnostics.
+        # Include nested credentials and encoded values used in provider errors.
+        public_fields = (
+            self.settings_form.public_configuration_fields
+            if self.settings_form is not None
+            else frozenset()
+        )
+        secrets: set[str] = set()
+
+        def collect_values(value: object) -> None:
+            if isinstance(value, str) and value:
+                secrets.update((value, quote(value, safe=""), quote_plus(value)))
+                # Providers can echo individual fields from serialized service
+                # account documents instead of the complete credentials string.
+                if value.lstrip().startswith(("{", "[")):
+                    with contextlib.suppress(json.JSONDecodeError):
+                        collect_values(json.loads(value))
+            elif isinstance(value, dict):
+                for nested in value.values():
+                    collect_values(nested)
+            elif isinstance(value, list):
+                for nested in value:
+                    collect_values(nested)
+
+        for key, value in self.settings.items():
+            if not key.startswith("_") and key not in public_fields:
+                collect_values(value)
+        if secrets:
+            message = re.sub(
+                "|".join(
+                    re.escape(value) for value in sorted(secrets, key=len, reverse=True)
+                ),
+                "[redacted]",
+                message,
+            )
+        return message[:2000]
+
+    def _save_machinery_error(self, exc: BaseException, cause: str) -> None:
+        """Persist diagnostics without interfering with provider failures."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.models import MachineryError, MachineryInstallation
+
+        installation_id = self.settings.get("_installation_id")
+        if installation_id is None:
+            return
+        try:
+            message = self._get_machinery_error(exc, cause)
+            # Lock the installation against deletion. A savepoint also keeps a
+            # failed write from breaking the caller's transaction.
+            with transaction.atomic():
+                if (
+                    not MachineryInstallation.objects.select_for_update()
+                    .filter(pk=installation_id)
+                    .exists()
+                ):
+                    return
+                MachineryError.objects.create(
+                    installation_id=installation_id, error=message
+                )
+        except Exception:
+            log_handled_exception("Could not save machinery error")
 
     def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
         """Log a handled error without reporting it to external services."""
@@ -1860,8 +1966,13 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         except ValueError:
             cache.set(version_key, 1, None)
 
+    @classmethod
+    def get_rate_limit_cache_keys(cls, configuration: SettingsDict) -> tuple[str, ...]:
+        keys = super().get_rate_limit_cache_keys(configuration)
+        return (*keys, f"{keys[0]}-rephrase")
+
     def get_rephrase_rate_limit_cache_key(self) -> str:
-        return self.get_cache_key("rephrase-rate-limit")
+        return self.get_rate_limit_cache_keys(self.settings)[1]
 
     def is_rephrase_rate_limited(self) -> bool:
         return bool(cache.get(self.get_rephrase_rate_limit_cache_key()))
@@ -1879,6 +1990,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
     def _handle_rephrase_error(self, exc: Exception) -> None:
         if self.is_rate_limit_error(exc) or isinstance(exc, httpx2.TimeoutException):
             self.set_rephrase_rate_limit(self.get_rate_limit_timeout(exc))
+        self._save_machinery_error(exc, "Could not rephrase translations")
         self.log_handled_error("Could not rephrase translations")
 
     def get_rephrase_cache_version_key(self) -> str:
@@ -2107,7 +2219,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
                 write_lang, candidates
             )
         except Exception as exc:
-            self._handle_rephrase_error(exc)
+            await sync_to_async(self._handle_rephrase_error)(exc)
             return results
         return self._merge_rephrase_results(results, candidates, improved_texts)
 

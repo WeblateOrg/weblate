@@ -12,12 +12,12 @@ from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
+from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
 
 import httpx2
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from botocore.exceptions import ClientError
 from botocore.stub import ANY, Stubber
 from django.conf import settings as django_settings
@@ -25,7 +25,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import SimpleTestCase, TestCase
+from django.test import Client, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
@@ -40,6 +40,7 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from google.rpc.error_details_pb2 import RetryInfo  # type: ignore[import-untyped]
 
+from weblate.auth.models import Group, Role
 from weblate.checks import flags as check_flags
 from weblate.checks import models as check_models
 from weblate.checks.utils import highlight_string
@@ -119,8 +120,6 @@ from weblate.workspaces.models import Workspace
 from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
-    from typing import Any
-
     from weblate.machinery.base import (
         SettingsDict,
     )
@@ -440,6 +439,52 @@ class NorwegianLanguageMappingTest(SimpleTestCase):
                 for code in ("nb", "nb_NO"):
                     with self.subTest(machine=machine.name, code=code):
                         self.assertEqual(machine.map_language_code(code), expected)
+
+
+class MachineryRateLimitTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.addCleanup(cache.clear)
+        cache.clear()
+
+    def test_uninstalled_configurations_have_independent_cooldowns(self) -> None:
+        first = DeepLTranslation({"key": "first"})
+        second = DeepLTranslation({"key": "second"})
+        first.set_rate_limit()
+        self.assertTrue(DeepLTranslation({"key": "first"}).is_rate_limited())
+        self.assertFalse(second.is_rate_limited())
+
+    def test_installations_with_identical_credentials_are_independent(self) -> None:
+        first = DeepLTranslation({"key": "shared", "_installation_id": 1})
+        second = DeepLTranslation({"key": "shared", "_installation_id": 2})
+        first.set_rate_limit()
+        first.set_rephrase_rate_limit()
+        self.assertFalse(second.is_rate_limited())
+        self.assertFalse(second.is_rephrase_rate_limited())
+
+    def test_inherited_installation_shares_both_cooldowns(self) -> None:
+        first = DeepLTranslation(
+            {"_installation_id": 1, "_project": Mock(spec=Project)}
+        )
+        second = DeepLTranslation(
+            {"_installation_id": 1, "_project": Mock(spec=Project)}
+        )
+        first.set_rate_limit()
+        first.set_rephrase_rate_limit()
+        self.assertTrue(second.is_rate_limited())
+        self.assertTrue(second.is_rephrase_rate_limited())
+        self.assertTrue(async_to_sync(second.ais_rephrase_rate_limited)())
+
+    def test_cooldowns_expire(self) -> None:
+        machine = DeepLTranslation({"_installation_id": 1})
+        with patch("time.time", return_value=1000):
+            machine.set_rate_limit()
+            machine.set_rephrase_rate_limit()
+        with patch("time.time", return_value=2799):
+            self.assertTrue(machine.is_rate_limited())
+            self.assertTrue(machine.is_rephrase_rate_limited())
+        with patch("time.time", return_value=2801):
+            self.assertFalse(machine.is_rate_limited())
+            self.assertFalse(machine.is_rephrase_rate_limited())
 
 
 class BaseMachineTranslationTest(TestCase):
@@ -10845,6 +10890,90 @@ class ViewsTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["responseStatus"], 200)
 
+    def assert_weblate_suggestions_respect_access(self, protected: Component) -> None:
+        public_unit = self.get_unit()
+        protected_unit = protected.translation_set.get(language_code="cs").unit_set.get(
+            source=public_unit.source
+        )
+        secret = "Protected translation for automatic suggestions"
+        Unit.objects.filter(pk=protected_unit.pk).update(
+            target=secret, state=STATE_TRANSLATED
+        )
+        access_group = Group.objects.create(name="Protected suggestion access")
+        access_group.roles.add(Role.objects.get(name="Translate"))
+        access_group.components.add(protected)
+        self.user.groups.add(access_group)
+        self.anotheruser.groups.add(Group.objects.get(name="Users"))
+        self.user.clear_permissions_cache()
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(protected))
+        self.assertTrue(self.anotheruser.can_access_component(self.component))
+        self.assertFalse(self.anotheruser.can_access_component(protected))
+        machine = WeblateTranslation({})
+        base = machine.get_base_queryset(
+            self.user, self.component.source_language, public_unit.translation.language
+        )
+        self.assertIn(protected_unit.pk, base.values_list("pk", flat=True))
+
+        async def download_in_test_transaction(
+            service, source_language, target_language, text, unit, user, threshold
+        ):
+            return await sync_to_async(
+                lambda: list(
+                    service.download_translations(
+                        source_language, target_language, text, unit, user, threshold
+                    )
+                )
+            )()
+
+        installation, _ = MachineryInstallation.objects.get_or_create(engine="weblate")
+        url = reverse(
+            "js-translate",
+            kwargs={"unit_id": public_unit.pk, "service": installation.selector},
+        )
+        with patch.object(
+            WeblateTranslation, "adownload_translations", download_in_test_transaction
+        ):
+            self.client.force_login(self.user)
+            member_response = self.client.post(url)
+            self.client.force_login(self.anotheruser)
+            outsider_response = self.client.post(url)
+
+        self.assertEqual(member_response.status_code, 200)
+        self.assertEqual(member_response.json()["responseStatus"], 200)
+        member_results = member_response.json()["translations"]
+        self.assertTrue(
+            any(
+                item["text"] == secret
+                and item["origin"] == str(protected)
+                and item["origin_url"] == protected_unit.get_absolute_url()
+                for item in member_results
+            ),
+            member_results,
+        )
+
+        self.assertEqual(outsider_response.status_code, 200)
+        self.assertEqual(outsider_response.json()["responseStatus"], 200)
+        outsider_results = outsider_response.json()["translations"]
+        outsider_data = json.dumps(outsider_results)
+        self.assertNotIn(secret, outsider_data)
+        self.assertNotIn(str(protected), outsider_data)
+        self.assertNotIn(protected_unit.get_absolute_url(), outsider_data)
+
+    def test_weblate_suggestions_do_not_leak_private_project(self) -> None:
+        private = Project.objects.create(
+            name="Private suggestions",
+            slug="private-suggestions",
+            web="https://example.com/",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        protected = self.create_po(project=private, name="Private source")
+        self.assert_weblate_suggestions_respect_access(protected)
+
+    def test_weblate_suggestions_do_not_leak_restricted_component(self) -> None:
+        protected = self.create_po(name="Restricted source", restricted=True)
+        self.assert_weblate_suggestions_respect_access(protected)
+
     def test_translate_asgi_reports_original_exception(self) -> None:
         self.ensure_dummy_mt()
         unit = self.get_unit()
@@ -11096,7 +11225,7 @@ class ViewsTest(FixtureTestCase):
             engine=service.get_identifier()
         )
         existing_url = reverse(
-            "machinery-edit", kwargs={"machinery": installation.selector}
+            "machinery-edit", kwargs={"machinery": str(installation.pk)}
         )
         self.client.post(existing_url, {"delete": "1"})
         self.assertFalse(
@@ -11217,7 +11346,7 @@ class ViewsTest(FixtureTestCase):
         )
         inherited_url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.client.post(inherited_url, {"delete": "1"})
         self.assertTrue(
@@ -11234,7 +11363,7 @@ class ViewsTest(FixtureTestCase):
             self.client.post(inherited_url, {"enable": "1"})
             response = self.client.post(inherited_url, {"enable": "1"})
         delete_service.assert_not_called()
-        self.assertRedirects(response, list_url)
+        self.assertRedirects(response, inherited_url)
         self.assertTrue(
             MachineryInstallation.objects.filter(pk=installation.pk).exists()
         )
@@ -11251,9 +11380,7 @@ class ViewsTest(FixtureTestCase):
         identifier = "nonexisting"
         installation = MachineryInstallation.objects.create(engine=identifier)
         list_url = reverse("manage-machinery")
-        edit_url = reverse(
-            "machinery-edit", kwargs={"machinery": installation.selector}
-        )
+        edit_url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
         response = self.client.get(list_url)
         self.assertContains(response, edit_url)
 
@@ -11292,14 +11419,14 @@ class ViewsTest(FixtureTestCase):
                 )
                 url = reverse(
                     "machinery-edit",
-                    kwargs={**kwargs, "machinery": installation.selector},
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
                 )
                 self.assertEqual(self.client.post(url, {"pause": "1"}).status_code, 302)
                 installation.refresh_from_db()
                 self.assertFalse(installation.enabled)
                 self.assertEqual(installation.configuration, {"key": "saved"})
                 url = reverse(
-                    "machinery-edit", kwargs={**kwargs, "machinery": inherited.selector}
+                    "machinery-edit", kwargs={**kwargs, "machinery": str(inherited.pk)}
                 )
                 self.assertEqual(
                     self.client.post(url, {"exclude_engine": "1"}).status_code, 302
@@ -11321,7 +11448,7 @@ class ViewsTest(FixtureTestCase):
         self.make_manager()
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.client.post(url, {"exclude_engine": "1"})
         self.assertTrue(
@@ -11343,7 +11470,7 @@ class ViewsTest(FixtureTestCase):
         MachineryExclusion.objects.create(project=self.project, engine="openai")
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": first.selector},
+            kwargs={"project": self.project.slug, "machinery": str(first.pk)},
         )
         self.assertEqual(self.client.post(url, {"enable": "1"}).status_code, 302)
         self.assertFalse(
@@ -11367,7 +11494,7 @@ class ViewsTest(FixtureTestCase):
         MachineryExclusion.objects.create(workspace=workspace, engine="openai")
         url = reverse(
             "machinery-edit",
-            kwargs={"workspace": workspace.pk, "machinery": second.selector},
+            kwargs={"workspace": workspace.pk, "machinery": str(second.pk)},
         )
         self.assertEqual(self.client.post(url, {"enable": "1"}).status_code, 302)
         self.assertFalse(
@@ -11399,10 +11526,485 @@ class ViewsTest(FixtureTestCase):
         )
         url = reverse(
             "machinery-edit",
-            kwargs={"project": self.project.slug, "machinery": installation.selector},
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
         )
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertEqual(self.client.post(url, {"delete": "1"}).status_code, 404)
+        self.assertEqual(
+            self.client.post(url, {"reset_rate_limit": "1"}).status_code, 404
+        )
+
+    def test_machinery_rate_limit_reset(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Rate limit workspace")
+        for scope, kwargs, list_url in (
+            ({}, {}, reverse("manage-machinery")),
+            (
+                {"workspace": workspace},
+                {"workspace": workspace.pk},
+                reverse("workspace-machinery", kwargs={"workspace": workspace.pk}),
+            ),
+            (
+                {"project": self.project},
+                {"project": self.project.slug},
+                reverse("machinery-list", kwargs={"project": self.project.slug}),
+            ),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="deepl", **scope
+                )
+                sibling = MachineryInstallation.objects.create(engine="deepl", **scope)
+                machine = DeepLTranslation({"_installation_id": installation.pk})
+                other = DeepLTranslation({"_installation_id": sibling.pk})
+                self.addCleanup(machine.delete_cache)
+                self.addCleanup(other.delete_cache)
+                url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                self.assertNotContains(self.client.get(url), 'name="reset_rate_limit"')
+                cache.set(machine.languages_cache, {"en", "cs"})
+                translation_key = machine.get_cache_key("test-translation")
+                rephrase_key = machine.get_rephrase_cache_version_key()
+                self.addCleanup(cache.delete_many, [translation_key, rephrase_key])
+                cache.set(translation_key, "cached suggestion")
+                cache.set(rephrase_key, 5)
+                other.set_rate_limit()
+                for cooldown in (
+                    machine.set_rate_limit,
+                    machine.set_rephrase_rate_limit,
+                ):
+                    cooldown()
+                    self.assertContains(self.client.get(list_url), "Rate limited")
+                    self.assertContains(self.client.get(url), 'name="reset_rate_limit"')
+                    response = self.client.post(url, {"reset_rate_limit": "1"})
+                    self.assertRedirects(response, url)
+                    self.assertFalse(machine.is_rate_limited())
+                    self.assertFalse(machine.is_rephrase_rate_limited())
+                    self.assertTrue(other.is_rate_limited())
+                    self.assertEqual(cache.get(machine.languages_cache), {"en", "cs"})
+                    self.assertEqual(cache.get(translation_key), "cached suggestion")
+                    self.assertEqual(cache.get(rephrase_key), 5)
+                    self.assertNotContains(
+                        self.client.get(url), 'name="reset_rate_limit"'
+                    )
+                self.assertRedirects(
+                    self.client.post(url, {"reset_rate_limit": "1"}), url
+                )
+
+    def test_inherited_rate_limit_is_read_only(self) -> None:
+        self.make_manager()
+        workspace = Workspace.objects.create(name="Inherited rate limit workspace")
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        for scope in ({}, {"workspace": workspace}):
+            installation = MachineryInstallation.objects.create(
+                engine="openai", configuration={"key": "inherited-secret"}, **scope
+            )
+            machine = OpenAITranslation({"_installation_id": installation.pk})
+            machine.set_rate_limit()
+            self.addCleanup(machine.delete_cache)
+            contexts: list[dict[str, Any]] = [{"project": self.project.slug}]
+            if not scope:
+                contexts.append({"workspace": workspace.pk})
+            for kwargs in contexts:
+                with self.subTest(scope=scope, context=kwargs):
+                    url = reverse(
+                        "machinery-edit",
+                        kwargs={**kwargs, "machinery": str(installation.pk)},
+                    )
+                    response = self.client.get(url)
+                    self.assertContains(
+                        response, "Requests to this service are temporarily paused"
+                    )
+                    self.assertNotContains(response, "inherited-secret")
+                    self.assertNotContains(response, 'name="reset_rate_limit"')
+                    self.assertIsNone(response.context["form"])
+                    self.assertEqual(
+                        self.client.post(url, {"reset_rate_limit": "1"}).status_code,
+                        403,
+                    )
+                    self.assertEqual(
+                        self.client.post(url, {"key": "new"}).status_code, 403
+                    )
+                    self.assertTrue(machine.is_rate_limited())
+                    installation.refresh_from_db()
+                    self.assertEqual(
+                        installation.configuration, {"key": "inherited-secret"}
+                    )
+
+    def test_rate_limit_reset_requires_management_permission_and_csrf(self) -> None:
+        installation = MachineryInstallation.objects.create(
+            engine="openai", project=self.project
+        )
+        machine = OpenAITranslation({"_installation_id": installation.pk})
+        machine.set_rate_limit()
+        self.addCleanup(machine.delete_cache)
+        url = reverse(
+            "machinery-edit",
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
+        )
+        self.assertEqual(
+            self.client.post(url, {"reset_rate_limit": "1"}).status_code, 403
+        )
+        self.make_manager()
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        self.assertEqual(client.post(url, {"reset_rate_limit": "1"}).status_code, 403)
+        self.assertTrue(machine.is_rate_limited())
+
+    def test_machinery_listing_and_detail_controls(self) -> None:
+        service = self.ensure_dummy_mt()
+        installation = MachineryInstallation.objects.get(
+            engine=service.get_identifier()
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("manage-machinery"))
+        self.assertContains(
+            response,
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)}),
+        )
+        for action in ("pause", "enable", "delete", "exclude_engine", "install"):
+            self.assertNotContains(response, f'name="{action}"')
+        url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        self.assertContains(self.client.get(url), 'name="pause"')
+        self.assertRedirects(self.client.post(url, {"pause": "1"}), url)
+        self.assertContains(self.client.get(url), 'name="enable"')
+        self.assertRedirects(self.client.post(url, {"enable": "1"}), url)
+        self.assertRedirects(
+            self.client.post(url, {"delete": "1"}), reverse("manage-machinery")
+        )
+        available_url = reverse(
+            "machinery-edit", kwargs={"machinery": service.get_identifier()}
+        )
+        self.assertContains(self.client.get(available_url), 'name="install"')
+        response = self.client.post(available_url, {"install": "1"})
+        installation = MachineryInstallation.objects.get(
+            engine=service.get_identifier()
+        )
+        self.assertRedirects(
+            response,
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)}),
+        )
+
+    def test_machinery_configuration_summaries(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Summary workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        installation = MachineryInstallation.objects.create(
+            engine="openai",
+            slug="custom-model",
+            configuration={
+                "model": "custom",
+                "custom_model": "summary-model",
+                "source_language": "secondary",
+                "key": "secret-api-key",
+                "base_url": "https://user:password@example.com/?key=secret-url-key",
+                "persona": "private-persona",
+                "style": "private-style",
+                "unknown_setting": "private-unknown-setting",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine=GoogleV3Translation.get_identifier(),
+            configuration={"credentials": "private-credentials"},
+        )
+        MachineryInstallation.objects.create(
+            engine="aws",
+            configuration={
+                "key": "private-key",
+                "secret": "private-secret",
+                "region": "eu-central-1",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine=SAPTranslationHub.get_identifier(),
+            configuration={
+                "username": "private-username",
+                "password": "private-password",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine="mymemory",
+            configuration={
+                "email": "private-email",
+                "username": "private-username",
+                "key": "private-key",
+            },
+        )
+        MachineryInstallation.objects.create(
+            engine="deepl",
+            configuration={
+                "formality": "prefer_more",
+                "next_gen": True,
+                "context": "private-context",
+            },
+        )
+        for url in (
+            reverse("manage-machinery"),
+            reverse("workspace-machinery", kwargs={"workspace": workspace.pk}),
+            reverse("machinery-list", kwargs={"project": self.project.slug}),
+        ):
+            with (
+                self.subTest(url=url),
+                patch.object(BatchMachineTranslation, "validate_settings") as validate,
+            ):
+                response = self.client.get(url)
+                self.assertContains(
+                    response,
+                    f'<span class="format-item">ID <span>{installation.pk}</span></span>',
+                    html=True,
+                )
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Slug <span>custom-model</span></span>',
+                    html=True,
+                )
+                self.assertContains(response, "summary-model")
+                self.assertContains(
+                    response, "Secondary language defined in project or component"
+                )
+                self.assertContains(response, "eu-central-1")
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Formality <span>Formal</span></span>',
+                    html=True,
+                )
+                self.assertContains(
+                    response,
+                    '<span class="format-item">Use next-gen model <span>enabled</span></span>',
+                    html=True,
+                )
+                for secret in (
+                    "secret-api-key",
+                    "secret-url-key",
+                    "example.com/?key=",
+                    "private-persona",
+                    "private-style",
+                    "private-unknown-setting",
+                    "private-credentials",
+                    "private-key",
+                    "private-secret",
+                    "private-password",
+                    "private-username",
+                    "private-email",
+                    "private-context",
+                ):
+                    self.assertNotContains(response, secret)
+                validate.assert_not_called()
+
+    def test_machinery_summary_escapes_values(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        MachineryInstallation.objects.create(
+            engine="openai",
+            configuration={
+                "model": "custom",
+                "custom_model": '<script>alert("model")</script>',
+            },
+        )
+        response = self.client.get(reverse("manage-machinery"))
+        self.assertContains(response, "&lt;script&gt;")
+        self.assertNotContains(response, '<script>alert("model")</script>')
+
+    @patch.object(DeepLTranslation, "validate_settings")
+    def test_machinery_settings_save_stays_on_detail(self, validate: Mock) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Settings workspace")
+        for scope, kwargs in (
+            ({}, {}),
+            ({"workspace": workspace}, {"workspace": workspace.pk}),
+            ({"project": self.project}, {"project": self.project.slug}),
+        ):
+            with self.subTest(scope=scope):
+                url = reverse("machinery-edit", kwargs={**kwargs, "machinery": "deepl"})
+                response = self.client.post(
+                    url,
+                    {
+                        "key": "saved-secret",
+                        "url": "https://api.deepl.com/",
+                        "slug": f"saved-{next(iter(kwargs), 'site')}",
+                    },
+                )
+                installation = MachineryInstallation.objects.get(
+                    engine="deepl", slug=f"saved-{next(iter(kwargs), 'site')}", **scope
+                )
+                detail_url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                self.assertRedirects(response, detail_url)
+                response = self.client.post(
+                    detail_url,
+                    {
+                        "key": "updated-secret",
+                        "url": "https://api.deepl.com/",
+                        "slug": f"updated-{next(iter(kwargs), 'site')}",
+                    },
+                )
+                self.assertRedirects(response, detail_url)
+                installation.refresh_from_db()
+                self.assertEqual(
+                    installation.slug, f"updated-{next(iter(kwargs), 'site')}"
+                )
+                self.assertEqual(installation.configuration["key"], "updated-secret")
+        self.assertEqual(validate.call_count, 6)
+
+    def test_machinery_detail_uses_numeric_url(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Numeric URL workspace")
+        for scope, kwargs in (
+            ({}, {}),
+            ({"workspace": workspace}, {"workspace": workspace.pk}),
+            ({"project": self.project}, {"project": self.project.slug}),
+        ):
+            with self.subTest(scope=scope):
+                installation = MachineryInstallation.objects.create(
+                    engine="openai", **scope
+                )
+                url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": str(installation.pk)},
+                )
+                response = self.client.get(url)
+                self.assertContains(
+                    self.client.get(
+                        reverse("manage-machinery")
+                        if not kwargs
+                        else reverse(
+                            "workspace-machinery"
+                            if "workspace" in kwargs
+                            else "machinery-list",
+                            kwargs=kwargs,
+                        )
+                    ),
+                    url,
+                )
+                self.assertEqual(response.context["installation"], installation)
+                self.assertEqual(response.context["service"].get_absolute_url(), url)
+                old_url = reverse(
+                    "machinery-edit",
+                    kwargs={**kwargs, "machinery": installation.selector},
+                )
+                self.assertEqual(self.client.get(old_url).status_code, 404)
+
+    def test_machinery_detail_explains_controls_and_selectors(self) -> None:
+        workspace = Workspace.objects.create(name="Control workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.make_manager()
+        installation = MachineryInstallation.objects.create(
+            engine="openai", slug="my-service"
+        )
+        url = reverse(
+            "machinery-edit",
+            kwargs={"project": self.project.slug, "machinery": str(installation.pk)},
+        )
+        response = self.client.get(url)
+        self.assertContains(response, "Disable installation")
+        self.assertContains(response, "Exclude inherited service")
+        self.assertContains(response, "including installations added later")
+        self.assertContains(response, 'aria-describedby="disable-description"')
+        self.assertContains(response, 'aria-describedby="exclude-description"')
+        self.assertContains(response, 'class="row g-3 mt-4 pt-4 border-top"')
+        self.assertNotContains(response, 'class="format-item"')
+        self.assertNotContains(response, 'class="badge float-end')
+        self.assertContains(
+            response, f'<code>engines: ["{installation.selector}"]</code>', html=True
+        )
+        self.assertContains(
+            response, '<code>engines: ["openai:my-service"]</code>', html=True
+        )
+        self.assertContains(response, f'data-clipboard-value="{installation.selector}"')
+        self.assertContains(response, 'data-clipboard-value="openai:my-service"')
+        content = response.content.decode()
+        self.assertLess(
+            content.index(self.THIRD_PARTY_WARNING), content.index("Inherited service")
+        )
+        self.assertNotContains(response, "Manage this installation")
+        self.assertIsNone(response.context["management_url"])
+        self.assertRedirects(self.client.post(url, {"delete": "1"}), url)
+        response = self.client.get(url)
+        self.assertContains(response, "Enable installation")
+        self.assertContains(response, "Other excluded installations remain excluded")
+
+    def test_machinery_detail_links_to_permitted_installation_scope(self) -> None:
+        self.make_manager()
+        workspace = Workspace.objects.create(name="Management link workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        for scope in ({}, {"workspace": workspace}):
+            installation = MachineryInstallation.objects.create(
+                engine="openai", **scope
+            )
+            url = reverse(
+                "machinery-edit",
+                kwargs={
+                    "project": self.project.slug,
+                    "machinery": str(installation.pk),
+                },
+            )
+            response = self.client.get(url)
+            self.assertIsNone(response.context["management_url"])
+            self.assertNotContains(response, "Manage this installation")
+            if scope:
+                workspace.add_owner(self.user)
+                owner_kwargs = {"workspace": workspace.pk}
+            else:
+                self.user.is_superuser = True
+                self.user.save()
+                owner_kwargs = {}
+            owner_url = reverse(
+                "machinery-edit",
+                kwargs={**owner_kwargs, "machinery": str(installation.pk)},
+            )
+            response = self.client.get(url)
+            self.assertEqual(response.context["management_url"], owner_url)
+            self.assertContains(
+                response,
+                f'<a class="btn btn-primary" href="{owner_url}">Manage this installation</a>',
+                html=True,
+            )
+            self.assertEqual(self.client.get(owner_url).status_code, 200)
+            self.user.is_superuser = False
+            self.user.save()
+
+    def test_machinery_warning_precedes_settings_form(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        installation = MachineryInstallation.objects.create(engine="openai")
+        response = self.client.get(
+            reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        )
+        content = response.content.decode()
+        self.assertLess(
+            content.index(self.THIRD_PARTY_WARNING),
+            content.index('<form method="post">'),
+        )
+
+    def test_unavailable_machinery_detail(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        installation = MachineryInstallation.objects.create(engine="removed-service")
+        url = reverse("machinery-edit", kwargs={"machinery": str(installation.pk)})
+        response = self.client.get(url)
+        self.assertContains(response, "Service is no longer available")
+        self.assertContains(response, 'name="delete"')
+        self.assertIsNone(response.context["form"])
+        self.assertEqual(
+            self.client.get(
+                reverse("machinery-edit", kwargs={"machinery": "removed-service"})
+            ).status_code,
+            404,
+        )
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):

@@ -14,11 +14,12 @@ from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import DocGeneratorCommand
-from weblate.utils.rst import format_rst_string, format_table
+from weblate.utils.rst import FullWidthRow, format_rst_string, format_table
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django import forms
     from django.core.management.base import CommandParser
 
     from weblate.utils.rst import CellType
@@ -134,22 +135,7 @@ class Command(DocGeneratorCommand):
                 if form is None:
                     msg = f"Add-on {obj.name} unexpectedly returned no settings form"
                     raise TypeError(msg)
-                table: list[list[CellType]] = [
-                    [
-                        f"``{name}``",
-                        str(
-                            self.get_documented_field(settings_form, name, field).label
-                        ),
-                        self.get_help_text(
-                            self.get_documented_field(settings_form, name, field),
-                            field,
-                            name,
-                        ),
-                    ]
-                    for name, field in form.fields.items()
-                    if (addon_name, name) not in SKIP_FIELDS
-                    and not field.widget.is_hidden
-                ]
+                table = self.get_configuration_table(addon_name, settings_form, form)
 
                 if table:
                     for table_row in format_table(table, None):
@@ -215,6 +201,48 @@ class Command(DocGeneratorCommand):
                 ],
             ],
         )
+
+    def get_configuration_table(
+        self, addon_name: str, form_class: type[forms.Form], form: forms.Form
+    ) -> list[list[CellType] | FullWidthRow]:
+        """Document configuration fields with optional shared form groups."""
+        documented_fields = {
+            name: field
+            for name, field in form.fields.items()
+            if (addon_name, name) not in SKIP_FIELDS and not field.widget.is_hidden
+        }
+        get_groups = getattr(form, "get_field_groups", lambda: ())
+        groups = get_groups()
+        grouped_names = {name for group in groups for name in group.fields}
+        table: list[list[CellType] | FullWidthRow] = []
+
+        def append_field(name: str) -> None:
+            field = documented_fields.pop(name)
+            doc_field = self.get_documented_field(form_class, name, field)
+            table.append(
+                [
+                    f"``{name}``",
+                    str(doc_field.label),
+                    self.get_help_text(doc_field, field, name),
+                ]
+            )
+
+        for name in list(documented_fields):
+            if name not in grouped_names:
+                append_field(name)
+        for group in groups:
+            names = dict.fromkeys(
+                name for name in group.fields if name in documented_fields
+            )
+            if not names:
+                continue
+            text = f"**{group.title}**"
+            if group.description:
+                text += f"\n\n{format_rst_string(group.description)}"
+            table.append(FullWidthRow(text))
+            for name in names:
+                append_field(name)
+        return table
 
     def get_documented_field(self, form_class, name: str, field):
         return (

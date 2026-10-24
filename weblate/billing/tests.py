@@ -810,6 +810,42 @@ class BillingTest(BaseTestCase):
         self.assertNotIn('data-bs-target="#libre-check-', content)
         self.assertNotIn("libre-check-", content)
 
+    def test_libre_checklist_access_control(self) -> None:
+        project = self.add_project()
+        project.web = "https://example.org/"
+        self.enterContext(acting_user_context(self.user))
+        project.save(update_fields=["web"])
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
+
+        for change_access_control in (False, True):
+            self.plan.change_access_control = change_access_control
+            self.plan.save(update_fields=["change_access_control"])
+            for access_control, _label in Project.ACCESS_CHOICES:
+                with self.subTest(
+                    change_access_control=change_access_control,
+                    access_control=access_control,
+                ):
+                    project.access_control = access_control
+                    project.save(update_fields=["access_control"])
+                    self.refresh_from_db()
+                    expected = (
+                        access_control == Project.ACCESS_PUBLIC or change_access_control
+                    )
+                    self.assertEqual(self.billing.valid_libre, expected)
+                    self.assertEqual(self.billing.valid_libre_without_alerts, expected)
+                    for checklist in (
+                        self.billing.libre_checklist,
+                        self.billing.libre_checklist_without_alerts,
+                    ):
+                        self.assertEqual(
+                            "Only public projects are allowed"
+                            in [str(check) for check in checklist],
+                            not expected,
+                        )
+
     def test_libre_checklist_translation_without_count_placeholder(self) -> None:
         project = self.add_project()
         self.add_component(project, "000000")

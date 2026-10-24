@@ -33,6 +33,7 @@ import fedora_messaging.config
 import httpx2
 import jsonschema.exceptions
 from crispy_forms.helper import FormHelper
+from crispy_forms.utils import render_crispy_form
 from django import forms
 from django.apps import apps
 from django.conf import settings
@@ -77,6 +78,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     PendingUnitChange,
+    Project,
     Suggestion,
     Translation,
     Unit,
@@ -97,6 +99,8 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
+from weblate.utils.forms import FormFieldGroup
+from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -177,7 +181,9 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
+from .management.commands.list_addons import Command as ListAddonsCommand
 from .models import (
+    ADDONS,
     Addon,
     AddonActivityLog,
     Event,
@@ -209,9 +215,6 @@ if TYPE_CHECKING:
     from unittest.mock import Mock
 
     from weblate.trans.discovery import DetectedDiscoveryPreset
-    from weblate.trans.models import (
-        Project,
-    )
 
 
 def get_webhook_request_data(
@@ -10188,6 +10191,41 @@ class CDNJSAddonTest(ViewTestCase):
     def test_noconfigured(self) -> None:
         self.assertFalse(CDNJSAddon.can_install(component=self.component))
 
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_integration_instructions_separate_from_settings(self) -> None:
+        self.make_manager()
+        url = reverse("addons", kwargs=self.kw_component)
+        response = self.client.post(url, {"name": CDNJSAddon.name})
+        self.assertContains(response, 'id="addon-form"')
+        self.assertNotContains(response, "Integration instructions")
+
+        response = self.client.post(
+            url,
+            {
+                "name": CDNJSAddon.name,
+                "form": "1",
+                "threshold": 0,
+                "css_selector": ".l10n",
+                "files": "",
+                "cookie_name": "",
+            },
+        )
+        addon = self.component.addon_set.get(name=CDNJSAddon.name)
+        self.assertRedirects(response, addon.get_absolute_url())
+        response = self.client.post(addon.get_absolute_url(), {"threshold": 101})
+        self.assertTrue(response.context["form"].errors)
+        self.assertContains(response, CDNJSAddon(addon).cdn_js_url)
+        self.assertContains(response, CDNJSAddon(addon).cdn_manifest_url)
+        content = response.content.decode()
+        self.assertLess(
+            content.index('id="addon-integration-title"'),
+            content.index('id="addon-form"'),
+        )
+        self.assertLess(content.index("</section>"), content.index('id="addon-form"'))
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["threshold"], 0)
+
     def test_events(self) -> None:
         self.assertIn(AddonEvent.EVENT_POST_REMOVE, CDNJSAddon.events)
         self.assertIn(AddonEvent.EVENT_POST_UPDATE, CDNJSAddon.events)
@@ -10768,6 +10806,56 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertFalse(self.component.alert_set.filter(name="CDNAddonError").exists())
 
 
+class AddonIntegrationInstructionsTest(ViewTestCase):
+    def test_instructions_during_installation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        for addon_class, text in (
+            (WebhookAddon, "JSON POST requests"),
+            (SlackWebhookAddon, "incoming webhook in Slack"),
+            (FedoraMessagingAddon, "AMQP broker connection"),
+        ):
+            with self.subTest(addon=addon_class.name):
+                response = self.client.post(
+                    reverse("manage-addons"), {"name": addon_class.name}
+                )
+                self.assertContains(response, text)
+                self.assertContains(response, "Integration instructions", count=1)
+                content = response.content.decode()
+                self.assertLess(
+                    content.index('id="addon-integration-title"'),
+                    content.index('id="addon-form"'),
+                )
+
+    def test_instructions_with_invalid_settings(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        for addon_class in (WebhookAddon, SlackWebhookAddon, FedoraMessagingAddon):
+            with self.subTest(addon=addon_class.name):
+                addon = addon_class.create(
+                    acting_user=self.user,
+                    run=False,
+                    configuration={"webhook_url": "https://example.com/secret-hook"}
+                    if addon_class is not FedoraMessagingAddon
+                    else {"amqp_url": "amqp://user:secret-password@example.com"},
+                )
+                for response in (
+                    self.client.get(addon.instance.get_absolute_url()),
+                    self.client.post(addon.instance.get_absolute_url(), {"form": "1"}),
+                ):
+                    self.assertContains(response, "Integration instructions", count=1)
+                    content = response.content.decode()
+                    instructions = content.split('id="addon-integration-title"', 1)[
+                        1
+                    ].split("</section>", 1)[0]
+                    self.assertNotIn("secret-hook", instructions)
+                    self.assertNotIn("secret-password", instructions)
+                    self.assertLess(
+                        content.index("</section>"), content.index('id="addon-form"')
+                    )
+                self.assertTrue(response.context["form"].errors)
+
+
 class CDNFilesAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono()
@@ -10856,6 +10944,43 @@ class CDNFilesAddonTest(ViewTestCase):
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_files_url)
         self.assertContains(response, addon.cdn_manifest_url)
+        self.assertContains(response, "Integration instructions", count=1)
+        self.assertNotContains(response, 'id="addon-form"')
+        self.assertNotContains(response, 'value="Save"')
+        self.assertNotContains(response, "This add-on has no settings.")
+
+        before_changes = Change.objects.count()
+        response = self.client.post(addon.instance.get_absolute_url(), {"form": "1"})
+        self.assertRedirects(response, addon.instance.get_absolute_url())
+        self.assertEqual(Change.objects.count(), before_changes)
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration, {})
+
+        response = self.client.post(addon.instance.get_absolute_url(), {"delete": "1"})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Addon.objects.filter(pk=addon.instance.pk).exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_install_redirects_to_instructions(self) -> None:
+        self.make_manager()
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": CDNFilesAddon.name},
+        )
+        addon = self.component.addon_set.get(name=CDNFilesAddon.name)
+        self.assertRedirects(
+            response, addon.get_absolute_url(), fetch_redirect_response=False
+        )
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(
+            response, "Add-on installed, please review integration instructions."
+        )
+        self.assertContains(response, CDNFilesAddon(addon).cdn_files_url)
+
+        self.project.remove_user(self.user)
+        self.user.groups.clear()
+        self.assertEqual(self.client.get(addon.get_absolute_url()).status_code, 403)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -13673,6 +13798,138 @@ class TestCommand(SimpleTestCase):
 
         with self.assertRaises(FileNotFoundError):
             call_command("list_addons", "-o", "missing_fileXXX.rst", stdout=StringIO())
+
+    def test_configuration_groups(self) -> None:
+        output = StringIO()
+        call_command("list_addons", "--sections", "addons", stdout=output)
+        generated = output.getvalue()
+        expected = {
+            "weblate.flags.bulk": ("Source flags", "Translation flags", "Labels"),
+            "weblate.generate.pseudolocale": (
+                "Source and target",
+                "Prepended text",
+                "Appended text",
+                "Text expansion",
+            ),
+            "weblate.fedora_messaging.publish": (
+                "Broker connection",
+                "Timeouts and retries",
+                "TLS credentials",
+                "Event selection",
+            ),
+            "weblate.discovery.discovery": (
+                "File matching",
+                "Component naming and file templates",
+                "Component lifecycle",
+            ),
+            "weblate.gettext.xgettext": (
+                "Update behavior",
+                "Input files",
+                "Comment extraction",
+                "Keywords",
+                "Checks and ITS data",
+            ),
+            "weblate.gettext.meson": (
+                "Update behavior",
+                "Meson preset",
+                "Comment extraction",
+                "Keywords",
+                "Checks and ITS data",
+            ),
+        }
+        fake_addon = Addon(
+            component=Component(project=Project(pk=-1), pk=-1, source_language_id=-1)
+        )
+        for addon_name, titles in expected.items():
+            with self.subTest(addon=addon_name):
+                addon = ADDONS[addon_name](fake_addon)
+                addon.documentation_build = True
+                form = addon.get_settings_form(None)
+                assert form is not None
+                get_groups = getattr(form, "get_field_groups", None)
+                assert get_groups is not None
+                groups = get_groups()
+                self.assertEqual(tuple(str(group.title) for group in groups), titles)
+                section = generated.split(f".. _addon-{addon_name}:\n", 1)[1].split(
+                    ":Triggers:", 1
+                )[0]
+                position = 0
+                for group in groups:
+                    next_position = section.index(f"**{group.title}**")
+                    self.assertGreater(next_position, position)
+                    position = next_position
+                    for name in group.fields:
+                        if form.fields[name].widget.is_hidden:
+                            continue
+                        field_position = section.index(f"``{name}``", position)
+                        self.assertGreater(field_position, position)
+                        self.assertEqual(section.count(f"``{name}``"), 1)
+                        position = field_position
+                # Render the actual layouts without fetching database-backed choices.
+                for field in form.fields.values():
+                    if isinstance(
+                        field, (forms.ModelChoiceField, forms.ModelMultipleChoiceField)
+                    ):
+                        queryset = field.queryset
+                        assert queryset is not None
+                        field.queryset = queryset.none()
+                helper = getattr(form, "helper", None)
+                assert helper is not None
+                helper.disable_csrf = True
+                with patch(
+                    "weblate.utils.forms.SearchField.get_saved_search_choices",
+                    return_value=[],
+                ):
+                    rendered = render_crispy_form(form)
+                for title in titles:
+                    if addon_name == "weblate.flags.bulk" and title == "Labels":
+                        continue
+                    self.assertIn(f">{title}</legend>", rendered)
+        bulk = generated.split(".. _addon-weblate.flags.bulk:\n", 1)[1].split(
+            ":Triggers:", 1
+        )[0]
+        self.assertIn("apply to their translations in every language", bulk)
+        self.assertIn("Source strings are excluded", bulk)
+        self.assertIn("shared across all languages", bulk)
+
+    def test_configuration_groups_skip_hidden_and_internal_fields(self) -> None:
+        class GroupedForm(forms.Form):
+            general = forms.CharField(label="General")
+            path = forms.CharField()
+            hidden = forms.CharField(widget=forms.HiddenInput)
+            visible = forms.CharField(label="Visible")
+
+            def get_field_groups(self):
+                return [
+                    FormFieldGroup("Empty group", ("path", "hidden")),
+                    FormFieldGroup(
+                        "Visible group", ("visible", "visible"), "Scope description."
+                    ),
+                    FormFieldGroup("Duplicate group", ("visible",)),
+                ]
+
+        table = ListAddonsCommand().get_configuration_table(
+            "weblate.flags.bulk", GroupedForm, GroupedForm()
+        )
+        self.assertEqual(
+            table,
+            [
+                ["``general``", "General", ""],
+                FullWidthRow("**Visible group**\n\nScope description."),
+                ["``visible``", "Visible", ""],
+            ],
+        )
+
+    def test_ungrouped_configuration_table(self) -> None:
+        class PlainForm(forms.Form):
+            value = forms.CharField(label="Value", help_text="Help text.")
+
+        self.assertEqual(
+            ListAddonsCommand().get_configuration_table(
+                "plain", PlainForm, PlainForm()
+            ),
+            [["``value``", "Value", "Help text."]],
+        )
 
     def test_list_addons_split_output(self) -> None:
         with (

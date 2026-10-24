@@ -53,6 +53,7 @@ function mainLicenseTransform(packages) {
     "source-",
     "bootstrap",
     "@orchidjs",
+    "js-yaml",
   ];
   return genericTransform(
     packages,
@@ -74,6 +75,10 @@ function bootstrapLicenseTransform(packages) {
 
 function hotkeysLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("hotkeys-js"));
+}
+
+function jsYamlLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("js-yaml"));
 }
 
 // REUSE-IgnoreStart
@@ -157,6 +162,7 @@ module.exports = {
     "tom-select": "./src/tom-select.js",
     hotkeys: "./src/hotkeys.js",
     prismjs: "./src/prismjs.js",
+    "js-yaml": "./src/js-yaml.js",
     altcha: "./src/altcha.js",
     bootstrap5: "./src/bootstrap5.js",
     bootstrap5_rtl: "./src/bootstrap5_rtl.css",
@@ -202,6 +208,7 @@ module.exports = {
         "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
         "hotkeys.js.license": hotkeysLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
+        "js-yaml.js.license": jsYamlLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
         "argon2id.js.license": altchaLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,

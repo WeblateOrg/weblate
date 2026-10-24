@@ -766,6 +766,19 @@ class KotlinSDKTest(ReusableViewTestCase):
             reverse("manage-access", kwargs={"project": self.project.slug}) + "#api",
         )
         self.assertContains(response, addon.cdn.cdn_base_url)
+        content = response.content.decode()
+        self.assertLess(content.index("</section>"), content.index('id="addon-form"'))
+        instructions = addon.instance.addon.get_integration_instructions(
+            self.anotheruser
+        )
+        self.assertIn("INSERT_TOKEN_HERE", instructions)
+        self.assertNotIn("Create a project token", instructions)
+
+        response = self.client.post(
+            addon.instance.get_absolute_url(), {"maximum_age": 0}
+        )
+        self.assertTrue(response.context["form"].errors)
+        self.assertContains(response, "authToken = &quot;INSERT_TOKEN_HERE&quot;")
 
         response = self.client.get(api_url)
         self.assertTemplateUsed(response, "addons/addon_api.html")

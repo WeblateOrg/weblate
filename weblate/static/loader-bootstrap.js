@@ -1531,7 +1531,7 @@ onReady(() => {
         placeholder: el.dataset.placeholder || gettext("Search…"),
         hidePlaceholder: el.dataset.hidePlaceholder === "true",
         persist: false,
-        create: false,
+        create: el.dataset.create === "true",
         allowEmptyOption: true,
       };
       if (el.dataset.maxOptions === "none") {
@@ -1605,22 +1605,33 @@ onReady(() => {
     });
   };
 
+  /* Searchable single selects */
+  const initializeSearchableSelects = (root = document) => {
+    findElements(root, "select.searchable-select").forEach((el) => {
+      if (el.tomselect) {
+        return;
+      }
+      new TomSelect(el, {
+        placeholder: gettext("Search…"),
+        hidePlaceholder: true,
+        persist: false,
+        create: false,
+        allowEmptyOption: true,
+        maxOptions: null,
+      });
+    });
+  };
+
   /* Override all multiple selects */
   initializeMultipleSelects();
+  initializeSearchableSelects();
 
-  /* Searchable single selects */
-  document.querySelectorAll("select.searchable-select").forEach((el) => {
-    if (el.tomselect) {
-      return;
-    }
-    new TomSelect(el, {
-      placeholder: gettext("Search…"),
-      hidePlaceholder: true,
-      persist: false,
-      create: false,
-      allowEmptyOption: true,
-      maxOptions: null,
-    });
+  /* Upgrade controls of markup inserted after load, such as the nodes added by
+   * the automation workflow editor. */
+  document.addEventListener("weblate:content-added", (event) => {
+    const root = event.detail?.root ?? document;
+    initializeMultipleSelects(root);
+    initializeSearchableSelects(root);
   });
 
   const getControlValue = (control) => {

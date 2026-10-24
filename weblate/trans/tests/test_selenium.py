@@ -11,11 +11,12 @@ import os
 import time
 import warnings
 from contextlib import contextmanager, suppress
+from copy import deepcopy
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Literal, cast, overload
+from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from unittest.mock import patch
 from urllib.parse import urlencode
 
@@ -55,6 +56,7 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.auth.models import AutoGroup, Group, Role, User
+from weblate.automation.addon import AutomationAddon
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
@@ -2000,6 +2002,7 @@ class SeleniumTests(
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
         project = Project.objects.create(name="Bulk selection", slug="bulk-selection")
+        project.label_set.create(name="Terminology", color="navy")
         component = fixture.create_po(project=project)
         translation = component.translation_set.get(language_code="cs")
         user = self.do_login(superuser=True)
@@ -2033,7 +2036,20 @@ class SeleniumTests(
         self.assertTrue(all(checkbox.is_selected() for checkbox in checkboxes))
         self.assertEqual(counter.text, f"{len(checkboxes)} strings selected")
         self.assertFalse(toggle.get_property("indeterminate"))
+        self.wait_for_screenshot_ready()
+        add_flags = self.driver.find_element(By.ID, "id_bulk_add_flags-ts-input")
+        remove_flags = self.driver.find_element(By.ID, "id_bulk_remove_flags-ts-input")
+        self.assertEqual(add_flags.get_attribute("placeholder"), "Choose flags to add…")
+        self.assertEqual(
+            remove_flags.get_attribute("placeholder"), "Choose flags to remove…"
+        )
+        self.assertEqual(add_flags.accessible_name, "Add flags")
+        self.assertEqual(remove_flags.accessible_name, "Remove flags")
         self.screenshot("bulk-edit-selection.png")
+        self.assertAlmostEqual(add_flags.rect["y"], remove_flags.rect["y"], delta=2)
+        self.driver.set_window_size(375, 900)
+        self.assertGreater(remove_flags.rect["y"], add_flags.rect["y"])
+        self.driver.set_window_size(1200, 1024)
 
         # Unselecting all strings on the page
         self.click(toggle)
@@ -2250,11 +2266,14 @@ class SeleniumTests(
         unit.translate(user, unit.target, STATE_FUZZY, propagate=False)
         edit("Unsaved draft")
         WebDriverWait(self.driver, 15).until(
-            lambda driver: any(
-                "The review state of this string has changed" in alert.text
-                for alert in driver.find_elements(
-                    By.CSS_SELECTOR, "#popup-toasts .toast-body"
-                )
+            lambda driver: driver.execute_script(
+                """
+                const expectedText = arguments[0];
+                return Array.from(
+                    document.querySelectorAll("#popup-toasts .toast-body"),
+                ).some((alert) => alert.innerText.includes(expectedText));
+                """,
+                "The review state of this string has changed",
             )
         )
         self.assertEqual(editor.get_attribute("value"), "Unsaved draft")
@@ -2792,6 +2811,316 @@ class SeleniumTests(
         )
         self.assertEqual(result["ascending"], ["Alpha", "Gamma", "Beta"])
         self.assertEqual(result["descending"], ["Beta", "Gamma", "Alpha"])
+
+    def test_automation_editor(self) -> None:
+        """The automation workflow editor round-trips between its panes."""
+        workflow: dict[str, Any] = {
+            "version": 1,
+            "triggers": [
+                {"trigger": "change", "events": ["translation_changed"]},
+            ],
+            "conditions": [{"condition": "language", "value": "cs"}],
+            "actions": [
+                {
+                    "action": "weblate.bulk_edit",
+                    "id": "flagit",
+                    "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                }
+            ],
+        }
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={"workflow": deepcopy(workflow)},
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+
+        editor = self.driver.find_element(By.CSS_SELECTOR, "[data-automation-editor]")
+        pane = editor.find_element(By.CSS_SELECTOR, "[data-automation-pane='editor']")
+        yaml_pane = self.driver.find_element(By.ID, "div_id_workflow")
+        self.assertTrue(pane.is_displayed())
+        self.assertFalse(yaml_pane.is_displayed())
+
+        # The saved workflow is shown as one node per trigger, condition, and
+        # action, and serializes back unchanged.
+        self.assertEqual(
+            self.driver.execute_script(
+                "return Array.from("
+                "document.querySelectorAll('[data-automation-legend]'),"
+                " (el) => el.textContent);"
+            ),
+            ["Change event", "Language", "Bulk editing"],
+        )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            workflow,
+        )
+
+        # Adding a node through the editor extends the workflow.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:daily")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-add='triggers']"
+            )
+        )
+        expected = deepcopy(workflow)
+        expected["triggers"].append({"trigger": "daily"})
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            expected,
+        )
+
+        # Switching to YAML writes the workflow out, and switching back parses
+        # it into the same tree.
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-yaml']"
+            )
+        )
+        self.assertFalse(pane.is_displayed())
+        self.assertTrue(yaml_pane.is_displayed())
+        self.assertIn(
+            "trigger: daily",
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value") or "",
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        self.assertTrue(pane.is_displayed())
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            expected,
+        )
+
+        # Saving submits what the editor produced.
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#addon-form input[type='submit']"
+                )
+            )
+        addon.instance.refresh_from_db()
+        self.assertEqual(
+            addon.instance.configuration["workflow"]["triggers"],
+            expected["triggers"],
+        )
+
+        # Workflows the editor cannot show yet stay in the YAML pane. Saving
+        # reloaded the page, so the earlier references are gone.
+        editor = self.driver.find_element(By.CSS_SELECTOR, "[data-automation-editor]")
+        pane = editor.find_element(By.CSS_SELECTOR, "[data-automation-pane='editor']")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-yaml']"
+            )
+        )
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys(
+            "version: 1\ntriggers: []\nactions:\n- choose:\n  - conditions: []\n    sequence: []\n"
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        alert = editor.find_element(By.CSS_SELECTOR, "[data-automation-alert]")
+        self.assertTrue(alert.is_displayed())
+        self.assertIn("does not handle yet", alert.text)
+        self.assertFalse(pane.is_displayed())
+        self.assertTrue(
+            self.driver.find_element(By.ID, "automation-mode-yaml").is_selected()
+        )
+
+        # A rejected workflow reopens in the YAML pane, where its message is.
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys("version: [unfinished")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#addon-form input[type='submit']"
+                )
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-pane='editor']"
+            ).is_displayed()
+        )
+        self.assertTrue(
+            self.driver.find_element(By.ID, "div_id_workflow").is_displayed()
+        )
+        self.assertEqual(
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value"),
+            "version: [unfinished",
+        )
+
+        # An action added through the editor keeps the defaults Django renders,
+        # while a saved action that omits a setting is left as it was saved.
+        with acting_user_context(user):
+            addon.configure(
+                {
+                    "workflow": {
+                        "version": 1,
+                        "triggers": [],
+                        "actions": [
+                            {
+                                "action": "weblate.automatic_translation",
+                                "settings": {},
+                            }
+                        ],
+                    }
+                }
+            )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        saved = self.driver.execute_script(
+            "return automationEditor.serializeWorkflow();"
+        )
+        # A select cannot express an absent key, so mode keeps the value the
+        # server would have defaulted to; the settings that would change what
+        # the action does are left alone.
+        self.assertEqual(saved["actions"][0]["settings"], {"mode": "suggest"})
+        Select(
+            self.driver.find_element(By.ID, "automation-add-action")
+        ).select_by_value("action:weblate.automatic_translation")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, "[data-automation-add='actions']")
+        )
+        added = self.driver.execute_script(
+            "return automationEditor.serializeWorkflow();"
+        )["actions"][1]["settings"]
+        self.assertEqual(added["q"], "state:<translated")
+        self.assertEqual(added["threshold"], MACHINERY_DEFAULT_THRESHOLD)
+
+    def test_automation_editor_result_scopes_and_focus(self) -> None:
+        """The automation editor shows result scopes and keeps keyboard focus."""
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={
+                "workflow": {
+                    "version": 1,
+                    "triggers": [],
+                    "actions": [
+                        {
+                            "action": "weblate.select",
+                            "id": "picked",
+                            "settings": {"q": "state:translated"},
+                        },
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:picked",
+                            "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                        },
+                        {
+                            "action": "weblate.automatic_translation",
+                            "settings": {"mode": "approved"},
+                        },
+                    ],
+                }
+            },
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        pane = self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-pane='editor']"
+        )
+        self.assertTrue(pane.is_displayed())
+        saved = addon.instance.configuration["workflow"]
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            saved,
+        )
+
+        # Earlier action IDs are offered as result scopes, including ones typed
+        # into the editor.
+        scope_options = (
+            "return Array.from(document.querySelectorAll("
+            "\"[data-automation-list='actions'] [data-workflow-key='scope']\"),"
+            " (el) => Array.from(el.options, (option) => option.value));"
+        )
+        self.assertEqual(
+            self.driver.execute_script(scope_options),
+            [
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+                ["", "component", "trigger", "result:picked"],
+            ],
+        )
+        self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-list='actions'] [data-workflow-key='id']",
+        )[1].send_keys("edited")
+        self.assertEqual(
+            self.driver.execute_script(scope_options)[2],
+            ["", "component", "trigger", "result:picked", "result:edited"],
+        )
+
+        # Removing a node moves focus to its neighbor instead of the page.
+        remove = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-list='actions'] [data-automation-remove]",
+        )[2]
+        remove.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const node = document.activeElement.closest("
+                "'[data-automation-instance]');"
+                " return node && node.dataset.automationInstance;"
+            ),
+            "action:weblate.bulk_edit",
+        )
+
+        # Adding a node with an enhanced select focuses its visible control.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:change")
+        self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-add='triggers']"
+        ).send_keys(Keys.ENTER)
+        self.assertTrue(
+            self.driver.execute_script(
+                "const active = document.activeElement;"
+                " return active.closest(\"[data-automation-list='triggers']\")"
+                " !== null && active.closest('.ts-wrapper') !== null;"
+            )
+        )
+
+        # Adding a node without fields focuses its own controls.
+        Select(
+            self.driver.find_element(By.ID, "automation-add-trigger")
+        ).select_by_value("trigger:daily")
+        self.driver.find_element(
+            By.CSS_SELECTOR, "[data-automation-add='triggers']"
+        ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const node = document.activeElement.closest("
+                "'[data-automation-instance]');"
+                " return node && node.dataset.automationInstance;"
+            ),
+            "trigger:daily",
+        )
 
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""

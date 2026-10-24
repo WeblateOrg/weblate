@@ -23,7 +23,6 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
-from weblate.utils.tests.network import mock_dns
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -853,10 +852,12 @@ class RefreshGitHubRepositoriesTest(ViewTestCase):
         self.assertEqual(change.details["old"], self.OLD_URL)
         self.assertEqual(change.details["target"], self.NEW_URL)
 
-    @mock_dns("github.com")
     def test_update_clears_failure_alert(self) -> None:
-        # The repository is gone from the old URL
+        # Fail locally for the old URL instead of attempting a network fetch.
         self._route_git(self.NEW_URL)
+        missing_repo = Path(self.git_repo_path).with_name("missing-repo.git").as_uri()
+        with self.gitconfig.open("a") as config:
+            config.write(f'[url "{missing_repo}"]\n\tinsteadOf = {self.OLD_URL}\n')
         self.assertFalse(self.component.do_update())
         self.assertTrue(self.component.alert_set.filter(name="UpdateFailure").exists())
         self._register_repositories("test-org/new-repo")

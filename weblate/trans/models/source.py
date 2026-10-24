@@ -340,6 +340,7 @@ def recheck_previous_source_peers(
 ) -> None:
     """Clear cross-unit failures in groups the unit no longer belongs to."""
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.propagation import propagation_filter  # ruff: ignore[import-outside-top-level]
 
     matches = Q(check_source=previous_source, context=unit.context)
     if unit.target:
@@ -350,9 +351,13 @@ def recheck_previous_source_peers(
         Unit.objects.with_effective_source()
         .filter(
             matches,
+            propagation_filter(
+                unit.translation.component.project,
+                "translation__component__",
+                unit.translation.component.name,
+            ),
             check__name__in=("inconsistent", "reused"),
             check_source_language=previous_language_id,
-            translation__component__project_id=unit.translation.component.project_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=unit.translation.plural_id,
         )

@@ -13,6 +13,18 @@ including ``Addon``, ``Component``, ``Translation``, ``Category``, ``Project``,
 ``Unit``, ``Change``, and ``User``. Add-on configuration forms should subclass
 ``weblate.addons.forms.BaseAddonForm``.
 
+Override ``get_integration_instructions(user)`` to render integration guidance
+independently of the settings form. Return HTML rendered using Django templates,
+with translated text and escaped context values, or an empty string when no
+instructions are available. The user argument identifies the administrator
+viewing the page and can be used to check permissions for links and actions.
+
+Instructions appear in a separate panel above installation and settings forms.
+For instructions that require an installed add-on, return an empty string when
+``self.instance.pk`` is not set. An add-on providing only instructions can leave
+``settings_form`` unset. Set ``stay_on_create = True`` to redirect administrators
+to the installed add-on and its instructions after installation.
+
 Use :ref:`acting-user-context` when saving configuration outside a request.
 ``BaseAddon.create(..., acting_user=user)`` scopes the complete installation
 operation. ``create_object()`` returns an unsaved object and no longer accepts

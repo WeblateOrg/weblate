@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-21 10:52+0000\n"
+"PO-Revision-Date: 2026-10-23 21:11+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -1255,6 +1255,8 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
+"Diese Anmeldeanfrage ist abgelaufen oder hat sich geändert. Starten Sie den "
+"Anmeldevorgang erneut über die Anwendung."
 
 msgid "This password consists of only whitespace."
 msgstr "Dieses Passwort besteht nur aus Leerzeichen."
@@ -1698,11 +1700,9 @@ msgstr ""
 "Das Repository ist veraltet, Sie erhalten möglicherweise erst nach der "
 "Aktualisierung die erwarteten Ergebnisse."
 
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The CDN add-on cannot publish a translation as manifest.json."
 msgstr ""
-"Die Erweiterung für Übersetzungsdateien-CDN kann weblate.js nicht "
+"Die CDN-Erweiterung kann eine Übersetzung nicht als manifest.json "
 "veröffentlichen."
 
 msgid "JavaScript localization CDN"
@@ -3072,7 +3072,7 @@ msgid "The resource is locked."
 msgstr "Die Ressource ist gesperrt."
 
 msgid "The API request rate limit was exceeded."
-msgstr "Die Obergrenze für API-Anfragen wurde überschritten."
+msgstr "Die Ratenbegrenzung für API-Anfragen wurde überschritten."
 
 msgid "An unexpected server error occurred."
 msgstr "Ein unerwarteter Serverfehler ist aufgetreten."
@@ -4290,8 +4290,8 @@ msgstr "Der Automatisierungskontext ist zu groß."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr ""
-"CEL-Validierung oder -Evaluierung ist fehlgeschlagen oder hat ihre "
-"Ressourcengrenze überschritten."
+"CEL-Validierung oder -Evaluierung ist fehlgeschlagen oder hat ihr "
+"Ressourcenlimit überschritten."
 
 #, python-format
 msgid "Invalid CEL condition: %s"
@@ -7456,32 +7456,26 @@ msgid "%s translation is currently not available, but can be added."
 msgstr ""
 "%s Übersetzung ist derzeit nicht verfügbar, kann aber hinzugefügt werden."
 
-#, fuzzy
-#| msgid "Occidental"
 msgid "Confidential"
-msgstr "Okzidental"
+msgstr "Vertraulich"
 
-#, fuzzy
-#| msgid "Activation token"
 msgid "Authorization code"
-msgstr "Aktivierungstoken"
+msgstr "Autorisierungscode"
 
 msgid "RSA with SHA-256"
-msgstr ""
+msgstr "RSA mit SHA-256"
 
 msgid "Identify your account"
-msgstr ""
+msgstr "Ihr Benutzerkonto identifizieren"
 
 msgid "Read your name and username"
-msgstr ""
+msgstr "Ihren Namen und Benutzernamen abrufen"
 
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Read your e-mail address"
-msgstr "E-Mail-Adresse des Kontos verwenden"
+msgstr "Ihre E-Mail-Adresse abrufen"
 
 msgid "Read the version of the legal documents you accepted"
-msgstr ""
+msgstr "Die Version der von Ihnen akzeptierten Rechtsdokumente abrufen"
 
 msgid "Image is too big."
 msgstr "Das Bild ist zu groß."
@@ -9217,12 +9211,10 @@ msgstr "Integrationsanweisungen"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
-"Die veröffentlichten Übersetzungsdateien sind über die CDN-Basis-URL "
-"verfügbar:"
+"Veröffentlichte Übersetzungsdateien sind über die CDN-Basis-URL verfügbar:"
 
 msgid "Files use language-code names with the original file extension."
-msgstr ""
-"Die Dateien verwenden Sprachcode-Namen mit der ursprünglichen Dateiendung."
+msgstr "Dateien verwenden Sprachcode-Namen mit der ursprünglichen Dateiendung."
 
 msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
@@ -9236,6 +9228,7 @@ msgstr ""
 
 msgid "Available languages and translation files are listed in the manifest:"
 msgstr ""
+"Verfügbare Sprachen und Übersetzungsdateien sind im Manifest aufgeführt:"
 
 msgid "Guided presets"
 msgstr "Geführte Voreinstellungen"
@@ -12220,22 +12213,18 @@ msgstr "Neue Übersetzung anfordern"
 msgid "You don't have permission to start a new translation"
 msgstr "Sie haben keine Berechtigung, eine neue Übersetzung zu starten"
 
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authorize application"
-msgstr "Authentifizierung"
+msgstr "Anwendung autorisieren"
 
 #, python-format
 msgid "Allow %(application)s to access your account?"
-msgstr ""
+msgstr "%(application)s Zugriff auf Ihr Konto gewähren?"
 
-#, fuzzy
-#| msgid "Author name"
 msgid "Authorize"
-msgstr "Autor-Name"
+msgstr "Autorisieren"
 
 msgid "Deny"
-msgstr ""
+msgstr "Ablehnen"
 
 msgid "Click to edit position"
 msgstr "Klicken Sie zum Bearbeiten der Position"
@@ -14355,11 +14344,18 @@ msgid ""
 "in other components, included in quality checks, or sent to translation "
 "services."
 msgstr ""
+"Eingeschränkte Komponenten werden nicht als Glossare verwendet. Ihre "
+"Begriffe werden in anderen Komponenten nicht angezeigt, nicht in "
+"Qualitätsprüfungen einbezogen und nicht an Übersetzungsdienste "
+"weitergeleitet."
 
 msgid ""
 "Remove restricted access to use this glossary project-wide, or disable ‘Use "
 "as a glossary’ to keep it as an ordinary restricted component."
 msgstr ""
+"Heben Sie die Zugriffsbeschränkungen auf, um dieses Glossar projektweit zu "
+"nutzen, oder deaktivieren Sie „Als Glossar verwenden“, um es als "
+"gewöhnliche, eingeschränkte Komponente beizubehalten."
 
 msgid "Version control system"
 msgstr "Versionsverwaltung"
@@ -14751,6 +14747,9 @@ msgid ""
 "Translation discovery reached a resource limit. Results might be incomplete. "
 "You can configure missing translation files manually."
 msgstr ""
+"Bei der Übersetzungserkennung wurde ein Ressourcenlimit erreicht. Die "
+"Ergebnisse sind möglicherweise unvollständig. Sie können fehlende "
+"Übersetzungsdateien manuell konfigurieren."
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typischer Arbeitsablauf zum Beheben von Merge-Konflikten"
@@ -16654,10 +16653,8 @@ msgstr "Die Komponente scheint nicht verwendet zu werden."
 msgid "Glossary using monolingual files."
 msgstr "Das Glossar verwendet einsprachige Dateien."
 
-#, fuzzy
-#| msgid "Reconstructed repository is not usable."
 msgid "Restricted glossary is not used."
-msgstr "Das wiederhergestellte Repository ist nicht nutzbar."
+msgstr "Es wird kein eingeschränktes Glossar verwendet."
 
 msgid "Glossary string management is disabled"
 msgstr "Verwaltung der Glossarzeichenketten ist deaktiviert"
@@ -16764,19 +16761,14 @@ msgstr ""
 "Die automatische Übersetzung übersprang Zeichenketten mit Pluralformen und "
 "verarbeitete nur Zeichenketten in einfacher Form."
 
-#, fuzzy
-#| msgid ""
-#| "Plural forms in %(component)s do not match the target translation. "
-#| "Automatic translation skipped pluralized strings and processed only "
-#| "single-form strings."
 msgid ""
 "Plural forms in some source components do not match the target translation. "
 "Automatic translation skipped pluralized strings and processed only single-"
 "form strings."
 msgstr ""
-"Pluralformen in %(component)s stimmen nicht mit der Zielübersetzung überein. "
-"Die automatische Übersetzung übersprang Zeichenketten mit Pluralformen und "
-"verarbeitete nur Zeichenketten in einfacher Form."
+"Pluralformen in einigen Komponenten stimmen nicht mit der Zielübersetzung "
+"überein. Die automatische Übersetzung übersprang Zeichenketten mit "
+"Pluralformen und verarbeitete nur Zeichenketten in einfacher Form."
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -17542,14 +17534,20 @@ msgstr "Überprüfungsstatus"
 
 msgid "The original review state is missing. Reload the editor and try again."
 msgstr ""
+"Der ursprüngliche Überprüfungsstatus fehlt. Laden Sie den Editor neu und "
+"versuchen Sie es erneut."
 
 msgid "The original review state is invalid. Reload the editor and try again."
 msgstr ""
+"Der ursprüngliche Überprüfungsstatus ist ungültig. Laden Sie den Editor neu "
+"und versuchen Sie es erneut."
 
 msgid ""
 "This review state is not available for this string. Reload the editor and "
 "select an available state."
 msgstr ""
+"Dieser Überprüfungsstatus ist für diese Zeichenkette nicht verfügbar. Laden "
+"Sie den Editor neu und wählen Sie einen verfügbaren Status aus."
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -19865,6 +19863,9 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
+"Der Überprüfungsstatus dieser Zeichenkette hat sich während dem Bearbeiten "
+"von %(previous)s zu %(current)s geändert. Laden Sie den Editor neu und "
+"überprüfen Sie Ihre Änderungen, bevor Sie sie speichern."
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "Als nicht übersetzbar für alle Sprachen aufheben"
@@ -20905,19 +20906,18 @@ msgstr "Borg wurde mit Warnungen ohne jegliche Ausgabe abgeschlossen."
 msgid "Invalid host name given!"
 msgstr "Ungültiger Hostname angegeben!"
 
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
-msgstr "Automatische Übersetzung"
+msgstr "Die automatische Übersetzung hat eine Warnung gemeldet."
 
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Automatic translation failed. See the task log for details."
 msgstr ""
-"Automatische Übersetzung übersprungen, da das Ziel nicht mehr existiert."
+"Die automatische Übersetzung ist fehlgeschlagen. Siehe das Aufgabenprotokoll "
+"für Details."
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+"Die Aufgabe konnte nicht abgeschlossen werden. Siehe das Aufgabenprotokoll "
+"für Details."
 
 #. Translators: Name of a color
 msgid "Navy"

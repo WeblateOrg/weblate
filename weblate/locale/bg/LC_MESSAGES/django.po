@@ -16,9 +16,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-20 22:27+0000\n"
-"Last-Translator: Любомир Василев "
-"<lyubomirv@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-10-23 21:11+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -1226,6 +1226,8 @@ msgid ""
 "This sign-in request has expired or changed. Start signing in again from the "
 "application."
 msgstr ""
+"Заявката за вписване е стара или променена. Започнете вписване отново през "
+"приложението."
 
 msgid "This password consists of only whitespace."
 msgstr "Паролата е само интервал."
@@ -1651,11 +1653,8 @@ msgstr ""
 "В хранилището има стари данни. Може да не получите очакваните резултати, "
 "докато не го обновите."
 
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The CDN add-on cannot publish a translation as manifest.json."
-msgstr ""
-"Добавката за CDN за файловете за превод не може да публикува weblate.js."
+msgstr "Добавката за CDN не може да публикува превод като manifest.json."
 
 msgid "JavaScript localization CDN"
 msgstr "CDN за локализация на JavaScript"
@@ -6906,6 +6905,9 @@ msgid ""
 "additional translation instructions. Each instruction can contain up to "
 "%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
+"Въведете обект JSON съпоставящ целеви езикови кодове разпознавани от Weblate "
+"към допълнителни инструкции за превод. Всяка инструкция може да съдържа до %"
+"(limit)d знака. Например: {\"de\": \"Използвайте учтиви обръщения.\"}"
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Езиково-специфичните инструкции трябва да бъдат обект на JSON."
@@ -6952,6 +6954,8 @@ msgid ""
 "With ‘Automatic selection’, Weblate selects the first model available "
 "through the API from its predefined preference list."
 msgstr ""
+"При „Автоматично избиране“, Weblate избира първия модел наличен чрез ППИ от "
+"предварително зададения списък с предпочитания."
 
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
@@ -6961,6 +6965,8 @@ msgid ""
 "Required when ‘Custom model’ is selected. Enter the model identifier used by "
 "the API."
 msgstr ""
+"Задължително, когато „Персонализиран модел“ е избрано. Въведете "
+"идентификатора на модела използван чрез ППИ."
 
 msgid "Missing custom model name."
 msgstr "Липсва име на персонализирания модел."
@@ -7015,6 +7021,9 @@ msgid ""
 "is http://localhost:11434; localhost refers to the environment where Weblate "
 "runs."
 msgstr ""
+"Основен адрес на ППИ на Ollama, достъпен от сървъра на Weblate. Стандартно "
+"това е http://localhost:11434; където „localhost“ се отнася към средата, в "
+"която работи Weblate."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
@@ -7048,11 +7057,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Макс. брой езикови единици"
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "Maximum number of tokens in the generated response."
-msgstr ""
-"Максимален брой езикови единици, които могат да се генерират в отговора."
+msgstr "Максимален брой езикови единици в генерирания отговор."
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -7066,60 +7072,46 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "@@PH1@@ неуспешни проверки"
 
-#, fuzzy
-#| msgid "Choose at most one report scope."
 msgid "Choose only one installation scope."
-msgstr "Изберете най-много един обхват за доклада."
+msgstr "Изберете само един обхват за инсталиране."
 
 msgid "A numeric slug is reserved for installation IDs."
 msgstr ""
+"Цифрово кратко име може да се ползва само за идентификатори на инсталации."
 
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "This scope already has 20 service installations."
-msgstr "Този компонент вече е споделен в %s."
+msgstr "Този обхват вече е има 20 инсталации на услуги."
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is already installed here."
-msgstr "Тази услуга е инсталирана за целия уеб сайт."
+msgstr "Тази услуга вече е инсталирана тук."
 
 msgid "Exclude the inherited installation before enabling this service."
-msgstr ""
+msgstr "Изключете наследената инсталация преди да включите тази услуга."
 
-#, fuzzy
-#| msgid "User is already blocked on this project."
 msgid "This slug is already used in an affected project."
-msgstr "Потребителят вече е блокиран в този проект."
+msgstr "Това кратко име вече се използва в засегнат проект."
 
-#, fuzzy
-#| msgid "Choose at most one report scope."
 msgid "Choose one exclusion scope."
-msgstr "Изберете най-много един обхват за доклада."
+msgstr "Изберете един обхват за изключване."
 
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Choose an installation or a translation service."
-msgstr "Предложения от машинния превод"
+msgstr "Изберете инсталация или услуга за превод."
 
-#, fuzzy
-#| msgid "Use the translation license configured in the workspace."
 msgid "Only site installations can be excluded by a workspace."
-msgstr "Използване на лиценза за преводи от работното пространство."
+msgstr ""
+"Едно работно пространство може да изключи само инсталациите на уеб сайта."
 
 msgid "Only inherited installations can be excluded."
-msgstr ""
+msgstr "Само наследените инсталации могат да бъдат изключени."
 
-#, fuzzy
-#| msgid "Use the translation license configured in the workspace."
 msgid "Translation services conflict with the new workspace."
-msgstr "Използване на лиценза за преводи от работното пространство."
+msgstr "Услугите за превод са в конфликт с новото работно пространство."
 
 msgid "Service is currently not available."
 msgstr "Услугата в момента е недостъпна."
 
 msgid "Select an available installation using {}:<id>"
-msgstr ""
+msgstr "Изберете налична инсталация чрез {}:<id></id>"
 
 msgctxt "Source language selection"
 msgid "Automatic selection"
@@ -7320,32 +7312,26 @@ msgstr "дек"
 msgid "%s translation is currently not available, but can be added."
 msgstr "В момента няма наличен превод на %s, но може да бъде добавен такъв."
 
-#, fuzzy
-#| msgid "Occidental"
 msgid "Confidential"
-msgstr "Окцидентал"
+msgstr "Поверително"
 
-#, fuzzy
-#| msgid "Activation token"
 msgid "Authorization code"
-msgstr "Идентификатор за активация"
+msgstr "Код за удостоверяване"
 
 msgid "RSA with SHA-256"
-msgstr ""
+msgstr "RSA с SHA-256"
 
 msgid "Identify your account"
-msgstr ""
+msgstr "Идентифицирайте акаунта си"
 
 msgid "Read your name and username"
-msgstr ""
+msgstr "Прочетете името и потребителското си име"
 
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Read your e-mail address"
-msgstr "Да се използва адресът на е-пощата на акаунта"
+msgstr "Прочетете адреса на е-пощата си"
 
 msgid "Read the version of the legal documents you accepted"
-msgstr ""
+msgstr "Прочетете версията на правните документи, които сте приели"
 
 msgid "Image is too big."
 msgstr "Изображението е твърде голямо."
@@ -7802,10 +7788,8 @@ msgstr "Подновяването на паролата е почти завъ�
 msgid "Account removal almost complete"
 msgstr "Изтриването на акаунта е почти завършено"
 
-#, fuzzy
-#| msgid "Registration almost complete"
 msgid "E-mail verification almost complete"
-msgstr "Регистрацията е почти завършена"
+msgstr "Потвърждението на е-пощата е почти завършено"
 
 msgid "Registration almost complete"
 msgstr "Регистрацията е почти завършена"
@@ -7822,16 +7806,12 @@ msgstr ""
 "За да премахнете акаунта си, щракнете върху връзката за потвърждение, "
 "изпратена на Вашата е-поща."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
 "Click the confirmation link sent to your e-mail inbox to verify the address "
 "for your account."
 msgstr ""
-"Посетете препратката за потвърждение, изпратена на електронната поща, и ще "
-"можете да започнете да използвате акаунта си."
+"Щракнете върху препратката за потвърждение, изпратена на е-пощата Ви, за да "
+"потвърдите адреса за акаунта си."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7856,14 +7836,12 @@ msgstr ""
 "Поискайте нова връзка за потвърждение, ако срокът на давност на текущата "
 "изтече."
 
-#, fuzzy
-#| msgid "Request a new confirmation link if it expires."
 msgid ""
 "Request a new verification e-mail from your account settings if the link "
 "expires."
 msgstr ""
-"Поискайте нова връзка за потвърждение, ако срокът на давност на текущата "
-"изтече."
+"Поискайте ново е-писмо за потвърждение от настройките на акаунта си, ако "
+"текущата връзка вече не работи."
 
 msgid "Register again if the confirmation link expires."
 msgstr "Регистрирайте се отново, ако връзката за потвърждение изгуби давност."
@@ -7876,10 +7854,8 @@ msgstr ""
 "изчакайте е-писмото за потвърждение поне 30 минути, преди да ни докладвате "
 "проблеми с получаването му."
 
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us."
 msgid "If there is a problem verifying your e-mail address, please contact us."
-msgstr "Ако има проблем с регистрацията Ви, моля, свържете се с нас."
+msgstr "Ако има проблем с потвърждението на е-пощата, моля, свържете се с нас."
 
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Ако има проблем с регистрацията Ви, моля, свържете се с нас."
@@ -7887,10 +7863,8 @@ msgstr "Ако има проблем с регистрацията Ви, мол�
 msgid "Please fix errors in the form."
 msgstr "Моля, поправете грешките във формуляра."
 
-#, fuzzy
-#| msgid "Send test e-mail"
 msgid "Send verification e-mail"
-msgstr "Изпращане на пробно е-писмо"
+msgstr "Изпращане на е-писмо за потвърждение"
 
 msgid "Back to account settings"
 msgstr "Назад към настройките на акаунта"
@@ -8096,15 +8070,11 @@ msgstr ""
 msgid "Change my password"
 msgstr "Промяна на паролата ми"
 
-#, fuzzy
-#| msgid "Back to account settings"
 msgid "Back to security settings"
-msgstr "Назад към настройките на акаунта"
+msgstr "Назад към настройките за сигурност"
 
-#, fuzzy
-#| msgid "Project settings"
 msgid "Profile settings"
-msgstr "Настройки на проекта"
+msgstr "Настройки на профила"
 
 msgid "Account"
 msgstr "Акаунт"
@@ -8115,23 +8085,17 @@ msgstr "Публичен профил"
 msgid "Preferences"
 msgstr "Предпочитания"
 
-#, fuzzy
-#| msgid "Search"
 msgid "Saved searches"
-msgstr "Търсене"
+msgstr "Запазени търсения"
 
 msgid "Notifications"
 msgstr "Известия"
 
-#, fuzzy
-#| msgid "Security"
 msgid "Security"
 msgstr "Сигурност"
 
-#, fuzzy
-#| msgid "Workspace settings"
 msgid "Developer settings"
-msgstr "Настройки на работното пространство"
+msgstr "Настройки за разработчици"
 
 msgid "Licenses"
 msgstr "Лицензи"
@@ -8143,18 +8107,14 @@ msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 "Адресът на е-пощата може да бъде избран само от списъка с потвърдени адреси."
 
-#, fuzzy
-#| msgid "Verify new e-mail address"
 msgid "Add and verify e-mail address"
-msgstr "Потвърдете новия адрес на е-поща"
+msgstr "Добавяне и потвърждаване на адреса на е-пощата"
 
 msgid "Save"
 msgstr "Запазване"
 
-#, fuzzy
-#| msgid "File management"
 msgid "Account management"
-msgstr "Управление на файловете"
+msgstr "Управление на акаунта"
 
 msgid "Download user data"
 msgstr "Изтегляне на потребителските данни"
@@ -8162,15 +8122,16 @@ msgstr "Изтегляне на потребителските данни"
 msgid "You can download all your private data."
 msgstr "Може да свалите всички свои лични данни."
 
-#, fuzzy
-#| msgid "Project settings"
 msgid "Import settings"
-msgstr "Настройки на проекта"
+msgstr "Внасяне на настройки"
 
 msgid ""
 "Import settings from a user data file downloaded from another Weblate "
 "server. Your contribution history and account identifiers are not imported."
 msgstr ""
+"Внесете настройките си от файл с потребителски данни свален от друг сървър "
+"на Weblate. Историята на приноса Ви и идентификаторите на акаунта Ви няма да "
+"бъдат внесени."
 
 msgid "Removal"
 msgstr "Изтриване"
@@ -8205,12 +8166,10 @@ msgstr ""
 "за добавянето му."
 
 msgid "Your saved searches are offered in the search filters everywhere."
-msgstr ""
+msgstr "Запазените Ви търсения се предлагат във филтрите за търсене навсякъде."
 
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add saved search"
-msgstr "Добавяне на потребител"
+msgstr "Добавяне на запазено търсене"
 
 msgid ""
 "Check which subscriptions apply to a project, component, or translation and "

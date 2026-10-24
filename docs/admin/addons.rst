@@ -21,6 +21,12 @@ Add-ons that opt in to manual triggering can be run from add-on management or us
 Add-ons that expose a component API show its base URL on the add-on's
 :guilabel:`API` tab, alongside a link to the API root.
 
+Add-ons can show :guilabel:`Integration instructions` above their settings.
+These explain how to connect your application or service to the add-on.
+Add-ons without configurable settings, such as :ref:`addon-weblate.cdn.files`,
+show instructions without a settings form. Generated URLs and integration
+snippets are available after installation.
+
 Add-ons are persistent administrative configuration. They run with their
 service identity in the scope where they are installed, rather than repeatedly
 using the permissions of the administrator who configured them. This ensures

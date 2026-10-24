@@ -5659,6 +5659,7 @@ class TasksViewSet(ViewSet):
     ) -> tuple[AsyncResult, Component | None, dict]:
         obj: Model
         component: Component | None
+        permission_components: list[Component] | None = None
         user = cast("User", request.user)
         task: AsyncResult = AsyncResult(str(pk))
         metadata = get_task_metadata(str(pk)) or {}
@@ -5678,8 +5679,10 @@ class TasksViewSet(ViewSet):
             components = list(
                 Component.objects.filter_access(user)
                 .filter(pk__in=existing_component_ids)
+                .select_related("project")
                 .order_by("pk")
             )
+            permission_components = components
             if len(components) != len(existing_component_ids) or (
                 existing_component_ids != unique_component_ids
                 and metadata.get("user_id") != user.pk
@@ -5711,7 +5714,13 @@ class TasksViewSet(ViewSet):
         if permission:
             if component is None:
                 raise PermissionDenied
-            if not user.has_perm(permission, obj):
+            if permission_components is not None:
+                if not all(
+                    user.has_perm(permission, candidate)
+                    for candidate in permission_components
+                ):
+                    raise PermissionDenied
+            elif not user.has_perm(permission, obj):
                 raise PermissionDenied
         elif component is not None and not user.can_access_component(component):
             raise PermissionDenied

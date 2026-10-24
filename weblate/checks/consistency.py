@@ -21,11 +21,18 @@ from django.db.models import (
     When,
 )
 from django.db.models.functions import MD5, Lower
+from django.db.models.lookups import In
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.trans.actions import ACTIONS_REVERTABLE, ActionEvents
+from weblate.trans.propagation import (
+    get_propagation_scope,
+    propagation_filter,
+    propagation_uses_custom_sources,
+    workspace_propagation,
+)
 from weblate.trans.util import split_plural
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import STATE_TRANSLATED
@@ -41,17 +48,38 @@ if TYPE_CHECKING:
 
 
 def _visible_peer_query(project: Project, *, custom_sources: bool) -> UnitQuerySet:
-    """Build a peer query relative to an outer unit in the same project."""
-    from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
+    """Build a peer query relative to an outer unit in its propagation group."""
+    from weblate.trans.models import Project, Unit  # ruff: ignore[import-outside-top-level]
 
+    public = (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED)
     return (
         Unit.objects.exclude_blocked(custom_sources=custom_sources)
         .with_effective_source(custom_sources=custom_sources, select=False)
         .filter(
-            translation__component__project=project,
+            propagation_filter(
+                project,
+                "translation__component__",
+                OuterRef("translation__component__name"),
+            ),
             translation__component__allow_translation_propagation=True,
             translation__plural_id=OuterRef("translation__plural_id"),
             check_source_language=OuterRef("check_source_language"),
+        )
+        .filter(
+            Q(
+                translation__component__project_id=OuterRef(
+                    "translation__component__project_id"
+                )
+            )
+            | (
+                Q(translation__component__project__access_control__in=public)
+                & Q(
+                    In(
+                        OuterRef("translation__component__project__access_control"),
+                        public,
+                    )
+                )
+            )
         )
         .filter(
             Q(translation__component__restricted=False)
@@ -129,16 +157,11 @@ def reused_peer_condition(project: Project, *, custom_sources: bool) -> Case:
     )
 
 
-def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
-    """Find stored-check units without a peer visible after a boundary change."""
-    from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
-
-    custom_sources = bool(project.translation_parent_language_ids)
-    units = Unit.objects.with_effective_source(
-        custom_sources=custom_sources, select=False
-    ).filter(translation__component__project=project)
+def propagated_peer_condition(
+    project: Project, check_id: str, *, custom_sources: bool
+) -> Case:
     if check_id == "inconsistent":
-        condition = Case(
+        return Case(
             When(
                 state__gte=STATE_TRANSLATED,
                 then=inconsistent_peer_exists(project, custom_sources=custom_sources),
@@ -148,8 +171,91 @@ def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
             ),
             output_field=BooleanField(),
         )
+    return reused_peer_condition(project, custom_sources=custom_sources)
+
+
+def workspace_check_units(component: Component, check_id: str) -> UnitQuerySet:
+    """Evaluate workspace groups with visibility applied before the group limit."""
+    from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
+
+    units = (
+        Unit.objects.exclude_blocked()
+        .with_effective_source()
+        .filter(
+            propagation_filter(
+                component.project, "translation__component__", component.name
+            ),
+            translation__component__allow_translation_propagation=True,
+        )
+        .annotate(
+            has_peer=propagated_peer_condition(
+                component.project, check_id, custom_sources=True
+            )
+        )
+        .filter(has_peer=True)
+    )
+    fields: tuple[str, ...] = (
+        "translation__plural_id",
+        "check_source_language",
+        "check_source_number",
+        "check_source_formula",
+        "check_source_type",
+    )
+    if get_propagation_scope(component.project) == "component_name":
+        fields += ("translation__component__name",)
+    if check_id == "inconsistent":
+        fields += ("check_source", "context")
+        limit = 100
     else:
-        condition = reused_peer_condition(project, custom_sources=custom_sources)
+        units = units.filter(
+            state__gte=STATE_TRANSLATED, translation__plural__number__gt=1
+        ).exclude(target="")
+        fields += ("target",)
+        limit = 20
+    groups = list(units.values(*fields).order_by(*fields).distinct()[:limit])
+    if not groups:
+        return units.none()
+    return (
+        units.filter(reduce(lambda query, group: query | Q(**group), groups, Q()))
+        .prefetch()
+        .prefetch_bulk()
+    )
+
+
+def evaluate_workspace_checks(
+    units: UnitQuerySet, check: ConsistencyCheck | ReusedCheck
+) -> Iterable[tuple[Unit, bool]]:
+    """Use correlated peers so every unit retains its own visibility boundary."""
+    first = units.first()
+    if first is None:
+        return
+    project = first.translation.component.project
+    units = units.annotate(
+        has_peer=propagated_peer_condition(project, check.check_id, custom_sources=True)
+    )
+    for unit in units.iterator(chunk_size=500):
+        yield (
+            unit,
+            (
+                check.applies_to_propagated_unit(unit)
+                and not check.ignore_state(unit)
+                and not check.should_skip(unit)
+                and unit.has_peer
+            ),
+        )
+
+
+def stale_project_check_units(project: Project, check_id: str) -> UnitQuerySet:
+    """Find stored-check units without a peer visible after a boundary change."""
+    from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
+
+    custom_sources = propagation_uses_custom_sources(project)
+    units = Unit.objects.with_effective_source(
+        custom_sources=custom_sources, select=False
+    ).filter(translation__component__project=project)
+    condition = propagated_peer_condition(
+        project, check_id, custom_sources=custom_sources
+    )
     return units.annotate(has_visible_peer=condition).filter(
         Q(has_visible_peer=False)
         | Q(translation__component__allow_translation_propagation=False)
@@ -215,7 +321,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     check_id = "inconsistent"
     name = gettext_lazy("Inconsistent")
     description = gettext_lazy(
-        "This string has more than one translation in this project "
+        "This string has more than one translation in its propagation group "
         "or is untranslated in some components."
     )
     ignore_untranslated = False
@@ -224,6 +330,9 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     skip_suggestions = True
 
     def evaluate_propagated(self, units: UnitQuerySet) -> Iterable[tuple[Unit, bool]]:
+        if "workspace_propagation" in units.query.annotations:
+            yield from evaluate_workspace_checks(units, self)
+            return
         public_targets = set()
         public_translated_targets = set()
         restricted_targets: dict[int, set[str]] = defaultdict(set)
@@ -291,6 +400,9 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
+        if workspace_propagation(component.project):
+            return workspace_check_units(component, self.check_id)
+
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Translation, Unit
 
@@ -458,6 +570,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
     version_added = "4.18"
 
     def evaluate_propagated(self, units: UnitQuerySet) -> Iterable[tuple[Unit, bool]]:
+        if "workspace_propagation" in units.query.annotations:
+            yield from evaluate_workspace_checks(units, self)
+            return
         source_field = (
             "check_source" if "check_source" in units.query.annotations else "source"
         )
@@ -558,6 +673,10 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
+        if workspace_propagation(component.project):
+            yield from workspace_check_units(component, self.check_id)
+            return
+
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Unit
 
