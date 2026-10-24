@@ -66,6 +66,7 @@ from weblate.api.docs import (
     document_all_static_vcs_choices,
 )
 from weblate.api.parsers import TranslationFileMultiPartParser
+from weblate.api.renderers import AutoCSVRenderer
 from weblate.api.serializers import (
     CategorySerializer,
     CommentSerializer,
@@ -198,6 +199,18 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+class CSVRendererTest(SimpleTestCase):
+    def test_formula_cells_and_headers(self) -> None:
+        rendered = AutoCSVRenderer().render(
+            {"=header": "=value", "@nested": {"field": "+value"}, "count": 1}
+        )
+        rows = list(csv.DictReader(StringIO(rendered.decode())))
+        self.assertEqual(
+            rows,
+            [{"'=header'": "'=value'", "'@nested.field'": "'+value'", "count": "1"}],
+        )
 
 
 def encode_multipart_form_field(boundary: str, content: str | bytes) -> bytes:
@@ -18866,6 +18879,25 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_csv_escapes_historical_text(self) -> None:
+        change = Change.objects.create(
+            action=ActionEvents.CHANGE,
+            project=self.project,
+            user=self.user,
+            target="=1+1",
+            old="@SUM(1+1)",
+        )
+        url = reverse("api:change-detail", kwargs={"pk": change.pk})
+        response = self.client.get(url, {"format": "csv"})
+        self.assertEqual(response.status_code, 200)
+        row = next(csv.DictReader(StringIO(response.content.decode())))
+        self.assertEqual(row["target"], "'=1+1'")
+        self.assertEqual(row["old"], "'@SUM(1+1)'")
+
+        response = self.client.get(url)
+        self.assertEqual(response.data["target"], "=1+1")
+        self.assertEqual(response.data["old"], "@SUM(1+1)")
+
     def test_autotranslate_change_hides_restricted_source(self) -> None:
         source = self.create_link_existing(
             name="Restricted automatic translation source",
