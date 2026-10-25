@@ -37,9 +37,55 @@
     return row?.dataset.raw ? JSON.parse(row.dataset.raw) : undefined;
   }
 
+  const DETAILS_STORAGE_KEY = "translate-details";
+
   function machineryRows(el) {
     return Array.from(el.children).filter((child) =>
       child.matches(".machinery-row"),
+    );
+  }
+
+  function initDetails() {
+    /* Keep the string details open across strings once the user opens them */
+    const details = document.querySelector(
+      '.accordion-collapse[id^="string-info-details-"]',
+    );
+    if (details === null) {
+      return;
+    }
+
+    let shown = false;
+    try {
+      shown = localStorage.getItem(DETAILS_STORAGE_KEY) === "shown";
+    } catch (_error) {
+      /* Local storage can be unavailable, keep the details collapsed */
+    }
+    if (shown) {
+      /* Set before Bootstrap creates the collapse, so it does not animate */
+      details.classList.add("show");
+      for (const button of document.querySelectorAll(
+        `[data-bs-target="#${details.id}"]`,
+      )) {
+        button.classList.remove("collapsed");
+        button.setAttribute("aria-expanded", "true");
+      }
+    }
+
+    const store = (event, value) => {
+      if (event.target !== details) {
+        return;
+      }
+      try {
+        localStorage.setItem(DETAILS_STORAGE_KEY, value);
+      } catch (_error) {
+        /* Ignore, the details still open and close on this page */
+      }
+    };
+    details.addEventListener("shown.bs.collapse", (event) =>
+      store(event, "shown"),
+    );
+    details.addEventListener("hidden.bs.collapse", (event) =>
+      store(event, "hidden"),
     );
   }
 
@@ -50,6 +96,7 @@
 
     this.initTranslationForm();
     this.initTabs();
+    initDetails();
     this.initChecks();
     this.initGlossary();
     this.initSuggestions();

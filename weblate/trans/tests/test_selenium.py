@@ -3544,6 +3544,66 @@ class SeleniumTests(
             self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
         )
 
+    def test_string_details_stay_open(self) -> None:
+        """The string details panel keeps its open state across strings."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="String details", slug="string-details")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        first = translation.unit_set.get(source="Hello, world!\n")
+        second = translation.unit_set.get(source="Thank you for using Weblate.")
+        self.do_login(superuser=True)
+
+        def open_unit(unit: Unit) -> tuple[WebElement, WebElement]:
+            with self.wait_for_page_load():
+                self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+            button = self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'[data-bs-target="#string-info-details-{unit.id}"]',
+            )
+            panel = self.driver.find_element(By.ID, f"string-info-details-{unit.id}")
+            return button, panel
+
+        def stored() -> str | None:
+            return self.driver.execute_script(
+                "return localStorage.getItem('translate-details');"
+            )
+
+        def wait_settled(panel: WebElement) -> None:
+            WebDriverWait(self.driver, 15).until(
+                lambda _driver: "collapsing" not in (panel.get_attribute("class") or "")
+            )
+
+        # Collapsed by default
+        button, panel = open_unit(first)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+
+        # Opening is remembered on the next string, without animating
+        self.click(button)
+        wait_settled(panel)
+        self.assertTrue(panel.is_displayed())
+        self.assertEqual(stored(), "shown")
+
+        button, panel = open_unit(second)
+        self.assertIn("show", panel.get_attribute("class") or "")
+        self.assertNotIn("collapsing", panel.get_attribute("class") or "")
+        self.assertTrue(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "true")
+        self.assertNotIn("collapsed", button.get_attribute("class") or "")
+
+        # A panel restored open can be closed, and that is remembered too
+        self.click(button)
+        wait_settled(panel)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+        self.assertEqual(stored(), "hidden")
+
+        button, panel = open_unit(first)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+
     @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
