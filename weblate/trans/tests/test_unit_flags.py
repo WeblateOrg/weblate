@@ -16,7 +16,12 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import UnitFlagsForm
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from django.db.models import Model
@@ -219,6 +224,71 @@ class UnitFlagsTest(ViewTestCase):
             self.source.refresh_from_db()
             self.assertEqual(self.unit.readonly, readonly)
             self.assertEqual(self.source.extra_flags, "")
+
+    def test_bulk_source_and_translation_flags_across_batches(self) -> None:
+        sibling = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=self.unit.id_hash
+        )
+        units = (self.unit, sibling)
+        for add_source, remove_source, add_local, remove_local in (
+            ("read-only", "", "", "read-only"),
+            ("", "read-only", "read-only", ""),
+        ):
+            with self.subTest(add_source=add_source):
+                self.set_flags(self.source, remove_source)
+                for unit in units:
+                    self.set_flags(unit, remove_local)
+                original_states = {unit.pk: unit.original_state for unit in units}
+                # Force sibling source objects into independent prefetch batches.
+                with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+                    bulk_perform(
+                        self.user,
+                        Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                        query="",
+                        target_state=-1,
+                        add_flags=add_source,
+                        remove_flags=remove_source,
+                        add_translation_flags=add_local,
+                        remove_translation_flags=remove_local,
+                        add_labels=self.project.label_set.none(),
+                        remove_labels=self.project.label_set.none(),
+                        project=self.project,
+                    )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, add_source)
+                for unit in units:
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.extra_flags, add_local)
+                    self.assertEqual(unit.state, STATE_READONLY)
+                    self.assertEqual(unit.original_state, original_states[unit.pk])
+                    self.assertIn("read-only", unit.all_flags)
+
+    def test_bulk_inherited_priority_after_removing_local_override(self) -> None:
+        sibling = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=self.unit.id_hash
+        )
+        units = (self.unit, sibling)
+        for unit in units:
+            self.set_flags(unit, "priority:20")
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[unit.pk for unit in units]),
+                query="",
+                target_state=-1,
+                add_flags="priority:70",
+                remove_flags="",
+                add_translation_flags="",
+                remove_translation_flags="priority",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+            )
+        for unit in units:
+            unit.refresh_from_db()
+            self.assertEqual(unit.extra_flags, "")
+            self.assertEqual(unit.priority, 70)
+            self.assertEqual(unit.all_flags.get_value("priority"), 70)
 
     def test_source_view_offers_source_scope_only(self) -> None:
         actions = self.source.get_flag_actions(self.user)

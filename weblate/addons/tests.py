@@ -10113,6 +10113,39 @@ class AddonConfigurationUnitTest(SimpleTestCase):
 
 
 class BulkEditAddonTest(ViewTestCase):
+    def test_replacement_and_clearing(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, "Original target", STATE_TRANSLATED)
+        addon = BulkEditAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "q": f"id:{unit.pk}",
+                "state": -1,
+                "search_type": "regex",
+                "search": "(Original) (target)",
+                "replacement": r"\g<2> \g<1>",
+                "add_labels": [],
+                "remove_labels": [],
+                "add_flags": "",
+                "remove_flags": "",
+            },
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "target Original\n")
+        change = unit.change_set.filter(action=ActionEvents.REPLACE).latest("pk")
+        self.assertEqual(change.user, addon.user)
+        addon.instance.configuration.update(
+            state=STATE_EMPTY, search="", replacement=""
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertEqual((unit.target, unit.state), ("", STATE_EMPTY))
+        change = unit.change_set.filter(action=ActionEvents.BULK_EDIT).latest("pk")
+        self.assertEqual(change.user, addon.user)
+
     def test_bulk(self) -> None:
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(component=self.component))

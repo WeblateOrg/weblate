@@ -618,17 +618,8 @@ see :ref:`rate-limit`.
 Search and replace
 ------------------
 
-Change terminology effectively or perform bulk fixing of the
-strings using :guilabel:`Search and replace` in the :guilabel:`Operations` menu.
-
-.. image:: /screenshots/search-replace.webp
-
-.. hint::
-
-    Don't worry about messing up the strings, as it is a two-step process.
-    A preview of edited strings is shown before confirming the change.
-    You can adjust the search parameters from the preview and update it before
-    applying the replacement.
+Search and replace is part of :ref:`bulk-edit`. Use it to change terminology or
+fix matching translations, with literal text or regular expressions.
 
 .. _bulk-edit:
 
@@ -642,6 +633,8 @@ Flag and label changes are grouped by what they affect, with separate
 Supported operations:
 
 * Change string state (for example to approve all unreviewed strings).
+* Clear translations by setting the state to :guilabel:`Empty`.
+* Replace text, including regular expressions and captured groups.
 * Adjust source-wide or language-specific translation flags (see :ref:`custom-checks`)
 * Adjust string labels (see :ref:`labels`)
 
@@ -656,7 +649,64 @@ using :guilabel:`Add flags` in the :guilabel:`Translation flags` section.
     This tool is called :guilabel:`Bulk edit`, accessible in the
     :guilabel:`Operations` menu of each project, component or translation.
 
+Text replacement uses the strings matched by the search query or your selection.
+Choose :guilabel:`Text` for case-sensitive literal replacement, or
+:guilabel:`Regular expression` for a pattern. Leave :guilabel:`Search string`
+empty to disable replacement. An empty :guilabel:`Replacement string` removes
+matching text. Spaces and newlines in the fields are preserved, and each plural form is
+processed separately. The usual translation autofixes still apply.
+
+Regular expression replacements use Python syntax: ``\g<1>`` inserts the first
+captured group, ``\g<name>`` inserts a named group, and ``\g<0>`` inserts the
+complete match. For example, search for ``(Hello), (world)`` and replace with
+``\g<2>, \g<1>`` to swap the words. Invalid patterns or references are rejected;
+expressions that take too long to evaluate stop the operation.
+
+Replacement can be combined with state, flag, and label changes. These other
+operations apply to all strings matched by the query, including strings whose
+text does not match the replacement pattern. Setting :guilabel:`Empty` clears
+all translation plural forms and cannot be combined with replacement. Source
+strings can be replaced when editable, but cannot be cleared. These operations
+require bulk-edit and edit permissions and respect read-only strings.
+
+Each selected translation is processed independently, once per operation.
+Automatic propagation skips other selected translations so that their own
+replacement inputs are preserved. Eligible translations outside the selection
+can still receive propagated changes.
+
+:guilabel:`Preview changes` is selected by default. The preview shows up to 250
+changed strings, with checkboxes to choose which displayed strings to apply.
+Edit the parameters and choose :guilabel:`Update preview` to review a different
+operation. Select :guilabel:`Apply all matching strings` to process all current
+matches, including those not displayed. The query and permissions are checked
+again when applying changes. Source flag and label changes affect every language
+of the corresponding source, even when only one translation is selected.
+Uncheck :guilabel:`Preview changes` to apply directly.
+
+Regular expression replacement runs in a separate helper process with fixed
+resource limits shared across the bulk operation. Patterns and replacement
+strings are limited to 4096 characters each. Each plural form is limited to
+1 MiB of UTF-8 input and output, and the operation can return at most 64 MiB
+of replacement text, including unchanged text. Literal replacement does not
+use this helper or these regex limits.
+
+The helper has a cumulative CPU limit of 5 seconds and a 192 MiB address-space
+limit. Each match operation is limited to 0.3 seconds. The application waits at
+most 2 seconds per helper exchange and 10 seconds cumulatively; database work
+between exchanges does not count toward this waiting limit. Validation and
+replacement reuse the helper within one request, and components processed
+synchronously share its budget. A separate request or queued task gets a fresh
+budget.
+
+Exceeding a limit stops regex processing and rolls back the current component.
+Changes to components completed earlier remain applied. The preview and actual
+execution enforce the same limits. On macOS the helper enforces time and output
+limits but cannot enforce the address-space limit; native regex compilation or
+matching can still exhaust memory there.
+
 .. image:: /screenshots/bulk-edit.webp
+
+.. image:: /screenshots/bulk-edit-preview.webp
 
 
 

@@ -32,6 +32,7 @@ from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.utils import messages
+from weblate.utils.bulk_regex import regex_session
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
@@ -405,6 +406,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             else:
                 postconfigure_addon.delay_on_commit(self.instance.pk)
 
+    @regex_session()
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
         if component := self.instance.component:

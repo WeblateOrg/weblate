@@ -37,6 +37,7 @@ from weblate.trans.signals import (
     vcs_pre_push,
     vcs_pre_update,
 )
+from weblate.utils.bulk_regex import regex_session
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
@@ -830,6 +831,7 @@ def handle_daily_addon_event(addon_queryset: Iterable[Addon]) -> None:
 
 
 @transaction.atomic
+@regex_session()
 def handle_scoped_addon_event(
     addon_queryset: Iterable[Addon], event: AddonEvent, method: str
 ) -> None:

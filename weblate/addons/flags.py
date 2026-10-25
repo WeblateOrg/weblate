@@ -119,7 +119,7 @@ class BulkEditAddon(BaseAddon):
     }
     name = "weblate.flags.bulk"
     verbose = gettext_lazy("Bulk edit")
-    description = gettext_lazy("Bulk edit flags, labels, or states of strings.")
+    description = gettext_lazy("Bulk edit text, flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
     user_name = "bulk"

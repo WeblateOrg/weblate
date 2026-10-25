@@ -81,7 +81,7 @@ from weblate.utils.state import (
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -2229,7 +2229,13 @@ class Unit(models.Model, LoggerMixin):
 
     @source_operation_method
     def propagate(
-        self, user: User | None, change_action=None, author=None, request=None
+        self,
+        user: User | None,
+        change_action=None,
+        author=None,
+        request=None,
+        *,
+        exclude_ids: Collection[int] = (),
     ) -> bool:
         """Propagate current translation to all others."""
         warnings: list[str] = []
@@ -2240,6 +2246,10 @@ class Unit(models.Model, LoggerMixin):
             if self.state != STATE_APPROVED:
                 units = units.exclude(target=self.target, state=self.state)
             for unit in units.select_for_update():
+                # Bulk selections apply each target's own edit. Propagating into
+                # another selected target would change its replacement input.
+                if unit.pk in exclude_ids:
+                    continue
                 if user is not None and not (
                     denied := user.has_perm("unit.edit", unit)
                 ):
@@ -2346,6 +2356,7 @@ class Unit(models.Model, LoggerMixin):
         run_checks: bool = True,
         request=None,
         change_details: dict[str, Any] | None = None,
+        propagation_exclude_ids: Collection[int] = (),
     ) -> bool:
         """
         Store unit to backend.
@@ -2364,7 +2375,11 @@ class Unit(models.Model, LoggerMixin):
         was_propagated = False
         if propagate:
             was_propagated = self.propagate(
-                user, change_action, author=author, request=request
+                user,
+                change_action,
+                author=author,
+                request=request,
+                exclude_ids=propagation_exclude_ids,
             )
 
         # Return if there was no change
@@ -3053,6 +3068,7 @@ class Unit(models.Model, LoggerMixin):
 
     @transaction.atomic
     @source_operation_method
+    # ruff: ignore[too-many-arguments]
     def translate(
         self,
         user: User | None,
@@ -3061,6 +3077,7 @@ class Unit(models.Model, LoggerMixin):
         *,
         change_action: int | None = None,
         propagate: bool = True,
+        propagation_exclude_ids: Collection[int] = (),
         author: User | None = None,
         request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
@@ -3135,6 +3152,7 @@ class Unit(models.Model, LoggerMixin):
             user,
             change_action=change_action,
             propagate=propagate,
+            propagation_exclude_ids=propagation_exclude_ids,
             author=author,
             request=request,
             change_details=change_details,

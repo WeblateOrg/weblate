@@ -1086,6 +1086,15 @@ Bulk editing
    * - ``settings.state``
      - No
      - integer
+   * - ``settings.search``
+     - No
+     - string; maximum length 4096
+   * - ``settings.replacement``
+     - No
+     - string; maximum length 4096
+   * - ``settings.search_type``
+     - No
+     - ``"text"``, ``"regex"``
    * - ``settings.add_flags``
      - No
      - string; maximum length 4096
@@ -1126,6 +1135,46 @@ and result scopes, ``q`` is optional and filters the selected strings.
 ``state`` sets an integer string state, or leaves it unchanged with -1 (the
 default).
 
+Text replacement
+^^^^^^^^^^^^^^^^
+
+``search`` and ``replacement`` have the same meaning as in :ref:`bulk-edit`.
+``search_type`` is ``text`` (the default) or ``regex``. Empty ``search`` disables
+replacement; empty ``replacement`` removes matching text. Regex replacements
+use Python capture references such as ``\g<1>`` or ``\g<name>``. Each plural form
+is processed separately, and whitespace is preserved.
+
+For example, this action swaps two captured words:
+
+.. code-block:: yaml
+
+   - action: weblate.bulk_edit
+     settings:
+       q: "language:cs"
+       search_type: regex
+       search: '(Hello), (world)'
+       replacement: '\g<2>, \g<1>'
+
+The query or action scope selects strings for all operations. Adding replacement
+does not narrow accompanying state, flag, or label changes. Set ``state: 0`` to
+clear translations, including every plural form; source strings are excluded.
+Clearing cannot be combined with replacement.
+
+The visual editor offers the same search-type choices, replacement fields, and
+Empty state as the add-on. Automated runs process the full eligible scope without
+interactive preview. Invalid patterns or replacement references are rejected;
+a regex timeout fails the operation and rolls back changes to the current
+component. Earlier component changes in a project-wide add-on run remain applied.
+
+Regex replacement uses the fixed :ref:`bulk-edit` resource limits. Workflow
+validation shares one helper across action settings; execution shares the regex
+budget across bulk-edit actions. Synchronously processed components share the
+budget, while separately queued tasks have independent budgets. Pattern
+compilation and template validation also run in the helper. A resource failure
+fails the operation rather than skipping the affected string or retrying with a
+fresh budget. On macOS, native regex allocations are not protected by a hard
+address-space limit.
+
 .. _automation-string-states:
 
 String states
@@ -1142,7 +1191,7 @@ String states
      - Yes; default, not an actual unit state
    * - ``0``
      - Empty
-     - No
+     - Yes; clears translation text, skips source strings
    * - ``10``
      - Needs editing
      - Yes

@@ -3,12 +3,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from itertools import islice
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.db import transaction
+from django.core import signing
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Sum
 from django.http import QueryDict
 from django.shortcuts import redirect
@@ -18,18 +17,16 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.actions import ActionEvents
-from weblate.trans.bulk import bulk_perform
+from weblate.trans.bulk import BULK_EDIT_PREVIEW_LIMIT, bulk_perform
 from weblate.trans.forms import (
     BulkEditForm,
-    ReplaceConfirmForm,
-    ReplaceForm,
     SearchForm,
 )
-from weblate.trans.models import Category, Component, Project, Translation, Unit
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
+from weblate.utils.bulk_regex import regex_session
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
@@ -43,10 +40,10 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.bulk import BulkUnitEdit
 
 
 SEARCH_SUMMARY_MAX_STRINGS = 1_000
-SEARCH_REPLACE_PREVIEW_LIMIT = 250
 BULK_EDIT_TYPES = (
     Translation,
     Component,
@@ -78,117 +75,13 @@ def browse(request: AuthenticatedHttpRequest, path):
 @login_required
 @require_POST
 def search_replace(request: AuthenticatedHttpRequest, path):
-    obj, unit_set, context = parse_path_units(
-        request,
-        path,
-        (
-            Translation,
-            Component,
-            Project,
-            ProjectLanguage,
-            Category,
-            CategoryLanguage,
-            Workspace,
-        ),
-    )
-
-    if isinstance(obj, Workspace):
-        unit_set = unit_set.filter_editable_scope(request.user)
-        if not unit_set.exists():
-            raise PermissionDenied
-    elif not request.user.has_perm("unit.edit", obj):
-        raise PermissionDenied
-
-    form = ReplaceForm(obj=obj, data=request.POST, user=request.user)
-
-    if not form.is_valid():
-        messages.error(request, gettext("Could not process form!"))
-        show_form_errors(request, form)
-        return redirect(obj)
-
-    search_text = form.cleaned_data["search"]
-    replacement = form.cleaned_data["replacement"]
-    query = form.cleaned_data.get("q")
-
-    matching = unit_set.filter(target__contains=search_text)
-    if query:
-        matching = matching.search(query)
-
-    updated = 0
-
-    editable_units = (
-        unit
-        for unit in matching.order_by("id").iterator(
-            chunk_size=SEARCH_REPLACE_PREVIEW_LIMIT + 1
-        )
-        if request.user.has_perm("unit.edit", unit)
-    )
-    matching_ids = [
-        unit.id for unit in islice(editable_units, SEARCH_REPLACE_PREVIEW_LIMIT + 1)
-    ]
-
-    if matching_ids:
-        if len(matching_ids) > SEARCH_REPLACE_PREVIEW_LIMIT:
-            matching_ids = matching_ids[:SEARCH_REPLACE_PREVIEW_LIMIT]
-            limited = True
-        else:
-            limited = False
-
-        matching = Unit.objects.filter(id__in=matching_ids).prefetch()
-
-        confirm_initial = {
-            "q": query,
-            "path": form.cleaned_data.get("path", ""),
-            "search": search_text,
-            "replacement": replacement,
-        }
-        confirm = ReplaceConfirmForm(matching, request.POST)
-
-        if not confirm.is_valid():
-            for unit in matching:
-                # This is rendered using format_unit_target which does split_plurals
-                unit.replacement = unit.target.replace(search_text, replacement)
-            context.update(
-                {
-                    "matching": matching,
-                    "search_query": search_text,
-                    "replacement": replacement,
-                    "form": form,
-                    "limited": limited,
-                    "confirm": ReplaceConfirmForm(matching, initial=confirm_initial),
-                }
-            )
-            return render(request, "replace.html", context)
-
-        matching = confirm.cleaned_data["units"]
-
-        with transaction.atomic():
-            for unit in matching.select_for_update():
-                if not request.user.has_perm("unit.edit", unit):
-                    continue
-                unit.translate(
-                    request.user,
-                    [
-                        plural.replace(search_text, replacement)
-                        for plural in unit.get_target_plurals()
-                    ],
-                    unit.state,
-                    change_action=ActionEvents.REPLACE,
-                )
-                updated += 1
-
-    import_message(
-        request,
-        updated,
-        gettext("Search and replace completed, no strings were updated."),
-        ngettext(
-            "Search and replace completed, %d string was updated.",
-            "Search and replace completed, %d strings were updated.",
-            updated,
-        ),
-    )
-
-    return redirect(obj)
+    """Accept the legacy replacement URL through the unified bulk-edit flow."""
+    data = request.POST.copy()
+    data.setdefault("state", "-1")
+    data.setdefault("preview", "1")
+    if not data.get("q"):
+        data["q"] = "NOT id:0"
+    return bulk_edit(request, path, data=data)
 
 
 @never_cache
@@ -295,42 +188,94 @@ def search(request: AuthenticatedHttpRequest, path=None):
 @login_required
 @require_POST
 @never_cache
-def bulk_edit(request: AuthenticatedHttpRequest, path):
+@regex_session()
+def bulk_edit(
+    request: AuthenticatedHttpRequest, path, *, data: QueryDict | None = None
+):
     obj, unit_set, context = parse_path_units(request, path, BULK_EDIT_TYPES)
 
-    if not request.user.has_perm("unit.bulk_edit", obj) or not request.user.has_perm(
-        "unit.edit", obj
-    ):
+    if isinstance(obj, Workspace):
+        unit_set = unit_set.filter_editable_scope(request.user)
+        can_edit = unit_set.exists()
+    else:
+        can_edit = request.user.has_perm("unit.edit", obj)
+    if not request.user.has_perm("unit.bulk_edit", obj) or not can_edit:
         raise PermissionDenied
+
+    data = request.POST.copy() if data is None else data
+    confirmation = None
+    if token := data.get("bulk_confirmation"):
+        try:
+            confirmation = signing.loads(
+                token,
+                salt=f"bulk-edit:{request.user.pk}:{request.path}",
+                max_age=3600,
+            )
+            data = QueryDict(mutable=True)
+            for key, values in confirmation["data"].items():
+                data.setlist(key, values)
+        except (signing.BadSignature, KeyError, TypeError):
+            messages.error(
+                request,
+                gettext(
+                    "The preview has expired or is invalid. Preview the changes again."
+                ),
+            )
+            return redirect(obj)
 
     form = BulkEditForm(
         request.user,
         obj,
-        request.POST,
+        data,
         project=context.get("project"),
         selection=True,
     )
-    next_url = request.POST.get("next")
-
+    next_url = data.get("next")
     if not form.is_valid():
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
         return redirect_next(next_url, obj)
-
-    updated = bulk_perform(
-        request.user,
-        unit_set,
-        query=form.get_query(),
-        target_state=form.cleaned_data["state"],
-        add_flags=form.cleaned_data["add_flags"],
-        remove_flags=form.cleaned_data["remove_flags"],
-        add_translation_flags=form.cleaned_data["add_translation_flags"],
-        remove_translation_flags=form.cleaned_data["remove_translation_flags"],
-        add_labels=form.cleaned_data["add_labels"],
-        remove_labels=form.cleaned_data["remove_labels"],
-        project=context.get("project"),
-        components=context["components"],
+    options = {
+        "query": form.get_query(),
+        "target_state": form.cleaned_data["state"],
+        **{
+            name: form.cleaned_data[name]
+            for name in (
+                "search",
+                "replacement",
+                "search_type",
+                "add_flags",
+                "remove_flags",
+                "add_translation_flags",
+                "remove_translation_flags",
+                "add_labels",
+                "remove_labels",
+            )
+        },
+        "project": context.get("project"),
+        "components": context["components"],
+    }
+    if confirmation is not None and request.POST.get("apply_all") != "1":
+        try:
+            selected = {int(pk) for pk in request.POST.getlist("preview_units")}
+        except ValueError:
+            raise PermissionDenied from None
+        if not selected <= set(confirmation["candidates"]):
+            raise PermissionDenied
+        unit_set = unit_set.filter(pk__in=selected)
+    preview: list[BulkUnitEdit] | None = (
+        [] if confirmation is None and form.cleaned_data["preview"] else None
     )
+    try:
+        updated = bulk_perform(request.user, unit_set, preview=preview, **options)
+    except ValidationError as error:
+        messages.error(
+            request, gettext("Bulk edit failed: %s") % "; ".join(error.messages)
+        )
+        return redirect_next(next_url, obj)
+
+    if preview is not None:
+        return render_bulk_preview(request, obj, data, form, context, preview, updated)
 
     import_message(
         request,
@@ -344,3 +289,44 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
     )
 
     return redirect_next(next_url, obj)
+
+
+def render_bulk_preview(
+    request: AuthenticatedHttpRequest,
+    obj,
+    data: QueryDict,
+    form: BulkEditForm,
+    context,
+    preview: list[BulkUnitEdit],
+    total: int,
+):
+    """Render bounded candidates while retaining the original operation scope."""
+    preview = preview[:BULK_EDIT_PREVIEW_LIMIT]
+    preview_data = data.copy()
+    preview_data["q"] = form.get_query()
+    preview_data.pop("units", None)
+    edit_form = BulkEditForm(
+        request.user, obj, preview_data, project=context.get("project")
+    )
+    context.update(
+        {
+            "matching": preview,
+            "total": total,
+            "limited": total > BULK_EDIT_PREVIEW_LIMIT,
+            "form": edit_form,
+            "next": data.get("next", ""),
+            "confirmation": signing.dumps(
+                {
+                    "data": {
+                        key: values
+                        for key, values in data.lists()
+                        if key != "csrfmiddlewaretoken"
+                    },
+                    "candidates": [edit.unit.pk for edit in preview],
+                },
+                salt=f"bulk-edit:{request.user.pk}:{request.path}",
+                compress=True,
+            ),
+        }
+    )
+    return render(request, "bulk-edit.html", context)

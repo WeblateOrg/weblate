@@ -954,6 +954,77 @@ class AutomationTest(ReusableComponentTestCase):
             [step["status"] for step in runner.trace], ["success", "planned"]
         )
 
+    def test_bulk_regex_budget_shared_across_actions(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!", STATE_TRANSLATED)
+        actions = [
+            {
+                "action": "weblate.bulk_edit",
+                "settings": {
+                    "q": f"id:{unit.pk}",
+                    "search_type": "regex",
+                    "search": search,
+                    "replacement": replacement,
+                },
+            }
+            for search, replacement in [("Hello", "Hi"), ("world", "Earth")]
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        with patch("weblate.utils.bulk_regex.OUTPUT_LIMIT", 16):
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR, runner.trace)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Hi, world!\n")
+        self.assertTrue(runner.failed)
+
+    def test_bulk_replacement_and_clearing_result_scopes(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!", STATE_TRANSLATED)
+        actions = [
+            {
+                "action": "weblate.bulk_edit",
+                "id": "replaced",
+                "settings": {
+                    "q": f"id:{unit.pk}",
+                    "search_type": "regex",
+                    "search": "(Hello), (world)",
+                    "replacement": r"\g<2>, \g<1>",
+                },
+            },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:replaced",
+                "id": "cleared",
+                "settings": {"state": STATE_EMPTY},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        unit.refresh_from_db()
+        self.assertEqual((unit.target, unit.state), ("", STATE_EMPTY))
+        self.assertEqual(runner.context["results"]["replaced"]["updated"], 1)
+        self.assertEqual(runner.context["results"]["cleared"]["updated"], 1)
+        self.assertEqual(runner.selections["cleared"].unit_ids, {unit.pk})
+
     def test_select_result_limits_following_bulk_edit(self) -> None:
         units = self.component.translation_set.get(language_code="cs").unit_set
         selected = units.get(source="Hello, world!\n")
@@ -1922,6 +1993,39 @@ class AutomationTest(ReusableComponentTestCase):
             settings.xpath(".//*[@data-workflow-key='q']/@data-workflow-required"),
             ["1"],
         )
+
+    def test_editor_bulk_replacement_controls(self) -> None:
+        addon = self.install(WORKFLOW | {"actions": [BULK]})
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        response = self.client.get(addon.instance.get_absolute_url())
+        tree = html.fromstring(response.content)
+        template = tree.xpath(
+            "//template[@data-automation-node='action:weblate.bulk_edit']"
+        )[0]
+        self.assertEqual(
+            template.xpath(
+                ".//input[@type='radio' and @data-workflow-key='search_type']/@value"
+            ),
+            ["text", "regex"],
+        )
+        self.assertEqual(
+            template.xpath(
+                ".//*[@data-workflow-key='search']/@data-workflow-preserve-whitespace"
+            ),
+            ["1"],
+        )
+        self.assertEqual(
+            template.xpath(
+                ".//*[@data-workflow-key='replacement']/@data-workflow-preserve-whitespace"
+            ),
+            ["1"],
+        )
+        self.assertTrue(
+            template.xpath(".//select[@data-workflow-key='state']/option[@value='0']")
+        )
+        self.assertFalse(template.xpath(".//*[@data-workflow-key='preview']"))
 
     def test_editor_settings_forms_cover_the_schema(self) -> None:
         for obj in (self.component, self.component.project, None):

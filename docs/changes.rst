@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.
+
 * Translation service installations have a :ref:`Logs tab <machinery-error-log>` showing provider errors, including rate limits.
 
 * Added :ref:`workspace translation propagation scopes <workspace-propagation-scope>` for sharing translations across projects or components with matching names.

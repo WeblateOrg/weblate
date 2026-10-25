@@ -22,6 +22,7 @@ from weblate.automation.operations import (
 )
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
+from weblate.utils.bulk_regex import regex_session
 from weblate.utils.change_origin import acting_user_context, change_origin_context
 
 if TYPE_CHECKING:
@@ -379,6 +380,7 @@ class Runner:
             conditional=uncertain,
         )
 
+    @regex_session()
     def run(self) -> AddonActivityLogStatus:
         with override("en"):
             try:

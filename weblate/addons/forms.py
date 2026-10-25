@@ -1609,6 +1609,9 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
             "remove_translation_flags",
             "remove_labels",
             "state",
+            "search",
+            "replacement",
+            "search_type",
         }
     )
 
