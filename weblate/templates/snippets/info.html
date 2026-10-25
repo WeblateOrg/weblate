@@ -275,7 +275,9 @@
         </table>
         <div class="card-footer">
           <span class="float-end"><strong>{{ total_translations|intcomma }}</strong></span>
-          <a href="{% url "user_list" %}" class="btn btn-primary">{% translate "Browse all users" %}</a>
+          {% if can_browse_users %}
+            <a href="{% url "user_list" %}" class="btn btn-primary">{% translate "Browse all users" %}</a>
+          {% endif %}
         </div>
       </div>
     {% endif %}
@@ -498,12 +500,12 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              {% if not workspace %}
+              {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
                 <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
               {% endif %}
               <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
               <div class="metric-text">{% translate "Contributors" %}</div>
-              {% if not workspace %}</a>{% endif %}
+              {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}</a>{% endif %}
             </div>
           </div>
           {% if workspace %}

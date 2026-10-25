@@ -12,6 +12,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 
 import weblate.utils.version
+from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
 from weblate.configuration.views import CustomCSSView
 from weblate.legal.utils import get_document_context
 from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
@@ -153,6 +154,8 @@ def weblate_context(request: AuthenticatedHttpRequest):
     )
 
     context = {
+        "can_browse_users": user is not None and can_browse_users(user),
+        "can_search_scoped_users": user is not None and can_search_scoped_users(user),
         "support_status": support_status,
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),

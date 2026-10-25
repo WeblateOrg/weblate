@@ -677,6 +677,15 @@ Security properties Weblate provides
      - Conditions
      - Violation symptom
      - Severity tier
+   * - User discovery and profile access respect installation visibility
+       policies. *(documented)* (source: :setting:`USER_DIRECTORY_VISIBILITY`,
+       :setting:`USER_PROFILE_VISIBILITY`)
+     - Operators configure the desired policy. Resource-scoped discovery and
+       contribution attribution remain available; this does not provide
+       contributor anonymity. *(documented)*
+     - Generic user enumeration bypasses a restricted directory policy, or
+       profile data is returned to a viewer excluded by the profile policy.
+     - Authorization bypass; assess the exposed data and configured policy.
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
        management permissions. *(documented)* (source: :doc:`/admin/access`,

@@ -2580,6 +2580,8 @@ onReady(() => {
           const unitId = editor.closest("#comment-form")?.dataset.unitId;
           if (unitId) {
             url += `&unit=${encodeURIComponent(unitId)}`;
+          } else if (document.body.dataset.userSearchQuery) {
+            url += `&q=${encodeURIComponent(document.body.dataset.userSearchQuery)}`;
           }
           const response = await fetch(url);
           const data = await response.json();
@@ -2775,9 +2777,11 @@ onReady(() => {
           src: async (query) => {
             try {
               // Fetch Data from external Source
-              const source = await fetch(
-                `/api/users/?username=${encodeURIComponent(query)}`,
-              );
+              let url = `/api/users/?username=${encodeURIComponent(query)}`;
+              if (document.body.dataset.userSearchQuery) {
+                url += `&q=${encodeURIComponent(document.body.dataset.userSearchQuery)}`;
+              }
+              const source = await fetch(url);
               // Data should be an array of `Objects` or `Strings`
               const data = await source.json();
               return data.results.map((user) => {

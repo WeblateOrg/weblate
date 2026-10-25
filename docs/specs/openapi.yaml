@@ -32524,6 +32524,9 @@ paths:
         a username prefix of at least two characters after trimming surrounding whitespace;
         such searches return basic information about matching non-bot users. Users
         with either permission can list all users and receive detailed information.
+        USER_DIRECTORY_VISIBILITY can require resource-scoped discovery; a positive
+        contributes scope or accessible unit context is then required to discover
+        other users.
       summary: List users.
       parameters:
       - in: query
@@ -32553,10 +32556,18 @@ paths:
         schema:
           type: integer
       - in: query
+        name: q
+        schema:
+          type: string
+        description: User search query. Restricted directory modes require a positive
+          contributes:project or contributes:project/component scope in every matching
+          branch, or an accessible unit context.
+      - in: query
         name: unit
         schema:
           type: integer
-        description: Rank contributors to the given unit first.
+        description: Rank contributors to the given unit first. In restricted directory
+          modes, limit results to contributors to its translation.
       - in: query
         name: username
         schema:
@@ -32859,7 +32870,9 @@ paths:
   /api/users/{username}/:
     get:
       operationId: api_users_retrieve
-      summary: Return information about users.
+      description: Restricted profiles return HTTP 404; self and administrative access
+        are retained.
+      summary: Return information about users, subject to USER_PROFILE_VISIBILITY.
       parameters:
       - in: path
         name: username

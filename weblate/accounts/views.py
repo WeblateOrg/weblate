@@ -157,6 +157,13 @@ from weblate.accounts.utils import (
     reset_api_token,
     set_second_factor_session,
 )
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_search_scoped_users,
+    check_profile_access,
+    is_resource_bounded,
+    profile_response,
+)
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
@@ -183,6 +190,7 @@ from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.validators import (
     WeblateURLValidator,
@@ -792,6 +800,7 @@ def trial(request: AuthenticatedHttpRequest):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(profile_response, name="dispatch")
 class UserNotifications(DetailView):
     model = User
     template_name = "accounts/notification_debug.html"
@@ -802,6 +811,7 @@ class UserNotifications(DetailView):
 
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
+        check_profile_access(self.request.user, user)
         if user.pk != self.request.user.pk:
             check_management_access(self.request, "user.edit")
         return user
@@ -885,6 +895,7 @@ class UserNotifications(DetailView):
         return context
 
 
+@method_decorator(profile_response, name="dispatch")
 class UserPage(UpdateView):
     model = User
     template_name = "accounts/user.html"
@@ -1004,6 +1015,11 @@ class UserPage(UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form)
 
+    def get_object(self, queryset=None):
+        user = super().get_object(queryset)
+        check_profile_access(self.request.user, user)
+        return user
+
     def get_queryset(self):
         return super().get_queryset().select_related("profile")
 
@@ -1100,8 +1116,10 @@ class UserPage(UpdateView):
         return context
 
 
+@profile_response
 def user_contributions(request: AuthenticatedHttpRequest, user: str):
     page_user = get_object_or_404(User, username=user)
+    check_profile_access(request.user, page_user)
     user_translation_ids = set(
         Change.objects.content()
         .filter(user=page_user)
@@ -1140,8 +1158,10 @@ PROFILE_EXTERNAL_LINKS: dict[str, tuple[Any, Callable[[str | None], None]]] = {
 
 
 @login_not_required
+@profile_response
 def user_profile_link(request: AuthenticatedHttpRequest, user: str, link: str):
     page_user = get_object_or_404(User.objects.select_related("profile"), username=user)
+    check_profile_access(request.user, page_user)
     page_profile = page_user.profile
     try:
         link_label, link_validator = PROFILE_EXTERNAL_LINKS[link]
@@ -1200,11 +1220,13 @@ def validate_avatar_size(size: int | str) -> int:
 
 
 @login_not_required
+@profile_response
 def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int | str):
     """User avatar view."""
     avatar_size = validate_avatar_size(size)
 
     avatar_user = get_object_or_404(User, username=user)
+    check_profile_access(request.user, avatar_user)
     email = avatar_user.email
 
     # Deleted users
@@ -1798,6 +1820,7 @@ async def mute(request: AuthenticatedHttpRequest, path):
     return redirect(f"{reverse('profile')}?notify_project={obj.pk}#notifications")
 
 
+@method_decorator(profile_response, name="dispatch")
 class SuggestionView(ListView):
     paginate_by = 25
     model = Suggestion
@@ -1807,6 +1830,10 @@ class SuggestionView(ListView):
             user = None
         else:
             user = get_object_or_404(User, username=self.kwargs["user"])
+        check_profile_access(
+            self.request.user,
+            user or User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+        )
         return (
             Suggestion.objects.filter_access(self.request.user)
             .filter(user=user)
@@ -2340,12 +2367,27 @@ class UserList(ListView):
     def get_queryset(self):
         users = self.get_base_queryset().filter_search_access(self.request.user)
         form = self.form
+        unrestricted = can_browse_users(self.request.user)
+        if not unrestricted and not can_search_scoped_users(self.request.user):
+            raise Http404
         if form.is_valid():
             search = form.cleaned_data.get("q", "")
-            if search:
+            if not unrestricted:
+                try:
+                    search_filters, annotations = parse_query(
+                        search, parser="user", user=self.request.user
+                    )
+                except SearchQueryError as error:
+                    raise Http404 from error
+                if not is_resource_bounded(search_filters):
+                    raise Http404
+                users = users.annotate(**annotations).filter(search_filters).distinct()
+            elif search:
                 users = users.search(
                     search, parser=form.fields["q"].parser, user=self.request.user
                 )
+        elif not unrestricted:
+            raise Http404
         else:
             users = users.order()
 

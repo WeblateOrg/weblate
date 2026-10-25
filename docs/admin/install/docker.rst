@@ -732,6 +732,18 @@ Generic settings
 
    Configures :setting:`ADMINS_CONTACT`.
 
+.. envvar:: WEBLATE_USER_DIRECTORY_VISIBILITY
+
+   Controls user discovery: ``all`` (default), ``scoped``, or ``disabled``.
+   Resource-scoped API searches and autocomplete remain available in both
+   restricted modes. See :setting:`USER_DIRECTORY_VISIBILITY`.
+
+.. envvar:: WEBLATE_USER_PROFILE_VISIBILITY
+
+   Controls profile access: ``public`` (default), ``authenticated``, or ``admins``.
+   Self access and administrative access remain available. This is independent
+   of directory visibility. See :setting:`USER_PROFILE_VISIBILITY`.
+
 .. envvar:: WEBLATE_CONTACT_FORM
 
      Configures contact form behavior, see :setting:`CONTACT_FORM`.

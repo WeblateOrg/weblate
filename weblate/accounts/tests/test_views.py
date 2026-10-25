@@ -318,6 +318,112 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
+    def test_profile_visibility_policy(self) -> None:
+        viewer = self.get_user()
+        target = User.objects.create_user(
+            "visible-contributor", "visible@example.org", "x"
+        )
+        target.profile.website = "https://example.org/"
+        target.profile.contact = "https://example.org/contact/"
+        target.profile.save()
+        urls = [
+            reverse(name, kwargs={"user": target.username})
+            for name in (
+                "user_page",
+                "user_contributions",
+                "user_suggestions",
+                "user_contact",
+            )
+        ] + [
+            reverse(
+                "user_profile_link", kwargs={"user": target.username, "link": "website"}
+            ),
+            reverse("user_avatar", kwargs={"user": target.username, "size": 32}),
+        ]
+        for mode in ("authenticated", "admins"):
+            with (
+                self.subTest(mode=mode),
+                override_settings(USER_PROFILE_VISIBILITY=mode),
+            ):
+                self.client.logout()
+                for url in urls:
+                    with self.subTest(url=url):
+                        self.assertEqual(self.client.get(url).status_code, 404)
+                self.client.force_login(viewer)
+                with mock.patch(
+                    "weblate.accounts.views.get_avatar_image", return_value=b"avatar"
+                ):
+                    for url in urls:
+                        with self.subTest(url=url):
+                            response = self.client.get(url)
+                            self.assertEqual(
+                                response.status_code, 404 if mode == "admins" else 200
+                            )
+                            if response.status_code == 200:
+                                self.assertIn("private", response["Cache-Control"])
+                                self.assertIn("no-store", response["Cache-Control"])
+                own_profile = self.client.get(viewer.get_absolute_url())
+                self.assertEqual(own_profile.status_code, 200)
+                viewer.is_superuser = True
+                viewer.save()
+                with mock.patch(
+                    "weblate.accounts.views.get_avatar_image", return_value=b"avatar"
+                ):
+                    for url in urls:
+                        self.assertEqual(self.client.get(url).status_code, 200)
+                viewer.is_superuser = False
+                viewer.save()
+
+    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    def test_restricted_notification_diagnostics(self) -> None:
+        viewer = self.get_user()
+        target = User.objects.create_user(
+            "restricted-diagnostics", "diagnostics@example.org", "x"
+        )
+        self.client.force_login(viewer)
+        for username in (target.username, "missing-user"):
+            response = self.client.get(
+                reverse("user_notifications", kwargs={"user": username})
+            )
+            self.assertEqual(response.status_code, 404)
+        self.assertEqual(
+            self.client.get(
+                reverse("user_notifications", kwargs={"user": viewer.username})
+            ).status_code,
+            200,
+        )
+
+    def test_directory_visibility_policy(self) -> None:
+        viewer = self.get_user()
+        self.client.force_login(viewer)
+        url = reverse("user_list")
+        for mode in ("scoped", "disabled"):
+            with (
+                self.subTest(mode=mode),
+                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+            ):
+                for query in (
+                    "",
+                    viewer.username,
+                    "language:cs",
+                    "NOT contributes:test",
+                    "contributes:test OR test",
+                    "(",
+                ):
+                    self.assertEqual(
+                        self.client.get(url, {"q": query}).status_code, 404
+                    )
+                response = self.client.get(url, {"q": "contributes:test"})
+                self.assertEqual(response.status_code, 200 if mode == "scoped" else 404)
+                own_profile = self.client.get(viewer.get_absolute_url())
+                self.assertContains(own_profile, "<span>Users</span>", html=True)
+                self.assertNotContains(own_profile, f'href="{url}"')
+                viewer.is_superuser = True
+                viewer.save()
+                self.assertEqual(self.client.get(url).status_code, 200)
+                viewer.is_superuser = False
+                viewer.save()
+
     def test_user_list(self) -> None:
         """Test user pages."""
         user = self.get_user()
