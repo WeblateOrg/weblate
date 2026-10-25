@@ -14,7 +14,7 @@ from collections import defaultdict
 from contextlib import suppress
 from copy import deepcopy
 from functools import partial
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, cast, overload
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
@@ -42,7 +42,12 @@ from weblate.utils.change_origin import (
     get_acting_user,
     get_change_origin,
 )
-from weblate.utils.task_log import record_task_failure
+from weblate.utils.task_log import (
+    append_task_logs,
+    get_visible_task_log_entries,
+    is_task_log_entry,
+    record_task_failure,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -258,6 +263,18 @@ def filter_task_warnings(result: dict, user: User | None) -> dict:
     return public_result
 
 
+@overload
+def sanitize_task_result(
+    task_id: str, result: dict, user: User | None = None
+) -> dict: ...
+
+
+@overload
+def sanitize_task_result(
+    task_id: str, result: object, user: User | None = None
+) -> object: ...
+
+
 def sanitize_task_result(
     task_id: str, result: object, user: User | None = None
 ) -> object:
@@ -265,6 +282,8 @@ def sanitize_task_result(
     if not isinstance(result, (Exception, dict)):
         return result
     metadata = get_task_metadata(task_id) or {}
+    if isinstance(result, dict) and ("errors" in result or "_error_details" in result):
+        result = filter_task_errors(result, user)
     if isinstance(result, dict) and "_automatic_translation_failed" in result:
         failed = result.get("_automatic_translation_failed") is True
         result = {
@@ -272,7 +291,7 @@ def sanitize_task_result(
             for key, value in result.items()
             if key != "_automatic_translation_failed"
         }
-        if failed:
+        if failed and not result.get("errors"):
             result["message"] = gettext(
                 "Automatic translation failed. See the task log for details."
             )
@@ -302,6 +321,45 @@ def sanitize_task_result(
         else gettext("Repository operation completed.")
     )
     return {**result, "completion_message": {**completion_message, "text": text}}
+
+
+def filter_task_errors(result: dict, user: User | None) -> dict:
+    """Keep provider diagnostics behind the task log's permission checks."""
+    public_result = {
+        key: value for key, value in result.items() if key != "_error_details"
+    }
+    errors = result.get("errors", [])
+    if not isinstance(errors, list):
+        errors = [errors]
+    details = result.get("_error_details")
+    valid_details = {}
+    for index, error in enumerate(errors):
+        entry = (
+            details[index]
+            if isinstance(details, list) and index < len(details)
+            else None
+        )
+        if (
+            is_task_log_entry(entry)
+            and entry["sensitive"]
+            and entry["message"] == error
+        ):
+            valid_details[index] = entry
+    visible = (
+        get_visible_task_log_entries(list(valid_details.values()), user)
+        if user is not None
+        else {}
+    )
+    visible_errors = {
+        original_index: visible[index]
+        for index, original_index in enumerate(valid_details)
+        if index in visible
+    }
+    public_result["errors"] = [
+        visible_errors.get(index, gettext("Automatic translation reported an error."))
+        for index in range(len(errors))
+    ]
+    return public_result
 
 
 def delete_task_metadata(task_id: str | None) -> None:
@@ -392,6 +450,17 @@ def reset_change_origin(task=None, **kwargs) -> None:
 def handle_task_failure_result(task_id=None, retval=None, **kwargs) -> None:
     """Preserve opted-in failure diagnostics before exposing a generic result."""
     if not task_id or not isinstance(retval, dict):
+        return
+    if isinstance(retval.get("_error_details"), list) and retval["_error_details"]:
+        with suppress(DatabaseError, OSError):
+            append_task_logs(
+                task_id,
+                (
+                    entry
+                    for entry in retval["_error_details"]
+                    if is_task_log_entry(entry)
+                ),
+            )
         return
     if retval.get("_automatic_translation_failed") is True and isinstance(
         retval.get("message"), str

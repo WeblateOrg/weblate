@@ -1317,14 +1317,25 @@ class AutomationTest(ReusableComponentTestCase):
                 auto_source="mt", engines=[], threshold=80, source_component_ids=None
             )
         self.assertEqual(process.call_count, 2)
-        self.assertEqual(message, "Automatic translation failed: Service unavailable")
-        self.assertEqual(auto.failure_message, message)
+        self.assertEqual(
+            message,
+            "Automatic translation completed with errors, no strings were updated.",
+        )
+        self.assertEqual(
+            auto.failure_message, "Automatic translation failed: Service unavailable"
+        )
+        self.assertEqual(auto.get_errors(), ["Service unavailable"])
+        self.assertEqual(len(auto.get_error_details()), 1)
         with patch("weblate.trans.autotranslate.AutoTranslate.process_mt"):
             message = auto.perform(
                 auto_source="mt", engines=[], threshold=80, source_component_ids=None
             )
         self.assertIsNone(auto.failure_message)
-        self.assertIn("completed", message)
+        self.assertEqual(auto.get_errors(), [])
+        self.assertEqual(auto.get_error_details(), [])
+        self.assertEqual(
+            message, "Automatic translation completed, no strings were updated."
+        )
 
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     @patch("weblate.trans.automation.bulk_edit")

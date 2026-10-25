@@ -35705,6 +35705,12 @@ components:
       properties:
         details:
           type: string
+        errors:
+          type: array
+          items:
+            type: string
+          description: Errors encountered during automatic translation; present when
+            completed.
         task_url:
           type: string
           format: uri

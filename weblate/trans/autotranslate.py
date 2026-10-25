@@ -41,6 +41,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import ProjectLanguage
+from weblate.utils.task_log import make_task_log_entry
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -50,6 +51,7 @@ if TYPE_CHECKING:
     from weblate.auth.results import PermissionResult
     from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
     from weblate.utils.state import StringState
+    from weblate.utils.task_log import TaskLogEntry
 
 
 class WarningDetail(TypedDict):
@@ -66,6 +68,7 @@ def fetch_machinery_matches(
     threshold: int,
     set_progress: Callable[[int], None] | None = None,
     log_translation: Translation | None = None,
+    on_error: Callable[[str], None] | None = None,
 ) -> dict[int, UnitMemoryResultDict]:
     """Fetch machinery matches without applying them to units."""
     num_units = len(units)
@@ -90,6 +93,10 @@ def fetch_machinery_matches(
                     threshold=threshold,
                 )
             except MachineTranslationError as error:
+                if on_error is not None:
+                    on_error(
+                        f"{translation_service.name} (batch {batch_start // batch_size + 1}): {error}"
+                    )
                 if log_translation is not None:
                     log_translation.log_error("failed automatic translation: %s", error)
                 else:
@@ -144,12 +151,27 @@ class BaseAutoTranslate:
             allow_non_shared_tm_source_components
         )
         self.failure_message: str | None = None
+        self.errors: list[str] = []
+        self.error_details: list[TaskLogEntry] = []
         self.warnings: list[str] = []
         self.warning_details: list[WarningDetail] = []
         self.affected_unit_ids: set[int] = set()
         self.affected_source_unit_ids: set[int] = set()
 
     def get_message(self) -> str:
+        if self.errors:
+            if self.updated == 0:
+                return gettext(
+                    "Automatic translation completed with errors, no strings were updated."
+                )
+            return (
+                ngettext(
+                    "Automatic translation completed with errors, %d string was updated.",
+                    "Automatic translation completed with errors, %d strings were updated.",
+                    self.updated,
+                )
+                % self.updated
+            )
         if self.updated == 0:
             return gettext("Automatic translation completed, no strings were updated.")
         message = ngettext(
@@ -165,6 +187,12 @@ class BaseAutoTranslate:
     def get_task_meta(self) -> dict[str, Any]:
         """Return a metadata dictionary for Celery task progress tracking."""
         raise NotImplementedError
+
+    def get_errors(self) -> list[str]:
+        return self.errors
+
+    def get_error_details(self) -> list[TaskLogEntry]:
+        return self.error_details
 
     def add_warning(
         self,
@@ -206,6 +234,16 @@ class BaseAutoTranslate:
 
 
 class AutoTranslate(BaseAutoTranslate):
+    def add_error(self, message: str) -> None:
+        entry = make_task_log_entry(
+            self.translation.component,
+            message,
+            suffix=f"/{self.translation.language_code}",
+            sensitive=True,
+        )
+        self.errors.append(entry["message"])
+        self.error_details.append(entry)
+
     def __init__(
         self,
         *,
@@ -618,6 +656,7 @@ class AutoTranslate(BaseAutoTranslate):
             threshold=threshold,
             set_progress=self.set_progress,
             log_translation=self.translation,
+            on_error=self.add_error,
         )
         self.set_progress(self.progress_base)
         return translations
@@ -673,6 +712,8 @@ class AutoTranslate(BaseAutoTranslate):
     ) -> str:
         translation = self.translation
         self.failure_message = None
+        self.errors.clear()
+        self.error_details.clear()
         translation.log_info(
             "starting automatic translation (%s) %s: %s: %s",
             self.mode,
@@ -689,6 +730,7 @@ class AutoTranslate(BaseAutoTranslate):
                 self.process_others(source_component_ids)
         except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
+            self.add_error(str(error))
             self.failure_message = gettext("Automatic translation failed: %s") % error
             return self.failure_message
 
@@ -855,6 +897,8 @@ class BatchAutoTranslate(BaseAutoTranslate):
     ) -> str:
         selected_workspace_source_component_ids: dict[int, list[int]] | None = None
         self.failure_message = None
+        self.errors.clear()
+        self.error_details.clear()
         workspace_effective_sources = (
             self._get_workspace_effective_sources(source_component_ids)
             if auto_source == "others"
@@ -983,6 +1027,8 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 source_component_ids=effective_source_component_ids,
             )
             self.updated += auto_translate.updated
+            self.errors.extend(auto_translate.get_errors())
+            self.error_details.extend(auto_translate.get_error_details())
             self.affected_unit_ids.update(auto_translate.affected_unit_ids)
             self.affected_source_unit_ids.update(
                 auto_translate.affected_source_unit_ids
@@ -997,4 +1043,4 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 )
             self.set_progress(pos)
 
-        return self.failure_message or self.get_message()
+        return self.get_message()

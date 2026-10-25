@@ -14,11 +14,14 @@
             data-bs-dismiss="alert"
             aria-label="{% translate "Close" %}"></button>
   {% endif %}
-  <div class="task-message">
+  <div class="task-message" {% if task_id %}role="status"{% endif %}>
     {% block message %}{{ message }}{% endblock %}
 
   </div>
-  {% if task_id %}<div class="task-warnings"></div>{% endif %}
+  {% if task_id %}
+    <div class="task-warnings"></div>
+    <div class="task-errors" role="alert"></div>
+  {% endif %}
 
   <div class="clearfix"></div>
   {% if task_id %}

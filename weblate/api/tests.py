@@ -98,6 +98,8 @@ from weblate.auth.models import (
 )
 from weblate.auth.permissions import check_permission, get_project_repository_selection
 from weblate.lang.models import Language
+from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
@@ -13620,6 +13622,117 @@ class TasksAPITest(APIBaseTest):
         self.assertEqual(response.data["result"]["warnings"][1], public)
         self.assertEqual(result["warnings"][1], private)
 
+    def test_automatic_translation_error_visibility(self) -> None:
+        source = self.create_acl()
+        entry = make_task_log_entry(
+            self.component,
+            "Dummy (batch 1): Private provider diagnostic.",
+            sensitive=True,
+            dependencies=[source],
+            suffix="/cs",
+        )
+        result = {
+            "message": "Automatic translation completed with errors, 1 string was updated.",
+            "errors": [entry["message"], "Unverifiable diagnostic."],
+            "_error_details": [entry],
+            "_automatic_translation_failed": True,
+        }
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_id": self.component.pk,
+                "task_kind": "automatic-translation",
+            },
+            TASK_METADATA_TTL,
+        )
+        handle_task_failure_result(task_id=self.task_id, retval=result)
+        task = SimpleNamespace(
+            id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+        )
+        for allowed in (False, True, False):
+            with (
+                self.subTest(allowed=allowed),
+                patch("weblate.api.views.AsyncResult", return_value=task),
+            ):
+                response = self.do_request(
+                    "api:task-detail",
+                    kwargs={"pk": self.task_id},
+                    method="get",
+                    superuser=allowed,
+                    code=200,
+                )
+            visible = response.data["result"]
+            self.assertNotIn("_error_details", visible)
+            self.assertNotIn("_automatic_translation_failed", visible)
+            self.assertEqual(visible["message"], result["message"])
+            self.assertEqual(
+                visible["errors"],
+                [
+                    f"{self.component.full_slug}/cs: {entry['message']}"
+                    if allowed
+                    else "Automatic translation reported an error.",
+                    "Automatic translation reported an error.",
+                ],
+            )
+            self.assertEqual(
+                "Private provider diagnostic." in response.data["log"], allowed
+            )
+        source.delete()
+        with patch("weblate.api.views.AsyncResult", return_value=task):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                superuser=True,
+                code=200,
+            )
+        self.assertEqual(
+            response.data["result"]["errors"],
+            ["Automatic translation reported an error."] * 2,
+        )
+
+    def test_automatic_translation_errors_require_linked_repository_access(
+        self,
+    ) -> None:
+        owner = self.create_acl()
+        Component.objects.filter(pk=self.component.pk).update(
+            repo=owner.get_repo_link_url(),
+            linked_component=owner,
+        )
+        self.component.refresh_from_db()
+        entry = make_task_log_entry(
+            self.component, "Private provider diagnostic.", sensitive=True
+        )
+        result = {"errors": [entry["message"]], "_error_details": [entry]}
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.pk},
+            TASK_METADATA_TTL,
+        )
+        task = SimpleNamespace(
+            id=self.task_id, result=result, state="SUCCESS", ready=lambda: True
+        )
+        for allowed in (False, True):
+            with (
+                self.subTest(allowed=allowed),
+                patch("weblate.api.views.AsyncResult", return_value=task),
+            ):
+                response = self.do_request(
+                    "api:task-detail",
+                    kwargs={"pk": self.task_id},
+                    method="get",
+                    superuser=allowed,
+                    code=200,
+                )
+            self.assertEqual(
+                response.data["result"]["errors"],
+                [
+                    f"{self.component.full_slug}: Private provider diagnostic."
+                    if allowed
+                    else "Automatic translation reported an error.",
+                ],
+            )
+
     def test_task_log_retention_matches_metadata(self) -> None:
         entry = make_task_log_entry(self.component, "progress")
         with patch("weblate.utils.task_log.cache.set", wraps=cache.set) as cache_set:
@@ -16287,6 +16400,97 @@ class TranslationAPITest(APIBaseTest):
 
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
+
+    def test_autotranslate_provider_errors(self) -> None:
+        self.configure_mt()
+        for background in (False, True):
+            with (
+                self.subTest(background=background),
+                patch(
+                    "weblate.trans.autotranslate.MACHINERY",
+                    {"weblate": DummyTranslation},
+                ),
+                patch.object(
+                    DummyTranslation,
+                    "batch_translate",
+                    side_effect=MachineTranslationError("Mismatching assistant reply."),
+                ),
+            ):
+                response = self.do_request(
+                    "api:translation-autotranslate",
+                    self.translation_kwargs,
+                    superuser=True,
+                    method="post",
+                    format="json",
+                    code=200,
+                    request={
+                        "mode": "translate",
+                        "q": "state:<translated",
+                        "auto_source": "mt",
+                        "threshold": 80,
+                        "engines": ["weblate"],
+                        "background": background,
+                    },
+                )
+            self.assertEqual(
+                response.data["details"],
+                "Automatic translation completed with errors, no strings were updated.",
+            )
+            self.assertEqual(
+                response.data["errors"],
+                [
+                    f"{self.component.full_slug}/cs: Dummy (batch 1): Mismatching assistant reply."
+                ],
+            )
+
+    def test_autotranslate_noop_has_no_errors(self) -> None:
+        response = self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            format="json",
+            code=200,
+            request={
+                "mode": "translate",
+                "q": "id:0",
+                "auto_source": "others",
+                "threshold": 80,
+            },
+        )
+        self.assertEqual(response.data["errors"], [])
+        self.assertEqual(
+            response.data["details"],
+            "Automatic translation completed, no strings were updated.",
+        )
+
+    def test_autotranslate_summary_does_not_use_diagnostic_return_value(self) -> None:
+        with patch.object(
+            AutoTranslate,
+            "perform",
+            return_value="Automatic translation failed: private backend diagnostic",
+        ):
+            response = self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                superuser=True,
+                method="post",
+                format="json",
+                code=200,
+                request={
+                    "mode": "translate",
+                    "q": "state:<translated",
+                    "auto_source": "others",
+                    "threshold": 80,
+                },
+            )
+        self.assertEqual(
+            response.data,
+            {
+                "details": "Automatic translation completed, no strings were updated.",
+                "errors": [],
+            },
+        )
 
     def create_autotranslate_target(self) -> tuple[dict[str, str], Unit]:
         target = self.create_link_existing(

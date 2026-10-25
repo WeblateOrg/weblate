@@ -1541,6 +1541,7 @@ def store_auto_translate_activity_log(
     status: AddonActivityLogStatus | None = None,
     reason: AddonActivityLogReason | None = None,
     task_count: int | None = None,
+    log_message: str | None = None,
 ) -> dict[str, Any]:
     if activity_log_id is None:
         return result
@@ -1548,10 +1549,16 @@ def store_auto_translate_activity_log(
     # ruff: ignore[import-outside-top-level]
     from weblate.addons.tasks import update_addon_activity_log
 
+    if status is None:
+        status = (
+            AddonActivityLogStatus.ERROR
+            if result.get("_automatic_translation_failed")
+            else AddonActivityLogStatus.SUCCESS
+        )
     update_addon_activity_log(
         activity_log_id,
-        result,
-        status=(status if status is not None else AddonActivityLogStatus.SUCCESS),
+        {**result, "message": log_message} if log_message is not None else result,
+        status=status,
         reason=reason,
         task_count=task_count,
     )
@@ -1640,7 +1647,7 @@ def auto_translate(
             translation_id=translation_id,
             task_kind="automatic-translation",
         )
-    result: dict[str, Any] = {"warnings": []}
+    result: dict[str, Any] = {"warnings": [], "errors": []}
     if user_id is None:
         # Older queued add-on jobs did not carry an actor for MT operations.
         from weblate.addons.autotranslate import AutoTranslateAddon  # ruff: ignore[import-outside-top-level]
@@ -1696,10 +1703,12 @@ def auto_translate(
         except PermissionDenied as error:
             result.update(
                 {
-                    "message": str(error),
+                    "message": auto.get_message() if auto.errors else str(error),
                     "_automatic_translation_failed": True,
                     "warnings": auto.get_warnings(),
                     "_warning_details": auto.get_warning_details(),
+                    "errors": auto.get_errors(),
+                    "_error_details": auto.get_error_details(),
                 }
             )
             return store_auto_translate_activity_log(
@@ -1707,19 +1716,29 @@ def auto_translate(
                 result,
                 status=AddonActivityLogStatus.ERROR,
                 task_count=activity_log_task_count,
+                log_message="Automatic translation failed.",
             )
         result.update(
             {
                 "message": message,
-                "_automatic_translation_failed": bool(auto.failure_message),
+                "_automatic_translation_failed": bool(
+                    auto.failure_message or auto.errors
+                ),
                 "warnings": auto.get_warnings(),
                 "_warning_details": auto.get_warning_details(),
+                "errors": auto.get_errors(),
+                "_error_details": auto.get_error_details(),
             }
         )
+        # Task results follow the user's language; persisted activity messages
+        # must remain independent of the language active during execution.
+        with override(None):
+            log_message = auto.get_message()
         return store_auto_translate_activity_log(
             activity_log_id,
             result,
             task_count=activity_log_task_count,
+            log_message=log_message,
         )
 
 

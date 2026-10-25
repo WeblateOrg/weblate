@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import base64
+import json
 import logging
 import math
 import os
@@ -1152,6 +1153,85 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click("Django admin interface")
         return user
+
+    def test_automatic_translation_task_errors(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        task_url = reverse("api:task-detail", kwargs={"pk": task_id})
+        markup = render_to_string(
+            "message.html",
+            {
+                "task_id": task_id,
+                "message": "Automatic translation in progress",
+                "tags": "success",
+                "progress": 0,
+            },
+        )
+        result = {
+            "completed": True,
+            "progress": 100,
+            "result": {
+                "message": "Automatic translation completed with errors, 1 string was updated.",
+                "errors": ["Dummy (batch 1): <img src=x onerror=alert(1)>"],
+                "warnings": ["A translation warning."],
+            },
+        }
+        source = (
+            """
+            const taskUrl = TASK_URL;
+            const originalFetch = window.fetch;
+            window.fetch = (url, ...args) => url === taskUrl
+                ? Promise.resolve(new Response(JSON.stringify(TASK_RESULT)))
+                : originalFetch(url, ...args);
+            const observer = new MutationObserver(() => {
+                if (document.body) {
+                    observer.disconnect();
+                    document.body.insertAdjacentHTML("afterbegin", TASK_MARKUP);
+                }
+            });
+            observer.observe(document, {childList: true, subtree: true});
+        """.replace("TASK_URL", json.dumps(task_url))
+            .replace("TASK_RESULT", json.dumps(result))
+            .replace("TASK_MARKUP", json.dumps(markup))
+        )
+        script = self.driver.execute_cdp_cmd(
+            "Page.addScriptToEvaluateOnNewDocument", {"source": source}
+        )
+        try:
+            with self.wait_for_page_load():
+                self.driver.get(f"{self.live_server_url}{reverse('login')}")
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: (
+                    "<img" in driver.find_element(By.CSS_SELECTOR, ".task-errors").text
+                )
+            )
+            message = self.driver.find_element(By.CSS_SELECTOR, "[data-task]")
+            self.assertIn("alert-danger", message.get_attribute("class"))
+            self.assertNotIn("alert-success", message.get_attribute("class"))
+            errors = message.find_element(By.CLASS_NAME, "task-errors")
+            self.assertEqual(errors.get_attribute("role"), "alert")
+            self.assertEqual(
+                errors.text, "Error: Dummy (batch 1): <img src=x onerror=alert(1)>"
+            )
+            self.assertEqual(errors.find_elements(By.TAG_NAME, "img"), [])
+            self.assertEqual(
+                message.find_element(By.CLASS_NAME, "task-warnings").text,
+                "A translation warning.",
+            )
+            self.assertIn(
+                "1 string was updated",
+                message.find_element(By.CLASS_NAME, "task-message").text,
+            )
+            self.assertEqual(
+                message.find_element(By.CLASS_NAME, "task-message").get_attribute(
+                    "role"
+                ),
+                "status",
+            )
+        finally:
+            self.driver.execute_cdp_cmd(
+                "Page.removeScriptToEvaluateOnNewDocument",
+                {"identifier": script["identifier"]},
+            )
 
     def test_failed_login(self) -> None:
         self.do_login(create=False)

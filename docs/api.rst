@@ -2791,11 +2791,18 @@ Translations
     :<json int threshold: Score threshold for machine translation (1–100)
     :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
     :>json string details: Human-readable summary of the translation result, or status of a background task
+    :>json array errors: Errors encountered during automatic translation; an empty array when completed without errors. Omitted while a background task is queued.
     :>json string task_url: URL for tracking a background task; see :http:get:`/api/tasks/(str:uuid)/`
 
     With ``background`` set to ``true``, the endpoint returns ``202 Accepted``
     once the task is scheduled. Validation and permission errors are still
     reported immediately.
+
+    Completed requests return ``200 OK``, including when some or all translation
+    service batches fail. Successful translations are retained. Check ``errors``
+    to distinguish provider failures from a run with nothing to update. Error
+    details follow the diagnostic permissions described in :ref:`api-tasks`;
+    other readers receive a generic error explanation.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -3836,9 +3843,14 @@ Tasks
     authorized users can find the detailed explanation in the task log.
     Automatic translation warnings identify source components only when you can
     access them. Other readers receive a general explanation of the warning.
+    Completed automatic translation results include an ``errors`` array, with
+    one entry per failed batch or operation. Provider diagnostics require the
+    same permissions as sensitive task log entries. Other readers receive a
+    generic error explanation. Completion summaries report errors alongside
+    the number of updated strings, including when some translations succeeded.
     Normal task outcomes, including unsuccessful bulk suggestion acceptance,
     retain their outcome messages. Backend failures use generic summaries.
-    Aggregate automatic translation tasks without a component scope retain
+    Aggregate automatic translation backend failures without component provenance retain
     cleaned failure diagnostics for the initiating user only.
 
 .. http:delete:: /api/tasks/(str:uuid)/

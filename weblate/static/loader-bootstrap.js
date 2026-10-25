@@ -1906,6 +1906,7 @@ onReady(() => {
     const bar = message.querySelector(".progress-bar");
     const messageText = message.querySelector(".task-message");
     const warnings = message.querySelector(".task-warnings");
+    const errors = message.querySelector(".task-errors");
     if (bar !== null) {
       bar.setAttribute("data-completed", "0");
     }
@@ -1966,6 +1967,19 @@ onReady(() => {
                 div.textContent = warning;
                 warnings.appendChild(div);
               });
+            }
+            if (result.errors?.length) {
+              message.classList.remove("alert-success");
+              message.classList.add("alert-danger");
+              if (errors !== null) {
+                errors.replaceChildren();
+                result.errors.forEach((error) => {
+                  const div = document.createElement("div");
+                  div.className = "mt-2";
+                  div.textContent = interpolate(gettext("Error: %s"), [error]);
+                  errors.appendChild(div);
+                });
+              }
             }
           }
         } catch (_error) {

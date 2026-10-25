@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.conf import settings
 from django.core.cache import cache
@@ -16,6 +16,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils.translation import gettext, override
 
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.events import AddonEvent
@@ -24,10 +25,15 @@ from weblate.addons.models import Addon, AddonActivityLog
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.lang.models import Language, Plural
+from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.models import MachineryInstallation
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
+from weblate.trans.autotranslate import (
+    AutoTranslate,
+    BatchAutoTranslate,
+    fetch_machinery_matches,
+)
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Change,
@@ -316,6 +322,34 @@ class AutoTranslationTest(ReusableViewTestCase):
         self.assertEqual(auto.failure_message, message)
         target_unit.refresh_from_db()
         self.assertEqual(target_unit.target, "")
+
+    def test_repeated_execution_clears_failure_diagnostics(self) -> None:
+        auto = AutoTranslate(
+            translation=self.get_translation(),
+            user=self.user,
+            q="state:<translated",
+            mode="translate",
+        )
+        with patch.object(
+            auto,
+            "process_mt",
+            side_effect=[MachineTranslationError("Service unavailable"), None],
+        ):
+            auto.perform(
+                auto_source="mt", engines=[], threshold=80, source_component_ids=None
+            )
+            self.assertEqual(auto.get_errors(), ["Service unavailable"])
+            self.assertEqual(len(auto.get_error_details()), 1)
+            self.assertIsNotNone(auto.failure_message)
+            message = auto.perform(
+                auto_source="mt", engines=[], threshold=80, source_component_ids=None
+            )
+        self.assertIsNone(auto.failure_message)
+        self.assertEqual(auto.get_errors(), [])
+        self.assertEqual(auto.get_error_details(), [])
+        self.assertEqual(
+            message, "Automatic translation completed, no strings were updated."
+        )
 
     def test_trusted_restricted_other_component_sources(self) -> None:
         target_translation, source_unit, target_unit, _group = (
@@ -935,11 +969,37 @@ class AutoTranslationTest(ReusableViewTestCase):
 
         self.assertEqual(
             result["message"],
-            "Automatic translation failed: Select an available installation using openai:<id>",
+            "Automatic translation completed with errors, no strings were updated.",
+        )
+        self.assertEqual(
+            result["errors"], ["Select an available installation using openai:<id>"]
         )
         self.assertTrue(result["_automatic_translation_failed"])
         activity_log.refresh_from_db()
+        self.assertEqual(activity_log.status, AddonActivityLog.Status.ERROR)
         self.assertEqual(activity_log.details["result"], result)
+
+    def test_activity_summary_is_not_localized(self) -> None:
+        activity = self.create_autotranslate_activity_log()
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.user.profile.language = "cs"
+        self.user.profile.save(update_fields=["language"])
+        result = auto_translate(
+            translation_id=translation.pk,
+            user_id=self.user.pk,
+            mode="translate",
+            q="id:0",
+            auto_source="others",
+            source_component_id=None,
+            engines=[],
+            threshold=80,
+            activity_log_id=activity.pk,
+        )
+        message = "Automatic translation completed, no strings were updated."
+        with override("cs"):
+            self.assertEqual(result["message"], gettext(message))
+        activity.refresh_from_db()
+        self.assertEqual(activity.details["result"]["message"], message)
 
     def test_autotranslate_missing_target_returns_result_dict(self) -> None:
         activity_log = self.create_autotranslate_activity_log()
@@ -964,6 +1024,7 @@ class AutoTranslationTest(ReusableViewTestCase):
             {
                 "message": "Automatic translation skipped because the target no longer exists.",
                 "warnings": [],
+                "errors": [],
             },
         )
         activity_log.refresh_from_db()
@@ -1347,7 +1408,11 @@ class AutoTranslationTest(ReusableViewTestCase):
                 threshold=100,
                 source_component_ids=None,
             )
-        self.assertIn("Automatic translation failed:", message)
+        self.assertEqual(
+            message,
+            "Automatic translation completed with errors, no strings were updated.",
+        )
+        self.assertTrue(auto.errors)
         fetch_matches.assert_called()
         for call in fetch_matches.call_args_list:
             self.assertTrue(call.kwargs["units"])
@@ -1884,6 +1949,203 @@ class AutoTranslationMtTest(ReusableViewTestCase):
 
     def make_different(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+    def test_batch_errors_preserve_successful_translations(self) -> None:
+        translation = self.component3.translation_set.get(language_code="cs")
+        auto = AutoTranslate(
+            translation=translation,
+            user=self.user,
+            q="state:<translated",
+            mode="translate",
+        )
+        batch_translate = DummyTranslation.batch_translate
+
+        def translate(
+            service: DummyTranslation,
+            units: list[Unit],
+            user: User | None,
+            *,
+            threshold: int,
+        ) -> None:
+            if units[0].source != "Hello, world!\n":
+                msg = "Mismatching assistant reply."
+                raise MachineTranslationError(msg)
+            return batch_translate(service, units, user, threshold=threshold)
+
+        with (
+            patch(
+                "weblate.trans.autotranslate.MACHINERY", {"weblate": DummyTranslation}
+            ),
+            patch.object(DummyTranslation, "batch_size", 1),
+            patch.object(
+                DummyTranslation,
+                "batch_translate",
+                autospec=True,
+                side_effect=translate,
+            ) as provider,
+        ):
+            message = auto.perform(
+                auto_source="mt",
+                engines=["weblate"],
+                threshold=80,
+                source_component_ids=None,
+            )
+
+        self.assertEqual(auto.updated, 1)
+        self.assertEqual(len(auto.errors), provider.call_count - 1)
+        self.assertGreater(len(auto.errors), 0)
+        self.assertIn("Mismatching assistant reply.", auto.errors[0])
+        self.assertIn("batch", auto.errors[0])
+        self.assertEqual(
+            message,
+            "Automatic translation completed with errors, 1 string was updated.",
+        )
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+    def test_fetch_matches_continues_after_failed_engine(self) -> None:
+        translation = self.component3.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        failed = DummyTranslation({})
+        working = DummyTranslation({})
+        report = Mock()
+        with patch.object(
+            failed,
+            "batch_translate",
+            side_effect=MachineTranslationError("Provider unavailable."),
+        ):
+            matches = fetch_machinery_matches(
+                units=[unit],
+                user=self.user,
+                services=[failed, working],
+                threshold=80,
+                on_error=report,
+            )
+        report.assert_called_once_with("Dummy (batch 1): Provider unavailable.")
+        self.assertIn(unit.pk, matches)
+
+    def test_empty_selection_does_not_call_provider(self) -> None:
+        translation = self.component3.translation_set.get(language_code="cs")
+        auto = AutoTranslate(
+            translation=translation, user=self.user, q="id:0", mode="translate"
+        )
+        with (
+            patch(
+                "weblate.trans.autotranslate.MACHINERY", {"weblate": DummyTranslation}
+            ),
+            patch.object(DummyTranslation, "batch_translate") as provider,
+        ):
+            message = auto.perform(
+                auto_source="mt",
+                engines=["weblate"],
+                threshold=80,
+                source_component_ids=None,
+            )
+        provider.assert_not_called()
+        self.assertEqual(auto.errors, [])
+        self.assertEqual(
+            message, "Automatic translation completed, no strings were updated."
+        )
+
+    def test_provider_failure_task_result_and_activity(self) -> None:
+        translation = self.component3.translation_set.get(language_code="cs")
+        addon = AutoTranslateAddon.create(
+            acting_user=self.user,
+            component=self.component3,
+            run=False,
+            configuration={
+                "auto_source": "mt",
+                "engines": ["weblate"],
+                "threshold": 80,
+                "mode": "translate",
+                "q": "state:<translated",
+                "component": "",
+            },
+        )
+        activity = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component3,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            status=AddonActivityLog.Status.PENDING,
+        )
+        with (
+            patch(
+                "weblate.trans.autotranslate.MACHINERY", {"weblate": DummyTranslation}
+            ),
+            patch.object(
+                DummyTranslation,
+                "batch_translate",
+                side_effect=MachineTranslationError("Provider unavailable."),
+            ),
+        ):
+            result = auto_translate.apply(
+                kwargs={
+                    "translation_id": translation.pk,
+                    "user_id": self.user.pk,
+                    "mode": "translate",
+                    "q": "state:<translated",
+                    "auto_source": "mt",
+                    "source_component_id": None,
+                    "engines": ["weblate"],
+                    "threshold": 80,
+                    "activity_log_id": activity.pk,
+                    "activity_log_task_count": 2,
+                }
+            ).get()
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed with errors, no strings were updated.",
+        )
+        self.assertEqual(result["errors"], ["Dummy (batch 1): Provider unavailable."])
+        self.assertTrue(result["_automatic_translation_failed"])
+        activity.refresh_from_db()
+        self.assertEqual(activity.status, AddonActivityLog.Status.PENDING)
+        success = auto_translate(
+            translation_id=translation.pk,
+            user_id=self.user.pk,
+            mode="translate",
+            q="id:0",
+            auto_source="mt",
+            source_component_id=None,
+            engines=["weblate"],
+            threshold=80,
+            activity_log_id=activity.pk,
+            activity_log_task_count=2,
+        )
+        self.assertEqual(success["errors"], [])
+        activity.refresh_from_db()
+        self.assertEqual(activity.status, AddonActivityLog.Status.ERROR)
+        self.assertEqual(activity.details["result"]["results"], [result, success])
+
+    def test_eager_ui_displays_provider_errors_as_text(self) -> None:
+        url = reverse(
+            "auto_translation", kwargs={"path": [*self.component3.get_url_path(), "cs"]}
+        )
+        with (
+            patch(
+                "weblate.trans.autotranslate.MACHINERY", {"weblate": DummyTranslation}
+            ),
+            patch.object(
+                DummyTranslation,
+                "batch_translate",
+                side_effect=MachineTranslationError("<unsafe provider reply>"),
+            ),
+        ):
+            response = self.client.post(
+                url,
+                {
+                    "auto_source": "mt",
+                    "engines": ["weblate"],
+                    "threshold": 80,
+                    "mode": "translate",
+                    "q": "state:<translated",
+                },
+                follow=True,
+            )
+        self.assertContains(response, "Automatic translation completed with errors")
+        self.assertContains(response, "&lt;unsafe provider reply&gt;")
+        self.assertNotContains(response, "<unsafe provider reply>")
 
     def perform_auto(self, expected=1, **kwargs) -> None:
         self.make_different()

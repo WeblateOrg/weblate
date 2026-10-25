@@ -9531,6 +9531,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
                 "result": {
                     "message": "Automatic translation completed.",
                     "warnings": ["<unsafe warning>"],
+                    "errors": ["<private provider error>"],
                 }
             },
         )
@@ -9540,6 +9541,9 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertIn("Automatic translation completed.", rendered)
         self.assertIn('class="text-warning mt-2"', rendered)
         self.assertIn("&lt;unsafe warning&gt;", rendered)
+        self.assertIn('class="text-danger mt-2"', rendered)
+        self.assertIn("Error: Automatic translation reported an error.", rendered)
+        self.assertNotIn("private provider error", rendered)
 
     def test_activity_log_keeps_repeated_task_results_structured(self) -> None:
         addon = AutoTranslateAddon.create(
