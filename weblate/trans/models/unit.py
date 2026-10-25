@@ -88,6 +88,7 @@ if TYPE_CHECKING:
     from weblate.formats.base import TranslationUnit
     from weblate.lang.models import Language, Plural
     from weblate.machinery.base import UnitMemoryResultDict
+    from weblate.memory.tasks import MemoryUpdatePayload
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import Translation
     from weblate.utils.stats import StatItem, TranslationStats
@@ -3630,7 +3631,11 @@ class Unit(models.Model, LoggerMixin):
         return (self.translation.component.priority, self.source.lower())
 
     def update_translation_memory(
-        self, user: User | None = None, *, needs_user_check: bool = True
+        self,
+        user: User | None = None,
+        *,
+        needs_user_check: bool = True,
+        memory_updates: list[MemoryUpdatePayload] | None = None,
     ) -> None:
         if needs_user_check and (
             not user
@@ -3654,7 +3659,9 @@ class Unit(models.Model, LoggerMixin):
             payload = get_unit_memory_update(self, user, component)
             if payload is None:
                 return
-            if user is None and component.batch_memory:
+            if memory_updates is not None:
+                memory_updates.append(payload)
+            elif user is None and component.batch_memory:
                 component.add_batched_memory_update(payload)
             else:
                 schedule_memory_update(payload)

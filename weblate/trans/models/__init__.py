@@ -503,8 +503,9 @@ def remove_source_workflow(sender, instance, origin, **kwargs) -> None:
         refresh_source_workflows,
     )
 
-    refresh_source_workflows(instance.project_id, using=kwargs.get("using", "default"))
-    reconcile_project_parents(instance.project_id)
+    using = kwargs.get("using", "default")
+    languages = refresh_source_workflows(instance.project_id, using=using)
+    reconcile_project_parents(instance.project_id, language_ids=languages, using=using)
 
 
 @receiver(pre_delete, sender=Unit)

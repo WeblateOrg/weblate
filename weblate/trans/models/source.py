@@ -11,10 +11,11 @@ from contextlib import contextmanager, nullcontext
 from contextvars import ContextVar
 from dataclasses import dataclass, field
 from functools import wraps
+from itertools import chain
 from typing import TYPE_CHECKING, cast
 
 from django.db import connections, transaction
-from django.db.models import Q, Value
+from django.db.models import Exists, OuterRef, Q, Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.trans.actions import ActionEvents
@@ -26,16 +27,18 @@ if TYPE_CHECKING:
     from typing import Any
 
     from weblate.auth.models import User
+    from weblate.memory.tasks import MemoryUpdatePayload
     from weblate.trans.models.change import Change
     from weblate.trans.models.component import Component
     from weblate.trans.models.translation import Translation
-    from weblate.trans.models.unit import Unit
+    from weblate.trans.models.unit import Unit, UnitQuerySet
 
 
 @dataclass
 class DependencyWork:
     roots: set[int] = field(default_factory=set)
     children: set[int] = field(default_factory=set)
+    languages: set[int] = field(default_factory=set)
     full: bool = False
     force: bool = False
     author: User | None = None
@@ -43,6 +46,7 @@ class DependencyWork:
     def merge(self, other: DependencyWork) -> None:
         self.roots.update(other.roots)
         self.children.update(other.children)
+        self.languages.update(other.languages)
         self.full |= other.full
         self.force |= other.force
         if other.author is not None:
@@ -123,17 +127,35 @@ def source_project_gate(
             _gates.reset(token)
 
 
-def refresh_source_workflows(project_id: int, *, using: str = "default") -> None:
-    """Refresh configuration after a write under an exclusive project gate."""
+def refresh_source_workflows(project_id: int, *, using: str = "default") -> set[int]:
+    """Refresh configuration and return changed languages and their dependants."""
     from weblate.trans.models.workflow import WorkflowSetting  # ruff: ignore[import-outside-top-level]
 
     gate = (_gates.get() or {}).get((using, project_id))
     if gate is not None:
+        previous = gate.workflows
         gate.workflows = dict(
             WorkflowSetting.objects.using(using)
             .filter(project_id=project_id, source_language__isnull=False)
             .values_list("language_id", "source_language_id")
         )
+        affected = {
+            language
+            for language in previous.keys() | gate.workflows.keys()
+            if previous.get(language) != gate.workflows.get(language)
+        }
+        pending = set(affected)
+        while pending:
+            children = {
+                language
+                for workflows in (previous, gate.workflows)
+                for language, source in workflows.items()
+                if source in pending
+            } - affected
+            affected.update(children)
+            pending = children
+        return affected
+    return set()
 
 
 def current_source_workflows(
@@ -164,7 +186,9 @@ def source_operation(component: Component) -> Generator[None, None, None]:
         try:
             with transaction.atomic(using=using) if nested_gate else nullcontext():
                 yield
-                if key not in active and (work.full or work.roots or work.children):
+                if key not in active and (
+                    work.full or work.languages or work.roots or work.children
+                ):
                     _reconcile(component, work)
             if key in active:
                 active[key].merge(work)
@@ -201,11 +225,77 @@ def request_reconciliation(component: Component, work: DependencyWork) -> None:
             (_operations.get() or {})[key].merge(work)
 
 
+@dataclass
+class PreviousSourcePeers:
+    unit: Unit
+    source: str
+    language_id: int
+    excluded: set[int]
+
+
+@dataclass
+class ReconciliationEffects:
+    units: dict[int, Unit] = field(default_factory=dict)
+    peer_groups: dict[tuple[int, str, int, int, str, str], PreviousSourcePeers] = field(
+        default_factory=dict
+    )
+    memory: list[MemoryUpdatePayload] = field(default_factory=list)
+
+    def add_peers(self, unit: Unit, source: str, language_id: int) -> None:
+        key = (
+            unit.translation.component_id,
+            source,
+            language_id,
+            unit.translation.plural_id,
+            unit.context,
+            unit.target,
+        )
+        if key in self.peer_groups:
+            # Each original query excludes only its initiating unit. Their union
+            # excludes it only if every query does so.
+            self.peer_groups[key].excluded.intersection_update({unit.pk})
+        else:
+            self.peer_groups[key] = PreviousSourcePeers(
+                unit, source, language_id, {unit.pk}
+            )
+
+    def flush(self, *, using: str) -> None:
+        from weblate.memory.tasks import schedule_memory_updates  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
+
+        peers: set[int] = set()
+        for group in self.peer_groups.values():
+            peers.update(
+                previous_source_peers(group.unit, group.source, group.language_id)
+                .exclude(pk__in=group.excluded)
+                .values_list("pk", flat=True)
+            )
+        translations: dict[int, Translation] = {}
+        for unit in self.units.values():
+            translations.setdefault(unit.translation_id, unit.translation)
+        peer_units = (
+            Unit.objects.using(using)
+            .filter(pk__in=peers - self.units.keys())
+            .prefetch()
+            .prefetch_bulk()
+        )
+        for unit in chain(self.units.values(), peer_units):
+            unit.translation = translations.setdefault(
+                unit.translation_id, unit.translation
+            )
+            unit.invalidate_checks_cache()
+            unit.run_checks(skip_propagate=unit.pk not in self.units)
+        for translation in translations.values():
+            translation.invalidate_cache()
+        schedule_memory_updates(self.memory)
+
+
 def update_parent(
     unit: Unit,
     parent: Unit | None,
     author: User | None = None,
     *,
+    effects: ReconciliationEffects,
     force: bool = False,
     configured: bool | None = None,
     missing_sources: MissingSourceCache | None = None,
@@ -296,8 +386,7 @@ def update_parent(
         same_content=False,
         update_fields=["translation_parent", "details", "state", "original_state"],
     )
-    unit.invalidate_checks_cache()
-    unit.run_checks()
+    effects.units[unit.pk] = unit
     if changed:
         from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
         from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
@@ -306,7 +395,7 @@ def update_parent(
             unit, {name for name, check in CHECKS.items() if check.propagates}
         )
     if changed or old_parent != unit.translation_parent_id or old_blocked != blocked:
-        recheck_previous_source_peers(unit, previous_source, previous_language_id)
+        effects.add_peers(unit, previous_source, previous_language_id)
     actor = (
         author
         if author is not None
@@ -330,15 +419,16 @@ def update_parent(
                 "source": current.text,
             },
         )
-    unit.update_translation_memory(author, needs_user_check=False)
-    unit.translation.invalidate_cache()
+    unit.update_translation_memory(
+        author, needs_user_check=False, memory_updates=effects.memory
+    )
     return change
 
 
-def recheck_previous_source_peers(
+def previous_source_peers(
     unit: Unit, previous_source: str, previous_language_id: int
-) -> None:
-    """Clear cross-unit failures in groups the unit no longer belongs to."""
+) -> UnitQuerySet:
+    """Find cross-unit failures in groups the unit no longer belongs to."""
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
     from weblate.trans.propagation import propagation_filter  # ruff: ignore[import-outside-top-level]
 
@@ -347,8 +437,10 @@ def recheck_previous_source_peers(
         matches |= Q(
             target=unit.target, target__lower__md5=MD5(Lower(Value(unit.target)))
         )
-    peers = (
-        Unit.objects.with_effective_source()
+    using = unit._state.db or "default"  # ruff: ignore[private-member-access]
+    return (
+        Unit.objects.using(using)
+        .with_effective_source()
         .filter(
             matches,
             propagation_filter(
@@ -361,14 +453,8 @@ def recheck_previous_source_peers(
             translation__component__allow_translation_propagation=True,
             translation__plural_id=unit.translation.plural_id,
         )
-        .exclude(pk=unit.pk)
         .distinct()
-        .prefetch()
-        .prefetch_bulk()
     )
-    for peer in peers:
-        peer.run_checks(skip_propagate=True)
-        peer.translation.invalidate_cache()
 
 
 def propagate_parent_change(
@@ -396,9 +482,10 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
 
     using = component._state.db or "default"  # ruff: ignore[private-member-access]
-    queryset = Unit.objects.using(using).filter(translation__component=component)
+    component_units = Unit.objects.using(using).filter(translation__component=component)
+    queryset = component_units
     settings = None
-    if work.full:
+    if work.full or work.languages:
         settings = source_workflows(component.project_id, using=using)
         component.project.cache_translation_parent_language_ids(set(settings.values()))
         if (
@@ -409,7 +496,7 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
             ).exists()
         ):
             return
-    else:
+    if not work.full:
         affected = set(work.children)
         pending = work.roots | work.children
         visited = set()
@@ -422,10 +509,33 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
             )
             affected.update(children)
             pending = children - visited
-        queryset = queryset.filter(pk__in=affected)
-    units = list(queryset.select_for_update().prefetch().prefetch_source())
+        queryset = queryset.filter(
+            Q(pk__in=affected) | Q(translation__language_id__in=work.languages)
+        )
+    units = list(
+        queryset.select_for_update().prefetch().prefetch_source().prefetch_all_checks()
+    )
     by_id = {unit.pk: unit for unit in units}
     by_identity = {(unit.translation.language_id, unit.id_hash): unit for unit in units}
+    if settings is not None and not work.full:
+        parent_languages = {
+            settings[unit.translation.language_id]
+            for unit in units
+            if unit.translation.language_id in settings
+        } - {component.source_language_id}
+        supporting_parents = (
+            component_units.filter(
+                translation__language_id__in=parent_languages,
+                id_hash__in=queryset.order_by().values("id_hash"),
+            )
+            .exclude(pk__in=queryset.order_by().values("pk"))
+            .prefetch()
+            .prefetch_source()
+        )
+        by_identity.update(
+            ((unit.translation.language_id, unit.id_hash), unit)
+            for unit in supporting_parents
+        )
     parents = {}
     for unit in units:
         parent = unit.translation_parent
@@ -454,12 +564,14 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         return len(visited)
 
     missing_sources: MissingSourceCache = {}
+    effects = ReconciliationEffects()
     changes = []
     for unit in sorted(units, key=depth):
         change = update_parent(
             unit,
             parents[unit.pk],
             work.author,
+            effects=effects,
             force=work.force,
             missing_sources=missing_sources,
             configured=(
@@ -472,19 +584,45 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         )
         if change is not None:
             changes.append(change)
+    effects.flush(using=using)
     if changes:
         Change.objects.using(using).bulk_create(changes, batch_size=500)
 
 
-def reconcile_component_parents(component: Component, *, force: bool = False) -> None:
-    """Register a complete relationship rebuild, including removed workflows."""
-    request_reconciliation(component, DependencyWork(full=True, force=force))
+def reconcile_component_parents(
+    component: Component, *, force: bool = False, language_ids: set[int] | None = None
+) -> None:
+    """Rebuild relationships, optionally restricted to affected languages."""
+    if language_ids is not None and not language_ids:
+        return
+    request_reconciliation(
+        component,
+        DependencyWork(
+            full=language_ids is None, languages=language_ids or set(), force=force
+        ),
+    )
 
 
-def reconcile_project_parents(project_id: int | None, *, force: bool = False) -> None:
-    if project_id is None:
+def reconcile_project_parents(
+    project_id: int | None,
+    *,
+    force: bool = False,
+    language_ids: set[int] | None = None,
+    using: str = "default",
+) -> None:
+    if project_id is None or language_ids == set():
         return
     from weblate.trans.models.component import Component  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models.translation import Translation  # ruff: ignore[import-outside-top-level]
 
-    for component in Component.objects.filter(project_id=project_id).order_by("pk"):
-        reconcile_component_parents(component, force=force)
+    components = Component.objects.using(using).filter(project_id=project_id)
+    if language_ids is not None:
+        components = components.filter(
+            Exists(
+                Translation.objects.using(using).filter(
+                    component_id=OuterRef("pk"), language_id__in=language_ids
+                )
+            )
+        )
+    for component in components.order_by("pk"):
+        reconcile_component_parents(component, force=force, language_ids=language_ids)

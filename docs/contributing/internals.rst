@@ -148,6 +148,20 @@ Queued dependencies are reconciled before commit and external memory updates
 are scheduled after commit. Source-change history is written in bulk, preserving
 individual records while batching their notification dispatch.
 
+Workflow saves and deletions compare the old and new source mappings under the
+exclusive gate. Reconciliation visits changed languages and their transitive
+dependants in either mapping, skipping components without affected translations.
+It loads supporting parent units without rebuilding unrelated languages. Callers
+that need a complete rebuild, such as restoration and language maintenance, omit
+the language restriction.
+
+Within each component, reconciliation updates relationships before running
+checks. Previous-source peer groups and units requiring checks are deduplicated.
+Direct unit and previous-source peer checks finish before the transaction commits;
+propagated check refreshes retain their existing scheduling. Translation-memory
+payloads use bounded batches scheduled after commit. Nested operations merge
+dependency work, while rolled-back savepoints discard their work and commit callbacks.
+
 Acquire any required repository locks before project gates, then component and
 unit row locks. Reconciliation itself only changes database state and does not
 acquire repository locks. Apply this boundary to bulk imports, automatic

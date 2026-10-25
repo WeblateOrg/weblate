@@ -73,6 +73,7 @@ from weblate.trans.models import (
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.source import (
     DependencyWork,
+    ReconciliationEffects,
     reconcile_component_parents,
     reconcile_project_parents,
     request_reconciliation,
@@ -181,6 +182,212 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertEqual(len(batches), 1)
         self.assertGreater(len(batches[0]), 1)
         self.assertTrue(all(change.pk is not None for change in batches[0]))
+
+    def test_workflow_reconciles_only_affected_languages(self) -> None:
+        from weblate.trans.models.source import update_parent  # ruff: ignore[import-outside-top-level]
+
+        with patch(
+            "weblate.trans.models.source.update_parent", wraps=update_parent
+        ) as update:
+            workflow = self.configure()
+        self.assertEqual(
+            {call.args[0].translation_id for call in update.call_args_list},
+            {self.child.translation_id},
+        )
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.translation_parent_id, self.parent.pk)
+        update.reset_mock()
+        with patch("weblate.trans.models.source.update_parent", update):
+            workflow.restrict_direct_editing = True
+            workflow.save()
+        update.assert_not_called()
+
+    def test_workflow_does_not_load_unrelated_units(self) -> None:
+        with patch.object(Unit, "from_db", wraps=Unit.from_db) as load:
+            self.configure()
+        loaded_translations = {
+            call.args[2][call.args[1].index("translation_id")]
+            for call in load.call_args_list
+            if "translation_id" in call.args[1]
+        }
+        self.assertIn(self.child.translation_id, loaded_translations)
+        self.assertIn(self.parent.translation_id, loaded_translations)
+        self.assertNotIn(self.grandchild.translation_id, loaded_translations)
+
+    def test_workflow_reconciliation_skips_unaffected_components(self) -> None:
+        from weblate.trans.models.source import _reconcile  # ruff: ignore[import-outside-top-level]
+
+        other = self.create_po(name="Other", project=self.project)
+        other.translation_set.get(language=self.child.translation.language).delete()
+        with patch(
+            "weblate.trans.models.source._reconcile", wraps=_reconcile
+        ) as reconcile:
+            self.configure()
+        self.assertEqual(
+            [call.args[0].pk for call in reconcile.call_args_list], [self.component.pk]
+        )
+
+    def test_workflow_language_change_reconciles_old_and_new_languages(self) -> None:
+        workflow = self.configure()
+        workflow.language = self.grandchild.translation.language
+        workflow.save()
+        self.child.refresh_from_db()
+        self.grandchild.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertNotIn("translation_parent", self.child.details)
+        self.assertEqual(self.grandchild.translation_parent_id, self.parent.pk)
+
+    def test_workflow_project_move_reconciles_both_projects(self) -> None:
+        project = RepoTestMixin.create_project(self, name="Other", slug="other")
+        component = self.create_po(project=project)
+        child = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        workflow = self.configure()
+        workflow.project = project
+        workflow.save()
+        self.child.refresh_from_db()
+        child.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertNotIn("translation_parent", self.child.details)
+        assert child.translation_parent is not None
+        self.assertEqual(
+            child.translation_parent.translation.language_id,
+            self.parent.translation.language_id,
+        )
+
+    def test_workflow_removal_reconciles_dependants(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        workflow = self.configure()
+        self.configure(self.grandchild, self.child)
+        self.grandchild.refresh_from_db()
+        self.assertTrue(self.grandchild.translation_parent_blocked)
+        self.set_target(self.child, "Child")
+        self.grandchild.refresh_from_db()
+        self.assertFalse(self.grandchild.translation_parent_blocked)
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.grandchild.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+        self.assertTrue(self.grandchild.translation_parent_blocked)
+
+    def test_targeted_reconciliation_merges_and_rolls_back(self) -> None:
+        from weblate.trans.models.source import _reconcile  # ruff: ignore[import-outside-top-level]
+
+        czech = self.child.translation.language_id
+        italian = self.grandchild.translation.language_id
+        with (
+            patch(
+                "weblate.trans.models.source._reconcile", wraps=_reconcile
+            ) as reconcile,
+            source_operation(self.component),
+        ):
+            reconcile_component_parents(self.component, language_ids={czech})
+            with (
+                self.assertRaisesMessage(ValueError, "Discarded"),
+                source_operation(self.component),
+            ):
+                reconcile_component_parents(self.component, language_ids={italian})
+                msg = "Discarded"
+                raise ValueError(msg)
+            reconcile_component_parents(self.component, language_ids={czech})
+        reconcile.assert_called_once()
+        self.assertEqual(reconcile.call_args.args[1].languages, {czech})
+        self.assertFalse(reconcile.call_args.args[1].full)
+
+    def test_previous_source_peer_groups_are_deduplicated(self) -> None:
+        effects = ReconciliationEffects()
+        other = self.child.translation.unit_set.exclude(pk=self.child.pk).get(
+            source="Thank you for using Weblate."
+        )
+        other.context = self.child.context
+        other.target = self.child.target
+        language = self.component.source_language.pk
+        effects.add_peers(self.child, "Previous", language)
+        effects.add_peers(other, "Previous", language)
+        with patch(
+            "weblate.trans.models.source.previous_source_peers",
+            return_value=Unit.objects.none(),
+        ) as peers:
+            effects.flush(using="default")
+        peers.assert_called_once_with(self.child, "Previous", language)
+        self.assertEqual(next(iter(effects.peer_groups.values())).excluded, set())
+
+    def test_reconciliation_checks_each_unit_once(self) -> None:
+        effects = ReconciliationEffects(units={self.child.pk: self.child})
+        effects.add_peers(
+            self.child, self.child.source, self.component.source_language.pk
+        )
+        with (
+            patch(
+                "weblate.trans.models.source.previous_source_peers",
+                return_value=Unit.objects.filter(
+                    pk__in=[self.child.pk, self.parent.pk]
+                ),
+            ),
+            patch.object(Unit, "run_checks", autospec=True) as checks,
+        ):
+            # A different initiating unit permits this unit in the peer union.
+            next(iter(effects.peer_groups.values())).excluded.clear()
+            effects.flush(using="default")
+        self.assertEqual(
+            {call.args[0].pk for call in checks.call_args_list},
+            {self.child.pk, self.parent.pk},
+        )
+        self.assertEqual(checks.call_count, 2)
+        self.assertFalse(checks.call_args_list[0].kwargs["skip_propagate"])
+        self.assertTrue(checks.call_args_list[1].kwargs["skip_propagate"])
+
+    def test_configuration_batches_memory_after_commit(self) -> None:
+        other = self.child.translation.unit_set.get(
+            source="Thank you for using Weblate."
+        )
+        parent = self.parent.translation.unit_set.get(id_hash=other.id_hash)
+        self.set_target(self.parent, "Parent")
+        self.set_target(parent, "Other parent")
+        self.set_target(self.child, "Child")
+        self.set_target(other, "Other child")
+        with (
+            patch("weblate.memory.tasks.MEMORY_UPDATE_BATCH_SIZE", 1),
+            patch("weblate.memory.tasks.update_memory_bulk.delay") as bulk,
+            patch("weblate.trans.models.unit.schedule_memory_update") as single,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.configure()
+            bulk.assert_not_called()
+            single.assert_not_called()
+        payloads = [payload for call in bulk.call_args_list for payload in call.args[0]]
+        self.assertEqual(
+            {payload["target"] for payload in payloads}, {"Child", "Other child"}
+        )
+        self.assertTrue(all(len(call.args[0]) == 1 for call in bulk.call_args_list))
+        self.assertTrue(
+            all(
+                payload["source_language_id"] == self.parent.translation.language_id
+                and payload["unit_state"] == STATE_NEEDS_REWRITING
+                for payload in payloads
+            )
+        )
+
+    def test_configuration_rollback_discards_memory_and_checks(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        with (
+            patch("weblate.memory.tasks.update_memory_bulk.delay") as memory,
+            patch("weblate.checks.tasks.refresh_propagated_checks.delay") as checks,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaisesMessage(ValueError, "Discarded"),
+            transaction.atomic(),
+        ):
+            self.configure()
+            msg = "Discarded"
+            raise ValueError(msg)
+        memory.assert_not_called()
+        checks.assert_not_called()
+        self.child.refresh_from_db()
+        self.assertIsNone(self.child.translation_parent_id)
+        self.assertEqual(self.child.state, STATE_TRANSLATED)
 
     def test_reconciliation_is_idempotent(self) -> None:
         self.set_target(self.parent, "Parent")
@@ -1225,7 +1432,14 @@ class SourceLanguageTest(FixtureComponentTestCase):
             wraps=reconcile_project_parents,
         ) as reconcile:
             WorkflowSetting.objects.filter(project=self.project).delete()
-        reconcile.assert_called_once_with(self.project.pk)
+        reconcile.assert_called_once_with(
+            self.project.pk,
+            language_ids={
+                self.child.translation.language_id,
+                self.grandchild.translation.language_id,
+            },
+            using="default",
+        )
         for unit in (self.child, self.grandchild):
             unit.refresh_from_db()
             self.assertIsNone(unit.translation_parent_id)
@@ -2476,12 +2690,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
     def test_parent_changes_schedule_memory_update(self) -> None:
         self.set_target(self.parent, self.child.source)
         self.set_target(self.child, "Ahoj")
-        with patch("weblate.trans.models.unit.schedule_memory_update") as schedule:
+        with patch("weblate.memory.tasks.schedule_memory_updates") as schedule:
             self.configure()
             payload = next(
-                call.args[0]
+                payload
                 for call in schedule.call_args_list
-                if call.args[0]["target"] == "Ahoj"
+                for payload in call.args[0]
+                if payload["target"] == "Ahoj"
             )
             self.assertEqual(
                 payload["source_language_id"], self.parent.translation.language_id
@@ -2492,9 +2707,10 @@ class SourceLanguageTest(FixtureComponentTestCase):
             schedule.reset_mock()
             self.set_target(self.parent, "Hallo")
             payload = next(
-                call.args[0]
+                payload
                 for call in schedule.call_args_list
-                if call.args[0]["target"] == "Ahoj"
+                for payload in call.args[0]
+                if payload["target"] == "Ahoj"
             )
             self.assertEqual(payload["source"], "Hallo")
             self.assertEqual(payload["unit_state"], STATE_NEEDS_REWRITING)
