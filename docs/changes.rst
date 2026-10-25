@@ -24,6 +24,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
+
 * Improved project-wide :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` by restricting database searches to eligible peer translations.
 
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.

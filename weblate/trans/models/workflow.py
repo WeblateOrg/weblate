@@ -54,8 +54,10 @@ class WorkflowSettingQuerySet(models.QuerySet):
             if affected_projects:
                 Project.invalidate_translation_parent_cache()
             for project_id in sorted(affected_projects):
-                refresh_source_workflows(project_id, using=self.db)
-                reconcile_project_parents(project_id)
+                languages = refresh_source_workflows(project_id, using=self.db)
+                reconcile_project_parents(
+                    project_id, language_ids=languages, using=self.db
+                )
             return result
 
 
@@ -181,13 +183,13 @@ class WorkflowSetting(models.Model):
                 from weblate.trans.models.project import Project  # ruff: ignore[import-outside-top-level]
 
                 Project.invalidate_translation_parent_cache()
-                for project_id in project_ids:
-                    refresh_source_workflows(project_id, using=database)
                 from weblate.trans.models.source import reconcile_project_parents  # ruff: ignore[import-outside-top-level]
 
-                reconcile_project_parents(self.project_id)
-                if previous and previous[0] != self.project_id:
-                    reconcile_project_parents(previous[0])
+                for project_id in sorted(project_ids):
+                    languages = refresh_source_workflows(project_id, using=database)
+                    reconcile_project_parents(
+                        project_id, language_ids=languages, using=database
+                    )
 
     def delete(
         self, using: str | None = None, keep_parents: bool = False
