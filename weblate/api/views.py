@@ -25,7 +25,9 @@ from django.db import DatabaseError, IntegrityError, transaction
 from django.db.models import Exists, OuterRef, Prefetch, Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.utils.cache import add_never_cache_headers
 from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
@@ -67,6 +69,12 @@ from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_manage_users,
+    check_profile_access,
+    is_resource_bounded,
+)
 from weblate.addons.models import Addon
 from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
@@ -1163,9 +1171,21 @@ def get_delete_memory_option(request: Request) -> bool:
             "after trimming surrounding whitespace; "
             "such searches return basic information about matching non-bot users. "
             "Users with either permission can list all users and receive detailed "
-            "information."
+            "information. USER_DIRECTORY_VISIBILITY can require resource-scoped "
+            "discovery; a positive contributes scope or accessible unit context is "
+            "then required to discover other users."
         ),
         parameters=[
+            OpenApiParameter(
+                "q",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "User search query. Restricted directory modes require a positive "
+                    "contributes:project or contributes:project/component scope in every "
+                    "matching branch, or an accessible unit context."
+                ),
+            ),
             OpenApiParameter(
                 "username",
                 str,
@@ -1191,13 +1211,20 @@ def get_delete_memory_option(request: Request) -> bool:
                 "unit",
                 int,
                 OpenApiParameter.QUERY,
-                description="Rank contributors to the given unit first.",
+                description=(
+                    "Rank contributors to the given unit first. In restricted directory "
+                    "modes, limit results to contributors to its translation."
+                ),
             ),
         ],
         responses=USER_RESPONSE_SERIALIZER,
     ),
     retrieve=extend_schema(
-        description="Return information about users.",
+        description=(
+            "Return information about users, subject to USER_PROFILE_VISIBILITY. "
+            "Restricted profiles return HTTP 404; self and administrative access "
+            "are retained."
+        ),
         responses=USER_RESPONSE_SERIALIZER,
     ),
     update=extend_schema(
@@ -1247,38 +1274,84 @@ class UserViewSet(viewsets.ModelViewSet):
             "profile__watched",
         ).select_related("profile__dashboard_component_list")
 
-    def list(self, request, *args, **kwargs):
-        """
-        List users according to the caller's permissions.
+    def get_object(self):
+        obj = super().get_object()
+        check_profile_access(self.request.user, obj)
+        return obj
 
-        Unprivileged authenticated users see themselves without a username filter
-        and can search non-bot users with a username prefix of at least two
-        characters after trimming surrounding whitespace. Privileged users can
-        list all users with detailed information.
-        """
-        # Copy of rest_framework.mixins.ListModelMixin.list with additional
-        # filtering based on user permissions. We limit listing of user to
-        # non-admins, but access to individual users is retained (with limited
-        # serializer).
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        if settings.USER_PROFILE_VISIBILITY != "public":
+            add_never_cache_headers(response)
+        return response
+
+    @cached_property
+    def discovery_unit(self):
+        if "unit" not in self.request.GET or not self.request.user.is_authenticated:
+            return None
+        try:
+            return Unit.objects.filter_access(self.request.user).get(
+                pk=self.request.GET["unit"]
+            )
+        except (Unit.DoesNotExist, ValueError, OverflowError):
+            return None
+
+    def get_discovery_queryset(self):
         user = self.request.user
         if not user.is_authenticated:
-            queryset = User.objects.none()
-        elif (
-            not (user.has_perm("user.edit") or user.has_perm("user.view"))
-            and self.lookup_field not in request.GET
+            return User.objects.none()
+        privileged = can_manage_users(user)
+        query = self.request.GET.get("q", "")
+        scoped = "q" in self.request.GET or "unit" in self.request.GET
+        if (
+            not privileged
+            and "username" not in self.request.GET
+            and (not scoped or (can_browse_users(user) and not query))
         ):
-            # Order to avoid warning from the paginator
-            queryset = User.objects.filter(pk=user.pk).order_by("id")
-        elif (
-            not (user.has_perm("user.edit") or user.has_perm("user.view"))
-            and len(request.GET.get(self.lookup_field, "").strip()) < 2
+            return User.objects.filter(pk=user.pk).order_by("id")
+        if (
+            not privileged
+            and "username" in self.request.GET
+            and len(self.request.GET["username"].strip()) < 2
         ):
-            # Avoid too short matching, the length matches autocomplete setting in the UI
-            queryset = User.objects.none()
-        else:
-            queryset = self.get_queryset()
+            return User.objects.none()
 
-        queryset = queryset.filter_search_access(user)
+        queryset = self.get_queryset()
+        bounded = False
+        if query:
+            try:
+                search_filters, annotations = parse_query(
+                    query, parser="user", user=user
+                )
+            except SearchQueryError:
+                return User.objects.none()
+            bounded = is_resource_bounded(search_filters)
+            queryset = (
+                queryset.annotate(**annotations).filter(search_filters).distinct()
+            )
+        if not can_browse_users(user):
+            if "unit" in self.request.GET:
+                unit = self.discovery_unit
+                if unit is None:
+                    return User.objects.none()
+                queryset = queryset.filter(
+                    change__translation_id=unit.translation_id
+                ).distinct()
+                bounded = True
+            if not bounded:
+                return User.objects.none()
+        if (
+            not privileged
+            and "username" not in self.request.GET
+            and query
+            and not bounded
+        ):
+            return User.objects.none()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        """Discover users within the installation's directory policy."""
+        queryset = self.get_discovery_queryset().filter_search_access(request.user)
         queryset = self.filter_queryset(queryset)
         queryset = self.order_by_contributions(queryset)
 
@@ -1292,13 +1365,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def order_by_contributions(self, queryset):
         """Rank contributors to the given unit first in user listings."""
-        if "unit" not in self.request.GET or not self.request.user.is_authenticated:
-            return queryset
-        try:
-            unit = Unit.objects.filter_access(self.request.user).get(
-                pk=self.request.GET["unit"]
-            )
-        except (Unit.DoesNotExist, ValueError):
+        unit = self.discovery_unit
+        if unit is None:
             return queryset
         return queryset.annotate(
             contributed_unit=Exists(
@@ -5531,7 +5599,7 @@ class Search(APIView):
                 }
                 for component in components.search(query).order()[:5]
             )
-            if user.is_authenticated:
+            if user.is_authenticated and can_browse_users(user):
                 user_queryset = User.objects.filter_search_access(user)
                 results.extend(
                     {

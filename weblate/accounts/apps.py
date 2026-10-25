@@ -129,6 +129,23 @@ def check_notification_settings(
     return [weblate_check("weblate.C051", message) for message in errors]
 
 
+@register()
+def check_user_visibility(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs: object,
+) -> Iterable[CheckMessage]:
+    for name, choices in (
+        ("USER_DIRECTORY_VISIBILITY", ("all", "scoped", "disabled")),
+        ("USER_PROFILE_VISIBILITY", ("public", "authenticated", "admins")),
+    ):
+        if getattr(settings, name) not in choices:
+            yield weblate_check(
+                "weblate.C052", f"{name} must be one of: {', '.join(sorted(choices))}"
+            )
+
+
 class AccountsConfig(AppConfig):
     name = "weblate.accounts"
     label = "accounts"

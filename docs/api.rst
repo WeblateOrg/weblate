@@ -327,6 +327,16 @@ Users
     username, and full name of matching non-bot users. Users with either
     permission can list all users and receive detailed information.
 
+    :setting:`USER_DIRECTORY_VISIBILITY` can restrict discovery to accessible
+    resources. In ``scoped`` and ``disabled`` modes, ordinary users must supply
+    a resource-bounded ``q`` query or an accessible ``unit`` context to discover
+    other users. Generic filters cannot expand that scope; blocked searches
+    return no results. Self access and global administrative access remain
+    available. Basic contributor discovery is independent of
+    :setting:`USER_PROFILE_VISIBILITY`.
+
+    :query string q: User search query, such as ``contributes:project`` or ``contributes:project/component``. Every matching Boolean branch must have a positive resource scope in restricted directory modes.
+    :query int unit: Rank contributors to this string first. In restricted directory modes, results are limited to contributors to its translation.
     :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
@@ -359,6 +369,9 @@ Users
     :type is_bot: boolean
 
 .. http:get:: /api/users/(str:username)/
+
+    Access follows :setting:`USER_PROFILE_VISIBILITY`. Restricted profiles
+    return HTTP 404; self access and global administrative access are retained.
 
     Returns information about users.
 

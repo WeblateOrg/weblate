@@ -4,7 +4,11 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+    {% if can_browse_users %}
+      <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+    {% else %}
+      <span>{% translate "Users" %}</span>
+    {% endif %}
   </li>
   <li class="breadcrumb-item">
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>

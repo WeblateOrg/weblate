@@ -6,6 +6,7 @@ Weblate 2026.11
 .. rubric:: New features
 
 * Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.
+* Added configurable :setting:`USER_DIRECTORY_VISIBILITY` and :setting:`USER_PROFILE_VISIBILITY` to restrict user discovery and profile access while preserving resource-scoped contributor discovery.
 
 * Translation service installations have a :ref:`Logs tab <machinery-error-log>` showing provider errors, including rate limits.
 

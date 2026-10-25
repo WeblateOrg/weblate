@@ -500,6 +500,270 @@ class APIBaseTest(APITestCase, ReusableComponentTestCase):
 
 
 class UserAPITest(APIBaseTest):
+    def create_visibility_contributor(self):
+        translation = self.component.translation_set.get(language__code="cs")
+        unit = translation.unit_set.order_by("id")[0]
+        contributor = User.objects.create_user(
+            "visibility-contributor", "visibility@example.org", "x"
+        )
+        Change.objects.create(
+            action=ActionEvents.CHANGE,
+            project=self.project,
+            component=self.component,
+            translation=translation,
+            language=translation.language,
+            unit=unit,
+            user=contributor,
+        )
+        return contributor, unit
+
+    def test_directory_visibility(self) -> None:
+        contributor, unit = self.create_visibility_contributor()
+        self.authenticate()
+        url = reverse("api:user-list")
+        for mode in ("scoped", "disabled"):
+            with (
+                self.subTest(mode=mode),
+                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+            ):
+                for params in (
+                    {"username": "visibility"},
+                    {"id": contributor.pk},
+                    {"email": contributor.email},
+                    {"username": "visibility", "is_active": "1", "page_size": "1000"},
+                    {"q": "language:cs"},
+                    {"q": "NOT contributes:test"},
+                    {"q": "contributes:test OR visibility"},
+                    {"q": "contributes:*"},
+                    {"q": "("},
+                    {"q": ""},
+                    {"username": "visibility", "unit": "invalid"},
+                    {"username": "visibility", "unit": 2147483647},
+                ):
+                    with self.subTest(params=params):
+                        response = self.client.get(url, params)
+                        self.assertEqual(response.status_code, 200)
+                        self.assertNotIn(
+                            contributor.username,
+                            [item["username"] for item in response.data["results"]],
+                        )
+                for params in (
+                    {"q": f"contributes:{self.project.slug}"},
+                    {"q": f"contributes:{self.component.full_slug}"},
+                    {"username": "visibility", "unit": unit.pk},
+                    {"q": f"contributes:{self.project.slug} AND visibility"},
+                    {"q": f"contributes:{self.project.slug} OR contributes:missing"},
+                ):
+                    with self.subTest(params=params):
+                        response = self.client.get(url, params)
+                        self.assertEqual(response.status_code, 200)
+                        self.assertEqual(
+                            [item["username"] for item in response.data["results"]],
+                            [contributor.username],
+                        )
+                response = self.client.get(url)
+                self.assertEqual(response.data["count"], 1)
+                self.assertEqual(
+                    response.data["results"][0]["username"], self.user.username
+                )
+
+    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    def test_discovery_resource_access(self) -> None:
+        contributor, unit = self.create_visibility_contributor()
+        outsider = User.objects.create_user(
+            "visibility-outsider", "outsider@example.org", "x"
+        )
+        url = reverse("api:user-list")
+        for params in (
+            {"q": f"contributes:{self.project.slug}"},
+            {"username": "visibility", "unit": unit.pk},
+        ):
+            self.assertEqual(self.client.get(url, params).data["count"], 0)
+        self.authenticate()
+        response = self.client.get(url, {"username": "visibility", "unit": unit.pk})
+        self.assertEqual(
+            [item["username"] for item in response.data["results"]],
+            [contributor.username],
+        )
+        self.assertNotIn(
+            outsider.username, [item["username"] for item in response.data["results"]]
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        for params in (
+            {"q": f"contributes:{self.component.full_slug}"},
+            {"username": "visibility", "unit": unit.pk},
+            {"q": "contributes:missing"},
+            {"q": "contributes:missing/component"},
+        ):
+            with self.subTest(params=params):
+                self.assertEqual(self.client.get(url, params).data["count"], 0)
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.assertEqual(
+            self.client.get(url, {"q": f"contributes:{self.project.slug}"}).data[
+                "count"
+            ],
+            0,
+        )
+
+    def create_project_discovery_contributors(self):
+        visible, _ = self.create_visibility_contributor()
+        restricted = self.create_po(
+            name="restricted-discovery", project=self.project, restricted=True
+        )
+        contributors = {"visible": visible}
+        for name in ("restricted", "mixed", "project"):
+            contributors[name] = User.objects.create_user(
+                f"visibility-{name}", f"{name}@example.org", "x"
+            )
+        for name, component in (
+            ("restricted", restricted),
+            ("mixed", restricted),
+            ("mixed", self.component),
+        ):
+            Change.objects.create(
+                action=ActionEvents.COMPONENT_SETTING_CHANGE,
+                component=component,
+                user=contributors[name],
+            )
+        Change.objects.create(
+            action=ActionEvents.PROJECT_SETTING_CHANGE,
+            project=self.project,
+            user=contributors["project"],
+        )
+        # Accessible activity in another project must not satisfy this scope.
+        other_project = self.create_project("Other", "other-discovery")
+        Change.objects.create(
+            action=ActionEvents.PROJECT_SETTING_CHANGE,
+            project=other_project,
+            user=contributors["restricted"],
+        )
+        return restricted, contributors
+
+    def test_project_discovery_component_visibility(self) -> None:
+        restricted, contributors = self.create_project_discovery_contributors()
+        self.authenticate()
+        self.assertFalse(self.user.can_access_component(restricted))
+        query = f"contributes:{self.project.slug} visibility-"
+        expected = {
+            contributors[name].username for name in ("visible", "mixed", "project")
+        }
+        for mode in ("all", "scoped", "disabled"):
+            with (
+                self.subTest(mode=mode),
+                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+            ):
+                response = self.client.get(reverse("api:user-list"), {"q": query})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    {item["username"] for item in response.data["results"]}, expected
+                )
+        self.client.force_login(self.user)
+        with override_settings(USER_DIRECTORY_VISIBILITY="scoped"):
+            response = self.client.get(reverse("user_list"), {"q": query})
+            self.assertEqual(response.status_code, 200)
+            for name, contributor in contributors.items():
+                with self.subTest(contributor=name):
+                    if name == "restricted":
+                        self.assertNotContains(response, contributor.get_absolute_url())
+                    else:
+                        self.assertContains(response, contributor.get_absolute_url())
+
+    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    def test_project_discovery_component_access_grant(self) -> None:
+        restricted, contributors = self.create_project_discovery_contributors()
+        self.authenticate(True)
+        params = {"q": f"contributes:{self.project.slug} visibility-"}
+        url = reverse("api:user-list")
+        expected = {user.username for user in contributors.values()}
+        response = self.client.get(url, params)
+        self.assertEqual(
+            {item["username"] for item in response.data["results"]}, expected
+        )
+
+        self.authenticate()
+        group = Group.objects.create(
+            name="Restricted discovery access", language_selection=SELECTION_ALL
+        )
+        group.components.add(restricted)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(restricted))
+        response = self.client.get(url, params)
+        self.assertEqual(
+            {item["username"] for item in response.data["results"]}, expected
+        )
+
+    def test_profile_visibility(self) -> None:
+        contributor, _ = self.create_visibility_contributor()
+        url = reverse("api:user-detail", kwargs={"username": contributor.username})
+        self_url = reverse("api:user-detail", kwargs={"username": self.user.username})
+        for directory in ("all", "scoped", "disabled"):
+            for profile in ("public", "authenticated", "admins"):
+                with (
+                    self.subTest(directory=directory, profile=profile),
+                    override_settings(
+                        USER_DIRECTORY_VISIBILITY=directory,
+                        USER_PROFILE_VISIBILITY=profile,
+                    ),
+                ):
+                    self.client.credentials()
+                    self.assertEqual(self.client.get(url).status_code, 404)
+                    self.authenticate()
+                    self.assertEqual(
+                        self.client.get(url).status_code,
+                        404 if profile == "admins" else 200,
+                    )
+                    self.assertEqual(self.client.get(self_url).status_code, 200)
+                    scoped = self.client.get(
+                        reverse("api:user-list"),
+                        {"q": f"contributes:{self.project.slug}"},
+                    )
+                    self.assertEqual(
+                        scoped.data["results"][0]["username"], contributor.username
+                    )
+                    for permission in ("user.view", "user.edit"):
+                        self.grant_perm_to_user(permission)
+                        self.assertEqual(self.client.get(url).status_code, 200)
+                        response = self.client.get(reverse("api:user-list"))
+                        self.assertGreater(response.data["count"], 1)
+                        self.user.groups.remove(
+                            Group.objects.get(name="Permission group")
+                        )
+                    self.authenticate(True)
+                    self.assertEqual(self.client.get(url).status_code, 200)
+                    self.authenticate()
+
+    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    def test_profile_subresources_do_not_reveal_restricted_users(self) -> None:
+        contributor, _ = self.create_visibility_contributor()
+        self.authenticate()
+        for username in (contributor.username, "missing-user"):
+            url = reverse("api:user-detail", kwargs={"username": username})
+            for method in ("get", "patch", "put", "delete"):
+                with self.subTest(username=username, method=method):
+                    self.assertEqual(getattr(self.client, method)(url).status_code, 404)
+            for suffix in ("notifications/", "groups/"):
+                method = "get" if suffix == "notifications/" else "post"
+                self.assertEqual(
+                    getattr(self.client, method)(url + suffix).status_code, 404
+                )
+
+    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    def test_site_search_hides_generic_user_results(self) -> None:
+        contributor, _ = self.create_visibility_contributor()
+        self.authenticate()
+        response = self.client.get(reverse("api:search"), {"q": contributor.username})
+        self.assertNotIn(
+            contributor.get_absolute_url(), [item["url"] for item in response.data]
+        )
+        self.grant_perm_to_user("user.view")
+        response = self.client.get(reverse("api:search"), {"q": contributor.username})
+        self.assertIn(
+            contributor.get_absolute_url(), [item["url"] for item in response.data]
+        )
+
     def test_list(self) -> None:
         user_count = User.objects.count()
         response = self.client.get(reverse("api:user-list"))

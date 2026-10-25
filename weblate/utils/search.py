@@ -1121,15 +1121,31 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
+        if (
+            not isinstance(text, str)
+            or not text.strip()
+            or any(char in text for char in "*?")
+            or any(not part for part in text.split("/"))
+        ):
+            raise SearchQueryError(
+                gettext("A concrete project or component is required.")
+            )
+        user = context["user"]
         if "/" not in text:
             slug_filter = Q(change__project__slug__iexact=text)
+            if user.needs_component_restrictions_filter:
+                slug_filter &= Q(
+                    change__component__isnull=True
+                ) | user.get_component_access_query("change__component")
         else:
             slug_filter = Q(
                 change__component_id__in=list(
-                    Component.objects.filter_by_path(text).values_list("id", flat=True)
+                    Component.objects.filter_access(user)
+                    .filter_by_path(text)
+                    .values_list("id", flat=True)
                 )
             )
-        return slug_filter & Q(change__project__in=context["user"].allowed_projects)
+        return slug_filter & Q(change__project__in=user.allowed_projects)
 
 
 class SuperuserUserTermExpr(UserTermExpr):
