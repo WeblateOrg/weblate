@@ -208,6 +208,22 @@ class TaskMetadataTest(SimpleTestCase):
             with self.subTest(result=result):
                 self.assertIs(sanitize_task_result(self.task_id, result), result)
 
+    def test_automatic_translation_errors_without_provenance(self) -> None:
+        for errors in (["Private diagnostic."], "Private diagnostic."):
+            with self.subTest(errors=errors):
+                result = {
+                    "errors": errors,
+                    "_error_details": [{"message": "Private diagnostic."}],
+                }
+                self.assertEqual(
+                    sanitize_task_result(self.task_id, result),
+                    {"errors": ["Automatic translation reported an error."]},
+                )
+        self.assertEqual(
+            sanitize_task_result(self.task_id, {"errors": [], "_error_details": []}),
+            {"errors": []},
+        )
+
     def test_concurrent_updates_preserve_failure_dependencies(self) -> None:
         for dependencies_first in (False, True):
             with self.subTest(dependencies_first=dependencies_first):

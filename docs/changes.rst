@@ -26,6 +26,7 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
+* :ref:`Automatic translation <auto-translation>` reports translation service failures in task results, the API, and the user interface while preserving successful translations.
 
 * Improved project-wide :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` by restricting database searches to eligible peer translations.
 

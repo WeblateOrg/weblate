@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, TypedDict, TypeGuard
 
 from django.core.cache import cache
 
@@ -85,7 +85,7 @@ def append_task_log(task_id: str, entry: TaskLogEntry) -> None:
     append_task_logs(task_id, [entry])
 
 
-def is_task_log_entry(entry: object) -> bool:
+def is_task_log_entry(entry: object) -> TypeGuard[TaskLogEntry]:
     """Fail closed for old formats or incomplete provenance."""
     return (
         isinstance(entry, dict)
@@ -145,20 +145,29 @@ def record_user_task_failure(task_id: str, exception: object) -> None:
 
 
 def get_visible_task_log(task_id: str, user: User) -> list[str]:
-    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
-
     entries: list[TaskLogEntry] = [
         entry
         for entry in cache.get(f"task-log-{task_id}", [])
         if is_task_log_entry(entry)
     ]
+    return list(
+        get_visible_task_log_entries(entries, user).values()
+    ) + get_visible_user_task_log(task_id, user)
+
+
+def get_visible_task_log_entries(
+    entries: list[TaskLogEntry], user: User
+) -> dict[int, str]:
+    """Filter diagnostics using the same permissions in logs and task results."""
+    from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
+
     ids = {entry["component_id"] for entry in entries}
     for entry in entries:
         if entry["sensitive"]:
             ids.update(entry["required_component_ids"])
             ids.update(entry["repository_ids"])
     if not ids:
-        return get_visible_user_task_log(task_id, user)
+        return {}
     components = {
         component.pk: component
         for component in Component.objects.filter_access(user)
@@ -166,8 +175,8 @@ def get_visible_task_log(task_id: str, user: User) -> list[str]:
         .prefetch(alerts=False)
     }
     permissions: dict[int, bool] = {}
-    result = []
-    for entry in entries:
+    result = {}
+    for index, entry in enumerate(entries):
         component = components.get(entry["component_id"])
         if component is None:
             continue
@@ -181,8 +190,8 @@ def get_visible_task_log(task_id: str, user: User) -> list[str]:
                     permissions[pk] = bool(user.has_perm("vcs.view", components[pk]))
             if not all(permissions[pk] for pk in entry["repository_ids"]):
                 continue
-        result.append(f"{component.full_slug}{entry['suffix']}: {entry['message']}")
-    return result + get_visible_user_task_log(task_id, user)
+        result[index] = f"{component.full_slug}{entry['suffix']}: {entry['message']}"
+    return result
 
 
 def get_task_components(task_id: str) -> list[Component]:

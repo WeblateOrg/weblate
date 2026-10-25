@@ -4990,6 +4990,12 @@ class AutoTranslateResponseSerializer(serializers.Serializer):
     """Response body for the autotranslate action."""
 
     details = serializers.CharField()
+    # DRF collects this field before the Serializer.errors property is used.
+    errors = serializers.ListField(  # type: ignore[assignment]
+        child=serializers.CharField(),
+        required=False,
+        help_text="Errors encountered during automatic translation; present when completed.",
+    )
     task_url = serializers.URLField(
         required=False,
         help_text="URL for tracking a background automatic translation.",

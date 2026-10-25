@@ -4326,7 +4326,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             mode=autoform.cleaned_data["mode"],
         )
         component = autoform.cleaned_data["component"]
-        message = auto.perform(
+        auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
             source_component_ids=(
                 [component.pk] if hasattr(component, "pk") else [component]
@@ -4337,8 +4337,17 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             threshold=autoform.cleaned_data["threshold"],
         )
 
+        result = sanitize_task_result(
+            "",
+            {
+                "message": auto.get_message(),
+                "errors": auto.get_errors(),
+                "_error_details": auto.get_error_details(),
+            },
+            cast("User", request.user),
+        )
         return Response(
-            data={"details": message},
+            data={"details": result["message"], "errors": result["errors"]},
             status=HTTP_200_OK,
         )
 
@@ -4358,7 +4367,13 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         # Eager results are not stored in the result backend, so the task URL
         # would be useless.
         if settings.CELERY_TASK_ALWAYS_EAGER:
-            return Response(data={"details": task.get()["message"]}, status=HTTP_200_OK)
+            result = sanitize_task_result(
+                task.id, task.get(), cast("User", request.user)
+            )
+            return Response(
+                data={"details": result["message"], "errors": result["errors"]},
+                status=HTTP_200_OK,
+            )
         store_task_metadata(
             task.id, translation_id=translation.id, user_id=request.user.id
         )
