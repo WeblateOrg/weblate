@@ -20,6 +20,7 @@ from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
+from uuid import uuid4
 
 import yaml
 from django.conf import settings
@@ -8832,6 +8833,246 @@ class ProjectAPITest(APIBaseTest):
             code=204,
             superuser=True,
         )
+
+    def test_machinery_scope_references_do_not_reveal_hidden_ids(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        hidden_project = Project.objects.create(
+            name="Hidden service project",
+            slug="hidden-service-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        hidden_workspace = Workspace.objects.create(name="Hidden service workspace")
+        missing_project_id = hidden_project.pk + 1000000
+        missing_workspace_id = uuid4()
+        self.assertFalse(Project.objects.filter(pk=missing_project_id).exists())
+        self.assertFalse(Workspace.objects.filter(pk=missing_workspace_id).exists())
+        self.assertFalse(self.user.has_perm("project.edit", hidden_project))
+        self.assertFalse(self.user.has_perm("workspace.edit", hidden_workspace))
+        self.do_request(
+            "api:project-detail",
+            {"slug": hidden_project.slug},
+            code=404,
+        )
+
+        installation = MachineryInstallation.objects.create(
+            engine="dummy", project=self.project
+        )
+        exclusion = MachineryExclusion.objects.create(
+            project=self.project, engine="weblate"
+        )
+        for route, detail_route, instance in (
+            (
+                "api:machinery-installation-list",
+                "api:machinery-installation-detail",
+                installation,
+            ),
+            (
+                "api:machinery-exclusion-list",
+                "api:machinery-exclusion-detail",
+                exclusion,
+            ),
+        ):
+            for field, hidden_id, missing_id in (
+                ("project", hidden_project.pk, missing_project_id),
+                ("workspace", hidden_workspace.pk, missing_workspace_id),
+            ):
+                for method, name, kwargs in (
+                    ("post", route, None),
+                    ("patch", detail_route, {"pk": instance.pk}),
+                ):
+                    for reference in (hidden_id, missing_id):
+                        with self.subTest(
+                            route=route, field=field, method=method, reference=reference
+                        ):
+                            response = self.do_request(
+                                name,
+                                kwargs,
+                                method=method,
+                                code=400,
+                                request={field: reference, "engine": "dummy"},
+                                format="json",
+                            )
+                            self.assertEqual(response.data["errors"][0]["attr"], field)
+                            self.assertEqual(
+                                response.data["errors"][0]["code"],
+                                "does_not_exist",
+                            )
+
+    def test_machinery_exclusion_installation_reference_permissions(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        hidden_project = Project.objects.create(
+            name="Hidden installation project",
+            slug="hidden-installation-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        hidden_installation = MachineryInstallation.objects.create(
+            engine="dummy", project=hidden_project
+        )
+        hidden_workspace = Workspace.objects.create(
+            name="Hidden installation workspace"
+        )
+        hidden_workspace_installation = MachineryInstallation.objects.create(
+            engine="dummy", workspace=hidden_workspace
+        )
+        missing_id = hidden_workspace_installation.pk + 1000000
+        self.assertFalse(MachineryInstallation.objects.filter(pk=missing_id).exists())
+        for installation_id in (
+            hidden_installation.pk,
+            hidden_workspace_installation.pk,
+            missing_id,
+        ):
+            with self.subTest(installation_id=installation_id):
+                response = self.do_request(
+                    "api:machinery-exclusion-list",
+                    method="post",
+                    code=400,
+                    request={
+                        "project": self.project.pk,
+                        "installation": installation_id,
+                    },
+                    format="json",
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "installation")
+                self.assertEqual(response.data["errors"][0]["code"], "does_not_exist")
+
+        site_installation, _ = MachineryInstallation.objects.get_or_create(
+            engine="weblate", project=None, workspace=None
+        )
+        site_exclusion = self.do_request(
+            "api:machinery-exclusion-list",
+            method="post",
+            code=201,
+            request={
+                "project": self.project.pk,
+                "installation": site_installation.pk,
+            },
+            format="json",
+        )
+        self.assertEqual(site_exclusion.data["installation"], site_installation.pk)
+
+        workspace = Workspace.objects.create(name="Inherited service workspace")
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        workspace_installation = MachineryInstallation.objects.create(
+            engine="dummy", workspace=workspace
+        )
+        workspace_exclusion = self.do_request(
+            "api:machinery-exclusion-list",
+            method="post",
+            code=201,
+            request={
+                "project": self.project.pk,
+                "installation": workspace_installation.pk,
+            },
+            format="json",
+        )
+        self.assertEqual(
+            workspace_exclusion.data["installation"], workspace_installation.pk
+        )
+
+        project_installation = self.do_request(
+            "api:machinery-installation-list",
+            method="post",
+            code=201,
+            request={
+                "engine": "weblate",
+                "project": self.project.pk,
+                "configuration": {"key": "secret"},
+            },
+            format="json",
+        )
+        self.assertEqual(project_installation.data["project"], self.project.pk)
+        other_workspace = Workspace.objects.create(name="Managed service workspace")
+        other_workspace.add_owner(self.user)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:machinery-exclusion-list",
+            method="post",
+            code=201,
+            request={
+                "workspace": other_workspace.pk,
+                "installation": site_installation.pk,
+            },
+            format="json",
+        )
+        workspace_installation = self.do_request(
+            "api:machinery-installation-list",
+            method="post",
+            code=201,
+            request={
+                "engine": "weblate",
+                "workspace": other_workspace.pk,
+                "configuration": {"key": "secret"},
+            },
+            format="json",
+        )
+        self.assertEqual(workspace_installation.data["workspace"], other_workspace.pk)
+
+    def test_machinery_site_installation_id_requires_editable_scope(self) -> None:
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        site_installation = MachineryInstallation.objects.create(engine="dummy")
+        missing_id = site_installation.pk + 1000000
+        self.assertFalse(MachineryInstallation.objects.filter(pk=missing_id).exists())
+        for installation_id in (site_installation.pk, missing_id):
+            with self.subTest(installation_id=installation_id):
+                response = self.do_request(
+                    "api:machinery-exclusion-list",
+                    method="post",
+                    code=400,
+                    request={
+                        "project": self.project.pk,
+                        "installation": installation_id,
+                    },
+                    format="json",
+                )
+                self.assertEqual(
+                    [
+                        (error["attr"], error["code"])
+                        for error in response.data["errors"]
+                    ],
+                    [
+                        ("project", "does_not_exist"),
+                        ("installation", "does_not_exist"),
+                    ],
+                )
+
+    def test_machinery_scope_reference_respects_project_2fa(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        MachineryInstallation.objects.get_or_create(
+            engine="weblate", project=None, workspace=None
+        )
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        response = self.do_request(
+            "api:machinery-installation-list",
+            method="post",
+            code=400,
+            request={"engine": "weblate", "project": self.project.pk},
+            format="json",
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "project")
+        self.assertEqual(response.data["errors"][0]["code"], "does_not_exist")
+
+        created = self.do_request(
+            "api:machinery-installation-list",
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "engine": "weblate",
+                "project": self.project.pk,
+                "configuration": {"key": "secret"},
+                "enabled": False,
+            },
+            format="json",
+        )
+        self.assertEqual(created.data["project"], self.project.pk)
 
     def assert_restricted_installation_scope(self, group: Group) -> None:
         group.roles.add(Role.objects.get(name="Administration"))
