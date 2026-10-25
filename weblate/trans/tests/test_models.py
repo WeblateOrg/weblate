@@ -1646,7 +1646,9 @@ class TranslationTest(RepoTestCase):
         unit3.translate(user, "Unit 3 - Test 1", STATE_TRANSLATED)
 
         self.assertEqual(PendingUnitChange.objects.count(), 6)
-        changes = list(PendingUnitChange.objects.for_translation(translation))
+        changes = list(
+            PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
+        )
         self.assertEqual(len(changes), 3)
         self.assertTrue(all(p.unit == unit1 for p in changes))
         self.assertEqual(
@@ -1666,7 +1668,9 @@ class TranslationTest(RepoTestCase):
 
         self.assertIn("needing editing", project.get_commit_policy_description())
 
-        changes = list(PendingUnitChange.objects.for_translation(translation))
+        changes = list(
+            PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
+        )
         self.assertEqual(len(changes), 1)
         self.assertTrue(all(p.unit == unit3 for p in changes))
         self.assertEqual([STATE_TRANSLATED], [p.state for p in changes])
@@ -1679,7 +1683,9 @@ class TranslationTest(RepoTestCase):
 
         self.assertEqual("", project.get_commit_policy_description())
 
-        changes = list(PendingUnitChange.objects.for_translation(translation))
+        changes = list(
+            PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
+        )
         self.assertEqual(len(changes), 2)
         self.assertEqual([STATE_FUZZY, STATE_FUZZY], [p.state for p in changes])
         component.commit_pending("test", None)
