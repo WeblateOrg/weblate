@@ -76,7 +76,7 @@ DOCUTILS_PARSER_LOCK = threading.Lock()
 # Single tag token. Name stops at [, ], @, whitespace, or = so [url=…] and
 # [codeblock lang=…] pair on the tag name.
 BBCODE_TOKEN = re.compile(
-    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
+    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\[\]]*)?\]"
 )
 
 
@@ -145,7 +145,7 @@ HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
 HTML_ATTRIBUTE_WRAPPER_CHARS = frozenset("\"'`“”„‟‘’‚‛«»‹›")
 
 
-XML_MATCH = re.compile(r"<[^>]+>")
+XML_MATCH = re.compile(r"<[^<>]+>")
 XML_ENTITY_MATCH = re.compile(
     r"""
     # Initial &
@@ -168,16 +168,13 @@ XML_ENTITY_MATCH = re.compile(
     """,
     re.VERBOSE,
 )
-XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[(.*?)]]>")
+XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[((?:(?!<!\[CDATA\[).)*?)]]>")
 
 SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
 
 # Arabic letter Waw ("و", meaning "and") is a conjunction that commonly attaches
 # directly to the adjacent word without a space
 ARABIC_WAW = "\u0648"
-
-# Extracted from Sphinx sphinx/util/docutils.py
-RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
@@ -783,6 +780,25 @@ def get_rst_role_match(text: str) -> RSTRoleMatch | None:
     return None
 
 
+def parse_rst_explicit_title(inner: str) -> tuple[str, str] | None:
+    """Split a role title and target without retrying each opening angle bracket."""
+    if inner.endswith(">\n"):
+        inner = inner[:-1]
+    elif not inner.endswith(">"):
+        return None
+    opening = inner.find("<", 1)
+    while opening != -1:
+        if inner[opening - 1] != "\x00":
+            prefix = inner[:opening]
+            title = prefix.rstrip()
+            # The original expression requires at least one title character.
+            if not title:
+                title = prefix[:1]
+            return title, inner[opening + 1 : -1]
+        opening = inner.find("<", opening + 1)
+    return None
+
+
 def get_rst_role_reference(rawsource: str) -> tuple[str, RSTHighlightKind] | None:
     if (matched_role := get_rst_role_match(rawsource)) is None:
         return None
@@ -791,8 +807,8 @@ def get_rst_role_reference(rawsource: str) -> tuple[str, RSTHighlightKind] | Non
     if role in RST_TRANSLATABLE:
         return f":{role}:", RST_HIGHLIGHT_ROLE_SYNTAX
 
-    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
-        return f":{role}:`{matched.group(2)}`", RST_HIGHLIGHT_ROLE_TARGET
+    if (matched := parse_rst_explicit_title(matched_role.inner)) is not None:
+        return f":{role}:`{matched[1]}`", RST_HIGHLIGHT_ROLE_TARGET
 
     return f":{role}:`{matched_role.inner}`", RST_HIGHLIGHT_WHOLE
 
@@ -830,8 +846,8 @@ def get_rst_role_highlight(
             ),
         ]
 
-    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
-        suffix_start = prefix_end + len(matched.group(1))
+    if (matched := parse_rst_explicit_title(matched_role.inner)) is not None:
+        suffix_start = prefix_end + len(matched[0])
         forbidden_text = ("`", "<", ">")
         return [
             Highlight(
@@ -847,7 +863,7 @@ def get_rst_role_highlight(
             Highlight(
                 suffix_start,
                 end,
-                rawsource[len(matched_role.syntax_prefix) + len(matched.group(1)) :],
+                rawsource[len(matched_role.syntax_prefix) + len(matched[0]) :],
                 kind="markup",
                 group=group,
                 role=matched_role.role,
