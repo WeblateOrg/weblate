@@ -1138,7 +1138,8 @@ class Unit(models.Model, LoggerMixin):
                     self.source_snapshot.as_dict()
                 )
             if self.translation_parent_blocked:
-                self.original_state = self.state
+                if not self.readonly:
+                    self.original_state = self.state
                 self.state = STATE_READONLY
                 self.details["translation_parent"]["blocked"] = True
 

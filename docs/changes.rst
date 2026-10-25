@@ -71,6 +71,7 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed newly imported strings with a :ref:`custom source language <workflow-source-language>` remaining read-only when an :ref:`intermediate language file <component-intermediate>` is configured.
 * Fixed :ref:`projectbackup` imports rejecting strings with empty sources.
 * Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
 * Fixed initial installation of the :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`.
