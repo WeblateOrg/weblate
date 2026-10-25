@@ -105,14 +105,6 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
       <ul class="dropdown-menu shadow">
-        {% if replace_form %}
-          <li>
-            <a class="dropdown-item"
-               data-bs-target="#replace"
-               data-bs-toggle="tab"
-               href="#">{% translate "Search and replace" %}</a>
-          </li>
-        {% endif %}
         {% if bulk_state_form %}
           <li>
             <a class="dropdown-item"
@@ -321,26 +313,6 @@
 
     </div>
 
-    {% if replace_form %}
-      <div class="tab-pane" id="replace">
-        <form action="{% url 'replace' path=object.get_url_path %}"
-              method="post"
-              enctype="multipart/form-data">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">
-                {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% translate "Search and replace" %}
-              </h4>
-            </div>
-            <div class="card-body">{% crispy replace_form %}</div>
-            <div class="card-footer">
-              <input type="submit" value="{% translate "Review changes" %}" class="btn btn-primary" />
-            </div>
-          </div>
-        </form>
-      </div>
-    {% endif %}
 
     {% if bulk_state_form %}
       <div class="tab-pane" id="bulk-edit">

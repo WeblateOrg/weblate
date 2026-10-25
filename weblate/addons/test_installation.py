@@ -127,6 +127,9 @@ INSTALLATION_CASES = {
         {
             "q": "state:empty",
             "state": "-1",
+            "search": "",
+            "replacement": "",
+            "search_type": "text",
             "path": "",
             "add_flags": "",
             "remove_flags": "",

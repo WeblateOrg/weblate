@@ -23,6 +23,7 @@ from weblate.automation.definition import (
 )
 from weblate.automation.operations import get_operation
 from weblate.automation.ui import editor_context
+from weblate.utils.bulk_regex import regex_session
 from weblate.utils.forms import ContextDiv, QueryField
 
 if TYPE_CHECKING:
@@ -41,6 +42,7 @@ def target_object(instance: Addon) -> Component | Project | None:
     return instance.component or instance.project
 
 
+@regex_session()
 def validate_operations(
     workflow: dict[str, Any], obj: Component | Project | None
 ) -> dict[str, Any]:

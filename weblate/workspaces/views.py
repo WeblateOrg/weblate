@@ -22,7 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
-from weblate.trans.forms import AutoForm, BulkEditForm, ReplaceForm, SearchForm
+from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import Project, prefetch_project_flags
 from weblate.trans.models.translation import Translation
@@ -276,9 +276,6 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             ),
             "autoform": AutoForm(workspace, user=request.user)
             if request.user.has_perm("translation.auto", workspace)
-            else None,
-            "replace_form": ReplaceForm(workspace, user=request.user)
-            if can_edit_units
             else None,
             "bulk_state_form": BulkEditForm(request.user, workspace)
             if request.user.has_perm("unit.bulk_edit", workspace) and can_edit_units

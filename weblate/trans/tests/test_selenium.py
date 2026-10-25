@@ -1998,6 +1998,62 @@ class SeleniumTests(
                     )
                     self.assertEqual(int(count), translation.unit_set.count())
 
+    def test_bulk_edit_preview(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Bulk operations", slug="bulk-operations")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        unit.translate(user, "Hello, world!\n", STATE_TRANSLATED)
+        self.open_component(component, project)
+        self.click("Operations")
+        self.click("Bulk edit")
+        self.driver.find_element(By.ID, "id_bulk_q").send_keys(
+            'source:"Hello, world!" AND language:cs'
+        )
+        self.click(self.driver.find_element(By.ID, "id_bulk_search_type_1"))
+        self.driver.find_element(By.ID, "id_bulk_search").send_keys("(Hello), (world)")
+        self.driver.find_element(By.ID, "id_bulk_replacement").send_keys(
+            r"\g<2>, \g<1>"
+        )
+        self.screenshot("bulk-edit.png")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#bulk-edit input[type='submit']"
+                )
+            )
+        self.assert_text_contains("body", "world, Hello!")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Hello, world!\n")
+        self.screenshot("bulk-edit-preview.png")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    "form:has(input[name='bulk_confirmation']) button[type='submit']",
+                )
+            )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "world, Hello!\n")
+        self.click("Operations")
+        self.click("Bulk edit")
+        self.driver.find_element(By.ID, "id_bulk_q").send_keys(
+            'source:"Hello, world!" AND language:cs'
+        )
+        Select(self.driver.find_element(By.ID, "id_bulk_state")).select_by_value("0")
+        self.click(self.driver.find_element(By.ID, "id_bulk_preview"))
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#bulk-edit input[type='submit']"
+                )
+            )
+        unit.refresh_from_db()
+        self.assertEqual((unit.target, unit.state), ("", 0))
+
     def test_bulk_edit_selection(self) -> None:
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
@@ -2065,6 +2121,20 @@ class SeleniumTests(
         )
         with self.wait_for_page_load():
             self.click(submit)
+        self.assert_text_contains("body", "Review and confirm the bulk edit changes.")
+        apply_all = self.driver.find_element(By.ID, "bulk-apply-all")
+        row = self.driver.find_element(By.CSS_SELECTOR, ".bulk-preview-select")
+        self.click(apply_all)
+        self.assertFalse(row.is_enabled())
+        self.click(apply_all)
+        self.assertTrue(row.is_enabled())
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    "form:has(input[name='bulk_confirmation']) button[type='submit']",
+                )
+            )
         self.assertEqual(self.driver.current_url, f"{search_url}?q=state%3Atranslated")
         self.assert_text_contains(
             ".alert", "Bulk edit completed, 1 string was updated."
@@ -2824,7 +2894,13 @@ class SeleniumTests(
                 {
                     "action": "weblate.bulk_edit",
                     "id": "flagit",
-                    "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                    "settings": {
+                        "q": "state:translated",
+                        "state": STATE_FUZZY,
+                        "search_type": "regex",
+                        "search": r" (Hello), (?P<word>world) ",
+                        "replacement": r" \g<word> \g<1> ",
+                    },
                 }
             ],
         }
@@ -2857,6 +2933,54 @@ class SeleniumTests(
                 " (el) => el.textContent);"
             ),
             ["Change event", "Language", "Bulk editing"],
+        )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            workflow,
+        )
+
+        first_action = pane.find_element(
+            By.CSS_SELECTOR, "[data-automation-instance='action:weblate.bulk_edit']"
+        )
+        self.assertTrue(
+            first_action.find_element(
+                By.CSS_SELECTOR, "input[data-workflow-key='search_type'][value='regex']"
+            ).is_selected()
+        )
+        Select(
+            self.driver.find_element(By.ID, "automation-add-action")
+        ).select_by_value("action:weblate.bulk_edit")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, "[data-automation-add='actions']")
+        )
+        action_nodes = pane.find_elements(
+            By.CSS_SELECTOR, "[data-automation-instance='action:weblate.bulk_edit']"
+        )
+        second_action = action_nodes[1]
+        self.assertTrue(
+            second_action.find_element(
+                By.CSS_SELECTOR, "input[data-workflow-key='search_type'][value='text']"
+            ).is_selected()
+        )
+        self.assertTrue(
+            first_action.find_element(
+                By.CSS_SELECTOR, "input[data-workflow-key='search_type'][value='regex']"
+            ).is_selected()
+        )
+        query = second_action.find_element(By.CSS_SELECTOR, "[data-workflow-key='q']")
+        query.send_keys("language:cs")
+        Select(
+            second_action.find_element(By.CSS_SELECTOR, "[data-workflow-key='state']")
+        ).select_by_value("0")
+        workflow["actions"].append(
+            {
+                "action": "weblate.bulk_edit",
+                "settings": {
+                    "q": "language:cs",
+                    "state": 0,
+                    "search_type": "text",
+                },
+            }
         )
         self.assertEqual(
             self.driver.execute_script("return automationEditor.serializeWorkflow();"),
@@ -4694,19 +4818,8 @@ class SeleniumTests(
         # Component tools
         self.open_component(component, project)
         self.click("Operations")
-        self.click("Search and replace")
-        self.assert_text_contains("#replace", "Search and replace")
-        self.assertEqual(
-            self.driver.find_element(
-                By.CSS_SELECTOR, '#replace input[type="submit"]'
-            ).get_attribute("value"),
-            "Review changes",
-        )
-        self.screenshot("search-replace.png")
-        self.click("Operations")
         self.click("Bulk edit")
         self.assert_text_contains("#bulk-edit", "Bulk edit")
-        self.screenshot("bulk-edit.png")
 
         with self.wait_for_page_load():
             self.driver.get(

@@ -520,6 +520,9 @@ class BulkEditOperation(AutomationOperation):
         {
             "q": STRING,
             "state": {"type": "integer"},
+            "search": STRING,
+            "replacement": STRING,
+            "search_type": {"enum": ["text", "regex"]},
             **dict.fromkeys(
                 (
                     "add_flags",
@@ -564,6 +567,9 @@ class BulkEditOperation(AutomationOperation):
             settings.setdefault("q", "")
         data = {
             "state": -1,
+            "search": "",
+            "replacement": "",
+            "search_type": "text",
             "add_flags": "",
             "remove_flags": "",
             "add_translation_flags": "",

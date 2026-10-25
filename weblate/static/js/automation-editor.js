@@ -258,7 +258,15 @@
       } else {
         raw = first.value;
       }
-      raw = raw.trim();
+      if (first.dataset.workflowPreserveWhitespace !== "1") {
+        raw = raw.trim();
+      }
+      if (
+        first.dataset.workflowOmitDefault === "1" &&
+        raw === first.dataset.workflowDefault
+      ) {
+        return undefined;
+      }
       if (raw === "") {
         return entry.required ? "" : undefined;
       }
@@ -282,7 +290,13 @@
         const value = isPlainObject(source) ? source[entry.key] : undefined;
         if (value === undefined || value === null) {
           if (!fresh) {
-            clearGroupValue(entry);
+            const defaultValue = entry.elements[0].dataset.workflowDefault;
+            if (defaultValue !== undefined) {
+              setGroupValue(entry, defaultValue);
+              entry.elements[0].dataset.workflowOmitDefault = "1";
+            } else {
+              clearGroupValue(entry);
+            }
           }
           continue;
         }

@@ -60,6 +60,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, format_backup_error
+from weblate.trans.bulk import BulkReplacement
 from weblate.trans.component_creation import get_component_branches
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -165,7 +166,6 @@ if TYPE_CHECKING:
     from weblate.lang.models import LanguageQuerySet
     from weblate.machinery.types import SettingsDict
     from weblate.trans.file_format_params import FileFormatParams
-    from weblate.trans.mixins import URLPathObject
     from weblate.trans.models.translation import NewUnitParams
     from weblate.utils.params import BaseParam
 
@@ -4241,62 +4241,6 @@ class ProjectImportForm(WorkspaceMixin, forms.Form):
         return zipfile
 
 
-class ReplaceForm(forms.Form):
-    q = QueryField(
-        required=False,
-        help_text=gettext_lazy("Optional additional filter applied to the strings"),
-    )
-    path = forms.CharField(widget=forms.HiddenInput, required=False)
-    search = forms.CharField(
-        label=gettext_lazy("Search string"),
-        min_length=1,
-        required=True,
-        strip=False,
-        help_text=gettext_lazy("Case-sensitive string to search for and replace."),
-    )
-    replacement = forms.CharField(
-        label=gettext_lazy("Replacement string"),
-        min_length=1,
-        required=True,
-        strip=False,
-    )
-
-    def __init__(
-        self,
-        obj: URLPathObject,
-        data: dict | None = None,
-        user: User | None = None,
-    ) -> None:
-        path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
-        super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            SearchField("q", user=user, project=get_saved_search_project(obj)),
-            Field("path"),
-            Field("search"),
-            Field("replacement"),
-        )
-
-
-class ReplaceConfirmForm(forms.Form):
-    q = forms.CharField(required=False, widget=forms.HiddenInput)
-    path = forms.CharField(required=False, widget=forms.HiddenInput)
-    search = forms.CharField(
-        min_length=1, required=True, strip=False, widget=forms.HiddenInput
-    )
-    replacement = forms.CharField(
-        min_length=1, required=True, strip=False, widget=forms.HiddenInput
-    )
-    units = forms.ModelMultipleChoiceField(queryset=Unit.objects.none(), required=False)
-    confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)
-
-    def __init__(self, units, *args, **kwargs) -> None:
-        kwargs.setdefault("auto_id", False)
-        super().__init__(*args, **kwargs)
-        self.fields["units"].queryset = units
-
-
 class MatrixLanguageForm(forms.Form):
     """Form for requesting a new language."""
 
@@ -4605,6 +4549,32 @@ class UnitSelectionField(forms.Field):
 
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
+    search_type = forms.ChoiceField(
+        label=gettext_lazy("Search type"),
+        choices=[
+            ("text", gettext_lazy("Text")),
+            ("regex", gettext_lazy("Regular expression")),
+        ],
+        widget=forms.RadioSelect,
+        initial="text",
+        required=False,
+    )
+    search = forms.CharField(
+        label=gettext_lazy("Search string"),
+        required=False,
+        strip=False,
+        help_text=gettext_lazy(
+            "Case-sensitive text or regular expression to replace in matching strings. Leave empty to disable replacement."
+        ),
+    )
+    replacement = forms.CharField(
+        label=gettext_lazy("Replacement string"),
+        required=False,
+        strip=False,
+        help_text=gettext_lazy(
+            r"Leave empty to remove matching text. In regular expression mode, use \1 for the first captured group. Named group references are also supported."
+        ),
+    )
     state = forms.ChoiceField(
         label=gettext_lazy("State to set"),
         choices=[(-1, gettext_lazy("Do not change"))],
@@ -4670,7 +4640,7 @@ class BulkEditForm(forms.Form):
             self.fields["remove_labels"].queryset = labels
             self.fields["add_labels"].queryset = labels
 
-        excluded = {STATE_EMPTY, STATE_READONLY}
+        excluded = {STATE_READONLY}
         show_review = True
         if user is not None and not user.has_perm("unit.review", obj):
             show_review = False
@@ -4704,6 +4674,16 @@ class BulkEditForm(forms.Form):
                 Field("state"),
             )
 
+        self.helper.layout.extend(
+            [Field("search_type"), Field("search"), Field("replacement")]
+        )
+        if user is not None:
+            self.fields["preview"] = forms.BooleanField(
+                label=gettext_lazy("Preview changes"),
+                required=False,
+                initial=True,
+            )
+            self.helper.layout.append(Field("preview"))
         for group in self.get_field_groups(selection=selection):
             add_field, remove_field = group.fields
             if add_field == "add_labels":
@@ -4774,9 +4754,21 @@ class BulkEditForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean() or {}
-        if "units" not in self.fields:
-            return cleaned_data
-        if not cleaned_data.get("q") and not cleaned_data.get("units"):
+        cleaned_data["search_type"] = cleaned_data.get("search_type") or "text"
+        BulkReplacement(
+            cleaned_data.get("search", ""),
+            cleaned_data.get("replacement", ""),
+            cleaned_data["search_type"],
+        )
+        if cleaned_data.get("search") and cleaned_data.get("state") == str(STATE_EMPTY):
+            raise ValidationError(
+                gettext("Choose either replacement or clearing translations.")
+            )
+        if (
+            "units" in self.fields
+            and not cleaned_data.get("q")
+            and not cleaned_data.get("units")
+        ):
             raise ValidationError(
                 gettext("Select strings to edit or enter a search query.")
             )

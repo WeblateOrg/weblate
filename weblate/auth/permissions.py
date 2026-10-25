@@ -1000,6 +1000,15 @@ def check_autotranslate(
     if isinstance(translation, Unit):
         translation = translation.translation
     if isinstance(translation, Workspace):
+        if permission == "unit.bulk_edit":
+            return any(
+                check_autotranslate(user, permission, item)
+                for item in Translation.objects.filter(
+                    component__project__in=user.allowed_projects.filter(
+                        workspace=translation
+                    )
+                ).select_related("component", "component__project", "language")
+            )
         return any(
             check_autotranslate(user, permission, project)
             for project in user.allowed_projects.filter(workspace=translation)

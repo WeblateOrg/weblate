@@ -115,6 +115,10 @@ def prepare_node_form(
         widget = form.fields[name].widget
         widget.attrs["data-workflow-key"] = name
         widget.attrs["data-workflow-type"] = workflow_type(schema)
+        if not getattr(form.fields[name], "strip", True):
+            widget.attrs["data-workflow-preserve-whitespace"] = "1"
+        if name == "search_type":
+            widget.attrs["data-workflow-default"] = str(form.fields[name].initial)
         if name in required:
             widget.attrs["data-workflow-required"] = "1"
     form.auto_id = f"id_{prefix}_%s"

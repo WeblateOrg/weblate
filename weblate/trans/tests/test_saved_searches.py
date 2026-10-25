@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from crispy_forms.utils import render_crispy_form
 from django.urls import reverse
 
-from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm, ReplaceForm
+from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm
 from weblate.trans.models import Project, SavedSearch
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -312,7 +312,6 @@ class SavedSearchDropdownTest(SavedSearchTestCase):
         self.create_user_search(name="Personal filter")
         forms = {
             "download": DownloadForm(self.translation, user=self.user),
-            "replace": ReplaceForm(self.translation, user=self.user),
             "auto": AutoForm(self.component, user=self.user),
             "bulk": BulkEditForm(self.user, self.translation, project=self.project),
         }

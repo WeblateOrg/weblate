@@ -465,6 +465,22 @@ Build-time and configuration variants
      - Existing add-on management authority governs mutations. Operation scopes,
        validation, and automation-origin suppression constrain declarative runs;
        custom Python add-ons retain their separate trust model. *(maintainer)*
+   * - Bulk regular expression replacement
+     - Users with bulk-edit permissions and add-on managers supply replacement
+       patterns and templates. *(maintainer)* (source: :ref:`bulk-edit`)
+     - A dedicated helper receives strings over bounded JSON messages, compiles
+       patterns, and expands replacements incrementally with input and output
+       limits. Cumulative CPU and application waiting budgets constrain a run;
+       supported platforms also enforce a helper address-space limit. The helper
+       receives no Django objects and accepts no Python code. This isolates regex
+       resource consumption, not arbitrary application extensions. On macOS,
+       native regex compilation and matching can still exhaust memory because
+       the address-space limit is unavailable. *(maintainer)*
+     - Existing edit and add-on management permissions govern mutations. Resource
+       failures abort the current component; previously completed components can
+       remain changed. See :ref:`bulk-edit` for limits and execution boundaries.
+       *(maintainer)*
+
 
 Input assumptions
 -----------------
