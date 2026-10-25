@@ -4,11 +4,13 @@
 
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from io import StringIO
+from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
@@ -3531,6 +3533,58 @@ class SourceLanguageMonoFileTest(SourceLanguageFileTest):
 class SourceLanguageIntermediateTest(ViewTestCase):
     def create_component(self) -> Component:
         return self.create_json_intermediate()
+
+    def test_new_intermediate_unit(self) -> None:
+        self.check_new_intermediate_unit(review=False)
+
+    def test_new_intermediate_unit_with_review(self) -> None:
+        self.check_new_intermediate_unit(review=True)
+
+    def check_new_intermediate_unit(self, *, review: bool) -> None:
+        self.project.source_review = review
+        self.project.translation_review = review
+        self.project.save()
+        child_translation = self.component.add_new_language(
+            Language.objects.get(code="it"), None, show_messages=False
+        )
+        assert child_translation is not None
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child_translation.language,
+            source_language=self.translation.language,
+        )
+        filename = self.component.get_intermediate_filename()
+        assert filename is not None
+        path = Path(filename)
+        content = json.loads(path.read_text(encoding="utf-8"))
+        content["new-key"] = "New source string"
+        path.write_text(json.dumps(content), encoding="utf-8")
+        self.component.do_file_scan()
+
+        source = self.component.source_translation.unit_set.get(context="new-key")
+        parent = self.translation.unit_set.get(id_hash=source.id_hash)
+        child = child_translation.unit_set.get(id_hash=source.id_hash)
+        self.assertEqual(child.state, STATE_READONLY)
+        self.assertEqual(child.original_state, STATE_EMPTY)
+        self.assertEqual(child.translation_parent_id, parent.pk)
+
+        state = STATE_APPROVED if review else STATE_TRANSLATED
+        source.translate(self.user, "New source", state)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_READONLY)
+        self.assertFalse(self.user.has_perm("unit.edit", child))
+        parent.refresh_from_db()
+        parent.translate(self.user, "New parent", state)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_EMPTY)
+        self.assertFalse(child.translation_parent_blocked)
+        self.assertTrue(self.user.has_perm("unit.edit", child))
+        child.translate(self.user, "New child", state)
+        self.component.commit_pending("test", self.user)
+        self.component.do_file_scan()
+        child.refresh_from_db()
+        self.assertEqual(child.target, "New child")
+        self.assertEqual(child.state, state)
 
     def test_intermediate_source_blocks_custom_children(self) -> None:
         source = self.component.source_translation.unit_set.get(source="Hello world!\n")
