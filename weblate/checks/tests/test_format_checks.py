@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from time import monotonic
 from typing import TYPE_CHECKING
 
 from django.test import SimpleTestCase
@@ -95,6 +96,19 @@ class PythonFormatCheckTest(CheckTestCase):
                 "%(name)s string", "%(name)s string", False, make_unit()
             )
         )
+
+    def test_percent_in_mapping_key(self) -> None:
+        self.assertEqual(self.check.extract_matches("%(rate%)s"), ["(rate%)s"])
+        self.assertEqual(
+            self.check.check_format("%(rate%)s", "%(total%)s", False, make_unit()),
+            {"missing": ["(rate%)s"], "extra": ["(total%)s"]},
+        )
+
+    def test_unterminated_mapping_keys(self) -> None:
+        malformed = "%(" * 20_000
+        started = monotonic()
+        self.assertEqual(self.check.extract_matches(malformed), [""] * 20_000)
+        self.assertLess(monotonic() - started, 1)
 
     def test_missing_format(self) -> None:
         self.assertTrue(
@@ -737,6 +751,27 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             "python-brace-format",
             "{0}string{1}",
             [(0, 3, "{0}"), (9, 12, "{1}")],
+        )
+
+    def test_unterminated_index_fields(self) -> None:
+        malformed = ("{a[" + "a" * 98) * 400
+        started = monotonic()
+        self.assertEqual(self.check.extract_matches(malformed), [])
+        self.assertEqual(self.check.extract_matches("{valid}" + malformed), ["valid"])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_nested_braces_in_index(self) -> None:
+        source = "{data[{name}]}"
+        self.assertEqual(self.check.extract_matches(source), ["data[{name}]"])
+        self.assertFalse(self.check.check_format(source, source, False, make_unit()))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end)
+                for highlight in self.check.check_highlight(
+                    source, make_unit(flags="python-brace-format")
+                )
+            ],
+            [(0, len(source))],
         )
 
     def test_no_format(self) -> None:
@@ -1665,6 +1700,29 @@ class I18NextInterpolationCheckTest(CheckTestCase):
             [(0, 7, "{{foo}}"), (15, 22, "{{bar}}")],
         )
 
+    def test_unterminated_interpolations(self) -> None:
+        for opener, valid in (("{{", "{{value}}"), ("$t(", "$t(value)")):
+            with self.subTest(opener=opener):
+                malformed = opener * 12000
+                started = monotonic()
+                self.assertEqual(self.check.extract_matches(malformed), [])
+                self.assertEqual(self.check.extract_matches(valid + malformed), [valid])
+                self.assertLess(monotonic() - started, 1)
+
+    def test_nesting_inside_interpolation_is_linear(self) -> None:
+        source = "{{" + "$t(" * 8000 + "}}\n)"
+        started = monotonic()
+        self.assertEqual(
+            self.check.extract_matches(source), [source.split("\n", maxsplit=1)[0]]
+        )
+        self.assertLess(monotonic() - started, 1)
+
+    def test_many_valid_interpolations_are_linear(self) -> None:
+        source = "{{x}}" * 80_000
+        started = monotonic()
+        self.assertEqual(len(self.check.extract_matches(source)), 80_000)
+        self.assertLess(monotonic() - started, 1)
+
     def test_no_format(self) -> None:
         self.assertFalse(
             self.check.check_format("strins", "string", False, make_unit())
@@ -1732,6 +1790,13 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             "${foo} string ${bar}",
             [(0, 6, "${foo}"), (14, 20, "${bar}")],
         )
+
+    def test_unterminated_templates(self) -> None:
+        malformed = ("${" + "a" * 98) * 400
+        started = monotonic()
+        self.assertEqual(self.check.extract_matches(malformed), [])
+        self.assertEqual(self.check.extract_matches("${valid}" + malformed), ["valid"])
+        self.assertLess(monotonic() - started, 1)
 
     def test_no_format(self) -> None:
         self.assertFalse(
@@ -1828,6 +1893,16 @@ class VueFormattingCheckTest(CheckTestCase):
             "{foo} string %{bar}",
             [(0, 5, "{foo}"), (13, 19, "%{bar}")],
         )
+
+    def test_unterminated_braces_keep_linked_messages(self) -> None:
+        malformed = ("{" + "a" * 98) * 400
+        started = monotonic()
+        self.assertEqual(self.check.extract_matches(malformed), [])
+        self.assertEqual(
+            self.check.extract_matches("{valid}" + malformed + " @:linked"),
+            ["{valid}", "@:linked"],
+        )
+        self.assertLess(monotonic() - started, 1)
 
     def test_no_format(self) -> None:
         self.assertFalse(
