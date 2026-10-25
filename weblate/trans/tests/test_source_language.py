@@ -2984,6 +2984,25 @@ class SourceLanguageFileTest(ReusableViewTestCase):
             ).exists()
         )
 
+    def test_listings_show_custom_source_language(self) -> None:
+        urls = (self.project.get_absolute_url(), self.component.get_absolute_url())
+        for url in urls:
+            with self.subTest(url=url, custom_source=False):
+                response = self.client.get(url)
+                self.assertNotContains(response, "Source: ")
+
+        parent = self.component.translation_set.get(language_code="de")
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            source_language=parent.language,
+        )
+
+        for url in urls:
+            with self.subTest(url=url, custom_source=True):
+                response = self.client.get(url)
+                self.assertContains(response, "Source: German", count=1)
+
     def test_listing_batches_source_languages(self) -> None:
         parent = self.component.translation_set.get(language_code="de")
         for code in ("cs", "it"):
