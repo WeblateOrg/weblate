@@ -44,3 +44,40 @@ IRIs, as Weblate does. Reusable schema definitions use ``$defs``.
    * :ref:`fedora-messaging`
    * :ref:`addon-weblate.webhook.webhook`
    * :ref:`change-actions`
+
+
+.. only:: not gettext
+
+   .. _schema-cdn-manifest:
+
+   .. jsonschema:: ../specs/schemas/weblate-cdn-manifest.schema.json
+
+.. seealso::
+
+   * :ref:`CDN manifests <cdn-manifest>`
+
+
+.. only:: not gettext
+
+   .. _schema-kotlin-sdk-build:
+
+   .. jsonschema:: ../specs/schemas/weblate-kotlin-sdk-build.schema.json
+      :lift_definitions:
+      :auto_reference:
+
+.. seealso::
+
+   * :ref:`kotlin-sdk`
+   * :ref:`addon-weblate.cdn.kotlin`
+
+
+.. only:: not gettext
+
+   .. _schema-kotlin-sdk-manifest:
+
+   .. jsonschema:: ../specs/schemas/weblate-kotlin-sdk-manifest.schema.json
+
+.. seealso::
+
+   * :ref:`kotlin-sdk`
+   * :ref:`addon-weblate.cdn.kotlin`
