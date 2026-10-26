@@ -21,6 +21,7 @@ from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
+from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -1139,9 +1140,12 @@ def show_info(  # ruff: ignore[too-many-arguments]
 
     This merely exists to be able to pass default values to {% include %}.
     """
+    user = context["user"]
     return {
-        "user": context["user"],
-        "profile_viewer": context["user"],
+        "user": user,
+        "profile_viewer": user,
+        "can_browse_users": can_browse_users(user),
+        "can_search_scoped_users": can_search_scoped_users(user),
         "workspace": workspace,
         "project": project,
         "component": component,
