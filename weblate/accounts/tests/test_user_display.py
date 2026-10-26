@@ -9,9 +9,10 @@ from __future__ import annotations
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import patch
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import Value
 from django.template import Context, Template
 from django.template.loader import render_to_string
 from django.test import RequestFactory, override_settings
@@ -23,7 +24,7 @@ from weblate.accounts.avatar import (
     get_user_avatar_url,
     get_user_display,
 )
-from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.notifications import NewAnnouncementNotificaton
 from weblate.auth.models import User, get_anonymous
 from weblate.trans.actions import ActionEvents
@@ -225,6 +226,87 @@ class UserDisplayTest(FixtureTestCase):
                             self.target.get_absolute_url() in content.xpath(".//@href"),
                             accessible,
                         )
+
+    def test_information_panel_contributor_links(self) -> None:
+        template = Template(
+            "{% load translations metrics %}"
+            "{% show_info project=project component=component "
+            "stats=project.stats metrics=project|metrics %}"
+        )
+        for component in (None, self.component):
+            scope = component.full_slug if component else self.project.slug
+            for mode in ("all", "scoped", "disabled"):
+                for permission in (None, "user.view", "user.edit"):
+                    with (
+                        self.subTest(scope=scope, mode=mode, permission=permission),
+                        override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                        patch.object(
+                            self.user,
+                            "has_perm",
+                            side_effect=lambda name, _obj=None, expected=permission: (
+                                name == expected
+                            ),
+                        ),
+                    ):
+                        rendered = template.render(
+                            Context(
+                                {
+                                    "user": self.user,
+                                    "project": self.project,
+                                    "component": component,
+                                }
+                            )
+                        )
+                        queries = [
+                            parse_qs(url.query)["q"][0].strip()
+                            for href in fromstring(rendered).xpath(".//@href")
+                            if (url := urlsplit(href)).path == reverse("user_list")
+                            and url.query
+                        ]
+                        expected = (
+                            [f"contributes:{scope}"]
+                            if permission or mode in {"all", "scoped"}
+                            else []
+                        )
+                        self.assertEqual(queries, expected)
+
+    def test_information_panel_browse_all_users(self) -> None:
+        Profile.objects.filter(user=self.target).update(translated=1)
+        top_users = Profile.objects.filter(user=self.target).annotate(
+            translated_width=Value(100)
+        )
+        template = Template(
+            "{% load translations metrics %}"
+            "{% show_info stats=project.stats metrics=project|metrics "
+            "top_users=top_users total_translations=1 %}"
+        )
+        for mode in ("all", "scoped", "disabled"):
+            for permission in (None, "user.view", "user.edit"):
+                with (
+                    self.subTest(mode=mode, permission=permission),
+                    override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                    patch.object(
+                        self.user,
+                        "has_perm",
+                        side_effect=lambda name, _obj=None, expected=permission: (
+                            name == expected
+                        ),
+                    ),
+                ):
+                    rendered = template.render(
+                        Context(
+                            {
+                                "user": self.user,
+                                "project": self.project,
+                                "top_users": top_users,
+                            }
+                        )
+                    )
+                    self.assertIn(self.target.username, rendered)
+                    self.assertEqual(
+                        reverse("user_list") in fromstring(rendered).xpath(".//@href"),
+                        bool(permission) or mode == "all",
+                    )
 
     @override_settings(USER_PROFILE_VISIBILITY="admins")
     def test_mentions_and_preview(self) -> None:
