@@ -89,6 +89,8 @@ Build the application you will distribute, then upload its generated metadata:
 The task name depends on the build variant; this example uses ``release``.
 Metadata is generated under :file:`build/outputs/weblate/`. Upload it for each
 application release, for example as the final step in your release pipeline.
+Weblate validates uploaded metadata against the :ref:`schema-kotlin-sdk-build`
+and published manifests against the :ref:`schema-kotlin-sdk-manifest`.
 
 Resource IDs must match the final distributed binary. Do not rebuild the
 application after uploading metadata unless the rebuild produces identical

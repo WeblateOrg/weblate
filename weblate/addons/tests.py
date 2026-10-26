@@ -56,6 +56,7 @@ from OpenSSL import SSL
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
+from weblate_schemas import validate_schema
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.forms import (
@@ -10410,6 +10411,7 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
         manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
         translation_bytes = Path(addon.cdn_path("cs.json")).read_bytes()
         self.assertEqual(manifest["schemaVersion"], 1)
         self.assertEqual(
@@ -10458,6 +10460,8 @@ class CDNJSAddonTest(ViewTestCase):
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_manifest_failure_preserves_previous_publication(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         addon = self.create_addon(
             component=self.component,
             configuration={
@@ -10480,6 +10484,17 @@ class CDNJSAddonTest(ViewTestCase):
                 addon.publish_localization(self.component)
             self.assertEqual(manifest.read_bytes(), previous)
             self.assertTrue(stale.exists())
+
+        with (
+            patch(
+                "weblate.addons.cdn.content_metadata",
+                return_value={"sha256": "invalid", "size": 1},
+            ),
+            self.assertRaises(jsonschema.exceptions.ValidationError),
+        ):
+            addon.publish_localization(self.component)
+        self.assertEqual(manifest.read_bytes(), previous)
+        self.assertTrue(stale.exists())
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -10931,10 +10946,9 @@ class CDNFilesAddonTest(ViewTestCase):
                     }
                 )
             expected[language] = entries
-        self.assertEqual(
-            json.loads(Path(addon.cdn_path("manifest.json")).read_bytes()),
-            {"schemaVersion": 1, "locales": expected},
-        )
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
+        self.assertEqual(manifest, {"schemaVersion": 1, "locales": expected})
 
     @override_settings(LOCALIZE_CDN_URL=None)
     def test_noconfigured(self) -> None:
@@ -11091,6 +11105,17 @@ class CDNFilesAddonTest(ViewTestCase):
             self.assertEqual(manifest.read_bytes(), previous)
             self.assertTrue(stale.exists())
 
+        with (
+            patch(
+                "weblate.addons.cdn.content_metadata",
+                return_value={"sha256": "a" * 64, "size": -1},
+            ),
+            self.assertRaises(jsonschema.exceptions.ValidationError),
+        ):
+            addon.publish_files(self.component)
+        self.assertEqual(manifest.read_bytes(), previous)
+        self.assertTrue(stale.exists())
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_manifest_skips_missing_files(self) -> None:
@@ -11123,7 +11148,20 @@ class CDNFilesAddonTest(ViewTestCase):
         ):
             addon.publish_files(self.component)
         manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
         self.assertEqual(manifest["locales"]["cs"][0]["url"], "cs/file%20%23%3F.json")
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_manifest_empty_translation_file(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        translation = self.get_translation()
+        get_optional_path(translation.get_filename()).write_bytes(b"")
+        addon.publish_files(self.component)
+        self.assert_manifest(addon, {"en": ["en.json"], "cs": ["cs.json"]})
+        self.assertEqual(Path(addon.cdn_path("cs.json")).read_bytes(), b"")
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -11211,6 +11249,7 @@ class CDNFilesBilingualAddonTest(ViewTestCase):
             get_optional_path(translation_filename).read_bytes(),
         )
         manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
         self.assertNotIn("en", manifest["locales"])
         self.assertEqual(manifest["locales"]["cs"][0]["url"], "cs.po")
 
@@ -11239,6 +11278,7 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
         self.assertEqual(addon.get_output_filename(translation, filename), expected)
         self.assertTrue(os.path.isfile(addon.cdn_path(expected)))
         manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
         entries = manifest["locales"][translation.language.code]
         self.assertEqual(
             [entry["url"] for entry in entries],
