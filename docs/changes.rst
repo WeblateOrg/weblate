@@ -49,6 +49,8 @@ Weblate 2026.11
 * Reorganized :doc:`user profile settings <user/profile>` into clearer tabs for public profile, security, and developer access.
 * :ref:`Component creation <adding-components>` loads remote branches only for the selected component, avoiding repository queries when opening the page.
 * :ref:`Translation services <machine-translation-setup>` have detail pages with settings and controls, rate limit status badges, and manual cooldown reset. Cooldowns are scoped to individual installations.
+* String line number in the translation file is now stored in the unit for supported formats (:ref:`gettext`, :ref:`csv`, :ref:`txt`, :ref:`properties`); when available, the line number is used for repository links and :guilabel:`Nearby strings`.
+
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 * Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.

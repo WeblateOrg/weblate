@@ -3074,6 +3074,7 @@ and XLIFF.
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
+    :>json int line_number: read-only line in the translation file, or null when the format does not provide one
     :>json boolean has_suggestion: whether the unit has suggestions
     :>json boolean has_comment: whether the unit has comments
     :>json boolean has_failing_check: whether the unit has failing checks

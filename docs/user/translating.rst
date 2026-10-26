@@ -423,6 +423,10 @@ This contextual description provides related info about the current string.
 
 String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
+Translation file
+    Where the string appears in the component translation file; when the format
+    provides a line number, the link opens the repository browser at that line,
+    otherwise the string index in the file is shown.
 Explanation
     Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots
@@ -434,6 +438,8 @@ Screenshots
     :ref:`screenshots`.
 Nearby strings
     Displays neighbouring strings from the translation file.
+    When the format provides a line number, neighbours are the surrounding
+    strings in file order; otherwise they are the surrounding string indexes.
     These are usually also used in a similar context and prove
     useful in keeping the translation consistent.
 Other occurrences
