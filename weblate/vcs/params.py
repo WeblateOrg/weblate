@@ -13,7 +13,7 @@ reads them through :meth:`weblate.vcs.base.Repository.get_vcs_param`.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, cast
 
 from django import forms
 from django.utils.functional import classproperty
@@ -27,7 +27,7 @@ from weblate.utils.params import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Mapping, Sequence
 
     from django_stubs_ext import StrOrPromise
 
@@ -35,6 +35,9 @@ if TYPE_CHECKING:
 class VCSParams(TypedDict, total=False):
     git_force_push: bool
     create_merge_request: bool
+    merge_request_assignee: str
+    merge_request_assign_acting_user: bool
+    merge_request_labels: str
     merge_request_automerge: bool
     merge_request_merge_method: Literal["merge", "squash", "rebase"]
 
@@ -42,6 +45,9 @@ class VCSParams(TypedDict, total=False):
 VCSParamKey = Literal[
     "git_force_push",
     "create_merge_request",
+    "merge_request_assignee",
+    "merge_request_assign_acting_user",
+    "merge_request_labels",
     "merge_request_automerge",
     "merge_request_merge_method",
 ]
@@ -134,6 +140,48 @@ class BaseGitHubMergeRequestParam(BaseVCSParam):
     vcs_backends = ("github", "github-app")
 
 
+def parse_pull_request_labels(value: str) -> list[str]:
+    """Split comma-separated pull request labels, dropping duplicates."""
+    return list(
+        dict.fromkeys(part.strip() for part in value.split(",") if part.strip())
+    )
+
+
+@register_vcs_param
+class MergeRequestAssignee(BaseGitHubMergeRequestParam):
+    name = "merge_request_assignee"
+    label = gettext_lazy("Pull request assignee")
+    field_class = forms.CharField
+    default = ""
+    help_text = gettext_lazy(
+        "GitHub username to assign to pull requests created by Weblate."
+    )
+
+
+@register_vcs_param
+class MergeRequestAssignActingUser(BaseGitHubMergeRequestParam):
+    name = "merge_request_assign_acting_user"
+    label = gettext_lazy("Assign pull requests to acting user")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Also assign the GitHub account linked to the Weblate user who starts the "
+        "push, when available."
+    )
+
+
+@register_vcs_param
+class MergeRequestLabels(BaseGitHubMergeRequestParam):
+    name = "merge_request_labels"
+    label = gettext_lazy("Pull request labels")
+    field_class = forms.CharField
+    default = ""
+    help_text = gettext_lazy(
+        "Comma-separated names of labels to add to pull requests created by "
+        "Weblate. Existing labels are kept."
+    )
+
+
 @register_vcs_param
 class MergeRequestAutomerge(BaseGitHubMergeRequestParam):
     name = "merge_request_automerge"
@@ -161,4 +209,13 @@ class MergeRequestMergeMethod(BaseGitHubMergeRequestParam):
     help_text = gettext_lazy(
         "Method used when merging pull requests automatically. The repository has to "
         "allow it."
+    )
+
+
+def wants_pull_request_customization(params: Mapping[str, Any] | None) -> bool:
+    """Check whether pull requests should get labels or assignees."""
+    return bool(
+        MergeRequestAssignee.get_value(params)
+        or MergeRequestAssignActingUser.get_value(params)
+        or MergeRequestLabels.get_value(params)
     )

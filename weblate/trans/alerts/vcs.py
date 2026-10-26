@@ -28,7 +28,13 @@ from weblate.vcs.base import (
     get_repository_error_diagnoses,
 )
 from weblate.vcs.git import GitRepository, SubversionRepository
-from weblate.vcs.params import GitForcePush, MergeRequestAutomerge
+from weblate.vcs.params import (
+    CreateMergeRequest,
+    GitForcePush,
+    MergeRequestAutomerge,
+    MergeRequestLabels,
+    wants_pull_request_customization,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -473,6 +479,30 @@ class AutomergeFailure(RepositoryErrorAlert):
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         if not MergeRequestAutomerge.get_value(component.vcs_params):
+            return False
+        return None
+
+
+@register
+class PullRequestUpdateFailure(RepositoryErrorAlert):
+    """Pull request labels or assignees could not be applied."""
+
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not customize the pull request.")
+    category = AlertCategory.VCS
+    link_wide = True
+    doc_page = "vcs"
+    doc_anchor = "vcs_params"
+    repository_permissions = ("vcs.push",)
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        params = component.vcs_params
+        if (
+            not MergeRequestLabels.supports_vcs(component.vcs)
+            or not CreateMergeRequest.get_value(params)
+            or not wants_pull_request_customization(params)
+        ):
             return False
         return None
 

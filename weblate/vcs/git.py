@@ -47,6 +47,7 @@ from git.config import GitConfigParser
 from idna import IDNAError
 from idna import encode as idna_encode
 
+from weblate.utils.change_origin import get_acting_user
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error, report_message
 from weblate.utils.files import (
@@ -91,8 +92,13 @@ from weblate.vcs.gpg import get_gpg_sign_key
 from weblate.vcs.params import (
     CreateMergeRequest,
     GitForcePush,
+    MergeRequestAssignActingUser,
+    MergeRequestAssignee,
     MergeRequestAutomerge,
+    MergeRequestLabels,
     MergeRequestMergeMethod,
+    parse_pull_request_labels,
+    wants_pull_request_customization,
 )
 from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
 
@@ -108,7 +114,16 @@ if TYPE_CHECKING:
     from weblate.vcs.base import (
         RawCommitInfo,
         RepositoryErrorCode,
+        RepositoryStructuredError,
     )
+
+# Social authentication backends for github.com and GitHub Enterprise Server
+GITHUB_SOCIAL_PROVIDERS = ("github", "github-org", "github-team", "github-app")
+GITHUB_ENTERPRISE_SOCIAL_PROVIDERS = (
+    "github-enterprise",
+    "github-enterprise-org",
+    "github-enterprise-team",
+)
 
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
@@ -3562,16 +3577,14 @@ class GithubRepository(GitMergeRequestBase):
             error_text = error_message or ""
             # Gracefully handle pull request already exists or nothing to merge cases
             if "A pull request already exists" in error_text:
-                # Weblate pushed onto a branch which already has an open pull
-                # request. Automerge might have been turned on since it was
-                # created, so make sure it is applied to it as well.
-                if self.wants_automerge():
+                # Apply the current configuration to the open pull request
+                if self.wants_pull_request_configuration():
                     existing = self.find_open_pull_request(
                         credentials, head, origin_branch
                     )
                     if existing is None:
                         return None
-                    self.enable_automerge(credentials, existing)
+                    self.configure_pull_request(credentials, existing, existing=True)
                     return existing.get("html_url")
                 return self.get_existing_pull_request_url(
                     credentials, head, origin_branch
@@ -3604,10 +3617,196 @@ class GithubRepository(GitMergeRequestBase):
                 response_data,
             )
 
-        if self.wants_automerge():
-            self.enable_automerge(credentials, response_data)
+        self.configure_pull_request(credentials, response_data, existing=False)
 
         return response_data.get("html_url")
+
+    def wants_pull_request_configuration(self) -> bool:
+        """Check whether created pull requests need additional configuration."""
+        return self.wants_pull_request_customization() or self.wants_automerge()
+
+    def wants_pull_request_customization(self) -> bool:
+        """Check whether created pull requests need labels or assignees."""
+        return wants_pull_request_customization(
+            None if self.component is None else self.component.vcs_params
+        )
+
+    def configure_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, *, existing: bool
+    ) -> None:
+        """Apply configured labels, assignees and automatic merging."""
+        if self.wants_pull_request_customization():
+            self.customize_pull_request(credentials, pull_request, existing=existing)
+        if self.wants_automerge():
+            self.enable_automerge(credentials, pull_request)
+
+    def get_acting_user_github_login(self, credentials: GitCredentials) -> str | None:
+        """Return the acting user's linked GitHub login for this host."""
+        user = get_acting_user()
+        if user is None or user.is_anonymous:
+            return None
+        providers: tuple[str, ...]
+        if credentials["hostname"] == "api.github.com":
+            providers = GITHUB_SOCIAL_PROVIDERS
+        elif (
+            urlparse(
+                getattr(settings, "SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", "")
+            ).hostname
+            == credentials["hostname"]
+        ):
+            providers = GITHUB_ENTERPRISE_SOCIAL_PROVIDERS
+        else:
+            return None
+        social = user.social_auth.filter(provider__in=providers).order_by("id").first()
+        return None if social is None else social.extra_data.get("login")
+
+    def customize_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, *, existing: bool
+    ) -> None:
+        """Add configured labels and assignees missing on the pull request."""
+        present_labels = {label["name"].casefold() for label in pull_request["labels"]}
+        labels = [
+            label
+            for label in parse_pull_request_labels(
+                cast("str", self.get_vcs_param(MergeRequestLabels))
+            )
+            if label.casefold() not in present_labels
+        ]
+
+        # GitHub logins are case-insensitive, compare them lowercased
+        configured = cast("str", self.get_vcs_param(MergeRequestAssignee)).casefold()
+        # Assign the acting user only to new pull requests, not on every push
+        acting_user = ""
+        if not existing and self.get_vcs_param(MergeRequestAssignActingUser):
+            acting_user = (
+                self.get_acting_user_github_login(credentials) or ""
+            ).casefold()
+        present_assignees = {
+            assignee["login"].casefold() for assignee in pull_request["assignees"]
+        }
+        assignees = [
+            assignee
+            for assignee in dict.fromkeys((configured, acting_user))
+            if assignee and assignee not in present_assignees
+        ]
+
+        # Only the first failure is shown in the alert
+        failure = None
+        if labels:
+            _response_data, failure = self.update_pull_request(
+                credentials, pull_request, "labels", labels
+            )
+        if assignees:
+            response_data, error = self.update_pull_request(
+                credentials, pull_request, "assignees", assignees
+            )
+            if error is None:
+                # GitHub skips users without repository access, which is
+                # expected for the acting user
+                assigned = {
+                    assignee["login"].casefold()
+                    for assignee in response_data["assignees"]
+                }
+                missing = [
+                    assignee
+                    for assignee in assignees
+                    if assignee not in assigned and assignee != acting_user
+                ]
+                if missing:
+                    self.log(
+                        f"GitHub did not assign {', '.join(missing)}", logging.WARNING
+                    )
+                    error = RepositoryInternalError(
+                        0,
+                        "pull_request_assignees_ignored",
+                        params={"assignees": ", ".join(missing)},
+                    ).get_stored_error()
+            failure = failure or error
+
+        if self.component is None:
+            return
+        if failure is None:
+            self.component.handle_pull_request_update_success()
+        else:
+            self.component.handle_pull_request_update_failure(failure)
+
+    def update_pull_request(
+        self, credentials: GitCredentials, pull_request: dict, key: str, values: list
+    ) -> tuple[dict, str | RepositoryStructuredError | None]:
+        """Add labels or assignees to a pull request."""
+        url = f"{credentials['url']}/issues/{pull_request['number']}/{key}"
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, url, json={key: values}
+            )
+        except GitAPIRequestError as error:
+            return {}, self.get_pull_request_update_failure(
+                error.error, url, error.response, error.response_data
+            )
+        except RepositoryError as error:
+            return {}, self.get_pull_request_update_exception(error, url)
+        if not response.is_success:
+            return {}, self.get_pull_request_update_failure(
+                error_message, url, response, response_data
+            )
+        return response_data, None
+
+    def get_pull_request_update_failure(
+        self,
+        error: str,
+        url: str,
+        response: httpx2.Response,
+        data: object,
+    ) -> RepositoryStructuredError:
+        """Log and report a failed pull request customization API request."""
+        self.log(
+            f"Customizing pull request via {url} failed ({response.status_code}): "
+            f"{data or response.text[:500]!r}",
+            level=logging.WARNING,
+        )
+        report_message("Could not customize pull request")
+        return self.get_api_request_failure_error(
+            response, error, code_prefix="pull_request_update_failed"
+        ).get_stored_error()
+
+    def get_pull_request_update_exception(
+        self, error: RepositoryError, url: str
+    ) -> str | RepositoryStructuredError:
+        """Log and report a pull request customization transport error."""
+        self.log(
+            f"Customizing pull request via {url} failed: {error.get_message()}",
+            level=logging.WARNING,
+        )
+        report_message("Could not customize pull request")
+        if isinstance(error, RepositoryInternalError):
+            return error.get_stored_error()
+        return error.get_message()
+
+    def failed_pull_request_configuration(
+        self,
+        error: str,
+        url: str,
+        response: httpx2.Response,
+        data: object,
+    ) -> None:
+        """Report a failed API request looking up the pull request."""
+        if self.wants_pull_request_customization() and self.component is not None:
+            self.component.handle_pull_request_update_failure(
+                self.get_pull_request_update_failure(error, url, response, data)
+            )
+        if self.wants_automerge():
+            self.failed_automerge(error, url, response, data)
+
+    def failed_pull_request_configuration_exception(
+        self, error: RepositoryError, url: str
+    ) -> None:
+        """Report a transport error looking up the pull request."""
+        if self.wants_pull_request_customization() and self.component is not None:
+            self.component.handle_pull_request_update_failure(
+                self.get_pull_request_update_exception(error, url)
+            )
+        if self.wants_automerge():
+            self.failed_automerge_exception(error, url)
 
     def wants_automerge(self) -> bool:
         """Check whether created pull requests should be merged automatically."""
@@ -3645,15 +3844,17 @@ class GithubRepository(GitMergeRequestBase):
                 },
             )
         except GitAPIRequestError as error:
-            self.failed_automerge(
+            self.failed_pull_request_configuration(
                 error.error, pulls_url, error.response, error.response_data
             )
             return None
         except RepositoryError as error:
-            self.failed_automerge_exception(error, pulls_url)
+            self.failed_pull_request_configuration_exception(error, pulls_url)
             return None
         if not response.is_success:
-            self.failed_automerge(error_message, pulls_url, response, response_data)
+            self.failed_pull_request_configuration(
+                error_message, pulls_url, response, response_data
+            )
             return None
         if not isinstance(response_data, list):
             return None
@@ -3661,8 +3862,7 @@ class GithubRepository(GitMergeRequestBase):
             (
                 pull
                 for pull in response_data
-                if "node_id" in pull
-                and pull.get("base", {}).get("ref") == origin_branch
+                if pull.get("base", {}).get("ref") == origin_branch
             ),
             None,
         )

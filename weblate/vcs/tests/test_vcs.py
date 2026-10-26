@@ -4430,6 +4430,8 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
     GRAPHQL_URL = "https://api.github.com/graphql"
     MERGE_URL = "https://api.github.com/repos/WeblateOrg/test/pulls/1/merge"
+    LABELS_URL = "https://api.github.com/repos/WeblateOrg/test/issues/1/labels"
+    ASSIGNEES_URL = "https://api.github.com/repos/WeblateOrg/test/issues/1/assignees"
 
     def get_calls(self, url: str) -> list:
         return [
@@ -4438,6 +4440,200 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
     def mock_automerge_response(self, data: dict, status: int = 200) -> None:
         http_mock.register("POST", self.GRAPHQL_URL, json=data, status_code=status)
+
+    PULLS_URL = "https://api.github.com/repos/WeblateOrg/test/pulls"
+    PULL_REQUEST: ClassVar[dict] = {
+        "url": "https://github.com/WeblateOrg/test/pull/1",
+        "number": 1,
+        "labels": [],
+        "assignees": [],
+    }
+
+    def push_with_customization(
+        self, acting_user: str | None = None, existing: dict | None = None, **params
+    ) -> tuple[MagicMock, MagicMock]:
+        """Push with pull request customization, returning the alert handlers."""
+        if existing is None:
+            self.mock_responses(pr_response=self.PULL_REQUEST)
+        else:
+            self.mock_responses(
+                pr_status=422,
+                pr_response={"errors": [{"message": "A pull request already exists"}]},
+            )
+            http_mock.register(
+                "GET",
+                self.PULLS_URL,
+                json=[{**self.PULL_REQUEST, "base": {"ref": "main"}, **existing}],
+            )
+        self.repo.component.vcs_params = params
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+            patch.object(
+                self.repo, "get_acting_user_github_login", return_value=acting_user
+            ),
+            patch.object(
+                self.repo.component, "handle_pull_request_update_failure"
+            ) as handle_failure,
+            patch.object(
+                self.repo.component, "handle_pull_request_update_success"
+            ) as handle_success,
+        ):
+            super().test_push("")
+        return handle_failure, handle_success
+
+    def get_payload(self, url: str) -> dict:
+        calls = self.get_calls(url)
+        self.assertEqual(len(calls), 1)
+        return json.loads(calls[0].request.content)
+
+    @http_mock.activate
+    def test_pull_request_labels_and_assignees(self) -> None:
+        http_mock.register("POST", self.LABELS_URL, json=[])
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "Maintainer"}, {"login": "translator"}]},
+            status_code=201,
+        )
+
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+            merge_request_labels="translations, documentation",
+        )
+
+        self.assertEqual(
+            self.get_payload(self.LABELS_URL),
+            {"labels": ["translations", "documentation"]},
+        )
+        self.assertEqual(
+            self.get_payload(self.ASSIGNEES_URL),
+            {"assignees": ["maintainer", "translator"]},
+        )
+        handle_failure.assert_not_called()
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_pull_request_ignored_assignee_is_reported(self) -> None:
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "translator"}]},
+            status_code=201,
+        )
+
+        handle_failure, handle_success = self.push_with_customization(
+            merge_request_assignee="maintainer"
+        )
+
+        handle_failure.assert_called_once_with(
+            {
+                "code": "pull_request_assignees_ignored",
+                "retcode": 0,
+                "params": {"assignees": "maintainer"},
+            }
+        )
+        handle_success.assert_not_called()
+
+    @http_mock.activate
+    def test_pull_request_ignored_acting_user_is_not_reported(self) -> None:
+        http_mock.register(
+            "POST",
+            self.ASSIGNEES_URL,
+            json={"assignees": [{"login": "maintainer"}]},
+            status_code=201,
+        )
+
+        with patch("weblate.vcs.git.report_message") as mocked_report:
+            handle_failure, handle_success = self.push_with_customization(
+                acting_user="translator",
+                merge_request_assignee="maintainer",
+                merge_request_assign_acting_user=True,
+            )
+
+        handle_failure.assert_not_called()
+        handle_success.assert_called_once()
+        mocked_report.assert_not_called()
+
+    @http_mock.activate
+    def test_pull_request_customization_applied_to_existing_request(self) -> None:
+        http_mock.register("POST", self.LABELS_URL, json=[])
+
+        self.push_with_customization(existing={}, merge_request_labels="translations")
+
+        self.assertEqual(
+            self.get_payload(self.LABELS_URL), {"labels": ["translations"]}
+        )
+
+    @http_mock.activate
+    def test_pull_request_existing_customization_skips_present_values(self) -> None:
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            existing={
+                "labels": [{"name": "Translations"}],
+                "assignees": [{"login": "maintainer"}],
+            },
+            merge_request_labels="translations",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+        )
+
+        # Nothing is missing and the pushing user is not assigned to an open
+        # pull request
+        self.assertEqual(self.get_calls(self.LABELS_URL), [])
+        self.assertEqual(self.get_calls(self.ASSIGNEES_URL), [])
+        handle_failure.assert_not_called()
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_pull_request_customization_error_does_not_fail_push(self) -> None:
+        http_mock.register(
+            "POST",
+            self.LABELS_URL,
+            status_code=403,
+            json={"message": "Resource not accessible by integration"},
+        )
+        http_mock.register(
+            "POST", self.ASSIGNEES_URL, json={"assignees": []}, status_code=201
+        )
+
+        handle_failure, _handle_success = self.push_with_customization(
+            merge_request_labels="translations", merge_request_assignee="maintainer"
+        )
+
+        # The first failure is reported, the assignees are still applied
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "pull_request_update_failed_with_error")
+        self.assertEqual(
+            stored_error["params"]["error"], "Resource not accessible by integration"
+        )
+        self.assertEqual(len(self.get_calls(self.ASSIGNEES_URL)), 1)
+
+    @http_mock.activate
+    def test_pull_request_customization_lookup_error_is_reported(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET", self.PULLS_URL, status_code=403, json={"message": "Forbidden"}
+        )
+        self.repo.component.vcs_params = {"merge_request_labels": "translations"}
+
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+            patch.object(
+                self.repo.component, "handle_pull_request_update_failure"
+            ) as handle_failure,
+        ):
+            super().test_push("")
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "pull_request_update_failed_with_error")
+        self.assertEqual(stored_error["params"]["error"], "Forbidden")
 
     def push_with_automerge(self, branch: str = "", **vcs_params) -> None:
         self.repo.component.vcs_params = {

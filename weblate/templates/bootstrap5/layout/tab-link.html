@@ -1,0 +1,5 @@
+{% comment %}Based on crispy original, adds data-bs-target to open tabs from the URL.{% endcomment %}
+<li class="nav-item"><a class="nav-link{% if 'active' in link.css_class %} active{% endif %}"
+   href="#{{ link.css_id }}"
+   data-bs-target="#{{ link.css_id }}"
+   data-bs-toggle="tab">{{ link.name|capfirst }}{% if tab.errors %}!{% endif %}</a></li>

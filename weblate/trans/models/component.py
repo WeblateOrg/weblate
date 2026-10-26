@@ -151,6 +151,7 @@ from weblate.utils.celery import (
     store_task_metadata,
 )
 from weblate.utils.change_origin import (
+    acting_user_context,
     capture_change_origin,
     get_acting_user,
     get_change_origin,
@@ -3570,7 +3571,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         user = self.get_push_user(request)
 
         # Do actual push
-        result = self.push_repo(request, user, retry=retry)
+        with acting_user_context(user):
+            result = self.push_repo(request, user, retry=retry)
         if not result:
             return False
 
@@ -4551,6 +4553,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self._state.adding:
             return
         self.delete_alert("AutomergeFailure")
+
+    def handle_pull_request_update_failure(
+        self, error: str | RepositoryStructuredError
+    ) -> None:
+        """Surface a failed pull request customization."""
+        if self._state.adding:
+            return
+        self.add_alert("PullRequestUpdateFailure", error=error)
+
+    def handle_pull_request_update_success(self) -> None:
+        """Clear a pull request customization failure."""
+        if self._state.adding:
+            return
+        self.delete_alert("PullRequestUpdateFailure")
 
     def handle_repository_recovery_failure(self, error: Exception) -> None:
         """Surface failed recovery from interrupted repository operations."""

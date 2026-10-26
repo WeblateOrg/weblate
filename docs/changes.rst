@@ -22,6 +22,7 @@ Weblate 2026.11
 * Docker deployments can :ref:`trust custom CA certificates <docker-custom-ca>` for outgoing connections, including repository operations over HTTPS.
 * :ref:`Automations <automation-workflows>` can be edited visually, with a toggle to the raw YAML.
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
+* GitHub pull requests can be assigned to a configured user or the acting user's linked GitHub account, and can have configured labels added using :ref:`vcs_params`.
 
 .. rubric:: Improvements
 

@@ -170,6 +170,11 @@ type RepositoryErrorCode = Literal[
     "gitlab_project_failed_unknown",
     "pull_request_listing_failed",
     "pull_request_listing_failed_retry",
+    "pull_request_update_failed",
+    "pull_request_update_failed_retry",
+    "pull_request_update_failed_with_error",
+    "pull_request_update_failed_with_error_retry",
+    "pull_request_assignees_ignored",
     "repository_fork_failed",
     "repository_fork_not_found",
     "repository_fork_failed_retry",
@@ -294,6 +299,21 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "pull_request_listing_failed_retry": gettext_noop(
         "Pull request listing failed: %(error)s Please retry later."
+    ),
+    "pull_request_update_failed": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s"
+    ),
+    "pull_request_update_failed_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s Please retry later."
+    ),
+    "pull_request_update_failed_with_error": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s"
+    ),
+    "pull_request_update_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "pull_request_assignees_ignored": gettext_noop(
+        "GitHub did not assign the requested users: %(assignees)s"
     ),
     "repository_fork_failed": gettext_noop("Could not fork repository at %(hostname)s"),
     "repository_fork_failed_retry": gettext_noop(
