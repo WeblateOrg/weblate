@@ -65,6 +65,14 @@ The complete backup is validated before restoring any data. Invalid object
 fields, references, repository paths, URLs, regular expressions, or screenshot
 files cause the import to be rejected without creating a partial project.
 
+Version control and file format parameters are migrated from older backup
+formats before their values are validated. Unknown parameters and parameters
+that do not apply to the component's version control system or file format are
+skipped and reported in the import warnings. Invalid values for supported
+parameters cause the import to be rejected. Values must use the types stored
+by Weblate; for example, boolean parameters require JSON booleans rather than
+strings.
+
 Use the generated file to import project when :ref:`adding-projects` or in :wladmin:`import_projectbackup`.
 
 .. note::
