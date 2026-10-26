@@ -137,7 +137,7 @@ class BackupSettingCoverageTest(SimpleTestCase):
             (
                 Category,
                 CategorySettingsForm,
-                backup.project_schema["definitions"]["category"],
+                backup.project_schema["$defs"]["category"],
                 CATEGORY_BACKUP_FIELDS,
                 {"project", "category"},
             ),

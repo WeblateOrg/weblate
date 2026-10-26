@@ -825,7 +825,7 @@ class ProjectBackup:
         else:
             categories = obj.category_set.all()
         category_fields = self.extend_fields(
-            self.project_schema["definitions"]["category"]["required"],
+            self.project_schema["$defs"]["category"]["required"],
             *CATEGORY_BACKUP_FIELDS,
         )
         return [
