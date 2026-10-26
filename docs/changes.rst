@@ -71,6 +71,7 @@ Weblate 2026.11
 * Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
+* Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.
 * Bounded :ref:`component discovery preset <addon-weblate.discovery.discovery>` detection work for repositories with many translation layouts.
 * Prevented spreadsheet formulas in :ref:`translation-history` and :doc:`/api` CSV downloads.
 * Prevented restricted glossary components from exposing terms through other components and translation services.

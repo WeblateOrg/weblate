@@ -17291,6 +17291,13 @@ class UnitAPITest(APIBaseTest):
         response = self.client.get(reverse("api:unit-list"), {"q": "is:translated"})
         self.assertEqual(response.data["count"], 6)
 
+    def test_list_units_rejects_excessive_regex(self) -> None:
+        response = self.client.get(
+            reverse("api:unit-list"), {"q": 'source:r"(a){30000000}"'}
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Regular expression is too complex", str(response.data))
+
     def test_list_units_related_filter_visibility(self) -> None:
         unit = self.component.translation_set.get(language_code="cs").unit_set.get(
             source="Hello, world!\n"

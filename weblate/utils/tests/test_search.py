@@ -285,6 +285,10 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_regex(self) -> None:
         self.assert_query('source:r"^hello"', source_query(source__trgm_regex="^hello"))
+        with self.assertRaisesRegex(
+            SearchQueryError, "Regular expression is too complex"
+        ):
+            parse_query('source:r"(a){30000000}"')
         # Invalid regex
         with self.assertRaises(SearchQueryError):
             self.assert_query(
