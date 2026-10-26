@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load authnames crispy_forms_tags i18n icons otp_webauthn static translations %}
+{% load authnames crispy_forms_tags i18n icons otp_webauthn static translations user_display %}
 
 {% block extra_script %}
   <script defer src="{% static 'js/accounts/profile/index.js' %}"></script>
@@ -265,7 +265,7 @@
               <p>
                 <img class="avatar w128"
                      alt="{% translate "User avatar" %}"
-                     src="{% url 'user_avatar' user=request.user.username size=128 %}" />
+                     src="{% user_avatar request.user size=128 %}" />
               </p>
               <p>
                 <a href="{{ avatar_url_prefix }}">{% blocktranslate %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktranslate %}</a>

@@ -14,12 +14,14 @@ from django.utils.html import linebreaks
 from django.utils.safestring import mark_safe
 from mistletoe import span_token
 
+from weblate.accounts.visibility import can_view_profile
 from weblate.auth.models import User
 from weblate.utils.errors import report_error
 
 from .concurrency import MARKDOWN_LOCK
 
 if TYPE_CHECKING:
+    from django.contrib.auth.models import AnonymousUser
     from django.db.models import QuerySet
 
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
@@ -75,6 +77,8 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     1. Check if the URL is valid based on scheme and content
     2. Strip HTML tags from the content.
     """
+
+    unlinked_mentions: frozenset[str] = frozenset()
 
     _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
 
@@ -149,6 +153,17 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
             )
         return self.escape_html_text(f"![{token.title}]({token.src})")
 
+    def render_strong(self, token: span_token.Strong) -> str:
+        rendered = super().render_strong(token)
+        children = list(token.children or ())
+        if (
+            len(children) == 1
+            and isinstance(children[0], span_token.RawText)
+            and children[0].content in self.unlinked_mentions
+        ):
+            return f"<bdi>{rendered}</bdi>"
+        return rendered
+
     def check_url(self, url: str) -> bool:
         """Check whether a URL uses an allowed scheme."""
         if url.startswith("/user/"):
@@ -156,9 +171,10 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         return bool(self._allowed_url_re.match(url))
 
 
-def render_markdown(text: str) -> str:
+def render_markdown(text: str, *, viewer: User | AnonymousUser | None = None) -> str:
     original_text = text
     users = {u.username.lower(): u for u in get_mention_users(text)}
+    unlinked_mentions: set[str] = set()
     parts = MENTION_RE.split(text)
     for pos, part in enumerate(parts):
         if not part.startswith("@"):
@@ -166,12 +182,18 @@ def render_markdown(text: str) -> str:
         username = part[1:].lower()
         if username in users:
             user = users[username]
-            parts[pos] = (
-                f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
-            )
+            if can_view_profile(viewer, user):
+                parts[pos] = (
+                    f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
+                )
+            else:
+                # Keep mentions isolated in RTL text even without a profile link.
+                unlinked_mentions.add(part)
+                parts[pos] = f"**{part}**"
     text = "".join(parts)
     try:
         with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
+            renderer.unlinked_mentions = frozenset(unlinked_mentions)
             # ruff: ignore[suspicious-mark-safe-usage]
             return mark_safe(renderer.render(mistletoe.Document(text)))
     except Exception:

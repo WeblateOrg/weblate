@@ -37,8 +37,12 @@ def can_search_scoped_users(user: User | AnonymousUser) -> bool:
     )
 
 
-def can_view_profile(viewer: User | AnonymousUser, target: User) -> bool:
-    if settings.USER_PROFILE_VISIBILITY == "public" or viewer.pk == target.pk:
+def can_view_profile(viewer: User | AnonymousUser | None, target: User) -> bool:
+    if settings.USER_PROFILE_VISIBILITY == "public":
+        return True
+    if viewer is None:
+        return False
+    if viewer.pk == target.pk:
         return True
     if settings.USER_PROFILE_VISIBILITY == "authenticated" and viewer.is_authenticated:
         return True

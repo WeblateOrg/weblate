@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations %}
+{% load crispy_forms_tags humanize i18n icons permissions translations user_display %}
 
 {% block nav_pills %}
   {% perm 'user.edit' as can_edit_user %}
@@ -71,9 +71,7 @@
             {% endfor %}
             {% for userblock in blocked_users %}
               <tr>
-                <td>
-                  <a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a>
-                </td>
+                <td>{% user_display userblock.user icon=False %}</td>
                 <td>{{ userblock.user.full_name }}</td>
                 {% if can_edit_user %}<td>{{ userblock.user.email }}</td>{% endif %}
                 <td>
@@ -148,9 +146,7 @@
             {% for invitation in invitations %}
               <tr>
                 {% if invitation.user %}
-                  <td>
-                    <a href="{{ invitation.user.get_absolute_url }}">{{ invitation.user.username }}</a>
-                  </td>
+                  <td>{% user_display invitation.user icon=False %}</td>
                   <td>{{ invitation.user.full_name }}</td>
                   {% if can_edit_user %}<td>{{ invitation.user.email }}</td>{% endif %}
                 {% else %}

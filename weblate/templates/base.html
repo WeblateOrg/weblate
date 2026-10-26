@@ -1,4 +1,4 @@
-{% load i18n icons permissions static translations %}
+{% load i18n icons permissions static translations user_display %}
 
 <!DOCTYPE html>
 
@@ -345,7 +345,7 @@
                       <span class="d-none d-sm-inline">
                         <img class="avatar"
                              alt="{% translate "User avatar" %}"
-                             src="{% url 'user_avatar' user=user.username size=24 %}" />
+                             src="{% user_avatar user size=24 %}" />
                       </span>
                       <span class="d-inline d-sm-none">{% translate "Your profile" %}</span>
                     {% else %}

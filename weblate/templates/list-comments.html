@@ -1,10 +1,10 @@
-{% load i18n icons permissions translations %}
+{% load i18n icons permissions translations user_display %}
 
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
     <div class="row history-row" id="comments__{{ comment.pk }}">
       <div class="col-md-3 history-event comment-section">
-        <strong>{{ comment.get_user_display }}</strong>
+        <strong>{% user_display comment.user %}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
             {% translate "Resolved comment" %}
@@ -54,7 +54,7 @@
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
              lang="{{ comment.unit.translation.language.code }}"
              dir="{{ comment.unit.translation.language.direction }}">
-          {{ comment.comment|markdown }}
+          {% user_markdown comment.comment %}
           <span class="float-end text-muted">{{ comment.timestamp|naturaltime }}</span>
           <div class="clearfix"></div>
         </div>

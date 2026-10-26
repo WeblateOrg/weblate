@@ -1,4 +1,4 @@
-{% load i18n icons translations %}
+{% load i18n icons translations user_display %}
 
 <tr class="glossary-embed {{ glossary_row_class }} {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif item.untranslatable %}clickable-row warning{% else %}clickable-row{% endif %}"
     title=" {% if "forbidden" in item.all_flags %} {% translate "This translation is forbidden." %} {% elif item.untranslatable %} {% translate "This term should not be translated." %} {% elif item.fuzzy %} {% translate "This translation needs editing." %}  {% else %} {% translate "Copy word into translation" %} {% endif %} ">
@@ -42,7 +42,7 @@
   <tr class="{{ glossary_row_class }}">
     <td colspan="4">
       <div class="alert alert-info"
-           title="{% translate "Glossary translation explanation" %}">{{ item.explanation|markdown }}</div>
+           title="{% translate "Glossary translation explanation" %}">{% user_markdown item.explanation %}</div>
     </td>
   </tr>
 {% endif %}
@@ -50,7 +50,7 @@
   <tr class="{{ glossary_row_class }}">
     <td colspan="4">
       <div class="alert alert-info" title="{% translate "Glossary string explanation" %}">
-        {{ item.source_unit.explanation|markdown }}
+        {% user_markdown item.source_unit.explanation %}
       </div>
     </td>
   </tr>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n permissions translations %}
+{% load crispy_forms_tags i18n permissions translations user_display %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <th>{% translate "Uploaded by" %}</th>
-        <td>{{ object.get_user_display }}</td>
+        <td>{% user_display object.user %}</td>
       </tr>
       <tr>
         <th>{% translate "Font groups" %}</th>
