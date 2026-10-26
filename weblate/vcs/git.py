@@ -86,6 +86,7 @@ from weblate.vcs.base import (
     RepositoryRedirectError,
     RepositoryValidationError,
     is_possible_checkout_error,
+    is_valid_revision_hash,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
 from weblate.vcs.params import (
@@ -446,7 +447,11 @@ class GitRepository(Repository):
         "@{upstream}",
         "--",
     ]
-    _cmd_list_changed_files: ClassVar[list[str]] = ["diff", "--name-status"]
+    _cmd_list_changed_files: ClassVar[list[str]] = [
+        "diff",
+        "--name-status",
+        "--end-of-options",
+    ]
     _cmd_push: ClassVar[list[str]] = ["push"]
     _cmd_status: ClassVar[list[str]] = ["--no-optional-locks", "status"]
 
@@ -1185,7 +1190,13 @@ class GitRepository(Repository):
     def revision_exists(self, revision: str) -> bool:
         try:
             self.execute(
-                ["rev-parse", "--verify", "--quiet", f"{revision}^{{commit}}"],
+                [
+                    "rev-parse",
+                    "--verify",
+                    "--quiet",
+                    "--end-of-options",
+                    f"{revision}^{{commit}}",
+                ],
                 remote_op="none",
                 needs_lock=False,
                 merge_err=False,
@@ -1200,7 +1211,7 @@ class GitRepository(Repository):
         try:
             return bool(
                 self.execute(
-                    ["merge-base", revision, other_revision],
+                    ["merge-base", "--end-of-options", revision, other_revision],
                     remote_op="none",
                     needs_lock=False,
                     merge_err=False,
@@ -1239,7 +1250,7 @@ class GitRepository(Repository):
         if self.component is None:
             return
         for revision in (self.component.local_revision, self.component.remote_revision):
-            if revision:
+            if is_valid_revision_hash(revision):
                 yield revision
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
@@ -1382,6 +1393,8 @@ class GitRepository(Repository):
 
     def reset_to_revision(self, revision: str) -> None:
         """Reset working copy to a local revision."""
+        if not is_valid_revision_hash(revision):
+            raise RepositoryError(0, "Invalid revision object ID")
         self.execute(["reset", "--hard", revision], remote_op="none")
         self.clean_revision_cache()
 
@@ -1531,7 +1544,7 @@ class GitRepository(Repository):
         Used in tests.
         """
         return self.execute(
-            ["show", revision],
+            ["show", "--end-of-options", revision],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -1547,7 +1560,15 @@ class GitRepository(Repository):
     def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision info."""
         text = self.execute(
-            ["log", "-1", "--format=fuller", "--date=rfc", "--abbrev-commit", revision],
+            [
+                "log",
+                "-1",
+                "--format=fuller",
+                "--date=rfc",
+                "--abbrev-commit",
+                "--end-of-options",
+                revision,
+            ],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -1585,7 +1606,7 @@ class GitRepository(Repository):
     def log_revisions(self, refspec):
         """Return revision log for given refspec."""
         return self.execute(
-            ["log", "--format=format:%H", refspec, "--"],
+            ["log", "--format=format:%H", "--end-of-options", refspec, "--"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -1794,7 +1815,7 @@ class GitRepository(Repository):
     def get_file(self, path, revision) -> str:
         """Return content of file at given revision."""
         return self.execute(
-            ["show", f"{revision}:{path}"],
+            ["show", "--end-of-options", f"{revision}:{path}"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,

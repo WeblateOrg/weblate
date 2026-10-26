@@ -725,14 +725,17 @@ class SSHWrapper:
             if path is None:
                 continue
             filename = self.path / command
+            content = self.get_content(path).encode("utf-8")
 
-            if not filename.exists():
+            if (
+                filename.is_symlink()
+                or not filename.is_file()
+                or filename.read_bytes() != content
+            ):
                 with tempfile.NamedTemporaryFile(
-                    mode="w",
-                    encoding="utf-8",
                     dir=self.path,
                 ) as handle:
-                    handle.write(self.get_content(path))
+                    handle.write(content)
                     handle.flush()
                     os.chmod(
                         handle.name,

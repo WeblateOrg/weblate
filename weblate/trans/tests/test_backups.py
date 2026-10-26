@@ -2834,6 +2834,118 @@ class BackupsTest(ReusableViewTestCase):
                 },
             )
 
+    def test_restore_rejects_invalid_revision_before_project_creation(self) -> None:
+        for field in ("local_revision", "remote_revision"):
+            with self.subTest(field=field):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={field: "--output=outside"}
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    # Keep testing Weblate's guard when an older schema
+                    # package permits arbitrary revision strings.
+                    with (
+                        patch("weblate.trans.backups.validate_schema"),
+                        self.assertRaises(ValidationError) as error,
+                    ):
+                        restore.validate()
+                    self.assertEqual(
+                        list(error.exception.message_dict),
+                        [f"components/{self.component.slug}.json.component.{field}"],
+                    )
+                self.assertFalse(Project.objects.filter(slug="restored").exists())
+
+    def test_restore_accepts_complete_revision_hashes(self) -> None:
+        for revision in ("a" * 40, "B" * 64, ""):
+            with self.subTest(revision=revision):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={
+                        "local_revision": revision,
+                        "remote_revision": revision,
+                    }
+                )
+                with remove_file_after(temp_name):
+                    ProjectBackup(temp_name).validate()
+
+    def test_backup_clears_stale_revisions(self) -> None:
+        self.component.local_revision = "--output=unexpected"
+        self.component.remote_revision = "invalid"
+        self.component.save(update_fields=["local_revision", "remote_revision"])
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        with ZipFile(backup.filename) as archive:
+            component = json.loads(
+                archive.read(f"components/{self.component.slug}.json")
+            )["component"]
+        self.assertEqual(component["local_revision"], "")
+        self.assertEqual(component["remote_revision"], "")
+
+    def test_restore_rejects_invalid_new_base(self) -> None:
+        for filename in ("../outside.pot", "/outside.pot"):
+            with self.subTest(filename=filename):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"new_base": filename}
+                )
+                with remove_file_after(temp_name):
+                    with self.assertRaises(ValidationError) as error:
+                        ProjectBackup(temp_name).validate()
+                    self.assertIn(
+                        f"components/{self.component.slug}.json.component.new_base",
+                        error.exception.message_dict,
+                    )
+                self.assertFalse(Project.objects.filter(slug="restored").exists())
+
+    def test_restore_rejects_invalid_translation_revision(self) -> None:
+        for revision in ("abcdef", "--output=outside", "a" * 40 + "\n"):
+            with self.subTest(revision=revision):
+                temp_name = self.write_tampered_component_backup(
+                    translation_updates={"revision": revision}
+                )
+                with remove_file_after(temp_name):
+                    # Exercise the application check independently of the
+                    # tighter schema in a future weblate-schemas release.
+                    with (
+                        patch("weblate.trans.backups.validate_schema"),
+                        self.assertRaises(ValidationError) as error,
+                    ):
+                        ProjectBackup(temp_name).validate()
+                    self.assertIn(
+                        f"components/{self.component.slug}.json.translations[0].revision",
+                        error.exception.message_dict,
+                    )
+                self.assertFalse(Project.objects.filter(slug="restored").exists())
+
+    def test_restore_accepts_translation_revision_forms(self) -> None:
+        first = "a" * 40
+        second = "b" * 40
+        third = "c" * 40
+        for revision in ("", first, f"{first}:2", f"{first}:2,{second},{third}"):
+            with self.subTest(revision=revision):
+                temp_name = self.write_tampered_component_backup(
+                    translation_updates={"revision": revision}
+                )
+                with remove_file_after(temp_name):
+                    ProjectBackup(temp_name).validate()
+
+    def test_backup_clears_stale_translation_revision(self) -> None:
+        source = self.component.source_translation
+        source.revision = "invalid"
+        source.save(update_fields=["revision"])
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        with ZipFile(backup.filename) as archive:
+            component = json.loads(
+                archive.read(f"components/{self.component.slug}.json")
+            )
+        source_data = next(
+            item
+            for item in component["translations"]
+            if item["language_code"] == source.language.code
+        )
+        self.assertEqual(source_data["revision"], "")
+
     def test_restore_rejects_invalid_push_url(self) -> None:
         temp_name = self.write_tampered_component_backup(
             push="https://private.example/push.git"
@@ -2969,7 +3081,11 @@ class BackupsTest(ReusableViewTestCase):
 
         with remove_file_after(temp_name):
             restore = ProjectBackup(temp_name)
-            with self.assertRaises(ValidationError) as error:
+            # Check the application guard independently of the schema check.
+            with (
+                patch("weblate.trans.backups.validate_schema"),
+                self.assertRaises(ValidationError) as error,
+            ):
                 restore.validate()
 
         self.assertIn("units[0].id_hash", next(iter(error.exception.message_dict)))

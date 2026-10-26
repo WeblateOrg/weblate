@@ -21,6 +21,10 @@ For application-developer workflows and broader product integration guidance, us
   modules.
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids
   runtime import cycles.
+- Change packaged JSON schemas in the separate `weblate-schemas` package
+  first, then synchronize `docs/specs/schemas/` from the package source. After
+  the package is released, update the exact dependency pin and regenerate the
+  snapshots from the released package.
 - Add new user-configurable model fields to the existing REST serializers, API
   documentation, schema, and API behavior tests for that model. Review write
   permissions and validation explicitly. Keep secrets, computed state, and

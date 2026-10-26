@@ -2846,6 +2846,24 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         info = self.repo.get_revision_info(self.repo.last_revision)
         self.check_valid_info(info)
 
+    def test_revision_info_rejects_git_option(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+        output = Path(self.tempdir) / "unexpected-git-output"
+        with self.assertRaises(RepositoryError):
+            self.repo.get_revision_info(f"--output={output}")
+        self.assertFalse(output.exists())
+
+    def test_compatibility_ignores_invalid_stored_revisions(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+        self.repo.component.local_revision = "--output=unexpected"
+        self.repo.component.remote_revision = "invalid"
+        self.assertEqual(
+            list(self.repo.get_compatibility_revisions(self._remote_branch)),
+            ["HEAD", self.repo.get_remote_branch_name(self._remote_branch)],
+        )
+
     def test_needs_merge(self) -> None:
         self.assertFalse(self.repo.needs_merge())
         self.assertFalse(self.repo.needs_push())
