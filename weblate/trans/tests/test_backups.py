@@ -12,7 +12,7 @@ import os
 import tempfile
 import warnings
 from contextlib import contextmanager, suppress
-from copy import copy
+from copy import copy, deepcopy
 from io import BytesIO, StringIO
 from pathlib import Path
 from shutil import copyfile
@@ -30,6 +30,7 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, override_settings
 from django.test.utils import modify_settings
 from django.urls import reverse
+from weblate_schemas import load_schema
 
 from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.bots import InternalBot
@@ -464,6 +465,131 @@ class BackupsTest(ReusableViewTestCase):
 
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    @contextmanager
+    def relaxed_parameter_schema(self) -> Generator[None, None, None]:
+        """Simulate the upcoming schema until the separate dependency update."""
+        schema = deepcopy(load_schema("weblate-component.schema.json"))
+        properties = schema["properties"]["component"]["properties"]
+        properties["vcs_params"] = {"type": "object"}
+        properties["file_format_params"] = {"type": "object"}
+
+        def load(name: str) -> dict:
+            if name == "weblate-component.schema.json":
+                return schema
+            return load_schema(name)
+
+        with patch("weblate_schemas.validator.load_schema", side_effect=load):
+            yield
+
+    def test_restore_rejects_malformed_stored_parameters(self) -> None:
+        for family, values in (
+            ("vcs_params", (None, [], "", False)),
+            ("file_format_params", (None, [], "", False)),
+        ):
+            for value in values:
+                with self.subTest(family=family, value=value):
+                    filename = self.write_tampered_component_backup(
+                        component_updates={family: value}
+                    )
+                    with (
+                        remove_file_after(filename),
+                        self.relaxed_parameter_schema(),
+                        self.assertRaises(jsonschema.ValidationError) as error,
+                    ):
+                        ProjectBackup(filename).validate()
+                    self.assertEqual(
+                        list(error.exception.absolute_path), ["component", family]
+                    )
+
+    def test_restore_rejects_invalid_supported_parameters(self) -> None:
+        project_count = Project.objects.count()
+        component_count = Component.objects.count()
+        for family, key, value, updates in (
+            ("vcs_params", "git_force_push", "false", {}),
+            ("vcs_params", "git_force_push", 1, {}),
+            ("vcs_params", "git_force_push", None, {}),
+            ("vcs_params", "merge_request_merge_method", "invalid", {"vcs": "github"}),
+            ("file_format_params", "po_keep_previous", "true", {}),
+            ("file_format_params", "po_line_wrap", "invalid", {}),
+            ("file_format_params", "json_indent", "4", {"file_format": "json"}),
+        ):
+            with self.subTest(key=key, value=value):
+                filename = self.write_tampered_component_backup(
+                    component_updates={family: {key: value}, **updates}
+                )
+                with (
+                    remove_file_after(filename),
+                    self.relaxed_parameter_schema(),
+                    self.assertRaises(ValidationError) as error,
+                ):
+                    ProjectBackup(filename).validate()
+                self.assertIn(
+                    f"components/{self.component.slug}.json.component.{family}.{key}",
+                    error.exception.message_dict,
+                )
+                self.assertEqual(Project.objects.count(), project_count)
+                self.assertEqual(Component.objects.count(), component_count)
+
+    def test_restore_preserves_numeric_parameter_choices(self) -> None:
+        for index, value in enumerate((77, "77", "")):
+            with self.subTest(value=value):
+                filename = self.write_tampered_component_backup(
+                    component_updates={"file_format_params": {"po_line_wrap": value}}
+                )
+                with remove_file_after(filename), self.relaxed_parameter_schema():
+                    restore = ProjectBackup(filename)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Numeric parameters {index}",
+                        project_slug=f"numeric-parameters-{index}",
+                        user=self.user,
+                    )
+                component = restored.component_set.get(slug=self.component.slug)
+                stored = component.file_format_params["po_line_wrap"]
+                self.assertEqual(stored, value)
+                self.assertIs(type(stored), type(value))
+
+    def test_restore_skips_unsupported_parameters(self) -> None:
+        filename = self.write_tampered_component_backup(
+            component_updates={
+                "vcs": "git-force-push",
+                "vcs_params": {"unknown_vcs": [], "merge_request_automerge": None},
+                "file_format_params": {
+                    "unknown_format": {},
+                    "json_indent": "invalid",
+                    "po_line_wrap": "77",
+                },
+            }
+        )
+        with remove_file_after(filename), self.relaxed_parameter_schema():
+            restore = ProjectBackup(filename)
+            restore.validate()
+            restore_warnings = restore.get_restore_warnings()
+            self.assertEqual(len(restore_warnings), 4)
+            restore.validate()
+            self.assertEqual(restore.get_restore_warnings(), restore_warnings)
+            restored = restore.restore(
+                project_name="Filtered parameters",
+                project_slug="filtered-parameters",
+                user=self.user,
+            )
+        component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(component.vcs, "git")
+        self.assertEqual(component.vcs_params, {"git_force_push": True})
+        self.assertEqual(component.file_format_params["po_line_wrap"], "77")
+        self.assertNotIn("unknown_format", component.file_format_params)
+        self.assertNotIn("json_indent", component.file_format_params)
+        self.assertEqual(restore.get_restore_warnings(), restore_warnings)
+        for key, reason in (
+            ("unknown_vcs", "unknown"),
+            ("merge_request_automerge", "not applicable"),
+            ("unknown_format", "unknown"),
+            ("json_indent", "not applicable"),
+        ):
+            warning = next(message for message in restore_warnings if key in message)
+            self.assertIn(f"components/{self.component.slug}.json", warning)
+            self.assertIn(reason, warning)
 
     def test_backup_restore_push_on_update(self) -> None:
         self.component.push_on_update = False
