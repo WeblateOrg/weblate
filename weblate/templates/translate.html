@@ -1047,14 +1047,20 @@
                         <h5>{% translate "Source string age" %}</h5>
                         {{ unit.source_unit.timestamp|naturaltime }}
                       </div>
-                      {% if unit.position %}
+                      {% if unit.line_number or unit.position %}
                         <div>
                           <h5>
                             {% translate "Translation file" %}
                             <span class="badge bg-secondary">{{ unit.translation.component.get_file_format_display }}</span>
                           </h5>
                           <span>
-                            {% if unit.translation.filename %}
+                            {% if unit.line_number %}
+                              {% if unit.translation.filename %}
+                                <span class="wrap-text">{% blocktranslate with filename=translation_file_link line=unit.line_number %}{{ filename }}, line {{ line }}{% endblocktranslate %}</span>
+                              {% else %}
+                                <span class="wrap-text">{% blocktranslate with line=unit.line_number %}line {{ line }}{% endblocktranslate %}</span>
+                              {% endif %}
+                            {% elif unit.translation.filename %}
                               <span class="wrap-text">{% blocktranslate with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktranslate %}</span>
                             {% else %}
                               <span class="wrap-text">{% blocktranslate with position=unit.position %}string {{ position }}{% endblocktranslate %}</span>

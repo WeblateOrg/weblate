@@ -1493,7 +1493,6 @@ class Unit(models.Model, LoggerMixin):
         metadata_updates: dict[int, Unit] | None = None,
         tbx_terms: dict | None = None,
         tbx_flags: dict | None = None,
-        line_number: int | None = None,
     ) -> None:
         source_terms = (
             {"source": tbx_terms["source"], "target": tbx_terms["source"]}
@@ -1516,7 +1515,6 @@ class Unit(models.Model, LoggerMixin):
                     if source_terms is not None
                     else {}
                 ),
-                "line_number": line_number,
             },
         )
         try:
@@ -1548,11 +1546,7 @@ class Unit(models.Model, LoggerMixin):
         )
         same_flags = flags == parsed_flags
         same_explanation = explanation == source_unit.explanation
-        same_locators = (
-            pos == source_unit.position
-            and location == source_unit.location
-            and line_number == source_unit.line_number
-        )
+        same_locators = pos == source_unit.position and location == source_unit.location
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
@@ -1577,7 +1571,6 @@ class Unit(models.Model, LoggerMixin):
             source_unit.explanation = explanation
             source_unit.flags = flags.format()
             source_unit.note = note
-            source_unit.line_number = line_number
             if (
                 same_flags
                 and same_explanation
@@ -1592,7 +1585,6 @@ class Unit(models.Model, LoggerMixin):
                         "target",
                         "details",
                         "position",
-                        "line_number",
                         "location",
                         "explanation",
                         "flags",
@@ -1748,7 +1740,6 @@ class Unit(models.Model, LoggerMixin):
                 metadata_updates=metadata_updates,
                 tbx_terms=tbx_terms,
                 tbx_flags=unit_attributes["tbx_flags"],
-                line_number=line_number,
             )
 
         # Get comparison state (disk_state if exists, otherwise current state)
@@ -2969,9 +2960,28 @@ class Unit(models.Model, LoggerMixin):
 
     def nearby(self, count: int) -> models.QuerySet[Unit]:
         """Return list of nearby messages based on location."""
-        if self.position == 0:
-            return Unit.objects.none()
         with start_span(op="unit.nearby", name=f"{self.pk}"):
+            if self.line_number is not None:
+                base = self.translation.unit_set.prefetch_embed().exclude(
+                    line_number=None
+                )
+                before = list(
+                    base.filter(line_number__lt=self.line_number).order_by(
+                        "-line_number", "-position"
+                    )[:count]
+                )
+                same = list(base.filter(line_number=self.line_number))
+                after = list(
+                    base.filter(line_number__gt=self.line_number).order_by(
+                        "line_number", "position"
+                    )[:count]
+                )
+                result = list(reversed(before)) + same + after
+                fill_in_source_translation(result)
+                return result
+
+            if self.position == 0:
+                return Unit.objects.none()
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (

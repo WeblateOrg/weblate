@@ -2520,7 +2520,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 target=attributes["source"],
                 context=attributes["context"],
                 position=attributes["pos"],
-                line_number=attributes["line_number"],
                 note=attributes["note"],
                 location=attributes["location"],
                 explanation=attributes["source_explanation"],

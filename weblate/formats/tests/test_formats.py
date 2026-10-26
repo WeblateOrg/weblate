@@ -1403,6 +1403,14 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
 
+    def test_line_number(self) -> None:
+        storage = PoFormat(TEST_PO)
+        self.assertEqual(storage.content_units[0].line_number, 16)
+
+    def test_line_number_unsupported_format(self) -> None:
+        storage: TranslationFormat = JSONFormat(TEST_JSON)
+        self.assertIsNone(storage.content_units[0].line_number)
+
 
 class ContributorCommentsTest(SimpleTestCase):
     def test_modes(self) -> None:
