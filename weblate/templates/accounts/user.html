@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
+{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat user_display %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -20,7 +20,7 @@
 
   <div class="user-page text-center">
     <img class="avatar w128"
-         src="{% url 'user_avatar' user=page_user.username size=128 %}"
+         src="{% user_avatar page_user size=128 %}"
          alt="{% translate "User avatar" %}" />
     <h3>{{ page_user }}</h3>
     <p>

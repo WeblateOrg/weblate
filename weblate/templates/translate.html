@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations user_display %}
 
 {% block extra_script %}
   <script defer src="{% static 'editor/base.js' %}"></script>
@@ -157,7 +157,7 @@
                     <label>{% translate "Explanation" %} {% documentation_icon 'admin/translating' 'additional-explanation' %}</label>
                     <div class="list-group">
                       <div class="list-group-item translate-explanation">
-                        <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
+                        <div class="list-group-item-text">{% user_markdown unit.source_unit.explanation %}</div>
                       </div>
                     </div>
                   </div>
@@ -941,7 +941,7 @@
                   {% translate "Explanation" %}
                 </h5>
                 {% if unit.source_unit.explanation %}
-                  <p>{{ unit.source_unit.explanation|markdown }}</p>
+                  <p>{% user_markdown unit.source_unit.explanation %}</p>
                 {% else %}
                   <em>{% translate "No explanation currently provided." %}</em>
                 {% endif %}

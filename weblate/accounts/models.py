@@ -86,6 +86,7 @@ from .types import ThemeChoices
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.contrib.auth.models import AnonymousUser
     from django.http.request import HttpRequest
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
@@ -1212,11 +1213,11 @@ class Profile(models.Model):
     def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()
 
-    def get_user_display(self):
-        return get_user_display(self.user)
+    def get_user_display(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, viewer=viewer)
 
-    def get_user_display_link(self):
-        return get_user_display(self.user, True, True)
+    def get_user_display_link(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, True, True, viewer=viewer)
 
     def get_user_name(self):
         return get_user_display(self.user, False)

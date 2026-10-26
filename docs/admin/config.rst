@@ -3013,6 +3013,8 @@ Users can always access their own profile, and users with either global
 permission retain administrative access. The policy applies to direct profile
 URLs, contribution and suggestion pages, external profile links, contact links,
 avatars, and REST user details. Restricted URLs return HTTP 404.
+Contributor displays retain names but use a generic avatar and omit profile
+links when access is denied. Email and feed displays use public-access rules.
 
 Combine this with :setting:`USER_DIRECTORY_VISIBILITY` to control discovery.
 For example, ``"scoped"`` directory visibility with ``"public"`` profile

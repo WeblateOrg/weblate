@@ -1,4 +1,4 @@
-{% load humanize i18n permissions translations urlformat %}
+{% load humanize i18n permissions translations urlformat user_display %}
 
 <div class="row">
   <div class="col-md-6">
@@ -23,7 +23,7 @@
             {% if project.instructions %}
               <tr>
                 <th>{% translate "Instructions for translators" %}</th>
-                <td colspan="2" class="full-cell">{{ project.instructions|markdown }}</td>
+                <td colspan="2" class="full-cell">{% user_markdown project.instructions %}</td>
               </tr>
             {% endif %}
 
@@ -83,7 +83,7 @@
                     <a class="btn btn-primary float-end"
                        href="{% url 'contributor-agreement' path=component.get_url_path %}">{% translate "View" %}</a>
                   {% endif %}
-                  {{ component.effective_agreement|markdown }}
+                  {% user_markdown component.effective_agreement %}
                 </td>
               </tr>
             {% endif %}
@@ -256,7 +256,7 @@
             {% for u in top_users %}
               <tr>
                 <td>{{ forloop.counter }}.</td>
-                <td>{{ u.get_user_display_link }}</td>
+                <td>{% user_display u.user %}</td>
                 <td class="full-cell">
                   <div class="progress chart-progress">
                     <div class="progress-bar progress-bar-success"

@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 from ssl import CertificateError
-from typing import TYPE_CHECKING, Literal, cast
+from typing import TYPE_CHECKING, Literal
 from urllib.parse import quote, urlencode
 
 import httpx2
@@ -17,10 +17,13 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext, pgettext
 
+from weblate.accounts.visibility import can_view_profile
 from weblate.utils.errors import report_error
 from weblate.utils.requests import fetch_url
 
 if TYPE_CHECKING:
+    from django.contrib.auth.models import AnonymousUser
+
     from weblate.auth.models import User
 
 
@@ -89,13 +92,34 @@ def download_avatar_image(email: str, username: str, size: int) -> bytes:
     return response.content
 
 
-def get_user_display(user: User | None, icon: bool = True, link: bool = False) -> str:
+def get_user_avatar_url(
+    user: User | None,
+    size: int = 32,
+    *,
+    viewer: User | AnonymousUser | None = None,
+) -> str:
+    """Return an avatar URL accessible to the viewer."""
+    if (
+        user is None
+        or not can_view_profile(viewer, user)
+        or user.email == "noreply@weblate.org"
+    ):
+        return get_fallback_avatar_url(size)
+    return reverse("user_avatar", kwargs={"user": user.username, "size": size})
+
+
+def get_user_display(
+    user: User | None,
+    icon: bool = True,
+    link: bool = False,
+    *,
+    viewer: User | AnonymousUser | None = None,
+) -> str:
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
         username = full_name = pgettext("No known user", "None")
-        email = "noreply@weblate.org"
     else:
         # Get basic info
         username = user.username
@@ -111,12 +135,7 @@ def get_user_display(user: User | None, icon: bool = True, link: bool = False) -
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
-        if email == "noreply@weblate.org":
-            avatar = get_fallback_avatar_url(32)
-        else:
-            avatar = reverse(
-                "user_avatar", kwargs={"user": cast("User", user).username, "size": 32}
-            )
+        avatar = get_user_avatar_url(user, viewer=viewer)
 
         username = format_html(
             '<img src="{}" class="avatar w32" loading="lazy" alt="{}" /> {}',
@@ -125,7 +144,7 @@ def get_user_display(user: User | None, icon: bool = True, link: bool = False) -
             username,
         )
 
-    if link and user is not None:
+    if link and user is not None and can_view_profile(viewer, user):
         return format_html(
             '<a href="{}" title="{}" class="user-link"><span>{}</span></a>',
             user.get_absolute_url(),
