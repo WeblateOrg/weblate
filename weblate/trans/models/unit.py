@@ -2962,23 +2962,30 @@ class Unit(models.Model, LoggerMixin):
         """Return list of nearby messages based on location."""
         with start_span(op="unit.nearby", name=f"{self.pk}"):
             if self.line_number is not None:
-                base = self.translation.unit_set.prefetch_embed().exclude(
-                    line_number=None
-                )
+                qs = self.translation.unit_set.exclude(line_number=None)
                 before = list(
-                    base.filter(line_number__lt=self.line_number).order_by(
-                        "-line_number", "-position"
-                    )[:count]
+                    qs.filter(line_number__lt=self.line_number)
+                    .order_by("-line_number", "-position")
+                    .values_list("id", flat=True)[:count]
                 )
-                same = list(base.filter(line_number=self.line_number))
+                same = list(
+                    qs.filter(line_number=self.line_number)
+                    .order_by("position")
+                    .values_list("id", flat=True)[:count]
+                )
                 after = list(
-                    base.filter(line_number__gt=self.line_number).order_by(
-                        "line_number", "position"
-                    )[:count]
+                    qs.filter(line_number__gt=self.line_number)
+                    .order_by("line_number", "position")
+                    .values_list("id", flat=True)[:count]
                 )
-                result = list(reversed(before)) + same + after
-                fill_in_source_translation(result)
-                return result
+                return (
+                    self.translation.unit_set.filter(
+                        id__in=[self.id, *before, *same, *after]
+                    )
+                    .prefetch_embed()
+                    .order_by("line_number", "position")
+                    .fill_in_source_translation()
+                )
 
             if self.position == 0:
                 return Unit.objects.none()

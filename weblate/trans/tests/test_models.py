@@ -978,7 +978,7 @@ class TranslationTest(RepoTestCase):
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.get(source="Hello, world!\n")
-        original_line = unit.line_number
+        original_line = unit.line_number or 0
         original_target = unit.target
         change_count = Change.objects.filter(unit=unit).count()
 
@@ -997,11 +997,12 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(Change.objects.filter(unit=unit).count(), change_count)
 
     def test_translation_sync_does_not_overwrite_source_line(self) -> None:
-        component = self.create_component()
+        component = self.create_po_mono()
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.get(source="Hello, world!\n")
         source_unit = unit.source_unit
-        original_cs_line = unit.line_number
+        self.assertIsNotNone(unit.line_number)
+        original_cs_line = unit.line_number or 0
         original_source_line = source_unit.line_number
 
         filename = get_optional_path(translation.get_filename())
@@ -1043,7 +1044,7 @@ class TranslationTest(RepoTestCase):
             [item.pk for item in chosen],
         )
 
-        position_unit = translation.unit_set.order_by("position").first()
+        position_unit = translation.unit_set.order_by("position")[0]
         position_unit.line_number = None
         position_unit.save(update_fields=["line_number"])
         count = 1

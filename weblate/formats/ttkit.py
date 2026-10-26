@@ -441,10 +441,9 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
     @cached_property
     def line_number(self) -> int | None:
         """Return line number from a TTKit unit."""
-        try:
-            return self.unit.line_number
-        except ValueError:
+        if not self.has_unit():
             return None
+        return self.unit.line_number
 
 
 class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
