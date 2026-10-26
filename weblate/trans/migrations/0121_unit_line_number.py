@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0119_savedsearch"),
+        ("trans", "0120_change_addon_redact_autotranslate_component"),
     ]
 
     operations = [
