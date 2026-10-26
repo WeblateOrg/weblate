@@ -212,6 +212,7 @@ from weblate.vcs.base import (
     is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
+    is_valid_revision_hash,
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
@@ -2734,7 +2735,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def get_last_remote_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.remote_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.remote_revision):
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
@@ -2743,7 +2744,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_last_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.local_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.local_revision):
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)

@@ -3879,13 +3879,15 @@ class TranslationRemoveRevisionTest(ComponentTestCase):
 
 class LastCommitLookupTest(ComponentTestCase):
     def test_get_last_commit_keeps_stale_local_revision_unchanged(self) -> None:
-        self.component.local_revision = "not-a-valid-revision"
+        self.component.local_revision = "--output=unexpected"
         self.component.save(update_fields=["local_revision"])
 
-        self.assertIsNone(self.component.get_last_commit())
+        with patch.object(self.component.repository, "get_revision_info") as lookup:
+            self.assertIsNone(self.component.get_last_commit())
+        lookup.assert_not_called()
 
         self.component.refresh_from_db()
-        self.assertEqual("not-a-valid-revision", self.component.local_revision)
+        self.assertEqual("--output=unexpected", self.component.local_revision)
 
 
 class UpdateBranchRevisionTest(ComponentTestCase):
