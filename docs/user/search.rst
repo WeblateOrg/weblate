@@ -120,6 +120,9 @@ Anywhere text is accepted you can also specify a regular expression as
 For example, to search for all source strings which contain any digit between 2
 and 5, use ``source:r"[2-5]"``.
 
+Search rejects regular expressions longer than 256 characters, nested more than
+32 groups deep, or containing a counted repetition above 1,000.
+
 .. hint::
 
    The regular expressions are evaluated by the database backend and might use
