@@ -598,8 +598,6 @@ filterwarnings = [
   "ignore:Version._version:DeprecationWarning:borg",
   # Triggered when Selenium can not be started
   'default:Selenium error:UserWarning',
-  # TODO: these might be worth investigating
-  'default:unclosed:ResourceWarning',
   # Psycopg reports unclosed connections during garbage collection, possibly in another test.
   'default:<psycopg\.Connection object at .* was deleted while still open:ResourceWarning'
 ]

@@ -24,6 +24,7 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
 from django.db.migrations.loader import MigrationLoader
+from django.http import StreamingHttpResponse
 from django.test import Client, SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -723,37 +724,55 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def test_view(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
+        screenshot = Screenshot.objects.get()
+        image_data = Path(TEST_SCREENSHOT).read_bytes()
         view_url = screenshot.get_view_url()
         self.assertRegex(view_url, r"/view/\?v=[0-9a-f]{16}$")
         self.assertEqual(screenshot.get_view_url(), view_url)
         response = self.client.get(view_url)
+        assert isinstance(response, StreamingHttpResponse)
+        # Drain the stream on assertion failures as well, using test-client cleanup.
+        self.addCleanup(list, response.streaming_content)
         # Admin can access this
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
         self.assertIn("max-age=3600", response["Cache-Control"])
         self.assertIn("private", response["Cache-Control"])
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Legacy unversioned URLs remain supported
         response = self.client.get(
             reverse("screenshot-view", kwargs={"pk": screenshot.pk})
         )
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
         self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Private admin access
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # User access
         self.user.groups.remove(Group.objects.get(name="Managers"))
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Project privileges removed
         self.project.remove_user(self.user)
@@ -769,8 +788,12 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
     def test_view_uses_image_content_type(self) -> None:
         self.make_manager()
@@ -1593,9 +1616,8 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def test_edit_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
+        screenshot = Screenshot.objects.get()
         old_name = screenshot.image.name
-        old_filename = screenshot.image.file.name
         old_view_url = screenshot.get_view_url()
 
         data = Path(TEST_SCREENSHOT).read_bytes()
@@ -1616,7 +1638,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         screenshot.refresh_from_db()
         self.assertNotEqual(screenshot.image.name, old_name)
-        self.assertNotEqual(screenshot.image.file.name, old_filename)
         self.assertNotEqual(screenshot.get_view_url(), old_view_url)
 
     @http_mock.activate
@@ -1971,7 +1992,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot = Screenshot.objects.get()
         old_name = screenshot.name
         old_image_name = screenshot.image.name
-        old_filename = screenshot.image.file.name
         http_mock.register(
             "GET",
             "https://private.example.com/test-image.png",
@@ -1992,7 +2012,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot.refresh_from_db()
         self.assertEqual(screenshot.name, old_name)
         self.assertEqual(screenshot.image.name, old_image_name)
-        self.assertEqual(screenshot.image.file.name, old_filename)
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
         self.assertEqual(len(http_mock.calls), 0)
 

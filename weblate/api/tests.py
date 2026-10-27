@@ -10149,7 +10149,14 @@ class ComponentAPITest(APIBaseTest):
     def test_new_template(self) -> None:
         self.component.new_base = "po/cs.po"
         self.component.save()
-        self.do_request("api:component-new-template", self.component_kwargs)
+        response = self.do_request("api:component-new-template", self.component_kwargs)
+        # Drain the stream on assertion failures as well, using test-client cleanup.
+        self.addCleanup(list, response.streaming_content)
+        self.assertEqual(
+            b"".join(response.streaming_content),
+            Path(self.component.get_new_base_filename()).read_bytes(),
+        )
+        self.assertTrue(response.closed)
 
     def test_new_template_download_prohibited(self) -> None:
         self.component.new_base = "po/cs.po"
@@ -10166,10 +10173,16 @@ class ComponentAPITest(APIBaseTest):
 
     def test_monolingual(self) -> None:
         component = self.create_po_mono(name="mono", project=self.component.project)
-        self.do_request(
+        response = self.do_request(
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
         )
+        self.addCleanup(list, response.streaming_content)
+        self.assertEqual(
+            b"".join(response.streaming_content),
+            Path(component.get_template_filename()).read_bytes(),
+        )
+        self.assertTrue(response.closed)
 
     def test_monolingual_directory_base_skips_symlinked_file(self) -> None:
         component = self.create_appstore(
