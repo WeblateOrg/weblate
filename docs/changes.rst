@@ -29,6 +29,7 @@ Weblate 2026.11
 
 * Reduced author lookup queries when changing :ref:`custom source languages <workflow-source-language>` and restoring pending changes from older :ref:`project backups <projectbackup>`.
 * Added a contextual :ref:`Workspaces menu <workspaces>` for users with multiple relevant workspaces, and included watched multi-project workspaces in :guilabel:`My workspaces`.
+* :ref:`Screenshots <screenshots>` recognize image text in the background and cache results, with separate image text suggestions and source string search tabs.
 
 * Correct screenshot filename extensions during upgrades and :ref:`project backup import <projectbackup>` using validated image contents.
 

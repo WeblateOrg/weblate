@@ -5,12 +5,8 @@ from __future__ import annotations
 
 import difflib
 import os
-import tempfile
-from contextlib import contextmanager, suppress
-from time import sleep
 from typing import TYPE_CHECKING, ClassVar, cast
 
-import httpx2
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
@@ -28,7 +24,6 @@ from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
 
-from weblate.logger import LOGGER
 from weblate.screenshots.forms import (
     ScreenshotEditForm,
     ScreenshotForm,
@@ -38,229 +33,19 @@ from weblate.screenshots.forms import (
     SearchForm,
 )
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.ocr import ensure_ocr
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
-from weblate.utils.data import data_dir
-from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import fetch_url
 from weblate.utils.search import parse_query
-from weblate.utils.tracing import start_span
 from weblate.utils.validators import PIL_FORMATS
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
-
     from django.http import HttpResponse
-    from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
-    from weblate.lang.models import Language
-
-
-TESSERACT_LANGUAGES = {
-    "af": "afr",  # Afrikaans
-    "am": "amh",  # Amharic
-    "ar": "ara",  # Arabic
-    "as": "asm",  # Assamese
-    "az": "aze",  # Azerbaijani
-    "az@Cyrl": "aze_cyrl",  # Azerbaijani - Cyrillic
-    "be": "bel",  # Belarusian
-    "bn": "ben",  # Bengali
-    "bo": "bod",  # Tibetan
-    "bs": "bos",  # Bosnian
-    "bg": "bul",  # Bulgarian
-    "ca": "cat",  # Catalan; Valencian
-    "ceb": "ceb",  # Cebuano
-    "cs": "ces",  # Czech
-    "zh_Hans": "chi_sim",  # Chinese - Simplified
-    "zh_Hant": "chi_tra",  # Chinese - Traditional
-    "chr": "chr",  # Cherokee
-    "cy": "cym",  # Welsh
-    "da": "dan",  # Danish
-    "de": "deu",  # German
-    "dz": "dzo",  # Dzongkha
-    "el": "ell",  # Greek, Modern (1453-)
-    "en": "eng",  # English
-    "enm": "enm",  # English, Middle (1100-1500)
-    "eo": "epo",  # Esperanto
-    "et": "est",  # Estonian
-    "eu": "eus",  # Basque
-    "fa": "fas",  # Persian
-    "fi": "fin",  # Finnish
-    "fr": "fra",  # French
-    "frk": "frk",  # German Fraktur
-    "frm": "frm",  # French, Middle (ca. 1400-1600)
-    "ga": "gle",  # Irish
-    "gl": "glg",  # Galician
-    "grc": "grc",  # Greek, Ancient (-1453)
-    "gu": "guj",  # Gujarati
-    "ht": "hat",  # Haitian; Haitian Creole
-    "he": "heb",  # Hebrew
-    "hi": "hin",  # Hindi
-    "hr": "hrv",  # Croatian
-    "hu": "hun",  # Hungarian
-    "iu": "iku",  # Inuktitut
-    "id": "ind",  # Indonesian
-    "is": "isl",  # Icelandic
-    "it": "ita",  # Italian
-    #    "": "ita_old",  # Italian - Old
-    "jv": "jav",  # Javanese
-    "ja": "jpn",  # Japanese
-    "kn": "kan",  # Kannada
-    "ka": "kat",  # Georgian
-    #    "": "kat_old",  # Georgian - Old
-    "kk": "kaz",  # Kazakh
-    "km": "khm",  # Central Khmer
-    "ky": "kir",  # Kirghiz; Kyrgyz
-    "ko": "kor",  # Korean
-    "ku": "kur",  # Kurdish
-    "lo": "lao",  # Lao
-    "la": "lat",  # Latin
-    "lv": "lav",  # Latvian
-    "lt": "lit",  # Lithuanian
-    "ml": "mal",  # Malayalam
-    "mr": "mar",  # Marathi
-    "mk": "mkd",  # Macedonian
-    "mt": "mlt",  # Maltese
-    "ms": "msa",  # Malay
-    "my": "mya",  # Burmese
-    "ne": "nep",  # Nepali
-    "nl": "nld",  # Dutch; Flemish
-    "nb": "nor",  # Norwegian
-    "nb_NO": "nor",
-    #    "": "ori",  # Oriya
-    "pa": "pan",  # Panjabi; Punjabi
-    "pl": "pol",  # Polish
-    "pt": "por",  # Portuguese
-    "ps": "pus",  # Pushto; Pashto
-    "ro": "ron",  # Romanian; Moldavian; Moldovan
-    "ru": "rus",  # Russian
-    "sa": "san",  # Sanskrit
-    "si": "sin",  # Sinhala; Sinhalese
-    "sk": "slk",  # Slovak
-    "sl": "slv",  # Slovenian
-    "es": "spa",  # Spanish; Castilian
-    #    "": "spa_old",  # Spanish; Castilian - Old
-    "sq": "sqi",  # Albanian
-    "sr": "srp",  # Serbian
-    "sr_Latn": "srp_latn",  # Serbian - Latin
-    "sw": "swa",  # Swahili
-    "sv": "swe",  # Swedish
-    "syr": "syr",  # Syriac
-    "ta": "tam",  # Tamil
-    "te": "tel",  # Telugu # codespell:ignore te
-    "tg": "tgk",  # Tajik
-    "tl": "tgl",  # Tagalog
-    "th": "tha",  # Thai # codespell:ignore tha
-    "ti": "tir",  # Tigrinya
-    "tr": "tur",  # Turkish
-    "ug": "uig",  # Uighur; Uyghur
-    "uk": "ukr",  # Ukrainian
-    "ur": "urd",  # Urdu
-    "uz_Latn": "uzb",  # Uzbek
-    "uz": "uzb_cyrl",  # Uzbek - Cyrillic
-    "vi": "vie",  # Vietnamese # codespell:ignore vie
-    "yi": "yid",  # Yiddish
-}
-
-TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
-TESSERACT_DOWNLOAD_ATTEMPTS = 3
-TESSERACT_DOWNLOAD_TIMEOUT = 30
-
-
-def is_retryable_tesseract_download_error(error: httpx2.HTTPError) -> bool:
-    if isinstance(
-        error,
-        (
-            httpx2.NetworkError,
-            httpx2.ProxyError,
-            httpx2.RemoteProtocolError,
-            httpx2.TimeoutException,
-        ),
-    ):
-        return True
-    if not isinstance(error, httpx2.HTTPStatusError):
-        return False
-    return error.response.status_code == 429 or error.response.status_code >= 500
-
-
-def download_tesseract_data(url: str, full_name: str) -> None:
-    temporary_name: str | None = None
-    try:
-        for attempt in range(1, TESSERACT_DOWNLOAD_ATTEMPTS + 1):
-            try:
-                with start_span(op="ocr.download", name=url):
-                    response = fetch_url(
-                        "GET",
-                        url,
-                        follow_redirects=True,
-                        timeout=TESSERACT_DOWNLOAD_TIMEOUT,
-                    )
-            except httpx2.HTTPError as error:
-                if (
-                    attempt == TESSERACT_DOWNLOAD_ATTEMPTS
-                    or not is_retryable_tesseract_download_error(error)
-                ):
-                    raise
-                LOGGER.warning(
-                    "Tesseract data download failed, retrying (%d/%d): %s",
-                    attempt,
-                    TESSERACT_DOWNLOAD_ATTEMPTS,
-                    error,
-                )
-                sleep(2 ** (attempt - 1))
-                continue
-
-            with tempfile.NamedTemporaryFile(
-                dir=os.path.dirname(full_name),
-                prefix=f".{os.path.basename(full_name)}.",
-                delete=False,
-            ) as handle:
-                temporary_name = handle.name
-                handle.write(response.content)
-            os.replace(temporary_name, full_name)
-            temporary_name = None
-            return
-    finally:
-        if temporary_name is not None:
-            with suppress(FileNotFoundError):
-                os.unlink(temporary_name)
-
-
-def ensure_tesseract_language(lang: str) -> None:
-    """
-    Ensure that tesseract trained data is present for a language.
-
-    It also always includes eng (English) and osd (Orientation and script detection).
-    """
-    tessdata = data_dir("cache", "tesseract")
-
-    # Operate with a lock held to avoid concurrent downloads
-    with (
-        WeblateLock(
-            scope="screenshots:tesseract:download",
-            key=0,
-            slug="screenshots:tesseract:download",
-            timeout=600,
-        ),
-        start_span(op="ocr.models"),
-    ):
-        os.makedirs(tessdata, exist_ok=True)
-
-        for code in (lang, "eng", "osd"):
-            filename = f"{code}.traineddata"
-            full_name = os.path.join(tessdata, filename)
-            if os.path.exists(full_name):
-                continue
-
-            url = TESSERACT_URL.format(filename)
-
-            LOGGER.debug("downloading tesseract data %s", url)
-
-            download_tesseract_data(url, full_name)
 
 
 def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]:
@@ -683,6 +468,8 @@ def search_results(
     units=None,
     *,
     error: str | None = None,
+    result_kind: str = "search",
+    task_url: str | None = None,
 ):
     if units is None:
         units = []
@@ -712,9 +499,12 @@ def search_results(
                 "units": units,
                 "user": request.user,
                 "search_query": "",
+                "result_kind": result_kind,
             },
         ),
     }
+    if task_url is not None:
+        data.update(pending=True, task_url=task_url)
     if error is not None:
         data["error"] = error
     return JsonResponse(data=data)
@@ -740,126 +530,43 @@ def search_source(request: AuthenticatedHttpRequest, pk):
     )
 
 
-def ocr_get_strings(api, *, image: Image.Image, filename: str, resolution: int = 72):
-    from tesserocr import RIL, iterate_level  # ruff: ignore[import-outside-top-level]
-
-    try:
-        api.SetImage(image)
-    except RuntimeError:
-        pass
-    else:
-        api.SetSourceResolution(resolution)
-
-        with start_span(op="ocr.recognize", name=filename):
-            api.Recognize()
-
-        with start_span(op="ocr.iterate", name=filename):
-            iterator = api.GetIterator()
-            level = RIL.TEXTLINE
-            for r in iterate_level(iterator, level):
-                with start_span(op="ocr.text", name=filename):
-                    try:
-                        yield r.GetUTF8Text(level)
-                    except RuntimeError:
-                        continue
-    finally:
-        api.Clear()
-
-
-def ocr_extract(
-    api,
-    *,
-    image: Image.Image,
-    filename: str,
-    strings: tuple[str, ...],
-    resolution: int,
-):
-    """Extract closes matches from an image."""
-    for ocr_result in ocr_get_strings(
-        api, image=image, filename=filename, resolution=resolution
-    ):
-        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
-        for part in parts:
-            yield from difflib.get_close_matches(part, strings, cutoff=0.9)
-
-
-@contextmanager
-def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
-    from tesserocr import (  # ruff: ignore[import-outside-top-level]
-        OEM,
-        PSM,
-        PyTessBaseAPI,
-    )
-
-    # Get matching language
-    try:
-        tess_language = TESSERACT_LANGUAGES[language.code]
-    except KeyError:
-        try:
-            tess_language = TESSERACT_LANGUAGES[language.base_code]
-        except KeyError:
-            tess_language = "eng"
-
-    ensure_tesseract_language(tess_language)
-
-    with PyTessBaseAPI(
-        path=f"{data_dir('cache', 'tesseract')}/",
-        psm=PSM.SPARSE_TEXT_OSD,
-        oem=OEM.LSTM_ONLY,
-        lang=tess_language,
-    ) as api:
-        yield api
-
-
 @login_required
 @require_POST
 def ocr_search(request: AuthenticatedHttpRequest, pk):
-
     obj = get_screenshot(request, pk)
-    translation = obj.translation
-
-    # Find all our strings
-    sources = dict(translation.unit_set.values_list("source", "pk"))
-    strings = tuple(sources.keys())
-
-    # Extract and match strings
-    try:
-        with Image.open(obj.image.path, formats=PIL_FORMATS) as image:
-            image.load()
-    except OSError as error:
-        LOGGER.warning(
-            "Skipping OCR for unreadable screenshot %s: %s", obj.image.path, error
+    cache = ensure_ocr(obj.pk, retry=request.POST.get("retry") == "1")
+    if cache.error:
+        error = (
+            gettext(
+                "Text recognition data could not be downloaded. Please try again later."
+            )
+            if cache.error == "download"
+            else gettext("Could not find strings in the image. Please try again.")
         )
-        return search_results(request, 200, obj)
-
-    ocr_image = cast("Image.Image", image)
-
-    try:
-        with get_tesseract(translation.language) as api:
-            results = {
-                sources[match]
-                for resolution in (72, 300)
-                for match in ocr_extract(
-                    api,
-                    image=ocr_image,
-                    filename=obj.image.path,
-                    strings=strings,
-                    resolution=resolution,
-                )
-            }
-    except httpx2.HTTPError as error:
-        LOGGER.warning("Could not download Tesseract data: %s", error)
+        return search_results(request, 503, obj, error=error, result_kind="ocr")
+    if cache.data is None:
         return search_results(
             request,
-            503,
+            200,
             obj,
-            error=gettext("OCR data could not be downloaded. Please try again later."),
+            result_kind="ocr",
+            task_url=reverse("api:task-detail", kwargs={"pk": cache.task_id}),
         )
-    finally:
-        ocr_image.close()
 
+    sources = tuple(set(obj.translation.unit_set.values_list("source", flat=True)))
+    matches = {
+        match
+        for result in cache.data["passes"]
+        for line in result["lines"]
+        for part in (line["text"], *line["text"].split("|"), *line["text"].split())
+        for match in difflib.get_close_matches(part, sources, cutoff=0.9)
+    }
     return search_results(
-        request, 200, obj, translation.unit_set.filter(pk__in=results)
+        request,
+        200,
+        obj,
+        obj.translation.unit_set.filter(source__in=matches),
+        result_kind="ocr",
     )
 
 

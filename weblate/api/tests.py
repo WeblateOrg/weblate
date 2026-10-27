@@ -19336,6 +19336,11 @@ class ScreenshotAPITest(APIBaseTest):
 
             self.assertIn(".png", Screenshot.objects.get().image.path)
 
+    def test_upload_schedules_recognition(self) -> None:
+        with patch("weblate.screenshots.ocr.schedule_ocr") as schedule:
+            self.test_upload()
+        schedule.assert_called_once_with(Screenshot.objects.get().pk)
+
     def test_upload_denied(self) -> None:
         self.test_upload(False, 403)
 

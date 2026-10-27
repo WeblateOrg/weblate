@@ -160,8 +160,16 @@ from the translate page using :guilabel:`Upload screenshot` in the
 :guilabel:`Screenshots` panel, or open the separate management
 interface under the :guilabel:`Operations` menu. There you can upload
 screenshots, assign them to source strings manually, or let Weblate find
-strings in the image using text recognition (OCR) with the
-:guilabel:`Find strings in image` button.
+strings in the image using optical character recognition (OCR). Recognition runs
+in the background when a screenshot is added or replaced. Open the
+:guilabel:`Image text` tab to review suggested source strings. If recognition is
+still running, the list updates automatically when results are ready. Use
+:guilabel:`Search` to find source strings manually.
+
+Recognized text is cached and refreshed when the image or recognition software
+changes. Existing screenshots are processed when opened if cached results are
+missing or outdated. Recognition does not assign strings automatically.
+
 Matching source strings can be assigned individually, in a selected batch, or
 all at once.
 
@@ -222,7 +230,7 @@ For application projects, a practical workflow is:
 #. Configure :ref:`component-screenshot_filemask` for that path.
 #. Update the component repository so Weblate discovers or refreshes the
    screenshots.
-#. Use OCR or source string search to assign screenshots to the matching source
+#. Use image text recognition or source string search to assign screenshots to the matching source
    strings, and review the :guilabel:`Source strings without screenshots`
    counter for important strings still missing visual context.
 
