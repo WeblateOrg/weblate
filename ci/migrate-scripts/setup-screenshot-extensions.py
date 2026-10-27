@@ -16,6 +16,7 @@ from django.core.files.base import ContentFile
 from PIL import Image
 
 Screenshot = apps.get_model("screenshots", "Screenshot")
+ScreenshotUnit = Screenshot.units.through
 Translation = apps.get_model("trans", "Translation")
 User = apps.get_model(settings.AUTH_USER_MODEL)
 translation = Translation.objects.get(component__slug="test", language__code="cs")
@@ -39,6 +40,7 @@ cases = (
     ("missing.pngrawtrue", None, False),
 )
 manifest = []
+unit_links = []
 for filename, content, repair in cases:
     name = f"screenshots/extension-upgrade-{filename}"
     storage.delete(name)
@@ -47,7 +49,7 @@ for filename, content, repair in cases:
     screenshot = Screenshot.objects.bulk_create(
         [Screenshot(name=filename, image=name, translation=translation, user=user)]
     )[0]
-    screenshot.units.add(unit)
+    unit_links.append(ScreenshotUnit(screenshot_id=screenshot.pk, unit_id=unit.pk))
     manifest.append(
         {
             "pk": screenshot.pk,
@@ -71,7 +73,7 @@ for filename, content, repair in cases:
                 )
             ]
         )[0]
-        shared.units.add(unit)
+        unit_links.append(ScreenshotUnit(screenshot_id=shared.pk, unit_id=unit.pk))
         manifest.append(
             {
                 **manifest[-1],
@@ -80,6 +82,9 @@ for filename, content, repair in cases:
                 "timestamp": shared.timestamp.isoformat(),
             }
         )
+
+# Avoid screenshot assignment signals refreshing alerts seeded by other scripts.
+ScreenshotUnit.objects.bulk_create(unit_links)
 
 storage.delete("screenshot-extension-upgrade.json")
 storage.save(
