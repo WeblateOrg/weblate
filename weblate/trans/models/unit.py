@@ -15,7 +15,16 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Count, ManyToManyField, Max, Q, Sum, Value
+from django.db.models import (
+    Count,
+    ManyToManyField,
+    Max,
+    OuterRef,
+    Q,
+    Subquery,
+    Sum,
+    Value,
+)
 from django.db.models.functions import MD5, Cast, Coalesce, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -152,6 +161,21 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
+    def with_last_content_author(self) -> UnitQuerySet:
+        """
+        Annotate the latest content author's ID, or None without a known author.
+
+        A null author on the latest change does not select an older author.
+        Callers needing a concrete account should fall back to anonymous.
+        """
+        latest = (
+            Change.objects.content()
+            .filter(unit_id=OuterRef("pk"))
+            .order_by("-timestamp", "-pk")
+            .values("author_id")[:1]
+        )
+        return self.annotate(last_content_author_id=Subquery(latest))
+
     def delete(self):
         project_ids = self.values_list(
             "translation__component__project_id", flat=True
@@ -801,6 +825,8 @@ class TranslationDeltaEntry(TypedDict):
 
 
 class Unit(models.Model, LoggerMixin):
+    # Present on instances loaded with with_last_content_author().
+    last_content_author_id: int | None
     translation = models.ForeignKey(
         "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -3386,9 +3412,13 @@ class Unit(models.Model, LoggerMixin):
         """
         Content changes for a unit ordered by timestamp.
 
-        Can be prefetched using prefetch_recent_content_changes.
+        Use with_last_content_author() when only author IDs are needed in bulk.
         """
-        return self.change_set.content().select_related("author").order_by("-timestamp")
+        return (
+            self.change_set.content()
+            .select_related("author")
+            .order_by("-timestamp", "-pk")
+        )
 
     def get_last_content_change(self, silent: bool = False) -> tuple[User, datetime]:
         """

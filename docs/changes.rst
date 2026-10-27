@@ -27,6 +27,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Reduced author lookup queries when changing :ref:`custom source languages <workflow-source-language>` and restoring pending changes from older :ref:`project backups <projectbackup>`.
+
 * Correct screenshot filename extensions during upgrades and :ref:`project backup import <projectbackup>` using validated image contents.
 
 * :ref:`Project backup restore <projectbackup>` validates stored parameter values and reports skipped unsupported version control and file format parameters.
