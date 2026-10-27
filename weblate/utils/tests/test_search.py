@@ -32,6 +32,8 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_actor
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import (
+    MAX_SEARCH_QUERY_LENGTH,
+    MAX_SEARCH_QUERY_TERMS,
     SearchQueryError,
     UnitTermExpr,
     build_parser,
@@ -116,6 +118,27 @@ class SearchTestCase(TestCase):
 
 
 class BooleanOperatorParserTest(TestCase):
+    def test_query_length_limit_precedes_parser(self) -> None:
+        parse_string("x" * MAX_SEARCH_QUERY_LENGTH, "unit")
+        with (
+            patch("weblate.utils.search.PARSER_LOCK") as lock,
+            self.assertRaisesMessage(SearchQueryError, "Search query is too long"),
+        ):
+            parse_string("x" * (MAX_SEARCH_QUERY_LENGTH + 1), "unit")
+        lock.__enter__.assert_not_called()
+
+    def test_term_limit_counts_quoted_text_once(self) -> None:
+        terms = [f"word{index}" for index in range(MAX_SEARCH_QUERY_TERMS)]
+        parse_query(" ".join(terms))
+        parse_query('"' + " ".join(terms) + '"')
+        with self.assertRaisesMessage(SearchQueryError, "Search query is too complex"):
+            parse_query(" ".join([*terms, "extra"]))
+
+    def test_parsed_queries_are_not_retained(self) -> None:
+        first = parse_string("state:translated", "unit")
+        second = parse_string("state:translated", "unit")
+        self.assertIsNot(first, second)
+
     def test_packrat_is_enabled(self) -> None:
         with patch.object(ParserElement, "enable_packrat") as enable_packrat:
             build_parser(UnitTermExpr)

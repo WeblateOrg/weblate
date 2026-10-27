@@ -30,6 +30,7 @@ from weblate.trans.automation import UnitSelection, automatic_translation, bulk_
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component, Project
 from weblate.utils.forms import QueryField
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
@@ -47,6 +48,7 @@ def object_schema(properties: dict[str, Any], required: list[str]) -> dict[str, 
 
 
 STRING = {"type": "string", "maxLength": 4096}
+QUERY_STRING = {"type": "string", "maxLength": MAX_SEARCH_QUERY_LENGTH}
 STRINGS = {"type": "array", "items": STRING, "maxItems": 100}
 
 
@@ -178,7 +180,7 @@ class SelectOperation(AutomationOperation):
     supported_scopes = frozenset({"component", "trigger", "result"})
     query_required_for_component = True
     preview_safe = True
-    settings_schema = object_schema({"q": STRING}, [])
+    settings_schema = object_schema({"q": QUERY_STRING}, [])
     result_schema = object_schema(
         {
             "component": {"type": "integer"},
@@ -273,7 +275,7 @@ class AutomaticTranslationOperation(AutomationOperation):
     settings_schema = object_schema(
         {
             "mode": {"enum": ["suggest", "translate", "fuzzy", "approved"]},
-            "q": STRING,
+            "q": QUERY_STRING,
             "auto_source": {"enum": ["others", "mt"]},
             "component": {"type": ["integer", "null"], "minimum": 1},
             "engines": STRINGS,
@@ -378,7 +380,7 @@ class AIQualityOperation(AutomationOperation):
     verbose = gettext_lazy("AI quality evaluation")
     version_added = "2026.10"
     supported_scopes = frozenset({"component", "trigger", "result"})
-    settings_schema = object_schema({"service": STRING, "q": STRING}, [])
+    settings_schema = object_schema({"service": STRING, "q": QUERY_STRING}, [])
     result_schema = object_schema(
         {
             "component": {"type": "integer"},
@@ -518,7 +520,7 @@ class BulkEditOperation(AutomationOperation):
     query_required_for_component = True
     settings_schema = object_schema(
         {
-            "q": STRING,
+            "q": QUERY_STRING,
             "state": {"type": "integer"},
             "search": STRING,
             "replacement": STRING,

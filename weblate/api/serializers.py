@@ -105,6 +105,7 @@ from weblate.trans.workspace_move import (
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
@@ -202,7 +203,11 @@ class ReportCreateSerializer(serializers.Serializer):
     counting_mode = serializers.ChoiceField(
         choices=("unique", "all"), required=False, default="unique"
     )
-    q = serializers.CharField(required=False, default="state:<translated")
+    q = serializers.CharField(
+        required=False,
+        default="state:<translated",
+        max_length=MAX_SEARCH_QUERY_LENGTH,
+    )
     base_rate = serializers.DecimalField(
         required=False,
         default=Decimal(1),
@@ -3807,6 +3812,10 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
 
 
 class SavedSearchSerializer(serializers.ModelSerializer[SavedSearch]):
+    query = serializers.CharField(
+        label=gettext_lazy("Search query"), max_length=MAX_SEARCH_QUERY_LENGTH
+    )
+
     class Meta:
         model = SavedSearch
         fields = ("id", "name", "query", "description")

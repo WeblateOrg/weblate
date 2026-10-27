@@ -35670,6 +35670,7 @@ components:
           title: Query
           description: Please note that translating all strings will discard all existing
             translations.
+          maxLength: 2048
         auto_source:
           allOf:
           - $ref: '#/components/schemas/AutoSourceEnum'
@@ -42129,6 +42130,7 @@ components:
         q:
           type: string
           default: state:<translated
+          maxLength: 2048
         base_rate:
           type: string
           format: decimal
@@ -42403,6 +42405,7 @@ components:
         query:
           type: string
           title: Search query
+          maxLength: 2048
         description:
           type: string
           title: Search description
@@ -42449,6 +42452,7 @@ components:
         q:
           type: string
           default: state:<translated
+          maxLength: 2048
         base_rate:
           type: string
           format: decimal
