@@ -4099,6 +4099,25 @@ class BackupsTest(ReusableViewTestCase):
             with self.assertRaises(ValidationError):
                 restore.validate()
 
+    def test_restore_schedules_screenshot_recognition(self) -> None:
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            Screenshot.objects.create(
+                name="Recognized screenshot",
+                translation=self.component.source_translation,
+                image=File(handle, name="recognition.png"),
+                user=self.user,
+            )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        with patch("weblate.trans.backups.schedule_ocr") as schedule:
+            project = restore.restore("Restored", "restored", self.user)
+        screenshot = Screenshot.objects.get(
+            translation__component__project=project, name="Recognized screenshot"
+        )
+        schedule.assert_called_once_with(screenshot.pk)
+
     def test_restore_repairs_screenshot_extensions(self) -> None:
         content = Path(TEST_SCREENSHOT).read_bytes()
         filenames = (

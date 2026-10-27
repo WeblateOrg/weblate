@@ -197,61 +197,64 @@ hotkeys("ctrl+enter,command+enter", (e) => {
   return submitForm(e);
 });
 
-function screenshotStart() {
-  document
-    .querySelector("#search-results tbody.unit-listing-body")
-    ?.replaceChildren();
-  const summary = document.getElementById("screenshots-search-summary");
-  if (summary !== null) {
+function screenshotActivePanel() {
+  return document.querySelector("#search-results .tab-pane.active");
+}
+
+function screenshotStart(panel = screenshotActivePanel()) {
+  panel?.querySelector("tbody.unit-listing-body")?.replaceChildren();
+  const summary = panel?.querySelector(".screenshots-search-summary");
+  if (summary) {
     summary.textContent = "";
   }
   screenshotUpdateBulkControls();
-  increaseLoading("screenshots");
+  if (panel) {
+    panel.setAttribute("aria-busy", "true");
+    increaseLoading(`screenshots-${panel.dataset.screenshotResults}`);
+  }
 }
 
-function screenshotFailure() {
-  screenshotLoaded({ responseCode: 500 });
+function screenshotFailure(panel = screenshotActivePanel()) {
+  screenshotLoaded({ responseCode: 500 }, panel);
 }
 
-function screenshotSelectedSources() {
+function screenshotSelectedSources(panel = screenshotActivePanel()) {
   return Array.from(
-    document.querySelectorAll(
-      "#search-results .screenshot-source-select:checked",
-    ),
+    panel?.querySelectorAll(".screenshot-source-select:checked") ?? [],
     (element) => element.value,
   );
 }
 
-function screenshotAllSources() {
+function screenshotAllSources(panel = screenshotActivePanel()) {
   return Array.from(
-    document.querySelectorAll("#search-results .screenshot-source-select"),
+    panel?.querySelectorAll(".screenshot-source-select") ?? [],
     (element) => element.value,
   );
 }
 
 function screenshotUpdateBulkControls() {
-  const sourceCount = screenshotAllSources().length;
-  const selectedCount = screenshotSelectedSources().length;
-  const addSelected = document.getElementById("screenshots-add-selected");
-  const selectionToggle = document.getElementById(
-    "screenshots-toggle-selection",
-  );
-  if (addSelected !== null) {
-    addSelected.disabled = selectedCount === 0;
-  }
-  if (selectionToggle instanceof HTMLInputElement) {
-    selectionToggle.disabled = sourceCount === 0;
-    selectionToggle.checked = sourceCount > 0 && selectedCount === sourceCount;
-    selectionToggle.indeterminate =
-      selectedCount > 0 && selectedCount < sourceCount;
+  for (const panel of document.querySelectorAll("[data-screenshot-results]")) {
+    const sourceCount = screenshotAllSources(panel).length;
+    const selectedCount = screenshotSelectedSources(panel).length;
+    const addSelected = panel.querySelector(".screenshots-add-selected");
+    const selectionToggle = panel.querySelector(
+      ".screenshots-toggle-selection",
+    );
+    if (addSelected !== null) {
+      addSelected.disabled = selectedCount === 0;
+    }
+    if (selectionToggle instanceof HTMLInputElement) {
+      selectionToggle.disabled = sourceCount === 0;
+      selectionToggle.checked =
+        sourceCount > 0 && selectedCount === sourceCount;
+      selectionToggle.indeterminate =
+        selectedCount > 0 && selectedCount < sourceCount;
+    }
   }
 }
 
-function screenshotToggleSelection(checked) {
-  const checkboxes = document.querySelectorAll(
-    "#search-results .screenshot-source-select",
-  );
-  for (const checkbox of checkboxes) {
+function screenshotToggleSelection(checked, panel) {
+  for (const checkbox of panel.querySelectorAll(".screenshot-source-select")) {
     checkbox.checked = checked;
   }
   screenshotUpdateBulkControls();
@@ -383,7 +386,10 @@ function screenshotBindAddButtons() {
   for (const button of document.querySelectorAll(
     "#search-results .add-string",
   )) {
-    button.addEventListener("click", screenshotAddString);
+    if (!button.dataset.screenshotBound) {
+      button.addEventListener("click", screenshotAddString);
+      button.dataset.screenshotBound = "1";
+    }
   }
 }
 
@@ -431,13 +437,10 @@ function screenshotAddString(event) {
   }
 }
 
-function screenshotResultError(severity, message) {
-  const columnCount =
-    document.querySelectorAll("#search-results thead th").length || 6;
-  const body = document.querySelector(
-    "#search-results tbody.unit-listing-body",
-  );
-  if (body === null) {
+function screenshotResultError(severity, message, panel) {
+  const columnCount = panel?.querySelectorAll("thead th").length || 6;
+  const body = panel?.querySelector("tbody.unit-listing-body");
+  if (!body) {
     return;
   }
   const row = document.createElement("tr");
@@ -449,25 +452,31 @@ function screenshotResultError(severity, message) {
   body.replaceChildren(row);
 }
 
-function screenshotLoaded(data) {
-  decreaseLoading("screenshots");
-  const summary = document.getElementById("screenshots-search-summary");
-  if (summary !== null) {
-    summary.textContent = data.summary || "";
+function screenshotLoaded(data, panel = screenshotActivePanel()) {
+  panel?.setAttribute("aria-busy", "false");
+  if (panel) decreaseLoading(`screenshots-${panel.dataset.screenshotResults}`);
+  const summary = panel?.querySelector(".screenshots-search-summary");
+  if (summary) {
+    summary.textContent =
+      data.responseCode === 200
+        ? data.summary || ""
+        : data.error || gettext("Error loading search results!");
   }
   if (data.responseCode !== 200) {
     screenshotResultError(
       "danger",
       data.error || gettext("Error loading search results!"),
+      panel,
     );
   } else if (data.count === 0) {
     screenshotResultError(
       "warning",
       data.empty || gettext("No new matching source strings found."),
+      panel,
     );
   } else {
-    const table = document.querySelector("#search-results table");
-    if (table !== null) {
+    const table = panel?.querySelector("table");
+    if (table) {
       table.outerHTML = data.results;
     }
     screenshotBindAddButtons();
@@ -1323,7 +1332,8 @@ onReady(() => {
   });
   /* Screenshot management */
   async function screenshotLoadResults(url, form) {
-    screenshotStart();
+    const panel = form.closest("[data-screenshot-results]");
+    screenshotStart(panel);
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -1331,25 +1341,115 @@ onReady(() => {
         headers: { "X-Requested-With": "XMLHttpRequest" },
       });
       if (!response.ok) {
-        screenshotFailure();
+        screenshotFailure(panel);
         return;
       }
-      screenshotLoaded(await response.json());
+      screenshotLoaded(await response.json(), panel);
     } catch (_error) {
-      screenshotFailure();
+      screenshotFailure(panel);
     }
   }
-  for (const button of document.querySelectorAll("#screenshots-auto")) {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      const url = this.getAttribute("data-href");
-      const form = this.closest("form");
-      if (url === null || form === null) {
-        screenshotFailure();
-        return;
+
+  const recognitionForm = document.getElementById("screenshots-ocr-form");
+  if (recognitionForm) {
+    const panel = recognitionForm.closest("[data-screenshot-results]");
+    const retryButton = document.getElementById(
+      "screenshots-recognition-retry",
+    );
+    let running = false;
+    async function loadImageText(retry = false) {
+      if (running) return;
+      running = true;
+      retryButton.hidden = true;
+      screenshotStart(panel);
+      const deadline = Date.now() + 300000;
+      let retryRequested = retry;
+      let taskUrl = null;
+      try {
+        while (Date.now() < deadline) {
+          if (taskUrl) {
+            let taskResponse;
+            try {
+              taskResponse = await fetch(taskUrl, {
+                credentials: "same-origin",
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+              });
+            } catch (_error) {
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+              continue;
+            }
+            if (taskResponse.status === 404) {
+              // Recheck persisted results if task metadata expired.
+              taskUrl = null;
+            } else if (taskResponse.status >= 500) {
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+              continue;
+            } else if (!taskResponse.ok) {
+              throw new Error(
+                gettext(
+                  "Could not load text recognition progress. Please try again.",
+                ),
+              );
+            } else {
+              const task = await taskResponse.json();
+              if (!task.completed) {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                continue;
+              }
+            }
+          }
+          const body = new FormData(recognitionForm);
+          if (retryRequested) body.set("retry", "1");
+          retryRequested = false;
+          const response = await fetch(recognitionForm.dataset.href, {
+            method: "POST",
+            body,
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          });
+          if (!response.ok)
+            throw new Error(
+              gettext(
+                "Could not load strings from the image. Please try again.",
+              ),
+            );
+          const data = await response.json();
+          if (data.responseCode !== 200) {
+            screenshotLoaded(data, panel);
+            retryButton.hidden = false;
+            return;
+          }
+          if (!data.pending) {
+            screenshotLoaded(data, panel);
+            return;
+          }
+          taskUrl = data.task_url;
+          screenshotResultError(
+            "info",
+            gettext("Finding strings in image…"),
+            panel,
+          );
+          panel.querySelector(".screenshots-search-summary").textContent =
+            gettext("Finding strings in image…");
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+        throw new Error(
+          gettext(
+            "Finding strings is taking longer than expected. Please try again later.",
+          ),
+        );
+      } catch (error) {
+        screenshotLoaded({ responseCode: 500, error: error.message }, panel);
+        retryButton.hidden = false;
+      } finally {
+        panel.setAttribute("aria-busy", "false");
+        running = false;
       }
-      void screenshotLoadResults(url, form);
+    }
+    recognitionForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      void loadImageText(true);
     });
+    void loadImageText();
   }
   document
     .getElementById("screenshots-search-form")
@@ -1357,7 +1457,7 @@ onReady(() => {
       event.preventDefault();
       const url = this.getAttribute("data-href");
       if (url === null) {
-        screenshotFailure();
+        screenshotFailure(this.closest("[data-screenshot-results]"));
         return;
       }
       void screenshotLoadResults(url, this);
@@ -1371,17 +1471,22 @@ onReady(() => {
     }
     if (
       event.target instanceof HTMLInputElement &&
-      event.target.id === "screenshots-toggle-selection"
+      event.target.matches(".screenshots-toggle-selection")
     ) {
-      screenshotToggleSelection(event.target.checked);
+      screenshotToggleSelection(
+        event.target.checked,
+        event.target.closest("[data-screenshot-results]"),
+      );
     }
   });
-  document
-    .getElementById("screenshots-add-selected")
-    ?.addEventListener("click", (event) => {
+  for (const button of document.querySelectorAll(".screenshots-add-selected")) {
+    button.addEventListener("click", (event) => {
       event.preventDefault();
-      screenshotAddSources(screenshotSelectedSources());
+      screenshotAddSources(
+        screenshotSelectedSources(button.closest("[data-screenshot-results]")),
+      );
     });
+  }
   document
     .getElementById("sources-listing")
     ?.addEventListener("submit", (event) => {

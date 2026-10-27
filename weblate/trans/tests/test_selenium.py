@@ -69,8 +69,8 @@ from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
-from weblate.screenshots.models import Screenshot
-from weblate.screenshots.views import ensure_tesseract_language
+from weblate.screenshots.models import Screenshot, ScreenshotOCR
+from weblate.screenshots.ocr import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
@@ -4496,30 +4496,6 @@ class SeleniumTests(
             with self.wait_for_page_load():
                 self.click("Dashboard")
 
-        def wait_search(expected_pk: int | None = None) -> None:
-            time.sleep(0.1)
-            if expected_pk is None:
-                WebDriverWait(self.driver, 15).until(
-                    presence_of_element_located(
-                        (
-                            By.XPATH,
-                            (
-                                '//div[@id="search-results"]'
-                                '//tbody[@class="unit-listing-body"]//tr'
-                            ),
-                        )
-                    )
-                )
-            else:
-                WebDriverWait(self.driver, 15).until(
-                    presence_of_element_located(
-                        (
-                            By.CSS_SELECTOR,
-                            f'#search-results .add-string[data-pk="{expected_pk}"]',
-                        )
-                    )
-                )
-
         capture_unit("source-information.png", "toggle-nearby")
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
@@ -4573,9 +4549,23 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click("Automatic translation")
 
-        # Perform OCR
-        self.click(htmlid="screenshots-auto")
-        wait_search()
+        # Image text suggestions load automatically, including an empty result.
+        WebDriverWait(self.driver, 30).until(
+            lambda driver: (
+                driver.find_element(
+                    By.CSS_SELECTOR, "#screenshot-image-text"
+                ).get_attribute("aria-busy")
+                == "false"
+                and driver.find_element(
+                    By.CSS_SELECTOR,
+                    "#screenshot-image-text .screenshots-search-summary",
+                ).text
+            )
+        )
+        self.assert_text_contains(
+            "#screenshot-image-text .screenshots-search-summary",
+            "matching source strings found",
+        )
 
         self.screenshot("screenshot-ocr.png")
 
@@ -4602,15 +4592,13 @@ class SeleniumTests(
 
         self.assertEqual(assigned_unit_ids(), [str(other.pk)])
 
-        # Add string manually
-        search_input = self.driver.find_element(By.ID, "search-input")
-        search_input.clear()
-        search_input.send_keys(f"{text!r}")
-        self.click(htmlid="screenshots-search")
-        wait_search(source.pk)
+        self.search_while_screenshot_recognition_pending(
+            uploaded_screenshot, source, text
+        )
         self.click(
             self.driver.find_element(
-                By.CSS_SELECTOR, f'#search-results .add-string[data-pk="{source.pk}"]'
+                By.CSS_SELECTOR,
+                f'#screenshot-search .add-string[data-pk="{source.pk}"]',
             )
         )
         WebDriverWait(self.driver, 15).until(
@@ -4623,6 +4611,13 @@ class SeleniumTests(
         # Newly added string is appended without reordering existing rows
         WebDriverWait(self.driver, 15).until(
             lambda _driver: assigned_unit_ids() == [str(other.pk), str(source.pk)]
+        )
+
+        self.assertFalse(
+            self.find_elements_now(
+                By.CSS_SELECTOR,
+                f'#search-results .screenshot-source-select[value="{source.pk}"]',
+            )
         )
 
         # Removing keeps the remaining rows in place without reloading the page
@@ -4641,8 +4636,118 @@ class SeleniumTests(
             .exists()
         )
 
+        self.check_screenshot_recognition_retry(uploaded_screenshot)
+
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
+
+    def search_while_screenshot_recognition_pending(
+        self, screenshot: Screenshot, source: Unit, text: str
+    ) -> None:
+        # Leave recognition pending while searching in the other tab.
+        ScreenshotOCR.objects.filter(screenshot=screenshot).update(data=None, error="")
+        with patch("weblate.api.views.AsyncResult") as task_result:
+            task = task_result.return_value
+            task.id = str(ScreenshotOCR.objects.get(screenshot=screenshot).task_id)
+            task.ready.return_value = False
+            task.result = None
+            task.state = "PENDING"
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    "Finding strings in image"
+                    in driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#screenshot-image-text .screenshots-search-summary",
+                    ).text
+                )
+            )
+            # Bootstrap tabs support arrow-key navigation.
+            image_tab = self.driver.find_element(By.ID, "screenshot-image-text-tab")
+            image_tab.send_keys(Keys.ARROW_RIGHT)
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-search-tab").get_attribute(
+                        "aria-selected"
+                    )
+                    == "true"
+                )
+            )
+            search_input = self.driver.find_element(By.ID, "search-input")
+            search_input.clear()
+            search_input.send_keys(f"{text!r}")
+            self.click(htmlid="screenshots-search")
+            selection = WebDriverWait(self.driver, 15).until(
+                presence_of_element_located(
+                    (
+                        By.CSS_SELECTOR,
+                        f'#screenshot-search .screenshot-source-select[value="{source.pk}"]',
+                    )
+                )
+            )
+            selection.click()
+            ScreenshotOCR.objects.filter(screenshot=screenshot).update(
+                data={"passes": [{"lines": [{"text": source.source}]}]}
+            )
+            task.result = {"status": "completed"}
+            task.state = "SUCCESS"
+            task.ready.return_value = True
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-image-text").get_attribute(
+                        "aria-busy"
+                    )
+                    == "false"
+                )
+            )
+            self.assertTrue(selection.is_selected())
+            self.assertEqual(
+                self.driver.find_element(By.ID, "screenshot-search-tab").get_attribute(
+                    "aria-selected"
+                ),
+                "true",
+            )
+
+    def check_screenshot_recognition_retry(self, screenshot: Screenshot) -> None:
+        ScreenshotOCR.objects.filter(screenshot=screenshot).update(
+            data=None, error="download"
+        )
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{screenshot.get_absolute_url()}")
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: driver.find_element(
+                By.ID, "screenshots-recognition-retry"
+            ).is_displayed()
+        )
+        self.assert_text_contains(
+            "#screenshot-image-text", "Text recognition data could not be downloaded"
+        )
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=[]),
+        ):
+            self.driver.find_element(By.ID, "screenshots-recognition-retry").send_keys(
+                Keys.ENTER
+            )
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-image-text").get_attribute(
+                        "aria-busy"
+                    )
+                    == "false"
+                    and "matching source strings found"
+                    in driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#screenshot-image-text .screenshots-search-summary",
+                    ).text
+                )
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.ID, "screenshots-recognition-retry"
+            ).is_displayed()
+        )
 
     @reuse_demo_fixture
     def test_admin(self) -> None:
