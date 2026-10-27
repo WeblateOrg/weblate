@@ -35,7 +35,15 @@ from weblate_schemas import load_schema
 from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.bots import InternalBot
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import AutoGroup, Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import (
+    AutoGroup,
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    User,
+    get_anonymous,
+)
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
@@ -281,6 +289,80 @@ class BackupsTest(ReusableViewTestCase):
             )
         )
         self.enterContext(override_settings(MEDIA_ROOT=media_root))
+
+    def test_restore_legacy_pending_batches_authors(self) -> None:
+        author = User.objects.create(username="legacy-content-author")
+        units = list(
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.prefetch_source()
+            .order_by("pk")
+        )
+        for unit in units:
+            unit.change_set.all().delete()
+            unit.import_data = {"pending": True}
+        Change.objects.create(
+            unit=units[0], user=self.user, author=author, action=ActionEvents.CHANGE
+        )
+        anonymous_id = get_anonymous().pk
+        backup = ProjectBackup()
+        for size in (1, len(units)):
+            with self.subTest(size=size), self.assertNumQueries(2):
+                backup.restore_pending_unit_changes({}, units=units[:size])
+        for index, unit in enumerate(units):
+            pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
+            assert pending is not None
+            self.assertEqual(
+                pending.author_id, author.pk if index == 0 else anonymous_id
+            )
+            self.assertEqual(pending.target, unit.target)
+            self.assertEqual(unit.import_data, {"pending": True})
+
+    def test_restore_legacy_pending_skips_nonpending_units(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        unit.import_data = {"pending": False}
+        with self.assertNumQueries(0):
+            ProjectBackup().restore_pending_unit_changes({}, units=[unit])
+
+    def test_restore_explicit_pending_author_is_authoritative(self) -> None:
+        unit = (
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.prefetch_source()
+            .get(source="Hello, world!\n")
+        )
+        historical_author = User.objects.create(username="historical-author")
+        Change.objects.create(
+            unit=unit,
+            user=self.user,
+            author=historical_author,
+            action=ActionEvents.CHANGE,
+        )
+        unit.import_data = {"pending": True, "translation_id": 100, "id_hash": 200}
+        item = {
+            "translation_id": 100,
+            "unit_id_hash": 200,
+            "author": self.user.username,
+            "target": "Restored pending target",
+            "explanation": "",
+            "source_unit_explanation": "",
+            "timestamp": unit.timestamp,
+            "add_unit": False,
+            "state": unit.state,
+        }
+        backup = ProjectBackup()
+        with patch(
+            "weblate.trans.models.unit.UnitQuerySet.with_last_content_author",
+            side_effect=AssertionError("Modern backup must use stored authors"),
+        ):
+            backup.restore_pending_unit_changes(
+                {"pending_unit_changes": [item]}, units=[unit]
+            )
+            backup.restore_pending_unit_changes(
+                {"pending_unit_changes": []}, units=[unit]
+            )
+        pending = unit.pending_changes.get(target="Restored pending target")
+        self.assertEqual(pending.author_id, self.user.pk)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_restore_rechecks_full_billing_workspace(self) -> None:

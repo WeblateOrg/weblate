@@ -432,6 +432,7 @@ def update_parent(
     force: bool = False,
     configured: bool | None = None,
     missing_sources: MissingSourceCache | None = None,
+    pending_author_id: int | None = None,
 ) -> Change | None:
     """Apply a dependency change without modifying canonical source data."""
     from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
@@ -511,7 +512,9 @@ def update_parent(
         else unit.translation.component.get_update_user(None)
     )
     if unit.state != old_state or changed:
-        PendingUnitChange.store_unit_change(unit=unit, author=author, user=actor)
+        PendingUnitChange.store_unit_change(
+            unit=unit, author=author, author_id=pending_author_id, user=actor
+        )
     change = None
     if changed:
         change = unit.generate_change(
@@ -621,6 +624,12 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         queryset = queryset.filter(
             Q(pk__in=affected) | Q(translation__language_id__in=work.languages)
         )
+    anonymous_id = None
+    if work.author is None:
+        from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+
+        queryset = queryset.with_last_content_author()
+        anonymous_id = get_anonymous().pk
     units = list(
         queryset.select_for_update().prefetch().prefetch_source().prefetch_all_checks()
     )
@@ -683,6 +692,11 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
             effects=effects,
             force=work.force,
             missing_sources=missing_sources,
+            pending_author_id=(
+                unit.last_content_author_id or anonymous_id
+                if work.author is None
+                else None
+            ),
             configured=(
                 not unit.is_source
                 and settings.get(unit.translation.language_id)

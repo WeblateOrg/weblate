@@ -26,8 +26,10 @@ from django.template.loader import render_to_string
 from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.api.serializers import UnitSerializer
+from weblate.auth.models import User, get_anonymous
 from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.base import TargetCheck
 from weblate.checks.chars import BeginSpaceCheck, EndSpaceCheck
@@ -65,6 +67,7 @@ from weblate.trans.formatting import format_unit_source, get_source_changes
 from weblate.trans.forms import MergeForm, TranslationForm, WorkflowSettingForm
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -111,7 +114,7 @@ from weblate.workspaces.models import Workspace
 if TYPE_CHECKING:
     from django import forms
 
-    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.machinery.base import SettingsDict, UnitMemoryResultDict
     from weblate.memory.tasks import MemoryUpdatePayload
 
@@ -139,6 +142,117 @@ class SourceLanguageTest(FixtureComponentTestCase):
         unit.target = target
         unit.state = unit.original_state = state
         unit.save()
+
+    def test_last_content_author_selection(self) -> None:
+        author = User.objects.create(username="content-author")
+        timestamp = timezone.now()
+        Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            timestamp=timestamp,
+        )
+        latest = Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=author,
+            action=ActionEvents.CHANGE,
+            timestamp=timestamp,
+        )
+        Change.objects.create(
+            unit=self.child,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.COMMENT,
+        )
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertEqual(selected.last_content_author_id, author.pk)
+        self.assertEqual(selected.get_last_content_change(), (author, latest.timestamp))
+        # A missing latest author is anonymous, rather than an older known author.
+        Change.objects.filter(pk=latest.pk).update(author=None)
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertIsNone(selected.last_content_author_id)
+        self.assertEqual(selected.get_last_content_change()[0], get_anonymous())
+
+    def test_last_content_author_selection_without_history(self) -> None:
+        self.child.change_set.all().delete()
+        selected = Unit.objects.with_last_content_author().get(pk=self.child.pk)
+        self.assertIsNone(selected.last_content_author_id)
+        self.assertEqual(selected.get_last_content_change()[0], get_anonymous())
+
+    def test_pending_change_accepts_author_id_without_lookup(self) -> None:
+        author = User.objects.create(username="content-author")
+        unit = Unit.objects.prefetch().prefetch_source().get(pk=self.child.pk)
+        with self.assertNumQueries(0):
+            pending = PendingUnitChange.store_unit_change(
+                unit,
+                author_id=author.pk,
+                user=self.user,
+                store_disk_state=False,
+                save=False,
+            )
+        self.assertEqual(pending.author_id, author.pk)
+        self.assertEqual(pending.metadata["actor_id"], self.user.pk)
+        pending = PendingUnitChange.store_unit_change(
+            unit,
+            author=self.user,
+            author_id=author.pk,
+            store_disk_state=False,
+            save=False,
+        )
+        self.assertEqual(pending.author_id, self.user.pk)
+
+    def test_workflow_reuses_selected_content_authors(self) -> None:
+        author = User.objects.create(username="content-author")
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Existing translation")
+        Change.objects.create(
+            unit=self.child, user=self.user, author=author, action=ActionEvents.CHANGE
+        )
+        self.grandchild.change_set.all().delete()
+        with patch.object(
+            Unit,
+            "get_last_content_change",
+            side_effect=AssertionError("Per-unit author lookup"),
+        ):
+            self.configure()
+            self.configure(self.grandchild, self.parent)
+        for unit, expected in (
+            (self.child, author),
+            (self.grandchild, get_anonymous()),
+        ):
+            pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
+            assert pending is not None
+            self.assertEqual(pending.author_id, expected.pk)
+            self.assertEqual(pending.get_actor(), self.user)
+
+    def test_reconciliation_with_explicit_author_does_not_select_authors(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.configure()
+        with patch(
+            "weblate.trans.models.unit.UnitQuerySet.with_last_content_author",
+            side_effect=AssertionError("Unneeded author query"),
+        ):
+            self.parent.translate(
+                self.user, "Changed German source", STATE_TRANSLATED, propagate=False
+            )
+
+    def test_workflow_author_selection_is_bounded(self) -> None:
+        # Isolate author selection from the historical-content quality check.
+        with (
+            patch.object(Unit, "run_checks"),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        author_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith("SELECT")
+            and 'FROM "trans_change"' in query["sql"]
+        ]
+        self.assertEqual(len(author_queries), 1, author_queries)
+        self.assertGreater(self.child.translation.unit_set.count(), 1)
 
     def test_regular_operations_use_one_gate_with_cold_instances(self) -> None:
         unit = Unit.objects.prefetch().get(pk=self.child.pk)

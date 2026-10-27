@@ -39,7 +39,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator, URLValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import F, OuterRef, Q, Subquery, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -63,7 +63,7 @@ from weblate.memory.tasks import (
     schedule_memory_updates,
     update_memory_bulk,
 )
-from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import (
     get_alert_class,
@@ -4094,11 +4094,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         units_to_update: list[Unit] = []
         anonymous_id = get_anonymous().id
         actor_id = self.get_update_user(request).pk
-        last_author = (
-            Change.objects.filter(unit_id=OuterRef("pk"), action__in=ACTIONS_CONTENT)
-            .order_by("-timestamp")
-            .values("author_id")[:1]
-        )
         # Local repositories have no upstream source of truth. Reapply can use
         # the same unit-creation path as adding strings in Weblate.
         components = [self, *self.linked_children]
@@ -4119,8 +4114,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             for component in components
             if component.pk in local_components and component.has_template()
         }
+        # django-stubs cannot track annotations returned by queryset helpers.
         units = (
-            Unit.objects.filter(
+            Unit.objects.filter(  # type: ignore[misc]
                 Q(translation__component=self)
                 | Q(translation__component__linked_component=self)
             )
@@ -4133,7 +4129,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 & ~Q(translation__component_id__in=local_templates)
                 | Q(translation__filename="")
             )
-            .annotate(last_author_id=Subquery(last_author))
+            .with_last_content_author()
             .values(
                 "id",
                 "translation__component_id",
@@ -4144,7 +4140,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 "details",
                 "automatically_translated",
                 "source_unit__explanation",
-                "last_author_id",
+                "last_content_author_id",
             )
         )
         for unit in units.iterator(chunk_size=1000):
@@ -4168,7 +4164,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             pending.append(
                 PendingUnitChange.build_unit_change(
                     unit_id=unit["id"],
-                    author_id=unit["last_author_id"] or anonymous_id,
+                    author_id=unit["last_content_author_id"] or anonymous_id,
                     user_id=actor_id,
                     target=unit["target"],
                     explanation=unit["explanation"],

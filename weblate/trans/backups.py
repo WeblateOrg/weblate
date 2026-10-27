@@ -2287,18 +2287,28 @@ class ProjectBackup:
                     )
                 )
         else:
+            pending_units = [unit for unit in units if unit.import_data.get("pending")]
+            if not pending_units:
+                return
+            anonymous_id = get_anonymous().pk
+            # django-stubs cannot track annotations returned by queryset helpers.
+            authors = dict(
+                Unit.objects.using(pending_units[0]._state.db or "default")  # type: ignore[misc]  # ruff: ignore[private-member-access]
+                .filter(pk__in=[unit.pk for unit in pending_units])
+                .with_last_content_author()
+                .values_list("pk", "last_content_author_id")
+            )
             pending_unit_changes = [
                 PendingUnitChange(
                     unit=unit,
-                    author=unit.get_last_content_change()[0],
+                    author_id=authors[unit.pk] or anonymous_id,
                     target=unit.target,
                     explanation=unit.explanation,
                     source_unit_explanation=unit.source_unit.explanation,
                     state=unit.state,
                     add_unit=unit.details.get("add_unit", False),
                 )
-                for unit in units
-                if unit.import_data.get("pending")
+                for unit in pending_units
             ]
 
         if pending_unit_changes:
