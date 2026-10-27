@@ -81,6 +81,17 @@ class MetadataTest(SimpleTestCase):
         build = BuildInput(1, "0" * 64, "org.weblate.sample", 1)
         manifest = PreparedPublication().manifest(build)
         self.assertEqual(manifest["locales"], {})
+        manifest_locales = {
+            "fr": {
+                "url": f"../../artifacts/{'a' * 64}.arsc",
+                "sha256": "a" * 64,
+                "size": 1,
+            }
+        }
+        self.assertEqual(
+            PreparedPublication(locales=manifest_locales).manifest(build)["locales"],
+            manifest_locales,
+        )
         with self.assertRaises(SchemaValidationError):
             PreparedPublication(
                 locales={

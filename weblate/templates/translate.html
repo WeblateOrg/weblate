@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations user_display %}
 
 {% block extra_script %}
   <script defer src="{% static 'editor/base.js' %}"></script>
@@ -24,10 +24,12 @@
   <li class="breadcrumb-item">
     <a href="{{ object.get_translate_url }}">{% translate "Translate" %}</a>
   </li>
-  <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
-  </a>
+  {% if object.get_widgets_url %}
+    <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
+      <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+           alt="{% translate "Translation status widgets" %}" />
+    </a>
+  {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content_class %}js-editor{% endblock %}
@@ -157,7 +159,7 @@
                     <label>{% translate "Explanation" %} {% documentation_icon 'admin/translating' 'additional-explanation' %}</label>
                     <div class="list-group">
                       <div class="list-group-item translate-explanation">
-                        <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
+                        <div class="list-group-item-text">{% user_markdown unit.source_unit.explanation %}</div>
                       </div>
                     </div>
                   </div>
@@ -941,7 +943,7 @@
                   {% translate "Explanation" %}
                 </h5>
                 {% if unit.source_unit.explanation %}
-                  <p>{{ unit.source_unit.explanation|markdown }}</p>
+                  <p>{% user_markdown unit.source_unit.explanation %}</p>
                 {% else %}
                   <em>{% translate "No explanation currently provided." %}</em>
                 {% endif %}

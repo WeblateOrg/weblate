@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations user_display %}
 
 {% block extra_script %}
   <script defer src="{% static 'js/screenshots/clipboard-paste.js' %}"></script>
@@ -142,7 +142,7 @@
       </tr>
       <tr>
         <th>{% translate "Uploaded by" %}</th>
-        <td>{{ object.get_user_display }}</td>
+        <td>{% user_display object.user %}</td>
       </tr>
       <tr>
         <th>{% translate "Language" %}</th>

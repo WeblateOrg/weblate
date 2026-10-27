@@ -64,6 +64,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import CATEGORY_DEPTH
+from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_FLAGS,
     INHERITABLE_COMPONENT_SETTINGS,
@@ -97,8 +98,13 @@ from weblate.utils.zip import (
 from weblate.utils.zip import (
     validate_zip_members as validate_safe_zip_members,
 )
-from weblate.vcs.base import RepositoryCommandError, RepositoryError
+from weblate.vcs.base import (
+    RepositoryCommandError,
+    RepositoryError,
+    is_valid_revision_hash,
+)
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.params import VCS_PARAMS
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
@@ -115,6 +121,9 @@ ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
 REPOSITORY_LOCK_REFRESH_INTERVAL = 300
 BACKUP_COPY_CHUNK_SIZE = 1024 * 1024
+TRANSLATION_REVISION_RE = re.compile(
+    r"(?:[0-9a-f]{40}(?::[0-9]+)?(?:,[0-9a-f]{40}){0,2})?"
+)
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
 PROJECT_BACKUP_FIELDS = (
     "public_sharing",
@@ -325,6 +334,7 @@ class ProjectBackup:
         self.roles_cache: dict[str, Role] = {}
         self.skipped_components: list[str] = []
         self.renamed_teams: list[tuple[str, str]] = []
+        self.skipped_parameters: list[tuple[str, str, str, bool]] = []
         self.component_data: dict[str, dict[str, Any]] = {}
         self.memory_data: list[dict[str, Any]] = []
         self.memory_loaded = False
@@ -690,6 +700,33 @@ class ProjectBackup:
             component["vcs"] = "git"
             component.setdefault("vcs_params", {})["git_force_push"] = True
 
+    def prepare_component_parameters(
+        self, component: dict[str, Any], filename: str
+    ) -> None:
+        """Migrate and validate parameters after structural schema validation."""
+        self.migrate_component_vcs_settings(component)
+        self.migrate_component_file_format_params(
+            component, backup_version=self.data["metadata"].get("version")
+        )
+        for name, registry, scope in (
+            ("vcs_params", VCS_PARAMS, component["vcs"]),
+            ("file_format_params", FILE_FORMATS_PARAMS, component["file_format"]),
+        ):
+            params = component.get(name, {})
+            known = {param.name: param for param in registry}
+            for key, value in list(params.items()):
+                param = known.get(key)
+                if param is None or not param.supports_scope(scope):
+                    del params[key]
+                    self.skipped_parameters.append((filename, name, key, param is None))
+                    continue
+                try:
+                    param().validate_stored_value(value)
+                except ValidationError as error:
+                    raise ValidationError(
+                        {f"{filename}.component.{name}.{key}": error.messages}
+                    ) from error
+
     @staticmethod
     def migrate_component_file_format_params(
         component: dict[str, Any], *, backup_version: str | None = None
@@ -825,7 +862,7 @@ class ProjectBackup:
         else:
             categories = obj.category_set.all()
         category_fields = self.extend_fields(
-            self.project_schema["definitions"]["category"]["required"],
+            self.project_schema["$defs"]["category"]["required"],
             *CATEGORY_BACKUP_FIELDS,
         )
         return [
@@ -1059,6 +1096,12 @@ class ProjectBackup:
             data["component"]["category"] = self.full_slug_without_project(
                 component.category
             )
+        for field in ("local_revision", "remote_revision"):
+            if not is_valid_revision_hash(data["component"][field]):
+                data["component"][field] = ""
+        for translation in data["translations"]:
+            if TRANSLATION_REVISION_RE.fullmatch(translation["revision"]) is None:
+                translation["revision"] = ""
 
         data["screenshots"] = screenshots = []
         for screenshot in Screenshot.objects.filter(
@@ -1350,6 +1393,18 @@ class ProjectBackup:
     ) -> None:
         component = data["component"]
         path = filename
+        for field in ("local_revision", "remote_revision"):
+            revision = component[field]
+            if revision and not is_valid_revision_hash(revision):
+                raise ValidationError(
+                    {
+                        f"{path}.component.{field}": [
+                            gettext(
+                                "Revision must be a complete hexadecimal object ID."
+                            )
+                        ]
+                    }
+                )
         # Keep the established top-level error keys for repository URLs while
         # still using the validators declared on the Component model fields.
         self.validate_model_data(
@@ -1464,6 +1519,14 @@ class ProjectBackup:
         source_translation_ids: list[int] = []
         for index, item in enumerate(data["translations"]):
             item_path = f"{path}.translations[{index}]"
+            if TRANSLATION_REVISION_RE.fullmatch(item["revision"]) is None:
+                raise ValidationError(
+                    {
+                        f"{item_path}.revision": [
+                            gettext("Translation revision has an invalid format.")
+                        ]
+                    }
+                )
             self.validate_model_data(
                 Translation,
                 item,
@@ -1814,11 +1877,7 @@ class ProjectBackup:
             with zipfile.open(filename) as handle:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
-            self.migrate_component_vcs_settings(data["component"])
-            self.migrate_component_file_format_params(
-                data["component"],
-                backup_version=self.data["metadata"].get("version"),
-            )
+            self.prepare_component_parameters(data["component"], filename)
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):
@@ -1941,6 +2000,7 @@ class ProjectBackup:
     ) -> None:
         """Validate and cache all restore input before any state is changed."""
         self.component_data.clear()
+        self.skipped_parameters.clear()
         self.memory_data.clear()
         self.memory_loaded = False
         self.component_full_slugs = set()
@@ -2158,13 +2218,37 @@ class ProjectBackup:
 
     def get_restore_warnings(self) -> list[str]:
         """Return user-facing warnings for all changes made during import."""
-        return [
-            gettext(
-                "Component %(component)s was skipped because its linked repository is unavailable."
-            )
-            % {"component": component}
-            for component in self.skipped_components
-        ] + get_team_rename_warnings(self.renamed_teams)
+        return (
+            [
+                gettext(
+                    "Component %(component)s was skipped because its linked repository is unavailable."
+                )
+                % {"component": component}
+                for component in self.skipped_components
+            ]
+            + get_team_rename_warnings(self.renamed_teams)
+            + [
+                (
+                    gettext(
+                        "Parameter %(parameter)s in %(family)s of %(component)s was skipped because it is unknown."
+                    )
+                    if unknown
+                    else gettext(
+                        "Parameter %(parameter)s in %(family)s of %(component)s was skipped because it is not applicable."
+                    )
+                )
+                % {
+                    "parameter": key,
+                    "family": (
+                        gettext("Version control parameters")
+                        if family == "vcs_params"
+                        else gettext("File format parameters")
+                    ),
+                    "component": component,
+                }
+                for component, family, key, unknown in self.skipped_parameters
+            ]
+        )
 
     def restore_pending_unit_changes(
         self,

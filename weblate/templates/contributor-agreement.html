@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n translations user_display %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
@@ -20,7 +20,7 @@
       </div>
       <div class="card-body">
         <p>{% translate "Please read the following contributor license agreement:" %}</p>
-        <div class="list-group-item pre-scrollable">{{ agreement_text|markdown }}</div>
+        <div class="list-group-item pre-scrollable">{% user_markdown agreement_text %}</div>
 
         {% csrf_token %}
 

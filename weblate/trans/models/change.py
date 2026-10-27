@@ -51,6 +51,7 @@ if TYPE_CHECKING:
     from collections.abc import Collection, Iterable
     from uuid import UUID
 
+    from django.contrib.auth.models import AnonymousUser
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -1119,13 +1120,15 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self) -> StrOrPromise:
+    def get_details_display(
+        self, *, viewer: User | AnonymousUser | None = None
+    ) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.change_display import (
             ChangeDetailsRenderFactory,
         )
 
-        strategy = ChangeDetailsRenderFactory.get_strategy(self)
+        strategy = ChangeDetailsRenderFactory.get_strategy(self, viewer=viewer)
         return strategy.render_details(self)
 
     def get_distance(self) -> int:

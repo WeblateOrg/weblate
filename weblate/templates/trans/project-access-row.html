@@ -1,10 +1,8 @@
-{% load crispy_forms_tags i18n icons translations %}
+{% load crispy_forms_tags i18n icons translations user_display %}
 
 <tr>
   {% if not user.is_bot %}
-    <td>
-      <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
-    </td>
+    <td>{% user_display user icon=False %}</td>
   {% endif %}
   <td>{{ user.full_name }}</td>
   {% if not user.is_bot and can_edit_user %}

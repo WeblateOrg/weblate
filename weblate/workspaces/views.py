@@ -27,10 +27,11 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.project import Project, prefetch_project_flags
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
+from weblate.trans.util import sort_unicode
 from weblate.trans.views.files import can_download_workspace
 from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import WorkspaceLanguage, prefetch_stats
 from weblate.utils.views import get_paginator, show_form_errors
 from weblate.vcs.github import GitHubInstallation, remove_github_installation
 from weblate.workspaces.forms import WorkspaceDeleteForm, WorkspaceSearchForm
@@ -250,6 +251,7 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     ).exists()
     search_query = request.GET.copy()
     search_query.pop("sort_by", None)
+    language_orderer = request.user.profile.get_translation_orderer(request)
 
     return render(
         request,
@@ -264,6 +266,10 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
                     stats=True,
                     sort_by=request.GET.get("sort_by"),
                 )
+            ),
+            "language_stats": sort_unicode(
+                [stat.obj for stat in workspace.stats.get_language_stats()],
+                lambda scope: language_orderer(scope.language),
             ),
             "title": workspace.name,
             "query_params": QueryDict(),
@@ -368,5 +374,35 @@ def access(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "workspace_teams": workspace.defined_groups.annotate(Count("user"))
             .order()
             .prefetch_related("roles"),
+        },
+    )
+
+
+def show_workspace_language(
+    request: AuthenticatedHttpRequest, obj: WorkspaceLanguage
+) -> HttpResponse:
+    translations = get_paginator(
+        request,
+        obj.get_translation_set_access(request.user),
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
+    return render(
+        request,
+        "workspace-language.html",
+        {
+            "object": obj,
+            "path_object": obj,
+            "workspace": obj.workspace,
+            "language": obj.language,
+            "title": str(obj),
+            "translations": translations,
+            "show_review_columns": obj.enable_review,
+            "search_form": SearchForm(
+                request=request,
+                language=obj.language,
+                initial=SearchForm.get_initial(request),
+                obj=obj,
+            ),
         },
     )

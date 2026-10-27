@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.
+
 * Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.
 * Added configurable :setting:`USER_DIRECTORY_VISIBILITY` and :setting:`USER_PROFILE_VISIBILITY` to restrict user discovery and profile access while preserving resource-scoped contributor discovery.
 
@@ -24,6 +26,8 @@ Weblate 2026.11
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 
 .. rubric:: Improvements
+
+* :ref:`Project backup restore <projectbackup>` validates stored parameter values and reports skipped unsupported version control and file format parameters.
 
 * Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
 * :ref:`Automatic translation <auto-translation>` reports translation service failures in task results, the API, and the user interface while preserving successful translations.
@@ -59,7 +63,11 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented translation merges from approving strings without review permission.
+* Rejected invalid revisions in :ref:`project backup imports <projectbackup>` and prevented Git revisions from being interpreted as command options.
+* Prevented excessive CPU use when checking malformed interpolation, markup, and Markdown links.
 * Prevented excessive CPU use when sanitizing translations containing many non-breaking spaces.
+* Prevented excessive CPU use when restoring translation service placeholders in strings with many syntax tokens.
 * Prevented excessive CPU use when the :ref:`AngularJS interpolation check <check-angularjs-format>` processes unterminated expressions.
 * Prevented the :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` from exposing restricted source component IDs in change history.
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
@@ -67,6 +75,7 @@ Weblate 2026.11
 * Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
+* Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.
 * Bounded :ref:`component discovery preset <addon-weblate.discovery.discovery>` detection work for repositories with many translation layouts.
 * Prevented spreadsheet formulas in :ref:`translation-history` and :doc:`/api` CSV downloads.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
@@ -78,6 +87,8 @@ Weblate 2026.11
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
 
 .. rubric:: Bug fixes
+
+* Fixed missing :ref:`workspace <workspaces>` breadcrumbs on project administration and related pages.
 
 * Fixed newly imported strings with a :ref:`custom source language <workflow-source-language>` remaining read-only when an :ref:`intermediate language file <component-intermediate>` is configured.
 * Fixed :ref:`projectbackup` imports rejecting strings with empty sources.

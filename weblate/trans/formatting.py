@@ -21,7 +21,7 @@ from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural
 from weblate.utils.diff import Differ
 from weblate.utils.html import format_html_join_comma, list_to_tuples
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -793,6 +793,11 @@ def get_breadcrumbs(  # ruff: ignore[complex-structure]
         if workspace is not None:
             yield with_url(workspace.name, workspace.get_absolute_url())
         yield with_url(path_object.name)
+    elif isinstance(path_object, WorkspaceLanguage):
+        yield from get_breadcrumbs(
+            path_object.workspace, flags=flags, only_names=only_names
+        )
+        yield with_url(path_object.language)
     elif isinstance(path_object, Workspace):
         yield with_url(path_object.name)
     elif isinstance(path_object, Language):

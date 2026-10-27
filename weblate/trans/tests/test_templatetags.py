@@ -10,17 +10,21 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
-from django.template import Context
+from django.template import Context, Engine
 from django.template.loader import render_to_string
+from django.template.loader_tags import BlockNode
 from django.test import SimpleTestCase, TestCase
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from lxml.html import fromstring
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
+from weblate.fonts.models import Font, FontGroup
 from weblate.lang.models import Language
 from weblate.trans.formatting import format_translation
-from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import (
     PRIORITY_ICONS,
     get_location_links,
@@ -35,6 +39,7 @@ from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
 from weblate.utils.formatting import render_documentation_icon
+from weblate.workspaces.models import Workspace
 
 
 class ExtractedHelperRegistrationTest(SimpleTestCase):
@@ -1467,3 +1472,122 @@ class ProgressTestCase(SimpleTestCase):
             """,
             str(translation_progress_render(60, 0, 0, 0, False)),
         )
+
+
+class ProjectBreadcrumbTemplateTest(SimpleTestCase):
+    def render_breadcrumbs(self, template_name: str, **context: object) -> list[str]:
+        template = Engine.get_default().get_template(template_name)
+        block = next(
+            block
+            for block in template.nodelist.get_nodes_by_type(BlockNode)
+            if isinstance(block, BlockNode) and block.name == "breadcrumbs"
+        )
+        context.setdefault(
+            "service", {"name": "Service", "get_absolute_url": "/service/"}
+        )
+        content = block.render(Context(context))
+        tree = fromstring(f"<ol>{content}</ol>")
+        return tree.xpath("./li/a/@href")
+
+    def test_project_pages(self) -> None:
+        workspace = Workspace(name="Breadcrumb workspace")
+        for assigned_workspace in (workspace, None):
+            project = Project(
+                name="Breadcrumb project",
+                slug="breadcrumbs",
+                workspace=assigned_workspace,
+            )
+            expected = [project.get_absolute_url()]
+            if assigned_workspace:
+                expected.insert(0, workspace.get_absolute_url())
+            for template_name, obj in (
+                ("data.html", project),
+                ("project-labels.html", project),
+                ("project-label-edit.html", project),
+                ("project-saved-searches.html", project),
+                ("project-saved-search-edit.html", project),
+                ("saved-search-create.html", project),
+                ("fonts/font_list.html", project),
+                ("fonts/font_detail.html", Font(pk=1, project=project)),
+                ("fonts/fontgroup_detail.html", FontGroup(pk=1, project=project)),
+                ("trans/backups.html", project),
+                ("trans/project-access.html", project),
+                ("auth/team.html", Group(pk=1, defining_project=project)),
+                ("memory/index.html", project),
+                ("machinery/list.html", project),
+                ("machinery/base.html", project),
+                ("widgets.html", project),
+            ):
+                with self.subTest(template=template_name, workspace=assigned_workspace):
+                    links = self.render_breadcrumbs(
+                        template_name, object=obj, project=project
+                    )
+                    self.assertEqual(links[: len(expected)], expected)
+                    self.assertEqual(
+                        links.count(workspace.get_absolute_url()),
+                        bool(assigned_workspace),
+                    )
+                    self.assertGreater(len(links), len(expected))
+
+    def test_widgets_preserve_ancestry(self) -> None:
+        workspace = Workspace(name="Breadcrumb workspace")
+        project = Project(name="Project", slug="breadcrumbs", workspace=workspace)
+        category = Category(name="Category", slug="category", project=project)
+        component = Component(
+            name="Component",
+            slug="component",
+            project=project,
+            category=category,
+            source_language=Language(pk=1, code="en"),
+        )
+        ancestors: list[Workspace | Project | Category | Component] = [
+            workspace,
+            project,
+        ]
+        for obj in (category, component):
+            ancestors.append(obj)
+            with self.subTest(object=obj):
+                self.assertEqual(
+                    self.render_breadcrumbs("widgets.html", object=obj),
+                    [ancestor.get_absolute_url() for ancestor in ancestors]
+                    + [reverse("widgets", kwargs={"path": obj.get_url_path()})],
+                )
+
+    def test_other_scopes(self) -> None:
+        workspace = Workspace(name="Breadcrumb workspace")
+        for template_name, context, first_url in (
+            ("saved-search-create.html", {}, reverse("profile") + "#searches"),
+            ("memory/index.html", {"from_file": True}, reverse("manage")),
+            (
+                "memory/index.html",
+                {"user": {"profile": {"get_user_name": "Translator"}}},
+                reverse("profile"),
+            ),
+            ("machinery/list.html", {}, reverse("manage")),
+            ("machinery/base.html", {}, reverse("manage")),
+            ("auth/team.html", {"object": Group(pk=1)}, reverse("manage")),
+            (
+                "memory/index.html",
+                {"workspace": workspace},
+                workspace.get_absolute_url(),
+            ),
+            (
+                "machinery/list.html",
+                {"workspace": workspace},
+                workspace.get_absolute_url(),
+            ),
+            (
+                "machinery/base.html",
+                {"workspace": workspace},
+                workspace.get_absolute_url(),
+            ),
+            (
+                "auth/team.html",
+                {"object": Group(pk=1, defining_workspace=workspace)},
+                workspace.get_absolute_url(),
+            ),
+        ):
+            with self.subTest(template=template_name, context=context):
+                links = self.render_breadcrumbs(template_name, **context)
+                self.assertEqual(links[0], first_url)
+                self.assertEqual(links.count(first_url), 1)

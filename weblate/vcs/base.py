@@ -10,6 +10,7 @@ import hashlib
 import logging
 import os
 import os.path
+import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import contextmanager, suppress
@@ -65,6 +66,13 @@ LOGGER = logging.getLogger("weblate.vcs")
 SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
 # Bump when check_config() gains settings existing repositories must refresh.
 CONFIG_CHECK_CACHE_VERSION = 2
+
+REVISION_HASH_RE = re.compile(r"(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})\Z")
+
+
+def is_valid_revision_hash(revision: str) -> bool:
+    """Check a serialized VCS revision without interpreting it as a ref."""
+    return bool(REVISION_HASH_RE.fullmatch(revision))
 
 
 def get_config_check_cache_key(component_pk: int) -> str:

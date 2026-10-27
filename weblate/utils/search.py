@@ -41,7 +41,7 @@ from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import RegexAnalysisLimitError, re_escape, validate_search_regex
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -69,6 +69,14 @@ SearchParser = Literal["unit", "user", "superuser", "screenshot"]
 class RegexExpr:
     def __init__(self, tokens) -> None:
         self.expr = tokens[1]
+        # Validate before a query reaches PostgreSQLRegexLookup, so search
+        # surfaces return their usual query error for excessive expressions.
+        try:
+            validate_search_regex(self.expr)
+        except RegexAnalysisLimitError as error:
+            raise SearchQueryError(
+                gettext("Regular expression is too complex.")
+            ) from error
 
 
 class RangeExpr:

@@ -4,12 +4,16 @@
 
 from __future__ import annotations
 
+from time import monotonic
+
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
+    AUTO_SAFE_HTML_SEGMENT,
     AUTO_SAFE_HTML_VOID_TAGS,
     MD_LINK,
+    MD_REFLINK,
     HTMLAttribute,
     HTMLSanitizer,
     extract_html_attributes,
@@ -26,6 +30,29 @@ from weblate.utils.html import (
 
 
 class MarkdownLinkTest(SimpleTestCase):
+    def test_brackets_in_link_text(self) -> None:
+        for source in ("[a [b]](url)", "[a]b](url)", r"[a\]b](url)"):
+            with self.subTest(source=source):
+                match = MD_LINK.fullmatch(source)
+                self.assertIsNotNone(match)
+
+    def test_unterminated_links(self) -> None:
+        malformed = "[" * 5000 + "](x" * 500
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertEqual(MD_LINK.sub("", malformed), malformed)
+        self.assertEqual(list(MD_LINK.finditer(malformed)), [])
+        self.assertEqual(len(MD_REFLINK.findall("[" * 5000 + "] [x" * 500)), 250)
+        self.assertLess(monotonic() - started, 1)
+
+    def test_link_after_malformed_prefix(self) -> None:
+        source = "[" * 5000 + "](x" * 500 + " [valid](relative)"
+        started = monotonic()
+        matches = list(MD_LINK.finditer(source))
+        self.assertTrue(matches)
+        self.assertEqual(matches[-1].end(), len(source))
+        self.assertLess(monotonic() - started, 1)
+
     def test_title(self) -> None:
         for title in (
             '"Translation platform"',
@@ -43,6 +70,65 @@ class MarkdownLinkTest(SimpleTestCase):
                     self.assertEqual(match[3], "https://example.com/")
                     self.assertEqual(match[4], title)
 
+    def test_rejected_parenthesized_title_is_linear(self) -> None:
+        malformed = "[x](url " + "( " * 8000 + ")"
+        started = monotonic()
+        match = next(MD_LINK.finditer(malformed))
+        self.assertEqual(match[3], ("url " + "( " * 8000).rstrip())
+        self.assertEqual(match[4], "")
+        self.assertLess(monotonic() - started, 1)
+
+    def test_angle_destination_past_last_parenthesis_is_linear(self) -> None:
+        malformed = "[x](<" * 8000 + ")>" + "a" * 8000
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_failed_titles_across_destinations_are_linear(self) -> None:
+        malformed = "[x](url ( " * 4000 + r"\)"
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_failed_angle_destinations_are_linear(self) -> None:
+        malformed = "[x](<" * 8000 + ')> "' + "a" * 8000
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_post_title_whitespace_across_destinations_is_linear(self) -> None:
+        malformed = "[x](<" * 4000 + r'> "a\)"' + " " * 4000
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_failed_destination_suffix_across_links_is_linear(self) -> None:
+        malformed = "[x](<" * 8000 + ">" + "a" * 8000 + ' "' + r"\)"
+        started = monotonic()
+        self.assertEqual(MD_LINK.findall(malformed), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_nested_image_link(self) -> None:
+        source = "[![alt](image.png)](./page)"
+        match = MD_LINK.fullmatch(source)
+        self.assertIsNotNone(match)
+        assert match is not None
+        self.assertEqual(match[3], "./page")
+        self.assertEqual(MD_LINK.sub("", source), "")
+        self.assertEqual(
+            [match[3] for match in MD_LINK.finditer("[![alt](image.png)")],
+            ["image.png"],
+        )
+
+    def test_angle_destination_with_parentheses_and_title(self) -> None:
+        source = '[Link](<./a(b)> "Title")'
+        match = MD_LINK.fullmatch(source)
+        self.assertIsNotNone(match)
+        assert match is not None
+        self.assertEqual(match[2], "<")
+        self.assertEqual(match[3], "./a(b)")
+        self.assertEqual(match[4], '"Title"')
+
 
 class HTMLSanitizerTestCase(SimpleTestCase):
     def sanitize(self, source: str, translation: str, flags: str = "") -> str:
@@ -55,6 +141,23 @@ class HTMLSanitizerTestCase(SimpleTestCase):
     def test_clean_many_nonbreaking_spaces(self) -> None:
         text = "\u00a0" * 20_000
         self.assertEqual(self.sanitize(text, "source", "safe-html"), text)
+
+    def test_unterminated_html_segments(self) -> None:
+        malformed = "<!--" * 5000
+        started = monotonic()
+        self.assertEqual(list(AUTO_SAFE_HTML_SEGMENT.finditer(malformed)), [])
+        self.assertLess(monotonic() - started, 1)
+
+    def test_malformed_markdown_link_in_sanitizer(self) -> None:
+        malformed = "[" * 3200 + "](x" * 320
+        started = monotonic()
+        sanitizer = HTMLSanitizer()
+        self.assertEqual(
+            sanitizer.clean(malformed, "source", Flags("md-text,safe-html")),
+            malformed,
+        )
+        self.assertTrue(is_auto_safe_html_source(malformed, Flags("md-text")))
+        self.assertLess(monotonic() - started, 1)
 
     def test_clean_special_tokens(self) -> None:
         text = "[link](https://weblate.org/\u00a0) \u00a0 @@@@@weblate:99@@@@@"

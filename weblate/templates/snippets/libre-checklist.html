@@ -1,4 +1,4 @@
-{% load i18n icons translations %}
+{% load i18n icons translations user_display %}
 
 <ul class="list-unstyled mb-3">
   {% for check in libre_general_checklist %}
@@ -72,7 +72,7 @@
                     <div class="mb-2">
                       {% icon "suggest.svg" %}
                       <a href="{{ component.get_absolute_url }}#information">{% translate "Contributor license agreement" %}</a>
-                      {{ component.effective_agreement|markdown }}
+                      {% user_markdown component.effective_agreement %}
                     </div>
                   {% endif %}
                 </div>

@@ -126,9 +126,10 @@ def orders_units_by_component(obj: object) -> bool:
     from weblate.utils.stats import (  # ruff: ignore[import-outside-top-level]
         CategoryLanguage,
         ProjectLanguage,
+        WorkspaceLanguage,
     )
 
-    return isinstance(obj, (ProjectLanguage, CategoryLanguage))
+    return isinstance(obj, (ProjectLanguage, CategoryLanguage, WorkspaceLanguage))
 
 
 def get_component_order_fields(sign: str = "") -> list[str]:

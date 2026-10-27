@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations %}
+{% load crispy_forms_tags humanize i18n icons permissions translations user_display %}
 
 {% block nav_pills %}
   {% perm "meta:team.users" object as user_can_edit_team_users %}
@@ -36,9 +36,7 @@
 
 {% block breadcrumbs %}
   {% if object.defining_project %}
-    <li class="breadcrumb-item">
-      <a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a>
-    </li>
+    {% path_object_breadcrumbs object.defining_project %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
     </li>
@@ -130,7 +128,7 @@
                 {% for user in users %}
                   <tr>
                     <td>
-                      <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+                      {% user_display user icon=False %}
                       {% if user in admins %}
                         <span class="badge text-bg-secondary">{% translate "Team administrator" %}</span>
                       {% endif %}

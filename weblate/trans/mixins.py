@@ -22,6 +22,8 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from uuid import UUID
 
+    from django.contrib.auth.models import AnonymousUser
+
     from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project
 
@@ -233,11 +235,15 @@ class PathMixin(LoggerMixin, URLMixin):
 
 
 class UserDisplayMixin:
-    def get_user_display(self: _HasUser, icon: bool = True):
-        return get_user_display(self.user, icon, link=True)
+    def get_user_display(
+        self: _HasUser, icon: bool = True, *, viewer: User | AnonymousUser | None = None
+    ):
+        return get_user_display(self.user, icon, link=True, viewer=viewer)
 
-    def get_user_text_display(self: _HasUser):
-        return get_user_display(self.user, icon=False, link=True)
+    def get_user_text_display(
+        self: _HasUser, *, viewer: User | AnonymousUser | None = None
+    ):
+        return get_user_display(self.user, icon=False, link=True, viewer=viewer)
 
 
 class CacheKeyMixin:
