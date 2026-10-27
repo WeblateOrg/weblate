@@ -36,9 +36,7 @@
 
 {% block breadcrumbs %}
   {% if object.defining_project %}
-    <li class="breadcrumb-item">
-      <a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a>
-    </li>
+    {% path_object_breadcrumbs object.defining_project %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
     </li>
