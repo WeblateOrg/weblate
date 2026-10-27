@@ -20,6 +20,7 @@ from itertools import chain
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, quote_plus, urlparse
 
+import ahocorasick_rs
 import httpx2
 from asgiref.sync import sync_to_async
 from django.conf import settings
@@ -62,7 +63,7 @@ def sanitize_machinery_error(message: str) -> str:
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator, Mapping
+    from collections.abc import Callable, Iterable, Iterator, Mapping
 
     from weblate.auth.models import User
     from weblate.checks.base import Highlight
@@ -686,10 +687,13 @@ class BatchMachineTranslation(DocVersionsMixin):
         """Escaping of the text with replacements."""
         return text
 
-    def make_re_placeholder(self, text: str) -> str:
-        """Convert placeholder into a regular expression."""
-        # Allow additional space before ]
-        return f"{re.escape(text[:-1])} *{re.escape(text[-1:])}"
+    def get_placeholder_pattern(self) -> re.Pattern[str]:
+        """Match numbered placeholders, allowing space before the last delimiter."""
+        return re.compile(
+            f"{re.escape(self.replacement_start)}(?P<id>[0-9]+)"
+            f"{re.escape(self.replacement_end[:-1])} *"
+            f"{re.escape(self.replacement_end[-1:])}"
+        )
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
@@ -725,25 +729,32 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         return "".join(parts), replacements
 
-    def uncleanup_text_item(self, text: str, source: str, target: str) -> str:
-        def replace_target(_match: re.Match) -> str:
-            return target
+    def build_placeholder_restorer(
+        self, replacements: dict[str, str]
+    ) -> Callable[[str], str]:
+        """Build a restorer that scans each result only once."""
+        if not replacements:
+            return lambda text: text
 
-        # Use callable for replacement to avoid interpreting escape sequences
-        return re.sub(self.make_re_placeholder(source), replace_target, text)
+        pattern = self.get_placeholder_pattern()
+
+        def replace(match: re.Match[str]) -> str:
+            key = f"{self.replacement_start}{match['id']}{self.replacement_end}"
+            return replacements.get(key, match.group(0))
+
+        return lambda text: pattern.sub(replace, text)
 
     def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
-        for source, target in replacements.items():
-            text = self.uncleanup_text_item(text, source, target)
-        return self.unescape_text(text)
+        return self.unescape_text(self.build_placeholder_restorer(replacements)(text))
 
     def uncleanup_results(
         self, replacements: dict[str, str], results: list[TranslationResultDict]
     ) -> None:
         """Reverts replacements done by cleanup_text."""
+        restore = self.build_placeholder_restorer(replacements)
         for result in results:
-            result["text"] = self.uncleanup_text(replacements, result["text"])
-            result["source"] = self.uncleanup_text(replacements, result["source"])
+            result["text"] = self.unescape_text(restore(result["text"]))
+            result["source"] = self.unescape_text(restore(result["source"]))
 
     def get_language_possibilities(self, language: Language) -> Iterator[str]:
         code = language.code
@@ -1857,8 +1868,29 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
         """Generate a single replacement."""
         raise NotImplementedError
 
-    def make_re_placeholder(self, text: str) -> str:
-        return re.escape(text)
+    def build_placeholder_restorer(
+        self, replacements: dict[str, str]
+    ) -> Callable[[str], str]:
+        if not replacements:
+            return lambda text: text
+
+        keys = list(replacements)
+        automaton = ahocorasick_rs.AhoCorasick(
+            keys,
+            matchkind=ahocorasick_rs.MatchKind.LeftmostLongest,
+            store_patterns=False,
+        )
+
+        def restore(text: str) -> str:
+            parts: list[str] = []
+            previous_end = 0
+            for index, start, end in automaton.find_matches_as_indexes(text):
+                parts.extend((text[previous_end:start], replacements[keys[index]]))
+                previous_end = end
+            parts.append(text[previous_end:])
+            return "".join(parts)
+
+        return restore
 
 
 class RephraseMachineTranslationMixin(MachineTranslation):
