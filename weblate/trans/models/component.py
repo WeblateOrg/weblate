@@ -1260,6 +1260,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_progress = 0
         self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
+        self.refresh_peer_source_checks = False
         self.batched_checks: set[str] = set()
         self.batch_memory = False
         self.batched_memory: list[MemoryUpdatePayload] = []

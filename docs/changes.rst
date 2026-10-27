@@ -31,7 +31,7 @@ Weblate 2026.11
 
 * :ref:`Project backup restore <projectbackup>` validates stored parameter values and reports skipped unsupported version control and file format parameters.
 
-* Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
+* Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and running expensive quality checks in background batches.
 * :ref:`Automatic translation <auto-translation>` reports translation service failures in task results, the API, and the user interface while preserving successful translations.
 
 * Improved project-wide :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` by restricting database searches to eligible peer translations.

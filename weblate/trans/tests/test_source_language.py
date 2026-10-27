@@ -34,7 +34,11 @@ from weblate.checks.chars import BeginSpaceCheck, EndSpaceCheck
 from weblate.checks.consistency import ConsistencyCheck, ReusedCheck
 from weblate.checks.format import JavaMessageFormatCheck
 from weblate.checks.models import CHECKS, Check
-from weblate.checks.tasks import schedule_propagated_checks
+from weblate.checks.tasks import (
+    finalize_component_checks,
+    schedule_component_check_batch,
+    schedule_propagated_checks,
+)
 from weblate.formats.base import UnitNotFoundError
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import iter_glossary_alternatives
@@ -78,6 +82,7 @@ from weblate.trans.models.source import (
     reconcile_project_parents,
     request_reconciliation,
     source_operation,
+    source_project_gate,
 )
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -91,6 +96,7 @@ from weblate.trans.views.edit import (
     get_other_units,
     perform_translation,
 )
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -99,6 +105,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django import forms
@@ -201,6 +208,337 @@ class SourceLanguageTest(FixtureComponentTestCase):
             workflow.restrict_direct_editing = True
             workflow.save()
         update.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batches_peer_checks_after_commit(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child ")
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            patch(
+                "weblate.trans.models.source.previous_source_peers",
+                side_effect=AssertionError("Per-unit peer search"),
+            ),
+            patch(
+                "weblate.trans.models.unit.UnitQuerySet.same",
+                side_effect=AssertionError("Per-unit consistency search"),
+            ),
+            patch(
+                "weblate.checks.tasks.schedule_propagated_checks",
+                side_effect=AssertionError("Duplicate propagated check job"),
+            ),
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+                publish.assert_not_called()
+                self.child.refresh_from_db()
+                self.assertEqual(self.child.translation_parent_id, self.parent.pk)
+                self.assertEqual(self.child.state, STATE_NEEDS_REWRITING)
+                self.assertTrue(
+                    Check.objects.filter(unit=self.child, name="end_space").exists()
+                )
+            publish.assert_called_once()
+            component, _sources, checks = publish.call_args.args
+            self.assertEqual(component, self.component.pk)
+            self.assertIn("inconsistent", checks)
+            self.assertIn("reused", checks)
+            self.assertTrue(publish.call_args.kwargs["batch_mode"])
+
+    def test_workflow_batches_do_not_change_ordinary_parent_edits(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.configure()
+        with patch("weblate.checks.tasks.schedule_component_check_batch") as batch:
+            self.set_target(self.parent, "Changed parent")
+        batch.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_coalesces_project_check_batches(self) -> None:
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            other = self.create_po(name="Other", project=self.project)
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.configure()
+        self.assertEqual(
+            {call.args[0] for call in publish.call_args_list},
+            {self.component.pk, other.pk},
+        )
+        for check in ("inconsistent", "reused"):
+            self.assertEqual(
+                sum(check in call.args[2] for call in publish.call_args_list), 1
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_rollback_discards_check_batches(self) -> None:
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaisesMessage(ValueError, "Discarded"),
+            source_project_gate([self.project.pk], exclusive=True),
+        ):
+            self.configure()
+            msg = "Discarded"
+            raise ValueError(msg)
+        publish.assert_not_called()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_repairs_old_workspace_peers(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Source checks", propagation_scope="workspace"
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        self.project.workspace = workspace
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            component = self.create_po(project=project)
+        peer = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        Check.objects.bulk_create(
+            [Check(unit=peer, name="inconsistent"), Check(unit=peer, name="reused")]
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            self.assertTrue(
+                Check.objects.filter(
+                    unit=peer, name__in=("inconsistent", "reused")
+                ).exists()
+            )
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.assertFalse(
+                Check.objects.filter(
+                    unit=peer, name__in=("inconsistent", "reused")
+                ).exists()
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_creates_failures_and_preserves_dismissals_on_retry(
+        self,
+    ) -> None:
+        workspace = Workspace.objects.create(
+            name="Source checks", propagation_scope="workspace"
+        )
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        self.project.workspace = workspace
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            component = self.create_po(project=project)
+        peer = component.translation_set.get(
+            language=self.child.translation.language
+        ).unit_set.get(id_hash=self.child.id_hash)
+        parent = component.translation_set.get(
+            language=self.parent.translation.language
+        ).unit_set.get(id_hash=self.parent.id_hash)
+        self.set_target(self.parent, "Shared German source")
+        self.set_target(parent, "Shared German source")
+        self.set_target(self.child, "First target")
+        WorkflowSetting.objects.create(
+            project=project,
+            language=peer.translation.language,
+            source_language=parent.translation.language,
+        )
+        self.set_target(peer, "Second target")
+        dismissed, _ = Check.objects.update_or_create(
+            unit=peer, name="inconsistent", defaults={"dismissed": True}
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            for _attempt in range(2):
+                for call in publish.call_args_list:
+                    finalize_component_checks(*call.args, **call.kwargs)
+                self.assertTrue(
+                    Check.objects.filter(
+                        unit=self.child, name="inconsistent", dismissed=False
+                    ).exists()
+                )
+                dismissed.refresh_from_db()
+                self.assertTrue(dismissed.dismissed)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_refreshes_derived_source_warnings(self) -> None:
+        canonical = self.child.source_unit
+        Check.objects.bulk_create(
+            [
+                Check(unit=self.child, name="inconsistent"),
+                Check(unit=self.grandchild, name="inconsistent"),
+                Check(unit=canonical, name="multiple_failures"),
+            ]
+        )
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.configure()
+            self.assertTrue(
+                Check.objects.filter(unit=canonical, name="multiple_failures").exists()
+            )
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.assertFalse(
+                Check.objects.filter(unit=canonical, name="multiple_failures").exists()
+            )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batches_use_latest_workflow(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.grandchild, "Latest source")
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ),
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+        ):
+            with self.captureOnCommitCallbacks(execute=True):
+                workflow = self.configure()
+                workflow.source_language = self.grandchild.translation.language
+                workflow.save()
+            for call in publish.call_args_list:
+                finalize_component_checks(*call.args, **call.kwargs)
+            self.child.refresh_from_db()
+            self.assertEqual(self.child.translation_parent_id, self.grandchild.pk)
+            self.assertEqual(self.child.effective_source, "Latest source")
+
+    def test_check_batch_ignores_deleted_component_and_disabled_check(self) -> None:
+        finalize_component_checks(-1, [], ["inconsistent"], batch_mode=True)
+        with patch("weblate.checks.tasks._run_component_checks") as run:
+            finalize_component_checks(
+                self.component.pk, [], ["disabled-custom-check"], batch_mode=True
+            )
+        run.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_propagation_scopes(self) -> None:
+        workspace = Workspace.objects.create(name="Check scopes")
+        Project.objects.filter(pk=self.project.pk).update(workspace=workspace)
+        project = RepoTestMixin.create_project(
+            self, name="Other", slug="other", workspace=workspace
+        )
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            same_name = self.create_po(project=project)
+            other_name = self.create_po(project=project, name="Other")
+        for scope, expected in (
+            ("project", 2),
+            ("workspace", 1),
+            ("component_name", 2),
+        ):
+            with self.subTest(scope=scope):
+                Workspace.objects.filter(pk=workspace.pk).update(
+                    propagation_scope=scope
+                )
+                with (
+                    patch(
+                        "weblate.checks.tasks.finalize_component_checks.delay"
+                    ) as publish,
+                    self.captureOnCommitCallbacks(execute=True),
+                    source_project_gate([self.project.pk, project.pk], exclusive=True),
+                ):
+                    for component in (self.component, same_name, other_name):
+                        schedule_component_check_batch(
+                            component,
+                            set(),
+                            {"inconsistent", "translated"},
+                            using="default",
+                        )
+                self.assertEqual(
+                    sum(
+                        "inconsistent" in call.args[2]
+                        for call in publish.call_args_list
+                    ),
+                    expected,
+                )
+                self.assertEqual(
+                    sum(
+                        "translated" in call.args[2] for call in publish.call_args_list
+                    ),
+                    3,
+                )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_nested_rollback_keeps_successful_sibling(self) -> None:
+        with override_settings(CELERY_TASK_ALWAYS_EAGER=True):
+            other = self.create_po(project=self.project, name="Other")
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks.delay") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+            source_project_gate([self.project.pk], exclusive=True),
+        ):
+            schedule_component_check_batch(
+                self.component, set(), {"translated"}, using="default"
+            )
+            with (
+                self.assertRaisesMessage(ValueError, "Discarded"),
+                source_project_gate([self.project.pk], exclusive=True),
+            ):
+                schedule_component_check_batch(
+                    other, set(), {"inconsistent"}, using="default"
+                )
+                msg = "Discarded"
+                raise ValueError(msg)
+        publish.assert_called_once_with(
+            self.component.pk,
+            [],
+            ["translated"],
+            batch_mode=True,
+            refresh_source_checks=True,
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_workflow_batch_retains_actor_after_scope_exits(self) -> None:
+        with (
+            patch(
+                "celery.app.task.Task.apply_async",
+                return_value=SimpleNamespace(id="batch-test"),
+            ) as publish,
+            acting_user_context(None),
+            self.captureOnCommitCallbacks(execute=True),
+            acting_user_context(self.user),
+        ):
+            self.configure()
+        self.assertTrue(publish.called)
+        self.assertTrue(
+            all(
+                call.kwargs["headers"]["weblate_acting_user_id"] == self.user.pk
+                for call in publish.call_args_list
+            )
+        )
 
     def test_workflow_does_not_load_unrelated_units(self) -> None:
         with patch.object(Unit, "from_db", wraps=Unit.from_db) as load:
@@ -1439,6 +1777,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
                 self.grandchild.translation.language_id,
             },
             using="default",
+            batch_checks=True,
         )
         for unit in (self.child, self.grandchild):
             unit.refresh_from_db()

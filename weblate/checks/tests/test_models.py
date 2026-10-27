@@ -540,6 +540,7 @@ class BatchCheckMixinTest(SimpleTestCase):
         component: Any = SimpleNamespace(
             id=1,
             allow_translation_propagation=False,
+            refresh_peer_source_checks=False,
             invalidate_cache=MagicMock(),
         )
         unit_a = SimpleNamespace(
