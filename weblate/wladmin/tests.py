@@ -1942,12 +1942,13 @@ class AdminTest(ReusableViewTestCase):
             response = self.client.get(reverse("manage-users"))
 
         self.assertContains(response, "User management workspace team 0")
+        # Check per-team primary-key lookups, allowing bulk navigation queries.
         workspace_fetches = [
             query["sql"]
             for query in queries
             if (
                 f'FROM "{workspace_table}"' in query["sql"]
-                and f'WHERE "{workspace_table}"."id"' in query["sql"]
+                and f'WHERE "{workspace_table}"."id" =' in query["sql"]
             )
         ]
         self.assertEqual(workspace_fetches, [])

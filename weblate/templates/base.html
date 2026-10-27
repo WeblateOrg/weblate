@@ -145,6 +145,29 @@
                   </li>
                 </ul>
               </li>
+              {% if navigation_workspaces|length > 1 %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"
+                     href="#"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"
+                     id="workspaces-menu">{% translate "Workspaces" %}</a>
+                  <ul class="dropdown-menu shadow" aria-labelledby="workspaces-menu">
+                    {% for workspace in navigation_workspaces %}
+                      <li>
+                        <a class="dropdown-item" href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+                      </li>
+                    {% endfor %}
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
               {% with languages=user.profile.all_languages.order_translated %}
                 <li class="nav-item dropdown">
                   <a href="#"
