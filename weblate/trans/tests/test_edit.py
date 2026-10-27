@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from unittest.mock import patch
 
+from django.contrib.messages import get_messages
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import Client
@@ -1924,7 +1925,7 @@ class EditPropagateTest(EditTest):
 
         self.assertFalse(self.user.has_perm("unit.edit", second_translation))
 
-        self.edit_unit(self.source, self.target)
+        response = self.edit_unit(self.source, self.target)
 
         self.assertEqual(self.get_unit(source=self.source).target, self.target)
         self.assertEqual(
@@ -1934,6 +1935,12 @@ class EditPropagateTest(EditTest):
             Change.objects.filter(
                 component=second_component, action=ActionEvents.PROPAGATED_EDIT
             ).exists()
+        )
+        self.assertFalse(
+            any(
+                second_component.name in str(message)
+                for message in get_messages(response.wsgi_request)
+            )
         )
 
     def test_edit(self) -> None:
@@ -2033,6 +2040,62 @@ class EditTSMonoTest(EditTest):
 
 
 class ZenViewTest(ReusableViewTestCase):
+    def test_project_language_zen_hides_restricted_component_state(self) -> None:
+        self.create_po(name="Visible locked peer", locked=True, project=self.project)
+        hidden = self.create_po(
+            name="Hidden locked peer", locked=True, project=self.project
+        )
+        Component.objects.filter(pk=hidden.pk).update(restricted=True)
+        hidden.refresh_from_db()
+        url = reverse(
+            "zen",
+            kwargs={"path": [self.project.slug, "-", self.translation.language.code]},
+        )
+        lock_message = (
+            "The translation is temporarily closed for contributions due to maintenance"
+        )
+
+        for viewer in ("member", "anonymous"):
+            if viewer == "anonymous":
+                self.client.logout()
+            with self.subTest(viewer=viewer):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content.decode().count(lock_message), 1)
+                self.assertEqual(
+                    self.client.get(hidden.get_absolute_url()).status_code, 404
+                )
+
+    def test_category_language_zen_hides_restricted_component_state(self) -> None:
+        category = self.create_category(self.project)
+        self.create_po(
+            name="Visible locked category peer",
+            locked=True,
+            project=self.project,
+            category=category,
+        )
+        hidden = self.create_po(
+            name="Hidden locked category peer",
+            locked=True,
+            project=self.project,
+            category=category,
+        )
+        Component.objects.filter(pk=hidden.pk).update(restricted=True)
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(
+            reverse("zen", kwargs={"path": category_language.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.content.decode().count(
+                "The translation is temporarily closed for contributions due to maintenance"
+            ),
+            1,
+        )
+        self.assertEqual(self.client.get(hidden.get_absolute_url()).status_code, 404)
+
     def create_zen_unit(self, position: int) -> Unit:
         source = f"Zen source {position}\n"
         id_hash = calculate_hash(source, "")

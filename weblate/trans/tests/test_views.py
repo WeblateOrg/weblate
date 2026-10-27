@@ -1821,6 +1821,79 @@ class BasicViewTest(ReusableViewTestCase):
         response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
 
+    def test_view_translation_others_filter_restricted_components(self) -> None:
+        hidden = self.create_po(project=self.project, name="Hidden translation peer")
+        hidden.restricted = True
+        hidden.save(update_fields=["restricted"])
+        visible = self.create_po(project=self.project, name="Visible translation peer")
+        hidden_translation = hidden.translation_set.get(
+            language=self.translation.language
+        )
+        visible_translation = visible.translation_set.get(
+            language=self.translation.language
+        )
+
+        for viewer in ("member", "anonymous"):
+            if viewer == "anonymous":
+                self.client.logout()
+            for url in (
+                self.translation.get_absolute_url(),
+                self.translation.get_translate_url(),
+            ):
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    if url == self.translation.get_absolute_url():
+                        self.assertContains(response, visible.name)
+                        self.assertContains(
+                            response, visible_translation.get_absolute_url()
+                        )
+                    self.assertNotContains(response, hidden.name)
+                    self.assertNotContains(
+                        response, hidden_translation.get_absolute_url()
+                    )
+            self.assertEqual(
+                self.client.get(hidden_translation.get_absolute_url()).status_code, 404
+            )
+
+        group = Group.objects.create(
+            name="Restricted translation peer access",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(hidden)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(self.translation.get_absolute_url())
+        self.assertContains(response, hidden.name)
+
+    def test_restricted_ghosts_do_not_hide_visible_peer(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            components = [
+                Component.objects.create(
+                    name=f"Ghost peer {index}",
+                    slug=f"ghost-peer-{index}",
+                    project=self.project,
+                    repo="weblate://test/test",
+                    file_format="resx",
+                    filemask="resx/*.resx",
+                    template="resx/en.resx",
+                    new_lang="add",
+                )
+                for index in range(5)
+            ]
+        Component.objects.filter(pk__in=[item.pk for item in components[1:]]).update(
+            restricted=True
+        )
+        response = self.client.get(
+            reverse("show", kwargs={"path": [*self.component.get_url_path(), "it"]})
+        )
+
+        self.assertContains(response, components[0].name)
+        for hidden in components[1:]:
+            self.assertNotContains(response, hidden.name)
+
     def test_translate_other_occurrences_component_queries_do_not_scale(self) -> None:
         unit = self.get_unit()
 

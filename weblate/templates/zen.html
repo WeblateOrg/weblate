@@ -30,7 +30,7 @@
 {% block content %}
 
   {% if object.component and object.component.slug == "-" %}
-    {% for component in project.component_set.prefetch %}
+    {% for component in state_components %}
       {% include "snippets/component/state.html" with object=component %}
     {% endfor %}
   {% elif object.component %}

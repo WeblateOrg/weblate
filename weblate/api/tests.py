@@ -104,6 +104,7 @@ from weblate.machinery.models import MachineryExclusion, MachineryInstallation
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.component_copy import (
     auto_translate_component_copy,
@@ -19647,6 +19648,120 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
+        visible = self.create_po(project=self.project, name="Visible conflict peer")
+        hidden = self.create_acl()
+        Component.objects.filter(pk=hidden.pk).update(restricted=True)
+        hidden.refresh_from_db()
+        self.assertTrue(self.user.can_access_component(visible))
+        self.assertFalse(self.user.can_access_component(hidden))
+
+        Component.objects.filter(
+            pk__in=(self.component.pk, visible.pk, hidden.pk)
+        ).update(
+            vcs="git",
+            push="https://github.com/upstream-org/shared-mirror.git",
+            push_branch="weblate-test",
+        )
+        self.component.refresh_from_db()
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        component_ids = alert.details["component_ids"]
+        self.assertCountEqual(component_ids, [hidden.pk, visible.pk])
+        created = self.component.change_set.get(action=ActionEvents.ALERT, alert=alert)
+        # Cover stored snapshots even though this alert is not currently dismissible.
+        dismissed = self.component.change_set.create(
+            action=ActionEvents.ALERT_DISMISSED,
+            alert=alert,
+            user=self.user,
+            details={
+                "alert": alert.name,
+                "alert_snapshot": {
+                    "details": {"component_ids": component_ids},
+                    "category": alert.category,
+                    "severity": alert.severity,
+                },
+            },
+        )
+        hidden_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": hidden.project.slug, "slug": hidden.slug},
+        )
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:component-changes", kwargs=self.component_kwargs),
+            reverse("api:change-detail", kwargs={"pk": created.pk}),
+            reverse("api:change-detail", kwargs={"pk": dismissed.pk}),
+        )
+
+        for viewer, expected_ids in (
+            ("anonymous", []),
+            ("member", [visible.pk]),
+            ("admin", component_ids),
+        ):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                self.authenticate(superuser=viewer == "admin")
+            if viewer == "member":
+                self.assertEqual(self.client.get(hidden_url).status_code, 404)
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    entries = response.data.get("results", [response.data])
+                    found = set()
+                    for entry in entries:
+                        if entry["id"] not in {created.pk, dismissed.pk}:
+                            continue
+                        found.add(entry["id"])
+                        self.assertEqual(entry["alert"]["name"], alert.name)
+                        self.assertEqual(
+                            entry["alert"]["details"],
+                            {"component_ids": expected_ids}
+                            if viewer != "anonymous"
+                            else {},
+                        )
+                        self.assertNotIn("fingerprint", entry["details"])
+                        snapshot = entry["details"].get("alert_snapshot")
+                        if snapshot is not None:
+                            self.assertEqual(
+                                snapshot["details"],
+                                {"component_ids": expected_ids}
+                                if viewer != "anonymous"
+                                else {},
+                            )
+                    self.assertEqual(
+                        found,
+                        {created.pk, dismissed.pk}
+                        if "results" in response.data
+                        else {int(response.data["id"])},
+                    )
+
+        alert.details = {"component_ids": [hidden.pk]}
+        alert.save(update_fields=["details"])
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": created.pk})
+        )
+        self.assertEqual(response.data["alert"]["name"], alert.name)
+        self.assertEqual(response.data["alert"]["details"], {"component_ids": []})
+
+        self.component.delete_alert(alert.name)
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": dismissed.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data["alert"]["details"],
+            {"component_ids": [visible.pk]},
+        )
+        self.assertEqual(
+            response.data["details"]["alert_snapshot"]["details"],
+            {"component_ids": [visible.pk]},
+        )
+
     def test_csv_escapes_historical_text(self) -> None:
         change = Change.objects.create(
             action=ActionEvents.CHANGE,

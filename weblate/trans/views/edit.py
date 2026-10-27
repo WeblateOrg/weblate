@@ -1894,6 +1894,12 @@ def zen(request: AuthenticatedHttpRequest, path):
     if isinstance(search_result, HttpResponse):
         return search_result
 
+    state_components = (
+        project.component_set.filter_access(request.user).prefetch()
+        if project is not None and isinstance(obj, (ProjectLanguage, CategoryLanguage))
+        else ()
+    )
+
     return render(
         request,
         "zen.html",
@@ -1902,6 +1908,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "path_object": obj,
             "project": project,
             "component": obj.component if isinstance(obj, Translation) else None,
+            "state_components": state_components,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_count": search_result["total"],

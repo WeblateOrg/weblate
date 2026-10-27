@@ -152,6 +152,8 @@ def redirect_single_project(user: User) -> HttpResponse:
     elif Component.objects.filter(is_glossary=False).count() == 1:
         target = component = Component.objects.filter(is_glossary=False).get()
         project = component.project
+        if not user.can_access_component(component):
+            target = project
     elif Project.objects.count() == 1:
         target = project = Project.objects.get()
     else:
