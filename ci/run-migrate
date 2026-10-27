@@ -294,6 +294,7 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+    check
 fi
 
 if [ "$workspace_migrate" -eq 0 ]; then

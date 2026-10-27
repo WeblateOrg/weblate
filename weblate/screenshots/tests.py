@@ -47,7 +47,7 @@ from weblate.screenshots.views import (
     ocr_get_strings,
 )
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Project, Translation
+from weblate.trans.models import Alert, Change, Component, Project, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -257,7 +257,21 @@ class ScreenshotExtensionMigrationTest(FixtureTestCase):
 
     def test_populated_upgrade_scripts(self) -> None:
         scripts = Path(__file__).resolve().parents[2] / "ci" / "migrate-scripts"
+        for name in ("MissingScreenshots", "UnusedScreenshot"):
+            Alert.objects.update_or_create(
+                component=self.component,
+                name=name,
+                defaults={"details": {"migration_test": True}},
+            )
         runpy.run_path(str(scripts / "setup-screenshot-extensions.py"))
+        self.assertEqual(
+            set(
+                Alert.objects.filter(
+                    component=self.component, details__migration_test=True
+                ).values_list("name", flat=True)
+            ),
+            {"MissingScreenshots", "UnusedScreenshot"},
+        )
         with self.assertLogs("weblate.screenshots", level="WARNING"):
             self.migrate_images()
         runpy.run_path(str(scripts / "assert-screenshot-extensions.py"))
