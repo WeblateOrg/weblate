@@ -14,10 +14,11 @@ from django.http import Http404
 from django.test import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
+from lxml import html
 
 from weblate.auth.admin import WeblateGroupAdmin
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, User, get_anonymous
 from weblate.billing.models import Billing, BillingQuerySet
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
@@ -149,6 +150,229 @@ class WorkspaceViewTest(BaseTestCase):
 
         self.assertContains(response, assigned.name)
         self.assertNotContains(response, unassigned.name, status_code=200)
+
+    def test_navigation_anonymous(self) -> None:
+        user = create_test_user()
+        for name in ("First workspace", "Second workspace"):
+            Workspace.objects.create(name=name).add_owner(user)
+
+        with self.assertNumQueries(0):
+            self.assertEqual(list(Workspace.objects.relevant_to(get_anonymous())), [])
+
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+    def test_navigation_ignores_public_single_project_workspaces(self) -> None:
+        user = create_test_user()
+        for index in range(12):
+            workspace = Workspace.objects.create(name=f"Public workspace {index}")
+            self.create_project(
+                workspace, name=f"Public {index}", slug=f"public-{index}"
+            )
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+    def test_navigation_ignores_watched_single_project_workspaces(self) -> None:
+        user = create_test_user()
+        for index in range(3):
+            workspace = Workspace.objects.create(name=f"Watched workspace {index}")
+            project = self.create_project(
+                workspace, name=f"Watched {index}", slug=f"watched-{index}"
+            )
+            user.profile.watched.add(project)
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+    def test_navigation_watched_workspace_counts_all_projects(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Watched multi-project workspace")
+        watched = self.create_project(workspace, name="Watched project", slug="watched")
+        hidden = self.create_project(
+            workspace,
+            name="Hidden project",
+            slug="hidden",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        user.profile.watched.add(watched)
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [workspace])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+        response = self.client.get(reverse("workspaces"))
+        self.assertContains(response, workspace.name)
+        response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(response, watched.name)
+        self.assertNotContains(response, hidden.name)
+
+    def test_navigation_explicit_single_project_and_empty_workspaces(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Assigned single-project workspace")
+        workspace.add_owner(user)
+        self.create_project(workspace, name="Assigned project", slug="assigned")
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [workspace])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+        empty = Workspace.objects.create(name="Assigned empty workspace")
+        empty.add_owner(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [empty, workspace])
+        self.assertContains(response, 'id="workspaces-menu"', count=1)
+        links = html.fromstring(response.content).xpath(
+            '//ul[@aria-labelledby="workspaces-menu"]//a/@href'
+        )
+        self.assertEqual(
+            links,
+            [
+                empty.get_absolute_url(),
+                workspace.get_absolute_url(),
+                reverse("workspaces"),
+            ],
+        )
+
+    def test_navigation_deduplicates_watched_and_explicit_workspaces(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Overlapping workspace")
+        workspace.add_owner(user)
+        for index in range(2):
+            project = self.create_project(
+                workspace, name=f"Overlap {index}", slug=f"overlap-{index}"
+            )
+            user.profile.watched.add(project)
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [workspace])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+        response = self.client.get(reverse("workspaces"))
+        self.assertEqual(list(response.context["object_list"]), [workspace])
+
+    def test_navigation_filters_inaccessible_watched_projects(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Inaccessible workspace")
+        for index in range(2):
+            project = self.create_project(
+                workspace,
+                name=f"Private {index}",
+                slug=f"private-{index}",
+                access_control=Project.ACCESS_PRIVATE,
+            )
+            user.profile.watched.add(project)
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+        response = self.client.get(reverse("workspaces"))
+        self.assertNotContains(response, workspace.name)
+        self.assertEqual(self.client.get(workspace.get_absolute_url()).status_code, 404)
+
+    def test_navigation_workspace_permissions_do_not_grant_project_access(self) -> None:
+        user = create_test_user()
+        for index in range(2):
+            workspace = Workspace.objects.create(
+                name=f"Explicit private workspace {index}"
+            )
+            workspace.add_owner(user)
+            hidden = self.create_project(
+                workspace,
+                name=f"Private assigned {index}",
+                slug=f"private-assigned-{index}",
+                access_control=Project.ACCESS_PRIVATE,
+            )
+
+            self.client.force_login(user)
+            response = self.client.get(workspace.get_absolute_url())
+            self.assertNotContains(response, hidden.name)
+            self.assertEqual(
+                self.client.get(hidden.get_absolute_url()).status_code, 404
+            )
+
+        response = self.client.get(reverse("about"))
+        self.assertContains(response, 'id="workspaces-menu"')
+
+    def test_navigation_does_not_expand_superuser_access(self) -> None:
+        user = create_test_user()
+        user.is_superuser = True
+        user.save(update_fields=["is_superuser"])
+        for index in range(2):
+            workspace = Workspace.objects.create(name=f"Unassigned workspace {index}")
+            for project_index in range(2):
+                self.create_project(
+                    workspace,
+                    name=f"Project {index} {project_index}",
+                    slug=f"project-{index}-{project_index}",
+                )
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], [])
+        self.assertNotContains(response, 'id="workspaces-menu"')
+
+    def test_navigation_bounded_and_ordered_with_full_listing(self) -> None:
+        user = create_test_user()
+        workspaces = []
+        for index in range(12):
+            workspace = Workspace.objects.create(name=f"Workspace {index:02d}")
+            workspaces.append(workspace)
+            # Watched-only workspaces must also remain reachable beyond the cap.
+            for project_index in range(2):
+                project = self.create_project(
+                    workspace,
+                    name=f"Project {index} {project_index}",
+                    slug=f"project-{index}-{project_index}",
+                )
+                user.profile.watched.add(project)
+
+        # Make creation order differ from alphabetical order.
+        workspaces[-1].name = "First workspace"
+        with acting_user_context(user):
+            workspaces[-1].save(update_fields=["name"])
+        expected = [workspaces[-1], *workspaces[:-1]]
+
+        self.client.force_login(user)
+        response = self.client.get(reverse("about"))
+        self.assertEqual(response.context["navigation_workspaces"], expected[:10])
+        links = html.fromstring(response.content).xpath(
+            '//ul[@aria-labelledby="workspaces-menu"]//a/@href'
+        )
+        self.assertEqual(
+            links,
+            [workspace.get_absolute_url() for workspace in expected[:10]]
+            + [reverse("workspaces")],
+        )
+        response = self.client.get(reverse("workspaces"))
+        self.assertEqual(list(response.context["object_list"]), expected)
+
+        # Permission caches may take queries to initialize. Once constructed,
+        # the queryset must select workspaces and their link data in one query.
+        queryset = (
+            Workspace.objects.relevant_to(user)
+            .only("id", "name")
+            .order_by("name", "pk")
+        )
+        with self.assertNumQueries(1):
+            self.assertEqual(
+                [
+                    (str(workspace), workspace.get_absolute_url())
+                    for workspace in queryset
+                ],
+                [
+                    (str(workspace), workspace.get_absolute_url())
+                    for workspace in expected
+                ],
+            )
 
     def test_workspace_operations_always_offer_project_creation(self) -> None:
         user = create_test_user()

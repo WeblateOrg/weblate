@@ -61,6 +61,30 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
     def order(self) -> Self:
         return self.order_by("name")
 
+    def relevant_to(self, user: User) -> Self:
+        """Workspaces with explicit permissions or watched projects worth grouping."""
+        if not user.is_authenticated:
+            return self.none()
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import Project
+
+        # Count all projects, not just the watched or accessible ones, while
+        # restricting the aggregation to workspaces containing watched projects.
+        watched_workspaces = user.watched_projects.order_by().values("workspace_id")
+        multi_project_workspaces = (
+            Project.objects.filter(workspace_id__in=watched_workspaces)
+            .order_by()
+            .values("workspace_id")
+            .annotate(project_count=models.Count("pk"))
+            .filter(project_count__gt=1)
+            .values("workspace_id")
+        )
+        return self.filter(
+            models.Q(pk__in=user.workspace_permissions)
+            | models.Q(pk__in=multi_project_workspaces)
+        )
+
     def defer_huge(self) -> Self:
         return self.defer(*HUGE_INHERITABLE_SETTINGS)
 

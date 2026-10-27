@@ -4743,6 +4743,62 @@ class SeleniumTests(
         self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
 
+    def test_workspace_navigation_keyboard_and_mobile(self) -> None:
+        user = self.do_login()
+        first = Workspace.objects.create(name="Alpha workspace")
+        second = Workspace.objects.create(name="Beta workspace")
+        first.add_owner(user)
+        second.add_owner(user)
+
+        for width in (1200, 390):
+            with self.subTest(width=width):
+                self.driver.set_window_size(width, 844)
+                with self.wait_for_page_load():
+                    self.driver.get(f"{self.live_server_url}{reverse('about')}")
+                if width == 390:
+                    self.driver.find_element(By.ID, "navbar-toggle").send_keys(
+                        Keys.ENTER
+                    )
+                    WebDriverWait(self.driver, 5).until(
+                        lambda driver: driver.find_element(
+                            By.ID, "workspaces-menu"
+                        ).is_displayed()
+                    )
+
+                toggle = self.driver.find_element(By.ID, "workspaces-menu")
+                toggle.send_keys(Keys.ARROW_DOWN)
+                self.assertEqual(toggle.get_attribute("aria-expanded"), "true")
+                links = self.driver.find_elements(
+                    By.CSS_SELECTOR, '[aria-labelledby="workspaces-menu"] a'
+                )
+                self.assertEqual(
+                    [link.text for link in links],
+                    [first.name, second.name, "My workspaces"],
+                )
+                self.assertEqual(self.driver.switch_to.active_element, links[0])
+                links[0].send_keys(Keys.ESCAPE)
+                self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+                self.assertEqual(self.driver.switch_to.active_element, toggle)
+                self.assertTrue(
+                    self.driver.execute_script(
+                        "return document.documentElement.scrollWidth <= window.innerWidth"
+                    )
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "projects-menu").is_displayed()
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "languages-menu").is_displayed()
+                )
+
+                toggle.send_keys(Keys.ARROW_DOWN)
+                with self.wait_for_page_load():
+                    self.driver.switch_to.active_element.send_keys(Keys.ENTER)
+                self.assertEqual(
+                    self.driver.current_url,
+                    f"{self.live_server_url}{first.get_absolute_url()}",
+                )
+
     @reuse_demo_fixture
     def test_workspace_languages_keyboard_navigation(self) -> None:
         project = self.create_component()

@@ -202,9 +202,7 @@ class WorkspaceListView(WorkspaceListBase):
     template_name = "workspaces.html"
 
     def get_base_queryset(self) -> QuerySet[Workspace]:
-        return Workspace.objects.filter(
-            pk__in=self.request.user.workspace_permissions.keys()
-        )
+        return Workspace.objects.relevant_to(self.request.user)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)

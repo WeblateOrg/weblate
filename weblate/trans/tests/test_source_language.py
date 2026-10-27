@@ -241,7 +241,7 @@ class SourceLanguageTest(FixtureComponentTestCase):
     def test_workflow_author_selection_is_bounded(self) -> None:
         # Isolate author selection from the historical-content quality check.
         with (
-            patch.object(Unit, "run_checks"),
+            patch.object(CHECKS["translated"], "check_component", return_value=[]),
             CaptureQueriesContext(connection) as queries,
         ):
             self.configure()
