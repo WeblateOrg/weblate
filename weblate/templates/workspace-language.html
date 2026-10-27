@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#translation"
+         data-bs-toggle="tab"
+         href="#">{% translate "Translation" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="tab-content">
+    <div class="tab-pane active" id="translation">{% include "snippets/translation.html" %}</div>
+    <div class="tab-pane" id="components">
+      {% include "snippets/list-objects.html" with objects=translations name_source="translation" label=_("Component") %}
+      {% include "paginator.html" with page_obj=translations %}
+    </div>
+    <div class="tab-pane" id="information">{% show_info workspace=workspace stats=object.stats %}</div>
+    <div class="tab-pane" id="search">
+      <form action="{% url 'search' path=object.get_url_path %}" method="get">
+        {% include "snippets/search-form.html" %}
+      </form>
+    </div>
+  </div>
+{% endblock content %}

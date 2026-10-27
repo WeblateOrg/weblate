@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from unittest.mock import PropertyMock, patch
 
+from asgiref.sync import async_to_sync
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import ValidationError
 from django.http import Http404
@@ -22,9 +23,12 @@ from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.actions import ActionEvents
 from weblate.trans.formatting import get_breadcrumbs
-from weblate.trans.models import Change, ComponentLink, Project
+from weblate.trans.models import Change, ComponentLink, Project, Suggestion
 from weblate.trans.tests.test_models import BaseTestCase
-from weblate.trans.tests.test_views import FixtureComponentTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    ReusableViewTestCase,
+)
 from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
@@ -32,8 +36,16 @@ from weblate.trans.tests.utils import (
     get_test_actor,
 )
 from weblate.utils.change_origin import acting_user_context
+from weblate.utils.hash import hash_to_checksum
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
+from weblate.utils.stats import WorkspaceLanguage
 from weblate.utils.tests import http_mock
-from weblate.utils.views import UnsupportedPathObjectError, parse_path
+from weblate.utils.views import (
+    UnsupportedPathObjectError,
+    aparse_path,
+    parse_path,
+    parse_path_units,
+)
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.admin import WorkspaceAdmin
@@ -964,6 +976,354 @@ class WorkspaceViewTest(BaseTestCase):
 
         group.refresh_from_db()
         self.assertEqual(group.language_selection, SELECTION_ALL)
+
+
+class WorkspaceLanguageTest(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Review workspace")
+        self.project.workspace = self.workspace
+        self.project.translation_review = True
+        self.project.save(update_fields=["workspace", "translation_review"])
+        self.scope = WorkspaceLanguage(self.workspace, self.translation.language)
+        self.client.force_login(self.user)
+
+    def test_language_tab_and_overview(self) -> None:
+        response = self.client.get(self.workspace.get_absolute_url())
+        self.assertContains(response, 'data-bs-target="#languages"')
+        self.assertContains(response, self.scope.get_absolute_url())
+        response = self.client.get(self.scope.get_absolute_url())
+        self.assertContains(response, self.scope.get_translate_url())
+        self.assertContains(response, self.workspace.get_absolute_url())
+        self.assertContains(response, "Approved")
+        self.assertEqual(
+            {translation.pk for translation in response.context["translations"]},
+            {self.translation.pk},
+        )
+
+    def test_path_parsing(self) -> None:
+        for parser in (parse_path, async_to_sync(aparse_path)):
+            with self.subTest(parser=parser):
+                obj = parser(None, self.scope.get_url_path(), (WorkspaceLanguage,))
+                self.assertEqual(obj.workspace, self.workspace)
+                self.assertEqual(obj.language, self.translation.language)
+                with self.assertRaises(UnsupportedPathObjectError):
+                    parser(None, self.scope.get_url_path(), (Workspace,))
+                with self.assertRaises(Http404):
+                    parser(
+                        None,
+                        [*self.workspace.get_url_path(), "-", "unknown"],
+                        (WorkspaceLanguage,),
+                    )
+                with self.assertRaises(UnsupportedPathObjectError):
+                    parser(
+                        None,
+                        [*self.scope.get_url_path(), "extra"],
+                        (WorkspaceLanguage,),
+                    )
+
+    def test_shared_components_are_listed_but_not_in_editor_scope(self) -> None:
+        shared_workspace = Workspace.objects.create(name="Shared workspace")
+        shared_project = Project.objects.create(
+            workspace=shared_workspace,
+            name="Shared project",
+            slug="shared-language-project",
+            web="https://example.com/",
+        )
+        ComponentLink.objects.create(component=self.component, project=shared_project)
+        scope = WorkspaceLanguage(shared_workspace, self.translation.language)
+        response = self.client.get(scope.get_absolute_url())
+        self.assertEqual(
+            [translation.pk for translation in response.context["translations"]],
+            [self.translation.pk],
+        )
+        request = self.get_request()
+        _obj, units, _context = parse_path_units(
+            request, scope.get_url_path(), (WorkspaceLanguage,)
+        )
+        self.assertFalse(units.exists())
+        response = self.client.get(scope.get_translate_url())
+        self.assertRedirects(response, f"{scope.get_absolute_url()}?q=#search")
+
+    def test_linked_components_are_listed_once(self) -> None:
+        shared_project = Project.objects.create(
+            workspace=self.workspace,
+            name="Shared project",
+            slug="shared-language-project",
+            web="https://example.com/",
+        )
+        ComponentLink.objects.create(component=self.component, project=shared_project)
+        response = self.client.get(self.scope.get_absolute_url())
+        self.assertEqual(len(response.context["translations"]), 1)
+
+    def test_search_and_editor_preserve_scope(self) -> None:
+        units = set(self.translation.unit_set.values_list("pk", flat=True))
+        response = self.client.get(
+            reverse("search", kwargs={"path": self.scope.get_url_path()}), {"q": ""}
+        )
+        self.assertEqual({unit.pk for unit in response.context["page_obj"]}, units)
+        self.assertContains(response, self.scope.get_translate_url())
+        for mode in ("translate", "zen"):
+            with self.subTest(mode=mode):
+                response = self.client.get(
+                    reverse(mode, kwargs={"path": self.scope.get_url_path()})
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context["object"].workspace, self.workspace)
+                self.assertContains(response, self.scope.get_translate_url())
+                if mode == "translate":
+                    self.assertEqual(response.context["project"], self.project)
+                    self.assertTrue(
+                        response.context["next_unit_url"].startswith(
+                            self.scope.get_translate_url()
+                        )
+                    )
+                else:
+                    for item in response.context["unitdata"]:
+                        self.assertIn(item["unit"].pk, units)
+                        self.assertEqual(
+                            item["form"].helper.form_action,
+                            reverse(
+                                "save_zen", kwargs={"path": self.scope.get_url_path()}
+                            ),
+                        )
+                        self.assertEqual(
+                            item["suggestion_urls"]["unit_url"],
+                            reverse(
+                                "zen_unit", kwargs={"path": self.scope.get_url_path()}
+                            ),
+                        )
+
+    def test_private_projects_and_restricted_components_are_filtered(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.client.logout()
+        self.assertEqual(
+            self.client.get(self.scope.get_absolute_url()).status_code, 404
+        )
+        self.assertEqual(
+            self.client.get(self.scope.get_translate_url()).status_code, 404
+        )
+
+    def test_scope_filters_units_and_rejects_other_language(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        other = self.component.translation_set.get(
+            language=self.component.source_language
+        )
+        unit = other.unit_set.order_by("pk")[0]
+        original = unit.target
+        data = {
+            "unit_id": str(unit.pk),
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.edit_content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
+            "target_0": "Out of scope",
+            "review": str(STATE_TRANSLATED),
+        }
+        response = self.client.post(self.scope.get_translate_url(), data)
+        self.assertRedirects(response, self.scope.get_absolute_url())
+        response = self.client.post(
+            reverse("save_zen", kwargs={"path": self.scope.get_url_path()}), data
+        )
+        self.assertEqual(response.status_code, 400)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+
+    def test_translation_and_review_save_preserve_scope(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        unit = self.translation.unit_set.order_by("pk")[0]
+        data = {
+            "unit_id": str(unit.pk),
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.edit_content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
+            "target_0": "Workspace translation\n",
+            "review": str(STATE_APPROVED),
+        }
+        response = self.client.post(self.scope.get_translate_url(), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response["Location"].startswith(self.scope.get_translate_url()))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Workspace translation\n")
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertEqual(unit.change_set.order_by("-pk")[0].user, self.user)
+
+
+class WorkspaceLanguageEditorTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Cross project reviews")
+        self.project.workspace = self.workspace
+        self.project.translation_review = True
+        self.project.save(update_fields=["workspace", "translation_review"])
+        self.second_project = self.create_project(
+            name="Second", slug="second", workspace=self.workspace
+        )
+        self.second_component = self.create_po(
+            name="second", project=self.second_project
+        )
+        self.second_translation = self.second_component.translation_set.get(
+            language=self.translation.language
+        )
+        self.scope = WorkspaceLanguage(self.workspace, self.translation.language)
+
+    def test_cross_project_navigation_and_project_settings(self) -> None:
+        expected_ids = set(self.translation.unit_set.values_list("pk", flat=True))
+        expected_ids.update(
+            self.second_translation.unit_set.values_list("pk", flat=True)
+        )
+        url = self.scope.get_translate_url()
+        seen = set()
+        for offset in range(1, len(expected_ids) + 1):
+            response = self.client.get(url, {"offset": offset})
+            self.assertEqual(response.status_code, 200)
+            unit = response.context["unit"]
+            seen.add(unit.pk)
+            self.assertEqual(
+                response.context["project"], unit.translation.component.project
+            )
+            self.assertTrue(response.context["next_unit_url"].startswith(url))
+        self.assertEqual(seen, expected_ids)
+        response = self.client.get(url, {"offset": len(expected_ids) + 1})
+        self.assertRedirects(response, self.scope.get_absolute_url())
+
+    def test_zen_load_and_refresh_preserve_cross_project_scope(self) -> None:
+        url = reverse("zen", kwargs={"path": self.scope.get_url_path()})
+        response = self.client.get(url)
+        self.assertEqual(
+            {item["unit"].translation_id for item in response.context["unitdata"]},
+            {self.translation.pk, self.second_translation.pk},
+        )
+        response = self.client.get(
+            reverse("load_zen", kwargs={"path": self.scope.get_url_path()}),
+            {"offset": 1},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["object"].workspace, self.workspace)
+        response = self.client.get(url, {"refresh": "1", "offset": "2"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["is_zen"])
+        self.assertEqual(response.context["object"].workspace, self.workspace)
+
+    def test_restricted_components_are_not_listed_or_editable(self) -> None:
+        self.second_component.restricted = True
+        self.second_component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        response = self.client.get(self.scope.get_absolute_url())
+        self.assertEqual(
+            {translation.pk for translation in response.context["translations"]},
+            {self.translation.pk},
+        )
+        request = self.get_request()
+        _obj, units, _context = parse_path_units(
+            request, self.scope.get_url_path(), (WorkspaceLanguage,)
+        )
+        self.assertEqual(
+            set(units.values_list("translation_id", flat=True)), {self.translation.pk}
+        )
+
+    def test_zen_review_uses_each_projects_permissions_and_workflow(self) -> None:
+        self.project.add_user(self.user, "Review")
+        self.user.clear_permissions_cache()
+        url = reverse("save_zen", kwargs={"path": self.scope.get_url_path()})
+        for translation, expected_state in (
+            (self.translation, STATE_APPROVED),
+            (self.second_translation, STATE_TRANSLATED),
+        ):
+            with self.subTest(project=translation.component.project.slug):
+                unit = translation.unit_set.order_by("pk")[0]
+                self.assertEqual(
+                    bool(self.user.has_perm("unit.review", unit)),
+                    expected_state == STATE_APPROVED,
+                )
+                response = self.client.post(
+                    url,
+                    {
+                        "unit_id": str(unit.pk),
+                        "checksum": unit.checksum,
+                        "contentsum": hash_to_checksum(unit.edit_content_hash),
+                        "translationsum": hash_to_checksum(unit.get_target_hash()),
+                        "initial_state": str(unit.state),
+                        "target_0": "Workspace translation\n",
+                        "review": str(expected_state),
+                    },
+                )
+                self.assertEqual(response.status_code, 200)
+                unit.refresh_from_db()
+                self.assertEqual(unit.target, "Workspace translation\n")
+                self.assertEqual(unit.state, expected_state)
+                self.assertEqual(unit.change_set.order_by("-pk")[0].user, self.user)
+
+    def test_zen_suggestion_updates_keep_workspace_scope(self) -> None:
+        unit = self.get_unit()
+        suggestion, _result = Suggestion.objects.add(
+            unit, ["First suggestion\n"], None, user=self.anotheruser
+        )
+        if suggestion is None:
+            self.fail("Expected a suggestion")
+        Suggestion.objects.add(
+            unit, ["Second suggestion\n"], None, user=self.anotheruser
+        )
+        expected_url = reverse(
+            "zen_suggestion", kwargs={"path": self.scope.get_url_path()}
+        )
+        response = self.client.get(
+            reverse("zen_unit", kwargs={"path": self.scope.get_url_path()}),
+            {"unit_id": unit.pk, "checksum": unit.checksum},
+        )
+        self.assertIn(expected_url, response.json()["suggestions_html"])
+        response = self.client.post(
+            reverse("save_zen", kwargs={"path": self.scope.get_url_path()}),
+            {
+                "unit_id": str(unit.pk),
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.edit_content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "Workspace translation\n",
+                "review": str(STATE_TRANSLATED),
+            },
+        )
+        self.assertIn(expected_url, response.json()["suggestions_html"])
+        response = self.client.post(
+            expected_url,
+            {
+                "unit_id": unit.pk,
+                "checksum": unit.checksum,
+                "accept": suggestion.pk,
+            },
+        )
+        self.assertEqual(response.json()["state"], "success")
+        self.assertIn(expected_url, response.json()["suggestions_html"])
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First suggestion\n")
+
+    def test_submissions_outside_workspace_are_rejected(self) -> None:
+        self.second_project.workspace = None
+        self.second_project.save(update_fields=["workspace"])
+        unit = self.second_translation.unit_set.order_by("pk")[0]
+        original = unit.target
+        data = {
+            "unit_id": str(unit.pk),
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.edit_content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
+            "target_0": "Outside workspace",
+            "review": str(STATE_TRANSLATED),
+        }
+        response = self.client.post(self.scope.get_translate_url(), data)
+        self.assertRedirects(response, self.scope.get_absolute_url())
+        response = self.client.post(
+            reverse("save_zen", kwargs={"path": self.scope.get_url_path()}), data
+        )
+        self.assertEqual(response.status_code, 400)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
 
 
 class WorkspaceStatsTest(FixtureComponentTestCase):

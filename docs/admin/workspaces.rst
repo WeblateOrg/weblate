@@ -33,6 +33,18 @@ and restricted components that you cannot access. Project listings and actions
 remain permission-filtered. See
 :ref:`statistics access filtering <statistics-access-filtering>`.
 
+The :guilabel:`Languages` tab lists language statistics across workspace
+projects. Select a language to open its translation overview, then use
+:guilabel:`Translate`, :guilabel:`Zen`, or a review status link to work across
+projects while keeping the workspace and language selected. Each translation
+uses its project's workflow and permissions.
+
+As on project pages, language statistics and component listings include shared
+components. Workspace language search, translation, and review actions cover
+owned components only. Open a shared component's translation individually to
+work on it. Aggregate statistics retain the visibility rules described above;
+translation listings and actions remain permission-filtered.
+
 The workspace :guilabel:`Files` menu downloads a ZIP archive of owned
 components that you can access and have permission to download. Workspace
 membership does not bypass project access control or component restrictions.

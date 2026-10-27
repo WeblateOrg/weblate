@@ -17,21 +17,23 @@
   <li class="breadcrumb-item">
     <a href="{% url 'zen' path=object.get_url_path %}">{% translate "Zen" %}</a>
   </li>
-  <a class="float-end ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
-  </a>
+  {% if object.get_widgets_url %}
+    <a class="float-end ms-auto" href="{{ object.get_widgets_url }}">
+      <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+           alt="{% translate "Translation status widgets" %}" />
+    </a>
+  {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content_class %}js-editor{% endblock %}
 
 {% block content %}
 
-  {% if object.component.slug == "-" %}
+  {% if object.component and object.component.slug == "-" %}
     {% for component in project.component_set.prefetch %}
       {% include "snippets/component/state.html" with object=component %}
     {% endfor %}
-  {% else %}
+  {% elif object.component %}
     {% include "snippets/component/state.html" with object=object.component %}
   {% endif %}
 

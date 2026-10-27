@@ -18,7 +18,7 @@
       <a href="{% url 'search' %}">{% translate "Search" %}</a>
     </li>
   {% endif %}
-  {% if has_editor %}
+  {% if has_editor and path_object.get_widgets_url %}
     <li class="ms-auto">
       <a href="{{ path_object.get_widgets_url }}">
         <img src="{% url 'widget-image' path=path_object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
