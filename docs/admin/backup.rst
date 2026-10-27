@@ -65,6 +65,14 @@ The complete backup is validated before restoring any data. Invalid object
 fields, references, repository paths, URLs, regular expressions, or screenshot
 files cause the import to be rejected without creating a partial project.
 
+Screenshot filename extensions are corrected to match their validated image
+contents during import. This also repairs older backups containing filenames
+such as :file:`screenshot.pngrawtrue`. Invalid images are still rejected.
+
+Upgrading to Weblate 2026.11 applies the same repair to stored screenshots.
+Missing or invalid images are left unchanged and reported in the migration log.
+Original files are retained until scheduled screenshot cleanup removes them.
+
 Version control and file format parameters are migrated from older backup
 formats before their values are validated. Unknown parameters and parameters
 that do not apply to the component's version control system or file format are

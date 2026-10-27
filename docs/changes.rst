@@ -27,6 +27,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Correct screenshot filename extensions during upgrades and :ref:`project backup import <projectbackup>` using validated image contents.
+
 * :ref:`Project backup restore <projectbackup>` validates stored parameter values and reports skipped unsupported version control and file format parameters.
 
 * Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
@@ -105,6 +107,9 @@ Weblate 2026.11
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+The upgrade repairs stored screenshot filename extensions. Screenshot storage
+must be accessible during migration; see :ref:`projectbackup`.
 
 .. rubric:: Contributors
 

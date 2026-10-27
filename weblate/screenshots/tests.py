@@ -5,11 +5,15 @@
 from __future__ import annotations
 
 import os.path
+import runpy
 import tempfile
 from difflib import get_close_matches
+from importlib import import_module
+from io import BytesIO
 from itertools import chain
 from pathlib import Path
 from shutil import copyfile, rmtree
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import httpx2
@@ -19,6 +23,7 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
+from django.db.migrations.loader import MigrationLoader
 from django.test import Client, SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -31,6 +36,8 @@ from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.tasks import cleanup_screenshot_files
+from weblate.screenshots.utils import normalize_screenshot_filename
 from weblate.screenshots.views import (
     TESSERACT_DOWNLOAD_ATTEMPTS,
     TESSERACT_DOWNLOAD_TIMEOUT,
@@ -55,6 +62,63 @@ PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
 
 
 class ScreenshotImageValidationTest(SimpleTestCase):
+    def test_normalize_filename(self) -> None:
+        for image_format, names in (
+            ("PNG", ("test.pngrawtrue", "test.html", "test", "test.jpg")),
+            ("JPEG", ("test.png", "test.html")),
+            ("GIF", ("test.png",)),
+            ("WEBP", ("test.png",)),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            extension = {"PNG": "png", "JPEG": "jpg", "GIF": "gif", "WEBP": "webp"}[
+                image_format
+            ]
+            for name in names:
+                with self.subTest(format=image_format, name=name):
+                    image = SimpleUploadedFile(name, content.getvalue())
+                    self.assertEqual(
+                        normalize_screenshot_filename(image), f"test.{extension}"
+                    )
+                    self.assertEqual(image.tell(), 0)
+
+    def test_preserve_matching_extensions(self) -> None:
+        for image_format, extensions in (
+            ("PNG", ("png", "PNG", "apng")),
+            ("JPEG", ("jpg", "jpeg", "jpe", "JPEG")),
+            ("GIF", ("gif",)),
+            ("WEBP", ("webp",)),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            for extension in extensions:
+                name = f"test.{extension}"
+                with self.subTest(name=name):
+                    image = SimpleUploadedFile(name, content.getvalue())
+                    self.assertEqual(normalize_screenshot_filename(image), name)
+
+    def test_normalize_rejects_invalid_images(self) -> None:
+        bitmap = BytesIO()
+        Image.new("RGB", (2, 2)).save(bitmap, format="BMP")
+        large = BytesIO()
+        Image.new("RGB", (2001, 1)).save(large, format="PNG")
+        for content in (
+            b"<html>not an image</html>",
+            bitmap.getvalue(),
+            large.getvalue(),
+        ):
+            with self.subTest(content=content[:20]), self.assertRaises(ValidationError):
+                normalize_screenshot_filename(SimpleUploadedFile("test.png", content))
+
+    @override_settings(ALLOWED_ASSET_SIZE=10)
+    def test_normalize_rejects_oversized_image(self) -> None:
+        with self.assertRaises(ValidationError):
+            normalize_screenshot_filename(
+                SimpleUploadedFile(
+                    "test.pngrawtrue", Path(TEST_SCREENSHOT).read_bytes()
+                )
+            )
+
     def test_rejects_invalid_extension(self) -> None:
         image = SimpleUploadedFile(
             "screenshot.html",
@@ -66,6 +130,184 @@ class ScreenshotImageValidationTest(SimpleTestCase):
             Screenshot.validate_image_file(image)
 
         self.assertEqual(error.exception.error_list[0].code, "invalid_extension")
+
+
+class ScreenshotExtensionMigrationTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        media_root = self.enterContext(
+            tempfile.TemporaryDirectory()  # pylint: disable=consider-using-with
+        )
+        self.enterContext(override_settings(MEDIA_ROOT=media_root))
+        self.migration = import_module(
+            "weblate.screenshots.migrations.0002_repair_image_extensions"
+        )
+        self.migration_apps = (
+            MigrationLoader(connection)
+            .project_state([("screenshots", "0001_squashed_weblate_5")])
+            .apps
+        )
+        self.screenshot_model = self.migration_apps.get_model(
+            "screenshots", "Screenshot"
+        )
+
+    def create_screenshot(self, name: str, content: bytes | None = None) -> Screenshot:
+        screenshot = self.screenshot_model.objects.create(
+            name=name,
+            translation_id=self.component.source_translation.pk,
+            user_id=self.user.pk,
+        )
+        screenshot.image.save(
+            name,
+            File(
+                BytesIO(
+                    Path(TEST_SCREENSHOT).read_bytes() if content is None else content
+                )
+            ),
+        )
+        return screenshot
+
+    def migrate_images(self) -> None:
+        self.migration.repair_image_extensions(
+            self.migration_apps, SimpleNamespace(connection=connection)
+        )
+
+    def test_repair_and_cleanup(self) -> None:
+        originals = [
+            self.create_screenshot(name)
+            for name in (
+                "collision.png",
+                "collision.pngrawtrue",
+                "collision.html",
+                "missing-extension",
+                "wrong.jpg",
+                "matching.PNG",
+            )
+        ]
+        shared = self.screenshot_model.objects.create(
+            name="Shared image",
+            image=originals[1].image.name,
+            translation_id=self.component.source_translation.pk,
+        )
+        old_names = [screenshot.image.name or "" for screenshot in originals]
+        timestamps = [screenshot.timestamp for screenshot in originals]
+        self.migrate_images()
+        for index, screenshot in enumerate(originals):
+            screenshot.refresh_from_db()
+            assert screenshot.image.name is not None
+            self.assertEqual(screenshot.timestamp, timestamps[index])
+            self.assertEqual(screenshot.user_id, self.user.pk)
+            with screenshot.image.open("rb") as image:
+                self.assertEqual(image.read(), Path(TEST_SCREENSHOT).read_bytes())
+            if index in {0, 5}:
+                self.assertEqual(screenshot.image.name, old_names[index])
+            else:
+                self.assertTrue(screenshot.image.name.endswith(".png"))
+                self.assertNotEqual(screenshot.image.name, old_names[index])
+            self.assertTrue(screenshot.image.storage.exists(old_names[index]))
+        shared.refresh_from_db()
+        self.assertEqual(shared.image.name, originals[1].image.name)
+        names = [screenshot.image.name or "" for screenshot in originals]
+        self.assertEqual(len(set(names)), len(originals))
+        self.migrate_images()
+        self.assertEqual(
+            set(self.screenshot_model.objects.values_list("image", flat=True)),
+            set(names),
+        )
+        cleanup_screenshot_files()
+        for index, screenshot in enumerate(originals):
+            assert screenshot.image.name is not None
+            self.assertTrue(screenshot.image.storage.exists(screenshot.image.name))
+            self.assertEqual(
+                screenshot.image.storage.exists(old_names[index]), index in {0, 5}
+            )
+
+    def test_skip_missing_and_invalid_images(self) -> None:
+        invalid = self.create_screenshot("invalid.html", b"<html>not an image</html>")
+        missing = self.create_screenshot("missing.pngrawtrue")
+        assert missing.image.name is not None
+        missing.image.storage.delete(missing.image.name)
+        large = BytesIO()
+        Image.new("RGB", (2001, 1)).save(large, format="PNG")
+        oversized = self.create_screenshot("large.pngrawtrue", large.getvalue())
+        names = {
+            item.pk: item.image.name or "" for item in (invalid, missing, oversized)
+        }
+        with self.assertLogs("weblate.screenshots", level="WARNING") as logs:
+            self.migrate_images()
+        self.assertEqual(len(logs.output), 3)
+        for screenshot in (invalid, missing, oversized):
+            screenshot.refresh_from_db()
+            self.assertEqual(screenshot.image.name, names[screenshot.pk])
+            self.assertTrue(any(names[screenshot.pk] in line for line in logs.output))
+
+    def test_storage_failure_preserves_reference(self) -> None:
+        screenshot = self.create_screenshot("test.pngrawtrue")
+        old_name = screenshot.image.name
+        # ruff: ignore[private-member-access]
+        storage = self.screenshot_model._meta.get_field("image").storage
+        with (
+            patch.object(storage, "save", side_effect=OSError("Storage unavailable")),
+            self.assertRaisesMessage(OSError, "Storage unavailable"),
+        ):
+            self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, old_name)
+        self.assertTrue(storage.exists(old_name))
+
+    def test_populated_upgrade_scripts(self) -> None:
+        scripts = Path(__file__).resolve().parents[2] / "ci" / "migrate-scripts"
+        runpy.run_path(str(scripts / "setup-screenshot-extensions.py"))
+        with self.assertLogs("weblate.screenshots", level="WARNING"):
+            self.migrate_images()
+        runpy.run_path(str(scripts / "assert-screenshot-extensions.py"))
+
+    def test_supported_formats_and_aliases(self) -> None:
+        screenshots = []
+        for image_format, extension in (
+            ("JPEG", "jpg"),
+            ("GIF", "gif"),
+            ("WEBP", "webp"),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            screenshot = self.create_screenshot(
+                f"test-{image_format}.html", content.getvalue()
+            )
+            screenshots.append((screenshot, extension))
+        content = BytesIO()
+        Image.new("RGB", (2, 2)).save(content, format="JPEG")
+        jpeg = self.create_screenshot("matching.jpeg", content.getvalue())
+        jpeg_name = jpeg.image.name
+        self.migrate_images()
+        for screenshot, extension in screenshots:
+            screenshot.refresh_from_db()
+            assert screenshot.image.name is not None
+            self.assertTrue(screenshot.image.name.endswith(f".{extension}"))
+        jpeg.refresh_from_db()
+        self.assertEqual(jpeg.image.name, jpeg_name)
+
+    def test_database_failure_preserves_original_file(self) -> None:
+        screenshot = self.create_screenshot("test.pngrawtrue")
+        old_name = screenshot.image.name
+        with (
+            patch(
+                "django.db.models.query.QuerySet.update",
+                side_effect=RuntimeError("Database unavailable"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "Database unavailable"),
+        ):
+            self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, old_name)
+        assert old_name is not None
+        self.assertTrue(screenshot.image.storage.exists(old_name))
+        self.assertTrue(screenshot.image.storage.exists("screenshots/test.png"))
+        self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertNotEqual(screenshot.image.name, old_name)
+        with screenshot.image.open("rb") as image:
+            self.assertEqual(image.read(), Path(TEST_SCREENSHOT).read_bytes())
 
 
 class TesseractDataTest(SimpleTestCase):
