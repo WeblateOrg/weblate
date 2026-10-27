@@ -1095,7 +1095,13 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
         return None
 
     # Store unit
-    unit.translate(request.user, merged.get_target_plurals(), merged.state)
+    state = merged.state
+    if state == STATE_APPROVED and (
+        not unit.translation.enable_review
+        or not request.user.has_perm("unit.review", unit)
+    ):
+        state = STATE_TRANSLATED
+    unit.translate(request.user, merged.get_target_plurals(), state)
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 

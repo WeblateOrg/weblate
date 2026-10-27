@@ -2585,6 +2585,37 @@ class EditComplexTest(ReusableViewTestCase):
         )
         self.assertContains(response, "Could not find the merged string.")
 
+    def test_merge_approved_requires_review_permission(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.component.allow_translation_propagation = False
+        self.component.save(update_fields=["allow_translation_propagation"])
+        linked = self.create_link_existing(allow_translation_propagation=False)
+        source = linked.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        source.translate(self.user, "Approved merge target\n", STATE_APPROVED)
+        destination = self.get_unit()
+        self.assertNotEqual(destination.state, STATE_APPROVED)
+        self.assertTrue(self.user.has_perm("unit.edit", destination))
+        self.assertFalse(self.user.has_perm("unit.review", destination))
+
+        url = f"{self.translate_url}?checksum={destination.checksum}"
+        response = self.client.post(url, {"merge": source.pk})
+        self.assertEqual(response.status_code, 302)
+        destination.refresh_from_db()
+        self.assertEqual(destination.target, source.target)
+        self.assertEqual(destination.state, STATE_TRANSLATED)
+
+        self.make_manager()
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", destination))
+        response = self.client.post(url, {"merge": source.pk})
+        self.assertEqual(response.status_code, 302)
+        destination.refresh_from_db()
+        self.assertEqual(destination.target, source.target)
+        self.assertEqual(destination.state, STATE_APPROVED)
+
     def test_merge_inconsistent(self) -> None:
         # Translate unit to have something to start with
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
