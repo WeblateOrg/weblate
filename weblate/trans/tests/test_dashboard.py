@@ -248,6 +248,19 @@ class DashboardTest(FixtureTestCase):
         response = self.client.get(reverse("home"))
         self.assertRedirects(response, self.component.get_absolute_url())
 
+    @override_settings(SINGLE_PROJECT=True)
+    def test_single_restricted_component_redirects_to_project(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.client.logout()
+
+        response = self.client.get(reverse("home"))
+
+        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertEqual(
+            self.client.get(self.component.get_absolute_url()).status_code, 404
+        )
+
     @override_settings(SINGLE_PROJECT="test")
     def test_single_project_slug(self) -> None:
         response = self.client.get(reverse("home"))

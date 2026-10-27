@@ -4369,6 +4369,40 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
         }
 
 
+def filter_alert_details(
+    name: str, details: dict[str, Any], user: User | None
+) -> dict[str, Any]:
+    """Keep cross-component alert references within the requester's view scope."""
+    if name != "ConflictingRepositorySetup":
+        return details
+
+    stored_ids = details.get("component_ids")
+    if not isinstance(stored_ids, list):
+        return {**details, "component_ids": []}
+    component_ids = [
+        component_id
+        for component_id in stored_ids
+        if isinstance(component_id, int) and not isinstance(component_id, bool)
+    ]
+    visible_ids = (
+        set(
+            Component.objects.filter_access(user)
+            .filter(pk__in=component_ids)
+            .values_list("pk", flat=True)
+        )
+        if user is not None
+        else set()
+    )
+    return {
+        **details,
+        "component_ids": [
+            component_id
+            for component_id in component_ids
+            if component_id in visible_ids
+        ],
+    }
+
+
 class AlertSerializer(serializers.ModelSerializer[Alert]):
     category = serializers.ChoiceField(
         choices=("addons", "community", "configuration", "files", "vcs"),
@@ -4382,6 +4416,16 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
             lookup_field="username",
         )
     )
+
+    def to_representation(self, instance: Alert) -> dict[str, Any]:
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        details = data.get("details")
+        if isinstance(details, dict):
+            data["details"] = filter_alert_details(
+                instance.name, details, getattr(request, "user", None)
+            )
+        return data
 
     class Meta:
         model = Alert
@@ -4514,6 +4558,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if not self.can_view_alert_details():
             data["details"] = {}
             data["dismissal_reason"] = ""
+        elif isinstance(data.get("details"), dict):
+            request = self.context.get("request")
+            data["details"] = filter_alert_details(
+                data["name"], data["details"], getattr(request, "user", None)
+            )
         return data
 
     def to_representation(self, instance):
@@ -4531,6 +4580,27 @@ class ChangeSerializer(RemovableSerializer[Change]):
                     else {}
                 )
             return data
+        if isinstance(details, dict) and instance.action in {
+            ActionEvents.ALERT,
+            ActionEvents.ALERT_DISMISSED,
+        }:
+            alert_name = (
+                instance.alert.name
+                if instance.alert_id is not None
+                else details.get("alert")
+            )
+            if alert_name == "ConflictingRepositorySetup":
+                details = deepcopy(details)
+                data["details"] = details
+                details.pop("fingerprint", None)
+                snapshot = details.get("alert_snapshot")
+                if isinstance(snapshot, dict) and isinstance(
+                    snapshot.get("details"), dict
+                ):
+                    request = self.context.get("request")
+                    snapshot["details"] = filter_alert_details(
+                        alert_name, snapshot["details"], getattr(request, "user", None)
+                    )
         if self.can_view_alert_details():
             return data
         details = data.get("details")
