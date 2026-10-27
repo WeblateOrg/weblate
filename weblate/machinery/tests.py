@@ -1448,6 +1448,53 @@ class MachineTranslationErrorLoggingTest(SimpleTestCase):
 
 
 class MachineTranslationCleanupTest(SimpleTestCase):
+    def test_many_placeholders_restore_in_one_pass(self) -> None:
+        machine = DummyTranslation({})
+        replacements = {
+            f"[X{index * 8}X]": f"{{name{index}}}" for index in range(20_000)
+        }
+        text = " ".join(replacements)
+        self.assertEqual(
+            machine.uncleanup_text(replacements, text), " ".join(replacements.values())
+        )
+
+    def test_unknown_and_spaced_placeholders(self) -> None:
+        machine = DummyTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text(
+                {"[X0X]": "[X8X]", "[X8X]": "done"},
+                "[X0X ] [X8X] [X999X]",
+            ),
+            "[X8X] done [X999X]",
+        )
+
+    def test_cyrillic_placeholder_shape(self) -> None:
+        machine = CyrTranslitTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text({"[___12___]": "%s"}, "[___12___ ]"), "%s"
+        )
+
+    def test_llm_spaced_placeholder_shape(self) -> None:
+        machine = BaseLLMTranslation({})
+        self.assertEqual(
+            machine.uncleanup_text({"@@PH12@@": "%s"}, "@@PH12@ @ @@PH999@@"),
+            "%s @@PH999@@",
+        )
+
+    def test_xml_placeholders_restore_in_one_pass(self) -> None:
+        machine = GoogleV3Translation({})
+        replacements = {
+            '<span translate="no" id="7">&lt;b&gt;</span>': "&lt;b&gt;",
+            '<br translate="no">': "\n",
+        }
+        self.assertEqual(
+            machine.uncleanup_text(
+                replacements,
+                '<span translate="no" id="7">&lt;b&gt;</span><br translate="no">',
+            ),
+            "<b>\n",
+        )
+
     def test_rst_reference_remains_placeholder(self) -> None:
         machine_translation = DummyTranslation({})
         unit = make_unit(

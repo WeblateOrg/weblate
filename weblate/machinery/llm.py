@@ -575,10 +575,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
         )
         return result
 
-    def make_re_placeholder(self, text: str) -> str:
-        if LLM_PLACEHOLDER_RE.fullmatch(text):
-            return f"{re.escape(text[:-2])} *{re.escape(text[-2:-1])} *{re.escape(text[-1:])}"
-        return super().make_re_placeholder(text)
+    def get_placeholder_pattern(self) -> re.Pattern[str]:
+        return RECOVERABLE_LLM_PLACEHOLDER_RE
 
     def _build_message(
         self,
