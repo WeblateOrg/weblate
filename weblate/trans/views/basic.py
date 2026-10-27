@@ -74,6 +74,7 @@ from weblate.utils.stats import (
     GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     ProjectLanguage,
+    WorkspaceLanguage,
     get_non_glossary_stats,
     prefetch_stats,
 )
@@ -257,8 +258,13 @@ def show(request: AuthenticatedHttpRequest, path):
             ProjectLanguage,
             Category,
             CategoryLanguage,
+            WorkspaceLanguage,
         ),
     )
+    if isinstance(obj, WorkspaceLanguage):
+        from weblate.workspaces.views import show_workspace_language  # ruff: ignore[import-outside-top-level]
+
+        return show_workspace_language(request, obj)
     if isinstance(obj, Project):
         return show_project(request, obj)
     if isinstance(obj, Component):

@@ -24,10 +24,12 @@
   <li class="breadcrumb-item">
     <a href="{{ object.get_translate_url }}">{% translate "Translate" %}</a>
   </li>
-  <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
-         alt="{% translate "Translation status widgets" %}" />
-  </a>
+  {% if object.get_widgets_url %}
+    <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
+      <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+           alt="{% translate "Translation status widgets" %}" />
+    </a>
+  {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content_class %}js-editor{% endblock %}

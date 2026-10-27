@@ -85,7 +85,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
 from weblate.workspaces.models import Workspace
@@ -452,7 +452,7 @@ class SearchNavigation:
     def __init__(
         self,
         base: _SearchBase,
-        project: Project,
+        project: Project | None,
         unit_set: UnitQuerySet,
         request: AuthenticatedHttpRequest,
         *,
@@ -1294,9 +1294,21 @@ def get_addterm_glossaries(addable_ids):
 
 
 def prepare_glossary_terms(
-    units: list[Unit], project: Project, *, full: bool = False
+    units: list[Unit], project: Project | None, *, full: bool = False
 ) -> None:
     """Prepare glossary terms for units if glossary matching is useful."""
+    if project is None:
+        projects = {unit.translation.component.project_id for unit in units}
+        for project_id in projects:
+            project_units = [
+                unit
+                for unit in units
+                if unit.translation.component.project_id == project_id
+            ]
+            prepare_glossary_terms(
+                project_units, project_units[0].translation.component.project, full=full
+            )
+        return
     if (
         units
         and project.glossaries
@@ -1311,7 +1323,7 @@ def prepare_glossary_terms(
 def get_translate_unit(
     request: AuthenticatedHttpRequest,
     obj: _SearchBase,
-    project: Project,
+    project: Project | None,
     unit_set: UnitQuerySet,
 ) -> HttpResponse | TranslateUnitResult:
     """Resolve search results and current unit for the translate view."""
@@ -1401,10 +1413,12 @@ def get_translate_unit(
 def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
     """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
-    project = context["project"]
+    project = context.get("project")
     user = request.user
 
     search_data = get_translate_unit(request, obj, project, unit_set)
@@ -1414,6 +1428,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     num_results = search_data.num_results
     offset = search_data.offset
     unit = search_data.unit
+    if project is None:
+        project = unit.translation.component.project
 
     handle_component_shift_notice(request, unit_set, search_result, unit)
 
@@ -1796,7 +1812,7 @@ def get_zen_unitdata(
     fill_in_source_translation(units)
     prepare_glossary_terms(units, project)
 
-    form_actions = {}
+    form_actions: dict[int, str] = {}
     suggestion_urls: dict[int, dict[str, str]] = {}
 
     def get_form_action(unit):
@@ -1805,7 +1821,11 @@ def get_zen_unitdata(
         except KeyError:
             form_action = reverse(
                 "save_zen",
-                kwargs={"path": unit.translation.get_url_path()},
+                kwargs={
+                    "path": obj.get_url_path()
+                    if isinstance(obj, WorkspaceLanguage)
+                    else unit.translation.get_url_path()
+                },
             )
             form_actions[unit.translation_id] = form_action
             return form_action
@@ -1814,7 +1834,9 @@ def get_zen_unitdata(
         try:
             return suggestion_urls[unit.translation_id]
         except KeyError:
-            urls = get_zen_suggestion_urls(unit)
+            urls = get_zen_suggestion_urls(
+                unit, scope=obj if isinstance(obj, WorkspaceLanguage) else None
+            )
             suggestion_urls[unit.translation_id] = urls
             return urls
 
@@ -1842,9 +1864,13 @@ def get_zen_unitdata(
     return search_result, unitdata
 
 
-def get_zen_suggestion_urls(unit: Unit) -> dict[str, str]:
+def get_zen_suggestion_urls(
+    unit: Unit, *, scope: WorkspaceLanguage | None = None
+) -> dict[str, str]:
     """Return endpoint URLs used by the Zen suggestions form of a unit."""
-    path = unit.translation.get_url_path()
+    path = (
+        scope.get_url_path() if scope is not None else unit.translation.get_url_path()
+    )
     return {
         "suggestion_url": reverse("zen_suggestion", kwargs={"path": path}),
         "unit_url": reverse("zen_unit", kwargs={"path": path}),
@@ -1854,9 +1880,11 @@ def get_zen_suggestion_urls(unit: Unit) -> dict[str, str]:
 def zen(request: AuthenticatedHttpRequest, path):
     """Zen mode view."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context["project"]
+    project = context.get("project")
 
     search_result, unitdata = get_zen_unitdata(
         obj, project, unit_set, request, include_count=True
@@ -1892,9 +1920,11 @@ def zen(request: AuthenticatedHttpRequest, path):
 def load_zen(request: AuthenticatedHttpRequest, path):
     """Load additional units for zen editor."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
-    project = context["project"]
+    project = context.get("project")
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
 
@@ -1923,8 +1953,10 @@ def load_zen(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def save_zen(request: AuthenticatedHttpRequest, path):
     """Save handler for zen mode."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
@@ -1959,7 +1991,12 @@ def save_zen(request: AuthenticatedHttpRequest, path):
         "unit_state_title": unit_state_title(unit) if unit else "",
     }
     if translationsum and unit.suggestion_set.exists():
-        _unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+        _unit, suggestions_html = render_zen_suggestions(
+            request,
+            unit_set,
+            unit,
+            scope=obj if isinstance(obj, WorkspaceLanguage) else None,
+        )
         response["suggestions_html"] = suggestions_html
         response["has_suggestions"] = bool(suggestions_html)
 
@@ -1988,7 +2025,11 @@ def collect_zen_messages(request) -> tuple[list[dict[str, str]], str]:
 
 
 def render_zen_suggestions(
-    request: AuthenticatedHttpRequest, unit_set: UnitQuerySet, unit: Unit
+    request: AuthenticatedHttpRequest,
+    unit_set: UnitQuerySet,
+    unit: Unit,
+    *,
+    scope: WorkspaceLanguage | None = None,
 ) -> tuple[Unit, str]:
     """Render the Zen suggestions block of a unit against its current target."""
     unit = unit_set.prefetch_full(suggestion_details=True).get(pk=unit.pk)
@@ -1996,7 +2037,7 @@ def render_zen_suggestions(
         return unit, ""
     return unit, render_to_string(
         "snippets/zen-suggestions.html",
-        {"unit": unit, **get_zen_suggestion_urls(unit)},
+        {"unit": unit, **get_zen_suggestion_urls(unit, scope=scope)},
         request=request,
     )
 
@@ -2007,11 +2048,14 @@ def render_zen_unit_response(
     unit: Unit,
     *,
     mode: str | None = None,
+    scope: WorkspaceLanguage | None = None,
     sync_target: bool,
     previous_target_hash: int | None = None,
 ) -> JsonResponse:
     """Build the JSON payload used to resync a Zen row in place."""
-    unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+    unit, suggestions_html = render_zen_suggestions(
+        request, unit_set, unit, scope=scope
+    )
     if previous_target_hash is not None:
         sync_target = sync_target or unit.get_target_hash() != previous_target_hash
     zen_messages, state = collect_zen_messages(request)
@@ -2039,8 +2083,10 @@ def render_zen_unit_response(
 @transaction.atomic
 def zen_suggestion(request: AuthenticatedHttpRequest, path):
     """Handle a suggestion action from the Zen editor."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
@@ -2057,6 +2103,7 @@ def zen_suggestion(request: AuthenticatedHttpRequest, path):
         unit_set,
         unit,
         mode=mode,
+        scope=obj if isinstance(obj, WorkspaceLanguage) else None,
         sync_target=mode in {"accept", "accept_edit", "accept_approve"},
         previous_target_hash=target_hash,
     )
@@ -2065,8 +2112,10 @@ def zen_suggestion(request: AuthenticatedHttpRequest, path):
 @login_required
 def zen_unit(request: AuthenticatedHttpRequest, path):
     """Return the current state of a unit for the Zen editor."""
-    _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    obj, unit_set, _context = parse_path_units(
+        request,
+        path,
+        (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage),
     )
 
     checksum_form = ChecksumForm(unit_set, request.GET)
@@ -2075,7 +2124,11 @@ def zen_unit(request: AuthenticatedHttpRequest, path):
         return HttpResponseBadRequest("Invalid checksum")
 
     return render_zen_unit_response(
-        request, unit_set, checksum_form.cleaned_data["unit"], sync_target=True
+        request,
+        unit_set,
+        checksum_form.cleaned_data["unit"],
+        scope=obj if isinstance(obj, WorkspaceLanguage) else None,
+        sync_target=True,
     )
 
 

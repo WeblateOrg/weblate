@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.
+
 * Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.
 * Added configurable :setting:`USER_DIRECTORY_VISIBILITY` and :setting:`USER_PROFILE_VISIBILITY` to restrict user discovery and profile access while preserving resource-scoped contributor discovery.
 

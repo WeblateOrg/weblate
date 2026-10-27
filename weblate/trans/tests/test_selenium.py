@@ -111,7 +111,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
-from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.utils.stats import GlobalStats, ProjectLanguage, WorkspaceLanguage
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
@@ -4682,6 +4682,54 @@ class SeleniumTests(
         self.assert_text_contains("table.table-striped", "Owners")
         self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
+
+    @reuse_demo_fixture
+    def test_workspace_languages_keyboard_navigation(self) -> None:
+        project = self.create_component()
+        self.configure_screenshot_machinery(project, memory_only=True)
+        user = self.do_login(superuser=True)
+        with acting_user_context(user):
+            workspace = Workspace.objects.create(name="Review workspace")
+            project.workspace = workspace
+            project.save(update_fields=["workspace"])
+        scope = WorkspaceLanguage(workspace, Language.objects.get(code="cs"))
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{workspace.get_absolute_url()}")
+
+        projects_tab = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#projects"]'
+        )
+        languages_tab = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#languages"]'
+        )
+        projects_tab.send_keys(Keys.ARROW_RIGHT)
+        self.assertEqual(self.driver.switch_to.active_element, languages_tab)
+        languages_tab.send_keys(Keys.ENTER)
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: (
+                "active"
+                in (
+                    driver.find_element(By.ID, "languages").get_attribute("class") or ""
+                )
+            )
+        )
+        language_link = self.driver.find_element(
+            By.CSS_SELECTOR, f'#languages a[href="{scope.get_absolute_url()}"]'
+        )
+        with self.wait_for_page_load():
+            language_link.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.current_url, f"{self.live_server_url}{scope.get_absolute_url()}"
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#translation a.btn-primary"
+            ).send_keys(Keys.ENTER)
+        self.assertTrue(
+            self.driver.current_url.startswith(
+                f"{self.live_server_url}{scope.get_translate_url()}"
+            )
+        )
 
     @reuse_demo_fixture
     def test_project_operations(self) -> None:

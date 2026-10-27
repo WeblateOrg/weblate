@@ -28,7 +28,7 @@ from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.bulk_regex import regex_session
 from weblate.utils.ratelimit import check_rate_limit
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.views import (
     get_paginator,
     import_message,
@@ -99,6 +99,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
             Category,
             CategoryLanguage,
             Workspace,
+            WorkspaceLanguage,
             Language,
             None,
         ),
@@ -107,7 +108,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
     context["has_editor"] = isinstance(
-        obj, (Translation, ProjectLanguage, CategoryLanguage)
+        obj, (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage)
     )
 
     if (
@@ -151,7 +152,9 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "total_words": total_words,
             }
         )
-        if isinstance(obj, (Translation, ProjectLanguage, CategoryLanguage)):
+        if isinstance(
+            obj, (Translation, ProjectLanguage, CategoryLanguage, WorkspaceLanguage)
+        ):
             context["translate_url"] = (
                 f"{reverse('translate', kwargs={'path': obj.get_url_path()})}"
                 f"?{search_form.urlencode()}"
