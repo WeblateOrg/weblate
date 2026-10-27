@@ -161,11 +161,18 @@ that need a complete rebuild, such as restoration and language maintenance, omit
 the language restriction.
 
 Within each component, reconciliation updates relationships before running
-checks. Previous-source peer groups and units requiring checks are deduplicated.
-Direct unit and previous-source peer checks finish before the transaction commits;
-propagated check refreshes retain their existing scheduling. Translation-memory
-payloads use bounded batches scheduled after commit. Nested operations merge
-dependency work, while rolled-back savepoints discard their work and commit callbacks.
+checks. Workflow changes run local checks with the existing component batching
+enabled, then schedule expensive checks through the component check finalizer
+after commit. Boundary-wide batches also clear stale warnings on old-source
+peers. Successful child batches are combined at the exclusive project gate,
+deduplicating shared project and workspace checks while preserving rollback
+boundaries and actor attribution. Eager tasks and automation contexts finalize
+their batches inline. Ordinary dependency reconciliation retains its synchronous
+unit and previous-source peer checks.
+
+Translation-memory payloads use bounded batches scheduled after commit. Nested
+operations merge dependency work, while rolled-back savepoints discard their
+work and commit callbacks.
 
 Acquire any required repository locks before project gates, then component and
 unit row locks. Reconciliation itself only changes database state and does not
