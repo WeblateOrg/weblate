@@ -133,6 +133,21 @@ def seed_fixture(profile: Profile, *, rebuild_indexes: bool = True) -> dict[str,
     )
     Language.objects.exclude(code__in=codes).delete()
     languages = dict(Language.objects.values_list("code", "pk"))
+    # Other tests can reset this sequence inside a transaction. The rollback
+    # restores rows but does not restore the PostgreSQL sequence value.
+    # Advance it without ever moving it backwards.
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT setval(
+                pg_get_serial_sequence('lang_plural', 'id')::regclass,
+                GREATEST(
+                    COALESCE((SELECT MAX(id) FROM lang_plural), 0),
+                    nextval(pg_get_serial_sequence('lang_plural', 'id')::regclass)
+                )
+            )
+            """
+        )
     plurals = Plural.objects.bulk_create(
         [
             Plural(language_id=pk, number=1, formula="0", type=0)
