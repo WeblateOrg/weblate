@@ -126,6 +126,11 @@ language is retained, and its child is blocked. ``effective_source_unit`` is
 then ``None``. Only removing the workflow or selecting the canonical language
 restores the canonical source.
 
+Pending source snapshots retain the first source change until acceptance, including
+for targets already needing editing. Their ``previous_state`` metadata prevents
+source reversion from accepting a target that already needed editing. Without a
+previous snapshot, custom sources do not use the canonical ``previous_source``.
+
 Text-only accessors do not load language or plural metadata. For batch consumers
 that need the complete effective source, use
 ``UnitQuerySet.prefetch_translation_parent()`` alongside their existing unit

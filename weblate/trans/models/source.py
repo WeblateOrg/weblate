@@ -20,7 +20,12 @@ from django.db.models.functions import MD5, Lower
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
-from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    FUZZY_STATES,
+    STATE_NEEDS_REWRITING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
@@ -290,6 +295,41 @@ class ReconciliationEffects:
         schedule_memory_updates(self.memory)
 
 
+def _update_previous_source(
+    unit: Unit, previous: SourceSnapshot, current: SourceSnapshot
+) -> None:
+    """Retain the first pending source without accepting an existing fuzzy target."""
+    metadata = unit.details["translation_parent"]
+    state = unit.original_state if unit.state == STATE_READONLY else unit.state
+    was_fuzzy = metadata.get("previous_state", STATE_TRANSLATED) in FUZZY_STATES
+    if (
+        "previous" in metadata
+        and SourceSnapshot.from_dict(metadata["previous"]).identity == current.identity
+        and metadata.get("canonical_source") == unit.source
+        and (was_fuzzy or (state == STATE_NEEDS_REWRITING and not unit.previous_source))
+    ):
+        if not was_fuzzy:
+            unit.original_state = STATE_TRANSLATED
+            if unit.state != STATE_READONLY:
+                unit.state = STATE_TRANSLATED
+        metadata.pop("previous", None)
+        metadata.pop("canonical_source", None)
+        metadata.pop("previous_state", None)
+    elif unit.target and (
+        STATE_TRANSLATED <= state < STATE_READONLY
+        or (state in FUZZY_STATES and "previous" not in metadata)
+    ):
+        metadata.update(
+            previous=previous.as_dict(),
+            canonical_source=unit.source,
+            previous_state=state,
+        )
+        if state >= STATE_TRANSLATED:
+            unit.original_state = STATE_NEEDS_REWRITING
+            if unit.state != STATE_READONLY:
+                unit.state = STATE_NEEDS_REWRITING
+
+
 def update_parent(
     unit: Unit,
     parent: Unit | None,
@@ -322,29 +362,8 @@ def update_parent(
     changed = previous.identity != current.identity
     initializing = configured and "applied" not in metadata
     old_blocked = metadata.get("blocked", False)
-    state = unit.original_state if unit.state == STATE_READONLY else unit.state
     if changed:
-        if (
-            "previous" in metadata
-            and SourceSnapshot.from_dict(metadata["previous"]).identity
-            == current.identity
-            and metadata.get("canonical_source") == unit.source
-            and state == STATE_NEEDS_REWRITING
-            and not unit.previous_source
-        ):
-            unit.original_state = STATE_TRANSLATED
-            if unit.state != STATE_READONLY:
-                unit.state = STATE_TRANSLATED
-            metadata.pop("previous", None)
-            metadata.pop("canonical_source", None)
-        elif STATE_TRANSLATED <= state < STATE_READONLY and unit.target:
-            metadata.update(
-                previous=previous.as_dict(),
-                canonical_source=unit.source,
-            )
-            unit.original_state = STATE_NEEDS_REWRITING
-            if unit.state != STATE_READONLY:
-                unit.state = STATE_NEEDS_REWRITING
+        _update_previous_source(unit, previous, current)
 
     words_changed = unit.num_words != unit.effective_source_num_words
     blocked = unit.translation_parent_blocked

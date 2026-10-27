@@ -92,6 +92,7 @@ from weblate.trans.views.edit import (
     perform_translation,
 )
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
@@ -419,6 +420,124 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertNotIn("previous", self.child.details["translation_parent"])
         self.assertEqual(
             self.child.details["translation_parent"]["applied"]["text"], "Original"
+        )
+
+    def test_fuzzy_parent_history_preserves_review_state(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        for state in FUZZY_STATES:
+            for canonical_previous in ("", "Old English source"):
+                with self.subTest(state=state, previous=canonical_previous):
+                    self.set_target(self.child, "Child")
+                    self.set_target(self.child, "Child", state)
+                    Unit.objects.filter(pk=self.child.pk).update(
+                        previous_source=canonical_previous
+                    )
+                    self.set_target(self.parent, "Second")
+                    self.set_target(self.parent, "Third")
+                    self.child.refresh_from_db()
+                    metadata = self.child.details["translation_parent"]
+                    self.assertEqual(metadata["previous"]["text"], "Original")
+                    self.assertEqual(metadata["previous_state"], state)
+                    self.assertEqual(metadata["applied"]["text"], "Third")
+                    self.assertEqual(self.child.effective_previous_source, "Original")
+                    self.assertEqual(self.child.state, state)
+                    self.assertEqual(self.child.original_state, state)
+
+                    self.set_target(self.parent, "Original")
+                    self.child.refresh_from_db()
+                    metadata = self.child.details["translation_parent"]
+                    self.assertNotIn("previous", metadata)
+                    self.assertNotIn("previous_state", metadata)
+                    self.assertEqual(self.child.effective_previous_source, "")
+                    self.assertEqual(self.child.previous_source, canonical_previous)
+                    self.assertEqual(self.child.state, state)
+                    self.assertEqual(self.child.original_state, state)
+
+                    self.set_target(self.parent, "Second")
+                    self.set_target(self.child, "Accepted child")
+                    self.assertEqual(
+                        set(self.child.details["translation_parent"]), {"applied"}
+                    )
+                    self.set_target(self.parent, "Original")
+
+    def test_fuzzy_workflow_transition_preserves_source_metadata(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.set_target(self.child, "Child", STATE_FUZZY)
+        workflow = self.configure()
+        self.child.refresh_from_db()
+        changes = get_source_changes(self.child)
+        self.assertEqual(len(changes), 2)
+        previous, current = changes[0], changes[1]
+        self.assertEqual(previous["value"], self.child.source)
+        self.assertEqual(previous["language"], self.component.source_language)
+        self.assertEqual(current["value"], "German source")
+        self.assertEqual(current["language"], self.parent.translation.language)
+        self.assertEqual(self.child.state, STATE_FUZZY)
+
+        workflow.source_language = self.grandchild.translation.language
+        self.set_target(self.grandchild, "Italian source")
+        workflow.save()
+        self.child.refresh_from_db()
+        self.assertEqual(get_source_changes(self.child)[0], previous)
+        self.assertEqual(self.child.effective_source, "Italian source")
+
+        workflow.delete()
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_FUZZY)
+        self.assertEqual(self.child.effective_previous_source, "")
+        self.assertNotIn("translation_parent", self.child.details)
+
+    def test_legacy_previous_snapshot_reverts(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        self.set_target(self.child, "Child", STATE_APPROVED)
+        self.set_target(self.parent, "Second")
+        self.child.refresh_from_db()
+        self.child.details["translation_parent"].pop("previous_state")
+        self.child.save(only_save=True, update_fields=["details"])
+        self.set_target(self.parent, "Original")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_TRANSLATED)
+        self.assertNotIn("previous", self.child.details["translation_parent"])
+
+    def test_fuzzy_canonical_change_prevents_parent_revert(self) -> None:
+        self.set_target(self.parent, "Original")
+        self.configure()
+        self.set_target(self.child, "Child", STATE_FUZZY)
+        self.set_target(self.parent, "Second")
+        self.child.refresh_from_db()
+        self.child.source = "Changed canonical source"
+        self.child.save()
+        self.set_target(self.parent, "Original")
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.state, STATE_FUZZY)
+        self.assertIn("previous", self.child.details["translation_parent"])
+
+    def test_custom_source_without_history_hides_canonical_previous(self) -> None:
+        self.set_target(self.parent, "German source")
+        self.configure()
+        for missing in (False, True):
+            with self.subTest(missing=missing):
+                if missing:
+                    self.parent.delete()
+                # Empty targets must not acquire pending history.
+                self.child.refresh_from_db()
+                self.assertNotIn("previous", self.child.details["translation_parent"])
+                self.child.previous_source = "Old English source"
+                self.child.save(only_save=True, update_fields=["previous_source"])
+                self.assertEqual(self.child.effective_previous_source, "")
+                data = UnitSerializer(
+                    self.child, context={"request": RequestFactory().get("/")}
+                ).data
+                self.assertEqual(data["effective_previous_source"], [""])
+                self.assertEqual(data["previous_source"], "Old English source")
+
+    def test_canonical_previous_source_is_preserved(self) -> None:
+        self.child.previous_source = "Old English source"
+        self.assertEqual(self.child.effective_previous_source, "Old English source")
+        self.assertEqual(
+            get_source_changes(self.child)[0]["diff"], "Old English source"
         )
 
     def test_source_operation_batches_deletion(self) -> None:
@@ -2988,6 +3107,56 @@ class SourceLanguageTest(FixtureComponentTestCase):
 
 
 class SourceLanguageFileTest(ReusableViewTestCase):
+    def test_imported_canonical_previous_is_not_custom_source_history(self) -> None:
+        child = self.get_unit("Hello, world!\n", translation=self.translation)
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "Original German source", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        child.refresh_from_db()
+        child.translate(self.user, "Child translation", STATE_TRANSLATED)
+        self.component.commit_pending("test", self.user)
+        self.translation.drop_store_cache()
+        disk_unit, _ = self.translation.store.find_unit(child.context, child.source)
+        disk_unit.set_state(STATE_FUZZY)
+        disk_unit.unit.prev_source = "Previous English source"
+        self.translation.store.save()
+        self.translation.drop_store_cache()
+        self.translation.check_sync(force=True)
+        child.refresh_from_db()
+        self.assertEqual(child.previous_source, "Previous English source")
+        self.assertEqual(child.state, STATE_FUZZY)
+        self.assertEqual(child.effective_previous_source, "")
+
+        self.client.force_login(self.user)
+        urls: tuple[tuple[str, dict[str, str]], ...] = (
+            (child.get_absolute_url(), {}),
+            (reverse("zen", kwargs=self.kw_translation), {"q": f"id:{child.pk}"}),
+        )
+        for url, query in urls:
+            with self.subTest(view=url, changed=False):
+                response = self.client.get(url, query)
+                self.assertContains(response, "Original German source")
+                self.assertNotContains(response, "Previous English source")
+                self.assertNotContains(response, "Source change")
+
+        previous = child.effective_source
+        parent.translate(self.user, "Updated German source", STATE_TRANSLATED)
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_FUZZY)
+        self.assertEqual(child.effective_previous_source, previous)
+        self.assertEqual(child.previous_source, "Previous English source")
+        for url, query in urls:
+            with self.subTest(view=url, changed=True):
+                response = self.client.get(url, query)
+                self.assertContains(response, "Source change")
+                self.assertNotContains(response, "Previous English source")
+
     def test_editor_keeps_submission_when_source_changes_after_validation(self) -> None:
         child = self.translation.unit_set.order_by("pk")[0]
         parent = self.component.translation_set.get(language_code="de").unit_set.get(
