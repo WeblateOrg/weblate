@@ -219,6 +219,14 @@ if [ "$machinery_installations_migrate" -eq 0 ]; then
     check
 fi
 
+# Populate screenshot storage before the automatic extension repair migration.
+semver_compare "$1" "<" "2026.11"
+screenshot_extensions_migrate=$?
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-screenshot-extensions.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -336,5 +344,9 @@ if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
 fi
 if [ "$machinery_installations_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-machinery-installations.py"
+    check
+fi
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-screenshot-extensions.py"
     check
 fi

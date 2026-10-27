@@ -61,6 +61,7 @@ from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
+from weblate.screenshots.utils import normalize_screenshot_filename
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import CATEGORY_DEPTH
@@ -1748,6 +1749,7 @@ class ProjectBackup:
                 )
             restored_image = File(BytesIO(content), name=image)
             try:
+                restored_image.name = normalize_screenshot_filename(restored_image)
                 Screenshot.validate_image_file(restored_image)
             except ValidationError as error:
                 raise ValidationError(
@@ -2686,10 +2688,10 @@ class ProjectBackup:
                     BytesIO(handle.read(settings.ALLOWED_ASSET_SIZE + 1)),
                     name=os.path.basename(item["image"]),
                 )
+            image_name = normalize_screenshot_filename(restored_image)
+            restored_image.name = image_name
             Screenshot.validate_image_file(restored_image)
-            screenshot.image.save(
-                os.path.basename(item["image"]), restored_image, save=False
-            )
+            screenshot.image.save(image_name, restored_image, save=False)
             if screenshot.image.name is not None:
                 self.created_media.append(
                     (screenshot.image.storage, screenshot.image.name)

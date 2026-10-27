@@ -3659,7 +3659,7 @@ class BackupsTest(ReusableViewTestCase):
             name="Cleanup screenshot", translation=self.component.source_translation
         )
         with open(TEST_SCREENSHOT, "rb") as handle:
-            screenshot.image.save("cleanup-screenshot.png", File(handle))
+            screenshot.image.save("cleanup-screenshot.pngrawtrue", File(handle))
         screenshot_dir = os.path.join(settings.MEDIA_ROOT, "screenshots")
         media_before = set(os.listdir(screenshot_dir))
 
@@ -4017,58 +4017,51 @@ class BackupsTest(ReusableViewTestCase):
             with self.assertRaises(ValidationError):
                 restore.validate()
 
-    def test_restore_rejects_screenshot_with_invalid_extension(self) -> None:
-        screenshot = Screenshot.objects.create(
-            name="Invalid extension screenshot",
-            translation=self.component.source_translation,
+    def test_restore_repairs_screenshot_extensions(self) -> None:
+        content = Path(TEST_SCREENSHOT).read_bytes()
+        filenames = (
+            "screenshot.pngrawtrue",
+            "screenshot.html",
+            "screenshot",
+            "screenshot.jpg",
+            "screenshot.png",
+            "matching.PNG",
         )
-        with open(TEST_SCREENSHOT, "rb") as handle:
-            screenshot.image.save("screenshot.png", File(handle))
+        unit = self.get_unit(translation=self.component.source_translation)
+        for filename in filenames:
+            screenshot = Screenshot.objects.create(
+                name=filename,
+                translation=self.component.source_translation,
+                user=self.user,
+            )
+            screenshot.image.save(filename, File(BytesIO(content)))
+            screenshot.add_unit(unit, user=self.user)
 
         backup = ProjectBackup()
         backup.backup_project(self.project)
-
-        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
-            temp_name = temp_handle.name
-
-        with remove_file_after(temp_name):
-            with ZipFile(backup.filename, "r") as source_zip:
-                entries = [
-                    (item, source_zip.read(item.filename))
-                    for item in source_zip.infolist()
-                ]
-
-            renamed_images: dict[str, str] = {}
-            updated_entries = []
-            for item, content in entries:
-                if item.filename.startswith("components/"):
-                    component_data = json.loads(content.decode())
-                    for screenshot_data in component_data["screenshots"]:
-                        image = screenshot_data["image"]
-                        renamed_images[image] = f"{image}.html"
-                        screenshot_data["image"] = renamed_images[image]
-                    content = json.dumps(component_data).encode()
-                updated_entries.append((item, content))
-
-            with ZipFile(temp_name, "w") as target_zip:
-                for item, content in updated_entries:
-                    image = item.filename.removeprefix("screenshots/")
-                    if (
-                        item.filename.startswith("screenshots/")
-                        and image in renamed_images
-                    ):
-                        target_zip.writestr(
-                            f"screenshots/{renamed_images[image]}", content
-                        )
-                    else:
-                        target_zip.writestr(item, content)
-
-            restore = ProjectBackup(temp_name)
-            with self.assertRaises(ValidationError) as error:
-                restore.validate()
-
-        self.assertIn("File extension", str(error.exception))
-        self.assertIn("html", str(error.exception))
+        archive_before = Path(backup.filename).read_bytes()
+        files_before = set(Path(settings.MEDIA_ROOT).rglob("*"))
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        self.assertEqual(set(Path(settings.MEDIA_ROOT).rglob("*")), files_before)
+        restored = restore.restore("Restored", "restored", self.user)
+        images = set()
+        for screenshot in Screenshot.objects.filter(
+            translation__component__project=restored
+        ):
+            self.assertIn(screenshot.name, filenames)
+            self.assertEqual(screenshot.user, self.user)
+            self.assertEqual(
+                list(screenshot.units.values_list("id_hash", flat=True)), [unit.id_hash]
+            )
+            expected_extension = ".PNG" if screenshot.name == "matching.PNG" else ".png"
+            assert screenshot.image.name is not None
+            self.assertTrue(screenshot.image.name.endswith(expected_extension))
+            with screenshot.image.open("rb") as image:
+                self.assertEqual(image.read(), content)
+            images.add(screenshot.image.name)
+        self.assertEqual(len(images), len(filenames))
+        self.assertEqual(Path(backup.filename).read_bytes(), archive_before)
 
     def test_restore_rejects_oversized_screenshot_during_validation(self) -> None:
         screenshot = Screenshot.objects.create(
