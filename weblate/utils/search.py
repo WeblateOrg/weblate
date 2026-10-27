@@ -95,6 +95,8 @@ OPERATOR_MAP = {
 }
 
 MAX_PARSED_QUERY_CLAUSES = 64
+MAX_SEARCH_QUERY_LENGTH = 2048
+MAX_SEARCH_QUERY_TERMS = 128
 
 
 @dataclass(slots=True)
@@ -1375,17 +1377,30 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=32)
 def parse_string(text: str, parser: SearchParser) -> ParseResults:
+    if len(text) > MAX_SEARCH_QUERY_LENGTH:
+        raise SearchQueryError(gettext("Search query is too long."))
     if "\x00" in text:
         raise SearchQueryError(gettext("Invalid character in the query string"))
     with PARSER_LOCK:
         try:
-            return PARSERS[parser].parse_string(text, parse_all=True)
+            parsed = PARSERS[parser].parse_string(text, parse_all=True)
         except ParseException as error:
             raise SearchQueryError(
                 gettext("Failed to parse the query string: {}").format(error)
             ) from error
+
+    remaining = [parsed]
+    term_count = 0
+    while remaining:
+        for item in remaining.pop():
+            if isinstance(item, BaseTermExpr):
+                term_count += 1
+                if term_count > MAX_SEARCH_QUERY_TERMS:
+                    raise SearchQueryError(gettext("Search query is too complex."))
+            elif isinstance(item, ParseResults):
+                remaining.append(item)
+    return parsed
 
 
 @lru_cache(maxsize=128)

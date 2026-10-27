@@ -31,6 +31,8 @@ Search query syntax
 Advanced searches support boolean operations, parentheses, field-specific
 lookup, field operators, exact match, date values, and regular expressions.
 The available fields depend on what kind of object is being searched.
+Queries can contain up to 2,048 characters and 128 search terms. Quoted text
+counts as one term.
 
 .. _search-boolean:
 

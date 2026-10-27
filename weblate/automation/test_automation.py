@@ -75,6 +75,7 @@ from weblate.utils.change_origin import (
     change_origin,
     change_origin_context,
 )
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -116,6 +117,22 @@ CONTEXT = {
 
 
 class DefinitionTest(SimpleTestCase):
+    def test_query_length_limit_in_workflow_schema(self) -> None:
+        for length in (MAX_SEARCH_QUERY_LENGTH, MAX_SEARCH_QUERY_LENGTH + 1):
+            query = "a" * length
+            workflows = (
+                WORKFLOW | {"actions": [BULK | {"settings": {"q": query}}]},
+                WORKFLOW
+                | {"conditions": [{"condition": "matching_strings", "value": query}]},
+            )
+            for workflow in workflows:
+                with self.subTest(length=length, workflow=workflow.keys()):
+                    if length == MAX_SEARCH_QUERY_LENGTH:
+                        parse_workflow(workflow)
+                    else:
+                        with self.assertRaises(ValidationError):
+                            parse_workflow(workflow)
+
     def test_ai_quality_cookbook_workflow_parses(self) -> None:
         documentation = (
             Path(__file__).resolve().parents[2] / "docs/admin/automation.rst"
@@ -205,15 +222,15 @@ class DefinitionTest(SimpleTestCase):
                 self.assertEqual(scheduled_days, [component_id % 30 + 1])
 
     def test_normalized_size_limit(self) -> None:
-        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "ž" * 3900}}] * 3}
+        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "ž" * 1900}}] * 6}
         yaml = (
             "version: 1\ntriggers: []\nactions:\n"
             + (
                 "  - action: weblate.bulk_edit\n    settings:\n      q: "
-                + "ž" * 3900
+                + "ž" * 1900
                 + "\n"
             )
-            * 3
+            * 6
         )
         self.assertLess(len(yaml.encode()), 65536)
         for value in (yaml, json.dumps(workflow, ensure_ascii=False), workflow):
@@ -1642,7 +1659,7 @@ class AutomationTest(ReusableComponentTestCase):
 
     def test_default_expanded_size_limit_in_form(self) -> None:
         addon = self.install()
-        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "a" * 3900}}] * 16}
+        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "a" * 1900}}] * 31}
         parse_workflow(workflow)
         form = AutomationForm(self.user, addon, data={"workflow": json.dumps(workflow)})
         self.assertFalse(form.is_valid())
@@ -1652,7 +1669,7 @@ class AutomationTest(ReusableComponentTestCase):
 
     def test_normalized_workflow_round_trip(self) -> None:
         addon = self.install()
-        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "ž" * 3900}}] * 2}
+        workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "ž" * 1900}}] * 2}
         form = AutomationForm(
             self.user,
             addon,

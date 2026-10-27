@@ -21859,6 +21859,19 @@ class SavedSearchAPITest(APIBaseTest):
         self.assertEqual(response.data["errors"][0]["attr"], "name")
         self.assertEqual(project.savedsearch_set.count(), 1)
 
+    def test_create_rejects_long_query(self) -> None:
+        project = self.component.project
+        response = self.do_request(
+            "api:project-saved-searches",
+            kwargs={"slug": project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "Long", "query": "x" * 2049},
+            code=400,
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "query")
+        self.assertFalse(project.savedsearch_set.exists())
+
     def test_delete(self) -> None:
         project = self.component.project
         saved_search = project.savedsearch_set.create(
