@@ -2158,8 +2158,12 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def effective_previous_source(self) -> str:
-        previous = self.details.get("translation_parent", {}).get("previous")
-        return previous["text"] if previous is not None else self.previous_source
+        metadata = self.details.get("translation_parent", {})
+        if (previous := metadata.get("previous")) is not None:
+            return previous["text"]
+        if self.translation_parent_id is not None or "missing" in metadata:
+            return ""
+        return self.previous_source
 
     def get_effective_previous_source_plurals(self) -> list[str]:
         return split_plural(self.effective_previous_source)
