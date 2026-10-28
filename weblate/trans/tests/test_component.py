@@ -2604,6 +2604,29 @@ class ComponentErrorTest(RepoTestCase):
         self.assertTrue(change.user.is_bot)
         self.assertEqual(change.user.full_name, "Background push")
 
+    def test_push_exposes_acting_user_to_repository(self) -> None:
+        user = create_test_user()
+        request = SimpleNamespace(user=user)
+        previous_acting_user = get_acting_user()
+        acting_users = []
+
+        def push_repo(*_args, **_kwargs):
+            acting_users.append(get_acting_user())
+            return True
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "push_repo", side_effect=push_repo),
+        ):
+            result = self.component.do_push(
+                request, force_commit=False, do_update=False
+            )
+
+        self.assertTrue(result)
+        self.assertEqual(acting_users, [user])
+        self.assertEqual(get_acting_user(), previous_acting_user)
+
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
         remove_tree(os.path.join(self.component.full_path, ".git", "objects", "pack"))

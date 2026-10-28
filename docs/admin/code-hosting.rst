@@ -427,6 +427,17 @@ GitHub.com, use
 write repository contents and create pull requests. If Weblate should fork
 private repositories, the token might also need administration access.
 
+Use :ref:`component-vcs_params` to add labels or an assignee to pull requests.
+Weblate can also assign the GitHub account linked to the user who started the
+push. This dynamic assignee is only added to newly created pull requests, and is
+skipped when the push has no acting user or that user has no GitHub account
+linked to Weblate. GitHub ignores assignees without access to the repository,
+including the acting user, and Weblate reports them as a component alert.
+When Weblate pushes to an already open pull request, it adds only the configured
+labels and assignee that are missing. Applying labels and assignees requires
+permission to write pull requests; failures are reported as component alerts
+without failing a push which already succeeded.
+
 If creating a pull request fails with ``404 Not Found``, GitHub can be refusing
 API access even when the repository is readable. Weblate checks the repository's
 pull request creation policy and, for user tokens, the authenticated account.

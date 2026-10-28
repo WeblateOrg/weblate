@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -18,12 +19,17 @@ from weblate.lang.models import get_default_lang
 from weblate.trans.forms import ComponentCreateForm
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.change_origin import acting_user_context
 from weblate.utils.views import get_form_data
+from weblate.vcs.git import GithubRepository
 from weblate.vcs.params import (
     VCS_PARAMS,
     CreateMergeRequest,
     GitForcePush,
+    MergeRequestAssignActingUser,
+    MergeRequestAssignee,
     MergeRequestAutomerge,
+    MergeRequestLabels,
     MergeRequestMergeMethod,
     get_default_params_for_vcs,
     get_params_for_vcs,
@@ -46,7 +52,10 @@ class VCSParamsRegistryTest(SimpleTestCase):
             names,
             {
                 "create_merge_request",
+                "merge_request_assignee",
+                "merge_request_assign_acting_user",
                 "merge_request_automerge",
+                "merge_request_labels",
                 "merge_request_merge_method",
             },
         )
@@ -60,7 +69,10 @@ class VCSParamsRegistryTest(SimpleTestCase):
             get_default_params_for_vcs("github"),
             {
                 "create_merge_request": True,
+                "merge_request_assignee": "",
+                "merge_request_assign_acting_user": False,
                 "merge_request_automerge": False,
+                "merge_request_labels": "",
                 "merge_request_merge_method": "merge",
             },
         )
@@ -123,6 +135,22 @@ class VCSParamsRegistryTest(SimpleTestCase):
             MergeRequestAutomerge.get_value({"merge_request_automerge": "false"}),
             False,
         )
+        self.assertIs(
+            MergeRequestAssignActingUser.get_value(
+                {"merge_request_assign_acting_user": "true"}
+            ),
+            True,
+        )
+
+    def test_pull_request_text_values_are_cleaned_by_field(self) -> None:
+        self.assertEqual(
+            MergeRequestAssignee.get_value({"merge_request_assignee": " user "}),
+            "user",
+        )
+        self.assertEqual(
+            MergeRequestLabels.get_value({"merge_request_labels": " i18n, docs "}),
+            "i18n, docs",
+        )
 
 
 class ComponentVCSParamsTest(ViewTestCase):
@@ -153,6 +181,82 @@ class ComponentVCSParamsTest(ViewTestCase):
         self.component.vcs_params = {"does_not_exist": True}
         with self.assertRaises(ValidationError):
             self.component.full_clean(exclude=["repo"])
+
+    def get_acting_user_login(self, hostname: str) -> str | None:
+        repository = GithubRepository.__new__(GithubRepository)
+        repository.component = self.component
+        with acting_user_context(self.user):
+            return repository.get_acting_user_github_login(
+                {"hostname": hostname}  # type: ignore[typeddict-item]
+            )
+
+    def test_github_acting_user_login(self) -> None:
+        self.user.social_auth.create(
+            provider="github", uid="123", extra_data={"login": "translator"}
+        )
+
+        self.assertEqual(self.get_acting_user_login("api.github.com"), "translator")
+        self.assertIsNone(self.get_acting_user_login("github.example.com"))
+
+    def test_github_acting_user_login_without_acting_user(self) -> None:
+        self.user.social_auth.create(
+            provider="github", uid="123", extra_data={"login": "translator"}
+        )
+        repository = GithubRepository.__new__(GithubRepository)
+        repository.component = self.component
+
+        with acting_user_context(None):
+            self.assertIsNone(
+                repository.get_acting_user_github_login(
+                    {"hostname": "api.github.com"}  # type: ignore[typeddict-item]
+                )
+            )
+
+    @override_settings(
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_API_URL="https://github.example.com/api/v3/"
+    )
+    def test_github_enterprise_acting_user_matches_host(self) -> None:
+        self.user.social_auth.create(
+            provider="github-enterprise-org",
+            uid="123",
+            extra_data={"login": "translator"},
+        )
+
+        for hostname, expected in (
+            ("github.example.com", "translator"),
+            ("other.example.com", None),
+            ("api.github.com", None),
+        ):
+            with self.subTest(hostname=hostname):
+                self.assertEqual(self.get_acting_user_login(hostname), expected)
+
+    @override_settings(
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL="https://other.example.com/api/v3/",
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_API_URL="https://github.example.com/api/v3/",
+    )
+    def test_github_enterprise_acting_user_uses_backend_setting(self) -> None:
+        self.user.social_auth.create(
+            provider="github-enterprise-team",
+            uid="123",
+            extra_data={"login": "translator"},
+        )
+        self.user.social_auth.create(
+            provider="github-enterprise",
+            uid="456",
+            extra_data={"login": "other"},
+        )
+
+        for hostname, expected in (
+            ("github.example.com", "translator"),
+            ("other.example.com", "other"),
+        ):
+            with self.subTest(hostname=hostname):
+                self.assertEqual(self.get_acting_user_login(hostname), expected)
+
+    def test_github_enterprise_acting_user_without_setting(self) -> None:
+        with self.settings():
+            del settings.SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL
+            self.assertIsNone(self.get_acting_user_login("github.example.com"))
 
     def test_param_not_applicable_to_vcs(self) -> None:
         self.component.vcs_params = {"merge_request_automerge": True}
@@ -214,6 +318,11 @@ class ComponentVCSParamsTest(ViewTestCase):
         self.assertContains(response, "Settings saved")
         self.component.refresh_from_db()
         self.assertIs(self.component.vcs_params["git_force_push"], True)
+
+    def test_settings_vcs_tab_link(self) -> None:
+        url = reverse("settings", kwargs={"path": self.component.get_url_path()})
+        # Alerts link to the version control tab
+        self.assertContains(self.client.get(url), 'data-bs-target="#vcs"')
 
     def test_settings_form_strips_inapplicable(self) -> None:
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
