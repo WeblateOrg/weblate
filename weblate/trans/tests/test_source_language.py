@@ -22,6 +22,7 @@ from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import close_old_connections, connection, transaction
 from django.db.models.deletion import ProtectedError
+from django.db.models.signals import post_save
 from django.template.loader import render_to_string
 from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
@@ -77,6 +78,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.pending import PendingChangeQuerySet
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.source import (
     DependencyWork,
@@ -253,6 +255,230 @@ class SourceLanguageTest(FixtureComponentTestCase):
         ]
         self.assertEqual(len(author_queries), 1, author_queries)
         self.assertGreater(self.child.translation.unit_set.count(), 1)
+
+    def test_workflow_pending_changes_are_batched(self) -> None:
+        count = 501 - self.child.translation.unit_set.count()
+        sources = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.component.source_translation,
+                    id_hash=1000000 + index,
+                    position=100 + index,
+                    source=f"Batch source {index}",
+                    target=f"Batch source {index}",
+                    state=STATE_READONLY,
+                    original_state=STATE_TRANSLATED,
+                )
+                for index in range(count)
+            ]
+        )
+        for unit in sources:
+            unit.source_unit = unit
+        Unit.objects.bulk_update(sources, ["source_unit"])
+        Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=translation,
+                    source_unit=unit,
+                    id_hash=unit.id_hash,
+                    position=unit.position,
+                    source=unit.source,
+                    target="Parent" if translation == self.parent.translation else "",
+                    state=STATE_TRANSLATED,
+                    original_state=STATE_TRANSLATED,
+                )
+                for unit in sources
+                for translation in (self.parent.translation, self.child.translation)
+            ]
+        )
+        expected = self.child.translation.unit_set.count()
+        before = dict(self.child.translation.unit_set.values_list("pk", "details"))
+        bulk_create = PendingChangeQuerySet.bulk_create
+        batches: list[int] = []
+
+        def insert_or_fail(
+            queryset: PendingChangeQuerySet,
+            objs: list[PendingUnitChange],
+            *,
+            batch_size: int | None = None,
+        ) -> list[PendingUnitChange]:
+            batches.append(len(objs))
+            if len(batches) == 2:
+                self.assertEqual(PendingUnitChange.objects.count(), 500)
+                msg = "Pending insert failed"
+                raise ValueError(msg)
+            return bulk_create(queryset, objs, batch_size=batch_size)
+
+        with (
+            patch.object(
+                PendingChangeQuerySet,
+                "bulk_create",
+                autospec=True,
+                side_effect=insert_or_fail,
+            ),
+            patch.object(ReconciliationEffects, "flush") as flush,
+            self.assertRaisesMessage(ValueError, "Pending insert failed"),
+        ):
+            self.configure()
+        self.assertEqual(batches, [500, 1])
+        flush.assert_not_called()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(
+            dict(self.child.translation.unit_set.values_list("pk", "details")),
+            before,
+        )
+        self.assertFalse(
+            self.child.translation.unit_set.filter(
+                translation_parent__isnull=False
+            ).exists()
+        )
+
+        def check_pending_before_effects(
+            effects: ReconciliationEffects, *, using: str
+        ) -> None:
+            self.assertEqual(
+                PendingUnitChange.objects.using(using)
+                .filter(unit__translation=self.child.translation)
+                .count(),
+                expected,
+            )
+
+        with (
+            patch.object(ReconciliationEffects, "flush", check_pending_before_effects),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        inserts = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('INSERT INTO "trans_pendingunitchange"')
+        ]
+        self.assertEqual(len(inserts), 2)
+        self.assertEqual(
+            self.child.translation.unit_set.filter(
+                details__has_key="disk_state"
+            ).count(),
+            expected,
+        )
+
+    def test_disk_state_can_be_prepared_without_saving(self) -> None:
+        unit = self.child
+        unit.details["tbx_terms"] = {"old": "term"}
+        unit.store_old_unit(unit)
+        saved_parent_values = unit._saved_parent_values  # ruff: ignore[private-member-access]
+        expected = unit.get_disk_state(
+            target=unit.target,
+            state=unit.state,
+            explanation=unit.explanation,
+            automatically_translated=unit.automatically_translated,
+            tbx_terms=unit.details["tbx_terms"],
+        )
+        unit.target = "Unsaved target"
+        unit.state = STATE_NEEDS_REWRITING
+        unit.explanation = "Unsaved explanation"
+        with self.assertNumQueries(0):
+            unit.store_disk_state(save=False)
+        self.assertEqual(unit.details["disk_state"], expected)
+        self.assertEqual(unit._saved_parent_values, saved_parent_values)  # ruff: ignore[private-member-access]
+        unit.store_old_unit(unit)
+        with self.assertNumQueries(0):
+            unit.store_disk_state(save=False)
+        self.assertEqual(unit.details["disk_state"], expected)
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
+
+    def test_disk_state_saves_by_default_without_accepting_pending_content(
+        self,
+    ) -> None:
+        unit = self.child
+        old_target = unit.target
+        old_state = unit.state
+        saved_parent_values = unit._saved_parent_values  # ruff: ignore[private-member-access]
+        unit.target = "Unsaved target"
+        unit.state = STATE_NEEDS_REWRITING
+        with CaptureQueriesContext(connection) as queries:
+            unit.store_disk_state()
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 1)
+        self.assertEqual(unit._saved_parent_values, saved_parent_values)  # ruff: ignore[private-member-access]
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, old_target)
+        self.assertEqual(unit.state, old_state)
+        self.assertEqual(unit.details["disk_state"]["target"], old_target)
+        self.assertEqual(unit.details["disk_state"]["state"], old_state)
+
+    def test_workflow_saves_disk_state_with_the_unit(self) -> None:
+        self.set_target(self.parent, "German source")
+        before = {
+            unit.pk: (unit.target, unit.state)
+            for unit in self.child.translation.unit_set.all()
+        }
+        saved: list[int] = []
+
+        def observe_save(
+            sender: type[Unit], instance: Unit, created: bool, **kwargs: object
+        ) -> None:
+            if instance.translation_id != self.child.translation_id:
+                return
+            self.assertFalse(created)
+            snapshot = instance.details["disk_state"]
+            self.assertEqual(
+                (snapshot["target"], snapshot["state"]), before[instance.pk]
+            )
+            self.assertEqual(
+                Unit.objects.get(pk=instance.pk).details["disk_state"], snapshot
+            )
+            saved.append(instance.pk)
+
+        post_save.connect(observe_save, sender=Unit)
+        self.addCleanup(post_save.disconnect, observe_save, sender=Unit)
+        with (
+            patch.object(Unit, "_run_checks_unlocked"),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            self.configure()
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), len(before))
+        self.assertCountEqual(saved, before)
+
+    def test_workflow_pending_batch_preserves_existing_disk_state_and_identity(
+        self,
+    ) -> None:
+        self.set_target(self.parent, "", STATE_EMPTY)
+        self.child.details["disk_state"] = {
+            "target": "Original disk target",
+            "state": STATE_TRANSLATED,
+            "explanation": "Original explanation",
+            "automatically_translated": False,
+        }
+        self.child.details["disk_identity"] = True
+        self.child.explanation = "Pending explanation"
+        self.child.automatically_translated = True
+        self.child.save(only_save=True)
+        expected = self.child.details["disk_state"].copy()
+        self.configure()
+        self.child.refresh_from_db()
+        pending = self.child.pending_changes.latest("pk")
+        self.assertEqual(self.child.details["disk_state"], expected)
+        self.assertEqual(pending.target, self.child.target)
+        self.assertEqual(self.child.state, STATE_READONLY)
+        self.assertEqual(pending.state, self.child.original_state)
+        self.assertEqual(pending.explanation, self.child.explanation)
+        self.assertTrue(pending.automatically_translated)
+        self.assertEqual(pending.get_actor(), self.user)
+        self.assertEqual(
+            pending.metadata["identity"],
+            {"source": self.child.source, "context": self.child.context},
+        )
 
     def test_regular_operations_use_one_gate_with_cold_instances(self) -> None:
         unit = Unit.objects.prefetch().get(pk=self.child.pk)
