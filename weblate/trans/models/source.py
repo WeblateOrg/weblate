@@ -35,6 +35,7 @@ if TYPE_CHECKING:
     from weblate.memory.tasks import MemoryUpdatePayload
     from weblate.trans.models.change import Change
     from weblate.trans.models.component import Component
+    from weblate.trans.models.pending import PendingUnitChange
     from weblate.trans.models.translation import Translation
     from weblate.trans.models.unit import Unit, UnitQuerySet
 
@@ -257,6 +258,23 @@ class ReconciliationEffects:
         default_factory=dict
     )
     memory: list[MemoryUpdatePayload] = field(default_factory=list)
+    pending_changes: list[PendingUnitChange] = field(default_factory=list)
+
+    def add_pending_change(self, change: PendingUnitChange) -> None:
+        self.pending_changes.append(change)
+        if len(self.pending_changes) >= 500:
+            self.flush_pending_changes(
+                using=change.unit._state.db or "default"  # ruff: ignore[private-member-access]
+            )
+
+    def flush_pending_changes(self, *, using: str) -> None:
+        from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
+
+        if self.pending_changes:
+            PendingUnitChange.objects.using(using).bulk_create(
+                self.pending_changes, batch_size=500
+            )
+            self.pending_changes = []
 
     def propagate_checks(self, unit: Unit) -> None:
         from weblate.checks.base import BatchCheckMixin  # ruff: ignore[import-outside-top-level]
@@ -494,6 +512,9 @@ def update_parent(
         return None
     if keep_snapshot:
         metadata["applied"] = current.as_dict()
+    pending_change_needed = unit.state != old_state or changed
+    if pending_change_needed:
+        unit.store_disk_state(save=False)
     unit.save(
         only_save=True,
         same_content=False,
@@ -511,9 +532,16 @@ def update_parent(
         if author is not None
         else unit.translation.component.get_update_user(None)
     )
-    if unit.state != old_state or changed:
-        PendingUnitChange.store_unit_change(
-            unit=unit, author=author, author_id=pending_author_id, user=actor
+    if pending_change_needed:
+        effects.add_pending_change(
+            PendingUnitChange.store_unit_change(
+                unit=unit,
+                author=author,
+                author_id=pending_author_id,
+                user=actor,
+                store_disk_state=False,
+                save=False,
+            )
         )
     change = None
     if changed:
@@ -707,6 +735,7 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         )
         if change is not None:
             changes.append(change)
+    effects.flush_pending_changes(using=using)
     effects.flush(using=using)
     if changes:
         Change.objects.using(using).bulk_create(changes, batch_size=500)

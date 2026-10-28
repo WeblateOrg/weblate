@@ -1250,11 +1250,12 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": automatically_translated,
         }
 
-    def store_disk_state(self) -> None:
+    def store_disk_state(self, *, save: bool = True) -> None:
         """
         Store a snapshot of unit state before pending changes are created.
 
         Only stores the state if it doesn't already exist (first pending change).
+        Set save=False to include the snapshot in a subsequent unit save.
         """
         if self.old_unit is None:
             msg = "`store_old_unit` should be called before saving disk state."
@@ -1267,10 +1268,11 @@ class Unit(models.Model, LoggerMixin):
                 explanation=self.old_unit["explanation"],
                 automatically_translated=self.old_unit["automatically_translated"],
             )
-            # Saving bookkeeping must not accept target/state changes still in memory.
-            saved_parent_values = self._saved_parent_values
-            self.save(same_content=True, only_save=True, update_fields=["details"])
-            self._saved_parent_values = saved_parent_values
+            if save:
+                # Saving bookkeeping must not accept target/state changes still in memory.
+                saved_parent_values = self._saved_parent_values
+                self.save(same_content=True, only_save=True, update_fields=["details"])
+                self._saved_parent_values = saved_parent_values
 
     def clear_disk_state(self) -> None:
         """

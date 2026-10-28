@@ -27,6 +27,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Reduced database writes when saving :ref:`custom source language workflows <workflow-source-language>` by batching pending changes and saving disk-state snapshots with unit updates.
+
 * Reduced author lookup queries when changing :ref:`custom source languages <workflow-source-language>` and restoring pending changes from older :ref:`project backups <projectbackup>`.
 * Added a contextual :ref:`Workspaces menu <workspaces>` for users with multiple relevant workspaces, and included watched multi-project workspaces in :guilabel:`My workspaces`.
 
