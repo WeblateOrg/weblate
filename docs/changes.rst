@@ -98,6 +98,8 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Stopped automatic sign-in retries after :doc:`authentication provider <admin/auth>` errors when only one provider is configured.
+
 * Fixed missing :ref:`workspace <workspaces>` breadcrumbs on project administration and related pages.
 
 * Fixed source-change displays for :ref:`custom source language workflows <workflow-source-language>` and retained source history for strings already needing editing.
