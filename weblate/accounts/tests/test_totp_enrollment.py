@@ -23,7 +23,10 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from weblate.accounts.forms import TOTPTokenForm
 from weblate.accounts.models import AuditLog
 from weblate.accounts.tasks import cleanup_totp_enrollments
-from weblate.accounts.utils import SESSION_SECOND_FACTOR_TOTP
+from weblate.accounts.utils import (
+    SESSION_SECOND_FACTOR_TIMESTAMP,
+    SESSION_SECOND_FACTOR_TOTP,
+)
 from weblate.accounts.views import TOTPView
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -48,6 +51,11 @@ class TOTPEnrollmentTest(FixtureTestCase):
             "token": f"{totp(device.bin_key):06d}",
         }
 
+    def mark_recent_second_factor(self) -> None:
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = self.timestamp
+        session.save()
+
     def test_replay_and_fresh_enrollment(self) -> None:
         device, payload = self.start_enrollment()
         session = self.client.session
@@ -61,9 +69,11 @@ class TOTPEnrollmentTest(FixtureTestCase):
         self.assertEqual(device.name, payload["name"])
         self.assertEqual(len(mail.outbox), 1)
 
+        self.mark_recent_second_factor()
         self.assertEqual(self.client.post(reverse("totp"), payload).status_code, 400)
         # Another in-flight request can retain the old session snapshot.
         session.save()
+        self.mark_recent_second_factor()
         with self.captureOnCommitCallbacks(execute=True):
             response = self.client.post(reverse("totp"), payload)
         self.assertEqual(response.status_code, 400)
@@ -157,6 +167,7 @@ class TOTPEnrollmentTest(FixtureTestCase):
         pending = TOTPDevice.objects.create(user=self.user, confirmed=False)
         extra = TOTPDevice.objects.create(user=self.user, confirmed=False)
         confirmed = TOTPDevice.objects.create(user=self.user)
+        self.mark_recent_second_factor()
         device, _payload = self.start_enrollment()
         self.assertEqual(device.pk, pending.pk)
         self.assertFalse(
@@ -206,6 +217,7 @@ class TOTPEnrollmentTest(FixtureTestCase):
         TOTPDevice.objects.filter(pk=device.pk).update(created_at=old)
         confirmed = TOTPDevice.objects.create(user=self.user)
         TOTPDevice.objects.filter(pk=confirmed.pk).update(created_at=old)
+        self.mark_recent_second_factor()
         self.assertEqual(self.client.post(reverse("totp"), payload).status_code, 400)
         fresh, _payload = self.start_enrollment()
         cleanup_totp_enrollments()
@@ -223,6 +235,7 @@ class TOTPEnrollmentTest(FixtureTestCase):
 
     def test_replacement_failure_rolls_back(self) -> None:
         previous = TOTPDevice.objects.create(user=self.user, name="Old authenticator")
+        self.mark_recent_second_factor()
         device, payload = self.start_enrollment()
         original_create = AuditLog.objects.create
 

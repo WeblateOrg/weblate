@@ -71,6 +71,7 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Prevented translation reverts from approving strings without review permission.
+* Require recent :ref:`two-factor verification <2fa>` before revealing personal API keys or changing account authentication credentials and project tokens.
 * Prevented translation merges from approving strings without review permission.
 * Prevented translation and Zen pages, conflict alert history, and single-project redirects from exposing restricted component details.
 * Rejected invalid revisions in :ref:`project backup imports <projectbackup>` and prevented Git revisions from being interpreted as command options.

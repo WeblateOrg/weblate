@@ -763,7 +763,9 @@ Security properties Weblate provides
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source:
+       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
+       changes to authentication credentials require recent second-factor
+       verification for accounts with 2FA. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a

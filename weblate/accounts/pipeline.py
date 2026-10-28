@@ -32,6 +32,7 @@ from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
     adjust_session_expiry,
     cycle_session_keys,
+    has_recent_second_factor,
     invalidate_reset_codes,
     set_second_factor_session,
 )
@@ -125,6 +126,33 @@ def parse_github_emails(
         if entry.get("primary"):
             primary = address
     return public or primary or email, emails
+
+
+@partial
+def verify_recent_second_factor(
+    strategy,
+    backend,
+    user: User | None,
+    social,
+    weblate_action,
+    current_partial,
+    **kwargs,
+):
+    """Require a fresh factor before linking a new sign-in identity."""
+    if (
+        user is not None
+        and social is None
+        and weblate_action == "activation"
+        and user.profile.has_2fa
+        and not has_recent_second_factor(strategy.request, user=user)
+    ):
+        set_second_factor_session(strategy.request, user, "", social=True)
+        continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
+        login_url = reverse(
+            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+        )
+        return HttpResponseRedirect(f"{login_url}?{urlencode({'next': continue_url})}")
+    return None
 
 
 @partial
@@ -674,7 +702,14 @@ def notify_disconnect(strategy, backend, entries, user: User, **kwargs) -> None:
 @partial
 def second_factor(strategy, backend, user: User, current_partial, **kwargs):
     """Force authentication when adding new association."""
-    if user.profile.has_2fa and DEVICE_ID_SESSION_KEY not in strategy.request.session:
+    if user.profile.has_2fa and (
+        DEVICE_ID_SESSION_KEY not in strategy.request.session
+        or (
+            kwargs.get("weblate_action") == "activation"
+            and kwargs.get("social") is None
+            and not has_recent_second_factor(strategy.request, user=user)
+        )
+    ):
         # Store session indication for second factor
         set_second_factor_session(strategy.request, user, "", social=True)
         # Redirect to second factor login

@@ -130,6 +130,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% can_show_personal_api_key request as can_show_api_key %}
 
   {% if form_errors %}
     {% translate "Please fix errors in the form." as msg %}
@@ -612,16 +613,21 @@
               <tr>
                 <th scope="row">{% translate "Your personal API key:" %}</th>
                 <td>
-                  <span class="auth-token">{{ user.auth_token.key }}</span>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-visibility=".auth-token"
-                          title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-clipboard-value="{{ user.auth_token.key }}"
-                          data-clipboard-message="{% translate "API key copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  <span class="auth-token">{% personal_api_key request %}</span>
+                  {% if can_show_api_key %}
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-visibility=".auth-token"
+                            title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-clipboard-value="{{ user.auth_token.key }}"
+                            data-clipboard-message="{% translate "API key copied to clipboard." %}"
+                            title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  {% else %}
+                    <a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}"
+                       class="btn btn-link btn-xs">{% translate "Verify your identity to view your API key" %}</a>
+                  {% endif %}
                   <a href=""
                      class="float-end btn btn-primary link-post"
                      data-href="{% url 'reset-api-key' %}">{% translate "Regenerate API key" %}</a>
@@ -642,7 +648,7 @@
                   <pre dir="ltr">
                   <code>
 curl \
-    -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
+    -H "Authorization: Token <span class="auth-token">{% personal_api_key request %}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
                   </code>
 </pre>
@@ -657,7 +663,7 @@ curl \
                   <pre dir="ltr">
                   <code>
 wlc \
-    --key <span class="auth-token">{{ user.auth_token.key }}</span> \
+    --key <span class="auth-token">{% personal_api_key request %}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
                   </code>
@@ -680,7 +686,7 @@ wlc \
                 {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
               <code dir="ltr">
-              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}{% get_git_export_example_url %}'</code>
+              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{% personal_api_key request %}</span>@{{ site_domain }}{% get_git_export_example_url %}'</code>
             </div>
           </div>
         {% endif %}
