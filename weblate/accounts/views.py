@@ -22,6 +22,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
+from django.contrib.messages import ERROR, get_messages
+from django.contrib.messages.storage.base import BaseStorage
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
@@ -1335,7 +1337,13 @@ class WeblateLoginView(BaseLoginView):
         # Redirect if there is only one backend
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
-            return redirect_single(request, auth_backends.pop())
+            storage = get_messages(request)
+            has_error = any(message.level >= ERROR for message in storage)
+            # Leave messages available for rendering or a subsequent redirect.
+            if isinstance(storage, BaseStorage):
+                storage.used = False
+            if not has_error:
+                return redirect_single(request, auth_backends.pop())
 
         if request.method == "POST" and not self.show_login_form:
             return redirect("login")
