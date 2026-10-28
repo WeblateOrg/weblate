@@ -119,11 +119,12 @@ if TYPE_CHECKING:
 
 # Social authentication backends for github.com and GitHub Enterprise Server
 GITHUB_SOCIAL_PROVIDERS = ("github", "github-org", "github-team", "github-app")
-GITHUB_ENTERPRISE_SOCIAL_PROVIDERS = (
-    "github-enterprise",
-    "github-enterprise-org",
-    "github-enterprise-team",
-)
+# Each GitHub Enterprise backend reads the API URL from its own setting
+GITHUB_ENTERPRISE_SOCIAL_PROVIDERS = {
+    "github-enterprise": "SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL",
+    "github-enterprise-org": "SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_API_URL",
+    "github-enterprise-team": "SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_API_URL",
+}
 
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
@@ -3648,15 +3649,15 @@ class GithubRepository(GitMergeRequestBase):
         providers: tuple[str, ...]
         if credentials["hostname"] == "api.github.com":
             providers = GITHUB_SOCIAL_PROVIDERS
-        elif (
-            urlparse(
-                getattr(settings, "SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", "")
-            ).hostname
-            == credentials["hostname"]
-        ):
-            providers = GITHUB_ENTERPRISE_SOCIAL_PROVIDERS
         else:
-            return None
+            providers = tuple(
+                provider
+                for provider, setting in GITHUB_ENTERPRISE_SOCIAL_PROVIDERS.items()
+                if urlparse(getattr(settings, setting, "")).hostname
+                == credentials["hostname"]
+            )
+            if not providers:
+                return None
         social = user.social_auth.filter(provider__in=providers).order_by("id").first()
         return None if social is None else social.extra_data.get("login")
 
@@ -3701,16 +3702,13 @@ class GithubRepository(GitMergeRequestBase):
                 credentials, pull_request, "assignees", assignees
             )
             if error is None:
-                # GitHub skips users without repository access, which is
-                # expected for the acting user
+                # GitHub silently skips users without repository access
                 assigned = {
                     assignee["login"].casefold()
                     for assignee in response_data["assignees"]
                 }
                 missing = [
-                    assignee
-                    for assignee in assignees
-                    if assignee not in assigned and assignee != acting_user
+                    assignee for assignee in assignees if assignee not in assigned
                 ]
                 if missing:
                     self.log(

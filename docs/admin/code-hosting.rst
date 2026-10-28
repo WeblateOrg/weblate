@@ -431,7 +431,8 @@ Use :ref:`component-vcs_params` to add labels or an assignee to pull requests.
 Weblate can also assign the GitHub account linked to the user who started the
 push. This dynamic assignee is only added to newly created pull requests, and is
 skipped when the push has no acting user or that user has no GitHub account
-linked to Weblate. GitHub ignores assignees without access to the repository.
+linked to Weblate. GitHub ignores assignees without access to the repository,
+including the acting user, and Weblate reports them as a component alert.
 When Weblate pushes to an already open pull request, it adds only the configured
 labels and assignee that are missing. Applying labels and assignees requires
 permission to write pull requests; failures are reported as component alerts

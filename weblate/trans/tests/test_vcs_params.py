@@ -213,7 +213,7 @@ class ComponentVCSParamsTest(ViewTestCase):
             )
 
     @override_settings(
-        SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL="https://github.example.com/api/v3/"
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_ORG_API_URL="https://github.example.com/api/v3/"
     )
     def test_github_enterprise_acting_user_matches_host(self) -> None:
         self.user.social_auth.create(
@@ -226,6 +226,29 @@ class ComponentVCSParamsTest(ViewTestCase):
             ("github.example.com", "translator"),
             ("other.example.com", None),
             ("api.github.com", None),
+        ):
+            with self.subTest(hostname=hostname):
+                self.assertEqual(self.get_acting_user_login(hostname), expected)
+
+    @override_settings(
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL="https://other.example.com/api/v3/",
+        SOCIAL_AUTH_GITHUB_ENTERPRISE_TEAM_API_URL="https://github.example.com/api/v3/",
+    )
+    def test_github_enterprise_acting_user_uses_backend_setting(self) -> None:
+        self.user.social_auth.create(
+            provider="github-enterprise-team",
+            uid="123",
+            extra_data={"login": "translator"},
+        )
+        self.user.social_auth.create(
+            provider="github-enterprise",
+            uid="456",
+            extra_data={"login": "other"},
+        )
+
+        for hostname, expected in (
+            ("github.example.com", "translator"),
+            ("other.example.com", "other"),
         ):
             with self.subTest(hostname=hostname):
                 self.assertEqual(self.get_acting_user_login(hostname), expected)

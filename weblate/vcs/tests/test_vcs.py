@@ -4537,7 +4537,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         handle_success.assert_not_called()
 
     @http_mock.activate
-    def test_pull_request_ignored_acting_user_is_not_reported(self) -> None:
+    def test_pull_request_ignored_acting_user_is_reported(self) -> None:
         http_mock.register(
             "POST",
             self.ASSIGNEES_URL,
@@ -4545,16 +4545,20 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             status_code=201,
         )
 
-        with patch("weblate.vcs.git.report_message") as mocked_report:
-            handle_failure, handle_success = self.push_with_customization(
-                acting_user="translator",
-                merge_request_assignee="maintainer",
-                merge_request_assign_acting_user=True,
-            )
+        handle_failure, handle_success = self.push_with_customization(
+            acting_user="translator",
+            merge_request_assignee="maintainer",
+            merge_request_assign_acting_user=True,
+        )
 
-        handle_failure.assert_not_called()
-        handle_success.assert_called_once()
-        mocked_report.assert_not_called()
+        handle_failure.assert_called_once_with(
+            {
+                "code": "pull_request_assignees_ignored",
+                "retcode": 0,
+                "params": {"assignees": "translator"},
+            }
+        )
+        handle_success.assert_not_called()
 
     @http_mock.activate
     def test_pull_request_customization_applied_to_existing_request(self) -> None:
