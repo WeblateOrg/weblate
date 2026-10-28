@@ -1566,10 +1566,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "translation_file_link": lambda: try_linkify_filename(
                 unit.translation.filename,
                 unit.translation.filename,
-                # '1' as a placeholder, because `get_repoweb_link` can't currently
-                # generate links without line specified. Although it's ok to use
-                # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                "1",
+                str(unit.line_number) if unit.line_number is not None else "1",
                 unit,
                 user,
                 is_translation=True,

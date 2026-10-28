@@ -962,6 +962,103 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all_words, 19)
 
+    def test_line_number_imported_on_sync(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        store_unit = next(
+            item
+            for item in translation.store.content_units
+            if item.source == unit.source
+        )
+        self.assertIsNotNone(unit.line_number)
+        self.assertEqual(unit.line_number, store_unit.line_number)
+
+    def test_line_number_only_update_is_metadata(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        original_line = unit.line_number or 0
+        original_target = unit.target
+        change_count = Change.objects.filter(unit=unit).count()
+
+        filename = get_optional_path(translation.get_filename())
+        filename.write_text(
+            "\n" + filename.read_text(encoding="utf-8"), encoding="utf-8"
+        )
+        translation.drop_store_cache()
+        component.unload_sources()
+
+        self.assertTrue(translation.check_sync(force=True))
+        unit.refresh_from_db()
+        self.assertEqual(unit.line_number, original_line + 1)
+        self.assertEqual(unit.target, original_target)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertEqual(Change.objects.filter(unit=unit).count(), change_count)
+
+    def test_translation_sync_does_not_overwrite_source_line(self) -> None:
+        component = self.create_po_mono()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = unit.source_unit
+        self.assertIsNotNone(unit.line_number)
+        original_cs_line = unit.line_number or 0
+        original_source_line = source_unit.line_number
+
+        filename = get_optional_path(translation.get_filename())
+        filename.write_text(
+            "\n" + filename.read_text(encoding="utf-8"), encoding="utf-8"
+        )
+        translation.drop_store_cache()
+        component.unload_sources()
+
+        self.assertTrue(translation.check_sync(force=True))
+        unit.refresh_from_db()
+        source_unit.refresh_from_db()
+        self.assertEqual(unit.line_number, original_cs_line + 1)
+        self.assertEqual(source_unit.line_number, original_source_line)
+
+    def test_nearby_prefers_line_order(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        units = list(
+            translation.unit_set.exclude(line_number=None).order_by("line_number")
+        )
+        self.assertGreaterEqual(len(units), 3)
+        middle_index = len(units) // 2
+        unit = units[middle_index]
+        expected = units[middle_index - 1 : middle_index + 2]
+        self.assertEqual(
+            [item.pk for item in unit.nearby(1)],
+            [item.pk for item in expected],
+        )
+
+        translation.unit_set.update(line_number=None)
+        chosen = list(translation.unit_set.order_by("pk")[:3])
+        for unit_item, line in zip(chosen, (10, 40, 90), strict=True):
+            unit_item.line_number = line
+            unit_item.save(update_fields=["line_number"])
+        middle = chosen[1]
+        self.assertEqual(
+            [item.pk for item in middle.nearby(1)],
+            [item.pk for item in chosen],
+        )
+
+        position_unit = translation.unit_set.order_by("position")[0]
+        position_unit.line_number = None
+        position_unit.save(update_fields=["line_number"])
+        count = 1
+        expected_position = list(
+            translation.unit_set.filter(
+                position__gte=position_unit.position - count,
+                position__lte=position_unit.position + count,
+            ).order_by("position")
+        )
+        self.assertEqual(
+            [item.pk for item in position_unit.nearby(count)],
+            [item.pk for item in expected_position],
+        )
+
     def test_metadata_only_updates_are_batched(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")

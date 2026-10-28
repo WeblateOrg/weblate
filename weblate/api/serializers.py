@@ -3985,6 +3985,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "effective_previous_source",
             "effective_source_language",
             "priority",
+            "line_number",
             "id",
             "web_url",
             "url",
