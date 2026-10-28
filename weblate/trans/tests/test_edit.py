@@ -3535,6 +3535,65 @@ class EditComplexTest(ReusableViewTestCase):
         self.assertEqual(unit.target, original)
         self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
+    def test_revert_approved_requires_review_permission(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.project.add_user(self.anotheruser, "Administration")
+        unit = self.get_unit()
+        original = "Reviewed translation\n"
+        updated = "Revised translation\n"
+        unit.translate(self.anotheruser, original, STATE_APPROVED)
+        unit.translate(self.anotheruser, updated, STATE_TRANSLATED)
+        change = (
+            Change.objects.content()
+            .filter(unit=unit, user=self.anotheruser)
+            .order_by("-timestamp", "-pk")[0]
+        )
+        self.assertEqual(change.get_revert_state(), STATE_APPROVED)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertFalse(self.user.has_perm("unit.review", unit))
+
+        response = self.client.post(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.pk}
+        )
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(
+            Change.objects.filter(unit=unit, action=ActionEvents.REVERT)
+            .latest("pk")
+            .user,
+            self.user,
+        )
+
+        self.client.force_login(self.anotheruser)
+        self.assertTrue(self.anotheruser.has_perm("unit.review", unit))
+        response = self.client.post(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.pk}
+        )
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_APPROVED)
+
+    def test_revert_approved_when_reviews_disabled(self) -> None:
+        unit = self.get_unit()
+        original = "Previously approved translation\n"
+        unit.translate(self.user, original, STATE_APPROVED)
+        unit.translate(self.user, "Current translation\n", STATE_TRANSLATED)
+        change = (
+            Change.objects.content()
+            .filter(unit=unit, user=self.user)
+            .order_by("-timestamp", "-pk")[0]
+        )
+        self.assertEqual(change.get_revert_state(), STATE_APPROVED)
+
+        self.assertTrue(change.revert(self.user))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
     def test_edit_fixup(self) -> None:
         # Save with failing check
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!")

@@ -42,7 +42,7 @@ from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_message
-from weblate.utils.state import StringState
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
@@ -1010,6 +1010,16 @@ class Change(models.Model, UserDisplayMixin):
     def get_revert_state(self) -> StringState | None:
         return self.parse_revert_state(self.details)
 
+    @staticmethod
+    def permitted_revert_state(
+        state: StringState, unit: Unit, user: User
+    ) -> StringState:
+        if state == STATE_APPROVED and (
+            not unit.translation.enable_review or not user.has_perm("unit.review", unit)
+        ):
+            return STATE_TRANSLATED
+        return state
+
     def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
         if self.unit_id is None or self.user_id is None:
             return None
@@ -1058,7 +1068,7 @@ class Change(models.Model, UserDisplayMixin):
         return locked_unit.translate(
             user,
             split_plural(target),
-            state,
+            self.permitted_revert_state(state, locked_unit, user),
             change_action=change_action,
             author=author,
             request=request,
@@ -1088,7 +1098,7 @@ class Change(models.Model, UserDisplayMixin):
         return locked_unit.translate(
             user,
             split_plural(self.old),
-            state,
+            self.permitted_revert_state(state, locked_unit, user),
             change_action=change_action,
             author=author,
             request=request,
