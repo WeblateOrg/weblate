@@ -7,14 +7,19 @@ from __future__ import annotations
 import os
 import time
 from datetime import timedelta
+from functools import wraps
 from typing import TYPE_CHECKING, Final, Literal
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, Value
 from django.db.models.functions import Lower
+from django.http import HttpResponseBase, HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -31,6 +36,8 @@ from weblate.trans.signals import user_pre_delete
 from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.http import HttpRequest
     from django_otp.models import Device
 
@@ -57,6 +64,53 @@ SESSION_EXPIRY_OIDC_SECONDS = 60
 SECOND_FACTOR_VERIFY_SECONDS = 600
 TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
 SessionExpiryScope = Literal["oidc", "2fa", "login", "authenticated"]
+
+
+def has_recent_second_factor(
+    request: AuthenticatedHttpRequest, *, user: User | None = None
+) -> bool:
+    """Check whether a configured second factor was used recently in this session."""
+    user = user or request.user
+    if not user.is_authenticated or not user.profile.has_2fa:
+        return True
+    timestamp = request.session.get(SESSION_SECOND_FACTOR_TIMESTAMP)
+    return isinstance(
+        timestamp, int
+    ) and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+
+
+def second_factor_verification_redirect(
+    request: AuthenticatedHttpRequest, next_url: str
+) -> HttpResponseRedirect:
+    """Start a fresh second-factor challenge for the current user."""
+    messages.info(
+        request,
+        gettext(
+            "Please confirm your identity using a second factor before proceeding."
+        ),
+    )
+    user = request.user
+    set_second_factor_session(request, user, "weblate.accounts.auth.WeblateUserBackend")
+    login_url = reverse(
+        "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+    )
+    return HttpResponseRedirect(f"{login_url}?{urlencode({'next': next_url})}")
+
+
+def require_recent_second_factor(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    """Require a fresh second factor before an authenticated account action."""
+
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
+        return view(request, *args, **kwargs)
+
+    return wrapped
 
 
 def create_api_token(user: User) -> Token:

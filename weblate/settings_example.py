@@ -303,6 +303,7 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.ensure_valid",
     "weblate.accounts.pipeline.remove_account",
     "social_core.pipeline.social_auth.associate_by_email",
+    "weblate.accounts.pipeline.verify_recent_second_factor",
     "weblate.accounts.pipeline.reauthenticate",
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",

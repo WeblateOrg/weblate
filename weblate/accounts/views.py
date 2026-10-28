@@ -45,7 +45,7 @@ from django.http import (
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import constant_time_compare
@@ -57,7 +57,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     DetailView,
     FormView,
@@ -75,7 +75,9 @@ from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
+    BeginCredentialRegistrationView,
     CompleteCredentialAuthenticationView,
+    CompleteCredentialRegistrationView,
 )
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
@@ -141,7 +143,6 @@ from weblate.accounts.notifications import (
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
 from weblate.accounts.utils import (
-    SECOND_FACTOR_VERIFY_SECONDS,
     SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
@@ -153,10 +154,13 @@ from weblate.accounts.utils import (
     clear_second_factor_session,
     cycle_session_keys,
     get_key_name,
+    has_recent_second_factor,
     invalidate_reset_codes,
     lock_user,
     remove_user,
+    require_recent_second_factor,
     reset_api_token,
+    second_factor_verification_redirect,
     set_second_factor_session,
 )
 from weblate.accounts.visibility import (
@@ -1468,6 +1472,7 @@ def register(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_recent_second_factor
 @never_cache
 def email_login(request: AuthenticatedHttpRequest):
     """Connect e-mail."""
@@ -1492,7 +1497,34 @@ def email_login(request: AuthenticatedHttpRequest):
     )
 
 
+@require_GET
 @login_required
+@never_cache
+def verify_second_factor(request: AuthenticatedHttpRequest):
+    """Return to a local page after a fresh second-factor challenge."""
+    next_url = reverse("profile")
+    requested_url = request.GET.get("next", "")
+    if requested_url.startswith("/") and not requested_url.startswith("//"):
+        try:
+            match = resolve(requested_url)
+        except Resolver404:
+            pass
+        else:
+            if match.view_name == "data_project":
+                next_url = reverse(
+                    "data_project", kwargs={"project": match.kwargs["project"]}
+                )
+            elif match.view_name == "manage-access":
+                next_url = reverse(
+                    "manage-access", kwargs={"project": match.kwargs["project"]}
+                )
+    if has_recent_second_factor(request):
+        return HttpResponseRedirect(next_url)
+    return second_factor_verification_redirect(request, next_url)
+
+
+@login_required
+@require_recent_second_factor
 @session_ratelimit_post("password")
 @never_cache
 def password(request: AuthenticatedHttpRequest):
@@ -1501,29 +1533,6 @@ def password(request: AuthenticatedHttpRequest):
     change_form = None
     user = request.user
     usable = user.has_usable_password()
-
-    if user.profile.has_2fa and (
-        SESSION_SECOND_FACTOR_TIMESTAMP not in request.session
-        or request.session[SESSION_SECOND_FACTOR_TIMESTAMP]
-        + SECOND_FACTOR_VERIFY_SECONDS
-        < int(time.time())
-    ):
-        messages.info(
-            request,
-            gettext(
-                "Please confirm your identity using a second factor before proceeding."
-            ),
-        )
-        set_second_factor_session(
-            request,
-            user,
-            "weblate.accounts.auth.WeblateUserBackend",
-        )
-        login_params: dict[str, str] = {"next": reverse("password")}
-        login_url = reverse(
-            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
-        )
-        return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
@@ -1690,6 +1699,8 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(request, f"{reverse('profile')}#api")
     with transaction.atomic():
         reset_api_token(request.user)
 
@@ -1894,6 +1905,10 @@ def social_disconnect(
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting the last identity or verified e-mail
     """
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     try:
         get_backend(settings.AUTHENTICATION_BACKENDS, backend)
     except AuthConfigurationError as error:
@@ -1974,6 +1989,10 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    if request.user.is_authenticated and not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     if response := prepare_oidc_login(
         request,
         request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
@@ -2429,6 +2448,7 @@ class UserList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class RecoveryCodesView(TemplateView):
     template_name = "accounts/recovery-codes.html"
 
@@ -2468,11 +2488,44 @@ class RecoveryCodesView(TemplateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class WebAuthnRegistrationView(TemplateView):
     template_name = "accounts/webauthn-register.html"
 
 
+class RecentSecondFactorRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your identity with a second factor before registering a security key."
+    )
+    default_code = "recent_second_factor_required"
+
+
+class WeblateBeginCredentialRegistrationView(BeginCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            raise RecentSecondFactorRequiredError
+        return super().initial(request, *args, **kwargs)
+
+
+class WeblateCompleteCredentialRegistrationView(CompleteCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            raise RecentSecondFactorRequiredError
+        return super().initial(request, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        first_enrollment = not self.request.user.profile.has_2fa
+        response = super().post(*args, **kwargs)
+        if first_enrollment:
+            # Registration verifies the new key and upgrades the OTP session.
+            # Record the same freshness for the subsequent credential naming POST.
+            self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        return response
+
+
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class WebAuthnCredentialView(DetailView):
     model = WebAuthnCredential
 
@@ -2510,7 +2563,6 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
 
-@method_decorator(login_required, name="dispatch")
 class TOTPDetailView(WebAuthnCredentialView):
     model = TOTPDevice
 
@@ -2527,6 +2579,7 @@ class TOTPDetailView(WebAuthnCredentialView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class TOTPView(FormView):
     template_name = "accounts/totp.html"
     form_class = TOTPDeviceForm

@@ -6,11 +6,14 @@
 from __future__ import annotations
 
 import re
+import time
 
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
+from weblate.accounts.utils import SESSION_SECOND_FACTOR_TIMESTAMP
 from weblate.auth.models import User, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -97,6 +100,28 @@ class ProjectTokenTest(FixtureTestCase):
             list(token_user.groups.values_list("name", "defining_project__slug")),
             [("Administration", self.project.slug)],
         )
+
+    def test_create_token_requires_recent_second_factor(self) -> None:
+        self.make_manager()
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        token_count = Token.objects.count()
+        url = reverse("create-project-token", kwargs={"project": self.project.slug})
+        payload = {"full_name": "Test Token", "date_expires": "2999-12-31"}
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}),
+            response["Location"],
+        )
+        self.assertEqual(Token.objects.count(), token_count)
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session.save()
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Token.objects.count(), token_count + 1)
 
     def test_token_cannot_write_other_public_project(self) -> None:
         """Project tokens should not inherit public-project permissions."""

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n icons permissions translations user_display %}
+{% load authnames crispy_forms_tags humanize i18n icons permissions translations user_display %}
 
 {% block nav_pills %}
   {% perm 'user.edit' as can_edit_user %}
@@ -38,6 +38,7 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% can_show_personal_api_key request as can_show_api_key %}
 
   {% perm 'user.edit' as can_edit_user %}
 
@@ -431,16 +432,21 @@
               <tr>
                 <th>{% translate "Your personal API key:" %}</th>
                 <td>
-                  <span class="auth-token">{{ user.auth_token.key }}</span>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-visibility=".auth-token"
-                          title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
-                  <button type="button"
-                          class="btn btn-link btn-xs"
-                          data-clipboard-value="{{ user.auth_token.key }}"
-                          data-clipboard-message="{% translate "API key copied to clipboard." %}"
-                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  <span class="auth-token">{% personal_api_key request %}</span>
+                  {% if can_show_api_key %}
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-visibility=".auth-token"
+                            title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
+                    <button type="button"
+                            class="btn btn-link btn-xs"
+                            data-clipboard-value="{{ user.auth_token.key }}"
+                            data-clipboard-message="{% translate "API key copied to clipboard." %}"
+                            title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  {% else %}
+                    <a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}"
+                       class="btn btn-link btn-xs">{% translate "Verify your identity to view your API key" %}</a>
+                  {% endif %}
                 </td>
               </tr>
             </table>

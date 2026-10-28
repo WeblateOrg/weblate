@@ -6,11 +6,13 @@
 
 from __future__ import annotations
 
+import time
 from datetime import timedelta
 from types import SimpleNamespace
 from unittest import mock
 
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from django.test import Client, override_settings
 from django.urls import reverse
@@ -19,11 +21,12 @@ from django_otp.oath import totp
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.exceptions import OTPWebAuthnApiError
+from django_otp_webauthn.helpers import WebAuthnHelper
 from django_otp_webauthn.models import WebAuthnCredential
 from rest_framework.authtoken.models import Token
 
 from weblate.accounts.models import AuditLog
-from weblate.accounts.pipeline import second_factor
+from weblate.accounts.pipeline import second_factor, verify_recent_second_factor
 from weblate.accounts.tasks import cleanup_auditlog
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
@@ -56,6 +59,49 @@ class TwoFactorTestCase(FixtureTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response.url)
+
+    def test_first_webauthn_registration_allows_naming(self) -> None:
+        with (
+            mock.patch.object(
+                WebAuthnHelper,
+                "register_begin",
+                return_value=({}, {"challenge": "test"}),
+            ),
+            mock.patch.object(
+                WebAuthnHelper,
+                "register_complete",
+                side_effect=lambda user, _state, _data: (
+                    WebAuthnCredential.objects.create(user=user)
+                ),
+            ),
+        ):
+            begin_response = self.client.post(
+                reverse("otp_webauthn:credential-registration-begin"),
+                data="{}",
+                content_type="application/json",
+            )
+            self.assertEqual(begin_response.status_code, 200)
+            complete_response = self.client.post(
+                reverse("otp_webauthn:credential-registration-complete"),
+                data="{}",
+                content_type="application/json",
+            )
+
+        self.assertEqual(complete_response.status_code, 200)
+        credential = WebAuthnCredential.objects.get(pk=complete_response.json()["id"])
+        session = self.client.session
+        self.assertIn(SESSION_SECOND_FACTOR_TIMESTAMP, session)
+        audit = AuditLog.objects.get(pk=session[SESSION_WEBAUTHN_AUDIT])
+
+        response = self.client.post(
+            reverse("webauthn-detail", kwargs={"pk": credential.pk}),
+            {"name": "My security key"},
+        )
+        self.assertEqual(response.status_code, 302)
+        credential.refresh_from_db()
+        audit.refresh_from_db()
+        self.assertEqual(credential.name, "My security key")
+        self.assertEqual(audit.params, {"device": "My security key"})
 
     def test_recovery_codes(self) -> None:
         user = self.user
@@ -103,6 +149,7 @@ class TwoFactorTestCase(FixtureTestCase):
         user = self.user
         test_name = "test webauthn name"
         credential = WebAuthnCredential.objects.create(user=user)
+        self.mark_recent_second_factor()
 
         url = reverse("webauthn-detail", kwargs={"pk": credential.pk})
 
@@ -147,6 +194,8 @@ class TwoFactorTestCase(FixtureTestCase):
         expected_mail: int = 1,
         remove_previous: str = "",
     ):
+        if self.user.profile.has_2fa:
+            self.mark_recent_second_factor()
         # Display form to get TOTP params
         response = self.client.get(reverse("totp"))
 
@@ -174,7 +223,13 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(len(devices), expected)
         device = devices[0]
         self.assert_audit_mail(expected=expected_mail)
+        self.mark_recent_second_factor()
         return device
+
+    def mark_recent_second_factor(self) -> None:
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session.save()
 
     def create_totp_device(self) -> TOTPDevice:
         return TOTPDevice.objects.create(
@@ -671,6 +726,34 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertTrue(strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL])
 
+    def test_new_sign_in_method_requires_recent_second_factor(self) -> None:
+        self.create_totp_device()
+        session: dict[str, object] = {}
+        strategy = SimpleNamespace(
+            request=SimpleNamespace(user=AnonymousUser(), session=session)
+        )
+        arguments = {
+            "strategy": strategy,
+            "backend": SimpleNamespace(name="github"),
+            "user": self.user,
+            "social": None,
+            "weblate_action": "activation",
+            "current_partial": SimpleNamespace(token="partial-token"),
+        }
+        pipeline_step = verify_recent_second_factor.__wrapped__
+
+        response = pipeline_step(**arguments)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}),
+            response["Location"],
+        )
+        self.assertEqual(session[SESSION_SECOND_FACTOR_USER], (self.user.pk, ""))
+        self.assertTrue(session[SESSION_SECOND_FACTOR_SOCIAL])
+
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        self.assertIsNone(pipeline_step(**arguments))
+
     def test_login_totp_rejects_unsafe_next(self) -> None:
         device = self.add_totp()
         self.client.logout()
@@ -753,6 +836,174 @@ class TwoFactorTestCase(FixtureTestCase):
             response = self.client.get(reverse("password"))
 
         self.assertContains(response, "Current password")
+
+    def test_sensitive_account_views_require_recent_second_factor(self) -> None:
+        device = self.create_totp_device()
+        recovery = StaticDevice.objects.create(user=self.user, name="Backup Code")
+        StaticToken.objects.create(device=recovery, token="secret-code")
+        credential = WebAuthnCredential.objects.create(user=self.user)
+        old_token = Token.objects.get(user=self.user).key
+
+        for name in (
+            "recovery-codes",
+            "totp",
+            "webauthn-register",
+            "email_login",
+        ):
+            with self.subTest(name=name):
+                response = self.client.get(reverse(name))
+                self.assertEqual(response.status_code, 302)
+                self.assertIn(
+                    reverse(
+                        "2fa-login",
+                        kwargs={"backend": self.user.profile.get_second_factor_type()},
+                    ),
+                    response["Location"],
+                )
+
+        response = self.client.post(reverse("recovery-codes"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(StaticToken.objects.filter(token="secret-code").exists())
+        self.assertFalse(
+            TOTPDevice.objects.filter(user=self.user, confirmed=False).exists()
+        )
+
+        response = self.client.post(reverse("totp"), {"enrollment": "0"})
+        self.assertEqual(response.status_code, 302)
+        response = self.client.post(
+            reverse("email_login"), {"email": "attacker@example.net"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            self.user.social_auth.filter(uid="attacker@example.net").exists()
+        )
+
+        association = self.user.social_auth.create(provider="github", uid="attacker")
+        response = self.client.post(
+            reverse(
+                "social:disconnect_individual",
+                kwargs={"backend": "github", "association_id": association.pk},
+            )
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(self.user.social_auth.filter(pk=association.pk).exists())
+
+        response = self.client.post(
+            reverse("totp-detail", kwargs={"pk": device.pk}), {"delete": "1"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(TOTPDevice.objects.filter(pk=device.pk).exists())
+
+        response = self.client.post(
+            reverse("webauthn-detail", kwargs={"pk": credential.pk}), {"delete": "1"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(WebAuthnCredential.objects.filter(pk=credential.pk).exists())
+
+        response = self.client.post(reverse("reset-api-key"))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Token.objects.get(user=self.user).key, old_token)
+
+        for name in (
+            "otp_webauthn:credential-registration-begin",
+            "otp_webauthn:credential-registration-complete",
+        ):
+            with self.subTest(name=name):
+                response = self.client.post(
+                    reverse(name), data="{}", content_type="application/json"
+                )
+                self.assertEqual(response.status_code, 403)
+                self.assertEqual(
+                    response.json()["code"], "recent_second_factor_required"
+                )
+
+        self.mark_recent_second_factor()
+        response = self.client.get(reverse("recovery-codes"))
+        self.assertContains(response, "secret-code")
+        self.assertEqual(self.client.get(reverse("totp")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("webauthn-register")).status_code, 200)
+
+    def test_personal_api_key_hidden_until_recent_second_factor(self) -> None:
+        self.make_manager()
+        token = Token.objects.get(user=self.user).key
+        urls = (
+            reverse("profile"),
+            reverse("data_project", kwargs={"project": self.project.slug}),
+            reverse("manage-access", kwargs={"project": self.project.slug}),
+        )
+        for url in urls:
+            with self.subTest(url=url, second_factor=False):
+                response = self.client.get(url)
+                self.assertNotContains(
+                    response, "Verify your identity to view your API key"
+                )
+                if url != urls[1]:
+                    self.assertContains(response, f'data-clipboard-value="{token}"')
+
+        self.create_totp_device()
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertNotIn(token, response.content.decode())
+                self.assertContains(response, reverse("verify-second-factor"))
+
+        self.mark_recent_second_factor()
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertContains(response, token)
+                self.assertNotContains(
+                    response, "Verify your identity to view your API key"
+                )
+                if url != urls[1]:
+                    self.assertContains(response, f'data-clipboard-value="{token}"')
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
+            int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1
+        )
+        session.save()
+        self.assertNotIn(token, self.client.get(reverse("profile")).content.decode())
+        response = self.client.get(reverse("recovery-codes"))
+        self.assertEqual(response.status_code, 302)
+
+    def test_verify_second_factor_returns_to_safe_page(self) -> None:
+        self.create_totp_device()
+        url = reverse("verify-second-factor")
+        response = self.client.get(url, {"next": reverse("profile")})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}),
+            response["Location"],
+        )
+
+        self.mark_recent_second_factor()
+        self.assertRedirects(
+            self.client.get(url, {"next": reverse("profile")}), reverse("profile")
+        )
+        self.assertRedirects(
+            self.client.get(url, {"next": "//evil.example/"}), reverse("profile")
+        )
+        for destination in (
+            reverse("data_project", kwargs={"project": self.project.slug}),
+            reverse("manage-access", kwargs={"project": self.project.slug}),
+        ):
+            with self.subTest(destination=destination):
+                self.assertRedirects(
+                    self.client.get(url, {"next": destination}),
+                    destination,
+                    fetch_redirect_response=False,
+                )
+        for unsafe_url in (
+            "https://evil.example/",
+            "/\\evil.example/",
+            "/accounts/profile/?next=//evil.example/",
+        ):
+            with self.subTest(unsafe_url=unsafe_url):
+                self.assertRedirects(
+                    self.client.get(url, {"next": unsafe_url}), reverse("profile")
+                )
 
     def test_project_enforced_2fa(self) -> None:
         # Turn on enforcement on project and make user an admin

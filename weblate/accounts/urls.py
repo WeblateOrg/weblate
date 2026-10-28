@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import django_otp_webauthn.views
 from django.conf import settings
 from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
@@ -46,12 +45,12 @@ social_urls = [
 webauthn_urls = [
     path(
         "registration/begin/",
-        django_otp_webauthn.views.BeginCredentialRegistrationView.as_view(),
+        weblate.accounts.views.WeblateBeginCredentialRegistrationView.as_view(),
         name="credential-registration-begin",
     ),
     path(
         "registration/complete/",
-        django_otp_webauthn.views.CompleteCredentialRegistrationView.as_view(),
+        weblate.accounts.views.WeblateCompleteCredentialRegistrationView.as_view(),
         name="credential-registration-complete",
     ),
     path(
@@ -78,6 +77,11 @@ urlpatterns = [
         name="email-sent",
     ),
     path("password/", weblate.accounts.views.password, name="password"),
+    path(
+        "auth/verify-second-factor/",
+        weblate.accounts.views.verify_second_factor,
+        name="verify-second-factor",
+    ),
     path("reset-api-key/", weblate.accounts.views.reset_api_key, name="reset-api-key"),
     path("reset/", weblate.accounts.views.reset_password, name="password_reset"),
     path("logout/", weblate.accounts.views.WeblateLogoutView.as_view(), name="logout"),

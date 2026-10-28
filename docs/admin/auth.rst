@@ -1194,6 +1194,11 @@ Recovery codes
 Each user can configure this in :ref:`profile-security` and second factor will
 be required to sign in addition to the existing authentication method.
 
+When two-factor authentication is configured, viewing the personal API key or
+changing sign-in methods and recovery credentials requires a second-factor
+verification from the last 10 minutes. Weblate prompts for verification again
+when that period has passed.
+
 This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
 or team level. In site-wide deployments, this can also be used to enforce
 two-factor authentication for all users by enabling it on the default

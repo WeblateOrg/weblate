@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n icons translations %}
+{% load authnames i18n icons translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
@@ -10,8 +10,12 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% can_show_personal_api_key request as can_show_api_key %}
 
   <p>{% translate "Various data from Weblate is available in machine-readable format." %}</p>
+  {% if request.user.is_authenticated and not can_show_api_key %}
+    <p><a href="{% url 'verify-second-factor' %}?next={{ request.path|urlencode }}">{% translate "Verify your identity to view your API key" %}</a></p>
+  {% endif %}
 
   <h3>
     {% translate "RSS feeds" %}
@@ -88,7 +92,7 @@
 
       <pre>
 <button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
-    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
+    -H "Authorization: Token <span class="auth-token">{% personal_api_key request %}</span>" \
     {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
 </pre>
     {% endif %}
@@ -160,7 +164,7 @@
   <pre>
 <button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
     -d operation=pull \
-    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
+    -H "Authorization: Token <span class="auth-token">{% personal_api_key request %}</span>" \
     {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
 </pre>
 

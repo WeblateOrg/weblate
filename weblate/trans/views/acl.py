@@ -15,12 +15,18 @@ from django.db.models import Count, Prefetch
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
-from weblate.accounts.utils import remove_user
+from weblate.accounts.utils import (
+    has_recent_second_factor,
+    remove_user,
+    second_factor_verification_redirect,
+)
 from weblate.auth.forms import (
     BulkInviteForm,
     InviteEmailForm,
@@ -465,6 +471,7 @@ def delete_user(request: AuthenticatedHttpRequest, project):
 
 
 @login_required
+@never_cache
 def manage_access(request: AuthenticatedHttpRequest, project):
     """User management view."""
     obj = parse_path(request, [project], (Project,))
@@ -567,6 +574,10 @@ def create_token(request: AuthenticatedHttpRequest, project):
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, f"{reverse('manage-access', kwargs={'project': obj.slug})}#api"
+        )
 
     form = ProjectTokenCreateForm(obj, request.POST)
 
