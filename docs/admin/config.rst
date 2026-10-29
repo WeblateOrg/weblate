@@ -3417,6 +3417,12 @@ Anonymous bot protection
    change, and it may be removed if it does not prove sufficiently useful.
    Long-term maintenance is not guaranteed.
 
+While verification runs automatically, visitors see a randomly selected tip
+about Weblate features.
+
+.. image:: /screenshots/bot-protection.webp
+   :alt: Weblate browser verification page with a feature tip about keyboard shortcuts.
+
 .. setting:: BOT_PROTECTION_ENABLED
 
 ``BOT_PROTECTION_ENABLED``

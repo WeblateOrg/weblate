@@ -23,11 +23,13 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest, HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import include, path, reverse
+from django.utils.translation import get_language
 
 from weblate.auth.models import User
 from weblate.oidc.urls import urlpatterns as oidc_patterns
 from weblate.urls import real_patterns
 from weblate.utils.bot_protection import (
+    FEATURE_TIPS,
     BotProtectionMiddleware,
     binding,
     challenge_page,
@@ -312,7 +314,12 @@ class ProofTest(SimpleTestCase):
                     )
 
     @override_settings(
-        LANGUAGES=(("en", "English"), ("cs", "Czech"), ("pt-br", "Portuguese")),
+        LANGUAGES=(
+            ("en", "English"),
+            ("cs", "Czech"),
+            ("pt-br", "Portuguese"),
+            ("ba", "Bashkir"),  # codespell:ignore
+        ),
         LANGUAGE_CODE="en",
     )
     def test_rendered_challenge_language(self) -> None:
@@ -320,6 +327,7 @@ class ProofTest(SimpleTestCase):
             ("en", "en"),
             ("cs", "cs"),
             ("pt-BR", "pt-br"),
+            ("ba", "ba"),  # codespell:ignore
             ("unknown", "en"),
             ("<invalid>", "en"),
         ):
@@ -327,8 +335,36 @@ class ProofTest(SimpleTestCase):
                 response = self.challenge_response(
                     self.request(HTTP_ACCEPT_LANGUAGE=accept)
                 )
-                self.assertIn(f'<html lang="{expected}">', response.text)
+                self.assertIn(f'<html lang="{expected}" dir="ltr">', response.text)
                 self.assertNotIn("{{ language }}", response.text)
+
+    def test_feature_tips(self) -> None:
+        self.assertEqual(len(FEATURE_TIPS), 20)
+        self.assertEqual(len(set(FEATURE_TIPS)), 20)
+        for tip in FEATURE_TIPS:
+            with (
+                self.subTest(tip=tip),
+                patch("weblate.utils.bot_protection.random.choice", return_value=tip),
+            ):
+                response = self.challenge_response(self.request())
+                self.assertContains(response, tip, status_code=403)
+                self.assertEqual(response.text.count('id="pow-tip"'), 1)
+
+    @override_settings(LANGUAGES=(("ar", "Arabic"),), LANGUAGE_CODE="ar")
+    def test_challenge_rtl(self) -> None:
+        response = self.challenge_response(self.request(HTTP_ACCEPT_LANGUAGE="ar"))
+        self.assertContains(response, '<html lang="ar" dir="rtl">', status_code=403)
+        self.assertContains(response, "bootstrap5_rtl.css", status_code=403)
+
+    def test_feature_tip_translation(self) -> None:
+        def translate_tip(message: str) -> str:
+            self.assertIn(message, FEATURE_TIPS)
+            self.assertEqual(get_language(), "cs")
+            return "Translated feature tip"
+
+        with patch("weblate.utils.bot_protection.gettext", side_effect=translate_tip):
+            response = self.challenge_response(self.request(HTTP_ACCEPT_LANGUAGE="cs"))
+        self.assertContains(response, "Translated feature tip", status_code=403)
 
     def test_oidc_protocol_routes_are_exempt(self) -> None:
         # Use the provider URLconf so added endpoints receive coverage as well.

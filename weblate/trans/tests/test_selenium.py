@@ -522,6 +522,79 @@ class SeleniumTests(
             cls._driver.quit()
             cls._driver = None
 
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CHALLENGE_AGE=300,
+        CACHES={
+            "default": {
+                "BACKEND": "django.core.cache.backends.redis.RedisCache",
+                "LOCATION": "redis://localhost:6379/0",
+            }
+        },
+        BOT_PROTECTION_CRAWLER_RULES={},
+        BOT_PROTECTION_UNWANTED_AGENTS=[],
+        BOT_PROTECTION_EXEMPT_PATHS=[],
+        LANGUAGE_CODE="en",
+    )
+    def test_bot_protection(self) -> None:
+        """Capture the anonymous challenge with a stable feature tip and status."""
+        tip = "Press ? in the translation editor to discover keyboard shortcuts."
+        self.driver.delete_all_cookies()
+        # The live server starts before method-level settings overrides. Rebuild
+        # its middleware so bot protection observes this test's configuration.
+        handler = self.server_thread.httpd.get_app()
+        original_chains = []
+        while True:
+            original_chains.append((handler, handler._middleware_chain))  # ruff: ignore[private-member-access]
+            handler.load_middleware()
+            if not hasattr(handler, "application"):
+                break
+            handler = handler.application
+        self.driver.execute_cdp_cmd(
+            "Emulation.setEmulatedMedia",
+            {"features": [{"name": "prefers-color-scheme", "value": "light"}]},
+        )
+        # Hold only the proof worker pending so real verification cannot navigate
+        # away or update the attempt count while the screenshot is captured.
+        script = self.driver.execute_cdp_cmd(
+            "Page.addScriptToEvaluateOnNewDocument",
+            {
+                "source": """
+                const OriginalWorker = window.Worker;
+                window.Worker = class extends OriginalWorker {
+                    constructor(url, options) {
+                        if (new URL(url, location.href).pathname.endsWith('/js/bot-worker.js')) {
+                            return { postMessage() {}, terminate() {} };
+                        }
+                        super(url, options);
+                    }
+                };
+                """
+            },
+        )
+        try:
+            with patch("weblate.utils.bot_protection.random.choice", return_value=tip):
+                self.driver.get(f"{self.live_server_url}/?language=en")
+                self.wait_for_screenshot_ready()
+                self.assert_text_contains("h1", "Checking your browser")
+                self.assert_text_contains("#pow-tip", tip)
+                self.assert_text_contains("#pow-status", "Working…")
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "pow-retry").is_displayed()
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.LINK_TEXT, "Sign in").is_displayed()
+                )
+                self.screenshot("bot-protection.png")
+        finally:
+            for handler, chain in original_chains:
+                handler._middleware_chain = chain  # ruff: ignore[private-member-access]
+            self.driver.execute_cdp_cmd(
+                "Page.removeScriptToEvaluateOnNewDocument",
+                {"identifier": script["identifier"]},
+            )
+            self.driver.execute_cdp_cmd("Emulation.setEmulatedMedia", {"features": []})
+
     def scroll_top(self) -> None:
         self.driver.execute_script(
             "window.scrollTo({top: 0, left: 0, behavior: 'instant'})"
