@@ -20,7 +20,7 @@ from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.db import connection, transaction
+from django.db import DatabaseError, connection, transaction
 from django.db.models.signals import post_save
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -66,6 +66,7 @@ from weblate.trans.models import (
 from weblate.trans.models.change import ChangeQuerySet
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.models.project import CommitPolicyChoices
+from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, UnitQuerySet
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import project_removal
 from weblate.trans.tests.utils import (
@@ -1074,6 +1075,132 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(hello.num_words, original_num_words)
         self.assertTrue(hello.location.startswith("moved.c:"))
         self.assertFalse(PendingUnitChange.objects.filter(unit=hello).exists())
+
+    def test_metadata_batches_finish_before_notifications_and_roll_back_together(
+        self,
+    ) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        filename = get_optional_path(translation.get_filename())
+        additions = "\n".join(
+            f'#: main.c:{1000 + index}\nmsgid "Metadata batch {index}"\nmsgstr ""\n'
+            for index in range(251 - translation.unit_set.count())
+        )
+        filename.write_text(
+            filename.read_text(encoding="utf-8") + additions, encoding="utf-8"
+        )
+        translation.drop_store_cache()
+        component.unload_sources()
+        actor = get_test_actor(self)
+        self.assertTrue(translation.check_sync(force=True, author=actor))
+        units = Unit.objects.filter(
+            translation__in=[translation, component.source_translation]
+        )
+        before = {row["id"]: row for row in units.values()}
+        self.assertEqual(len(before), 502)
+        filename.write_text(
+            filename.read_text(encoding="utf-8").replace("#: main.c:", "#: moved.c:"),
+            encoding="utf-8",
+        )
+        translation.drop_store_cache()
+        component.unload_sources()
+        write_batch = UnitQuerySet._bulk_update_values  # ruff: ignore[private-member-access]
+        batches: list[int] = []
+
+        def fail_final_batch(
+            queryset: UnitQuerySet, batch: list[Unit], fields: tuple[str, ...]
+        ) -> None:
+            self.assertEqual(queryset.db, translation._state.db)  # ruff: ignore[private-member-access]
+            self.assertEqual(fields, UNIT_METADATA_UPDATE_FIELDS)
+            batches.append(len(batch))
+            if len(batches) == 2:
+                self.assertEqual(
+                    units.filter(location__startswith="moved.c:").count(), 500
+                )
+                msg = "Metadata write failed"
+                raise DatabaseError(msg)
+            write_batch(queryset, batch, fields)
+
+        notifications = Mock()
+        post_save.connect(notifications, sender=Unit, weak=False)
+        self.addCleanup(post_save.disconnect, notifications, sender=Unit)
+        with (
+            patch.object(
+                UnitQuerySet,
+                "_bulk_update_values",
+                autospec=True,
+                side_effect=fail_final_batch,
+            ),
+            self.assertRaisesMessage(DatabaseError, "Metadata write failed"),
+        ):
+            translation.check_sync(force=True, author=actor)
+        self.assertEqual(batches, [500, 2])
+        notifications.assert_not_called()
+        self.assertEqual({row["id"]: row for row in units.values()}, before)
+        post_save.disconnect(notifications, sender=Unit)
+        translation.drop_store_cache()
+        component.unload_sources()
+        seen: list[int] = []
+
+        def after_save(sender: type[Unit], instance: Unit, **kwargs: object) -> None:
+            if not seen:
+                self.assertEqual(
+                    units.filter(location__startswith="moved.c:").count(), len(before)
+                )
+            self.assertFalse(kwargs["created"])
+            self.assertFalse(kwargs["raw"])
+            self.assertEqual(kwargs["using"], connection.alias)
+            self.assertEqual(
+                kwargs["update_fields"], frozenset(UNIT_METADATA_UPDATE_FIELDS)
+            )
+            seen.append(instance.pk)
+
+        post_save.connect(after_save, sender=Unit)
+        self.addCleanup(post_save.disconnect, after_save, sender=Unit)
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(translation.check_sync(force=True, author=actor))
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 2)
+        self.assertCountEqual(seen, before)
+        rows = list(units.values())
+        self.assertEqual(len({row["last_updated"] for row in rows}), 1)
+        for row in rows:
+            for name in ("target", "source", "state", "original_state", "num_words"):
+                self.assertEqual(row[name], before[row["id"]][name])
+
+    def test_metadata_writer_persists_only_prepared_fields(self) -> None:
+        component = self.create_component()
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        before = {
+            name: getattr(unit, name)
+            for name in ("state", "original_state", "num_words")
+        }
+        expected = {
+            "details": {"quoted": "český 'text'; --", "nested": [None, True]},
+            "source": "Prepared source",
+            "target": "Prepared target",
+            "location": "metadata.c:42",
+            "note": "Prepared note",
+            "position": 123,
+            "automatically_translated": True,
+            "flags": "read-only",
+            "last_updated": timezone.now(),
+        }
+        for name, value in expected.items():
+            setattr(unit, name, value)
+        with self.assertNumQueries(1):
+            Unit.objects.using(connection.alias)._bulk_update_values(  # ruff: ignore[private-member-access]
+                [unit], UNIT_METADATA_UPDATE_FIELDS
+            )
+        unit.refresh_from_db()
+        self.assertEqual({name: getattr(unit, name) for name in expected}, expected)
+        self.assertEqual({name: getattr(unit, name) for name in before}, before)
 
     def test_metadata_update_preserves_pending_explanation(self) -> None:
         component = self.create_tbx()
