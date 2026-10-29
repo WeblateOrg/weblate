@@ -17,6 +17,7 @@ from django.db import DatabaseError, connections, models, transaction
 from django.db import Error as DjangoDatabaseError
 from django.db.models import (
     Count,
+    F,
     ManyToManyField,
     Max,
     OuterRef,
@@ -25,7 +26,9 @@ from django.db.models import (
     Sum,
     Value,
 )
+from django.db.models.expressions import CombinedExpression
 from django.db.models.functions import MD5, Cast, Coalesce, Length, Lower
+from django.db.transaction import TransactionManagementError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -862,16 +865,22 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def clear_disk_state(self) -> None:
-        units_to_update = list(
-            self.filter(details__has_key="disk_state").select_for_update()
+        """Remove snapshot bookkeeping from the current JSON inside a transaction."""
+        units = self.filter(details__has_key="disk_state").select_for_update()
+        # Keep write routing and the caller-owned transaction contract. The
+        # UPDATE itself locks rows, so no SELECT FOR UPDATE needs to execute.
+        if connections[units.db].get_autocommit():
+            msg = "Disk-state cleanup requires a transaction."
+            raise TransactionManagementError(msg)
+
+        details = CombinedExpression(
+            F("details"), "-", Value("disk_state"), output_field=models.JSONField()
         )
-
-        for unit in units_to_update:
-            del unit.details["disk_state"]
-            unit.details.pop("disk_identity", None)
-
-        if units_to_update:
-            Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
+        units.update(
+            details=CombinedExpression(
+                details, "-", Value("disk_identity"), output_field=models.JSONField()
+            )
+        )
 
 
 class OldUnit(TypedDict):
