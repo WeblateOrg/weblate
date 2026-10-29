@@ -360,6 +360,8 @@ class TOTPEnrollmentConcurrencyTest(TransactionTestCase):
                 # concurrent requests before either session is saved.
                 request.session = SessionStore()
                 request.session[SESSION_SECOND_FACTOR_TOTP] = device.pk
+                # Either request can observe the other's confirmed device.
+                request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = self.timestamp
                 ready.wait(timeout=10)
                 return TOTPView.as_view()(request).status_code
             finally:
