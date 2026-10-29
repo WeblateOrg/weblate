@@ -30,6 +30,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Reduced database processing overhead for metadata-only updates during :ref:`repository synchronization <update-vcs>`.
+
 * Reduced database writes when saving :ref:`custom source language workflows <workflow-source-language>` by batching unit and pending-change writes and avoiding duplicate unit updates.
 
 * Reduced author lookup queries when changing :ref:`custom source languages <workflow-source-language>` and restoring pending changes from older :ref:`project backups <projectbackup>`.

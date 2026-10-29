@@ -176,16 +176,28 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         Only existing, distinct units are supported. The caller prepares save
         bookkeeping and dispatches notifications after the rows are persisted.
         """
+        self._bulk_update_values(units, UNIT_SOURCE_UPDATE_FIELDS)
+
+    def _bulk_update_values(
+        self, units: list[Unit], field_names: tuple[str, ...]
+    ) -> None:
+        """
+        Persist prepared field values for an existing-unit batch by ID.
+
+        This internal writer uses the database alias, but not queryset filters.
+        Call it only on unfiltered querysets with explicit concrete field names.
+        It does not prepare model saves, evaluate expressions, or send signals.
+        """
         if not units:
             return
         if len(units) > 500:
-            msg = "Source reconciliation batches must contain at most 500 units."
+            msg = "Unit update batches must contain at most 500 units."
             raise ValueError(msg)
         if any(unit.pk is None or unit._state.adding for unit in units):  # ruff: ignore[private-member-access]
-            msg = "Source reconciliation requires saved units."
+            msg = "Batch updates require saved units."
             raise ValueError(msg)
         if len({unit.pk for unit in units}) != len(units):
-            msg = "Source reconciliation requires distinct units."
+            msg = "Batch updates require distinct units."
             raise ValueError(msg)
 
         database = connections[self.db]
@@ -195,7 +207,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         }
         fields = [
             model_meta.pk,
-            *(concrete_fields[name] for name in UNIT_SOURCE_UPDATE_FIELDS),
+            *(concrete_fields[name] for name in field_names),
         ]
         quote = database.ops.quote_name
         columns = [quote(cast("str", model_field.column)) for model_field in fields]
@@ -232,7 +244,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         ):
             cursor.execute(sql, params)
             if cursor.rowcount != len(units):
-                msg = "Source reconciliation did not update every unit."
+                msg = "Batch update did not update every unit."
                 raise DatabaseError(msg)
 
     def with_last_content_author(self) -> UnitQuerySet:
