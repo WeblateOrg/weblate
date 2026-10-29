@@ -434,6 +434,18 @@ class CSVExporterTest(ExporterTestMixin, BaseTestCase):
         )
         self.assertIn(b"\"'=HYPERLINK", output)
 
+    def test_escaping_hidden_formula_prefixes(self) -> None:
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv",
+            source="\ufeff=1+1",
+            target="\u034f=1+1",
+            state=STATE_TRANSLATED,
+        ).decode()
+        row = next(csv.DictReader(StringIO(output)))
+        self.assertEqual(row["source"], "'\ufeff=1+1'")
+        self.assertEqual(row["target"], "'\u034f=1+1'")
+
 
 class XlsxExporterTest(ExporterTestMixin, BaseTestCase):
     _class = XlsxExporter
@@ -558,6 +570,18 @@ class MultiCSVExporterTest(ExporterTestMixin, RepoTestMixin, BaseTestCase):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_escaping_hidden_formula_prefixes(self) -> None:
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv-multi",
+            source="\u200b=1+1",
+            target="\ufeff=1+1",
+            state=STATE_TRANSLATED,
+        ).decode()
+        row = next(csv.DictReader(StringIO(output)))
+        self.assertEqual(row["source"], "'\u200b=1+1'")
+        self.assertEqual(row["target"], "'\ufeff=1+1'")
 
     def test_multivalue_units(self) -> None:
         """Test that multivalue units are exported as separate rows."""

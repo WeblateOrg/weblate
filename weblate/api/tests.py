@@ -208,12 +208,24 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 class CSVRendererTest(SimpleTestCase):
     def test_formula_cells_and_headers(self) -> None:
         rendered = AutoCSVRenderer().render(
-            {"=header": "=value", "@nested": {"field": "+value"}, "count": 1}
+            {
+                "=header": "=value",
+                "\u200b=header": "\ufeff=value",
+                "@nested": {"field": "+value"},
+                "count": 1,
+            }
         )
         rows = list(csv.DictReader(StringIO(rendered.decode())))
         self.assertEqual(
             rows,
-            [{"'=header'": "'=value'", "'@nested.field'": "'+value'", "count": "1"}],
+            [
+                {
+                    "'=header'": "'=value'",
+                    "'\u200b=header'": "'\ufeff=value'",
+                    "'@nested.field'": "'+value'",
+                    "count": "1",
+                }
+            ],
         )
 
 
@@ -19785,19 +19797,19 @@ class ChangeAPITest(APIBaseTest):
             action=ActionEvents.CHANGE,
             project=self.project,
             user=self.user,
-            target="=1+1",
-            old="@SUM(1+1)",
+            target="\ufeff=1+1",
+            old="\u034f@SUM(1+1)",
         )
         url = reverse("api:change-detail", kwargs={"pk": change.pk})
         response = self.client.get(url, {"format": "csv"})
         self.assertEqual(response.status_code, 200)
         row = next(csv.DictReader(StringIO(response.content.decode())))
-        self.assertEqual(row["target"], "'=1+1'")
-        self.assertEqual(row["old"], "'@SUM(1+1)'")
+        self.assertEqual(row["target"], "'\ufeff=1+1'")
+        self.assertEqual(row["old"], "'\u034f@SUM(1+1)'")
 
         response = self.client.get(url)
-        self.assertEqual(response.data["target"], "=1+1")
-        self.assertEqual(response.data["old"], "@SUM(1+1)")
+        self.assertEqual(response.data["target"], "\ufeff=1+1")
+        self.assertEqual(response.data["old"], "\u034f@SUM(1+1)")
 
     def test_autotranslate_change_hides_restricted_source(self) -> None:
         source = self.create_link_existing(

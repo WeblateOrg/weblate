@@ -899,6 +899,14 @@ class ChangesTest(ReusableViewTestCase):
             "-1+1",
             "@SUM(1+1)*cmd|' /C calc'!A0",
             " =1+1",
+            "\ufeff=1+1",
+            '\u034f=HYPERLINK("https://example.com", "click")',
+            "\u200b=1+1",
+            "\u2800=1+1",
+            "\u200b\u034f +1+1",
+            "\v=1+1",
+            "\uff1d1+1",
+            "\u200bordinary target",
             "ordinary target",
             "",
         )
@@ -924,6 +932,14 @@ class ChangesTest(ReusableViewTestCase):
                 "'-1+1'",
                 "'@SUM(1+1)*cmd\\|' /C calc'!A0'",
                 "' =1+1'",
+                "'\ufeff=1+1'",
+                '\'\u034f=HYPERLINK("https://example.com", "click")\'',
+                "'\u200b=1+1'",
+                "'\u2800=1+1'",
+                "'\u200b\u034f +1+1'",
+                "'\v=1+1'",
+                "'\uff1d1+1'",
+                "\u200bordinary target",
                 "ordinary target",
                 "",
             },
@@ -938,6 +954,7 @@ class ChangesTest(ReusableViewTestCase):
         self.user.save(update_fields=["is_superuser"])
         Change.objects.all().delete()
         self.change_unit("=1+1")
+        self.change_unit("\ufeff=1+1")
         self.change_unit("corrected translation")
 
         response = self.client.get(
@@ -945,6 +962,7 @@ class ChangesTest(ReusableViewTestCase):
         )
         rows = list(csv.DictReader(StringIO(response.content.decode())))
         self.assertIn("'=1+1\n'", {row["target"] for row in rows})
+        self.assertIn("'\ufeff=1+1\n'", {row["target"] for row in rows})
         self.assertIn("corrected translation\n", {row["target"] for row in rows})
 
     def test_filter(self) -> None:
