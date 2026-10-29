@@ -352,7 +352,6 @@ class FedoraMessagingURLTest(SimpleTestCase):
         validate_fedora_messaging_url("amqp://broker.example/%2F")
         validate_fedora_messaging_url(
             "amqps://user:password@broker.example:5671/vhost"  # kingfisher:ignore
-            "?connection_attempts=3&retry_delay=5"
         )
 
     def test_invalid_scheme(self) -> None:

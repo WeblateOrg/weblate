@@ -806,6 +806,19 @@ Sends notifications to a Fedora Messaging compatible AMQP exchange.
 Fedora Messaging is AMQP-based publisher for all changes happening in Weblate.
 You can hook additional services on changes happening in Weblate using this.
 
+Configure the broker with a plain ``amqp://`` or ``amqps://`` URL, including
+its virtual host. URL query strings and fragments are not supported. Use the
+add-on's connection attempts, retry delay, and publish timeout fields instead.
+The publish timeout covers connection attempts, retry delays, and broker
+confirmation. Synchronous DNS resolution, including lookups during broker URL
+validation, cannot be interrupted by this timeout and can exceed it when the
+system resolver is slow or unavailable. Rejected messages are not retried.
+
+Weblate reuses a publisher connection in each worker process, with AMQP
+heartbeats disabled. Failed connections are discarded and recreated on the
+next attempt. A lost broker confirmation can cause duplicate delivery;
+consumers can identify retries by their unchanged message ID.
+
 Message topic
 ~~~~~~~~~~~~~
 

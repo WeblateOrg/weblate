@@ -11,25 +11,20 @@ import gzip
 import hashlib
 import importlib
 import json
-import math
 import os
 import re
 import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
-from collections import UserDict
-from copy import deepcopy
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from unittest.mock import MagicMock, patch
 from urllib.parse import urlsplit
 
-import fedora_messaging.api
-import fedora_messaging.config
 import httpx2
 import jsonschema.exceptions
 from crispy_forms.helper import FormHelper
@@ -50,15 +45,15 @@ from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
-from fedora_messaging import exceptions as fedora_messaging_exceptions
-from fedora_messaging.exceptions import ConfigurationException
-from OpenSSL import SSL
 from rest_framework.test import APIClient
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 from weblate_schemas import validate_schema
-from weblate_schemas.messages import WeblateV1Message
 
+from weblate.addons.fedora_messaging import (
+    FedoraMessagingConfigurationError,
+    WeblateMessage,
+)
 from weblate.addons.forms import (
     AutoAddonForm,
     FedoraMessagingAddonForm,
@@ -143,11 +138,8 @@ from .events import (
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import (
-    SERVICE_STOP_TIMEOUT,
     TOPIC_PREFIX_MAX_LENGTH,
-    BrokerTLSProbeProtocol,
     FedoraMessagingAddon,
-    FedoraMessagingPublishError,
 )
 from .flags import (
     BulkEditAddon,
@@ -12420,47 +12412,12 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
         labels = FedoraMessagingAddon._get_pem_block_labels(value)  # ruff: ignore[private-member-access]
 
         self.assertEqual(labels, ["CERTIFICATE", "PRIVATE KEY", "CERTIFICATE"])
-        with self.assertRaisesMessage(ConfigurationException, "invalid certificate"):
+        with self.assertRaisesMessage(
+            FedoraMessagingConfigurationError, "invalid certificate"
+        ):
             FedoraMessagingAddon._validate_pem_certificates(  # ruff: ignore[private-member-access]
                 value, "invalid certificate"
             )
-
-
-class FedoraMessagingRuntimeValidationTest(SimpleTestCase):
-    def test_cached_configuration_still_validates_amqp_url(self) -> None:
-        class FakeMessagingConfig(UserDict[str, object]):
-            loaded = True
-
-            def _validate(self) -> None:
-                msg = "configuration fast path should return"
-                raise AssertionError(msg)
-
-        config = FakeMessagingConfig(
-            {
-                "amqp_url": "amqp://broker.example?connection_attempts=1&retry_delay=2",
-                "consumer_config": {"weblate_cert_hash": "cert-hash"},
-            }
-        )
-
-        with (
-            patch("weblate.addons.fedora_messaging.siphash", return_value="cert-hash"),
-            patch("fedora_messaging.config.conf", config),
-            patch(
-                "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
-            ) as validate_fedora_messaging_url,
-            patch.object(
-                FedoraMessagingAddon, "validate_tls_credentials"
-            ) as validate_tls_credentials,
-        ):
-            FedoraMessagingAddon.configure_fedora_messaging(
-                amqp_url="amqp://broker.example",
-                ca_cert=None,
-                client_key=None,
-                client_cert=None,
-            )
-
-        validate_fedora_messaging_url.assert_called_once_with("amqp://broker.example")
-        validate_tls_credentials.assert_not_called()
 
 
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
@@ -12481,17 +12438,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
         )
         self.validate_fedora_messaging_url = self.url_validation_patcher.start()
-        self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
+        self.patcher = patch.object(FedoraMessagingAddon, "publish_message")
         self.mock_class = self.patcher.start()
-        self.prepare_service_patcher = patch.object(
-            FedoraMessagingAddon, "_prepare_fedora_messaging_service"
-        )
-        self.prepare_service = self.prepare_service_patcher.start()
 
     def tearDown(self) -> None:
-        del self.prepare_service
-        self.prepare_service_patcher.stop()
-        del self.prepare_service_patcher
         del self.mock_class
         self.patcher.stop()
         del self.patcher
@@ -12517,24 +12467,6 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "client_key": key,
             "client_cert": cert,
         }
-
-    @staticmethod
-    def get_broker_tls_connection() -> MagicMock:
-        tls_connection = MagicMock()
-        tls_connection.bio_read.side_effect = SSL.WantReadError()
-        return tls_connection
-
-    @staticmethod
-    def get_broker_tls_context_factory(
-        tls_connection: MagicMock | None = None,
-    ) -> SimpleNamespace:
-        return SimpleNamespace(
-            clientConnectionForTLS=MagicMock(
-                return_value=tls_connection
-                if tls_connection is not None
-                else FedoraMessagingAddonTestCase.get_broker_tls_connection()
-            )
-        )
 
     def test_topic(self) -> None:
         for change in Change.objects.all():
@@ -12624,18 +12556,8 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
 
     @staticmethod
-    def get_fedora_message() -> WeblateV1Message:
-        return WeblateV1Message(topic="weblate.test", headers={}, body={})
-
-    def test_configured_amqp_url_uses_explicit_timing(self) -> None:
-        self.assertEqual(
-            FedoraMessagingAddon.get_configured_amqp_url(
-                "amqps://rabbitmq.example.com/%2F?connection_attempts=3&retry_delay=5&heartbeat=30",
-                connection_attempts=1,
-                retry_delay=2,
-            ),
-            "amqps://rabbitmq.example.com/%2F?heartbeat=30&connection_attempts=1&retry_delay=2",
-        )
+    def get_fedora_message() -> WeblateMessage:
+        return WeblateMessage(topic="weblate.test", headers={}, body={})
 
     def test_change_event_applies_topic_prefix(self) -> None:
         self.WEBHOOK_CLS.create(
@@ -12667,53 +12589,6 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             },
         )
 
-    def test_change_event_serializes_configuration_and_publish(self) -> None:
-        self.WEBHOOK_CLS.create(
-            acting_user=self.user, configuration=self.addon_configuration
-        )
-        locked = False
-        lock = MagicMock()
-
-        def enter_lock() -> None:
-            nonlocal locked
-
-            locked = True
-
-        def exit_lock(*_args) -> None:
-            nonlocal locked
-
-            locked = False
-
-        def configure_fedora_messaging(**_kwargs) -> None:
-            self.assertTrue(locked)
-
-        def publish_message(*_args, **_kwargs) -> None:
-            self.assertTrue(locked)
-
-        lock.__enter__.side_effect = enter_lock
-        lock.__exit__.side_effect = exit_lock
-
-        with (
-            patch(
-                "weblate.addons.fedora_messaging.FEDORA_MESSAGING_PUBLISH_LOCK", lock
-            ),
-            patch.object(
-                FedoraMessagingAddon,
-                "configure_fedora_messaging",
-                side_effect=configure_fedora_messaging,
-            ) as configure,
-            patch.object(
-                FedoraMessagingAddon, "publish_message", side_effect=publish_message
-            ) as publish,
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-
-        configure.assert_called_once()
-        publish.assert_called_once()
-        lock.__enter__.assert_called_once_with()
-        lock.__exit__.assert_called_once()
-
     def test_render_activity_log_formats_message_id(self) -> None:
         addon = self.WEBHOOK_CLS.create(
             acting_user=self.user, configuration=self.addon_configuration
@@ -12728,849 +12603,19 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "Message ID: 77a2b12e-9f82-4411-aa83-249c984886fb",
         )
 
-    def test_publish_message_serializes_prepare_publish_and_reporting(self) -> None:
-        locked = False
-        lock = MagicMock()
-        error = fedora_messaging_exceptions.PublishTimeout(
-            "Publishing timed out after waiting 30 seconds."
-        )
-
-        def enter_lock() -> None:
-            nonlocal locked
-
-            locked = True
-
-        def exit_lock(*_args) -> None:
-            nonlocal locked
-
-            locked = False
-
-        def prepare_service(**_kwargs) -> None:
-            self.assertTrue(locked)
-
-        def publish(*_args, **_kwargs) -> Never:
-            self.assertTrue(locked)
-            raise error
-
-        def reset_service() -> bool:
-            self.assertTrue(locked)
-            return True
-
-        def report_error(*_args, **_kwargs) -> None:
-            self.assertTrue(locked)
-
-        lock.__enter__.side_effect = enter_lock
-        lock.__exit__.side_effect = exit_lock
-
-        with (
-            patch(
-                "weblate.addons.fedora_messaging.FEDORA_MESSAGING_PUBLISH_LOCK", lock
-            ),
-            patch.object(
-                FedoraMessagingAddon,
-                "_prepare_fedora_messaging_service",
-                side_effect=prepare_service,
-            ) as prepare,
-            patch("fedora_messaging.api.publish", side_effect=publish) as publish_mock,
-            patch.object(
-                FedoraMessagingAddon,
-                "_reset_fedora_messaging_service",
-                side_effect=reset_service,
-            ) as reset,
-            patch.object(
-                FedoraMessagingAddon, "_report_publish_error", side_effect=report_error
-            ) as report,
-            self.assertRaises(FedoraMessagingPublishError),
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        prepare.assert_called_once()
-        publish_mock.assert_called_once()
-        reset.assert_called_once()
-        report.assert_called_once()
-        lock.__enter__.assert_called_once_with()
-        lock.__exit__.assert_called_once()
-
-    def test_publish_message_success(self) -> None:
-        service = MagicMock()
-        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
-        self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
-
-        with (
-            patch.object(
-                FedoraMessagingAddon, "_prepare_fedora_messaging_service"
-            ) as prepare_service,
-            patch("fedora_messaging.api.publish") as publish,
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        prepare_service.assert_called_once_with(
-            connection_attempts=DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
-            retry_delay=DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
-        )
-        publish.assert_called_once()
-        self.assertEqual(
-            publish.call_args.kwargs["timeout"],
-            DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
-        )
-        report_error.assert_not_called()
-        self.assertIs(fedora_messaging.api._twisted_service, service)  # ruff: ignore[private-member-access]
-
-    def test_reset_fedora_messaging_service_stops_existing_service(self) -> None:
-        service = MagicMock()
-        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
-        self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
-
-        with patch.object(
-            FedoraMessagingAddon, "_stop_fedora_messaging_service"
-        ) as stop_service:
-            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # ruff: ignore[private-member-access]
-
-        stop_service.assert_called_once_with(service.stopService)
-        self.assertTrue(result)
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
-
-    def test_reset_fedora_messaging_service_keeps_service_on_stop_failure(self) -> None:
-        service = MagicMock()
-        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
-        self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
-
-        with patch.object(
-            FedoraMessagingAddon, "_stop_fedora_messaging_service", return_value=False
-        ) as stop_service:
-            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # ruff: ignore[private-member-access]
-
-        stop_service.assert_called_once_with(service.stopService)
-        self.assertFalse(result)
-        self.assertIs(fedora_messaging.api._twisted_service, service)  # ruff: ignore[private-member-access]
-
-    def test_stop_fedora_messaging_service_runs_in_reactor_and_waits(self) -> None:
-        stop_service = MagicMock(return_value="stopped")
-        result = MagicMock()
-
-        def run_in_reactor(function):
-            def wrapper():
-                result.value = function()
-                return result
-
-            return wrapper
-
-        with patch("crochet.run_in_reactor", side_effect=run_in_reactor):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
-
-        stop_service.assert_called_once_with()
-        self.assertEqual(result.value, "stopped")
-        result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
-        result.cancel.assert_not_called()
-        self.assertTrue(stopped)
-
-    def test_stop_fedora_messaging_service_cancels_and_fails_on_timeout(self) -> None:
-        # ruff: ignore[import-outside-top-level]
-        import crochet
-
-        stop_service = MagicMock(return_value="stopped")
-        result = MagicMock()
-        result.wait.side_effect = crochet.TimeoutError
-
-        def run_in_reactor(function):
-            def wrapper():
-                result.value = function()
-                return result
-
-            return wrapper
-
-        with (
-            patch("crochet.run_in_reactor", side_effect=run_in_reactor),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-        ):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
-
-        stop_service.assert_called_once_with()
-        self.assertEqual(result.value, "stopped")
-        result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
-        result.cancel.assert_called_once_with()
-        report_error.assert_called_once_with(
-            "Fedora Messaging service shutdown timed out", level="error"
-        )
-        self.assertFalse(stopped)
-
-    def test_stop_fedora_messaging_service_fails_on_error(self) -> None:
-        stop_service = MagicMock(return_value="stopped")
-        result = MagicMock()
-        result.wait.side_effect = RuntimeError("failed")
-
-        def run_in_reactor(function):
-            def wrapper():
-                result.value = function()
-                return result
-
-            return wrapper
-
-        with (
-            patch("crochet.run_in_reactor", side_effect=run_in_reactor),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-        ):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
-
-        stop_service.assert_called_once_with()
-        result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
-        result.cancel.assert_not_called()
-        report_error.assert_called_once_with(
-            "Fedora Messaging service shutdown failed", level="error"
-        )
-        self.assertFalse(stopped)
-
-    def test_configure_fedora_messaging_publish_retries(self) -> None:
-        factory = SimpleNamespace(
-            maxRetries=None,
-            initialDelay=1,
-            delay=1,
-            maxDelay=3600,
-            factor=math.e,
-            jitter=0.119626565582,
-        )
-
-        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # ruff: ignore[private-member-access]
-            SimpleNamespace(factory=factory), connection_attempts=4, retry_delay=6
-        )
-
-        self.assertEqual(factory.maxRetries, 3)
-        self.assertEqual(factory.initialDelay, 6)
-        self.assertEqual(factory.delay, 6)
-        self.assertEqual(factory.maxDelay, 6)
-        self.assertEqual(factory.factor, 1)
-        self.assertEqual(factory.jitter, 0)
-
-    def test_configure_fedora_messaging_publish_retries_allows_single_attempt(
-        self,
-    ) -> None:
-        factory = SimpleNamespace()
-
-        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # ruff: ignore[private-member-access]
-            SimpleNamespace(factory=factory), connection_attempts=1, retry_delay=0
-        )
-
-        self.assertEqual(factory.maxRetries, 0)
-        self.assertEqual(factory.initialDelay, 0)
-        self.assertEqual(factory.delay, 0)
-        self.assertEqual(factory.maxDelay, 0)
-
-    def test_fedora_messaging_service_stale_after_exhausted_retries(self) -> None:
-        service = SimpleNamespace(
-            running=True,
-            factory=SimpleNamespace(
-                _client=None,
-                _callID=None,
-                continueTrying=True,
-                maxRetries=1,
-                retries=2,
-            ),
-        )
-
-        self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
-        )
-
-    def test_fedora_messaging_service_stale_when_stopped(self) -> None:
-        service = SimpleNamespace(running=False)
-
-        self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
-        )
-
-    def test_fedora_messaging_service_stale_when_factory_stopped(self) -> None:
-        service = SimpleNamespace(
-            running=True,
-            factory=SimpleNamespace(continueTrying=False),
-        )
-
-        self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
-        )
-
-    def test_fedora_messaging_service_not_stale_with_pending_retry(self) -> None:
-        service = SimpleNamespace(
-            running=True,
-            factory=SimpleNamespace(
-                _client=None,
-                _callID=object(),
-                continueTrying=True,
-                maxRetries=1,
-                retries=2,
-            ),
-        )
-
-        self.assertFalse(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
-        )
-
-    def test_prepare_fedora_messaging_service_resets_stale_service(self) -> None:
-        self.prepare_service_patcher.stop()
-        stale_service = MagicMock()
-        configured_service = SimpleNamespace(factory=SimpleNamespace())
-        fedora_messaging.api._twisted_service = stale_service  # ruff: ignore[private-member-access]
-        self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
-        result = MagicMock()
-
-        def run_in_reactor(function):
-            def wrapper():
-                function()
-                return result
-
-            return wrapper
-
-        with (
-            patch("crochet.setup") as setup,
-            patch("crochet.run_in_reactor", side_effect=run_in_reactor),
-            patch(
-                "fedora_messaging.api._init_twisted_service",
-                return_value=configured_service,
-            ) as init_service,
-            patch.object(
-                FedoraMessagingAddon,
-                "_is_fedora_messaging_service_stale",
-                return_value=True,
-            ),
-            patch.object(
-                FedoraMessagingAddon, "_reset_fedora_messaging_service"
-            ) as reset_service,
-            patch.object(
-                FedoraMessagingAddon, "_configure_fedora_messaging_publish_retries"
-            ) as configure_retries,
-        ):
-            FedoraMessagingAddon._prepare_fedora_messaging_service(  # ruff: ignore[private-member-access]
-                connection_attempts=4, retry_delay=6
-            )
-
-        setup.assert_called_once_with()
-        reset_service.assert_called_once_with()
-        init_service.assert_called_once_with()
-        configure_retries.assert_called_once_with(
-            configured_service, connection_attempts=4, retry_delay=6
-        )
-        result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
-
-    def test_prepare_fedora_messaging_service_cancels_on_timeout(self) -> None:
-        # ruff: ignore[import-outside-top-level]
-        import crochet
-
-        self.prepare_service_patcher.stop()
-        result = MagicMock()
-        result.wait.side_effect = crochet.TimeoutError
-        scheduled_functions = []
-
-        def run_in_reactor(function):
-            scheduled_functions.append(function)
-
-            def wrapper():
-                return result
-
-            return wrapper
-
-        with (
-            patch("crochet.setup"),
-            patch("crochet.run_in_reactor", side_effect=run_in_reactor),
-            patch("fedora_messaging.api._init_twisted_service") as init_service,
-            patch.object(
-                FedoraMessagingAddon,
-                "_is_fedora_messaging_service_stale",
-                return_value=False,
-            ),
-            self.assertRaises(crochet.TimeoutError),
-        ):
-            FedoraMessagingAddon._prepare_fedora_messaging_service(  # ruff: ignore[private-member-access]
-                connection_attempts=4, retry_delay=6
-            )
-
-        result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
-        result.cancel.assert_called_once_with()
-        scheduled_functions[0]()
-        init_service.assert_not_called()
-
-    def test_first_publish_timeout_is_reported_and_resets_service(self) -> None:
-        error = fedora_messaging_exceptions.PublishTimeout(
-            "Publishing timed out after waiting 30 seconds."
-        )
-
-        with (
-            patch.object(fedora_messaging.api, "_twisted_service", object()),
-            patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
-            patch("fedora_messaging.api.publish", side_effect=error),
-            patch("weblate.addons.fedora_messaging.cache.add", return_value=True),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-            self.assertRaisesMessage(
-                FedoraMessagingPublishError,
-                "broker connection or delivery confirmation did not complete",
-            ),
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
-        report_error.assert_called_once_with(
-            "Fedora Messaging publish failed",
-            exception=error,
-            level="error",
-            project=None,
-            skip_error_reporting=False,
-        )
-
-    def test_repeated_publish_timeout_is_logged_and_resets_service(self) -> None:
-        error = fedora_messaging_exceptions.PublishTimeout(
-            "Publishing timed out after waiting 30 seconds."
-        )
-
-        with (
-            patch.object(fedora_messaging.api, "_twisted_service", object()),
-            patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
-            patch("fedora_messaging.api.publish", side_effect=error),
-            patch("weblate.addons.fedora_messaging.add_breadcrumb") as add_breadcrumb,
-            patch("weblate.addons.fedora_messaging.cache.add", return_value=False),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-            self.assertRaisesMessage(
-                FedoraMessagingPublishError,
-                "broker connection or delivery confirmation did not complete",
-            ),
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
-        report_error.assert_called_once_with(
-            "Fedora Messaging publish failed",
-            exception=error,
-            level="error",
-            project=None,
-            skip_error_reporting=True,
-        )
-        add_breadcrumb.assert_called_once()
-        breadcrumb_values = add_breadcrumb.call_args.args + tuple(
-            add_breadcrumb.call_args.kwargs.values()
-        )
-        for value in breadcrumb_values:
-            self.assertNotIn("-----BEGIN CERTIFICATE-----", str(value))
-            self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
-
-    def test_missing_publisher_is_reported_and_resets_service(self) -> None:
-        error = AttributeError("'NoneType' object has no attribute 'publish'")
-        with (
-            patch.object(fedora_messaging.api, "_twisted_service", object()),
-            patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
-            patch(
-                "fedora_messaging.api.publish",
-                side_effect=error,
-            ),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-            self.assertRaisesMessage(
-                FedoraMessagingPublishError, "publisher service was unavailable"
-            ),
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
-        report_error.assert_called_once_with(
-            "Fedora Messaging publish failed",
-            exception=error,
-            level="error",
-            project=None,
-            skip_error_reporting=False,
-        )
-
-    def test_broker_rejection_is_reported(self) -> None:
-        error = fedora_messaging_exceptions.PublishForbidden("permission denied")
-        with (
-            patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
-            patch(
-                "fedora_messaging.api.publish",
-                side_effect=error,
-            ),
-            patch("weblate.addons.fedora_messaging.report_error") as report_error,
-            self.assertRaisesMessage(
-                FedoraMessagingPublishError, "broker rejected the message"
-            ),
-        ):
-            FedoraMessagingAddon.publish_message(
-                self.get_fedora_message(), self.addon_configuration["amqp_url"], None
-            )
-
-        report_error.assert_called_once_with(
-            "Fedora Messaging publish failed",
-            exception=error,
-            level="error",
-            project=None,
-            skip_error_reporting=False,
-        )
-
-    def test_reported_publish_failure_is_not_reported_twice(self) -> None:
-        self.WEBHOOK_CLS.create(
-            acting_user=self.user, configuration=self.addon_configuration
-        )
-
-        with (
-            patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
-            patch(
-                "fedora_messaging.api.publish",
-                side_effect=fedora_messaging_exceptions.PublishTimeout(
-                    "Publishing timed out after waiting 30 seconds."
-                ),
-            ),
-            patch(
-                "weblate.addons.fedora_messaging.report_error"
-            ) as fedora_report_error,
-            patch.object(
-                FedoraMessagingAddon, "_should_report_publish_error", return_value=False
-            ),
-            patch("weblate.addons.models.report_error") as generic_report_error,
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-
-        fedora_report_error.assert_called_once()
-        self.assertTrue(fedora_report_error.call_args.kwargs["skip_error_reporting"])
-        generic_report_error.assert_not_called()
-        activity_log = AddonActivityLog.objects.filter(
-            addon__name=self.WEBHOOK_CLS.name
-        ).latest("created")
-        self.assertEqual(activity_log.status, AddonActivityLog.Status.ERROR)
-        self.assertIn(
-            "broker connection or delivery confirmation did not complete",
-            activity_log.details["result"],
-        )
-
     @tempdir_setting("CACHE_DIR")
     def test_tls_credentials_validation_accepts_pem(self) -> None:
         FedoraMessagingAddon.configure_fedora_messaging(
             **self.get_tls_configuration(), force_update=True
         )
 
-    @tempdir_setting("CACHE_DIR")
-    def test_configure_fedora_messaging_uses_explicit_timing(self) -> None:
-        FedoraMessagingAddon.configure_fedora_messaging(
-            **self.get_tls_configuration(),
-            connection_attempts=4,
-            retry_delay=6,
-            force_update=True,
-        )
-
-        self.assertEqual(
-            fedora_messaging.config.conf["amqp_url"],
-            "amqps://rabbitmq.example.com?connection_attempts=4&retry_delay=6",
-        )
-
-    @tempdir_setting("CACHE_DIR")
-    def test_tls_credentials_validation_keeps_configuration_fast_path(self) -> None:
-        original = self.get_tls_configuration()
-        configuration: TLSConfiguration = {
-            "amqp_url": original["amqp_url"].rstrip(),
-            "ca_cert": original["ca_cert"].rstrip(),
-            "client_key": original["client_key"].rstrip(),
-            "client_cert": original["client_cert"].rstrip(),
-        }
-
-        FedoraMessagingAddon.configure_fedora_messaging(
-            **configuration, force_update=True
-        )
-
-        with patch.object(
-            FedoraMessagingAddon, "validate_tls_credentials"
-        ) as validate_tls_credentials:
-            FedoraMessagingAddon.configure_fedora_messaging(**configuration)
-
-        validate_tls_credentials.assert_not_called()
-
-    def test_configure_fedora_messaging_keeps_configuration_on_reset_failure(
-        self,
-    ) -> None:
-        messaging_config = fedora_messaging.config.conf
-        original_loaded = messaging_config.loaded
-        original_config = deepcopy(messaging_config.copy())
-
-        def restore_config() -> None:
-            messaging_config.loaded = True
-            messaging_config.clear()
-            messaging_config.update(original_config)
-            messaging_config.loaded = original_loaded
-
-        self.addCleanup(restore_config)
-        messaging_config.loaded = True
-        messaging_config.clear()
-        messaging_config.update(deepcopy(fedora_messaging.config.DEFAULTS))
-        messaging_config["amqp_url"] = "amqp://old.example.com"
-
-        with (
-            patch.object(
-                FedoraMessagingAddon,
-                "_reset_fedora_messaging_service",
-                return_value=False,
-            ) as reset_service,
-            self.assertRaisesMessage(
-                ConfigurationException,
-                "Could not reset Fedora Messaging publisher service.",
-            ),
-        ):
-            FedoraMessagingAddon.configure_fedora_messaging(
-                **self.get_tls_configuration(),
-                force_update=True,
-            )
-
-        reset_service.assert_called_once_with()
-        self.assertEqual(messaging_config["amqp_url"], "amqp://old.example.com")
-        self.assertNotIn("weblate_cert_hash", messaging_config["consumer_config"])
-
-    @tempdir_setting("CACHE_DIR")
-    def test_tls_credentials_are_written_with_separator(self) -> None:
-        configuration = {
-            key: value.rstrip() for key, value in self.get_tls_configuration().items()
-        }
-
-        FedoraMessagingAddon.configure_fedora_messaging(
-            **configuration, force_update=True
-        )
-        messaging_config = fedora_messaging.config.conf
-        key_file = Path(messaging_config["tls"]["keyfile"])
-        cert_file = Path(messaging_config["tls"]["certfile"])
-
-        self.assertTrue(key_file.read_text(encoding="utf-8").endswith("\n"))
-        self.assertTrue(cert_file.read_text(encoding="utf-8").endswith("\n"))
-        self.assertIn(
-            "-----END PRIVATE KEY-----\n-----BEGIN CERTIFICATE-----",
-            key_file.read_text(encoding="utf-8")
-            + cert_file.read_text(encoding="utf-8"),
-        )
-
     def test_broker_tls_validation_skips_plain_amqp(self) -> None:
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters"
-            ) as configure_tls_parameters,
-            patch(
-                "weblate.addons.fedora_messaging.socket.create_connection"
-            ) as create_connection,
-        ):
+        with patch(
+            "weblate.addons.fedora_messaging.socket.create_connection"
+        ) as create_connection:
             FedoraMessagingAddon.validate_broker_tls("amqp://rabbitmq.example.com")
 
-        configure_tls_parameters.assert_not_called()
         create_connection.assert_not_called()
-
-    def test_broker_tls_validation_uses_fedora_messaging_options(self) -> None:
-        broker_connection = MagicMock()
-        broker_connection.getpeername.return_value = ("93.184.216.34", 12345)
-        connection_context = MagicMock()
-        connection_context.__enter__.return_value = broker_connection
-        tls_connection = self.get_broker_tls_connection()
-        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
-
-        def configure_tls_parameters(parameters) -> None:
-            self.assertEqual(parameters.host, "rabbitmq.example.com")
-            self.assertEqual(parameters.port, 12345)
-            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
-                context=SimpleNamespace(), server_hostname=parameters.host
-            )
-
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters",
-                side_effect=configure_tls_parameters,
-            ) as configure_tls_parameters_mock,
-            patch(
-                "fedora_messaging.twisted.service._ssl_context_factory",
-                return_value=tls_context_factory,
-            ) as ssl_context_factory,
-            patch(
-                "weblate.addons.fedora_messaging.socket.create_connection",
-                return_value=connection_context,
-            ) as create_connection,
-        ):
-            FedoraMessagingAddon.validate_broker_tls(
-                "amqps://rabbitmq.example.com:12345?connection_attempts=3",
-                timeout=7,
-            )
-
-        configure_tls_parameters_mock.assert_called_once()
-        ssl_context_factory.assert_called_once()
-        create_connection.assert_called_once_with(
-            ("rabbitmq.example.com", 12345), timeout=7
-        )
-        broker_connection.settimeout.assert_any_call(7)
-        broker_connection.getpeername.assert_called_once_with()
-        tls_context_factory.clientConnectionForTLS.assert_called_once()
-        tls_connection.set_connect_state.assert_called_once_with()
-        tls_connection.do_handshake.assert_called_once_with()
-        tls_connection.bio_read.assert_called_once_with(2**15)
-
-    def test_broker_tls_probe_protocol_matches_twisted_factory_shape(self) -> None:
-        # ruff: ignore[import-outside-top-level]
-        from twisted.internet import (
-            ssl as twisted_ssl,
-        )
-
-        tls_context_factory = twisted_ssl.optionsForClientTLS("rabbitmq.example.com")
-
-        tls_connection = tls_context_factory.clientConnectionForTLS(
-            BrokerTLSProbeProtocol()
-        )
-
-        self.assertIsInstance(tls_connection, SSL.Connection)
-
-    def test_broker_tls_handshake_pumps_twisted_memory_bio(self) -> None:
-        broker_connection = MagicMock()
-        broker_connection.recv.return_value = b"server hello"
-        tls_connection = self.get_broker_tls_connection()
-        tls_connection.do_handshake.side_effect = [SSL.WantReadError(), None]
-        tls_connection.bio_read.side_effect = [
-            b"client hello",
-            SSL.WantReadError(),
-            SSL.WantReadError(),
-        ]
-        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
-
-        FedoraMessagingAddon._perform_broker_tls_handshake(  # ruff: ignore[private-member-access]
-            broker_connection, tls_context_factory, timeout=7
-        )
-
-        tls_connection.set_connect_state.assert_called_once_with()
-        self.assertEqual(tls_connection.do_handshake.call_count, 2)
-        broker_connection.sendall.assert_called_once_with(b"client hello")
-        broker_connection.recv.assert_called_once_with(2**15)
-        tls_connection.bio_write.assert_called_once_with(b"server hello")
-
-    def test_broker_tls_handshake_enforces_deadline(self) -> None:
-        broker_connection = MagicMock()
-        broker_connection.recv.return_value = b"server hello"
-        tls_connection = self.get_broker_tls_connection()
-        tls_connection.do_handshake.side_effect = [SSL.WantReadError()]
-        tls_connection.bio_read.side_effect = SSL.WantReadError()
-        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
-
-        with (
-            patch(
-                "weblate.addons.fedora_messaging.time",
-                monotonic=MagicMock(side_effect=[0, 0, 8]),
-            ),
-            self.assertRaisesMessage(TimeoutError, "TLS handshake timed out"),
-        ):
-            FedoraMessagingAddon._perform_broker_tls_handshake(  # ruff: ignore[private-member-access]
-                broker_connection, tls_context_factory, timeout=7
-            )
-
-        broker_connection.recv.assert_not_called()
-
-    def test_broker_tls_validation_reports_certificate_error(self) -> None:
-        broker_connection = MagicMock()
-        broker_connection.getpeername.return_value = ("93.184.216.34", 5671)
-        connection_context = MagicMock()
-        connection_context.__enter__.return_value = broker_connection
-        tls_connection = self.get_broker_tls_connection()
-        tls_connection.do_handshake.side_effect = SSL.Error("certificate verify failed")
-        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
-
-        def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
-                context=SimpleNamespace(), server_hostname=parameters.host
-            )
-
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters",
-                side_effect=configure_tls_parameters,
-            ),
-            patch(
-                "fedora_messaging.twisted.service._ssl_context_factory",
-                return_value=tls_context_factory,
-            ),
-            patch(
-                "weblate.addons.fedora_messaging.socket.create_connection",
-                return_value=connection_context,
-            ),
-            self.assertRaisesMessage(
-                ConfigurationException,
-                "Could not verify TLS connection to the Fedora Messaging broker",
-            ),
-        ):
-            FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
-
-    def test_broker_tls_validation_rejects_private_peer_before_handshake(self) -> None:
-        broker_connection = MagicMock()
-        broker_connection.getpeername.return_value = ("127.0.0.1", 5671)
-        connection_context = MagicMock()
-        connection_context.__enter__.return_value = broker_connection
-        tls_context_factory = self.get_broker_tls_context_factory()
-
-        def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
-                context=SimpleNamespace(), server_hostname=parameters.host
-            )
-
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters",
-                side_effect=configure_tls_parameters,
-            ),
-            patch(
-                "fedora_messaging.twisted.service._ssl_context_factory",
-                return_value=tls_context_factory,
-            ),
-            patch(
-                "weblate.addons.fedora_messaging.socket.create_connection",
-                return_value=connection_context,
-            ),
-            self.assertRaisesMessage(
-                ConfigurationException,
-                "internal or non-public address",
-            ),
-        ):
-            FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
-
-        tls_context_factory.clientConnectionForTLS.assert_not_called()
-
-    def test_broker_tls_validation_reports_connection_error(self) -> None:
-        def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
-                context=SimpleNamespace(),
-                server_hostname=parameters.host,
-            )
-
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters",
-                side_effect=configure_tls_parameters,
-            ),
-            patch(
-                "fedora_messaging.twisted.service._ssl_context_factory",
-                return_value=self.get_broker_tls_context_factory(),
-            ),
-            patch(
-                "weblate.addons.fedora_messaging.socket.create_connection",
-                side_effect=OSError("connection refused"),
-            ),
-            self.assertRaisesMessage(
-                ConfigurationException,
-                "Could not verify TLS connection to the Fedora Messaging broker",
-            ),
-        ):
-            FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
-
-    def test_broker_tls_validation_reports_tls_configuration_error(self) -> None:
-        with (
-            patch(
-                "fedora_messaging.twisted.service._configure_tls_parameters",
-                side_effect=ConfigurationException("bad TLS configuration"),
-            ),
-            self.assertRaisesMessage(
-                ConfigurationException,
-                "Could not verify TLS connection to the Fedora Messaging broker",
-            ),
-        ):
-            FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
 
     @tempdir_setting("CACHE_DIR")
     def test_tls_credentials_validation_rejects_private_key(self) -> None:
@@ -13578,7 +12623,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         configuration["client_key"] = "not a private key"
 
         with self.assertRaisesMessage(
-            ConfigurationException,
+            FedoraMessagingConfigurationError,
             "Client SSL key must be an unencrypted PEM encoded private key.",
         ):
             FedoraMessagingAddon.configure_fedora_messaging(
@@ -13617,7 +12662,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         with patch.object(
             FedoraMessagingAddon,
             "validate_broker_tls",
-            side_effect=ConfigurationException(
+            side_effect=FedoraMessagingConfigurationError(
                 "Could not verify TLS connection to the Fedora Messaging broker: "
                 "certificate verify failed"
             ),
@@ -13790,9 +12835,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 params,
                 follow=True,
             )
-        validate_tls.assert_called_once_with(
-            "amqps://rabbitmq.example.com?connection_attempts=1&retry_delay=2"
-        )
+        validate_tls.assert_called_once_with("amqps://rabbitmq.example.com")
         self.assertContains(response, "Installed 1 add-on")
         addon = Addon.objects.get(name=self.WEBHOOK_CLS.name)
         self.assertEqual(
