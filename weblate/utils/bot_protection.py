@@ -479,6 +479,14 @@ class BotProtectionMiddleware(MiddlewareMixin):
         self.crawlers = CrawlerRanges()
         if not self.enabled:
             return
+        try:
+            self.exempt_agents = tuple(
+                re.compile(pattern, re.IGNORECASE)
+                for pattern in option("EXEMPT_AGENTS", list[str]())
+            )
+        except re.error as error:
+            msg = "Invalid BOT_PROTECTION_EXEMPT_AGENTS regular expression"
+            raise ImproperlyConfigured(msg) from error
         for name, default, maximum in (
             ("DIFFICULTY", 4, 6),
             ("CHALLENGE_AGE", 300, 3600),
@@ -540,6 +548,10 @@ class BotProtectionMiddleware(MiddlewareMixin):
                 for item in option("EXEMPT_PATHS", list[str]())
             )
             or (path.startswith("/api/") and not accepts_html(request))
+            or any(
+                pattern.search(request.headers.get("user-agent", "")[:1024])
+                for pattern in self.exempt_agents
+            )
             or clearance(request)
         ):
             return None
