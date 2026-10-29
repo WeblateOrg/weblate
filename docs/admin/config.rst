@@ -3402,3 +3402,174 @@ The following configuration is available for each host:
 
    In the Docker container, the credentials can be configured using environment variables,
    see :ref:`docker-vcs-config`.
+
+.. _bot-protection:
+
+Anonymous bot protection
+------------------------
+
+.. versionadded:: 2026.11
+
+.. warning::
+
+   This feature is a technology preview for evaluating application-aware bot
+   protection as an alternative to Anubis. Its configuration and behavior may
+   change, and it may be removed if it does not prove sufficiently useful.
+   Long-term maintenance is not guaranteed.
+
+.. setting:: BOT_PROTECTION_ENABLED
+
+``BOT_PROTECTION_ENABLED``
+++++++++++++++++++++++++++
+
+Default: ``False``. Enable self-hosted, proactive proof of work for anonymous
+visitors. Place ``weblate.utils.bot_protection.BotProtectionMiddleware`` after
+Django's session middleware and before Weblate's authentication middleware,
+following the example settings. Authenticated users bypass protection, including
+when no proof-of-work cookie exists. Existing authentication and API rate limits
+remain in effect. Proof of work never grants authentication or permissions.
+
+Anonymous HTML GET requests receive an automatic challenge. HEAD and unsafe
+methods receive HTTP 403 without challenge HTML; request bodies are never
+replayed. REST API requests without an explicit HTML Accept media type are
+exempt. HTML API browsing requires verification. Changing Accept on a regular
+page route does not exempt it. Authentication, hooks, widgets, feeds, OIDC provider routes under ``/oidc/``,
+static, health, robots, and well-known routes are exempt. The JavaScript translation
+catalog and :ref:`git-exporter` protocol routes, including clone redirects, are
+also exempt so they can use their existing localization and authentication.
+
+.. setting:: BOT_PROTECTION_DIFFICULTY
+
+``BOT_PROTECTION_DIFFICULTY``
++++++++++++++++++++++++++++++
+
+Default: ``4``. Number of leading hexadecimal zeroes required, from 1 to 6.
+Four zeroes require an average of 65,536 SHA-256 attempts. ALTCHA v2 runs with
+SHA-256 and cost 1: challenge generation performs no candidate hashing and
+verification performs one candidate hash, independent of difficulty. Registration
+and other form CAPTCHAs retain their existing Argon2id configuration.
+
+.. setting:: BOT_PROTECTION_CHALLENGE_AGE
+.. setting:: BOT_PROTECTION_COOKIE_AGE
+
+Challenge and clearance lifetime
+++++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_CHALLENGE_AGE`` defaults to 300 seconds (allowed: 1–3600).
+``BOT_PROTECTION_COOKIE_AGE`` defaults to 3600 seconds (allowed: 1–86400).
+Clearance has a fixed expiry and is bound to the client IP and deployment.
+Cookies are host-only, Secure, HttpOnly, and SameSite=Lax. HTTPS is required.
+Network changes require another challenge. Shared NAT clients can share copied
+clearance; PoW increases harvesting cost but does not prevent capable solvers.
+
+The challenge uses a separate CSRF cookie and Django's token and origin checks,
+without creating an application session. Browser workers calculate the solution
+without blocking the main thread. Visitors without JavaScript or workers can
+sign in instead. Challenge assets must be available from the same origin.
+
+.. setting:: BOT_PROTECTION_CACHE_ALIAS
+
+``BOT_PROTECTION_CACHE_ALIAS``
+++++++++++++++++++++++++++++++
+
+Default: ``"default"``. Shared Redis or Memcached cache used to atomically consume
+valid solutions once. No replay entries are created for unsolved challenges.
+Cache failures reject verification with HTTP 503. Ordinary clearance checks and
+sessionless challenge generation do not access the database or shared cache.
+Keep the replay cache available and sized to retain entries through challenge
+expiry: eviction or cache loss can permit reuse of otherwise valid solutions.
+Normal Django session validation still accesses the configured session backend.
+
+.. setting:: BOT_PROTECTION_EXEMPT_PATHS
+
+``BOT_PROTECTION_EXEMPT_PATHS``
++++++++++++++++++++++++++++++++
+
+Default: ``[]``. Additional paths relative to the Weblate deployment prefix.
+A trailing slash exempts that entire path prefix; other entries match exactly.
+Use narrow exceptions for integrations that cannot solve challenges.
+
+.. setting:: BOT_PROTECTION_CRAWLER_FILE
+.. setting:: BOT_PROTECTION_CRAWLER_RULES
+
+Verified crawler configuration
+++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_CRAWLER_FILE`` defaults to an empty string, selecting the packaged
+IP snapshot. The initial set follows Anubis's IP-based allowed-crawler definitions
+and adds SeznamBot:
+
+* Googlebot, Bingbot, Applebot, DuckDuckBot, QwantBot, MojeekBot, Marginalia,
+  Common Crawl (CCBot), Arquivo.pt, and SeznamBot use official address feeds.
+* KagiBot, Internet Archive, and Wikimedia's Citoid and Zotero translation
+  services use reviewed bundled ranges, maintained with Weblate releases.
+
+Verification requires a matching User-Agent and source IP. Internet Archive and
+Arquivo.pt deliberately allow their listed networks regardless of User-Agent,
+following Anubis so that browser-like archival requests work. These exceptions
+trust the service networks, not individual crawler processes. No crawler bypass
+grants authentication or access to private content.
+
+Set an absolute writable filename and run ``weblate update_crawler_ranges`` daily
+using an operator-managed scheduler. It downloads bounded datasets only from
+fixed official HTTPS sources and publishes validated updates atomically. A failed
+provider retains its previous ranges and retrieval time; successful providers
+still update. The command exits unsuccessfully and lists failed providers, so
+monitor its exit status. Administrator-defined entries are preserved.
+HTTP requests never download ranges or perform DNS lookups.
+
+Each downloaded provider's ranges expire seven days after its last successful
+retrieval. An unchanged upstream publication date does not make a freshly
+retrieved feed stale. Reviewed bundled ranges have no automatic expiry and are
+updated through Weblate releases. Processes reload snapshots at most once per
+minute and compile patterns and networks during loading.
+
+``BOT_PROTECTION_CRAWLER_RULES`` defaults to ``{}`` and extends or overrides the
+mapping from provider identifiers to User-Agent regular expressions. Built-in
+identifiers are ``googlebot``, ``bingbot``, ``applebot``, ``duckduckbot``,
+``qwantbot``, ``mojeekbot``, ``marginalia``, ``commoncrawl``, ``arquivo-pt``,
+``seznambot``, ``kagibot``, ``internet-archive``, and ``wikimedia-citoid``.
+Custom providers must also have verified CIDRs in the local snapshot's ``ranges``
+mapping and a Unix retrieval timestamp in its ``refreshed_at`` mapping, both keyed
+by provider identifier. Record official sources when maintaining custom ranges.
+
+.. setting:: BOT_PROTECTION_UNWANTED_AGENTS
+.. setting:: BOT_PROTECTION_UNWANTED_ACTION
+
+Unwanted crawler configuration
+++++++++++++++++++++++++++++++
+
+``BOT_PROTECTION_UNWANTED_AGENTS`` defaults to ``[]`` and accepts User-Agent
+regular expressions. ``BOT_PROTECTION_UNWANTED_ACTION`` defaults to
+``"challenge"``; use ``"deny"`` to return HTTP 403 instead. Valid clearance and
+session authentication take precedence. These rules are an administrative
+policy, not verified identity. No GeoIP, fingerprinting, or behavioral scoring
+is performed.
+
+Deploy behind HTTPS and configure :ref:`reverse-proxy` client-IP handling
+correctly. Do not trust client-supplied forwarding headers. Disable shared proxy
+caching for protected application routes and preserve no-store responses and
+cookies. Apply proxy body-size and connection limits: application PoW does not
+protect against volumetric network attacks.
+
+Benchmarking
+++++++++++++
+
+Use a disposable HTTPS deployment with production-like data and proxy caching
+disabled. Copy Cookie headers for an authenticated browser and a cleared anonymous
+browser into separate private files. Run the following command, supplying all
+application worker process IDs with repeated ``--server-pid`` arguments::
+
+    .venv/bin/python scripts/benchmark-bot-protection.py https://test.example/projects/ \
+        --authenticated-cookie-file /tmp/auth-cookie \
+        --clearance-cookie-file /tmp/pow-cookie --server-pid 1234
+
+The script reports requests per second, worker CPU seconds, resident memory,
+status counts, and p50/p95/p99 latency at concurrency 1, 32, and 128. It compares
+authenticated, cleared anonymous, new anonymous, and repeated unsolved requests.
+Distinct anonymous cookie states simulate many visitors without creating Django
+sessions; to measure distinct source IPs, run load generators on multiple hosts.
+Supply process IDs for the shared cache as well when measuring its CPU cost.
+Cookie files contain credentials: remove them after the benchmark. Record machine
+specifications, worker counts, page data, proxy configuration, and cache setup
+alongside results. Check status counts to catch expired cookies during a run.

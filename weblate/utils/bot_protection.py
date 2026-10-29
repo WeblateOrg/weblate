@@ -1,0 +1,500 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""Cheap, application-aware anonymous proof of work, independent of authentication."""
+
+from __future__ import annotations
+
+import json
+import re
+import time
+from ipaddress import IPv4Network, IPv6Network, ip_address
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+from altcha import Payload, create_challenge, verify_solution
+from django.conf import settings
+from django.contrib import auth
+from django.core import signing
+from django.core.cache import caches
+from django.core.cache.backends.memcached import BaseMemcachedCache
+from django.core.cache.backends.redis import RedisCache
+from django.core.exceptions import ImproperlyConfigured, RequestDataTooBig
+from django.http import HttpResponse, HttpResponseBase, JsonResponse
+
+# Django has no public validator for an alternate CSRF cookie.
+from django.middleware import csrf
+from django.middleware.csrf import CsrfViewMiddleware, get_token
+from django.template.loader import get_template
+from django.urls import Resolver404, resolve
+from django.utils.crypto import salted_hmac
+from django.utils.decorators import decorator_from_middleware
+from django.utils.deprecation import MiddlewareMixin
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.module_loading import import_string
+from django.utils.translation import get_language_from_request, override
+from django_redis.cache import RedisCache as DjangoRedisCache
+
+from weblate.utils.crawlers import (
+    CRAWLERS,
+    MAX_AGE,
+    MAX_DOWNLOAD,
+    SNAPSHOT,
+    public_network,
+)
+from weblate.utils.urls import GitPathConverter
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from django.http import HttpRequest
+
+COOKIE = "weblate_pow"
+VERIFY_PATH = "/-/pow/verify/"
+# Prefixes end in '/' so similarly named application routes are not exempt.
+EXEMPT = (
+    "/static/",
+    "/accounts/",
+    "/hooks/",
+    "/oidc/",
+    "/widget/",
+    "/widgets/",
+    "/exports/rss/",
+    "/changes/rss/",
+    "/.well-known/",
+    "/machinery/etranslation/callback/",
+)
+EXACT = {
+    "/healthz/",
+    "/robots.txt",
+    "/favicon.ico",
+    "/manage/discovery/callback/",
+    "/js/i18n/",
+}
+GIT_PROTOCOL_PATH = re.compile(rf"/(?:git|projects)/.+/{GitPathConverter.regex}\Z")
+HEX32 = re.compile(r"[0-9a-f]{32}\Z")
+HEX64 = re.compile(r"[0-9a-f]{64}\Z")
+
+
+def option[T](name: str, default: T) -> T:
+    return getattr(settings, f"BOT_PROTECTION_{name}", default)
+
+
+def prefix() -> str:
+    return (
+        "/" + settings.URL_PREFIX.strip("/") if settings.URL_PREFIX.strip("/") else ""
+    )
+
+
+def binding(request: HttpRequest) -> str:
+    # Never consume forwarding headers here: ProxyMiddleware is the trust boundary.
+    address = str(ip_address(request.META["REMOTE_ADDR"]))
+    return salted_hmac("weblate.pow.ip", address).hexdigest()
+
+
+def secret(request: HttpRequest) -> str:
+    return salted_hmac(
+        "weblate.pow.challenge", request.get_host() + prefix()
+    ).hexdigest()
+
+
+def safe_target(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) <= 2048
+        and value.startswith(prefix() + "/")
+        and not value.startswith("//")
+        and "\\" not in value
+        and not any(ord(char) < 32 for char in value)
+        and url_has_allowed_host_and_scheme(value, allowed_hosts=set())
+    )
+
+
+def clearance(request: HttpRequest) -> bool:
+    value = request.COOKIES.get(COOKIE, "")
+    if len(value) > 1024:
+        return False
+    try:
+        data = signing.loads(
+            value, salt="weblate.pow.clearance", max_age=option("COOKIE_AGE", 3600)
+        )
+        return data == {
+            "ip": binding(request),
+            "host": request.get_host(),
+            "prefix": prefix(),
+            "v": 1,
+        }
+    except (signing.BadSignature, ValueError, KeyError):
+        return False
+
+
+def headers(response: HttpResponse) -> HttpResponse:
+    response["Cache-Control"] = "private, no-store"
+    response["X-Robots-Tag"] = "noindex, nofollow"
+    response["X-Content-Type-Options"] = "nosniff"
+    response["X-Frame-Options"] = "DENY"
+    response["Content-Security-Policy"] = (
+        "default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+    )
+    return response
+
+
+class ProofCSRF(CsrfViewMiddleware):
+    """Standard Django CSRF validation with a separate cookie, avoiding sessions."""
+
+    def _reject(self, request: HttpRequest, reason: str) -> HttpResponse:
+        # The normal failure template loads application context processors.
+        return headers(JsonResponse({"error": "csrf_failed"}, status=403))
+
+    def _get_secret(self, request: HttpRequest) -> str | None:
+        value = request.COOKIES.get("weblate_pow_csrf")
+        if value is not None:
+            vars(csrf)["_check_token_format"](value)
+        return value
+
+    def _set_csrf_cookie(self, request: HttpRequest, response: HttpResponse) -> None:
+        response.set_cookie(
+            "weblate_pow_csrf",
+            request.META["CSRF_COOKIE"],
+            secure=True,
+            httponly=True,
+            samesite="Lax",
+            path=prefix() + "/",
+            max_age=option("CHALLENGE_AGE", 300),
+        )
+
+
+proof_csrf = decorator_from_middleware(ProofCSRF)
+
+
+@proof_csrf
+def challenge_page(request: HttpRequest) -> HttpResponse:
+    target = request.get_full_path()
+    if not safe_target(target):
+        return headers(JsonResponse({"error": "invalid_target"}, status=400))
+    expires_at = int(time.time()) + option("CHALLENGE_AGE", 300)
+    challenge = create_challenge(
+        "SHA-256",
+        1,
+        key_prefix="0" * option("DIFFICULTY", 4),
+        expires_at=expires_at,
+        data={"ip": binding(request), "target": target, "v": 1},
+        hmac_secret=secret(request),
+    )
+    # No request context processors: these can query models and load a session.
+    with override(get_language_from_request(request)):
+        content = get_template("bot-challenge.html").render(
+            {
+                "challenge": challenge.to_dict(),
+                "challenge_timeout": max(0, int((expires_at - time.time()) * 1000)),
+                "verify_url": prefix() + VERIFY_PATH,
+                "csrf_token": get_token(request),
+                "language": get_language_from_request(request),
+                "login_url": prefix() + "/accounts/login/",
+            }
+        )
+    return headers(HttpResponse(content, status=403))
+
+
+# The flat checks make the accepted protocol explicit before library dispatch.
+def validated_payload(request: HttpRequest) -> dict:
+    """Bound the input before invoking the fixed-cost ALTCHA verifier."""
+    if int(request.headers.get("content-length") or 0) > 8192:
+        raise ValueError
+    # Bounded read also covers absent/incorrect Content-Length.
+    body = request.read(8193)
+    if len(body) > 8192:
+        raise ValueError
+    raw = json.loads(body)
+    p = raw["challenge"]["parameters"]
+    s = raw["solution"]
+    if (
+        p["algorithm"] != "SHA-256"
+        or not isinstance(p["cost"], int)
+        or isinstance(p["cost"], bool)
+        or p["cost"] != 1
+        or p["keyLength"] != 32
+        or p["keyPrefix"] != "0" * option("DIFFICULTY", 4)
+        or set(p)
+        != {
+            "algorithm",
+            "cost",
+            "keyLength",
+            "keyPrefix",
+            "nonce",
+            "salt",
+            "expiresAt",
+            "data",
+        }
+    ):
+        raise ValueError
+    if (
+        not HEX32.fullmatch(p["nonce"])
+        or not HEX32.fullmatch(p["salt"])
+        or not HEX64.fullmatch(raw["challenge"]["signature"])
+        or not HEX64.fullmatch(s["derivedKey"])
+    ):
+        raise ValueError
+    if (
+        not isinstance(s["counter"], int)
+        or isinstance(s["counter"], bool)
+        or not 0 <= s["counter"] <= 0xFFFFFFFF
+        or not isinstance(p["expiresAt"], int)
+        or isinstance(p["expiresAt"], bool)
+        or not time.time()
+        < p["expiresAt"]
+        <= time.time() + option("CHALLENGE_AGE", 300)
+        or p["data"] != {"ip": binding(request), "target": p["data"]["target"], "v": 1}
+        or not safe_target(p["data"]["target"])
+    ):
+        raise ValueError
+    payload = Payload.from_dict(raw)
+    if not verify_solution(payload, secret(request)).verified:
+        raise ValueError
+    return raw
+
+
+@proof_csrf
+def verify(request: HttpRequest) -> HttpResponse:
+    if not option("ENABLED", False):
+        return HttpResponse(status=404)
+    if request.method != "POST":
+        return headers(JsonResponse({"error": "method_not_allowed"}, status=405))
+    try:
+        raw = validated_payload(request)
+        p = raw["challenge"]["parameters"]
+    except (
+        ValueError,
+        TypeError,
+        KeyError,
+        AttributeError,
+        RecursionError,
+        RequestDataTooBig,
+    ):
+        return headers(JsonResponse({"error": "invalid_solution"}, status=400))
+    try:
+        consumed = caches[option("CACHE_ALIAS", "default")].add(
+            "pow:" + raw["challenge"]["signature"],
+            True,
+            timeout=max(1, int(p["expiresAt"] - time.time()) + 1),
+        )
+    except Exception:
+        return headers(JsonResponse({"error": "verification_unavailable"}, status=503))
+    if not consumed:
+        return headers(JsonResponse({"error": "replayed_challenge"}, status=409))
+    response = JsonResponse({"redirect": p["data"]["target"]})
+    response.set_cookie(
+        COOKIE,
+        signing.dumps(
+            {
+                "ip": binding(request),
+                "host": request.get_host(),
+                "prefix": prefix(),
+                "v": 1,
+            },
+            salt="weblate.pow.clearance",
+        ),
+        max_age=option("COOKIE_AGE", 3600),
+        secure=True,
+        httponly=True,
+        samesite="Lax",
+        path=prefix() + "/",
+    )
+    return headers(response)
+
+
+class CrawlerRanges:
+    """Process-local snapshot, refreshed without request-time network access."""
+
+    def __init__(self) -> None:
+        self.checked = float("-inf")
+        self.ranges: dict[str, list[IPv4Network | IPv6Network]] = {}
+        self.rules = {
+            name: re.compile(pattern, re.IGNORECASE)
+            for name, pattern in {
+                **{name: crawler.agent for name, crawler in CRAWLERS.items()},
+                **option("CRAWLER_RULES", dict[str, str]()),
+            }.items()
+        }
+
+    def reload(self) -> None:
+        self.ranges = {
+            name: [public_network(value) for value in crawler.ranges]
+            for name, crawler in CRAWLERS.items()
+            if crawler.format == "bundled"
+        }
+        filename = (
+            Path(option("CRAWLER_FILE", "")) if option("CRAWLER_FILE", "") else SNAPSHOT
+        )
+        try:
+            with filename.open("rb") as source:
+                raw = source.read(MAX_DOWNLOAD + 1)
+            if len(raw) > MAX_DOWNLOAD:
+                return
+            data = json.loads(raw)
+            refreshed = data["refreshed_at"]
+        except (
+            OSError,
+            ValueError,
+            KeyError,
+            TypeError,
+            AttributeError,
+            RecursionError,
+        ):
+            return
+        now = time.time()
+        if not isinstance(data.get("ranges"), dict):
+            return
+        for name, values in data["ranges"].items():
+            try:
+                timestamp = refreshed[name]
+                if (
+                    not isinstance(timestamp, (int, float))
+                    or isinstance(timestamp, bool)
+                    or not now - MAX_AGE < timestamp <= now
+                ):
+                    continue
+                self.ranges[name] = [public_network(value) for value in values]
+            except (ValueError, KeyError, TypeError):
+                continue
+
+    def verified(self, request: HttpRequest) -> bool:
+        now = time.monotonic()
+        if now - self.checked > 60:
+            self.checked = now
+            self.reload()
+        ua = request.headers.get("user-agent", "")[:1024]
+        try:
+            address = ip_address(request.META["REMOTE_ADDR"])
+        except (KeyError, ValueError):
+            return False
+        return any(
+            pattern.search(ua)
+            and any(address in network for network in self.ranges.get(name, ()))
+            for name, pattern in self.rules.items()
+        )
+
+
+def is_git_protocol(request: HttpRequest, path: str) -> bool:
+    """Let exporter requests and clone redirects reach their own authentication."""
+    if (
+        "weblate.gitexport" not in settings.INSTALLED_APPS
+        or not GIT_PROTOCOL_PATH.fullmatch(path)
+    ):
+        return False
+    try:
+        match = resolve(request.path_info, getattr(request, "urlconf", None))
+    except Resolver404:
+        return False
+    # Resolve only candidate transport URLs: project routes can otherwise overlap
+    # with clone aliases. Browser-facing redirects to project pages stay protected.
+    return (
+        match.url_name == "git-export"
+        or getattr(match.func, "view_initkwargs", {}).get("pattern_name")
+        == "git-export"
+    )
+
+
+def accepts_html(request: HttpRequest) -> bool:
+    """Require an explicit positive HTML preference, not a wildcard Accept."""
+    return any(
+        media.split(";", 1)[0].strip().lower() in {"text/html", "application/xhtml+xml"}
+        and not re.search(r";\s*q=0(?:\.0*)?\s*(?:;|$)", media.lower())
+        for media in request.headers.get("accept", "").split(",")
+    )
+
+
+class BotProtectionMiddleware(MiddlewareMixin):
+    """Early gate; real Django authentication always takes precedence over bot rules."""
+
+    def __init__(self, get_response: Callable) -> None:
+        super().__init__(get_response)
+        self.enabled = option("ENABLED", False)
+        self.crawlers = CrawlerRanges()
+        if not self.enabled:
+            return
+        for name, default, maximum in (
+            ("DIFFICULTY", 4, 6),
+            ("CHALLENGE_AGE", 300, 3600),
+            ("COOKIE_AGE", 3600, 86400),
+        ):
+            value = option(name, default)
+            if (
+                not isinstance(value, int)
+                or isinstance(value, bool)
+                or not 1 <= value <= maximum
+            ):
+                msg = f"Invalid BOT_PROTECTION_{name}"
+                raise ImproperlyConfigured(msg)
+        backend = settings.CACHES[option("CACHE_ALIAS", "default")]["BACKEND"]
+        if not issubclass(
+            import_string(str(backend)),
+            (RedisCache, DjangoRedisCache, BaseMemcachedCache),
+        ):
+            msg = "Bot protection requires a shared Redis or Memcached cache"
+            raise ImproperlyConfigured(msg)
+        if option("UNWANTED_ACTION", "challenge") not in {"challenge", "deny"}:
+            msg = "Invalid BOT_PROTECTION_UNWANTED_ACTION"
+            raise ImproperlyConfigured(msg)
+        for path in option("EXEMPT_PATHS", list[str]()):
+            if not path.startswith("/") or "?" in path or "\\" in path:
+                msg = "Invalid BOT_PROTECTION_EXEMPT_PATHS"
+                raise ImproperlyConfigured(msg)
+        for pattern in [
+            *option("CRAWLER_RULES", dict[str, str]()).values(),
+            *option("UNWANTED_AGENTS", list[str]()),
+        ]:
+            re.compile(pattern)
+
+    def classify(self, request: HttpRequest) -> str:
+        """Policy seam for future behavioral signals; never changes authentication."""
+        if self.crawlers.verified(request):
+            return "allow"
+        if option("UNWANTED_ACTION", "challenge") == "deny" and any(
+            re.search(
+                pattern, request.headers.get("user-agent", "")[:1024], re.IGNORECASE
+            )
+            for pattern in option("UNWANTED_AGENTS", list[str]())
+        ):
+            return "deny"
+        return "challenge"
+
+    def process_request(self, request: HttpRequest) -> HttpResponseBase | None:
+        if not self.enabled:
+            return None
+        path = request.path_info.removeprefix(prefix())
+        if path == VERIFY_PATH:
+            return verify(request)
+        if (
+            path in EXACT
+            or is_git_protocol(request, path)
+            or path.startswith(EXEMPT)
+            or any(
+                path == item or (item.endswith("/") and path.startswith(item))
+                for item in option("EXEMPT_PATHS", list[str]())
+            )
+            or (path.startswith("/api/") and not accepts_html(request))
+            or clearance(request)
+        ):
+            return None
+        if settings.SESSION_COOKIE_NAME in request.COOKIES:
+            user = auth.get_user(request)
+            request.__dict__["pow_authenticated_user"] = user
+            if user.is_authenticated:
+                return None
+        decision = self.classify(request)
+        if decision == "allow":
+            return None
+        denied = decision == "deny"
+        if not denied and request.method == "GET" and accepts_html(request):
+            return challenge_page(request)
+        response = JsonResponse(
+            {
+                "error": "bot_denied" if denied else "pow_required",
+                "verification_url": prefix() + VERIFY_PATH,
+            },
+            status=403,
+        )
+        if request.method == "HEAD":
+            response.content = b""
+        return headers(response)

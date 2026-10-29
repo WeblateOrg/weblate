@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Added optional self-hosted :ref:`bot-protection` as a technology preview, with proactive anonymous proof of work and verified crawler exemptions.
+
 * Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.
 
 * Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.

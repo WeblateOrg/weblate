@@ -65,6 +65,7 @@ from weblate.trans.views.changes import (
     show_change,
 )
 from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
+from weblate.utils.bot_protection import verify as verify_pow
 from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.version import VERSION
 
@@ -101,6 +102,7 @@ if URL_PREFIX:
     URL_PREFIX = f"{URL_PREFIX.strip('/')}/"
 
 real_patterns = [
+    path("-/pow/verify/", login_not_required(verify_pow), name="verify-pow"),
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     path(

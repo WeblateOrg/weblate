@@ -1,0 +1,32 @@
+{% load i18n static %}
+
+<!DOCTYPE html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% translate "Checking your browser" %}</title>
+    <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5.css' %}">
+    <script src="{% static 'js/bot-challenge.js' %}" defer></script>
+  </head>
+  <body>
+    <main class="container py-5">
+      <h1>{% translate "Checking your browser" %}</h1>
+      <p>{% translate "Your browser will calculate a short proof of work to protect this site against automated scraping." %}</p>
+      <p id="pow-status" role="status" aria-live="polite" aria-atomic="true">{% translate "Working…" %}</p>
+      <p id="pow-error" hidden>{% translate "Verification failed. Enable JavaScript, workers, and cookies, then retry. You can also sign in." %}</p>
+      <noscript>
+        <p>{% translate "JavaScript is required for anonymous access. You can sign in instead." %}</p>
+      </noscript>
+      <button id="pow-retry" type="button" class="btn btn-primary">{% translate "Retry" %}</button>
+      <a href="{{ login_url }}">{% translate "Sign in" %}</a>
+      <form id="pow-form"
+            data-url="{{ verify_url }}"
+            data-timeout="{{ challenge_timeout }}"
+            data-worker="{% static 'js/bot-worker.js' %}">
+        {% csrf_token %}
+      </form>
+      {{ challenge|json_script:"pow-challenge" }}
+    </main>
+  </body>
+</html>
