@@ -20,15 +20,17 @@ from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.db import close_old_connections, connection, transaction
+from django.db import DatabaseError, close_old_connections, connection, transaction
 from django.db.models.deletion import ProtectedError
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.template.loader import render_to_string
 from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
+from weblate.addons.events import AddonEvent
+from weblate.addons.models import Addon, AddonCache
 from weblate.api.serializers import UnitSerializer
 from weblate.auth.models import User, get_anonymous
 from weblate.checks.ai import evaluation_fingerprint
@@ -89,6 +91,7 @@ from weblate.trans.models.source import (
     source_operation,
     source_project_gate,
 )
+from weblate.trans.models.unit import UnitQuerySet
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     ReusableViewTestCase,
@@ -334,6 +337,36 @@ class SourceLanguageTest(FixtureComponentTestCase):
             ).exists()
         )
 
+        update_units = UnitQuerySet.bulk_update_source_units
+
+        def fail_partial_batch(queryset: UnitQuerySet, units: list[Unit]) -> None:
+            if len(units) < 500:
+                self.assertEqual(
+                    self.child.translation.unit_set.filter(
+                        translation_parent__isnull=False
+                    ).count(),
+                    500,
+                )
+                msg = "Unit update failed"
+                raise DatabaseError(msg)
+            update_units(queryset, units)
+
+        with (
+            patch.object(
+                UnitQuerySet,
+                "bulk_update_source_units",
+                autospec=True,
+                side_effect=fail_partial_batch,
+            ),
+            self.assertRaisesMessage(DatabaseError, "Unit update failed"),
+        ):
+            self.configure()
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(
+            dict(self.child.translation.unit_set.values_list("pk", "details")), before
+        )
+
         def check_pending_before_effects(
             effects: ReconciliationEffects, *, using: str
         ) -> None:
@@ -355,6 +388,12 @@ class SourceLanguageTest(FixtureComponentTestCase):
             if query["sql"].startswith('INSERT INTO "trans_pendingunitchange"')
         ]
         self.assertEqual(len(inserts), 2)
+        updates = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(updates), 2)
         self.assertEqual(
             self.child.translation.unit_set.filter(
                 details__has_key="disk_state"
@@ -433,6 +472,13 @@ class SourceLanguageTest(FixtureComponentTestCase):
             self.assertEqual(
                 Unit.objects.get(pk=instance.pk).details["disk_state"], snapshot
             )
+            self.assertEqual(instance._saved_parent_values[:2], before[instance.pk])  # ruff: ignore[private-member-access]
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(before),
+            )
             saved.append(instance.pk)
 
         post_save.connect(observe_save, sender=Unit)
@@ -447,8 +493,89 @@ class SourceLanguageTest(FixtureComponentTestCase):
             for query in queries
             if query["sql"].startswith('UPDATE "trans_unit"')
         ]
-        self.assertEqual(len(updates), len(before))
+        self.assertEqual(len(updates), 1)
         self.assertCountEqual(saved, before)
+
+    def test_workflow_pre_save_listener_retains_individual_saves(self) -> None:
+        seen: list[int] = []
+
+        def before_save(sender: type[Unit], instance: Unit, **kwargs: object) -> None:
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(seen),
+            )
+            seen.append(instance.pk)
+
+        pre_save.connect(before_save, sender=Unit)
+        self.addCleanup(pre_save.disconnect, before_save, sender=Unit)
+        with patch.object(
+            UnitQuerySet,
+            "bulk_update_source_units",
+            side_effect=AssertionError("Unexpected bulk save"),
+        ):
+            self.configure()
+        self.assertEqual(len(seen), self.child.translation.unit_set.count())
+
+    def test_workflow_unit_save_addon_retains_individual_saves(self) -> None:
+        addon = Addon(component=self.component, name="test.unit-save")
+        get_event = AddonCache.get_event
+        seen: list[int] = []
+
+        def events(addon_cache: AddonCache, event: int) -> list[Addon]:
+            if event == AddonEvent.EVENT_UNIT_POST_SAVE:
+                return [addon]
+            return get_event(addon_cache, event)
+
+        def observe_addon(event: int, method: str, args: tuple, unit: Unit) -> None:
+            self.assertEqual(event, AddonEvent.EVENT_UNIT_POST_SAVE)
+            self.assertEqual(
+                self.child.translation.unit_set.filter(
+                    translation_parent__isnull=False
+                ).count(),
+                len(seen) + 1,
+            )
+            seen.append(unit.pk)
+
+        with (
+            patch.object(AddonCache, "get_event", autospec=True, side_effect=events),
+            patch(
+                "weblate.addons.models.handle_unit_addon_event",
+                side_effect=observe_addon,
+            ),
+            patch.object(
+                UnitQuerySet,
+                "bulk_update_source_units",
+                side_effect=AssertionError("Unexpected bulk save"),
+            ),
+        ):
+            self.configure()
+        self.assertEqual(len(seen), self.child.translation.unit_set.count())
+
+    def test_workflow_flushes_parent_depth_before_preparing_children(self) -> None:
+        self.set_target(self.parent, "Parent")
+        self.set_target(self.child, "Child")
+        save_unit = ReconciliationEffects.save_unit
+        seen: list[int] = []
+
+        def observe_child(effects: ReconciliationEffects, unit: Unit) -> None:
+            if unit.translation_id == self.grandchild.translation_id:
+                parent = unit.translation_parent
+                assert parent is not None
+                self.assertEqual(Unit.objects.get(pk=parent.pk).state, parent.state)
+                self.assertTrue(unit.translation_parent_blocked)
+                seen.append(unit.pk)
+            save_unit(effects, unit)
+
+        with (
+            patch.object(ReconciliationEffects, "save_unit", observe_child),
+            source_project_gate([self.project.pk], exclusive=True),
+            source_operation(self.component),
+        ):
+            self.configure()
+            self.configure(self.grandchild, self.child)
+        self.assertEqual(len(seen), self.grandchild.translation.unit_set.count())
 
     def test_workflow_pending_batch_preserves_existing_disk_state_and_identity(
         self,
@@ -3783,6 +3910,115 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.assertEqual(
             download.call_args.args[:3], ("de", "cs", [("Hallo", self.child)])
         )
+
+
+class SourceUnitWriterTest(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.child = self.get_unit("Hello, world!\n", "cs")
+        self.parent = self.get_unit("Hello, world!\n", "de")
+        self.grandchild = self.get_unit("Hello, world!\n", "it")
+
+    def test_individual_and_batched_save_preparation_match(self) -> None:
+        original = Unit.objects.filter(pk=self.child.pk).values().get()
+        self.parent.target = "Drei deutsche Wörter"
+
+        def prepared_unit(state: int) -> Unit:
+            unit = Unit.objects.prefetch().prefetch_source().get(pk=self.child.pk)
+            unit.translation_parent = self.parent
+            unit.state = state
+            unit.original_state = STATE_NEEDS_REWRITING
+            unit.num_words = 0
+            unit.details = {
+                "translation_parent": {
+                    "applied": self.parent.source_snapshot.as_dict()
+                },
+                "tbx_terms": {"term": "value"},
+            }
+            return unit
+
+        for state in (STATE_TRANSLATED, STATE_READONLY):
+            with self.subTest(state=state):
+                Unit.objects.filter(pk=self.child.pk).update(**original)
+                individual = prepared_unit(state)
+                individual.save(
+                    only_save=True,
+                    update_fields=[
+                        "translation_parent",
+                        "details",
+                        "state",
+                        "original_state",
+                    ],
+                )
+                expected = dict(Unit.objects.filter(pk=self.child.pk).values().get())
+                expected.pop("last_updated")
+                Unit.objects.filter(pk=self.child.pk).update(**original)
+                batched = prepared_unit(state)
+                effects = ReconciliationEffects(batch_unit_updates=True)
+                effects.save_unit(batched)
+                effects.flush_unit_updates(using=connection.alias)
+                actual = dict(Unit.objects.filter(pk=self.child.pk).values().get())
+                actual.pop("last_updated")
+                self.assertEqual(actual, expected)
+                self.assertEqual(
+                    batched._saved_parent_values,  # ruff: ignore[private-member-access]
+                    individual._saved_parent_values,  # ruff: ignore[private-member-access]
+                )
+
+    def test_source_unit_writer_preserves_bound_values(self) -> None:
+        units = list(
+            Unit.objects.filter(pk__in=[self.child.pk, self.grandchild.pk]).order_by(
+                "pk"
+            )
+        )
+        targets = {unit.pk: unit.target for unit in units}
+        timestamp = timezone.now()
+        for index, unit in enumerate(units):
+            unit.translation_parent = self.parent if index == 0 else None
+            unit.details = {
+                "quoted": "český 'text'; DROP TABLE trans_unit; --",
+                "nested": [None, True],
+            }
+            unit.state = STATE_READONLY
+            unit.original_state = STATE_NEEDS_REWRITING
+            unit.num_words = 42 + index
+            unit.last_updated = timestamp
+            unit.target = "Must not overwrite content"
+        with self.assertNumQueries(1):
+            Unit.objects.using(connection.alias).bulk_update_source_units(units)
+        for index, unit in enumerate(units):
+            stored = Unit.objects.get(pk=unit.pk)
+            self.assertEqual(stored.details, unit.details)
+            self.assertEqual(stored.translation_parent_id, unit.translation_parent_id)
+            self.assertEqual(stored.state, STATE_READONLY)
+            self.assertEqual(stored.original_state, STATE_NEEDS_REWRITING)
+            self.assertEqual(stored.num_words, 42 + index)
+            self.assertEqual(stored.last_updated, timestamp)
+            self.assertEqual(stored.target, targets[unit.pk])
+
+    def test_source_unit_writer_rejects_unsaved_and_duplicate_units(self) -> None:
+        unsaved = Unit(pk=-1)
+        for units in ([unsaved], [self.child, self.child]):
+            with (
+                self.subTest(units=units),
+                self.assertNumQueries(0),
+                self.assertRaises(ValueError),
+            ):
+                Unit.objects.using(connection.alias).bulk_update_source_units(units)
+        with self.assertNumQueries(0):
+            Unit.objects.using(connection.alias).bulk_update_source_units([])
+
+    def test_source_unit_writer_row_mismatch_rolls_back(self) -> None:
+        previous = self.child.details.copy()
+        stale = Unit.objects.get(pk=self.child.pk)
+        stale.pk = -1
+        self.child.details = {"must": "roll back"}
+        with self.assertRaises(DatabaseError), transaction.atomic():
+            Unit.objects.using(connection.alias).bulk_update_source_units(
+                [self.child, stale]
+            )
+        self.child.refresh_from_db()
+        self.assertEqual(self.child.details, previous)
 
 
 class SourceLanguageFileTest(ReusableViewTestCase):

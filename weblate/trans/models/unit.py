@@ -7,14 +7,14 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 from functools import partial
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db import DatabaseError, connections, models, transaction
 from django.db import Error as DjangoDatabaseError
-from django.db import models, transaction
 from django.db.models import (
     Count,
     ManyToManyField,
@@ -124,6 +124,14 @@ UNIT_METADATA_UPDATE_FIELDS = (
     "flags",
     "last_updated",
 )
+UNIT_SOURCE_UPDATE_FIELDS = (
+    "translation_parent",
+    "details",
+    "state",
+    "original_state",
+    "num_words",
+    "last_updated",
+)
 
 
 def orders_units_by_component(obj: object) -> bool:
@@ -161,6 +169,72 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
+    def bulk_update_source_units(self, units: list[Unit]) -> None:
+        """
+        Persist a prepared reconciliation batch without invoking model save hooks.
+
+        Only existing, distinct units are supported. The caller prepares save
+        bookkeeping and dispatches notifications after the rows are persisted.
+        """
+        if not units:
+            return
+        if len(units) > 500:
+            msg = "Source reconciliation batches must contain at most 500 units."
+            raise ValueError(msg)
+        if any(unit.pk is None or unit._state.adding for unit in units):  # ruff: ignore[private-member-access]
+            msg = "Source reconciliation requires saved units."
+            raise ValueError(msg)
+        if len({unit.pk for unit in units}) != len(units):
+            msg = "Source reconciliation requires distinct units."
+            raise ValueError(msg)
+
+        database = connections[self.db]
+        model_meta = Unit._meta  # ruff: ignore[private-member-access]
+        concrete_fields = {
+            model_field.name: model_field for model_field in model_meta.concrete_fields
+        }
+        fields = [
+            model_meta.pk,
+            *(concrete_fields[name] for name in UNIT_SOURCE_UPDATE_FIELDS),
+        ]
+        quote = database.ops.quote_name
+        columns = [quote(cast("str", model_field.column)) for model_field in fields]
+        row_sql = (
+            "("
+            + ", ".join(
+                f"%s::{model_field.db_type(database)}" for model_field in fields
+            )
+            + ")"
+        )
+        assignments = ", ".join(
+            f"{column} = incoming.{column}" for column in columns[1:]
+        )
+        # Only model identifiers and database types enter the statement. All
+        # unit content, including JSON, is passed through field preparation and
+        # query parameters.
+        sql = (
+            f"UPDATE {quote(model_meta.db_table)} AS existing SET {assignments} "  # ruff: ignore[hardcoded-sql-expression]
+            "FROM (VALUES "
+            + ", ".join([row_sql] * len(units))
+            + f") AS incoming ({', '.join(columns)}) "
+            + f"WHERE existing.{columns[0]} = incoming.{columns[0]}"
+        )
+        params = [
+            model_field.get_db_prep_save(
+                getattr(unit, model_field.attname), connection=database
+            )
+            for unit in units
+            for model_field in fields
+        ]
+        with (
+            transaction.atomic(using=self.db, savepoint=False),
+            database.cursor() as cursor,
+        ):
+            cursor.execute(sql, params)
+            if cursor.rowcount != len(units):
+                msg = "Source reconciliation did not update every unit."
+                raise DatabaseError(msg)
+
     def with_last_content_author(self) -> UnitQuerySet:
         """
         Annotate the latest content author's ID, or None without a known author.
@@ -1027,10 +1101,6 @@ class Unit(models.Model, LoggerMixin):
 
         Wrapper around save to run checks or update fulltext.
         """
-        # Update last_updated timestamp
-        if update_fields and "last_updated" not in update_fields:
-            update_fields.append("last_updated")
-
         was_created = force_insert or self.pk is None
         previous_parent_values = None
         if not only_save:
@@ -1044,23 +1114,11 @@ class Unit(models.Model, LoggerMixin):
                     None,
                 ),
             )
-        if (
-            self.state >= STATE_TRANSLATED
-            and self.state != STATE_READONLY
-            and "translation_parent" in self.details
-        ):
-            self.accept_source_snapshot()
-            if update_fields and "details" not in update_fields:
-                update_fields.append("details")
-
-        if was_created:
-            self.resolve_translation_parent()
-
-        # Workload follows the source shown to the translator.
-        if not same_content or not self.num_words:
-            self.num_words = self.effective_source_num_words
-            if update_fields and "num_words" not in update_fields:
-                update_fields.append("num_words")
+        self._prepare_save(
+            same_content=same_content,
+            was_created=was_created,
+            update_fields=update_fields,
+        )
 
         # Actually save the unit
         super().save(
@@ -1069,12 +1127,7 @@ class Unit(models.Model, LoggerMixin):
             using=using,
             update_fields=update_fields,
         )
-        self._saved_parent_values = (
-            self.target,
-            self.state,
-            self.original_state,
-            deepcopy(self.details.get("tbx_terms")),
-        )
+        self._store_saved_parent_values()
 
         # Set source_unit for source units, this needs to be done after
         # having a primary key
@@ -1122,6 +1175,43 @@ class Unit(models.Model, LoggerMixin):
 
     def get_absolute_url(self) -> str:
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
+
+    def _prepare_save(
+        self,
+        *,
+        same_content: bool,
+        was_created: bool,
+        update_fields: list[str] | None,
+    ) -> None:
+        """Prepare unit content for either an individual or reconciliation save."""
+        if update_fields and "last_updated" not in update_fields:
+            update_fields.append("last_updated")
+        if (
+            self.state >= STATE_TRANSLATED
+            and self.state != STATE_READONLY
+            and "translation_parent" in self.details
+        ):
+            self.accept_source_snapshot()
+            if update_fields and "details" not in update_fields:
+                update_fields.append("details")
+
+        if was_created:
+            self.resolve_translation_parent()
+
+        # Workload follows the source shown to the translator.
+        if not same_content or not self.num_words:
+            self.num_words = self.effective_source_num_words
+            if update_fields and "num_words" not in update_fields:
+                update_fields.append("num_words")
+
+    def _store_saved_parent_values(self) -> None:
+        """Remember persisted parent inputs after save notifications finish."""
+        self._saved_parent_values = (
+            self.target,
+            self.state,
+            self.original_state,
+            deepcopy(self.details.get("tbx_terms")),
+        )
 
     @source_operation_method
     def delete(self, using=None, keep_parents=False):
