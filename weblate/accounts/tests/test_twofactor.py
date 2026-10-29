@@ -205,7 +205,10 @@ class TwoFactorTestCase(FixtureTestCase):
         timestamp = now().timestamp() - device.step
         with (
             mock.patch("django_otp.oath.time", return_value=timestamp),
-            mock.patch("time.time", return_value=timestamp),
+            mock.patch(
+                "django_otp.plugins.otp_totp.models.time",
+                time=mock.Mock(return_value=timestamp),
+            ),
         ):
             totp_response = f"{totp(device.bin_key):06d}"
             response = self.post_with_callbacks(
@@ -801,12 +804,12 @@ class TwoFactorTestCase(FixtureTestCase):
     def test_password_requires_recent_second_factor(self) -> None:
         self.add_totp()
 
-        with mock.patch("weblate.accounts.views.time.time") as mocked_time:
-            mocked_time.return_value = 2_000_000_000
+        with mock.patch("weblate.accounts.utils.time") as clock:
+            clock.time.return_value = 2_000_000_000
 
             stale_session = self.client.session
             stale_session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(
-                mocked_time.return_value
+                clock.time.return_value
             ) - (SECOND_FACTOR_VERIFY_SECONDS + 1)
             stale_session.save()
 
@@ -824,12 +827,12 @@ class TwoFactorTestCase(FixtureTestCase):
     def test_password_allows_recent_second_factor(self) -> None:
         self.add_totp()
 
-        with mock.patch("weblate.accounts.views.time.time") as mocked_time:
-            mocked_time.return_value = 2_000_000_000
+        with mock.patch("weblate.accounts.utils.time") as clock:
+            clock.time.return_value = 2_000_000_000
 
             session = self.client.session
             session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
-                int(mocked_time.return_value) - SECOND_FACTOR_VERIFY_SECONDS
+                int(clock.time.return_value) - SECOND_FACTOR_VERIFY_SECONDS
             )
             session.save()
 

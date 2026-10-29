@@ -7,11 +7,13 @@ from __future__ import annotations
 import json
 import os
 import re
+from contextlib import contextmanager
 from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
@@ -120,11 +122,26 @@ from weblate.workspaces.models import Workspace
 from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from weblate.machinery.base import (
         SettingsDict,
     )
 
 HTTPError = httpx2.HTTPStatusError
+
+
+@contextmanager
+def mock_machinery_time(timestamp: int) -> Generator[Mock, None, None]:
+    now = Mock(return_value=timestamp)
+    clock = SimpleNamespace(time=now)
+    # Cache timeout creation and expiry checks must advance with retry parsing.
+    with (
+        patch("weblate.machinery.base.time", clock),
+        patch("django.core.cache.backends.base.time", clock),
+        patch("django.core.cache.backends.locmem.time", clock),
+    ):
+        yield now
 
 
 def make_error_response(
@@ -476,13 +493,13 @@ class MachineryRateLimitTest(SimpleTestCase):
 
     def test_cooldowns_expire(self) -> None:
         machine = DeepLTranslation({"_installation_id": 1})
-        with patch("time.time", return_value=1000):
+        with mock_machinery_time(1000):
             machine.set_rate_limit()
             machine.set_rephrase_rate_limit()
-        with patch("time.time", return_value=2799):
+        with mock_machinery_time(2799):
             self.assertTrue(machine.is_rate_limited())
             self.assertTrue(machine.is_rephrase_rate_limited())
-        with patch("time.time", return_value=2801):
+        with mock_machinery_time(2801):
             self.assertFalse(machine.is_rate_limited())
             self.assertFalse(machine.is_rephrase_rate_limited())
 
@@ -897,7 +914,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
 
     def assert_window_expires(self, machine: DeepLTranslation, window: int) -> None:
         cache.clear()
-        with patch("time.time", return_value=10000) as now:
+        with mock_machinery_time(10000) as now:
             machine.set_rate_limit()
             self.assertTrue(machine.is_rate_limited())
             self.assertFalse(machine.is_rephrase_rate_limited())
@@ -962,7 +979,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
             ({"Retry-After": "1e1000"}, 1800),
             ({"Retry-After": "1e100"}, 1800),
         ):
-            with self.subTest(headers=headers), patch("time.time", return_value=10000):
+            with self.subTest(headers=headers), mock_machinery_time(10000):
                 response = make_error_response("https://example.com/", 429)
                 response.headers.update(headers)
                 error = HTTPError(
@@ -1165,7 +1182,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
         ):
             with (
                 self.subTest(service=machine.name),
-                patch("time.time", return_value=10000) as now,
+                mock_machinery_time(10000) as now,
             ):
                 cache.clear()
                 machine.cache_translations = False
@@ -1201,7 +1218,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
             ("Throttling.Api", 400),
             ("Unknown", 429),
         ):
-            with self.subTest(code=code), patch("time.time", return_value=10000) as now:
+            with self.subTest(code=code), mock_machinery_time(10000) as now:
                 cache.clear()
                 http_mock.register(
                     "POST",
@@ -1241,7 +1258,7 @@ class MachineTranslationRateLimitTest(SimpleTestCase):
         for asynchronous in (False, True):
             with (
                 self.subTest(asynchronous=asynchronous),
-                patch("time.time", return_value=10000) as now,
+                mock_machinery_time(10000) as now,
             ):
                 cache.clear()
                 machine = DeepLTranslation({})

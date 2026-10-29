@@ -13453,8 +13453,8 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         with (
             patch(
-                "weblate.addons.fedora_messaging.time.monotonic",
-                side_effect=[0, 0, 8],
+                "weblate.addons.fedora_messaging.time",
+                monotonic=MagicMock(side_effect=[0, 0, 8]),
             ),
             self.assertRaisesMessage(TimeoutError, "TLS handshake timed out"),
         ):

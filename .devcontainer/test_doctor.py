@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import unittest
+from time import monotonic
 from unittest.mock import MagicMock, patch
 
 from django.db import DatabaseError
@@ -23,12 +24,12 @@ class ReadinessTests(unittest.TestCase):
         cache = MagicMock()
         with (
             patch("doctor.connection") as database,
-            patch("doctor.time.sleep") as sleep,
+            patch("doctor.time", monotonic=monotonic) as clock,
         ):
             database.cursor.side_effect = [DatabaseError("starting"), MagicMock()]
             wait_for_services(cache)
         database.close.assert_called_once()
-        sleep.assert_called_once_with(1)
+        clock.sleep.assert_called_once_with(1)
         cache.ping.assert_called_once()
 
     def test_valkey_timeout(self) -> None:
@@ -36,13 +37,12 @@ class ReadinessTests(unittest.TestCase):
         cache.ping.side_effect = RedisConnectionError("private diagnostic")
         with (
             patch("doctor.connection"),
-            patch("doctor.time.monotonic", side_effect=[0, 61]),
-            patch("doctor.time.sleep") as sleep,
+            patch("doctor.time", monotonic=MagicMock(side_effect=[0, 61])) as clock,
             self.assertRaisesRegex(SystemExit, "unavailable after 60 seconds") as error,
         ):
             wait_for_services(cache)
         self.assertNotIn("private diagnostic", str(error.exception))
-        sleep.assert_not_called()
+        clock.sleep.assert_not_called()
 
 
 class BrowserTests(unittest.TestCase):

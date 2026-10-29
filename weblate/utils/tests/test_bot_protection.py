@@ -184,7 +184,9 @@ class ProofTest(SimpleTestCase):
             with (
                 self.subTest(age=age),
                 override_settings(BOT_PROTECTION_CHALLENGE_AGE=age),
-                patch("time.time", return_value=1000),
+                patch(
+                    "weblate.utils.bot_protection.time", time=Mock(return_value=1000)
+                ),
             ):
                 response = self.challenge_response(self.request())
                 self.assertEqual(
@@ -524,12 +526,17 @@ class ProofTest(SimpleTestCase):
         payload["challenge"]["signature"] = "0" * 64
         self.assertEqual(self.redeem(payload).status_code, 400)
         payload = self.solution(self.request())
-        with patch("time.time", return_value=time.time() + 1000):
+        with patch(
+            "weblate.utils.bot_protection.time",
+            time=Mock(return_value=time.time() + 1000),
+        ):
             self.assertEqual(self.redeem(payload).status_code, 400)
         response = self.redeem(self.solution(self.request()))
         request = self.request()
         request.COOKIES["weblate_pow"] = response.cookies["weblate_pow"].value
-        with patch("time.time", return_value=time.time() + 4000):
+        with patch(
+            "django.core.signing.time", time=Mock(return_value=time.time() + 4000)
+        ):
             self.assertFalse(clearance(request))
         request.COOKIES["weblate_pow"] += "x"
         self.assertFalse(clearance(request))
