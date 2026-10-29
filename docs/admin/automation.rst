@@ -45,11 +45,13 @@ losing unsaved changes.
 
 :guilabel:`Editor` builds the workflow from the triggers, conditions, and
 actions described on this page, offering the parameters of each one as a form.
-It opens by default. Nested conditions (:ref:`automation-condition-and`,
+It opens by default. Condition groups (:ref:`automation-condition-and`,
 :ref:`automation-condition-or`, :ref:`automation-condition-not`) and branching
-actions (:ref:`automation-action-sequence`, :ref:`automation-action-choose`) are
-not editable there yet; a workflow using them opens in :guilabel:`YAML` instead.
-The editor requires JavaScript.
+actions (:ref:`automation-action-sequence`, :ref:`automation-action-choose`)
+nest inside one another, so the whole workflow structure is editable there. A
+workflow the editor cannot show, such as one naming an action this Weblate does
+not have, opens in :guilabel:`YAML` instead and says so. The editor requires
+JavaScript.
 
 :guilabel:`YAML` is the :guilabel:`Workflow` field itself. JSON input is also
 accepted. Saved workflows reopen as YAML with ``version``, ``triggers``,

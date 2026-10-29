@@ -49,9 +49,10 @@ from weblate.automation.operations import (
 from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA, TRIGGERS
 from weblate.automation.ui import (
+    ACTION_TITLES,
+    BRANCH_KIND,
     CONDITION_TITLES,
     NESTING_ACTIONS,
-    NESTING_CONDITIONS,
     TRIGGER_TITLES,
     action_nodes,
     schema_variants,
@@ -85,6 +86,8 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
+    from lxml.html import HtmlElement
+
     from weblate.trans.models import Category, Component, Project
 
 
@@ -165,11 +168,14 @@ class DefinitionTest(SimpleTestCase):
         )
         self.assertEqual(
             {name for name, _ in schema_variants("actions", "action")},
-            set(OPERATIONS) | NESTING_ACTIONS,
+            set(OPERATIONS) | set(ACTION_TITLES),
         )
         with override("en"):
             for operation in OPERATIONS.values():
                 self.assertEqual(str(operation.verbose), operation.title)
+            for name, variant in schema_variants("actions", "action"):
+                if name in ACTION_TITLES:
+                    self.assertEqual(str(ACTION_TITLES[name]), variant["title"])
 
     def test_duplicate_operation_registration_is_rejected(self) -> None:
         class DuplicateOperation(AutomationOperation):
@@ -1957,6 +1963,15 @@ class AutomationTest(ReusableComponentTestCase):
         addon.instance.refresh_from_db()
         self.assertEqual(addon.instance.configuration["workflow"]["version"], 1)
 
+    @staticmethod
+    def editor_slots(tree: HtmlElement, kind: str) -> list[tuple[str, str]]:
+        """Slot keys and kinds declared by one node template, in order."""
+        template = tree.xpath(f"//template[@data-automation-node='{kind}']")[0]
+        return [
+            (slot.get("data-automation-slot"), slot.get("data-automation-slot-kind"))
+            for slot in template.xpath(".//*[@data-automation-slot]")
+        ]
+
     def test_editor_renders_a_template_for_every_node_kind(self) -> None:
         addon = self.install(WORKFLOW | {"actions": [BULK]})
         self.user.is_superuser = True
@@ -1977,9 +1992,30 @@ class AutomationTest(ReusableComponentTestCase):
             | {
                 f"condition:{name}"
                 for name, _ in schema_variants("conditions", "condition")
-                if name not in NESTING_CONDITIONS
             }
-            | {f"action:{name}" for name in OPERATIONS},
+            | {f"action:{name}" for name, _ in schema_variants("actions", "action")}
+            | {BRANCH_KIND},
+        )
+
+        self.assertEqual(
+            self.editor_slots(tree, "condition:and"), [("conditions", "condition")]
+        )
+        self.assertEqual(
+            self.editor_slots(tree, "action:sequence"), [("sequence", "action")]
+        )
+        self.assertEqual(
+            self.editor_slots(tree, "action:choose"),
+            [("choose", BRANCH_KIND), ("default", "action")],
+        )
+        self.assertEqual(
+            self.editor_slots(tree, BRANCH_KIND),
+            [("conditions", "condition"), ("sequence", "action")],
+        )
+        self.assertFalse(
+            tree.xpath(
+                "//template[@data-automation-node='action:choose']"
+                "//*[@data-automation-slot='choose']//*[@data-automation-picker]"
+            )
         )
 
         template = tree.xpath(
@@ -2038,6 +2074,65 @@ class AutomationTest(ReusableComponentTestCase):
         )
         self.assertFalse(template.xpath(".//*[@data-workflow-key='preview']"))
 
+    def test_editor_saves_a_nested_workflow_unchanged(self) -> None:
+        """What the editor serializes for a nested workflow is accepted as is."""
+        nested = {
+            "version": 1,
+            "triggers": [],
+            "conditions": [
+                {
+                    "condition": "and",
+                    "conditions": [
+                        {"condition": "language", "value": "cs"},
+                        {
+                            "condition": "not",
+                            "conditions": [
+                                {"condition": "unit_state", "value": STATE_TRANSLATED}
+                            ],
+                        },
+                    ],
+                }
+            ],
+            "actions": [
+                {
+                    "choose": [
+                        {
+                            "conditions": [{"condition": "language", "value": "cs"}],
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "id": "picked",
+                                    "settings": {"q": "state:translated"},
+                                }
+                            ],
+                        }
+                    ],
+                    "default": [
+                        {
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+        }
+        addon = self.install()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        response = self.client.post(
+            addon.instance.get_absolute_url(),
+            {"workflow": json.dumps(nested)},
+        )
+        self.assertEqual(response.status_code, 302)
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration["workflow"], nested)
+
     def test_editor_settings_forms_cover_the_schema(self) -> None:
         for obj in (self.component, self.component.project, None):
             for operation in OPERATIONS.values():
@@ -2050,8 +2145,15 @@ class AutomationTest(ReusableComponentTestCase):
 
     def test_editor_action_nodes_annotate_every_setting(self) -> None:
         nodes = action_nodes(self.component)
-        self.assertEqual({node.name for node in nodes}, set(OPERATIONS))
+        self.assertEqual(
+            {node.name for node in nodes}, set(OPERATIONS) | NESTING_ACTIONS
+        )
         for node in nodes:
+            if node.name in NESTING_ACTIONS:
+                self.assertIsNone(node.form)
+                self.assertIsNone(node.chrome)
+                self.assertTrue(node.slots)
+                continue
             with self.subTest(action=node.name):
                 settings, chrome = node.form, node.chrome
                 if settings is None or chrome is None:

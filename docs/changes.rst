@@ -20,7 +20,7 @@ Weblate 2026.11
 * Automatic suggestions support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 * Added personal and project :ref:`saved-searches` offered in the search filters.
 * Docker deployments can :ref:`trust custom CA certificates <docker-custom-ca>` for outgoing connections, including repository operations over HTTPS.
-* :ref:`Automations <automation-workflows>` can be edited visually, with a toggle to the raw YAML.
+* :ref:`Automations <automation-workflows>` can be edited visually, including condition groups and branches, with a toggle to the raw YAML.
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 
 .. rubric:: Improvements

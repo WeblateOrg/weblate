@@ -32,7 +32,12 @@
   <template data-automation-node="{{ node.kind }}"
             data-automation-title="{{ node.title }}"
             data-automation-emit="{{ node.emit_json }}">
-    {% crispy node.form %}
+    {% if node.form %}
+      {% crispy node.form %}
+    {% endif %}
+    {% for slot in node.slots %}
+      {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
+    {% endfor %}
   </template>
 {% endfor %}
 
@@ -40,7 +45,34 @@
   <template data-automation-node="{{ node.kind }}"
             data-automation-title="{{ node.title }}"
             data-automation-emit="{{ node.emit_json }}">
-    {% crispy node.chrome %}
-    <div data-automation-group="{{ node.group }}">{% crispy node.form %}</div>
+    {% if node.chrome %}
+      {% crispy node.chrome %}
+    {% endif %}
+    {% if node.form %}
+      <div data-automation-group="{{ node.group }}">{% crispy node.form %}</div>
+    {% endif %}
+    {% for slot in node.slots %}
+      {% if slot.kind == "condition" %}
+        {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
+      {% elif slot.kind == "action" %}
+        {% include "addons/automation_slot.html" with slot=slot choices=editor.actions picker_id="automation-add-nested-action" %}
+      {% else %}
+        {% include "addons/automation_slot.html" with slot=slot choices="" picker_id="" %}
+      {% endif %}
+    {% endfor %}
   </template>
 {% endfor %}
+
+{% with node=editor.branch %}
+  <template data-automation-node="{{ node.kind }}"
+            data-automation-title="{{ node.title }}"
+            data-automation-emit="{{ node.emit_json }}">
+    {% for slot in node.slots %}
+      {% if slot.kind == "condition" %}
+        {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
+      {% else %}
+        {% include "addons/automation_slot.html" with slot=slot choices=editor.actions picker_id="automation-add-nested-action" %}
+      {% endif %}
+    {% endfor %}
+  </template>
+{% endwith %}

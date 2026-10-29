@@ -3132,7 +3132,7 @@ class SeleniumTests(
         field = self.driver.find_element(By.ID, "id_workflow")
         field.clear()
         field.send_keys(
-            "version: 1\ntriggers: []\nactions:\n- choose:\n  - conditions: []\n    sequence: []\n"
+            "version: 1\ntriggers: []\nactions:\n- action: weblate.from_the_future\n  settings: {}\n"
         )
         self.click(
             self.driver.find_element(
@@ -3141,7 +3141,7 @@ class SeleniumTests(
         )
         alert = editor.find_element(By.CSS_SELECTOR, "[data-automation-alert]")
         self.assertTrue(alert.is_displayed())
-        self.assertIn("does not handle yet", alert.text)
+        self.assertIn("cannot show", alert.text)
         self.assertFalse(pane.is_displayed())
         self.assertTrue(
             self.driver.find_element(By.ID, "automation-mode-yaml").is_selected()
@@ -3209,6 +3209,111 @@ class SeleniumTests(
         )["actions"][1]["settings"]
         self.assertEqual(added["q"], "state:<translated")
         self.assertEqual(added["threshold"], MACHINERY_DEFAULT_THRESHOLD)
+
+        # Condition groups and branches nest, and survive a round trip through
+        # both panes unchanged.
+        nested = {
+            "version": 1,
+            "triggers": [],
+            "conditions": [
+                {
+                    "condition": "and",
+                    "conditions": [
+                        {"condition": "language", "value": "cs"},
+                        {
+                            "condition": "or",
+                            "conditions": [
+                                {"condition": "unit_state", "value": STATE_TRANSLATED},
+                                {
+                                    "condition": "not",
+                                    "conditions": [
+                                        {"condition": "language", "value": "de"}
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                }
+            ],
+            "actions": [
+                {
+                    "choose": [
+                        {
+                            "conditions": [{"condition": "language", "value": "cs"}],
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "id": "picked",
+                                    "settings": {"q": "state:translated"},
+                                }
+                            ],
+                        }
+                    ],
+                    "default": [
+                        {
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+        }
+        with acting_user_context(user):
+            addon.configure({"workflow": deepcopy(nested)})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-alert]"
+            ).is_displayed()
+        )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            nested,
+        )
+        # Round trip through the YAML pane and back.
+        for mode in ("yaml", "editor"):
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, f"label[for='automation-mode-{mode}']"
+                )
+            )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            nested,
+        )
+
+        # A not holds exactly one condition, so its add control is blocked
+        # while the hundred-node and eight-level limits leave others open.
+        blocked = self.driver.execute_script(
+            "return Array.from("
+            'document.querySelectorAll("[data-automation-slot]"),'
+            " (slot) => [slot.dataset.automationSlot,"
+            '  slot.closest("[data-automation-instance]")?.dataset'
+            "    .automationInstance ?? null,"
+            "  slot.querySelector("
+            '   ":scope > [data-automation-slot-controls] > [data-automation-add]"'
+            "  ).disabled]);"
+        )
+        self.assertIn(["conditions", "condition:not", True], blocked)
+        self.assertIn(["conditions", "condition:and", False], blocked)
+
+        # The nested action chains off the earlier one, so its scope select
+        # offers that ID; the earlier action has nothing before it to offer.
+        scopes = self.driver.execute_script(
+            "return Array.from("
+            'document.querySelectorAll("[data-automation-result-scope]"),'
+            " (select) => Array.from(select.options, (o) => o.value));"
+        )
+        self.assertEqual(scopes[0], ["", "component", "trigger"])
+        self.assertIn("result:picked", scopes[1])
 
     def test_automation_editor_result_scopes_and_focus(self) -> None:
         """The automation editor shows result scopes and keeps keyboard focus."""
