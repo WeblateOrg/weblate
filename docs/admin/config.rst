@@ -2979,6 +2979,11 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+When using a URL prefix, expose Weblate's prefixed ``robots.txt`` at the origin's
+``/robots.txt`` through your reverse proxy. Its crawl rules and sitemap URL
+include the configured prefix. If other applications share the origin, merge
+their crawl rules in the proxy-served document as appropriate.
+
 .. setting:: USER_DIRECTORY_VISIBILITY
 
 USER_DIRECTORY_VISIBILITY
@@ -3462,10 +3467,16 @@ Anonymous HTML GET requests receive an automatic challenge. HEAD and unsafe
 methods receive HTTP 403 without challenge HTML; request bodies are never
 replayed. REST API requests without an explicit HTML Accept media type are
 exempt. HTML API browsing requires verification. Changing Accept on a regular
-page route does not exempt it. Authentication, hooks, widgets, feeds, OIDC provider routes under ``/oidc/``,
-static, health, robots, and well-known routes are exempt. The JavaScript translation
-catalog and :ref:`git-exporter` protocol routes, including clone redirects, are
-also exempt so they can use their existing localization and authentication.
+page route does not exempt it. Account routes under ``/accounts/`` are exempt so
+sign-in flows and redirects to login work without verification. Hooks, widget
+images (including legacy image redirects), feeds, OIDC provider routes under
+``/oidc/``, static files, health, robots, and well-known routes are exempt.
+Widget configuration pages remain protected. Public assets, including custom
+CSS, manifests, icons, and Open Graph images, are exempt. The JavaScript
+translation catalog and :ref:`git-exporter` protocol routes, including clone
+redirects, are also exempt so they can use their existing localization and
+authentication. Login exemptions and bot exemptions are independent; making a
+view public does not automatically bypass bot protection.
 
 .. setting:: BOT_PROTECTION_DIFFICULTY
 
@@ -3558,8 +3569,12 @@ and adds SeznamBot:
 * KagiBot, Internet Archive, and Wikimedia's Citoid and Zotero translation
   services use reviewed bundled ranges, maintained with Weblate releases.
 
-Verification requires a matching User-Agent and source IP. Internet Archive and
-Arquivo.pt deliberately allow their listed networks regardless of User-Agent,
+Verification requires a matching User-Agent and source IP. Verified crawlers
+bypass protection only for GET and HEAD requests to paths allowed by the shared
+robots.txt crawl policy, including sitemap documents. Other requests follow the
+normal challenge or deny policy. Explicit endpoint exemptions, configured exempt
+paths, valid clearance, and authenticated sessions still take precedence.
+Internet Archive and Arquivo.pt deliberately allow their listed networks regardless of User-Agent,
 following Anubis so that browser-like archival requests work. These exceptions
 trust the service networks, not individual crawler processes. No crawler bypass
 grants authentication or access to private content.
