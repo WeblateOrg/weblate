@@ -235,6 +235,113 @@ class ProofTest(SimpleTestCase):
                 self.middleware_response(middleware, request).status_code, 200
             )
 
+    @override_settings(
+        BOT_PROTECTION_EXEMPT_AGENTS=[r"^Weblate-Uptime/1\.0$", r"TrustedMonitor"],
+        BOT_PROTECTION_UNWANTED_AGENTS=["uptime", "monitor"],
+        BOT_PROTECTION_UNWANTED_ACTION="deny",
+    )
+    def test_exempt_agents(self) -> None:
+        for deployment_prefix in ("", "/hosted"):
+            with override_settings(URL_PREFIX=deployment_prefix):
+                middleware = self.middleware()
+                with (
+                    patch(
+                        "weblate.utils.bot_protection.auth.get_user",
+                        side_effect=AssertionError,
+                    ),
+                    patch(
+                        "weblate.utils.bot_protection.clearance",
+                        side_effect=AssertionError,
+                    ),
+                    patch.object(
+                        middleware.crawlers, "verified", side_effect=AssertionError
+                    ),
+                ):
+                    for agent in ("weblate-UPTIME/1.0", "check (TrustedMonitor/2.0)"):
+                        for method in ("GET", "HEAD", "POST"):
+                            for route in ("/", "/search/"):
+                                with self.subTest(
+                                    prefix=deployment_prefix,
+                                    agent=agent,
+                                    method=method,
+                                    route=route,
+                                ):
+                                    request = self.factory.generic(
+                                        method,
+                                        deployment_prefix + route,
+                                        HTTP_USER_AGENT=agent,
+                                    )
+                                    request.COOKIES["sessionid"] = "session"
+                                    self.assertEqual(
+                                        self.middleware_response(
+                                            middleware, request
+                                        ).status_code,
+                                        200,
+                                    )
+
+    @override_settings(
+        BOT_PROTECTION_EXEMPT_AGENTS=[r"^Weblate-Uptime/1\.0$", "TrustedMonitor"]
+    )
+    def test_nonmatching_agents(self) -> None:
+        middleware = self.middleware()
+        for agent in (
+            "",
+            "Browser",
+            "Weblate-Uptime/1x0",
+            "Weblate-Uptime/1.0 extra",
+            "x" * 1024 + "TrustedMonitor",
+        ):
+            with self.subTest(agent=agent):
+                self.assertEqual(
+                    self.middleware_response(
+                        middleware, self.request(HTTP_USER_AGENT=agent)
+                    ).status_code,
+                    403,
+                )
+        self.assertEqual(
+            self.middleware_response(middleware, self.request()).status_code, 403
+        )
+        with override_settings(BOT_PROTECTION_EXEMPT_AGENTS=[]):
+            self.assertEqual(
+                self.middleware_response(
+                    self.middleware(), self.request(HTTP_USER_AGENT="TrustedMonitor")
+                ).status_code,
+                403,
+            )
+
+    def test_invalid_exempt_agent(self) -> None:
+        with (
+            override_settings(BOT_PROTECTION_EXEMPT_AGENTS=["["]),
+            self.assertRaisesMessage(
+                ImproperlyConfigured, "BOT_PROTECTION_EXEMPT_AGENTS"
+            ),
+        ):
+            self.middleware()
+        with override_settings(
+            BOT_PROTECTION_ENABLED=False, BOT_PROTECTION_EXEMPT_AGENTS=["["]
+        ):
+            self.assertEqual(
+                self.middleware_response(self.middleware(), self.request()).status_code,
+                200,
+            )
+
+    @override_settings(BOT_PROTECTION_EXEMPT_AGENTS=["TrustedMonitor"])
+    def test_exempt_agent_cannot_bypass_verification(self) -> None:
+        middleware = self.middleware()
+        request = self.request("/-/pow/verify/", HTTP_USER_AGENT="TrustedMonitor")
+        response = self.middleware_response(middleware, request)
+        self.assertEqual(response.status_code, 405)
+        request = self.factory.post(
+            "/-/pow/verify/",
+            "{}",
+            content_type="application/json",
+            HTTP_USER_AGENT="TrustedMonitor",
+        )
+        request.__dict__["_dont_enforce_csrf_checks"] = True
+        response = self.middleware_response(middleware, request)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(json.loads(response.content)["error"], "invalid_solution")
+
     def test_authentication_assets_and_git_protocol_exemptions(self) -> None:
         for deployment_prefix in ("", "/hosted"):
             with override_settings(URL_PREFIX=deployment_prefix):
@@ -669,3 +776,23 @@ class SessionProofTest(TestCase):
         self.assertEqual(
             self.client.get("/", headers={"accept": "text/html"}).status_code, 403
         )
+
+    @override_settings(
+        ROOT_URLCONF="weblate.urls",
+        BOT_PROTECTION_EXEMPT_AGENTS=["TrustedMonitor"],
+        REQUIRE_LOGIN=True,
+        MIDDLEWARE=[
+            "django.contrib.sessions.middleware.SessionMiddleware",
+            "weblate.utils.bot_protection.BotProtectionMiddleware",
+            "weblate.accounts.middleware.AuthenticationMiddleware",
+            "django.contrib.auth.middleware.LoginRequiredMiddleware",
+        ],
+    )
+    def test_exempt_agent_still_requires_login(self) -> None:
+        response = self.client.get(
+            "/projects/", headers={"user-agent": "TrustedMonitor"}
+        )
+        self.assertRedirects(
+            response, "/accounts/login/?next=/projects/", fetch_redirect_response=False
+        )
+        self.assertNotIn("weblate_pow", self.client.cookies)

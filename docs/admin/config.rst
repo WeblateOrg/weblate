@@ -3518,6 +3518,31 @@ Default: ``[]``. Additional paths relative to the Weblate deployment prefix.
 A trailing slash exempts that entire path prefix; other entries match exactly.
 Use narrow exceptions for integrations that cannot solve challenges.
 
+.. setting:: BOT_PROTECTION_EXEMPT_AGENTS
+
+``BOT_PROTECTION_EXEMPT_AGENTS``
+++++++++++++++++++++++++++++++++
+
+Default: ``[]``. Case-insensitive User-Agent regular expressions that bypass bot
+protection for all HTTP methods and paths. Patterns use search matching against
+the first 1,024 characters of the header. Invalid expressions prevent startup
+when bot protection is enabled.
+
+Use this for uptime monitoring of application pages, such as measuring latency
+on ``/``. Simple health checks on ``/healthz/`` are already exempt.
+
+For a monitor configured to send the User-Agent ``Weblate-Uptime/1.0``:
+
+.. code-block:: python
+
+   BOT_PROTECTION_EXEMPT_AGENTS = [r"^Weblate-Uptime/1\.0$"]
+
+These exemptions trust a client-supplied, spoofable header. They override
+unwanted-agent denial and do not depend on crawler verification or robots.txt.
+They bypass only bot protection: authentication, permissions, and existing rate
+limits still apply. The proof-of-work verification endpoint retains its normal
+validation.
+
 .. setting:: BOT_PROTECTION_CRAWLER_FILE
 .. setting:: BOT_PROTECTION_CRAWLER_RULES
 

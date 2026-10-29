@@ -3318,6 +3318,7 @@ stability and maintenance policy.
 .. envvar:: WEBLATE_BOT_PROTECTION_COOKIE_AGE
 .. envvar:: WEBLATE_BOT_PROTECTION_CACHE_ALIAS
 .. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_PATHS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS
 .. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_FILE
 .. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_RULES
 .. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_AGENTS
@@ -3333,12 +3334,19 @@ trusted by the application gate.
 
 Every ``BOT_PROTECTION_*`` setting has a matching ``WEBLATE_BOT_PROTECTION_*``
 environment variable: ``DIFFICULTY`` (4), ``CHALLENGE_AGE`` (300), ``COOKIE_AGE``
-(3600), ``CACHE_ALIAS`` (default), ``EXEMPT_PATHS`` (empty list), ``CRAWLER_FILE``
-(empty), ``CRAWLER_RULES`` (empty JSON object), ``UNWANTED_AGENTS`` (empty list),
-and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
+(3600), ``CACHE_ALIAS`` (default), ``EXEMPT_PATHS`` (empty list),
+``EXEMPT_AGENTS`` (empty list), ``CRAWLER_FILE`` (empty), ``CRAWLER_RULES`` (empty
+JSON object), ``UNWANTED_AGENTS`` (empty list), and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
 Docker setting syntax. Configure a persistent writable crawler snapshot and run
 ``weblate update_crawler_ranges`` daily from an external scheduler; application
 workers are not required. Use the existing shared cache for replay protection.
+
+Set :envvar:`WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS` to comma-separated,
+case-insensitive User-Agent regular expressions for monitoring exemptions.
+For example, ``^Weblate-Uptime/1\.0$`` exempts a monitor using that exact agent.
+Matching requests bypass bot protection for all methods and paths, including
+unwanted-agent denial. This trusts a spoofable header and does not grant
+application access; see :setting:`BOT_PROTECTION_EXEMPT_AGENTS`.
 
 HTTPS, trusted proxy IP handling, same-origin challenge assets, and bypassing
 shared proxy caches for protected application routes are required. Deployments
