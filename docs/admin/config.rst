@@ -2377,6 +2377,29 @@ An amount of seconds defaulting to 600 (10 minutes).
    * :setting:`RATELIMIT_ATTEMPTS`
    * :setting:`RATELIMIT_WINDOW`
 
+.. setting:: RATELIMIT_OCR_ATTEMPTS
+
+RATELIMIT_OCR_ATTEMPTS
+----------------------
+
+Maximum screenshot image text searches per signed-in session during
+:setting:`RATELIMIT_OCR_WINDOW`. Defaults to 6.
+
+.. setting:: RATELIMIT_OCR_WINDOW
+
+RATELIMIT_OCR_WINDOW
+--------------------
+
+Window for screenshot image text search rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_OCR_LOCKOUT
+
+RATELIMIT_OCR_LOCKOUT
+---------------------
+
+Lockout after exceeding the screenshot image text search rate limit, in seconds.
+Defaults to 60.
+
 .. setting:: REGISTRATION_ALLOW_BACKENDS
 
 REGISTRATION_ALLOW_BACKENDS

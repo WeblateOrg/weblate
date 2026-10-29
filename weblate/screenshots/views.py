@@ -3,15 +3,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import difflib
 import os
-from typing import TYPE_CHECKING, ClassVar, cast
+from time import monotonic
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import TrigramSimilarity
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.db import transaction
+from django.db import DatabaseError, connection, transaction
 from django.db.models import Count
+from django.db.models.functions import Length
 from django.http import FileResponse, JsonResponse, QueryDict
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -23,6 +25,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
+from rapidfuzz import fuzz, process
 
 from weblate.screenshots.forms import (
     ScreenshotEditForm,
@@ -38,14 +41,19 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
+from weblate.utils.db import adjust_similarity_threshold
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.search import parse_query
 from weblate.utils.validators import PIL_FORMATS
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from django.http import HttpResponse
 
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.models import Translation
 
 
 def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]:
@@ -470,6 +478,8 @@ def search_results(
     error: str | None = None,
     result_kind: str = "search",
     task_url: str | None = None,
+    incomplete: bool = False,
+    http_status: int = 200,
 ):
     if units is None:
         units = []
@@ -507,7 +517,128 @@ def search_results(
         data.update(pending=True, task_url=task_url)
     if error is not None:
         data["error"] = error
-    return JsonResponse(data=data)
+    if incomplete:
+        data["incomplete"] = gettext(
+            "Only some matching strings are shown. Search for more strings manually."
+        )
+    return JsonResponse(data=data, status=http_status)
+
+
+OCR_MATCH_PART_LIMIT = 512
+OCR_MATCH_PART_LENGTH = 512
+OCR_MATCH_PASS_LIMIT = 2
+OCR_MATCH_LINE_LIMIT = 200
+OCR_MATCH_CANDIDATE_LIMIT = 16
+OCR_MATCH_RESULT_LIMIT = 250
+OCR_MATCH_DEADLINE = 2
+OCR_MATCH_STATEMENT_TIMEOUT_MS = 1000
+
+
+def ocr_match_parts(data: dict[str, Any]) -> Iterator[str]:
+    """Cover all text lines before expanding them into smaller parts."""
+    seen: set[str] = set()
+    passes = [
+        result["lines"][:OCR_MATCH_LINE_LIMIT]
+        for result in data["passes"][:OCR_MATCH_PASS_LIMIT]
+    ]
+    for kind in ("line", "pipe", "word"):
+        for index in range(max((len(lines) for lines in passes), default=0)):
+            for lines in passes:
+                if index >= len(lines):
+                    continue
+                # Older caches can contain arbitrarily long lines.
+                text = lines[index]["text"][:OCR_MATCH_PART_LENGTH]
+                parts = (
+                    (text,)
+                    if kind == "line"
+                    else text.split("|" if kind == "pipe" else None)
+                )
+                for part in parts:
+                    if part.strip() and part not in seen:
+                        if len(seen) >= OCR_MATCH_PART_LIMIT:
+                            return
+                        seen.add(part)
+                        yield part
+
+
+def match_ocr_sources(
+    translation: Translation, data: dict[str, Any]
+) -> tuple[set[str], bool]:
+    """Find OCR suggestions with bounded database and Python work."""
+    deadline = monotonic() + OCR_MATCH_DEADLINE
+    parts = list(ocr_match_parts(data))
+    incomplete = (
+        len(parts) >= OCR_MATCH_PART_LIMIT
+        or len(data["passes"]) > OCR_MATCH_PASS_LIMIT
+        or any(
+            result.get("truncated", False)
+            or len(result["lines"]) > OCR_MATCH_LINE_LIMIT
+            or any(
+                len(line["text"]) > OCR_MATCH_PART_LENGTH
+                for line in result["lines"][:OCR_MATCH_LINE_LIMIT]
+            )
+            for result in data["passes"][:OCR_MATCH_PASS_LIMIT]
+        )
+    )
+    matches: set[str] = set()
+    if not parts:
+        return matches, incomplete
+    adjust_similarity_threshold(0.3, alias="default")
+    try:  # ruff: ignore[too-many-statements-in-try-clause]
+        with transaction.atomic():
+            with connection.cursor() as cursor:
+                cursor.execute("SHOW statement_timeout")
+                previous_timeout = cursor.fetchone()[0]
+                cursor.execute(
+                    "SELECT set_config('statement_timeout', %s, true)",
+                    [str(OCR_MATCH_STATEMENT_TIMEOUT_MS)],
+                )
+            units = translation.unit_set
+            matches.update(
+                units.filter(source__in=parts)
+                .values_list("source", flat=True)
+                .distinct()
+            )
+            for part in parts:
+                if monotonic() >= deadline or len(matches) >= OCR_MATCH_RESULT_LIMIT:
+                    incomplete = True
+                    break
+                if len(part) < 4 or part in matches:
+                    continue
+                candidates = tuple(
+                    units.filter(source__trigram_similar=part)
+                    .annotate(
+                        similarity=TrigramSimilarity("source", part),
+                        source_length=Length("source"),
+                    )
+                    .filter(source_length__lte=len(part) * 5 // 4 + 1)
+                    .order_by("-similarity", "source")
+                    .values_list("source", flat=True)
+                    .distinct()[:OCR_MATCH_CANDIDATE_LIMIT]
+                )
+                matches.update(
+                    match
+                    for match, _, _ in process.extract(
+                        part,
+                        candidates,
+                        scorer=fuzz.QRatio,
+                        score_cutoff=90,
+                        limit=3,
+                    )
+                )
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT set_config('statement_timeout', %s, true)",
+                    [previous_timeout],
+                )
+    except DatabaseError as error:
+        # A timed-out candidate query must not hold a web worker indefinitely.
+        if getattr(error.__cause__, "sqlstate", None) != "57014":
+            raise
+        incomplete = True
+    if len(matches) >= OCR_MATCH_RESULT_LIMIT:
+        incomplete = True
+    return matches, incomplete
 
 
 @login_required
@@ -534,6 +665,15 @@ def search_source(request: AuthenticatedHttpRequest, pk):
 @require_POST
 def ocr_search(request: AuthenticatedHttpRequest, pk):
     obj = get_screenshot(request, pk)
+    if not check_rate_limit("ocr", request):
+        return search_results(
+            request,
+            429,
+            obj,
+            error=gettext("Too many image text searches. Please try again later."),
+            result_kind="ocr",
+            http_status=429,
+        )
     cache = ensure_ocr(obj.pk, retry=request.POST.get("retry") == "1")
     if cache.error:
         error = (
@@ -553,20 +693,21 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
             task_url=reverse("api:task-detail", kwargs={"pk": cache.task_id}),
         )
 
-    sources = tuple(set(obj.translation.unit_set.values_list("source", flat=True)))
-    matches = {
-        match
-        for result in cache.data["passes"]
-        for line in result["lines"]
-        for part in (line["text"], *line["text"].split("|"), *line["text"].split())
-        for match in difflib.get_close_matches(part, sources, cutoff=0.9)
-    }
+    matches, incomplete = match_ocr_sources(obj.translation, cache.data)
+    unit_pks = list(
+        obj.translation.unit_set.filter(source__in=matches)
+        .exclude(pk__in=obj.units.values_list("pk", flat=True))
+        .order_by("pk")
+        .values_list("pk", flat=True)[: OCR_MATCH_RESULT_LIMIT + 1]
+    )
+    incomplete |= len(unit_pks) > OCR_MATCH_RESULT_LIMIT
     return search_results(
         request,
         200,
         obj,
-        obj.translation.unit_set.filter(source__in=matches),
+        obj.translation.unit_set.filter(pk__in=unit_pks[:OCR_MATCH_RESULT_LIMIT]),
         result_kind="ocr",
+        incomplete=incomplete,
     )
 
 

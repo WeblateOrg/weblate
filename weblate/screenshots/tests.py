@@ -8,10 +8,8 @@ import os.path
 import runpy
 import tempfile
 from datetime import timedelta
-from difflib import get_close_matches
 from importlib import import_module
 from io import BytesIO
-from itertools import chain
 from pathlib import Path
 from shutil import copyfile, rmtree
 from types import SimpleNamespace
@@ -33,6 +31,7 @@ from django.urls import reverse
 from django.utils import timezone
 from lxml import html
 from PIL import Image
+from rapidfuzz import fuzz, process
 from rest_framework.test import APITestCase
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -40,8 +39,11 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot, ScreenshotOCR
 from weblate.screenshots.ocr import (
+    OCR_LINE_LIMIT,
+    OCR_TEXT_LENGTH_LIMIT,
     TESSERACT_DOWNLOAD_ATTEMPTS,
     TESSERACT_DOWNLOAD_TIMEOUT,
+    OCRLine,
     download_tesseract_data,
     ensure_ocr,
     ensure_tesseract_language,
@@ -50,13 +52,16 @@ from weblate.screenshots.ocr import (
 )
 from weblate.screenshots.tasks import cleanup_screenshot_files, recognize_screenshot
 from weblate.screenshots.utils import normalize_screenshot_filename
+from weblate.screenshots.views import OCR_MATCH_PART_LIMIT, ocr_match_parts
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Alert, Change, Component, Project, Translation
+from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.celery import delete_task_metadata, get_task_metadata
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import calculate_hash
 from weblate.utils.tests import http_mock
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -1389,21 +1394,58 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
             Image.open(TEST_SCREENSHOT) as image,
             get_tesseract(Language.objects.get(code="en")) as api,
         ):
-            result = list(
-                ocr_get_lines(api, image=image, filename=TEST_SCREENSHOT, resolution=72)
+            result, _ = ocr_get_lines(
+                api, image=image, filename=TEST_SCREENSHOT, resolution=72
             )
 
-        # Reverse logic would make sense here, but we want to use same order as in views.py
-        matches = list(
-            chain.from_iterable(
-                get_close_matches(part, ["Hello, world!\n"], cutoff=0.9)
-                for part in (line["text"] for line in result)
+        matches = [
+            match
+            for line in result
+            for match, _, _ in process.extract(
+                line["text"],
+                ["Hello, world!\n"],
+                scorer=fuzz.QRatio,
+                score_cutoff=90,
+                limit=3,
             )
-        )
+        ]
 
         self.assertTrue(
             matches, f"Could not find string in tesseract results: {result}"
         )
+
+    def test_ocr_caps_cached_text_length(self) -> None:
+        api = MagicMock()
+        word = MagicMock()
+        word.IsAtBeginningOf.return_value = True
+        word.GetUTF8Text.return_value = "x" * (OCR_TEXT_LENGTH_LIMIT + 100)
+        with patch("tesserocr.iterate_level", return_value=[word]):
+            lines, _ = ocr_get_lines(
+                api,
+                image=Image.new("RGB", (2, 2)),
+                filename="test.png",
+                resolution=72,
+            )
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(len(lines[0]["text"]), OCR_TEXT_LENGTH_LIMIT)
+        self.assertEqual(len(lines[0]["words"][0]["text"]), OCR_TEXT_LENGTH_LIMIT)
+
+    def test_ocr_marks_truncated_lines(self) -> None:
+        api = MagicMock()
+        word = MagicMock()
+        word.IsAtBeginningOf.return_value = True
+        word.GetUTF8Text.return_value = "test"
+        with patch(
+            "tesserocr.iterate_level", return_value=[word] * (OCR_LINE_LIMIT + 1)
+        ):
+            lines, truncated = ocr_get_lines(
+                api,
+                image=Image.new("RGB", (2, 2)),
+                filename="test.png",
+                resolution=72,
+            )
+        self.assertEqual(len(lines), OCR_LINE_LIMIT)
+        self.assertTrue(truncated)
 
     def run_ocr(self, screenshot: Screenshot) -> ScreenshotOCR:
         cache = ensure_ocr(screenshot.pk)
@@ -1511,7 +1553,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
-            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=[]),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
         ):
             self.assertEqual(
                 recognize_screenshot.run(screenshot.pk, str(current.generation)),
@@ -1547,7 +1589,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
 
         def retry_recognition(*args, **kwargs):
             ensure_ocr(screenshot.pk, retry=True)
-            return []
+            return [], False
 
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
@@ -1605,7 +1647,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot = Screenshot.objects.get(name="Obrazek")
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
-            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=[]),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
         ):
             cache = self.run_ocr(screenshot)
         self.assertEqual(cache.error, "")
@@ -1626,7 +1668,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot = Screenshot.objects.get(name="Obrazek")
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
-            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=[]),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
         ):
             cache = self.run_ocr(screenshot)
         for target, value in (
@@ -1692,7 +1734,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
                 Path(TEST_SCREENSHOT).read_bytes(), name="new.png"
             )
             screenshot.save(update_fields=["image"])
-            return []
+            return [], False
 
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
@@ -1752,6 +1794,147 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         source.save(update_fields=["source"])
         self.assertEqual(self.client.post(url).json()["count"], 0)
         self.assertEqual(ensure_ocr(screenshot.pk).generation, cache.generation)
+
+    def test_ocr_fuzzy_match(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": "Hello, wor1d!\n"}]}]}
+        )
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT show_limit()")
+            previous_similarity = cursor.fetchone()[0]
+        try:
+            adjust_similarity_threshold(0.98, alias="default")
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT show_limit()")
+                self.assertAlmostEqual(cursor.fetchone()[0], 0.3)
+        finally:
+            adjust_similarity_threshold(previous_similarity, alias="default")
+        self.assertEqual(response["count"], 1)
+
+    def test_ocr_excludes_assigned_units_before_result_limit(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        units = list(
+            screenshot.translation.unit_set.filter(
+                source__in=["Hello, world!\n", "Thank you for using Weblate."]
+            ).order_by("pk")
+        )
+        self.assertEqual(len(units), 2)
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": unit.source} for unit in units]}]}
+        )
+        screenshot.add_unit(units[0], self.user)
+        with patch("weblate.screenshots.views.OCR_MATCH_RESULT_LIMIT", 1):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+        self.assertEqual(response["count"], 1)
+        self.assertEqual(self.extract_pk(response["results"]), units[1].pk)
+
+    def test_ocr_reports_truncated_unit_results(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        duplicates = [
+            Unit(
+                translation=screenshot.translation,
+                id_hash=calculate_hash(source.source, context),
+                source=source.source,
+                target=source.target,
+                context=context,
+                position=source.position + 100 + index,
+            )
+            for index, context in enumerate(("another context", "third context"))
+        ]
+        Unit.objects.bulk_create(duplicates)
+        for duplicate in duplicates:
+            duplicate.source_unit = duplicate
+        Unit.objects.bulk_update(duplicates, ["source_unit"])
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": source.source}]}]}
+        )
+        with patch("weblate.screenshots.views.OCR_MATCH_RESULT_LIMIT", 2):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+        self.assertEqual(response["count"], 2)
+        self.assertIn("incomplete", response)
+
+    def test_ocr_truncated_cache_reports_partial_results(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        lines: list[OCRLine] = [{"text": source.source, "box": None, "words": []}]
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch(
+                "weblate.screenshots.tasks.ocr_get_lines",
+                return_value=(lines, True),
+            ),
+        ):
+            cache = self.run_ocr(screenshot)
+        assert cache.data is not None
+        self.assertTrue(all(result["truncated"] for result in cache.data["passes"]))
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        ).json()
+        self.assertEqual(response["count"], 1)
+        self.assertIn("incomplete", response)
+
+    def test_ocr_limits_cached_parts(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={
+                "passes": [
+                    {"lines": [{"text": source.source}]},
+                    {
+                        "lines": [
+                            {
+                                "text": f"unmatched text {index} "
+                                + " ".join(f"word{index}_{word}" for word in range(20))
+                            }
+                            for index in range(165)
+                        ]
+                    },
+                ]
+            }
+        )
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        ).json()
+        self.assertEqual(response["responseCode"], 200)
+        self.assertEqual(response["count"], 1)
+        self.assertIn("incomplete", response)
+        data = ScreenshotOCR.objects.get(pk=cache.pk).data
+        assert data is not None
+        parts = list(ocr_match_parts(data))
+        self.assertEqual(len(parts), OCR_MATCH_PART_LIMIT)
+        self.assertIn(data["passes"][1]["lines"][-1]["text"], parts)
+
+    @override_settings(RATELIMIT_OCR_ATTEMPTS=1)
+    def test_ocr_rate_limit(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        url = reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        self.assertEqual(self.client.post(url).status_code, 200)
+        self.assertEqual(self.client.post(url).status_code, 429)
 
     def test_ocr_task_access(self) -> None:
         self.make_manager()

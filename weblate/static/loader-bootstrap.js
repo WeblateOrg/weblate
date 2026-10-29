@@ -459,7 +459,7 @@ function screenshotLoaded(data, panel = screenshotActivePanel()) {
   if (summary) {
     summary.textContent =
       data.responseCode === 200
-        ? data.summary || ""
+        ? [data.summary, data.incomplete].filter(Boolean).join(" ")
         : data.error || gettext("Error loading search results!");
   }
   if (data.responseCode !== 200) {
@@ -1406,7 +1406,7 @@ onReady(() => {
             body,
             headers: { "X-Requested-With": "XMLHttpRequest" },
           });
-          if (!response.ok)
+          if (!response.ok && response.status !== 429)
             throw new Error(
               gettext(
                 "Could not load strings from the image. Please try again.",

@@ -271,8 +271,12 @@ def get_tesseract_language(language: Language) -> str:
 
 
 # Bump when changing recognition options, trained-data selection, or cache shape.
-OCR_ALGORITHM_VERSION = 1
+OCR_ALGORITHM_VERSION = 2
 OCR_QUEUE_TIMEOUT = 30 * 60
+OCR_LINE_LIMIT = 200
+OCR_WORD_LIMIT = 8000
+OCR_WORDS_PER_LINE_LIMIT = 40
+OCR_TEXT_LENGTH_LIMIT = 2048
 
 
 def get_ocr_signature(screenshot: Screenshot) -> dict[str, str | int]:
@@ -382,40 +386,50 @@ class OCRLine(OCRWord):
 
 def ocr_get_lines(
     api: PyTessBaseAPI, *, image: Image.Image, filename: str, resolution: int
-) -> list[OCRLine]:
+) -> tuple[list[OCRLine], bool]:
     """Recognize lines and their words without losing original image coordinates."""
     from tesserocr import RIL, iterate_level  # ruff: ignore[import-outside-top-level]
 
     lines: list[OCRLine] = []
+    truncated = False
     try:
         try:
             api.SetImage(image)
         except RuntimeError:
-            return lines
+            return lines, truncated
         api.SetSourceResolution(resolution)
         with start_span(op="ocr.recognize", name=filename):
             api.Recognize()
         iterator = api.GetIterator()
         if iterator is None:
-            return lines
-        for word in iterate_level(iterator, RIL.WORD):
-            try:
+            return lines, truncated
+        for word_number, word in enumerate(iterate_level(iterator, RIL.WORD)):
+            if word_number >= OCR_WORD_LIMIT:
+                truncated = True
+                break
+            try:  # ruff: ignore[too-many-statements-in-try-clause]
                 if not lines or word.IsAtBeginningOf(RIL.TEXTLINE):
+                    if len(lines) >= OCR_LINE_LIMIT:
+                        truncated = True
+                        break
                     lines.append(
                         {
-                            "text": word.GetUTF8Text(RIL.TEXTLINE),
+                            "text": word.GetUTF8Text(RIL.TEXTLINE)[
+                                :OCR_TEXT_LENGTH_LIMIT
+                            ],
                             "box": word.BoundingBox(RIL.TEXTLINE),
                             "words": [],
                         }
                     )
-                lines[-1]["words"].append(
-                    {
-                        "text": word.GetUTF8Text(RIL.WORD),
-                        "box": word.BoundingBox(RIL.WORD),
-                    }
-                )
+                if len(lines[-1]["words"]) < OCR_WORDS_PER_LINE_LIMIT:
+                    lines[-1]["words"].append(
+                        {
+                            "text": word.GetUTF8Text(RIL.WORD)[:OCR_TEXT_LENGTH_LIMIT],
+                            "box": word.BoundingBox(RIL.WORD),
+                        }
+                    )
             except RuntimeError:
                 continue
     finally:
         api.Clear()
-    return lines
+    return lines, truncated

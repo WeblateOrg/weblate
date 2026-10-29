@@ -46,28 +46,32 @@ def recognize_screenshot(screenshot_id: int, generation: str) -> dict[str, str]:
 
     error = ""
     data = None
-    try:
+    try:  # ruff: ignore[too-many-statements-in-try-clause]
         with (
             screenshot.image.open("rb") as image_file,
             Image.open(image_file, formats=PIL_FORMATS) as image,
         ):
             image.load()
             with get_tesseract(screenshot.translation.language) as api:
+                passes = []
+                for resolution in (72, 300):
+                    lines, truncated = ocr_get_lines(
+                        api,
+                        image=image,
+                        filename=screenshot.image.name or "",
+                        resolution=resolution,
+                    )
+                    passes.append(
+                        {
+                            "resolution": resolution,
+                            "lines": lines,
+                            "truncated": truncated,
+                        }
+                    )
                 data = {
                     "width": image.width,
                     "height": image.height,
-                    "passes": [
-                        {
-                            "resolution": resolution,
-                            "lines": ocr_get_lines(
-                                api,
-                                image=image,
-                                filename=screenshot.image.name or "",
-                                resolution=resolution,
-                            ),
-                        }
-                        for resolution in (72, 300)
-                    ],
+                    "passes": passes,
                 }
     except httpx2.HTTPError:
         LOGGER.warning("Could not download Tesseract data", exc_info=True)
