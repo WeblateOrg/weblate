@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, cast
 from django.db import connections, transaction
 from django.db.models import Exists, OuterRef, Q, Value
 from django.db.models.functions import MD5, Lower
+from django.db.models.signals import post_save, pre_save
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
@@ -253,12 +254,70 @@ class PreviousSourcePeers:
 @dataclass
 class ReconciliationEffects:
     batch_checks: bool = False
+    batch_unit_updates: bool = False
     units: dict[int, Unit] = field(default_factory=dict)
     peer_groups: dict[tuple[int, str, int, int, str, str], PreviousSourcePeers] = field(
         default_factory=dict
     )
     memory: list[MemoryUpdatePayload] = field(default_factory=list)
     pending_changes: list[PendingUnitChange] = field(default_factory=list)
+    unit_updates: list[Unit] = field(default_factory=list)
+    unit_depth: int | None = None
+
+    def start_unit_depth(self, depth: int, *, using: str) -> None:
+        if self.unit_depth != depth:
+            self.flush_unit_updates(using=using)
+            self.unit_depth = depth
+
+    def save_unit(self, unit: Unit) -> None:
+        from weblate.trans.models.unit import UNIT_SOURCE_UPDATE_FIELDS  # ruff: ignore[import-outside-top-level]
+
+        using = unit._state.db or "default"  # ruff: ignore[private-member-access]
+        if not self.batch_unit_updates or unit.is_source:
+            self.flush_unit_updates(using=using)
+            unit.save(
+                only_save=True,
+                same_content=False,
+                update_fields=[
+                    "translation_parent",
+                    "details",
+                    "state",
+                    "original_state",
+                ],
+            )
+            return
+        unit._prepare_save(  # ruff: ignore[private-member-access]
+            same_content=False,
+            was_created=False,
+            update_fields=list(UNIT_SOURCE_UPDATE_FIELDS),
+        )
+        unit.last_updated = unit._meta.get_field("last_updated").pre_save(  # ruff: ignore[private-member-access]
+            unit, add=False
+        )
+        self.unit_updates.append(unit)
+        if len(self.unit_updates) >= 500:
+            self.flush_unit_updates(using=using)
+
+    def flush_unit_updates(self, *, using: str) -> None:
+        from weblate.trans.models.unit import UNIT_SOURCE_UPDATE_FIELDS, Unit  # ruff: ignore[import-outside-top-level]
+
+        if not self.unit_updates:
+            return
+        units = self.unit_updates
+        Unit.objects.using(using).bulk_update_source_units(units)
+        self.unit_updates = []
+        for unit in units:
+            # Observers run after the batch is persisted. Components with
+            # unit-save add-ons retain individual saves instead.
+            post_save.send(
+                sender=Unit,
+                instance=unit,
+                created=False,
+                raw=False,
+                using=using,
+                update_fields=frozenset(UNIT_SOURCE_UPDATE_FIELDS),
+            )
+            unit._store_saved_parent_values()  # ruff: ignore[private-member-access]
 
     def add_pending_change(self, change: PendingUnitChange) -> None:
         self.pending_changes.append(change)
@@ -270,6 +329,7 @@ class ReconciliationEffects:
     def flush_pending_changes(self, *, using: str) -> None:
         from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
 
+        self.flush_unit_updates(using=using)
         if self.pending_changes:
             PendingUnitChange.objects.using(using).bulk_create(
                 self.pending_changes, batch_size=500
@@ -515,11 +575,7 @@ def update_parent(
     pending_change_needed = unit.state != old_state or changed
     if pending_change_needed:
         unit.store_disk_state(save=False)
-    unit.save(
-        only_save=True,
-        same_content=False,
-        update_fields=["translation_parent", "details", "state", "original_state"],
-    )
+    effects.save_unit(unit)
     effects.units[unit.pk] = unit
     if changed:
         effects.propagate_checks(unit)
@@ -617,6 +673,18 @@ def propagate_parent_change(
         )
 
 
+def can_batch_unit_updates(component: Component, *, using: str) -> bool:
+    """Keep per-unit database visibility for save hooks that can modify content."""
+    from weblate.addons.events import AddonEvent  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
+
+    return (
+        connections[using].vendor == "postgresql"
+        and not pre_save.has_listeners(Unit)
+        and not component.addons_cache.get_event(AddonEvent.EVENT_UNIT_POST_SAVE)
+    )
+
+
 def _reconcile(component: Component, work: DependencyWork) -> None:
     from weblate.trans.models.change import Change  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
@@ -710,9 +778,14 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         return len(visited)
 
     missing_sources: MissingSourceCache = {}
-    effects = ReconciliationEffects(batch_checks=work.batch_checks)
+    effects = ReconciliationEffects(
+        batch_checks=work.batch_checks,
+        batch_unit_updates=work.batch_checks
+        and can_batch_unit_updates(component, using=using),
+    )
     changes = []
     for unit in sorted(units, key=depth):
+        effects.start_unit_depth(depth(unit), using=using)
         change = update_parent(
             unit,
             parents[unit.pk],
