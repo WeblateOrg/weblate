@@ -170,6 +170,12 @@ Recognized text is cached and refreshed when the image or recognition software
 changes. Existing screenshots are processed when opened if cached results are
 missing or outdated. Recognition does not assign strings automatically.
 
+Image text suggestions process at most 512 recognized text parts and show at
+most 250 source strings. On dense images or large components, Weblate shows
+the matches found within the processing time limit and indicates when
+suggestions may be incomplete. Use :guilabel:`Search` to find other source
+strings.
+
 Matching source strings can be assigned individually, in a selected batch, or
 all at once.
 

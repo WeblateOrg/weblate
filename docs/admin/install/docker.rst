@@ -1280,6 +1280,9 @@ Generic settings
 .. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_LOCKOUT
 .. envvar:: WEBLATE_RATELIMIT_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_OCR_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_LOCKOUT
 
    .. versionadded:: 4.6
 
@@ -1296,6 +1299,9 @@ Generic settings
       * :setting:`RATELIMIT_ATTEMPTS`
       * :setting:`RATELIMIT_WINDOW`
       * :setting:`RATELIMIT_LOCKOUT`
+      * :setting:`RATELIMIT_OCR_ATTEMPTS`
+      * :setting:`RATELIMIT_OCR_WINDOW`
+      * :setting:`RATELIMIT_OCR_LOCKOUT`
 
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER

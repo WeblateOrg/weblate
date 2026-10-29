@@ -4725,7 +4725,7 @@ class SeleniumTests(
         )
         with (
             patch("weblate.screenshots.tasks.get_tesseract"),
-            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=[]),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
         ):
             self.driver.find_element(By.ID, "screenshots-recognition-retry").send_keys(
                 Keys.ENTER
