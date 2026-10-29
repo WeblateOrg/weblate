@@ -4158,9 +4158,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                             automatically_translated=unit["automatically_translated"],
                         ),
                     }
-                    units_to_update.append(Unit(id=unit["id"], details=details))
-                    if len(units_to_update) > 1000:
-                        Unit.objects.bulk_update(units_to_update, ["details"])
+                    # Mark the selected row as existing, leaving other fields deferred.
+                    units_to_update.append(
+                        Unit.from_db(units.db, ["id", "details"], [unit["id"], details])
+                    )
+                    if len(units_to_update) == 500:
+                        Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                            units_to_update, ("details",)
+                        )
                         units_to_update.clear()
 
             pending.append(
@@ -4188,7 +4193,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 pending.clear()
 
         if units_to_update:
-            Unit.objects.bulk_update(units_to_update, ["details"])
+            Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                units_to_update, ("details",)
+            )
             units_to_update.clear()
 
         if pending:
