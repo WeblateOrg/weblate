@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from time import monotonic
+from time import monotonic, process_time
 from typing import TYPE_CHECKING
 
 from django.test import SimpleTestCase
@@ -1718,10 +1718,22 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         self.assertLess(monotonic() - started, 1)
 
     def test_many_valid_interpolations_are_linear(self) -> None:
-        source = "{{x}}" * 80_000
-        started = monotonic()
-        self.assertEqual(len(self.check.extract_matches(source)), 80_000)
-        self.assertLess(monotonic() - started, 1)
+        def measure(count: int) -> float:
+            source = "{{x}}" * count
+            durations = []
+            for _ in range(3):
+                started = process_time()
+                matches = self.check.extract_matches(source)
+                durations.append(process_time() - started)
+                self.assertEqual(matches, ["{{x}}"] * count)
+            return min(durations)
+
+        # Compare CPU time to avoid depending on CI runner speed and scheduling.
+        # Eight times the input needs about 8x linear work or 64x quadratic work;
+        # allow headroom for measurement noise while catching quadratic growth.
+        small = measure(10_000)
+        large = measure(80_000)
+        self.assertLess(large, small * 24)
 
     def test_no_format(self) -> None:
         self.assertFalse(
