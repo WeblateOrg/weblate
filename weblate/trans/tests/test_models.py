@@ -595,7 +595,10 @@ class ProjectTest(RepoTestCase):
 
         with (
             patch.object(Project, "glossaries", glossaries),
-            patch("weblate.trans.models.project.time.time_ns", side_effect=[100, 200]),
+            patch(
+                "weblate.trans.models.project.time",
+                time_ns=Mock(side_effect=[100, 200]),
+            ),
             patch("weblate.trans.models.component.prefetch_glossary_terms") as prefetch,
         ):
             first = get_glossary_automaton(project)

@@ -961,7 +961,7 @@ class ManageMiddlewareTest(TestCase):
 
     def test_claim_configuration_health_check(self) -> None:
         with (
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch(
                 "weblate.wladmin.middleware.cache.add", return_value=True
             ) as cache_add,
@@ -986,8 +986,8 @@ class ManageMiddlewareTest(TestCase):
         middleware = ManageMiddleware(Mock())
         with (
             patch(
-                "weblate.wladmin.middleware.time.monotonic",
-                side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL],
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL]),
             ),
             patch("weblate.wladmin.middleware.cache.get", return_value=None),
             patch.object(middleware, "trigger_check") as trigger_check,
@@ -1002,8 +1002,11 @@ class ManageMiddlewareTest(TestCase):
     def test_recent_check(self) -> None:
         middleware = ManageMiddleware(Mock())
         with (
-            patch("weblate.wladmin.middleware.time.monotonic", return_value=100),
-            patch("weblate.wladmin.middleware.time.time", return_value=1000),
+            patch(
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(return_value=100),
+                time=Mock(return_value=1000),
+            ),
             patch(
                 "weblate.wladmin.middleware.cache.get",
                 return_value=1000 - CHECK_INTERVAL + 1,
@@ -1070,7 +1073,7 @@ class ManageMiddlewareTest(TestCase):
             patch.object(
                 ConfigurationError.objects, "configuration_health_check"
             ) as health_check,
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch("weblate.wladmin.middleware.cache.set") as cache_set,
         ):
             self.assertTrue(perform_configuration_health_check(checks))

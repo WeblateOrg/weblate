@@ -36,7 +36,12 @@ class TOTPEnrollmentTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.timestamp = int(now().timestamp())
-        self.enterContext(mock.patch("time.time", return_value=self.timestamp))
+        self.enterContext(
+            mock.patch(
+                "django_otp.plugins.otp_totp.models.time",
+                time=mock.Mock(return_value=self.timestamp),
+            )
+        )
         self.enterContext(
             mock.patch("django_otp.oath.time", return_value=self.timestamp)
         )
@@ -86,7 +91,10 @@ class TOTPEnrollmentTest(FixtureTestCase):
             TOTPTokenForm(self.user, data={"otp_token": payload["token"]}).is_valid()
         )
         with (
-            mock.patch("time.time", return_value=self.timestamp + 30),
+            mock.patch(
+                "django_otp.plugins.otp_totp.models.time",
+                time=mock.Mock(return_value=self.timestamp + 30),
+            ),
             mock.patch("django_otp.oath.time", return_value=self.timestamp + 30),
             mock.patch(
                 "django_otp.models.timezone.now",
@@ -333,7 +341,12 @@ class TOTPEnrollmentConcurrencyTest(TransactionTestCase):
         super().setUp()
         self.user = User.objects.create_user("concurrent-totp", "totp@example.com")
         self.timestamp = int(now().timestamp())
-        self.enterContext(mock.patch("time.time", return_value=self.timestamp))
+        self.enterContext(
+            mock.patch(
+                "django_otp.plugins.otp_totp.models.time",
+                time=mock.Mock(return_value=self.timestamp),
+            )
+        )
         self.enterContext(
             mock.patch("django_otp.oath.time", return_value=self.timestamp)
         )
