@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+import random
 import re
 import time
 from ipaddress import IPv4Network, IPv6Network, ip_address
@@ -32,7 +33,13 @@ from django.utils.decorators import decorator_from_middleware
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.module_loading import import_string
-from django.utils.translation import get_language_from_request, override
+from django.utils.translation import (
+    get_language_bidi,
+    get_language_from_request,
+    gettext,
+    gettext_noop,
+    override,
+)
 from django_redis.cache import RedisCache as DjangoRedisCache
 
 from weblate.utils.crawlers import (
@@ -48,6 +55,60 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from django.http import HttpRequest
+
+# These tips must stay independent of database and session state.
+FEATURE_TIPS = (
+    gettext_noop("Press ? in the translation editor to discover keyboard shortcuts."),
+    gettext_noop(
+        "Add secondary languages in your preferences to see translations you already understand alongside the source."
+    ),
+    gettext_noop(
+        "Customize your special characters in your profile to keep frequently used characters within reach."
+    ),
+    gettext_noop(
+        "Use the visual keyboard above the translation field to insert special characters."
+    ),
+    gettext_noop(
+        "Save searches you use often so you can return to them from the search filters."
+    ),
+    gettext_noop(
+        "Combine search conditions with AND, OR, and NOT to find exactly the strings you need."
+    ),
+    gettext_noop(
+        "Search with regular expressions when a simple word search is not enough."
+    ),
+    gettext_noop("Use labels to organize strings and find related translation work."),
+    gettext_noop(
+        "Check a string’s screenshots to see where the text appears in the application."
+    ),
+    gettext_noop(
+        "Link an existing screenshot to a string to give translators more context."
+    ),
+    gettext_noop(
+        "Check nearby strings for context before translating a short or ambiguous message."
+    ),
+    gettext_noop("Explore a string’s history to see how its translation has changed."),
+    gettext_noop(
+        "Leave a comment on a source string to ask for context that can help every language."
+    ),
+    gettext_noop(
+        "Suggest a translation when you want others to review your wording before it is accepted."
+    ),
+    gettext_noop("You can edit a translation suggestion before accepting it."),
+    gettext_noop(
+        "Add terms to a project glossary to help translators use consistent wording."
+    ),
+    gettext_noop(
+        "Glossaries can mark terms as forbidden to help translators avoid unwanted wording."
+    ),
+    gettext_noop("Glossaries can mark names and other terms as untranslatable."),
+    gettext_noop(
+        "Watch projects you care about and choose which translation events notify you."
+    ),
+    gettext_noop(
+        "Choose notification digests to receive translation updates together instead of one email at a time."
+    ),
+)
 
 COOKIE = "weblate_pow"
 VERIFY_PATH = "/-/pow/verify/"
@@ -134,7 +195,7 @@ def headers(response: HttpResponse) -> HttpResponse:
     response["X-Content-Type-Options"] = "nosniff"
     response["X-Frame-Options"] = "DENY"
     response["Content-Security-Policy"] = (
-        "default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        "default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
     )
     return response
 
@@ -182,14 +243,19 @@ def challenge_page(request: HttpRequest) -> HttpResponse:
         hmac_secret=secret(request),
     )
     # No request context processors: these can query models and load a session.
-    with override(get_language_from_request(request)):
+    language = get_language_from_request(request)
+    with override(language):
         content = get_template("bot-challenge.html").render(
             {
                 "challenge": challenge.to_dict(),
                 "challenge_timeout": max(0, int((expires_at - time.time()) * 1000)),
                 "verify_url": prefix() + VERIFY_PATH,
                 "csrf_token": get_token(request),
-                "language": get_language_from_request(request),
+                "language": language,
+                "language_bidi": get_language_bidi(),
+                # Randomness only chooses display text, not proof material.
+                "feature_tip": gettext(random.choice(FEATURE_TIPS)),  # ruff: ignore[suspicious-non-cryptographic-random-usage]
+                "home_url": prefix() + "/",
                 "login_url": prefix() + "/accounts/login/",
             }
         )

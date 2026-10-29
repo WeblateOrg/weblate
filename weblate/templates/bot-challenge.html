@@ -1,25 +1,56 @@
-{% load i18n static %}
+{% load i18n icons static %}
 
 <!DOCTYPE html>
-<html lang="{{ language }}">
+<html lang="{{ language }}" dir="{% if language_bidi %}rtl{% else %}ltr{% endif %}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% translate "Checking your browser" %}</title>
-    <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5.css' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logo-32.png' %}">
+    {% if language_bidi %}
+      <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5_rtl.css' %}">
+    {% else %}
+      <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5.css' %}">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'weblate_fonts/source-sans-3.css' %}">
+    <link rel="stylesheet" href="{% static 'weblate_fonts/source-code-pro.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'style-dark.css' %}"
+          media="(prefers-color-scheme: dark)">
     <script src="{% static 'js/bot-challenge.js' %}" defer></script>
   </head>
-  <body>
+  <body {% if language_bidi %}class="dir-rtl"{% endif %}>
+    <header class="navbar bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ home_url }}">{% icon "weblate.svg" %}Weblate</a>
+      </div>
+    </header>
     <main class="container py-5">
-      <h1>{% translate "Checking your browser" %}</h1>
-      <p>{% translate "Your browser will calculate a short proof of work to protect this site against automated scraping." %}</p>
-      <p id="pow-status" role="status" aria-live="polite" aria-atomic="true">{% translate "Working…" %}</p>
-      <p id="pow-error" hidden>{% translate "Verification failed. Enable JavaScript, workers, and cookies, then retry. You can also sign in." %}</p>
-      <noscript>
-        <p>{% translate "JavaScript is required for anonymous access. You can sign in instead." %}</p>
-      </noscript>
-      <button id="pow-retry" type="button" class="btn btn-primary">{% translate "Retry" %}</button>
-      <a href="{{ login_url }}">{% translate "Sign in" %}</a>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card mb-4">
+            <div class="card-body p-4">
+              <h1>{% translate "Checking your browser" %}</h1>
+              <p>{% translate "Your browser will calculate a short proof of work to protect this site against automated scraping." %}</p>
+              <p id="pow-status" role="status" aria-live="polite" aria-atomic="true">{% translate "Working…" %}</p>
+              <p id="pow-error" hidden>{% translate "Verification failed. Enable JavaScript, workers, and cookies, then retry. You can also sign in." %}</p>
+              <noscript>
+                <p>{% translate "JavaScript is required for anonymous access. You can sign in instead." %}</p>
+              </noscript>
+              <button id="pow-retry" type="button" class="btn btn-primary me-2">{% translate "Retry" %}</button>
+              <a class="btn btn-outline-primary" href="{{ login_url }}">{% translate "Sign in" %}</a>
+            </div>
+          </div>
+          <aside class="card" aria-labelledby="pow-tip-title">
+            <div class="card-body p-4">
+              <h2 id="pow-tip-title" class="h5">{% translate "Did you know?" %}</h2>
+              <p id="pow-tip" class="mb-0">{{ feature_tip }}</p>
+            </div>
+          </aside>
+        </div>
+      </div>
       <form id="pow-form"
             data-url="{{ verify_url }}"
             data-timeout="{{ challenge_timeout }}"
