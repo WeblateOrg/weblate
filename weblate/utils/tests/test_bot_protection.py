@@ -22,7 +22,7 @@ from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest, HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
-from django.urls import include, path, reverse
+from django.urls import include, path, resolve, reverse
 from django.utils.translation import get_language
 
 from weblate.auth.models import User
@@ -563,6 +563,144 @@ class ProofTest(SimpleTestCase):
         request = self.request(HTTP_USER_AGENT="browser", REMOTE_ADDR="192.0.2.7")
         self.assertEqual(self.middleware_response(middleware, request).status_code, 403)
 
+    def test_crawler_crawl_policy(self) -> None:
+        middleware = self.middleware()
+        with patch.object(middleware.crawlers, "verified", return_value=True):
+            for route in (
+                "/",
+                "/projects/",
+                "/engage/test/",
+                "/sitemap.xml",
+                "/sitemap-project.xml",
+            ):
+                for method in ("GET", "HEAD"):
+                    request = self.factory.generic(method, route)
+                    self.assertEqual(middleware.classify(request), "allow")
+            for route in (
+                "/search/",
+                "/translate/project/component/en/",
+                "/projects-other/",
+                "/sitemap.xml/extra",
+            ):
+                self.assertEqual(middleware.classify(self.request(route)), "challenge")
+            request = self.factory.post("/projects/")
+            self.assertEqual(middleware.classify(request), "challenge")
+            with override_settings(
+                BOT_PROTECTION_UNWANTED_AGENTS=["Googlebot"],
+                BOT_PROTECTION_UNWANTED_ACTION="deny",
+            ):
+                self.assertEqual(
+                    middleware.classify(
+                        self.request("/search/", HTTP_USER_AGENT="Googlebot")
+                    ),
+                    "deny",
+                )
+                self.assertEqual(
+                    middleware.classify(
+                        self.request("/projects/", HTTP_USER_AGENT="Googlebot")
+                    ),
+                    "allow",
+                )
+
+    def test_prefixed_crawler_policy(self) -> None:
+        with override_settings(URL_PREFIX="/hosted"):
+            middleware = self.middleware()
+            with patch.object(middleware.crawlers, "verified", return_value=True):
+                self.assertEqual(
+                    middleware.classify(self.request("/hosted/projects/?page=2")),
+                    "allow",
+                )
+                self.assertEqual(
+                    middleware.classify(self.request("/hosted/search/")), "challenge"
+                )
+                self.assertEqual(
+                    middleware.classify(self.request("/hosted-other/projects/")),
+                    "challenge",
+                )
+
+    def test_legacy_widgets(self) -> None:
+        for deployment_prefix in ("", "/hosted"):
+            urlconf = (
+                (path(deployment_prefix.strip("/") + "/", include(real_patterns)),)
+                if deployment_prefix
+                else tuple(real_patterns)
+            )
+            with override_settings(URL_PREFIX=deployment_prefix, ROOT_URLCONF=urlconf):
+                middleware = self.middleware()
+                for route, expected in (
+                    ("/widgets/project/-/svg-badge.svg", 200),
+                    ("/widgets/project/en/svg-badge.svg", 200),
+                    ("/widgets/project/-/component/svg-badge.svg", 200),
+                    ("/widgets/project/en/component/svg-badge.svg", 200),
+                    ("/widget/project/svg-badge.svg", 200),
+                    ("/widgets/project/", 403),
+                    ("/widgets/", 403),
+                    ("/widgets-other/project/", 403),
+                ):
+                    with self.subTest(prefix=deployment_prefix, route=route):
+                        request = self.request(deployment_prefix + route)
+                        self.assertEqual(
+                            self.middleware_response(middleware, request).status_code,
+                            expected,
+                        )
+                        if expected == 200 and route.startswith("/widgets/"):
+                            match = resolve(request.path_info)
+                            response = match.func(request, **match.kwargs)
+                            self.assertEqual(response.status_code, 301)
+                            self.assertTrue(
+                                response["Location"].startswith(
+                                    deployment_prefix + "/widget/"
+                                )
+                            )
+
+    def test_account_flows_bypass_classification(self) -> None:
+        middleware = self.middleware()
+        with patch.object(middleware, "classify", side_effect=AssertionError):
+            for route in (
+                "login/",
+                "register/",
+                "reset/",
+                "confirm/",
+                "complete/email/",
+                "login/saml/",
+                "auth/second-factor/totp/",
+                "auth/webauthn/authentication/begin/",
+                "auth/webauthn/authentication/complete/",
+                "auth/webauthn/jsi18n/",
+                "unsubscribe/?i=invalid",
+            ):
+                for method in ("GET", "POST"):
+                    request = self.factory.generic(method, "/accounts/" + route)
+                    self.assertEqual(
+                        self.middleware_response(middleware, request).status_code, 200
+                    )
+
+    def test_public_asset_exemptions(self) -> None:
+        middleware = self.middleware()
+        for route in (
+            "/css/custom.css",
+            "/site.webmanifest",
+            "/browserconfig.xml",
+            "/apple-touch-icon.png",
+            "/favicon-192x192.png",
+            "/android-chrome-512x512.png",
+            "/exports/og.png",
+            "/security.txt",
+        ):
+            self.assertEqual(
+                self.middleware_response(middleware, self.request(route)).status_code,
+                200,
+            )
+        for route in (
+            "/css/other.css",
+            "/exports/other.png",
+            "/favicon-192x192.png/extra",
+        ):
+            self.assertEqual(
+                self.middleware_response(middleware, self.request(route)).status_code,
+                403,
+            )
+
     def test_csrf_success(self) -> None:
         request = self.request()
         page = challenge_page(request)
@@ -795,4 +933,42 @@ class SessionProofTest(TestCase):
         self.assertRedirects(
             response, "/accounts/login/?next=/projects/", fetch_redirect_response=False
         )
+        self.assertNotIn("weblate_pow", self.client.cookies)
+
+    @override_settings(
+        ROOT_URLCONF="weblate.urls",
+        REQUIRE_LOGIN=True,
+        MIDDLEWARE=[
+            "django.contrib.sessions.middleware.SessionMiddleware",
+            "weblate.utils.bot_protection.BotProtectionMiddleware",
+            "weblate.accounts.middleware.AuthenticationMiddleware",
+            "django.contrib.auth.middleware.LoginRequiredMiddleware",
+        ],
+    )
+    def test_account_redirects_and_public_assets(self) -> None:
+        for route in (
+            "/accounts/profile/",
+            "/accounts/userdata/",
+            "/accounts/password/",
+        ):
+            self.assertRedirects(
+                self.client.get(route),
+                "/accounts/login/?next=" + route,
+                fetch_redirect_response=False,
+            )
+        for route in (
+            "/accounts/login/",
+            "/css/custom.css",
+            "/site.webmanifest",
+            "/browserconfig.xml",
+            "/robots.txt",
+        ):
+            self.assertEqual(self.client.get(route).status_code, 200, route)
+        response = self.client.get("/accounts/unsubscribe/?i=invalid")
+        self.assertEqual(response.status_code, 302)
+        user = User.objects.create_user(
+            username="pow-settings-user", password="testpass"
+        )
+        self.client.force_login(user)
+        self.assertEqual(self.client.get("/accounts/profile/").status_code, 200)
         self.assertNotIn("weblate_pow", self.client.cookies)

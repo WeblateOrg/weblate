@@ -42,6 +42,8 @@ from django.utils.translation import (
 )
 from django_redis.cache import RedisCache as DjangoRedisCache
 
+from weblate.trans.views.widgets import WidgetRedirectView
+from weblate.utils.crawl_policy import crawl_allowed, deployment_prefix
 from weblate.utils.crawlers import (
     CRAWLERS,
     MAX_AGE,
@@ -115,11 +117,11 @@ VERIFY_PATH = "/-/pow/verify/"
 # Prefixes end in '/' so similarly named application routes are not exempt.
 EXEMPT = (
     "/static/",
+    # Authentication flows and login redirects must work without clearance.
     "/accounts/",
     "/hooks/",
     "/oidc/",
     "/widget/",
-    "/widgets/",
     "/exports/rss/",
     "/changes/rss/",
     "/.well-known/",
@@ -129,6 +131,17 @@ EXACT = {
     "/healthz/",
     "/robots.txt",
     "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/css/custom.css",
+    "/site.webmanifest",
+    "/browserconfig.xml",
+    "/security.txt",
+    "/exports/og.png",
+    *(
+        f"/{name}-{size}x{size}.png"
+        for name in ("android-chrome", "favicon")
+        for size in (192, 512)
+    ),
     "/manage/discovery/callback/",
     "/js/i18n/",
 }
@@ -142,9 +155,7 @@ def option[T](name: str, default: T) -> T:
 
 
 def prefix() -> str:
-    return (
-        "/" + settings.URL_PREFIX.strip("/") if settings.URL_PREFIX.strip("/") else ""
-    )
+    return deployment_prefix()
 
 
 def binding(request: HttpRequest) -> str:
@@ -461,6 +472,16 @@ def is_git_protocol(request: HttpRequest, path: str) -> bool:
     )
 
 
+def is_legacy_widget(request: HttpRequest, path: str) -> bool:
+    if not path.startswith("/widgets/"):
+        return False
+    try:
+        match = resolve(request.path_info, getattr(request, "urlconf", None))
+    except Resolver404:
+        return False
+    return getattr(match.func, "view_class", None) is WidgetRedirectView
+
+
 def accepts_html(request: HttpRequest) -> bool:
     """Require an explicit positive HTML preference, not a wildcard Accept."""
     return any(
@@ -522,7 +543,11 @@ class BotProtectionMiddleware(MiddlewareMixin):
 
     def classify(self, request: HttpRequest) -> str:
         """Policy seam for future behavioral signals; never changes authentication."""
-        if self.crawlers.verified(request):
+        if (
+            request.method in {"GET", "HEAD"}
+            and crawl_allowed(request.path_info.removeprefix(prefix()))
+            and self.crawlers.verified(request)
+        ):
             return "allow"
         if option("UNWANTED_ACTION", "challenge") == "deny" and any(
             re.search(
@@ -539,15 +564,19 @@ class BotProtectionMiddleware(MiddlewareMixin):
         path = request.path_info.removeprefix(prefix())
         if path == VERIFY_PATH:
             return verify(request)
-        if (
+        exempt_path = (
             path in EXACT
             or is_git_protocol(request, path)
+            or is_legacy_widget(request, path)
             or path.startswith(EXEMPT)
             or any(
                 path == item or (item.endswith("/") and path.startswith(item))
                 for item in option("EXEMPT_PATHS", list[str]())
             )
             or (path.startswith("/api/") and not accepts_html(request))
+        )
+        if (
+            exempt_path
             or any(
                 pattern.search(request.headers.get("user-agent", "")[:1024])
                 for pattern in self.exempt_agents
