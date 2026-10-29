@@ -33,7 +33,9 @@ def get_user(request: AuthenticatedHttpRequest):
     Adds handling of anonymous user which is stored in database.
     """
     if not hasattr(request, "weblate_cached_user"):
-        user = auth.get_user(request)
+        user = getattr(request, "pow_authenticated_user", None)
+        if user is None:
+            user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
 

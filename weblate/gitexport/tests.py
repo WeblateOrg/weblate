@@ -192,6 +192,60 @@ class GitExportTest(ReusableViewTestCase):
         self.assertNotIn("https://example.com/upstream.git", response.content.decode())
         self.assertNotIn("user:secret@", response.content.decode())
 
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_preserves_git_authentication(self) -> None:
+        self.enable_acl()
+        with patch("weblate.gitexport.views.GitHTTPBackendWrapper") as backend:
+            backend.return_value.get_response.return_value = HttpResponse(
+                "Git response"
+            )
+            response = self.git_receive()
+            self.assertEqual(response.status_code, 401)
+            self.assertIn("Basic", response["WWW-Authenticate"])
+            response = self.git_receive(
+                HTTP_AUTHORIZATION=self.get_auth_string("invalid")
+            )
+            self.assertEqual(response.status_code, 401)
+            backend.assert_not_called()
+            self.project.add_user(self.user, "VCS")
+            auth = self.get_auth_string(self.user.auth_token.key)
+            response = self.git_receive(HTTP_AUTHORIZATION=auth)
+            self.assertEqual(response.status_code, 200)
+            with patch(
+                "weblate.gitexport.views.is_shallow_checkout", return_value=False
+            ):
+                response = self.client.post(
+                    self.get_git_url(path="git-upload-pack"),
+                    data=b"0000",
+                    content_type="application/x-git-upload-pack-request",
+                    headers={"authorization": auth},
+                )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(backend.call_count, 2)
+            self.assertNotIn("weblate_pow", self.client.cookies)
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_preserves_login_catalog(self) -> None:
+        response = self.client.get(reverse("js-catalog"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("javascript", response["Content-Type"])
+        self.assertContains(response, "django.gettext")
+        self.assertNotIn("weblate_pow", self.client.cookies)
+
     def test_wrong_auth(self) -> None:
         response = self.git_receive(HTTP_AUTHORIZATION="foo")
         self.assertEqual(401, response.status_code)

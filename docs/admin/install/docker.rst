@@ -3298,6 +3298,47 @@ You can then turn on the Anubis usage in Weblate using:
 
    :envvar:`WEBLATE_ANUBIS_URL`
 
+Application-aware proof of work
++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.11
+
+This integration is a technology preview. See :ref:`bot-protection` for its
+stability and maintenance policy.
+
+.. envvar:: WEBLATE_BOT_PROTECTION_ENABLED
+.. envvar:: WEBLATE_BOT_PROTECTION_DIFFICULTY
+.. envvar:: WEBLATE_BOT_PROTECTION_CHALLENGE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_COOKIE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_CACHE_ALIAS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_PATHS
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_FILE
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_RULES
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_AGENTS
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_ACTION
+
+Enable :ref:`bot-protection` with :envvar:`WEBLATE_BOT_PROTECTION_ENABLED` set to
+``1``. The Django gate works without an Anubis container. During migration,
+remove ``WEBLATE_ANUBIS_URL`` from the container environment and recreate the
+container to remove the NGINX Anubis subrequest gate. Keeping both enabled can
+produce two challenges; application authentication cannot bypass an upstream
+Anubis challenge. Existing Anubis configuration and cookies are not modified or
+trusted by the application gate.
+
+Every ``BOT_PROTECTION_*`` setting has a matching ``WEBLATE_BOT_PROTECTION_*``
+environment variable: ``DIFFICULTY`` (4), ``CHALLENGE_AGE`` (300), ``COOKIE_AGE``
+(3600), ``CACHE_ALIAS`` (default), ``EXEMPT_PATHS`` (empty list), ``CRAWLER_FILE``
+(empty), ``CRAWLER_RULES`` (empty JSON object), ``UNWANTED_AGENTS`` (empty list),
+and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
+Docker setting syntax. Configure a persistent writable crawler snapshot and run
+``weblate update_crawler_ranges`` daily from an external scheduler; application
+workers are not required. Use the existing shared cache for replay protection.
+
+HTTPS, trusted proxy IP handling, same-origin challenge assets, and bypassing
+shared proxy caches for protected application routes are required. Deployments
+with CDN-hosted static files must provide these challenge assets at the same
+origin as Weblate.
+
 Configuring PostgreSQL server
 -----------------------------
 

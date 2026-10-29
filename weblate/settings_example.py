@@ -413,12 +413,26 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 REQUIRE_LOGIN = False
 
 # Middleware
+
+# Optional anonymous proof of work; see BOT_PROTECTION_ENABLED documentation.
+BOT_PROTECTION_ENABLED = False
+BOT_PROTECTION_DIFFICULTY = 4
+BOT_PROTECTION_CHALLENGE_AGE = 300
+BOT_PROTECTION_COOKIE_AGE = 3600
+BOT_PROTECTION_CACHE_ALIAS = "default"
+BOT_PROTECTION_EXEMPT_PATHS = []
+BOT_PROTECTION_CRAWLER_RULES = {}
+BOT_PROTECTION_UNWANTED_AGENTS = []
+BOT_PROTECTION_UNWANTED_ACTION = "challenge"
+BOT_PROTECTION_CRAWLER_FILE = ""
+
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "weblate.utils.bot_protection.BotProtectionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
