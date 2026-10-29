@@ -105,6 +105,7 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.commands import get_clean_env
+from weblate.utils.csv import csv_starts_with_formula
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import checksum_to_hash
@@ -1539,6 +1540,12 @@ class WeblateCSVUnit(csvunit):
         self.plural_rows: tuple[WeblateCSVUnit, ...] = ()
         self.id_hash = ""
 
+    def add_spreadsheet_escape(self, value):
+        """Use the same formula detection as other Weblate CSV exports."""
+        if isinstance(value, str) and csv_starts_with_formula(value):
+            return f"'{value}"
+        return value
+
     def fromdict(self, cedict, encoding="utf-8") -> None:
         super().fromdict(cedict, encoding=encoding)
         for field in (CSV_SOURCE_PLURAL_FORM, CSV_TARGET_PLURAL_FORM, CSV_ID_HASH):
@@ -1615,14 +1622,14 @@ class CSVUnit(MonolingualSimpleUnit):
             len(string) > 2
             and string[0] == "'"
             and string[-1] == "'"
-            and string[1] in {"=", "+", "-", "@", "\\", "%"}
+            and (string[1] == "\\" or csv_starts_with_formula(string[1:-1]))
         ):
             return get_string(string[1:-1].replace("\\|", "|"))
         if (
             escape_formulas
             and len(string) > 1
             and string[0] == "'"
-            and string[1] in csvunit.spreadsheetescapes
+            and csv_starts_with_formula(string[1:])
         ):
             return get_string(string[1:])
         return get_string(string)

@@ -91,7 +91,7 @@ Weblate 2026.11
 * Restricted contributor IP addresses in change API responses to superusers.
 * Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.
 * Bounded :ref:`component discovery preset <addon-weblate.discovery.discovery>` detection work for repositories with many translation layouts.
-* Prevented spreadsheet formulas in :ref:`translation-history` and :doc:`/api` CSV downloads.
+* Prevented spreadsheet formulas, including those hidden behind Unicode characters, in :ref:`translation-history`, :doc:`/api`, and :ref:`download` CSV files.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.

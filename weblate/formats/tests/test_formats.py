@@ -13,7 +13,7 @@ import shutil
 import tempfile
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
 from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
@@ -3027,20 +3027,43 @@ class CSVFormatTest(BaseFormatTest):
             self.skipTest("Only full CSV formula escaping is tested here")
 
         filename = Path(self.tempdir) / "formula.csv"
-        filename.write_text('"source","target"\n"Hello",""\n', encoding="utf-8")
-        storage = self.format_class(
-            str(filename), file_format_params={"csv_escape_formulas": True}
-        )
-        unit = storage.content_units[0]
-        unit.set_target("=1+1")
-        storage.save()
+        for target in ("=1+1", "\ufeff=1+1", "\u034f=1+1", "\u200b=1+1", "\uff1d1+1"):
+            with self.subTest(target=target):
+                filename.write_text('"source","target"\n"Hello",""\n', encoding="utf-8")
+                storage = self.format_class(
+                    str(filename),
+                    file_format_params={
+                        "csv_escape_formulas": True,
+                        "csv_encoding": "utf-8",
+                    },
+                )
+                storage.content_units[0].set_target(target)
+                storage.save()
 
-        self.assertIn('"\'=1+1"', filename.read_text(encoding="utf-8"))
+                row = next(
+                    csv.DictReader(StringIO(filename.read_text(encoding="utf-8")))
+                )
+                self.assertEqual(row["target"], f"'{target}")
 
-        storage = self.format_class(
-            str(filename), file_format_params={"csv_escape_formulas": True}
+                storage = self.format_class(
+                    str(filename),
+                    file_format_params={
+                        "csv_escape_formulas": True,
+                        "csv_encoding": "utf-8",
+                    },
+                )
+                self.assertEqual(storage.content_units[0].target, target)
+
+    def test_download_csv_formula_escaping_round_trip(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV formula escaping is tested here")
+
+        filename = Path(self.tempdir) / "download.csv"
+        filename.write_text(
+            '"source","target"\n"Hello","\'\ufeff=1+1\'"\n', encoding="utf-8"
         )
-        self.assertEqual(storage.content_units[0].target, "=1+1")
+        storage = self.format_class(str(filename))
+        self.assertEqual(storage.content_units[0].target, "\ufeff=1+1")
 
     def test_plural_metadata_rows(self) -> None:
         if self.format_class is not CSVFormat:
