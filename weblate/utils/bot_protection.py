@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import random
 import re
 import time
@@ -46,7 +47,6 @@ from weblate.trans.views.widgets import WidgetRedirectView
 from weblate.utils.crawl_policy import crawl_allowed, deployment_prefix
 from weblate.utils.crawlers import (
     CRAWLERS,
-    MAX_AGE,
     MAX_DOWNLOAD,
     SNAPSHOT,
     public_network,
@@ -114,6 +114,80 @@ FEATURE_TIPS = (
 
 COOKIE = "weblate_pow"
 VERIFY_PATH = "/-/pow/verify/"
+CHECK_PATH = "/-/pow/check/"
+LOGGER = logging.getLogger("weblate.bot_protection")
+OUTCOMES = (
+    "success",
+    "expired_challenge",
+    "invalid_solution",
+    "replayed_challenge",
+    "csrf_failed",
+    "verification_unavailable",
+)
+
+
+class ExpiredChallengeError(ValueError):
+    """The submitted challenge has expired."""
+
+
+def record_outcome(reason: str, status: int) -> None:
+    """Record bounded operational data without affecting verification."""
+    LOGGER.info(
+        "PoW verification: %s",
+        reason,
+        extra={
+            "event": "pow_verification",
+            "reason": reason,
+            "status": status,
+            "count": 1,
+        },
+    )
+    try:
+        backend = caches[option("CACHE_ALIAS", "default")]
+        key = f"pow:stats:{int(time.time()) // 60}:{reason}"
+        if not backend.add(key, 1, timeout=25 * 3600):
+            backend.incr(key)
+    except Exception:
+        LOGGER.warning(
+            "PoW counter unavailable",
+            extra={"event": "pow_counter_unavailable", "reason": reason},
+        )
+
+
+def verification_stats() -> dict[str, int] | None:
+    """Return approximate last-day totals, or None on cache failure."""
+    minute = int(time.time()) // 60
+    keys = {
+        f"pow:stats:{bucket}:{reason}": reason
+        for bucket in range(minute - 1439, minute + 1)
+        for reason in OUTCOMES
+    }
+    try:
+        values = caches[option("CACHE_ALIAS", "default")].get_many(keys)
+    except Exception:
+        return None
+    totals = dict.fromkeys(OUTCOMES, 0)
+    for key, value in values.items():
+        totals[keys[key]] += value
+    return totals
+
+
+def verification_error(reason: str, status: int) -> HttpResponse:
+    record_outcome(reason, status)
+    return headers(JsonResponse({"error": reason}, status=status))
+
+
+def check_clearance(request: HttpRequest) -> HttpResponse:
+    """Check only the cookie, without invoking destination views."""
+    if not option("ENABLED", False):
+        return HttpResponse(status=404)
+    if request.method not in {"GET", "HEAD"}:
+        response = headers(HttpResponse(status=405))
+        response["Allow"] = "GET, HEAD"
+        return response
+    return headers(HttpResponse(status=204 if clearance(request) else 403))
+
+
 # Prefixes end in '/' so similarly named application routes are not exempt.
 EXEMPT = (
     "/static/",
@@ -216,7 +290,7 @@ class ProofCSRF(CsrfViewMiddleware):
 
     def _reject(self, request: HttpRequest, reason: str) -> HttpResponse:
         # The normal failure template loads application context processors.
-        return headers(JsonResponse({"error": "csrf_failed"}, status=403))
+        return verification_error("csrf_failed", 403)
 
     def _get_secret(self, request: HttpRequest) -> str | None:
         value = request.COOKIES.get("weblate_pow_csrf")
@@ -261,6 +335,7 @@ def challenge_page(request: HttpRequest) -> HttpResponse:
                 "challenge": challenge.to_dict(),
                 "challenge_timeout": max(0, int((expires_at - time.time()) * 1000)),
                 "verify_url": prefix() + VERIFY_PATH,
+                "check_url": prefix() + CHECK_PATH,
                 "csrf_token": get_token(request),
                 "language": language,
                 "language_bidi": get_language_bidi(),
@@ -318,13 +393,13 @@ def validated_payload(request: HttpRequest) -> dict:
         or not 0 <= s["counter"] <= 0xFFFFFFFF
         or not isinstance(p["expiresAt"], int)
         or isinstance(p["expiresAt"], bool)
-        or not time.time()
-        < p["expiresAt"]
-        <= time.time() + option("CHALLENGE_AGE", 300)
+        or p["expiresAt"] > time.time() + option("CHALLENGE_AGE", 300)
         or p["data"] != {"ip": binding(request), "target": p["data"]["target"], "v": 1}
         or not safe_target(p["data"]["target"])
     ):
         raise ValueError
+    if p["expiresAt"] <= time.time():
+        raise ExpiredChallengeError
     payload = Payload.from_dict(raw)
     if not verify_solution(payload, secret(request)).verified:
         raise ValueError
@@ -340,6 +415,8 @@ def verify(request: HttpRequest) -> HttpResponse:
     try:
         raw = validated_payload(request)
         p = raw["challenge"]["parameters"]
+    except ExpiredChallengeError:
+        return verification_error("expired_challenge", 400)
     except (
         ValueError,
         TypeError,
@@ -348,7 +425,7 @@ def verify(request: HttpRequest) -> HttpResponse:
         RecursionError,
         RequestDataTooBig,
     ):
-        return headers(JsonResponse({"error": "invalid_solution"}, status=400))
+        return verification_error("invalid_solution", 400)
     try:
         consumed = caches[option("CACHE_ALIAS", "default")].add(
             "pow:" + raw["challenge"]["signature"],
@@ -356,9 +433,10 @@ def verify(request: HttpRequest) -> HttpResponse:
             timeout=max(1, int(p["expiresAt"] - time.time()) + 1),
         )
     except Exception:
-        return headers(JsonResponse({"error": "verification_unavailable"}, status=503))
+        return verification_error("verification_unavailable", 503)
     if not consumed:
-        return headers(JsonResponse({"error": "replayed_challenge"}, status=409))
+        return verification_error("replayed_challenge", 409)
+    record_outcome("success", 200)
     response = JsonResponse({"redirect": p["data"]["target"]})
     response.set_cookie(
         COOKIE,
@@ -381,10 +459,9 @@ def verify(request: HttpRequest) -> HttpResponse:
 
 
 class CrawlerRanges:
-    """Process-local snapshot, refreshed without request-time network access."""
+    """Process-local snapshot loaded once before serving requests."""
 
     def __init__(self) -> None:
-        self.checked = float("-inf")
         self.ranges: dict[str, list[IPv4Network | IPv6Network]] = {}
         self.rules = {
             name: re.compile(pattern, re.IGNORECASE)
@@ -394,7 +471,9 @@ class CrawlerRanges:
             }.items()
         }
 
-    def reload(self) -> None:
+        self.load()
+
+    def load(self) -> None:
         self.ranges = {
             name: [public_network(value) for value in crawler.ranges]
             for name, crawler in CRAWLERS.items()
@@ -409,7 +488,6 @@ class CrawlerRanges:
             if len(raw) > MAX_DOWNLOAD:
                 return
             data = json.loads(raw)
-            refreshed = data["refreshed_at"]
         except (
             OSError,
             ValueError,
@@ -419,27 +497,15 @@ class CrawlerRanges:
             RecursionError,
         ):
             return
-        now = time.time()
-        if not isinstance(data.get("ranges"), dict):
+        if not isinstance(data, dict) or not isinstance(data.get("ranges"), dict):
             return
         for name, values in data["ranges"].items():
             try:
-                timestamp = refreshed[name]
-                if (
-                    not isinstance(timestamp, (int, float))
-                    or isinstance(timestamp, bool)
-                    or not now - MAX_AGE < timestamp <= now
-                ):
-                    continue
                 self.ranges[name] = [public_network(value) for value in values]
             except (ValueError, KeyError, TypeError):
                 continue
 
     def verified(self, request: HttpRequest) -> bool:
-        now = time.monotonic()
-        if now - self.checked > 60:
-            self.checked = now
-            self.reload()
         ua = request.headers.get("user-agent", "")[:1024]
         try:
             address = ip_address(request.META["REMOTE_ADDR"])
@@ -497,7 +563,6 @@ class BotProtectionMiddleware(MiddlewareMixin):
     def __init__(self, get_response: Callable) -> None:
         super().__init__(get_response)
         self.enabled = option("ENABLED", False)
-        self.crawlers = CrawlerRanges()
         if not self.enabled:
             return
         try:
@@ -508,6 +573,7 @@ class BotProtectionMiddleware(MiddlewareMixin):
         except re.error as error:
             msg = "Invalid BOT_PROTECTION_EXEMPT_AGENTS regular expression"
             raise ImproperlyConfigured(msg) from error
+        self.crawlers = CrawlerRanges()
         for name, default, maximum in (
             ("DIFFICULTY", 4, 6),
             ("CHALLENGE_AGE", 300, 3600),
@@ -562,6 +628,8 @@ class BotProtectionMiddleware(MiddlewareMixin):
         if not self.enabled:
             return None
         path = request.path_info.removeprefix(prefix())
+        if path == CHECK_PATH:
+            return check_clearance(request)
         if path == VERIFY_PATH:
             return verify(request)
         exempt_path = (

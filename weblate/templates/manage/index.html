@@ -9,6 +9,37 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% if bot_protection_enabled %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Bot protection" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>{% translate "Verification outcomes over approximately the last 24 hours. Counts are best-effort and can be lost during cache outages or eviction." %}</p>
+        {% if bot_protection_stats is None %}
+          <p>{% translate "Counters are unavailable." %}</p>
+        {% else %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{% translate "Outcome" %}</th>
+                <th scope="col">{% translate "Count" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">{% translate "Success" %}</th><td>{{ bot_protection_stats.success }}</td></tr>
+              <tr><th scope="row">{% translate "Expired challenge" %}</th><td>{{ bot_protection_stats.expired_challenge }}</td></tr>
+              <tr><th scope="row">{% translate "Invalid solution" %}</th><td>{{ bot_protection_stats.invalid_solution }}</td></tr>
+              <tr><th scope="row">{% translate "Replayed challenge" %}</th><td>{{ bot_protection_stats.replayed_challenge }}</td></tr>
+              <tr><th scope="row">{% translate "CSRF failure" %}</th><td>{{ bot_protection_stats.csrf_failed }}</td></tr>
+              <tr><th scope="row">{% translate "Service unavailable" %}</th><td>{{ bot_protection_stats.verification_unavailable }}</td></tr>
+            </tbody>
+          </table>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
 
   <div class="card">
     <div class="card-header">

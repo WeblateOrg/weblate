@@ -596,6 +596,42 @@ class ManagementAccessControlTest(ViewTestCase):
         response = getattr(self.client, method)(reverse(url_name), **kwargs)
         self.assertEqual(response.status_code, 403)
 
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_counters(self) -> None:
+        self.grant_global_permissions("management.use")
+        with patch(
+            "weblate.wladmin.views.verification_stats",
+            return_value={
+                "success": 7,
+                "expired_challenge": 0,
+                "invalid_solution": 0,
+                "replayed_challenge": 0,
+                "csrf_failed": 0,
+                "verification_unavailable": 0,
+            },
+        ):
+            response = self.client.get(reverse("manage"))
+        self.assertContains(response, "Bot protection")
+        self.assertEqual(response.context["bot_protection_stats"]["success"], 7)
+        with patch("weblate.wladmin.views.verification_stats", return_value=None):
+            response = self.client.get(reverse("manage"))
+        self.assertContains(response, "Counters are unavailable.")
+        with (
+            override_settings(BOT_PROTECTION_ENABLED=False),
+            patch(
+                "weblate.wladmin.views.verification_stats", side_effect=AssertionError
+            ),
+        ):
+            response = self.client.get(reverse("manage"))
+        self.assertNotContains(response, "Bot protection")
+
     def test_management_use_only_is_limited(self) -> None:
         self.grant_global_permissions("management.use")
         email = cast("str", self.user.email)

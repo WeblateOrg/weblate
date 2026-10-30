@@ -13,7 +13,6 @@ from typing import Literal
 
 Network = IPv4Network | IPv6Network
 SNAPSHOT = Path(__file__).with_name("crawler-ranges.json")
-MAX_AGE = 7 * 86400
 MAX_DOWNLOAD = 1024 * 1024
 # Endpoint checks alone miss private/special subnets inside a public-looking supernet.
 NONPUBLIC_V4 = tuple(

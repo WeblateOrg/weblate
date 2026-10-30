@@ -3503,7 +3503,13 @@ Network changes require another challenge. Shared NAT clients can share copied
 clearance; PoW increases harvesting cost but does not prevent capable solvers.
 
 The challenge uses a separate CSRF cookie and Django's token and origin checks,
-without creating an application session. Browser workers calculate the solution
+without creating an application session. After solving a challenge, the browser checks its clearance cookie through
+``/-/pow/check/`` before navigating, without invoking the destination view. An
+expired challenge is refreshed automatically once; repeated expiry and other
+failures leave Retry and sign-in available. Failure messages distinguish invalid
+verification, replay, cookie/CSRF problems, and service unavailability.
+
+Browser workers calculate the solution
 without blocking the main thread. Visitors without JavaScript or workers can
 sign in instead. Challenge assets must be available from the same origin.
 
@@ -3519,6 +3525,15 @@ sessionless challenge generation do not access the database or shared cache.
 Keep the replay cache available and sized to retain entries through challenge
 expiry: eviction or cache loss can permit reuse of otherwise valid solutions.
 Normal Django session validation still accesses the configured session backend.
+
+The management overview shows approximate verification counts by outcome over
+24 hours when protection is enabled. Minute buckets in the PoW cache expire
+after 25 hours; eviction and outages can lose counts. Counter failures never
+change verification responses. The ``weblate.bot_protection`` logger emits
+structured verification events with ``event``, ``reason``, ``status``, and
+``count`` fields, without proof payloads or client identifiers. Configure a log
+handler that retains these fields for diagnosis during cache outages. Clearance
+checks remain independent of the cache; verification outcome counters use it.
 
 .. setting:: BOT_PROTECTION_EXEMPT_PATHS
 
@@ -3580,18 +3595,19 @@ trust the service networks, not individual crawler processes. No crawler bypass
 grants authentication or access to private content.
 
 Set an absolute writable filename and run ``weblate update_crawler_ranges`` daily
-using an operator-managed scheduler. It downloads bounded datasets only from
+using an operator-managed scheduler, then restart all application workers to
+load the updated snapshot. It downloads bounded datasets only from
 fixed official HTTPS sources and publishes validated updates atomically. A failed
 provider retains its previous ranges and retrieval time; successful providers
 still update. The command exits unsuccessfully and lists failed providers, so
 monitor its exit status. Administrator-defined entries are preserved.
 HTTP requests never download ranges or perform DNS lookups.
 
-Each downloaded provider's ranges expire seven days after its last successful
-retrieval. An unchanged upstream publication date does not make a freshly
-retrieved feed stale. Reviewed bundled ranges have no automatic expiry and are
-updated through Weblate releases. Processes reload snapshots at most once per
-minute and compile patterns and networks during loading.
+Crawler snapshots are loaded once during application startup. Requests use
+parsed networks in memory without checking file freshness or retrieval age.
+Ranges remain active until restart; packaged snapshots are updated through
+Weblate releases. Custom snapshot updates also require restarting application
+workers. Retrieval timestamps are metadata and do not expire ranges.
 
 ``BOT_PROTECTION_CRAWLER_RULES`` defaults to ``{}`` and extends or overrides the
 mapping from provider identifiers to User-Agent regular expressions. Built-in
