@@ -21,7 +21,6 @@ from django.test import RequestFactory, SimpleTestCase, override_settings
 from weblate.utils.bot_protection import CrawlerRanges
 from weblate.utils.crawlers import (
     CRAWLERS,
-    MAX_AGE,
     MAX_DOWNLOAD,
     SNAPSHOT,
     parse_feed,
@@ -102,13 +101,13 @@ class CrawlerTest(SimpleTestCase):
         self.assertTrue(self.verified(ranges, "77.75.72.26", "SeznamBot/4.0"))
 
     def test_staleness_and_custom_rules(self) -> None:
-        self.snapshot["refreshed_at"]["googlebot"] -= MAX_AGE + 1
+        self.snapshot["refreshed_at"]["googlebot"] -= 8 * 86400
         self.snapshot["ranges"]["custom"] = ["8.8.8.8/32"]
         self.snapshot["refreshed_at"]["custom"] = time.time()
         self.save()
         with override_settings(BOT_PROTECTION_CRAWLER_RULES={"custom": "ExampleBot"}):
             ranges = CrawlerRanges()
-        self.assertFalse(self.verified(ranges, "66.249.64.1", AGENTS["googlebot"]))
+        self.assertTrue(self.verified(ranges, "66.249.64.1", AGENTS["googlebot"]))
         self.assertTrue(self.verified(ranges, "8.8.8.8", "ExampleBot"))
         self.assertTrue(self.verified(ranges, "157.55.39.1", AGENTS["bingbot"]))
         self.filename.write_text("{broken", encoding="utf-8")
@@ -124,21 +123,34 @@ class CrawlerTest(SimpleTestCase):
         ranges = CrawlerRanges()
         self.assertTrue(self.verified(ranges, "157.55.39.1", AGENTS["bingbot"]))
         self.assertNotIn("googlebot", ranges.ranges)
-        self.assertNotIn("applebot", ranges.ranges)
-        self.assertNotIn("duckduckbot", ranges.ranges)
+        self.assertIn("applebot", ranges.ranges)
+        self.assertIn("duckduckbot", ranges.ranges)
 
-    def test_no_request_network_and_bounded_reload(self) -> None:
+    def test_no_request_io_and_startup_loading(self) -> None:
         ranges = CrawlerRanges()
         with (
             patch("socket.gethostbyaddr", side_effect=AssertionError),
             patch("urllib.request.urlopen", side_effect=AssertionError),
-            patch.object(ranges, "reload", wraps=ranges.reload) as reload,
+            patch.object(ranges, "load", side_effect=AssertionError),
+            patch("pathlib.Path.open", side_effect=AssertionError),
+            patch(
+                "weblate.utils.bot_protection.json.loads", side_effect=AssertionError
+            ),
+            patch(
+                "weblate.utils.bot_protection.public_network",
+                side_effect=AssertionError,
+            ),
         ):
             for _index in range(100):
                 self.assertTrue(
                     self.verified(ranges, "77.75.72.26", AGENTS["seznambot"])
                 )
-            self.assertEqual(reload.call_count, 1)
+        self.snapshot["ranges"]["seznambot"] = []
+        self.save()
+        self.assertTrue(self.verified(ranges, "77.75.72.26", AGENTS["seznambot"]))
+        self.assertFalse(
+            self.verified(CrawlerRanges(), "77.75.72.26", AGENTS["seznambot"])
+        )
 
     def test_feed_validation(self) -> None:
         for value in (

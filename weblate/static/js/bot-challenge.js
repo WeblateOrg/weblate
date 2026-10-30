@@ -7,20 +7,40 @@
   const status = document.getElementById("pow-status");
   let worker;
   let timer;
-  const fail = () => {
+  let stopped = false;
+  const recoveryKey = "weblate-pow-recovery";
+  const resetRecovery = () => {
+    try {
+      sessionStorage.removeItem(recoveryKey);
+    } catch {}
+  };
+  const fail = (kind = "error") => {
+    stopped = true;
     worker?.terminate();
     clearTimeout(timer);
     // Keep the existing live region present so assistive technology announces
     // the localized failure and recovery instructions.
-    status.textContent = error.textContent;
+    status.textContent =
+      document.getElementById(`pow-${kind}`)?.textContent || error.textContent;
   };
-  document
-    .getElementById("pow-retry")
-    .addEventListener("click", () => location.reload());
+  const expire = () => {
+    fail("expired");
+    try {
+      if (!sessionStorage.getItem(recoveryKey)) {
+        sessionStorage.setItem(recoveryKey, "1");
+        location.reload();
+      }
+    } catch {}
+  };
+  document.getElementById("pow-retry").addEventListener("click", () => {
+    resetRecovery();
+    location.reload();
+  });
   try {
     worker = new Worker(form.dataset.worker);
-    worker.onerror = fail;
+    worker.onerror = () => fail();
     worker.onmessage = async ({ data }) => {
+      if (stopped) return;
       if (data.progress !== undefined) {
         status.textContent = `${data.progress.toLocaleString()}…`;
         return;
@@ -36,20 +56,50 @@
           },
           body: JSON.stringify(data),
         });
-        if (!response.ok) throw new Error("verification failed");
+        if (stopped) return;
+        if (response.status === 503) {
+          fail("unavailable");
+          return;
+        }
         const result = await response.json();
-        // Probe clearance before navigation to avoid a cookie-disabled loop.
-        const probe = await fetch(result.redirect, {
+        if (stopped) return;
+        if (!response.ok) {
+          if (response.status === 400 && result.error === "expired_challenge") {
+            expire();
+          } else {
+            const reasons = {
+              invalid_solution: "invalid",
+              replayed_challenge: "replayed",
+              csrf_failed: "csrf",
+              verification_unavailable: "unavailable",
+            };
+            fail(
+              Object.hasOwn(reasons, result.error)
+                ? reasons[result.error]
+                : "error",
+            );
+          }
+          return;
+        }
+        // Check the cookie without invoking the destination view.
+        const probe = await fetch(form.dataset.check, {
           method: "HEAD",
           credentials: "same-origin",
         });
-        if (probe.status === 403) throw new Error("clearance rejected");
+        if (stopped) return;
+        if (probe.status !== 204) {
+          fail("clearance");
+          return;
+        }
+        clearTimeout(timer);
+        stopped = true;
+        resetRecovery();
         location.replace(result.redirect);
       } catch {
-        fail();
+        if (!stopped) fail();
       }
     };
-    timer = setTimeout(fail, Number(form.dataset.timeout));
+    timer = setTimeout(expire, Number(form.dataset.timeout));
     worker.postMessage(
       JSON.parse(document.getElementById("pow-challenge").textContent),
     );

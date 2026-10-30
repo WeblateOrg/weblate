@@ -33,9 +33,12 @@ from weblate.utils.bot_protection import (
     BotProtectionMiddleware,
     binding,
     challenge_page,
+    check_clearance,
     clearance,
+    record_outcome,
     safe_target,
     secret,
+    verification_stats,
     verify,
 )
 
@@ -508,6 +511,135 @@ class ProofTest(SimpleTestCase):
                         403,
                     )
 
+    def test_clearance_endpoint(self) -> None:
+        request = self.request("/-/pow/check/")
+        self.assertEqual(check_clearance(request).status_code, 403)
+        response = self.redeem(self.solution(self.request()))
+        request.COOKIES["weblate_pow"] = response.cookies["weblate_pow"].value
+        for method in ("GET", "HEAD"):
+            request.method = method
+            with patch(
+                "weblate.utils.bot_protection.caches", side_effect=AssertionError
+            ):
+                result = check_clearance(request)
+            self.assertEqual(result.status_code, 204)
+            self.assertEqual(result.content, b"")
+            self.assertEqual(result["Cache-Control"], "private, no-store")
+        request.method = "POST"
+        self.assertEqual(check_clearance(request).status_code, 405)
+        request.method = "GET"
+        request.COOKIES["weblate_pow"] += "x"
+        self.assertEqual(check_clearance(request).status_code, 403)
+        with override_settings(BOT_PROTECTION_ENABLED=False):
+            self.assertEqual(check_clearance(request).status_code, 404)
+
+    def test_clearance_middleware_and_destination_permissions(self) -> None:
+        for deployment_prefix in ("", "/hosted"):
+            with override_settings(URL_PREFIX=deployment_prefix):
+                middleware = self.middleware()
+                downstream = Mock(
+                    return_value=HttpResponse("Application denial", status=403)
+                )
+                middleware.get_response = downstream
+                check = self.request(deployment_prefix + "/-/pow/check/")
+                with patch.object(middleware, "classify", side_effect=AssertionError):
+                    self.assertEqual(
+                        self.middleware_response(middleware, check).status_code, 403
+                    )
+                downstream.assert_not_called()
+                # Issue a cookie bound to this deployment.
+                with patch(
+                    "weblate.utils.bot_protection.safe_target", return_value=True
+                ):
+                    response = self.redeem(self.solution(self.request()))
+                check.COOKIES["weblate_pow"] = response.cookies["weblate_pow"].value
+                self.assertEqual(
+                    self.middleware_response(middleware, check).status_code, 204
+                )
+                downstream.assert_not_called()
+                destination = self.request(deployment_prefix + "/projects/")
+                destination.COOKIES.update(check.COOKIES)
+                result = self.middleware_response(middleware, destination)
+                self.assertEqual(result.content, b"Application denial")
+                downstream.assert_called_once()
+
+    def test_disabled_crawlers_do_not_load(self) -> None:
+        with (
+            override_settings(BOT_PROTECTION_ENABLED=False),
+            patch("pathlib.Path.open", side_effect=AssertionError),
+        ):
+            self.middleware()
+
+    def test_verification_counters(self) -> None:
+        with patch(
+            "weblate.utils.bot_protection.time", time=Mock(return_value=1800000000)
+        ):
+            with self.assertLogs("weblate.bot_protection", level="INFO") as logs:
+                record_outcome("success", 200)
+                record_outcome("success", 200)
+                record_outcome("expired_challenge", 400)
+            self.assertEqual(vars(logs.records[0])["reason"], "success")
+            self.assertEqual(vars(logs.records[0])["count"], 1)
+            stats = verification_stats()
+            assert stats is not None
+            self.assertEqual(stats["success"], 2)
+            self.assertEqual(stats["expired_challenge"], 1)
+        with patch(
+            "weblate.utils.bot_protection.time",
+            time=Mock(return_value=1800000000 + 86400),
+        ):
+            stats = verification_stats()
+            assert stats is not None
+            self.assertEqual(stats["success"], 0)
+        with patch(
+            "django.core.cache.backends.locmem.LocMemCache.get_many",
+            side_effect=ConnectionError,
+        ):
+            self.assertIsNone(verification_stats())
+
+    def test_outcome_recorded_once_per_response(self) -> None:
+        payload = self.solution(self.request())
+        with patch("weblate.utils.bot_protection.record_outcome") as record:
+            self.assertEqual(self.redeem(payload).status_code, 200)
+            record.assert_called_once_with("success", 200)
+            record.reset_mock()
+            self.assertEqual(self.redeem(payload).status_code, 409)
+            record.assert_called_once_with("replayed_challenge", 409)
+            record.reset_mock()
+            self.assertEqual(self.redeem({}).status_code, 400)
+            record.assert_called_once_with("invalid_solution", 400)
+            record.reset_mock()
+            request = self.factory.post(
+                "/-/pow/verify/", "{}", content_type="application/json"
+            )
+            self.assertEqual(verify(request).status_code, 403)
+            record.assert_called_once_with("csrf_failed", 403)
+            record.reset_mock()
+            with patch(
+                "weblate.utils.bot_protection.time",
+                time=Mock(return_value=time.time() + 1000),
+            ):
+                self.assertEqual(self.redeem(payload).status_code, 400)
+            record.assert_called_once_with("expired_challenge", 400)
+            record.reset_mock()
+            with patch(
+                "django.core.cache.backends.locmem.LocMemCache.add",
+                side_effect=ConnectionError,
+            ):
+                self.assertEqual(
+                    self.redeem(self.solution(self.request())).status_code, 503
+                )
+            record.assert_called_once_with("verification_unavailable", 503)
+
+    def test_expired_error(self) -> None:
+        payload = self.solution(self.request())
+        with patch(
+            "weblate.utils.bot_protection.time",
+            time=Mock(return_value=time.time() + 1000),
+        ):
+            response = self.redeem(payload)
+        self.assertEqual(json.loads(response.content)["error"], "expired_challenge")
+
     def test_csrf(self) -> None:
         request = self.factory.post(
             "/-/pow/verify/", "{}", content_type="application/json"
@@ -559,7 +691,6 @@ class ProofTest(SimpleTestCase):
 
     def test_crawlers(self) -> None:
         middleware = self.middleware()
-        middleware.crawlers.checked = time.monotonic()
         middleware.crawlers.ranges = {"googlebot": [ip_network("192.0.2.0/24")]}
         request = self.request(
             HTTP_USER_AGENT="Googlebot (+http://www.google.com/bot.html)"
@@ -750,6 +881,10 @@ class ProofTest(SimpleTestCase):
             )
         self.assertEqual(statuses.count(200), 1)
         self.assertEqual(statuses.count(409), 7)
+        stats = verification_stats()
+        assert stats is not None
+        self.assertEqual(stats["success"], 1)
+        self.assertEqual(stats["replayed_challenge"], 7)
 
     def test_prefix_and_unsafe_targets(self) -> None:
         with override_settings(URL_PREFIX="/hosted"):
@@ -828,7 +963,7 @@ const code = fs.readFileSync('weblate/static/js/bot-challenge.js', 'utf8');
         },
         setTimeout: (callback, delay) => {deadline = {callback, delay}; return 1;},
         clearTimeout: () => {cleared = true;},
-        fetch: async () => ({ok: false}),
+        fetch: async () => ({ok: false, json: async () => ({error: "unknown"})}),
       });
       assert.equal(deadline.delay, timeout);
       if (failure === 'worker') worker.onerror();
@@ -850,6 +985,81 @@ const code = fs.readFileSync('weblate/static/js/bot-challenge.js', 'utf8');
             text=True,
             check=True,
             timeout=30,
+        )
+
+    @skipUnless(shutil.which("node"), "Node.js is needed for browser tests")
+    def test_browser_recovery_and_clearance(self) -> None:
+        script = r"""
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const code = fs.readFileSync('weblate/static/js/bot-challenge.js', 'utf8');
+(async () => {
+  for (const scenario of ['success', 'invalid_solution', 'replayed_challenge',
+      'csrf_failed', 'verification_unavailable', 'expired_challenge',
+      'clearance', 'network', 'worker', 'constructor', 'malformed']) {
+    let worker, retry, deadline, navigated, reloads = 0;
+    const calls = [], storage = new Map();
+    const elements = {
+      'pow-form': {dataset: {worker: '/worker.js', url: '/verify/', check: '/check/', timeout: '10000'},
+        querySelector: () => ({value: 'csrf'})},
+      'pow-status': {textContent: 'working'}, 'pow-error': {textContent: 'error'},
+      'pow-retry': {addEventListener: (_, callback) => {retry = callback;}},
+      'pow-challenge': {textContent: '{}'},
+    };
+    for (const reason of ['expired', 'invalid', 'replayed', 'csrf', 'unavailable', 'clearance']) {
+      elements[`pow-${reason}`] = {textContent: reason};
+    }
+    vm.runInNewContext(code, {
+      document: {getElementById: id => elements[id]},
+      sessionStorage: {getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value),
+        removeItem: key => storage.delete(key)},
+      location: {reload: () => {reloads++;}, replace: url => {navigated = url;}},
+      Worker: class {
+        constructor() {if (scenario === 'constructor') throw Error(); worker = this;}
+        postMessage() {}
+        terminate() {}
+      },
+      setTimeout: callback => {deadline = callback; return 1;}, clearTimeout: () => {},
+      fetch: async (url, options) => {
+        calls.push([url, options.method]);
+        if (scenario === 'network') throw Error();
+        if (url === '/check/') return {status: scenario === 'clearance' ? 403 : 204};
+        const status = {invalid_solution: 400, replayed_challenge: 409, csrf_failed: 403,
+          verification_unavailable: 503, expired_challenge: 400}[scenario] || 200;
+        return {ok: status === 200, status, json: async () => {
+          if (scenario === 'malformed') throw Error();
+          return status === 200 ? {redirect: '/destination/'} : {error: scenario};
+        }};
+      },
+    });
+    if (scenario === 'worker') worker.onerror();
+    else if (scenario !== 'constructor') await worker.onmessage({data: {solution: {}}});
+    if (scenario === 'success') {
+      assert.deepEqual(calls, [['/verify/', 'POST'], ['/check/', 'HEAD']]);
+      assert.equal(navigated, '/destination/');
+    } else {
+      assert.equal(navigated, undefined);
+      const expected = {invalid_solution: 'invalid', replayed_challenge: 'replayed',
+        csrf_failed: 'csrf', verification_unavailable: 'unavailable',
+        expired_challenge: 'expired', clearance: 'clearance', constructor: 'error'}[scenario] || 'error';
+      assert.equal(elements['pow-status'].textContent, expected);
+      if (scenario === 'expired_challenge') {
+        assert.equal(reloads, 1);
+        deadline();
+        assert.equal(reloads, 1);
+      }
+      retry();
+      assert.equal(storage.size, 0);
+      assert.ok(reloads > 0);
+    }
+  }
+})().catch(error => {console.error(error); process.exitCode = 1;});
+"""
+        node = shutil.which("node")
+        assert node is not None
+        subprocess.run(
+            [node, "-e", script], check=True, capture_output=True, text=True, timeout=30
         )
 
     @skipUnless(

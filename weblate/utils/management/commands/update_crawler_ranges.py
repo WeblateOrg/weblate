@@ -20,7 +20,7 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Refresh official crawler IP ranges (run daily; no request-time network access)."
+    help = "Refresh official crawler IP ranges (restart application workers after updating)."
 
     def handle(self, *args: str, **options: str) -> None:
         filename = option("CRAWLER_FILE", "")

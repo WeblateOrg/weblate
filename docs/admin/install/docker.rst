@@ -3339,7 +3339,10 @@ environment variable: ``DIFFICULTY`` (4), ``CHALLENGE_AGE`` (300), ``COOKIE_AGE`
 JSON object), ``UNWANTED_AGENTS`` (empty list), and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
 Docker setting syntax. Configure a persistent writable crawler snapshot and run
 ``weblate update_crawler_ranges`` daily from an external scheduler; application
-workers are not required. Use the existing shared cache for replay protection.
+workers do not perform refreshes. Restart application workers after updating
+the snapshot; ranges are loaded only at startup and do not expire by age. Use
+the existing shared cache for replay protection and best-effort verification
+counters, shown in the management overview.
 
 Set :envvar:`WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS` to comma-separated,
 case-insensitive User-Agent regular expressions for monitoring exemptions.
