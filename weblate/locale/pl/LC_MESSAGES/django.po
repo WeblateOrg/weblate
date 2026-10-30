@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 10:58+0000\n"
+"PO-Revision-Date: 2026-10-30 11:46+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -21483,10 +21483,8 @@ msgstr "Nie udało się rozwiązać domeny adresu URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Nie udało się rozwiązać domeny adresu URL."
 
-#, fuzzy
-#| msgid "Invalid parameters!"
 msgid "Invalid stored parameter value."
-msgstr "Nieprawidłowe parametry!"
+msgstr "Nieprawidłowa wartość zapisanego parametru."
 
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametry muszą być słownikiem par klucz-wartość."
@@ -21510,10 +21508,8 @@ msgid ""
 msgstr ""
 "Nie można pobrać zasobu z podanego adresu URL (kod stanu HTTP: %(code)s)."
 
-#, fuzzy
-#| msgid "Search query is too complex."
 msgid "Regular expression is too complex."
-msgstr "Zapytanie wyszukiwania jest zbyt złożone."
+msgstr "Wyrażenie regularne jest zbyt złożone."
 
 msgid "Search query is too complex."
 msgstr "Zapytanie wyszukiwania jest zbyt złożone."
@@ -21543,10 +21539,8 @@ msgstr "Nieprawidłowe wyrażenie regularne: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Nieobsługiwane wyszukiwanie dla {field}: {value}"
 
-#, fuzzy
-#| msgid "Enter component ID or project/component slug."
 msgid "A concrete project or component is required."
-msgstr "Wprowadź identyfikator komponentu lub numer projektu/komponentu."
+msgstr "Wymagany jest konkretny projekt lub element."
 
 msgid "Could not parse IP address: {}"
 msgstr "Nie udało się przeanalizować adresu IP: {}"
@@ -21560,10 +21554,8 @@ msgstr "Zakres nie jest obsługiwany w polu {}"
 msgid "Mixed operators!"
 msgstr "Pomieszane operatory!"
 
-#, fuzzy
-#| msgid "Search query is too complex."
 msgid "Search query is too long."
-msgstr "Zapytanie wyszukiwania jest zbyt złożone."
+msgstr "Zapytanie wyszukiwania jest zbyt długie."
 
 msgid "Invalid character in the query string"
 msgstr "Nieprawidłowy znak w ciągu zapytania"
@@ -21945,51 +21937,40 @@ msgstr ""
 "Nie udało się utworzyć listy żądań ściągnięcia: %(error)s. Spróbuj ponownie "
 "później."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia: %(status)s"
+"Żądanie do API %(service)s podczas dostosowywania pull request zakończyło "
+"się niepowodzeniem: %(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia: %(status)s. Spróbuj ponownie później."
+"Żądanie do API %(service)s podczas dostosowywania pull request zakończyło "
+"się niepowodzeniem: %(status)s. Spróbuj ponownie później."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia (%(status)s): %(error)s"
+"Żądanie do API %(service)s podczas dostosowywania pull request zakończyło "
+"się niepowodzeniem (%(status)s): %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia (%(status)s): %(error)s Spróbuj ponownie później."
+"Żądanie do API %(service)s podczas dostosowywania pull request zakończyło "
+"się niepowodzeniem (%(status)s): %(error)s. Spróbuj ponownie później."
 
 #, python-format
 msgid "GitHub did not assign the requested users: %(assignees)s"
-msgstr ""
+msgstr "GitHub nie przypisał żądanych użytkowników: %(assignees)s"
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -22389,33 +22370,34 @@ msgstr ""
 "tej opcji Weblate przesyła zmiany bezpośrednio do gałęzi tłumaczenia, co "
 "wymaga dostępu do zapisu."
 
-#, fuzzy
-#| msgid "Pull request"
 msgid "Pull request assignee"
-msgstr "Pull request"
+msgstr "Osoba przypisana do pull request"
 
 msgid "GitHub username to assign to pull requests created by Weblate."
 msgstr ""
+"Nazwa użytkownika w serwisie GitHub, która ma być przypisywana do pull "
+"requestów tworzonych przez Weblate."
 
-#, fuzzy
-#| msgid "Merge pull requests automatically"
 msgid "Assign pull requests to acting user"
-msgstr "Automatycznie scalaj pull requesty"
+msgstr "Przypisz pull requesty do bieżącego użytkownika"
 
 msgid ""
 "Also assign the GitHub account linked to the Weblate user who starts the "
 "push, when available."
 msgstr ""
+"Jeśli to możliwe, przypisz również konto GitHub powiązane z użytkownikiem "
+"serwisu Weblate, który inicjuje operację push."
 
-#, fuzzy
-#| msgid "Pull request"
 msgid "Pull request labels"
-msgstr "Pull request"
+msgstr "Etykiety pull requestów"
 
 msgid ""
 "Comma-separated names of labels to add to pull requests created by Weblate. "
 "Existing labels are kept."
 msgstr ""
+"Rozdzielona przecinkami lista nazw etykiet, które mają zostać dodane do "
+"żądań pull request utworzonych przez Weblate. Istniejące etykiety zostają "
+"zachowane."
 
 msgid "Merge pull requests automatically"
 msgstr "Automatycznie scalaj pull requesty"
@@ -22981,22 +22963,15 @@ msgstr "Domyślne ustawienia odziedziczonych komponentów"
 msgid "Workspace name"
 msgstr "Nazwa obszaru roboczego"
 
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Translation propagation scope"
-msgstr "Zezwól na propagację tłumaczenia"
+msgstr "Zakres propagacji tłumaczenia"
 
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Matching component name within workspace"
-msgstr "Nie można zmieniać komponentów w zespole obszaru roboczego."
+msgstr "Zgodna nazwa komponentu w obszarze roboczym"
 
-#, fuzzy
-#| msgid ""
-#| "Whether to overwrite existing translations if the string is already "
-#| "translated."
 msgid "Where translations of matching strings are propagated."
-msgstr "Nadpisuje istniejące tłumaczenie, jeśli ciąg jest już przetłumaczony."
+msgstr ""
+"Miejsce, do którego przekazywane są tłumaczenia pasujących ciągów znaków."
 
 msgid "Managed name"
 msgstr "Nazwa zarządzana"
