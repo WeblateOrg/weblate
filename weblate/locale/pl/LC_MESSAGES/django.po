@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 10:49+0000\n"
+"PO-Revision-Date: 2026-10-30 10:58+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -17190,10 +17190,8 @@ msgstr "Wprowadź ciąg do zastąpienia."
 msgid "Invalid target state."
 msgstr "Nieprawidłowy stan docelowy."
 
-#, fuzzy
-#| msgid "How to handle requests for creating new translations."
 msgid "Choose either replacement or clearing translations."
-msgstr "Jak obsługiwać żądania tworzenia nowych tłumaczeń."
+msgstr "Wybierz tłumaczenie przez zastąpienie lub tłumaczenie przez usunięcie."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Komponent został automatycznie zablokowany z powodu alertu."
@@ -18355,6 +18353,9 @@ msgid ""
 "Case-sensitive text or regular expression to replace in matching strings. "
 "Leave empty to disable replacement."
 msgstr ""
+"Tekst (z uwzględnieniem wielkości liter) lub wyrażenie regularne, które ma "
+"zostać użyte do zastąpienia fragmentów w dopasowanych ciągach znaków. "
+"Pozostaw puste, aby wyłączyć zastępowanie."
 
 msgid "Replacement string"
 msgstr "Ciąg zastępczy"
@@ -18363,6 +18364,9 @@ msgid ""
 "Leave empty to remove matching text. In regular expression mode, use \\1 for "
 "the first captured group. Named group references are also supported."
 msgstr ""
+"Pozostaw puste, aby usunąć dopasowany tekst. W trybie wyrażeń regularnych "
+"użyj \\1 dla pierwszej przechwyconej grupy. Obsługiwane są również odwołania "
+"do grup nazwanych."
 
 msgid "State to set"
 msgstr "Stan do ustawienia"
@@ -18370,82 +18374,78 @@ msgstr "Stan do ustawienia"
 msgid "Do not change"
 msgstr "Nie zmieniaj"
 
-#, fuzzy
-#| msgid "Edit flags"
 msgid "Add flags"
-msgstr "Edytuj flagi"
+msgstr "Dodaj flagi"
 
-#, fuzzy
-#| msgid "Remove app"
 msgid "Remove flags"
-msgstr "Usuń aplikację"
+msgstr "Usuń flagi"
 
-#, fuzzy
-#| msgid "Removes locally set flags. Inherited flags remain in effect."
 msgid ""
 "Only flags set directly on these translations are removed. Inherited flags "
 "remain in effect."
-msgstr "Usuwa lokalnie ustawione flagi. Flagi dziedziczone pozostają w mocy."
+msgstr ""
+"Usuwane są tylko flagi ustawione bezpośrednio dla tych tłumaczeń. Flagi "
+"odziedziczone pozostają w mocy."
 
-#, fuzzy
-#| msgid "Add label"
 msgid "Add labels"
-msgstr "Dodaj etykietę"
+msgstr "Dodaj etykiety"
 
-#, fuzzy
-#| msgid "Remove duplicates"
 msgid "Remove labels"
-msgstr "Usuń duplikaty"
+msgstr "Usuń etykiety"
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview changes"
-msgstr "Przejrzyj zmiany"
+msgstr "Podejrzyj zmiany"
 
 msgid "Choose flags to add…"
-msgstr ""
+msgstr "Wybierz flagi do dodania…"
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Choose flags to remove…"
-msgstr "Komponent do usunięcia"
+msgstr "Wybierz flagi do usunięcia…"
 
-#, fuzzy
-#| msgid "Source language"
 msgid "Source flags"
-msgstr "Język źródłowy"
+msgstr "Flagi źródłowe"
 
 msgid ""
 "Flags are set on the source strings corresponding to your selection and "
 "apply to their translations in every language."
 msgstr ""
+"Flagi są przypisywane do ciągów źródłowych odpowiadających Twojemu wyborowi "
+"i mają zastosowanie do ich tłumaczeń we wszystkich językach."
 
 msgid ""
 "Flags are set on the source strings corresponding to your filter results and "
 "apply to their translations in every language."
 msgstr ""
+"Flagi są przypisywane do ciągów źródłowych odpowiadających wynikom "
+"filtrowania i mają zastosowanie do ich tłumaczeń we wszystkich językach."
 
-#, fuzzy
-#| msgid "Applies only to matching translations, excluding source strings."
 msgid ""
 "Flags apply only to translations in your selection. Source strings are "
 "excluded."
-msgstr "Dotyczy tylko pasujących tłumaczeń, z wyłączeniem ciągów źródłowych."
+msgstr ""
+"Flagi dotyczą tylko tłumaczeń w Twoim zaznaczeniu. Ciągi źródłowe są "
+"wykluczone."
 
 msgid ""
 "Flags apply only to translations matching your filter. Source strings are "
 "excluded."
 msgstr ""
+"Flagi dotyczą tylko tłumaczeń pasujących do Twojego filtra. Ciągi źródłowe "
+"są wykluczone."
 
 msgid ""
 "Labels apply to the source strings corresponding to your selection and are "
 "shared across all languages."
 msgstr ""
+"Etykiety dotyczą ciągów źródłowych odpowiadających Twojemu wyborowi i są "
+"wspólne dla wszystkich języków."
 
 msgid ""
 "Labels apply to the source strings corresponding to your filter results and "
 "are shared across all languages."
 msgstr ""
+"Etykiety dotyczą ciągów źródłowych odpowiadających wynikom filtrowania i są "
+"wspólne dla wszystkich języków."
 
 msgid "Select strings to edit or enter a search query."
 msgstr "Wybierz ciągi do edycji lub wprowadź zapytanie wyszukiwania."
@@ -20990,21 +20990,15 @@ msgstr "Zbyt wiele kwerend wyszukiwania, spróbuj ponownie później."
 msgid "Invalid search query!"
 msgstr "Nieprawidłowe zapytanie!"
 
-#, fuzzy
-#| msgid ""
-#| "The original review state is invalid. Reload the editor and try again."
 msgid "The preview has expired or is invalid. Preview the changes again."
-msgstr ""
-"Pierwotny stan przeglądu jest nieprawidłowy. Odśwież edytor i spróbuj "
-"ponownie."
+msgstr "Podgląd wygasł lub jest nieprawidłowy. Wyświetl podgląd zmian ponownie."
 
 msgid "Could not process form!"
 msgstr "Nie udało się przetworzyć formularza!"
 
-#, fuzzy, python-format
-#| msgid "Authentication failed: %s"
+#, python-format
 msgid "Bulk edit failed: %s"
-msgstr "Uwierzytelnianie nie powiodło się: %s"
+msgstr "Masowa edycja nie powiodła się: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Edycja zbiorcza zakończona, nie zostały zaktualizowane żadne ciągi."
@@ -21165,138 +21159,157 @@ msgstr "Borg został ukończony z ostrzeżeniami i bez żadnego wyniku."
 msgid "Invalid host name given!"
 msgstr "Podano nieprawidłową nazwę hosta!"
 
-#, fuzzy
-#| msgid "JSX expressions in the translation do not match the source."
 msgid "Press ? in the translation editor to discover keyboard shortcuts."
-msgstr "Wyrażenia JSX w tłumaczeniu nie pasują do źródła."
+msgstr "Naciśnij ? w edytorze tłumaczeń, aby poznać skróty klawiszowe."
 
 msgid ""
 "Add secondary languages in your preferences to see translations you already "
 "understand alongside the source."
 msgstr ""
+"Dodaj języki dodatkowe w swoich preferencjach, aby obok tekstu źródłowego "
+"widzieć tłumaczenia w językach, które już znasz."
 
 msgid ""
 "Customize your special characters in your profile to keep frequently used "
 "characters within reach."
 msgstr ""
+"Dostosuj znaki specjalne w swoim profilu, aby mieć te najczęściej używane "
+"zawsze pod ręką."
 
 msgid ""
 "Use the visual keyboard above the translation field to insert special "
 "characters."
 msgstr ""
+"Użyj klawiatury ekranowej znajdującej się nad polem tłumaczenia, aby "
+"wprowadzić znaki specjalne."
 
-#, fuzzy
-#| msgid "Saved searches are offered in the search filters."
 msgid ""
 "Save searches you use often so you can return to them from the search "
 "filters."
-msgstr "Zapisane wyszukiwania są dostępne w filtrach wyszukiwania."
+msgstr ""
+"Zapisuj często używane wyszukiwania, aby móc do nich wracać z poziomu "
+"filtrów wyszukiwania."
 
 msgid ""
 "Combine search conditions with AND, OR, and NOT to find exactly the strings "
 "you need."
 msgstr ""
+"Łącz warunki wyszukiwania za pomocą operatorów AND, OR oraz NOT, aby znaleźć "
+"dokładnie takie ciągi znaków, jakich potrzebujesz."
 
 msgid ""
 "Search with regular expressions when a simple word search is not enough."
 msgstr ""
+"Korzystaj z wyrażeń regularnych, gdy zwykłe wyszukiwanie słów nie wystarcza."
 
-#, fuzzy
-#| msgid "Use flags to indicate special strings in your translation."
 msgid "Use labels to organize strings and find related translation work."
-msgstr "Użyj flag, aby wskazać specjalne ciągi w tłumaczeniu."
+msgstr ""
+"Używaj etykiet, aby porządkować ciągi znaków i znajdować powiązane zadania "
+"tłumaczeniowe."
 
 msgid ""
 "Check a string’s screenshots to see where the text appears in the "
 "application."
 msgstr ""
+"Sprawdź zrzuty ekranu dla danego ciągu znaków, aby zobaczyć, w którym "
+"miejscu aplikacji pojawia się dany tekst."
 
 msgid ""
 "Link an existing screenshot to a string to give translators more context."
 msgstr ""
+"Powiąż istniejący zrzut ekranu z ciągiem tekstowym, aby zapewnić tłumaczom "
+"więcej kontekstu."
 
 msgid ""
 "Check nearby strings for context before translating a short or ambiguous "
 "message."
 msgstr ""
+"Przed przetłumaczeniem krótkiego lub niejednoznacznego komunikatu sprawdź "
+"sąsiednie ciągi znaków, aby uzyskać kontekst."
 
 msgid "Explore a string’s history to see how its translation has changed."
 msgstr ""
+"Przeanalizuj historię ciągu, aby sprawdzić, jak zmieniało się jego "
+"tłumaczenie."
 
 msgid ""
 "Leave a comment on a source string to ask for context that can help every "
 "language."
 msgstr ""
+"Dodaj komentarz do ciągu źródłowego, aby poprosić o kontekst, który może "
+"okazać się pomocny dla wszystkich języków."
 
 msgid ""
 "Suggest a translation when you want others to review your wording before it "
 "is accepted."
 msgstr ""
+"Zaproponuj tłumaczenie, jeśli chcesz, aby inni sprawdzili Twoje "
+"sformułowania, zanim zostaną one zaakceptowane."
 
-#, fuzzy
-#| msgid "An obsolete translation suggestion was removed during cleanup."
 msgid "You can edit a translation suggestion before accepting it."
-msgstr "Podczas czyszczenia usunięto nieaktualną sugestię tłumaczenia."
+msgstr "Możesz edytować propozycję tłumaczenia, zanim ją zaakceptujesz."
 
 msgid ""
 "Add terms to a project glossary to help translators use consistent wording."
 msgstr ""
+"Dodaj terminy do glosariusza projektu, aby pomóc tłumaczom w stosowaniu "
+"spójnego słownictwa."
 
 msgid ""
 "Glossaries can mark terms as forbidden to help translators avoid unwanted "
 "wording."
 msgstr ""
+"Słowniki mogą oznaczać terminy jako niedozwolone, pomagając tłumaczom unikać "
+"niepożądanego słownictwa."
 
 msgid "Glossaries can mark names and other terms as untranslatable."
 msgstr ""
+"W słownikach można oznaczyć nazwy oraz inne terminy jako nietłumaczalne."
 
 msgid ""
 "Watch projects you care about and choose which translation events notify you."
 msgstr ""
+"Obserwuj projekty, które Cię interesują, i wybierz, o których wydarzeniach "
+"tłumaczeniowych będziesz otrzymywać powiadomienia."
 
 msgid ""
 "Choose notification digests to receive translation updates together instead "
 "of one email at a time."
 msgstr ""
+"Wybierz otrzymywanie zbiorczych powiadomień, aby dostawać aktualizacje "
+"tłumaczeń w jednym zestawieniu, zamiast otrzymywać każdą wiadomość osobno."
 
-#, fuzzy
-#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgid "Regular expression processing failed or exceeded its resource limit."
 msgstr ""
-"Walidacja lub ocena CEL zakończyła się niepowodzeniem albo przekroczyła "
-"limit zasobów."
+"Przetwarzanie wyrażenia regularnego nie powiodło się lub przekroczyło limit "
+"zasobów."
 
-#, fuzzy
-#| msgid "The API request rate limit was exceeded."
 msgid "Cumulative regex time limit exceeded."
-msgstr "Przekroczono limit liczby żądań API."
+msgstr "Przekroczono łączny limit czasu dla wyrażeń regularnych."
 
 msgid "Regex request exceeds its size limit."
-msgstr ""
+msgstr "Żądanie dotyczące wyrażenia regularnego przekracza limit rozmiaru."
 
-#, fuzzy
-#| msgid "Regular expression to match translation files against"
 msgid "Regular expression evaluation timed out."
-msgstr "Wyrażenie regularne dopasowujące pliki tłumaczeń"
+msgstr "Przekroczono limit czasu podczas obliczania wyrażenia regularnego."
 
 msgid "Regex response exceeds its size limit."
-msgstr ""
+msgstr "Odpowiedź wyrażenia regularnego przekracza limit rozmiaru."
 
 msgid "Regex output exceeds its size limit."
-msgstr ""
+msgstr "Dane wyjściowe wyrażenia regularnego przekraczają limit rozmiaru."
 
-#, fuzzy
-#| msgid "Topic prefix must not exceed %(limit)d characters."
 msgid "Pattern and replacement must not exceed 4096 characters."
-msgstr "Prefiks tematu nie może przekraczać %(limit)d znaków."
+msgstr "Wzorzec oraz ciąg zastępujący nie mogą przekraczać 4096 znaków."
 
 msgid "Regex input exceeds 1 MiB per plural."
 msgstr ""
+"Dane wejściowe wyrażenia regularnego przekraczają 1 MiB na formę liczby "
+"mnogiej."
 
-#, fuzzy, python-format
-#| msgid "Invalid regular expression: {}"
+#, python-format
 msgid "Invalid regular expression or replacement: %s"
-msgstr "Nieprawidłowe wyrażenie regularne: {}"
+msgstr "Nieprawidłowe wyrażenie regularne lub element zastępujący: %s"
 
 msgid "Automatic translation reported a warning."
 msgstr "Automatyczne tłumaczenie wygenerowało ostrzeżenie."
@@ -21311,10 +21324,8 @@ msgstr ""
 "Zadania nie udało się ukończyć. Szczegółowe informacje znajdują się w "
 "dzienniku zadań."
 
-#, fuzzy
-#| msgid "Automatic translation reported a warning."
 msgid "Automatic translation reported an error."
-msgstr "Automatyczne tłumaczenie wygenerowało ostrzeżenie."
+msgstr "Wystąpił błąd podczas tłumaczenia automatycznego."
 
 #. Translators: Name of a color
 msgid "Navy"
