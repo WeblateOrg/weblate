@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-16 04:33+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1422,6 +1422,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr ""
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
 #, python-format
 msgid "Security key (%s)"
 msgstr ""
@@ -1541,9 +1544,6 @@ msgstr ""
 #| msgid "Your e-mail"
 msgid "Verify new e-mail address"
 msgstr "bIQagh"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1754,6 +1754,10 @@ msgstr ""
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
+msgstr ""
+
+#, python-format
+msgid "Error: %s"
 msgstr ""
 
 msgid "enabled"
@@ -2050,7 +2054,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "pong naQ"
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 #, fuzzy
@@ -2196,6 +2200,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Your name"
+msgid "Comment extraction"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Keywords"
+msgstr "mu'wIj"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Update behavior"
+msgstr "mughmeH lulIjbe'lu'bogh"
+
 msgid "This field is required."
 msgstr ""
 
@@ -2243,6 +2265,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Input files"
+msgstr "ponglIj'e'"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2481,6 +2508,21 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "pong naQ"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Component naming and file templates"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Component lifecycle"
+msgstr "ponglIj'e'"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2680,6 +2722,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "mu'wIj chu' (jatlhqa')"
 
+#, fuzzy
+#| msgid "Your name"
+msgid "Source and target"
+msgstr "ponglIj'e'"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Text expansion"
+msgstr "pong Qav"
+
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -2771,6 +2829,22 @@ msgstr ""
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Broker connection"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Event selection"
+msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr ""
@@ -3346,6 +3420,11 @@ msgstr ""
 
 msgid "Your suggestion already exists!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Search query"
+msgstr "ponglIj'e'"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4560,6 +4639,130 @@ msgid "Preview without changes"
 msgstr "pong Qav"
 
 #, fuzzy
+#| msgid "Last name"
+msgid "Change events"
+msgstr "pong Qav"
+
+msgid "The workflow runs for each of the selected events."
+msgstr ""
+
+msgid "CEL expression"
+msgstr ""
+
+msgid "The expression has to evaluate to a boolean."
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Category path"
+msgstr "pong naQ"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr ""
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Change event"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "String state"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Action ID"
+msgstr "pong naQ"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Whole component"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "String affected by the change"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "String scope"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Default (whole component)"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Select strings"
+msgstr "pong Qav"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk editing"
+msgstr "pong naQ"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Component update"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Repository update"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Repository commit"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Repository push"
+msgstr "pong Qav"
+
+msgid "Manual run"
+msgstr ""
+
+msgid "Expression"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Component category"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Matching strings"
+msgstr "pong Qav"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Nov"
+msgid "Not"
+msgstr "ghobe'"
+
+#, fuzzy
 #| msgid "New password (again)"
 msgid "Additional message"
 msgstr "mu'wIj chu' (jatlhqa')"
@@ -5029,8 +5232,8 @@ msgid "Inconsistent"
 msgstr ""
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 
 #, fuzzy
@@ -6598,9 +6801,6 @@ msgstr "ponglIj'e'"
 msgid "Enter a valid language code."
 msgstr "ponglIj'e'"
 
-msgid "Language code"
-msgstr ""
-
 msgid "Language name"
 msgstr ""
 
@@ -7066,6 +7266,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "ponglIj'e'"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7667,6 +7870,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "ponglIj'e'"
 
+#, fuzzy
+#| msgid "Last name"
+msgid "Rate limit reset."
+msgstr "pong Qav"
+
 msgid "File"
 msgstr ""
 
@@ -8020,9 +8228,22 @@ msgstr[0] "mu'wIj chu' (jatlhqa')"
 msgid "No new matching source strings found."
 msgstr "vIHbe'choH not tlhegh."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
 #, fuzzy
 #| msgid "New password (again)"
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Could not find strings in the image. Please try again."
 msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy
@@ -8878,6 +9099,9 @@ msgstr ""
 msgid "API key copied to clipboard."
 msgstr ""
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr ""
 
@@ -9472,6 +9696,11 @@ msgid "No components found."
 msgstr "ponglIj'e'"
 
 #, fuzzy
+#| msgid "New password (again)"
+msgid "Integration instructions"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
 #| msgid "Set password"
 msgid "Configure add-on"
 msgstr "mu'wIj HIjmeH"
@@ -9597,10 +9826,81 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "Workflow editing mode"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Editor"
+msgstr "ponglIj'e'"
+
+msgid "YAML"
+msgstr ""
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
 #, fuzzy
 #| msgid "New password (again)"
-msgid "Integration instructions"
+msgid "Add trigger"
 msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Set password"
+msgid "Conditions"
+msgstr "mu'wIj HIjmeH"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "All conditions have to pass before any action runs."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Set password"
+msgid "Condition"
+msgstr "mu'wIj HIjmeH"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Add condition"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid "Actions"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid "Action"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Add action"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Move up"
+msgstr "ponglIj'e'"
+
+msgid "Move down"
+msgstr ""
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9673,6 +9973,24 @@ msgid "The following components could not be created"
 msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "No matching components were found!"
+msgstr ""
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
 msgstr ""
 
 msgid ""
@@ -9831,6 +10149,19 @@ msgstr ""
 msgid "Source string"
 msgstr ""
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9839,6 +10170,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9953,6 +10300,9 @@ msgstr ""
 #| msgid "Your name"
 msgid "My workspaces"
 msgstr "ponglIj'e'"
+
+msgid "Workspaces"
+msgstr ""
 
 #, fuzzy
 #| msgid "Your name"
@@ -10186,9 +10536,6 @@ msgstr ""
 msgid "Event details"
 msgstr "wa'DIch pong"
 
-msgid "Actions"
-msgstr ""
-
 msgid "Download"
 msgstr ""
 
@@ -10299,6 +10646,103 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+msgid "Working…"
+msgstr ""
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "New password (again)"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr ""
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgid "Last name"
+msgid "String"
+msgstr "pong Qav"
+
+msgid "Changes"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Source flags (all languages)"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Translation flags"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Add label (all languages)"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Remove label (all languages)"
+msgstr "ponglIj'e'"
+
+msgid "Apply"
+msgstr ""
+
 msgid "Insights"
 msgstr ""
 
@@ -10321,9 +10765,6 @@ msgstr ""
 msgid "Operations"
 msgstr "mughmeH"
 
-msgid "Search and replace"
-msgstr ""
-
 msgid "Post announcement"
 msgstr ""
 
@@ -10336,14 +10777,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 #| msgid "Your name"
 msgid "Browse all changes for this language"
 msgstr "ponglIj'e'"
-
-#, fuzzy
-#| msgid "Last name"
-msgid "Review changes"
-msgstr "pong Qav"
-
-msgid "Apply"
-msgstr ""
 
 #, fuzzy
 #| msgid "Your name"
@@ -11173,9 +11606,6 @@ msgstr ""
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr ""
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -11330,6 +11760,9 @@ msgstr ""
 msgid "Mark as spam"
 msgstr ""
 
+msgid "Service is no longer available"
+msgstr ""
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -11349,26 +11782,20 @@ msgid "workspace"
 msgstr "ponglIj'e'"
 
 #, fuzzy
+#| msgid "Your name"
+msgid "Rate limited"
+msgstr "ponglIj'e'"
+
+#, fuzzy
 #| msgid "New password (again)"
 msgid "This service is disabled."
 msgstr "mu'wIj chu' (jatlhqa')"
-
-msgid "disabled"
-msgstr ""
-
-msgid "Service is no longer available"
-msgstr ""
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translations"
-msgid "Installation slug (optional)"
-msgstr "mughmeH"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11377,35 +11804,152 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Your name"
+msgid "Inherited service"
+msgstr "ponglIj'e'"
+
+#, fuzzy
 #| msgid "New password (again)"
-msgid "Configured translation services"
+msgid "This service is managed at its installation scope."
 msgstr "mu'wIj chu' (jatlhqa')"
 
-msgid "Stop using this installation without removing its configuration."
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Manage this installation"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Installation slug (optional)"
+msgstr "mughmeH"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "This service has no settings."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Use in automations"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Rate limit"
+msgstr "ponglIj'e'"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Reset rate limit"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr ""
+
+msgid "Service control"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Disable installation"
+msgstr "ponglIj'e'"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
 msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Enable installation"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr ""
 
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
+
 #, fuzzy
 #| msgid "New password (again)"
-msgid "Remove this installation and its configuration."
+msgid "Exclude inherited service"
 msgstr "mu'wIj chu' (jatlhqa')"
 
-msgid "Exclude all inherited installations of this service"
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Configured translation services"
+msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "There are no services currently installed."
 msgstr ""
@@ -11428,6 +11972,16 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Translation service errors"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "No translation service errors available."
+msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy, python-format
 #| msgid "Your name"
@@ -12521,9 +13075,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid "Check user access"
 msgstr ""
 
-msgid "Workspaces"
-msgstr ""
-
 msgid "Add workspace"
 msgstr ""
 
@@ -12651,6 +13202,9 @@ msgstr ""
 
 #. Translators: Shared translation memory is disabled
 msgid "off"
+msgstr ""
+
+msgid "Configure"
 msgstr ""
 
 #, fuzzy
@@ -12868,20 +13422,6 @@ msgstr "ponglIj'e'"
 msgid "Donate to Weblate development"
 msgstr ""
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-msgid "Update preview"
-msgstr ""
-
-msgid "Replace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translations"
 msgid "Generated by"
@@ -12923,6 +13463,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr ""
 
+#, fuzzy
+#| msgid "Last name"
+msgid "Find source strings"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Image text"
+msgstr "pong Qav"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "First name"
+msgid "Add selected"
+msgstr "wa'DIch pong"
+
 msgid "Source string search"
 msgstr ""
 
@@ -12935,19 +13493,6 @@ msgstr ""
 #| msgid "New password (again)"
 msgid "Search query syntax documentation"
 msgstr "mu'wIj chu' (jatlhqa')"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "New password (again)"
-msgid "Find strings in image"
-msgstr "mu'wIj chu' (jatlhqa')"
-
-#, fuzzy
-#| msgid "First name"
-msgid "Add selected"
-msgstr "wa'DIch pong"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13149,7 +13694,7 @@ msgstr "pong Qav"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -13280,9 +13825,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr "mu'wIj chu' (jatlhqa')"
 
-msgid "Select"
-msgstr ""
-
 #, fuzzy
 #| msgid "Last name"
 msgid "Target string"
@@ -13332,7 +13874,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -13857,11 +14398,6 @@ msgstr "pong Qav"
 msgid "Location strings"
 msgstr "mu'wIj chu' (jatlhqa')"
 
-#, fuzzy
-#| msgid "Last name"
-msgid "String state"
-msgstr "pong Qav"
-
 #. Translators: String pending for flushing to VCS.
 #, fuzzy
 #| msgid "Last name"
@@ -14060,11 +14596,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 #, fuzzy
 #| msgid "Your name"
 msgid "Saved search name"
-msgstr "ponglIj'e'"
-
-#, fuzzy
-#| msgid "Your name"
-msgid "Search query"
 msgstr "ponglIj'e'"
 
 msgid "No saved searches yet."
@@ -14855,6 +15386,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
@@ -14984,9 +15525,6 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-msgid "Changes"
-msgstr ""
-
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -15057,9 +15595,6 @@ msgstr ""
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
-msgstr ""
-
-msgid "Retry"
 msgstr ""
 
 msgid ""
@@ -17501,6 +18036,12 @@ msgstr "mu'wIj chu' (jatlhqa')"
 
 #. Translators: Name of an alert
 #, fuzzy
+#| msgid "New password (again)"
+msgid "Could not customize the pull request."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#. Translators: Name of an alert
+#, fuzzy
 #| msgid "Last name"
 msgid "Repository outdated."
 msgstr "pong Qav"
@@ -17528,6 +18069,18 @@ msgstr ""
 
 msgid "Trailing and leading whitespace"
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy, python-format
+#| msgid "New password (again)"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "mu'wIj chu' (jatlhqa')"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
@@ -17608,6 +18161,9 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid "Screenshot image is missing."
 msgstr "wa'DIch pong"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 #, fuzzy
 #| msgid "New password (again)"
 msgid "Duplicate check name."
@@ -17625,6 +18181,11 @@ msgstr ""
 #| msgid "Your name"
 msgid "Duplicate component slug."
 msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Translation revision has an invalid format."
+msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy
 #| msgid "New password (again)"
@@ -17704,9 +18265,45 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+msgid "Version control parameters"
+msgstr ""
+
+msgid "File format parameters"
+msgstr ""
+
 #, fuzzy
 #| msgid "New password (again)"
 msgid "The project repository directory already exists."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Invalid search type."
+msgstr "ponglIj'e'"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Invalid target state."
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Choose either replacement or clearing translations."
 msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy
@@ -17853,9 +18450,6 @@ msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 
 msgid "Version control"
-msgstr ""
-
-msgid "State"
 msgstr ""
 
 msgid "Severity"
@@ -18914,18 +19508,6 @@ msgstr "pong Qav"
 msgid "Could not load project backup."
 msgstr "pong Qav"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-msgid "Search string"
-msgstr ""
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 #, fuzzy
 #| msgid "Your name"
 msgid "Key or context"
@@ -18992,6 +19574,30 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid "Invalid string selection!"
 msgstr "ponglIj'e'"
 
+#, fuzzy
+#| msgid "Your name"
+msgid "Search type"
+msgstr "ponglIj'e'"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr ""
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr ""
 
@@ -19000,39 +19606,80 @@ msgstr ""
 msgid "Do not change"
 msgstr "pong Qav"
 
-msgid "Source flags to add — all languages"
-msgstr ""
-
-msgid "Source flags to remove — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Your name"
+msgid "Add flags"
+msgstr "ponglIj'e'"
 
 #, fuzzy
-#| msgid "New password (again)"
-msgid "Translation flags to add — matching translations"
-msgstr "mu'wIj chu' (jatlhqa')"
+#| msgid "Last name"
+msgid "Remove flags"
+msgstr "pong Qav"
 
-#, fuzzy
-#| msgid "New password (again)"
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "mu'wIj chu' (jatlhqa')"
-
-#, fuzzy
-#| msgid "New password (again)"
-msgid "Translation flags to remove — matching translations"
-msgstr "mu'wIj chu' (jatlhqa')"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
 #| msgid "Your name"
-msgid "Labels to add — all languages"
+msgid "Add labels"
+msgstr "ponglIj'e'"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Remove labels"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Preview changes"
+msgstr "pong Qav"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Choose flags to remove…"
 msgstr "ponglIj'e'"
 
 #, fuzzy
 #| msgid "Your name"
-msgid "Labels to remove — all languages"
+msgid "Source flags"
 msgstr "ponglIj'e'"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -19313,11 +19960,6 @@ msgstr "pong naQ"
 #| msgid "Your name"
 msgid "Display name"
 msgstr "ponglIj'e'"
-
-#, fuzzy
-#| msgid "New password (again)"
-msgid "Translation flags"
-msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -19634,9 +20276,6 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
-msgid "Version control parameters"
-msgstr ""
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -19736,9 +20375,6 @@ msgstr ""
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr ""
-
-msgid "File format parameters"
 msgstr ""
 
 msgid "Locked component will not get any translation updates."
@@ -21605,17 +22241,6 @@ msgstr "pong Qav"
 msgid "Excluded user days"
 msgstr "ponglIj'e'"
 
-msgid "Could not process form!"
-msgstr ""
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -21625,6 +22250,17 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr ""
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Full name"
+msgid "Bulk edit failed: %s"
+msgstr "pong naQ"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
@@ -21827,6 +22463,129 @@ msgstr ""
 
 #, fuzzy
 #| msgid "New password (again)"
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Last name"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "pong Qav"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Regular expression evaluation timed out."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "New password (again)"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#| msgid "New password (again)"
 msgid "Automatic translation reported a warning."
 msgstr "mu'wIj chu' (jatlhqa')"
 
@@ -21837,6 +22596,11 @@ msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Automatic translation reported an error."
+msgstr "mu'wIj chu' (jatlhqa')"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22004,6 +22768,9 @@ msgstr "pong Qav"
 msgid "Could not resolve the URL domain."
 msgstr "pong Qav"
 
+msgid "Invalid stored parameter value."
+msgstr ""
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
@@ -22025,6 +22792,11 @@ msgstr ""
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Regular expression is too complex."
+msgstr "mu'wIj chu' (jatlhqa')"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -22061,6 +22833,11 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgid "New password (again)"
+msgid "A concrete project or component is required."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
 #| msgid "Last name"
 msgid "Could not parse IP address: {}"
 msgstr "pong Qav"
@@ -22075,6 +22852,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Search query is too long."
+msgstr "pong Qav"
 
 #, fuzzy
 #| msgid "New password (again)"
@@ -22467,6 +23249,33 @@ msgstr ""
 
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
 msgstr ""
 
 #, fuzzy, python-format
@@ -22862,6 +23671,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Pull request assignee"
+msgstr "ponglIj'e'"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Pull request labels"
+msgstr "ponglIj'e'"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -23414,6 +24249,21 @@ msgid "Workspace name"
 msgstr "ponglIj'e'"
 
 #, fuzzy
+#| msgid "Translations"
+msgid "Translation propagation scope"
+msgstr "mughmeH"
+
+#, fuzzy
+#| msgid "Last name"
+msgid "Matching component name within workspace"
+msgstr "pong Qav"
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Where translations of matching strings are propagated."
+msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
 #| msgid "Your name"
 msgid "Managed name"
 msgstr "ponglIj'e'"
@@ -23444,6 +24294,36 @@ msgstr ""
 #| msgid "New password (again)"
 msgid "The workspace has been removed."
 msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#~| msgid "New password (again)"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#~| msgid "New password (again)"
+#~ msgid "Find strings in image"
+#~ msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#~| msgid "New password (again)"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#~| msgid "New password (again)"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "mu'wIj chu' (jatlhqa')"
+
+#, fuzzy
+#~| msgid "Your name"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "ponglIj'e'"
+
+#, fuzzy
+#~| msgid "Your name"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "ponglIj'e'"
 
 #, fuzzy
 #~| msgid "New password (again)"
@@ -23592,11 +24472,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 #~ msgstr "pong Qav"
 
 #, fuzzy
-#~| msgid "Last name"
-#~ msgid "Repository name"
-#~ msgstr "pong Qav"
-
-#, fuzzy
 #~| msgid "Your name"
 #~ msgid "Configure component"
 #~ msgstr "ponglIj'e'"
@@ -23634,11 +24509,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 #, fuzzy
 #~| msgid "New password (again)"
 #~ msgid "VCS integrations"
-#~ msgstr "mu'wIj chu' (jatlhqa')"
-
-#, fuzzy
-#~| msgid "New password (again)"
-#~ msgid "Manage VCS integrations"
 #~ msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy
@@ -23880,11 +24750,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy
 #~| msgid "Your name"
-#~ msgid "Component locking"
-#~ msgstr "ponglIj'e'"
-
-#, fuzzy
-#~| msgid "Your name"
 #~ msgid "Comment on own translation"
 #~ msgstr "ponglIj'e'"
 
@@ -23916,11 +24781,6 @@ msgstr "mu'wIj chu' (jatlhqa')"
 #, fuzzy
 #~| msgid "New password (again)"
 #~ msgid "Confirm new association"
-#~ msgstr "mu'wIj chu' (jatlhqa')"
-
-#, fuzzy
-#~| msgid "New password (again)"
-#~ msgid "Add new association"
 #~ msgstr "mu'wIj chu' (jatlhqa')"
 
 #, fuzzy, python-format

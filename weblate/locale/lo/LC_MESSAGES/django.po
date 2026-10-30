@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-16 04:40+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1265,6 +1265,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "ມືດ"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "ກະລຸນາຢືນຢັນຕົວຕົນຂອງທ່ານໂດຍໃຊ້ປັດໄຈທີສອງກ່ອນດຳເນີນການຕໍ່."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "ຄີຄວາມປອດໄພ (%s)"
@@ -1374,9 +1377,6 @@ msgstr "ອອກຈາກລະບົບແລ້ວ"
 
 msgid "Verify new e-mail address"
 msgstr "ຢືນຢັນອີເມລໃໝ່"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "ກະລຸນາຢືນຢັນຕົວຕົນຂອງທ່ານໂດຍໃຊ້ປັດໄຈທີສອງກ່ອນດຳເນີນການຕໍ່."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "ບໍ່ສາມາດຕັ້ງລະຫັດຜ່ານໃໝ່ໄດ້, ການຢືນຢັນຕົວຕົນທາງອີເມວຖືກປິດໄວ້."
@@ -1586,6 +1586,11 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr "ແປຂໍ້ຄວາມໂດຍອັດຕະໂນມັດໂດຍໃຊ້ການແປດ້ວຍເຄື່ອງຈັກ ຫຼື ສ່ວນປະກອບອື່ນໆ."
+
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "ຂໍ້ຜິດພາດ"
 
 msgid "enabled"
 msgstr "ເປີດໃຊ້ງານ"
@@ -1852,7 +1857,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "ແກ້ໄຂເປັນຊຸດ"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "ແກ້ໄຂທຸງ, ປ້າຍຊື່ ຫຼື ສະຖານະຂອງຂໍ້ຄວາມເປັນຊຸດ."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -1984,6 +1991,24 @@ msgstr ""
 "ເມື່ອເປີດໃຊ້, ຈະສົ່ງ --keyword ໂດຍບໍ່ມີຄ່າໄປຍັງ xgettext ກ່ອນຄຳສຳຄັນເພີ່ມເຕີມ, "
 "ເຮັດໃຫ້ຄຳສຳຄັນເລີ່ມຕົ້ນທັງໝົດຖືກປິດໃຊ້ງານ ເພື່ອໃຫ້ຮັບຮູ້ສະເພາະຄຳສຳຄັນທີ່ລະບຸໄວ້ຂ້າງເທິງເທົັ້ນັ້ນ."
 
+#, fuzzy
+#| msgid "Component wide notifications"
+msgid "Comment extraction"
+msgstr "ການແຈ້ງເຕືອນທົ່ວທັງສ່ວນປະກອບ"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "ຄຳສັບ"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Update preview"
+msgid "Update behavior"
+msgstr "ອັບເດດຕົວຢ່າງ"
+
 msgid "This field is required."
 msgstr "ຊ່ອງຂໍ້ມູນນີ້ແມ່ນຈຳເປັນ."
 
@@ -2033,6 +2058,11 @@ msgstr ""
 "ເສັ້ນທາງທີ່ອ້າງອີງຕາມບ່ອນເກັບຂໍ້ມູນໄປຫາ POTFILES ຫຼື POTFILES.in. "
 "ລາຍການຕ່າງໆຈະຖືກອ້າງອີງຈາກຮາກ (root) ຂອງບ່ອນເກັບຂໍ້ມູນ. ຖ້າມີໄຟລ໌ POTFILES.skip "
 "ຢູ່ຂ້າງລາຍການ, ໄຟລ໌ທີ່ລະບຸໃນນັ້ນຈະບໍ່ຖືກສະກັດ."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "ໄຟລ໌ຟອນ"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "ລິ້ງສັນຍະລັກໃນຄັງເກັບບໍ່ຖືກຕ້ອງ."
@@ -2257,6 +2287,22 @@ msgstr "ລຶບສ່ວນປະກອບສຳລັບໄຟລ໌ທີ່
 msgid "I confirm the above matches look correct"
 msgstr "ຂ້າພະເຈົ້າຢືນຢັນວ່າການຈັບຄູ່ຂ້າງເທິງນັ້ນຖືກຕ້ອງ"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "ລະຫັດຕົວອັກສອນຂອງໄຟລ໌ (Encoding)"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "ພາສາຕົ້ນທາງຂອງອົງປະກອບ"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "ສ່ວນປະກອບຖືກລັອກ"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "ຄ່າທີ່ຕັ້ງໄວ້ທົ່ວໄປ: %(name)s [%(details)s]"
@@ -2426,6 +2472,26 @@ msgstr "ຈຳນວນຮອບທີ່ຈະເຮັດຊ້ຳຂໍ້ຄ
 msgid "Include read-only strings"
 msgstr "ລວມຂໍ້ຄວາມທີ່ອ່ານໄດ້ຢ່າງດຽວ"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "ພາສາຕົ້ນທາງ"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "ຂໍ້ຄວາມຄົງທີ່ທີ່ຕື່ມໃສ່ທາງໜ້າ"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "ຂໍ້ຄວາມຄົງທີ່ທີ່ຕື່ມໃສ່ທາງທ້າຍ"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "ທິດທາງຂອງຕົວໜັງສື"
+
 msgid "The source and target have to be different languages."
 msgstr "ຕົ້ນສະບັບ ແລະ ເປົ້າໝາຍ ຕ້ອງເປັນຄົນລະພາສາກັນ."
 
@@ -2514,6 +2580,22 @@ msgstr "ໄລຍະເວລາລໍຖ້າກ່ອນລອງໃໝ່"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "ຈຳນວນວິນາທີທີ່ຈະລໍຖ້າລະຫວ່າງການພະຍາຍາມເຊື່ອມຕໍ່."
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Broker connection"
+msgstr "ການເຊື່ອມຕໍ່ກັບບ່ອນຝາກໂຄ້ດ"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "ການເລືອກໂຄງການ"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "ຄຳນຳໜ້າຫົວຂໍ້ສາມາດມີໄດ້ສະເພາະຕົວອັກສອນ ASCII ເທົ່ານັ້ນ."
@@ -3043,6 +3125,9 @@ msgstr "ຂໍ້ຄວາມການແປຍາວເກີນໄປ!"
 
 msgid "Your suggestion already exists!"
 msgstr "ຄຳແນະນຳຂອງທ່ານມີຢູ່ແລ້ວ!"
+
+msgid "Search query"
+msgstr "ຄຳຄົ້ນຫາ"
 
 #, fuzzy
 #| msgid "Choose either a project or a workspace."
@@ -4077,6 +4162,139 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "ກວດສອບການປ່ຽນແປງ"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "ເຫດການການປ່ຽນແປງທັງໝົດ"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "ໝວດໝູ່ບໍ່ໄດ້ຢູ່ໃນໂຄງການທີ່ເລືອກ."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "ເຣກູລາເອັກເພຣດຊັນ"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "ການແປໄດ້ມາເຖິງຈຸດສິ້ນສຸດແລ້ວ."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "ຊື່ໝວດໝູ່"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "ໝວດໝູ່ແມ່ຕ້ອງຢູ່ໃນໂຄງການດຽວກັນ!"
+
+msgid "Language code"
+msgstr "ລະຫັດພາສາ"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "ເຫດການການປ່ຽນແປງທັງໝົດ"
+
+msgid "String state"
+msgstr "ສະຖານະຂໍ້ຄວາມ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "ການດຳເນີນການ"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Moved component"
+msgid "Whole component"
+msgstr "ຍ້າຍສ່ວນປະກອບແລ້ວ"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "ຂໍ້ຄວາມຕ່າງໆຖືກປ່ຽນແປງ"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "ສະຖານະຂໍ້ຄວາມ"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "ລາຍຊື່ສ່ວນປະກອບເລີ່ມຕົ້ນ"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "ລຶບຂໍ້ຄວາມ"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Bulk editing"
+msgid "Bulk editing"
+msgstr "ການແກ້ໄຂແບບກຸ່ມ"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "ຊື່ຄອມໂພເນນ"
+
+#, fuzzy
+#| msgid "Repositories updated"
+msgid "Repository update"
+msgstr "ອັບເດດຄັງເກັບຂໍ້ມູນແລ້ວ"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "ຊື່ຄັງເກັບຂໍ້ມູນ"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "URL ສຳລັບ push ຄັງເກັບ"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "ເຣກູລາເອັກເພຣດຊັນ"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "ສ້າງສ່ວນປະກອບແລ້ວ"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "ຈັດການຂໍ້ຄວາມ"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "ໝາຍເຫດ"
+
 msgid "Additional message"
 msgstr "ຂໍ້ຄວາມເພີ່ມເຕີມ"
 
@@ -4484,9 +4702,13 @@ msgstr "ບາງຮູບແບບພຫູພົດຖືກແປເປັນ
 msgid "Inconsistent"
 msgstr "ບໍ່ສອດຄ່ອງກັນ"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr "ຂໍ້ຄວາມນີ້ມີຫຼາຍກວ່າໜຶ່ງຄຳແປໃນໂຄງການນີ້ ຫຼື ຍັງບໍ່ໄດ້ແປໃນບາງສ່ວນປະກອບ."
 
 msgid "Reused translation"
@@ -5893,9 +6115,6 @@ msgstr "ບໍ່ມີການຈຳກັດພາສາ"
 msgid "Enter a valid language code."
 msgstr "ກະລຸນາໃສ່ລະຫັດພາສາທີ່ຖືກຕ້ອງ."
 
-msgid "Language code"
-msgstr "ລະຫັດພາສາ"
-
 msgid "Language name"
 msgstr "ຊື່ພາສາ"
 
@@ -6374,6 +6593,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "ການເລືອກພາສາຕົ້ນທາງ"
+
+msgid "disabled"
+msgstr "ປິດໃຊ້ງານ"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -6932,6 +7154,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "ພາສາສຳຮອງທີ່ກຳນົດໄວ້ໃນໂຄງການ ຫຼື ອົງປະກອບ"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "ອັບເດດດ້ວຍ rebase"
+
 msgid "File"
 msgstr "ໄຟລ໌"
 
@@ -7242,8 +7469,23 @@ msgstr[0] "ພົບຂໍ້ຄວາມຕົ້ນທາງທີ່ກົງ
 msgid "No new matching source strings found."
 msgstr "ບໍ່ພົບຂໍ້ຄວາມຕົ້ນທາງທີ່ກົງກັນໃໝ່."
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "ມີການຄົ້ນຫາຫຼາຍເກີນໄປ, ກະລຸນາລອງໃໝ່ພາຍຫຼັງ."
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "ບໍ່ສາມາດດາວໂຫຼດຂໍ້ມູນ OCR ໄດ້. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not find strings in the image. Please try again."
+msgstr "ບໍ່ສາມາດແຍກຄັງເກັບຂໍ້ມູນຢູ່ %(hostname)s. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
 
 #, fuzzy
 #| msgid "Delete screenshot"
@@ -8081,6 +8323,9 @@ msgstr "ສະແດງ/ເຊື່ອງ ຄີ API"
 msgid "API key copied to clipboard."
 msgstr "ຄັດລອກຄີ API ໄປໃສ່ຄລິບບອດແລ້ວ."
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "API root URL:"
 
@@ -8641,6 +8886,9 @@ msgstr "ເຂົ້າກັນບໍ່ໄດ້"
 msgid "No components found."
 msgstr "ບໍ່ພົບຄອມໂພເນນ."
 
+msgid "Integration instructions"
+msgstr "ຄຳແນະນຳການເຊື່ອມຕໍ່"
+
 msgid "Configure add-on"
 msgstr "ຕັ້ງຄ່າສ່ວນເສີມ"
 
@@ -8760,8 +9008,90 @@ msgstr "ກ່ອນໜ້າ"
 msgid "Next"
 msgstr "ຖັດໄປ"
 
-msgid "Integration instructions"
-msgstr "ຄຳແນະນຳການເຊື່ອມຕໍ່"
+msgid "Workflow editing mode"
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "ແກ້ໄຂ"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "ໄຟລ໌ YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "ເລີ່ມການສຳຮອງຂໍ້ມູນ"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Trigger"
+msgstr "ເລີ່ມການສຳຮອງຂໍ້ມູນ"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "ການແຈ້ງເຕືອນຖືກກະຕຸ້ນແລ້ວ"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "ການຕັ້ງຄ່າ"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "ທຸກສ່ວນປະກອບເປີດໃຫ້ອັບເດດຄຳແປແລ້ວ."
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "ການຕັ້ງຄ່າ"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "ການຕັ້ງຄ່າທີ່ບໍ່ດີ"
+
+msgid "Actions"
+msgstr "ການດຳເນີນການ"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "ມີການດຳເນີນການໃນບ່ອນເກັບຂໍ້ມູນ"
+
+msgid "Action"
+msgstr "ການດຳເນີນການ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "ການດຳເນີນການ"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "ຍ້າຍ"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "ຍ້າຍ"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "ໄຟລ໌ຄຳແປທີ່ເຜີຍແຜ່ແລ້ວສາມາດເຂົ້າເຖິງໄດ້ຈາກ CDN base URL:"
@@ -8822,6 +9152,28 @@ msgstr "ບໍ່ສາມາດສ້າງຄອມໂພເນນຕໍ່ໄ
 
 msgid "No matching components were found!"
 msgstr "ບໍ່ພົບຄອມໂພເນນທີ່ກົງກັນ!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr "ເບິ່ງເອກະສານແນະນຳ Weblate ສຳລັບວິທີການແປ, ການບໍລິຫານຈັດການ ແລະ ການຕັ້ງຄ່າ."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -8979,6 +9331,21 @@ msgstr "ຂໍ້ຄວາມຈະຖືກສ້າງຂຶ້ນໂດຍໃ
 msgid "Source string"
 msgstr "ຂໍ້ຄວາມຕົ້ນສະບັບ"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "ກະລຸນາເບິ່ງເອກະສານສຳລັບຂໍ້ມູນເພີ່ມເຕີມ."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Weblate commits ຈາກຄອມໂພເນນພາຍໃນ repository ນີ້ຈະຖືກລວມເຂົ້າກັນ (squash)."
@@ -8994,6 +9361,22 @@ msgid ""
 msgstr ""
 "ຂໍ້ຄວາມຄອມມິດເດີມຈະຖືກເກັບໄວ້, ແຕ່ຂໍ້ມູນຜູ້ຂຽນຈະຫາຍໄປ ຍົກເວັ້ນຈະເລືອກ \"Per author\" ຫຼື "
 "ປັບແຕ່ງຂໍ້ຄວາມຄອມມິດໃຫ້ລວມເອົາຂໍ້ມູນນັ້ນ."
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr "ການຕອບສະໜອງ HTTP"
@@ -9083,6 +9466,9 @@ msgstr "ຈັດການໂຄງການທີ່ຕິດຕາມ"
 
 msgid "My workspaces"
 msgstr "ພື້ນທີ່ເຮັດວຽກຂອງຂ້ອຍ"
+
+msgid "Workspaces"
+msgstr "ພື້ນທີ່ເຮັດວຽກ"
 
 msgid "Manage translated languages"
 msgstr "ຈັດການພາສາທີ່ແປ"
@@ -9269,9 +9655,6 @@ msgstr "ເບິ່ງ"
 msgid "Event details"
 msgstr "ລາຍລະອຽດເຫດການ"
 
-msgid "Actions"
-msgstr "ການດຳເນີນການ"
-
 msgid "Download"
 msgstr "ດາວໂຫຼດ"
 
@@ -9376,6 +9759,115 @@ msgstr "ທ່ານບໍ່ມີສິດໃນການປ່ຽນແປງ
 msgid "Check your billing status"
 msgstr "ກວດສອບສະຖານະການຊຳລະເງິນຂອງທ່ານ"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "ຕົວເບິ່ງຄັງເກັບ"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "ກຳລັງໂຫຼດ…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Retry delay"
+msgid "Retry"
+msgstr "ໄລຍະເວລາລໍຖ້າກ່ອນລອງໃໝ່"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "ກະລຸນາກວດກາ ແລະ ຢືນຢັນການປ່ຽນແປງພາສາທີ່ຂາດຫາຍ."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string"
+#| msgid_plural "%(count)s strings"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s ຂໍ້ຄວາມ"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr "ອັບເດດຕົວຢ່າງ"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "ເລືອກ"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "ຂໍ້ຄວາມ"
+
+msgid "Changes"
+msgstr "ການປ່ຽນແປງ"
+
+msgid "State"
+msgstr "ສະຖານະ"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "String state"
+#| msgid "Empty"
+msgid "Empty"
+msgstr "ວ່າງເປົ່າ"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "ສຳລັບທຸກພາສາ"
+
+msgid "Translation flags"
+msgstr "ແຟລັກການແປ"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "ທຸກພາສາ"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "ເບິ່ງພາສາມັງໝົດ"
+
+msgid "Apply"
+msgstr "ນຳໃຊ້"
+
 msgid "Insights"
 msgstr "ຂໍ້ມູນເຈາະເລິກ"
 
@@ -9394,9 +9886,6 @@ msgstr "ອັບໂຫຼດຄຳແປ"
 msgid "Operations"
 msgstr "ການດຳເນີນການ"
 
-msgid "Search and replace"
-msgstr "ຄົ້ນຫາ ແລະ ແທນທີ່"
-
 msgid "Post announcement"
 msgstr "ລົງປະກາດ"
 
@@ -9405,12 +9894,6 @@ msgstr "ຈັດລະບຽບ ຫຼື ລຶບອອກ"
 
 msgid "Browse all changes for this language"
 msgstr "ຊອກເບິ່ງການປ່ຽນແປງທັງໝົດສຳລັບພາສານີ້"
-
-msgid "Review changes"
-msgstr "ກວດສອບການປ່ຽນແປງ"
-
-msgid "Apply"
-msgstr "ນຳໃຊ້"
 
 msgid "Browse components"
 msgstr "ຊອກເບິ່ງອົງປະກອບ"
@@ -10194,9 +10677,6 @@ msgstr "ຖ້າການກວດສອບ"
 msgid "Shortcut"
 msgstr "ຄີລັດ"
 
-msgid "Action"
-msgstr "ການດຳເນີນການ"
-
 msgid "Open available keyboard shortcuts."
 msgstr "ເປີດຄີລັດຄີບອດທີ່ມີໃຫ້."
 
@@ -10334,6 +10814,9 @@ msgstr "ແກ້ໄຂ"
 msgid "Mark as spam"
 msgstr "ໝາຍວ່າເປັນສະແປມ"
 
+msgid "Service is no longer available"
+msgstr "ບໍລິການບໍ່ພ້ອມໃຊ້ງານອີກຕໍ່ໄປ"
+
 msgid "This service is installed site wide."
 msgstr "ບໍລິການນີ້ຖືກຕິດຕັ້ງໄວ້ສຳລັບທັງເວັບໄຊ."
 
@@ -10351,26 +10834,20 @@ msgid "workspace"
 msgstr "ພື້ນທີ່ເຮັດວຽກ"
 
 #, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "ການຈຳກັດພາສາ"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "ບໍລິການນີ້ຖືກຕິດຕັ້ງໄວ້ສຳລັບທັງເວັບໄຊ."
-
-msgid "disabled"
-msgstr "ປິດໃຊ້ງານ"
-
-msgid "Service is no longer available"
-msgstr "ບໍລິການບໍ່ພ້ອມໃຊ້ງານອີກຕໍ່ໄປ"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Slug"
 msgstr "Slug"
-
-#, fuzzy
-#| msgid "Organization (optional)"
-msgid "Installation slug (optional)"
-msgstr "ອົງກອນ (ເລືອກໄດ້)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10381,37 +10858,158 @@ msgstr ""
 "ກວດສອບເງື່ອນໄຂ ແລະ ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວຂອງຜູ້ໃຫ້ບໍລິການກ່ອນເປີດໃຊ້ງານ."
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "ລຶບລ້າງໄຟລ໌ການແປ"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "ບໍລິການແບບໂຮສໃຫ້"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "ການເພີ່ມຂໍ້ຄວາມຖືກປິດໃຊ້ງານໃນການຕັ້ງຄ່າສ່ວນປະກອບ."
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "ບໍລິການນີ້ຖືກຕິດຕັ້ງໄວ້ສຳລັບທັງເວັບໄຊ."
+
+#, fuzzy
+#| msgid "code-hosting installation"
+msgid "Manage this installation"
+msgstr "ການຕິດຕັ້ງບ່ອນຝາກໂຄ້ດ"
+
+#, fuzzy
+#| msgid "Organization (optional)"
+msgid "Installation slug (optional)"
+msgstr "ອົງກອນ (ເລືອກໄດ້)"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "ສ່ວນເສີມນີ້ບໍ່ມີການຕັ້ງຄ່າ."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "ໃຊ້ຄຳແນະນຳອັດຕະໂນມັດ"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limit"
+msgstr "ການຈຳກັດພາສາ"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset the repository"
+msgid "Reset rate limit"
+msgstr "ຕັ້ງຄ່າຄັງເກັບຂໍ້ມູນໃໝ່ (Reset)"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "ສ່ວນປະກອບນີ້ຖືກແບ່ງປັນໃນ %s ຢູ່ແລ້ວ."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "ລະບົບຄວບຄຸມເວີຊັນ"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "GitHub installation ID"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "ປິດໃຊ້ງານ"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "ເປີດໃຊ້ການແປດ້ວຍຈັກ"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "ເປີດໃຊ້ງານ"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "ລຶບການຕັ້ງຄ່າການແຈ້ງເຕືອນນີ້"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "URL ຂອງບໍລິການຢືນຢັນຕົວຕົນ"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "ຕັ້ງຄ່າ"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "ລຶບລ້າງໄຟລ໌ການແປ"
 
 msgid "There are no services currently installed."
 msgstr "ປັດຈຸບັນຍັງບໍ່ມີບໍລິການໃດຖືກຕິດຕັ້ງ."
@@ -10432,6 +11030,17 @@ msgstr "ບໍ່ພົບບໍລິການເພີ່ມເຕີມໃດ
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "ບາງບໍລິການຈະຖາມຫາການຕັ້ງຄ່າເພີ່ມເຕີມໃນລະຫວ່າງການຕິດຕັ້ງ."
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "ໃບອະນຸຍາດການແປ"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "ໂດເມນການແປ"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11420,9 +12029,6 @@ msgstr "ລຶບຄຳເຊີນ"
 msgid "Check user access"
 msgstr "ກວດສອບການເຂົ້າເຖິງຂອງຜູ້ໃຊ້"
 
-msgid "Workspaces"
-msgstr "ພື້ນທີ່ເຮັດວຽກ"
-
 msgid "Add workspace"
 msgstr "ເພີ່ມພື້ນທີ່ເຮັດວຽກ"
 
@@ -11527,6 +12133,9 @@ msgstr "ເປີດ"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "ປິດ"
+
+msgid "Configure"
+msgstr "ຕັ້ງຄ່າ"
 
 msgid "Autoclean translation memory"
 msgstr "ລ້າງໜ່ວຍຄວາມຈຳການແປອັດຕະໂນມັດ"
@@ -11721,21 +12330,6 @@ msgstr "ຜູ້ປະກອບສ່ວນໃໝ່ໃນ %(translation)s"
 msgid "Donate to Weblate development"
 msgstr ""
 
-msgid "Please review and confirm the search and replace results."
-msgstr "ກະລຸນາກວດສອບ ແລະ ຢືນຢັນຜົນການຄົ້ນຫາ ແລະ ແທນທີ່."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"ສະແດງ ແລະ ແທນທີ່ສະເພາະ 250 ລາຍການທຳອິດທີ່ກົງກັນ. ໃຫ້ດຳເນີນການແທນທີ່ອີກຄັ້ງເພື່ອແທນທີ່ເພີ່ມເຕີມ."
-
-msgid "Update preview"
-msgstr "ອັບເດດຕົວຢ່າງ"
-
-msgid "Replace"
-msgstr "ແທນທີ່"
-
 msgid "Generated by"
 msgstr "ສ້າງໂດຍ"
 
@@ -11769,6 +12363,22 @@ msgstr "ສະແດງພາບໜ້າຈໍເພື່ອເພີ່ມບ
 msgid "Assign source strings"
 msgstr "ມອບໝາຍຂໍ້ຄວາມຕົ້ນສະບັບ"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "ຂໍ້ຄວາມຕົ້ນສະບັບທີ່ຖືກມອບໝາຍ"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "ວິດເຈັດຮູບພາບ"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "ແນະນຳຂໍ້ຄວາມຕົ້ນສະບັບໂດຍການກວດຈັບຂໍ້ຄວາມໃນພາບໜ້າຈໍນີ້."
+
+msgid "Add selected"
+msgstr "ເພີ່ມລາຍການທີ່ເລືອກ"
+
 msgid "Source string search"
 msgstr "ຄົ້ນຫາຂໍ້ຄວາມຕົ້ນສະບັບ"
 
@@ -11781,15 +12391,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "ເອກະສານແນະນຳຮູບແບບການສອບຖາມຂໍ້ມູນ"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "ແນະນຳຂໍ້ຄວາມຕົ້ນສະບັບໂດຍການກວດຈັບຂໍ້ຄວາມໃນພາບໜ້າຈໍນີ້."
-
-msgid "Find strings in image"
-msgstr "ຄົ້ນຫາຂໍ້ຄວາມໃນຮູບພາບ"
-
-msgid "Add selected"
-msgstr "ເພີ່ມລາຍການທີ່ເລືອກ"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "ການລຶບພາບໜ້າຈໍຈະເປັນການເອົາພາບນັ້ນອອກຈາກຂໍ້ຄວາມຕົ້ນສະບັບທັງໝົດທີ່ກ່ຽວຂ້ອງ."
@@ -11993,8 +12594,8 @@ msgstr "ເລືອກຂໍ້ຄວາມຕົ້ນສະບັບທັງ
 msgid "Select string for bulk edit"
 msgstr "ຂໍ້ຄວາມທີ່ໝາຍໄວ້ເພື່ອແກ້ໄຂ"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr "ທ່ານສາມາດປ່ຽນສະຖານະຂອງຂໍ້ຄວາມທັງໝົດທີ່ກົງກັບປະເພດທີ່ກຳນົດໄດ້ໃນບາດດຽວ."
+msgid "Choose which strings to edit and the changes to apply."
+msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -12108,9 +12709,6 @@ msgstr "ຄວາມຍາວສູງສຸດຂອງຂໍ້ຄວາມແ
 msgid "Clone to translation"
 msgstr "ຄັດລອກໄປຍັງການແປ"
 
-msgid "Select"
-msgstr "ເລືອກ"
-
 msgid "Target string"
 msgstr "ຂໍ້ຄວາມປາຍທາງ"
 
@@ -12160,7 +12758,6 @@ msgstr "ຄັດລອກ URL ຂອງຄັງເກັບຂໍ້ມູນ�
 msgid "Last remote commit"
 msgstr "ຄອມມິດໄລຍະໄກລ້າສຸດ"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s ຂຽນເມື່ອ %(date)s"
@@ -12603,9 +13200,6 @@ msgstr "ຄີ/ບໍລິບົດ ຂອງຂໍ້ຄວາມ"
 msgid "Location strings"
 msgstr "ຕຳແໜ່ງຂອງຂໍ້ຄວາມ"
 
-msgid "String state"
-msgstr "ສະຖານະຂໍ້ຄວາມ"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "ຂໍ້ຄວາມທີ່ລໍຖ້າການດຳເນີນການ"
@@ -12778,9 +13372,6 @@ msgstr "ການແປຂອງທ່ານແມ່ນ foo"
 #| msgid "SAP username"
 msgid "Saved search name"
 msgstr "ຊື່ຜູ້ໃຊ້ SAP"
-
-msgid "Search query"
-msgstr "ຄຳຄົ້ນຫາ"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -13580,6 +14171,28 @@ msgid ""
 "translations."
 msgstr "Weblate ບໍ່ສາມາດວິເຄາະໄຟລ໌ການແປໄດ້ໃນຂະນະທີ່ອັບເດດການແປ."
 
+#, fuzzy
+#| msgid ""
+#| "Weblate pushed the changes and created the pull request, but could not "
+#| "merge it automatically."
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate ໄດ້ສົ່ງການປ່ຽນແປງ ແລະ ສ້າງຄຳຂໍດຶງຂໍ້ມູນ (pull request) ແລ້ວ, ແຕ່ບໍ່ສາມາດຮ່ວມ "
+"(merge) ມັນໄດ້ໂດຍອັດຕະໂນມັດ."
+
+#, fuzzy
+#| msgid ""
+#| "Check that the repository allows auto-merge and the selected merge "
+#| "method, or turn off automatic merging in the version control parameters."
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"ກວດສອບວ່າຄັງເກັບຂໍ້ມູນອະນຸຍາດໃຫ້ຮ່ວມອັດຕະໂນມັດ ແລະ ວິທີການຮ່ວມທີ່ເລືອກໄວ້ ຫຼື "
+"ປິດການຮ່ວມອັດຕະໂນມັດໃນພາລາມິເຕີຂອງລະບົບຄວບຄຸມເວີຊັນ."
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate ບໍ່ສາມາດສົ່ງ (push) ການປ່ຽນແປງໄປຍັງຄັງເກັບຂໍ້ມູນຕົ້ນທາງໄດ້."
 
@@ -13707,9 +14320,6 @@ msgstr "ໄປຍັງ"
 msgid "Go"
 msgstr ""
 
-msgid "Changes"
-msgstr "ການປ່ຽນແປງ"
-
 msgid "Download latest changes as CSV"
 msgstr "ດາວໂຫຼດການປ່ຽນແປງຫຼ້າສຸດເປັນ CSV"
 
@@ -13776,11 +14386,6 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr "ສ້າງສ່ວນປະກອບການແປໃໝ່ສຳລັບສາຂາເພີ່ມເຕີມຂອງສ່ວນປະກອບການແປທີ່ມີຢູ່ແລ້ວ."
-
-#, fuzzy
-#| msgid "Retry delay"
-msgid "Retry"
-msgstr "ໄລຍະເວລາລໍຖ້າກ່ອນລອງໃໝ່"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -15787,6 +16392,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "ບໍ່ສາມາດຮ່ວມຄຳຂໍດຶງຂໍ້ມູນໄດ້ໂດຍອັດຕະໂນມັດ."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the pull request automatically."
+msgid "Could not customize the pull request."
+msgstr "ບໍ່ສາມາດຮ່ວມຄຳຂໍດຶງຂໍ້ມູນໄດ້ໂດຍອັດຕະໂນມັດ."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "ຄັງເກັບຂໍ້ມູນລ້າສະໄໝແລ້ວ."
 
@@ -15811,6 +16422,19 @@ msgstr "ເຄື່ອງໝາຍຝົນທອງ (Apostrophes) ໃນ Java 
 
 msgid "Trailing and leading whitespace"
 msgstr "ຊ່ອງວ່າງຢູ່ໜ້າ ແລະ ຢູ່ທ້າຍ"
+
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "ການແປອັດຕະໂນມັດສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "ການແປອັດຕະໂນມັດສຳເລັດແລ້ວ, ອັບເດດແລ້ວ %d ຂໍ້ຄວາມ."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "ການແປອັດຕະໂນມັດສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
@@ -15886,6 +16510,9 @@ msgstr "ຊື່ທີມຊ້ຳກັນ."
 msgid "Screenshot image is missing."
 msgstr "ຮູບພາບໜ້າຈໍຫາຍໄປ."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 msgid "Duplicate check name."
 msgstr "ຊື່ການກວດສອບຊ້ຳກັນ."
 
@@ -15897,6 +16524,11 @@ msgstr "ຊື່ໄຟລ໌ສ່ວນປະກອບບໍ່ກົງກັ
 
 msgid "Duplicate component slug."
 msgstr "Slug ຂອງສ່ວນປະກອບຊ້ຳກັນ."
+
+#, fuzzy
+#| msgid "Translation suggestions can be made."
+msgid "Translation revision has an invalid format."
+msgstr "ສາມາດສົ່ງຄຳແນະນຳການແປໄດ້."
 
 msgid "Duplicate translation identifier."
 msgstr "ຕົວລະບຸການແປຊ້ຳກັນ."
@@ -15955,8 +16587,47 @@ msgid ""
 "unavailable."
 msgstr "ສ່ວນປະກອບ %(component)s ຖືກຂ້າມເນື່ອງຈາກຄັງເກັບຂໍ້ມູນທີ່ເຊື່ອມຕໍ່ໄວ້ບໍ່ພ້ອມໃຊ້ງານ."
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr "ສ່ວນປະກອບ %(component)s ຖືກຂ້າມເນື່ອງຈາກຄັງເກັບຂໍ້ມູນທີ່ເຊື່ອມຕໍ່ໄວ້ບໍ່ພ້ອມໃຊ້ງານ."
+
+msgid "Version control parameters"
+msgstr "ພາລາມິເຕີການຄວບຄຸມເວີຊັນ"
+
+msgid "File format parameters"
+msgstr "ພາລາມິເຕີຮູບແບບໄຟລ໌"
+
 msgid "The project repository directory already exists."
 msgstr "ໂຟນເດີຄັງເກັບຂໍ້ມູນໂຄງການມີຢູ່ແລ້ວ."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "ຄຳຄົ້ນຫາບໍ່ຖືກຕ້ອງ!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "ຄຳຮ້ອງຂໍບໍ່ຖືກຕ້ອງ."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "ວິທີຈັດການຄຳຮ້ອງຂໍເພື່ອສ້າງການແປໃໝ່."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "ສ່ວນປະກອບຖືກລັອກໂດຍອັດຕະໂນມັດເນື່ອງຈາກມີການແຈ້ງເຕືອນ."
@@ -16073,9 +16744,6 @@ msgstr "ເວັບໄຊທ໌ນີ້ໃຊ້ Weblate ສຳລັບກາ
 
 msgid "Version control"
 msgstr "ລະບົບຄວບຄຸມເວີຊັນ"
-
-msgid "State"
-msgstr "ສະຖານະ"
 
 msgid "Severity"
 msgstr "ລະດັບຄວາມຮຸນແຮງ"
@@ -17006,18 +17674,6 @@ msgstr "ບໍ່ສາມາດໂຫຼດການສຳຮອງຂໍ້ມ
 msgid "Could not load project backup."
 msgstr "ບໍ່ສາມາດໂຫຼດການສຳຮອງຂໍ້ມູນໂຄງການ: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "ຕົວກັ່ນຕອງເພີ່ມເຕີມທີ່ເລືອກໄດ້ສຳລັບນຳໃຊ້ກັບຂໍ້ຄວາມ"
-
-msgid "Search string"
-msgstr "ຄົ້ນຫາຂໍ້ຄວາມ"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "ຂໍ້ຄວາມທີ່ຈະຄົ້ນຫາ ແລະ ແທນທີ່ແບບແຍກຕົວອັກສອນໃຫຍ່ນ້ອຍ."
-
-msgid "Replacement string"
-msgstr "ຂໍ້ຄວາມແທນທີ່"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -17072,45 +17728,110 @@ msgstr "ທ່ານບໍ່ມີສິດໃນການສ້າງຄຳສ
 msgid "Invalid string selection!"
 msgstr "ການເລືອກຖັນລາຍການບໍ່ຖືກຕ້ອງ."
 
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search type"
+msgstr "ຕົວຕອງການຄົ້ນຫາ"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr "ຄົ້ນຫາຂໍ້ຄວາມ"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "ຂໍ້ຄວາມແທນທີ່"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr "ສະຖານະທີ່ຈະກຳນົດ"
 
 msgid "Do not change"
 msgstr "ບໍ່ຕ້ອງປ່ຽນແປງ"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "ແກ້ໄຂປ້າຍກຳກັບ"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove app"
+msgid "Remove flags"
+msgstr "ລຶບແອັບອອກ"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "ແຟລັກການແປທີ່ຈະເພີ່ມ"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "ເພີ່ມປ້າຍກຳກັບ"
+
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "ລຶບລາຍການທີ່ຊ້ຳກັນ"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "ກວດສອບການປ່ຽນແປງ"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "ສ່ວນປະກອບທີ່ຈະລຶບອອກ"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "ພາສາຕົ້ນທາງ"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "ຕື່ມຂໍ້ຄວາມການແປດ້ວຍຂໍ້ຄວາມຕົ້ນສະບັບ."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "ແຟລັກການແປທີ່ຈະລຶບອອກ"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "ສຳລັບທຸກພາສາ"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "ປ້າຍກຳກັບທີ່ຈະລຶບອອກ"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -17364,9 +18085,6 @@ msgstr "ຊື່ໝວດໝູ່"
 
 msgid "Display name"
 msgstr "ຊື່ທີ່ສະແດງ"
-
-msgid "Translation flags"
-msgstr "ແຟລັກການແປ"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "ແຟລັກເພີ່ມເຕີມທີ່ຂັ້ນດ້ວຍຈຸດເພື່ອມີຜົນຕໍ່ການເຮັດວຽກຂອງ Weblate."
@@ -17647,9 +18365,6 @@ msgstr ""
 "ລະບົບຄວບຄຸມເວີຊັນທີ່ຈະໃຊ້ເພື່ອເຂົ້າເຖິງຄັງເກັບຂອງທ່ານທີ່ມີການແປ. "
 "ທ່ານຍັງສາມາດເລືອກການເຊື່ອມໂຍງເພີ່ມເຕີມກັບຜູ້ໃຫ້ບໍລິການພາຍນອກເພື່ອສົ່ງ pull/merge requests."
 
-msgid "Version control parameters"
-msgstr "ພາລາມິເຕີການຄວບຄຸມເວີຊັນ"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -17767,9 +18482,6 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr "ຊື່ໄຟລ໌ຂອງໄຟລ໌ທີ່ໃຊ້ສຳລັບສ້າງການແປໃໝ່. ສຳລັບ gettext ໃຫ້ເລືອກໄຟລ໌ .pot."
-
-msgid "File format parameters"
-msgstr "ພາລາມິເຕີຮູບແບບໄຟລ໌"
 
 msgid "Locked component will not get any translation updates."
 msgstr "ສ່ວນປະກອບທີ່ຖືກລັອກຈະບໍ່ໄດ້ຮັບການອັບເດດການແປໃດໆ."
@@ -19462,17 +20174,6 @@ msgstr "ຈຳນວນມື້ຂອງຜູ້ໃຊ້ທີ່ລວມເ
 msgid "Excluded user days"
 msgstr "ຈຳນວນມື້ຂອງຜູ້ໃຊ້ທີ່ບໍ່ລວມເຂົ້າ"
 
-msgid "Could not process form!"
-msgstr "ບໍ່ສາມາດປະມວນຜົນແບບຟອມໄດ້!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "ຄົ້ນຫາ ແລະ ແທນທີ່ສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "ຄົ້ນຫາ ແລະ ແທນທີ່ສຳເລັດແລ້ວ, %d ຂໍ້ຄວາມຖືກອັບເດດ."
-
 #, python-format
 msgid "Search for %s"
 msgstr "ຄົ້ນຫາສຳລັບ %s"
@@ -19482,6 +20183,17 @@ msgstr "ມີການຄົ້ນຫາຫຼາຍເກີນໄປ, ກະ�
 
 msgid "Invalid search query!"
 msgstr "ຄຳຄົ້ນຫາບໍ່ຖືກຕ້ອງ!"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "ບໍ່ສາມາດປະມວນຜົນແບບຟອມໄດ້!"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "ການຢືນຢັນຕົວຕົນຜິດພາດ: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "ການແກ້ໄຂແບບກຸ່ມສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
@@ -19640,6 +20352,133 @@ msgid "Invalid host name given!"
 msgstr "ຊື່ໂຮສທີ່ລະບຸບໍ່ຖືກຕ້ອງ!"
 
 #, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "JSX expressions ໃນການແປບໍ່ກົງກັບຕົ້ນສະບັບ."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "ໃຊ້ທຸງເພື່ອລະບຸຂໍ້ຄວາມພິເສດໃນການແປຂອງທ່ານ."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "An obsolete translation suggestion was removed during cleanup."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "ຄຳແນະນຳການແປທີ່ເລີກໃຊ້ແລ້ວຖືກລຶບອອກໃນລະຫວ່າງການອະນາໄມ."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "ເກີນຂີດຈຳກັດຄວາມຖີ່ຂອງການຮ້ອງຂໍ API."
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Regular expression ສຳລັບໃຊ້ຈັບຄູ່ກັບໄຟລ໌ການແປ"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Topic prefix must not exceed %(limit)d characters."
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "ຄຳນຳໜ້າຫົວຂໍ້ຕ້ອງບໍ່ເກີນ %(limit)d ຕົວອັກສອນ."
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "ນິພົດເຣກູລາ (Regular expression) ບໍ່ຖືກຕ້ອງ: {}"
+
+#, fuzzy
 #| msgid "Automatic translation mode"
 msgid "Automatic translation reported a warning."
 msgstr "ໂໝດການແປອັດຕະໂນມັດ"
@@ -19651,6 +20490,11 @@ msgstr "ຂ້າມການແປອັດຕະໂນມັດເນື່ອ
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automatic translation reported an error."
+msgstr "ໂໝດການແປອັດຕະໂນມັດ"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -19799,6 +20643,11 @@ msgstr "ບໍ່ສາມາດຊອກຫາທີ່ຢູ່ໂດເມນ
 msgid "Could not resolve the URL domain."
 msgstr "ບໍ່ສາມາດລະບຸໂດເມນຂອງ URL ໄດ້."
 
+#, fuzzy
+#| msgid "Invalid host name given!"
+msgid "Invalid stored parameter value."
+msgstr "ຊື່ໂຮສທີ່ລະບຸບໍ່ຖືກຕ້ອງ!"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "ພາລາມິເຕີຕ້ອງເປັນດີກຊັນນາຣີຂອງຄູ່ຄ່າຫຼັກ (key-value pairs)."
 
@@ -19818,6 +20667,11 @@ msgstr "ບໍ່ຮອງຮັບຮູບແບບຂໍ້ຄວາມແບ
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr "ບໍ່ສາມາດດາວໂຫຼດໄຟລ໌ຈາກ URL ທີ່ລະບຸໄດ້ (HTTP status code: %(code)s)."
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "ຄຳຄົ້ນຫາຊັບຊ້ອນເກີນໄປ."
 
 msgid "Search query is too complex."
 msgstr "ຄຳຄົ້ນຫາຊັບຊ້ອນເກີນໄປ."
@@ -19847,6 +20701,11 @@ msgstr "ນິພົດເຣກູລາ (Regular expression) ບໍ່ຖື�
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "ບໍ່ຮອງຮັບການຊອກຫາສຳລັບ {field}: {value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr "ໃສ່ ID ຂອງສ່ວນປະກອບ ຫຼື ຊື່ຫຍໍ້ (Slug) ຂອງໂຄງການ/ສ່ວນປະກອບ."
+
 msgid "Could not parse IP address: {}"
 msgstr "ບໍ່ສາມາດອ່ານວິເຄາະທີ່ຢູ່ IP ໄດ້: {}"
 
@@ -19858,6 +20717,11 @@ msgstr "ບໍ່ຮອງຮັບການກຳນົດໄລຍະ (Range) 
 
 msgid "Mixed operators!"
 msgstr "ມີການປະສົມຕົວດຳເນີນການ (Operators) ທີ່ບໍ່ຖືກຕ້ອງ!"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "ຄຳຄົ້ນຫາຊັບຊ້ອນເກີນໄປ."
 
 msgid "Invalid character in the query string"
 msgstr "ມີຕົວອັກສອນທີ່ບໍ່ຖືກຕ້ອງໃນຂໍ້ຄວາມຄຳສັ່ງສອບຖາມ"
@@ -20214,6 +21078,49 @@ msgstr "ການສະແດງລາຍການ pull request ລົ້ມເ�
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "ການສະແດງລາຍການ pull request ລົ້ມເຫຼວ: %(error)s ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "ການຮ້ອງຂໍ API %(service)s ລົ້ມເຫຼວໃນຂະນະທີ່ສ້າງ pull request: %(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"ການຮ້ອງຂໍ API %(service)s ລົ້ມເຫຼວໃນຂະນະທີ່ສ້າງ pull request: %(status)s "
+"ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+"ການຮ້ອງຂໍ API %(service)s ລົ້ມເຫຼວໃນຂະນະທີ່ສ້າງ pull request (%(status)s): %(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"ການຮ້ອງຂໍ API %(service)s ລົ້ມເຫຼວໃນຂະນະທີ່ສ້າງ pull request (%(status)s): %(error)s "
+"ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -20584,6 +21491,34 @@ msgid ""
 msgstr ""
 "ເປີດ pull ຫຼື merge request ສຳລັບການປ່ຽນແປງການແປ. ເມື່ອປິດໃຊ້ງານ, Weblate ຈະຍູ້ (push) "
 "ໄປຫາສາຂາທີ່ແປໂດຍກົງ, ເຊິ່ງຕ້ອງການສິດການຂຽນໃນສາຂານັ້ນ."
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "ຄຳຂໍດຶງຂໍ້ມູນ (Pull request) ຂອງ Gitea"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge pull requests automatically"
+msgid "Assign pull requests to acting user"
+msgstr "ຮ່ວມຄຳຂໍດຶງຂໍ້ມູນໂດຍອັດຕະໂນມັດ"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "ຄຳຂໍດຶງຂໍ້ມູນ (Pull request) ຂອງ Gitea"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
 
 msgid "Merge pull requests automatically"
 msgstr "ຮ່ວມຄຳຂໍດຶງຂໍ້ມູນໂດຍອັດຕະໂນມັດ"
@@ -21115,6 +22050,23 @@ msgstr "ຄ່າເລີ່ມຕົ້ນຂອງສ່ວນປະກອບ
 msgid "Workspace name"
 msgstr "ຊື່ພື້ນທີ່ເຮັດວຽກ"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "ອະນຸຍາດການກະຈາຍການແປ"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "ບໍ່ສາມາດປ່ຽນສ່ວນປະກອບໃນທີມຂອງພື້ນທີ່ເຮັດວຽກໄດ້."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "ກຳນົດວ່າຈະຂຽນທັບການແປທີ່ມີຢູ່ແລ້ວຫຼືບໍ່ ຖ້າຂໍ້ຄວາມນັ້ນຖືກແປແລ້ວ."
+
 msgid "Managed name"
 msgstr "ຊື່ທີ່ຖືກຈັດການ"
 
@@ -21142,6 +22094,71 @@ msgstr "ພື້ນທີ່ເຮັດວຽກບໍ່ສາມາດລຶ
 
 msgid "The workspace has been removed."
 msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແລ້ວ."
+
+#~ msgid "Search and replace"
+#~ msgstr "ຄົ້ນຫາ ແລະ ແທນທີ່"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "ການເພີ່ມຂໍ້ຄວາມຖືກປິດໃຊ້ງານໃນການຕັ້ງຄ່າສ່ວນປະກອບ."
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "ລຶບການຕັ້ງຄ່າການແຈ້ງເຕືອນນີ້"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "ກະລຸນາກວດສອບ ແລະ ຢືນຢັນຜົນການຄົ້ນຫາ ແລະ ແທນທີ່."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "ສະແດງ ແລະ ແທນທີ່ສະເພາະ 250 ລາຍການທຳອິດທີ່ກົງກັນ. ໃຫ້ດຳເນີນການແທນທີ່ອີກຄັ້ງເພື່ອແທນທີ່ເພີ່ມເຕີມ."
+
+#~ msgid "Replace"
+#~ msgstr "ແທນທີ່"
+
+#~ msgid "Find strings in image"
+#~ msgstr "ຄົ້ນຫາຂໍ້ຄວາມໃນຮູບພາບ"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr "ທ່ານສາມາດປ່ຽນສະຖານະຂອງຂໍ້ຄວາມທັງໝົດທີ່ກົງກັບປະເພດທີ່ກຳນົດໄດ້ໃນບາດດຽວ."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "ຕົວກັ່ນຕອງເພີ່ມເຕີມທີ່ເລືອກໄດ້ສຳລັບນຳໃຊ້ກັບຂໍ້ຄວາມ"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "ຂໍ້ຄວາມທີ່ຈະຄົ້ນຫາ ແລະ ແທນທີ່ແບບແຍກຕົວອັກສອນໃຫຍ່ນ້ອຍ."
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "ແຟລັກການແປທີ່ຈະເພີ່ມ"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "ແຟລັກການແປທີ່ຈະລຶບອອກ"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "ສຳລັບທຸກພາສາ"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "ປ້າຍກຳກັບທີ່ຈະລຶບອອກ"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "ຄົ້ນຫາ ແລະ ແທນທີ່ສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "ຄົ້ນຫາ ແລະ ແທນທີ່ສຳເລັດແລ້ວ, %d ຂໍ້ຄວາມຖືກອັບເດດ."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "ຊື່ຍັງຖືກໃຊ້ໃນການຢືນຢັນການປ່ຽນແປງ (commit) ຂອງລະບົບຄວບຄຸມເວີຊັນ."
@@ -21262,10 +22279,6 @@ msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແ
 #~ "Could not authenticate, probably due to an expired token or connection "
 #~ "error."
 #~ msgstr "ບໍ່ສາມາດຢືນຢັນຕົວຕົນໄດ້, ອາດຈະເປັນຍ້ອນໂທເຄັນໝົດອາຍຸ ຫຼື ຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່."
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "ການຢືນຢັນຕົວຕົນຜິດພາດ: %s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "ບໍ່ສາມາດຕິດຕໍ່ຜູ້ໃຫ້ບໍລິການຢືນຢັນຕົວຕົນໄດ້."
@@ -21584,9 +22597,6 @@ msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແ
 
 #~ msgid "Repository URL"
 #~ msgstr "URL ຄັງເກັບຂໍ້ມູນ"
-
-#~ msgid "Repository name"
-#~ msgstr "ຊື່ຄັງເກັບຂໍ້ມູນ"
 
 #~ msgid "Configure component"
 #~ msgstr "ກຳນົດຄ່າສ່ວນປະກອບ"

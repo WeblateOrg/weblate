@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-27 19:51+0000\n"
 "Last-Translator: Joel A <joeax910@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -1304,6 +1304,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Mörkt"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "Begränsa din identitet med en andra faktor innan du går vidare."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "Säkerhetsnyckel (%s)"
@@ -1411,9 +1414,6 @@ msgstr "Utloggad"
 
 msgid "Verify new e-mail address"
 msgstr "Verifiera ny mejladress"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Begränsa din identitet med en andra faktor innan du går vidare."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd."
@@ -1614,6 +1614,11 @@ msgid ""
 msgstr ""
 "Översätter automatiskt strängar med maskinöversättning eller andra "
 "komponenter."
+
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "Fel"
 
 msgid "enabled"
 msgstr "aktiverat"
@@ -1901,7 +1906,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Massredigering"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "Massredigering av flaggor, etiketter eller strängstatus."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2050,6 +2057,24 @@ msgstr ""
 "xgettext före det ytterligare nyckelordet, vilket deaktiverar alla "
 "standardnyckelord så att endast det ovan angivna nyckelordet känns igen."
 
+#, fuzzy
+#| msgid "Component exceptions"
+msgid "Comment extraction"
+msgstr "Komponentundantag"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "ord"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Update preview"
+msgid "Update behavior"
+msgstr "Förhandsgranskning av uppdatering"
+
 msgid "This field is required."
 msgstr "Detta fält är obligatoriskt."
 
@@ -2102,6 +2127,11 @@ msgstr ""
 "Relativ sökväg i förrådet till POTFILES eller POTFILES.in. Posterna tolkas "
 "relativt förrådets rotkatalog. Om POTFILES.skip finns angivet bredvid "
 "manifestet utesluts de filer som anges där från extraheringen."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "Font-fil"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Ogiltig symbolisk länk i ett arkiv."
@@ -2339,6 +2369,22 @@ msgstr "Ta bort komponenter för icke-befintliga filer"
 msgid "I confirm the above matches look correct"
 msgstr "Jag bekräftar att ovanstående matchningar ser ut att vara korrekta"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "Filkodning"
+
+#, fuzzy
+#| msgctxt "eTranslation configuration"
+#| msgid "Component language domains"
+msgid "Component naming and file templates"
+msgstr "Komponentens språkdomäner"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "Komponent låst"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "Allmän förinställning: %(name)s [%(details)s]"
@@ -2521,6 +2567,26 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Inkludera skrivskyddade strängar"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "Källspråk"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "Statisk text i början"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "Statisk text i slutet"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "Textriktning"
+
 msgid "The source and target have to be different languages."
 msgstr "Källan och målet måste vara olika språk."
 
@@ -2612,6 +2678,22 @@ msgstr "Fördröjning innan nytt försök"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "Hur många sekunder man skall vänta mellan anslutningsförsöken."
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Broker connection"
+msgstr "Anslutningar till hanteraren av koden"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Val av projekt"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Ämnesprefixet får endast innehålla ASCII-tecken."
@@ -3128,6 +3210,9 @@ msgstr "Översättningstexten är för lång!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ditt förslag finns redan!"
+
+msgid "Search query"
+msgstr "Sökfråga"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4154,6 +4239,139 @@ msgstr "Krävs för arbetsflöden som bara använder ändringsutlösare."
 msgid "Preview without changes"
 msgstr "Förhandsgranska utan ändringar"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "Alla ändringshändelser"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "Kategorin tillhör inte det valda projektet."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Reguljärt uttryck"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "Översättningen har nått slutet."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "Kategorinamn"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "Föräldrakategorin måste vara i samma projekt!"
+
+msgid "Language code"
+msgstr "Språkkod"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "Alla ändringshändelser"
+
+msgid "String state"
+msgstr "Strängtillstånd"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Handling"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Flytta komponent"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Strängarna ändrades"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "Strängtillstånd"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Standardlista för komponenter"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "Ta bort sträng"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Bulk editing"
+msgid "Bulk editing"
+msgstr "Massredigering"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "Komponentnamn"
+
+#, fuzzy
+#| msgid "Repositories updated"
+msgid "Repository update"
+msgstr "Förråden uppdaterade"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "Förrådsnamn"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "Push-URL för arkiv"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Reguljärt uttryck"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "Komponent skapad"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "Hantera strängar"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Notis"
+
 msgid "Additional message"
 msgstr "Ytterligare meddelande"
 
@@ -4559,9 +4777,13 @@ msgstr "Vissa pluralformer översattes på samma sätt."
 msgid "Inconsistent"
 msgstr "Inkonsekvent"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Strängen har mer än en översättning i det här projektet eller är inte "
 "översatt i vissa komponenter."
@@ -5997,9 +6219,6 @@ msgstr "Ingen språkbegränsning"
 msgid "Enter a valid language code."
 msgstr "Ange en giltig språkkod."
 
-msgid "Language code"
-msgstr "Språkkod"
-
 msgid "Language name"
 msgstr "Språknamn"
 
@@ -6450,6 +6669,9 @@ msgstr "Kvalitetsbedömning (QE)"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Val av källspråk"
+
+msgid "disabled"
+msgstr "avaktiverat"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -6998,6 +7220,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Sekundärt språk definierat i projekt eller komponent"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "Uppdatera med ombasering (rebase)"
+
 msgid "File"
 msgstr "Fil"
 
@@ -7312,8 +7539,23 @@ msgstr[1] "%(count)s matchande källsträngar hittades."
 msgid "No new matching source strings found."
 msgstr "Inga nya matchande källsträngar hittades."
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "För många sökfrågor, försök igen senare."
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "Det gick inte att hämta OCR-data. Försök igen senare."
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not find strings in the image. Please try again."
+msgstr "Kunde inte läsa in arkivgrenar. Försök igen."
 
 msgid "Select a valid screenshot."
 msgstr "Välj en giltig skärmbild."
@@ -8153,6 +8395,9 @@ msgstr "Växla synlighet för API-nyckel"
 msgid "API key copied to clipboard."
 msgstr "API-nyckel kopierad till urklipp."
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "Bas-URL för API:"
 
@@ -8751,6 +8996,9 @@ msgstr "Inte kompatibel"
 msgid "No components found."
 msgstr "Inga komponenter hittades."
 
+msgid "Integration instructions"
+msgstr "Integrationsinstruktioner"
+
 msgid "Configure add-on"
 msgstr "Konfigurera tillägg"
 
@@ -8876,8 +9124,92 @@ msgstr "Föregående"
 msgid "Next"
 msgstr "Nästa"
 
-msgid "Integration instructions"
-msgstr "Integrationsinstruktioner"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "Anpassning av arbetsflöde"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Redigera"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML-fil"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "Utför säkerhetskopiering"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Trigger"
+msgstr "Utför säkerhetskopiering"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Varning utlöst"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Konfiguration"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "Alla komponenter är nu öppna för översättningsuppdateringar."
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Konfiguration"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Dålig inställning"
+
+msgid "Actions"
+msgstr "Åtgärder"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Operationen utfördes i arkivet"
+
+msgid "Action"
+msgstr "Handling"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Handling"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Flytta"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Flytta"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -8941,6 +9273,30 @@ msgstr "Följande komponenter kunde inte skapas"
 
 msgid "No matching components were found!"
 msgstr "Inga matchande komponenter hittades!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+"Bläddra i Weblate-dokumentationen för guider om översättning, administration "
+"och konfiguration."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9129,6 +9485,21 @@ msgstr "Strängarna genereras enligt följande mönster:"
 msgid "Source string"
 msgstr "Källsträng"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "Se dokumentationen för mer information."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9142,6 +9513,22 @@ msgstr ""
 "De ursprungliga incheckningsmeddelandena behålls, men upphovspersonen går "
 "förlorad om inte ”Per upphovsperson” eller ”Per upphovsperson och språk” "
 "väljs, eller incheckningsmeddelandet anpassas för att inkludera den."
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr "HTTP-svar"
@@ -9235,6 +9622,9 @@ msgstr "Hantera bevakade projekt"
 
 msgid "My workspaces"
 msgstr "Mina arbetsområden"
+
+msgid "Workspaces"
+msgstr "Arbetsområden"
 
 msgid "Manage translated languages"
 msgstr "Hantera översatta språk"
@@ -9421,9 +9811,6 @@ msgstr "Visa"
 msgid "Event details"
 msgstr "Händelseinformation"
 
-msgid "Actions"
-msgstr "Åtgärder"
-
 msgid "Download"
 msgstr "Hämta"
 
@@ -9527,6 +9914,114 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "Kontrollera din faktureringsstatus"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "Arkivutforskare"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Läser in…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr "Försök igen"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "Vänligen granska och bekräfta de saknade språkändringarna."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "En sträng behöver åtgärdas"
+msgstr[1] "%(count)s strängar behöver åtgärdas"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr "Förhandsgranskning av uppdatering"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "Välj"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Sträng"
+
+msgid "Changes"
+msgstr "Ändringar"
+
+msgid "State"
+msgstr "Tillstånd"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "String state"
+#| msgid "Empty"
+msgid "Empty"
+msgstr "Tom"
+
+#, fuzzy
+#| msgid "Source flags — all languages"
+msgid "Source flags (all languages)"
+msgstr "Källflaggor – alla språk"
+
+msgid "Translation flags"
+msgstr "Översättningsflaggor"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Alla språk"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Utforska alla språk"
+
+msgid "Apply"
+msgstr "Tillämpa"
+
 msgid "Insights"
 msgstr "Insikter"
 
@@ -9545,9 +10040,6 @@ msgstr "Ladda upp översättning"
 msgid "Operations"
 msgstr "Åtgärder"
 
-msgid "Search and replace"
-msgstr "Sök och ersätt"
-
 msgid "Post announcement"
 msgstr "Skicka meddelande"
 
@@ -9556,12 +10048,6 @@ msgstr "Organisera eller ta bort"
 
 msgid "Browse all changes for this language"
 msgstr "Bläddra bland alla ändringar för det här språket"
-
-msgid "Review changes"
-msgstr "Granska ändringar"
-
-msgid "Apply"
-msgstr "Tillämpa"
 
 msgid "Browse components"
 msgstr "Bläddra bland komponenter"
@@ -9922,13 +10408,13 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"Översättningsprojektet för %(project)s innehåller för närvarande <strong>%"
-"(count)s sträng</strong> att översätta och är <strong>%(percent)s %% klart</"
-"strong>."
+"Översättningsprojektet för %(project)s innehåller för närvarande "
+"<strong>%(count)s sträng</strong> att översätta och är <strong>%(percent)s "
+"%% klart</strong>."
 msgstr[1] ""
-"Översättningsprojektet för %(project)s innehåller för närvarande <strong>%"
-"(count)s strängar</strong> att översätta och är <strong>%(percent)s %% "
-"klart</strong>."
+"Översättningsprojektet för %(project)s innehåller för närvarande "
+"<strong>%(count)s strängar</strong> att översätta och är <strong>%(percent)s "
+"%% klart</strong>."
 
 #, python-format
 msgid ""
@@ -9938,11 +10424,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"Översättningsprojektet för %(project)s innehåller för närvarande <strong>%"
-"(count)s sträng</strong> att översätta."
+"Översättningsprojektet för %(project)s innehåller för närvarande "
+"<strong>%(count)s sträng</strong> att översätta."
 msgstr[1] ""
-"Översättningsprojektet för %(project)s innehåller för närvarande <strong>%"
-"(count)s strängar</strong> att översätta."
+"Översättningsprojektet för %(project)s innehåller för närvarande "
+"<strong>%(count)s strängar</strong> att översätta."
 
 #, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
@@ -10334,9 +10820,6 @@ msgstr "Inget att förhandsgranska."
 msgid "Shortcut"
 msgstr "Genväg"
 
-msgid "Action"
-msgstr "Handling"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Öppna tillgängliga kortkommandon."
 
@@ -10480,6 +10963,9 @@ msgstr "Lösa"
 msgid "Mark as spam"
 msgstr "Markera som spam"
 
+msgid "Service is no longer available"
+msgstr "Tjänsten är inte längre tillgänglig"
+
 msgid "This service is installed site wide."
 msgstr "Den här tjänsten är installerad för hela webbplatsen."
 
@@ -10492,23 +10978,19 @@ msgstr "Den här tjänsten är installerad i arbetsytan."
 msgid "workspace"
 msgstr "arbetsyta"
 
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "Språkbegränsning"
+
 msgid "This service is disabled."
 msgstr "Den här tjänsten är inaktiverad."
-
-msgid "disabled"
-msgstr "avaktiverat"
-
-msgid "Service is no longer available"
-msgstr "Tjänsten är inte längre tillgänglig"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Slug"
 msgstr "Slug"
-
-msgid "Installation slug (optional)"
-msgstr "Installationsslug (valfri)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10519,32 +11001,156 @@ msgstr ""
 "sammanhang till en tredjepartsleverantör. Granska leverantörens villkor och "
 "sekretesspolicy innan du aktiverar den."
 
-msgid "Configured translation services"
-msgstr "Konfigurerade översättningstjänster"
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Webbhotell"
 
-msgid "Stop using this installation without removing its configuration."
-msgstr "Sluta använda denna installation utan att ta bort dess konfiguration."
+#, fuzzy
+#| msgid "This service is already installed here."
+msgid "This service is managed at its installation scope."
+msgstr "Den här tjänsten är redan installerad här."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "Använd denna översättning"
+
+msgid "Installation slug (optional)"
+msgstr "Installationsslug (valfri)"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Det här tillägget har inga inställningar."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Använd automatiska förslag"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "Du kan nu logga in med lösenord."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limit"
+msgstr "Språkbegränsning"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "Arkivbegränsning"
+
+#, fuzzy
+#| msgid "This scope already has 20 service installations."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Den här omfattningen har redan 20 tjänsteinstallationer."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Versionskontroll"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "GitHub-installations-ID"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "Avaktivera"
 
-msgid "Stop using this inherited installation here."
-msgstr "Sluta använda denna ärvda installation här."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "Aktivera maskinöversättning"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
+msgstr ""
 
 msgid "Enable"
 msgstr "Aktivera"
 
-msgid "Remove this installation and its configuration."
-msgstr "Ta bort denna installation och dess konfiguration."
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Exclude all inherited installations of this service"
+msgid "Exclude inherited service"
 msgstr "Exkludera alla ärvda installationer av denna tjänst"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
+msgstr ""
 
 msgid "Exclude"
 msgstr "Exkludera"
 
-msgid "Configure"
-msgstr "Konfigurera"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+msgid "Configured translation services"
+msgstr "Konfigurerade översättningstjänster"
 
 msgid "There are no services currently installed."
 msgstr "Det finns inga tjänster installerade."
@@ -10566,6 +11172,16 @@ msgid ""
 msgstr ""
 "Vissa tjänster kommer att fråga efter ytterligare konfiguration under "
 "installationen."
+
+#, fuzzy
+#| msgid "Translation services"
+msgid "Translation service errors"
+msgstr "Översättningstjänster"
+
+#, fuzzy
+#| msgid "No eTranslation domains available"
+msgid "No translation service errors available."
+msgstr "Inga eTranslation-domäner är tillgängliga"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11604,9 +12220,6 @@ msgstr "Ta bort inbjudan"
 msgid "Check user access"
 msgstr "Kontrollera användaråtkomst"
 
-msgid "Workspaces"
-msgstr "Arbetsområden"
-
 msgid "Add workspace"
 msgstr "Lägg till ett arbetsområde"
 
@@ -11720,6 +12333,9 @@ msgstr "på"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "av"
+
+msgid "Configure"
+msgstr "Konfigurera"
 
 msgid "Autoclean translation memory"
 msgstr "Automatisk rensning av översättningsminne"
@@ -11925,22 +12541,6 @@ msgstr "Tack för att du bidrar med översättningar."
 msgid "Donate to Weblate development"
 msgstr "Donera till utvecklingen av Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Granska och bekräfta resultaten för sök och ersätt."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Visar och ersätter bara de första 250 matchningarna. Utför ersättningen igen "
-"för att ersätta fler."
-
-msgid "Update preview"
-msgstr "Förhandsgranskning av uppdatering"
-
-msgid "Replace"
-msgstr "Ersätt"
-
 msgid "Generated by"
 msgstr "Skapad av"
 
@@ -11973,6 +12573,23 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Tilldela källsträngar"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "Tilldelade källsträngar"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "Bildwidgetar"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+"Föreslår källsträngar genom att känna igen texten i den här skärmdumpen."
+
+msgid "Add selected"
+msgstr "Lägg till valda"
+
 msgid "Source string search"
 msgstr "Sökning efter källsträng"
 
@@ -11985,16 +12602,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "Dokumentation av sökfrågesyntax"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-"Föreslår källsträngar genom att känna igen texten i den här skärmdumpen."
-
-msgid "Find strings in image"
-msgstr "Sök efter strängar i bilden"
-
-msgid "Add selected"
-msgstr "Lägg till valda"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -12184,10 +12791,8 @@ msgstr "Markera alla strängar på sidan"
 msgid "Select string for bulk edit"
 msgstr "Markera sträng för massredigering"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"Du kan ändra tillståndet för alla strängar som matchar den givna typen på en "
-"och samma gång."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "Åtgärden tillämpas på strängarna som har markerats i listan ovan."
@@ -12300,9 +12905,6 @@ msgstr "Den maximala stränglängden bestäms av källsträngen eller flaggorna.
 msgid "Clone to translation"
 msgstr "Klona till översättning"
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "Target string"
 msgstr "Målsträng"
 
@@ -12348,7 +12950,6 @@ msgstr "Webbadressen till pull requesten kopierades till urklipp."
 msgid "Last remote commit"
 msgstr "Senaste arkivering i fjärrarkivet"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s författade för %(date)s"
@@ -12797,9 +13398,6 @@ msgstr "Nyckel-/kontextsträngar"
 msgid "Location strings"
 msgstr "Placeringssträngar"
 
-msgid "String state"
-msgstr "Strängtillstånd"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "Väntande sträng"
@@ -12964,9 +13562,6 @@ msgstr "Konfigurera översättningsarbetsflöde"
 
 msgid "Saved search name"
 msgstr "Namn på sparad sökning"
-
-msgid "Search query"
-msgstr "Sökfråga"
 
 msgid "No saved searches yet."
 msgstr "Inga sparade sökningar ännu."
@@ -13852,6 +14447,29 @@ msgstr ""
 "Weblate kunde inte tolka översättningsfilerna när översättningarna "
 "uppdaterades."
 
+#, fuzzy
+#| msgid ""
+#| "Weblate pushed the changes and created the pull request, but could not "
+#| "merge it automatically."
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate skickade iväg ändringarna och skapade en pull-begäran, men kunde "
+"inte slå samman den automatiskt."
+
+#, fuzzy
+#| msgid ""
+#| "Check that the repository allows auto-merge and the selected merge "
+#| "method, or turn off automatic merging in the version control parameters."
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"Kontrollera att förrådet tillåter automatisk sammanfogning och den valda "
+"sammanfogningsmetoden, eller inaktivera automatisk sammanfogning i "
+"parametrarna för versionshantering."
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate kunde inte skicka ändringar till uppströmsarkivet."
 
@@ -13993,9 +14611,6 @@ msgstr "Gå till datum"
 msgid "Go"
 msgstr "Gå"
 
-msgid "Changes"
-msgstr "Ändringar"
-
 msgid "Download latest changes as CSV"
 msgstr "Ladda ner senaste ändringar som CSV"
 
@@ -14064,9 +14679,6 @@ msgid ""
 msgstr ""
 "Skapa en ny översättningskomponent för ytterligare en gren av den befintliga "
 "översättningskomponenten."
-
-msgid "Retry"
-msgstr "Försök igen"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -16172,6 +16784,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Kunde inte slå samman pull-begäran automatiskt."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the pull request automatically."
+msgid "Could not customize the pull request."
+msgstr "Kunde inte slå samman pull-begäran automatiskt."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Arkivet är föråldrat."
 
@@ -16196,6 +16814,20 @@ msgstr "Apostrofer i Java MessageFormat"
 
 msgid "Trailing and leading whitespace"
 msgstr "Avslutande och inledande mellanslag"
+
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Automatisk översättning klar. Inga strängar uppdaterade."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Automatisk översättning klar, %d sträng blev uppdaterad."
+msgstr[1] "Automatisk översättning klar, %d strängar blev uppdaterade."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Automatisk översättning klar. Inga strängar uppdaterade."
@@ -16270,6 +16902,9 @@ msgstr "Dubblett av namn på sparad sökning."
 msgid "Screenshot image is missing."
 msgstr "Skärmbilden saknas."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 msgid "Duplicate check name."
 msgstr "Dubblerat kontrollnamn."
 
@@ -16281,6 +16916,11 @@ msgstr "Komponentens filnamn matchar inte dess kategori och slug."
 
 msgid "Duplicate component slug."
 msgstr "Dubblerad komponent-slugg."
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "Översättningsgranskningar är inte aktiverade."
 
 msgid "Duplicate translation identifier."
 msgstr "Dubblerad översättningsidentifierare."
@@ -16339,8 +16979,49 @@ msgstr ""
 "Komponent %(component)s hoppades över eftersom dess länkade arkiv inte är "
 "tillgängligt."
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+"Komponent %(component)s hoppades över eftersom dess länkade arkiv inte är "
+"tillgängligt."
+
+msgid "Version control parameters"
+msgstr "Parametrar för versionshantering"
+
+msgid "File format parameters"
+msgstr "Filformatsparametrar"
+
 msgid "The project repository directory already exists."
 msgstr "Katalogen för projektförrådet finns redan."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "Ogiltig sökning!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "Ogiltig begäran."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Hur förfrågningar om att skapa nya översättningar hanteras."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Komponenten låstes automatiskt på grund av en varning."
@@ -16461,9 +17142,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "Versionskontroll"
-
-msgid "State"
-msgstr "Tillstånd"
 
 msgid "Severity"
 msgstr "Svårighetsgrad"
@@ -17430,18 +18108,6 @@ msgstr "Kunde inte ladda projektets säkerhetskopia: %s"
 msgid "Could not load project backup."
 msgstr "Kunde inte läsa in projektets säkerhetskopia."
 
-msgid "Optional additional filter applied to the strings"
-msgstr "Valfritt ytterligare filter som tillämpas på strängarna"
-
-msgid "Search string"
-msgstr "Söksträng"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "Skiftlägeskänslig sträng att söka efter och ersätta."
-
-msgid "Replacement string"
-msgstr "Ersättningssträng"
-
 msgid "Key or context"
 msgstr "Nyckel eller kontext"
 
@@ -17497,35 +18163,110 @@ msgstr "Du har inte behörighet att skapa terminologi."
 msgid "Invalid string selection!"
 msgstr "Ogiltigt strängval!"
 
+msgid "Search type"
+msgstr "Sökningstyp"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Search string"
+msgstr "Söksträng"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "Ersättningssträng"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr "Tillstånd som ska sättas"
 
 msgid "Do not change"
 msgstr "Ändra inte"
 
-msgid "Source flags to add — all languages"
-msgstr "Källflaggor att lägga till – alla språk"
+#, fuzzy
+#| msgid "Edit flags"
+msgid "Add flags"
+msgstr "Redigera flaggor"
 
-msgid "Source flags to remove — all languages"
-msgstr "Källflaggor att ta bort – alla språk"
+#, fuzzy
+#| msgid "Remove app"
+msgid "Remove flags"
+msgstr "Ta bort programmet"
 
-msgid "Translation flags to add — matching translations"
-msgstr "Översättningsflaggor att lägga till – matchande översättningar"
-
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "Gäller endast matchande översättningar, inte källsträngar."
-
-msgid "Translation flags to remove — matching translations"
-msgstr "Översättningsflaggor att ta bort – matchande översättningar"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+#, fuzzy
+#| msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr "Tar bort lokalt angivna flaggor. Ärvda flaggor fortsätter att gälla."
 
-msgid "Labels to add — all languages"
-msgstr "Etiketter att lägga till – alla språk"
+#, fuzzy
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "Lägg till etikett"
 
-msgid "Labels to remove — all languages"
-msgstr "Etiketter att ta bort – alla språk"
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "Ta bort dubbletter"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "Granska ändringar"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "Komponent att ta bort"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Källspråk"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr "Gäller endast matchande översättningar, inte källsträngar."
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr "Markera strängar att redigera eller ange en sökfråga."
@@ -17773,9 +18514,6 @@ msgstr "Kategorinamn"
 
 msgid "Display name"
 msgstr "Visningsnamn"
-
-msgid "Translation flags"
-msgstr "Översättningsflaggor"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Ytterligare kommaseparerade flaggor för att påverka Weblates beteende."
@@ -18073,9 +18811,6 @@ msgstr ""
 "översättningar. Du kan även välja att integrera med tjänster från "
 "tredjepartsleverantörer för att skicka in pull-/sammanslagningsbegäranden."
 
-msgid "Version control parameters"
-msgstr "Parametrar för versionshantering"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -18199,9 +18934,6 @@ msgid ""
 msgstr ""
 "Filnamn på fil som används för att skapa nya översättningar. Välj .pot-fil "
 "för gettext."
-
-msgid "File format parameters"
-msgstr "Filformatsparametrar"
 
 msgid "Locked component will not get any translation updates."
 msgstr "Låsta komponenter kommer inte att få några översättningsuppdateringar."
@@ -19177,9 +19909,9 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
-"Granskningsläget för denna sträng ändrades från %(previous)s till %(current)"
-"s medan du redigerade den. Läs in redigeraren på nytt och granska dina "
-"ändringar innan du sparar."
+"Granskningsläget för denna sträng ändrades från %(previous)s till "
+"%(current)s medan du redigerade den. Läs in redigeraren på nytt och granska "
+"dina ändringar innan du sparar."
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "Avmarkera som ej översättningsbar för alla språk"
@@ -19998,18 +20730,6 @@ msgstr "Inkluderade användardagar"
 msgid "Excluded user days"
 msgstr "Undantagna användardagar"
 
-msgid "Could not process form!"
-msgstr "Kunde inte bearbeta formulär!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "Sök och ersätt klart, inga strängar har uppdaterats."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Sök och ersätt klar %d sträng uppdaterades."
-msgstr[1] "Sök och ersätt klar %d strängar uppdaterades."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Sök efter %s"
@@ -20019,6 +20739,22 @@ msgstr "För många sökfrågor, försök igen senare."
 
 msgid "Invalid search query!"
 msgstr "Ogiltig sökning!"
+
+#, fuzzy
+#| msgid ""
+#| "The original review state is invalid. Reload the editor and try again."
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+"Det ursprungliga granskningsläget är ogiltigt. Läs in redigeraren på nytt "
+"och försök igen."
+
+msgid "Could not process form!"
+msgstr "Kunde inte bearbeta formulär!"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "Autentisering misslyckades: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Massredigering slutförd, inga strängar uppdaterades."
@@ -20176,14 +20912,153 @@ msgstr "Borg slutfördes med varningar utan någon utdata."
 msgid "Invalid host name given!"
 msgstr "Ogiltigt värdnamn angivet!"
 
+#, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "JSX-uttryck i översättningen matchar inte källan."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Saved searches are offered in the search filters."
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr "Sparade sökningar erbjuds i sökfiltren."
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Använd flaggor för att ange särskilda strängar i översättningen."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "An obsolete translation suggestion was removed during cleanup."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Ett föråldrat översättningsförslag togs bort under rensningen."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+#, fuzzy
+#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+"CEL-valideringen eller -utvärderingen misslyckades eller överskred "
+"resursgränsen."
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "Gränsen för antalet API-förfrågningar per tidsenhet överskreds."
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Reguljärt uttryck för att matcha översättningsfiler mot"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Topic prefix must not exceed %(limit)d characters."
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "Ämnesprefixet får inte överstiga %(limit)d tecken."
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Ogiltigt reguljärt uttryck: {}"
+
 msgid "Automatic translation reported a warning."
 msgstr "Automatisk översättning rapporterade en varning."
 
 msgid "Automatic translation failed. See the task log for details."
-msgstr "Automatisk översättning misslyckades. Se aktivitetsloggen för detaljer."
+msgstr ""
+"Automatisk översättning misslyckades. Se aktivitetsloggen för detaljer."
 
 msgid "Task could not be completed. See the task log for details."
 msgstr "Uppgiften kunde inte slutföras. Se aktivitetsloggen för detaljer."
+
+#, fuzzy
+#| msgid "Automatic translation reported a warning."
+msgid "Automatic translation reported an error."
+msgstr "Automatisk översättning rapporterade en varning."
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -20338,6 +21213,11 @@ msgstr "Kunde inte slå upp URL-domänen: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Kunde inte slå upp URL-domänen."
 
+#, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "Ogiltiga parametrar!"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Parametrarna måste vara avbildning med nyckel-värde-par."
 
@@ -20359,6 +21239,11 @@ msgid ""
 msgstr ""
 "Det gick inte att hämta resursen från den angivna URL:en (HTTP-statuskod: "
 "%(code)s)."
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "Sökfrågan är för komplex."
 
 msgid "Search query is too complex."
 msgstr "Sökfrågan är för komplex."
@@ -20388,6 +21273,11 @@ msgstr "Ogiltigt reguljärt uttryck: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Uppslagningen stöds inte för {field}: {value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr "Ange komponent-ID eller projekt-/komponent-slug."
+
 msgid "Could not parse IP address: {}"
 msgstr "Det gick inte att tolka IP-adressen: {}"
 
@@ -20399,6 +21289,11 @@ msgstr "Intervall stödjs inte för fältet {}"
 
 msgid "Mixed operators!"
 msgstr "Blandade operatorer!"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "Sökfrågan är för komplex."
 
 msgid "Invalid character in the query string"
 msgstr "Ogiltigt tecken i frågesträngen"
@@ -20777,6 +21672,52 @@ msgstr "Listning av pull-begäranden misslyckades: %(error)s"
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr ""
 "Listning av pull-begäranden misslyckades: %(error)s Försök igen senare."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s Försök igen senare."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s: %(error)s Försök igen senare."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -21162,6 +22103,34 @@ msgstr ""
 "Skapa en pull- eller sammanslagningsbegäran för översättningsändringarna. "
 "När funktionen är avstängd överför Weblate direkt till den översatta grenen, "
 "vilket kräver skrivbehörighet till den."
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request assignee"
+msgstr "Pullbegäran"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge pull requests automatically"
+msgid "Assign pull requests to acting user"
+msgstr "Sammanfoga pull-begäranden automatiskt"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request labels"
+msgstr "Pullbegäran"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
 
 msgid "Merge pull requests automatically"
 msgstr "Sammanfoga pull-begäranden automatiskt"
@@ -21721,6 +22690,24 @@ msgstr "Ärvda standardinställningar för komponenten"
 msgid "Workspace name"
 msgstr "Arbetområdets namn"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "Tillåt spridning av översättning"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "Det går inte att ändra komponenter på en arbetsområdesgrupp."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr ""
+"Om du vill ersätta befintliga översättningar om strängen är redan översatt."
+
 msgid "Managed name"
 msgstr "Hanterat namn"
 
@@ -21752,6 +22739,73 @@ msgstr "Arbetsytan kan inte tas bort eftersom den fortfarande används."
 
 msgid "The workspace has been removed."
 msgstr "Arbetsområdet har tagits bort."
+
+#~ msgid "Search and replace"
+#~ msgstr "Sök och ersätt"
+
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr ""
+#~ "Sluta använda denna installation utan att ta bort dess konfiguration."
+
+#~ msgid "Stop using this inherited installation here."
+#~ msgstr "Sluta använda denna ärvda installation här."
+
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Ta bort denna installation och dess konfiguration."
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Granska och bekräfta resultaten för sök och ersätt."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Visar och ersätter bara de första 250 matchningarna. Utför ersättningen "
+#~ "igen för att ersätta fler."
+
+#~ msgid "Replace"
+#~ msgstr "Ersätt"
+
+#~ msgid "Find strings in image"
+#~ msgstr "Sök efter strängar i bilden"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "Du kan ändra tillståndet för alla strängar som matchar den givna typen på "
+#~ "en och samma gång."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "Valfritt ytterligare filter som tillämpas på strängarna"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "Skiftlägeskänslig sträng att söka efter och ersätta."
+
+#~ msgid "Source flags to add — all languages"
+#~ msgstr "Källflaggor att lägga till – alla språk"
+
+#~ msgid "Source flags to remove — all languages"
+#~ msgstr "Källflaggor att ta bort – alla språk"
+
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Översättningsflaggor att lägga till – matchande översättningar"
+
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Översättningsflaggor att ta bort – matchande översättningar"
+
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Etiketter att lägga till – alla språk"
+
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Etiketter att ta bort – alla språk"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "Sök och ersätt klart, inga strängar har uppdaterats."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "Sök och ersätt klar %d sträng uppdaterades."
+#~ msgstr[1] "Sök och ersätt klar %d strängar uppdaterades."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Namnet används också i versionskontrollarkiveringar."
@@ -21917,10 +22971,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgstr ""
 #~ "Det gick inte att autentisera, troligtvis p.g.a. ett utgånget token eller "
 #~ "kommunikationsfel."
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Autentisering misslyckades: %s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "Autentiseringsleverantören kunde inte nås."
@@ -22270,9 +23320,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgid "Repository URL"
 #~ msgstr "Förråds-URL"
 
-#~ msgid "Repository name"
-#~ msgstr "Förrådsnamn"
-
 #~ msgid "Configure component"
 #~ msgstr "Konfigurera komponent"
 
@@ -22573,9 +23620,6 @@ msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "Ge sammanhang till översättarna"
-
-#~ msgid "Workflow customization"
-#~ msgstr "Anpassning av arbetsflöde"
 
 #~ msgid "Add team"
 #~ msgstr "Lägg till team"
@@ -23122,9 +24166,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Inaktivera tvåfaktorsautentisering"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Översättningsgranskningar är inte aktiverade."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Granskningar är inte aktiverade."
 
@@ -23291,9 +24332,6 @@ msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid "Rename component"
 #~ msgstr "Ändra namn på komponenten"
-
-#~ msgid "Move component"
-#~ msgstr "Flytta komponent"
 
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "Om du flyttar komponenten ändras även dess URL:er."
@@ -23755,9 +24793,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgid "source"
 #~ msgstr "källa"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "Ogiltiga parametrar!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "Ej översatta strängar"
 
@@ -23766,12 +24801,6 @@ msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid "Strings needing action"
 #~ msgstr "Strängar som behöver åtgärdas"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "En sträng behöver åtgärdas"
-#~ msgstr[1] "%(count)s strängar behöver åtgärdas"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -24233,9 +25262,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgid "Use this translation for all components"
 #~ msgstr "Använd denna översättning för alla komponenter"
 
-#~ msgid "Use this translation"
-#~ msgstr "Använd denna översättning"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "Ändring i förhållande till denna översättning:"
 
@@ -24511,9 +25537,6 @@ msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "Du kan inte längre logga in med {method} ({name})."
-
-#~ msgid "You can now log in using password."
-#~ msgstr "Du kan nu logga in med lösenord."
 
 #~ msgid "New whiteboard message"
 #~ msgstr "Nytt meddelande på anslagstavlan"
@@ -24857,9 +25880,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgid "Your languages"
 #~ msgstr "Dina språk"
 
-#~ msgid "Search type"
-#~ msgstr "Sökningstyp"
-
 #~ msgid "Fulltext"
 #~ msgstr "Fulltext"
 
@@ -24896,9 +25916,6 @@ msgstr "Arbetsområdet har tagits bort."
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
-
-#~ msgid "Repositories limit"
-#~ msgstr "Arkivbegränsning"
 
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "Användaren har alla behörigheter utan de har tilldelats."
@@ -26851,9 +27868,6 @@ msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid "End date"
 #~ msgstr "Slutdatum"
-
-#~ msgid "Text"
-#~ msgstr "Text"
 
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "Beroende på placering kan HTML tillåtas."

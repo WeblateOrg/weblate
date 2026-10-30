@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-16 04:34+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1309,6 +1309,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Malhela"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "Bonvolu konfirmi vian identon uzante duan paŝon antaŭ ol daŭrigi."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "Sekureca ŝlosilo (%s)"
@@ -1420,9 +1423,6 @@ msgstr "Elsalutinta"
 #| msgid "Username or e-mail"
 msgid "Verify new e-mail address"
 msgstr "Uzantnomo aŭ retadreso"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Bonvolu konfirmi vian identon uzante duan paŝon antaŭ ol daŭrigi."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1632,6 +1632,11 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Error message"
+msgid "Error: %s"
+msgstr "Erara mesaĝo"
 
 msgid "enabled"
 msgstr "ŝaltita"
@@ -1933,7 +1938,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Plena redaktilo"
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 #, fuzzy
@@ -2082,6 +2087,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Component wide notifications"
+msgid "Comment extraction"
+msgstr "Tutkomponantaj sciigoj"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Keywords"
+msgstr "Pasvorto"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update behavior"
+msgstr "Superrigardo"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This field is required."
 msgstr "Ĉi tiu kampo estas deviga."
@@ -2132,6 +2155,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "RC file"
+msgid "Input files"
+msgstr "RC-dosiero"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2370,6 +2398,21 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "Plena nomo"
+
+#, fuzzy
+#| msgid "Component wide notifications"
+msgid "Component naming and file templates"
+msgstr "Tutkomponentaj avertoj"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component lifecycle"
+msgstr "Komponantlisto"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2572,6 +2615,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Serĉi"
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Source and target"
+msgstr "Via lingvoj"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "Teksta direkto"
+
 msgid "The source and target have to be different languages."
 msgstr "La fonto kaj celo devas esti malsamajn lingvojn."
 
@@ -2668,6 +2727,22 @@ msgstr ""
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+#| msgid "Untranslated strings:"
+msgid "Broker connection"
+msgstr "Netradukitaj ĉenoj:"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Projekta elekto"
 
 #, fuzzy
 #| msgid "Special characters"
@@ -3264,6 +3339,11 @@ msgstr ""
 
 msgid "Your suggestion already exists!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search query"
+msgstr "Serĉofiltrilo"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4471,6 +4551,136 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Permesilo"
 
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change events"
+msgstr "Ŝanĝis permesilon"
+
+#, fuzzy
+#| msgid "Language"
+msgid "The workflow runs for each of the selected events."
+msgstr "Lingvo"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Regula esprimo"
+
+msgid "The expression has to evaluate to a boolean."
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Category path"
+msgstr "Plena nomo"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr "Lingva kodo"
+
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change event"
+msgstr "Ŝanĝis permesilon"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String state"
+msgstr "Stato"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Ago"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Moved component"
+msgid "Whole component"
+msgstr "Movita komponanto"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Ĉenoj estis ŝanĝitaj"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String scope"
+msgstr "Stato"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Defaŭlta komponantlisto"
+
+#, fuzzy
+#| msgid "Delete suggestion"
+msgid "Select strings"
+msgstr "Forigi sugeston"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full editor"
+msgid "Bulk editing"
+msgstr "Plena redaktilo"
+
+#, fuzzy
+#| msgid "Number of languages"
+msgid "Component update"
+msgstr "Nombro da lingvoj"
+
+#, fuzzy
+#| msgid "All repositories were updated."
+msgid "Repository update"
+msgstr "Ĉiuj deponejoj estis ĝistadigitaj."
+
+#, fuzzy
+#| msgid "Repository failure"
+msgid "Repository commit"
+msgstr "Deponeja fiasko"
+
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push"
+msgstr "Deponeja statuso"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Regula esprimo"
+
+#, fuzzy
+#| msgid "Number of languages"
+msgid "Component category"
+msgstr "Nombro da lingvoj"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Matching strings"
+msgstr "Serĉi"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Prinoto"
+
 msgid "Additional message"
 msgstr "Kroma mesaĝo"
 
@@ -4997,8 +5207,8 @@ msgid "Inconsistent"
 msgstr ""
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 
 #, fuzzy
@@ -6688,9 +6898,6 @@ msgstr "Limo de lingvoj"
 msgid "Enter a valid language code."
 msgstr "Lingva kodo"
 
-msgid "Language code"
-msgstr "Lingva kodo"
-
 msgid "Language name"
 msgstr "Lingva nomo"
 
@@ -7207,6 +7414,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Via lingvoj"
+
+msgid "disabled"
+msgstr "malvalidigita"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7839,6 +8049,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Nova lingvo aldonita en %(component)s"
 
+#, fuzzy
+#| msgid "Repository status"
+msgid "Rate limit reset."
+msgstr "Deponeja statuso"
+
 msgid "File"
 msgstr "Dosiero"
 
@@ -8211,9 +8426,22 @@ msgstr[1] "%(count)s okazontaj proponoj"
 msgid "No new matching source strings found."
 msgstr "Ne troviĝis novaj kongruitaj fontaj ĉenoj."
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Tro da mesaĝoj senditaj, bonvolu reprovi poste."
+
 #, fuzzy
 #| msgid "That was not correct, please try again."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not find strings in the image. Please try again."
 msgstr "Tio ne estis ĝusta, bonvolu provi denove."
 
 #, fuzzy
@@ -9135,6 +9363,9 @@ msgstr "Ŝanĝi pasvorton"
 msgid "API key copied to clipboard."
 msgstr ""
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr ""
 
@@ -9765,6 +9996,11 @@ msgid "No components found."
 msgstr "El komponanta listo"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Integration instructions"
+msgstr "Tradukaj sciigoj"
+
+#, fuzzy
 #| msgid "Configure addon"
 msgid "Configure add-on"
 msgstr "Agordi kromprogramon"
@@ -9905,10 +10141,86 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "Workflow editing mode"
+msgstr ""
+
 #, fuzzy
-#| msgid "Translation notifications"
-msgid "Integration instructions"
-msgstr "Tradukaj sciigoj"
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Redakti"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML-dosiero"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new string"
+msgid "Add trigger"
+msgstr "Aldoni novan tekstoĉenon"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Conditions"
+msgstr "Malbona agordo"
+
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "All conditions have to pass before any action runs."
+msgstr "Ŝlosi komponanton, antaŭmalhelpi tradukojn"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Condition"
+msgstr "Malbona agordo"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Malbona agordo"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Actions"
+msgstr "Ago"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Operacio estis efektivigita en la deponejo"
+
+msgid "Action"
+msgstr "Ago"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Ago"
+
+#, fuzzy
+#| msgid "All projects"
+msgid "Move up"
+msgstr "Ĉiuj projektoj"
+
+msgid "Move down"
+msgstr ""
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9991,6 +10303,24 @@ msgstr "Traduko"
 
 msgid "No matching components were found!"
 msgstr "Ne trovis kongruantajn komponantojn!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -10159,6 +10489,19 @@ msgstr "La ĉenoj estos kreita per la sekva ŝablono:"
 msgid "Source string"
 msgstr "Serĉi"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -10167,6 +10510,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -10287,6 +10646,9 @@ msgstr "Administri rigarditajn projektojn"
 #| msgid "Manage users"
 msgid "My workspaces"
 msgstr "Administri uzantojn"
+
+msgid "Workspaces"
+msgstr ""
 
 #, fuzzy
 #| msgid "Translated languages"
@@ -10524,11 +10886,6 @@ msgstr ""
 msgid "Event details"
 msgstr "Vidi detolojn"
 
-#, fuzzy
-#| msgid "Action"
-msgid "Actions"
-msgstr "Ago"
-
 msgid "Download"
 msgstr "Elŝuti"
 
@@ -10633,6 +10990,117 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "Kontrolu vian fakturan staton"
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Ŝargadoj…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Permesoj"
+msgstr[1] "Permesoj"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update preview"
+msgstr "Superrigardo"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Ĉeno"
+
+#, fuzzy
+#| msgid "Change password"
+msgid "Changes"
+msgstr "Ŝanĝi pasvorton"
+
+#, fuzzy
+#| msgid "Status"
+msgid "State"
+msgstr "Stato"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Source flags (all languages)"
+msgstr "Arabaj lingvoj"
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Translate"
+msgid "Translation flags"
+msgstr "Traduko"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Ĉiuj lingvoj"
+
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "Arabic languages"
+msgid "Remove label (all languages)"
+msgstr "Arabaj lingvoj"
+
+msgid "Apply"
+msgstr "Apliki"
+
 msgid "Insights"
 msgstr ""
 
@@ -10655,9 +11123,6 @@ msgstr ""
 msgid "Operations"
 msgstr "Versioj"
 
-msgid "Search and replace"
-msgstr "Serĉi kaj anstataŭigi"
-
 #, fuzzy
 #| msgid "Post comment"
 msgid "Post announcement"
@@ -10673,14 +11138,6 @@ msgstr "La traduko estis forigita."
 #| msgid "Arabic languages"
 msgid "Browse all changes for this language"
 msgstr "Arabaj lingvoj"
-
-#, fuzzy
-#| msgid "License"
-msgid "Review changes"
-msgstr "Permesilo"
-
-msgid "Apply"
-msgstr "Apliki"
 
 #, fuzzy
 #| msgid "All projects"
@@ -11551,9 +12008,6 @@ msgstr "Netradukitaj ĉenoj:"
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr "Ago"
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -11711,6 +12165,12 @@ msgstr "Klarigo"
 msgid "Mark as spam"
 msgstr "Marki kiel spamaĵo"
 
+#, fuzzy
+#| msgid "There is currently %(count)s addon installed."
+#| msgid_plural "There are currently %(count)s addons installed."
+msgid "Service is no longer available"
+msgstr "Estas nune %(count)s kromprogramo instalita."
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -11731,29 +12191,20 @@ msgid "workspace"
 msgstr "Arabaj lingvoj"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "Limo de lingvoj"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This service is disabled."
 msgstr "Ĉi tiu kampo estas deviga."
-
-msgid "disabled"
-msgstr "malvalidigita"
-
-#, fuzzy
-#| msgid "There is currently %(count)s addon installed."
-#| msgid_plural "There are currently %(count)s addons installed."
-msgid "Service is no longer available"
-msgstr "Estas nune %(count)s kromprogramo instalita."
 
 msgid "ID"
 msgstr "identigilo"
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Installation slug (optional)"
-msgstr "Tradukaj sciigoj"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11762,19 +12213,118 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "Purigi tradukajn dosierojn"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Gastigita servo"
 
 #, fuzzy
-#| msgid "Component wide notifications"
-msgid "Stop using this installation without removing its configuration."
-msgstr "Tutkomponentaj avertoj"
+#| msgid "There are some alerts on this component"
+msgid "This service is managed at its installation scope."
+msgstr "Estas alarmoj en tiu komponanto"
+
+#, fuzzy
+#| msgid "Possible configuration"
+msgid "Manage this installation"
+msgstr "Ebla agordo"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Tradukaj sciigoj"
+
+#, fuzzy
+#| msgid "This field is required."
+msgid "This service has no settings."
+msgstr "Ĉi tiu kampo estas deviga."
+
+#, fuzzy
+#| msgid "Vote on suggestion"
+msgid "Use in automations"
+msgstr "Voĉdoni pri sugesto"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "Eblas nun ensaluti per pasvorto."
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limit"
+msgstr "Limo de lingvoj"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source code repository"
+msgid "Reset rate limit"
+msgstr "Fontkoda deponejo"
+
+#, fuzzy
+#| msgid "This translation component is currently being updated."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Ĉi tiu traduka komponanto estas ĝisdatigata."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Versikontrolo"
+
+#, fuzzy
+#| msgid "GitHub username"
+msgid "Disable installation"
+msgstr "GitHub-a uzantnomo"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Enable installation"
+msgstr "Nova pasvorto (denove)"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 #, fuzzy
@@ -11782,19 +12332,41 @@ msgstr ""
 msgid "Enable"
 msgstr "ŝaltita"
 
-#, fuzzy
-#| msgid "Action"
-msgid "Remove this installation and its configuration."
-msgstr "Ago"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Authentication"
+msgid "Exclude inherited service"
+msgstr "Aŭtentigo"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "Agordi"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "Purigi tradukajn dosierojn"
 
 #, fuzzy
 #| msgid "There are no addons currently installed."
@@ -11822,6 +12394,16 @@ msgstr "Nova pasvorto (denove)"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "Tradukaĵa permesilo"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No translation service errors available."
+msgstr "Tradukaj sciigoj"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -12970,9 +13552,6 @@ msgstr "Administrado"
 msgid "Check user access"
 msgstr ""
 
-msgid "Workspaces"
-msgstr ""
-
 msgid "Add workspace"
 msgstr ""
 
@@ -13108,6 +13687,9 @@ msgstr "Sennoma"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "malŝaltita"
+
+msgid "Configure"
+msgstr "Agordi"
 
 #, fuzzy
 #| msgctxt "Per-project access-control team name"
@@ -13334,22 +13916,6 @@ msgstr "Netradukitaj ĉenoj"
 msgid "Donate to Weblate development"
 msgstr "Donaci al Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-#| msgid "Overview"
-msgid "Update preview"
-msgstr "Superrigardo"
-
-msgid "Replace"
-msgstr "Anstataŭigi"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -13395,6 +13961,24 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Search"
+msgid "Find source strings"
+msgstr "Serĉi"
+
+#, fuzzy
+#| msgid "Image"
+msgid "Image text"
+msgstr "Bildo"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "Aldoni ekrankopion"
+
+#, fuzzy
+#| msgid "Search"
 msgid "Source string search"
 msgstr "Serĉi"
 
@@ -13407,19 +13991,6 @@ msgstr ""
 #| msgid "Documentation"
 msgid "Search query syntax documentation"
 msgstr "Dokumentado"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Strings needing action"
-msgid "Find strings in image"
-msgstr "Ĉenoj kiel bezonas agon"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "Aldoni ekrankopion"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -13628,7 +14199,7 @@ msgstr "Serĉi"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -13765,9 +14336,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr "Klonu al traduko"
 
-msgid "Select"
-msgstr ""
-
 #, fuzzy
 #| msgid "Search"
 msgid "Target string"
@@ -13817,7 +14385,6 @@ msgstr "Deponeja operacio"
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -14358,11 +14925,6 @@ msgstr "Tradukitaj ĉenoj"
 msgid "Location strings"
 msgstr "Ago"
 
-#, fuzzy
-#| msgid "Status"
-msgid "String state"
-msgstr "Stato"
-
 #. Translators: String pending for flushing to VCS.
 #, fuzzy
 #| msgid "Permissions"
@@ -14580,11 +15142,6 @@ msgstr "Traduko"
 #| msgid "username"
 msgid "Saved search name"
 msgstr "uzantnomo"
-
-#, fuzzy
-#| msgid "Search filter"
-msgid "Search query"
-msgstr "Serĉofiltrilo"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -15391,6 +15948,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
@@ -15528,11 +16095,6 @@ msgstr "Salti al"
 msgid "Go"
 msgstr "Bona"
 
-#, fuzzy
-#| msgid "Change password"
-msgid "Changes"
-msgstr "Ŝanĝi pasvorton"
-
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -15608,9 +16170,6 @@ msgstr ""
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
-msgstr ""
-
-msgid "Retry"
 msgstr ""
 
 msgid ""
@@ -18135,6 +18694,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Nova pasvorto (denove)"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Could not customize the pull request."
+msgstr "Nova pasvorto (denove)"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr ""
 
@@ -18161,6 +18726,19 @@ msgstr ""
 
 msgid "Trailing and leading whitespace"
 msgstr "Vosta kaj antaŭira blankspaco"
+
+#, fuzzy
+#| msgid "All repositories were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Ĉiuj deponejoj estis ĝistadigitaj."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Aŭtomata traduko"
+msgstr[1] "Aŭtomata traduko"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
@@ -18242,6 +18820,9 @@ msgstr "Netradukitaj ĉenoj:"
 msgid "Screenshot image is missing."
 msgstr "Ekrankopioj"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 #, fuzzy
 #| msgid "Untranslated strings:"
 msgid "Duplicate check name."
@@ -18260,6 +18841,12 @@ msgstr ""
 #| msgid "Create component"
 msgid "Duplicate component slug."
 msgstr "Krei komponanton"
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Translate"
+msgid "Translation revision has an invalid format."
+msgstr "Traduko"
 
 #, fuzzy
 #| msgid "Untranslated strings:"
@@ -18346,11 +18933,51 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Version control parameters"
+msgstr "Versikontrolo"
+
+#, fuzzy
+#| msgid "File format"
+msgid "File format parameters"
+msgstr "Dosierformato"
+
 #, fuzzy
 #| msgctxt "Per-project access-control team name"
 #| msgid "Translate"
 msgid "The project repository directory already exists."
 msgstr "Traduko"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid search type."
+msgstr "Administri uzantojn"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid target state."
+msgstr "Nevalida bildo!"
+
+#, fuzzy
+#| msgid "Untranslated strings:"
+msgid "Choose either replacement or clearing translations."
+msgstr "Netradukitaj ĉenoj:"
 
 #, fuzzy
 #| msgid "New comment in %(component)s"
@@ -18517,11 +19144,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "Versikontrolo"
-
-#, fuzzy
-#| msgid "Status"
-msgid "State"
-msgstr "Stato"
 
 #, fuzzy
 #| msgid "Security"
@@ -19623,20 +20245,6 @@ msgstr "Malsukcesis sintakse analizi la ŝlosilon: %s"
 msgid "Could not load project backup."
 msgstr "Malsukcesis sintakse analizi la ŝlosilon: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-#, fuzzy
-#| msgid "Search"
-msgid "Search string"
-msgstr "Serĉi"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -19705,6 +20313,32 @@ msgstr "Netradukitaj ĉenoj:"
 msgid "Invalid string selection!"
 msgstr "Kreita komponanto"
 
+#, fuzzy
+#| msgid "Search filter"
+msgid "Search type"
+msgstr "Serĉofiltrilo"
+
+msgid "Text"
+msgstr "Teksto"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Search string"
+msgstr "Serĉi"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr ""
 
@@ -19713,41 +20347,81 @@ msgstr ""
 msgid "Do not change"
 msgstr "Elŝuti ŝanĝojn"
 
-msgid "Source flags to add — all languages"
-msgstr ""
-
-msgid "Source flags to remove — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "Redakti etikedojn"
 
 #, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Translate"
-msgid "Translation flags to add — matching translations"
-msgstr "Traduko"
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "Forigi"
 
-#, fuzzy
-#| msgid "New password (again)"
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "Nova pasvorto (denove)"
-
-#, fuzzy
-#| msgid "Translation has been removed."
-msgid "Translation flags to remove — matching translations"
-msgstr "La traduko estis forigita."
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "Arabic languages"
-msgid "Labels to add — all languages"
+msgid "Add labels"
 msgstr "Arabaj lingvoj"
 
 #, fuzzy
-#| msgid "Language code"
-msgid "Labels to remove — all languages"
-msgstr "Lingva kodo"
+#| msgid "Review strings"
+msgid "Remove labels"
+msgstr "Revizii tekstoĉenojn"
+
+#, fuzzy
+#| msgid "License"
+msgid "Preview changes"
+msgstr "Permesilo"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component wide notifications"
+msgid "Choose flags to remove…"
+msgstr "Tutkomponentaj avertoj"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Source flags"
+msgstr "Serĉi"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr "Nova pasvorto (denove)"
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -20030,12 +20704,6 @@ msgstr "Plena nomo"
 #| msgid "Arabic languages"
 msgid "Display name"
 msgstr "Arabaj lingvoj"
-
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Translate"
-msgid "Translation flags"
-msgstr "Traduko"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -20373,11 +21041,6 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
-#, fuzzy
-#| msgid "Version control"
-msgid "Version control parameters"
-msgstr "Versikontrolo"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -20479,11 +21142,6 @@ msgid ""
 "file."
 msgstr ""
 "Dosiernomo uzata por krei novajn tradukojn. Por gettext elektu .pot dosieron."
-
-#, fuzzy
-#| msgid "File format"
-msgid "File format parameters"
-msgstr "Dosierformato"
 
 msgid "Locked component will not get any translation updates."
 msgstr ""
@@ -22425,18 +23083,6 @@ msgstr "Elŝuti"
 msgid "Excluded user days"
 msgstr "uzantnomo"
 
-msgid "Could not process form!"
-msgstr ""
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -22446,6 +23092,17 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr ""
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "Aŭtentigo fiaskis: %s"
 
 #, fuzzy
 #| msgid "All repositories were updated."
@@ -22653,6 +23310,129 @@ msgid "Invalid host name given!"
 msgstr ""
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source"
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "XML-etikedoj en traduko ne kongruas kun la fontokodo"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Untranslated strings:"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Netradukitaj ĉenoj:"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Permesoj"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Regula esprimo por kongrui kun tradukaj dosieroj"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Regular expression used to match user e-mail."
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Regula esprimo uzata por kongrui kun uzanta retpoŝto."
+
+#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic translation reported a warning."
 msgstr "Aŭtomata traduko"
@@ -22664,6 +23444,11 @@ msgstr "Aŭtomata traduko"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic translation reported an error."
+msgstr "Aŭtomata traduko"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22840,6 +23625,9 @@ msgstr "Serĉi"
 msgid "Could not resolve the URL domain."
 msgstr "Serĉi"
 
+msgid "Invalid stored parameter value."
+msgstr ""
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
@@ -22861,6 +23649,11 @@ msgstr ""
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "Regula esprimo"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -22901,6 +23694,11 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgid "New translation component"
+msgid "A concrete project or component is required."
+msgstr "Nova traduka komponanto"
+
+#, fuzzy
 #| msgid "Search"
 msgid "Could not parse IP address: {}"
 msgstr "Serĉi"
@@ -22915,6 +23713,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Search query is too long."
+msgstr "Serĉi"
 
 #, fuzzy
 #| msgid "New password (again)"
@@ -23323,6 +24126,37 @@ msgstr ""
 #| msgid "That was not correct, please try again."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, fuzzy, python-format
+#| msgid "That was not correct, please try again."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, fuzzy, python-format
+#| msgid "That was not correct, please try again."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, fuzzy, python-format
+#| msgid "That was not correct, please try again."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, fuzzy, python-format
+#| msgid "That was not correct, please try again."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "Tio ne estis ĝusta, bonvolu provi denove."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "New password (again)"
@@ -23739,6 +24573,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Pull request assignee"
+msgstr "Nevalida bildo!"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Pull request labels"
+msgstr "Nevalida bildo!"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -24319,6 +25179,21 @@ msgid "Workspace name"
 msgstr "Arabaj lingvoj"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation propagation scope"
+msgstr "Tradukaj sciigoj"
+
+#, fuzzy
+#| msgid "Failed to change additional string info!"
+msgid "Matching component name within workspace"
+msgstr "Malsukcesis ŝanĝi informon de suplementa ĉena!"
+
+#, fuzzy
+#| msgid "Translation has been removed."
+msgid "Where translations of matching strings are propagated."
+msgstr "La traduko estis forigita."
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "Lingva nomo"
@@ -24349,6 +25224,49 @@ msgstr ""
 #| msgid "Translation has been removed."
 msgid "The workspace has been removed."
 msgstr "La traduko estis forigita."
+
+#~ msgid "Search and replace"
+#~ msgstr "Serĉi kaj anstataŭigi"
+
+#, fuzzy
+#~| msgid "Component wide notifications"
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Tutkomponentaj avertoj"
+
+#, fuzzy
+#~| msgid "Action"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Ago"
+
+#~ msgid "Replace"
+#~ msgstr "Anstataŭigi"
+
+#, fuzzy
+#~| msgid "Strings needing action"
+#~ msgid "Find strings in image"
+#~ msgstr "Ĉenoj kiel bezonas agon"
+
+#, fuzzy
+#~| msgctxt "Per-project access-control team name"
+#~| msgid "Translate"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Traduko"
+
+#, fuzzy
+#~| msgid "Translation has been removed."
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "La traduko estis forigita."
+
+#, fuzzy
+#~| msgctxt "Plural type"
+#~| msgid "Arabic languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Arabaj lingvoj"
+
+#, fuzzy
+#~| msgid "Language code"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Lingva kodo"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Nomo estas ankaŭ uzata en versikontrolaj enmetoj."
@@ -24432,10 +25350,6 @@ msgstr "La traduko estis forigita."
 #~| msgid "Username or email"
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "Uzantnomo aŭ retpoŝtadreso"
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Aŭtentigo fiaskis: %s"
 
 #, fuzzy
 #~| msgid ""
@@ -24573,11 +25487,6 @@ msgstr "La traduko estis forigita."
 #~ msgstr "Versioj"
 
 #, fuzzy
-#~| msgid "Repository failure"
-#~ msgid "Repository name"
-#~ msgstr "Deponeja fiasko"
-
-#, fuzzy
 #~| msgid "Create component"
 #~ msgid "Configure component"
 #~ msgstr "Krei komponanton"
@@ -24628,11 +25537,6 @@ msgstr "La traduko estis forigita."
 #~| msgid "Version control"
 #~ msgid "VCS integrations"
 #~ msgstr "Versikontrolo"
-
-#, fuzzy
-#~| msgid "Possible configuration"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "Ebla agordo"
 
 #, fuzzy
 #~| msgid "GitHub username"
@@ -24959,12 +25863,6 @@ msgstr "La traduko estis forigita."
 #~ msgstr "Bonvolu entajpi validan retadreson."
 
 #, fuzzy
-#~| msgctxt "Per-project access-control team name"
-#~| msgid "Translate"
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Traduko"
-
-#, fuzzy
 #~| msgid "There is currently %(count)s addon installed."
 #~| msgid_plural "There are currently %(count)s addons installed."
 #~ msgid "Reviews are not enabled."
@@ -25225,13 +26123,6 @@ msgstr "La traduko estis forigita."
 
 #~ msgid "Not translated strings"
 #~ msgstr "Netradukitaj ĉenoj"
-
-#, fuzzy, python-format
-#~| msgid "Permissions"
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "Permesoj"
-#~ msgstr[1] "Permesoj"
 
 #, fuzzy
 #~| msgid "Permissions"
@@ -25500,9 +26391,6 @@ msgstr "La traduko estis forigita."
 
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "Vi ne plu povas ensaluti per {method} ({name})."
-
-#~ msgid "You can now log in using password."
-#~ msgstr "Eblas nun ensaluti per pasvorto."
 
 #, fuzzy
 #~| msgid "Versions"
@@ -26139,6 +27027,3 @@ msgstr "La traduko estis forigita."
 
 #~ msgid "Zulu"
 #~ msgstr "zulua"
-
-#~ msgid "Text"
-#~ msgstr "Teksto"

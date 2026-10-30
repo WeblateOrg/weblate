@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-23 21:11+0000\n"
 "Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -1239,6 +1239,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "暗色"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "安全金鑰（%s）"
@@ -1343,9 +1346,6 @@ msgstr "已經登出"
 
 msgid "Verify new e-mail address"
 msgstr "驗證新的電子郵件位址"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "無法重設密碼，電子郵件身分驗證功能已停用。"
@@ -1526,6 +1526,11 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr "使用機器翻譯或其他組件來自動翻譯字串。"
+
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "錯誤"
 
 msgid "enabled"
 msgstr "已啟用"
@@ -1783,7 +1788,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "批次編輯"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "批次編輯字串的旗標、標籤或狀態。"
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -1914,6 +1921,24 @@ msgstr ""
 "啟用後，會在額外關鍵字前先將不帶值的 --keyword 傳給 xgettext，停用所有預設關"
 "鍵字，讓系統只辨識上方指定的關鍵字。"
 
+#, fuzzy
+#| msgid "Component exceptions"
+msgid "Comment extraction"
+msgstr "組件例外"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "單字"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Update preview"
+msgid "Update behavior"
+msgstr "更新預覽"
+
 msgid "This field is required."
 msgstr "此欄必填。"
 
@@ -1964,6 +1989,11 @@ msgstr ""
 "指向 POTFILES 或 POTFILES.in 的儲存庫相對路徑。項目的解析以儲存庫根目錄為基"
 "準。若與資訊清單位於同一目錄，POTFILES.skip 會將列出的檔案排除在擷取範圍之"
 "外。"
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "字型檔案"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "儲存庫有無效的符號連結。"
@@ -2183,6 +2213,22 @@ msgstr "移除無相關檔案的組件"
 msgid "I confirm the above matches look correct"
 msgstr "我確認上述符合項目看起來沒問題"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "檔案編碼方式"
+
+#, fuzzy
+#| msgctxt "eTranslation configuration"
+#| msgid "Component language domains"
+msgid "Component naming and file templates"
+msgstr "組件翻譯領域"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "鎖定了組件"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "一般預設集：%(name)s [%(details)s]"
@@ -2352,6 +2398,26 @@ msgstr "根據來源字串的長度，決定變數文字要重複多少次。"
 msgid "Include read-only strings"
 msgstr "包含唯讀字串"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "來源語言"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "前置靜態文字"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "後置靜態文字"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "文字方向"
+
 msgid "The source and target have to be different languages."
 msgstr "來源與目標語言必須不同。"
 
@@ -2439,6 +2505,22 @@ msgstr "重試延遲"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "兩次連線嘗試之間的等待秒數。"
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Broker connection"
+msgstr "程式碼代管連結"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "專案選取"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "主題前綴只能包含 ASCII 字元。"
@@ -2931,6 +3013,9 @@ msgstr "翻譯文字過長！"
 
 msgid "Your suggestion already exists!"
 msgstr "您的建議內容已經存在！"
+
+msgid "Search query"
+msgstr "搜尋查詢"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr "繼承上層類別、專案或工作空間的強制檢查。"
@@ -3914,6 +3999,139 @@ msgstr "工作流程若僅使用變更觸發條件，就必須填寫此欄位。
 msgid "Preview without changes"
 msgstr "只預覽，不套用變更"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "所有變更事件"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "這個類別不屬於選擇的專案。"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "正規表達式"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "翻譯工作已告一段落。"
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "類別名稱"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "上層類別必須在同個專案中！"
+
+msgid "Language code"
+msgstr "語言代碼"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "所有變更事件"
+
+msgid "String state"
+msgstr "字串狀態"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "動作"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "移動組件"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "多個字串被變更"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "字串狀態"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "預設組件清單"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "刪除字串"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Bulk editing"
+msgid "Bulk editing"
+msgstr "批次編輯"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "組件名稱"
+
+#, fuzzy
+#| msgid "Repositories updated"
+msgid "Repository update"
+msgstr "已更新儲存庫"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "儲存庫名稱"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "儲存庫推送 URL"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "正規表達式"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "建立了組件"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "管理字串"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "備註"
+
 msgid "Additional message"
 msgstr "附加訊息"
 
@@ -4304,9 +4522,13 @@ msgstr "有些複數沒有以相同方式翻譯。"
 msgid "Inconsistent"
 msgstr "不一致"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
 
 msgid "Reused translation"
@@ -5685,9 +5907,6 @@ msgstr "無語言限制"
 msgid "Enter a valid language code."
 msgstr "請輸入有效的語言代碼。"
 
-msgid "Language code"
-msgstr "語言代碼"
-
 msgid "Language name"
 msgstr "語言名稱"
 
@@ -6119,6 +6338,9 @@ msgstr "品質評估 (QE)"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "來源語言選擇"
+
+msgid "disabled"
+msgstr "已停用"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -6640,6 +6862,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "專案或組件中定義的第二語言"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "以重定基底方式更新"
+
 msgid "File"
 msgstr "檔案"
 
@@ -6943,8 +7170,23 @@ msgstr[0] "找到 %(count)s 個相符的來源字串。"
 msgid "No new matching source strings found."
 msgstr "找不到符合的來源字串。"
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "查詢太多次，請稍後重試。"
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "無法下載 OCR 資料，請稍後再試。"
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not find strings in the image. Please try again."
+msgstr "無法載入儲存庫分支。請再試一次。"
 
 msgid "Select a valid screenshot."
 msgstr "請選取有效的螢幕擷圖。"
@@ -7712,6 +7954,9 @@ msgstr "切換 API 金鑰可見性"
 msgid "API key copied to clipboard."
 msgstr "已經將 API 金鑰複製至剪貼簿。"
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "API 基礎 URL："
 
@@ -8256,6 +8501,9 @@ msgstr "不相容"
 msgid "No components found."
 msgstr "找不到組件。"
 
+msgid "Integration instructions"
+msgstr "整合說明"
+
 msgid "Configure add-on"
 msgstr "設定附加元件"
 
@@ -8368,8 +8616,92 @@ msgstr "上一頁"
 msgid "Next"
 msgstr "下一頁"
 
-msgid "Integration instructions"
-msgstr "整合說明"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "工作流程自訂"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "編輯"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML 檔案"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "觸發備份"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Trigger"
+msgstr "觸發備份"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "觸發了警告"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "設定"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "現已開放所有組件更新翻譯。"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "設定"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "設定錯誤"
+
+msgid "Actions"
+msgstr "動作"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "在儲存庫執行了操作"
+
+msgid "Action"
+msgstr "動作"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "動作"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "移動"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "移動"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "已發佈的翻譯檔可從 CDN 基底 URL 取得："
@@ -8429,6 +8761,28 @@ msgstr "無法建立以下組件"
 
 msgid "No matching components were found!"
 msgstr "找不到符合的組件！"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr "瀏覽 Weblate 文件，取得翻譯、管理與設定的指南。"
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -8592,6 +8946,21 @@ msgstr "字串將以下述模式產生："
 msgid "Source string"
 msgstr "來源字串"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "請參閱說明文件深入瞭解。"
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "來自此儲存庫內組件的 Weblate 提交將會壓縮成一個提交記錄。"
@@ -8603,6 +8972,22 @@ msgid ""
 msgstr ""
 "會保留原始提交訊息，但除非選擇「每位作者」或「依作者與語言分組」，或在自訂提"
 "交訊息中加入作者資訊，否則作者資訊會遺失。"
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr "HTTP 回應"
@@ -8692,6 +9077,9 @@ msgstr "管理關注專案"
 
 msgid "My workspaces"
 msgstr "我的工作空間"
+
+msgid "Workspaces"
+msgstr "工作空間"
 
 msgid "Manage translated languages"
 msgstr "管理翻譯的語言"
@@ -8876,9 +9264,6 @@ msgstr "檢視"
 msgid "Event details"
 msgstr "事件詳細資訊"
 
-msgid "Actions"
-msgstr "動作"
-
 msgid "Download"
 msgstr "下載"
 
@@ -8979,6 +9364,113 @@ msgstr "您無權變更專案存取控制。"
 msgid "Check your billing status"
 msgstr "檢查您的帳單狀態"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "儲存庫瀏覽器"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "載入中…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr "重試"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "請檢查並確認缺漏語言的變動。"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "有 %(count)s 則需要處理的字串"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr "更新預覽"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "選取"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "字串"
+
+msgid "Changes"
+msgstr "變更"
+
+msgid "State"
+msgstr "狀態"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "String state"
+#| msgid "Empty"
+msgid "Empty"
+msgstr "空白"
+
+#, fuzzy
+#| msgid "Source flags — all languages"
+msgid "Source flags (all languages)"
+msgstr "來源旗標 — 所有語言"
+
+msgid "Translation flags"
+msgstr "翻譯旗標"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "所有語言"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "瀏覽所有語言"
+
+msgid "Apply"
+msgstr "套用"
+
 msgid "Insights"
 msgstr "內察"
 
@@ -8997,9 +9489,6 @@ msgstr "上傳翻譯"
 msgid "Operations"
 msgstr "動作"
 
-msgid "Search and replace"
-msgstr "搜尋並取代"
-
 msgid "Post announcement"
 msgstr "發布公告"
 
@@ -9008,12 +9497,6 @@ msgstr "整理或移除"
 
 msgid "Browse all changes for this language"
 msgstr "瀏覽此語言的所有變更"
-
-msgid "Review changes"
-msgstr "檢閱變更"
-
-msgid "Apply"
-msgstr "套用"
 
 msgid "Browse components"
 msgstr "瀏覽組件"
@@ -9726,9 +10209,6 @@ msgstr "沒有內容可預覽。"
 msgid "Shortcut"
 msgstr "快速鍵"
 
-msgid "Action"
-msgstr "動作"
-
 msgid "Open available keyboard shortcuts."
 msgstr "開啟可用的鍵盤快速鍵。"
 
@@ -9863,6 +10343,9 @@ msgstr "解決"
 msgid "Mark as spam"
 msgstr "標記為垃圾"
 
+msgid "Service is no longer available"
+msgstr "服務不再可用"
+
 msgid "This service is installed site wide."
 msgstr "本服務的安裝範圍是全平臺。"
 
@@ -9875,23 +10358,19 @@ msgstr "此服務已安裝於工作空間中。"
 msgid "workspace"
 msgstr "工作空間"
 
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "語言限制"
+
 msgid "This service is disabled."
 msgstr "此服務已停用。"
-
-msgid "disabled"
-msgstr "已停用"
-
-msgid "Service is no longer available"
-msgstr "服務不再可用"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Slug"
 msgstr "代稱"
-
-msgid "Installation slug (optional)"
-msgstr "安裝項目代稱 (選填)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -9901,32 +10380,156 @@ msgstr ""
 "此服務可將來源字串、翻譯及相關情境傳送給第三方供應商。啟用前請先檢閱供應商的"
 "條款與隱私權政策。"
 
-msgid "Configured translation services"
-msgstr "已設定的翻譯服務"
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "託管服務"
 
-msgid "Stop using this installation without removing its configuration."
-msgstr "停止使用此安裝項目，並保留其設定。"
+#, fuzzy
+#| msgid "This service is already installed here."
+msgid "This service is managed at its installation scope."
+msgstr "此處已安裝此服務。"
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "使用這個翻譯"
+
+msgid "Installation slug (optional)"
+msgstr "安裝項目代稱 (選填)"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "這個附加元件沒有設定。"
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "使用自動建議"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "您現在可使用密碼登入。"
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limit"
+msgstr "語言限制"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "儲藏庫限制"
+
+#, fuzzy
+#| msgid "This scope already has 20 service installations."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "此範圍內已有 20 個服務安裝項目。"
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "版本控制"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "GitHub 安裝 ID"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "停用"
 
-msgid "Stop using this inherited installation here."
-msgstr "在此處停止使用這個繼承的安裝項目。"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "啟用機器翻譯"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
+msgstr ""
 
 msgid "Enable"
 msgstr "啟用"
 
-msgid "Remove this installation and its configuration."
-msgstr "移除此安裝項目及其設定。"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Exclude all inherited installations of this service"
+msgid "Exclude inherited service"
 msgstr "排除此服務的所有繼承安裝項目"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
+msgstr ""
 
 msgid "Exclude"
 msgstr "排除"
 
-msgid "Configure"
-msgstr "設定"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+msgid "Configured translation services"
+msgstr "已設定的翻譯服務"
 
 msgid "There are no services currently installed."
 msgstr "目前未安裝服務。"
@@ -9945,6 +10548,16 @@ msgstr "找不到任何其他服務。"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "有些服務會在安裝時，要求進行額外設定。"
+
+#, fuzzy
+#| msgid "Translation services"
+msgid "Translation service errors"
+msgstr "翻譯服務"
+
+#, fuzzy
+#| msgid "No eTranslation domains available"
+msgid "No translation service errors available."
+msgstr "沒有可用的 eTranslation 翻譯領域"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -10909,9 +11522,6 @@ msgstr "移除邀請函"
 msgid "Check user access"
 msgstr "檢查使用者存取"
 
-msgid "Workspaces"
-msgstr "工作空間"
-
 msgid "Add workspace"
 msgstr "新增工作空間"
 
@@ -11014,6 +11624,9 @@ msgstr "開啟"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "關閉"
+
+msgid "Configure"
+msgstr "設定"
 
 msgid "Autoclean translation memory"
 msgstr "自動清理翻譯記憶"
@@ -11203,20 +11816,6 @@ msgstr "感謝您貢獻翻譯。"
 msgid "Donate to Weblate development"
 msgstr "捐款支持 Weblate 開發"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "請檢閱並確認搜尋和取代結果。"
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr "只顯示並取代前 250 個符合專案。請再次執行取代作業以取代更多。"
-
-msgid "Update preview"
-msgstr "更新預覽"
-
-msgid "Replace"
-msgstr "取代"
-
 msgid "Generated by"
 msgstr "產生者"
 
@@ -11248,6 +11847,22 @@ msgstr "螢幕擷圖來可以為所有列出的來源字串補充所見的情境
 msgid "Assign source strings"
 msgstr "指派來源字串"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "指派的來源字串"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "影像小元件"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "透過辨識這張螢幕擷圖中的文字來建議來源字串。"
+
+msgid "Add selected"
+msgstr "新增所選項目"
+
 msgid "Source string search"
 msgstr "來源字串搜尋"
 
@@ -11260,15 +11875,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "搜尋查詢語法說明文件"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "透過辨識這張螢幕擷圖中的文字來建議來源字串。"
-
-msgid "Find strings in image"
-msgstr "在影像中尋找字串"
-
-msgid "Add selected"
-msgstr "新增所選項目"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "刪除螢幕擷圖會一併將之從所有相連動的來源字串中移除。"
@@ -11440,8 +12046,8 @@ msgstr "選取此頁所有字串"
 msgid "Select string for bulk edit"
 msgstr "選取字串以進行批次編輯"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr "您可以一次變更所有符合指定類型的字串狀態。"
+msgid "Choose which strings to edit and the changes to apply."
+msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "此操作會套用到上方清單中選取的字串。"
@@ -11543,9 +12149,6 @@ msgstr "「最長字串長度」是根據來源字串或旗標判斷的。"
 msgid "Clone to translation"
 msgstr "複製翻譯"
 
-msgid "Select"
-msgstr "選取"
-
 msgid "Target string"
 msgstr "目標字串"
 
@@ -11588,7 +12191,6 @@ msgstr "Pull request 網址已複製到剪貼簿。"
 msgid "Last remote commit"
 msgstr "上次遠端提交"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s 著作於 %(date)s"
@@ -12019,9 +12621,6 @@ msgstr "字串鍵/情境字串"
 msgid "Location strings"
 msgstr "位置字串"
 
-msgid "String state"
-msgstr "字串狀態"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "未決的字串"
@@ -12176,9 +12775,6 @@ msgstr "設定翻譯工作流程"
 
 msgid "Saved search name"
 msgstr "已儲存的搜尋名稱"
-
-msgid "Search query"
-msgstr "搜尋查詢"
 
 msgid "No saved searches yet."
 msgstr "尚未儲存任何搜尋。"
@@ -12957,6 +13553,25 @@ msgid ""
 "translations."
 msgstr "Weblate 無法在更新翻譯時解析翻譯檔案。"
 
+#, fuzzy
+#| msgid ""
+#| "Weblate pushed the changes and created the pull request, but could not "
+#| "merge it automatically."
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr "Weblate 已推送變更並建立拉取請求，但無法自動合併。"
+
+#, fuzzy
+#| msgid ""
+#| "Check that the repository allows auto-merge and the selected merge "
+#| "method, or turn off automatic merging in the version control parameters."
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"請確認儲存庫允許自動合併及選取的合併方式，或在版本控制參數中關閉自動合併。"
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate 無法將變更推送至上游儲存庫。"
 
@@ -13081,9 +13696,6 @@ msgstr "跳至日期"
 msgid "Go"
 msgstr "前往"
 
-msgid "Changes"
-msgstr "變更"
-
 msgid "Download latest changes as CSV"
 msgstr "將最近的變更以 CSV 檔下載"
 
@@ -13147,9 +13759,6 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr "將既有翻譯組件的額外分支建立成一個新的翻譯組件。"
-
-msgid "Retry"
-msgstr "重試"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -13325,7 +13934,8 @@ msgstr "不支援偵測到的檔案格式。"
 msgid ""
 "Translation discovery reached a resource limit. Results might be incomplete. "
 "You can configure missing translation files manually."
-msgstr "搜尋翻譯檔案時已達資源上限，結果可能不完整。你可以手動設定遺漏的翻譯檔案。"
+msgstr ""
+"搜尋翻譯檔案時已達資源上限，結果可能不完整。你可以手動設定遺漏的翻譯檔案。"
 
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "修正合併衝突的典型工作流程"
@@ -15111,6 +15721,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "無法自動合併拉取請求。"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the pull request automatically."
+msgid "Could not customize the pull request."
+msgstr "無法自動合併拉取請求。"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "儲存庫不是最新狀態。"
 
@@ -15135,6 +15751,19 @@ msgstr "Java MessageFormat 中的撇號 '"
 
 msgid "Trailing and leading whitespace"
 msgstr "結尾和開頭空白"
+
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "自動翻譯已完成，未更新任何字串。"
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "自動翻譯完成，%d 個字串已更新。"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自動翻譯已完成，未更新任何字串。"
@@ -15202,6 +15831,9 @@ msgstr "已儲存的搜尋名稱重複。"
 msgid "Screenshot image is missing."
 msgstr "缺少螢幕擷圖。"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 msgid "Duplicate check name."
 msgstr "檢查名稱重複。"
 
@@ -15213,6 +15845,11 @@ msgstr "組件檔案名稱與其分類及代稱不符。"
 
 msgid "Duplicate component slug."
 msgstr "組件代稱重複。"
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "未啟用翻譯檢閱。"
 
 msgid "Duplicate translation identifier."
 msgstr "翻譯識別碼重複。"
@@ -15269,8 +15906,47 @@ msgid ""
 "unavailable."
 msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
+
+msgid "Version control parameters"
+msgstr "版本控制參數"
+
+msgid "File format parameters"
+msgstr "檔案格式參數"
+
 msgid "The project repository directory already exists."
 msgstr "專案儲存庫目錄已存在。"
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "不正確搜尋查詢！"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "無效請求。"
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "如何處理建立新翻譯的請求。"
 
 msgid "The component was automatically locked because of an alert."
 msgstr "組件因警告而自動鎖定。"
@@ -15385,9 +16061,6 @@ msgstr "本站採用 Weblate 在地化各種軟體專案。"
 
 msgid "Version control"
 msgstr "版本控制"
-
-msgid "State"
-msgstr "狀態"
 
 msgid "Severity"
 msgstr "嚴重程度"
@@ -16280,18 +16953,6 @@ msgstr "無法載入專案備份：%s"
 msgid "Could not load project backup."
 msgstr "無法載入專案備份。"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "套用至字串的可選額外篩選器"
-
-msgid "Search string"
-msgstr "搜尋字串"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "用來搜尋及取代，區分大小寫的字串。"
-
-msgid "Replacement string"
-msgstr "取代用字串"
-
 msgid "Key or context"
 msgstr "索引鍵或內容脈絡"
 
@@ -16342,35 +17003,110 @@ msgstr "您無權建立專有名詞。"
 msgid "Invalid string selection!"
 msgstr "選取的字串無效！"
 
+msgid "Search type"
+msgstr "搜尋類型"
+
+msgid "Text"
+msgstr "文字"
+
+msgid "Search string"
+msgstr "搜尋字串"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "取代用字串"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr "要設定的狀態"
 
 msgid "Do not change"
 msgstr "不變更"
 
-msgid "Source flags to add — all languages"
-msgstr "要新增的來源旗標 — 所有語言"
+#, fuzzy
+#| msgid "Edit flags"
+msgid "Add flags"
+msgstr "編輯旗標"
 
-msgid "Source flags to remove — all languages"
-msgstr "要移除的來源旗標 — 所有語言"
+#, fuzzy
+#| msgid "Remove app"
+msgid "Remove flags"
+msgstr "移除 App"
 
-msgid "Translation flags to add — matching translations"
-msgstr "要新增的翻譯旗標 — 符合條件的翻譯"
-
-msgid "Applies only to matching translations, excluding source strings."
-msgstr "只套用至符合條件的翻譯，不包含來源字串。"
-
-msgid "Translation flags to remove — matching translations"
-msgstr "要移除的翻譯旗標 — 符合條件的翻譯"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+#, fuzzy
+#| msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr "只會移除翻譯本身設定的旗標；繼承的旗標仍會生效。"
 
-msgid "Labels to add — all languages"
-msgstr "要新增的標籤 — 所有語言"
+#, fuzzy
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "加入標籤"
 
-msgid "Labels to remove — all languages"
-msgstr "要移除的標籤 — 所有語言"
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "移除重複字串"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "檢閱變更"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "要移除的組件"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "來源語言"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr "只套用至符合條件的翻譯，不包含來源字串。"
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr "請選取要編輯的字串，或輸入搜尋條件。"
@@ -16608,9 +17344,6 @@ msgstr "類別名稱"
 
 msgid "Display name"
 msgstr "顯示名稱"
-
-msgid "Translation flags"
-msgstr "翻譯旗標"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "額外以逗號分隔的旗標影響 Weblate 行為。"
@@ -16873,9 +17606,6 @@ msgstr ""
 "用來存取包含翻譯內容之儲存庫的版本控制系統。您也可以選擇與第三方提供商進行額"
 "外整合，來送交提取或合併請求。"
 
-msgid "Version control parameters"
-msgstr "版本控制參數"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -16983,9 +17713,6 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr "用來建立新翻譯的檔案名稱。例如 gettext，請選擇 .pot 檔。"
-
-msgid "File format parameters"
-msgstr "檔案格式參數"
 
 msgid "Locked component will not get any translation updates."
 msgstr "鎖定的組件將不會收到任何翻譯更新。"
@@ -18570,17 +19297,6 @@ msgstr "納入計算的使用者天數"
 msgid "Excluded user days"
 msgstr "未納入計算的使用者天數"
 
-msgid "Could not process form!"
-msgstr "無法處理表單！"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "搜尋和取代完成，未更新任何字串。"
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "搜尋和取代完成，%d 個字串已更新。"
-
 #, python-format
 msgid "Search for %s"
 msgstr "搜尋「%s」"
@@ -18590,6 +19306,20 @@ msgstr "查詢太多次，請稍後重試。"
 
 msgid "Invalid search query!"
 msgstr "不正確搜尋查詢！"
+
+#, fuzzy
+#| msgid ""
+#| "The original review state is invalid. Reload the editor and try again."
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr "原始檢閱狀態無效。請重新載入編輯器後再試一次。"
+
+msgid "Could not process form!"
+msgstr "無法處理表單！"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "身分驗證失敗：%s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "批次編輯完成，未更新任何字串。"
@@ -18740,6 +19470,137 @@ msgstr "Borg 已完成，但出現警告且無任何輸出。"
 msgid "Invalid host name given!"
 msgstr "無效的主機名稱！"
 
+#, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "翻譯中的 JSX 運算式與來源不符。"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Saved searches are offered in the search filters."
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr "已儲存的搜尋會顯示在搜尋篩選器中。"
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "使用旗標來標示翻譯中的特殊字串。"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "An obsolete translation suggestion was removed during cleanup."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "清理期間已移除廢棄的翻譯建議。"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+#, fuzzy
+#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr "CEL 驗證或評估失敗，或超出資源限制。"
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "API 要求已超過速率限制。"
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "用來比對出翻譯檔案的正規表達式"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Topic prefix must not exceed %(limit)d characters."
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "主題前綴不得超過 %(limit)d 個字元。"
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "無效的正規表達式：{}"
+
 msgid "Automatic translation reported a warning."
 msgstr "自動翻譯回報了警告。"
 
@@ -18748,6 +19609,11 @@ msgstr "自動翻譯失敗。詳情請查看工作記錄。"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr "無法完成工作。詳情請查看工作記錄。"
+
+#, fuzzy
+#| msgid "Automatic translation reported a warning."
+msgid "Automatic translation reported an error."
+msgstr "自動翻譯回報了警告。"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -18894,6 +19760,11 @@ msgstr "無法解析 URL 網域：{}"
 msgid "Could not resolve the URL domain."
 msgstr "無法解析 URL 網域。"
 
+#, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "無效的參數！"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "參數必須是由鍵值對組成的字典。"
 
@@ -18913,6 +19784,11 @@ msgstr "不再支援格式字串，請改用範本語言。"
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr "無法從提供的 URL 下載資產（HTTP 狀態碼：%(code)s）。"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "搜尋查詢太複雜了。"
 
 msgid "Search query is too complex."
 msgstr "搜尋查詢太複雜了。"
@@ -18942,6 +19818,11 @@ msgstr "無效的正規表達式：{}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "不支援尋找{field}：{value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr "輸入組件 ID 或專案/組件代稱。"
+
 msgid "Could not parse IP address: {}"
 msgstr "無法解析 IP 位址：{}"
 
@@ -18953,6 +19834,11 @@ msgstr "欄位 {} 不支援範圍查詢"
 
 msgid "Mixed operators!"
 msgstr "您混合了運算子！"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "搜尋查詢太複雜了。"
 
 msgid "Invalid character in the query string"
 msgstr "查詢字串中有無效字元"
@@ -19297,6 +20183,45 @@ msgstr "列出拉取請求失敗：%(error)s"
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "列出拉取請求失敗：%(error)s 請稍後再試。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s 請稍後再試。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -19656,6 +20581,34 @@ msgid ""
 msgstr ""
 "為翻譯變更開啟拉取請求或合併請求。關閉後，Weblate 會直接推送至翻譯分支，因此"
 "需要該分支的寫入權限。"
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request assignee"
+msgstr "Pull request"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge pull requests automatically"
+msgid "Assign pull requests to acting user"
+msgstr "自動合併拉取請求"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request labels"
+msgstr "Pull request"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
 
 msgid "Merge pull requests automatically"
 msgstr "自動合併拉取請求"
@@ -20170,6 +21123,23 @@ msgstr "繼承了組件預設"
 msgid "Workspace name"
 msgstr "工作空間名稱"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "允許翻譯重用"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "無法變更工作空間團隊的組件。"
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "如果字串已經有翻譯時是否要覆寫現在的翻譯。"
+
 msgid "Managed name"
 msgstr "自動管理名稱"
 
@@ -20195,6 +21165,67 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
+
+#~ msgid "Search and replace"
+#~ msgstr "搜尋並取代"
+
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "停止使用此安裝項目，並保留其設定。"
+
+#~ msgid "Stop using this inherited installation here."
+#~ msgstr "在此處停止使用這個繼承的安裝項目。"
+
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "移除此安裝項目及其設定。"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "請檢閱並確認搜尋和取代結果。"
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr "只顯示並取代前 250 個符合專案。請再次執行取代作業以取代更多。"
+
+#~ msgid "Replace"
+#~ msgstr "取代"
+
+#~ msgid "Find strings in image"
+#~ msgstr "在影像中尋找字串"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr "您可以一次變更所有符合指定類型的字串狀態。"
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "套用至字串的可選額外篩選器"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "用來搜尋及取代，區分大小寫的字串。"
+
+#~ msgid "Source flags to add — all languages"
+#~ msgstr "要新增的來源旗標 — 所有語言"
+
+#~ msgid "Source flags to remove — all languages"
+#~ msgstr "要移除的來源旗標 — 所有語言"
+
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "要新增的翻譯旗標 — 符合條件的翻譯"
+
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "要移除的翻譯旗標 — 符合條件的翻譯"
+
+#~ msgid "Labels to add — all languages"
+#~ msgstr "要新增的標籤 — 所有語言"
+
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "要移除的標籤 — 所有語言"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "搜尋和取代完成，未更新任何字串。"
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "搜尋和取代完成，%d 個字串已更新。"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "名稱也用於版本控制提交。"
@@ -20338,10 +21369,6 @@ msgstr "工作空間已移除。"
 #~ "Could not authenticate, probably due to an expired token or connection "
 #~ "error."
 #~ msgstr "無法驗證身分，可能是權杖過期或連線發生錯誤。"
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "身分驗證失敗：%s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "無法取用身分驗證提供者。"
@@ -20643,9 +21670,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Repository URL"
 #~ msgstr "儲存庫 URL"
 
-#~ msgid "Repository name"
-#~ msgstr "儲存庫名稱"
-
 #~ msgid "Configure component"
 #~ msgstr "設定組件"
 
@@ -20916,9 +21940,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "給翻譯者提供情境"
-
-#~ msgid "Workflow customization"
-#~ msgstr "工作流程自訂"
 
 #~ msgid "Add team"
 #~ msgstr "加入團隊"
@@ -21422,9 +22443,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "停用雙重要素身分驗證"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "未啟用翻譯檢閱。"
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "未啟用檢閱。"
 
@@ -21584,9 +22602,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Rename component"
 #~ msgstr "重新命名組件"
-
-#~ msgid "Move component"
-#~ msgstr "移動組件"
 
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "移動組件亦會變更其 URL。"
@@ -22022,9 +23037,6 @@ msgstr "工作空間已移除。"
 #~ msgid "source"
 #~ msgstr "原文"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "無效的參數！"
-
 #~ msgid "Not translated strings"
 #~ msgstr "尚未翻譯的字串"
 
@@ -22033,11 +23045,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Strings needing action"
 #~ msgstr "需要處理的字串"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "有 %(count)s 則需要處理的字串"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -22455,9 +23462,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Use this translation for all components"
 #~ msgstr "所有組件均使用此翻譯"
 
-#~ msgid "Use this translation"
-#~ msgstr "使用這個翻譯"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "與此翻譯相較之下的更動："
 
@@ -22705,9 +23709,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "您無法再使用 {method} 登入 {name}。"
-
-#~ msgid "You can now log in using password."
-#~ msgstr "您現在可使用密碼登入。"
 
 #~ msgid "New whiteboard message"
 #~ msgstr "新增白板訊息"
@@ -23037,9 +24038,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Your languages"
 #~ msgstr "您的語言"
 
-#~ msgid "Search type"
-#~ msgstr "搜尋類型"
-
 #~ msgid "Fulltext"
 #~ msgstr "全文"
 
@@ -23076,9 +24074,6 @@ msgstr "工作空間已移除。"
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
-
-#~ msgid "Repositories limit"
-#~ msgstr "儲藏庫限制"
 
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "使用者擁有所有的權利許可，無須特別指派。"
@@ -24993,9 +25988,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "End date"
 #~ msgstr "結束日期"
-
-#~ msgid "Text"
-#~ msgstr "文字"
 
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "依據位置而定，可以使用 HTML。"
