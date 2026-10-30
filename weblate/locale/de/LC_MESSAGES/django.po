@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 17:01+0000\n"
+"PO-Revision-Date: 2026-10-30 19:46+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -7748,11 +7748,10 @@ msgstr ""
 "Texterkennungsdaten konnten nicht heruntergeladen werden. Bitte später "
 "erneut versuchen."
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not find strings in the image. Please try again."
 msgstr ""
-"Repository-Branches konnten nicht geladen werden. Bitte erneut versuchen."
+"Es konnten keine Zeichenfolgen im Bild gefunden werden. Bitte erneut "
+"versuchen."
 
 msgid "Select a valid screenshot."
 msgstr "Wählen Sie ein gültiges Bildschirmfoto aus."
@@ -8628,7 +8627,7 @@ msgid "API key copied to clipboard."
 msgstr "API-Schlüssel in die Zwischenablage kopiert."
 
 msgid "Verify your identity to view your API key"
-msgstr ""
+msgstr "Bestätigen Sie Ihre Identität, um Ihren API-Schlüssel einzusehen"
 
 msgid "API root URL:"
 msgstr "API-Root-URL:"
@@ -9374,25 +9373,21 @@ msgstr "Zurück"
 msgid "Next"
 msgstr "Weiter"
 
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Workflow editing mode"
-msgstr "Arbeitsablauf-Anpassung"
+msgstr "Arbeitsablauf-Bearbeitungsmodus"
 
-#, fuzzy
-#| msgid "Edit"
 msgid "Editor"
-msgstr "Bearbeiten"
+msgstr "Editor"
 
-#, fuzzy
-#| msgid "YAML file"
 msgid "YAML"
-msgstr "YAML-Datei"
+msgstr "YAML"
 
 msgid ""
 "Both modes edit the same workflow, and switching between them keeps unsaved "
 "changes."
 msgstr ""
+"In beiden Modi wird derselbe Arbeitsablauf bearbeitet, und beim Wechsel "
+"zwischen den Modi bleiben nicht gespeicherte Änderungen erhalten."
 
 msgid "Triggers"
 msgstr "Trigger"
@@ -9401,60 +9396,47 @@ msgid ""
 "Events starting the workflow. Without any trigger it can only be run "
 "manually."
 msgstr ""
+"Ereignisse, die den Arbeitsablauf starten. Ohne Auslöser kann er nur manuell "
+"ausgeführt werden."
 
 msgid "Trigger"
 msgstr "Trigger"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Add trigger"
-msgstr "Warnung ausgelöst"
+msgstr "Trigger hinzufügen"
 
 msgid "Conditions"
 msgstr "Bedingungen"
 
-#, fuzzy
-#| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
 msgstr ""
-"Alle Komponenten sind nun für Übersetzungen und deren Änderungen geöffnet."
+"Alle Bedingungen müssen erfüllt sein, bevor eine Aktion ausgeführt wird."
 
-#, fuzzy
-#| msgid "Configuration"
 msgid "Condition"
-msgstr "Konfiguration"
+msgstr "Bedingung"
 
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add condition"
-msgstr "Fehlkonfiguration"
+msgstr "Bedingung hinzufügen"
 
 msgid "Actions"
 msgstr "Aktionen"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
-msgstr "Operation im Repository wurde durchgeführt"
+msgstr ""
+"Operationen werden in dieser Reihenfolge ausgeführt, sobald die Bedingungen "
+"erfüllt sind."
 
 msgid "Action"
 msgstr "Aktion"
 
-#, fuzzy
-#| msgid "Action"
 msgid "Add action"
-msgstr "Aktion"
+msgstr "Aktion hinzufügen"
 
-#, fuzzy
-#| msgid "Move"
 msgid "Move up"
-msgstr "Verschieben"
+msgstr "Nach oben"
 
-#, fuzzy
-#| msgid "Move"
 msgid "Move down"
-msgstr "Verschieben"
+msgstr "Nach unten"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9527,25 +9509,29 @@ msgid ""
 "Configure the AMQP broker connection below, including any TLS certificates "
 "required by your broker, and select the events to publish."
 msgstr ""
+"Konfigurieren Sie unten die AMQP-Brokerverbindung, einschließlich aller von "
+"Ihrem Broker benötigten TLS-Zertifikate, und wählen Sie die zu "
+"veröffentlichenden Ereignisse aus."
 
 msgid "Configure your consumer to subscribe to Weblate message topics:"
 msgstr ""
+"Konfigurieren Sie Ihren Consumer so, dass er Weblate-Nachrichtenthemen "
+"abonniert:"
 
 msgid ""
 "Topics include only the path segments available for the event. If you "
 "configure a topic prefix, it is prepended with a dot separator."
 msgstr ""
+"Themen umfassen ausschließlich die für das Ereignis verfügbaren "
+"Pfadsegmente. Wenn Sie ein Themenpräfix konfigurieren, wird diesem ein Punkt "
+"als Trennzeichen vorangestellt."
 
-#, fuzzy
-#| msgid ""
-#| "Browse the Weblate documentation for guides on translating, "
-#| "administration, and configuration."
 msgid ""
 "See the add-on documentation for topic examples, the message schema, and "
 "consumer configuration."
 msgstr ""
-"Durchsuchen Sie die Weblate-Dokumentation nach Anleitungen zur Übersetzung, "
-"Verwaltung und Konfiguration."
+"Siehe die Dokumentation zur Erweiterung für Themenbeispiele, das "
+"Nachrichtenschema und die Consumerkonfiguration."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9745,15 +9731,17 @@ msgid ""
 "Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
 "that should receive notifications."
 msgstr ""
+"Erstellen Sie einen <a href=\"%(url)s\">eingehenden Webhook in Slack</a> für "
+"den Kanal, der Benachrichtigungen erhalten soll."
 
 msgid ""
 "Enter the webhook URL below and select the events to send to the channel."
 msgstr ""
+"Geben Sie unten die Webhook-URL ein und wählen Sie die Ereignisse aus, die "
+"an den Kanal gesendet werden sollen."
 
-#, fuzzy
-#| msgid "Please see a documentation for more info."
 msgid "See the add-on documentation for more information."
-msgstr "Weitere Informationen entnehmen Sie bitte der Dokumentation."
+msgstr "Siehe die Dokumentation zur Erweiterung für weitere Informationen."
 
 msgid ""
 "Weblate commits from components within this repository will be squashed."
@@ -9774,17 +9762,24 @@ msgid ""
 "Configure your service to receive JSON POST requests, enter its URL below, "
 "and select the events to send."
 msgstr ""
+"Konfigurieren Sie Ihren Dienst für den Empfang von JSON-POST-Anfragen, geben "
+"Sie unten dessen URL ein und wählen Sie die zu sendenden Ereignisse aus."
 
 msgid ""
 "To verify request signatures, configure the same Standard Webhooks secret in "
 "Weblate and your receiver. Requests are signed only when a secret is "
 "configured."
 msgstr ""
+"Um die Signaturen von Anfragen zu überprüfen, konfigurieren Sie in Weblate "
+"und Ihrem Receiver dasselbe Standard-Webhook-Geheimnis. Anfragen werden nur "
+"signiert, wenn ein Geheimnis konfiguriert ist."
 
 msgid ""
 "See the add-on documentation for the message payload and signature "
 "verification."
 msgstr ""
+"Siehe die Dokumentation zur Erweiterung für Informationen zu "
+"Nachrichtennutzdaten und zur Signaturprüfung."
 
 msgid "HTTP Response"
 msgstr "HTTP-Antwort"
@@ -10173,15 +10168,15 @@ msgstr "Sie haben keine Berechtigung, die Projektzugriffssteuerung zu ändern."
 msgid "Check your billing status"
 msgstr "Prüfen Sie Ihren Rechnungsstatus"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Checking your browser"
-msgstr "Repository-Browser"
+msgstr "Überprüfen Sie Ihren Browser"
 
 msgid ""
 "Your browser will calculate a short proof of work to protect this site "
 "against automated scraping."
 msgstr ""
+"Ihr Browser berechnet einen kurzen Ausführungsnachweis, um diese Seite vor "
+"automatisiertem Scraping zu schützen."
 
 #, fuzzy
 #| msgid "Loading…"
@@ -10192,6 +10187,8 @@ msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
 msgstr ""
+"Überprüfung fehlgeschlagen. Aktivieren Sie JavaScript, Worker und Cookies "
+"und versuchen Sie es erneut. Sie können sich auch anmelden."
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
