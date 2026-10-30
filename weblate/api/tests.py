@@ -10583,6 +10583,38 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(self.component.commit_message, "API component commit")
         self.assertFalse(self.component.inherit_commit_message)
 
+    def test_patch_commit_message_requires_component_edit(self) -> None:
+        message = "--config=alias.commit=version"
+        original = self.component.commit_message
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"commit_message": message},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.commit_message, original)
+
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Component message editors",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"commit_message": message},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.effective_commit_message, message)
+
     def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(
             enforced_checks=["same"], inherit_enforced_checks=False

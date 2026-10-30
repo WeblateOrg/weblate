@@ -1606,6 +1606,26 @@ class EditMercurialTest(EditTest):
     def create_component(self):
         return self.create_po_mercurial()
 
+    def test_option_shaped_commit_message(self) -> None:
+        message = "--config=alias.commit=version"
+        self.component.commit_message = message
+        self.component.inherit_commit_message = False
+        self.component.save(update_fields=["commit_message", "inherit_commit_message"])
+        old_revision = self.component.repository.last_revision
+
+        self.edit_unit(self.source, self.target)
+        self.translation.commit_pending("test", self.user)
+
+        self.assertNotEqual(self.component.repository.last_revision, old_revision)
+        self.assertEqual(
+            self.component.repository.execute(
+                ["log", "--rev=.", "--template={desc}"],
+                remote_op="none",
+                needs_lock=False,
+            ),
+            message,
+        )
+
 
 class EditPoMonoTest(EditTest):
     def create_component(self):

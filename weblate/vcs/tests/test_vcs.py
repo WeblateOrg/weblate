@@ -6147,6 +6147,40 @@ class VCSHgTest(VCSGitTest):
             self.repo.get_file(filename, self.repo.last_revision), "COMMITTED FILE\n"
         )
 
+    def test_commit_option_shaped_message_and_author(self) -> None:
+        for filename, message, author in (
+            (
+                "message-file",
+                "--config=alias.commit=version",
+                "Test <test@example.net>",
+            ),
+            (
+                "author-file",
+                "First line\nSecond line",
+                "--config=alias.commit=version",
+            ),
+        ):
+            with self.subTest(filename=filename):
+                Path(self.tempdir, filename).write_text("CONTENT\n", encoding="utf-8")
+                old_revision = self.repo.last_revision
+
+                with self.repo.lock:
+                    self.repo.commit(message, author, timezone.now(), [filename])
+
+                self.assertNotEqual(self.repo.last_revision, old_revision)
+                self.assertEqual(
+                    self.repo.execute(
+                        ["log", "--rev=.", "--template={desc}"],
+                        remote_op="none",
+                        needs_lock=False,
+                    ),
+                    message,
+                )
+                self.assertEqual(
+                    self.repo.get_revision_info(self.repo.last_revision)["author"],
+                    author,
+                )
+
     def test_count_outgoing_runtime_private_url_rejected(self) -> None:
         self.repo.component.repo = "https://private.example/repo"
         with (
