@@ -10,14 +10,15 @@ from datetime import timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any, cast
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, Mock, call, patch
 
 from django.core.exceptions import FieldDoesNotExist, FieldError
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.db import connection, models
+from django.db import DatabaseError, connection, models, transaction
 from django.db.models import Q
 from django.db.models.functions import MD5
+from django.db.models.signals import post_save
 from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -63,6 +64,7 @@ from weblate.memory.tasks import (
     set_scope_source_project_ids,
     update_memory,
     update_memory_bulk,
+    update_memory_statuses,
 )
 from weblate.memory.utils import (
     CATEGORY_FILE,
@@ -306,6 +308,127 @@ class MemoryParserTest(SimpleTestCase):
 
 
 class MemoryModelTest(FixtureTestCase):
+    def test_grouped_status_updates_preserve_other_fields(self) -> None:
+        self.create_automatic_memory(
+            "Unchanged status entry", MemoryScope.SCOPE_PROJECT, project=self.project
+        )
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        memories = Memory.objects.bulk_create(
+            [
+                Memory(
+                    source_language=source_language,
+                    target_language=target_language,
+                    source=f"Grouped status source {index}",
+                    target=f"Grouped status target {index}",
+                    origin="grouped-status",
+                    status=Memory.STATUS_PENDING
+                    if index < 1001
+                    else Memory.STATUS_ACTIVE,
+                )
+                for index in range(1002)
+            ]
+        )
+        before = list(Memory.objects.order_by("pk").values())
+        for memory in memories:
+            memory.status = (
+                Memory.STATUS_ACTIVE
+                if memory.status == Memory.STATUS_PENDING
+                else Memory.STATUS_PENDING
+            )
+        expected_statuses = {memory.pk: memory.status for memory in memories}
+        notifications = Mock()
+        post_save.connect(notifications, sender=Memory, weak=False)
+        self.addCleanup(post_save.disconnect, notifications, sender=Memory)
+        with CaptureQueriesContext(connection) as queries:
+            update_memory_statuses(memories)
+        self.assertEqual(len(queries), 3)
+        for query in queries:
+            self.assertTrue(query["sql"].startswith("UPDATE "))
+            self.assertNotIn("CASE", query["sql"])
+        for row in before:
+            if row["id"] in expected_statuses:
+                row["status"] = expected_statuses[row["id"]]
+        self.assertEqual(list(Memory.objects.order_by("pk").values()), before)
+        notifications.assert_not_called()
+
+    def test_grouped_status_updates_empty(self) -> None:
+        with self.assertNumQueries(0):
+            update_memory_statuses([])
+
+    def test_grouped_status_updates_use_primary_database(self) -> None:
+        memory = self.create_automatic_memory(
+            "Primary status update", MemoryScope.SCOPE_PROJECT, project=self.project
+        )
+        memory.status = Memory.STATUS_PENDING
+        with (
+            override_settings(
+                DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]
+            ),
+            self.assertNumQueries(1),
+        ):
+            update_memory_statuses([memory])
+        memory.refresh_from_db(using="default")
+        self.assertEqual(memory.status, Memory.STATUS_PENDING)
+
+    def test_grouped_status_updates_roll_back(self) -> None:
+        write = MemoryQuerySet.update
+        for mixed_statuses in (False, True):
+            with self.subTest(mixed_statuses=mixed_statuses):
+                memories = [
+                    self.create_automatic_memory(
+                        f"Rollback status {mixed_statuses}-{index}",
+                        MemoryScope.SCOPE_PROJECT,
+                        project=self.project,
+                    )
+                    for index in range(3)
+                ]
+                if mixed_statuses:
+                    Memory.objects.filter(pk=memories[-1].pk).update(
+                        status=Memory.STATUS_PENDING
+                    )
+                selected = Memory.objects.filter(
+                    pk__in=[memory.pk for memory in memories]
+                )
+                before = list(selected.order_by("pk").values())
+                for memory in memories:
+                    memory.status = Memory.STATUS_PENDING
+                if mixed_statuses:
+                    memories[-1].status = Memory.STATUS_ACTIVE
+                calls = 0
+
+                def fail_later_update(
+                    queryset: MemoryQuerySet,
+                    *,
+                    first_id: int = memories[0].pk,
+                    **kwargs: object,
+                ) -> int:
+                    nonlocal calls
+                    calls += 1
+                    if calls == 2:
+                        self.assertEqual(
+                            Memory.objects.get(pk=first_id).status,
+                            Memory.STATUS_PENDING,
+                        )
+                        msg = "Status write failed"
+                        raise DatabaseError(msg)
+                    return write(queryset, **kwargs)
+
+                with (
+                    self.assertRaisesMessage(DatabaseError, "Status write failed"),
+                    transaction.atomic(),
+                    patch("weblate.memory.tasks.MEMORY_UPDATE_BATCH_SIZE", 2),
+                    patch.object(
+                        MemoryQuerySet,
+                        "update",
+                        autospec=True,
+                        side_effect=fail_later_update,
+                    ),
+                ):
+                    update_memory_statuses(memories)
+                self.assertEqual(calls, 2)
+                self.assertEqual(list(selected.order_by("pk").values()), before)
+
     def test_fuzzy_candidates_limit_distance_ties(self) -> None:
         memories = [
             self.create_automatic_memory(
@@ -2990,7 +3113,7 @@ msgstr "Nazdar svete!\n"
             ).exists()
         )
 
-    def test_bulk_create_uses_last_duplicate_status(self) -> None:
+    def test_bulk_uses_last_duplicate_status(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
         source = "Bulk duplicate status source"
@@ -3024,6 +3147,18 @@ msgstr "Nazdar svete!\n"
             ).count(),
             1,
         )
+
+        for states, expected in (
+            ((STATE_APPROVED, STATE_TRANSLATED), Memory.STATUS_PENDING),
+            ((STATE_TRANSLATED, STATE_APPROVED), Memory.STATUS_ACTIVE),
+        ):
+            with self.subTest(states=states):
+                update_memory_bulk(
+                    [{**payload, "unit_state": state} for state in states]
+                )
+                memory.refresh_from_db()
+                self.assertEqual(memory.status, expected)
+                self.assertEqual(memory.scopes.count(), 1)
 
     def test_bulk_current_payload_skips_legacy_component_prefetch(self) -> None:
         source_language = Language.objects.get(code="en")
