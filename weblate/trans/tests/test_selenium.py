@@ -3365,7 +3365,7 @@ class SeleniumTests(
         # into the editor.
         scope_options = (
             "return Array.from(document.querySelectorAll("
-            "\"[data-automation-list='actions'] [data-workflow-key='scope']\"),"
+            "\"[data-automation-root='actions'] [data-workflow-key='scope']\"),"
             " (el) => Array.from(el.options, (option) => option.value));"
         )
         self.assertEqual(
@@ -3378,7 +3378,7 @@ class SeleniumTests(
         )
         self.driver.find_elements(
             By.CSS_SELECTOR,
-            "[data-automation-list='actions'] [data-workflow-key='id']",
+            "[data-automation-root='actions'] [data-workflow-key='id']",
         )[1].send_keys("edited")
         self.assertEqual(
             self.driver.execute_script(scope_options)[2],
@@ -3388,7 +3388,7 @@ class SeleniumTests(
         # Removing a node moves focus to its neighbor instead of the page.
         remove = self.driver.find_elements(
             By.CSS_SELECTOR,
-            "[data-automation-list='actions'] [data-automation-remove]",
+            "[data-automation-root='actions'] [data-automation-remove]",
         )[2]
         remove.send_keys(Keys.ENTER)
         self.assertEqual(
@@ -3410,7 +3410,7 @@ class SeleniumTests(
         self.assertTrue(
             self.driver.execute_script(
                 "const active = document.activeElement;"
-                " return active.closest(\"[data-automation-list='triggers']\")"
+                " return active.closest(\"[data-automation-root='triggers']\")"
                 " !== null && active.closest('.ts-wrapper') !== null;"
             )
         )

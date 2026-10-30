@@ -410,7 +410,7 @@
       const kind = slot.dataset.automationSlotKind;
       const nodes = [];
       for (const item of items) {
-        const childKind = kind === "branch" ? "branch" : nodeKind(item, kind);
+        const childKind = nodeKind(item, kind);
         const child = childKind === null ? null : createNode(childKind, item);
         if (child === null) {
           return false;
@@ -455,6 +455,9 @@
     function nodeKind(item, discriminator) {
       if (!isPlainObject(item)) {
         return null;
+      }
+      if (discriminator === "branch") {
+        return "branch";
       }
       if (discriminator === "action") {
         if (typeof item.action === "string") {
