@@ -27,8 +27,9 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db import connection
 from django.test import SimpleTestCase, override_settings
-from django.test.utils import modify_settings
+from django.test.utils import CaptureQueriesContext, modify_settings
 from django.urls import reverse
 from weblate_schemas import load_schema
 
@@ -97,6 +98,7 @@ from weblate.trans.tests.utils import (
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.files import remove_tree
+from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
@@ -289,6 +291,118 @@ class BackupsTest(ReusableViewTestCase):
             )
         )
         self.enterContext(override_settings(MEDIA_ROOT=media_root))
+
+    def test_restore_source_batch_links_before_metadata(self) -> None:
+        source = self.component.source_translation
+        before = list(Unit.objects.order_by("pk").values())
+        units = [
+            Unit(
+                translation=source,
+                source=f"Restored source {index}",
+                target=f"Restored source {index}",
+                explanation=f"Restored explanation {index}",
+                position=index,
+                id_hash=calculate_hash(f"Restored source {index}", ""),
+            )
+            for index in range(3)
+        ]
+        for unit in units:
+            unit.import_data = {
+                "labels": [],
+                "comments": [],
+                "checks": [],
+                "suggestions": [],
+                "pending": True,
+            }
+        backup = ProjectBackup()
+        lookup: dict[int, int] = {}
+        restore_metadata = backup.restore_unit_metadata
+
+        def check_links(batch: list[Unit]) -> None:
+            for unit in batch:
+                with self.assertNumQueries(0):
+                    self.assertIs(unit.source_unit, unit)
+                    self.assertEqual(unit.source_unit_id, unit.pk)
+            self.assertEqual(
+                dict(
+                    Unit.objects.filter(pk__in=[unit.pk for unit in batch]).values_list(
+                        "pk", "source_unit_id"
+                    )
+                ),
+                {unit.pk: unit.pk for unit in batch},
+            )
+            restore_metadata(batch)
+
+        with (
+            patch.object(backup, "restore_unit_metadata", side_effect=check_links),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            backup.restore_source_unit_batch(units, {}, None, lookup)
+        updates = [
+            query["sql"] for query in queries if query["sql"].startswith("UPDATE ")
+        ]
+        self.assertEqual(len(updates), 1)
+        self.assertNotIn("CASE", updates[0])
+        self.assertEqual(
+            [query["sql"].split()[0] for query in queries.captured_queries[:2]],
+            ["INSERT", "UPDATE"],
+        )
+        self.assertEqual(lookup, {unit.checksum: unit.pk for unit in units})
+        self.assertEqual(
+            list(
+                Unit.objects.filter(pk__in=[row["id"] for row in before])
+                .order_by("pk")
+                .values()
+            ),
+            before,
+        )
+        for unit in units:
+            self.assertEqual(unit.import_data, {})
+            pending = PendingUnitChange.objects.get(unit=unit)
+            self.assertEqual(pending.source_unit_explanation, unit.explanation)
+            self.assertEqual(pending.author_id, get_anonymous().pk)
+
+    def test_restore_source_units_flushes_partial_batch(self) -> None:
+        source = self.component.source_translation
+        items = [
+            {
+                "translation_id": source.pk,
+                "position": index,
+                "source": f"Batched source {index}",
+                "target": f"Batched source {index}",
+                "id_hash": hash_to_checksum(
+                    calculate_hash(f"Batched source {index}", "")
+                ),
+                "labels": [],
+                "comments": [],
+                "checks": [],
+                "suggestions": [],
+            }
+            for index in range(5)
+        ]
+        backup = ProjectBackup()
+        backup.IMPORT_BATCH_SIZE = 2
+        with patch.object(
+            backup, "restore_source_unit_batch", wraps=backup.restore_source_unit_batch
+        ) as restore_batch:
+            lookup = backup.restore_source_units(
+                {"units": items},
+                translation_lookup={source.pk: source},
+                source_translation_id=source.pk,
+                pending_unit_change_map=None,
+            )
+        self.assertEqual(
+            [len(call.args[0]) for call in restore_batch.call_args_list], [2, 2, 1]
+        )
+        self.assertEqual(set(lookup), {item["id_hash"] for item in items})
+        for unit in Unit.objects.filter(pk__in=lookup.values()):
+            self.assertEqual(unit.source_unit_id, unit.pk)
+
+    def test_restore_empty_source_batch(self) -> None:
+        lookup = {123: 456}
+        with self.assertNumQueries(0):
+            ProjectBackup().restore_source_unit_batch([], {}, None, lookup)
+        self.assertEqual(lookup, {123: 456})
 
     def test_restore_legacy_pending_batches_authors(self) -> None:
         author = User.objects.create(username="legacy-content-author")
