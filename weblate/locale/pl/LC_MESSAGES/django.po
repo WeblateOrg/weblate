@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 07:47+0000\n"
+"PO-Revision-Date: 2026-10-30 10:49+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -9599,11 +9599,16 @@ msgid ""
 "Weblate and your receiver. Requests are signed only when a secret is "
 "configured."
 msgstr ""
+"Aby zweryfikować podpisy żądań, skonfiguruj ten sam klucz dla standardowych "
+"webhooków zarówno w Weblate, jak i u odbiorcy. Żądania są podpisywane tylko "
+"wtedy, gdy taki klucz zostanie skonfigurowany."
 
 msgid ""
 "See the add-on documentation for the message payload and signature "
 "verification."
 msgstr ""
+"Informacje na temat zawartości komunikatu oraz weryfikacji podpisu znajdują "
+"się w dokumentacji dodatku."
 
 msgid "HTTP Response"
 msgstr "Odpowiedź HTTP"
@@ -9989,73 +9994,73 @@ msgstr "Nie masz uprawnień do zmiany ustawień kontroli dostępu do projektu."
 msgid "Check your billing status"
 msgstr "Sprawdź swój status płatności"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Checking your browser"
-msgstr "Przeglądarka repozytorium"
+msgstr "Sprawdzanie przeglądarki"
 
 msgid ""
 "Your browser will calculate a short proof of work to protect this site "
 "against automated scraping."
 msgstr ""
+"Twoja przeglądarka wygeneruje krótki dowód wykonania pracy, aby chronić tę "
+"witrynę przed automatycznym pobieraniem danych."
 
-#, fuzzy
-#| msgid "Loading…"
 msgid "Working…"
-msgstr "Wczytywanie…"
+msgstr "Działanie…"
 
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
 msgstr ""
+"Weryfikacja nie powiodła się. Włącz obsługę języka JavaScript, skryptów typu "
+"„workers” oraz plików cookie, a następnie spróbuj ponownie. Możesz również "
+"się zalogować."
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
+"Do uzyskania dostępu anonimowego wymagany jest język JavaScript. Możesz "
+"również się zalogować."
 
 msgid "Retry"
 msgstr "Ponów"
 
 msgid "Did you know?"
-msgstr ""
+msgstr "Czy wiesz, że?"
 
-#, fuzzy
-#| msgid "Please review and confirm the missing language changes."
 msgid "Review and confirm the bulk edit changes."
-msgstr "Przejrzyj i potwierdź brakujące zmiany językowe."
+msgstr "Przejrzyj i zatwierdź zmiany wprowadzone w ramach edycji zbiorczej."
 
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(counter)s string would change."
 msgid_plural "%(counter)s strings would change."
-msgstr[0] "%(count)s ciąg wymagający działania"
-msgstr[1] "%(count)s ciągi wymagające działania"
-msgstr[2] "%(count)s ciągów wymagających działania"
+msgstr[0] "%(counter)s ciąg uległby zmianie."
+msgstr[1] "%(counter)s ciągi uległby zmianie."
+msgstr[2] "%(counter)s ciągów uległoby zmianie."
 
 msgid ""
 "Showing the first 250 changes. Only selected displayed strings will be "
 "processed unless you choose to apply all matching strings."
 msgstr ""
+"Wyświetlono pierwsze 250 zmian. Przetworzone zostaną tylko wybrane "
+"wyświetlone ciągi, chyba że zdecydujesz się zastosować zmiany do wszystkich "
+"pasujących ciągów."
 
 msgid "Update preview"
 msgstr "Podgląd aktualizacji"
 
 #, python-format
 msgid "Apply all matching strings (%(total)s)"
-msgstr ""
+msgstr "Zastosuj wszystkie pasujące ciągi (%(total)s)"
 
 msgid ""
 "Applies to all current matches, including those not displayed. The query and "
 "permissions are checked again when applying changes."
 msgstr ""
+"Dotyczy wszystkich bieżących dopasowań, w tym tych niewyświetlonych. Podczas "
+"wprowadzania zmian ponownie weryfikowane są zapytanie oraz uprawnienia."
 
 msgid "Select"
 msgstr "Wybierz"
 
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "String"
-#| msgid_plural "Strings"
 msgid "String"
 msgstr "Ciąg"
 
@@ -10066,31 +10071,25 @@ msgid "State"
 msgstr "Stan"
 
 msgid "Before"
-msgstr ""
+msgstr "Przed"
 
 msgid "After"
-msgstr ""
+msgstr "Po"
 
 msgid "Empty"
 msgstr "Pusty"
 
-#, fuzzy
-#| msgid "Source flags — all languages"
 msgid "Source flags (all languages)"
-msgstr "Flagi źródła — wszystkie języki"
+msgstr "Flagi źródła (wszystkie języki)"
 
 msgid "Translation flags"
 msgstr "Flagi tłumaczeń"
 
-#, fuzzy
-#| msgid "All languages"
 msgid "Add label (all languages)"
-msgstr "Wszystkie języki"
+msgstr "Dodaj etykietę (wszystkie języki)"
 
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Remove label (all languages)"
-msgstr "Przeglądaj wszystkie języki"
+msgstr "Usuń etykietę (wszystkie języki)"
 
 msgid "Apply"
 msgstr "Zastosuj"
@@ -11083,10 +11082,8 @@ msgstr "Ta usługa jest zainstalowana w obszarze roboczym."
 msgid "workspace"
 msgstr "obszar roboczy"
 
-#, fuzzy
-#| msgid "Language limit"
 msgid "Rate limited"
-msgstr "Limit językowy"
+msgstr "Ograniczona stawka"
 
 msgid "This service is disabled."
 msgstr "Ta usługa jest wyłączona."
@@ -11106,53 +11103,47 @@ msgstr ""
 "zewnętrznego dostawcy. Przed jej włączeniem zapoznaj się z regulaminem i "
 "polityką prywatności dostawcy."
 
-#, fuzzy
-#| msgid "Hosted service"
 msgid "Inherited service"
-msgstr "Usługa hostowana"
+msgstr "Usługa dziedziczona"
 
-#, fuzzy
-#| msgid "This service is already installed here."
 msgid "This service is managed at its installation scope."
-msgstr "Ta usługa jest już tutaj zainstalowana."
+msgstr "Usługa ta jest zarządzana w zakresie objętym jej instalacją."
 
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Manage this installation"
-msgstr "Użyj tego tłumaczenia"
+msgstr "Zarządzaj tą instalacją"
 
 msgid "Installation slug (optional)"
 msgstr "Końcówka adresu instalacji (opcjonalnie)"
 
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This service has no settings."
-msgstr "Ten dodatek nie ma żadnych ustawień."
+msgstr "Ta usługa nie ma żadnych ustawień."
 
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Use in automations"
-msgstr "Użyj automatycznych sugestii"
+msgstr "Użyj w automatyzacjach"
 
 msgid ""
 "Select this installation in the engines setting of an automatic translation "
 "action using its numeric ID:"
 msgstr ""
+"Wybierz tę instalację w ustawieniach silników w ramach operacji tłumaczenia "
+"automatycznego, korzystając z jej identyfikatora numerycznego:"
 
-#, fuzzy
-#| msgid "You can now log in using password."
 msgid "You can also select it using its slug:"
-msgstr "Możesz teraz zalogować się przy użyciu hasła."
+msgstr "Możesz również wybrać to za pomocą końcówki adresu:"
 
 msgid ""
 "The numeric ID always selects this installation. The slug selects the "
 "installation currently using that name in the project."
 msgstr ""
+"Identyfikator liczbowy zawsze wskazuje na tę instalację. Końcówka adresu "
+"wskazuje na instalację, która w danym projekcie używa tej nazwy."
 
 msgid ""
 "Set an installation slug above to give this service a readable name in your "
 "automations."
 msgstr ""
+"Ustaw powyżej końcówkę adresu instalacji, aby nadać tej usłudze czytelną "
+"nazwę w swoich automatyzacjach."
 
 msgid "Rate limit"
 msgstr "Ograniczenie szybkości"
@@ -11162,61 +11153,69 @@ msgid ""
 "Resetting the rate limit allows Weblate to try again; it does not reset the "
 "provider’s quota."
 msgstr ""
+"Żądania do tej usługi zostały tymczasowo wstrzymane z powodu błędu po "
+"stronie dostawcy. Zresetowanie limitu zapytań umożliwia Weblate ponowną "
+"próbę; nie powoduje to jednak zresetowania limitu przydzielonego przez "
+"dostawcę."
 
-#, fuzzy
-#| msgid "Repositories limit"
 msgid "Reset rate limit"
-msgstr "Limit repozytoriów"
+msgstr "Zresetuj limit stawki"
 
-#, fuzzy
-#| msgid "This scope already has 20 service installations."
 msgid "The rate limit can be reset at the service’s installation scope."
-msgstr "W tym zakresie wykonano już 20 instalacji usługi."
+msgstr "Limit stawki można zresetować w zakresie instalacji usługi."
 
-#, fuzzy
-#| msgid "Version control"
 msgid "Service control"
-msgstr "Kontrola wersji"
+msgstr "Kontrola usługi"
 
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Disable installation"
-msgstr "Identyfikator instalacji GitHub"
+msgstr "Wyłącz instalację"
 
 msgid ""
 "Stop using this installation here and in scopes inheriting it. Its settings "
 "are kept so you can enable it again later."
 msgstr ""
+"Przestań korzystać z tej instalacji w tym miejscu oraz w zakresach, które ją "
+"dziedziczą. Jej ustawienia zostały zachowane, dzięki czemu będzie można ją "
+"później ponownie włączyć."
 
 msgid ""
 "Stop using this inherited installation in this workspace and its projects. "
 "Other installations of this service remain available."
 msgstr ""
+"Przestań korzystać z tej odziedziczonej instalacji w tym obszarze roboczym "
+"oraz w jego projektach. Inne instalacje tej usługi pozostają dostępne."
 
 msgid ""
 "Stop using this inherited installation in this project. Other installations "
 "of this service and its use in other projects are unaffected."
 msgstr ""
+"Przestań korzystać z tej odziedziczonej instalacji w ramach tego projektu. "
+"Inne instalacje tej usługi oraz jej wykorzystanie w innych projektach "
+"pozostają bez zmian."
 
 msgid "Disable"
 msgstr "Wyłącz"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Enable machine translation"
 msgid "Enable installation"
-msgstr "Włącz tłumaczenie maszynowe"
+msgstr "Włącz instalację"
 
 msgid ""
 "Resume using this installation with its saved settings here and in scopes "
 "inheriting it. Existing exclusions still apply."
 msgstr ""
+"Wznów korzystanie z tej instalacji wraz z zapisanymi w niej ustawieniami — "
+"zarówno w jej obrębie, jak i w zakresach, które po niej dziedziczą. "
+"Dotychczasowe wykluczenia pozostają w mocy."
 
 msgid ""
 "Remove the local exclusion for this installation. It can provide suggestions "
 "here when it is enabled at its installation scope and is not excluded "
 "upstream. Other excluded installations remain excluded."
 msgstr ""
+"Usuń lokalne wykluczenie dla tej instalacji. Po włączeniu w zakresie danej "
+"instalacji — o ile nie została ona wykluczona na wcześniejszym etapie — mogą "
+"być tutaj wyświetlane sugestie. Pozostałe wykluczone instalacje pozostają "
+"wykluczone."
 
 msgid "Enable"
 msgstr "Włącz"
@@ -11225,23 +11224,31 @@ msgid ""
 "This installation is disabled at its installation scope or excluded by an "
 "upstream scope."
 msgstr ""
+"Ta instalacja jest wyłączona w swoim zakresie instalacji lub wykluczona "
+"przez zakres nadrzędny."
 
-#, fuzzy
-#| msgid "Exclude all inherited installations of this service"
 msgid "Exclude inherited service"
-msgstr "Wyklucz wszystkie odziedziczone instalacje tej usługi"
+msgstr "Wyklucz odziedziczoną usługę"
 
 msgid ""
 "Stop using all site-wide installations of this service in this workspace and "
 "its projects, including installations added later. Installations configured "
 "directly in this workspace or its projects remain available."
 msgstr ""
+"Przestań korzystać ze wszystkich instalacji tej usługi obejmujących cały "
+"serwis w ramach tego obszaru roboczego i jego projektów, w tym z instalacji "
+"dodanych w późniejszym czasie. Instalacje skonfigurowane bezpośrednio w tym "
+"obszarze roboczym lub jego projektach pozostają dostępne."
 
 msgid ""
 "Stop using all inherited installations of this service in this project, "
 "including installations added later. Installations configured directly in "
 "this project and use in other projects are unaffected."
 msgstr ""
+"Przestań korzystać ze wszystkich odziedziczonych instalacji tej usługi w "
+"ramach tego projektu, w tym z instalacji dodanych w późniejszym czasie. "
+"Instalacje skonfigurowane bezpośrednio w tym projekcie oraz te "
+"wykorzystywane w innych projektach pozostają bez zmian."
 
 msgid "Exclude"
 msgstr "Wyklucz"
@@ -11251,6 +11258,10 @@ msgid ""
 "inheriting it, and deletes its saved settings. You will need to install and "
 "configure it again to use it later."
 msgstr ""
+"Usunięcie tej instalacji uniemożliwia jej użycie tutaj i w zakresach ją "
+"dziedziczących oraz powoduje usunięcie jej zapisanych ustawień. Aby móc z "
+"niego skorzystać później, konieczne będzie jego ponowne zainstalowanie i "
+"skonfigurowanie."
 
 msgid "Configured translation services"
 msgstr "Skonfigurowane usługi tłumaczeniowe"
@@ -11275,15 +11286,11 @@ msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Niektóre usługi poproszą o dodatkową konfigurację podczas instalacji."
 
-#, fuzzy
-#| msgid "Translation services"
 msgid "Translation service errors"
-msgstr "Usługi tłumaczeniowe"
+msgstr "Błędy usługi tłumaczeniowej"
 
-#, fuzzy
-#| msgid "No eTranslation domains available"
 msgid "No translation service errors available."
-msgstr "Brak dostępnych domen eTranslation"
+msgstr "Brak błędów usługi tłumaczeniowej."
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -12696,15 +12703,11 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Przypisz ciągi źródłowe"
 
-#, fuzzy
-#| msgid "Assigned source strings"
 msgid "Find source strings"
-msgstr "Przypisane ciągi źródłowe"
+msgstr "Znajdź ciągi źródłowe"
 
-#, fuzzy
-#| msgid "Image widgets"
 msgid "Image text"
-msgstr "Widżety w formie obrazu"
+msgstr "Tekst obrazu"
 
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
@@ -12919,7 +12922,7 @@ msgid "Select string for bulk edit"
 msgstr "Wybierz ciąg do edycji zbiorczej"
 
 msgid "Choose which strings to edit and the changes to apply."
-msgstr ""
+msgstr "Wybierz ciągi do edycji oraz zmiany, które chcesz wprowadzić."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "Operacja jest stosowana do ciągów wybranych na powyższej liście."
@@ -14599,27 +14602,20 @@ msgstr ""
 "Weblate nie mógł przeanalizować plików tłumaczeń podczas aktualizacji "
 "tłumaczeń."
 
-#, fuzzy
-#| msgid ""
-#| "Weblate pushed the changes and created the pull request, but could not "
-#| "merge it automatically."
 msgid ""
 "Weblate pushed the changes and created the pull request, but could not apply "
 "the configured labels or assignees."
 msgstr ""
-"Weblate wprowadził zmiany i utworzył pull request, ale nie mogła ich "
-"automatycznie scalić."
+"Weblate wprowadził zmiany i utworzył pull request, ale nie udało mu się "
+"przypisać skonfigurowanych etykiet ani osób odpowiedzialnych."
 
-#, fuzzy
-#| msgid ""
-#| "Check that the repository allows auto-merge and the selected merge "
-#| "method, or turn off automatic merging in the version control parameters."
 msgid ""
 "Check that the labels and assignees exist and that Weblate can write pull "
 "requests, or remove the customization from the version control parameters."
 msgstr ""
-"Sprawdź, czy repozytorium umożliwia automatyczne scalanie i wybraną metodę "
-"scalania lub wyłącz automatyczne scalanie w parametrach kontroli wersji."
+"Sprawdź, czy etykiety oraz przypisane osoby istnieją i czy Weblate ma "
+"uprawnienia do tworzenia żądań ściągnięcia, albo usuń odpowiednie "
+"dostosowania z parametrów kontroli wersji."
 
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate nie mógł wypchnąć zmian do repozytorium nadrzędnego."
@@ -16965,10 +16961,8 @@ msgid "Could not merge the pull request automatically."
 msgstr "Nie udało się automatycznie scalić pull request."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the pull request automatically."
 msgid "Could not customize the pull request."
-msgstr "Nie udało się automatycznie scalić pull request."
+msgstr "Nie udało się dostosować pull request."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -16996,20 +16990,19 @@ msgstr "Apostrof w formacie wiadomości Java"
 msgid "Trailing and leading whitespace"
 msgstr "Końcowy i początkowy biały znak"
 
-#, fuzzy
-#| msgid "Automatic translation completed, no strings were updated."
 msgid "Automatic translation completed with errors, no strings were updated."
-msgstr "Tłumaczenie automatyczne zakończone."
+msgstr ""
+"Automatyczne tłumaczenie zakończone błędami; żadne ciągi znaków nie zostały "
+"zaktualizowane."
 
-#, fuzzy, python-format
-#| msgid "Automatic translation completed, %d string was updated."
-#| msgid_plural "Automatic translation completed, %d strings were updated."
+#, python-format
 msgid "Automatic translation completed with errors, %d string was updated."
 msgid_plural ""
 "Automatic translation completed with errors, %d strings were updated."
-msgstr[0] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciąg."
-msgstr[1] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciągi."
-msgstr[2] "Zakończono automatyczne tłumaczenie. Zaktualizowano %d ciągów."
+msgstr[0] "Zakończono automatyczne tłumaczenie z błędami. Zaktualizowano %d ciąg."
+msgstr[1] "Zakończono automatyczne tłumaczenie z błędami. Zaktualizowano %d ciągi."
+msgstr[2] ""
+"Zakończono automatyczne tłumaczenie z błędami. Zaktualizowano %d ciągów."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Tłumaczenie automatyczne zakończone."
@@ -17087,7 +17080,7 @@ msgid "Screenshot image is missing."
 msgstr "Brakuje zrzutu ekranu."
 
 msgid "Revision must be a complete hexadecimal object ID."
-msgstr ""
+msgstr "Wersja musi być pełnym szesnastkowym identyfikatorem obiektu."
 
 msgid "Duplicate check name."
 msgstr "Zduplikowana nazwa sprawdzenia."
@@ -17101,10 +17094,8 @@ msgstr "Nazwa pliku komponentu nie pasuje do jego kategorii i końcówki adresu.
 msgid "Duplicate component slug."
 msgstr "Zduplikowana końcówka adresu komponentu."
 
-#, fuzzy
-#| msgid "Translation reviews are not enabled."
 msgid "Translation revision has an invalid format."
-msgstr "Przeglądy tłumaczeń nie są włączone."
+msgstr "Weryfikacja tłumaczenia ma nieprawidłowy format."
 
 msgid "Duplicate translation identifier."
 msgstr "Zduplikowany identyfikator tłumaczenia."
@@ -17170,17 +17161,16 @@ msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
+"Parametr %(parameter)s w %(family)s składnika %(component)s został "
+"pominięty, ponieważ jest nieznany."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is not applicable."
 msgstr ""
-"Komponent %(component)s został pominięty, ponieważ powiązane z nim "
-"repozytorium jest niedostępne."
+"Parametr %(parameter)s w %(family)s składnika %(component)s został "
+"pominięty, ponieważ nie ma zastosowania."
 
 msgid "Version control parameters"
 msgstr "Parametry kontroli wersji"
@@ -17191,18 +17181,14 @@ msgstr "Parametry formatu pliku"
 msgid "The project repository directory already exists."
 msgstr "Katalog repozytorium projektu już istnieje."
 
-#, fuzzy
-#| msgid "Invalid search query!"
 msgid "Invalid search type."
-msgstr "Nieprawidłowe zapytanie!"
+msgstr "Nieprawidłowy typ wyszukiwania."
 
 msgid "Enter a search string to replace."
-msgstr ""
+msgstr "Wprowadź ciąg do zastąpienia."
 
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid target state."
-msgstr "Nieprawidłowe żądanie."
+msgstr "Nieprawidłowy stan docelowy."
 
 #, fuzzy
 #| msgid "How to handle requests for creating new translations."
