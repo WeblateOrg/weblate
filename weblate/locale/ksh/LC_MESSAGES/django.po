@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-16 04:34+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1493,6 +1493,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr ""
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
 #, python-format
 msgid "Security key (%s)"
 msgstr ""
@@ -1619,9 +1622,6 @@ msgstr ""
 #| msgid "Register e-mail"
 msgid "Verify new e-mail address"
 msgstr "En Adräß för de e-mail hengerlääje"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1850,6 +1850,10 @@ msgstr ""
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
+msgstr ""
+
+#, python-format
+msgid "Error: %s"
 msgstr ""
 
 msgid "enabled"
@@ -2162,7 +2166,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Der kumplätte Nahme"
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 #, fuzzy
@@ -2308,6 +2312,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Comment"
+msgid "Comment extraction"
+msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgid "Words"
+msgid "Keywords"
+msgstr "Wööter"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Checks overview"
+msgid "Update behavior"
+msgstr "Övverblegg övver de Pröövonge"
+
 msgid "This field is required."
 msgstr ""
 
@@ -2355,6 +2377,11 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Input files"
+msgstr "Övversäzong"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2599,6 +2626,21 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "Der kumplätte Nahme"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Component naming and file templates"
+msgstr "Der Projäknahme"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Component lifecycle"
+msgstr "Der Projäknahme"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2802,6 +2844,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Övverhollte Täxschtöckscher"
 
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Source and target"
+msgstr "Ding Zweitschprohche"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Text expansion"
+msgstr "Ding Övversäzonge"
+
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -2893,6 +2951,22 @@ msgstr ""
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Broker connection"
+msgstr "Ding Övversäzonge"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Event selection"
+msgstr "Projäkte"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr ""
@@ -3496,6 +3570,11 @@ msgstr "Övversaz Täxschtöckscher"
 #| msgid "Translation"
 msgid "Your suggestion already exists!"
 msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Search query"
+msgstr "Söhke"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4820,6 +4899,138 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Täxschtöcke zom övversäze"
 
+#, fuzzy
+#| msgid "Changes"
+msgid "Change events"
+msgstr "Änderonge"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The workflow runs for each of the selected events."
+msgstr "Projäkte"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "CEL expression"
+msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "The expression has to evaluate to a boolean."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Category path"
+msgstr "Der kumplätte Nahme"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "Language code"
+msgstr "Schprohch"
+
+#, fuzzy
+#| msgid "Changes"
+msgid "Change event"
+msgstr "Änderonge"
+
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "String state"
+msgstr "Täxschtöckscher med scheif jejange Pröövonge"
+
+#, fuzzy
+#| msgid "dictionaries"
+msgid "Action ID"
+msgstr "Wööterbööscher"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Whole component"
+msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "String affected by the change"
+msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "String scope"
+msgstr "Täxschtöckscher med scheif jejange Pröövonge"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Default (whole component)"
+msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgctxt "Number of suggestions"
+#| msgid "Suggestions"
+msgid "Select strings"
+msgstr "Vörschlähsch"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk editing"
+msgstr "Der kumplätte Nahme"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Component update"
+msgstr "Der Projäknahme"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Repository update"
+msgstr "Täxschtöcke zom övversäze"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Repository commit"
+msgstr "Täxschtöcke zom övversäze"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Repository push"
+msgstr "Täxschtöcke zom övversäze"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Expression"
+msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Component category"
+msgstr "Der Projäknahme"
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Matching strings"
+msgstr "Övverhollte Täxschtöckscher"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+msgid "Not"
+msgstr ""
+
 msgid "Additional message"
 msgstr "En Zohsaznohreesch"
 
@@ -5330,8 +5541,8 @@ msgid "Inconsistent"
 msgstr ""
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 
 #, fuzzy
@@ -7006,11 +7217,6 @@ msgstr "Schprohch"
 
 #, fuzzy
 #| msgid "Language"
-msgid "Language code"
-msgstr "Schprohch"
-
-#, fuzzy
-#| msgid "Language"
 msgid "Language name"
 msgstr "Schprohch"
 
@@ -7495,6 +7701,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Ding Zweitschprohche"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -8131,6 +8340,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Ding Zweitschprohche"
 
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Rate limit reset."
+msgstr "Täxschtöcke zom övversäze"
+
 msgid "File"
 msgstr ""
 
@@ -8517,9 +8731,22 @@ msgstr[2] "Mer han kein zopaß Täxschtöker jefonge!"
 msgid "No new matching source strings found."
 msgstr "Mer han kein zopaß Täxschtöker jefonge!"
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
 #, fuzzy
 #| msgid "Your translations"
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Could not find strings in the image. Please try again."
 msgstr "Ding Övversäzonge"
 
 #, fuzzy
@@ -9439,6 +9666,9 @@ msgstr "Änderonge"
 msgid "API key copied to clipboard."
 msgstr ""
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr ""
 
@@ -10068,6 +10298,11 @@ msgid "No components found."
 msgstr "Aanmärkong"
 
 #, fuzzy
+#| msgid "Translated strings"
+msgid "Integration instructions"
+msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
 #| msgid "Current password"
 msgid "Configure add-on"
 msgstr "Et jäzeje Jeheimwoot"
@@ -10215,10 +10450,85 @@ msgstr "Vörreje"
 msgid "Next"
 msgstr "Näkßde"
 
+msgid "Workflow editing mode"
+msgstr ""
+
 #, fuzzy
-#| msgid "Translated strings"
-msgid "Integration instructions"
-msgstr "Övversaz Täxschtöckscher"
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Ändere"
+
+msgid "YAML"
+msgstr ""
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new word"
+msgid "Add trigger"
+msgstr "Donn e neu Woot derbei"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Conditions"
+msgstr "Et jäzeje Jeheimwoot"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "All conditions have to pass before any action runs."
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Condition"
+msgstr "Et jäzeje Jeheimwoot"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Add condition"
+msgstr "Ändere"
+
+#, fuzzy
+#| msgid "dictionaries"
+msgid "Actions"
+msgstr "Wööterbööscher"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Ding Övversäzonge"
+
+msgid "Action"
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Add action"
+msgstr "Ändere"
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Move up"
+msgstr "Projäkte em Abbonnemang"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Move down"
+msgstr "Aanmärkong"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -10299,6 +10609,24 @@ msgstr "Övversäzonge jemaat"
 #| msgid "No matching strings found!"
 msgid "No matching components were found!"
 msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -10476,6 +10804,19 @@ msgstr ""
 msgid "Source string"
 msgstr "Övverhollte Täxschtöckscher"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -10484,6 +10825,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -10608,6 +10965,9 @@ msgstr "Projäkte em Abbonnemang"
 #| msgid "Subscribed projects"
 msgid "My workspaces"
 msgstr "Projäkte em Abbonnemang"
+
+msgid "Workspaces"
+msgstr ""
 
 #, fuzzy
 #| msgid "Used languages"
@@ -10851,11 +11211,6 @@ msgstr ""
 msgid "Event details"
 msgstr "Pröövonge"
 
-#, fuzzy
-#| msgid "dictionaries"
-msgid "Actions"
-msgstr "Wööterbööscher"
-
 msgid "Download"
 msgstr "Eronger laade"
 
@@ -10975,6 +11330,111 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+msgid "Working…"
+msgstr ""
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Strings with any failing checks"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Täxschtöckscher med scheif jejange Pröövonge"
+msgstr[1] "Täxschtöckscher med scheif jejange Pröövonge"
+msgstr[2] "Täxschtöckscher med scheif jejange Pröövonge"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Checks overview"
+msgid "Update preview"
+msgstr "Övverblegg övver de Pröövonge"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "String"
+msgstr "Täxschtöckscher med scheif jejange Pröövonge"
+
+#, fuzzy
+#| msgid "Change word"
+msgid "Changes"
+msgstr "nder dat Woot"
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "State"
+msgstr "Schtatistike"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Source flags (all languages)"
+msgstr "Änderonge dorschbläddere"
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Translation flags"
+msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "languages"
+msgid "Add label (all languages)"
+msgstr "Schprohche"
+
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Remove label (all languages)"
+msgstr "Änderonge dorschbläddere"
+
+msgid "Apply"
+msgstr ""
+
 msgid "Insights"
 msgstr ""
 
@@ -10999,9 +11459,6 @@ msgstr "Ding Övversäzonge"
 msgid "Operations"
 msgstr "Väsjohne"
 
-msgid "Search and replace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translations made"
 msgid "Post announcement"
@@ -11016,14 +11473,6 @@ msgstr "Övversäzonge jemaat"
 #| msgid "Browse changes"
 msgid "Browse all changes for this language"
 msgstr "Änderonge dorschbläddere"
-
-#, fuzzy
-#| msgid "Strings to translate"
-msgid "Review changes"
-msgstr "Täxschtöcke zom övversäze"
-
-msgid "Apply"
-msgstr ""
 
 #, fuzzy
 #| msgid "Browse changes"
@@ -11912,9 +12361,6 @@ msgstr "Övversäzong"
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr ""
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -12080,6 +12526,12 @@ msgstr "Quäll"
 msgid "Mark as spam"
 msgstr ""
 
+#, fuzzy
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "Service is no longer available"
+msgstr "Mer han ein onövversaz Täxschtöck."
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -12099,29 +12551,20 @@ msgid "workspace"
 msgstr "Jebuch Schprohche"
 
 #, fuzzy
+#| msgid "Languages"
+msgid "Rate limited"
+msgstr "Ding Schprohche"
+
+#, fuzzy
 #| msgid "User with this email address was not found."
 msgid "This service is disabled."
 msgstr "Ene Metmaacher met heh dä e-mail-Addräß wohr nit ze fenge."
-
-msgid "disabled"
-msgstr ""
-
-#, fuzzy
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "Service is no longer available"
-msgstr "Mer han ein onövversaz Täxschtöck."
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translated strings"
-msgid "Installation slug (optional)"
-msgstr "Övversaz Täxschtöckscher"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -12130,19 +12573,117 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation"
-msgid "Configured translation services"
-msgstr "Övversäzong"
+#| msgid "Checks"
+msgid "Inherited service"
+msgstr "Pröövonge"
 
 #, fuzzy
-#| msgid "Comment"
-msgid "Stop using this installation without removing its configuration."
-msgstr "Aanmärkong"
+#| msgid "Translations made"
+msgid "This service is managed at its installation scope."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Manage this installation"
+msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Installation slug (optional)"
+msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This service has no settings."
+msgstr "Ene Metmaacher met heh dä e-mail-Addräß wohr nit ze fenge."
+
+#, fuzzy
+#| msgctxt "Number of suggestions"
+#| msgid "Suggestions"
+msgid "Use in automations"
+msgstr "Vörschlähsch"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Rate limit"
+msgstr "Ding Schprohche"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Reset rate limit"
+msgstr "Projäkte em Abbonnemang"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Service control"
+msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
+#| msgid "Username"
+msgid "Disable installation"
+msgstr "Metmaachernahme"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "Your translations"
+msgid "Enable installation"
+msgstr "Ding Övversäzonge"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 #, fuzzy
@@ -12151,19 +12692,41 @@ msgstr ""
 msgid "Enable"
 msgstr "Vörschlähsch"
 
-#, fuzzy
-#| msgid "Translated strings"
-msgid "Remove this installation and its configuration."
-msgstr "Övversaz Täxschtöckscher"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Translations made"
+msgid "Exclude inherited service"
+msgstr "Övversäzonge jemaat"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Configured translation services"
+msgstr "Övversäzong"
 
 #, fuzzy
 #| msgid "Translations made"
@@ -12192,6 +12755,16 @@ msgstr "Ding Övversäzonge"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Translation service errors"
+msgstr "Övversäzonge"
+
+#, fuzzy
+#| msgid "Translated strings"
+msgid "No translation service errors available."
+msgstr "Övversaz Täxschtöckscher"
 
 #, fuzzy, python-format
 #| msgid "Secondary languages"
@@ -13366,9 +13939,6 @@ msgstr "Övversäzong"
 msgid "Check user access"
 msgstr "Pröövonge"
 
-msgid "Workspaces"
-msgstr ""
-
 msgid "Add workspace"
 msgstr ""
 
@@ -13506,6 +14076,9 @@ msgstr "Keine bikannte Metmaacher"
 
 #. Translators: Shared translation memory is disabled
 msgid "off"
+msgstr ""
+
+msgid "Configure"
 msgstr ""
 
 #, fuzzy
@@ -13736,22 +14309,6 @@ msgstr "Ding Övversäzonge"
 msgid "Donate to Weblate development"
 msgstr "Övver Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-#| msgid "Checks overview"
-msgid "Update preview"
-msgstr "Övverblegg övver de Pröövonge"
-
-msgid "Replace"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Generated by"
@@ -13801,6 +14358,24 @@ msgstr "Övverhollte Täxschtöckscher"
 
 #, fuzzy
 #| msgid "Fuzzy strings"
+msgid "Find source strings"
+msgstr "Övverhollte Täxschtöckscher"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Image text"
+msgstr "Aanmärkong"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add new word"
+msgid "Add selected"
+msgstr "Donn e neu Woot derbei"
+
+#, fuzzy
+#| msgid "Fuzzy strings"
 msgid "Source string search"
 msgstr "Övverhollte Täxschtöckscher"
 
@@ -13813,19 +14388,6 @@ msgstr ""
 #| msgid "Translation"
 msgid "Search query syntax documentation"
 msgstr "Övversäzong"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Words to translate"
-msgid "Find strings in image"
-msgstr "Wööter zom övversäze"
-
-#, fuzzy
-#| msgid "Add new word"
-msgid "Add selected"
-msgstr "Donn e neu Woot derbei"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -14043,7 +14605,7 @@ msgstr "Övverhollte Täxschtöckscher"
 msgid "Select string for bulk edit"
 msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -14184,9 +14746,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr "Ding Övversäzonge"
 
-msgid "Select"
-msgstr ""
-
 #, fuzzy
 #| msgid "Fuzzy strings"
 msgid "Target string"
@@ -14238,7 +14797,6 @@ msgstr "Jangk retuhr_op di Övversäzong"
 msgid "Last remote commit"
 msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
-#. Translators: For example: "nijel authored five days ago"
 #, fuzzy, python-format
 #| msgid "Authored by %(author)s on %(date)s"
 msgid "%(author)s authored %(date)s"
@@ -14801,11 +15359,6 @@ msgstr "Övverhollte Täxschtöckscher"
 msgid "Location strings"
 msgstr "Wööterbööscher"
 
-#, fuzzy
-#| msgid "Strings with any failing checks"
-msgid "String state"
-msgstr "Täxschtöckscher med scheif jejange Pröövonge"
-
 #. Translators: String pending for flushing to VCS.
 #, fuzzy
 #| msgctxt "Number of suggestions"
@@ -15022,11 +15575,6 @@ msgstr "Mer han kein zopaß Täxschtöker jefonge!"
 #| msgid "Username"
 msgid "Saved search name"
 msgstr "Metmaachernahme"
-
-#, fuzzy
-#| msgid "Search"
-msgid "Search query"
-msgstr "Söhke"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -15838,6 +16386,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
@@ -15978,11 +16536,6 @@ msgid "Go"
 msgstr ""
 
 #, fuzzy
-#| msgid "Change word"
-msgid "Changes"
-msgstr "nder dat Woot"
-
-#, fuzzy
 #| msgid "Your translations"
 msgid "Download latest changes as CSV"
 msgstr "Ding Övversäzonge"
@@ -16060,9 +16613,6 @@ msgstr ""
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
-msgstr ""
-
-msgid "Retry"
 msgstr ""
 
 msgid ""
@@ -18632,6 +19182,12 @@ msgstr "Ding Övversäzonge"
 
 #. Translators: Name of an alert
 #, fuzzy
+#| msgid "Your translations"
+msgid "Could not customize the pull request."
+msgstr "Ding Övversäzonge"
+
+#. Translators: Name of an alert
+#, fuzzy
 #| msgid "Strings to translate"
 msgid "Repository outdated."
 msgstr "Täxschtöcke zom övversäze"
@@ -18661,6 +19217,20 @@ msgstr ""
 
 msgid "Trailing and leading whitespace"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Övversäzonge jemaat"
+msgstr[1] "Övversäzonge jemaat"
+msgstr[2] "Övversäzonge jemaat"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
@@ -18743,6 +19313,9 @@ msgstr "Ding Övversäzonge"
 msgid "Screenshot image is missing."
 msgstr "Övverhollte Täxschtöckscher"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 #, fuzzy
 #| msgid "Your translations"
 msgid "Duplicate check name."
@@ -18760,6 +19333,11 @@ msgstr ""
 #| msgid "Comment"
 msgid "Duplicate component slug."
 msgstr "Aanmärkong"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation revision has an invalid format."
+msgstr "Övversäzonge jemaat"
 
 #, fuzzy
 #| msgid "Your translations"
@@ -18841,10 +19419,48 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Version control parameters"
+msgstr "Övversaz Täxschtöckscher"
+
+msgid "File format parameters"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation"
 msgid "The project repository directory already exists."
 msgstr "Övversäzong"
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Invalid search type."
+msgstr "Projäkte em Abbonnemang"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Invalid target state."
+msgstr "De Songhai-Schprohche"
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Choose either replacement or clearing translations."
+msgstr "Ding Övversäzonge"
 
 #, fuzzy
 #| msgid "Translations made"
@@ -19001,11 +19617,6 @@ msgstr ""
 #| msgid "Translated strings"
 msgid "Version control"
 msgstr "Övversaz Täxschtöckscher"
-
-#, fuzzy
-#| msgid "Statistics"
-msgid "State"
-msgstr "Schtatistike"
 
 #, fuzzy
 #| msgid "Revert"
@@ -20128,20 +20739,6 @@ msgstr "Ding Övversäzonge"
 msgid "Could not load project backup."
 msgstr "Ding Övversäzonge"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-#, fuzzy
-#| msgid "Fuzzy strings"
-msgid "Search string"
-msgstr "Övverhollte Täxschtöckscher"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 #, fuzzy
 #| msgid "Comment"
 msgid "Key or context"
@@ -20212,6 +20809,32 @@ msgstr "Ding Övversäzonge"
 msgid "Invalid string selection!"
 msgstr "Aanmärkong"
 
+#, fuzzy
+#| msgid "Search"
+msgid "Search type"
+msgstr "Söhke"
+
+msgid "Text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Search string"
+msgstr "Övverhollte Täxschtöckscher"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr ""
 
@@ -20220,39 +20843,80 @@ msgstr ""
 msgid "Do not change"
 msgstr "Ding Övversäzonge"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Checks"
+msgid "Add flags"
+msgstr "Pröövonge"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Your translations"
+msgid "Remove flags"
+msgstr "Ding Övversäzonge"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation"
-msgid "Translation flags to add — matching translations"
-msgstr "Övversäzong"
+#| msgid "Used languages"
+msgid "Add labels"
+msgstr "Jebuch Schprohche"
+
+#, fuzzy
+#| msgid "Registered users"
+msgid "Remove labels"
+msgstr "Metmaacher aanjemälldt"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Preview changes"
+msgstr "Täxschtöcke zom övversäze"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Choose flags to remove…"
+msgstr "Der Projäknahme"
+
+#, fuzzy
+#| msgid "Secondary languages"
+msgid "Source flags"
+msgstr "Ding Zweitschprohche"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translations made"
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "Övversäzonge jemaat"
 
-#, fuzzy
-#| msgid "Translations made"
-msgid "Translation flags to remove — matching translations"
-msgstr "Övversäzonge jemaat"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "Browse changes"
-msgid "Labels to add — all languages"
-msgstr "Änderonge dorschbläddere"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Suggestions made"
-msgid "Labels to remove — all languages"
-msgstr "Vörschääsch jemaat"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -20540,11 +21204,6 @@ msgstr "Der kumplätte Nahme"
 #| msgid "Used languages"
 msgid "Display name"
 msgstr "Jebuch Schprohche"
-
-#, fuzzy
-#| msgid "Translation"
-msgid "Translation flags"
-msgstr "Övversäzong"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -20883,11 +21542,6 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translated strings"
-msgid "Version control parameters"
-msgstr "Övversaz Täxschtöckscher"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -20998,9 +21652,6 @@ msgstr ""
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr ""
-
-msgid "File format parameters"
 msgstr ""
 
 msgid "Locked component will not get any translation updates."
@@ -22995,19 +23646,6 @@ msgstr "Eronger laade"
 msgid "Excluded user days"
 msgstr "Metmaachernahme"
 
-msgid "Could not process form!"
-msgstr ""
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -23017,6 +23655,17 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr ""
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "Bulk edit failed: %s"
+msgstr "Övversäzonge jemaat"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
@@ -23227,6 +23876,129 @@ msgid "Invalid host name given!"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translations made"
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "Övversäzonge jemaat"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification on new string to translate"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Övver jeedes neue Täxschtöcksche bescheidschriive"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Vörschääsch jemaat"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Revert to this translation"
+msgid "Regular expression evaluation timed out."
+msgstr "Jangk retuhr_op di Övversäzong"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Comment"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Aanmärkong"
+
+#, fuzzy
 #| msgid "No matching strings found!"
 msgid "Automatic translation reported a warning."
 msgstr "Mer han kein zopaß Täxschtöker jefonge!"
@@ -23238,6 +24010,11 @@ msgstr "Mer han kein zopaß Täxschtöker jefonge!"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "Automatic translation reported an error."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -23417,6 +24194,11 @@ msgstr "Ding Övversäzonge"
 msgid "Could not resolve the URL domain."
 msgstr "Ding Övversäzonge"
 
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Invalid stored parameter value."
+msgstr "De Songhai-Schprohche"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
@@ -23438,6 +24220,11 @@ msgstr ""
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Regular expression is too complex."
+msgstr "Aanmärkong"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -23480,6 +24267,11 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translations made"
+msgid "A concrete project or component is required."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
 #| msgid "Your translations"
 msgid "Could not parse IP address: {}"
 msgstr "Ding Övversäzonge"
@@ -23494,6 +24286,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Search query is too long."
+msgstr "Ding Övversäzonge"
 
 #, fuzzy
 #| msgid "Songhai languages"
@@ -23901,6 +24698,33 @@ msgstr ""
 
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
 msgstr ""
 
 #, fuzzy, python-format
@@ -24332,6 +25156,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Pull request assignee"
+msgstr "De Songhai-Schprohche"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Pull request labels"
+msgstr "De Songhai-Schprohche"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -24912,6 +25762,21 @@ msgid "Workspace name"
 msgstr "Jebuch Schprohche"
 
 #, fuzzy
+#| msgid "Translated strings"
+msgid "Translation propagation scope"
+msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Matching component name within workspace"
+msgstr "Övverhollte Täxschtöckscher"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Where translations of matching strings are propagated."
+msgstr "Övversäzonge jemaat"
+
+#, fuzzy
 #| msgid "Language"
 msgid "Managed name"
 msgstr "Schprohch"
@@ -24942,6 +25807,41 @@ msgstr ""
 #| msgid "Your account has been removed."
 msgid "The workspace has been removed."
 msgstr "Dinge Zohjang es jäz fott."
+
+#, fuzzy
+#~| msgid "Comment"
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "Aanmärkong"
+
+#, fuzzy
+#~| msgid "Translated strings"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
+#~| msgid "Words to translate"
+#~ msgid "Find strings in image"
+#~ msgstr "Wööter zom övversäze"
+
+#, fuzzy
+#~| msgid "Translation"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Övversäzong"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#~| msgid "Browse changes"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Änderonge dorschbläddere"
+
+#, fuzzy
+#~| msgid "Suggestions made"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Vörschääsch jemaat"
 
 #~ msgid "Register e-mail"
 #~ msgstr "En Adräß för de e-mail hengerlääje"
@@ -25029,11 +25929,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~| msgid "Register email"
 #~ msgid "Could not authenticate: %s"
 #~ msgstr "En Adräß för de e-mail hengerlääje"
-
-#, fuzzy, python-format
-#~| msgid "Translations made"
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Övversäzonge jemaat"
 
 #, fuzzy
 #~| msgid "Subproject"
@@ -25159,11 +26054,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~ msgstr "Övversaz Täxschtöckscher"
 
 #, fuzzy
-#~| msgid "Strings to translate"
-#~ msgid "Repository name"
-#~ msgstr "Täxschtöcke zom övversäze"
-
-#, fuzzy
 #~| msgid "Comment"
 #~ msgid "Configure component"
 #~ msgstr "Aanmärkong"
@@ -25259,11 +26149,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~ msgstr "Övversaz Täxschtöckscher"
 
 #, fuzzy
-#~| msgid "Your translations"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "Ding Övversäzonge"
-
-#, fuzzy
 #~| msgid "Username"
 #~ msgid "GitHub App"
 #~ msgstr "Metmaachernahme"
@@ -25315,11 +26200,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~| msgid "Checks"
 #~ msgid "Revoke access"
 #~ msgstr "Pröövonge"
-
-#, fuzzy
-#~| msgid "Edit"
-#~ msgid "Add admin"
-#~ msgstr "Ändere"
 
 #, fuzzy
 #~| msgid "Comment"
@@ -25503,11 +26383,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~ msgstr[2] "Täxschtöcke zom övversäze"
 
 #, fuzzy
-#~| msgid "Translations made"
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Övversäzonge jemaat"
-
-#, fuzzy
 #~| msgid "There is %(count)s not translated string."
 #~| msgid_plural "There are %(count)s not translated strings."
 #~ msgid "Reviews are not enabled."
@@ -25589,11 +26464,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #, fuzzy
 #~| msgid "Comment"
 #~ msgid "Rename component"
-#~ msgstr "Aanmärkong"
-
-#, fuzzy
-#~| msgid "Comment"
-#~ msgid "Move component"
 #~ msgstr "Aanmärkong"
 
 #, fuzzy
@@ -25822,11 +26692,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~ msgstr "Quäll"
 
 #, fuzzy
-#~| msgid "Songhai languages"
-#~ msgid "Invalid parameters!"
-#~ msgstr "De Songhai-Schprohche"
-
-#, fuzzy
 #~| msgid "Translated strings"
 #~ msgid "Not translated strings"
 #~ msgstr "Övversaz Täxschtöckscher"
@@ -25835,14 +26700,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #~| msgid "Strings with any failing checks"
 #~ msgid "Strings needing action"
 #~ msgstr "Täxschtöckscher med scheif jejange Pröövonge"
-
-#, fuzzy, python-format
-#~| msgid "Strings with any failing checks"
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "Täxschtöckscher med scheif jejange Pröövonge"
-#~ msgstr[1] "Täxschtöckscher med scheif jejange Pröövonge"
-#~ msgstr[2] "Täxschtöckscher med scheif jejange Pröövonge"
 
 #, fuzzy
 #~| msgctxt "Number of suggestions"
@@ -26412,11 +27269,6 @@ msgstr "Dinge Zohjang es jäz fott."
 #, fuzzy
 #~| msgid "Translations made"
 #~ msgid "Translation license OSI approved."
-#~ msgstr "Övversäzonge jemaat"
-
-#, fuzzy
-#~| msgid "Translations made"
-#~ msgid "This translation component is currently being updated."
 #~ msgstr "Övversäzonge jemaat"
 
 #, fuzzy
