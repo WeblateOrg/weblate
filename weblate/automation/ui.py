@@ -50,10 +50,30 @@ CONDITION_TITLES: dict[str, StrOrPromise] = {
     "not": gettext_lazy("Not"),
 }
 
-# Node kinds whose editing support is still to come; workflows using them are
-# edited as YAML.
+ACTION_TITLES: dict[str, StrOrPromise] = {
+    "sequence": gettext_lazy("Sequence"),
+    "choose": gettext_lazy("Choose"),
+}
+
 NESTING_CONDITIONS = frozenset({"and", "or", "not"})
-NESTING_ACTIONS = frozenset({"sequence", "choose"})
+NESTING_ACTIONS = frozenset(ACTION_TITLES)
+
+BRANCH_KIND = "branch"
+
+
+@dataclass(frozen=True)
+class EditorSlot:
+    """A container inside a node holding child nodes of one kind."""
+
+    key: str
+    kind: str
+    label: StrOrPromise
+    add_label: StrOrPromise
+
+    @property
+    def pickable(self) -> bool:
+        """Branch slots accept exactly one kind, so they need no picker."""
+        return self.kind != BRANCH_KIND
 
 
 @dataclass
@@ -65,6 +85,7 @@ class EditorNode:
     form: forms.Form | None = None
     chrome: forms.Form | None = None
     group: str | None = None
+    slots: list[EditorSlot] = field(default_factory=list)
 
     @property
     def emit_json(self) -> str:
@@ -76,6 +97,47 @@ class EditorContext:
     triggers: list[EditorNode] = field(default_factory=list)
     conditions: list[EditorNode] = field(default_factory=list)
     actions: list[EditorNode] = field(default_factory=list)
+    branch: EditorNode | None = None
+
+    @property
+    def trigger_slot(self) -> EditorSlot:
+        return EditorSlot(
+            key="triggers",
+            kind="trigger",
+            label=gettext_lazy("Trigger"),
+            add_label=gettext_lazy("Add trigger"),
+        )
+
+    @property
+    def condition_slot(self) -> EditorSlot:
+        return EditorSlot(
+            key="conditions",
+            kind="condition",
+            label=gettext_lazy("Condition"),
+            add_label=gettext_lazy("Add condition"),
+        )
+
+    @property
+    def action_slot(self) -> EditorSlot:
+        return EditorSlot(
+            key="actions",
+            kind="action",
+            label=gettext_lazy("Action"),
+            add_label=gettext_lazy("Add action"),
+        )
+
+
+def condition_slot() -> EditorSlot:
+    return EditorSlot(
+        key="conditions",
+        kind="condition",
+        label=gettext_lazy("Conditions"),
+        add_label=gettext_lazy("Add condition"),
+    )
+
+
+def action_slot(key: str, label: StrOrPromise, add_label: StrOrPromise) -> EditorSlot:
+    return EditorSlot(key=key, kind="action", label=label, add_label=add_label)
 
 
 def workflow_type(schema: dict[str, Any]) -> str:
@@ -180,6 +242,15 @@ def condition_nodes() -> list[EditorNode]:
     nodes = []
     for name, variant in schema_variants("conditions", "condition"):
         if name in NESTING_CONDITIONS:
+            nodes.append(
+                EditorNode(
+                    kind=f"condition:{name}",
+                    name=name,
+                    title=CONDITION_TITLES[name],
+                    emit={"condition": name},
+                    slots=[condition_slot()],
+                )
+            )
             continue
         nodes.append(
             EditorNode(
@@ -202,10 +273,56 @@ def condition_nodes() -> list[EditorNode]:
     return sorted(nodes, key=lambda node: str(node.title).casefold())
 
 
+def structural_action_slots(name: str) -> list[EditorSlot]:
+    """Describe the children of a sequence or choose action."""
+    if name == "sequence":
+        return [
+            action_slot("sequence", gettext_lazy("Actions"), gettext_lazy("Add action"))
+        ]
+    return [
+        EditorSlot(
+            key="choose",
+            kind=BRANCH_KIND,
+            label=gettext_lazy("Branches"),
+            add_label=gettext_lazy("Add branch"),
+        ),
+        action_slot(
+            "default",
+            gettext_lazy("Otherwise"),
+            gettext_lazy("Add action to run otherwise"),
+        ),
+    ]
+
+
+def branch_node() -> EditorNode:
+    """One branch of a choose action: its conditions and what it then runs."""
+    return EditorNode(
+        kind=BRANCH_KIND,
+        name=BRANCH_KIND,
+        title=gettext_lazy("Branch"),
+        emit={},
+        slots=[
+            condition_slot(),
+            action_slot(
+                "sequence", gettext_lazy("Actions"), gettext_lazy("Add action")
+            ),
+        ],
+    )
+
+
 def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
     nodes = []
     for name, variant in schema_variants("actions", "action"):
         if name in NESTING_ACTIONS:
+            nodes.append(
+                EditorNode(
+                    kind=f"action:{name}",
+                    name=name,
+                    title=ACTION_TITLES[name],
+                    emit={"choose": []} if name == "choose" else {},
+                    slots=structural_action_slots(name),
+                )
+            )
             continue
         operation = OPERATIONS[name]
         settings_schema = operation.settings_schema
@@ -248,5 +365,6 @@ def editor_context(obj: Component | Project | None) -> dict[str, Any]:
             triggers=trigger_nodes(),
             conditions=condition_nodes(),
             actions=action_nodes(obj),
+            branch=branch_node(),
         )
     }

@@ -32,50 +32,19 @@
       <p class="form-text">
         {% translate "Events starting the workflow. Without any trigger it can only be run manually." %}
       </p>
-      <div data-automation-list="triggers"></div>
-      <div class="input-group mt-2">
-        <label class="input-group-text" for="automation-add-trigger">{% translate "Trigger" %}</label>
-        <select class="form-select"
-                id="automation-add-trigger"
-                data-automation-picker="triggers">
-          {% for node in editor.triggers %}<option value="{{ node.kind }}">{{ node.title }}</option>{% endfor %}
-        </select>
-        <button type="button" class="btn btn-outline-secondary" data-automation-add="triggers">
-          {% translate "Add trigger" %}
-        </button>
-      </div>
+      {% include "addons/automation_slot.html" with slot=editor.trigger_slot choices=editor.triggers picker_id="automation-add-trigger" root=True %}
     </fieldset>
 
     <fieldset class="mb-4">
       <legend class="h5">{% translate "Conditions" %}</legend>
       <p class="form-text">{% translate "All conditions have to pass before any action runs." %}</p>
-      <div data-automation-list="conditions"></div>
-      <div class="input-group mt-2">
-        <label class="input-group-text" for="automation-add-condition">{% translate "Condition" %}</label>
-        <select class="form-select"
-                id="automation-add-condition"
-                data-automation-picker="conditions">
-          {% for node in editor.conditions %}<option value="{{ node.kind }}">{{ node.title }}</option>{% endfor %}
-        </select>
-        <button type="button"
-                class="btn btn-outline-secondary"
-                data-automation-add="conditions">{% translate "Add condition" %}</button>
-      </div>
+      {% include "addons/automation_slot.html" with slot=editor.condition_slot choices=editor.conditions picker_id="automation-add-condition" root=True %}
     </fieldset>
 
     <fieldset class="mb-4">
       <legend class="h5">{% translate "Actions" %}</legend>
       <p class="form-text">{% translate "Operations performed in this order once the conditions pass." %}</p>
-      <div data-automation-list="actions"></div>
-      <div class="input-group mt-2">
-        <label class="input-group-text" for="automation-add-action">{% translate "Action" %}</label>
-        <select class="form-select" id="automation-add-action" data-automation-picker="actions">
-          {% for node in editor.actions %}<option value="{{ node.kind }}">{{ node.title }}</option>{% endfor %}
-        </select>
-        <button type="button" class="btn btn-outline-secondary" data-automation-add="actions">
-          {% translate "Add action" %}
-        </button>
-      </div>
+      {% include "addons/automation_slot.html" with slot=editor.action_slot choices=editor.actions picker_id="automation-add-action" root=True %}
     </fieldset>
   </div>
 
