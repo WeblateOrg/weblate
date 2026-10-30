@@ -58,3 +58,13 @@ PostgreSQL, Valkey, and Traefik services it depends on. See the
 `Weblate page in the MASH documentation
 <https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/components/weblate/README.md>`_
 for the configuration to add to your inventory.
+
+Weblate on Pethost
+------------------
+
+`Pethost <https://pethost.dev/>`_ hosts Docker Compose projects. Its
+`Weblate template <https://pethost.dev/templates/weblate/>`_ runs the Weblate
+container with PostgreSQL and Valkey databases created beside it, creates the
+admin account from the e-mail and password entered when deploying, and serves
+Weblate over HTTPS. Celery runs in a single process, see
+:envvar:`CELERY_WORKER_MODE`.
