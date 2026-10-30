@@ -31,6 +31,7 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * :ref:`fedora-messaging` now publishes using Kombu, removing the Twisted dependency. Broker URLs no longer accept query strings or fragments; configure delivery timing using the add-on fields.
+* Sped up source-string linking during :ref:`project backup restoration <projectbackup>`.
 
 * Reduced database processing overhead for metadata-only updates during :ref:`repository synchronization <update-vcs>`.
 

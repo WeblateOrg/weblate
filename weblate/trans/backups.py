@@ -37,7 +37,7 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files import File
 from django.core.validators import MaxLengthValidator
 from django.db import transaction
-from django.db.models import Exists, Field, Model, OuterRef, Prefetch
+from django.db.models import Exists, F, Field, Model, OuterRef, Prefetch
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
@@ -2413,8 +2413,8 @@ class ProjectBackup:
         )
         for unit in source_units:
             unit.source_unit = unit
-        Unit.objects.bulk_update(
-            source_units, ["source_unit"], batch_size=self.IMPORT_BATCH_SIZE
+        Unit.objects.filter(pk__in=[unit.pk for unit in source_units]).update(
+            source_unit_id=F("id")
         )
         source_unit_lookup.update(
             {unit.checksum: unit.id for unit in source_units if unit.id is not None}
