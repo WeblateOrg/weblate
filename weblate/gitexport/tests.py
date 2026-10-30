@@ -99,7 +99,7 @@ class GitExportTest(ReusableViewTestCase):
         kwargs = {"git_request": path, "path": component.get_url_path()}
         return reverse("git-export", kwargs=kwargs)
 
-    def test_update_all_components_prefetches_url_path(self) -> None:
+    def test_update_components_prefetches_url_path(self) -> None:
         parent_category = self.create_category(self.project)
         child_category = Category.objects.create(
             project=self.project,
@@ -112,17 +112,32 @@ class GitExportTest(ReusableViewTestCase):
         second = self.create_po(project=self.project, name="Second")
         second.category = child_category
         second.save(update_fields=["category"])
-        Component.objects.filter(pk__in=[self.component.pk, second.pk]).update(
-            git_export=""
-        )
-
-        with CaptureQueriesContext(connection) as queries:
-            update_all_components()
-
-        for query in queries:
-            sql = query["sql"]
-            self.assertNotIn('FROM "trans_category" WHERE "trans_category"."id" =', sql)
-            self.assertNotIn('FROM "trans_project" WHERE "trans_project"."id" =', sql)
+        expected = {
+            component.pk: get_export_url(component)
+            for component in (self.component, second)
+        }
+        for operation in (
+            update_all_components,
+            lambda: self.project.save(update_fields=["name"]),
+        ):
+            with self.subTest(operation=operation):
+                components = Component.objects.filter(pk__in=expected)
+                components.update(git_export="")
+                with CaptureQueriesContext(connection) as queries:
+                    operation()
+                for query in queries:
+                    sql = query["sql"]
+                    self.assertNotIn(
+                        'FROM "trans_category" WHERE "trans_category"."id" =', sql
+                    )
+                    # Project.save() itself loads its previous settings.
+                    if operation is update_all_components:
+                        self.assertNotIn(
+                            'FROM "trans_project" WHERE "trans_project"."id" =', sql
+                        )
+                self.assertEqual(
+                    dict(components.values_list("pk", "git_export")), expected
+                )
 
     def test_git_root(self) -> None:
         response = self.client.get(self.get_git_url().replace("info/refs", ""))
