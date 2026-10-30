@@ -15,10 +15,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-27 19:51+0000\n"
-"Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
-"\n"
+"Last-Translator: Любомир Василев "
+"<lyubomirv@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -1319,6 +1319,10 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Тъмна"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Моля, потвърдете самоличността си по още един начин, преди да продължите."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "Секретен ключ (%s)"
@@ -1427,10 +1431,6 @@ msgstr "Отписан(а)"
 
 msgid "Verify new e-mail address"
 msgstr "Потвърдете новия адрес на е-поща"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
-"Моля, потвърдете самоличността си по още един начин, преди да продължите."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1642,6 +1642,11 @@ msgid ""
 "components."
 msgstr ""
 "Превежда автоматично низовете чрез машинен превод или чрез други компоненти."
+
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "Грешка"
 
 msgid "enabled"
 msgstr "включено"
@@ -1937,7 +1942,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Масово редактиране"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "Масово редактиране на флагове, етикети или състояние на низовете."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2089,6 +2096,24 @@ msgstr ""
 "бъдат пренебрегнати и само посочена по-горе ключова дума ще бъде "
 "разпознавана."
 
+#, fuzzy
+#| msgid "Component exceptions"
+msgid "Comment extraction"
+msgstr "Изключения за компонентите"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "думи"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Update preview"
+msgid "Update behavior"
+msgstr "Обновяване на прегледа"
+
 msgid "This field is required."
 msgstr "Това поле е задължително."
 
@@ -2143,6 +2168,11 @@ msgstr ""
 "отчитат относително спрямо основната папка на хранилището. Ако до манифеста "
 "съществува файл POTFILES.skip, то изброените в него файлове се пропускат при "
 "извличането."
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "Файл с шрифт"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Грешна символна връзка в хранилище."
@@ -2382,6 +2412,22 @@ msgstr "Премахване на компонентите за несъщест
 msgid "I confirm the above matches look correct"
 msgstr "Потвърждавам, че горните съвпадения изглеждат правилни"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "Кодировка на файла"
+
+#, fuzzy
+#| msgctxt "eTranslation configuration"
+#| msgid "Component language domains"
+msgid "Component naming and file templates"
+msgstr "Езикови домейни за компонентите"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "Компонентът е заключен"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "Обща конфигурация: %(name)s [%(details)s]"
@@ -2565,6 +2611,26 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Да се включат и низовете, които са само за четене"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "Изходен език"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "Представка – статичен текст"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "Наставка – статичен текст"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "Посока на текста"
+
 msgid "The source and target have to be different languages."
 msgstr "Изходният и целевият език трябва да бъдат различни езици."
 
@@ -2659,6 +2725,22 @@ msgstr "Изчакване преди повторен опит"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "Колко секунди да се изчаква преди всеки нов опит за свързване."
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Broker connection"
+msgstr "Връзки с хостинг на код"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "Избор на проект"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Представката за темата може да съдържа само знаци от ASCII."
@@ -3185,6 +3267,9 @@ msgstr "Преводът е твърде дълъг!"
 
 msgid "Your suggestion already exists!"
 msgstr "Вече има такова предложение!"
+
+msgid "Search query"
+msgstr "Заявка за търсене"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4229,6 +4314,139 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Преглед без промени"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "Всички събития за промени"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "Категорията не принадлежи на избрания проект."
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "Регулярен израз"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "Преводът е приключен."
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "Име на категорията"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "Горната категория трябва да бъде в същия проект!"
+
+msgid "Language code"
+msgstr "Код на езика"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "Всички събития за промени"
+
+msgid "String state"
+msgstr "Състояние на низа"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "Действие"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "Преместване на компонента"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "Низове бяха променени"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "Състояние на низа"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "Списък от компоненти по подразбиране"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "Изтриване на низа"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Bulk editing"
+msgid "Bulk editing"
+msgstr "Масово редактиране"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "Име на компонента"
+
+#, fuzzy
+#| msgid "Repositories updated"
+msgid "Repository update"
+msgstr "Хранилищата са обновени"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "Име на хранилището"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "Адрес за изпращане към отд. хранилище"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "Регулярен израз"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "Компонент е създаден"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "Управление на низове"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "Забележка"
+
 msgid "Additional message"
 msgstr "Допълнително съобщение"
 
@@ -4637,9 +4855,13 @@ msgstr "Някои форми за множествено число имат е
 msgid "Inconsistent"
 msgstr "Непоследователност"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "Този низ има повече от един превод в проекта, или няма превод в някои "
 "компоненти."
@@ -6100,9 +6322,6 @@ msgstr "Без ограничение на езиците"
 msgid "Enter a valid language code."
 msgstr "Въведете правилен код на език."
 
-msgid "Language code"
-msgstr "Код на езика"
-
 msgid "Language name"
 msgstr "Име на езика"
 
@@ -6565,6 +6784,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Избор на изходен език"
 
+msgid "disabled"
+msgstr "изключено"
+
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
@@ -6906,8 +7128,8 @@ msgid ""
 "%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 "Въведете обект JSON съпоставящ целеви езикови кодове разпознавани от Weblate "
-"към допълнителни инструкции за превод. Всяка инструкция може да съдържа до %"
-"(limit)d знака. Например: {\"de\": \"Използвайте учтиви обръщения.\"}"
+"към допълнителни инструкции за превод. Всяка инструкция може да съдържа до "
+"%(limit)d знака. Например: {\"de\": \"Използвайте учтиви обръщения.\"}"
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Езиково-специфичните инструкции трябва да бъдат обект на JSON."
@@ -7124,6 +7346,11 @@ msgstr "Изходен език на компонента"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Второстепенен език определен в проекта или компонента"
+
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "Обновяване чрез пребазиране"
 
 msgid "File"
 msgstr "Файл"
@@ -7442,9 +7669,27 @@ msgstr[1] "Открити са %(count)s отговарящи изходни н�
 msgid "No new matching source strings found."
 msgstr "Не са открити нови съответстващи изходни низове."
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr ""
+"Изпратени са твърде много заявки за търсене. Моля, опитайте отново по-късно."
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr ""
 "Данните за визуално разпознаване на текст не могат да бъдат свалени. Моля, "
+"опитайте отново по-късно."
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not find strings in the image. Please try again."
+msgstr ""
+"Не може да бъде създадено копие в отделно хранилище на %(hostname)s. Моля, "
 "опитайте отново по-късно."
 
 msgid "Select a valid screenshot."
@@ -8298,6 +8543,9 @@ msgstr "Превключване на видимостта на ключа за 
 msgid "API key copied to clipboard."
 msgstr "Ключът за ППИ е копиран в буфера за обмен."
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "Основен адрес на ППИ:"
 
@@ -8902,6 +9150,9 @@ msgstr "Несъвместимо"
 msgid "No components found."
 msgstr "Няма намерени компоненти."
 
+msgid "Integration instructions"
+msgstr "Инструкции за интеграция"
+
 msgid "Configure add-on"
 msgstr "Настройка на добавката"
 
@@ -9026,8 +9277,92 @@ msgstr "Предходен"
 msgid "Next"
 msgstr "Следващ"
 
-msgid "Integration instructions"
-msgstr "Инструкции за интеграция"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "Настройка на работния процес"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "Редактиране"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "Файл YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Triggers"
+msgstr "Създаване на резервно копие"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trigger backup"
+msgid "Trigger"
+msgstr "Създаване на резервно копие"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Активирано е предупреждение"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Настройка"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "Всички компоненти вече са отворени за преводи."
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Настройка"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Лоша настройка"
+
+msgid "Actions"
+msgstr "Действия"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "В хранилището беше извършена операция"
+
+msgid "Action"
+msgstr "Действие"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Действие"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "Преместване"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "Преместване"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "Публикуваните файлове за превод са налични от основния адрес на CDN:"
@@ -9092,6 +9427,30 @@ msgstr "Следните компоненти не могат да бъдат с
 
 msgid "No matching components were found!"
 msgstr "Не са намерени съответстващи компоненти!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Browse the Weblate documentation for guides on translating, "
+#| "administration, and configuration."
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+"Разгледайте документацията на Weblate, където може да намерите ръководства "
+"за превод, администрация и настройка."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9283,6 +9642,21 @@ msgstr "Низовете ще бъдат създадени по следния 
 msgid "Source string"
 msgstr "Изходен низ"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "Прегледайте документацията за повече информация."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9297,6 +9671,22 @@ msgstr ""
 "Съобщенията към подаванията се запазват, но информацията за авторите се "
 "губи, освен ако не е избрано „По автор“ или „По автор и език“, или ако "
 "съобщението в подаването не е променено така, че да включва тази информация."
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr "HTTP отговор"
@@ -9390,6 +9780,9 @@ msgstr "Наблюдавани проекти"
 
 msgid "My workspaces"
 msgstr "Моите работни пространства"
+
+msgid "Workspaces"
+msgstr "Работни пространства"
 
 msgid "Manage translated languages"
 msgstr "Управляване на езиците за превод"
@@ -9578,9 +9971,6 @@ msgstr "Преглед"
 msgid "Event details"
 msgstr "Подробности за събитието"
 
-msgid "Actions"
-msgstr "Действия"
-
 msgid "Download"
 msgstr "Сваляне"
 
@@ -9683,6 +10073,114 @@ msgstr "Нямате право да променяте контрола на д
 msgid "Check your billing status"
 msgstr "Проверка на състоянието на платежния план"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "Адрес за разглеждане на хранилището"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "Зареждане…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr "Повторен опит"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "Моля, прегледайте и потвърдете липсващите езикови промени."
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s низ се нуждае от действие"
+msgstr[1] "%(count)s низа се нуждаят от действие"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+msgid "Update preview"
+msgstr "Обновяване на прегледа"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "Избиране"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "Низ"
+
+msgid "Changes"
+msgstr "Промени"
+
+msgid "State"
+msgstr "Състояние"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "String state"
+#| msgid "Empty"
+msgid "Empty"
+msgstr "Празно"
+
+#, fuzzy
+#| msgid "Source flags — all languages"
+msgid "Source flags (all languages)"
+msgstr "Флагове за изходния низ — всички езици"
+
+msgid "Translation flags"
+msgstr "Флагове за превод"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "Всички езици"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "Всички езици"
+
+msgid "Apply"
+msgstr "Прилагане"
+
 msgid "Insights"
 msgstr "Подробности"
 
@@ -9701,9 +10199,6 @@ msgstr "Качване на превод"
 msgid "Operations"
 msgstr "Операции"
 
-msgid "Search and replace"
-msgstr "Търсене и замяна"
-
 msgid "Post announcement"
 msgstr "Публикуван е обявление"
 
@@ -9712,12 +10207,6 @@ msgstr "Организиране или премахване"
 
 msgid "Browse all changes for this language"
 msgstr "Преглед на всички промени по този език"
-
-msgid "Review changes"
-msgstr "Преглед на промените"
-
-msgid "Apply"
-msgstr "Прилагане"
 
 msgid "Browse components"
 msgstr "Разглеждане на компонентите"
@@ -10499,9 +10988,6 @@ msgstr "Няма нищо за предварителен преглед."
 msgid "Shortcut"
 msgstr "Комбинация"
 
-msgid "Action"
-msgstr "Действие"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Отваряне на наличните клавишни комбинации."
 
@@ -10646,6 +11132,9 @@ msgstr "Разрешаване"
 msgid "Mark as spam"
 msgstr "Отбелязване като спам"
 
+msgid "Service is no longer available"
+msgstr "Услугата вече не е достъпна"
+
 msgid "This service is installed site wide."
 msgstr "Тази услуга е инсталирана за целия уеб сайт."
 
@@ -10658,23 +11147,19 @@ msgstr "Тази услуга е инсталирана в работното п
 msgid "workspace"
 msgstr "работно пространство"
 
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limited"
+msgstr "Ограничение на езиците"
+
 msgid "This service is disabled."
 msgstr "Тази услуга е изключена."
-
-msgid "disabled"
-msgstr "изключено"
-
-msgid "Service is no longer available"
-msgstr "Услугата вече не е достъпна"
 
 msgid "ID"
 msgstr "Ид."
 
 msgid "Slug"
 msgstr "Кратко име"
-
-msgid "Installation slug (optional)"
-msgstr "Кратко име за инсталацията (незадължително)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10685,33 +11170,156 @@ msgstr ""
 "контекст, към външен доставчик. Прегледайте условията на доставчика, както и "
 "политиката за поверителност, преди да включите това."
 
-msgid "Configured translation services"
-msgstr "Настроени услуги за превод"
+#, fuzzy
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "Хоствана услуга"
 
-msgid "Stop using this installation without removing its configuration."
+#, fuzzy
+#| msgid "This service is already installed here."
+msgid "This service is managed at its installation scope."
+msgstr "Тази услуга вече е инсталирана тук."
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "Използване на този превод"
+
+msgid "Installation slug (optional)"
+msgstr "Кратко име за инсталацията (незадължително)"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "Тази добавка няма настройки."
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "Използване на автоматични предложения"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
 msgstr ""
-"Спиране на ползването на тази инсталация, без премахване на настройките ѝ."
+
+#, fuzzy
+#| msgid "You can edit this string at:"
+msgid "You can also select it using its slug:"
+msgstr "Можете да редактирате този текст тук:"
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Rate limit"
+msgstr "Ограничение на езиците"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "Ограничение на броя хранилища"
+
+#, fuzzy
+#| msgid "This scope already has 20 service installations."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Този обхват вече е има 20 инсталации на услуги."
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "Контрол на версиите"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "Идентификатор на инсталацията на Github"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "Изключване"
 
-msgid "Stop using this inherited installation here."
-msgstr "Спиране на ползването на тази наследена инсталация тук."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "Включване на машинния превод"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
+msgstr ""
 
 msgid "Enable"
 msgstr "Включване"
 
-msgid "Remove this installation and its configuration."
-msgstr "Премахване на тази инсталация и настройките ѝ."
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Exclude all inherited installations of this service"
+msgid "Exclude inherited service"
 msgstr "Изключване на всички наследени инсталации от тази услуга"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
+msgstr ""
 
 msgid "Exclude"
 msgstr "Изключване"
 
-msgid "Configure"
-msgstr "Настройване"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+msgid "Configured translation services"
+msgstr "Настроени услуги за превод"
 
 msgid "There are no services currently installed."
 msgstr "В момента няма инсталирани услуги."
@@ -10732,6 +11340,16 @@ msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
 "Някои услуги ще изискват допълнителна настройка по време на инсталацията."
+
+#, fuzzy
+#| msgid "Translation services"
+msgid "Translation service errors"
+msgstr "Услуги за превод"
+
+#, fuzzy
+#| msgid "No eTranslation domains available"
+msgid "No translation service errors available."
+msgstr "Няма налични домейн за преводи на eTranslation"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11768,9 +12386,6 @@ msgstr "Премахване на поканата"
 msgid "Check user access"
 msgstr "Проверка на достъпа на потребителя"
 
-msgid "Workspaces"
-msgstr "Работни пространства"
-
 msgid "Add workspace"
 msgstr "Добавяне на работно пространство"
 
@@ -11884,6 +12499,9 @@ msgstr "вкл"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "изкл"
+
+msgid "Configure"
+msgstr "Настройване"
 
 msgid "Autoclean translation memory"
 msgstr "Автоматично изчистване на паметта за преводи"
@@ -12092,22 +12710,6 @@ msgstr "Благодарим, че допринасяте с преводи."
 msgid "Donate to Weblate development"
 msgstr "Дарение за разработката на Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Моля, прегледайте и потвърдете резултатите от търсенето и замяната."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Показват се и се заменят само първите 250 съвпадения. Извършете замяната "
-"отново, за да я приложите върху още."
-
-msgid "Update preview"
-msgstr "Обновяване на прегледа"
-
-msgid "Replace"
-msgstr "Замяна"
-
 msgid "Generated by"
 msgstr "Създадено от"
 
@@ -12141,6 +12743,22 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Свързване на изходни низове"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "Свързани изходни низове"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "Приспособления с изображения"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "Предлага изходни низове, разпознавайки текста в тази екранна снимки."
+
+msgid "Add selected"
+msgstr "Добавяне на избраното"
+
 msgid "Source string search"
 msgstr "Търсене в изходни низове"
 
@@ -12154,15 +12772,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "Документация относно синтаксиса на заявките за търсене"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "Предлага изходни низове, разпознавайки текста в тази екранна снимки."
-
-msgid "Find strings in image"
-msgstr "Търсене на низове в изображение"
-
-msgid "Add selected"
-msgstr "Добавяне на избраното"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -12353,9 +12962,8 @@ msgstr "Избиране на всички низове на тази стран
 msgid "Select string for bulk edit"
 msgstr "Избиране на низ за масово редактиране"
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
-"Можете да промените състоянието на всички низове от определен тип наведнъж."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "Операцията се прилага към избраните низове в горния списък."
@@ -12471,9 +13079,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr "Копиране в превода"
 
-msgid "Select"
-msgstr "Избиране"
-
 msgid "Target string"
 msgstr "Целеви низ"
 
@@ -12521,7 +13126,6 @@ msgstr "Адресът на заявката за изтегляне е копи
 msgid "Last remote commit"
 msgstr "Последна отдалечена промяна"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "Промяна от %(author)s %(date)s"
@@ -12975,9 +13579,6 @@ msgstr "Низове на ключа/контекста"
 msgid "Location strings"
 msgstr "Низове на местоположението"
 
-msgid "String state"
-msgstr "Състояние на низа"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "Изчакващ низ"
@@ -13142,9 +13743,6 @@ msgstr "Настройка на работния процес на превод�
 
 msgid "Saved search name"
 msgstr "Име на запазеното търсене"
-
-msgid "Search query"
-msgstr "Заявка за търсене"
 
 msgid "No saved searches yet."
 msgstr "Все още няма запазени търсения."
@@ -13703,11 +14301,11 @@ msgid ""
 "that the token belongs to the intended account and can access the source "
 "branch. This mismatch might explain the failure."
 msgstr ""
-"Идентификаторът за ППИ на GitHub се идентифицира като <code>%"
-"(authenticated_user)s</code>, а заявката за изтегляне използва копирано "
-"хранилище, което е притежание на <code>%(username)s</code>. Проверете дали "
-"идентификаторът принадлежи на правилния акаунт и дали има достъп до изходния "
-"клон. Ако има разминаване, това може да обясни проблема."
+"Идентификаторът за ППИ на GitHub се идентифицира като "
+"<code>%(authenticated_user)s</code>, а заявката за изтегляне използва "
+"копирано хранилище, което е притежание на <code>%(username)s</code>. "
+"Проверете дали идентификаторът принадлежи на правилния акаунт и дали има "
+"достъп до изходния клон. Ако има разминаване, това може да обясни проблема."
 
 msgid ""
 "GitHub returned 404 when creating the pull request. This can indicate an "
@@ -14041,6 +14639,29 @@ msgstr ""
 "Weblate не може да анализира файловете за превод, докато преводите се "
 "обновяват."
 
+#, fuzzy
+#| msgid ""
+#| "Weblate pushed the changes and created the pull request, but could not "
+#| "merge it automatically."
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate изпрати промените и създаде заявката за изтегляне, но не успя да я "
+"слее автоматично."
+
+#, fuzzy
+#| msgid ""
+#| "Check that the repository allows auto-merge and the selected merge "
+#| "method, or turn off automatic merging in the version control parameters."
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"Проверете дали хранилището разрешава автоматични сливания, както и избрания "
+"метод на сливане, или изключете автоматичното сливане чрез параметрите в "
+"системата за контрол на версиите."
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate не може да изпрати промените към отдалеченото хранилище."
 
@@ -14185,9 +14806,6 @@ msgstr "Прескачане към дата"
 msgid "Go"
 msgstr "Напред"
 
-msgid "Changes"
-msgstr "Промени"
-
 msgid "Download latest changes as CSV"
 msgstr "Изтегляне на последните промени във формат CSV"
 
@@ -14255,9 +14873,6 @@ msgid ""
 msgstr ""
 "Създаване на нов компонент за превод за допълнителен клон на съществуващия "
 "компонент за превод."
-
-msgid "Retry"
-msgstr "Повторен опит"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -16389,6 +17004,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Заявката за изтегляне не може да бъде слята автоматично."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the pull request automatically."
+msgid "Could not customize the pull request."
+msgstr "Заявката за изтегляне не може да бъде слята автоматично."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Хранилището е остаряло."
 
@@ -16413,6 +17034,20 @@ msgstr "Апострофи във форматиране на Java MessageFormat
 
 msgid "Trailing and leading whitespace"
 msgstr "Интервал в началото и края"
+
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Автоматичният превод е завършен. Няма обновени низове."
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Автоматичният превод е завършен, обновен е %d низ."
+msgstr[1] "Автоматичният превод е завършен, обновени са %d низа."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Автоматичният превод е завършен. Няма обновени низове."
@@ -16488,6 +17123,9 @@ msgstr "Дублирано име на запазено търсене."
 msgid "Screenshot image is missing."
 msgstr "Липсва екранна снимка."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 msgid "Duplicate check name."
 msgstr "Дублирано име на проверка."
 
@@ -16499,6 +17137,11 @@ msgstr "Името на компонента не съответства на к
 
 msgid "Duplicate component slug."
 msgstr "Дублирано кратко име на компонент."
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "Рецензирането на преводи не е включено."
 
 msgid "Duplicate translation identifier."
 msgstr "Дублиран идентификатор на превода."
@@ -16560,8 +17203,49 @@ msgstr ""
 "Компонентът %(component)s беше пропуснат, тъй като свързаното с него "
 "хранилище не е налично."
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+"Компонентът %(component)s беше пропуснат, тъй като свързаното с него "
+"хранилище не е налично."
+
+msgid "Version control parameters"
+msgstr "Параметри за системата за контрол на версиите"
+
+msgid "File format parameters"
+msgstr "Параметри за формата на файла"
+
 msgid "The project repository directory already exists."
 msgstr "Папката на проекта в хранилището вече съществува."
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "Грешна заявка за търсене!"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "Грешна заявка."
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "Как да се процедира със заявките за създаване на нови преводи."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Компонентът в момента е заключен автоматично, поради предупреждение."
@@ -16682,9 +17366,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "Контрол на версиите"
-
-msgid "State"
-msgstr "Състояние"
 
 msgid "Severity"
 msgstr "Степен на сериозност"
@@ -17666,18 +18347,6 @@ msgstr "Неуспешно зареждане на резервно копие �
 msgid "Could not load project backup."
 msgstr "Неуспешно зареждане на резервно копие на проект: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "Допълнителен (незадължителен) филтър за низовете"
-
-msgid "Search string"
-msgstr "Търсене на"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "Отчитащ регистъра низ за търсене и замяна."
-
-msgid "Replacement string"
-msgstr "Замяна с"
-
 msgid "Key or context"
 msgstr "Ключ или контекст"
 
@@ -17735,37 +18404,112 @@ msgstr "В момента нямате право да създавате тер
 msgid "Invalid string selection!"
 msgstr "Неправилен избор на низ!"
 
+msgid "Search type"
+msgstr "Вид на търсенето"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Search string"
+msgstr "Търсене на"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "Замяна с"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr "Задаване на състояние"
 
 msgid "Do not change"
 msgstr "Да не се променя"
 
-msgid "Source flags to add — all languages"
-msgstr "Флагове към изходния текст за добавяне — всички езици"
+#, fuzzy
+#| msgid "Edit flags"
+msgid "Add flags"
+msgstr "Редактиране на флаговете"
 
-msgid "Source flags to remove — all languages"
-msgstr "Флагове към изходния текст за премахване — всички езици"
+#, fuzzy
+#| msgid "Remove app"
+msgid "Remove flags"
+msgstr "Премахване на приложението"
 
-msgid "Translation flags to add — matching translations"
-msgstr "Файлове за превода, които да се добавят — съответстващи преводи"
-
-msgid "Applies only to matching translations, excluding source strings."
-msgstr ""
-"Прилага се само към съответстващите преводи, изключвайки изходните низове."
-
-msgid "Translation flags to remove — matching translations"
-msgstr "Флагове за превода, които да се премахнат — съответстващи преводи"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+#, fuzzy
+#| msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 "Изтрива локално зададените флагове. Наследените флагове остават в сила."
 
-msgid "Labels to add — all languages"
-msgstr "Етикети за добавяне — всички езици"
+#, fuzzy
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "Добавяне на етикет"
 
-msgid "Labels to remove — all languages"
-msgstr "Етикети за премахване — всички езици"
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "Премахване на дубликатите"
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview changes"
+msgstr "Преглед на промените"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "Компонент за премахване"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "Изходен език"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr ""
+"Прилага се само към съответстващите преводи, изключвайки изходните низове."
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr "Изберете низ за редактиране или въведете заявка за търсене."
@@ -18029,9 +18773,6 @@ msgstr "Име на категорията"
 
 msgid "Display name"
 msgstr "Показвано име"
-
-msgid "Translation flags"
-msgstr "Флагове за превод"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -18347,9 +19088,6 @@ msgstr ""
 "хранилище с преводи. Можете да изберете и допълнителна интеграция с трета "
 "страна, за изпращане на заявки за изтегляне/сливане."
 
-msgid "Version control parameters"
-msgstr "Параметри за системата за контрол на версиите"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -18479,9 +19217,6 @@ msgid ""
 msgstr ""
 "Име на файл, който да се използва при създаването на нови преводи. За "
 "„gettext“ изберете файл с разширение „.pot“."
-
-msgid "File format parameters"
-msgstr "Параметри за формата на файла"
 
 msgid "Locked component will not get any translation updates."
 msgstr "Заключените компоненти не получават обновления на преводите."
@@ -20309,18 +21044,6 @@ msgstr "Включени потребителски дни"
 msgid "Excluded user days"
 msgstr "Изключено потребителски дни"
 
-msgid "Could not process form!"
-msgstr "Грешка при обработката на формуляра!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "Търсенето и замяната приключи. Няма обновени низове."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Търсенето и замяната приключи, обновен е %d низ."
-msgstr[1] "Търсенето и замяната приключи, обновени са %d низа."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Търсене на %s"
@@ -20331,6 +21054,17 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr "Грешна заявка за търсене!"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "Грешка при обработката на формуляра!"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "Удостоверяването беше неуспешно: (%s)"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Масовото редактиране приключи. Няма обновени низове."
@@ -20488,6 +21222,139 @@ msgid "Invalid host name given!"
 msgstr "Въведеното име на хост е грешно!"
 
 #, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "Изразите на JDX в превода не съвпадат с тези в изходния низ."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+#, fuzzy
+#| msgid "Saved searches are offered in the search filters."
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr "Запазените търсения се предлагат във филтрите за търсене.."
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Използвайте флагове, за да обозначите специалните низове в превода си."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "An obsolete translation suggestion was removed during cleanup."
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Премахнато е остаряла предложение за превод при почистване."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+#, fuzzy
+#| msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+"Проверката или оценката на CEL беше неуспешна или превиши ограничението на "
+"ресурсите."
+
+#, fuzzy
+#| msgid "The API request rate limit was exceeded."
+msgid "Cumulative regex time limit exceeded."
+msgstr "Превишено е ограничението за честота на заявките къп ППИ."
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "Регулярен израз, с който да се проверяват файловете за превод"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Topic prefix must not exceed %(limit)d characters."
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "Представката на темата може да бъде не по-дълга от %(limit)d знака."
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Неправилен регулярен израз: {}"
+
+#, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "Източник за автоматичен превод"
@@ -20499,6 +21366,11 @@ msgstr "Автоматичният превод е пропуснат, тъй к
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported an error."
+msgstr "Източник за автоматичен превод"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -20654,6 +21526,11 @@ msgstr "Домейнът на адреса не може да бъде разп�
 msgid "Could not resolve the URL domain."
 msgstr "Домейнът на адреса не може да бъде разпознат."
 
+#, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "Неправилни параметри!"
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 "Параметрите трябва да бъдат зададени като списък от двойки ключ–стойност."
@@ -20678,6 +21555,11 @@ msgid ""
 msgstr ""
 "Файлът не може да бъде свалено от посочения адрес (Код на грешката на HTTP: "
 "%(code)s)."
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Regular expression is too complex."
+msgstr "Заявката за търсене е твърде сложна."
 
 msgid "Search query is too complex."
 msgstr "Заявката за търсене е твърде сложна."
@@ -20707,6 +21589,12 @@ msgstr "Неправилен регулярен израз: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Неподдържан начин на търсене за {field}: {value}"
 
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "A concrete project or component is required."
+msgstr ""
+"Въведете идентификатор на компонент или кратко име на проект/компонент."
+
 msgid "Could not parse IP address: {}"
 msgstr "IP адресът не може да бъде анализиран: {}"
 
@@ -20718,6 +21606,11 @@ msgstr "Диапазонът не се поддържа за полето {}"
 
 msgid "Mixed operators!"
 msgstr "Смесване на оператори!"
+
+#, fuzzy
+#| msgid "Search query is too complex."
+msgid "Search query is too long."
+msgstr "Заявката за търсене е твърде сложна."
 
 msgid "Invalid character in the query string"
 msgstr "Неправилен знак в низа за търсене"
@@ -21108,6 +22001,52 @@ msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr ""
 "Получаването на списък със заявките за изтегляне беше неуспешно: %(error)s "
 "Моля, опитайте отново по-късно."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне: %(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне: %(status)s Моля, опитайте отново по-късно."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне (%(status)s ): %(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне (%(status)s): %(error)s Моля, опитайте отново по-късно."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -21514,6 +22453,34 @@ msgstr ""
 "Отваряне на заявка за изтегляне или сливане за промените по преводите. "
 "Когато това е изключено, Weblate изпраща директно към преведения клон, което "
 "изисква достъп за писане в него."
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request assignee"
+msgstr "Заявка за изтегляне"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge pull requests automatically"
+msgid "Assign pull requests to acting user"
+msgstr "Автоматично сливане на заявките за изтегляне"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pull request"
+msgid "Pull request labels"
+msgstr "Заявка за изтегляне"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
 
 msgid "Merge pull requests automatically"
 msgstr "Автоматично сливане на заявките за изтегляне"
@@ -22091,6 +23058,25 @@ msgstr "Наследени стандартни настройки на комп
 msgid "Workspace name"
 msgstr "Име на работното пространство"
 
+#, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "Разрешаване на разпространението на превода"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr ""
+"Не могат да бъдат променяни компонентите на екип в работно пространство."
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr ""
+"Дали съществуващите преводи да бъдат заменени, ако низът е вече преведен."
+
 msgid "Managed name"
 msgstr "Управлявано име"
 
@@ -22124,6 +23110,73 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "Работното пространство е премахнато."
+
+#~ msgid "Search and replace"
+#~ msgstr "Търсене и замяна"
+
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr ""
+#~ "Спиране на ползването на тази инсталация, без премахване на настройките ѝ."
+
+#~ msgid "Stop using this inherited installation here."
+#~ msgstr "Спиране на ползването на тази наследена инсталация тук."
+
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Премахване на тази инсталация и настройките ѝ."
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Моля, прегледайте и потвърдете резултатите от търсенето и замяната."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Показват се и се заменят само първите 250 съвпадения. Извършете замяната "
+#~ "отново, за да я приложите върху още."
+
+#~ msgid "Replace"
+#~ msgstr "Замяна"
+
+#~ msgid "Find strings in image"
+#~ msgstr "Търсене на низове в изображение"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "Можете да промените състоянието на всички низове от определен тип "
+#~ "наведнъж."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "Допълнителен (незадължителен) филтър за низовете"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "Отчитащ регистъра низ за търсене и замяна."
+
+#~ msgid "Source flags to add — all languages"
+#~ msgstr "Флагове към изходния текст за добавяне — всички езици"
+
+#~ msgid "Source flags to remove — all languages"
+#~ msgstr "Флагове към изходния текст за премахване — всички езици"
+
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Файлове за превода, които да се добавят — съответстващи преводи"
+
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Флагове за превода, които да се премахнат — съответстващи преводи"
+
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Етикети за добавяне — всички езици"
+
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Етикети за премахване — всички езици"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "Търсенето и замяната приключи. Няма обновени низове."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "Търсенето и замяната приключи, обновен е %d низ."
+#~ msgstr[1] "Търсенето и замяната приключи, обновени са %d низа."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr ""
@@ -22296,10 +23349,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgstr ""
 #~ "Удостоверяването е неуспешно, поради изтекъл идентификатор или проблем с "
 #~ "връзката."
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Удостоверяването беше неуспешно: (%s)"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "Доставчикът за удостоверяване не е достъпен."
@@ -22639,9 +23688,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgid "Repository URL"
 #~ msgstr "Адрес на хранилището"
 
-#~ msgid "Repository name"
-#~ msgstr "Име на хранилището"
-
 #~ msgid "Configure component"
 #~ msgstr "Настройка на компонента"
 
@@ -22938,9 +23984,6 @@ msgstr "Работното пространство е премахнато."
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "Осигурете контекст за преводачите"
-
-#~ msgid "Workflow customization"
-#~ msgstr "Настройка на работния процес"
 
 #~ msgid "Add team"
 #~ msgstr "Добавяне на екип"
@@ -23499,9 +24542,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Изключване на двустепенното удостоверяване"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Рецензирането на преводи не е включено."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Рецензирането не е включено."
 
@@ -23674,9 +24714,6 @@ msgstr "Работното пространство е премахнато."
 
 #~ msgid "Rename component"
 #~ msgstr "Преименуване на компонента"
-
-#~ msgid "Move component"
-#~ msgstr "Преместване на компонента"
 
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "Преместването на компонента ще промени и уеб адресите му."
@@ -24140,9 +25177,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgid "source"
 #~ msgstr "изходен низ"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "Неправилни параметри!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "Низове без превод"
 
@@ -24151,12 +25185,6 @@ msgstr "Работното пространство е премахнато."
 
 #~ msgid "Strings needing action"
 #~ msgstr "Низове, нуждаещи се от действие"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s низ се нуждае от действие"
-#~ msgstr[1] "%(count)s низа се нуждаят от действие"
 
 #~ msgid "Strings needing action without suggestions"
 #~ msgstr "Низове, нуждаещи се от действие без предложения"
@@ -24627,9 +25655,6 @@ msgstr "Работното пространство е премахнато."
 
 #~ msgid "Use this translation for all components"
 #~ msgstr "Използване на този превод за всички компоненти"
-
-#~ msgid "Use this translation"
-#~ msgstr "Използване на този превод"
 
 #~ msgid "Change compared to this translation:"
 #~ msgstr "Промяна спрямо този превод:"
@@ -25291,9 +26316,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgid "Your languages"
 #~ msgstr "Вашите езици"
 
-#~ msgid "Search type"
-#~ msgstr "Вид на търсенето"
-
 #~ msgid "Fulltext"
 #~ msgstr "Целия текст"
 
@@ -25332,9 +26354,6 @@ msgstr "Работното пространство е премахнато."
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
-
-#~ msgid "Repositories limit"
-#~ msgstr "Ограничение на броя хранилища"
 
 #, fuzzy
 #~| msgid "Active"
@@ -25514,9 +26533,6 @@ msgstr "Работното пространство е премахнато."
 #~| msgid "User"
 #~ msgid "User:"
 #~ msgstr "Потребител"
-
-#~ msgid "You can edit this string at:"
-#~ msgstr "Можете да редактирате този текст тук:"
 
 #~ msgid "You can translate at %(translation_url)s"
 #~ msgstr "Можете де превеждате тук: %(translation_url)s"
@@ -27360,9 +28376,6 @@ msgstr "Работното пространство е премахнато."
 
 #~ msgid "End date"
 #~ msgstr "Крайна дата"
-
-#~ msgid "Text"
-#~ msgstr "Текст"
 
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr ""
