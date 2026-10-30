@@ -47,7 +47,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-30 05:01+0100\n"
-"PO-Revision-Date: 2026-10-30 07:48+0000\n"
+"PO-Revision-Date: 2026-10-30 09:22+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1313,7 +1313,7 @@ msgstr ""
 
 msgid ""
 "Direct automatic-translation actions use the acting user's component access."
-msgstr "直接自动翻译操作使用代为采取操作的用户的部件权限。"
+msgstr "直接自动翻译操作使用采取操作的用户的部件权限。"
 
 msgid ""
 "A saved automatic-translation add-on uses its persistent administrative "
@@ -3378,7 +3378,7 @@ msgid ""
 msgstr ""
 
 msgid "change"
-msgstr "更改"
+msgstr "更改/变更"
 
 msgid ""
 "List of (Event name from :ref:`change-actions`); minimum items 1; unique "
@@ -18805,12 +18805,6 @@ msgstr "控制是否添加此部件的译文到项目的翻译记忆库。"
 msgid "Allow translation propagation"
 msgstr "允许译文传播"
 
-#, fuzzy
-#| msgid ""
-#| "You can turn off propagation of translations to this component from other "
-#| "components within same project. This really depends on what you are "
-#| "translating, sometimes it's desirable to have make use of a translation "
-#| "more than once."
 msgid ""
 "You can turn off propagation of translations to this component from other "
 "components within the configured :ref:`workspace propagation scope "
@@ -18818,8 +18812,9 @@ msgid ""
 "same project. This depends on what you are translating; sometimes it is "
 "desirable to reuse a translation more than once."
 msgstr ""
-"您可以关闭项目内从其他部件到这个部件的翻译的传播。这实际上取决于您要翻译的内"
-"容，有时最好能多次使用同一个翻译。"
+"你可以关闭将翻译从已配置的 :ref:`工作空间传播作用域 <workspace-propagation-"
+"scope>` 内的其他部件传播到这个部件。默认情况下，传播在同一项目内进行。者取决"
+"于你正在翻译什么；有时多次重用一个翻译是有好处的。"
 
 msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
@@ -20146,19 +20141,6 @@ msgstr ""
 msgid "Managing screenshots in the UI"
 msgstr "在用户界面中管理屏幕截图"
 
-#, fuzzy
-#| msgid ""
-#| "Each screenshot is stored for a specific translation language. In the "
-#| "translate page, screenshots attached to the source language are shown for "
-#| "every translation of the string, while screenshots attached to any other "
-#| "language are shown only for that language. You can add a screenshot "
-#| "directly from the translate page using :guilabel:`Upload screenshot` in "
-#| "the :guilabel:`Screenshots` panel, or open the separate management "
-#| "interface under the :guilabel:`Operations` menu. There you can upload "
-#| "screenshots, assign them to source strings manually, or let Weblate find "
-#| "strings in the image using text recognition (OCR) with "
-#| "the :guilabel:`Find strings in image` button. Matching source strings can "
-#| "be assigned individually, in a selected batch, or all at once."
 msgid ""
 "Each screenshot is stored for a specific translation language. In the "
 "translate page, screenshots attached to the source language are shown for "
@@ -20178,9 +20160,11 @@ msgstr ""
 "附加到源语言的屏幕截图，而附加到任何其他语言的屏幕截图均只在那种语言中显示。"
 "可以用 :guilabel:`屏幕截图` 面板中 :guilabel:`上传屏幕截图` 直接从翻译页面添"
 "加屏幕截图，或者在 :guilabel:`操作` 菜单下打开单独的管理界面。你可以在那里上"
-"传屏幕截图，手动将它们分配给源字符串，或者通过 :guilabel:`在图片中寻找字符串"
-"` 按钮让 Weblate 用文本识别（OCR）在图片中寻找字符串。可逐一分配匹配的字符串"
-"（按所选批次分配或一次性分配完）。"
+"传屏幕截图，手动将它们分配给源字符串，或者通过 :guilabel:`在图片中寻找字符"
+"串` 按钮让 Weblate 用光学字符识别（OCR）在图片中寻找字符串。添加或替换屏幕截"
+"图时，识别在后台运行。打开 :guilabel:`图片文本`选项卡来审核建议的源字符串。如"
+"识别仍在运行，当结果就绪时列表会自动更新。使用 :guilabel:`搜索` 来手动寻找源"
+"字符串。"
 
 msgid ""
 "Recognized text is cached and refreshed when the image or recognition "
@@ -20716,33 +20700,20 @@ msgid ""
 "Verbose workspace name used in workspace listings and project organization."
 msgstr "详细的工作区名称，用于工作区列举和项目组织中。"
 
-#, fuzzy
-#| msgid "Translation propagation"
 msgid "Translation propagation scope"
-msgstr "译文传播"
+msgstr "翻译传播范围"
 
-#, fuzzy
-#| msgid ""
-#| "Enable :ref:`component-allow_translation_propagation` to automatically "
-#| "reuse translations for matching strings."
 msgid ""
 "Select where :ref:`translation-propagation` shares translations of matching "
 "strings:"
-msgstr ""
-"开启 :ref:`component-allow_translation_propagation` 自动地为匹配的字符串重用"
-"译文。"
+msgstr "选择 :ref:`translation-propagation` 在哪里共享匹配字符串的译文："
 
-#, fuzzy
-#| msgid ""
-#| "Projects define defaults for categories and components in the project."
 msgid ":guilabel:`Project` (default): components within the same project."
-msgstr "项目定义项目中类别和部件的默认值。"
+msgstr ":guilabel:`项目` (默认)：同一个项目内的组件。"
 
-#, fuzzy
-#| msgid "Workspaces define defaults for projects in the workspace."
 msgid ""
 ":guilabel:`Workspace`: components across all projects in this workspace."
-msgstr "工作区定义工作区中项目的默认值。"
+msgstr ":guilabel:`工作区`：这个工作空间内所有项目的部件。"
 
 msgid ""
 ":guilabel:`Matching component name within workspace`: components with the "
@@ -21660,14 +21631,10 @@ msgid ""
 "use on large components or dense images."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Prevented automatic translation from bypassing per-string edit "
-#| "permissions."
 msgid ""
 "Prevented translation reverts from approving strings without review "
 "permission."
-msgstr "防止自动翻译绕过每字符串编辑权限。"
+msgstr "防止翻译撤销在没有审核权限情况下批准字符串。"
 
 msgid ""
 "Require recent :ref:`two-factor verification <2fa>` before revealing "
@@ -21675,14 +21642,10 @@ msgid ""
 "tokens."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Prevented automatic translation from bypassing per-string edit "
-#| "permissions."
 msgid ""
 "Prevented translation merges from approving strings without review "
 "permission."
-msgstr "防止自动翻译绕过每字符串编辑权限。"
+msgstr "防止翻译合并在没有审核权限情况下批准字符串。"
 
 msgid ""
 "Prevented translation and Zen pages, conflict alert history, and single-"
@@ -21714,19 +21677,13 @@ msgid ""
 "<check-angularjs-format>` processes unterminated expressions."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "The :ref:`automatic translation add-on <addon-"
-#| "weblate.autotranslate.autotranslate>` can create approved strings, "
-#| "falling back to translated strings when reviews are disabled for the "
-#| "target language."
 msgid ""
 "Prevented the :ref:`automatic translation add-on <addon-"
 "weblate.autotranslate.autotranslate>` from exposing restricted source "
 "component IDs in change history."
 msgstr ""
-":ref:`自动翻译附加组件 <addon-weblate.autotranslate.autotranslate>` 可创建已"
-"批准的字符串，在目标语言禁用审核时退回已翻译的字符串。"
+"阻止了 :ref:`自动翻译附加组件 <addon-weblate.autotranslate.autotranslate>` 在"
+"更改历史中暴露受限的原文部件 ID。"
 
 msgid ""
 "Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-"
@@ -21764,17 +21721,13 @@ msgid ""
 "prevent excessive CPU use from complex queries."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with "
-#| "inherited licenses and other inherited settings."
 msgid ""
 "Bounded :ref:`component discovery preset <addon-"
 "weblate.discovery.discovery>` detection work for repositories with many "
 "translation layouts."
 msgstr ""
-"修复了 :ref:`部件发现 <addon-weblate.discovery.discovery>` 继承的许可证和其他"
-"继承的设置的问题。"
+"对于有很多翻译布局的仓库划定了 :ref:`部件发现预设 <addon-"
+"weblate.discovery.discovery>` 检测工作的边界。"
 
 msgid ""
 "Prevented spreadsheet formulas, including those hidden behind Unicode "
@@ -21796,14 +21749,10 @@ msgid ""
 "and language-scoped download permissions."
 msgstr "防止聚合翻译存档绕过受限部件和语言范围下载权限。"
 
-#, fuzzy
-#| msgid ""
-#| "Prevented restricted glossary components from exposing terms through "
-#| "other components and translation services."
 msgid ""
 "Prevented automatic suggestions from exposing private project or restricted "
 "component translations through a shared cache."
-msgstr "防止受限术语表部件通过其他部件和翻译服务暴露术语。"
+msgstr "防止自动建议通过共享缓存暴露私密项目或受限部件的翻译。"
 
 msgid "Fixed role permission revocation through partial API updates."
 msgstr ""
@@ -36684,7 +36633,7 @@ msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr "查阅 :ref:`internals` 来看看 Weblate 内部是什么样子的。"
 
 msgid "Recording acting users"
-msgstr "记录代为操作的用户"
+msgstr "记录操作的用户"
 
 msgid ""
 "Use ``acting_user_context(user)`` from ``weblate.utils.change_origin`` "
@@ -49197,10 +49146,8 @@ msgid ""
 "custom Python add-ons retain their separate trust model. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "Regular expression variant"
 msgid "Bulk regular expression replacement"
-msgstr "正则表达式变量"
+msgstr "批量正则表达式替换"
 
 msgid ""
 "Users with bulk-edit permissions and add-on managers supply replacement "
@@ -52197,10 +52144,8 @@ msgstr ""
 msgid "Component discovery"
 msgstr "部件发现"
 
-#, fuzzy
-#| msgid "File encoding"
 msgid "**File matching**"
-msgstr "文件编码"
+msgstr "**文件替换**"
 
 msgid ""
 "The regular expression must define a named group for component. Also define "
@@ -52258,10 +52203,8 @@ msgstr ""
 "作文件掩码。包含一个语言通配符和 {{ component }}，比如 locale/*/"
 "{{ component }}.po 或 docs/{{ component }}_*.md。"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "**Component lifecycle**"
-msgstr "锁定了部件"
+msgstr "**部件生命周期**"
 
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "将主部件的附加组件克隆到新创建的部件"
@@ -52515,10 +52458,8 @@ msgstr ""
 msgid "Fedora Messaging"
 msgstr "Fedora Messaging"
 
-#, fuzzy
-#| msgid "**User interaction**"
 msgid "**Broker connection**"
-msgstr "**用户交互**"
+msgstr "**Broker 连接**"
 
 msgid "AMQP broker URL"
 msgstr "AMQP 代理 URL"
@@ -52553,10 +52494,8 @@ msgstr "重试延迟时间"
 msgid "How many seconds to wait between connection attempts."
 msgstr "两次连接尝试间相隔的秒数。"
 
-#, fuzzy
-#| msgid "Docker credentials"
 msgid "**TLS credentials**"
-msgstr "Docker 凭证"
+msgstr "**TLS 凭据**"
 
 msgid "CA certificate bundle (PEM)"
 msgstr "CA 证书 bundle (PEM)"
@@ -52586,10 +52525,8 @@ msgstr ""
 "只粘贴以 \"-----BEGIN CERTIFICATE-----\" 开头的 PEM 证书块；不粘贴来自 "
 "\"openssl x509 -text\" 的输出。"
 
-#, fuzzy
-#| msgid "Project selection"
 msgid "**Event selection**"
-msgstr "项目选择"
+msgstr "**事件选择**"
 
 msgid ""
 "Choose which change events should trigger this add-on. :ref:`addon-choice-"
@@ -52742,72 +52679,54 @@ msgstr "需要编辑（需要重写）"
 msgid "Needs editing (Needs checking)"
 msgstr "需要编辑（需要检查）"
 
-#, fuzzy
-#| msgid "**source**"
 msgid "**Source flags**"
-msgstr "**source**"
+msgstr "**原文标记**"
 
 msgid ""
 "Flags are set on the source strings corresponding to your filter results and "
 "apply to their translations in every language."
 msgstr ""
 
-#, fuzzy
-#| msgid "``add_flags``"
 msgid "Add flags"
-msgstr "``add_flags``"
+msgstr "添加标记"
 
-#, fuzzy
-#| msgid "``remove_flags``"
 msgid "Remove flags"
-msgstr "``remove_flags``"
+msgstr "删除标记"
 
-#, fuzzy
-#| msgid "Translation flags"
 msgid "**Translation flags**"
-msgstr "翻译标记"
+msgstr "**译文标记**"
 
 msgid ""
 "Flags apply only to translations matching your filter. Source strings are "
 "excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "Removes locally set flags. Inherited flags remain in effect."
 msgid ""
 "Only flags set directly on these translations are removed. Inherited flags "
 "remain in effect."
-msgstr "移除本地设置的标记。继承的标记仍然有效。"
+msgstr "只删除直接设定在这些译文上的标记，继承的标记仍有效。"
 
-#, fuzzy
-#| msgid "Labels"
 msgid "**Labels**"
-msgstr "标签"
+msgstr "**标签**"
 
 msgid ""
 "Labels apply to the source strings corresponding to your filter results and "
 "are shared across all languages."
 msgstr ""
 
-#, fuzzy
-#| msgid "``add_labels``"
 msgid "Add labels"
-msgstr "``add_labels``"
+msgstr "添加标签"
 
-#, fuzzy
-#| msgid "``remove_labels``"
 msgid "Remove labels"
-msgstr "``remove_labels``"
+msgstr "删除标签"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
 msgstr ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
 
-#, fuzzy
-#| msgid "Bulk edit flags, labels, or states of strings."
 msgid "Bulk edit text, flags, labels, or states of strings."
-msgstr "批量编辑标记、标签或字符串状态。"
+msgstr "批量编辑文本、标记或字符串状态。"
 
 msgid ""
 "Uses the operations described in :ref:`bulk-edit`, including literal or "
@@ -52822,10 +52741,8 @@ msgstr "自动给新字符串添加标签"
 msgid "Search query"
 msgstr "搜索查询"
 
-#, fuzzy
-#| msgid "Flags and labels"
 msgid "Labels: Add labels"
-msgstr "标记和标签"
+msgstr "标记：添加标签"
 
 msgid "*recent*"
 msgstr "*近期*"
@@ -52833,10 +52750,8 @@ msgstr "*近期*"
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr "将 :ref:`appstore` 所有更新日志字符串标记为只读"
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags: Add flags"
-msgstr "要添加的翻译标记"
+msgstr "译文标签：添加标记"
 
 msgid "Marking certain strings read-only"
 msgstr "将特定字符串标记为只读"
@@ -53037,10 +52952,8 @@ msgstr ""
 msgid "Pseudolocale generation"
 msgstr "假语言环境（Pseudolocale）生成"
 
-#, fuzzy
-#| msgid "**source\\_language**"
 msgid "**Source and target**"
-msgstr "**source\\_language**"
+msgstr "**源和目标**"
 
 msgid "Source strings"
 msgstr "源字符串"
@@ -53054,10 +52967,8 @@ msgstr "目标译文"
 msgid "All strings in this translation will be overwritten"
 msgstr "此翻译中的所有字符串都将被覆盖"
 
-#, fuzzy
-#| msgid "Prepended static text"
 msgid "**Prepended text**"
-msgstr "前置静态文本"
+msgstr "**前置文本**"
 
 msgid "Prepended static text"
 msgstr "前置静态文本"
@@ -53065,10 +52976,8 @@ msgstr "前置静态文本"
 msgid "Prepended variable text"
 msgstr "前置变量文本"
 
-#, fuzzy
-#| msgid "Appended static text"
 msgid "**Appended text**"
-msgstr "后置静态文本"
+msgstr "**后置文本**"
 
 msgid "Appended static text"
 msgstr "后置静态文本"
@@ -53076,10 +52985,8 @@ msgstr "后置静态文本"
 msgid "Appended variable text"
 msgstr "后置变量文本"
 
-#, fuzzy
-#| msgid "**Repudiation**"
 msgid "**Text expansion**"
-msgstr "**否认**"
+msgstr "**文本扩展**"
 
 msgid "Variable text multiplier"
 msgstr "变量文本乘数"
@@ -53264,10 +53171,8 @@ msgstr "更新 POT 文件（Meson）"
 msgid "**Update behavior**"
 msgstr ""
 
-#, fuzzy
-#| msgid "Meson preset"
 msgid "**Meson preset**"
-msgstr "Meson 预设"
+msgstr "**Meson 预设**"
 
 msgid "Meson preset"
 msgstr "Meson 预设"
@@ -53283,10 +53188,8 @@ msgstr ""
 msgid "GLib"
 msgstr "GLib"
 
-#, fuzzy
-#| msgid "**User interaction**"
 msgid "**Comment extraction**"
-msgstr "**用户交互**"
+msgstr "**注释提取**"
 
 msgid "Code comments"
 msgstr "代码注释"
@@ -53519,10 +53422,8 @@ msgstr ""
 msgid "Update POT file (xgettext)"
 msgstr "更新 POT 文件（xgettext）"
 
-#, fuzzy
-#| msgid "**profile**"
 msgid "**Input files**"
-msgstr "**profile**"
+msgstr "**输入文件**"
 
 msgid "Input source"
 msgstr "输入源"
@@ -55649,14 +55550,10 @@ msgstr ""
 msgid "Inconsistent"
 msgstr "不一致的"
 
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is "
-#| "untranslated in some components."
 msgid ""
 "This string has more than one translation in its propagation group or is "
 "untranslated in some components."
-msgstr "此字符串在此项目中有不止一种译文，或者在某些部件中未翻译。"
+msgstr "此字符串在传播组中有不止一种译文，或者在某些部件中未翻译。"
 
 msgid ""
 "Weblate checks translations of the same string across all translation within "
@@ -59144,30 +59041,22 @@ msgstr ""
 msgid "merge_request_assign_acting_user"
 msgstr ""
 
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Assign pull requests to acting user"
-msgstr "修复了在 Pagure 上创建拉取请求的问题。"
+msgstr "分配拉取请求到操作用户"
 
 msgid ""
 "Also assign the GitHub account linked to the Weblate user who starts the "
 "push, when available."
 msgstr ""
 
-#, fuzzy
-#| msgid "create_merge_request"
 msgid "merge_request_assignee"
-msgstr "create_merge_request"
+msgstr "merge_request_assignee"
 
-#, fuzzy
-#| msgid "Fixed pull request message title."
 msgid "Pull request assignee"
-msgstr "修复了拉取请求说明标题的问题。"
+msgstr "分配到拉取请求任务的用户"
 
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid "GitHub username to assign to pull requests created by Weblate."
-msgstr "GitHub 用户名，用于发送翻译更新的拉取请求。"
+msgstr "GitHub 用户名，分配给 Weblate 创建的拉取请求。"
 
 msgid "merge_request_automerge"
 msgstr ""
@@ -59183,15 +59072,11 @@ msgstr ""
 "为Weblate 创建的拉取请求打开 GitHub 自动合并以便通过必需检查后就合并它们。没"
 "有等待项的拉取请求会马上合并。"
 
-#, fuzzy
-#| msgid "create_merge_request"
 msgid "merge_request_labels"
-msgstr "create_merge_request"
+msgstr "merge_request_labels"
 
-#, fuzzy
-#| msgid "Gitea pull requests"
 msgid "Pull request labels"
-msgstr "Gitea 拉取请求"
+msgstr "拉取请求标签"
 
 msgid ""
 "Comma-separated names of labels to add to pull requests created by Weblate. "
@@ -62299,11 +62184,6 @@ msgid ""
 "or fix matching translations, with literal text or regular expressions."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Bulk editing allows performing one operation for multiple strings. Define "
-#| "strings by searching for them and actions to perform on matching ones. "
-#| "Supported operations:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. Flag "
@@ -62312,7 +62192,9 @@ msgid ""
 "flag group. Supported operations:"
 msgstr ""
 "批量编辑允许对多条字符串执行一个操作。您可以通过搜索字符串来定义字符串，并为"
-"匹配字符串设置要执行的操作。支持以下操作："
+"匹配字符串设置要执行的操作。根据标记和标签更改影响什么将这些更改分组，每个标"
+"记组有单独的 :guilabel:`添加标记` 和 :guilabel:`删除标记` 字段。支持的操作有"
+"："
 
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr "更改字符串状态（例如，批准所有未审核的字符串）。"
