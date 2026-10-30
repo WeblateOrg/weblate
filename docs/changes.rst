@@ -53,6 +53,7 @@ Weblate 2026.11
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
 * Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
 * Grouped related settings in :ref:`add-on configuration <addons>` and its generated documentation.
+* Reduced database expression overhead when updating :ref:`translation-memory` entry statuses.
 
 * Clarified :ref:`bulk-edit` by grouping flags and labels by scope and separating add and remove actions.
 
