@@ -1345,6 +1345,8 @@ class DefiningWorkspaceField(serializers.PrimaryKeyRelatedField):
 
 class RoleSerializer(serializers.ModelSerializer[Role]):
     permissions = PermissionSerializer(many=True)
+    is_builtin = serializers.BooleanField(read_only=True)
+    is_customized = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Role
@@ -1353,10 +1355,18 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
             "name",
             "permissions",
             "url",
+            "is_builtin",
+            "is_customized",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:role-detail", "lookup_field": "id"},
         }
+
+    def validate_name(self, value):
+        if self.instance and self.instance.is_builtin and value != self.instance.name:
+            msg = "Built-in roles cannot be renamed."
+            raise serializers.ValidationError(msg)
+        return value
 
     def create(self, validated_data):
         permissions_validated = validated_data.pop("permissions", [])

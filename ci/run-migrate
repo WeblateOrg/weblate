@@ -102,6 +102,14 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Seed built-in role identity and custom roles before editable role synchronization.
+semver_compare "$1" "<" "2026.11"
+editable_roles_migrate=$?
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-editable-roles.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -349,5 +357,10 @@ if [ "$machinery_installations_migrate" -eq 0 ]; then
 fi
 if [ "$screenshot_extensions_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-screenshot-extensions.py"
+    check
+fi
+
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-editable-roles.py"
     check
 fi

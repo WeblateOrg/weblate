@@ -4612,6 +4612,23 @@ class ComponentCopyTest(APITestCase):
 
 
 class RoleAPITest(APIBaseTest):
+    def test_list_prefetches_permissions(self) -> None:
+        self.authenticate(True)
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("api:role-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["count"], len(ROLES))
+        permission_queries = [
+            query
+            for query in queries.captured_queries
+            if 'FROM "weblate_auth_permission"' in query["sql"]
+        ]
+        self.assertEqual(len(permission_queries), 1)
+        self.assertTrue(all(role["is_builtin"] for role in response.data["results"]))
+        self.assertFalse(
+            any(role["is_customized"] for role in response.data["results"])
+        )
+
     def test_list_roles(self) -> None:
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 2)
@@ -4661,66 +4678,74 @@ class RoleAPITest(APIBaseTest):
         self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
     def test_delete(self) -> None:
+        custom = Role.objects.create(name="Test deletion")
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.all()[0].pk},
+            kwargs={"id": custom.pk},
             method="delete",
             superuser=True,
             code=204,
         )
-        self.assertEqual(Role.objects.count(), len(ROLES) - 1)
+        self.assertEqual(Role.objects.count(), len(ROLES))
 
     def test_put(self) -> None:
+        role = Role.objects.create(name="Test updates")
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="put",
             code=403,
         )
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="put",
             superuser=True,
             code=200,
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add"]},
         )
-        self.assertEqual(Role.objects.order_by("id").all()[0].name, "Role")
-        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 1)
+        role.refresh_from_db()
+        self.assertEqual(role.name, "Role")
+        self.assertEqual(role.permissions.count(), 1)
         self.assertEqual(
-            Role.objects.order_by("id").all()[0].permissions.get().codename,
+            role.permissions.get().codename,
             "suggestion.add",
         )
         # Add permission
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="put",
             superuser=True,
             code=200,
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
-        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 2)
+        self.assertEqual(role.permissions.count(), 2)
         # Remove permission
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="put",
             superuser=True,
             code=200,
             format="json",
             request={"name": "Role", "permissions": ["comment.add"]},
         )
-        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 1)
+        self.assertEqual(role.permissions.count(), 1)
         self.assertEqual(
-            Role.objects.order_by("id").all()[0].permissions.get().codename,
+            role.permissions.get().codename,
             "comment.add",
         )
 
     def test_patch(self) -> None:
-        role = Role.objects.get(name="Access repository")
+        role = Role.objects.create(name="Test patch")
+        role.permissions.set(
+            Permission.objects.filter(
+                codename__in=["translation.download", "vcs.access", "vcs.view"]
+            )
+        )
         self.assertEqual(role.permissions.count(), 3)
         self.do_request(
             "api:role-detail",
@@ -4774,6 +4799,47 @@ class RoleAPITest(APIBaseTest):
             request={"permissions": []},
         )
         self.assertFalse(role.permissions.exists())
+
+    def test_builtin_edit_reset_and_protection(self) -> None:
+        role = Role.objects.get(name="Access repository")
+        kwargs = {"id": role.pk}
+        self.do_request(
+            "api:role-detail", kwargs=kwargs, method="delete", superuser=True, code=403
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs=kwargs,
+            method="patch",
+            superuser=True,
+            request={"name": "Renamed"},
+            code=400,
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs=kwargs,
+            method="patch",
+            superuser=True,
+            request={"permissions": ["comment.add"]},
+            format="json",
+            code=200,
+        )
+        self.assertTrue(role.is_customized)
+        self.do_request(
+            "api:role-reset", kwargs=kwargs, method="post", superuser=True, code=200
+        )
+        self.assertFalse(role.is_customized)
+        self.authenticate(False)
+        self.do_request("api:role-reset", kwargs=kwargs, method="post", code=403)
+
+    def test_reset_custom_role(self) -> None:
+        role = Role.objects.create(name="Custom reset")
+        self.do_request(
+            "api:role-reset",
+            kwargs={"id": role.pk},
+            method="post",
+            superuser=True,
+            code=400,
+        )
 
 
 @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})

@@ -873,6 +873,8 @@ Roles
     :type id: int
     :>json string name: Role name
     :>json array permissions: list of codenames of permissions
+    :>json boolean is_builtin: whether this is a built-in role (read-only)
+    :>json boolean is_customized: whether a built-in role differs from current defaults (read-only)
 
     **Example JSON data:**
 
@@ -889,7 +891,7 @@ Roles
 
 .. http:put:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     :param id: Role's ID
     :type id: int
@@ -898,7 +900,7 @@ Roles
 
 .. http:patch:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     When supplied, ``permissions`` replaces the role's complete permission set.
     Omit it to keep the existing permissions unchanged, or pass an empty list to
@@ -911,7 +913,17 @@ Roles
 
 .. http:delete:: /api/roles/(int:id)/
 
-    Deletes the role.
+    Deletes a custom role. Built-in roles cannot be deleted.
+
+    :param id: Role's ID
+    :type id: int
+
+
+.. http:post:: /api/roles/(int:id)/reset/
+
+    Resets a built-in role to current upstream permission defaults and returns
+    the updated role. Requires the same role-management permission as editing.
+    Custom roles cannot be reset.
 
     :param id: Role's ID
     :type id: int
