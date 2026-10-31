@@ -50,6 +50,9 @@ SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
+SESSION_FIRST_FACTOR_GRANT = "weblate:first_factor:grant"
+SESSION_FIRST_FACTOR_SSO = "weblate:first_factor:sso"
+SESSION_FIRST_WEBAUTHN_NAME = "weblate:first_factor:webauthn_name"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
@@ -62,6 +65,7 @@ SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
 SESSION_EXPIRY_OIDC_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+FIRST_FACTOR_VERIFY_SECONDS = 600
 TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
 SessionExpiryScope = Literal["oidc", "2fa", "login", "authenticated"]
 
@@ -77,6 +81,41 @@ def has_recent_second_factor(
     return isinstance(
         timestamp, int
     ) and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+
+
+def grant_first_factor(request: AuthenticatedHttpRequest) -> None:
+    """Authorize first enrollment in this session after primary authentication."""
+    user = request.user
+    request.session[SESSION_FIRST_FACTOR_GRANT] = {
+        "user": user.pk,
+        "hash": user.get_session_auth_hash(),
+        "time": int(time.time()),
+    }
+
+
+def clear_pending_first_factor(request: AuthenticatedHttpRequest) -> None:
+    """Discard enrollment secrets created before primary reauthentication."""
+    TOTPDevice.objects.filter(user=request.user, confirmed=False).delete()
+    request.session.pop(SESSION_SECOND_FACTOR_TOTP, None)
+    request.session.pop("otp_webauthn_register_state", None)
+    request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
+    request.session.pop(SESSION_SECOND_FACTOR_TIMESTAMP, None)
+
+
+def has_first_factor_grant(request: AuthenticatedHttpRequest) -> bool:
+    """Check the short-lived, account-bound first-enrollment authorization."""
+    grant = request.session.get(SESSION_FIRST_FACTOR_GRANT)
+    if not isinstance(grant, dict) or not request.user.is_authenticated:
+        return False
+    timestamp = grant.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and grant.get("user") == request.user.pk
+        and grant.get("hash") == request.user.get_session_auth_hash()
+    )
 
 
 def second_factor_verification_redirect(

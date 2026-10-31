@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import time
 from base64 import b32encode
@@ -11,6 +12,7 @@ from binascii import unhexlify
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import timedelta
+from functools import wraps
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
@@ -38,6 +40,7 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
+    HttpResponseBase,
     HttpResponseRedirect,
     JsonResponse,
     QueryDict,
@@ -108,6 +111,7 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    FirstFactorPasswordForm,
     GroupAddForm,
     GroupRemoveForm,
     LanguagesForm,
@@ -142,7 +146,12 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_FIRST_FACTOR_GRANT,
+    SESSION_FIRST_FACTOR_SSO,
+    SESSION_FIRST_WEBAUTHN_NAME,
     SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
@@ -151,9 +160,12 @@ from weblate.accounts.utils import (
     SESSION_WEBAUTHN_AUDIT,
     TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
+    clear_pending_first_factor,
     clear_second_factor_session,
     cycle_session_keys,
     get_key_name,
+    grant_first_factor,
+    has_first_factor_grant,
     has_recent_second_factor,
     invalidate_reset_codes,
     lock_user,
@@ -2487,8 +2499,102 @@ class RecoveryCodesView(TemplateView):
         return result
 
 
+FIRST_FACTOR_TARGETS = {"totp": "totp", "webauthn": "webauthn-register"}
+
+
+def first_factor_redirect(request: AuthenticatedHttpRequest, target: str):
+    return redirect(f"{reverse('first-factor-verify')}?{urlencode({'target': target})}")
+
+
+@login_required
+@session_ratelimit_post("confirm", logout_user=False)
+@never_cache
+def first_factor_verify(request: AuthenticatedHttpRequest):
+    """Verify an existing credential before binding the first authenticator."""
+    target = request.POST.get("target", request.GET.get("target", "totp"))
+    if target not in FIRST_FACTOR_TARGETS:
+        return HttpResponseBadRequest("Invalid enrollment target")
+    if request.user.profile.has_2fa:
+        return redirect(FIRST_FACTOR_TARGETS[target])
+    if has_first_factor_grant(request):
+        return redirect(FIRST_FACTOR_TARGETS[target])
+
+    user = request.user
+    form = FirstFactorPasswordForm(
+        request, request.POST if request.method == "POST" else None
+    )
+    associations = [
+        (association, get_auth_name(association.provider))
+        for association in user.social_auth.filter(provider__in=get_auth_keys())
+        if association.provider != "email"
+    ]
+    if request.method == "POST":
+        if user.has_usable_password() and "password" in request.POST:
+            if form.is_valid():
+                request.session.cycle_key()
+                rotate_token(request)
+                clear_pending_first_factor(request)
+                grant_first_factor(request)
+                return redirect(FIRST_FACTOR_TARGETS[target])
+            rotate_token(request)
+        elif not user.has_usable_password() and "association" in request.POST:
+            association = next(
+                (
+                    item
+                    for item, _name in associations
+                    if str(item.pk) == request.POST["association"]
+                ),
+                None,
+            )
+            if association is None:
+                return HttpResponseBadRequest("Invalid authentication provider")
+            request.session[SESSION_FIRST_FACTOR_SSO] = {
+                "user": user.pk,
+                "hash": user.get_session_auth_hash(),
+                "association": association.pk,
+                "provider": association.provider,
+                "target": target,
+                "time": int(time.time()),
+            }
+            return social_auth(request, association.provider)
+
+    return render(
+        request,
+        "accounts/first-factor-verify.html",
+        {
+            "target": target,
+            "confirm_form": form,
+            "has_password": user.has_usable_password(),
+            "associations": associations,
+        },
+    )
+
+
+def require_enrollment_verification(
+    target: str,
+) -> Callable[[Callable[..., HttpResponseBase]], Callable[..., HttpResponseBase]]:
+    """Require a fresh factor, or independent proof for the first one."""
+
+    def decorate(
+        view: Callable[..., HttpResponseBase],
+    ) -> Callable[..., HttpResponseBase]:
+        @wraps(view)
+        def wrapped(
+            request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+        ) -> HttpResponseBase:
+            if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+                return first_factor_redirect(request, target)
+            if not has_recent_second_factor(request):
+                return second_factor_verification_redirect(request, request.path)
+            return view(request, *args, **kwargs)
+
+        return wrapped
+
+    return decorate
+
+
 @method_decorator(login_required, name="dispatch")
-@method_decorator(require_recent_second_factor, name="dispatch")
+@method_decorator(require_enrollment_verification("webauthn"), name="dispatch")
 class WebAuthnRegistrationView(TemplateView):
     template_name = "accounts/webauthn-register.html"
 
@@ -2501,31 +2607,53 @@ class RecentSecondFactorRequiredError(OTPWebAuthnApiError):
     default_code = "recent_second_factor_required"
 
 
+class FirstFactorVerificationRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your existing sign-in method before registering a security key."
+    )
+    default_code = "first_factor_verification_required"
+
+
+def check_webauthn_registration(request):
+    if not request.user.is_authenticated:
+        raise FirstFactorVerificationRequiredError
+    if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+        raise FirstFactorVerificationRequiredError
+    if not has_recent_second_factor(request):
+        raise RecentSecondFactorRequiredError
+
+
 class WeblateBeginCredentialRegistrationView(BeginCredentialRegistrationView):
     def initial(self, request, *args, **kwargs):
-        if not has_recent_second_factor(request):
-            raise RecentSecondFactorRequiredError
+        check_webauthn_registration(request)
         return super().initial(request, *args, **kwargs)
 
 
 class WeblateCompleteCredentialRegistrationView(CompleteCredentialRegistrationView):
     def initial(self, request, *args, **kwargs):
-        if not has_recent_second_factor(request):
-            raise RecentSecondFactorRequiredError
+        check_webauthn_registration(request)
         return super().initial(request, *args, **kwargs)
 
     def post(self, *args, **kwargs):
         first_enrollment = not self.request.user.profile.has_2fa
         response = super().post(*args, **kwargs)
-        if first_enrollment:
-            # Registration verifies the new key and upgrades the OTP session.
-            # Record the same freshness for the subsequent credential naming POST.
-            self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        if first_enrollment and response.status_code == 200:
+            credential_id = json.loads(response.content).get("id")
+            if WebAuthnCredential.objects.filter(
+                pk=credential_id, user=self.request.user
+            ).exists():
+                self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
+                self.request.session[SESSION_FIRST_WEBAUTHN_NAME] = {
+                    "user": self.request.user.pk,
+                    "hash": self.request.user.get_session_auth_hash(),
+                    "credential": credential_id,
+                    "time": int(time.time()),
+                }
         return response
 
 
 @method_decorator(login_required, name="dispatch")
-@method_decorator(require_recent_second_factor, name="dispatch")
 class WebAuthnCredentialView(DetailView):
     model = WebAuthnCredential
 
@@ -2536,10 +2664,27 @@ class WebAuthnCredentialView(DetailView):
         return super().get_queryset().filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
         return redirect_profile("#security")
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        naming = request.session.get(SESSION_FIRST_WEBAUTHN_NAME)
+        first_name = (
+            isinstance(naming, dict)
+            and isinstance(naming.get("time"), int)
+            and not isinstance(naming.get("time"), bool)
+            and naming["time"] <= int(time.time())
+            and naming["time"] + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+            and naming.get("user") == request.user.pk
+            and naming.get("hash") == request.user.get_session_auth_hash()
+            and naming.get("credential") == obj.pk
+            and "name" in request.POST
+            and "delete" not in request.POST
+        )
+        if not has_recent_second_factor(request) and not first_name:
+            return second_factor_verification_redirect(request, request.path)
         if "delete" in request.POST:
             key_name = get_key_name(obj)
             obj.delete()
@@ -2550,6 +2695,8 @@ class WebAuthnCredentialView(DetailView):
         elif "name" in request.POST:
             obj.name = request.POST["name"]
             obj.save(update_fields=["name"])
+            if first_name:
+                request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
             key_name = get_key_name(obj)
             audit_pk = request.session.pop(SESSION_WEBAUTHN_AUDIT, None)
             if isinstance(obj, WebAuthnCredential) and audit_pk is not None:
@@ -2563,6 +2710,7 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
 
+@method_decorator(require_recent_second_factor, name="dispatch")
 class TOTPDetailView(WebAuthnCredentialView):
     model = TOTPDevice
 
@@ -2579,7 +2727,7 @@ class TOTPDetailView(WebAuthnCredentialView):
 
 
 @method_decorator(login_required, name="dispatch")
-@method_decorator(require_recent_second_factor, name="dispatch")
+@method_decorator(require_enrollment_verification("totp"), name="dispatch")
 class TOTPView(FormView):
     template_name = "accounts/totp.html"
     form_class = TOTPDeviceForm
@@ -2709,6 +2857,7 @@ class TOTPView(FormView):
         device.name = form.cleaned_data["name"]
         device.confirmed = True
         device.save(update_fields=["name", "confirmed"])
+        self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
         AuditLog.objects.create(
             user,
             self.request,

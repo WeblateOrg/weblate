@@ -294,6 +294,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",
+    "weblate.accounts.pipeline.verify_first_factor_sso",
     "weblate.accounts.pipeline.store_params",
     "weblate.accounts.pipeline.verify_open",
     "social_core.pipeline.user.get_username",

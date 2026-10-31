@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from importlib import import_module
 from threading import Barrier
+from typing import TYPE_CHECKING, cast
 from unittest import mock
 
 from django.contrib.sessions.backends.db import SessionStore
@@ -24,17 +25,27 @@ from weblate.accounts.forms import TOTPTokenForm
 from weblate.accounts.models import AuditLog
 from weblate.accounts.tasks import cleanup_totp_enrollments
 from weblate.accounts.utils import (
+    SESSION_FIRST_FACTOR_GRANT,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SECOND_FACTOR_TOTP,
+    grant_first_factor,
 )
 from weblate.accounts.views import TOTPView
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class TOTPEnrollmentTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "totp", "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
         self.timestamp = int(now().timestamp())
         self.enterContext(
             mock.patch(
@@ -69,6 +80,7 @@ class TOTPEnrollmentTest(FixtureTestCase):
             response = self.client.post(reverse("totp"), payload)
         self.assertEqual(response.status_code, 302)
         self.assertNotIn(SESSION_SECOND_FACTOR_TOTP, self.client.session)
+        self.assertNotIn(SESSION_FIRST_FACTOR_GRANT, self.client.session)
         device.refresh_from_db()
         self.assertTrue(device.confirmed)
         self.assertEqual(device.name, payload["name"])
@@ -149,23 +161,25 @@ class TOTPEnrollmentTest(FixtureTestCase):
         self.assertFalse(device.confirmed)
         self.assertEqual(self.client.post(reverse("totp"), payload).status_code, 302)
 
-    def test_fresh_sessions_reuse_pending_enrollment(self) -> None:
+    def test_primary_reauthentication_replaces_pending_enrollment(self) -> None:
         device, payload = self.start_enrollment()
         TOTPDevice.objects.filter(pk=device.pk).update(
             throttling_failure_count=2, throttling_failure_timestamp=now()
         )
-        for _ in range(3):
-            client = Client()
-            client.force_login(self.user)
-            response = client.get(reverse("totp"))
-            self.assertEqual(response.status_code, 200)
-            self.assertEqual(response.context["form"].device.pk, device.pk)
-            self.assertEqual(client.session[SESSION_SECOND_FACTOR_TOTP], device.pk)
-        self.assertEqual(TOTPDevice.objects.filter(user=self.user).count(), 1)
-        device.refresh_from_db()
-        self.assertEqual(device.throttling_failure_count, 2)
-        response = client.post(reverse("totp"), payload)
-        self.assertIn("token", response.context["form"].errors)
+        client = Client()
+        client.force_login(self.user)
+        self.assertEqual(
+            client.post(
+                reverse("first-factor-verify"),
+                {"target": "totp", "password": "testpassword"},
+            ).status_code,
+            302,
+        )
+        self.assertFalse(TOTPDevice.objects.filter(pk=device.pk).exists())
+        self.assertEqual(self.client.post(reverse("totp"), payload).status_code, 400)
+        response = client.get(reverse("totp"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.context["form"].device.pk, device.pk)
 
     def test_get_removes_extra_pending_devices(self) -> None:
         expired = TOTPDevice.objects.create(user=self.user, confirmed=False)
@@ -372,6 +386,7 @@ class TOTPEnrollmentConcurrencyTest(TransactionTestCase):
                 # Independent snapshots of an already-loaded session, as in
                 # concurrent requests before either session is saved.
                 request.session = SessionStore()
+                grant_first_factor(cast("AuthenticatedHttpRequest", request))
                 request.session[SESSION_SECOND_FACTOR_TOTP] = device.pk
                 # Either request can observe the other's confirmed device.
                 request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = self.timestamp
@@ -393,6 +408,7 @@ class TOTPEnrollmentConcurrencyTest(TransactionTestCase):
                 request = RequestFactory().get(reverse("totp"))
                 request.user = User.objects.get(pk=self.user.pk)
                 request.session = SessionStore()
+                grant_first_factor(cast("AuthenticatedHttpRequest", request))
                 ready.wait(timeout=10)
                 response = TOTPView.as_view()(request)
                 self.assertEqual(response.status_code, 200)

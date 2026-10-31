@@ -1175,13 +1175,14 @@ Authenticator apps (TOTP)
    during sign-in.
 
    Registration becomes active only after you verify a code from the app.
-   Complete registration within 24 hours; otherwise start again with a new QR
-   code. Each registration can be completed only once. After registering, wait
-   for the next code before using the app to sign in.
+   Complete registration within 10 minutes of confirming your sign-in method;
+   otherwise confirm it again and use the new QR code. Each registration can be
+   completed only once. After registering, wait for the next code before using
+   the app to sign in.
 
-   Only one registration can be pending per account. Opening registration in
-   another browser session shows the same QR code until registration is
-   completed or expires.
+   Only one registration can be pending per account. Confirming your sign-in
+   method in another browser session invalidates the pending QR code and starts
+   a new registration.
 
    If you have more than one registered authenticator app, select the app
    you are using when entering its code during sign-in.
@@ -1193,6 +1194,14 @@ Recovery codes
 
 Each user can configure this in :ref:`profile-security` and second factor will
 be required to sign in addition to the existing authentication method.
+
+Before registering the first authenticator app or security key, confirm your
+existing sign-in method. Enter your current Weblate password if you have one.
+Accounts without a Weblate password must sign in again through an already
+connected authentication provider. If neither method is available, contact an
+administrator to recover access. Registering a new factor does not count as a
+recent second-factor verification for other sensitive actions, such as creating
+a project token; complete a separate second-factor challenge for those actions.
 
 When two-factor authentication is configured, viewing the personal API key or
 changing sign-in methods and recovery credentials requires a second-factor
