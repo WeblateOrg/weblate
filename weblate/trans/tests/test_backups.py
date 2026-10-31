@@ -27,10 +27,11 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.db import connection
+from django.db import DatabaseError, connection, transaction
 from django.test import SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext, modify_settings
 from django.urls import reverse
+from django.utils import timezone
 from weblate_schemas import load_schema
 
 from weblate.addons.webhooks import WebhookAddon
@@ -291,6 +292,218 @@ class BackupsTest(ReusableViewTestCase):
             )
         )
         self.enterContext(override_settings(MEDIA_ROOT=media_root))
+
+    def metadata_backup(self, units: list[Unit]) -> ProjectBackup:
+        backup = ProjectBackup()
+        backup.IMPORT_BATCH_SIZE = 2
+        anonymous = get_anonymous()
+        backup.user_cache = {
+            self.user.username: self.user,
+            anonymous.username: anonymous,
+        }
+        for unit in units:
+            unit.import_data = {
+                "labels": [],
+                "comments": [],
+                "checks": [],
+                "suggestions": [],
+            }
+        return backup
+
+    def test_restore_metadata_batches_across_units(self) -> None:
+        units = list(self.component.source_translation.unit_set.order_by("pk")[:3])
+        self.assertEqual(len(units), 3)
+        Check.objects.filter(unit__in=units).delete()
+        backup = self.metadata_backup(units)
+        label = self.project.label_set.create(name="Restored label", color="navy")
+        backup.labels_map = {label.name: label}
+        missing_author = "missing-metadata-author"
+        backup.restore_user(missing_author)
+        timestamp = timezone.now()
+        for index, unit in enumerate(units):
+            unit.import_data.update(
+                labels=[label.name],
+                comments=[
+                    {
+                        "comment": f"Restored comment {index}",
+                        "user": missing_author if index == 2 else self.user.username,
+                        "timestamp": timestamp,
+                        "resolved": bool(index % 2),
+                        "userdetails": {"custom": "保留"},
+                    }
+                ],
+                checks=[
+                    {
+                        "name": "same",
+                        "dismissed": bool(index % 2),
+                        "metadata": {"index": index},
+                    }
+                ],
+            )
+        original = [deepcopy(unit.import_data) for unit in units]
+        with self.assertNumQueries(6):
+            backup.restore_unit_metadata(units)
+        self.assertEqual([unit.import_data for unit in units], original)
+        for index, unit in enumerate(units):
+            self.assertTrue(unit.labels.filter(pk=label.pk).exists())
+            comment = Comment.objects.get(
+                unit=unit, comment=f"Restored comment {index}"
+            )
+            self.assertEqual(
+                comment.user_id, get_anonymous().pk if index == 2 else self.user.pk
+            )
+            self.assertEqual(comment.timestamp, timestamp)
+            self.assertEqual(comment.resolved, bool(index % 2))
+            self.assertEqual(comment.userdetails, {"custom": "保留"})
+            check = Check.objects.get(unit=unit, name="same")
+            self.assertEqual(check.dismissed, bool(index % 2))
+            self.assertEqual(check.metadata, {"index": index})
+
+    def test_restore_metadata_bounds_records_within_one_unit(self) -> None:
+        units = list(self.component.source_translation.unit_set.order_by("pk")[:2])
+        backup = self.metadata_backup(units)
+        unit = units[0]
+        Check.objects.filter(unit=unit).delete()
+        labels = [
+            self.project.label_set.create(
+                name=f"Large metadata label {index}", color="navy"
+            )
+            for index in range(3)
+        ]
+        backup.labels_map = {label.name: label for label in labels}
+        unit.import_data.update(
+            labels=[label.name for label in labels],
+            comments=[
+                {
+                    "comment": f"Large metadata comment {index}",
+                    "user": self.user.username,
+                }
+                for index in range(3)
+            ],
+            checks=[{"name": name} for name in ("same", "begin_space", "end_space")],
+        )
+        label_model = Unit.labels.through
+        with (
+            patch.object(
+                label_model.objects,
+                "bulk_create",
+                wraps=label_model.objects.bulk_create,
+            ) as create_labels,
+            patch.object(
+                Comment.objects, "bulk_create", wraps=Comment.objects.bulk_create
+            ) as create_comments,
+            patch.object(
+                Check.objects, "bulk_create", wraps=Check.objects.bulk_create
+            ) as create_checks,
+            self.assertNumQueries(6),
+        ):
+            backup.restore_unit_metadata(units)
+        for create in (create_labels, create_comments, create_checks):
+            self.assertEqual(
+                [len(call.args[0]) for call in create.call_args_list], [2, 1]
+            )
+        self.assertEqual(
+            list(
+                unit.labels.filter(pk__in=[label.pk for label in labels]).order_by("pk")
+            ),
+            labels,
+        )
+        self.assertEqual(
+            list(unit.comment_set.order_by("pk").values_list("comment", flat=True)),
+            [f"Large metadata comment {index}" for index in range(3)],
+        )
+        self.assertEqual(
+            list(unit.check_set.order_by("pk").values_list("name", flat=True)),
+            ["same", "begin_space", "end_space"],
+        )
+
+    def test_restore_empty_metadata(self) -> None:
+        units = list(self.component.source_translation.unit_set.order_by("pk")[:2])
+        backup = self.metadata_backup(units)
+        with self.assertNumQueries(0):
+            backup.restore_unit_metadata([])
+            backup.restore_unit_metadata(units)
+
+    def test_restore_metadata_preserves_suggestion_vote_mapping(self) -> None:
+        units = list(self.component.source_translation.unit_set.order_by("pk")[:2])
+        backup = self.metadata_backup(units)
+        for unit in units:
+            unit.import_data["suggestions"] = [
+                {
+                    "target": "Same restored suggestion",
+                    "user": self.user.username,
+                    "votes": [
+                        {"user": "missing-voter-one", "value": 1},
+                        {"user": "missing-voter-two", "value": 1},
+                    ],
+                }
+            ]
+        backup.restore_unit_metadata(units)
+        for unit in units:
+            suggestion = Suggestion.objects.get(
+                unit=unit, target="Same restored suggestion"
+            )
+            self.assertEqual(suggestion.user_id, self.user.pk)
+            vote = Vote.objects.get(suggestion=suggestion)
+            self.assertEqual(vote.user_id, get_anonymous().pk)
+            self.assertEqual(vote.value, 1)
+
+    def test_restore_metadata_failure_rolls_back_units(self) -> None:
+        units = [
+            Unit(
+                translation=self.component.source_translation,
+                source=f"Rollback metadata {index}",
+                target=f"Rollback metadata {index}",
+                position=index,
+                id_hash=calculate_hash(f"Rollback metadata {index}", ""),
+            )
+            for index in range(3)
+        ]
+        backup = self.metadata_backup(units)
+        label = self.project.label_set.create(
+            name="Rollback metadata label", color="navy"
+        )
+        backup.labels_map = {label.name: label}
+        for unit in units:
+            unit.import_data.update(
+                labels=[label.name],
+                comments=[{"comment": "Rollback comment", "user": self.user.username}],
+            )
+        label_model = Unit.labels.through
+        before = (
+            Unit.objects.count(),
+            label_model.objects.count(),
+            Comment.objects.count(),
+        )
+        write_comments = Comment.objects.bulk_create
+        calls = 0
+
+        def fail_later_chunk(batch: tuple[Comment, ...]) -> list[Comment]:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                self.assertEqual(Unit.objects.count(), before[0] + 3)
+                self.assertEqual(label_model.objects.count(), before[1] + 3)
+                self.assertEqual(Comment.objects.count(), before[2] + 2)
+                msg = "Metadata write failed"
+                raise DatabaseError(msg)
+            return write_comments(batch)
+
+        with (
+            self.assertRaisesMessage(DatabaseError, "Metadata write failed"),
+            transaction.atomic(),
+            patch.object(Comment.objects, "bulk_create", side_effect=fail_later_chunk),
+        ):
+            backup.restore_source_unit_batch(units, {}, None, {})
+        self.assertEqual(calls, 2)
+        self.assertEqual(
+            (
+                Unit.objects.count(),
+                label_model.objects.count(),
+                Comment.objects.count(),
+            ),
+            before,
+        )
 
     def test_restore_source_batch_links_before_metadata(self) -> None:
         source = self.component.source_translation

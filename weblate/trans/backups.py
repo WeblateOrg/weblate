@@ -15,6 +15,7 @@ from collections import defaultdict
 from datetime import datetime
 from functools import partial
 from io import BytesIO
+from itertools import batched
 from operator import itemgetter
 from pathlib import Path, PurePosixPath
 from shutil import copyfileobj
@@ -2318,26 +2319,38 @@ class ProjectBackup:
             )
 
     def restore_unit_metadata(self, units: list[Unit]) -> None:
-        for unit in units:
-            # Labels
-            unit.labels.through.objects.bulk_create(
-                unit.labels.through(unit=unit, label=self.labels_map[label])
+        label_model = Unit.labels.through
+        for label_batch in batched(
+            (
+                label_model(unit=unit, label=self.labels_map[label])
+                for unit in units
                 for label in unit.import_data["labels"]
-            )
+            ),
+            self.IMPORT_BATCH_SIZE,
+        ):
+            label_model.objects.bulk_create(label_batch)
 
-            # Comments
-            if unit.import_data["comments"]:
-                Comment.objects.bulk_create(
-                    Comment(unit=unit, **self.restore_with_user(comment))
-                    for comment in unit.import_data["comments"]
-                )
+        for comment_batch in batched(
+            (
+                Comment(unit=unit, **self.restore_with_user(comment))
+                for unit in units
+                for comment in unit.import_data["comments"]
+            ),
+            self.IMPORT_BATCH_SIZE,
+        ):
+            Comment.objects.bulk_create(comment_batch)
 
-            # Checks
-            if unit.import_data["checks"]:
-                Check.objects.bulk_create(
-                    Check(unit=unit, **check) for check in unit.import_data["checks"]
-                )
+        for check_batch in batched(
+            (
+                Check(unit=unit, **check)
+                for unit in units
+                for check in unit.import_data["checks"]
+            ),
+            self.IMPORT_BATCH_SIZE,
+        ):
+            Check.objects.bulk_create(check_batch)
 
+        for unit in units:
             # Suggestions
             if unit.import_data["suggestions"]:
                 suggestions = Suggestion.objects.bulk_create(
