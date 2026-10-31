@@ -2205,6 +2205,10 @@ sort_inline_tables = true
 sort_table_keys = true
 spaces_before_inline_comment = 2
 
+[tool.tomlsort.overrides."tool.pytest.ini_options.filterwarnings"]
+# Pytest applies the last matching filter, so preserve the warning precedence.
+inline_arrays = false
+
 [tool.typos.default]
 extend-ignore-re = [
   "(?Rm)^.*# codespell:ignore.*$",
@@ -2265,7 +2269,3 @@ extend-exclude = [
   "weblate/trans/tests/data",
   "weblate/utils/licensedata.py"
 ]
-
-[tool.tomlsort.overrides."tool.pytest.ini_options.filterwarnings"]
-# Pytest applies the last matching filter, so preserve the warning precedence.
-inline_arrays = false
