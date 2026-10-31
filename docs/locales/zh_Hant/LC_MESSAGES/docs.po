@@ -44,9 +44,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-30 05:01+0100\n"
-"PO-Revision-Date: 2026-10-30 05:07+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-10-31 16:22+0000\n"
+"Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -7730,7 +7729,7 @@ msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgstr "設定 :ref:`project-autoclean_tm` 的預設值。"
 
 msgid "Default setting for translation propagation, defaults to ``True``."
-msgstr "翻譯傳播的預設設定，預設為 ``True``。"
+msgstr "翻譯重用的預設設定，預設為 ``True``。"
 
 msgid "Configures the default title and message for pull requests."
 msgstr "設定拉取請求的預設標題與訊息。"
@@ -10856,7 +10855,7 @@ msgstr ""
 "達成。"
 
 msgid "Translation propagation"
-msgstr "翻譯宣傳"
+msgstr "翻譯重用"
 
 msgid ""
 "With :ref:`component-allow_translation_propagation` enabled (what is the "
@@ -21983,10 +21982,8 @@ msgid ""
 "Verbose workspace name used in workspace listings and project organization."
 msgstr "詳細的工作空間名稱，用於工作空間列舉和專案組織中。"
 
-#, fuzzy
-#| msgid "Translation propagation"
 msgid "Translation propagation scope"
-msgstr "翻譯宣傳"
+msgstr "翻譯重用範圍"
 
 #, fuzzy
 #| msgid ""
@@ -56805,6 +56802,8 @@ msgid ""
 "Case-sensitive text or regular expression to replace in matching strings. "
 "Leave empty to disable replacement."
 msgstr ""
+"要在符合條件的字串中取代的文字或正規表達式，區分大小寫。留白即可停用取代功能"
+"。"
 
 msgid "Replacement string"
 msgstr "取代用字串"
@@ -56813,6 +56812,8 @@ msgid ""
 "Leave empty to remove matching text. In regular expression mode, use \\1 for "
 "the first captured group. Named group references are also supported."
 msgstr ""
+"留白即可移除符合條件的文字。在正規表達式模式中，以 \\1 引用第一個擷取群組，也"
+"支援具名群組引用。"
 
 msgid "State to set"
 msgstr "要設定的狀態"
@@ -56834,17 +56835,13 @@ msgstr "**來源**"
 msgid ""
 "Flags are set on the source strings corresponding to your filter results and "
 "apply to their translations in every language."
-msgstr ""
+msgstr "旗標會設定在篩選結果對應的來源字串上，並套用至這些字串在所有語言中的翻譯。"
 
-#, fuzzy
-#| msgid "``add_flags``"
 msgid "Add flags"
-msgstr "``add_flags``"
+msgstr "新增旗標"
 
-#, fuzzy
-#| msgid "``remove_flags``"
 msgid "Remove flags"
-msgstr "``remove_flags``"
+msgstr "移除旗標"
 
 #, fuzzy
 #| msgid "Translation flags"
@@ -56854,14 +56851,12 @@ msgstr "翻譯旗標"
 msgid ""
 "Flags apply only to translations matching your filter. Source strings are "
 "excluded."
-msgstr ""
+msgstr "旗標僅套用至符合篩選條件的翻譯，不包含來源字串。"
 
-#, fuzzy
-#| msgid "Removes locally set flags. Inherited flags remain in effect."
 msgid ""
 "Only flags set directly on these translations are removed. Inherited flags "
 "remain in effect."
-msgstr "只會移除翻譯本身設定的旗標；繼承的旗標仍會生效。"
+msgstr "只會移除直接設定在這些翻譯上的旗標，繼承的旗標仍然有效。"
 
 #, fuzzy
 #| msgid "Labels"
@@ -56871,27 +56866,21 @@ msgstr "標籤"
 msgid ""
 "Labels apply to the source strings corresponding to your filter results and "
 "are shared across all languages."
-msgstr ""
+msgstr "標籤會套用至篩選結果對應的來源字串，並由所有語言共用。"
 
-#, fuzzy
-#| msgid "``add_labels``"
 msgid "Add labels"
-msgstr "``add_labels``"
+msgstr "新增標籤"
 
-#, fuzzy
-#| msgid "``remove_labels``"
 msgid "Remove labels"
-msgstr "``remove_labels``"
+msgstr "移除標籤"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
 msgstr ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
 
-#, fuzzy
-#| msgid "Bulk edit flags, labels, or states of strings."
 msgid "Bulk edit text, flags, labels, or states of strings."
-msgstr "批次編輯字串的旗標、標籤或狀態。"
+msgstr "批次編輯字串的文字、旗標、標籤或狀態。"
 
 msgid ""
 "Uses the operations described in :ref:`bulk-edit`, including literal or "
@@ -59866,14 +59855,10 @@ msgstr ""
 msgid "Inconsistent"
 msgstr "不一致"
 
-#, fuzzy
-#| msgid ""
-#| "This string has more than one translation in this project or is "
-#| "untranslated in some components."
 msgid ""
 "This string has more than one translation in its propagation group or is "
 "untranslated in some components."
-msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
+msgstr "這個字串在其翻譯重用群組中有多種譯文，或在部分組件中尚未翻譯。"
 
 msgid ""
 "Weblate checks translations of the same string across all translation within "
@@ -63459,30 +63444,26 @@ msgstr ""
 msgid "merge_request_assign_acting_user"
 msgstr "merge_request_automerge"
 
-#, fuzzy
-#| msgid "Fixed creating pull requests on Pagure."
 msgid "Assign pull requests to acting user"
-msgstr "修復了在 Pagure 上建立合併請求的問題。"
+msgstr "將 Pull request 指派給操作發起者"
 
 msgid ""
 "Also assign the GitHub account linked to the Weblate user who starts the "
 "push, when available."
 msgstr ""
+"若發起推送的 Weblate 使用者已連結 GitHub 帳號，也將 Pull request 指派給該帳號"
+"。"
 
 #, fuzzy
 #| msgid "merge_request_automerge"
 msgid "merge_request_assignee"
 msgstr "merge_request_automerge"
 
-#, fuzzy
-#| msgid "Fixed pull request message title."
 msgid "Pull request assignee"
-msgstr "修復了拉取請求訊息標題。"
+msgstr "Pull request 指派對象"
 
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid "GitHub username to assign to pull requests created by Weblate."
-msgstr "GitHub 使用者名，用於發送翻譯更新的拉取請求。"
+msgstr "Weblate 建立 Pull request 時的指派對象，請輸入 GitHub 使用者名稱。"
 
 msgid "merge_request_automerge"
 msgstr "merge_request_automerge"
@@ -63503,15 +63484,13 @@ msgstr ""
 msgid "merge_request_labels"
 msgstr "merge_request_automerge"
 
-#, fuzzy
-#| msgid "Gitea pull requests"
 msgid "Pull request labels"
-msgstr "Gitea 拉取請求"
+msgstr "Pull request 標籤"
 
 msgid ""
 "Comma-separated names of labels to add to pull requests created by Weblate. "
 "Existing labels are kept."
-msgstr ""
+msgstr "要新增至 Weblate 建立的 Pull request 的標籤名稱，以逗號分隔。既有標籤會保留。"
 
 msgid "merge_request_merge_method"
 msgstr "merge_request_merge_method"
