@@ -83,6 +83,7 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Prevented Mercurial commit messages and other option values from being interpreted as command-line options.
+* Require confirmation of an existing sign-in method before :ref:`registering the first second factor <2fa>`, and a separate second-factor check before creating a project token after enrollment.
 * Bounded screenshot image text matching to prevent excessive web worker CPU use on large components or dense images.
 * Prevented translation reverts from approving strings without review permission.
 * Require recent :ref:`two-factor verification <2fa>` before revealing personal API keys or changing account authentication credentials and project tokens.

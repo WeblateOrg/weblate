@@ -959,6 +959,10 @@ class PasswordConfirmForm(EmptyConfirmForm):
             )
 
 
+class FirstFactorPasswordForm(PasswordConfirmForm):
+    password = PasswordField(label=gettext_lazy("Current password"))
+
+
 class ResetForm(EmailForm):
     def clean_email(self):
         if self.cleaned_data["email"] == "noreply@weblate.org":

@@ -78,6 +78,11 @@ urlpatterns = [
     ),
     path("password/", weblate.accounts.views.password, name="password"),
     path(
+        "auth/first-factor/verify/",
+        weblate.accounts.views.first_factor_verify,
+        name="first-factor-verify",
+    ),
+    path(
         "auth/verify-second-factor/",
         weblate.accounts.views.verify_second_factor,
         name="verify-second-factor",

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import time
 import unicodedata
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, NoReturn
@@ -11,6 +12,7 @@ from typing import TYPE_CHECKING, NoReturn
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
+from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -30,8 +32,12 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_FIRST_FACTOR_SSO,
     adjust_session_expiry,
+    clear_pending_first_factor,
     cycle_session_keys,
+    grant_first_factor,
     has_recent_second_factor,
     invalidate_reset_codes,
     set_second_factor_session,
@@ -60,6 +66,41 @@ STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
 VerifiedEmailList = list[tuple[str, bool]]
 GitHubEmailData = Mapping[str, str | bool | None]
+
+
+def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
+    """Finish first-enrollment proof before normal social login can mutate accounts."""
+    request = strategy.request
+    intent = request.session.pop(SESSION_FIRST_FACTOR_SSO, None)
+    if intent is None:
+        return None
+    timestamp = intent.get("time") if isinstance(intent, dict) else None
+    if not (
+        request.user.is_authenticated
+        and isinstance(intent, dict)
+        and isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and intent.get("user") == request.user.pk
+        and intent.get("hash") == request.user.get_session_auth_hash()
+        and intent.get("provider") == backend.name
+        and intent.get("target") in {"totp", "webauthn"}
+        and social is not None
+        and social.pk == intent.get("association")
+        and social.user_id == request.user.pk
+        and user is not None
+        and user.pk == request.user.pk
+        and not request.user.profile.has_2fa
+    ):
+        raise AuthSessionError(
+            backend, code="weblate.first_factor_identity_mismatch", stage="pipeline"
+        )
+    request.session.cycle_key()
+    rotate_token(request)
+    clear_pending_first_factor(request)
+    grant_first_factor(request)
+    return redirect("totp" if intent["target"] == "totp" else "webauthn-register")
 
 
 def invalid_invitation(

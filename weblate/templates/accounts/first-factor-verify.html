@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Confirm your identity" %}</h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Confirm your existing sign-in method before registering your first second factor." %}</p>
+      {% if has_password %}
+        <form method="post" action="{% url 'first-factor-verify' %}">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="{{ target }}" />
+          {{ confirm_form|crispy }}
+          <button type="submit" class="btn btn-primary">{% translate "Confirm" %}</button>
+        </form>
+      {% elif associations %}
+        <p>{% translate "Sign in again using a connected provider:" %}</p>
+        {% for association, name in associations %}
+          <form method="post" action="{% url 'first-factor-verify' %}">
+            {% csrf_token %}
+            <input type="hidden" name="target" value="{{ target }}" />
+            <button type="submit"
+                    class="btn btn-outline-primary"
+                    name="association"
+                    value="{{ association.pk }}">{{ name }}</button>
+          </form>
+        {% endfor %}
+      {% else %}
+        <p>{% translate "No sign-in method is available to confirm your identity. Contact an administrator to recover access." %}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}
