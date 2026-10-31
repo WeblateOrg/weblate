@@ -35829,6 +35829,44 @@ components:
           type: boolean
       required:
       - result
+    BotProtectionCounts:
+      type: object
+      properties:
+        issued:
+          type: integer
+        pow_required:
+          type: integer
+        success:
+          type: integer
+        expired_challenge:
+          type: integer
+        invalid_solution:
+          type: integer
+        replayed_challenge:
+          type: integer
+        csrf_failed:
+          type: integer
+        verification_unavailable:
+          type: integer
+      required:
+      - csrf_failed
+      - expired_challenge
+      - invalid_solution
+      - issued
+      - pow_required
+      - replayed_challenge
+      - success
+      - verification_unavailable
+    BotProtectionStats:
+      type: object
+      properties:
+        current_hour:
+          $ref: '#/components/schemas/BotProtectionCounts'
+        previous_24_hours:
+          $ref: '#/components/schemas/BotProtectionCounts'
+      required:
+      - current_hour
+      - previous_24_hours
     BuildConflict:
       type: object
       properties:
@@ -38441,6 +38479,11 @@ components:
     Metrics:
       type: object
       properties:
+        bot_protection:
+          oneOf:
+          - $ref: '#/components/schemas/BotProtectionStats'
+          - type: 'null'
+          readOnly: true
         units:
           type: integer
         units_translated:
@@ -38472,6 +38515,7 @@ components:
         version:
           type: string
       required:
+      - bot_protection
       - celery_queues
       - changes
       - checks

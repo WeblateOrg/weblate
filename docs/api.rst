@@ -3946,12 +3946,27 @@ Metrics
     :>json int configuration_errors: Number of configuration errors
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json object bot_protection: Best-effort hourly bot protection counts, or null when disabled or unavailable
     :>json string name: Configured server name
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
     when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
     exposed as gauges.
+
+    ``bot_protection`` contains ``current_hour`` and ``previous_24_hours``
+    objects. The latter covers the previous 24 completed hours, excluding the
+    current hour. Each contains integer counts for ``issued``, ``pow_required``, ``success``,
+    ``expired_challenge``, ``invalid_solution``, ``replayed_challenge``,
+    ``csrf_failed``, and ``verification_unavailable``. Hours are UTC-aligned;
+    counts can be lost through cache eviction or outages. The ``pow_required``
+    count covers requests rejected without issuing a challenge because of their
+    method or Accept header. It excludes explicit ``bot_denied`` policy denials
+    and exempt requests, and counts requests rather than unique clients.
+
+    CSV responses flatten these objects into columns. OpenMetrics exposes
+    ``bot_protection_events`` gauges with ``window`` and ``event`` labels,
+    omitting these samples when protection is disabled or counters are unavailable.
 
 Project metrics expose translation statistics for each visible component and
 language at :http:get:`/api/projects/(string:project)/metrics/`. They include

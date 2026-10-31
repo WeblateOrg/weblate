@@ -30,6 +30,7 @@ from weblate.oidc.urls import urlpatterns as oidc_patterns
 from weblate.urls import real_patterns
 from weblate.utils.bot_protection import (
     FEATURE_TIPS,
+    OUTCOMES,
     BotProtectionMiddleware,
     binding,
     challenge_page,
@@ -213,6 +214,51 @@ class ProofTest(SimpleTestCase):
             response = self.middleware_response(middleware, request)
             self.assertEqual(response.status_code, 403)
             self.assertNotIn(b"<html", response.content)
+
+    def test_pow_required_counter(self) -> None:
+        middleware = self.middleware()
+        with patch.object(middleware, "classify", return_value="challenge"):
+            for method, accept in (
+                ("GET", "application/json"),
+                ("HEAD", "text/html"),
+                ("POST", "text/html"),
+                ("OPTIONS", "text/html"),
+            ):
+                request = self.request(HTTP_ACCEPT=accept)
+                request.method = method
+                response = self.middleware_response(middleware, request)
+                self.assertEqual(response.status_code, 403)
+                if method == "HEAD":
+                    self.assertEqual(response.content, b"")
+                else:
+                    self.assertEqual(
+                        json.loads(response.content)["error"], "pow_required"
+                    )
+            # HTML challenges and exempt API requests are separate events.
+            self.middleware_response(middleware, self.request())
+            self.middleware_response(
+                middleware, self.request("/api/", HTTP_ACCEPT="application/json")
+            )
+        with patch.object(middleware, "classify", return_value="deny"):
+            response = self.middleware_response(middleware, self.request())
+            self.assertEqual(json.loads(response.content)["error"], "bot_denied")
+        stats = verification_stats()
+        assert stats is not None
+        self.assertEqual(stats["current_hour"]["pow_required"], 4)
+        self.assertEqual(stats["current_hour"]["issued"], 1)
+        self.assertEqual(stats["current_hour"]["success"], 0)
+        with (
+            patch.object(middleware, "classify", return_value="challenge"),
+            patch(
+                "django.core.cache.backends.locmem.LocMemCache.add",
+                side_effect=ConnectionError,
+            ),
+        ):
+            response = self.middleware_response(
+                middleware, self.request(HTTP_ACCEPT="application/json")
+            )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(json.loads(response.content)["error"], "pow_required")
 
     def test_exemptions_and_auth(self) -> None:
         middleware = self.middleware()
@@ -582,20 +628,65 @@ class ProofTest(SimpleTestCase):
             self.assertEqual(vars(logs.records[0])["count"], 1)
             stats = verification_stats()
             assert stats is not None
-            self.assertEqual(stats["success"], 2)
-            self.assertEqual(stats["expired_challenge"], 1)
+            self.assertEqual(stats["current_hour"]["success"], 2)
+            self.assertEqual(stats["current_hour"]["expired_challenge"], 1)
         with patch(
             "weblate.utils.bot_protection.time",
             time=Mock(return_value=1800000000 + 86400),
         ):
             stats = verification_stats()
             assert stats is not None
-            self.assertEqual(stats["success"], 0)
+            self.assertEqual(stats["current_hour"]["success"], 0)
         with patch(
             "django.core.cache.backends.locmem.LocMemCache.get_many",
             side_effect=ConnectionError,
         ):
             self.assertIsNone(verification_stats())
+
+    def test_hourly_windows(self) -> None:
+        hour = 500000
+        for offset, count in ((-25, 100), (-24, 3), (-1, 4), (0, 5)):
+            cache.set(f"pow:stats:hour:{hour + offset}:issued", count)
+        cache.set(f"pow:stats:{hour * 60}:success", 100)
+        with (
+            patch(
+                "weblate.utils.bot_protection.time", time=Mock(return_value=hour * 3600)
+            ),
+            patch(
+                "django.core.cache.backends.locmem.LocMemCache.get_many",
+                wraps=cache.get_many,
+            ) as read,
+        ):
+            stats = verification_stats()
+        assert stats is not None
+        self.assertEqual(stats["current_hour"]["issued"], 5)
+        self.assertEqual(stats["previous_24_hours"]["issued"], 7)
+        self.assertEqual(stats["current_hour"]["success"], 0)
+        self.assertEqual(len(read.call_args.args[0]), 200)
+        read.assert_called_once()
+        with patch(
+            "weblate.utils.bot_protection.time",
+            time=Mock(return_value=(hour + 1) * 3600),
+        ):
+            stats = verification_stats()
+        assert stats is not None
+        self.assertEqual(stats["current_hour"]["issued"], 0)
+        self.assertEqual(stats["previous_24_hours"]["issued"], 9)
+        self.assertEqual(set(stats["current_hour"]), set(OUTCOMES))
+
+    def test_issued_counter(self) -> None:
+        self.assertEqual(challenge_page(self.request()).status_code, 403)
+        stats = verification_stats()
+        assert stats is not None
+        self.assertEqual(stats["current_hour"]["issued"], 1)
+        with patch("weblate.utils.bot_protection.safe_target", return_value=False):
+            self.assertEqual(challenge_page(self.request()).status_code, 400)
+        self.assertEqual(verification_stats(), stats)
+        with patch(
+            "django.core.cache.backends.locmem.LocMemCache.add",
+            side_effect=ConnectionError,
+        ):
+            self.assertEqual(challenge_page(self.request()).status_code, 403)
 
     def test_outcome_recorded_once_per_response(self) -> None:
         payload = self.solution(self.request())
@@ -883,8 +974,8 @@ class ProofTest(SimpleTestCase):
         self.assertEqual(statuses.count(409), 7)
         stats = verification_stats()
         assert stats is not None
-        self.assertEqual(stats["success"], 1)
-        self.assertEqual(stats["replayed_challenge"], 7)
+        self.assertEqual(stats["current_hour"]["success"], 1)
+        self.assertEqual(stats["current_hour"]["replayed_challenge"], 7)
 
     def test_prefix_and_unsafe_targets(self) -> None:
         with override_settings(URL_PREFIX="/hosted"):

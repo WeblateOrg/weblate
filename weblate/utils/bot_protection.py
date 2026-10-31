@@ -117,6 +117,8 @@ VERIFY_PATH = "/-/pow/verify/"
 CHECK_PATH = "/-/pow/check/"
 LOGGER = logging.getLogger("weblate.bot_protection")
 OUTCOMES = (
+    "issued",
+    "pow_required",
     "success",
     "expired_challenge",
     "invalid_solution",
@@ -142,9 +144,14 @@ def record_outcome(reason: str, status: int) -> None:
             "count": 1,
         },
     )
+    record_counter(reason)
+
+
+def record_counter(reason: str) -> None:
+    """Increment a best-effort hourly counter."""
     try:
         backend = caches[option("CACHE_ALIAS", "default")]
-        key = f"pow:stats:{int(time.time()) // 60}:{reason}"
+        key = f"pow:stats:hour:{int(time.time()) // 3600}:{reason}"
         if not backend.add(key, 1, timeout=25 * 3600):
             backend.incr(key)
     except Exception:
@@ -154,21 +161,28 @@ def record_outcome(reason: str, status: int) -> None:
         )
 
 
-def verification_stats() -> dict[str, int] | None:
-    """Return approximate last-day totals, or None on cache failure."""
-    minute = int(time.time()) // 60
+def verification_stats() -> dict[str, dict[str, int]] | None:
+    """Return current-hour and previous 24 completed hours, or None on failure."""
+    hour = int(time.time()) // 3600
     keys = {
-        f"pow:stats:{bucket}:{reason}": reason
-        for bucket in range(minute - 1439, minute + 1)
+        f"pow:stats:hour:{bucket}:{reason}": (
+            "current_hour" if bucket == hour else "previous_24_hours",
+            reason,
+        )
+        for bucket in range(hour - 24, hour + 1)
         for reason in OUTCOMES
     }
     try:
         values = caches[option("CACHE_ALIAS", "default")].get_many(keys)
     except Exception:
         return None
-    totals = dict.fromkeys(OUTCOMES, 0)
+    totals = {
+        window: dict.fromkeys(OUTCOMES, 0)
+        for window in ("current_hour", "previous_24_hours")
+    }
     for key, value in values.items():
-        totals[keys[key]] += value
+        window, reason = keys[key]
+        totals[window][reason] += value
     return totals
 
 
@@ -345,6 +359,7 @@ def challenge_page(request: HttpRequest) -> HttpResponse:
                 "login_url": prefix() + "/accounts/login/",
             }
         )
+    record_counter("issued")
     return headers(HttpResponse(content, status=403))
 
 
@@ -663,6 +678,8 @@ class BotProtectionMiddleware(MiddlewareMixin):
         denied = decision == "deny"
         if not denied and request.method == "GET" and accepts_html(request):
             return challenge_page(request)
+        if not denied:
+            record_counter("pow_required")
         response = JsonResponse(
             {
                 "error": "bot_denied" if denied else "pow_required",

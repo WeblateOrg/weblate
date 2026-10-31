@@ -102,6 +102,7 @@ from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
 )
+from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
@@ -4855,7 +4856,29 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         return result
 
 
+class BotProtectionCountsSerializer(ReadOnlySerializer):
+    issued = serializers.IntegerField()
+    pow_required = serializers.IntegerField()
+    success = serializers.IntegerField()
+    expired_challenge = serializers.IntegerField()
+    invalid_solution = serializers.IntegerField()
+    replayed_challenge = serializers.IntegerField()
+    csrf_failed = serializers.IntegerField()
+    verification_unavailable = serializers.IntegerField()
+
+
+class BotProtectionStatsSerializer(ReadOnlySerializer):
+    current_hour = BotProtectionCountsSerializer()
+    previous_24_hours = BotProtectionCountsSerializer()
+
+
 class MetricsSerializer(ReadOnlySerializer):
+    bot_protection = serializers.SerializerMethodField()
+
+    @extend_schema_field(BotProtectionStatsSerializer(allow_null=True))
+    def get_bot_protection(self, instance) -> dict[str, dict[str, int]] | None:
+        return verification_stats() if option("ENABLED", False) else None
+
     units = serializers.IntegerField(source="all")
     units_translated = serializers.IntegerField(source="translated")
     users = serializers.IntegerField(source="get_users")

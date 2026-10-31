@@ -3520,20 +3520,34 @@ sign in instead. Challenge assets must be available from the same origin.
 
 Default: ``"default"``. Shared Redis or Memcached cache used to atomically consume
 valid solutions once. No replay entries are created for unsolved challenges.
-Cache failures reject verification with HTTP 503. Ordinary clearance checks and
-sessionless challenge generation do not access the database or shared cache.
+Cache failures reject verification with HTTP 503. Ordinary clearance checks do
+not access the database or shared cache. Sessionless challenge generation only
+accesses the shared cache to increment a best-effort issued-challenge counter.
 Keep the replay cache available and sized to retain entries through challenge
 expiry: eviction or cache loss can permit reuse of otherwise valid solutions.
 Normal Django session validation still accesses the configured session backend.
 
-The management overview shows approximate verification counts by outcome over
-24 hours when protection is enabled. Minute buckets in the PoW cache expire
-after 25 hours; eviction and outages can lose counts. Counter failures never
-change verification responses. The ``weblate.bot_protection`` logger emits
-structured verification events with ``event``, ``reason``, ``status``, and
-``count`` fields, without proof payloads or client identifiers. Configure a log
-handler that retains these fields for diagnosis during cache outages. Clearance
-checks remain independent of the cache; verification outcome counters use it.
+The management :guilabel:`Performance report` shows issued challenges and
+verification outcomes for the current hour and the previous 24 completed hours.
+It also shows requests rejected with ``pow_required`` without issuing a challenge
+because of their method or Accept header. These counts exclude explicit
+``bot_denied`` policy denials and exempt requests, and count requests rather than
+unique clients.
+Hours are aligned to UTC. Hourly buckets in the PoW cache expire after 25 hours;
+eviction and outages can lose counts. Counter failures never change challenge
+or verification responses. Following an upgrade from minute buckets, totals
+populate as new events occur.
+
+These counts are also available from :http:get:`/api/metrics/`. Issued challenges
+and verification outcomes indicate relative volumes, not an exact count of
+unattempted challenges: verification requests can include retries, replays, and
+malformed submissions.
+
+The ``weblate.bot_protection`` logger emits structured verification events with
+``event``, ``reason``, ``status``, and ``count`` fields, without proof payloads or
+client identifiers. Configure a log handler that retains these fields for
+diagnosis during cache outages. Clearance checks remain independent of the
+cache; issued-challenge, ``pow_required``, and verification outcome counters use it.
 
 .. setting:: BOT_PROTECTION_EXEMPT_PATHS
 
