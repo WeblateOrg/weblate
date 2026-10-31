@@ -223,10 +223,6 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
             "menu_items": MENU,
             "menu_page": "index",
             "support": support,
-            "bot_protection_enabled": option("ENABLED", False),
-            "bot_protection_stats": verification_stats()
-            if option("ENABLED", False)
-            else None,
             "activate_form": ActivateForm(initial=initial),
             "support_form": form,
             "git_revision_link": GIT_LINK,
@@ -736,6 +732,10 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "database_size": database_size,
         "database_disk_usage": database_disk_usage,
         "memory_migration_status": get_memory_migration_status(),
+        "bot_protection_enabled": option("ENABLED", False),
+        "bot_protection_stats": verification_stats()
+        if option("ENABLED", False)
+        else None,
     }
 
     return render(request, "manage/performance.html", context)

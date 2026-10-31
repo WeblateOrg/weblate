@@ -47,6 +47,7 @@ from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
+from weblate.utils.bot_protection import OUTCOMES
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
@@ -609,25 +610,37 @@ class ManagementAccessControlTest(ViewTestCase):
         with patch(
             "weblate.wladmin.views.verification_stats",
             return_value={
-                "success": 7,
-                "expired_challenge": 0,
-                "invalid_solution": 0,
-                "replayed_challenge": 0,
-                "csrf_failed": 0,
-                "verification_unavailable": 0,
+                "current_hour": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 9,
+                    "success": 7,
+                },
+                "previous_24_hours": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 19,
+                    "success": 17,
+                },
             },
         ):
-            response = self.client.get(reverse("manage"))
+            response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "Bot protection")
-        self.assertEqual(response.context["bot_protection_stats"]["success"], 7)
+        self.assertEqual(
+            response.context["bot_protection_stats"]["current_hour"]["success"], 7
+        )
         with patch("weblate.wladmin.views.verification_stats", return_value=None):
-            response = self.client.get(reverse("manage"))
+            response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "Counters are unavailable.")
         with (
             override_settings(BOT_PROTECTION_ENABLED=False),
             patch(
                 "weblate.wladmin.views.verification_stats", side_effect=AssertionError
             ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertNotContains(response, "Bot protection")
+
+        with patch(
+            "weblate.wladmin.views.verification_stats", side_effect=AssertionError
         ):
             response = self.client.get(reverse("manage"))
         self.assertNotContains(response, "Bot protection")

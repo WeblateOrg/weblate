@@ -69,6 +69,24 @@ def get_server_openmetrics_data(
             ),
         )
     )
+    bot_protection = cast(
+        "Mapping[str, Mapping[str, int]] | None", data["bot_protection"]
+    )
+    if bot_protection is not None:
+        result.append(
+            OpenMetricsMetric(
+                name="bot_protection_events",
+                help_text="Bot protection events in hourly windows.",
+                metric_type="gauge",
+                samples=tuple(
+                    OpenMetricsSample(
+                        value=value, labels={"window": window, "event": event}
+                    )
+                    for window, counts in bot_protection.items()
+                    for event, value in counts.items()
+                ),
+            )
+        )
     if show_metrics_version(settings.VERSION_DISPLAY):
         result.append(
             OpenMetricsMetric(

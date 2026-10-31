@@ -12,6 +12,40 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+  {% if bot_protection_enabled %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Bot protection" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>{% translate "Issued challenges, requests requiring proof of work, and verification outcomes in hourly buckets. Counts are best-effort and can be lost during cache outages or eviction." %}</p>
+        {% if bot_protection_stats is None %}
+          <p>{% translate "Counters are unavailable." %}</p>
+        {% else %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{% translate "Outcome" %}</th>
+                <th scope="col">{% translate "Current hour" %}</th>
+                <th scope="col">{% translate "Previous 24 completed hours" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">{% translate "Issued challenges" %}</th><td>{{ bot_protection_stats.current_hour.issued }}</td><td>{{ bot_protection_stats.previous_24_hours.issued }}</td></tr>
+              <tr><th scope="row">{% translate "Requests requiring proof of work" %}</th><td>{{ bot_protection_stats.current_hour.pow_required }}</td><td>{{ bot_protection_stats.previous_24_hours.pow_required }}</td></tr>
+              <tr><th scope="row">{% translate "Success" %}</th><td>{{ bot_protection_stats.current_hour.success }}</td><td>{{ bot_protection_stats.previous_24_hours.success }}</td></tr>
+              <tr><th scope="row">{% translate "Expired challenge" %}</th><td>{{ bot_protection_stats.current_hour.expired_challenge }}</td><td>{{ bot_protection_stats.previous_24_hours.expired_challenge }}</td></tr>
+              <tr><th scope="row">{% translate "Invalid solution" %}</th><td>{{ bot_protection_stats.current_hour.invalid_solution }}</td><td>{{ bot_protection_stats.previous_24_hours.invalid_solution }}</td></tr>
+              <tr><th scope="row">{% translate "Replayed challenge" %}</th><td>{{ bot_protection_stats.current_hour.replayed_challenge }}</td><td>{{ bot_protection_stats.previous_24_hours.replayed_challenge }}</td></tr>
+              <tr><th scope="row">{% translate "CSRF failure" %}</th><td>{{ bot_protection_stats.current_hour.csrf_failed }}</td><td>{{ bot_protection_stats.previous_24_hours.csrf_failed }}</td></tr>
+              <tr><th scope="row">{% translate "Service unavailable" %}</th><td>{{ bot_protection_stats.current_hour.verification_unavailable }}</td><td>{{ bot_protection_stats.previous_24_hours.verification_unavailable }}</td></tr>
+            </tbody>
+          </table>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
   {% if errors %}
     <div class="card">
       <div class="card-header text-bg-danger">

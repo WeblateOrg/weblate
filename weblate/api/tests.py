@@ -20195,6 +20195,55 @@ class ChangeAPITest(APIBaseTest):
 
 
 class MetricsAPITest(APIBaseTest):
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_metrics(self) -> None:
+        self.authenticate()
+        counts = {
+            "current_hour": {"issued": 9, "success": 7, "pow_required": 4},
+            "previous_24_hours": {"issued": 90, "success": 70, "pow_required": 40},
+        }
+        with patch("weblate.api.serializers.verification_stats", return_value=counts):
+            response = self.client.get(reverse("api:metrics"))
+            self.assertEqual(response.data["bot_protection"], counts)
+            response = self.client.get(reverse("api:metrics"), {"format": "csv"})
+            self.assertContains(response, "bot_protection.current_hour.issued")
+            self.assertContains(response, "bot_protection.current_hour.pow_required")
+            response = self.client.get(
+                reverse("api:metrics"), {"format": "openmetrics"}
+            )
+            self.assertContains(response, "# TYPE bot_protection_events gauge")
+            self.assertContains(
+                response,
+                'bot_protection_events{window="current_hour",event="issued"} 9',
+            )
+            self.assertContains(
+                response,
+                'bot_protection_events{window="current_hour",event="pow_required"} 4',
+            )
+        with patch("weblate.api.serializers.verification_stats", return_value=None):
+            response = self.client.get(reverse("api:metrics"))
+            self.assertIsNone(response.data["bot_protection"])
+            response = self.client.get(
+                reverse("api:metrics"), {"format": "openmetrics"}
+            )
+            self.assertNotContains(response, "bot_protection_events")
+        with (
+            override_settings(BOT_PROTECTION_ENABLED=False),
+            patch(
+                "weblate.api.serializers.verification_stats",
+                side_effect=AssertionError,
+            ),
+        ):
+            response = self.client.get(reverse("api:metrics"))
+            self.assertIsNone(response.data["bot_protection"])
+
     def test_metrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"))
