@@ -54,11 +54,11 @@ library using matching versions:
 .. code-block:: kotlin
 
    plugins {
-       id("org.weblate.android") version "1.0.0-alpha02"
+       id("org.weblate.android") version "1.0.0-alpha03"
    }
 
    dependencies {
-       implementation("org.weblate:android:1.0.0-alpha02")
+       implementation("org.weblate:android:1.0.0-alpha03")
    }
 
 Add the configuration copied from Weblate, replacing the example URLs and
