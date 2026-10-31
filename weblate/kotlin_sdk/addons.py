@@ -11,19 +11,23 @@ from typing import TYPE_CHECKING, ClassVar
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
 
-from weblate.addons.cdn import CDNBaseAddon
+from weblate.addons.cdn import CDNBaseAddon, CDNFilesAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.kotlin_sdk.api import get_api_urls
 from weblate.kotlin_sdk.publication import Publication
+from weblate.utils.change_origin import get_acting_user
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
     from django.urls.resolvers import URLPattern
 
+    from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.trans.models import Component, Translation
 
@@ -51,10 +55,30 @@ class KotlinSDKForm(BaseAddonForm):
         ),
     )
 
+    install_translation_files = forms.BooleanField(
+        label=gettext_lazy("Install Translation files CDN"),
+        required=False,
+        initial=True,
+        help_text=gettext_lazy(
+            "Publishes original translation files publicly, including files from private components."
+        ),
+    )
+
     def __init__(self, *args, **kwargs) -> None:  # ruff: ignore[missing-type-args, missing-type-kwargs]
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(Field("maximum_age"), Field("maximum_versions"))
+        if self._addon.instance.pk is None and not self._addon.documentation_build:
+            self.helper.layout.append(Field("install_translation_files"))
+        else:
+            del self.fields["install_translation_files"]
+
+    def serialize_form(self) -> dict[str, int | bool]:
+        data = dict(super().serialize_form())
+        install = data.pop("install_translation_files", False)
+        if self._addon.instance.pk is None and install:
+            data["_install_translation_files"] = True
+        return data
 
 
 class KotlinSDKAddon(CDNBaseAddon):
@@ -76,23 +100,68 @@ class KotlinSDKAddon(CDNBaseAddon):
         AddonEvent.EVENT_DAILY,
     }
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_translation_files_addon(self) -> Addon | None:
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
+
+        return Addon.objects.filter(
+            component=self.instance.component, name=CDNFilesAddon.name
+        ).first()
+
+    def post_configure(self, run: bool = True) -> None:
+        if self.instance.configuration.pop("_install_translation_files", False):
+            component = self.instance.component
+            if component is not None and self.get_translation_files_addon() is None:
+                if not CDNFilesAddon.can_install(component=component):
+                    raise ValidationError(
+                        gettext_lazy(
+                            "Translation files CDN cannot be installed on this component."
+                        )
+                    )
+                CDNFilesAddon.create(
+                    component=component, acting_user=get_acting_user(), run=run
+                )
+                component.drop_addons_cache()
+            self.instance.save(update_fields=["configuration"])
+        super().post_configure(run=run)
+
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         component = self.instance.component
         if not self.instance.pk or component is None:
             return ""
         component_path = "%2F".join(component.get_url_path()[1:])
+        files_addon = self.get_translation_files_addon()
         snippet = (
             "weblate {\n"
             f'    serverUrl = "{get_site_url()}"\n'
-            f'    cdnUrl = "{self.cdn_base_url}"\n'
             '    authToken = "INSERT_TOKEN_HERE"\n'
             f'    project = "{component.project.slug}"\n'
             f'    component = "{component_path}"\n'
-            "}"
+        )
+        if files_addon is not None:
+            snippet += (
+                "\n    translationFiles {\n"
+                f'        cdnUrl = "{CDNFilesAddon(files_addon).cdn_base_url}"\n'
+                "    }\n"
+            )
+        snippet += (
+            f'\n    kotlinSdk {{\n        cdnUrl = "{self.cdn_base_url}"\n    }}\n}}'
         )
         return render_to_string(
             "addons/kotlin.html",
-            {"snippet": snippet, "project": component.project, "user": user},
+            {
+                "snippet": snippet,
+                "project": component.project,
+                "user": user,
+                "component": component,
+                "files_addon_missing": files_addon is None,
+                "can_install_files": request is not None
+                and files_addon is None
+                and user.has_perm("component.edit", component)
+                and CDNFilesAddon.can_install(component=component),
+            },
+            request=request,
         )
 
     @classmethod

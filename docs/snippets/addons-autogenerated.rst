@@ -323,8 +323,16 @@ names and their submitted IDs alongside translated text. Do not treat the
 uploaded resource mapping as confidential; enable publication only when this
 disclosure is intended. Registration and status API access remains permission-controlled.
 
+Installation offers to install :ref:`addon-weblate.cdn.files` by default so the
+SDK can also consume the original Android XML files. Existing Translation files
+CDN installations are reused. For existing Kotlin SDK installations, use
+:guilabel:`Install Translation files CDN` on the configuration page, then return
+to copy the updated Gradle configuration. Original files are also published
+publicly, including those from private components.
+
 Copy the Gradle plugin configuration from the add-on configuration page. It
-includes the Weblate server URL, public CDN URL, project slug, and component
+includes the Weblate server URL, separate ``translationFiles`` and ``kotlinSdk``
+public CDN URLs, project slug, and component
 path (with any category path URL-encoded). Replace the placeholder with a
 project-scoped API token whose permissions allow editing the component. Project
 administrators can create one in the project's :guilabel:`API access` tab; see
