@@ -22,10 +22,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-24 13:40+0000\n"
-"Last-Translator: คนแปล มังงะฝึกหัด "
-"<mangahadplae@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"PO-Revision-Date: 2026-10-30 05:03+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -1281,6 +1281,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "มืด"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "โปรดยืนยันตัวตนของคุณโดยใช้วิธียืนยันตัวตนสองขั้นตอนก่อนดำเนินการต่อ"
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "คีย์ความปลอดภัย (%s)"
@@ -1396,9 +1399,6 @@ msgstr "ออกจากระบบแล้ว"
 #| msgid "Use account e-mail address"
 msgid "Verify new e-mail address"
 msgstr "ใช้ที่อยู่อีเมลของบัญชี"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "โปรดยืนยันตัวตนของคุณโดยใช้วิธียืนยันตัวตนสองขั้นตอนก่อนดำเนินการต่อ"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "ไม่สามารถรีเซ็ตรหัสผ่านได้ ระบบปิดการยืนยันตัวตนผ่านอีเมลไว้"
@@ -1606,6 +1606,11 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr "แปลข้อความโดยอัตโนมัติด้วยระบบแปลภาษาหรือจากคอมโพเนนต์อื่น"
+
+#, fuzzy, python-format
+#| msgid "Error"
+msgid "Error: %s"
+msgstr "ข้อผิดพลาด"
 
 msgid "enabled"
 msgstr "เปิดใช้งานแล้ว"
@@ -1879,7 +1884,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "แก้ไขจำนวนมาก"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "แก้ไขธง ป้ายกำกับ หรือสถานะของข้อความจำนวนมาก"
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2036,6 +2043,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Component wide notifications"
+msgid "Comment extraction"
+msgstr "การแจ้งเตือนระดับคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Words"
+msgid "Keywords"
+msgstr "คำ"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update behavior"
+msgstr "ภาพรวม"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This field is required."
 msgstr "ฟิลด์นี้จำเป็น"
@@ -2093,6 +2118,11 @@ msgstr ""
 "เส้นทางสัมพัทธ์ไปยัง POTFILES หรือ POTFILES.in รายการต่างๆ "
 "จะถูกระบุโดยอ้างอิงจากรากของที่เก็บข้อมูล หากมี POTFILES.skip อยู่ถัดจาก manifest "
 "จะเป็นการยกเว้นไฟล์ที่ระบุไว้จากการแตกไฟล์"
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "ไฟล์แบบอักษร"
 
 msgid "Invalid symbolic link in a repository."
 msgstr ""
@@ -2345,6 +2375,21 @@ msgstr "ลบคอมโพเนนต์สำหรับไฟล์ที
 msgid "I confirm the above matches look correct"
 msgstr "ฉันยืนยันว่าการจับคู่ข้างต้นดูถูกต้อง"
 
+#, fuzzy
+#| msgid "Vietnamese"
+msgid "File matching"
+msgstr "เวียดนาม"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component naming and file templates"
+msgstr "ชื่อคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component lifecycle"
+msgstr "รายการคอมโพเนนต์"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2535,6 +2580,26 @@ msgstr "จำนวนครั้งที่จะทำซ้ำข้อค
 msgid "Include read-only strings"
 msgstr "รวมข้อความแบบอ่านได้อย่างเดียว"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "ภาษาต้นฉบับ"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "ข้อความคงที่ที่เติมนำหน้า"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "ข้อความคงที่ที่เติมต่อท้าย"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "ทิศทางข้อความ"
+
 msgid "The source and target have to be different languages."
 msgstr "ภาษาต้นทางและเป้าหมายต้องเป็นคนละภาษากัน"
 
@@ -2636,6 +2701,22 @@ msgstr "รายละเอียดคลังเก็บ"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "การโฮสต์การแปล"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "การเลือกโครงการ"
 
 #, fuzzy
 #| msgid "Control characters"
@@ -3225,6 +3306,11 @@ msgstr ""
 
 msgid "Your suggestion already exists!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Per file"
+msgid "Search query"
+msgstr "ต่อไฟล์"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4308,6 +4394,136 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "การเปลี่ยนแปลงล่าสุด"
 
+#, fuzzy
+#| msgid "Change events"
+msgid "Change events"
+msgstr "เหตุการณ์การเปลี่ยนแปลง"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "The workflow runs for each of the selected events."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "นิพจน์ปกติ"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "การแปลมาถึงจุดสิ้นสุดแล้ว"
+
+#, fuzzy
+#| msgid "Rename"
+msgid "Category path"
+msgstr "เปลี่ยนชื่อ"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr "รหัสภาษา"
+
+#, fuzzy
+#| msgid "Change events"
+msgid "Change event"
+msgstr "เหตุการณ์การเปลี่ยนแปลง"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String state"
+msgstr "สถานะ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "การกระทำ"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "ย้ายคอมโพเนนต์"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "มีการเปลี่ยนแปลงข้อความ"
+
+#, fuzzy
+#| msgid "Status"
+msgid "String scope"
+msgstr "สถานะ"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "รายการคอมโพเนนต์เริ่มต้น"
+
+#, fuzzy
+#| msgid "Delete suggestion"
+msgid "Select strings"
+msgstr "ลบข้อเสนอแนะ"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "การแก้ไขจำนวนมาก"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component update"
+msgstr "ชื่อคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Repository update"
+msgstr "วันครบกำหนด"
+
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Repository commit"
+msgstr "การเปลี่ยนแปลงคลังเก็บ"
+
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push"
+msgstr "สถานะคลังเก็บ"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "นิพจน์ปกติ"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Component category"
+msgstr "ชื่อคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Matching strings"
+msgstr "ค้นหา"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "หมายเหตุ"
+
 msgid "Additional message"
 msgstr "ข้อความเพิ่มเติม"
 
@@ -4747,9 +4963,13 @@ msgstr "รูปพหูพจน์บางรูปแปลเหมือ
 msgid "Inconsistent"
 msgstr "ไม่สอดคล้องกัน"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr "ข้อความนี้มีคำแปลมากกว่าหนึ่งแบบในโครงการนี้ หรือยังไม่ได้แปลในบางคอมโพเนนต์"
 
 msgid "Reused translation"
@@ -6336,9 +6556,6 @@ msgstr "ขีดจำกัดภาษา"
 msgid "Enter a valid language code."
 msgstr "ภาษา"
 
-msgid "Language code"
-msgstr "รหัสภาษา"
-
 msgid "Language name"
 msgstr "ชื่อภาษา"
 
@@ -6858,6 +7075,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "ภาษา"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7492,6 +7712,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "เพิ่มภาษาใหม่ไปยัง %(component)s แล้ว"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "อัปเดตด้วยการ Rebase"
+
 msgid "File"
 msgstr "ไฟล์"
 
@@ -7858,9 +8083,22 @@ msgstr[0] "ไม่พบสตริงที่ตรงกัน"
 msgid "No new matching source strings found."
 msgstr "ไม่พบข้อความต้นฉบับใหม่ที่ตรง"
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "ไม่สามารถเปิดตั๋วงานได้ โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not find strings in the image. Please try again."
 msgstr "ไม่สามารถเปิดตั๋วงานได้ โปรดลองอีกครั้งภายหลัง"
 
 #, fuzzy
@@ -8748,6 +8986,9 @@ msgstr "เปลี่ยนรหัสผ่าน"
 msgid "API key copied to clipboard."
 msgstr ""
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "URL รากของ API:"
 
@@ -9393,6 +9634,11 @@ msgid "No components found."
 msgstr "จากรายการคอมโพเนนต์"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Integration instructions"
+msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
+
+#, fuzzy
 #| msgid "Configure addon"
 msgid "Configure add-on"
 msgstr "กำหนดค่าส่วนเสริม"
@@ -9532,10 +9778,90 @@ msgstr "ก่อนหน้า"
 msgid "Next"
 msgstr "ถัดไป"
 
+msgid "Workflow editing mode"
+msgstr ""
+
 #, fuzzy
-#| msgid "Translation notifications"
-msgid "Integration instructions"
-msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
+#| msgid "Edit"
+msgid "Editor"
+msgstr "แก้ไข"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "ไฟล์ YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Perform backup"
+msgid "Triggers"
+msgstr "สำรองข้อมูล"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Perform backup"
+msgid "Trigger"
+msgstr "สำรองข้อมูล"
+
+#, fuzzy
+#| msgid "Add new string"
+msgid "Add trigger"
+msgstr "เพิ่มข้อความใหม่"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Conditions"
+msgstr "ข้อผิดพลาดการกำหนดค่า"
+
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "All conditions have to pass before any action runs."
+msgstr "ล็อกคอมโพเนนต์และป้องกันไม่ให้มีการแปล"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Condition"
+msgstr "ข้อผิดพลาดการกำหนดค่า"
+
+#, fuzzy
+#| msgid "Add font"
+msgid "Add condition"
+msgstr "เพิ่มแบบอักษร"
+
+msgid "Actions"
+msgstr "การดำเนินการ"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "ดำเนินการในคลังโค้ดแล้ว"
+
+msgid "Action"
+msgstr "การกระทำ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "การกระทำ"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "ย้าย"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "ย้าย"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9615,6 +9941,24 @@ msgstr "การดูแลระบบ"
 #| msgid "No matching checks found!"
 msgid "No matching components were found!"
 msgstr "ไม่พบการตรวจสอบที่ตรงกัน!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9768,6 +10112,19 @@ msgstr "สตริงจะถูกสร้างขึ้นโดยใช
 msgid "Source string"
 msgstr "สตริงต้นฉบับ"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9776,6 +10133,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9893,6 +10266,11 @@ msgstr "จัดการโครงการที่เฝ้าดู"
 #, fuzzy
 #| msgid "Spaces"
 msgid "My workspaces"
+msgstr "ช่องว่าง"
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspaces"
 msgstr "ช่องว่าง"
 
 msgid "Manage translated languages"
@@ -10116,9 +10494,6 @@ msgstr "ดู"
 msgid "Event details"
 msgstr "รายละเอียดภาพหน้าจอ"
 
-msgid "Actions"
-msgstr "การดำเนินการ"
-
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
@@ -10223,6 +10598,116 @@ msgstr "คุณไม่มีสิทธิอนุญาตในการ
 msgid "Check your billing status"
 msgstr "ตรวจสอบสถานะการเรียกเก็บเงินของคุณ"
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "กำลังโหลด…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository details"
+msgid "Retry"
+msgstr "รายละเอียดคลังเก็บ"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the matched components."
+msgid "Review and confirm the bulk edit changes."
+msgstr "โปรดตรวจสอบและยืนยันคอมโพเนนต์ที่จับคู่"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s สตริงที่จำเป็นต้องตรวจสอบ"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Update preview"
+msgstr "ภาพรวม"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Select"
+msgstr "CSS selector"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "สตริง"
+
+msgid "Changes"
+msgstr "การเปลี่ยนแปลง"
+
+msgid "State"
+msgstr "สถานะ"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "ว่าง"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Source flags (all languages)"
+msgstr "เรียกดูภาษาทั้งหมด"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Translation flags"
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "ทุกภาษา"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "เรียกดูภาษาทั้งหมด"
+
+msgid "Apply"
+msgstr "นำไปใช้"
+
 msgid "Insights"
 msgstr "ข้อมูลเชิงลึก"
 
@@ -10243,9 +10728,6 @@ msgstr "อัปโหลดการแปล"
 msgid "Operations"
 msgstr "รุ่น"
 
-msgid "Search and replace"
-msgstr "ค้นหาและแทนที่"
-
 #, fuzzy
 #| msgid "Delete"
 msgid "Post announcement"
@@ -10260,14 +10742,6 @@ msgstr "การดูแลระบบ"
 #| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
 msgstr "เรียกดูการเปลี่ยนแปลงทั้งหมดสำหรับผู้ใช้"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "การเปลี่ยนแปลงล่าสุด"
-
-msgid "Apply"
-msgstr "นำไปใช้"
 
 #, fuzzy
 #| msgid "Browse all components"
@@ -11140,9 +11614,6 @@ msgstr "ภาพรวมการเรียกเก็บเงิน"
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr "การกระทำ"
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -11301,6 +11772,11 @@ msgstr ""
 msgid "Mark as spam"
 msgstr "ทำเครื่องหมายว่าเป็นสแปม"
 
+#, fuzzy
+#| msgid "Administration"
+msgid "Service is no longer available"
+msgstr "การดูแลระบบ"
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -11320,28 +11796,20 @@ msgid "workspace"
 msgstr "ช่องว่าง"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "ขีดจำกัดภาษา"
+
+#, fuzzy
 #| msgid "This field is required."
 msgid "This service is disabled."
 msgstr "ฟิลด์นี้จำเป็น"
-
-msgid "disabled"
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Service is no longer available"
-msgstr "การดูแลระบบ"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Installation slug (optional)"
-msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -11350,19 +11818,114 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "ล้างไฟล์คำแปล"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "บริการแบบโฮสต์"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "การเพิ่มข้อความถูกปิดใช้งานในการกำหนดค่าคอมโพเนนต์"
+#| msgid "Administration"
+msgid "This service is managed at its installation scope."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "ใช้คำแปลนี้"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
+
+#, fuzzy
+#| msgid "This add-on executes a script."
+msgid "This service has no settings."
+msgstr "ส่วนเสริมนี้สั่งทำงานสคริปต์"
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "ใช้คำแนะนำอัตโนมัติ"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "ขีดจำกัดอัตรา"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Reset rate limit"
+msgstr "รุ่น"
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "คอมโพเนนต์นี้ถูกล็อกอยู่ในขณะนี้"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Service control"
+msgstr "รุ่น"
+
+#, fuzzy
+#| msgid "GitHub username"
+msgid "Disable installation"
+msgstr "ชื่อผู้ใช้ GitHub"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Enable installation"
+msgstr "การแปลด้วยเครื่อง"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 #, fuzzy
@@ -11370,19 +11933,41 @@ msgstr ""
 msgid "Enable"
 msgstr "ส่วนเสริมตัวอย่าง"
 
-#, fuzzy
-#| msgid "Action"
-msgid "Remove this installation and its configuration."
-msgstr "กระทำการ"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgid "Authentication"
+msgid "Exclude inherited service"
+msgstr "การรับรองความถูกต้อง"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "กำหนดค่า"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "ล้างไฟล์คำแปล"
 
 #, fuzzy
 #| msgid "There are no addons currently installed."
@@ -11409,6 +11994,16 @@ msgstr "การดูแลระบบ"
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "สัญญาอนุญาตของคำแปล"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "No translation service errors available."
+msgstr "การดูแลระบบ"
 
 #, fuzzy, python-format
 #| msgid "There has been a change in your account at %(site_title)s:"
@@ -12526,11 +13121,6 @@ msgstr "ส่งคำเชิญซ้ำ"
 msgid "Check user access"
 msgstr "รายละเอียดการตรวจสอบ"
 
-#, fuzzy
-#| msgid "Spaces"
-msgid "Workspaces"
-msgstr "ช่องว่าง"
-
 msgid "Add workspace"
 msgstr ""
 
@@ -12646,6 +13236,9 @@ msgstr "เปิด"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "ปิด"
+
+msgid "Configure"
+msgstr "กำหนดค่า"
 
 #, fuzzy
 #| msgid "Use translation memory"
@@ -12868,22 +13461,6 @@ msgstr "ผู้มีส่วนร่วมใหม่ใน %(translation)
 msgid "Donate to Weblate development"
 msgstr "บริจาคให้ Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-#| msgid "Overview"
-msgid "Update preview"
-msgstr "ภาพรวม"
-
-msgid "Replace"
-msgstr "แทนที่"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -12927,6 +13504,24 @@ msgstr "ภาพหน้าจอถูกแสดงเพื่อเพิ
 msgid "Assign source strings"
 msgstr "กำหนดสตริงต้นฉบับ"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "สตริงต้นฉบับที่กำหนดไว้"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "วิดเจ็ตภาพ"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add selected"
+msgstr "เพิ่มภาพหน้าจอ"
+
 msgid "Source string search"
 msgstr "การค้นหาสตริงต้นฉบับ"
 
@@ -12939,19 +13534,6 @@ msgstr ""
 #| msgid "Documentation"
 msgid "Search query syntax documentation"
 msgstr "เอกสารประกอบ"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "รวมข้อความที่ต้องการการแก้ไข"
-
-#, fuzzy
-#| msgid "Add screenshot"
-msgid "Add selected"
-msgstr "เพิ่มภาพหน้าจอ"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "การลบภาพหน้าจอจะเอาออกจากสตริงต้นฉบับที่เชื่อมโยงไว้ทั้งหมด"
@@ -13181,7 +13763,7 @@ msgstr "ค้นหา"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -13315,11 +13897,6 @@ msgid "Clone to translation"
 msgstr "โคลนไปยังคำแปล"
 
 #, fuzzy
-#| msgid "CSS selector"
-msgid "Select"
-msgstr "CSS selector"
-
-#, fuzzy
 #| msgid "Search"
 msgid "Target string"
 msgstr "ค้นหา"
@@ -13368,7 +13945,6 @@ msgstr "การดำเนินการเกี่ยวกับคลั
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -13899,11 +14475,6 @@ msgstr "ค้นหา"
 msgid "Location strings"
 msgstr "กระทำการ"
 
-#, fuzzy
-#| msgid "Status"
-msgid "String state"
-msgstr "สถานะ"
-
 #. Translators: String pending for flushing to VCS.
 #, fuzzy
 #| msgid "Versions"
@@ -14113,11 +14684,6 @@ msgstr "คำแปลของคุณคือ foo"
 #| msgid "Username"
 msgid "Saved search name"
 msgstr "ชื่อผู้ใช้"
-
-#, fuzzy
-#| msgid "Per file"
-msgid "Search query"
-msgstr "ต่อไฟล์"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -14925,6 +15491,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
@@ -15066,9 +15642,6 @@ msgstr "ข้ามไปยัง"
 msgid "Go"
 msgstr "ดี"
 
-msgid "Changes"
-msgstr "การเปลี่ยนแปลง"
-
 msgid "Download latest changes as CSV"
 msgstr "ดาวน์โหลดการเปลี่ยนแปลงล่าสุดเป็น CSV"
 
@@ -15147,11 +15720,6 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
-
-#, fuzzy
-#| msgid "Repository details"
-msgid "Retry"
-msgstr "รายละเอียดคลังเก็บ"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -17655,6 +18223,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "การดูแลระบบ"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Administration"
+msgid "Could not customize the pull request."
+msgstr "การดูแลระบบ"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr ""
 
@@ -17679,6 +18253,18 @@ msgstr ""
 
 msgid "Trailing and leading whitespace"
 msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "การดูแลระบบ"
+
+#, fuzzy, python-format
+#| msgid "Administration"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "การดูแลระบบ"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
@@ -17761,6 +18347,9 @@ msgstr "การดูแลระบบ"
 msgid "Screenshot image is missing."
 msgstr "รายละเอียดภาพหน้าจอ"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 #, fuzzy
 #| msgid "Administration"
 msgid "Duplicate check name."
@@ -17778,6 +18367,11 @@ msgstr ""
 #| msgid "Delete"
 msgid "Duplicate component slug."
 msgstr "ลบ"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Translation revision has an invalid format."
+msgstr "การดูแลระบบ"
 
 #, fuzzy
 #| msgid "Administration"
@@ -17859,10 +18453,50 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Version control parameters"
+msgstr "รุ่น"
+
+#, fuzzy
+#| msgid "File format"
+msgid "File format parameters"
+msgstr "รูปแบบไฟล์"
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "คลังเก็บภายในมีการอัปเดตข้อมูลล่าสุดแล้ว"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid search type."
+msgstr "จัดการผู้ใช้"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Invalid target state."
+msgstr "คำขอผสานไม่ถูกต้อง!"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Choose either replacement or clearing translations."
+msgstr "การดูแลระบบ"
 
 #, fuzzy
 #| msgid "This translation is currently locked for updates."
@@ -18023,9 +18657,6 @@ msgstr ""
 #| msgid "Versions"
 msgid "Version control"
 msgstr "รุ่น"
-
-msgid "State"
-msgstr "สถานะ"
 
 #, fuzzy
 #| msgid "Security"
@@ -19125,23 +19756,6 @@ msgid "Could not load project backup."
 msgstr "ไม่สามารถแยกวิเคราะห์ไฟล์ JSON ได้: {!s}"
 
 #, fuzzy
-#| msgid ""
-#| "Screenshot is shown to add visual context for all listed source strings."
-msgid "Optional additional filter applied to the strings"
-msgstr "ภาพหน้าจอถูกแสดงเพื่อเพิ่มบริบทแบบเห็นภาพสำหรับสตริงต้นฉบับที่อยู่ในรายชื่อทั้งหมด"
-
-#, fuzzy
-#| msgid "Search"
-msgid "Search string"
-msgstr "ค้นหา"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
-#, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
 msgstr "บริบทภาพหน้าจอ"
@@ -19207,6 +19821,32 @@ msgstr "การดูแลระบบ"
 msgid "Invalid string selection!"
 msgstr "คอลัมน์ของรายการที่เลือกไว้ไม่ถูกต้อง."
 
+#, fuzzy
+#| msgid "Per file"
+msgid "Search type"
+msgstr "ต่อไฟล์"
+
+msgid "Text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Search string"
+msgstr "ค้นหา"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr ""
 
@@ -19215,39 +19855,80 @@ msgstr ""
 msgid "Do not change"
 msgstr "ดาวน์โหลด"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "แก้ไขป้ายชื่อ"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "ลบ"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Administration"
-msgid "Translation flags to add — matching translations"
-msgstr "การดูแลระบบ"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "เพิ่มป้ายชื่อ"
+
+#, fuzzy
+#| msgid "Remove a string"
+msgid "Remove labels"
+msgstr "เอาสตริงออก"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "การเปลี่ยนแปลงล่าสุด"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component name"
+msgid "Choose flags to remove…"
+msgstr "ชื่อคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "ภาษาต้นฉบับ"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "เติมข้อความคำแปลด้วยข้อความต้นฉบับ"
 
-#, fuzzy
-#| msgid "Administration"
-msgid "Translation flags to remove — matching translations"
-msgstr "การดูแลระบบ"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "Browse all languages"
-msgid "Labels to add — all languages"
-msgstr "เรียกดูภาษาทั้งหมด"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Language"
-msgid "Labels to remove — all languages"
-msgstr "ภาษา"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -19533,11 +20214,6 @@ msgstr "เปลี่ยนชื่อ"
 #| msgid "Language"
 msgid "Display name"
 msgstr "ภาษา"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Translation flags"
-msgstr "การดูแลระบบ"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -19873,11 +20549,6 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
-#, fuzzy
-#| msgid "Versions"
-msgid "Version control parameters"
-msgstr "รุ่น"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -19994,11 +20665,6 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr "ชื่อไฟล์ที่ใช้สร้างคำแปลใหม่ สำหรับ gettext ให้เลือกไฟล์ .pot"
-
-#, fuzzy
-#| msgid "File format"
-msgid "File format parameters"
-msgstr "รูปแบบไฟล์"
 
 msgid "Locked component will not get any translation updates."
 msgstr ""
@@ -21945,17 +22611,6 @@ msgstr "ดาวน์โหลด"
 msgid "Excluded user days"
 msgstr "ชื่อผู้ใช้"
 
-msgid "Could not process form!"
-msgstr ""
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -21965,6 +22620,17 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr ""
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "การยืนยันตัวตนล้มเหลว: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
@@ -22173,6 +22839,129 @@ msgid "Invalid host name given!"
 msgstr ""
 
 #, fuzzy
+#| msgid "XML tags in translation do not match source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "แท็ก XML ในคำแปลไม่ตรงกับต้นฉบับ"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "การดูแลระบบ"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "รุ่น"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "นิพจน์ทั่วไป (Regular expression) เพื่อจับคู่ไฟล์คำแปล"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Regular expression for e-mail address"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "นิพจน์ทั่วไปสำหรับที่อยู่อีเมล"
+
+#, fuzzy
 #| msgid "Administration"
 msgid "Automatic translation reported a warning."
 msgstr "การดูแลระบบ"
@@ -22184,6 +22973,11 @@ msgstr "การดูแลระบบ"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Automatic translation reported an error."
+msgstr "การดูแลระบบ"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -22360,6 +23154,9 @@ msgstr "ไม่สามารถแยกวิเคราะห์ไฟล
 msgid "Could not resolve the URL domain."
 msgstr "ไม่สามารถแยกวิเคราะห์ไฟล์ TMX ได้!"
 
+msgid "Invalid stored parameter value."
+msgstr ""
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
@@ -22381,6 +23178,11 @@ msgstr ""
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "นิพจน์ปกติ"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -22421,6 +23223,12 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "สร้างคอมโพเนนต์การแปลใหม่แล้ว"
+
+#, fuzzy
 #| msgid "Failed to parse JSON file: {!s}"
 msgid "Could not parse IP address: {}"
 msgstr "ไม่สามารถแยกวิเคราะห์ไฟล์ JSON ได้: {!s}"
@@ -22435,6 +23243,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "Search query is too long."
+msgstr "ข้อความต้นฉบับต้องการการตรวจทาน"
 
 #, fuzzy
 #| msgid "Invalid ordering"
@@ -22835,6 +23648,37 @@ msgstr ""
 #| msgid "Too many messages sent, please try again later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Administration"
@@ -23276,6 +24120,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Bad request"
+msgid "Pull request assignee"
+msgstr "คำขอไม่ถูกต้อง"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Bad request"
+msgid "Pull request labels"
+msgstr "คำขอไม่ถูกต้อง"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -23853,6 +24723,21 @@ msgid "Workspace name"
 msgstr "ภาษา"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation propagation scope"
+msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
+
+#, fuzzy
+#| msgid "Cannot change this on a built-in team."
+msgid "Matching component name within workspace"
+msgstr "ไม่สามารถเปลี่ยนค่านี้ในทีมที่มีมาให้ในระบบได้"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "Where translations of matching strings are propagated."
+msgstr "การแปลมาถึงจุดสิ้นสุดแล้ว"
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "ชื่อภาษา"
@@ -23883,6 +24768,53 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
+
+#~ msgid "Search and replace"
+#~ msgstr "ค้นหาและแทนที่"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "การเพิ่มข้อความถูกปิดใช้งานในการกำหนดค่าคอมโพเนนต์"
+
+#, fuzzy
+#~| msgid "Action"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "กระทำการ"
+
+#~ msgid "Replace"
+#~ msgstr "แทนที่"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "รวมข้อความที่ต้องการการแก้ไข"
+
+#, fuzzy
+#~| msgid ""
+#~| "Screenshot is shown to add visual context for all listed source strings."
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "ภาพหน้าจอถูกแสดงเพื่อเพิ่มบริบทแบบเห็นภาพสำหรับสตริงต้นฉบับที่อยู่ในรายชื่อทั้งหมด"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Browse all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "เรียกดูภาษาทั้งหมด"
+
+#, fuzzy
+#~| msgid "Language"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "ภาษา"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "ใช้ชื่อนี้ใน Commit ของระบบควบคุมเวอร์ชันด้วย"
@@ -23979,10 +24911,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ "Could not authenticate, probably due to an expired token or connection "
 #~ "error."
 #~ msgstr "ยืนยันตัวตนไม่สำเร็จ อาจเป็นเพราะโทเค็นหมดอายุหรือการเชื่อมต่อขัดข้อง"
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "การยืนยันตัวตนล้มเหลว: %s"
 
 #, fuzzy
 #~| msgid "Delete"
@@ -24123,11 +25051,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~| msgid "Backup repository"
 #~ msgid "Repository URL"
 #~ msgstr "คลังเก็บข้อมูลสำรอง"
-
-#, fuzzy
-#~| msgid "Repository changes"
-#~ msgid "Repository name"
-#~ msgstr "การเปลี่ยนแปลงคลังเก็บ"
 
 #, fuzzy
 #~| msgid "Delete"
@@ -24790,11 +25713,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
 #, fuzzy
 #~| msgid "Administration"
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "การดูแลระบบ"
-
-#, fuzzy
-#~| msgid "Administration"
 #~ msgid "Reviews are not enabled."
 #~ msgstr "การดูแลระบบ"
 
@@ -24899,9 +25817,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
 #~ msgid "Rename component"
 #~ msgstr "เปลี่ยนชื่อคอมโพเนนต์"
-
-#~ msgid "Move component"
-#~ msgstr "ย้ายคอมโพเนนต์"
 
 #~ msgid "Rename project"
 #~ msgstr "เปลี่ยนชื่อโครงการ"
@@ -25188,11 +26103,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgid "RST code"
 #~ msgstr "รหัส RST"
 
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s สตริงที่จำเป็นต้องตรวจสอบ"
-
 #, fuzzy
 #~| msgid "Versions"
 #~ msgid "Strings needing action without suggestions"
@@ -25457,9 +26367,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
 #~ msgid "Use this translation for all components"
 #~ msgstr "ใช้คำแปลนี้สำหรับคอมโพเนนต์ทั้งหมด"
-
-#~ msgid "Use this translation"
-#~ msgstr "ใช้คำแปลนี้"
 
 #~ msgid "Report an issue with registration"
 #~ msgstr "รายงานปัญหาเกี่ยวกับการลงทะเบียน"
@@ -25730,11 +26637,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #, fuzzy
 #~| msgid "Administration"
 #~ msgid "Translation license OSI approved."
-#~ msgstr "การดูแลระบบ"
-
-#, fuzzy
-#~| msgid "Administration"
-#~ msgid "This translation component is currently being updated."
 #~ msgstr "การดูแลระบบ"
 
 #, fuzzy
