@@ -111,31 +111,31 @@
         {% if page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}"
-    rel="ugc">{{ page_profile.public_email }}</a>
+                                                                        rel="ugc">{{ page_profile.public_email }}</a>
           </span>
         {% endif %}
         {% if can_edit_user and page_user.email != page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}"
-    rel="ugc">{{ page_user.email }}</a>
+                                                                        rel="ugc">{{ page_user.email }}</a>
           </span>
         {% endif %}
         {% if page_profile.liberapay %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "liberapay.svg" %}</span> <a href="https://liberapay.com/{{ page_profile.liberapay }}"
-    rel="ugc">{{ page_profile.liberapay }}</a>
+                                                                            rel="ugc">{{ page_profile.liberapay }}</a>
           </span>
         {% endif %}
         {% if page_profile.fediverse %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}"
-    rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
+                                                                            rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.github %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}"
-    rel="ugc">{{ page_profile.github }}</a>
+                                                                         rel="ugc">{{ page_profile.github }}</a>
           </span>
         {% endif %}
         {% if page_profile.codesite %}
@@ -148,13 +148,13 @@
         {% if page_profile.twitter %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://x.com/{{ page_profile.twitter }}"
-    rel="ugc">{{ page_profile.twitter }}</a>
+                                                                          rel="ugc">{{ page_profile.twitter }}</a>
           </span>
         {% endif %}
         {% if page_profile.linkedin %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/"
-    rel="ugc">{{ page_profile.linkedin }}</a>
+                                                                           rel="ugc">{{ page_profile.linkedin }}</a>
           </span>
         {% endif %}
       </p>
