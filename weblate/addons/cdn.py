@@ -36,6 +36,8 @@ CDN_JS_FILENAME = "weblate.js"
 CDN_MANIFEST_FILENAME = "manifest.json"
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
+
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project, Translation
@@ -195,7 +197,9 @@ class CDNJSAddon(CDNBaseAddon):
 
     settings_form = CDNJSForm
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         if not self.instance.pk:
             return ""
         return render_to_string(
@@ -324,7 +328,9 @@ class CDNFilesAddon(CDNBaseAddon):
     )
     needs_component = True
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         if not self.instance.pk:
             return ""
         return render_to_string(

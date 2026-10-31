@@ -48,6 +48,7 @@ if TYPE_CHECKING:
 
     from django.forms import Form
     from django.forms.boundfield import BoundField
+    from django.http import HttpRequest
     from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
 
@@ -220,7 +221,9 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def has_settings(cls) -> bool:
         return cls.settings_form is not None
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         """Render integration instructions independently of the settings form."""
         return ""
 

@@ -55,6 +55,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from django.forms.boundfield import BoundField
+    from django.http import HttpRequest
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.models import AddonActivityLog
@@ -292,7 +293,9 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     multiple = False
     version_added = "5.15"
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         return render_to_string(
             "addons/fedora_messaging_integration.html", {"addon": self, "user": user}
         )

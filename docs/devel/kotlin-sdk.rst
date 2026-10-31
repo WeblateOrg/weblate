@@ -10,8 +10,9 @@ Kotlin SDK for Android
 The official Kotlin SDK for Weblate delivers translation updates to Android
 applications without rebuilding or redistributing them. Its Gradle plugin
 generates and uploads resource metadata for each build. The Android library
-downloads updated translations from the public CDN configured by the
-:ref:`addon-weblate.cdn.kotlin` add-on.
+downloads updated translations from the public CDNs configured by the
+:ref:`addon-weblate.cdn.kotlin` and :ref:`addon-weblate.cdn.files` add-ons.
+The latter supplies original Android XML translation files.
 
 The SDK is maintained in the `Kotlin SDK repository
 <https://github.com/WeblateOrg/kotlin-sdk/>`_. The plugin is published on the
@@ -39,8 +40,18 @@ string resources. For self-hosted Weblate, configure :setting:`LOCALIZE_CDN_URL`
 and :setting:`LOCALIZE_CDN_PATH` first. See :ref:`addon-weblate.cdn.kotlin` for
 public CDN publication, supported resources, and build retention settings.
 
+The installation option :guilabel:`Install Translation files CDN` is enabled
+by default. It installs :ref:`addon-weblate.cdn.files` to publish the original
+Android XML files for the SDK. An existing installation of that add-on is reused.
+Both CDNs publish publicly, including translations from private components.
+
+For an existing Kotlin SDK installation without Translation files CDN, use
+:guilabel:`Install Translation files CDN` on the Kotlin SDK add-on configuration
+page, or install it from the component's :guilabel:`Add-ons` tab. Return to the
+Kotlin SDK configuration page afterwards to copy the updated Gradle snippet.
+
 Copy the Gradle configuration from the add-on configuration page. It supplies
-the server URL, CDN URL, project slug, and component path.
+the server URL, both CDN URLs, project slug, and component path.
 Create a :ref:`project-scoped API token <project-api>` with permission to edit
 the component. Set it as ``WEBLATE_API_TOKEN`` in the build environment used
 to upload metadata. Keep the token out of source control and the application.
@@ -68,10 +79,17 @@ slugs below with your component's values. Read the token from the environment:
 
    weblate {
        serverUrl = "https://hosted.weblate.org"
-       cdnUrl = "https://weblate-cdn.com/ADDON_ID"
        project = "my-project"
        component = "android"
        authToken.set(providers.environmentVariable("WEBLATE_API_TOKEN"))
+
+       translationFiles {
+           cdnUrl = "https://weblate-cdn.com/TRANSLATION_FILES_ADDON_ID"
+       }
+
+       kotlinSdk {
+           cdnUrl = "https://weblate-cdn.com/KOTLIN_SDK_ADDON_ID"
+       }
    }
 
 The token is needed only when uploading build metadata. The application
