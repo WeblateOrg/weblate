@@ -33,6 +33,7 @@ Weblate 2026.11
 .. rubric:: Improvements
 
 * :doc:`Kotlin SDK integration <devel/kotlin-sdk>` now offers Translation files CDN installation and Gradle configuration for original XML downloads.
+* Batched label, comment, and check restoration to reduce database queries during :ref:`project backup imports <projectbackup>`.
 
 * :ref:`fedora-messaging` now publishes using Kombu, removing the Twisted dependency. Broker URLs no longer accept query strings or fragments; configure delivery timing using the add-on fields.
 * Sped up source-string linking during :ref:`project backup restoration <projectbackup>`.
