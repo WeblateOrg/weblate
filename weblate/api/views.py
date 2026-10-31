@@ -2051,9 +2051,12 @@ class RoleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.has_perm("role.edit") or user.has_perm("role.view"):
-            return Role.objects.order_by("id").all()
+            return Role.objects.order_by("id").prefetch_related("permissions")
         return (
-            Role.objects.filter(group__in=user.groups.all()).order_by("id").distinct()
+            Role.objects.filter(group__in=user.groups.all())
+            .order_by("id")
+            .distinct()
+            .prefetch_related("permissions")
         )
 
     def perm_check(self, request: Request) -> None:
@@ -2073,7 +2076,21 @@ class RoleViewSet(viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a role."""
         self.perm_check(request)
+        if self.get_object().is_builtin:
+            self.permission_denied(request, "Built-in roles cannot be deleted")
         return super().destroy(request, *args, **kwargs)
+
+    @extend_schema(request=None, responses=RoleSerializer)
+    @action(detail=True, methods=["post"])
+    def reset(self, request: Request, **kwargs):
+        """Reset a built-in role to its current default permissions."""
+        self.perm_check(request)
+        role = self.get_object()
+        if not role.is_builtin:
+            msg = "Only built-in roles can be reset."
+            raise ValidationError(msg)
+        role.reset_permissions()
+        return Response(self.get_serializer(role).data)
 
 
 def validate_report_scope_access(user, scope) -> None:

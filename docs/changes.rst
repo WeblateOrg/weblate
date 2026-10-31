@@ -5,6 +5,8 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Built-in :ref:`roles <default-roles>` can be customized, with permission changes preserved across upgrades and a reset to upstream defaults.
+
 * Added optional self-hosted :ref:`bot-protection` as a technology preview, with proactive anonymous proof of work and verified crawler exemptions following the robots.txt crawl policy.
 
 * Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.

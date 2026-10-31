@@ -220,3 +220,30 @@ workload:
    The backup tasks cannot be executed in parallel, and a single dedicated worker makes this easier.
 ``translate``
    Automatic translation tasks are known to take long because they hit external services.
+
+
+Built-in role defaults
+----------------------
+
+Changes to built-in roles in :file:`weblate/auth/data.py` require a data migration.
+Run the following after changing the definitions, then review and format the
+resulting migration::
+
+    ./manage.py generate_role_migration
+    ./manage.py generate_role_migration --check
+
+Each generated migration freezes the old and new permission codenames and merges
+them with assigned permissions using historical models. Keep these snapshots
+independent of runtime definitions so upgrades through skipped releases apply each
+change in order. The consistency test rejects definitions without a matching
+migration. Role-update migrations are irreversible because merging can discard
+information. The post-migration hook only creates missing roles.
+
+
+Built-in role names are persistent identifiers, not freely changeable labels.
+An upstream rename requires an explicit data migration that preserves the role's
+primary key, team assignments, and local permission differences. Rename the
+existing role and map its old upstream baseline to the new name before merging.
+Freeze the renamed upstream defaults in that migration so subsequent generation
+uses the correct baseline. A generated remove/add migration would create a new
+role and leave teams assigned to the old one.

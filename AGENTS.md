@@ -13,6 +13,12 @@ For application-developer workflows and broader product integration guidance, us
 ## Code expectations
 
 - Follow existing Django patterns and project conventions.
+- Avoid per-object database queries in API serializers and admin list displays,
+  including queries hidden in computed model properties. Load related data with
+  `select_related()` or `prefetch_related()` in every applicable queryset path,
+  and consume the prefetched relations without issuing fresh queries such as
+  `values_list()` calls. Add focused query-count regression tests when exposing
+  relation-dependent computed fields in lists.
 - Prefer the repository's configured Ruff-based formatting and linting rules.
 - Use human-readable Ruff rule names in overrides, such as
   `# ruff: ignore[assert]`; do not use or rewrite them to cryptic codes such as
@@ -119,6 +125,19 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Weblate-specific guardrails
 
+- Changes to built-in role permission defaults in `weblate/auth/data.py` require
+  a data migration. Run `./manage.py generate_role_migration`, review and format
+  the generated migration, and verify `./manage.py generate_role_migration --check`.
+  Keep old and new permission sets and required permission labels frozen in each
+  migration; never import runtime role definitions or model helpers into it.
+  Preserve existing snapshots so upgrades through skipped releases merge each
+  change in order. Use historical models and the migration database alias.
+  The post-migration hook must only create missing roles, never overwrite
+  permissions of existing roles. Built-in role names are persistent identifiers.
+  Upstream renames require an explicit migration preserving role IDs, team
+  assignments, and local permission differences. Map the old baseline to the
+  new name before merging and freeze the renamed defaults for future generation;
+  a generated remove/add migration does not preserve role identity.
 - Be careful with repository, webhook, and file-handling code; validate inputs
   and avoid introducing path traversal, command injection, or script injection
   risks.

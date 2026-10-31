@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <p>{% translate "Reset these built-in roles to the current default permissions? This discards their customizations." %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <ul>
+      {% for role in roles %}
+        <li>
+          {{ role }}
+          <input type="hidden" name="{{ action_checkbox_name }}" value="{{ role.pk }}">
+        </li>
+      {% endfor %}
+    </ul>
+    <input type="hidden" name="action" value="reset_permissions">
+    <input type="hidden" name="confirm" value="1">
+    <input type="submit" value="{% translate 'Reset permissions' %}">
+    <a href="{% url 'admin:weblate_auth_role_changelist' %}">{% translate "Cancel" %}</a>
+  </form>
+{% endblock content %}
