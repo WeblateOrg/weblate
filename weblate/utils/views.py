@@ -976,8 +976,12 @@ def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResp
     )
 
 
-def _snapshot_file_response(
-    filename: str, content_type: str, refresh_lock: Callable[[], None]
+def snapshot_file_response(
+    filename: str,
+    content_type: str,
+    refresh_lock: Callable[[], None],
+    *,
+    as_attachment: bool = False,
 ) -> FileResponse:
     """Copy a file into a stable disk-backed download response."""
     refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
@@ -986,7 +990,12 @@ def _snapshot_file_response(
         with open(filename, "rb") as source:
             _copy_file_with_refresh(source, snapshot, refresh_repository_lock)
         snapshot.seek(0)
-        return FileResponse(snapshot, content_type=content_type)
+        return FileResponse(
+            snapshot,
+            content_type=content_type,
+            as_attachment=as_attachment,
+            filename=os.path.basename(filename) if as_attachment else "",
+        )
     except Exception:
         snapshot.close()
         raise
@@ -1028,7 +1037,7 @@ def _download_translation_file_locked(
             else:
                 # Materialize the response while holding the lock. An open checkout
                 # file can still change when rewritten in place.
-                response = _snapshot_file_response(
+                response = snapshot_file_response(
                     filename,
                     content_type,
                     repository.lock.reacquire,

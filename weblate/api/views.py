@@ -247,7 +247,11 @@ from weblate.utils.stats import (
     prefetch_stats,
 )
 from weblate.utils.task_log import get_visible_task_log
-from weblate.utils.views import download_translation_file, zip_download
+from weblate.utils.views import (
+    download_translation_file,
+    snapshot_file_response,
+    zip_download,
+)
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -715,16 +719,24 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def download_file(
         self, filename: str, content_type: str, component: Component | None = None
     ) -> HttpResponseBase:
-        """Download file."""
+        """Download file; component callers must hold the repository lock."""
+        repository = (
+            component.effective_repo_component.repository if component else None
+        )
         if os.path.isdir(filename):
             return zip_download(
                 filename,
                 [filename],
                 name=component.slug if component else "weblate",
+                refresh_lock=repository.lock.reacquire if repository else None,
             )
         if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
             raise Http404(msg)
+        if repository is not None:
+            return snapshot_file_response(
+                filename, content_type, repository.lock.reacquire, as_attachment=True
+            )
         return FileResponse(
             open(filename, "rb"),
             content_type=content_type,
@@ -3346,13 +3358,16 @@ class ComponentViewSet(
         if not request.user.has_perm("translation.download", obj):
             raise PermissionDenied
 
-        if not obj.has_template():
-            msg = "No template found!"
-            raise Http404(msg)
+        with obj.effective_repo_component.repository.lock:
+            if not obj.has_template():
+                msg = "No template found!"
+                raise Http404(msg)
 
-        return self.download_file(
-            obj.get_template_filename(), obj.template_store.mimetype(), component=obj
-        )
+            return self.download_file(
+                obj.get_template_filename(),
+                obj.template_store.mimetype(),
+                component=obj,
+            )
 
     @extend_schema(
         description="Download template file for new translations.",
@@ -3372,7 +3387,10 @@ class ComponentViewSet(
             msg = "No file found!"
             raise Http404(msg)
 
-        return self.download_file(obj.get_new_base_filename(), "application/binary")
+        with obj.effective_repo_component.repository.lock:
+            return self.download_file(
+                obj.get_new_base_filename(), "application/binary", component=obj
+            )
 
     @extend_schema(
         description="Return a list of translation objects in the given component.",

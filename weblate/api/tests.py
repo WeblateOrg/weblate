@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import csv
+import itertools
 import json
 import operator
 import os
@@ -187,6 +188,7 @@ from weblate.utils.task_log import (
 from weblate.utils.tests.network import mock_dns
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
+from weblate.utils.views import snapshot_file_response
 from weblate.vcs.base import RepositoryError, RepositoryInternalError, RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.workspaces.models import Workspace
@@ -10269,6 +10271,161 @@ class ComponentAPITest(APIBaseTest):
             Path(self.component.get_new_base_filename()).read_bytes(),
         )
         self.assertTrue(response.closed)
+
+    def test_template_directory_download_holds_repository_lock(self) -> None:
+        component = self.create_appstore(name="locked-appstore", project=self.project)
+        component.new_base = component.template
+        repository = component.effective_repo_component.repository
+        validate = component.check_file_is_valid
+        source_open = open
+        self.authenticate()
+        self.user.groups.clear()
+        self.grant_perm_to_user("translation.download", component=component)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", component))
+        self.assertFalse(self.user.has_perm("vcs.update", component))
+
+        def check_validation(filename):
+            self.assertTrue(repository.lock.is_locked)
+            return validate(filename)
+
+        def check_open(*args, **kwargs):
+            self.assertTrue(repository.lock.is_locked)
+            return source_open(*args, **kwargs)
+
+        for endpoint in ("monolingual-base", "new-template"):
+            with self.subTest(endpoint=endpoint):
+                clock = itertools.count(step=301)
+                with (
+                    patch(
+                        "weblate.api.views.ComponentViewSet.get_object",
+                        return_value=component,
+                    ),
+                    patch.object(
+                        component, "check_file_is_valid", side_effect=check_validation
+                    ) as validation,
+                    patch(
+                        "weblate.utils.views.open", side_effect=check_open, create=True
+                    ) as reads,
+                    patch.object(repository.lock, "reacquire") as reacquire,
+                    patch("weblate.utils.views.monotonic", side_effect=clock.__next__),
+                ):
+                    response = self.do_request(
+                        f"api:component-{endpoint}",
+                        {
+                            "project__slug": component.project.slug,
+                            "slug": component.slug,
+                        },
+                    )
+                validation.assert_called()
+                reads.assert_called()
+                reacquire.assert_called()
+                self.assertFalse(repository.lock.is_locked)
+                with zipfile.ZipFile(BytesIO(response.content)) as archive:
+                    self.assertIn("title.txt", archive.namelist())
+
+    def test_template_download_snapshots_linked_repository_file(self) -> None:
+        component = self.create_link_existing(
+            name="Linked template",
+            slug="linked-template",
+            file_format="po-mono",
+            filemask="po-mono/*.po",
+            template="po-mono/en.po",
+        )
+        component.new_base = "po-mono/en.po"
+        component.template = "po-mono/en.po"
+        repository = component.effective_repo_component.repository
+        filename = Path(component.full_path, "po-mono/en.po")
+        original = filename.read_bytes()
+        validate = component.check_file_is_valid
+
+        def check_validation(path):
+            self.assertTrue(repository.lock.is_locked)
+            return validate(path)
+
+        def check_snapshot(*args, **kwargs):
+            self.assertTrue(repository.lock.is_locked)
+            return snapshot_file_response(*args, **kwargs)
+
+        try:
+            for endpoint in ("monolingual-base", "new-template"):
+                with self.subTest(endpoint=endpoint):
+                    filename.write_bytes(original)
+                    with (
+                        patch(
+                            "weblate.api.views.ComponentViewSet.get_object",
+                            return_value=component,
+                        ),
+                        patch.object(
+                            component,
+                            "check_file_is_valid",
+                            side_effect=check_validation,
+                        ),
+                        patch(
+                            "weblate.api.views.snapshot_file_response",
+                            side_effect=check_snapshot,
+                        ) as snapshot,
+                    ):
+                        response = self.do_request(
+                            f"api:component-{endpoint}",
+                            {
+                                "project__slug": component.project.slug,
+                                "slug": component.slug,
+                            },
+                        )
+                    self.addCleanup(list, response.streaming_content)
+                    snapshot.assert_called_once()
+                    self.assertFalse(repository.lock.is_locked)
+                    filename.write_bytes(b"changed checkout")
+                    self.assertEqual(b"".join(response.streaming_content), original)
+                    self.assertIn("en.po", response["Content-Disposition"])
+        finally:
+            filename.write_bytes(original)
+
+    def test_template_directory_download_releases_lock_on_failure(self) -> None:
+        component = self.create_appstore(name="failed-appstore", project=self.project)
+        component.new_base = component.template
+        repository = component.effective_repo_component.repository
+        for endpoint in ("monolingual-base", "new-template"):
+            with (
+                self.subTest(endpoint=endpoint),
+                patch(
+                    "weblate.api.views.ComponentViewSet.get_object",
+                    return_value=component,
+                ),
+                patch(
+                    "weblate.api.views.zip_download",
+                    side_effect=OSError("archive failed"),
+                ),
+                self.assertRaisesMessage(OSError, "archive failed"),
+            ):
+                self.do_request(
+                    f"api:component-{endpoint}",
+                    {"project__slug": component.project.slug, "slug": component.slug},
+                )
+            self.assertFalse(repository.lock.is_locked)
+
+    def test_template_download_repository_locked(self) -> None:
+        component = self.component
+        component.new_base = "po/cs.po"
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=component.repository.lock.lock_object
+        )
+        for endpoint in ("monolingual-base", "new-template"):
+            with (
+                self.subTest(endpoint=endpoint),
+                patch(
+                    "weblate.api.views.ComponentViewSet.get_object",
+                    return_value=component,
+                ),
+                patch.object(
+                    type(component.repository.lock), "__enter__", side_effect=error
+                ),
+            ):
+                response = self.do_request(
+                    f"api:component-{endpoint}", self.component_kwargs, code=423
+                )
+            self.assertEqual(response.data["errors"][0]["code"], "repository-locked")
 
     def test_new_template_download_prohibited(self) -> None:
         self.component.new_base = "po/cs.po"
