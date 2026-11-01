@@ -1572,6 +1572,68 @@ class SourceLanguageTest(FixtureComponentTestCase):
         self.child.refresh_from_db()
         self.assertEqual(self.child.state, STATE_TRANSLATED)
 
+    def test_source_comment_author_branch_permissions(self) -> None:
+        from weblate.auth.data import SELECTION_ALL  # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import Group, Permission, Role, TeamMembership  # ruff: ignore[import-outside-top-level]
+
+        self.set_target(self.parent, "Parent source")
+        self.configure()
+        author = User.objects.create_user("parent-comment-author", "parent@example.org")
+        Comment.objects.create(unit=self.parent, user=author, comment="Parent comment")
+        Comment.objects.create(
+            unit=self.child.source_unit, user=self.user, comment="Canonical comment"
+        )
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        role = Role.objects.create(name="Source comment identity scope")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Source comment identity scope", language_selection=SELECTION_ALL
+        )
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        membership = TeamMembership.objects.get(user=self.user, group=group)
+        units = Unit.objects.filter(pk=self.child.pk)
+        for canonical, parent in (
+            (False, True),
+            (True, False),
+            (True, True),
+            (False, False),
+        ):
+            languages = [self.child.translation.language]
+            if canonical:
+                languages.append(self.child.source_unit.translation.language)
+            if parent:
+                languages.append(self.parent.translation.language)
+            membership.limit_languages.set(languages)
+            self.user.clear_permissions_cache()
+            for contributor, visible in ((self.user, canonical), (author, parent)):
+                query = f"source_comment_author:{contributor.username}"
+                with self.subTest(
+                    canonical=canonical, parent=parent, author=contributor.username
+                ):
+                    self.assertEqual(
+                        units.search(
+                            query, project=self.project, user=self.user
+                        ).exists(),
+                        visible,
+                    )
+                    self.assertEqual(
+                        units.search(
+                            f"NOT {query}", project=self.project, user=self.user
+                        ).exists(),
+                        not visible,
+                    )
+                    self.assertTrue(
+                        units.search(
+                            query,
+                            project=self.project,
+                            enforce_contributor_permissions=False,
+                        ).exists()
+                    )
+
     def test_source_comment_search_includes_parent(self) -> None:
         self.set_target(self.parent, "Parent source")
         self.configure()

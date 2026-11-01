@@ -1176,6 +1176,7 @@ class BilingualUpdateMixin:
 
 
 class BaseExporter:
+    identity_safe = False
     content_type = "text/plain"
     extension = "txt"
     name = ""
@@ -1365,3 +1366,8 @@ class BaseExporter:
 
     def store_flags(self, output, flags) -> None:
         return
+
+
+def is_identity_safe_exporter(exporter: type[BaseExporter] | None) -> bool:
+    """Require each exporter to explicitly declare safe generated attribution."""
+    return exporter is not None and vars(exporter).get("identity_safe", False) is True

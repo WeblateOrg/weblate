@@ -4,7 +4,7 @@
   {% for suggestion in suggestions %}
     <div class="row history-row">
       <div class="col-sm-2 history-event">
-        <strong>{% user_display suggestion.user %}</strong>
+        <strong>{% user_display suggestion.user resource=suggestion %}</strong>
         <p class="text-muted">{% translate "Suggestion added" %}</p>
         {% if user_can_vote_suggestion %}
           <p class="help-block">
@@ -47,7 +47,8 @@
               {% endif %}
               {% if user_can_accept_suggestion %}
                 {# Bulk accept suggestions feature #}
-                {% if suggestion.user and not suggestion.user.is_anonymous %}
+                {% contributor_access suggestion as can_view_suggestion_author %}
+                {% if can_view_suggestion_author and suggestion.user and not suggestion.user.is_anonymous %}
                   {% ifchanged suggestion.user.username %}
                     {% blocktranslate with username=suggestion.user.username translation=suggestion.unit.translation asvar bulk_accept_label %}Accept all suggestions from {{ username }} in {{ translation }}{% endblocktranslate %}
                     <button type="button"
@@ -97,7 +98,8 @@
                         value="{{ suggestion.id }}"
                         title="{% translate "Reject suggestion" %}">{% icon "comment-remove.svg" %}</button>
               {% endif %}
-              {% if suggestion.user and not suggestion.user.is_anonymous %}
+              {% contributor_access suggestion as can_view_suggestion_author %}
+              {% if can_view_suggestion_author and suggestion.user and not suggestion.user.is_anonymous %}
                 {% perm 'project.permissions' suggestion.unit.translation as user_can_edit_permissions %}
                 {% if user_can_edit_permissions %}
                   <a class="btn btn-link red"

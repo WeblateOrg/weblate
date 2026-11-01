@@ -1262,7 +1262,7 @@ class SettingsTest(ReusableViewTestCase):
         change = project.change_set.filter(action=ActionEvents.ACCESS_EDIT).get()
 
         # Check change details display
-        self.assertEqual(change.get_details_display(), "Protected")
+        self.assertEqual(change.get_details_display(trusted=True), "Protected")
 
     def test_change_public_sharing(self) -> None:
         self.project.add_user(self.user, "Administration")
@@ -1319,11 +1319,11 @@ class SettingsTest(ReusableViewTestCase):
         review_change = setting_changes.get(details__field="translation_review")
         policy_change = setting_changes.get(details__field="commit_policy")
         self.assertEqual(
-            review_change.get_details_display(),
+            review_change.get_details_display(trusted=True),
             'Enable reviews changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            policy_change.get_details_display(),
+            policy_change.get_details_display(trusted=True),
             'Translation quality filter changed from "Commit all translations '
             'regardless of quality" to "Skip translations marked as needing editing".',
         )
@@ -1352,7 +1352,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(self.project.workspace_id, target_workspace.pk)
         change = self.project.change_set.get(action=ActionEvents.MOVE_PROJECT)
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(trusted=True),
             'Project moved from "Current workspace" to "Target workspace".',
         )
 
@@ -1649,11 +1649,11 @@ class SettingsTest(ReusableViewTestCase):
         restricted_change = setting_changes.get(details__field="restricted")
         new_lang_change = setting_changes.get(details__field="new_lang")
         self.assertEqual(
-            restricted_change.get_details_display(),
+            restricted_change.get_details_display(trusted=True),
             'Restricted component changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            new_lang_change.get_details_display(),
+            new_lang_change.get_details_display(trusted=True),
             'Adding new translation changed from "Contact maintainers" to '
             '"Disable adding new translations".',
         )

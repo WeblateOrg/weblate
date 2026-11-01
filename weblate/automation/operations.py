@@ -225,7 +225,7 @@ class SelectOperation(AutomationOperation):
         query = settings["q"]
         if query:
             units = selection.queryset(component).search(
-                query, project=component.project
+                query, project=component.project, enforce_contributor_permissions=False
             )
             if affected is None:
                 selected = units.count()
@@ -480,7 +480,11 @@ class AIQualityOperation(AutomationOperation):
             .exclude(pk=F("source_unit_id"))
         )
         if settings["q"]:
-            units = units.search(settings["q"], project=component.project)
+            units = units.search(
+                settings["q"],
+                project=component.project,
+                enforce_contributor_permissions=False,
+            )
         evaluated: set[int] = set()
         snapshots: dict[int, EvaluatedUnitSnapshot] = {}
         result = evaluate_component(

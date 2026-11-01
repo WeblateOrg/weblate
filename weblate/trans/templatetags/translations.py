@@ -21,7 +21,12 @@ from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
-from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_search_scoped_users,
+    can_view_contributor,
+    prepare_contributor_visibility,
+)
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -1158,6 +1163,9 @@ def show_info(  # ruff: ignore[too-many-arguments]
         "show_global": show_global,
         "show_full_language": show_full_language,
         "top_users": top_users,
+        "can_view_top_users": can_view_contributor(
+            user, translation or component or project
+        ),
         "total_translations": total_translations,
     }
 
@@ -1209,9 +1217,11 @@ def format_last_changes_content(
         get_change_history_context,
     )
 
-    if isinstance(user, str):  # e.g in email digest
+    if user is None or isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()
 
+    last_changes = list(last_changes)
+    user = prepare_contributor_visibility(user, last_changes)
     processed_changes = []
     for change in last_changes:
         # Permissions
@@ -1232,18 +1242,23 @@ def format_last_changes_content(
                     "can_block_user": can_block_user,
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
-                "origin": change.get_origin_display(),
-                "origin_description": change.get_origin_description(),
+                "origin": change.get_origin_display()
+                if can_view_contributor(user, change)
+                else None,
+                "origin_description": change.get_origin_description()
+                if can_view_contributor(user, change)
+                else None,
                 "history_data": get_change_history_context(
                     change,
                     include_private_details=bool(user.is_authenticated),
-                    viewer=None if in_email else user,
+                    viewer=user,
                 ),
             }
         )
     return {
         "changes_with_context": processed_changes,
-        "profile_viewer": None if in_email else user,
+        "profile_viewer": user,
+        "subscription_user": user if in_email else None,
         "in_email": in_email,
         "debug": debug,
         "query_params": QueryDict(search_url or ""),

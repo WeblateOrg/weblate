@@ -216,9 +216,13 @@ Operations execute with the add-on's authority within its configured scope, not
 with the triggering user's individual translation permissions. Automatic
 translation receives the Automation add-on bot as its execution user and does not
 apply per-user operation permission checks. Reused translations can retain their
-original author attribution. Bulk editing calls the shared operation without a
-user, rather than impersonating the recorded actor. The activity context retains
-the actor separately from translation change attribution.
+original author attribution. Bulk editing also records the Automation add-on bot
+as its execution user. The activity context retains the actor separately from
+translation change attribution.
+
+Author-filtered conditions, selections, and AI-evaluation searches use the same
+administrative scope in previews and execution. They do not depend on Guest
+permissions or the configuring or triggering user's contributor identity access.
 
 Changes made during execution record an ``automation`` origin with the installed
 add-on ID and execution-log ID in :ref:`translation-history`. This also covers

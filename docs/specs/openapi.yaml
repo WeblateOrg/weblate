@@ -36372,11 +36372,15 @@ components:
           format: uri
           readOnly: true
         user:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
           readOnly: true
         author:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
           readOnly: true
         alert:
@@ -36492,7 +36496,9 @@ components:
           type: integer
           readOnly: true
         user:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
           readOnly: true
       required:
@@ -37232,7 +37238,9 @@ components:
           format: date-time
           readOnly: true
         last_author:
-          type: string
+          type:
+          - string
+          - 'null'
           readOnly: true
         repository_url:
           type: string
@@ -43177,7 +43185,9 @@ components:
           format: date-time
           readOnly: true
         last_author:
-          type: string
+          type:
+          - string
+          - 'null'
           readOnly: true
         repository_url:
           type: string

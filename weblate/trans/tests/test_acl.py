@@ -274,7 +274,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.INVITE_USER
         )
-        self.assertEqual(change.get_details_display(), self.user.username)
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), self.user.username
+        )
 
     def test_invite_forms_limit_language_fields(self) -> None:
         """User additions and new-user invitations can specify language limits."""
@@ -695,7 +697,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.INVITE_USER
         )
-        self.assertEqual(change.get_details_display(), mask_email("user@example.com"))
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), mask_email("user@example.com")
+        )
 
         self.assertEqual(Invitation.objects.count(), 1)
 
@@ -806,7 +810,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Project.objects.get(pk=self.project.pk).change_set.get(
             action=ActionEvents.ADD_USER
         )
-        self.assertIn(self.translate_group.name, change.get_details_display())
+        self.assertIn(
+            self.translate_group.name, change.get_details_display(viewer=self.user)
+        )
 
         self.assertFalse(
             User.objects.all_admins(self.project)
@@ -859,7 +865,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             action=ActionEvents.USER_ACCESS_CHANGE
         )
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(viewer=self.user),
             f"{self.second_user.username} ({self.translate_group.name})",
         )
         self.assertEqual(change.details["previous_limit_languages"], ["cs"])
@@ -1305,7 +1311,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         change = Change.objects.get(action=ActionEvents.USER_REVERT, unit=unit)
         self.assertEqual(change.user, self.user)
-        self.assertEqual(change.get_details_display(), self.second_user.username)
+        self.assertEqual(
+            change.get_details_display(viewer=self.user), self.second_user.username
+        )
 
     def test_revert_user_edits_task_requires_review_for_approved_state(self) -> None:
         self.project.translation_review = True

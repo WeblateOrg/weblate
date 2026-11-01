@@ -5,7 +5,7 @@
 {% block content %}
   <h2>{% translate "Congratulations" %}</h2>
   <p>
-    {% blocktranslate with username=user.get_visible_name %}The user {{ username }} has just made a first contribution.{% endblocktranslate %}
+    {% blocktranslate with username=contributor_name %}The user {{ username }} has just made a first contribution.{% endblocktranslate %}
   </p>
 
 {% endblock content %}

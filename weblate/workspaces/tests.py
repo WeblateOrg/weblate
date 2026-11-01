@@ -942,6 +942,7 @@ class WorkspaceViewTest(BaseTestCase):
     def test_workspace_name_change_history(self) -> None:
         user = create_test_user()
         workspace = Workspace.objects.create(name="Original workspace")
+        workspace.add_owner(user)
 
         self.enterContext(acting_user_context(user))
         workspace.name = "Renamed workspace"
@@ -955,7 +956,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(change.details["old"], "Original workspace")
         self.assertEqual(change.details["target"], "Renamed workspace")
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(viewer=user),
             'Workspace name changed from "Original workspace" to "Renamed workspace".',
         )
 

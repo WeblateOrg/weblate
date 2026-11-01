@@ -364,7 +364,7 @@ def evaluation_units(
         Unit.objects.filter(translation__component=component)
         .exclude(source_unit_id=F("pk"))
         .exclude(source_unit_id__isnull=True)
-        .search(configuration["q"])
+        .search(configuration["q"], enforce_contributor_permissions=False)
     )
 
 

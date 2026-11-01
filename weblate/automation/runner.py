@@ -192,7 +192,11 @@ class Runner:
         if kind == "matching_strings":
             return (
                 Unit.objects.filter(translation__component=self.component)
-                .search(value, project=self.component.project)
+                .search(
+                    value,
+                    project=self.component.project,
+                    enforce_contributor_permissions=False,
+                )
                 .exists()
             )
         if kind == "component_category":
