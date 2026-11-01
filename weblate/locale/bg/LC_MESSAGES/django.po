@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-11-01 15:13+0000\n"
+"PO-Revision-Date: 2026-11-01 19:10+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -9192,92 +9192,70 @@ msgstr "Предходен"
 msgid "Next"
 msgstr "Следващ"
 
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Workflow editing mode"
-msgstr "Настройка на работния процес"
+msgstr "Режим на редактиране на работния процес"
 
-#, fuzzy
-#| msgid "Edit"
 msgid "Editor"
-msgstr "Редактиране"
+msgstr "Редактор"
 
-#, fuzzy
-#| msgid "YAML file"
 msgid "YAML"
-msgstr "Файл YAML"
+msgstr "YAML"
 
 msgid ""
 "Both modes edit the same workflow, and switching between them keeps unsaved "
 "changes."
 msgstr ""
+"И двата режима редактират същия работен процес. Превключването между тях "
+"запазва незапазените промени."
 
-#, fuzzy
-#| msgid "Trigger backup"
 msgid "Triggers"
-msgstr "Създаване на резервно копие"
+msgstr "Предизвиквания на изпълнение"
 
 msgid ""
 "Events starting the workflow. Without any trigger it can only be run "
 "manually."
 msgstr ""
+"Събития стартиращи работния процес. Без нито едно такова, той може да бъде "
+"стартиран само ръчно."
 
-#, fuzzy
-#| msgid "Trigger backup"
 msgid "Trigger"
-msgstr "Създаване на резервно копие"
+msgstr "Предизвикване на изпълнение"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Add trigger"
-msgstr "Активирано е предупреждение"
+msgstr "Добавяне на предизвикване на изпълнение"
 
-#, fuzzy
-#| msgid "Configuration"
 msgid "Conditions"
-msgstr "Настройка"
+msgstr "Условия"
 
-#, fuzzy
-#| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
-msgstr "Всички компоненти вече са отворени за преводи."
+msgstr ""
+"Всички условия трябва да са изпълнени, преди да се изпълни каквото и да е "
+"действие."
 
-#, fuzzy
-#| msgid "Configuration"
 msgid "Condition"
-msgstr "Настройка"
+msgstr "Условие"
 
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add condition"
-msgstr "Лоша настройка"
+msgstr "Добавяне на условие"
 
 msgid "Actions"
 msgstr "Действия"
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
-msgstr "В хранилището беше извършена операция"
+msgstr ""
+"Операциите се изпълняват в този ред, след като условията бъдат изпълнени."
 
 msgid "Action"
 msgstr "Действие"
 
-#, fuzzy
-#| msgid "Action"
 msgid "Add action"
-msgstr "Действие"
+msgstr "Добавяне на действие"
 
-#, fuzzy
-#| msgid "Move"
 msgid "Move up"
-msgstr "Преместване"
+msgstr "Преместване нагоре"
 
-#, fuzzy
-#| msgid "Move"
 msgid "Move down"
-msgstr "Преместване"
+msgstr "Преместване надолу"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "Публикуваните файлове за превод са налични от основния адрес на CDN:"
@@ -9347,25 +9325,29 @@ msgid ""
 "Configure the AMQP broker connection below, including any TLS certificates "
 "required by your broker, and select the events to publish."
 msgstr ""
+"Настройте връзката с брокера на AMQP по-долу, включително сертификатите за "
+"TLS, ако такива са необходими на брокера, а след това изберете събитията, "
+"които да се публикуват."
 
 msgid "Configure your consumer to subscribe to Weblate message topics:"
 msgstr ""
+"Настройте системата, която слуша, така че да е абонирана за теми на "
+"съобщения от Weblate:"
 
 msgid ""
 "Topics include only the path segments available for the event. If you "
 "configure a topic prefix, it is prepended with a dot separator."
 msgstr ""
+"Темите включват само части от пътища налични за събитието. Ако настроите "
+"представка за тема, пред нея ще бъде добавена точка."
 
-#, fuzzy
-#| msgid ""
-#| "Browse the Weblate documentation for guides on translating, "
-#| "administration, and configuration."
 msgid ""
 "See the add-on documentation for topic examples, the message schema, and "
 "consumer configuration."
 msgstr ""
-"Разгледайте документацията на Weblate, където може да намерите ръководства "
-"за превод, администрация и настройка."
+"Разгледайте документацията на добавката, където ще намерите примери за теми, "
+"схемата на съобщенията и указания за настройките на системата, която ще "
+"слуша за тях."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9562,15 +9544,17 @@ msgid ""
 "Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
 "that should receive notifications."
 msgstr ""
+"Създайте <a href=\"%(url)s\">входяща уеб-кука в Slack</a> за канала, който "
+"трябва да получава известия."
 
 msgid ""
 "Enter the webhook URL below and select the events to send to the channel."
 msgstr ""
+"Въведете адреса на уеб-куката по-долу и изберете събитията, които да бъдат "
+"пращани към канала."
 
-#, fuzzy
-#| msgid "Please see a documentation for more info."
 msgid "See the add-on documentation for more information."
-msgstr "Прегледайте документацията за повече информация."
+msgstr "Прегледайте документацията на добавката за повече информация."
 
 msgid ""
 "Weblate commits from components within this repository will be squashed."
@@ -9591,17 +9575,24 @@ msgid ""
 "Configure your service to receive JSON POST requests, enter its URL below, "
 "and select the events to send."
 msgstr ""
+"Настройте услугата си да получава заявки като JSON POST, въведете адреса ѝ "
+"по-долу и изберете събитията, които да се пращат."
 
 msgid ""
 "To verify request signatures, configure the same Standard Webhooks secret in "
 "Weblate and your receiver. Requests are signed only when a secret is "
 "configured."
 msgstr ""
+"За да потвърдите подписите на заявките, задайте една и съща Стандартна тайна "
+"уеб-куките в Weblate и в получателя си. Заявките се подписват само ако е "
+"зададена тайна."
 
 msgid ""
 "See the add-on documentation for the message payload and signature "
 "verification."
 msgstr ""
+"Прегледайте документацията на добавката за информация относно данните към "
+"съобщението и проверката на подписа."
 
 msgid "HTTP Response"
 msgstr "HTTP отговор"
@@ -9988,72 +9979,73 @@ msgstr "Нямате право да променяте контрола на д
 msgid "Check your billing status"
 msgstr "Проверка на състоянието на платежния план"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Checking your browser"
-msgstr "Адрес за разглеждане на хранилището"
+msgstr "Вашият браузър се проверява"
 
 msgid ""
 "Your browser will calculate a short proof of work to protect this site "
 "against automated scraping."
 msgstr ""
+"Вашият браузър ще изчисли малка задача, за да защити този уеб сайт срещу "
+"автоматизирано събиране на данни."
 
-#, fuzzy
-#| msgid "Loading…"
 msgid "Working…"
-msgstr "Зареждане…"
+msgstr "В процес на работа…"
 
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
 msgstr ""
+"Проверката беше неуспешна. Включете JavaScript, възможността за създаване на "
+"работни процеси и бисквитките, а след това опитайте отново. Може също така "
+"да се впишете."
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
+"Ползването на JavaScript е задължително за анонимен достъп. Вместо това може "
+"да се впишете."
 
 msgid "Retry"
 msgstr "Повторен опит"
 
 msgid "Did you know?"
-msgstr ""
+msgstr "Знаете ли това?"
 
-#, fuzzy
-#| msgid "Please review and confirm the missing language changes."
 msgid "Review and confirm the bulk edit changes."
-msgstr "Моля, прегледайте и потвърдете липсващите езикови промени."
+msgstr "Прегледайте и потвърдете масовите промени."
 
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(counter)s string would change."
 msgid_plural "%(counter)s strings would change."
-msgstr[0] "%(count)s низ се нуждае от действие"
-msgstr[1] "%(count)s низа се нуждаят от действие"
+msgstr[0] "%(counter)s низ ще бъде променен."
+msgstr[1] "%(counter)s низа ще бъдат променени."
 
 msgid ""
 "Showing the first 250 changes. Only selected displayed strings will be "
 "processed unless you choose to apply all matching strings."
 msgstr ""
+"Показани са само първите 250 промени. Само избраните показани низове ще "
+"бъдат обработени, освен ако не изберете прилагане към всички съответстващи "
+"низове."
 
 msgid "Update preview"
 msgstr "Обновяване на прегледа"
 
 #, python-format
 msgid "Apply all matching strings (%(total)s)"
-msgstr ""
+msgstr "Прилагане към всички съответстващи низове (%(total)s)"
 
 msgid ""
 "Applies to all current matches, including those not displayed. The query and "
 "permissions are checked again when applying changes."
 msgstr ""
+"Прилага се към всички текущи промени, включително онези, които не са "
+"показани. Заявката и правата се проверяват отново при прилагането на "
+"промените."
 
 msgid "Select"
 msgstr "Избиране"
 
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "String"
-#| msgid_plural "Strings"
 msgid "String"
 msgstr "Низ"
 
