@@ -1180,6 +1180,41 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
 ASCIIDOC_MACRO = re.compile(
     r"(?<![a-z0-9])(?P<name>[a-z][a-z0-9]*?)(?P<sep>::?)(?P<target>[^\s\[]*+)\[(?P<attrs>(?:\\.|[^\]])*+)\]"
 )
+ASCIIDOC_MACRO_START = re.compile(r"(?<![a-z0-9])[a-z][a-z0-9]*?::?")
+
+
+def iter_asciidoc_macros(text: str) -> Iterable[re.Match[str]]:
+    """Cache target and attribute boundaries before trying macro openers."""
+    if "[" not in text or "]" not in text:
+        return
+    targets = [-1] * (len(text) + 1)
+    attrs = [-1] * (len(text) + 2)
+    for position in range(len(text) - 1, -1, -1):
+        char = text[position]
+        if char == "[":
+            targets[position] = position
+        elif not char.isspace():
+            targets[position] = targets[position + 1]
+        if char == "]":
+            attrs[position] = position
+        elif char == "\\" and position + 1 < len(text) and text[position + 1] != "\n":
+            attrs[position] = attrs[position + 2]
+        else:
+            attrs[position] = attrs[position + 1]
+
+    consumed = 0
+    for opener in ASCIIDOC_MACRO_START.finditer(text):
+        if opener.start() < consumed:
+            continue
+        bracket = targets[opener.end()]
+        if bracket == -1 or attrs[bracket + 1] == -1:
+            continue
+        match = ASCIIDOC_MACRO.match(text, opener.start(), attrs[bracket + 1] + 1)
+        if match is not None:
+            yield match
+            consumed = match.end()
+
+
 # cross references: <<id>> or <<id,text>>.
 ASCIIDOC_XREF = re.compile(r"(?<!<)<<(?P<id>[^,>]++)(?:,(?P<text>[^>]*+))?>>")
 # inline anchors: [[id]] or [[id,label]].
@@ -1251,7 +1286,7 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
 
 def extract_asciidoc_markup(text: str) -> Counter[str]:
     tokens: list[str] = []
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         if match.group("name") == "pass":
@@ -1280,7 +1315,7 @@ def extract_asciidoc_markup(text: str) -> Counter[str]:
 
 
 def iter_asciidoc_highlights(text: str) -> Iterable[Highlight]:
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")

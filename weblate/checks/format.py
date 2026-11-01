@@ -16,6 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import Highlight, SourceCheck, TargetCheck, merge_diagnostics
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.java import iter_java_message_matches
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -921,10 +922,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     extra_enable_strings = ("auto-java-messageformat",)
 
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
-        closing = string.rfind("}")
-        if closing == -1:
-            return ()
-        return JAVA_MESSAGE_MATCH.finditer(string, 0, closing + 1)
+        return iter_java_message_matches(string, JAVA_MESSAGE_MATCH)
 
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"

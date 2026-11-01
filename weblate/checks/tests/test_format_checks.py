@@ -1072,6 +1072,38 @@ class JavaFormatCheckTest(CheckTestCase):
 class JavaMessageFormatCheckTest(CheckTestCase):
     check = JavaMessageFormatCheck()
 
+    def test_malformed_styles_are_linear(self) -> None:
+        for text in (
+            "{1,a," * 20_000,
+            "{1,a," * 10_000 + " " + "{1,a," * 10_000 + "}",
+            "{1,a," * 20_000 + " broken style}",
+        ):
+            with self.subTest(ending=text[-20:]):
+                unit = make_unit(source="{0}", target=text, flags="java-format")
+                started = monotonic()
+                self.assertTrue(self.check.check_target(["{0}"], [text], unit))
+                list(self.check.check_highlight(text, unit))
+                self.assertLess(monotonic() - started, 2)
+
+    def test_style_match_spans(self) -> None:
+        for text, expected in (
+            ("x {0,number,integer} y", [(2, 20, "{0,number,integer}")]),
+            ("{0,choice,{1}}", [(0, 14, "{0,choice,{1}}")]),
+            ("{0,a,x} {1}", [(0, 7, "{0,a,x}"), (8, 11, "{1}")]),
+            ("{0,a,x}{1}", [(0, 10, "{0,a,x}{1}")]),
+            ("{0,a,x \n }", [(0, 10, "{0,a,x \n }")]),
+            ("{0,a,} {1}", [(7, 10, "{1}")]),
+            ("{ 0}", []),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(
+                    [
+                        (m.start(), m.end(), m.group())
+                        for m in self.check.iter_matches(text)
+                    ],
+                    expected,
+                )
+
     def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (

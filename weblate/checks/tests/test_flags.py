@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from time import monotonic
+
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.utils.translation import override
@@ -42,6 +44,19 @@ msgstr ""
 
 
 class FlagTest(SimpleTestCase):
+    def test_auto_java_malformed_styles_are_linear(self) -> None:
+        flags = Flags("auto-java-messageformat")
+        for text, expected in (
+            ("{1,a," * 20_000, False),
+            ("{1,a," * 10_000 + " " + "{1,a," * 10_000 + "}", True),
+            ("{1,a," * 20_000 + " broken style}", False),
+            ("{ 0,number,integer }", True),
+        ):
+            with self.subTest(ending=text[-20:]):
+                started = monotonic()
+                self.assertEqual(flags.is_active("java-format", text), expected)
+                self.assertLess(monotonic() - started, 2)
+
     def test_parse(self) -> None:
         self.assertEqual(Flags("foo, bar").items(), {"foo", "bar"})
 

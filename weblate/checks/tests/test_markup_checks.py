@@ -1725,6 +1725,32 @@ class RSTSyntaxCheckTest(CheckTestCase):
 class AsciiDocMarkupCheckTest(CheckTestCase):
     check = AsciiDocMarkupCheck()
 
+    def test_repeated_macro_candidates_are_linear(self) -> None:
+        for text in (
+            "a:" * 40_000 + "[",
+            "a::" * 30_000 + "[",
+            "a:" * 40_000 + r"[\]",
+            "a:" * 40_000 + " missing[]",
+        ):
+            with self.subTest(ending=text[-20:]):
+                unit = make_unit(source=text, target=text, flags="asciidoc-text")
+                started = monotonic()
+                self.assertFalse(self.check.check_target([text], [text], unit))
+                self.assertEqual(list(self.check.check_highlight(text, unit)), [])
+                self.assertLess(monotonic() - started, 2)
+
+    def test_long_valid_macro(self) -> None:
+        text = "link:" + "a:" * 40_000 + "[Label]"
+        unit = make_unit(source=text, target=text, flags="asciidoc-text")
+        started = monotonic()
+        self.assertEqual(extract_asciidoc_markup(text), {text[:-7] + "[]": 1})
+        highlights = list(self.check.check_highlight(text, unit))
+        self.assertEqual(
+            [(item.start, item.end, item.text) for item in highlights],
+            [(0, len(text), text)],
+        )
+        self.assertLess(monotonic() - started, 2)
+
     def setUp(self) -> None:
         super().setUp()
         base = "See link:https://example.com[Example]."
