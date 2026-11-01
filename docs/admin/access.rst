@@ -277,8 +277,13 @@ Blocking users
 .. versionadded:: 4.7
 
 If users misbehave in your project, you can block them from contributing.
-With the relevant permissions blocked, users can still see the project,
-but won't be able to contribute.
+Blocked users cannot access the project or use their project permissions,
+including project administration permissions. Site superusers are exempt.
+
+Blocking preserves team memberships. Permissions granted by those memberships
+apply again when the block expires or is removed. Blocking does not cancel
+background work that was already authorized or remove existing administrative
+configuration, such as add-ons.
 
 .. _cleanup-user-contributions:
 
