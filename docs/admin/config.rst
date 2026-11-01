@@ -2456,6 +2456,12 @@ REGISTRATION_EMAIL_MATCH
 
 Allows you to filter which e-mail addresses can register.
 
+The restriction also applies to addresses imported from authentication
+providers and addresses selected as public or commit e-mail addresses.
+Provider addresses that do not match are skipped. This includes GitHub
+noreply addresses: to use them for commits, explicitly allow
+``users.noreply.github.com`` in the expression.
+
 Defaults to ``.*``, which allows any e-mail address to be registered.
 
 You can use it to restrict registration to a single e-mail domain:
@@ -2473,6 +2479,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS
 
 Allow registration with disposable e-mail domains. When enabled, the
 disposable domain blocklist is bypassed. Default is ``False``.
+
+This also applies to addresses imported from authentication providers and
+addresses selected as public or commit e-mail addresses.
 
 .. seealso::
 

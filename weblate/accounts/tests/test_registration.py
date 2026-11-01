@@ -57,7 +57,7 @@ from weblate.auth.models import (
 )
 from weblate.auth.views import accept_invitation
 from weblate.lang.models import Language
-from weblate.trans.defines import FULLNAME_LENGTH
+from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -1751,6 +1751,59 @@ class RegistrationTest(BaseRegistrationTest):
                 ("noreply@users.noreply.github.com", False),
             },
         )
+
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False)
+    def test_store_email_policy(self) -> None:
+        user = User.objects.create_user("weblate", "user@example.org", "x")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
+        noreply = "12345+weblate@users.noreply.github.com"
+        for pattern, expected in (
+            (".*", {("user@example.org", True), (noreply, False)}),
+            (r"^.*@example\.org$", {("user@example.org", True)}),
+            (
+                r"^.*@(example\.org|users\.noreply\.github\.com)$",
+                {("user@example.org", True), (noreply, False)},
+            ),
+        ):
+            with (
+                self.subTest(pattern=pattern),
+                override_settings(REGISTRATION_EMAIL_MATCH=pattern),
+            ):
+                # A preexisting disallowed claim must be removed as well.
+                VerifiedEmail.objects.create(
+                    social=social, email="user@disposablemails.com"
+                )
+                store_email(
+                    MagicMock(),
+                    MagicMock(),
+                    user,
+                    social,
+                    {
+                        "verified_emails": [
+                            ("user@example.org", True),
+                            (noreply, False),
+                            ("user@disposablemails.com", True),
+                            ("invalid", True),
+                            ("a" * EMAIL_LENGTH + "@example.org", True),
+                        ]
+                    },
+                )
+                self.assertEqual(
+                    set(
+                        social.verifiedemail_set.values_list("email", "is_deliverable")
+                    ),
+                    expected,
+                )
+
+    @override_settings(REGISTRATION_EMAIL_MATCH=r"^.*@example\.org$")
+    def test_store_email_disallowed_fallback(self) -> None:
+        user = User.objects.create_user("weblate", "user@example.org", "x")
+        social = user.social_auth.create(provider="github", uid="1", id_key="id")
+        VerifiedEmail.objects.create(social=social, email="user@outside.example")
+        store_email(
+            MagicMock(), MagicMock(), user, social, {"email": "user@outside.example"}
+        )
+        self.assertFalse(social.verifiedemail_set.exists())
 
     def test_store_email_multiple_existing(self) -> None:
         """Store email when an identity has several verified e-mails."""

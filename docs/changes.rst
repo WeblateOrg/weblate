@@ -86,6 +86,8 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.
+
 * Prevented Mercurial commit messages and other option values from being interpreted as command-line options.
 * Require confirmation of an existing sign-in method before :ref:`registering the first second factor <2fa>`, and a separate second-factor check before creating a project token after enrollment.
 * Bounded screenshot image text matching to prevent excessive web worker CPU use on large components or dense images.

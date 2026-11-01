@@ -794,6 +794,11 @@ class ProfileEmailChoiceField(serializers.ChoiceField):
         kwargs.setdefault("choices", [])
         super().__init__(**kwargs)
 
+    def run_validators(self, value: str) -> None:
+        # Empty choices clear the preference, just as blank model fields do.
+        if value:
+            super().run_validators(value)
+
 
 @extend_schema_field(serializers.ChoiceField(choices=Profile.CommitNameChoices.choices))
 class ProfileCommitNameChoiceField(serializers.ChoiceField):
@@ -901,8 +906,12 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
     dashboard_component_list = AllowedComponentListField(
         read_only=True, allow_null=True
     )
-    commit_email = ProfileEmailChoiceField()
-    public_email = ProfileEmailChoiceField()
+    commit_email = ProfileEmailChoiceField(
+        validators=Profile._meta.get_field("commit_email").validators,  # ruff: ignore[private-member-access]
+    )
+    public_email = ProfileEmailChoiceField(
+        validators=Profile._meta.get_field("public_email").validators,  # ruff: ignore[private-member-access]
+    )
     commit_name = ProfileCommitNameChoiceField()
     listing_columns = ListingColumnsField(
         required=False,
