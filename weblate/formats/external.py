@@ -102,30 +102,32 @@ class XlsxFormat(CSVFormat):
         # catch at least the BadZipFile exception if an unsupported
         # file has been given
         try:
-            workbook = load_workbook(filename=storefile)
-            worksheet = workbook.active
+            workbook = load_workbook(filename=storefile, read_only=True)
         except BadZipFile:
             return None, None
 
-        if worksheet is None:
-            msg = "Workbook without an active sheet!"
-            raise TypeError(msg)
+        try:
+            output = StringIO()
+            writer = csv.writer(output, dialect=CSV_DIALECT)
+            worksheet = workbook.active
+            if worksheet is None:
+                msg = "Workbook without an active sheet!"
+                raise TypeError(msg)
 
-        output = StringIO()
+            # Some producers report incorrect dimensions. Read the actual cells
+            # rather than truncating content or iterating an inflated range.
+            worksheet.reset_dimensions()
 
-        writer = csv.writer(output, dialect=CSV_DIALECT)
-
-        # value can be None or blank stringfor cells having formatting only,
-        # we need to ignore such columns as that would be treated like "" fields
-        # later in the translate-toolkit
-        fields = [cell.value for cell in next(worksheet.rows) if cell.value]
-        for row in worksheet.rows:
-            values = [cell.value for cell in row]
-            values = values[: len(fields)]
-            # Skip formatting only cells
-            if not any(values):
-                continue
-            writer.writerow(values)
+            # Ignore formatting-only columns when determining the field count.
+            fields = [value for value in next(worksheet.values) if value]
+            for values in worksheet.iter_rows(max_col=len(fields), values_only=True):
+                values = values[: len(fields)]
+                # Skip formatting-only rows.
+                if not any(values):
+                    continue
+                writer.writerow(values)
+        finally:
+            workbook.close()
 
         if isinstance(storefile, str):
             name = f"{os.path.basename(storefile)}.csv"
