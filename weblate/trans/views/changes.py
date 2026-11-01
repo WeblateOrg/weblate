@@ -22,6 +22,7 @@ from django.utils.translation import activate, get_language, gettext, pgettext
 from django.views.generic.list import ListView
 
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+from weblate.accounts.visibility import filter_contributor_changes
 from weblate.lang.models import Language
 from weblate.trans.feeds import get_change_feed_guid
 from weblate.trans.forms import ChangesDateForm, ChangesForm
@@ -228,6 +229,9 @@ class ChangesView(PathViewMixin, ListView):
 
         result = Change.objects.last_changes(self.request.user, **params)
 
+        result = filter_contributor_changes(
+            result, self.request.user, enabled="user" in filters or "user" in excludes
+        )
         if filters:
             result = result.filter(**filters)
         if excludes:
@@ -434,8 +438,8 @@ class ChangesRSSView(ChangesView):
             feed.add_item(
                 title=change.get_action_display(),
                 link=link,
-                description=str(change),
-                author_name=change.get_user_display(False),
+                description=f"{change.get_action_display()} — {change.timestamp}",
+                author_name=change.get_user_display(False, viewer=request.user),
                 pubdate=change.timestamp,
                 unique_id=get_change_feed_guid(change),
                 unique_id_is_permalink=False,

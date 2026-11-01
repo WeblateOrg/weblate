@@ -1298,6 +1298,7 @@ class ExportTest(ViewTestCase):
             self.skipTest("single-file download only")
         repository = translation.component.repository
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         from weblate.utils import views  # ruff: ignore[import-outside-top-level]
 
@@ -1326,6 +1327,7 @@ class ExportTest(ViewTestCase):
         filename = translation.filenames[0]
         original = Path(filename).read_bytes()
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         from weblate.utils import views  # ruff: ignore[import-outside-top-level]
 
@@ -1354,6 +1356,7 @@ class ExportTest(ViewTestCase):
             self.skipTest("single-file download only")
         filename = translation.filenames[0]
         request = RequestFactory().head(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         with patch("weblate.utils.views.snapshot_file_response") as snapshot:
             response = download_translation_file(request, translation)
@@ -1383,18 +1386,15 @@ class ExportTest(ViewTestCase):
         ):
             for accept_encoding in ("identity", "gzip"):
                 with self.subTest(accept_encoding=accept_encoding):
-                    get_response = download_translation_file(
-                        RequestFactory().get(
-                            url, headers={"accept-encoding": accept_encoding}
-                        ),
-                        translation,
+                    get_request = RequestFactory().get(
+                        url, headers={"accept-encoding": accept_encoding}
                     )
-                    head_response = download_translation_file(
-                        RequestFactory().head(
-                            url, headers={"accept-encoding": accept_encoding}
-                        ),
-                        translation,
+                    head_request = RequestFactory().head(
+                        url, headers={"accept-encoding": accept_encoding}
                     )
+                    get_request.user = head_request.user = self.user
+                    get_response = download_translation_file(get_request, translation)
+                    head_response = download_translation_file(head_request, translation)
 
                     self.assertTrue(head_response.streaming)
                     for header in (
@@ -1412,6 +1412,7 @@ class ExportTest(ViewTestCase):
         translation = self.get_translation()
         repository = translation.component.repository
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
         error = WeblateLockTimeoutError(
             "repository locked", lock=repository.lock.lock_object
         )
@@ -1857,7 +1858,11 @@ class DownloadMultiTest(ViewTestCase):
         if not membership_limit:
             group.languages.add(language)
         role = Role.objects.create(name="Scoped download role")
-        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        role.permissions.add(
+            *Permission.objects.filter(
+                codename__in={"translation.download", "contribution.view_author"}
+            )
+        )
         group.roles.add(role)
         self.user.groups.add(group)
         if membership_limit:

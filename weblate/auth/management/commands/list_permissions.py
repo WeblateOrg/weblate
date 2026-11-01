@@ -17,6 +17,7 @@ GROUP_NAMES = {
     "announcement": "Announcements",
     "change": "Changes",
     "comment": "Comments",
+    "contribution": "Contributors",
     "component": "Component",
     "glossary": "Glossary",
     "machinery": "Translation services",

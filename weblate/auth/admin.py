@@ -84,6 +84,15 @@ class UserTeamMembershipInline(admin.TabularInline):
 @admin.register(Role)
 class RoleAdmin(WeblateModelAdmin):
     list_display = ("name", "builtin_status", "customized_status")
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        field = super().formfield_for_manytomany(db_field, request, **kwargs)
+        if db_field.name == "permissions":
+            field.help_text = gettext_lazy(
+                "Contributor identities are exposed by View contributor identities, Download changes, Manage reports, and access-management permissions. Permissions from all assigned roles are additive."
+            )
+        return field
+
     filter_horizontal = ("permissions",)
 
     @admin.display(boolean=True, description=gettext_lazy("Built-in"))

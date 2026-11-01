@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from contextvars import ContextVar
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -11,6 +12,7 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.cache import add_never_cache_headers
 from django.utils.translation import gettext
 
 from weblate.accounts.visibility import public_profile_render
@@ -21,13 +23,19 @@ from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.contrib.auth.models import AnonymousUser
+    from django.http import HttpRequest, HttpResponse
     from django.utils.feedgenerator import SyndicationFeed
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 type FeedObject = Translation | Component | Project | Language | Unit | ProjectLanguage
+
+
+_feed_viewer: ContextVar[User | AnonymousUser | None] = ContextVar(
+    "contribution_feed_viewer", default=None
+)
 
 
 @dataclass(frozen=True)
@@ -41,18 +49,27 @@ def get_change_feed_guid(change: Change) -> str:
 
 
 class BaseFeed(Feed):
+    def __call__(self, request, *args, **kwargs) -> HttpResponse:
+        response = super().__call__(request, *args, **kwargs)
+        add_never_cache_headers(response)
+        return response
+
     @public_profile_render()
     def get_feed(self, obj: object, request: HttpRequest) -> SyndicationFeed:
-        return super().get_feed(obj, request)
+        token = _feed_viewer.set(request.user)
+        try:
+            return super().get_feed(obj, request)
+        finally:
+            _feed_viewer.reset(token)
 
     def item_title(self, item):
         return item.get_action_display()
 
     def item_description(self, item):
-        return str(item)
+        return f"{item.get_action_display()} — {item.timestamp}"
 
     def item_author_name(self, item):
-        return item.get_user_display(False)
+        return item.get_user_display(False, viewer=_feed_viewer.get())
 
     def item_pubdate(self, item):
         return item.timestamp

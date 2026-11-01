@@ -179,6 +179,8 @@ from weblate.accounts.visibility import (
     can_browse_users,
     can_search_scoped_users,
     check_profile_access,
+    contributor_translation_ids,
+    filter_contributor_changes,
     is_resource_bounded,
     profile_response,
 )
@@ -1055,7 +1057,9 @@ class UserPage(UpdateView):
         allowed_projects = request.user.allowed_projects
 
         # Filter all user activity
-        all_changes = Change.objects.last_changes(request.user).filter(user=user)
+        all_changes = filter_contributor_changes(
+            Change.objects.last_changes(request.user), request.user
+        ).filter(user=user)
 
         # Filter where project is active
         user_translation_ids = set(
@@ -1147,7 +1151,9 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
         Translation.objects.filter_access(request.user)
         .prefetch()
         .filter(
-            id__in=user_translation_ids,
+            id__in=set(user_translation_ids).intersection(
+                contributor_translation_ids(request.user)
+            ),
         )
         .order()
     )
@@ -1868,7 +1874,11 @@ class SuggestionView(ListView):
         )
         return (
             Suggestion.objects.filter_access(self.request.user)
-            .filter(user=user)
+            .filter(
+                user=user,
+                unit__translation_id__in=contributor_translation_ids(self.request.user),
+            )
+            .select_related("unit__translation__component__project", "user")
             .order()
         )
 

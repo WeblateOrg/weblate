@@ -32,6 +32,8 @@ Weblate 2026.11
 
 .. rubric:: Improvements
 
+* Added resource-scoped contributor identity permissions, including editor attribution and identity-safe translation exports, for :ref:`confidential-collaboration`.
+
 * :doc:`Kotlin SDK integration <devel/kotlin-sdk>` now offers Translation files CDN installation and Gradle configuration for original XML downloads.
 * Batched label, comment, and check restoration to reduce database queries during :ref:`project backup imports <projectbackup>`.
 

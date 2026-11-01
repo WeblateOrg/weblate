@@ -714,6 +714,85 @@ applies the current upstream defaults to all teams using those roles.
    A numbered suffix is used if that name is already taken. Their permissions
    and team assignments are preserved.
 
+.. _confidential-collaboration:
+
+Confidential collaboration
+--------------------------
+
+The resource permission ``contribution.view_author`` controls contributor
+attribution in translation history, comments, suggestions, activity, feeds, and
+the REST API. Built-in translation and review roles grant it by default,
+including :guilabel:`Administration`. History and attribution remain stored;
+hiding identities does not remove changes, timestamps, diffs, or revert actions.
+
+To hide attribution from translators, edit the built-in roles assigned to their
+teams and remove :guilabel:`View contributor identities`. Keep the permission in
+the roles assigned to project administrators. Editing a built-in role affects all
+teams using it; create a separate role when projects need different policies.
+
+Permissions are additive. Review every assigned team and role, including
+site-wide and guest teams: another role can independently grant the permission.
+Language and component restrictions apply to contributor attribution.
+
+Also remove independent identity access where it is unnecessary:
+
+* ``reports.view`` and ``change.download`` authorize identity-bearing reports
+  and downloads independently of ``contribution.view_author``.
+* Project and workspace access-management permissions expose membership data.
+* User discovery and profile permissions expose user information independently.
+  Review ``user.browse``, ``user.search``, ``user.profile``, ``user.view``, and
+  ``user.edit`` when configuring confidential collaboration.
+
+Regenerated translation exports require ``translation.download`` and remain
+available without contributor identity access when the exporter explicitly
+supports identity-safe output. Original files, original-file archives, and
+unclassified exporters also require ``contribution.view_author`` because their
+metadata can contain contributor identities. The built-in :guilabel:`Access
+repository` and :guilabel:`Manage languages` roles grant contributor identity
+access to preserve their original-file download capability. Remove this grant
+from those roles too when configuring confidential collaboration.
+
+The following inventory summarizes independent identity disclosure paths:
+
+.. list-table:: Contributor identity disclosure
+   :header-rows: 1
+
+   * - Surface
+     - Authorization
+   * - Editor attribution, history, comments, suggestions, feeds, notifications
+     - ``contribution.view_author`` on the relevant resource and language
+   * - Regenerated content exports
+     - ``translation.download`` and an identity-safe exporter
+   * - Original files and unclassified exports
+     - Download permission and contributor identity access
+   * - Full reports and change downloads
+     - Independent ``reports.view`` and ``change.download`` permissions
+   * - Own-data reports
+     - The report creator, limited to their own contributions
+   * - Membership, directory, and profile information
+     - Existing access-management and user permissions
+   * - Workspace-only attribution
+     - ``workspace.edit`` or ``workspace.edit_members``
+   * - Unscoped global attribution
+     - Site administrators
+   * - Administrator-configured integrations
+     - Trusted destinations; contributor identities are retained
+
+Workspace grants do not override project, component, or language restrictions
+when a history entry has a more specific resource scope.
+
+Individual notifications use the recipient's permissions. Administrator-managed
+integrations, including webhooks and Slack, are trusted exports and can retain
+contributor identities. Configure their destinations for an appropriately
+restricted audience, or disable them. Weblate cannot control onward sharing or
+remove copies already delivered to mailboxes, downloaded files, or external
+systems.
+
+This feature hides system-provided attribution, not identifying text entered by
+users in translations, comments, announcements, filenames, or other content.
+It does not provide comprehensive anonymity or prevent correlation using timing
+and content. Git commit identity controls are configured separately.
+
 .. _privileges:
 
 .. include:: /snippets/permissions.rst

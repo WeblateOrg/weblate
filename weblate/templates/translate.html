@@ -796,15 +796,20 @@
                     {% translate "Automatically translated" %}
                   </h5>
                   <p class="list-group-item-text check-description">
-                    {% with author=unit.get_last_author %}
-                      {% if not author or author.is_anonymous %}
-                        {% blocktranslate %}This string was translated automatically.{% endblocktranslate %}
-                      {% elif author.is_bot %}
-                        {% blocktranslate %}This string was translated automatically using {{ author }}.{% endblocktranslate %}
-                      {% else %}
-                        {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
-                      {% endif %}
-                    {% endwith %}
+                    {% contributor_access unit as can_view_automatic_author %}
+                    {% if can_view_automatic_author %}
+                      {% with author=unit.get_last_author %}
+                        {% if not author or author.is_anonymous %}
+                          {% blocktranslate %}This string was translated automatically.{% endblocktranslate %}
+                        {% elif author.is_bot %}
+                          {% blocktranslate %}This string was translated automatically using {{ author }}.{% endblocktranslate %}
+                        {% else %}
+                          {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
+                        {% endif %}
+                      {% endwith %}
+                    {% else %}
+                      {% translate "This string was translated automatically." %}
+                    {% endif %}
                   </p>
                   {% if user_can_translate %}
                     <p class="list-group-item-text list-buttons">

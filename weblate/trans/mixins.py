@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Protocol
+from typing import TYPE_CHECKING, ClassVar, Protocol, cast
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from uuid import UUID
 
     from django.contrib.auth.models import AnonymousUser
+    from django.db.models import Model
 
     from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project
@@ -238,12 +239,18 @@ class UserDisplayMixin:
     def get_user_display(
         self: _HasUser, icon: bool = True, *, viewer: User | AnonymousUser | None = None
     ):
+        from django.utils.translation import gettext  # ruff: ignore[import-outside-top-level]
+
+        from weblate.accounts.visibility import can_view_contributor  # ruff: ignore[import-outside-top-level]
+
+        if not can_view_contributor(viewer, cast("Model", self)):
+            return gettext("Contributor")
         return get_user_display(self.user, icon, link=True, viewer=viewer)
 
     def get_user_text_display(
         self: _HasUser, *, viewer: User | AnonymousUser | None = None
     ):
-        return get_user_display(self.user, icon=False, link=True, viewer=viewer)
+        return UserDisplayMixin.get_user_display(self, icon=False, viewer=viewer)
 
 
 class CacheKeyMixin:
