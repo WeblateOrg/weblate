@@ -122,7 +122,9 @@ def search(request: AuthenticatedHttpRequest, path=None):
         )
         search_form.is_valid()
         search_units = unit_set.prefetch_bulk().search(
-            search_form.cleaned_data.get("q", ""), project=context.get("project")
+            search_form.cleaned_data.get("q", ""),
+            project=context.get("project"),
+            user=request.user,
         )
         ordered_units = search_units.order_by_request(search_form.cleaned_data, obj)
         units = get_paginator(request, ordered_units)

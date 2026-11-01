@@ -810,8 +810,42 @@ class UnitTermExpr(BaseTermExpr):
 
     def as_parsed_query(self, context: dict) -> ParsedQuery:
         if self.field in self.CHANGE_FIELDS:
-            return ParsedQuery.from_change_query(self.as_change_query(context))
-        return super().as_parsed_query(context)
+            result = ParsedQuery.from_change_query(self.as_change_query(context))
+        else:
+            result = super().as_parsed_query(context)
+        if self.field in {
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        }:
+            from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+            from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+            viewer = context.get("user") or get_anonymous()
+            scope = get_permission_scope_query(
+                viewer,
+                "contribution.view_author",
+                component_path="translation__component",
+                language_path="translation__language_id",
+            )
+            if self.field == "source_comment_author":
+                scope &= get_permission_scope_query(
+                    viewer,
+                    "contribution.view_author",
+                    component_path="source_unit__translation__component",
+                    language_path="source_unit__translation__language_id",
+                )
+                scope &= Q(
+                    translation_parent__isnull=True
+                ) | get_permission_scope_query(
+                    viewer,
+                    "contribution.view_author",
+                    component_path="translation_parent__translation__component",
+                    language_path="translation_parent__translation__language_id",
+                )
+            result = result.combine_and(ParsedQuery.from_query(scope))
+        return result
 
     def as_query(self, context: dict) -> Q:
         if self.field in self.CHANGE_FIELDS:
@@ -1155,7 +1189,12 @@ class UserTermExpr(BaseTermExpr):
                     .values_list("id", flat=True)
                 )
             )
-        return slug_filter & Q(change__project__in=user.allowed_projects)
+        from weblate.accounts.visibility import contributor_translation_ids  # ruff: ignore[import-outside-top-level]
+
+        return slug_filter & Q(
+            change__project__in=user.allowed_projects,
+            change__translation_id__in=contributor_translation_ids(user),
+        )
 
 
 class SuperuserUserTermExpr(UserTermExpr):

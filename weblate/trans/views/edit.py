@@ -519,7 +519,7 @@ class SearchNavigation:
     def get_ordered_units(self):
         """Perform the ordered search."""
         return self.unit_set.search(
-            self.query_string, project=self.project
+            self.query_string, project=self.project, user=self.request.user
         ).order_by_request(self.cleaned_data, self.base)
 
     def get_ordered_unit_ids(self) -> list[int]:

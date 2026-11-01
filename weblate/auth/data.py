@@ -18,6 +18,8 @@ SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     # Translators: Permission name
+    ("contribution.view_author", gettext_noop("View contributor identities")),
+    # Translators: Permission name
     ("change.download", gettext_noop("Download changes")),
     # Translators: Permission name
     ("comment.add", gettext_noop("Post comment")),
@@ -187,6 +189,7 @@ WORKSPACE_SCOPED_PERM_NAMES = filter_perms("workspace.") | {"reports.view"}
 
 # Translator permissions
 TRANSLATE_PERMS = {
+    "contribution.view_author",
     "comment.add",
     "suggestion.accept",
     "suggestion.add",
@@ -214,10 +217,13 @@ ROLES = (
         pgettext_noop("Access-control role", "Edit source"),
         TRANSLATE_PERMS | {"unit.template", "source.edit"},
     ),
-    (pgettext_noop("Access-control role", "Add suggestion"), {"suggestion.add"}),
+    (
+        pgettext_noop("Access-control role", "Add suggestion"),
+        {"suggestion.add", "contribution.view_author"},
+    ),
     (
         pgettext_noop("Access-control role", "Access repository"),
-        {"translation.download", "vcs.access", "vcs.view"},
+        {"translation.download", "vcs.access", "vcs.view", "contribution.view_author"},
     ),
     (
         pgettext_noop("Access-control role", "Manage glossary"),
@@ -260,7 +266,8 @@ ROLES = (
     (pgettext_noop("Access-control role", "Translate"), TRANSLATE_PERMS),
     (
         pgettext_noop("Access-control role", "Manage languages"),
-        filter_perms("translation.", {"translation.auto"}),
+        filter_perms("translation.", {"translation.auto"})
+        | {"contribution.view_author"},
     ),
     (
         pgettext_noop("Access-control role", "Bulk editing"),

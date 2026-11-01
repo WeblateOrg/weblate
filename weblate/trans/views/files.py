@@ -16,6 +16,7 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.auth.bots import InternalBot
+from weblate.formats.base import is_identity_safe_exporter
 from weblate.formats.models import EXPORTERS
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -87,9 +88,23 @@ def prepare_download_scope(
     user: User,
     translations: TranslationQuerySet,
     empty_permission_obj: Model | ProjectLanguage | CategoryLanguage | None = None,
+    *,
+    fmt: str | None = None,
 ) -> tuple[TranslationQuerySet, QuerySet[Component]]:
     """Apply download permission and validate an aggregate download scope."""
     downloadable = translations.filter_permission_scope(user, "translation.download")
+    from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+    exporter = EXPORTERS.get(fmt[4:]) if fmt and fmt.startswith("zip:") else None
+    if not is_identity_safe_exporter(exporter):
+        downloadable = downloadable.filter(
+            get_permission_scope_query(
+                user,
+                "contribution.view_author",
+                component_path="component",
+                language_path="language_id",
+            )
+        )
     if not downloadable.exists() and (
         translations.exists()
         or empty_permission_obj is None
@@ -239,6 +254,7 @@ def download_component_list(request: AuthenticatedHttpRequest, name):
         request.user,
         Translation.objects.filter(component__in=obj.components.all()),
         obj,
+        fmt=request.GET.get("format"),
     )
     return download_multi(
         request,
@@ -269,6 +285,7 @@ def download(request: AuthenticatedHttpRequest, path):
         translations, components = prepare_download_scope(
             request.user,
             Translation.objects.filter(component__project__workspace=obj),
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -300,6 +317,7 @@ def download(request: AuthenticatedHttpRequest, path):
                 component__project=obj.project, language=obj.language
             ),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -313,6 +331,7 @@ def download(request: AuthenticatedHttpRequest, path):
             request.user,
             Translation.objects.filter(component__project=obj),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -329,6 +348,7 @@ def download(request: AuthenticatedHttpRequest, path):
                 language=obj.language,
             ),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -342,6 +362,7 @@ def download(request: AuthenticatedHttpRequest, path):
             request.user,
             Translation.objects.filter(component_id__in=obj.all_component_ids),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -352,7 +373,10 @@ def download(request: AuthenticatedHttpRequest, path):
         )
     if isinstance(obj, Component):
         translations, components = prepare_download_scope(
-            request.user, obj.translation_set.all(), obj
+            request.user,
+            obj.translation_set.all(),
+            obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,

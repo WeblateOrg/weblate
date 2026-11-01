@@ -31,6 +31,35 @@ migration = import_module("weblate.auth.migrations.0014_editable_builtin_roles")
 
 
 class RoleMergeTest(TestCase):
+    def test_contributor_permission_upgrade_preserves_customizations(self) -> None:
+        upgrade = import_module("weblate.auth.migrations.0018_update_builtin_roles")
+        baseline = import_module("weblate.auth.migrations.0015_update_builtin_roles")
+        self.assertEqual(upgrade.OLD_DEFAULTS, baseline.NEW_DEFAULTS)
+        role = Role.objects.get(name="Translate")
+        role_id = role.pk
+        local_permissions = (set(upgrade.OLD_DEFAULTS[role.name]) - {"unit.check"}) | {
+            "comment.delete"
+        }
+        role.permissions.set(Permission.objects.filter(codename__in=local_permissions))
+        group = Group.objects.create(name="Contributor upgrade assignment")
+        group.roles.add(role)
+        custom = Role.objects.create(name="Contributor upgrade custom")
+        custom.permissions.set(Permission.objects.filter(codename="comment.add"))
+        Permission.objects.filter(codename="contribution.view_author").delete()
+
+        with connection.schema_editor() as editor:
+            upgrade.merge_roles(apps, editor)
+
+        self.assertEqual(
+            set(role.permissions.values_list("codename", flat=True)),
+            local_permissions | {"contribution.view_author"},
+        )
+        self.assertEqual(group.roles.get(pk=role_id), role)
+        self.assertEqual(
+            list(custom.permissions.values_list("codename", flat=True)),
+            ["comment.add"],
+        )
+
     def test_merge(self) -> None:
         role = Role.objects.get(name="Access repository")
         group = Group.objects.create(name="Merge assignment")
@@ -102,7 +131,7 @@ class RoleMergeTest(TestCase):
 
     def test_generated_migration(self) -> None:
         command_module = "weblate.auth.management.commands.generate_role_migration"
-        latest = import_module("weblate.auth.migrations.0015_update_builtin_roles")
+        latest = import_module("weblate.auth.migrations.0018_update_builtin_roles")
         source_file = latest.__file__
         assert source_file is not None
         with TemporaryDirectory() as directory:
@@ -148,7 +177,9 @@ class RoleMergeTest(TestCase):
             copytree(
                 Path(source_file).parent,
                 Path(directory) / package,
-                ignore=ignore_patterns("__pycache__", "0015_*", "0016_*", "0017_*"),
+                ignore=ignore_patterns(
+                    "__pycache__", "0015_*", "0016_*", "0017_*", "0018_*"
+                ),
             )
             try:
                 with (
@@ -280,6 +311,9 @@ class RoleMergeTest(TestCase):
         role.permissions.clear()
         with connection.schema_editor() as editor:
             migration.merge_roles(apps, editor)
+            import_module(
+                "weblate.auth.migrations.0018_update_builtin_roles"
+            ).merge_roles(apps, editor)
         self.assertFalse(role.is_customized)
         role.permissions.clear()
         migrate_roles(Role, Permission)

@@ -1118,6 +1118,16 @@ Known non-findings
   while storing, checking, reviewing, or displaying that translation.
   *(documented)* (source: :doc:`/security/localization-threat`)
 
+Contributor attribution is an authorization boundary within accessible projects.
+Confidential collaboration restricts system-provided attribution while retaining
+translation content and internal history. Identity-safe regenerated translation
+exports remain available without attribution access; original files require
+attribution access. Identity-bearing reports, change downloads,
+access management, and administrator-configured integrations remain separately
+trusted disclosure paths. User-provided content and previously exported copies
+are outside this confidentiality guarantee. See :ref:`confidential-collaboration`
+for configuration and limitations. *(maintainer)*
+
 Conditions that change this model
 ---------------------------------
 

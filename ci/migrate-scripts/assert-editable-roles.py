@@ -56,3 +56,20 @@ for collision_team in Group.objects.filter(name__startswith="Visibility collisio
     assert list(collision.permissions.values_list("codename", flat=True)) == [
         "comment.add"
     ]
+
+# New attribution permission reaches existing translation roles without changing
+# custom roles or removing their assignments.
+for name in (
+    "Translate",
+    "Review strings",
+    "Administration",
+    "Add suggestion",
+    "Access repository",
+    "Manage languages",
+):
+    assert (
+        Role.objects.get(name=name)
+        .permissions.filter(codename="contribution.view_author")
+        .exists()
+    )
+assert not custom.permissions.filter(codename="contribution.view_author").exists()

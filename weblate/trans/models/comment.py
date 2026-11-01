@@ -134,7 +134,7 @@ class CommentManager(models.Manager):
 
 class CommentQuerySet(models.QuerySet["Comment", "Comment"]):
     def prefetch(self):
-        return self.select_related("user")
+        return self.select_related("user", "unit__translation__component__project")
 
     def order(self):
         return self.order_by("timestamp")

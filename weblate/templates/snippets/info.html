@@ -42,9 +42,12 @@
               {% endif %}
             {% endif %}
 
-            {% include "snippets/info-users.html" with user_title=_("Project maintainers") user_list=project.all_admins %}
+            {% contributor_access project as can_view_project_contributors %}
+            {% if can_view_project_contributors %}
+              {% include "snippets/info-users.html" with user_title=_("Project maintainers") user_list=project.all_admins %}
 
-            {% include "snippets/info-users.html" with user_title=_("Project reviewers") user_list=project.all_reviewers %}
+              {% include "snippets/info-users.html" with user_title=_("Project reviewers") user_list=project.all_reviewers %}
+            {% endif %}
           {% endif %}
           {% if componentlist %}
             {% for auto in componentlist.autocomponentlist_set.all %}
@@ -182,7 +185,7 @@
             </tr>
             <tr>
               <th>{% translate "Last change made by" %}</th>
-              <td colspan="2">{{ translation.get_last_author }}</td>
+              <td colspan="2">{% contributor_access translation as can_view_translation_author %}{% if can_view_translation_author %}{{ translation.get_last_author }}{% else %}{% translate "Contributor" %}{% endif %}</td>
             </tr>
           {% endif %}
           {% if language %}
@@ -245,7 +248,7 @@
         </table>
       </div>
     {% endif %}
-    {% if top_users %}
+    {% if top_users and can_view_top_users %}
       {# Global stats #}
       <div class="card">
         <div class="card-header">

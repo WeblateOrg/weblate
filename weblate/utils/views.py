@@ -19,7 +19,7 @@ from uuid import UUID
 from zipfile import ZipFile, ZipInfo
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.core.paginator import EmptyPage, Paginator
 from django.http import (
     FileResponse,
@@ -36,6 +36,7 @@ from django.views.decorators.gzip import gzip_page
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
 
+from weblate.formats.base import is_identity_safe_exporter
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
@@ -1078,6 +1079,12 @@ def download_translation_file(
     fmt: str | None = None,
     query_string: str | None = None,
 ):
+    from weblate.accounts.visibility import can_view_contributor  # ruff: ignore[import-outside-top-level]
+
+    if not is_identity_safe_exporter(
+        EXPORTERS.get(fmt or "")
+    ) and not can_view_contributor(request.user, translation):
+        raise PermissionDenied
     response = handle_last_modified(request, translation.stats)
     if response is not None:
         return response
@@ -1094,7 +1101,7 @@ def download_translation_file(
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
-            units = units.search(query_string)
+            units = units.search(query_string, user=request.user)
         exporter.add_units(units)
         response = exporter.get_response()
     else:

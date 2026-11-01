@@ -320,7 +320,8 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
                     "type": "section",
                     "text": {
                         "type": "plain_text",
-                        "text": str(change.get_details_display()) or "No details",
+                        "text": str(change.get_details_display(trusted=True))
+                        or "No details",
                     },
                     "accessory": {
                         "type": "button",

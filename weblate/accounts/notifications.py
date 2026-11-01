@@ -25,6 +25,7 @@ from django.utils import timezone
 from django.utils.translation import (
     get_language,
     get_language_bidi,
+    gettext,
     gettext_lazy,
     override,
     pgettext_lazy,
@@ -381,7 +382,7 @@ class Notification:
         summaries: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Return context for rendering mail."""
-        result = {
+        result: dict[str, Any] = {
             "LANGUAGE_CODE": get_language(),
             "LANGUAGE_BIDI": get_language_bidi(),
             "current_site_url": get_site_url(),
@@ -424,6 +425,23 @@ class Notification:
                 result["translation_url"] = get_site_url(
                     change.translation.get_absolute_url()
                 )
+        if change:
+            from weblate.accounts.visibility import (  # ruff: ignore[import-outside-top-level]
+                can_view_contributor,
+                public_change_details,
+            )
+
+            viewer = result.get("subscription_user")
+            if change.action == ActionEvents.LICENSE_CHANGE:
+                result["change_details"] = change.get_details_display(viewer=viewer)
+            result["details"] = public_change_details(change, viewer)
+            if not can_view_contributor(viewer, change):
+                result["user"] = None
+            result["contributor_name"] = (
+                result["user"].get_visible_name()
+                if result["user"]
+                else gettext("Contributor")
+            )
         return result
 
     def get_headers(self, context: dict[str, Any]) -> dict[str, str]:

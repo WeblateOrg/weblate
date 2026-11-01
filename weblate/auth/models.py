@@ -859,6 +859,9 @@ class GroupManyToManyField(models.ManyToManyField):
 
 
 class User(AbstractBaseUser):
+    contributor_translations: list[int]
+    contributor_visibility: dict[tuple[object, ...], bool]
+
     @dataclass
     class AuditState:
         group_ids: set[int]
@@ -1014,6 +1017,8 @@ class User(AbstractBaseUser):
         self.cla_cache = {}
         perm_caches = (
             "_permissions",
+            "contributor_visibility",
+            "contributor_translations",
             "allowed_projects",
             "needs_component_restrictions_filter",
             "needs_project_filter",

@@ -67,6 +67,7 @@ DASHES = re.compile(r"--+")
 
 
 class PoExporter(BaseExporter):
+    identity_safe = True
     name = "po"
     content_type = "text/x-po"
     extension = "po"
@@ -121,6 +122,7 @@ class XMLExporter(XMLFilterMixin, BaseExporter):
 
 
 class PoXliffExporter(XMLExporter):
+    identity_safe = True
     name = "xliff"
     content_type = "application/x-xliff+xml"
     extension = "xlf"
@@ -152,6 +154,7 @@ class PoXliffExporter(XMLExporter):
 
 
 class XliffExporter(PoXliffExporter):
+    identity_safe = True
     name = "xliff11"
     content_type = "application/x-xliff+xml"
     extension = "xlf"
@@ -161,6 +164,7 @@ class XliffExporter(PoXliffExporter):
 
 
 class TBXExporter(XMLExporter):
+    identity_safe = True
     name = "tbx"
     content_type = "application/x-tbx"
     extension = "tbx"
@@ -321,6 +325,7 @@ class TBXExporter(XMLExporter):
 
 
 class TMXExporter(XMLExporter):
+    identity_safe = True
     name = "tmx"
     content_type = "application/x-tmx"
     extension = "tmx"
@@ -329,6 +334,7 @@ class TMXExporter(XMLExporter):
 
 
 class MoExporter(PoExporter):
+    identity_safe = True
     name = "mo"
     content_type = "application/x-gettext-catalog"
     extension = "mo"
@@ -457,6 +463,7 @@ class PluralCSVExportMixin(BaseExporter):
 
 
 class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
+    identity_safe = True
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
@@ -468,6 +475,7 @@ class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
 
 
 class MultiCSVExporter(CVSBaseExporter):
+    identity_safe = True
     name = "csv-multi"
     content_type = "text/csv"
     extension = "csv"
@@ -524,6 +532,7 @@ class MultiCSVExporter(CVSBaseExporter):
 
 
 class XlsxExporter(PluralCSVExportMixin, XMLFilterMixin, CVSBaseExporter):
+    identity_safe = True
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
@@ -551,6 +560,7 @@ class MonolingualExporter(BaseExporter):
 
 
 class JSONExporter(MonolingualExporter):
+    identity_safe = True
     storage_class = JsonFile
     name = "json"
     content_type = "application/json"
@@ -560,6 +570,7 @@ class JSONExporter(MonolingualExporter):
 
 
 class JSONNestedExporter(JSONExporter):
+    identity_safe = True
     name = "json-nested"
     file_format = "json-nested"
     verbose = gettext_lazy("JSON nested structure file")
@@ -567,6 +578,7 @@ class JSONNestedExporter(JSONExporter):
 
 
 class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
+    identity_safe = True
     storage_class = AndroidResourceFile
     name = "aresource"
     content_type = "application/xml"
@@ -589,6 +601,7 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
 
 class StringsExporter(MonolingualExporter):
+    identity_safe = True
     storage_class = stringsutf8file
     name = "strings"
     content_type = "text/plain"

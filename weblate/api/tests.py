@@ -15757,6 +15757,9 @@ class TranslationAPITest(APIBaseTest):
                 self.user.groups.clear()
                 self.user.clear_permissions_cache()
                 self.grant_perm_to_user("translation.download", project=self.project)
+                self.grant_perm_to_user(
+                    "contribution.view_author", project=self.project
+                )
             get_response = self.client.get(url)
             self.assertEqual(
                 get_response.status_code, 200, getattr(get_response, "data", None)
@@ -20116,6 +20119,13 @@ class ChangeAPITest(APIBaseTest):
             project_selection=SELECTION_ALL_PUBLIC,
             language_selection=SELECTION_ALL,
         )
+        reader_role = Role.objects.create(
+            name="Automatic translation attribution readers"
+        )
+        reader_role.permissions.add(
+            Permission.objects.get(codename="contribution.view_author")
+        )
+        reader_group.roles.add(reader_role)
         reader = User.objects.create_user("autotranslate_reader", "reader@example.com")
         reader.groups.set([reader_group])
         reader.clear_permissions_cache()
@@ -20171,6 +20181,48 @@ class ChangeAPITest(APIBaseTest):
                 self.assertIsNone(serialized["details"]["configuration"]["component"])
                 self.assertIn("component", serialized["details"]["redacted_fields"])
         self.assertEqual(self.client.get(restricted_url).status_code, 404)
+
+    def test_hidden_contributor_in_nested_changes(self) -> None:
+        actor = User.objects.create_user(
+            "hidden-actor", "hidden-actor@example.org", full_name="Hidden Actor"
+        )
+        change = self.translation.change_set.create(
+            user=actor,
+            author=actor,
+            action=ActionEvents.USER_REVERT,
+            details={"username": actor.username, "email": actor.email},
+        )
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        for url in (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:component-changes", kwargs=self.component_kwargs),
+            reverse("api:translation-changes", kwargs=self.translation_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                entries = response.data.get("results", [response.data])
+                item = next(entry for entry in entries if entry["id"] == change.pk)
+                self.assertIsNone(item["user"])
+                self.assertIsNone(item["author"])
+                self.assertEqual(item["details"], {})
+                for identity in (
+                    actor.username,
+                    actor.full_name,
+                    actor.email,
+                    actor.get_absolute_url(),
+                ):
+                    self.assertNotIn(identity, str(response.data))
+                filtered = self.client.get(url, {"user": actor.username})
+                self.assertNotIn(
+                    change.pk,
+                    [entry["id"] for entry in filtered.data.get("results", [])],
+                )
 
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))

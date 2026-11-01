@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags humanize i18n metrics permissions translations %}
+{% load crispy_forms_tags humanize i18n metrics permissions translations user_display %}
 
 {% block nav_pills %}
+  {% contributor_access object as can_download_original %}
   {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
@@ -53,7 +54,8 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu shadow">
-        {% if object.filename %}
+        {% contributor_access object as can_download_original %}
+        {% if object.filename and can_download_original %}
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}">{% translate "Download translation" %}</a>
@@ -309,7 +311,15 @@
           </h4>
         </div>
         <table class="table table-listing table-striped">
-          {% if object.filename %}
+          {% contributor_access object as can_download_original %}
+          {% if object.filename and not can_download_original %}
+            <tr>
+              <td colspan="{{ exporters|length|add:2 }}">
+                {% translate "Original files can contain contributor identities and require additional permission. Use a generated export below for offline translation." %}
+              </td>
+            </tr>
+          {% endif %}
+          {% if object.filename and can_download_original %}
             <tr>
               <th class="number">{{ object.stats.all|intcomma }}</th>
               <td>{% translate "File in original format as translated in the repository" %}</td>

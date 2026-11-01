@@ -1131,13 +1131,20 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
     def get_details_display(
-        self, *, viewer: User | AnonymousUser | None = None
+        self, *, viewer: User | AnonymousUser | None = None, trusted: bool = False
     ) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.change_display import (
+        from weblate.accounts.visibility import can_view_contributor
+        from weblate.trans.change_display import (  # ruff: ignore[import-outside-top-level]
             ChangeDetailsRenderFactory,
         )
 
+        if (
+            not trusted
+            and not can_view_contributor(viewer, self)
+            and self.action != ActionEvents.COMMENT
+        ):
+            return ""
         strategy = ChangeDetailsRenderFactory.get_strategy(self, viewer=viewer)
         return strategy.render_details(self)
 

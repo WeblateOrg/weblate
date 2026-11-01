@@ -166,7 +166,8 @@ class ChangeOriginTest(FixtureTestCase):
             details={"origin": {"scope": "system"}},
         )
         self.assertEqual(
-            change.get_details_display(), ActionEvents.CREATE_COMPONENT.label
+            change.get_details_display(trusted=True),
+            ActionEvents.CREATE_COMPONENT.label,
         )
 
     def test_history_label_visibility(self) -> None:
@@ -714,9 +715,9 @@ class FeedQueriesTest(FixtureTestCase):
     # fixed query budget differs between project/component/translation feeds.
     # This includes two bulk queries for source translations and their plurals,
     # plus the public viewer lookup and its fixed permission/2FA query cost.
-    PROJECT_FEED_QUERIES = 18
-    COMPONENT_FEED_QUERIES = 17
-    TRANSLATION_FEED_QUERIES = 17
+    PROJECT_FEED_QUERIES = 22
+    COMPONENT_FEED_QUERIES = 21
+    TRANSLATION_FEED_QUERIES = 21
 
     def setUp(self) -> None:
         super().setUp()

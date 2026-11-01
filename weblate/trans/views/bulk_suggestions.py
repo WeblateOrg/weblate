@@ -84,7 +84,10 @@ def bulk_accept_user_suggestions(
     """Preview or schedule accepting suggestions from a specific user."""
     translation = parse_path(request, path, (Translation,))
 
-    if not request.user.has_perm("suggestion.accept", translation):
+    if not (
+        request.user.has_perm("suggestion.accept", translation)
+        and request.user.has_perm("contribution.view_author", translation)
+    ):
         return JsonResponse(
             {"error": gettext("You do not have permission to accept suggestions.")},
             status=403,

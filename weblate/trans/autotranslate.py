@@ -284,7 +284,10 @@ class AutoTranslate(BaseAutoTranslate):
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
         return units.search(
-            self.q, parser="unit", project=self.translation.component.project
+            self.q,
+            parser="unit",
+            project=self.translation.component.project,
+            user=self.user,
         )
 
     def get_task_meta(self) -> dict[str, Any]:

@@ -4,7 +4,7 @@
 
 {% block content %}
   {% if change.action == 55 %}
-    <p>{{ change.get_details_display }}</p>
+    <p>{{ change_details }}</p>
   {% else %}
     <p>
       {% blocktranslate %}Contributor license agreement for component {{ component }} was changed.{% endblocktranslate %}

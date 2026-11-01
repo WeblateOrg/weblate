@@ -480,7 +480,7 @@ class AIQualityOperation(AutomationOperation):
             .exclude(pk=F("source_unit_id"))
         )
         if settings["q"]:
-            units = units.search(settings["q"], project=component.project)
+            units = units.search(settings["q"], project=component.project, user=_user)
         evaluated: set[int] = set()
         snapshots: dict[int, EvaluatedUnitSnapshot] = {}
         result = evaluate_component(
