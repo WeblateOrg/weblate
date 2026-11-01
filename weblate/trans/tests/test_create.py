@@ -15,14 +15,18 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from translation_finder import DiscoveryLimit, DiscoveryResult, DiscoveryResults
 
+from weblate.auth.models import UserBlock
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.component_creation import get_component_branches
 from weblate.trans.forms import (
+    CategoryRenameForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
     ComponentInitCreateForm,
+    ComponentLinkAddForm,
     ComponentProjectForm,
+    ComponentRenameForm,
     get_repository_redirect_change,
 )
 from weblate.trans.models import Category, Component, Project
@@ -50,6 +54,8 @@ from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspac
 
 if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 TEST_ZIP = get_test_file("translations.zip")
 TEST_HTML = get_test_file("cs.html")
@@ -307,6 +313,99 @@ class CreateTest(ViewTestCase):
         else:
             self.assertEqual(response.status_code, 200)
         return response
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_blocked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        # Keep another eligible destination to exercise project field validation.
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        params = {
+            "name": "Blocked component",
+            "slug": "blocked-component",
+            "project": self.project.pk,
+            "source_language": get_default_lang(),
+            "file_format": "po-mono",
+            "vcs": "git",
+            "repo": "https://example.com/repository.git",
+        }
+        for view in (
+            "create-component",
+            "create-component-vcs",
+            "create-component-zip",
+            "create-component-doc",
+        ):
+            response = self.client.get(reverse(view))
+            self.assertIn(self.project, response.context["projects"])
+
+        # The block also invalidates destinations from previously opened wizards.
+        UserBlock.objects.create(user=self.user, project=self.project)
+        for view, extra in (
+            ("create-component", {"origin": "scratch"}),
+            ("create-component-vcs", {}),
+            ("create-component-vcs", {"discovery": "manual"}),
+            ("create-component-vcs", {"new_base": "", "filemask": "*.po"}),
+            (
+                "create-component-zip",
+                {"zipfile": SimpleUploadedFile("translations.zip", b"unused")},
+            ),
+            (
+                "create-component-doc",
+                {"docfile": SimpleUploadedFile("document.html", b"<p>Test</p>")},
+            ),
+        ):
+            with (
+                self.subTest(view=view, fields=list(extra)),
+                patch(
+                    "weblate.trans.views.create.create_component_from_zip"
+                ) as zip_create,
+                patch(
+                    "weblate.trans.views.create.create_component_from_doc"
+                ) as doc_create,
+                patch.object(Project, "scratch_create_component") as scratch_create,
+                patch.object(Component, "clean_repo") as prepare,
+            ):
+                response = self.client.get(reverse(view))
+                self.assertNotIn(self.project, response.context["projects"])
+                response = self.client.post(reverse(view), {**params, **extra})
+                self.assertEqual(response.status_code, 200)
+                self.assertIn(
+                    "Select a valid choice.", str(response.context["form"].errors)
+                )
+                zip_create.assert_not_called()
+                doc_create.assert_not_called()
+                scratch_create.assert_not_called()
+                prepare.assert_not_called()
+                self.assertFalse(
+                    Component.objects.filter(slug="blocked-component").exists()
+                )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_blocked_management_destinations(self) -> None:
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        self.project.add_user(self.user, "Administration")
+        UserBlock.objects.create(user=self.user, project=destination)
+        self.user.clear_permissions_cache()
+        category = Category.objects.create(
+            name="Category", slug="category", project=self.project
+        )
+        request = cast("AuthenticatedHttpRequest", self.factory.post("/"))
+        request.user = self.user
+        data = {
+            "name": "Moved",
+            "slug": "moved",
+            "project": destination.pk,
+        }
+        forms = (
+            ComponentRenameForm(request, data, instance=self.component),
+            CategoryRenameForm(request, data, instance=category),
+            ComponentLinkAddForm(data, request=request, component=self.component),
+        )
+        for form in forms:
+            with self.subTest(form=type(form).__name__):
+                self.assertFalse(form.is_valid())
+                self.assertIn("project", form.errors)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_create_component_billing(self) -> None:

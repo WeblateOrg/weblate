@@ -1585,6 +1585,14 @@ class User(AbstractBaseUser):
                         condition = Q()
                         break
                     condition |= Q(access_control=access)
+        if not self.is_superuser:
+            blocked_ids = {
+                project_id
+                for project_id, permissions in self.project_permissions.items()
+                if permissions == [(None, None)]
+            }
+            if blocked_ids:
+                condition &= ~Q(pk__in=blocked_ids)
         return Project.objects.filter(condition).distinct().order()
 
     def workspace_ids_with_perm(self, perm: str) -> set[uuid.UUID]:
