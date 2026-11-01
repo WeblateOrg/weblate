@@ -116,6 +116,7 @@ Weblate 2026.11
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Prevented automatic suggestions from exposing private project or restricted component translations through a shared cache.
+* Require glossary editing permission when changing :ref:`glossary <glossary>` flags through the string context form.
 * Fixed role permission revocation through partial API updates.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
