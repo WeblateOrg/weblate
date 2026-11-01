@@ -123,6 +123,7 @@ Weblate 2026.11
 * Fixed role permission revocation through partial API updates.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
+* Bound :ref:`two-factor verification <2fa>` to the signed-in account during third-party sign-in and sensitive account actions.
 
 .. rubric:: Bug fixes
 

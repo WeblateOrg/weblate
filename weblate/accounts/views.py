@@ -2026,6 +2026,12 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
         msg = "Backend not found"
         raise Http404(msg) from error
 
+    if not request.user.is_authenticated:
+        # A new sign-in supersedes any unfinished second-factor challenge.
+        clear_second_factor_session(request)
+        request.session.pop(DEVICE_ID_SESSION_KEY, None)
+        request.session.pop(SESSION_SECOND_FACTOR_TIMESTAMP, None)
+
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
     except SocialAuthBaseException as error:
@@ -2898,7 +2904,10 @@ class SecondFactorMixin(View):
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
         clear_second_factor_session(self.request, preserve_social=True)
-        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": user.pk,
+            "time": int(time.time()),
+        }
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
             # Keep login on social pipeline if we got here from it

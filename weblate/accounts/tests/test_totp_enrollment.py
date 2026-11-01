@@ -69,7 +69,10 @@ class TOTPEnrollmentTest(FixtureTestCase):
 
     def mark_recent_second_factor(self) -> None:
         session = self.client.session
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = self.timestamp
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": self.timestamp,
+        }
         session.save()
 
     def test_replay_and_fresh_enrollment(self) -> None:
@@ -389,7 +392,10 @@ class TOTPEnrollmentConcurrencyTest(TransactionTestCase):
                 grant_first_factor(cast("AuthenticatedHttpRequest", request))
                 request.session[SESSION_SECOND_FACTOR_TOTP] = device.pk
                 # Either request can observe the other's confirmed device.
-                request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = self.timestamp
+                request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+                    "user": self.user.pk,
+                    "time": self.timestamp,
+                }
                 ready.wait(timeout=10)
                 return TOTPView.as_view()(request).status_code
             finally:

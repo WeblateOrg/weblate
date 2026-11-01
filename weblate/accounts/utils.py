@@ -77,10 +77,15 @@ def has_recent_second_factor(
     user = user or request.user
     if not user.is_authenticated or not user.profile.has_2fa:
         return True
-    timestamp = request.session.get(SESSION_SECOND_FACTOR_TIMESTAMP)
-    return isinstance(
-        timestamp, int
-    ) and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+    verification = request.session.get(SESSION_SECOND_FACTOR_TIMESTAMP)
+    if not isinstance(verification, dict) or verification.get("user") != user.pk:
+        return False
+    timestamp = verification.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+    )
 
 
 def grant_first_factor(request: AuthenticatedHttpRequest) -> None:

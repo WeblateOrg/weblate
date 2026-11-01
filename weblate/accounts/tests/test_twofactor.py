@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect
 from django.test import Client, override_settings
 from django.urls import reverse
 from django.utils.timezone import now
+from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.oath import totp
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -47,6 +48,7 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
     has_first_factor_grant,
+    has_recent_second_factor,
 )
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -436,7 +438,10 @@ class TwoFactorTestCase(FixtureTestCase):
 
     def mark_recent_second_factor(self) -> None:
         session = self.client.session
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
         session.save()
 
     def create_totp_device(self) -> TOTPDevice:
@@ -934,6 +939,135 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertTrue(strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL])
 
+    def test_social_second_factor_rejects_another_users_device(self) -> None:
+        self.create_totp_device()
+        other_user = User.objects.create_user("other-user", "other@example.org")
+        other_device = TOTPDevice.objects.create(user=other_user, confirmed=True)
+        own_device = TOTPDevice.objects.get(user=self.user, confirmed=True)
+        session = {DEVICE_ID_SESSION_KEY: other_device.persistent_id}
+        strategy = SimpleNamespace(request=SimpleNamespace(session=session))
+        arguments = {
+            "strategy": strategy,
+            "backend": SimpleNamespace(name="github"),
+            "user": self.user,
+            "current_partial": SimpleNamespace(token="partial-token"),
+        }
+
+        response = second_factor.__wrapped__(**arguments)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}), response["Location"]
+        )
+        self.assertNotIn(DEVICE_ID_SESSION_KEY, session)
+        self.assertEqual(session[SESSION_SECOND_FACTOR_USER], (self.user.pk, ""))
+
+        session[DEVICE_ID_SESSION_KEY] = own_device.persistent_id
+        self.assertIsNone(second_factor.__wrapped__(**arguments))
+
+        session[DEVICE_ID_SESSION_KEY] = "otp_totp.totpdevice/99999999"
+        self.assertEqual(second_factor.__wrapped__(**arguments).status_code, 302)
+        self.assertNotIn(DEVICE_ID_SESSION_KEY, session)
+
+    def test_new_social_sign_in_clears_unfinished_second_factor(self) -> None:
+        device = self.create_totp_device()
+        self.client.logout()
+        session = self.client.session
+        session[DEVICE_ID_SESSION_KEY] = device.persistent_id
+        session[SESSION_SECOND_FACTOR_USER] = (self.user.pk, "")
+        session[SESSION_SECOND_FACTOR_HASH] = self.user.get_session_auth_hash()
+        session[SESSION_SECOND_FACTOR_SOCIAL] = True
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+
+        with mock.patch(
+            "weblate.accounts.views.do_auth",
+            return_value=HttpResponseRedirect("/provider/"),
+        ):
+            response = self.client.post(reverse("social:begin", args=("github",)))
+
+        self.assertRedirects(response, "/provider/", fetch_redirect_response=False)
+        session = self.client.session
+        for key in (
+            DEVICE_ID_SESSION_KEY,
+            SESSION_SECOND_FACTOR_USER,
+            SESSION_SECOND_FACTOR_HASH,
+            SESSION_SECOND_FACTOR_SOCIAL,
+            SESSION_SECOND_FACTOR_TIMESTAMP,
+        ):
+            self.assertNotIn(key, session)
+
+    def test_interrupted_social_second_factor_cannot_sign_in_another_user(
+        self,
+    ) -> None:
+        own_device = self.create_totp_device()
+        other_user = User.objects.create_user("other-user", "other@example.org")
+        TOTPDevice.objects.create(user=other_user, confirmed=True)
+        self.client.logout()
+        session = self.client.session
+        strategy = SimpleNamespace(
+            request=SimpleNamespace(user=AnonymousUser(), session=session)
+        )
+        arguments = {
+            "strategy": strategy,
+            "backend": SimpleNamespace(name="github"),
+            "current_partial": SimpleNamespace(token="partial-token"),
+        }
+        response = second_factor.__wrapped__(user=self.user, **arguments)
+        self.assertEqual(response.status_code, 302)
+        session.save()
+
+        code = totp(
+            own_device.bin_key,
+            own_device.step,
+            own_device.t0,
+            own_device.digits,
+            own_device.drift,
+        )
+        response = self.client.post(response["Location"], {"otp_token": f"{code:06d}"})
+        self.assertEqual(response.status_code, 302)
+        session = self.client.session
+        self.assertEqual(session[DEVICE_ID_SESSION_KEY], own_device.persistent_id)
+        strategy.request.session = session
+        self.assertFalse(has_recent_second_factor(strategy.request, user=other_user))
+
+        response = second_factor.__wrapped__(user=other_user, **arguments)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}), response["Location"]
+        )
+        self.assertNotIn(DEVICE_ID_SESSION_KEY, session)
+        self.assertEqual(session[SESSION_SECOND_FACTOR_USER], (other_user.pk, ""))
+
+    def test_recent_second_factor_rejects_another_user(self) -> None:
+        device = self.create_totp_device()
+        other_user = User.objects.create_user("other-user", "other@example.org")
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": other_user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+        token = Token.objects.get(user=self.user).key
+
+        self.assertNotIn(token, self.client.get(reverse("profile")).content.decode())
+        response = self.client.post(
+            reverse("totp-detail", kwargs={"pk": device.pk}), {"delete": "1"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(TOTPDevice.objects.filter(pk=device.pk).exists())
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session.save()
+        self.assertNotIn(token, self.client.get(reverse("profile")).content.decode())
+
+        self.mark_recent_second_factor()
+        self.assertContains(self.client.get(reverse("profile")), token)
+
     def test_new_sign_in_method_requires_recent_second_factor(self) -> None:
         self.create_totp_device()
         session: dict[str, object] = {}
@@ -959,7 +1093,10 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(session[SESSION_SECOND_FACTOR_USER], (self.user.pk, ""))
         self.assertTrue(session[SESSION_SECOND_FACTOR_SOCIAL])
 
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
         self.assertIsNone(pipeline_step(**arguments))
 
     def test_login_totp_rejects_unsafe_next(self) -> None:
@@ -1013,9 +1150,11 @@ class TwoFactorTestCase(FixtureTestCase):
             clock.time.return_value = 2_000_000_000
 
             stale_session = self.client.session
-            stale_session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(
-                clock.time.return_value
-            ) - (SECOND_FACTOR_VERIFY_SECONDS + 1)
+            stale_session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+                "user": self.user.pk,
+                "time": int(clock.time.return_value)
+                - (SECOND_FACTOR_VERIFY_SECONDS + 1),
+            }
             stale_session.save()
 
             response = self.client.get(reverse("password"))
@@ -1036,9 +1175,10 @@ class TwoFactorTestCase(FixtureTestCase):
             clock.time.return_value = 2_000_000_000
 
             session = self.client.session
-            session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
-                int(clock.time.return_value) - SECOND_FACTOR_VERIFY_SECONDS
-            )
+            session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+                "user": self.user.pk,
+                "time": int(clock.time.return_value) - SECOND_FACTOR_VERIFY_SECONDS,
+            }
             session.save()
 
             response = self.client.get(reverse("password"))
@@ -1168,9 +1308,10 @@ class TwoFactorTestCase(FixtureTestCase):
                     self.assertContains(response, f'data-clipboard-value="{token}"')
 
         session = self.client.session
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
-            int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1
-        )
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1,
+        }
         session.save()
         self.assertNotIn(token, self.client.get(reverse("profile")).content.decode())
         response = self.client.get(reverse("recovery-codes"))
