@@ -110,6 +110,7 @@ from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage, WorkspaceLanguage
 from weblate.vcs.base import RepositoryError
@@ -2507,6 +2508,67 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_FUZZY)
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_zen_rate_limit_retry(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Zen rate limit", slug="zen-rate-limit")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login()
+        user.groups.add(Group.objects.get(name="Users"))
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.has_perm("unit.edit", unit))
+        reset_rate_limit("translate", user=user)
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{zen_url}")
+
+        row = self.driver.find_element(By.ID, f"row-edit-{unit.checksum}")
+        editor = row.find_element(By.CSS_SELECTOR, ".translation-editor")
+        editor.send_keys("First Zen translation", Keys.TAB)
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: "translation-saved" in (row.get_attribute("class") or "")
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        editor.clear()
+        editor.send_keys("Pending Zen translation", Keys.TAB)
+        rejection = WebDriverWait(self.driver, 15).until(
+            lambda driver: next(
+                (
+                    toast
+                    for toast in driver.find_elements(
+                        By.CSS_SELECTOR, "#popup-toasts .toast-body"
+                    )
+                    if "Your request was rejected" in toast.text
+                ),
+                None,
+            )
+        )
+        self.assertEqual(
+            rejection.text,
+            "Your request was rejected because you have performed too many "
+            "operations recently. Please try again later.",
+        )
+        self.assertEqual(editor.get_attribute("value"), "Pending Zen translation")
+        self.assertIn("has-changes", editor.get_attribute("class") or "")
+        self.assertNotIn("translation-saved", row.get_attribute("class") or "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        reset_rate_limit("translate", user=user)
+        editor.click()
+        editor.send_keys(Keys.TAB)
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: "translation-saved" in (row.get_attribute("class") or "")
+        )
+        self.assertNotIn("has-changes", editor.get_attribute("class") or "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Pending Zen translation\n")
 
     def test_zen_queued_review_change(self) -> None:
         fixture = RepoTestMixin()

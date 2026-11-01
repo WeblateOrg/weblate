@@ -52,6 +52,7 @@ from weblate.utils.change_origin import acting_user_context
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -2248,6 +2249,114 @@ class ZenViewTest(ReusableViewTestCase):
             response,
             "The following fix-up was applied to the translation: Trailing and leading whitespace",
         )
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_save_zen_respects_classic_translate_limit(self) -> None:
+        unit = self.get_unit()
+        self.assertFalse(self.user.is_superuser)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertEqual(
+            self.edit_unit(unit.source, "First translation\n").status_code, 302
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First translation\n")
+
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "Second translation\n",
+                "review": "20",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["state"], "danger")
+        self.assertEqual(response.json()["translationsum"], "")
+        self.assertIn(
+            {
+                "tags": "error",
+                "kind": "danger",
+                "text": (
+                    "Your request was rejected because you have performed too many "
+                    "operations recently. Please try again later."
+                ),
+            },
+            response.json()["messages"],
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First translation\n")
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_classic_translate_respects_zen_limit(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "First Zen translation\n",
+                "review": "20",
+            },
+        )
+        self.assertNotEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        response = self.edit_unit(unit.source, "Second translation\n")
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_save_zen_csrf_token_survives_rate_limit(self) -> None:
+        unit = self.get_unit()
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        response = client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertEqual(response.status_code, 200)
+        document = html.fromstring(response.content)
+        form = document.xpath(
+            f'//form[.//input[@name="checksum"][@value="{unit.checksum}"]]'
+        )[0]
+        params = {
+            "csrfmiddlewaretoken": form.xpath(
+                './/input[@name="csrfmiddlewaretoken"]/@value'
+            )[0],
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
+            "target_0": "First Zen translation\n",
+            "review": "20",
+        }
+        url = form.get("action")
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["translationsum"], "")
+        params.update(
+            translationsum=response.json()["translationsum"],
+            initial_state=response.json()["initial_state"],
+            target_0="Pending Zen translation\n",
+        )
+
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["state"], "danger")
+        self.assertEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        reset_rate_limit("translate", user=self.user)
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Pending Zen translation\n")
 
     def test_save_zen_lock(self) -> None:
         self.component.locked = True

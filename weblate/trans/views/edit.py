@@ -80,7 +80,11 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import get_message_kind
-from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    revert_rate_limit,
+    session_ratelimit_post,
+)
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_TRANSLATED,
@@ -1960,6 +1964,20 @@ def load_zen(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def save_zen(request: AuthenticatedHttpRequest, path):
     """Save handler for zen mode."""
+    if not check_rate_limit("translate", request):
+        messages.error(
+            request,
+            gettext(
+                "Your request was rejected because you have performed too many operations recently."
+            )
+            + " "
+            + gettext("Please try again later."),
+        )
+        zen_messages, state = collect_zen_messages(request)
+        return JsonResponse(
+            {"messages": zen_messages, "state": state, "translationsum": ""}
+        )
+
     obj, unit_set, _context = parse_path_units(
         request,
         path,
