@@ -42,6 +42,13 @@ def get_locked_unit(user: User, pk: int) -> Unit:
     return unit
 
 
+def check_context_permissions(user: User, unit: Unit, *, include_flags: bool) -> None:
+    if not user.has_perm("source.edit", unit.translation):
+        raise PermissionDenied
+    if include_flags and not user.has_perm("meta:unit.flag", unit.translation):
+        raise PermissionDenied
+
+
 @require_POST
 @login_required
 @transaction.atomic
@@ -112,13 +119,13 @@ def edit_context(request: AuthenticatedHttpRequest, pk):
         if not unit.is_source and not unit.translation.component.is_glossary:
             msg = "Non source unit!"
             raise Http404(msg)
-        if not request.user.has_perm("source.edit", unit.translation):
-            raise PermissionDenied
+        include_flags = "extra_flags" in request.POST
+        check_context_permissions(request.user, unit, include_flags=include_flags)
         context_form = ContextForm(
             request.POST,
             instance=unit,
             user=request.user,
-            include_flags="extra_flags" in request.POST,
+            include_flags=include_flags,
         )
         if context_form.is_valid():
             context_form.save()

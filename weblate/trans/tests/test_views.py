@@ -2175,6 +2175,78 @@ class SourceStringsTest(ViewTestCase):
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
 
+    def test_glossary_context_flags_require_glossary_edit(self) -> None:
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = glossary.source_translation.add_unit(
+            None, "", source="glossary-term", author=self.user
+        )
+        self.assertIsNotNone(source)
+        assert source is not None
+        url = reverse("edit_context", kwargs={"pk": source.pk})
+
+        group = Group.objects.get(name="Users")
+        group.roles.set([Role.objects.get(name="Edit source")])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("source.edit", source.translation))
+        self.assertFalse(self.user.has_perm("glossary.edit", source.translation))
+
+        response = self.client.post(
+            url, {"explanation": "Forged context", "extra_flags": "terminology"}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "")
+        self.assertEqual(source.explanation, "")
+        self.assertFalse(source.labels.exists())
+
+        response = self.client.post(url, {"explanation": "Allowed context"})
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.explanation, "Allowed context")
+
+        response = self.client.post(
+            url, {"edit_flags": "1", "source_flags": "terminology"}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "")
+
+        group.roles.add(Role.objects.get(name="Manage glossary"))
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("meta:unit.flag", source.translation))
+        response = self.client.post(
+            url, {"explanation": "Allowed context", "extra_flags": "terminology"}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "terminology")
+
+        group.roles.remove(Role.objects.get(name="Manage glossary"))
+        self.user.clear_permissions_cache()
+        response = self.client.post(
+            url, {"explanation": "Forged removal", "extra_flags": ""}
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "terminology")
+        self.assertEqual(source.explanation, "Allowed context")
+
+    def test_non_glossary_context_flags_allow_source_edit(self) -> None:
+        group = Group.objects.get(name="Users")
+        group.roles.set([Role.objects.get(name="Edit source")])
+        self.user.clear_permissions_cache()
+        source = self.get_unit().source_unit
+        self.assertTrue(self.user.has_perm("source.edit", source.translation))
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": source.pk}),
+            {"extra_flags": "ignore-same"},
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "ignore-same")
+
     def test_edit_context_hides_private_unit(self) -> None:
         private_project = self.create_project(
             name="Private source",
