@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
+from django_otp.models import Device
 from social_core.exceptions import (
     AuthAssociationError,
     AuthPolicyError,
@@ -753,15 +754,26 @@ def notify_disconnect(strategy, backend, entries, user: User, **kwargs) -> None:
 
 @partial
 def second_factor(strategy, backend, user: User, current_partial, **kwargs):
-    """Force authentication when adding new association."""
-    if user.profile.has_2fa and (
-        DEVICE_ID_SESSION_KEY not in strategy.request.session
+    """Require a second factor verified for the user being signed in."""
+    if not user.profile.has_2fa:
+        return None
+    session = strategy.request.session
+    persistent_id = session.get(DEVICE_ID_SESSION_KEY)
+    device = (
+        Device.from_persistent_id(persistent_id)
+        if isinstance(persistent_id, str)
+        else None
+    )
+    if (
+        device is None
+        or device.user_id != user.pk
         or (
             kwargs.get("weblate_action") == "activation"
             and kwargs.get("social") is None
             and not has_recent_second_factor(strategy.request, user=user)
         )
     ):
+        session.pop(DEVICE_ID_SESSION_KEY, None)
         # Store session indication for second factor
         set_second_factor_session(strategy.request, user, "", social=True)
         # Redirect to second factor login

@@ -117,7 +117,10 @@ class ProjectTokenTest(FixtureTestCase):
         self.assertEqual(Token.objects.count(), token_count)
 
         session = self.client.session
-        session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
         session.save()
         response = self.client.post(url, payload)
         self.assertEqual(response.status_code, 302)
