@@ -26,6 +26,9 @@ from social_core.exceptions import (
     AuthSessionError,
 )
 from social_core.pipeline.partial import partial
+from social_core.pipeline.social_auth import (
+    associate_by_email as core_associate_by_email,
+)
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
 from weblate.accounts.flows import PASSWORD_RESET_SCOPE_SESSION
@@ -535,6 +538,21 @@ def ensure_valid(
         validator = EmailValidator()
         # This raises ValidationError
         validator(details["email"])
+
+
+def associate_by_email(strategy, backend, details, user=None, **kwargs):
+    """Only rebind a signed-out third-party identity when explicitly enabled."""
+    if (
+        user is None
+        and backend.name != "email"
+        and not settings.REGISTRATION_REBIND
+        and (email := details.get("email"))
+    ):
+        owner = User.objects.filter(email__iexact=email).first()
+        if owner is not None:
+            AuditLog.objects.create(owner, strategy.request, "connect")
+            raise AuthAssociationError(backend, code="email_in_use", stage="pipeline")
+    return core_associate_by_email(backend, details, user=user, **kwargs)
 
 
 def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:

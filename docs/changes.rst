@@ -87,6 +87,7 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Signed-out third-party sign-ins can link to an existing account by matching e-mail only when :setting:`REGISTRATION_REBIND` is enabled.
 * Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.
 * Protected template downloads through the :doc:`REST API <api>` against symlink races during concurrent repository updates.
 
@@ -219,6 +220,11 @@ If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, add
 in this shared step, and Weblate no longer joins provider first and last names
 itself. Existing full names are preserved. The example configuration and Docker
 image already include the new step. See :doc:`admin/auth` for details.
+
+If you maintain a custom ``SOCIAL_AUTH_PIPELINE``, replace
+``social_core.pipeline.social_auth.associate_by_email`` with
+``weblate.accounts.pipeline.associate_by_email`` to apply the
+:setting:`REGISTRATION_REBIND` policy to third-party sign-ins.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
