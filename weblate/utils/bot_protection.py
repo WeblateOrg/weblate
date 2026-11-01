@@ -152,7 +152,7 @@ def record_counter(reason: str) -> None:
     try:
         backend = caches[option("CACHE_ALIAS", "default")]
         key = f"pow:stats:hour:{int(time.time()) // 3600}:{reason}"
-        if not backend.add(key, 1, timeout=25 * 3600):
+        if not backend.add(key, 1, timeout=26 * 3600):
             backend.incr(key)
     except Exception:
         LOGGER.warning(
