@@ -24,6 +24,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from lxml import html
 
+from weblate.accounts.visibility import public_profile_render
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -40,7 +41,7 @@ from weblate.trans.tests.test_views import (
     ReusableViewTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import clear_users_cache, get_test_actor
 from weblate.trans.views.changes import ChangesView
 from weblate.utils.change_origin import acting_user_context, change_origin_context
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
@@ -711,10 +712,11 @@ class ChangeQueriesTest(FixtureTestCase):
 class FeedQueriesTest(FixtureTestCase):
     # Reverse managers populate different related objects up front, so the
     # fixed query budget differs between project/component/translation feeds.
-    # This includes two bulk queries for source translations and their plurals.
-    PROJECT_FEED_QUERIES = 13
-    COMPONENT_FEED_QUERIES = 12
-    TRANSLATION_FEED_QUERIES = 12
+    # This includes two bulk queries for source translations and their plurals,
+    # plus the public viewer lookup and its fixed permission/2FA query cost.
+    PROJECT_FEED_QUERIES = 18
+    COMPONENT_FEED_QUERIES = 17
+    TRANSLATION_FEED_QUERIES = 17
 
     def setUp(self) -> None:
         super().setUp()
@@ -732,24 +734,31 @@ class FeedQueriesTest(FixtureTestCase):
 
     def assert_feed_queries(self, obj, expected_queries: int) -> None:
         feed = TranslationChangesFeed()
-        with self.assertNumQueries(expected_queries):
+        clear_users_cache()
+        with self.assertNumQueries(expected_queries), public_profile_render():
             items = list(feed.items(ChangeFeedScope(self.user, obj)))
             for item in items:
                 str(item)
 
     def test_project_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.project, self.PROJECT_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(self.project, self.PROJECT_FEED_QUERIES)
 
     def test_component_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.component, self.COMPONENT_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(
             self.component,
             self.COMPONENT_FEED_QUERIES,
         )
 
     def test_translation_feed_queries_do_not_scale_with_change_count(self) -> None:
-        self.add_feed_changes(6)
+        self.add_feed_changes(1)
+        self.assert_feed_queries(self.translation, self.TRANSLATION_FEED_QUERIES)
+        self.add_feed_changes(5)
         self.assert_feed_queries(
             self.translation,
             self.TRANSLATION_FEED_QUERIES,

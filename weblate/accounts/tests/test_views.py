@@ -48,6 +48,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.defines import TRIAL_PLAN_SLUG
@@ -349,12 +350,14 @@ class ViewTest(RepoTestCase):
         for mode in ("authenticated", "admins"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_PROFILE_VISIBILITY=mode),
+                VisibilityPermissions(profile=mode),
             ):
                 self.client.logout()
                 for url in urls:
                     with self.subTest(url=url):
-                        self.assertEqual(self.client.get(url).status_code, 404)
+                        response = self.client.get(url)
+                        self.assertEqual(response.status_code, 404)
+                        self.assertIn("no-store", response["Cache-Control"])
                 self.client.force_login(viewer)
                 with mock.patch(
                     "weblate.accounts.views.get_avatar_image", return_value=b"avatar"
@@ -380,7 +383,7 @@ class ViewTest(RepoTestCase):
                 viewer.is_superuser = False
                 viewer.save()
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_restricted_notification_diagnostics(self) -> None:
         viewer = self.get_user()
         target = User.objects.create_user(
@@ -406,7 +409,7 @@ class ViewTest(RepoTestCase):
         for mode in ("scoped", "disabled"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                VisibilityPermissions(directory=mode),
             ):
                 for query in (
                     "",

@@ -275,6 +275,8 @@ Administrators can make private identities the default by setting
 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` and :setting:`PRIVATE_COMMIT_NAME_OPT_IN`
 to ``False``. Your explicit choices override these defaults.
 
+See :doc:`/admin/privacy` for privacy configuration examples.
+
 Changes to these settings affect future commits. Names and e-mail addresses
 already recorded in repository history remain unchanged.
 

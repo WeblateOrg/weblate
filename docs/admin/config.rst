@@ -1821,6 +1821,8 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 Configures whether the private commit e-mail is opt-in or opt-out.
 
+See :doc:`/admin/privacy` for privacy configuration examples.
+
 With ``True`` (the default), users use their account e-mail unless they choose a
 private commit e-mail. Set to ``False`` to use
 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` by default.
@@ -2992,74 +2994,6 @@ When using a URL prefix, expose Weblate's prefixed ``robots.txt`` at the origin'
 ``/robots.txt`` through your reverse proxy. Its crawl rules and sitemap URL
 include the configured prefix. If other applications share the origin, merge
 their crawl rules in the proxy-served document as appropriate.
-
-.. setting:: USER_DIRECTORY_VISIBILITY
-
-USER_DIRECTORY_VISIBILITY
--------------------------
-
-.. versionadded:: 2026.11
-
-Controls discovery of other users. Defaults to ``"all"`` for compatibility.
-
-``"all"``
-   Keeps user browsing, username autocomplete, and site-wide user search enabled.
-``"scoped"``
-   Requires a resource-specific contributor search, such as
-   ``contributes:my-project`` or ``contributes:my-project/my-component``, on the
-   user directory page and REST API. Every matching branch of a search must
-   include a positive resource scope. Generic names, language filters, and
-   negated scopes do not grant directory access.
-``"disabled"``
-   Disables the user directory page. Resource-scoped REST searches and
-   autocomplete remain available.
-
-In both restricted modes, searches return contributors only within accessible
-resources. Translation editor mentions use the current string's translation as
-scope. Generic site-wide searches do not return users. The REST user list still
-returns the caller's own details when no search is supplied.
-
-Users with the global ``user.view`` or ``user.edit`` permission retain directory
-and administrative access in every mode.
-
-This setting controls discovery independently of
-:setting:`USER_PROFILE_VISIBILITY`. Contributor identities can appear in scoped
-results even when their profiles are restricted. It does not anonymize
-contributors or change attribution in translation history.
-
-In Docker, use :envvar:`WEBLATE_USER_DIRECTORY_VISIBILITY`.
-
-.. setting:: USER_PROFILE_VISIBILITY
-
-USER_PROFILE_VISIBILITY
------------------------
-
-.. versionadded:: 2026.11
-
-Controls access to user profiles. Defaults to ``"public"`` for compatibility.
-
-``"public"``
-   Keeps existing public profile access, subject to installation login rules.
-``"authenticated"``
-   Requires signing in to view another user's profile.
-``"admins"``
-   Requires the global ``user.view`` or ``user.edit`` permission to view another
-   user's profile.
-
-Users can always access their own profile, and users with either global
-permission retain administrative access. The policy applies to direct profile
-URLs, contribution and suggestion pages, external profile links, contact links,
-avatars, and REST user details. Restricted URLs return HTTP 404.
-Contributor displays retain names but use a generic avatar and omit profile
-links when access is denied. Email and feed displays use public-access rules.
-
-Combine this with :setting:`USER_DIRECTORY_VISIBILITY` to control discovery.
-For example, ``"scoped"`` directory visibility with ``"public"`` profile
-visibility preserves public contributor profiles while limiting discovery to
-accessible resources. Basic contributor identities remain visible in permitted
-search results regardless of profile visibility.
-
-In Docker, use :envvar:`WEBLATE_USER_PROFILE_VISIBILITY`.
 
 .. setting:: VCS_ALLOW_HOSTS
 

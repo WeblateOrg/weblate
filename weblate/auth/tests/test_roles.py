@@ -102,21 +102,22 @@ class RoleMergeTest(TestCase):
 
     def test_generated_migration(self) -> None:
         command_module = "weblate.auth.management.commands.generate_role_migration"
-        source_file = migration.__file__
+        latest = import_module("weblate.auth.migrations.0015_update_builtin_roles")
+        source_file = latest.__file__
         assert source_file is not None
         with TemporaryDirectory() as directory:
             snapshot = Path(directory) / "0014_editable_builtin_roles.py"
             snapshot.write_text(Path(source_file).read_text(encoding="utf-8"))
             with (
-                patch.object(migration, "__file__", str(snapshot)),
+                patch.object(latest, "__file__", str(snapshot)),
                 patch(
                     f"{command_module}.ROLES", [*ROLES, ("New role", {"comment.add"})]
                 ),
             ):
                 call_command("generate_role_migration", stdout=StringIO())
-            generated = Path(directory) / "0015_update_builtin_roles.py"
+            generated = Path(directory) / "0017_update_builtin_roles.py"
             namespace = run_path(str(generated))
-            self.assertEqual(namespace["OLD_DEFAULTS"], migration.NEW_DEFAULTS)
+            self.assertEqual(namespace["OLD_DEFAULTS"], latest.NEW_DEFAULTS)
             self.assertEqual(namespace["NEW_DEFAULTS"]["New role"], ["comment.add"])
             with connection.schema_editor() as editor:
                 namespace["merge_roles"](apps, editor)
@@ -145,7 +146,7 @@ class RoleMergeTest(TestCase):
             copytree(
                 Path(source_file).parent,
                 Path(directory) / package,
-                ignore=ignore_patterns("__pycache__"),
+                ignore=ignore_patterns("__pycache__", "0015_*", "0016_*"),
             )
             try:
                 with (
@@ -353,3 +354,74 @@ class RoleMergeTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(role.is_customized)
+
+    def test_visibility_team_upgrade_preserves_assignments(self) -> None:
+        state = MigrationLoader(None).project_state(
+            [("weblate_auth", "0015_update_builtin_roles")]
+        )
+        historical_group = state.apps.get_model("weblate_auth", "Group")
+        historical_role = state.apps.get_model("weblate_auth", "Role")
+        custom = historical_role.objects.create(name="Local visibility upgrade")
+        users = historical_group.objects.get(name="Users", internal=True)
+        guests = historical_group.objects.get(name="Guests", internal=True)
+        users.roles.remove(
+            *historical_role.objects.filter(
+                name__in={"Discover users", "View user profiles"}
+            )
+        )
+        guests.roles.remove(historical_role.objects.get(name="View user profiles"))
+        users.roles.add(custom)
+        before = set(users.roles.values_list("pk", flat=True))
+        upgrade = import_module("weblate.auth.migrations.0016_user_visibility_teams")
+        with connection.schema_editor() as editor:
+            upgrade.assign_visibility_roles(state.apps, editor)
+            upgrade.assign_visibility_roles(state.apps, editor)
+        self.assertEqual(
+            set(users.roles.values_list("pk", flat=True)),
+            before
+            | set(
+                historical_role.objects.filter(
+                    name__in={"Discover users", "View user profiles"}
+                ).values_list("pk", flat=True)
+            ),
+        )
+        self.assertTrue(guests.roles.filter(name="View user profiles").exists())
+
+    def test_new_builtin_role_name_collisions(self) -> None:
+        upgrade = import_module("weblate.auth.migrations.0015_update_builtin_roles")
+        records = []
+        for name in ("Discover users", "View user profiles"):
+            Role.objects.filter(name=name).delete()
+            custom = Role.objects.create(name=name)
+            custom.permissions.set(Permission.objects.filter(codename="comment.add"))
+            occupied = Role.objects.create(name=f"{name} (custom)")
+            team = Group.objects.create(name=f"Custom {name}")
+            team.roles.add(custom)
+            records.append((name, custom, occupied, team))
+        with connection.schema_editor() as editor:
+            upgrade.rename_conflicting_roles(apps, editor)
+            upgrade.merge_roles(apps, editor)
+        for name, custom, occupied, team in records:
+            with self.subTest(name=name):
+                role_id = custom.pk
+                custom.refresh_from_db()
+                self.assertEqual(custom.name, f"{name} (custom 2)")
+                self.assertEqual(custom.pk, role_id)
+                self.assertEqual(
+                    list(custom.permissions.values_list("codename", flat=True)),
+                    ["comment.add"],
+                )
+                self.assertEqual(
+                    list(team.roles.values_list("pk", flat=True)), [role_id]
+                )
+                self.assertTrue(
+                    Role.objects.filter(
+                        pk=occupied.pk, name=f"{name} (custom)"
+                    ).exists()
+                )
+                builtin = Role.objects.get(name=name)
+                self.assertNotEqual(builtin.pk, role_id)
+                self.assertEqual(
+                    set(builtin.permissions.values_list("codename", flat=True)),
+                    set(dict(ROLES)[name]),
+                )

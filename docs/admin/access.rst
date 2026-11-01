@@ -709,6 +709,11 @@ applies the current upstream defaults to all teams using those roles.
    the current defaults. Earlier changes made through the API or database are
    replaced. Subsequent upgrades preserve local customizations.
 
+   Existing custom roles named `Discover users` or `View user profiles` are
+   renamed with a ``(custom)`` suffix before the new built-in roles are created.
+   A numbered suffix is used if that name is already taken. Their permissions
+   and team assignments are preserved.
+
 .. _privileges:
 
 .. include:: /snippets/permissions.rst
@@ -748,7 +753,7 @@ however, re-create them if you delete or rename them.
     Remove roles from this team to limit permissions for
     non-authenticated users.
 
-    Default roles: `Add suggestion`, `Access repository`
+    Default roles: `Add suggestion`, `Access repository`, `View user profiles`
 
 `Viewers`
     This role ensures the visibility of public projects to all users.
@@ -765,7 +770,7 @@ however, re-create them if you delete or rename them.
     By default, :ref:`automatic team assignment <autoteam>` makes all new
     accounts members of this team when they join.
 
-    Default roles: `Power user`
+    Default roles: `Power user`, `Discover users`, `View user profiles`
 
 `Reviewers`
     Group for reviewers (see :ref:`workflows`).
@@ -815,3 +820,5 @@ Expiration of user accounts
 Each account can have an expiry set. After the expiration, the account will be
 automatically disabled. This is used for :ref:`project-api`, but can be
 utilized for regular users as well.
+
+See :doc:`privacy` to configure user discovery and profile access through roles.

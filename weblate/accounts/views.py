@@ -2394,6 +2394,7 @@ def saml_metadata(request: AuthenticatedHttpRequest):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(profile_response, name="dispatch")
 class UserList(ListView):
     paginate_by = 50
     model = User
