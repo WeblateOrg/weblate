@@ -35,6 +35,7 @@ from weblate.accounts.flows import (
     PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
     sign_password_reset_scope,
 )
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.pipeline import (
     ensure_valid,
@@ -47,6 +48,7 @@ from weblate.accounts.tasks import (
     cleanup_social_auth,
     get_registration_attempt_password_reset_url,
 )
+from weblate.auth.forms import bulk_lookup_invited_users, lookup_invited_user
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -505,6 +507,96 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
 
 class RegistrationTest(BaseRegistrationTest):
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_unicode_lookalike_domain(self) -> None:
+        user = User.objects.create_user("victim", "victim@github.com", "secret")
+
+        for address in ("victim@gıthub.com", "victim@github.com"):
+            with self.subTest(address=address):
+                response = self.client.post(
+                    reverse("password_reset"), {"email": address}, follow=True
+                )
+                self.assertContains(response, "Password reset almost complete")
+                sent_mail = mail.outbox.pop()
+                self.assertEqual(sent_mail.to, [address])
+                self.assertEqual(
+                    "verification_code=" in sent_mail.body,
+                    address == "victim@github.com",
+                )
+                self.assertNotIn("perform_reset", self.client.session)
+
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("secret"))
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_long_s_lookalike_domain(self) -> None:
+        user = User.objects.create_user("victim", "victim@staff.com", "secret")
+        response = self.client.post(
+            reverse("password_reset"),
+            {"email": "victim@ſtaff.com"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        sent_mail = mail.outbox.pop()
+        self.assertEqual(sent_mail.to, ["victim@ſtaff.com"])
+        self.assertNotIn("verification_code=", sent_mail.body)
+        self.assertIsNone(UniqueEmailMixin.get_email_user("victim@ſtaff.com"))
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("secret"))
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_uses_stored_address_for_ascii_case_match(self) -> None:
+        user = User.objects.create_user("victim", "Victim@GitHub.com", "secret")
+        self.client.post(
+            reverse("password_reset"),
+            {"email": "victim@github.com"},
+            follow=True,
+        )
+        sent_mail = mail.outbox.pop()
+        self.assertEqual(sent_mail.to, [user.email])
+        self.assertIn("verification_code=", sent_mail.body)
+
+    def test_unicode_email_identity_paths(self) -> None:
+        user = User.objects.create_user("victim", "victim@github.com", "secret")
+        social = user.social_auth.create(
+            provider="email", uid="secondary@github.com", id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@github.com")
+
+        for address in ("victim@gıthub.com", "victim@github.com"):
+            with self.subTest(address=address):
+                expected = user if address == "victim@github.com" else None
+                self.assertEqual(UniqueEmailMixin.get_email_user(address), expected)
+                self.assertEqual(user.has_email(address), expected is not None)
+                self.assertEqual(lookup_invited_user(address), expected)
+                self.assertEqual(
+                    bulk_lookup_invited_users([address])[address], expected
+                )
+                self.assertEqual(
+                    list(DjangoStorage.user.get_users_by_email(address)),
+                    [user] if expected else [],
+                )
+
+        self.assertIsNone(UniqueEmailMixin.get_email_user("secondary@gıthub.com"))
+        self.assertEqual(
+            UniqueEmailMixin.get_email_owner("SECONDARY@GITHUB.COM"),
+            (user, "secondary@github.com"),
+        )
+        invitation = Invitation(email="victim@github.com")
+        self.assertFalse(invitation.matches_email("victim@gıthub.com"))
+        self.assertTrue(invitation.matches_email("VICTIM@GITHUB.COM"))
+
+    def test_distinct_unicode_email_addresses(self) -> None:
+        ascii_user = User.objects.create_user("ascii", "first@staff.com", "secret")
+        unicode_user = User.objects.create_user("unicode", "first@ſtaff.com", "secret")
+
+        self.assertNotEqual(ascii_user.pk, unicode_user.pk)
+        self.assertEqual(User.objects.get(email__iexact="FIRST@STAFF.COM"), ascii_user)
+        self.assertEqual(
+            User.objects.get(email__iexact="FIRST@ſTAFF.COM"), unicode_user
+        )
+
     @override_settings(
         REGISTRATION_CAPTCHA=True,
         ENABLE_HTTPS=True,
@@ -1245,16 +1337,46 @@ class RegistrationTest(BaseRegistrationTest):
         VerifiedEmail.objects.create(social=social, email="secondary@example.net")
 
         response = self.client.post(
-            reverse("password_reset"), {"email": "secondary@example.net"}, follow=True
+            reverse("password_reset"), {"email": "SECONDARY@EXAMPLE.NET"}, follow=True
         )
 
         self.assertContains(response, "Password reset almost complete")
+        self.assertEqual(mail.outbox[-1].to, ["secondary@example.net"])
         response = self.confirm_registration_url(
             self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
             follow=True,
         )
         self.assertRedirects(response, reverse("password_reset"))
         self.assertContains(response, "You can now set new one")
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_secondary_verified_email_lookalike(self) -> None:
+        user = User.objects.create_user("victim", "primary@example.com", "secret")
+        social = user.social_auth.create(
+            provider="email", uid="secondary@github.com", id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@github.com")
+
+        self.assertFalse(
+            VerifiedEmail.objects.filter(email__iexact="secondary@gıthub.com").exists()
+        )
+        self.assertTrue(
+            VerifiedEmail.objects.filter(email__iexact="SECONDARY@GITHUB.COM").exists()
+        )
+
+        response = self.client.post(
+            reverse("password_reset"),
+            {"email": "secondary@gıthub.com"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        sent_mail = mail.outbox.pop()
+        self.assertEqual(sent_mail.to, ["secondary@gıthub.com"])
+        self.assertNotIn("verification_code=", sent_mail.body)
+        self.assertNotIn("perform_reset", self.client.session)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("secret"))
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,

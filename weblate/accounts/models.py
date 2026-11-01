@@ -24,7 +24,6 @@ from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import F, Q
-from django.db.models.functions import Upper
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -60,6 +59,7 @@ from weblate.trans.models import Category, Change, ComponentList, Translation
 from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.email import email_key_expression
 from weblate.utils.fields import EmailField
 from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
@@ -858,7 +858,7 @@ class VerifiedEmail(models.Model):
         verbose_name_plural = "Verified e-mails"
         indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
-                Upper("email"),
+                email_key_expression("email"),
                 name="accounts_verifiedemail_email",
             ),
         ]

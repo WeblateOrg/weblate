@@ -251,6 +251,9 @@ commit identity. You can verify another e-mail address here. The account
 management section at the bottom lets you export your user data (see
 :ref:`schema-userdata`), import settings, or remove your account.
 
+Account e-mail addresses match without regard to ASCII letter case. Non-ASCII
+characters must match exactly when signing in or resetting a password.
+
 You can import settings from a user data file on the :guilabel:`Account` tab.
 Compatible language, editor, dashboard, watched-project, and public-profile
 settings replace the corresponding settings on this server. Unavailable values
