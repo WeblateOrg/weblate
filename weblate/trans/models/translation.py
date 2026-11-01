@@ -346,14 +346,10 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.scope import get_permission_scope_query
 
-        return self.filter(
-            get_permission_scope_query(
-                user,
-                permission,
-                component_path="component",
-                language_path="language_id",
-            )
+        query = get_permission_scope_query(
+            user, permission, component_path="component", language_path="language_id"
         )
+        return self.filter(query)
 
     def order(self):
         return self.order_by(

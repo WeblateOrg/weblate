@@ -19,6 +19,23 @@ assert set(role.permissions.values_list("codename", flat=True)) == set(
 )
 custom = Role.objects.get(pk=custom_id, name="Role migration custom")
 assert list(custom.permissions.values_list("codename", flat=True)) == ["comment.add"]
+# New attribution permission reaches existing translation roles without changing
+# custom roles or removing their assignments.
+for name in (
+    "Translate",
+    "Review strings",
+    "Administration",
+    "Add suggestion",
+    "Access repository",
+    "Manage languages",
+):
+    assert (
+        Role.objects.get(name=name)
+        .permissions.filter(codename="contribution.view_author")
+        .exists()
+    )
+assert not custom.permissions.filter(codename="contribution.view_author").exists()
+
 role.permissions.clear()
 call_command("migrate", verbosity=0)
 assert not role.permissions.exists()

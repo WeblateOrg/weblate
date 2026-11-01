@@ -72,7 +72,10 @@ from weblate.accounts.utils import remove_user
 from weblate.accounts.visibility import (
     can_browse_users,
     can_manage_users,
+    can_view_contributor,
     check_profile_access,
+    contributor_translation_ids,
+    filter_contributor_changes,
     is_resource_bounded,
 )
 from weblate.addons.models import Addon
@@ -1343,7 +1346,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if not can_browse_users(user):
             if "unit" in self.request.GET:
                 unit = self.discovery_unit
-                if unit is None:
+                if unit is None or not can_view_contributor(user, unit):
                     return User.objects.none()
                 queryset = queryset.filter(
                     change__translation_id=unit.translation_id
@@ -1624,7 +1627,9 @@ class UserViewSet(viewsets.ModelViewSet):
             Translation.objects.filter_access(get_request_user(request))
             .prefetch()
             .filter(
-                id__in=user_translation_ids,
+                id__in=set(user_translation_ids).intersection(
+                    contributor_translation_ids(get_request_user(request))
+                ),
             )
             .order()
         )
@@ -2951,6 +2956,7 @@ class ProjectViewSet(
             user,
             candidates,
             instance,
+            fmt=request.GET.get("format"),
         )
 
         return download_multi(
@@ -3009,6 +3015,7 @@ class ProjectViewSet(
             user,
             Translation.objects.filter(language=language, component__project=instance),
             instance,
+            fmt=request.GET.get("format"),
         )
         filterset = ComponentSlugFilter(
             request.query_params, queryset=components, request=request
@@ -3693,7 +3700,10 @@ class ComponentViewSet(
         instance = self.get_object()
         try:
             translations, components = prepare_download_scope(
-                cast("User", request.user), instance.translation_set.all(), instance
+                cast("User", request.user),
+                instance.translation_set.all(),
+                instance,
+                fmt=request.GET.get("format"),
             )
         except PermissionDenied:
             self.permission_denied(
@@ -4307,7 +4317,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
-        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_api()
+        queryset = (
+            obj.unit_set.search(query_string, user=get_request_user(request))
+            .order_by("id")
+            .prefetch_api()
+        )
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -4559,7 +4573,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
         if query_string:
-            result = result.search(query_string)
+            result = result.search(query_string, user=get_request_user(self.request))
         return result
 
     @extend_schema(
@@ -5218,6 +5232,11 @@ class ChangeFilter(filters.FilterSet):
 
 
 class ChangesFilterBackend(filters.DjangoFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if request.query_params.get("user"):
+            queryset = filter_contributor_changes(queryset, request.user)
+        return super().filter_queryset(request, queryset, view)
+
     def get_filterset_class(self, view, queryset=None):
         return ChangeFilter
 

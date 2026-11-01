@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n metrics permissions static translations %}
+{% load crispy_forms_tags i18n metrics permissions static translations user_display %}
 
 {% block nav_pills %}
   {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
@@ -263,7 +263,8 @@
                   {% endif %}
                 {% endwith %}
                 {% if alert.is_dismissed %}
-                  {% if alert.dismissed_by %}
+                  {% contributor_access object as can_view_dismissal_author %}
+                  {% if alert.dismissed_by and can_view_dismissal_author %}
                     {% blocktranslate with user=alert.dismissed_by timestamp=alert.dismissed_at|naturaltime %}Dismissed by {{ user }} {{ timestamp }}{% endblocktranslate %}
                   {% else %}
                     {% blocktranslate with timestamp=alert.dismissed_at|naturaltime %}Dismissed {{ timestamp }}{% endblocktranslate %}

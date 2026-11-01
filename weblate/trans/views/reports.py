@@ -420,7 +420,7 @@ def generate_cost_estimate(
 
     for unit in (
         get_cost_estimate_units(language_code, entity)
-        .search(q, parser="unit")
+        .search(q, parser="unit", enforce_contributor_permissions=False)
         .prefetch()
         .prefetch_source()
         .order()

@@ -765,6 +765,16 @@ class UnitTermExpr(BaseTermExpr):
                 )
             if resolved is not None:
                 query &= Q(**{f"{relation}__comment__resolved": resolved})
+            if author and context.get("enforce_contributor_permissions", True):
+                from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+                from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+                query &= get_permission_scope_query(
+                    context.get("user") or get_anonymous(),
+                    "contribution.view_author",
+                    component_path=f"{relation}__translation__component",
+                    language_path=f"{relation}__translation__language_id",
+                )
             result |= query
         return result
 
@@ -810,8 +820,27 @@ class UnitTermExpr(BaseTermExpr):
 
     def as_parsed_query(self, context: dict) -> ParsedQuery:
         if self.field in self.CHANGE_FIELDS:
-            return ParsedQuery.from_change_query(self.as_change_query(context))
-        return super().as_parsed_query(context)
+            result = ParsedQuery.from_change_query(self.as_change_query(context))
+        else:
+            result = super().as_parsed_query(context)
+        if context.get("enforce_contributor_permissions", True) and self.field in {
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        }:
+            from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+            from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+            viewer = context.get("user") or get_anonymous()
+            scope = get_permission_scope_query(
+                viewer,
+                "contribution.view_author",
+                component_path="translation__component",
+                language_path="translation__language_id",
+            )
+            result = result.combine_and(ParsedQuery.from_query(scope))
+        return result
 
     def as_query(self, context: dict) -> Q:
         if self.field in self.CHANGE_FIELDS:
@@ -1155,7 +1184,17 @@ class UserTermExpr(BaseTermExpr):
                     .values_list("id", flat=True)
                 )
             )
-        return slug_filter & Q(change__project__in=user.allowed_projects)
+        result = slug_filter & Q(change__project__in=user.allowed_projects)
+        if not user.is_superuser:
+            from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Change  # ruff: ignore[import-outside-top-level]
+
+            result &= Q(
+                change__pk__in=filter_contributor_changes(
+                    Change.objects.all(), user
+                ).values("pk")
+            )
+        return result
 
 
 class SuperuserUserTermExpr(UserTermExpr):

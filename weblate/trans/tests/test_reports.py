@@ -22,6 +22,7 @@ from weblate.trans.forms import (
 from weblate.trans.models import (
     Category,
     Change,
+    Comment,
     PendingUnitChange,
     Project,
     Report,
@@ -404,6 +405,49 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(data[self.user.email]["count_edit"], 1)
         self.assertEqual(data[user.email]["count"], 1)
         self.assertEqual(data[user.email]["count_edit"], 1)
+
+    def test_cost_author_filters_use_report_authorization(self) -> None:
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Administration")
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.assertTrue(self.user.has_perm("reports.view", self.component))
+        self.assertFalse(
+            self.user.has_perm("contribution.view_author", unit.translation)
+        )
+        Change.objects.create(
+            unit=unit,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            target="Report edit",
+        )
+        Suggestion.objects.create(unit=unit, user=self.user, target="Report suggestion")
+        Comment.objects.create(unit=unit, user=self.user, comment="Report comment")
+        Comment.objects.create(
+            unit=unit.source_unit, user=self.user, comment="Source comment"
+        )
+        for field in (
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        ):
+            query = f"id:{unit.pk} {field}:{self.user.username}"
+            with self.subTest(field=field):
+                self.assertFalse(
+                    Unit.objects.filter(pk=unit.pk)
+                    .search(query, user=self.user)
+                    .exists()
+                )
+                data = self.generate_cost_data(q=query)
+                self.assertEqual(sum(bucket["count"] for bucket in data["buckets"]), 1)
 
     def test_cost_estimate_exact_memory(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")

@@ -15,7 +15,9 @@ from weblate.utils.search import SearchQueryError, parse_query
 class VisibilityQueryTest(SimpleTestCase):
     def test_boolean_scopes(self) -> None:
         user = SimpleNamespace(
-            allowed_projects=[], needs_component_restrictions_filter=False
+            allowed_projects=[],
+            needs_component_restrictions_filter=False,
+            is_superuser=True,
         )
         for query, expected in (
             ("", False),

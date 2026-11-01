@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from contextvars import ContextVar
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -11,9 +12,13 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.cache import add_never_cache_headers
 from django.utils.translation import gettext
 
-from weblate.accounts.visibility import public_profile_render
+from weblate.accounts.visibility import (
+    prepare_contributor_visibility,
+    public_profile_render,
+)
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.utils.site import get_site_url
@@ -21,13 +26,19 @@ from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.contrib.auth.models import AnonymousUser
+    from django.http import HttpRequest, HttpResponse
     from django.utils.feedgenerator import SyndicationFeed
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 type FeedObject = Translation | Component | Project | Language | Unit | ProjectLanguage
+
+
+_feed_viewer: ContextVar[User | AnonymousUser | None] = ContextVar(
+    "contribution_feed_viewer", default=None
+)
 
 
 @dataclass(frozen=True)
@@ -40,19 +51,39 @@ def get_change_feed_guid(change: Change) -> str:
     return get_site_url(reverse("show_change", kwargs={"pk": change.pk}))
 
 
+def get_change_feed_description(item: Change) -> str:
+    return gettext("%(action)s at %(time)s on %(translation)s") % {
+        "action": item.get_action_display(),
+        "time": item.timestamp,
+        "translation": item.translation
+        or item.component
+        or item.project
+        or item.workspace,
+    }
+
+
 class BaseFeed(Feed):
+    def __call__(self, request, *args, **kwargs) -> HttpResponse:
+        response = super().__call__(request, *args, **kwargs)
+        add_never_cache_headers(response)
+        return response
+
     @public_profile_render()
     def get_feed(self, obj: object, request: HttpRequest) -> SyndicationFeed:
-        return super().get_feed(obj, request)
+        token = _feed_viewer.set(request.user)
+        try:
+            return super().get_feed(obj, request)
+        finally:
+            _feed_viewer.reset(token)
 
     def item_title(self, item):
         return item.get_action_display()
 
     def item_description(self, item):
-        return str(item)
+        return get_change_feed_description(item)
 
     def item_author_name(self, item):
-        return item.get_user_display(False)
+        return item.get_user_display(False, viewer=_feed_viewer.get())
 
     def item_pubdate(self, item):
         return item.timestamp
@@ -84,7 +115,9 @@ class ChangesFeed(BaseFeed):
         return reverse("home")
 
     def items(self, obj):
-        return Change.objects.last_changes(obj).recent()
+        changes = Change.objects.last_changes(obj).recent()
+        prepare_contributor_visibility(obj, changes)
+        return changes
 
 
 class ObjectChangesFeed(BaseFeed):
@@ -103,7 +136,9 @@ class ObjectChangesFeed(BaseFeed):
         obj = scope.obj
         if isinstance(obj, Translation):
             changes = Change.objects.last_changes(scope.user, translation=obj)
-            return changes.recent(skip_preload="translation")
+            result = changes.recent(skip_preload="translation")
+            prepare_contributor_visibility(scope.user, result)
+            return result
         if isinstance(obj, Component):
             changes = Change.objects.last_changes(scope.user, component=obj)
         elif isinstance(obj, Project):
@@ -116,7 +151,9 @@ class ObjectChangesFeed(BaseFeed):
             changes = Change.objects.last_changes(
                 scope.user, project=obj.project, language=obj.language
             )
-        return changes.recent()
+        result = changes.recent()
+        prepare_contributor_visibility(scope.user, result)
+        return result
 
 
 class TranslationChangesFeed(ObjectChangesFeed):

@@ -362,7 +362,12 @@ def bulk_perform(
     if user is None:
         msg = "Bulk edits require an explicit actor."
         raise ValueError(msg)
-    matching = unit_set.search(query, project=project)
+    matching = unit_set.search(
+        query,
+        project=project,
+        user=user,
+        enforce_contributor_permissions=enforce_permissions,
+    )
     target_state = int(target_state)
     if target_state not in EDITABLE_STATES | {-1, STATE_EMPTY}:
         raise ValidationError(gettext("Invalid target state."))

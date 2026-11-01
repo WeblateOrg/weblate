@@ -497,6 +497,21 @@ def get_change_history_context(
     This function returns a dictionary containing the main content and fields
     for displaying the change history.
     """
+    from copy import copy  # ruff: ignore[import-outside-top-level]
+
+    from weblate.accounts.visibility import can_view_contributor, public_change_details  # ruff: ignore[import-outside-top-level]
+
+    if not can_view_contributor(viewer, change):
+        change = copy(change)
+        change.details = public_change_details(change, viewer)
+        if not (
+            change.action == ActionEvents.COMMENT
+            or change.show_content()
+            or change.show_source()
+            or change.show_diff()
+            or change.show_removed_string()
+        ):
+            return ShowChangeAction(change).get_context()
     if not include_private_details and change.action == ActionEvents.ALERT_DISMISSED:
         details = RenderAlert.render_alert(change)
     else:

@@ -4,7 +4,7 @@
   {% for comment in comments %}
     <div class="row history-row" id="comments__{{ comment.pk }}">
       <div class="col-md-3 history-event comment-section">
-        <strong>{% user_display comment.user %}</strong>
+        <strong>{% user_display comment.user resource=comment %}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
             {% translate "Resolved comment" %}

@@ -23,6 +23,7 @@ List of built-in roles
        * :guilabel:`Resolve comment`
        * :guilabel:`Edit component settings`
        * :guilabel:`Lock component, preventing translations`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Add glossary entry`
        * :guilabel:`Delete glossary entry`
        * :guilabel:`Edit glossary entry`
@@ -67,6 +68,7 @@ List of built-in roles
 
    * - `Edit source`
      - * :guilabel:`Post comment`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Use automatic suggestions`
        * :guilabel:`Edit additional string info`
        * :guilabel:`Accept suggestion`
@@ -80,10 +82,12 @@ List of built-in roles
        * :guilabel:`Upload translations`
 
    * - `Add suggestion`
-     - * :guilabel:`Add suggestion`
+     - * :guilabel:`View contributor identities`
+       * :guilabel:`Add suggestion`
 
    * - `Access repository`
-     - * :guilabel:`Download translation file`
+     - * :guilabel:`View contributor identities`
+       * :guilabel:`Download translation file`
        * :guilabel:`Access the internal repository`
        * :guilabel:`View upstream repository location`
 
@@ -96,6 +100,7 @@ List of built-in roles
 
    * - `Power user`
      - * :guilabel:`Post comment`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Add glossary entry`
        * :guilabel:`Delete glossary entry`
        * :guilabel:`Edit glossary entry`
@@ -120,6 +125,7 @@ List of built-in roles
        * :guilabel:`Delete announcements`
        * :guilabel:`Post comment`
        * :guilabel:`Resolve comment`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Add glossary entry`
        * :guilabel:`Delete glossary entry`
        * :guilabel:`Edit glossary entry`
@@ -148,6 +154,7 @@ List of built-in roles
    * - `Review strings`
      - * :guilabel:`Post comment`
        * :guilabel:`Resolve comment`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Use automatic suggestions`
        * :guilabel:`Accept suggestion`
        * :guilabel:`Add suggestion`
@@ -162,6 +169,7 @@ List of built-in roles
 
    * - `Translate`
      - * :guilabel:`Post comment`
+       * :guilabel:`View contributor identities`
        * :guilabel:`Use automatic suggestions`
        * :guilabel:`Accept suggestion`
        * :guilabel:`Add suggestion`
@@ -173,7 +181,8 @@ List of built-in roles
        * :guilabel:`Upload translations`
 
    * - `Manage languages`
-     - * :guilabel:`Add language for translation`
+     - * :guilabel:`View contributor identities`
+       * :guilabel:`Add language for translation`
        * :guilabel:`Add several languages for translation`
        * :guilabel:`Delete existing translation`
        * :guilabel:`Download translation file`

@@ -10110,6 +10110,40 @@ class AddonConfigurationUnitTest(SimpleTestCase):
 
 
 class BulkEditAddonTest(ViewTestCase):
+    def test_author_query_retains_configured_authority(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, "Original target", STATE_TRANSLATED)
+        addon = BulkEditAddon.create(
+            acting_user=self.user,
+            component=self.component,
+            run=False,
+            configuration={
+                "q": f"id:{unit.pk} changed_by:{self.user.username}",
+                "state": -1,
+                "search": "Original",
+                "replacement": "Updated",
+                "search_type": "text",
+                "add_labels": [],
+                "remove_labels": [],
+                "add_flags": "",
+                "remove_flags": "",
+            },
+        )
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        self.assertFalse(
+            self.user.has_perm("contribution.view_author", unit.translation)
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertIn("Updated", unit.target)
+        self.assertEqual(
+            unit.change_set.filter(action=ActionEvents.REPLACE).latest("pk").user,
+            addon.user,
+        )
+
     def test_replacement_and_clearing(self) -> None:
         unit = self.get_unit()
         unit.translate(self.user, "Original target", STATE_TRANSLATED)

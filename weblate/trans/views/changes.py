@@ -22,8 +22,12 @@ from django.utils.translation import activate, get_language, gettext, pgettext
 from django.views.generic.list import ListView
 
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+from weblate.accounts.visibility import (
+    filter_contributor_changes,
+    prepare_contributor_visibility,
+)
 from weblate.lang.models import Language
-from weblate.trans.feeds import get_change_feed_guid
+from weblate.trans.feeds import get_change_feed_description, get_change_feed_guid
 from weblate.trans.forms import ChangesDateForm, ChangesForm
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.models.change import Change
@@ -42,6 +46,7 @@ if TYPE_CHECKING:
 class ChangesView(PathViewMixin, ListView):
     """Browser for changes."""
 
+    require_contributor_access_for_author_filters = True
     paginate_by: int | None = 20
     supported_path_types = (
         None,
@@ -228,6 +233,12 @@ class ChangesView(PathViewMixin, ListView):
 
         result = Change.objects.last_changes(self.request.user, **params)
 
+        result = filter_contributor_changes(
+            result,
+            self.request.user,
+            enabled=self.require_contributor_access_for_author_filters
+            and ("user" in filters or "user" in excludes),
+        )
         if filters:
             result = result.filter(**filters)
         if excludes:
@@ -348,14 +359,15 @@ class ChangesCSVView(ChangesView):
     """CSV renderer for changes view."""
 
     paginate_by = None
+    require_contributor_access_for_author_filters = False
 
     def get(  # type: ignore[override]
         self, request: AuthenticatedHttpRequest, *args, **kwargs
     ):
-        object_list = self.get_queryset()[:2000]
-
         if not request.user.has_perm("change.download", self.path_object):
             raise PermissionDenied
+
+        object_list = self.get_queryset()[:2000]
 
         # Always output in english
         activate("en")
@@ -429,13 +441,14 @@ class ChangesRSSView(ChangesView):
             feed_url=get_site_url(request.get_full_path()),
         )
 
+        viewer = prepare_contributor_visibility(request.user, object_list)
         for change in object_list:
             link = get_site_url(change.get_absolute_url())
             feed.add_item(
                 title=change.get_action_display(),
                 link=link,
-                description=str(change),
-                author_name=change.get_user_display(False),
+                description=get_change_feed_description(change),
+                author_name=change.get_user_display(False, viewer=viewer),
                 pubdate=change.timestamp,
                 unique_id=get_change_feed_guid(change),
                 unique_id_is_permalink=False,
