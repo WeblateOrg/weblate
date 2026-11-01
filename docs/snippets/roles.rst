@@ -7,6 +7,13 @@ List of built-in roles
 
 .. list-table::
 
+   * - `Discover users`
+     - * :guilabel:`Browse users`
+       * :guilabel:`Search resource contributors`
+
+   * - `View user profiles`
+     - * :guilabel:`View user profiles`
+
    * - `Administration`
      - * :guilabel:`Post announcements`
        * :guilabel:`Delete announcements`

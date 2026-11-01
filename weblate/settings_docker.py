@@ -1615,16 +1615,6 @@ COMMIT_PENDING_HOURS = get_env_int(
 CONTACT_FORM = get_env_str(
     "WEBLATE_CONTACT_FORM", accounts_defaults.DEFAULT_CONTACT_FORM, required=True
 )
-USER_DIRECTORY_VISIBILITY = get_env_str(
-    "WEBLATE_USER_DIRECTORY_VISIBILITY",
-    accounts_defaults.DEFAULT_USER_DIRECTORY_VISIBILITY,
-    required=True,
-)
-USER_PROFILE_VISIBILITY = get_env_str(
-    "WEBLATE_USER_PROFILE_VISIBILITY",
-    accounts_defaults.DEFAULT_USER_PROFILE_VISIBILITY,
-    required=True,
-)
 ADMINS_CONTACT = get_env_list(
     "WEBLATE_ADMINS_CONTACT", list(trans_defaults.DEFAULT_ADMINS_CONTACT)
 )

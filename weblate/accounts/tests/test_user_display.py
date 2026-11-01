@@ -12,10 +12,12 @@ from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
 from django.contrib.auth.models import AnonymousUser
+from django.db import connection
 from django.db.models import Value
 from django.template import Context, Template
 from django.template.loader import render_to_string
 from django.test import RequestFactory, override_settings
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from lxml.html import fromstring
 
@@ -26,9 +28,15 @@ from weblate.accounts.avatar import (
 )
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.notifications import NewAnnouncementNotificaton
-from weblate.auth.models import User, get_anonymous
+from weblate.accounts.tests.visibility import VisibilityPermissions
+from weblate.accounts.visibility import (
+    can_browse_users,
+    can_search_scoped_users,
+    can_view_profile,
+)
+from weblate.auth.models import Group, Permission, Role, User, get_anonymous
 from weblate.trans.actions import ActionEvents
-from weblate.trans.feeds import BaseFeed
+from weblate.trans.feeds import BaseFeed, ChangesFeed
 from weblate.trans.models import Announcement, Change
 from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -72,7 +80,7 @@ class UserDisplayTest(FixtureTestCase):
             for viewer in (None, AnonymousUser(), self.user, self.target):
                 with (
                     self.subTest(policy=policy, viewer=viewer),
-                    override_settings(USER_PROFILE_VISIBILITY=policy),
+                    VisibilityPermissions(profile=policy),
                 ):
                     accessible = (
                         policy == "public"
@@ -88,7 +96,7 @@ class UserDisplayTest(FixtureTestCase):
                     self.assertIn("&lt;Target &amp; Name&gt;", rendered)
                     self.assertNotIn("<Target & Name>", rendered)
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_global_permissions_and_self_access(self) -> None:
         for permission in ("user.view", "user.edit"):
             with (
@@ -108,7 +116,7 @@ class UserDisplayTest(FixtureTestCase):
             get_user_display(self.target, link=True, viewer=self.user), accessible=True
         )
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_missing_user_disabled_icons_and_avatar_sizes(self) -> None:
         rendered = get_user_display(None, link=True)
         self.assertNotIn("href=", rendered)
@@ -125,7 +133,7 @@ class UserDisplayTest(FixtureTestCase):
             self.assertNotIn("href=", rendered)
             self.assertIn(self.target.username, rendered)
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_template_uses_request_not_displayed_user(self) -> None:
         template = Template("{% load user_display %}{% user_display user %}")
         for viewer, accessible in (
@@ -146,7 +154,7 @@ class UserDisplayTest(FixtureTestCase):
             template.render(Context({"user": self.target})), accessible=False
         )
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_user_cards_and_contributor_list(self) -> None:
         for viewer, accessible in ((self.user, False), (self.target, True)):
             request = self.request_for(viewer)
@@ -173,7 +181,7 @@ class UserDisplayTest(FixtureTestCase):
                 )
                 self.assert_profile_display(contributors, accessible=accessible)
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_management_row_uses_request_viewer(self) -> None:
         rendered = render_to_string(
             "trans/project-access-row.html",
@@ -199,7 +207,7 @@ class UserDisplayTest(FixtureTestCase):
             for viewer in (get_anonymous(), self.user, self.target, admin):
                 with (
                     self.subTest(policy=policy, viewer=viewer),
-                    override_settings(USER_PROFILE_VISIBILITY=policy),
+                    VisibilityPermissions(profile=policy),
                 ):
                     rendered = template.render(
                         Context(
@@ -239,12 +247,14 @@ class UserDisplayTest(FixtureTestCase):
                 for permission in (None, "user.view", "user.edit"):
                     with (
                         self.subTest(scope=scope, mode=mode, permission=permission),
-                        override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                        VisibilityPermissions(directory=mode),
                         patch.object(
                             self.user,
                             "has_perm",
-                            side_effect=lambda name, _obj=None, expected=permission: (
+                            side_effect=lambda name, _obj=None, expected=permission, mode=mode: (
                                 name == expected
+                                or (name == "user.browse" and mode == "all")
+                                or (name == "user.search" and mode in {"all", "scoped"})
                             ),
                         ),
                     ):
@@ -284,12 +294,14 @@ class UserDisplayTest(FixtureTestCase):
             for permission in (None, "user.view", "user.edit"):
                 with (
                     self.subTest(mode=mode, permission=permission),
-                    override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                    VisibilityPermissions(directory=mode),
                     patch.object(
                         self.user,
                         "has_perm",
-                        side_effect=lambda name, _obj=None, expected=permission: (
+                        side_effect=lambda name, _obj=None, expected=permission, mode=mode: (
                             name == expected
+                            or (name == "user.browse" and mode == "all")
+                            or (name == "user.search" and mode in {"all", "scoped"})
                         ),
                     ),
                 ):
@@ -308,7 +320,7 @@ class UserDisplayTest(FixtureTestCase):
                         bool(permission) or mode == "all",
                     )
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_mentions_and_preview(self) -> None:
         text = f"@{self.target.username} مرحبا"
         for viewer, accessible in (
@@ -359,7 +371,7 @@ class UserDisplayTest(FixtureTestCase):
                 for viewer in viewers:
                     with (
                         self.subTest(scope=scope, policy=policy, viewer=viewer),
-                        override_settings(USER_PROFILE_VISIBILITY=policy),
+                        VisibilityPermissions(profile=policy),
                     ):
                         rendered = template.render(Context({"user": viewer, **scope}))
                         self.assertIn(f"@{self.target.username}", rendered)
@@ -375,7 +387,7 @@ class UserDisplayTest(FixtureTestCase):
                         )
             announcement.delete()
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_history_and_digest(self) -> None:
         change = self.create_comment_change()
         for viewer, accessible in (
@@ -407,7 +419,7 @@ class UserDisplayTest(FixtureTestCase):
         for policy in ("public", "authenticated", "admins"):
             with (
                 self.subTest(policy=policy),
-                override_settings(USER_PROFILE_VISIBILITY=policy),
+                VisibilityPermissions(profile=policy),
             ):
                 email = render_to_string(
                     "mail/new_announcement.html",
@@ -426,7 +438,7 @@ class UserDisplayTest(FixtureTestCase):
                 self.assertIn(self.target.username, feed_author)
                 self.assertEqual("href=" in feed_author, policy == "public")
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_git_author(self) -> None:
         social = self.target.social_auth.create(
             provider="email", uid=self.target.email, id_key="email"
@@ -443,3 +455,76 @@ class UserDisplayTest(FixtureTestCase):
                     Context({"request": self.request_for(viewer), "commit": commit})
                 )
                 self.assert_profile_display(rendered, accessible=accessible)
+
+    @VisibilityPermissions(directory="disabled", profile="admins")
+    def test_independent_custom_visibility_permissions(self) -> None:
+        role = Role.objects.create(name="Custom visibility")
+        team = Group.objects.create(name="Custom visibility", project_selection=1)
+        team.roles.add(role)
+        self.user.groups.add(team)
+        for permission in (
+            "user.browse",
+            "user.search",
+            "user.profile",
+            "user.view",
+            "user.edit",
+        ):
+            with self.subTest(permission=permission):
+                role.permissions.set(Permission.objects.filter(codename=permission))
+                self.assertEqual(
+                    can_browse_users(self.user),
+                    permission in {"user.browse", "user.view", "user.edit"},
+                )
+                self.assertEqual(
+                    can_search_scoped_users(self.user), permission != "user.profile"
+                )
+                self.assertEqual(
+                    can_view_profile(self.user, self.target),
+                    permission in {"user.profile", "user.view", "user.edit"},
+                )
+                self.assertTrue(can_view_profile(self.user, self.user))
+                self.assertFalse(can_view_profile(get_anonymous(), self.target))
+
+    def test_public_render_permission_queries(self) -> None:
+        changes = [self.create_comment_change() for _ in range(3)]
+        notification = NewAnnouncementNotificaton([])
+        context = {
+            **notification.get_context(changes=changes),
+            "user": self.target,
+            "subject": "Digest",
+        }
+        # Warm the anonymous prototype, but never its per-render permissions.
+        get_anonymous()
+        _ = self.user.global_permissions
+        profile_permission = Permission.objects.get(codename="user.profile")
+        public_role = Role.objects.get(name="View user profiles")
+        public_role.permissions.add(profile_permission)
+        Group.objects.get(name="Guests", internal=True).roles.add(public_role)
+        for public in (True, False):
+            if not public:
+                public_role.permissions.remove(profile_permission)
+            for output in ("email", "feed"):
+                with self.subTest(public=public, output=output):
+                    with CaptureQueriesContext(connection) as queries:
+                        if output == "email":
+                            rendered = notification.render_template(
+                                ".html", context, digest=True
+                            )
+                        else:
+                            rendered = (
+                                ChangesFeed()
+                                .get_feed(self.user, self.request_for(self.user))
+                                .writeString("utf-8")
+                            )
+                    permission_queries = [
+                        query
+                        for query in queries.captured_queries
+                        if 'SELECT "weblate_auth_permission"."codename"' in query["sql"]
+                    ]
+                    self.assertEqual(len(permission_queries), 1)
+                    self.assertIn(self.target.username, rendered)
+                    self.assertEqual(self.target.get_absolute_url() in rendered, public)
+
+    def test_unknown_user_display_needs_no_public_viewer(self) -> None:
+        with self.assertNumQueries(0):
+            self.assertIn("None", get_user_display(None))

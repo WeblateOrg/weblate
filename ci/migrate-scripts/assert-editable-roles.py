@@ -23,3 +23,36 @@ role.permissions.clear()
 call_command("migrate", verbosity=0)
 assert not role.permissions.exists()
 assert team.roles.filter(pk=role_id).exists()
+
+users = Group.objects.get(name="Users", internal=True)
+assert users.roles.filter(pk=custom_id).exists()
+assert users.roles.filter(name="Power user").exists()
+assert users.roles.filter(name="Discover users").exists()
+assert users.roles.filter(name="View user profiles").exists()
+assert (
+    Group.objects.get(name="Guests", internal=True)
+    .roles.filter(name="View user profiles")
+    .exists()
+)
+assert set(
+    Role.objects.get(name="Discover users").permissions.values_list(
+        "codename", flat=True
+    )
+) == {"user.browse", "user.search"}
+assert set(
+    Role.objects.get(name="View user profiles").permissions.values_list(
+        "codename", flat=True
+    )
+) == {"user.profile"}
+
+
+for collision_team in Group.objects.filter(name__startswith="Visibility collision "):
+    role_id = int(collision_team.name.rsplit(" ", 1)[1])
+    collision = collision_team.roles.get(pk=role_id)
+    assert collision.name in {
+        "Discover users (custom 2)",
+        "View user profiles (custom 2)",
+    }
+    assert list(collision.permissions.values_list("codename", flat=True)) == [
+        "comment.add"
+    ]

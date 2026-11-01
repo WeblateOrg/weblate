@@ -6,9 +6,8 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from django.test import SimpleTestCase, override_settings
+from django.test import SimpleTestCase
 
-from weblate.accounts.apps import check_user_visibility
 from weblate.accounts.visibility import is_resource_bounded
 from weblate.utils.search import SearchQueryError, parse_query
 
@@ -45,34 +44,3 @@ class VisibilityQueryTest(SimpleTestCase):
                 parse_query(
                     query, parser="user", user=SimpleNamespace(allowed_projects=[])
                 )
-
-
-class VisibilitySettingsTest(SimpleTestCase):
-    def test_valid_values(self) -> None:
-        for directory in ("all", "scoped", "disabled"):
-            for profile in ("public", "authenticated", "admins"):
-                with (
-                    self.subTest(directory=directory, profile=profile),
-                    override_settings(
-                        USER_DIRECTORY_VISIBILITY=directory,
-                        USER_PROFILE_VISIBILITY=profile,
-                    ),
-                ):
-                    self.assertEqual(
-                        list(check_user_visibility(app_configs=None, databases=None)),
-                        [],
-                    )
-
-    def test_invalid_values(self) -> None:
-        values: tuple[object, ...] = ("typo", "", None, [])
-        for name in ("USER_DIRECTORY_VISIBILITY", "USER_PROFILE_VISIBILITY"):
-            for value in values:
-                with (
-                    self.subTest(name=name, value=value),
-                    override_settings(**{name: value}),
-                ):
-                    errors = list(
-                        check_user_visibility(app_configs=None, databases=None)
-                    )
-                    self.assertEqual(len(errors), 1)
-                    self.assertIn(name, errors[0].msg)

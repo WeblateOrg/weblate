@@ -32672,7 +32672,7 @@ paths:
         a username prefix of at least two characters after trimming surrounding whitespace;
         such searches return basic information about matching non-bot users. Users
         with either permission can list all users and receive detailed information.
-        USER_DIRECTORY_VISIBILITY can require resource-scoped discovery; a positive
+        Without user.browse, searches require resource-scoped discovery; a positive
         contributes scope or accessible unit context is then required to discover
         other users.
       summary: List users.
@@ -33020,7 +33020,7 @@ paths:
       operationId: api_users_retrieve
       description: Restricted profiles return HTTP 404; self and administrative access
         are retained.
-      summary: Return information about users, subject to USER_PROFILE_VISIBILITY.
+      summary: Return information about users, subject to user.profile permission.
       parameters:
       - in: path
         name: username

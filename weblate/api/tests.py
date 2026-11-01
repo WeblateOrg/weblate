@@ -55,6 +55,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
 from weblate.addons.cdn import CDNJSAddon
@@ -539,7 +540,7 @@ class UserAPITest(APIBaseTest):
         for mode in ("scoped", "disabled"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                VisibilityPermissions(directory=mode),
             ):
                 for params in (
                     {"username": "visibility"},
@@ -582,7 +583,7 @@ class UserAPITest(APIBaseTest):
                     response.data["results"][0]["username"], self.user.username
                 )
 
-    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    @VisibilityPermissions(directory="scoped")
     def test_discovery_resource_access(self) -> None:
         contributor, unit = self.create_visibility_contributor()
         outsider = User.objects.create_user(
@@ -667,7 +668,7 @@ class UserAPITest(APIBaseTest):
         for mode in ("all", "scoped", "disabled"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                VisibilityPermissions(directory=mode),
             ):
                 response = self.client.get(reverse("api:user-list"), {"q": query})
                 self.assertEqual(response.status_code, 200)
@@ -675,7 +676,7 @@ class UserAPITest(APIBaseTest):
                     {item["username"] for item in response.data["results"]}, expected
                 )
         self.client.force_login(self.user)
-        with override_settings(USER_DIRECTORY_VISIBILITY="scoped"):
+        with VisibilityPermissions(directory="scoped"):
             response = self.client.get(reverse("user_list"), {"q": query})
             self.assertEqual(response.status_code, 200)
             for name, contributor in contributors.items():
@@ -685,7 +686,7 @@ class UserAPITest(APIBaseTest):
                     else:
                         self.assertContains(response, contributor.get_absolute_url())
 
-    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    @VisibilityPermissions(directory="scoped")
     def test_project_discovery_component_access_grant(self) -> None:
         restricted, contributors = self.create_project_discovery_contributors()
         self.authenticate(True)
@@ -718,9 +719,9 @@ class UserAPITest(APIBaseTest):
             for profile in ("public", "authenticated", "admins"):
                 with (
                     self.subTest(directory=directory, profile=profile),
-                    override_settings(
-                        USER_DIRECTORY_VISIBILITY=directory,
-                        USER_PROFILE_VISIBILITY=profile,
+                    VisibilityPermissions(
+                        directory=directory,
+                        profile=profile,
                     ),
                 ):
                     self.client.credentials()
@@ -750,7 +751,7 @@ class UserAPITest(APIBaseTest):
                     self.assertEqual(self.client.get(url).status_code, 200)
                     self.authenticate()
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_profile_subresources_do_not_reveal_restricted_users(self) -> None:
         contributor, _ = self.create_visibility_contributor()
         self.authenticate()
@@ -765,7 +766,7 @@ class UserAPITest(APIBaseTest):
                     getattr(self.client, method)(url + suffix).status_code, 404
                 )
 
-    @override_settings(USER_DIRECTORY_VISIBILITY="scoped")
+    @VisibilityPermissions(directory="scoped")
     def test_site_search_hides_generic_user_results(self) -> None:
         contributor, _ = self.create_visibility_contributor()
         self.authenticate()
@@ -4631,7 +4632,10 @@ class RoleAPITest(APIBaseTest):
 
     def test_list_roles(self) -> None:
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(
+            {role["name"] for role in response.data["results"]},
+            {"Add suggestion", "Access repository", "View user profiles"},
+        )
 
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))

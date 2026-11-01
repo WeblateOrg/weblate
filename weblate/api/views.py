@@ -1171,7 +1171,7 @@ def get_delete_memory_option(request: Request) -> bool:
             "after trimming surrounding whitespace; "
             "such searches return basic information about matching non-bot users. "
             "Users with either permission can list all users and receive detailed "
-            "information. USER_DIRECTORY_VISIBILITY can require resource-scoped "
+            "information. Without user.browse, searches require resource-scoped "
             "discovery; a positive contributes scope or accessible unit context is "
             "then required to discover other users."
         ),
@@ -1221,7 +1221,7 @@ def get_delete_memory_option(request: Request) -> bool:
     ),
     retrieve=extend_schema(
         description=(
-            "Return information about users, subject to USER_PROFILE_VISIBILITY. "
+            "Return information about users, subject to user.profile permission. "
             "Restricted profiles return HTTP 404; self and administrative access "
             "are retained."
         ),
@@ -1281,8 +1281,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
-        if settings.USER_PROFILE_VISIBILITY != "public":
-            add_never_cache_headers(response)
+        add_never_cache_headers(response)
         return response
 
     @cached_property
@@ -1339,6 +1338,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 ).distinct()
                 bounded = True
             if not bounded:
+                # Directory restrictions never hide the caller's own account.
+                if "username" in self.request.GET and not scoped:
+                    return queryset.filter(pk=user.pk)
                 return User.objects.none()
         if (
             not privileged
