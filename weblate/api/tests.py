@@ -2791,6 +2791,40 @@ class UserAPITest(APIBaseTest):
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.listing_columns, original_listing_columns)
 
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False)
+    def test_patch_profile_emails_policy(self) -> None:
+        social = self.user.social_auth.create(provider="github", uid="1", id_key="id")
+        original = (self.user.profile.commit_email, self.user.profile.public_email)
+        for email, pattern in (
+            ("user@outside.example", r"^.*@example\.org$"),
+            ("user@disposablemails.com", ".*"),
+        ):
+            with (
+                self.subTest(email=email),
+                override_settings(REGISTRATION_EMAIL_MATCH=pattern),
+            ):
+                VerifiedEmail.objects.create(social=social, email=email)
+                response = self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"profile": {"commit_email": email, "public_email": email}},
+                )
+                self.assertEqual(
+                    {error["attr"] for error in response.data["errors"]},
+                    {"profile.commit_email", "profile.public_email"},
+                )
+                self.assertEqual(
+                    {error["code"] for error in response.data["errors"]}, {"invalid"}
+                )
+                self.user.profile.refresh_from_db()
+                self.assertEqual(
+                    (self.user.profile.commit_email, self.user.profile.public_email),
+                    original,
+                )
+
     def test_patch_profile_emails(self) -> None:
         self.do_request(
             "api:user-detail",

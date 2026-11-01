@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, NoReturn
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
@@ -546,6 +547,16 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
         current = {(details["email"], True)}
     else:
         return
+
+    email_field = VerifiedEmail._meta.get_field("email")  # ruff: ignore[private-member-access]
+    valid_emails: set[tuple[str, bool]] = set()
+    for email, is_deliverable in current:
+        try:
+            email_field.clean(email, None)
+        except ValidationError:
+            continue
+        valid_emails.add((email, is_deliverable))
+    current = valid_emails
 
     existing_emails = set()
     for verified in social.verifiedemail_set.order_by("pk"):
