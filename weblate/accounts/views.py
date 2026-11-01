@@ -1670,12 +1670,13 @@ def reset_password(request: AuthenticatedHttpRequest):
             if not check_rate_limit("password_reset", request):
                 return fake_email_sent(request, True)
             email = form.cleaned_data["email"]
-            email_user = form.get_email_user(email)
-            if email_user:
+            email_owner = form.get_email_owner(email)
+            if email_owner:
+                email_user, stored_email = email_owner
                 response = send_password_reset_email(
                     request,
                     email_user,
-                    email=email,
+                    email=stored_email,
                     scope=get_password_reset_scope(request, email),
                 )
                 if response is not None:

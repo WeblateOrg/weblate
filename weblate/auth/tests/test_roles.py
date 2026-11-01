@@ -115,7 +115,9 @@ class RoleMergeTest(TestCase):
                 ),
             ):
                 call_command("generate_role_migration", stdout=StringIO())
-            generated = Path(directory) / "0017_update_builtin_roles.py"
+            leaf = MigrationLoader(None).graph.leaf_nodes("weblate_auth")[0][1]
+            number = int(leaf.split("_", 1)[0]) + 1
+            generated = Path(directory) / f"{number:04d}_update_builtin_roles.py"
             namespace = run_path(str(generated))
             self.assertEqual(namespace["OLD_DEFAULTS"], latest.NEW_DEFAULTS)
             self.assertEqual(namespace["NEW_DEFAULTS"]["New role"], ["comment.add"])
@@ -146,7 +148,7 @@ class RoleMergeTest(TestCase):
             copytree(
                 Path(source_file).parent,
                 Path(directory) / package,
-                ignore=ignore_patterns("__pycache__", "0015_*", "0016_*"),
+                ignore=ignore_patterns("__pycache__", "0015_*", "0016_*", "0017_*"),
             )
             try:
                 with (

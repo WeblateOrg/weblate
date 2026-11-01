@@ -47,6 +47,7 @@ from weblate.accounts.models import (
     LISTING_COLUMN_CHOICES,
     AuditLog,
     Profile,
+    VerifiedEmail,
     validate_listing_columns,
 )
 from weblate.accounts.notifications import NOTIFICATIONS
@@ -91,19 +92,25 @@ class UniqueEmailMixin(forms.Form):
     @staticmethod
     def get_email_user(mail: str) -> User | None:
         """Return an active user matching the e-mail address."""
-        users = User.objects.filter(
-            email=mail,
-            is_active=True,
-            is_bot=False,
-        )
-        if not users:
-            users = User.objects.filter(
-                social_auth__verifiedemail__email__iexact=mail,
-                is_active=True,
-                is_bot=False,
+        match = UniqueEmailMixin.get_email_owner(mail)
+        return match[0] if match else None
+
+    @staticmethod
+    def get_email_owner(mail: str) -> tuple[User, str] | None:
+        """Return the account and stored address matching an e-mail."""
+        user = User.objects.filter(email=mail, is_active=True, is_bot=False).first()
+        if user is not None and user.email is not None:
+            return user, user.email
+        verified = (
+            VerifiedEmail.objects.filter(
+                email=mail, social__user__is_active=True, social__user__is_bot=False
             )
-        if users:
-            return users[0]
+            .select_related("social__user")
+            .order_by("pk")
+            .first()
+        )
+        if verified is not None:
+            return verified.social.user, verified.email
         return None
 
     def clean_email(self):

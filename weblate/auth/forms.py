@@ -14,7 +14,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q
-from django.db.models.functions import Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
@@ -31,6 +30,7 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.forms import EmailField, UserField, WeblateDateInput
 
 if TYPE_CHECKING:
@@ -89,7 +89,7 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
     if not emails:
         return {}
 
-    normalized_emails = {email.lower() for email in emails}
+    normalized_emails = {email_key(email) for email in emails}
     direct_matches: dict[str, User] = {}
 
     for user in (
@@ -97,11 +97,12 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
             is_active=True,
             is_bot=False,
         )
-        .annotate(lower_email=Lower("email"))
-        .filter(lower_email__in=normalized_emails)
+        .annotate(normalized_email=email_key_expression("email"))
+        .filter(normalized_email__in=normalized_emails)
         .order_by("pk")
     ):
-        direct_matches.setdefault(user.email.lower(), user)
+        if user.email is not None:
+            direct_matches.setdefault(email_key(user.email), user)
 
     resolved_matches: dict[str, User | None] = {
         email: direct_matches.get(email) for email in normalized_emails
@@ -120,12 +121,12 @@ def bulk_lookup_invited_users(emails: list[str]) -> dict[str, User | None]:
             social__user__is_active=True,
             social__user__is_bot=False,
         )
-        .annotate(lower_email=Lower("email"))
-        .filter(lower_email__in=unresolved_emails)
+        .annotate(normalized_email=email_key_expression("email"))
+        .filter(normalized_email__in=unresolved_emails)
         .select_related("social__user")
         .order_by("social__user__pk", "pk")
     ):
-        verified_matches[verified.lower_email].setdefault(
+        verified_matches[verified.normalized_email].setdefault(
             verified.social.user_id, verified.social.user
         )
 
@@ -143,18 +144,22 @@ def bulk_existing_invitations(
     if not emails:
         return set(), set()
 
-    normalized_emails = {email.lower() for email in emails}
-    query = Invitation.objects.filter(group=group).annotate(lower_email=Lower("email"))
+    normalized_emails = {email_key(email) for email in emails}
+    query = Invitation.objects.filter(group=group).annotate(
+        normalized_email=email_key_expression("email")
+    )
     if users:
-        query = query.filter(Q(lower_email__in=normalized_emails) | Q(user__in=users))
+        query = query.filter(
+            Q(normalized_email__in=normalized_emails) | Q(user__in=users)
+        )
     else:
-        query = query.filter(lower_email__in=normalized_emails)
+        query = query.filter(normalized_email__in=normalized_emails)
 
     existing_email_matches: set[str] = set()
     existing_user_matches: set[int] = set()
     for invitation in query:
         if invitation.email:
-            existing_email_matches.add(invitation.email.lower())
+            existing_email_matches.add(email_key(invitation.email))
         if invitation.user_id is not None:
             existing_user_matches.add(invitation.user_id)
 
@@ -360,7 +365,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
         email_tokens: list[tuple[str, str]] = []
 
         for token in self.get_tokens():
-            normalized = token.lower()
+            normalized = email_key(token)
             if normalized in seen:
                 skipped.append(
                     gettext("%(email)s: duplicate address in the submission")
@@ -392,8 +397,8 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
         )
 
         for _token, email in email_tokens:
-            invited_user = invited_users[email.lower()]
-            if email.lower() in existing_email_matches or (
+            invited_user = invited_users[email_key(email)]
+            if email_key(email) in existing_email_matches or (
                 invited_user is not None and invited_user.pk in existing_user_matches
             ):
                 skipped.append(
@@ -415,7 +420,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
             if invited_user is not None:
                 existing_user_matches.add(invited_user.pk)
             else:
-                existing_email_matches.add(email.lower())
+                existing_email_matches.add(email_key(email))
             created += 1
 
         if created:

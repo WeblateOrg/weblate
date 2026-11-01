@@ -14,8 +14,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, Value
-from django.db.models.functions import Lower
+from django.db.models import Q
 from django.http import HttpResponseBase, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
@@ -33,6 +32,7 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.signals import user_pre_delete
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
@@ -291,9 +291,11 @@ def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     email_query = Q()
     for email in emails:
         if email:
-            email_query |= Q(normalized_email=Lower(Value(email)))
+            email_query |= Q(normalized_email=email_key(email))
     if email_query:
-        Code.objects.alias(normalized_email=Lower("email")).filter(email_query).delete()
+        Code.objects.alias(normalized_email=email_key_expression("email")).filter(
+            email_query
+        ).delete()
 
 
 def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
