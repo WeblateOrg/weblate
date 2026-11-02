@@ -9,8 +9,14 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.translation import gettext
 
+from weblate.auth.data import (
+    SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+)
 from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
@@ -1423,11 +1429,39 @@ def check_team_edit_users(
     user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool | PermissionResult:
     # ruff: ignore[import-outside-top-level]
-    from weblate.auth.models import Group
+    from weblate.auth.models import Group, UserBlock
 
-    return check_team_edit(user, permission, obj) or (
-        isinstance(obj, Group) and obj.pk in user.administered_group_ids
+    if check_team_edit(user, permission, obj):
+        return True
+    if not isinstance(obj, Group) or obj.pk not in user.administered_group_ids:
+        return False
+    if obj.enforced_2fa and not (user.is_bot or user.profile.has_2fa):
+        return False
+
+    if obj.defining_workspace_id:
+        project_scope = Q(workspace_id=obj.defining_workspace_id)
+    elif obj.componentlists.exists():
+        project_scope = Q(component__componentlist__in=obj.componentlists.all())
+    elif obj.components.exists():
+        project_scope = Q(component__in=obj.components.all())
+    elif obj.defining_project_id:
+        project_scope = Q(pk=obj.defining_project_id)
+    elif obj.project_selection == SELECTION_ALL:
+        project_scope = Q()
+    elif obj.project_selection == SELECTION_ALL_PUBLIC:
+        project_scope = Q(access_control=Project.ACCESS_PUBLIC)
+    elif obj.project_selection == SELECTION_ALL_PROTECTED:
+        project_scope = Q(access_control=Project.ACCESS_PROTECTED)
+    else:
+        project_scope = Q(pk__in=obj.projects.values("pk"))
+
+    active_blocks = UserBlock.objects.filter(user=user).filter(
+        Q(expiry__isnull=True) | Q(expiry__gt=timezone.now())
     )
+    restrictions = Q(pk__in=active_blocks.values("project_id"))
+    if not user.is_bot and not user.profile.has_2fa:
+        restrictions |= Q(enforced_2fa=True)
+    return not Project.objects.filter(project_scope).filter(restrictions).exists()
 
 
 @register_perm("meta:billing.view")

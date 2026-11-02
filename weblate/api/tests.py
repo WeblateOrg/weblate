@@ -4018,6 +4018,62 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["detail"], "Administration rights granted.")
 
+    def test_restricted_team_admin_cannot_grant_admin(self) -> None:
+        group = Group.objects.create(
+            name="Restricted API team", defining_project=self.component.project
+        )
+        group.admins.add(self.user)
+        self.user.groups.add(group)
+        target = User.objects.create_user("restricted-target", "restricted@example.org")
+        UserBlock.objects.create(user=self.user, project=self.component.project)
+
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.admins.filter(pk=target.pk).exists())
+        self.assertFalse(group.user_set.filter(pk=target.pk).exists())
+
+        UserBlock.objects.filter(
+            user=self.user, project=self.component.project
+        ).delete()
+        group.enforced_2fa = True
+        group.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.admins.filter(pk=target.pk).exists())
+
+        group.enforced_2fa = False
+        group.save(update_fields=["enforced_2fa"])
+        self.component.project.enforced_2fa = True
+        self.component.project.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.user_set.filter(pk=target.pk).exists())
+
+        self.component.project.enforced_2fa = False
+        self.component.project.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+        )
+        self.assertTrue(group.admins.filter(pk=target.pk).exists())
+
     def test_revoke_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
         user = User.objects.create_user(username="testuser", password="12345")
