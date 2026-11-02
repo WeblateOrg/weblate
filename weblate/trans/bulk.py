@@ -273,7 +273,10 @@ def plan_bulk_unit(
         and user.has_perm("unit.bulk_edit", component)
     ):
         source = unit.source_unit
-        edit.source_flags = changed_flags(source, add_flags, remove_flags)
+        if trusted or (
+            user is not None and user.has_perm("meta:unit.flag", source.translation)
+        ):
+            edit.source_flags = changed_flags(source, add_flags, remove_flags)
         if add_labels or remove_labels:
             current = {label.pk for label in source.labels.all()}
             # Removing wins, matching the existing add-then-remove behavior.

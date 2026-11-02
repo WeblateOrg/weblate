@@ -130,7 +130,7 @@ Weblate 2026.11
 * Prevented restricted team administrators from granting access through teams covering projects where they are blocked or have not satisfied :ref:`2fa` requirements.
 * Prevented automatic suggestions from exposing private project or restricted component translations through a shared cache.
 * Prevented excessive CPU use in the :ref:`unchanged translation <check-same>`, AsciiDoc markup, and Java MessageFormat checks, including automatic Java format detection and syntax highlighting.
-* Require glossary editing permission when changing :ref:`glossary <glossary>` flags through the string context form.
+* Require glossary editing permission when changing :ref:`glossary <glossary>` flags through the string context form or :ref:`bulk-edit`.
 * Fixed role permission revocation through partial API updates.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
