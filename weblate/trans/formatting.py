@@ -118,7 +118,7 @@ class Formatter:
 
     def parse_diff(self) -> None:  # ruff: ignore[complex-structure]
         """Highlights diff, including extra whitespace."""
-        diff = self.differ.compare(self.value, self.diff[self.idx])
+        diff = self.differ.compare(self.value, self.diff[self.idx]) or []
         offset = 0
         for op, data in diff:
             if op == self.differ.DIFF_DELETE:

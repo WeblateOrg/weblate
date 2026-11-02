@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
+from unittest.mock import patch
+
 from django.test import SimpleTestCase
 
 from weblate.utils.diff import Differ
@@ -26,6 +28,36 @@ class DifferTestCase(SimpleTestCase):
                 "ahoj svete",
             ),
             "<del>ahoj</del><ins>nazdar</ins> svete",
+        )
+
+    def test_changed_content_budget(self) -> None:
+        with patch.object(
+            self.differ.dmp,
+            "diff_main",
+            side_effect=AssertionError("Diff should have been skipped"),
+        ):
+            self.assertIsNone(self.differ.compare("B" * 1001, "A" * 1001))
+            self.assertIsNone(self.differ.compare("B" * 10_001, ""))
+        self.assertIsNotNone(self.differ.compare("B" * 1000, "A" * 1000))
+        self.assertIsNotNone(self.differ.compare("B" * 10_000, ""))
+
+    def test_small_edit_in_long_text(self) -> None:
+        prefix = "p" * 10_000
+        suffix = "s" * 10_000
+        self.assertEqual(
+            self.differ.compare(f"{prefix}new{suffix}", f"{prefix}old{suffix}"),
+            [
+                (self.differ.DIFF_EQUAL, prefix),
+                (self.differ.DIFF_DELETE, "old"),
+                (self.differ.DIFF_INSERT, "new"),
+                (self.differ.DIFF_EQUAL, suffix),
+            ],
+        )
+
+    def test_large_highlight_is_escaped(self) -> None:
+        new = "<script>" + "B" * 1000
+        self.assertEqual(
+            self.differ.highlight(new, "A" * 1000), "&lt;script&gt;" + "B" * 1000
         )
 
     def test_chars(self) -> None:

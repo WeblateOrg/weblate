@@ -830,6 +830,33 @@ class FeedQueriesTest(FixtureTestCase):
 
 
 class ChangesTest(ReusableViewTestCase):
+    def test_anonymous_history_skips_large_diffs(self) -> None:
+        Change.objects.all().delete()
+        unit = self.get_unit()
+        target = "B" * 10_000
+        Change.objects.bulk_create(
+            [
+                Change(
+                    unit=unit,
+                    user=self.user,
+                    action=ActionEvents.CHANGE,
+                    old="A" * 10_000,
+                    target=target,
+                )
+                for _ in range(20)
+            ]
+        )
+        self.client.logout()
+
+        with patch(
+            "weblate.utils.diff.diff_match_patch.diff_main",
+            side_effect=AssertionError("Unbounded diff calculation"),
+        ):
+            response = self.client.get(reverse("changes"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, target, count=20)
+
     def assert_rss_response(self, response) -> None:
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/rss+xml; charset=utf-8")
