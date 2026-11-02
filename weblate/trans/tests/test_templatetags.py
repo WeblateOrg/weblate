@@ -1100,6 +1100,12 @@ class DiffTestCase(SimpleTestCase):
     def test_same(self) -> None:
         self.assertEqual(self.html_diff("first text", "first text"), "first text")
 
+    def test_large_change_renders_without_diff(self) -> None:
+        self.assertEqual(
+            self.html_diff("A" * 1000, "<script>" + "B" * 1000),
+            "&lt;script&gt;" + "B" * 1000,
+        )
+
     def test_add(self) -> None:
         self.assertHTMLEqual(
             self.html_diff("first text", "first new text"),

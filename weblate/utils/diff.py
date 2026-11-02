@@ -9,6 +9,10 @@ from django.utils.html import format_html
 
 from weblate.utils.unicodechars import COMPOSITING_CHARS
 
+MAX_DIFF_PAIRS = 1_000_000
+MAX_DIFF_LENGTH = 10_000
+DIFF_TIMEOUT = 0.05
+
 
 class Differ:
     DIFF_DELETE = diff_match_patch.DIFF_DELETE
@@ -17,9 +21,20 @@ class Differ:
 
     def __init__(self) -> None:
         self.dmp = diff_match_patch()
+        self.dmp.Diff_Timeout = DIFF_TIMEOUT
 
-    def compare(self, new: str, old: str) -> list[tuple[str, str]]:
+    def compare(self, new: str, old: str) -> list[tuple[str, str]] | None:
+        """Return None when the changed content is too large to diff safely."""
         dmp = self.dmp
+        prefix = dmp.diff_commonPrefix(old, new)
+        suffix = dmp.diff_commonSuffix(old[prefix:], new[prefix:])
+        old_length = len(old) - prefix - suffix
+        new_length = len(new) - prefix - suffix
+        if (
+            max(old_length, new_length) > MAX_DIFF_LENGTH
+            or old_length * new_length > MAX_DIFF_PAIRS
+        ):
+            return None
         diffs = dmp.diff_main(old, new)
         dmp.diff_cleanupSemantic(diffs)
         dmp.diff_cleanupEfficiency(diffs)
@@ -75,6 +90,8 @@ class Differ:
 
     def highlight(self, new: str, old: str) -> str:
         diff = self.compare(new, old)
+        if diff is None:
+            return str(format_html("{}", new))
         output = []
         for op, data in diff:
             if op == self.DIFF_DELETE:
