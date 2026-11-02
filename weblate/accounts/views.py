@@ -618,6 +618,7 @@ def user_profile(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_recent_second_factor
 @session_ratelimit_post("remove")
 @never_cache
 def user_remove(request: AuthenticatedHttpRequest):
