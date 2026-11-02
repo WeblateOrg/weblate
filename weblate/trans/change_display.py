@@ -575,8 +575,7 @@ class BaseChangeHistoryContext:
         return render_to_string("snippets/format-translation.html", context)
 
     def make_distance_badge(self, count: int) -> str:
-        # ruff: ignore[ambiguous-unicode-character-docstring]
-        """Create a badge for the Damerau–Levenshtein distance."""
+        """Create a badge for the edit distance, estimated for large changes."""
         return npgettext(
             "Number of edits on a change in Damerau–Levenshtein distance",
             "%(count)d character edited",

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from unittest.mock import patch
@@ -11,6 +13,7 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     MIN_COST_ESTIMATE_TM_THRESHOLD,
     CountsReportsForm,
@@ -292,6 +295,25 @@ class ReportsTest(BaseReportsTest):
             component=self.component,
         )
         self.assertEqual(data, self.counts_data)
+
+    def test_counts_large_history_distance(self) -> None:
+        Change.objects.all().delete()
+        Change.objects.create(
+            unit=self.get_unit("Hello, world!\n"),
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            old="a" * 100_000,
+            target="b" * 100_000,
+        )
+        with patch(
+            "weblate.trans.models.change.DamerauLevenshtein.distance",
+            side_effect=AssertionError("Unbounded exact distance calculation"),
+        ):
+            data = self.generate_count_data()
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["edits"], 100_000)
+        self.assertEqual(data[0]["edits_edit"], 100_000)
 
     def test_counts_include_child_category_components(self) -> None:
         parent = self.move_component_to_child_category()

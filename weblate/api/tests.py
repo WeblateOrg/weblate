@@ -9926,6 +9926,88 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["commit_pending_age"], 12)
         self.assertEqual(response.data["auto_lock_error"], False)
 
+    def test_linked_repository_settings_require_source_access(self) -> None:
+        linked_component = self.create_link_existing(
+            name="Accessible linked component", slug="accessible-linked-component"
+        )
+        linked_kwargs = {
+            "project__slug": self.project.slug,
+            "slug": linked_component.slug,
+        }
+        Component.objects.filter(pk=self.component.pk).update(
+            restricted=True,
+            repo="https://restricted-b-synthetic-only.example/repo.git",
+            push="https://restricted-b-synthetic-only.example/push.git",
+            branch="restricted-b-branch",
+            push_branch="restricted-b-push-branch",
+            vcs_params={"git_force_push": True},
+            push_on_commit=True,
+            push_on_update=False,
+            commit_pending_age=37,
+            auto_lock_error=True,
+        )
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        self.user.groups.add(Group.objects.get(name="Viewers"))
+        self.grant_perm_to_user(
+            "vcs.view",
+            group_name="Linked component repository viewers",
+            component=linked_component,
+        )
+        self.user.clear_permissions_cache()
+
+        def assert_linked_settings_hidden() -> None:
+            detail = self.do_request("api:component-detail", linked_kwargs).data
+            listing = self.do_request("api:component-list").data
+            listed = next(
+                item
+                for item in listing["results"]
+                if item["slug"] == linked_component.slug
+            )
+            for data in (detail, listed):
+                for field in (
+                    "repo",
+                    "push",
+                    "branch",
+                    "push_branch",
+                    "vcs_params",
+                    "push_on_commit",
+                    "push_on_update",
+                    "commit_pending_age",
+                    "auto_lock_error",
+                    "linked_component",
+                ):
+                    self.assertIsNone(data[field], field)
+                self.assertNotIn("restricted-b-synthetic-only", str(data))
+
+        self.assertTrue(self.user.can_access_component(linked_component))
+        self.assertTrue(self.user.has_perm("vcs.view", linked_component))
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+        self.do_request("api:component-detail", self.component_kwargs, code=404)
+        assert_linked_settings_hidden()
+
+        Component.objects.filter(pk=self.component.pk).update(restricted=False)
+        self.component.restricted = False
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertFalse(self.user.has_perm("vcs.view", self.component))
+        assert_linked_settings_hidden()
+
+        Group.objects.get(name="Linked component repository viewers").components.add(
+            self.component
+        )
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.view", self.component))
+        detail = self.do_request("api:component-detail", linked_kwargs).data
+        self.assertEqual(
+            detail["repo"], "https://restricted-b-synthetic-only.example/repo.git"
+        )
+        self.assertEqual(detail["vcs_params"], {"git_force_push": True})
+        self.assertEqual(detail["commit_pending_age"], 37)
+        self.assertTrue(detail["push_on_commit"])
+        self.assertFalse(detail["push_on_update"])
+        self.assertTrue(detail["auto_lock_error"])
+
     def test_get_lock(self) -> None:
         response = self.client.get(
             reverse("api:component-lock", kwargs=self.component_kwargs)

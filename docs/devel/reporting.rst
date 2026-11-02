@@ -120,7 +120,13 @@ The following metrics are available for each:
 `Count`
    Amount of strings.
 `Edits`
-   Amount of edited characters in the string, measured in Damerau–Levenshtein distance.
+   Amount of edited characters in the string, measured in Damerau–Levenshtein
+   distance when the product of the old and new string lengths is at most
+   1,000,000. For larger comparisons, shared prefixes and suffixes are removed,
+   then positional character differences and the remaining length difference
+   are counted. This linear-time estimate can overcount complex shifts and
+   transpositions. Change history badges and CSV exports use the same metric.
+   Previously generated reports retain their saved counts.
 `Source words`
    Amount of words in the source string.
 `Source characters`
