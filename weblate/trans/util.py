@@ -440,6 +440,10 @@ def check_upload_method_permissions(
             bool(translation.filename)
             and user.has_perm("meta:unit.direct_edit", translation)
             and (
+                not translation.enable_review
+                or user.has_perm("unit.review", translation)
+            )
+            and (
                 user.has_perm("component.edit", translation)
                 or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
             )

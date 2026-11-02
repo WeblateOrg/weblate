@@ -160,6 +160,8 @@ Replace existing translation file (``replace``)
 
     This option is available only if the user has the
     :ref:`"Edit component settings" permission or "Add new string", "Remove a string" and "Edit strings" permissions <privileges>`.
+    When reviews are enabled, the :ref:`"Review strings" permission <privileges>`
+    is also required because the file can contain approved strings.
 Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.

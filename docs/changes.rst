@@ -9,6 +9,8 @@ Weblate 2026.11.1
 
 .. rubric:: Security fixes
 
+* Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

@@ -132,6 +132,58 @@ class UploadFormPermissionTest(ViewTestCase):
         self.assertIn("replace-approved", choices)
 
 
+class ReplaceUploadReviewPermissionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        self.translation = glossary.translation_set.get(language__code="cs")
+
+    def test_glossary_replace_requires_review(self) -> None:
+        self.assertTrue(self.user.has_perm("upload.perform", self.translation))
+        self.assertTrue(self.user.has_perm("unit.add", self.translation))
+        self.assertTrue(self.user.has_perm("unit.delete", self.translation))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+        self.assertFalse(self.user.has_perm("unit.review", self.translation))
+        self.assertFalse(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+        form = get_upload_form(self.user, self.translation)
+        self.assertNotIn("replace", dict(form.fields["method"].choices))
+
+        with open(TEST_TBX, "rb") as handle:
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.translation.get_url_path()}),
+                {"file": handle, "method": "replace"},
+                follow=True,
+            )
+        self.assertContains(response, "Please fix errors in the form.")
+        self.assertFalse(
+            self.translation.change_set.filter(
+                action=ActionEvents.REPLACE_UPLOAD
+            ).exists()
+        )
+
+    def test_glossary_replace_allowed_for_reviewer(self) -> None:
+        self.project.add_user(self.user, "Review")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", self.translation))
+        self.assertTrue(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+    def test_glossary_replace_allowed_without_reviews(self) -> None:
+        self.project.translation_review = False
+        self.project.save(update_fields=["translation_review"])
+        self.translation = Translation.objects.get(pk=self.translation.pk)
+        self.assertTrue(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+
 class RestrictedDirectEditingUploadTest(ViewTestCase):
     def add_project_role(self, role: Role) -> None:
         group = Group.objects.create(
