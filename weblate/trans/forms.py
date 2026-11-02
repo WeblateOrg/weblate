@@ -4970,10 +4970,16 @@ class ChangesForm(forms.Form):
         choices=ActionEvents.choices,
     )
     user = UserField(
-        label=gettext_lazy("Author username"), required=False, help_text=None
+        label=gettext_lazy("Author username"),
+        required=False,
+        help_text=None,
+        widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     exclude_user = UserField(
-        label=gettext_lazy("Exclude author (username)"), required=False, help_text=None
+        label=gettext_lazy("Exclude author (username)"),
+        required=False,
+        help_text=None,
+        widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     period = DateRangeField(
         label=gettext_lazy("Date range"),

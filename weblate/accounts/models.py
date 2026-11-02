@@ -1545,6 +1545,9 @@ class Profile(models.Model):
         from weblate.accounts.utils import get_all_user_mails
 
         commit_emails = get_all_user_mails(self.user, filter_deliverable=False)
+        if self.commit_email:
+            # Preserve explicit choices after template or username changes.
+            commit_emails.add(self.commit_email)
         choices = [("", gettext_lazy("Use account e-mail address"))]
 
         if site_commit_email := self.get_site_commit_email():

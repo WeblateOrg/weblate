@@ -680,8 +680,8 @@ Security properties Weblate provides
    * - User discovery and profile access respect global role permissions.
        *(documented)* (source: :doc:`/admin/privacy`)
      - Operators configure the desired policy. Resource-scoped discovery and
-       contribution attribution remain available; this does not provide
-       contributor anonymity. *(documented)*
+       contribution attribution have separate permission controls; this does
+       not provide contributor anonymity. *(documented)*
      - Generic user enumeration bypasses a restricted directory policy, or
        profile data is returned to a viewer excluded by the profile policy.
      - Authorization bypass; assess the exposed data and configured policy.
@@ -1123,10 +1123,12 @@ Known non-findings
 
 Contributor attribution is an authorization boundary within accessible projects.
 Confidential collaboration restricts system-provided attribution while retaining
-translation content and internal history. Identity-safe regenerated translation
-exports remain available without attribution access; original files require
+translation content and internal history. Resource-scoped attribution
+autocomplete follows this boundary independently of general directory access.
+Identity-safe regenerated translation exports remain available without attribution
+access; original files require
 attribution access. Identity-bearing reports, change downloads,
-access management, and administrator-configured integrations remain separately
+repository access, access management, and administrator-configured integrations remain separately
 trusted disclosure paths. User-provided content and previously exported copies
 are outside this confidentiality guarantee. See :ref:`confidential-collaboration`
 for configuration and limitations. *(maintainer)*
