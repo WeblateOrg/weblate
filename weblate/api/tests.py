@@ -2894,6 +2894,55 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_group_list_prefetches_component_links(self) -> None:
+        for index in range(3):
+            team = Group.objects.create(
+                name=f"Scoped component team {index}",
+                defining_project=self.component.project,
+            )
+            team.components.add(self.component)
+
+        with CaptureQueriesContext(connection) as queries:
+            self.do_request("api:group-list", method="get", superuser=True, code=200)
+
+        component_link_queries = [
+            query["sql"]
+            for query in queries
+            if '"weblate_auth_group_components"' in query["sql"]
+        ]
+        self.assertEqual(len(component_link_queries), 1, component_link_queries)
+
+    def test_remove_stale_project_team_component(self) -> None:
+        source = self.component.project
+        destination = Project.objects.create(name="Destination", slug="destination")
+        admin = User.objects.create_user("source-admin", "source-admin@example.com")
+        source.add_user(admin, "Administration")
+        team = Group.objects.create(name="Old component team", defining_project=source)
+        team.projects.add(source, destination)
+        team.components.add(self.component)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="get",
+            authenticated=False,
+            code=200,
+        )
+        self.assertEqual(response.data["components"], [])
+        self.assertEqual(len(response.data["projects"]), 1)
+        self.assertNotIn(destination.slug, str(response.data))
+
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={"id": team.pk, "component_id": self.component.pk},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        self.assertFalse(team.components.exists())
+
     def test_update_legacy_duplicate_team(self) -> None:
         teams = Group.objects.bulk_create(
             [

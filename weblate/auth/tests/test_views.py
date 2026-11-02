@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 from weblate.auth.data import (
@@ -14,7 +15,7 @@ from weblate.auth.data import (
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.workspaces.models import Workspace
 
@@ -108,6 +109,46 @@ class TeamsTest(FixtureTestCase):
         self.assertRedirects(response, group.get_absolute_url())
         group.refresh_from_db()
         self.assertEqual(group.name, "Other")
+
+    def test_edit_project_team_preserves_stale_component_scope(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        group = Group.objects.create(name="Scoped team", defining_project=self.project)
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Administration"))
+        group.components.add(self.component)
+        self.anotheruser.groups.add(group)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        components_html = render_to_string(
+            "auth/teams-components.html", {"group": group}
+        )
+        self.assertIn(f"Moved component #{self.component.pk}", components_html)
+        self.assertNotIn(destination.name, components_html)
+        self.make_superuser()
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Renamed scoped team",
+                "all_languages": "on",
+                "roles": [Role.objects.get(name="Administration").pk],
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+
+        self.assertRedirects(response, group.get_absolute_url())
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Renamed scoped team")
+        self.assertTrue(group.components.filter(pk=self.component.pk).exists())
+        self.anotheruser.clear_permissions_cache()
+        self.assertFalse(self.anotheruser.can_access_project(self.project))
+        self.assertFalse(self.anotheruser.can_access_project(destination))
 
     def test_project_team_form_roles(self) -> None:
         global_role = Role.objects.create(name="Global project")

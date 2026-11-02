@@ -182,6 +182,16 @@ the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
     You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
+Before moving a component to another project, remove it from teams defined in
+its current project. Moving a category requires removing its components from
+such teams as well. Removing the last component from a team grants its roles to
+the whole project, so review the team's membership and roles first.
+
+Teams left with moved components by an earlier release show those assignments
+by component ID. The assignments grant no access to the destination project.
+You can remove them through the :doc:`REST API </api>` after reviewing the
+effect of an empty component selection on the original project.
+
 .. _team-admins:
 
 Team administrators

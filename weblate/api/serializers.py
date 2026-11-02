@@ -1589,6 +1589,27 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         }
         validators = ()
 
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if instance.defining_project_id is not None:
+            components_field = cast(
+                "serializers.ManyRelatedField", self.fields["components"]
+            )
+            projects_field = cast(
+                "serializers.ManyRelatedField", self.fields["projects"]
+            )
+            result["components"] = [
+                components_field.child_relation.to_representation(component)
+                for component in instance.components.all()
+                if component.project_id == instance.defining_project_id
+            ]
+            result["projects"] = [
+                projects_field.child_relation.to_representation(project)
+                for project in instance.projects.all()
+                if project.pk == instance.defining_project_id
+            ]
+        return result
+
     def validate(self, attrs):
         defining_project = attrs.get(
             "defining_project",

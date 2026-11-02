@@ -579,6 +579,21 @@ class ProjectTeamForm(BaseTeamForm):
         self.fields["components"].queryset = project.component_set.order()
         self.fields["roles"].queryset = Role.objects.assignable_to_project_team()
 
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
+        if (
+            commit
+            and self.instance.pk
+            and not self.cleaned_data.get("components")
+            and self.instance.components.exclude(
+                project_id=self.instance.defining_project_id
+            ).exists()
+        ):
+            # An old out-of-project link still marks this team as component-limited.
+            # The form cannot select that component, so keep the link when an
+            # unrelated edit would otherwise grant access to the whole project.
+            self.cleaned_data.pop("components", None)
+        return super().save(commit=commit, project=project, workspace=workspace)
+
 
 class WorkspaceTeamForm(BaseTeamForm):
     class Meta:

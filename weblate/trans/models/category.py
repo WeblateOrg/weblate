@@ -358,6 +358,14 @@ class Category(
         update_fields = kwargs.get("update_fields")
         if self.id:
             old = Category.objects.get(pk=self.id)
+            if old.project_id != self.project_id and (
+                update_fields is None or {"project", "project_id"} & set(update_fields)
+            ):
+                from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+                validate_component_project_move(
+                    self.all_components.values_list("pk", flat=True)
+                )
             old_effective_check_flags = old.effective_check_flags.format()
             update_fields_set = None if update_fields is None else set(update_fields)
             for field in INHERITABLE_COMPONENT_SETTINGS:
@@ -488,6 +496,12 @@ class Category(
 
         if self.id:
             old = Category.objects.get(pk=self.id)
+            if old.project_id != self.project_id:
+                from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+                validate_component_project_move(
+                    self.all_components.values_list("pk", flat=True)
+                )
             self.check_rename(old, validate=True)
 
     def validate_create_path(self) -> None:

@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.models import Group
 from weblate.lang.models import get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, ComponentLink, Project
@@ -147,6 +148,44 @@ class CategoriesTest(ViewTestCase):
         )
         self.assertContains(response, "Test category")
         self.assertContains(response, "Nothing to list here.")
+
+    def test_move_nested_category_with_project_team_component_is_rejected(self) -> None:
+        destination = self.create_project(name="Destination", slug="destination")
+        destination.add_user(self.user, "Administration")
+        parent = self.create_category(self.project)
+        child = self.create_category(self.project, category=parent)
+        self.component.category = child
+        self.component.save(update_fields=["category"])
+        team = Group.objects.create(
+            name="Component team", defining_project=self.project
+        )
+        team.components.add(self.component)
+        old_path = self.component.full_path
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": parent.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "name": parent.name,
+                "slug": parent.slug,
+            },
+            follow=True,
+        )
+        self.assertRedirects(response, f"{parent.get_absolute_url()}#organize")
+        self.assertContains(
+            response,
+            "Remove the component from project teams before moving it to another project.",
+        )
+        for obj in (parent, child, self.component):
+            obj.refresh_from_db()
+            self.assertEqual(obj.project, self.project)
+        self.assertTrue(os.path.exists(old_path))
+
+        parent.project = destination
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            parent.save(update_fields=["project"])
+        self.assertEqual(Category.objects.get(pk=parent.pk).project, self.project)
 
     def test_move_nested_category_preserves_actor(self) -> None:
         destination = self.create_project(name="Destination", slug="destination")
