@@ -3380,7 +3380,12 @@ class SeleniumTests(
                                     "action": "weblate.select",
                                     "id": "picked",
                                     "settings": {"q": "state:translated"},
-                                }
+                                },
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                },
                             ],
                         }
                     ],
@@ -3389,8 +3394,7 @@ class SeleniumTests(
                             "sequence": [
                                 {
                                     "action": "weblate.select",
-                                    "scope": "result:picked",
-                                    "settings": {"q": ""},
+                                    "settings": {"q": "state:needs-editing"},
                                 }
                             ]
                         }
@@ -3440,8 +3444,6 @@ class SeleniumTests(
         self.assertIn(["conditions", "condition:not", True], blocked)
         self.assertIn(["conditions", "condition:and", False], blocked)
 
-        # The nested action chains off the earlier one, so its scope select
-        # offers that ID; the earlier action has nothing before it to offer.
         scopes = self.driver.execute_script(
             "return Array.from("
             'document.querySelectorAll("[data-automation-result-scope]"),'
@@ -3449,6 +3451,42 @@ class SeleniumTests(
         )
         self.assertEqual(scopes[0], ["", "component", "trigger"])
         self.assertIn("result:picked", scopes[1])
+        self.assertEqual(scopes[2], ["", "component", "trigger"])
+
+        # Choose branches count towards the hundred nodes like on the server.
+        self.driver.execute_script(
+            "automationEditor.buildTree(arguments[0]);",
+            {
+                "version": 1,
+                "triggers": [],
+                "conditions": [{"condition": "language", "value": "cs"}] * 90,
+                "actions": [
+                    {"choose": [{"conditions": [], "sequence": []}] * 9},
+                ],
+            },
+        )
+        self.assertTrue(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-add='conditions']"
+            ).get_attribute("disabled")
+        )
+
+        # Eight nesting levels are allowed, a ninth one is not.
+        group = {"condition": "and", "conditions": []}
+        for _level in range(7):
+            group = {"condition": "and", "conditions": [group]}
+        self.driver.execute_script(
+            "automationEditor.buildTree(arguments[0]);",
+            {"version": 1, "triggers": [], "conditions": [group], "actions": []},
+        )
+        depths = self.driver.execute_script(
+            "return Array.from("
+            "document.querySelectorAll(\"[data-automation-slot='conditions']\"),"
+            " (slot) => slot.querySelector("
+            '   ":scope > [data-automation-slot-controls] > [data-automation-add]"'
+            "  ).disabled);"
+        )
+        self.assertEqual(depths, [False] * 8 + [True])
 
     def test_automation_editor_result_scopes_and_focus(self) -> None:
         """The automation editor shows result scopes and keeps keyboard focus."""

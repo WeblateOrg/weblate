@@ -206,21 +206,9 @@
       return option;
     }
 
-    function actionsInOrder(list, collected = []) {
+    function refreshResultScopes(list = lists.get("actions"), completed = []) {
+      let seen = [...completed];
       for (const node of list.children) {
-        collected.push(node);
-        for (const slot of slotsOf(node)) {
-          if (slot.dataset.automationSlotKind !== "condition") {
-            actionsInOrder(slotList(slot), collected);
-          }
-        }
-      }
-      return collected;
-    }
-
-    function refreshResultScopes() {
-      const seen = [];
-      for (const node of actionsInOrder(lists.get("actions"))) {
         const controls = nodeControls(node);
         const select = controls.find(
           (element) =>
@@ -241,6 +229,15 @@
           select.append(...offered.map(resultScopeOption));
           select.value = current;
         }
+        for (const slot of slotsOf(node)) {
+          if (slot.dataset.automationSlotKind === "condition") {
+            continue;
+          }
+          const inner = refreshResultScopes(slotList(slot), seen);
+          if (node.dataset.automationInstance === "action:sequence") {
+            seen = inner;
+          }
+        }
         const id = controls
           .find((element) => element.dataset.workflowKey === "id")
           ?.value.trim();
@@ -248,6 +245,7 @@
           seen.push(id);
         }
       }
+      return seen;
     }
 
     /* Enhanced selects hide the original control, so focus their own input. */
@@ -547,7 +545,11 @@
         nodePane.querySelectorAll("[data-automation-instance]"),
       ).filter((node) => {
         const kind = node.dataset.automationInstance;
-        return kind.startsWith("condition:") || kind.startsWith("action:");
+        return (
+          kind === "branch" ||
+          kind.startsWith("condition:") ||
+          kind.startsWith("action:")
+        );
       }).length;
     }
 
@@ -577,7 +579,7 @@
         const notFilled =
           parent?.dataset.automationInstance === "condition:not" &&
           slotList(slot).childElementCount >= 1;
-        const tooDeep = depth >= MAX_DEPTH;
+        const tooDeep = depth > MAX_DEPTH;
         const blocked = full || notFilled || tooDeep;
         button.disabled = blocked;
         const picker = slotPicker(slot);

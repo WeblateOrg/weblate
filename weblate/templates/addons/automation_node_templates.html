@@ -36,7 +36,7 @@
       {% crispy node.form %}
     {% endif %}
     {% for slot in node.slots %}
-      {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
+      {% include "addons/automation_slot.html" with slot=slot %}
     {% endfor %}
   </template>
 {% endfor %}
@@ -52,13 +52,7 @@
       <div data-automation-group="{{ node.group }}">{% crispy node.form %}</div>
     {% endif %}
     {% for slot in node.slots %}
-      {% if slot.kind == "condition" %}
-        {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
-      {% elif slot.kind == "action" %}
-        {% include "addons/automation_slot.html" with slot=slot choices=editor.actions picker_id="automation-add-nested-action" %}
-      {% else %}
-        {% include "addons/automation_slot.html" with slot=slot choices="" picker_id="" %}
-      {% endif %}
+      {% include "addons/automation_slot.html" with slot=slot %}
     {% endfor %}
   </template>
 {% endfor %}
@@ -68,11 +62,7 @@
             data-automation-title="{{ node.title }}"
             data-automation-emit="{{ node.emit_json }}">
     {% for slot in node.slots %}
-      {% if slot.kind == "condition" %}
-        {% include "addons/automation_slot.html" with slot=slot choices=editor.conditions picker_id="automation-add-nested-condition" %}
-      {% else %}
-        {% include "addons/automation_slot.html" with slot=slot choices=editor.actions picker_id="automation-add-nested-action" %}
-      {% endif %}
+      {% include "addons/automation_slot.html" with slot=slot %}
     {% endfor %}
   </template>
 {% endwith %}

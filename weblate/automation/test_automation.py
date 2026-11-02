@@ -2120,7 +2120,12 @@ class AutomationTest(ReusableComponentTestCase):
                                     "action": "weblate.select",
                                     "id": "picked",
                                     "settings": {"q": "state:translated"},
-                                }
+                                },
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                },
                             ],
                         }
                     ],
@@ -2129,8 +2134,7 @@ class AutomationTest(ReusableComponentTestCase):
                             "sequence": [
                                 {
                                     "action": "weblate.select",
-                                    "scope": "result:picked",
-                                    "settings": {"q": ""},
+                                    "settings": {"q": "state:needs-editing"},
                                 }
                             ]
                         }

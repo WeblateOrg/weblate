@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
@@ -69,11 +69,71 @@ class EditorSlot:
     kind: str
     label: StrOrPromise
     add_label: StrOrPromise
+    root: bool = False
 
     @property
     def pickable(self) -> bool:
         """Branch slots accept exactly one kind, so they need no picker."""
         return self.kind != BRANCH_KIND
+
+    @property
+    def picker_id(self) -> str:
+        """Nested pickers are renamed per node, root ones are unique."""
+        if self.root:
+            return f"automation-add-{self.kind}"
+        return f"automation-add-nested-{self.kind}"
+
+
+TRIGGERS_SLOT = EditorSlot(
+    key="triggers",
+    kind="trigger",
+    label=gettext_lazy("Trigger"),
+    add_label=gettext_lazy("Add trigger"),
+    root=True,
+)
+ROOT_CONDITIONS_SLOT = EditorSlot(
+    key="conditions",
+    kind="condition",
+    label=gettext_lazy("Condition"),
+    add_label=gettext_lazy("Add condition"),
+    root=True,
+)
+ROOT_ACTIONS_SLOT = EditorSlot(
+    key="actions",
+    kind="action",
+    label=gettext_lazy("Action"),
+    add_label=gettext_lazy("Add action"),
+    root=True,
+)
+CONDITIONS_SLOT = EditorSlot(
+    key="conditions",
+    kind="condition",
+    label=gettext_lazy("Conditions"),
+    add_label=gettext_lazy("Add condition"),
+)
+SEQUENCE_SLOT = EditorSlot(
+    key="sequence",
+    kind="action",
+    label=gettext_lazy("Actions"),
+    add_label=gettext_lazy("Add action"),
+)
+CHOOSE_SLOT = EditorSlot(
+    key="choose",
+    kind=BRANCH_KIND,
+    label=gettext_lazy("Branches"),
+    add_label=gettext_lazy("Add branch"),
+)
+DEFAULT_SLOT = EditorSlot(
+    key="default",
+    kind="action",
+    label=gettext_lazy("Otherwise"),
+    add_label=gettext_lazy("Add action to run otherwise"),
+)
+
+STRUCTURAL_ACTION_SLOTS: dict[str, list[EditorSlot]] = {
+    "sequence": [SEQUENCE_SLOT],
+    "choose": [CHOOSE_SLOT, DEFAULT_SLOT],
+}
 
 
 @dataclass
@@ -99,45 +159,18 @@ class EditorContext:
     actions: list[EditorNode] = field(default_factory=list)
     branch: EditorNode | None = None
 
-    @property
-    def trigger_slot(self) -> EditorSlot:
-        return EditorSlot(
-            key="triggers",
-            kind="trigger",
-            label=gettext_lazy("Trigger"),
-            add_label=gettext_lazy("Add trigger"),
-        )
+    trigger_slot: ClassVar[EditorSlot] = TRIGGERS_SLOT
+    condition_slot: ClassVar[EditorSlot] = ROOT_CONDITIONS_SLOT
+    action_slot: ClassVar[EditorSlot] = ROOT_ACTIONS_SLOT
 
     @property
-    def condition_slot(self) -> EditorSlot:
-        return EditorSlot(
-            key="conditions",
-            kind="condition",
-            label=gettext_lazy("Condition"),
-            add_label=gettext_lazy("Add condition"),
-        )
-
-    @property
-    def action_slot(self) -> EditorSlot:
-        return EditorSlot(
-            key="actions",
-            kind="action",
-            label=gettext_lazy("Action"),
-            add_label=gettext_lazy("Add action"),
-        )
-
-
-def condition_slot() -> EditorSlot:
-    return EditorSlot(
-        key="conditions",
-        kind="condition",
-        label=gettext_lazy("Conditions"),
-        add_label=gettext_lazy("Add condition"),
-    )
-
-
-def action_slot(key: str, label: StrOrPromise, add_label: StrOrPromise) -> EditorSlot:
-    return EditorSlot(key=key, kind="action", label=label, add_label=add_label)
+    def choices(self) -> dict[str, list[EditorNode]]:
+        """Nodes a slot picker offers, by the slot kind."""
+        return {
+            "trigger": self.triggers,
+            "condition": self.conditions,
+            "action": self.actions,
+        }
 
 
 def workflow_type(schema: dict[str, Any]) -> str:
@@ -248,7 +281,7 @@ def condition_nodes() -> list[EditorNode]:
                     name=name,
                     title=CONDITION_TITLES[name],
                     emit={"condition": name},
-                    slots=[condition_slot()],
+                    slots=[CONDITIONS_SLOT],
                 )
             )
             continue
@@ -273,27 +306,6 @@ def condition_nodes() -> list[EditorNode]:
     return sorted(nodes, key=lambda node: str(node.title).casefold())
 
 
-def structural_action_slots(name: str) -> list[EditorSlot]:
-    """Describe the children of a sequence or choose action."""
-    if name == "sequence":
-        return [
-            action_slot("sequence", gettext_lazy("Actions"), gettext_lazy("Add action"))
-        ]
-    return [
-        EditorSlot(
-            key="choose",
-            kind=BRANCH_KIND,
-            label=gettext_lazy("Branches"),
-            add_label=gettext_lazy("Add branch"),
-        ),
-        action_slot(
-            "default",
-            gettext_lazy("Otherwise"),
-            gettext_lazy("Add action to run otherwise"),
-        ),
-    ]
-
-
 def branch_node() -> EditorNode:
     """One branch of a choose action: its conditions and what it then runs."""
     return EditorNode(
@@ -301,12 +313,7 @@ def branch_node() -> EditorNode:
         name=BRANCH_KIND,
         title=gettext_lazy("Branch"),
         emit={},
-        slots=[
-            condition_slot(),
-            action_slot(
-                "sequence", gettext_lazy("Actions"), gettext_lazy("Add action")
-            ),
-        ],
+        slots=[CONDITIONS_SLOT, SEQUENCE_SLOT],
     )
 
 
@@ -319,8 +326,8 @@ def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
                     kind=f"action:{name}",
                     name=name,
                     title=ACTION_TITLES[name],
-                    emit={"choose": []} if name == "choose" else {},
-                    slots=structural_action_slots(name),
+                    emit={},
+                    slots=STRUCTURAL_ACTION_SLOTS[name],
                 )
             )
             continue

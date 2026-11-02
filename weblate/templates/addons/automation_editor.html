@@ -32,19 +32,19 @@
       <p class="form-text">
         {% translate "Events starting the workflow. Without any trigger it can only be run manually." %}
       </p>
-      {% include "addons/automation_slot.html" with slot=editor.trigger_slot choices=editor.triggers picker_id="automation-add-trigger" root=True %}
+      {% include "addons/automation_slot.html" with slot=editor.trigger_slot %}
     </fieldset>
 
     <fieldset class="mb-4">
       <legend class="h5">{% translate "Conditions" %}</legend>
       <p class="form-text">{% translate "All conditions have to pass before any action runs." %}</p>
-      {% include "addons/automation_slot.html" with slot=editor.condition_slot choices=editor.conditions picker_id="automation-add-condition" root=True %}
+      {% include "addons/automation_slot.html" with slot=editor.condition_slot %}
     </fieldset>
 
     <fieldset class="mb-4">
       <legend class="h5">{% translate "Actions" %}</legend>
       <p class="form-text">{% translate "Operations performed in this order once the conditions pass." %}</p>
-      {% include "addons/automation_slot.html" with slot=editor.action_slot choices=editor.actions picker_id="automation-add-action" root=True %}
+      {% include "addons/automation_slot.html" with slot=editor.action_slot %}
     </fieldset>
   </div>
 

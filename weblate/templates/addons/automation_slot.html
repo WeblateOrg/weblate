@@ -3,16 +3,20 @@
 <div class="automation-slot"
      data-automation-slot="{{ slot.key }}"
      data-automation-slot-kind="{{ slot.kind }}"
-     {% if root %}data-automation-root="{{ slot.key }}"{% endif %}>
-  {% if not root %}<div class="form-label fw-semibold mt-2">{{ slot.label }}</div>{% endif %}
+     {% if slot.root %}data-automation-root="{{ slot.key }}"{% endif %}>
+  {% if not slot.root %}<div class="form-label fw-semibold mt-2">{{ slot.label }}</div>{% endif %}
   <div data-automation-list></div>
   <div class="input-group mt-2" data-automation-slot-controls>
     {% if slot.pickable %}
-      <label class="input-group-text" for="{{ picker_id }}">{{ slot.label }}</label>
+      <label class="input-group-text" for="{{ slot.picker_id }}">{{ slot.label }}</label>
       <select class="form-select"
-              id="{{ picker_id }}"
+              id="{{ slot.picker_id }}"
               data-automation-picker="{{ slot.key }}">
-        {% for node in choices %}<option value="{{ node.kind }}">{{ node.title }}</option>{% endfor %}
+        {% for kind, choices in editor.choices.items %}
+          {% if kind == slot.kind %}
+            {% for node in choices %}<option value="{{ node.kind }}">{{ node.title }}</option>{% endfor %}
+          {% endif %}
+        {% endfor %}
       </select>
     {% endif %}
     <button type="button"
