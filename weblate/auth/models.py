@@ -24,7 +24,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
 from django.db import models, router, transaction
-from django.db.models import Count, Q, UniqueConstraint
+from django.db.models import Count, F, Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -112,6 +112,7 @@ if TYPE_CHECKING:
 
 @dataclass(slots=True)
 class CachedPermissionMembership:
+    defining_project_id: int | None
     defining_workspace_id: uuid.UUID | None
     project_selection: int
     language_selection: int
@@ -121,8 +122,14 @@ class CachedPermissionMembership:
     permission_codenames: set[str]
     componentlist_component_values: set[tuple[int, int]]
     has_componentlists: bool
+    has_components: bool
     component_values: set[tuple[int, int]]
     project_ids: set[int]
+
+    def allows_project(self, project_id: int) -> bool:
+        return (
+            self.defining_project_id is None or project_id == self.defining_project_id
+        )
 
 
 class Permission(models.Model):
@@ -282,6 +289,34 @@ def _fetch_component_values(
     ):
         result[source_id].add((component_id, project_id))
     return result
+
+
+def validate_component_project_move(component_ids: Iterable[int]) -> None:
+    """Do not move components while project teams still assign them."""
+    if Group.objects.filter(
+        defining_project__isnull=False, components__pk__in=component_ids
+    ).exists():
+        raise ValidationError(
+            {
+                "project": gettext(
+                    "Remove the component from project teams before moving it to another project."
+                )
+            }
+        )
+
+
+def _add_component_permissions(
+    membership: CachedPermissionMembership,
+    values: set[tuple[int, int]],
+    languages: PermissionLanguageScope | None,
+    projects: PermissionCacheType,
+    components: SimplePermissionCacheType,
+) -> None:
+    for component_id, project_id in values:
+        if not membership.allows_project(project_id):
+            continue
+        components[component_id].append((membership.permission_codenames, languages))
+        projects[project_id].append((set(), languages))
 
 
 class GroupQuerySet(models.QuerySet["Group", "Group"]):
@@ -694,9 +729,17 @@ class UserQuerySet(models.QuerySet["User", "User"]):
         given using project_selection.
         """
         return self.filter(
-            team_memberships__in=TeamMembership.objects.unlimited().filter(
+            team_memberships__in=TeamMembership.objects.unlimited()
+            .filter(
                 group__roles__permissions__codename=perm,
                 group__projects=project,
+                group__components__isnull=True,
+                group__componentlists__isnull=True,
+                group__defining_workspace__isnull=True,
+            )
+            .filter(
+                Q(group__defining_project__isnull=True)
+                | Q(group__defining_project=project)
             )
         ).distinct()
 
@@ -1337,6 +1380,7 @@ class User(AbstractBaseUser):
             .values(
                 "id",
                 "group_id",
+                "group__defining_project_id",
                 "group__defining_workspace_id",
                 "group__project_selection",
                 "group__language_selection",
@@ -1439,6 +1483,7 @@ class User(AbstractBaseUser):
 
         return [
             CachedPermissionMembership(
+                defining_project_id=row["group__defining_project_id"],
                 defining_workspace_id=row["group__defining_workspace_id"],
                 project_selection=row["group__project_selection"],
                 language_selection=row["group__language_selection"],
@@ -1450,6 +1495,7 @@ class User(AbstractBaseUser):
                     row["group_id"]
                 ],
                 has_componentlists=bool(group_componentlist_ids[row["group_id"]]),
+                has_components=row["has_components"],
                 component_values=group_component_values[row["group_id"]],
                 project_ids=group_project_ids[row["group_id"]],
             )
@@ -1522,22 +1568,33 @@ class User(AbstractBaseUser):
                 # Even if componentlist_values is empty, having a componentlist assignment
                 # means we need to stop processing here.
                 if membership.has_componentlists:
-                    for component, project in membership.componentlist_component_values:
-                        components[component].append((permissions, languages))
-                        # Grant access to the project
-                        projects[project].append((set(), languages))
+                    _add_component_permissions(
+                        membership,
+                        membership.componentlist_component_values,
+                        languages,
+                        projects,
+                        components,
+                    )
                     continue
 
                 # Component specific permissions
-                if membership.component_values:
-                    for component, project in membership.component_values:
-                        components[component].append((permissions, languages))
-                        # Grant access to the project
-                        projects[project].append((set(), languages))
+                if membership.has_components:
+                    _add_component_permissions(
+                        membership,
+                        membership.component_values,
+                        languages,
+                        projects,
+                        components,
+                    )
                     continue
 
                 # Handle project selection
-                if membership.project_selection in {
+                if membership.defining_project_id is not None:
+                    if membership.defining_project_id in membership.project_ids:
+                        projects[membership.defining_project_id].append(
+                            (permissions, languages)
+                        )
+                elif membership.project_selection in {
                     SELECTION_ALL_PUBLIC,
                     SELECTION_ALL_PROTECTED,
                     SELECTION_ALL,
@@ -1647,6 +1704,11 @@ class User(AbstractBaseUser):
             & Q(group__roles__permissions__codename=perm)
             & Q(group__components__isnull=True)
             & Q(group__componentlists__isnull=True)
+            & Q(group__defining_workspace__isnull=True)
+            & (
+                Q(group__defining_project__isnull=True)
+                | Q(group__defining_project_id=F("pk"))
+            )
         )
 
         # Site-wide permissions

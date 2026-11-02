@@ -118,6 +118,7 @@ Weblate 2026.11
 * Prevented project administrators from gaining :ref:`workspace ownership <workspaces>` by removing a component or translation.
 * Excluded projects from component creation and management destinations for :ref:`blocked users <block-user>`, including users with project administration permissions.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
+* Prevented :ref:`project teams <access-control>` from retaining access when an assigned component moves to another project.
 * Restricted contributor IP addresses in change API responses to superusers.
 * Bounded edit-distance calculations for large translations to prevent excessive CPU use in change history, CSV exports, and :doc:`reports <devel/reporting>`.
 * Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.

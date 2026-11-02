@@ -1679,7 +1679,18 @@ class GroupViewSet(viewsets.ModelViewSet):
                     )
                 )
             ).distinct()
-        return queryset.order_by("id")
+        return (
+            queryset.select_related("defining_project", "defining_workspace")
+            .prefetch_related(
+                "roles",
+                "languages",
+                "projects",
+                "componentlists",
+                "components",
+                "admins",
+            )
+            .order_by("id")
+        )
 
     def perm_check(
         self,
@@ -1999,11 +2010,8 @@ class GroupViewSet(viewsets.ModelViewSet):
             gettext("Cannot change components on a workspace team."),
         )
 
-        components = obj.components
-        if obj.defining_project_id is not None:
-            components = components.filter(project_id=obj.defining_project_id)
         try:
-            component = components.get(pk=component_id)
+            component = obj.components.get(pk=component_id)
         except Component.DoesNotExist as error:
             msg = "Component"
             raise not_found_http404(msg) from error

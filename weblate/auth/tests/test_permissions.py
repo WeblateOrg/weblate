@@ -56,6 +56,93 @@ class PermissionsTest(FixtureComponentTestCase):
     def test_permission_overlap(self) -> None:
         self.assertEqual(PERMISSION_NAMES & GLOBAL_PERM_NAMES, set())
 
+    def test_stale_project_team_component_does_not_follow_move(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        destination = Project.objects.create(
+            name="Private destination",
+            slug="private-destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        team = Group.objects.create(
+            name="Component administrators", defining_project=self.project
+        )
+        team.projects.add(self.project)
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.can_access_project(destination))
+
+        # Simulate a link left behind by an older release after the move.
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        self.component.project = destination
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_project(destination))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.can_access_project(self.project))
+        self.assertNotIn(destination, self.user.allowed_projects)
+        self.assertFalse(
+            User.objects.all_admins(self.project).filter(pk=self.user.pk).exists()
+        )
+        self.client.force_login(self.user)
+        self.assertEqual(
+            self.client.get(destination.get_absolute_url()).status_code, 404
+        )
+
+        newcomer = User.objects.create_user("newcomer", "newcomer@example.com")
+        newcomer.groups.add(team)
+        self.assertFalse(newcomer.can_access_project(destination))
+
+    def test_project_team_project_links_stay_in_defining_project(self) -> None:
+        destination = Project.objects.create(name="Other project", slug="other-project")
+        team = Group.objects.create(
+            name="Scoped managers", defining_project=self.project
+        )
+        team.projects.add(self.project, destination)
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", destination))
+        self.assertNotIn(destination, self.user.projects_with_perm("project.edit"))
+        self.assertFalse(
+            User.objects.all_admins(destination).filter(pk=self.user.pk).exists()
+        )
+
+    def test_stale_project_team_component_list_keeps_valid_scope(self) -> None:
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        remaining = self.create_po(
+            name="Remaining component", slug="remaining-component", project=self.project
+        )
+        component_list = ComponentList.objects.create(
+            name="Legacy list", slug="legacy-list"
+        )
+        component_list.components.add(self.component, remaining)
+        team = Group.objects.create(
+            name="Legacy component list team",
+            defining_project=self.project,
+            project_selection=SELECTION_COMPONENT_LIST,
+        )
+        team.componentlists.add(component_list)
+        team.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(team)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        self.component.project = destination
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertTrue(self.user.has_perm("component.edit", remaining))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.can_access_project(destination))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
     def test_admin_perm(self) -> None:
         self.assertTrue(self.superuser.has_perm("upload.authorship", self.project))
         self.assertTrue(self.admin.has_perm("upload.authorship", self.project))
