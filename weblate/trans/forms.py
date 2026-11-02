@@ -3567,6 +3567,18 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         self.fields["project"].queryset = request.user.managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
 
+    def add_error(self, field: str | None, error) -> None:
+        """Surface model errors for settings outside the rename form."""
+        if not isinstance(error, ValidationError):
+            error = ValidationError(error)
+        if field is None and hasattr(error, "error_dict"):
+            mapped_errors: dict[str, list[ValidationError]] = defaultdict(list)
+            for name, field_errors in error.error_dict.items():
+                target = name if name in self.fields else NON_FIELD_ERRORS
+                mapped_errors[target].extend(field_errors)
+            error = ValidationError(mapped_errors)
+        super().add_error(field, error)
+
 
 class ComponentLinkAddForm(forms.Form):
     """Form for sharing a component into a project with an optional category."""

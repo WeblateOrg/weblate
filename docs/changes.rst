@@ -141,6 +141,8 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Fixed a crash when moving :doc:`components <admin/projects>` between projects with incompatible inherited settings.
+
 * Removed stale :ref:`notification subscriptions <notifications>` through daily cleanup, including after project access changes and component moves.
 
 * Stopped automatic sign-in retries after :doc:`authentication provider <admin/auth>` errors when only one provider is configured.
