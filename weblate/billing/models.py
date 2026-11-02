@@ -1522,7 +1522,9 @@ def record_project_bill(
             owners_group = billing.workspace.get_owners_group()
             existing_owners = set(owners_group.user_set.values_list("id", flat=True))
             for user in users:
-                if user.id in existing_owners:
+                if user.id in existing_owners or not user.has_perm(
+                    "project.edit", instance
+                ):
                     continue
                 user.add_team(None, owners_group)
                 billing.billinglog_set.create(

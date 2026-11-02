@@ -300,6 +300,13 @@ apply again when the block expires or is removed. Blocking does not cancel
 background work that was already authorized or remove existing administrative
 configuration, such as add-ons.
 
+Remove a user's project administration or team administration rights before
+blocking them. Weblate rejects new blocks on administrators and direct
+administrative team assignments to users blocked in a covered project. Changes
+to broader team roles or project scope can still create such a combination;
+the block continues to suppress project permissions in that case. Project
+blocks do not revoke independent workspace permissions.
+
 .. _cleanup-user-contributions:
 
 Cleaning up user contributions

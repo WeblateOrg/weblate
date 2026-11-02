@@ -163,7 +163,10 @@ from weblate.auth.permissions import (
     get_project_repository_selection,
 )
 from weblate.auth.results import PermissionResult
-from weblate.auth.utils import validate_team_assignable_user
+from weblate.auth.utils import (
+    validate_admin_team_assignment,
+    validate_team_assignable_user,
+)
 from weblate.formats.models import EXPORTERS
 from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
@@ -1481,6 +1484,12 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == "POST":
             limit_languages = parse_limit_language_codes(request.data)
             validate_api_team_assignable_user(obj, "username", allow_bot=True)
+            try:
+                validate_admin_team_assignment(
+                    obj, group, limit_languages=limit_languages
+                )
+            except DjangoValidationError as error:
+                raise ValidationError({"group_id": error.messages}) from error
             had_membership = obj.team_memberships.filter(group=group).exists()
             obj.add_team(request, group)
             if limit_languages is not None:
@@ -2041,6 +2050,10 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "User not found"
             raise ValidationError({"user_id": msg}) from error
         validate_api_team_assignable_user(user, "user_id")
+        try:
+            validate_admin_team_assignment(user, group, team_admin=True)
+        except DjangoValidationError as error:
+            raise ValidationError({"user_id": error.messages}) from error
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response(
