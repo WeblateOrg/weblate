@@ -1510,7 +1510,9 @@ def record_project_bill(
 
     # Sync billing access upon project removal, otherwise users might not be able to
     # terminate billing for removed project
-    if isinstance(instance, Project):
+    # Use the original sender: component and translation removal also resolve to
+    # their project above, but must not grant workspace ownership.
+    if sender is Project:
         users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billings:
             # Do the owners sync only for the last project
