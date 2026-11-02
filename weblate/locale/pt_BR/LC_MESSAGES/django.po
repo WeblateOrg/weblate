@@ -36,9 +36,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-10-30 05:04+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-11-02 06:16+0000\n"
+"Last-Translator: Kaya Abe <kaya.abe@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -2121,6 +2120,8 @@ msgstr "Este campo é obrigatório."
 
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"É necessária uma palavra-chave adicional quando se utilizam exclusivamente "
+"palavras-chave."
 
 msgid "Input source"
 msgstr "Fonte de entrada"
@@ -2168,10 +2169,8 @@ msgstr ""
 "são resolvidas em relação à raiz do repositório. Se presente junto ao "
 "manifesto, POTFILES.skip exclui os arquivos listados da extração."
 
-#, fuzzy
-#| msgid "Font file"
 msgid "Input files"
-msgstr "Arquivo da fonte"
+msgstr "Arquivos de entrada"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Link simbólico inválido em um repositório."
@@ -2247,17 +2246,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Não foi possível determinar o diretório de fontes Sphinx."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Escopo de saída"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "Incluir apenas traduções aprovadas"
+msgstr "Um arquivo por tradução"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "Organizar componente"
+msgstr "Um arquivo por componente"
 
 msgid "Name of generated file"
 msgstr "Nome do arquivo gerado"
@@ -2280,10 +2275,8 @@ msgstr "Por arquivo"
 msgid "Per author"
 msgstr "Por autor"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "Por idioma"
+msgstr "Por autor e idioma"
 
 msgid "Append trailers to squashed commit message"
 msgstr "Anexar linhas finalizadoras à mensagem do commit resultado de squash"
@@ -2336,6 +2329,10 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
+"A expressão regular deve definir um grupo nomeado para o componente. Defina "
+"também um grupo nomeado para o idioma ao corresponder a arquivos de "
+"tradução. Quando a máscara de arquivo estiver definida, omita o idioma e "
+"corresponda ao arquivo base monolíngue ou ao novo arquivo base."
 
 msgid "File format"
 msgstr "Formato de arquivo"
@@ -2379,10 +2376,8 @@ msgstr ""
 "arquivo de tradução fornecido por desenvolvedores e é usado ao criar textos "
 "fontes reais. Este modelo deve incluir {{ component }}."
 
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Define the file mask"
-msgstr "Máscara de arquivo duplicada."
+msgstr "Defina a máscara de arquivos"
 
 msgid ""
 "Leave empty to match translation files directly. When set, discovery matches "
@@ -2390,6 +2385,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Deixe em branco para que a tradução corresponda diretamente aos arquivos de "
+"tradução. Quando configurado, o recurso de descoberta corresponde ao arquivo "
+"base monolíngue ou ao novo arquivo base e usa este modelo como máscara de "
+"arquivo. Inclua um caractere curinga de idioma e {{ componente }}, por "
+"exemplo, localidade/*/{{ componente }}.po ou docs/{{ componente }}_*.md."
 
 msgid "Language filter"
 msgstr "Filtro de idioma"
@@ -2410,21 +2410,14 @@ msgstr "Remova componentes para arquivos inexistentes"
 msgid "I confirm the above matches look correct"
 msgstr "Confirmo que a correspondência acima parece correta"
 
-#, fuzzy
-#| msgid "File encoding"
 msgid "File matching"
-msgstr "Codificação de arquivo"
+msgstr "Correspondência de arquivo"
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Component source language"
 msgid "Component naming and file templates"
-msgstr "Idioma fonte do componente"
+msgstr "Nomenclatura de componentes e modelos de arquivos"
 
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component lifecycle"
-msgstr "Componente bloqueado"
+msgstr "Ciclo de vida do componente"
 
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
@@ -2506,25 +2499,22 @@ msgstr "Você não pode usar uma tradução monolíngue sem um arquivo base."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Você não pode usar um arquivo base para tradução bilíngue."
 
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid ""
 "Define the base file for new translations when creating components from a "
 "template."
-msgstr "Definir o arquivo base para novas traduções"
+msgstr ""
+"Defina o arquivo base para novas traduções ao criar componentes a partir de "
+"um modelo."
 
-#, fuzzy
-#| msgid ""
-#| "Please add a monolingual base language file in the component settings."
 msgid ""
 "Define a monolingual base or new base filename when creating components from "
 "a template."
 msgstr ""
-"Por favor, adicione um arquivo de idioma de base monolíngue nas "
-"configurações do componente."
+"Defina um nome de arquivo base monolíngue ou um novo nome de arquivo base ao "
+"criar componentes a partir de um modelo."
 
 msgid "The file mask must include a language wildcard (*)."
-msgstr ""
+msgstr "A máscara de arquivo deve incluir um caractere curinga de idioma (*)."
 
 msgid "Please review and confirm the matched components."
 msgstr "Reveja e confirme os componentes correspondentes."
@@ -2533,6 +2523,8 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
+"Omita o grupo de idiomas ao criar componentes a partir de um arquivo base "
+"monolíngue ou de um novo arquivo base."
 
 msgid "This template must include {{ component }}."
 msgstr "Esse modelo deve incluir {{ component }}."
@@ -2610,25 +2602,17 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Incluir textos somente leitura"
 
-#, fuzzy
-#| msgid "Source language"
 msgid "Source and target"
-msgstr "Idioma fonte"
+msgstr "Fonte e destino"
 
-#, fuzzy
-#| msgid "Prepended static text"
 msgid "Prepended text"
-msgstr "Texto estático anexado"
+msgstr "Texto inicial adicionado"
 
-#, fuzzy
-#| msgid "Appended static text"
 msgid "Appended text"
-msgstr "Texto estático acrescentado"
+msgstr "Texto final acrescentado"
 
-#, fuzzy
-#| msgid "Text direction"
 msgid "Text expansion"
-msgstr "Direção do texto"
+msgstr "Expansão do texto"
 
 msgid "The source and target have to be different languages."
 msgstr "A fonte e o destino devem ser idiomas diferentes."
@@ -2660,94 +2644,84 @@ msgstr "Segredo do webhook"
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "O segredo do Webhooks padrão é uma string codificada em base64."
 
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Host do broker AMQP"
+msgstr "URL do broker AMQP"
 
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "O broker AMQP ao qual se conectar."
+msgstr "A URL do broker AMQP para se conectar."
 
 msgid "Topic prefix"
-msgstr ""
+msgstr "Prefixo do tema"
 
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "Prefixo opcional para adicionar aos temas das mensagens geradas."
 
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certificados CA"
+msgstr "Pacote de certificados CA (PEM)"
 
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Cole apenas blocos de certificado PEM, cada um começando com \"-----BEGIN "
+"CERTIFICATE-----\" e terminando com \"-----END CERTIFICATE-----\"."
 
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Chave privada do cliente (PEM)"
 
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Cole um único bloco de chave privada PEM não criptografado. Chaves privadas "
+"criptografadas não são suportadas."
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Certificados SSL do cliente"
+msgstr "Certificado do cliente (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Cole apenas o bloco do certificado PEM que começa com \"-----BEGIN "
+"CERTIFICATE-----\"; não cole a saída de \"openssl x509 -text\"."
 
 msgid "Publish timeout"
-msgstr ""
+msgstr "Tempo limite de publicação"
 
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Por quantos segundos aguardar o reconhecimento de entrega do agente."
 
 msgid "Connection attempts"
-msgstr ""
+msgstr "Tentativas de conexão"
 
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Número de tentativas de conexão com o agente."
 
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Detalhes do repositório"
+msgstr "Tempo mínimo para uma nova tentativa"
 
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Quantos segundos aguardar entre tentativas de conexão."
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Broker connection"
-msgstr "Hospedando traduções"
+msgstr "Conexão com agente"
 
 msgid "Timeouts and retries"
-msgstr ""
+msgstr "Tempos limite e novas tentativas"
 
 msgid "TLS credentials"
-msgstr ""
+msgstr "Credenciais TLS"
 
-#, fuzzy
-#| msgid "Project selection"
 msgid "Event selection"
-msgstr "Seleção de projeto"
+msgstr "Seleção de evento"
 
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "O texto contém caractere de controle: %s"
+msgstr "O prefixo do tema deve conter apenas caracteres ASCII."
 
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "O prefixo do tema não deve exceder %(limit)d caracteres."
 
 msgid "The SSL certificates have to be provided for SSL connection."
 msgstr "Os certificados SSL devem ser fornecidos para a conexão SSL."
@@ -2850,105 +2824,81 @@ msgstr ""
 "Atualiza o modelo gettext usando o construtor gettext do Sphinx sem carregar "
 "a configuração do projeto."
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "Arquivo enviado é grande demais."
+msgstr "O arquivo de regras ITS é muito grande."
 
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "Arquivo ZIP contendo traduções"
+msgstr "O arquivo de regras ITS contém muitas expressões XPath."
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "A senha fornecida é muito longa."
+msgstr "A expressão XPath ITS é muito longa."
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "Muitos arquivos de regras ITS."
 
-#, fuzzy
-#| msgid "No source strings are currently assigned!"
 msgid "ITS rule files are too large."
-msgstr "Nenhum texto fonte está atualmente associado!"
+msgstr "Os arquivos de regras do ITS são muito grandes."
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "Os diretórios ITS devem ser uma lista de textos."
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Direção do texto inválida"
+msgstr "Caminho de diretório ITS inválido."
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "As regras ITS não devem conter um tipo de documento."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "Raiz do documento de regra ITS inválida."
 
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "ITS rule file contains too many elements."
-msgstr "Arquivo ZIP contendo traduções"
+msgstr "O arquivo de regras ITS contém elementos em excesso."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "Formato de arquivo não suportado."
+msgstr "Conteúdo de regra ITS não suportado."
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "Arquivo não suportado!"
+msgstr "Regra de localização ITS não suportada."
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "Linhas pretas precisa de um status vazio."
+msgstr "As regras de localização do ITS exigem um padrão."
 
 msgid "ITS locating rules require a target or a document rule."
 msgstr ""
+"As regras de localização do ITS exigem uma regra de destino ou de documento."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "As regras do documento ITS exigem um destino."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Formato de arquivo não suportado."
+msgstr "Espaço de nomes de regras ITS não suportado."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "Não são permitidas referências externas das regras ITS."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "Os destinos do ITS devem nomear uma regra no mesmo diretório."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "O destino do ITS está ausente ou é um link simbólico."
 
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ITS directories must not contain symbolic links."
-msgstr "O componente contém configuração incompatível."
+msgstr "Os diretórios do ITS não devem conter links simbólicos."
 
-#, fuzzy, python-format
-#| msgid "{filename} ({parameter}) does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "{filename} ({parameter}) não existe."
+msgstr "O diretório ITS não existe: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "As regras ITS devem ser arquivos regulares, não links simbólicos."
 
-#, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "Não foi possível enviar %(component)s: %(error_text)s"
+msgstr "Regra ITS inválida %(path)s: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "Não foi possível analisar o arquivo TMX: %s"
+msgstr "Não foi possível analisar a regra ITS: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Squash de commits git"
@@ -2956,15 +2906,12 @@ msgstr "Squash de commits git"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Faz squash de commits Git antes de enviar alterações."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "O complemento só pode ser instalado no componente."
+msgstr ""
+"Os complementos da API devem ser instalados diretamente em um componente."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "O complemento só pode ser instalado no componente."
+msgstr "Este complemento já está instalado neste componente."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Esse complemento não pode ser acionado manualmente."
@@ -3002,8 +2949,6 @@ msgstr ""
 msgid "site-wide add-ons"
 msgstr "complementos para todo o site"
 
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Repositório"
@@ -3028,7 +2973,7 @@ msgstr "Projeto"
 
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -3083,68 +3028,53 @@ msgstr ""
 "É possível criar tokens de projeto cujo acesso à API é limitado a operações "
 "para seu projeto associado. Esses tokens têm o prefixo `wlp_`."
 
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Sucesso (verde)"
+msgstr "Resposta bem-sucedida."
 
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Chave de segurança removida."
+msgstr "O recurso foi criado."
 
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "A solicitação foi aceita para processamento assíncrono."
 
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Resposta bem-sucedida sem corpo de resposta."
 
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Não foi possível contatar o provedor de autenticação."
+msgstr "A solicitação era inválida ou não pôde ser analisada."
 
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "As credenciais de autenticação estavam ausentes ou eram inválidas."
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Você não tem permissões para acessar este componente."
+msgstr "O usuário autenticado não tem permissão para esta operação."
 
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "O recurso solicitado não foi encontrado ou não está acessível."
 
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "O método HTTP não é permitido para este recurso."
 
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "O token inserido não é válido."
+msgstr "O tipo de mídia de resposta solicitado não está disponível."
 
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "Não há suporte ao formato do arquivo detectado."
+msgstr "Não há suporte ao formato da mídia detectada."
 
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr "Arquivo de recurso .NET"
+msgstr "O recurso está bloqueado."
 
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "O limite de requisições à API foi excedido."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Ocorreu um erro de análise"
+msgstr "Ocorreu um erro inesperado no servidor."
 
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Filtrar por ação de alteração. Repita este parâmetro para filtrar por várias "
+"ações."
 
 msgid "Allowed number of requests to perform"
 msgstr "Número permitido de solicitações para realizar"
@@ -3156,10 +3086,8 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 "Quantidade total em segundos até que a janela limite de taxa seja reiniciada"
 
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Invalid component path."
-msgstr "Componente restrito"
+msgstr "Caminho inválido do componente."
 
 msgid "URL slug"
 msgstr "Slug da URL"
@@ -3169,47 +3097,37 @@ msgstr "Nome usado nas URLs e nos nomes dos arquivos."
 
 msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
+"Necessário para créditos, estatísticas de contribuição e relatórios de "
+"trabalho do tradutor."
 
-#, fuzzy
-#| msgid "Manage users"
 msgid "Invalid workspace."
-msgstr "Gerenciar usuários"
+msgstr "Espaço de trabalho inválido."
 
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid project."
-msgstr "Solicitação inválida."
+msgstr "Projeto inválido."
 
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid category."
-msgstr "Data inválida!"
+msgstr "Categoria inválida."
 
 #, fuzzy
 #| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
 msgstr "Não especifique componente e projeto!"
 
-#, fuzzy
-#| msgid "Choose a file format for the report"
 msgid "Choose at most one report scope."
-msgstr "Escolha o formato de arquivo para o relatório"
+msgstr "Selecione, no máximo, um escopo de relatório."
 
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "Registros de data e hora de início e término são necessários."
 
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "A data inicial precisa ser de antes da final."
+msgstr "O início do relatório deve ocorrer antes do seu término."
 
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "As alterações mínimas não podem exceder as alterações máximas."
 
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "Este endereço de e-mail não é permitido."
+msgstr "Este endereço de e-mail não foi verificado."
 
 msgid "Scope"
 msgstr "Escopo"
@@ -3248,7 +3166,7 @@ msgid "Cannot change this on a built-in team."
 msgstr "Não é possível alterar isso em uma equipe integrada."
 
 msgid "Cannot change this on an existing team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr "Não é possível alterar isso em uma equipe existente."
 
 msgid "Choose either a project or a workspace."
 msgstr "Escolha entre um projeto ou um espaço de trabalho."
@@ -3256,28 +3174,21 @@ msgstr "Escolha entre um projeto ou um espaço de trabalho."
 msgid "A team with this name already exists in this workspace."
 msgstr "Uma equipe com esse mesmo nome já existe neste espaço de trabalho."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr "Não é possível alterar isso em uma equipe com escopo definido."
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit enforced checks from the workspace."
-msgstr "Marcadores herdados"
+msgstr "Herdar verificações obrigatórias do espaço de trabalho."
 
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "Inherit enforced checks from the project, category or workspace."
-msgstr "Escolha entre um projeto ou um espaço de trabalho."
+msgstr ""
+"Herdar verificações obrigatórias do projeto, categoria ou espaço de trabalho."
 
 msgid "You do not have permission to access this component."
-msgstr "Você não tem permissões para acessar este componente."
+msgstr "Você não tem permissão para acessar este componente."
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "Você não tem permissões para alterar o controle de acesso do projeto."
+msgstr "Você não tem permissão para alterar o acesso restrito."
 
 msgid "Commit"
 msgstr "Commit"
@@ -3313,15 +3224,11 @@ msgid "Rescan all translation files in the Weblate repository"
 msgstr ""
 "Verificar novamente todos os arquivos de tradução no repositório do Weblate"
 
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Please provide a suggestion"
-msgstr "Votar na sugestão"
+msgstr "Por favor, forneça uma sugestão"
 
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of plurals does not match"
-msgstr "Quantidade total de plurais"
+msgstr "O número de plurais não corresponde"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Sua sugestão é semelhante à tradução atual!"
@@ -3335,10 +3242,10 @@ msgstr "Sua sugestão já existe!"
 msgid "Search query"
 msgstr "Solicitação de busca"
 
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "Inherit enforced checks from the parent category, project or workspace."
-msgstr "Escolha entre um projeto ou um espaço de trabalho."
+msgstr ""
+"Herdar as verificações obrigatórias da categoria, projeto ou espaço de "
+"trabalho principal."
 
 msgid "Weblate's REST API"
 msgstr "API REST do Weblate"
@@ -3382,43 +3289,33 @@ msgstr "Espera-se um objeto."
 msgid "At least one team is required for a project token."
 msgstr "É necessário pelo menos uma equipe para obter um token de projeto."
 
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "This role cannot be assigned to this team."
-msgstr "O nome de arquivo não pode ser um caminho absoluto."
+msgstr "Esta função não pode ser atribuída a esta equipe."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change languages on a workspace team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr "Não é possível alterar o idioma em uma equipe de espaço de trabalho."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr "Não é possível alterar projetos em uma equipe com escopo definido."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr ""
+"Não é possível alterar as listas de componentes em uma equipe com escopo "
+"definido."
 
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Não foi possível alterar isso em uma equipe existente."
+msgstr "Não é possível alterar componentes em uma equipe de espaço de trabalho."
 
-#, fuzzy
-#| msgid "Import of strings scheduled."
 msgid "Report generation scheduled."
-msgstr "Importação dos textos agendada."
+msgstr "Geração de relatório agendada."
 
 msgid "Specify a workspace when multiple workspaces can be used."
 msgstr ""
+"Especifique um espaço de trabalho quando for possível utilizar vários "
+"espaços de trabalho."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve strings."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para aprovar textos."
 
 msgid "This string seems to already exist."
 msgstr "Este texto parece já existir."
@@ -3518,11 +3415,8 @@ msgid "Manage project access"
 msgstr "Gerenciar acesso ao projeto"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "Manage reports"
-msgstr "Gerenciar repositório"
+msgstr "Gerenciar relatórios"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3653,42 +3547,32 @@ msgid "Delete announcements"
 msgstr "Excluir novidades"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Editar textos fonte"
+msgstr "Editar configurações do espaço de trabalho"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Add a project message"
 msgid "Add projects to workspace"
-msgstr "Adicionar uma mensagem do projeto"
+msgstr "Adicionar projetos ao espaço de trabalho"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Gerenciar acesso ao projeto"
+msgstr "Gerenciar acesso ao espaço de trabalho"
 
 #. Translators: Permission name
 msgid "Use management interface"
 msgstr "Usar interface de gerenciamento"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Configuração do Weblate"
+msgstr "Gerenciar configuração do site"
 
 #. Translators: Permission name
 msgid "Add new projects"
 msgstr "Adicionar novos projetos"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspaces"
-msgstr "Adicionar nova palavra"
+msgstr "Adicionar novos espaços de trabalho"
 
 #. Translators: Permission name
 msgid "Add language definitions"
@@ -3731,10 +3615,8 @@ msgid "Manage translation memory"
 msgstr "Gerenciar memória de tradução"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Manage translation services"
-msgstr "Usar serviços de tradução externa"
+msgstr "Gerenciar serviços de tradução"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3808,17 +3690,13 @@ msgctxt "Access-control role"
 msgid "Manage repository"
 msgstr "Gerenciar repositório"
 
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "Revogar administração"
+msgstr "Administração do espaço de trabalho"
 
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Adicionar novos projetos"
+msgstr "Adicionar projetos ao espaço de trabalho"
 
 msgctxt "Access-control role"
 msgid "Add new projects"
@@ -3945,6 +3823,8 @@ msgid ""
 "Grants access to all languages, including ones added in the future. Turn off "
 "to choose individual languages below."
 msgstr ""
+"Concede acesso a todos os idiomas, incluindo os que forem adicionados no "
+"futuro. Desative para escolher idiomas individuais abaixo."
 
 #, python-format
 msgid "%s (site-wide permission)"
@@ -4017,16 +3897,14 @@ msgstr ""
 
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
+"A equipe pode ser definida tanto para um projeto quanto para um espaço de "
+"trabalho."
 
-#, fuzzy
-#| msgid "A team with this name already exists in this workspace."
 msgid "A team with this name already exists in this project."
-msgstr "Uma equipe com esse mesmo nome já existe neste espaço de trabalho."
+msgstr "Uma equipe com esse mesmo nome já existe neste projeto."
 
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "Idiomas biari"
+msgstr "Limitar idiomas"
 
 msgid ""
 "Limit permissions from this team to these languages. Project-wide, component-"
@@ -4039,10 +3917,9 @@ msgstr ""
 "limite de idiomas é definido. A seleção vazia usa a seleção de idiomas da "
 "equipe sem limite adicional."
 
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Endereço de e-mail inválido: {}"
+msgstr "O endereço de e-mail do bot interno é muito longo: %s"
 
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -4117,35 +3994,32 @@ msgstr ""
 "Sugira um nome completo para o usuário. Este pode ser alterado "
 "posteriormente."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para editar entradas do glossário."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add glossary entries."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para adicionar entradas no glossário."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para excluir entradas do glossário."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para enviar entradas do glossário."
 
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Somente usuários com privilégios podem editar textos diretamente neste "
+"idioma devido ao seu fluxo de trabalho de tradução. Adicione uma sugestão."
 
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Somente usuários com privilégios podem editar textos diretamente neste "
+"idioma devido ao seu fluxo de trabalho de tradução. Solicite acesso a um "
+"administrador do projeto."
 
 msgid "Can not perform this operation without an e-mail address."
 msgstr "Não é possível realizar esta operação sem um endereço de e-mail."
@@ -4169,33 +4043,24 @@ msgstr ""
 msgid "Sign in to save translations."
 msgstr "Faça login para salvar traduções."
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "Você não tem permissões para acessar este componente."
+msgstr ""
+"Você não tem permissão para aprovar traduções neste componente restrito."
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "Você não tem permissões para acessar este componente."
+msgstr "Você não tem permissão para salvar traduções neste componente restrito."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve translations."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para aprovar traduções."
 
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "Você não tem permissões para adicionar um novo arquivo de tradução."
+msgstr "Você não tem permissão para salvar traduções neste projeto."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit source strings."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para editar os textos de origem."
 
 msgid "Suggestion voting is disabled."
 msgstr "Votação em sugestão está desabilitada."
@@ -4204,6 +4069,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Esta tradução está configurada para votação de sugestões. Adicione uma "
+"sugestão em vez de salvar uma tradução diretamente."
 
 msgid "Pay the bills to unlock this project."
 msgstr "Pague as faturas para desbloquear esse projeto."
@@ -4239,18 +4106,15 @@ msgstr "Em vez disso, adicionar o texto ao idioma fonte."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "A adição de texto está desativada na configuração do componente."
 
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Editing source strings is disabled in the component configuration."
-msgstr "A adição de texto está desativada na configuração do componente."
+msgstr ""
+"A edição de textos de origem está desativada na configuração do componente."
 
 msgid "The file format does not support this."
 msgstr "O formato do arquivo não suporta esta ação."
 
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit this glossary."
-msgstr "Você não tem permissão para aceitar sugestões."
+msgstr "Você não tem permissão para editar este glossário."
 
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
@@ -4269,6 +4133,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"As sugestões estão desativadas para este idioma. Peça a um administrador do "
+"projeto para ativá-las."
 
 msgid "The file format does not support updating source strings."
 msgstr "O formato do arquivo não suporta atualização de textos fonte."
@@ -4277,27 +4143,29 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Crie o componente e conceda a si mesmo acesso explícito antes de habilitar o "
+"acesso restrito."
 
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Este plano de cobrança cobre os seguintes projetos:"
+msgstr "O plano de cobrança não permite controle de acesso privado."
 
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Você precisa de acesso explícito a este componente antes de habilitar o "
+"acesso restrito; caso contrário, você se bloqueará do acesso."
 
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
 "use."
 msgstr ""
+"A equipe %(name)s foi renomeada para %(new_name)s porque seu nome já estava "
+"em uso."
 
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "O nome de arquivo não pode ser um caminho absoluto."
+msgstr "O usuário anônimo não pode ser atribuído a equipes."
 
 msgid "Inactive users can not be assigned to teams."
 msgstr "Os usuários inativos não podem ser atribuídos a equipes."
@@ -4315,79 +4183,60 @@ msgstr "O convite do usuário foi removido."
 msgid "Accepted invitation to the %s team."
 msgstr "Convite aceito para a equipe %s."
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Detecção automática"
+msgstr "Automação"
 
 msgid "Runs ordered translation operations with conditions and branches."
-msgstr ""
+msgstr "Executa operações de tradução ordenadas com condições e ramificações."
 
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Select a component for this automation."
-msgstr "Selecione uma configuração de componente existente para copiar."
+msgstr "Selecione um componente para esta automação."
 
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "The component is outside this add-on's scope or is incompatible."
-msgstr "Esse componente está configurado incorretamente."
+msgstr "O componente está fora do escopo deste complemento ou é incompatível."
 
-#, fuzzy
-#| msgid "Browse all changes for this language"
 msgid "Select a change for this automation."
-msgstr "Visualizar todas as alterações desse idioma"
+msgstr "Selecione uma alteração para esta automação."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The change does not belong to this component."
-msgstr "A categoria não pertence a este projeto."
+msgstr "A alteração não pertence a este componente."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The change event does not match this automation's triggers."
-msgstr "A categoria não pertence a este projeto."
+msgstr "O evento de alteração não corresponde aos acionamentos desta automação."
 
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Trigger scope requires a change with a string."
-msgstr "Evite anos que estão associados a você."
+msgstr "O escopo do acionamento requer uma alteração com um texto."
 
-#, fuzzy
-#| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
-msgstr "Modo de tradução automática"
+msgstr "A complexidade da automação é excessiva."
 
 msgid "Automation definitions cannot exceed 64 KiB."
-msgstr ""
+msgstr "As definições de automação não podem exceder 64 KiB."
 
 #, python-format
 msgid "%(path)s: Unknown change event “%(event)s”. Valid events: %(choices)s"
 msgstr ""
+"%(path)s: Evento de alteração desconhecido “%(event)s”. Eventos válidos: %"
+"(choices)s"
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "YAML aliases and tags are not supported."
-msgstr "A classificação escolhida não é compatível."
+msgstr "Não há suporte para aliases e tags YAML."
 
-#, fuzzy
-#| msgid "Automatically translated strings"
 msgid "Automation keys must be strings."
-msgstr "Textos traduzidos automaticamente"
+msgstr "As chaves de automação devem ser textos."
 
 msgid "Invalid automation YAML or JSON."
-msgstr ""
+msgstr "Arquivo YAML ou JSON de automação inválido."
 
-#, fuzzy, python-format
-#| msgid "%(email)s: %(error)s"
+#, python-format
 msgid "%(path)s: %(error)s"
-msgstr "%(email)s: %(error)s"
+msgstr "%(path)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
-msgstr ""
+msgstr "A automação ultrapassa 100 nós ou oito níveis de aninhamento."
 
 msgid "Automation action IDs must be unique."
-msgstr ""
+msgstr "Os IDs das ações de automação devem ser únicos."
 
 #, python-format
 msgid "%(path)s: trigger scope requires only change triggers."
@@ -4395,30 +4244,27 @@ msgstr ""
 
 #, python-format
 msgid "%(path)s: result scope requires an earlier action ID."
-msgstr ""
+msgstr "%(path)s: o escopo de resultado requer um ID de ação anterior."
 
 #, python-format
 msgid "%(path)s: not requires exactly one condition."
-msgstr ""
+msgstr "%(path)s: não requer exatamente uma condição."
 
-#, fuzzy
-#| msgid "Automatic component list assignment"
 msgid "Automation context is too large."
-msgstr "Associação automática da lista de componentes"
+msgstr "O contexto da automação é muito amplo."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
-msgstr ""
+msgstr "A validação ou avaliação CEL falhou ou excedeu seu limite de recursos."
 
-#, fuzzy, python-format
-#| msgid "Invalid repository branch: %s"
+#, python-format
 msgid "Invalid CEL condition: %s"
-msgstr "Ramo do repositório inválido: %s"
+msgstr "Condição CEL inválida: %s"
 
 msgid "Workflow"
 msgstr "Fluxo de trabalho"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "Insira uma definição de automação em YAML ou JSON."
 
 #, fuzzy
 #| msgid "Component"
