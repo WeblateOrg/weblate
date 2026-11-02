@@ -2527,12 +2527,26 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
         result = super().to_representation(instance)
-        if instance.linked_component_id is not None:
-            linked_component = instance.linked_component
+        linked_component = (
+            instance.linked_component
+            if instance.linked_component_id is not None
+            else None
+        )
+        if linked_component is not None:
             for field in self.linked_repository_setting_fields:
                 result[field] = getattr(linked_component, field)
         user = self.context["request"].user
-        if not user.has_perm("vcs.view", instance):
+        can_view_repository = user.has_perm("vcs.view", instance)
+        if linked_component is not None:
+            can_view_repository = (
+                can_view_repository
+                and user.can_access_component(linked_component)
+                and user.has_perm("vcs.view", linked_component)
+            )
+            if not can_view_repository:
+                for field in self.linked_repository_setting_fields:
+                    result[field] = None
+        if not can_view_repository:
             result["vcs"] = None
             result["vcs_params"] = None
             result["repo"] = None
