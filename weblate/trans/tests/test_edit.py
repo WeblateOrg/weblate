@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from unittest.mock import patch
 
+from django.contrib.messages import get_messages
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import Client
@@ -51,6 +52,7 @@ from weblate.utils.change_origin import acting_user_context
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1605,6 +1607,26 @@ class EditMercurialTest(EditTest):
     def create_component(self):
         return self.create_po_mercurial()
 
+    def test_option_shaped_commit_message(self) -> None:
+        message = "--config=alias.commit=version"
+        self.component.commit_message = message
+        self.component.inherit_commit_message = False
+        self.component.save(update_fields=["commit_message", "inherit_commit_message"])
+        old_revision = self.component.repository.last_revision
+
+        self.edit_unit(self.source, self.target)
+        self.translation.commit_pending("test", self.user)
+
+        self.assertNotEqual(self.component.repository.last_revision, old_revision)
+        self.assertEqual(
+            self.component.repository.execute(
+                ["log", "--rev=.", "--template={desc}"],
+                remote_op="none",
+                needs_lock=False,
+            ),
+            message,
+        )
+
 
 class EditPoMonoTest(EditTest):
     def create_component(self):
@@ -1924,7 +1946,7 @@ class EditPropagateTest(EditTest):
 
         self.assertFalse(self.user.has_perm("unit.edit", second_translation))
 
-        self.edit_unit(self.source, self.target)
+        response = self.edit_unit(self.source, self.target)
 
         self.assertEqual(self.get_unit(source=self.source).target, self.target)
         self.assertEqual(
@@ -1934,6 +1956,12 @@ class EditPropagateTest(EditTest):
             Change.objects.filter(
                 component=second_component, action=ActionEvents.PROPAGATED_EDIT
             ).exists()
+        )
+        self.assertFalse(
+            any(
+                second_component.name in str(message)
+                for message in get_messages(response.wsgi_request)
+            )
         )
 
     def test_edit(self) -> None:
@@ -2033,6 +2061,62 @@ class EditTSMonoTest(EditTest):
 
 
 class ZenViewTest(ReusableViewTestCase):
+    def test_project_language_zen_hides_restricted_component_state(self) -> None:
+        self.create_po(name="Visible locked peer", locked=True, project=self.project)
+        hidden = self.create_po(
+            name="Hidden locked peer", locked=True, project=self.project
+        )
+        Component.objects.filter(pk=hidden.pk).update(restricted=True)
+        hidden.refresh_from_db()
+        url = reverse(
+            "zen",
+            kwargs={"path": [self.project.slug, "-", self.translation.language.code]},
+        )
+        lock_message = (
+            "The translation is temporarily closed for contributions due to maintenance"
+        )
+
+        for viewer in ("member", "anonymous"):
+            if viewer == "anonymous":
+                self.client.logout()
+            with self.subTest(viewer=viewer):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content.decode().count(lock_message), 1)
+                self.assertEqual(
+                    self.client.get(hidden.get_absolute_url()).status_code, 404
+                )
+
+    def test_category_language_zen_hides_restricted_component_state(self) -> None:
+        category = self.create_category(self.project)
+        self.create_po(
+            name="Visible locked category peer",
+            locked=True,
+            project=self.project,
+            category=category,
+        )
+        hidden = self.create_po(
+            name="Hidden locked category peer",
+            locked=True,
+            project=self.project,
+            category=category,
+        )
+        Component.objects.filter(pk=hidden.pk).update(restricted=True)
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(
+            reverse("zen", kwargs={"path": category_language.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.content.decode().count(
+                "The translation is temporarily closed for contributions due to maintenance"
+            ),
+            1,
+        )
+        self.assertEqual(self.client.get(hidden.get_absolute_url()).status_code, 404)
+
     def create_zen_unit(self, position: int) -> Unit:
         source = f"Zen source {position}\n"
         id_hash = calculate_hash(source, "")
@@ -2165,6 +2249,114 @@ class ZenViewTest(ReusableViewTestCase):
             response,
             "The following fix-up was applied to the translation: Trailing and leading whitespace",
         )
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_save_zen_respects_classic_translate_limit(self) -> None:
+        unit = self.get_unit()
+        self.assertFalse(self.user.is_superuser)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertEqual(
+            self.edit_unit(unit.source, "First translation\n").status_code, 302
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First translation\n")
+
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "Second translation\n",
+                "review": "20",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["state"], "danger")
+        self.assertEqual(response.json()["translationsum"], "")
+        self.assertIn(
+            {
+                "tags": "error",
+                "kind": "danger",
+                "text": (
+                    "Your request was rejected because you have performed too many "
+                    "operations recently. Please try again later."
+                ),
+            },
+            response.json()["messages"],
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First translation\n")
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_classic_translate_respects_zen_limit(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "initial_state": str(unit.state),
+                "target_0": "First Zen translation\n",
+                "review": "20",
+            },
+        )
+        self.assertNotEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        response = self.edit_unit(unit.source, "Second translation\n")
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_save_zen_csrf_token_survives_rate_limit(self) -> None:
+        unit = self.get_unit()
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        response = client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertEqual(response.status_code, 200)
+        document = html.fromstring(response.content)
+        form = document.xpath(
+            f'//form[.//input[@name="checksum"][@value="{unit.checksum}"]]'
+        )[0]
+        params = {
+            "csrfmiddlewaretoken": form.xpath(
+                './/input[@name="csrfmiddlewaretoken"]/@value'
+            )[0],
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "initial_state": str(unit.state),
+            "target_0": "First Zen translation\n",
+            "review": "20",
+        }
+        url = form.get("action")
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["translationsum"], "")
+        params.update(
+            translationsum=response.json()["translationsum"],
+            initial_state=response.json()["initial_state"],
+            target_0="Pending Zen translation\n",
+        )
+
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["state"], "danger")
+        self.assertEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        reset_rate_limit("translate", user=self.user)
+        response = client.post(url, params)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["translationsum"], "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Pending Zen translation\n")
 
     def test_save_zen_lock(self) -> None:
         self.component.locked = True
@@ -2584,6 +2776,37 @@ class EditComplexTest(ReusableViewTestCase):
             f"{self.translate_url}?checksum={unit.checksum}", {"merge": unit2.id}
         )
         self.assertContains(response, "Could not find the merged string.")
+
+    def test_merge_approved_requires_review_permission(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.component.allow_translation_propagation = False
+        self.component.save(update_fields=["allow_translation_propagation"])
+        linked = self.create_link_existing(allow_translation_propagation=False)
+        source = linked.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        source.translate(self.user, "Approved merge target\n", STATE_APPROVED)
+        destination = self.get_unit()
+        self.assertNotEqual(destination.state, STATE_APPROVED)
+        self.assertTrue(self.user.has_perm("unit.edit", destination))
+        self.assertFalse(self.user.has_perm("unit.review", destination))
+
+        url = f"{self.translate_url}?checksum={destination.checksum}"
+        response = self.client.post(url, {"merge": source.pk})
+        self.assertEqual(response.status_code, 302)
+        destination.refresh_from_db()
+        self.assertEqual(destination.target, source.target)
+        self.assertEqual(destination.state, STATE_TRANSLATED)
+
+        self.make_manager()
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", destination))
+        response = self.client.post(url, {"merge": source.pk})
+        self.assertEqual(response.status_code, 302)
+        destination.refresh_from_db()
+        self.assertEqual(destination.target, source.target)
+        self.assertEqual(destination.state, STATE_APPROVED)
 
     def test_merge_inconsistent(self) -> None:
         # Translate unit to have something to start with
@@ -3440,6 +3663,65 @@ class EditComplexTest(ReusableViewTestCase):
         unit = self.get_unit(source)
         self.assertEqual(unit.target, original)
         self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
+
+    def test_revert_approved_requires_review_permission(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.project.add_user(self.anotheruser, "Administration")
+        unit = self.get_unit()
+        original = "Reviewed translation\n"
+        updated = "Revised translation\n"
+        unit.translate(self.anotheruser, original, STATE_APPROVED)
+        unit.translate(self.anotheruser, updated, STATE_TRANSLATED)
+        change = (
+            Change.objects.content()
+            .filter(unit=unit, user=self.anotheruser)
+            .order_by("-timestamp", "-pk")[0]
+        )
+        self.assertEqual(change.get_revert_state(), STATE_APPROVED)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertFalse(self.user.has_perm("unit.review", unit))
+
+        response = self.client.post(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.pk}
+        )
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(
+            Change.objects.filter(unit=unit, action=ActionEvents.REVERT)
+            .latest("pk")
+            .user,
+            self.user,
+        )
+
+        self.client.force_login(self.anotheruser)
+        self.assertTrue(self.anotheruser.has_perm("unit.review", unit))
+        response = self.client.post(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.pk}
+        )
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_APPROVED)
+
+    def test_revert_approved_when_reviews_disabled(self) -> None:
+        unit = self.get_unit()
+        original = "Previously approved translation\n"
+        unit.translate(self.user, original, STATE_APPROVED)
+        unit.translate(self.user, "Current translation\n", STATE_TRANSLATED)
+        change = (
+            Change.objects.content()
+            .filter(unit=unit, user=self.user)
+            .order_by("-timestamp", "-pk")[0]
+        )
+        self.assertEqual(change.get_revert_state(), STATE_APPROVED)
+
+        self.assertTrue(change.revert(self.user))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def test_edit_fixup(self) -> None:
         # Save with failing check

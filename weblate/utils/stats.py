@@ -45,6 +45,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.trans.models import Category, Change, Component, Project, Translation
+    from weblate.trans.models.translation import TranslationQuerySet
     from weblate.workspaces.models import Workspace
 
 StatItem = int | float | str | datetime | None
@@ -1661,6 +1662,63 @@ class ProjectStats(ParentAggregatingStats):
         self.store("languages", self._object.get_languages_count())
 
 
+class WorkspaceLanguage(BaseURLMixin, TranslationChecklistMixin):
+    """Workspace language overview and editor scope."""
+
+    def __init__(self, workspace: Workspace, language: Language) -> None:
+        self.workspace = workspace
+        self.language = language
+
+    def __str__(self) -> str:
+        return f"{self.workspace} - {self.language}"
+
+    @cached_property
+    def pk(self) -> str:
+        return f"{self.workspace.pk}-{self.language.pk}"
+
+    @cached_property
+    def cache_key(self) -> str:
+        return f"{self.workspace.cache_key}-{self.language.pk}"
+
+    @cached_property
+    def stats(self) -> WorkspaceLanguageStats:
+        return WorkspaceLanguageStats(self.workspace, self.language)
+
+    @property
+    def enable_review(self) -> bool:
+        return self.workspace.stats.has_review
+
+    is_source = False
+    is_readonly = False
+    project = None
+
+    def get_url_path(self) -> list[str]:
+        return [*self.workspace.get_url_path(), "-", self.language.code]
+
+    def get_absolute_url(self) -> str:
+        return reverse("show", kwargs={"path": self.get_url_path()})
+
+    def get_translate_url(self) -> str:
+        return reverse("translate", kwargs={"path": self.get_url_path()})
+
+    def get_translation_set_access(self, user: User) -> TranslationQuerySet:
+        return (
+            self.language.translation_set.filter_access(user)
+            .filter(
+                Q(component__project__workspace=self.workspace)
+                | Q(component__links__workspace=self.workspace)
+            )
+            .distinct()
+            .order_by(
+                "component__project__name",
+                "component__priority",
+                "component__name",
+                "pk",
+            )
+            .prefetch()
+        )
+
+
 class WorkspaceStats(ParentAggregatingStats):
     def get_language_stats(self) -> list[WorkspaceLanguageStats]:
         languages = Language.objects.filter(
@@ -1701,25 +1759,27 @@ class WorkspaceStats(ParentAggregatingStats):
         self.store("languages", owned_languages.union(shared_languages).count())
 
 
-class WorkspaceLanguageStats(SingleLanguageStats):
+class WorkspaceLanguageStats(ChecklistStats):
     """Aggregate cached project-language statistics without a separate cache."""
 
     def __init__(self, workspace: Workspace, language: Language) -> None:
-        super().__init__(workspace)
+        self.workspace = workspace
         self.language = language
+        super().__init__(WorkspaceLanguage(workspace, language))
+        self._object.stats = self
 
     @cached_property
     def cache_key(self) -> str:
-        return f"stats-{self._object.cache_key}-{self.language.pk}"
+        return f"stats-{self.workspace.cache_key}-{self.language.pk}"
 
     @cached_property
     def has_review(self):
-        return self._object.stats.has_review
+        return self.workspace.stats.has_review
 
     def get_child_objects(self):
         return [
             ProjectLanguage(project, self.language)
-            for project in self._object.projects.only("id", "slug")
+            for project in self.workspace.projects.only("id", "slug")
         ]
 
     def load(self) -> StatDict:

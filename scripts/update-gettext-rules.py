@@ -17,7 +17,7 @@ from lxml import etree
 # renovate-its: datasource=github-tags depName=polkit-org/polkit
 POLKIT_VERSION = "128"
 # renovate-its: datasource=github-tags depName=ximion/appstream
-APPSTREAM_VERSION = "v1.2.1"
+APPSTREAM_VERSION = "v1.2.2"
 # renovate-its: datasource=github-tags depName=GNOME/glib
 GLIB_VERSION = "2.90.1"
 # renovate-its: datasource=github-tags depName=GNOME/gtk

@@ -4,18 +4,22 @@
 from __future__ import annotations
 
 import re
+import time
 import unicodedata
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, NoReturn
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
+from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
+from django_otp.models import Device
 from social_core.exceptions import (
     AuthAssociationError,
     AuthPolicyError,
@@ -23,6 +27,9 @@ from social_core.exceptions import (
     AuthSessionError,
 )
 from social_core.pipeline.partial import partial
+from social_core.pipeline.social_auth import (
+    associate_by_email as core_associate_by_email,
+)
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
 from weblate.accounts.flows import PASSWORD_RESET_SCOPE_SESSION
@@ -30,8 +37,13 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_FIRST_FACTOR_SSO,
     adjust_session_expiry,
+    clear_pending_first_factor,
     cycle_session_keys,
+    grant_first_factor,
+    has_recent_second_factor,
     invalidate_reset_codes,
     set_second_factor_session,
 )
@@ -59,6 +71,41 @@ STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
 VerifiedEmailList = list[tuple[str, bool]]
 GitHubEmailData = Mapping[str, str | bool | None]
+
+
+def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
+    """Finish first-enrollment proof before normal social login can mutate accounts."""
+    request = strategy.request
+    intent = request.session.pop(SESSION_FIRST_FACTOR_SSO, None)
+    if intent is None:
+        return None
+    timestamp = intent.get("time") if isinstance(intent, dict) else None
+    if not (
+        request.user.is_authenticated
+        and isinstance(intent, dict)
+        and isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and intent.get("user") == request.user.pk
+        and intent.get("hash") == request.user.get_session_auth_hash()
+        and intent.get("provider") == backend.name
+        and intent.get("target") in {"totp", "webauthn"}
+        and social is not None
+        and social.pk == intent.get("association")
+        and social.user_id == request.user.pk
+        and user is not None
+        and user.pk == request.user.pk
+        and not request.user.profile.has_2fa
+    ):
+        raise AuthSessionError(
+            backend, code="weblate.first_factor_identity_mismatch", stage="pipeline"
+        )
+    request.session.cycle_key()
+    rotate_token(request)
+    clear_pending_first_factor(request)
+    grant_first_factor(request)
+    return redirect("totp" if intent["target"] == "totp" else "webauthn-register")
 
 
 def invalid_invitation(
@@ -125,6 +172,33 @@ def parse_github_emails(
         if entry.get("primary"):
             primary = address
     return public or primary or email, emails
+
+
+@partial
+def verify_recent_second_factor(
+    strategy,
+    backend,
+    user: User | None,
+    social,
+    weblate_action,
+    current_partial,
+    **kwargs,
+):
+    """Require a fresh factor before linking a new sign-in identity."""
+    if (
+        user is not None
+        and social is None
+        and weblate_action == "activation"
+        and user.profile.has_2fa
+        and not has_recent_second_factor(strategy.request, user=user)
+    ):
+        set_second_factor_session(strategy.request, user, "", social=True)
+        continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
+        login_url = reverse(
+            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+        )
+        return HttpResponseRedirect(f"{login_url}?{urlencode({'next': continue_url})}")
+    return None
 
 
 @partial
@@ -467,6 +541,21 @@ def ensure_valid(
         validator(details["email"])
 
 
+def associate_by_email(strategy, backend, details, user=None, **kwargs):
+    """Only rebind a signed-out third-party identity when explicitly enabled."""
+    if (
+        user is None
+        and backend.name != "email"
+        and not settings.REGISTRATION_REBIND
+        and (email := details.get("email"))
+    ):
+        owner = User.objects.filter(email__iexact=email).first()
+        if owner is not None:
+            AuditLog.objects.create(owner, strategy.request, "connect")
+            raise AuthAssociationError(backend, code="email_in_use", stage="pipeline")
+    return core_associate_by_email(backend, details, user=user, **kwargs)
+
+
 def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:
     """Store verified e-mail."""
     # The email can be empty for some services
@@ -477,6 +566,16 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
         current = {(details["email"], True)}
     else:
         return
+
+    email_field = VerifiedEmail._meta.get_field("email")  # ruff: ignore[private-member-access]
+    valid_emails: set[tuple[str, bool]] = set()
+    for email, is_deliverable in current:
+        try:
+            email_field.clean(email, None)
+        except ValidationError:
+            continue
+        valid_emails.add((email, is_deliverable))
+    current = valid_emails
 
     existing_emails = set()
     for verified in social.verifiedemail_set.order_by("pk"):
@@ -673,8 +772,26 @@ def notify_disconnect(strategy, backend, entries, user: User, **kwargs) -> None:
 
 @partial
 def second_factor(strategy, backend, user: User, current_partial, **kwargs):
-    """Force authentication when adding new association."""
-    if user.profile.has_2fa and DEVICE_ID_SESSION_KEY not in strategy.request.session:
+    """Require a second factor verified for the user being signed in."""
+    if not user.profile.has_2fa:
+        return None
+    session = strategy.request.session
+    persistent_id = session.get(DEVICE_ID_SESSION_KEY)
+    device = (
+        Device.from_persistent_id(persistent_id)
+        if isinstance(persistent_id, str)
+        else None
+    )
+    if (
+        device is None
+        or device.user_id != user.pk
+        or (
+            kwargs.get("weblate_action") == "activation"
+            and kwargs.get("social") is None
+            and not has_recent_second_factor(strategy.request, user=user)
+        )
+    ):
+        session.pop(DEVICE_ID_SESSION_KEY, None)
         # Store session indication for second factor
         set_second_factor_session(strategy.request, user, "", social=True)
         # Redirect to second factor login

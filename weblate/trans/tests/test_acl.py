@@ -41,7 +41,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.accounts.models import AuditLog
@@ -1306,6 +1306,37 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         change = Change.objects.get(action=ActionEvents.USER_REVERT, unit=unit)
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.get_details_display(), self.second_user.username)
+
+    def test_revert_user_edits_task_requires_review_for_approved_state(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.project.add_user(self.second_user, "Administration")
+        self.project.add_user(self.user, "Translate")
+        target_user = User.objects.create_user(
+            "targetuser", "targetuser@example.org", "testpassword"
+        )
+        unit = self.get_unit()
+        original = "Approved translation\n"
+        self.change_unit(original, user=self.second_user, state=STATE_APPROVED)
+        self.change_unit("First revision\n", user=target_user)
+        self.change_unit("Second revision\n", user=target_user)
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+        self.assertFalse(self.user.has_perm("unit.review", unit))
+
+        result = revert_user_edits_task(
+            target_user_id=target_user.pk,
+            acting_user_id=self.user.pk,
+            project_id=self.project.pk,
+        )
+
+        self.assertEqual(result["reverted"], 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(
+            Change.objects.get(unit=unit, action=ActionEvents.USER_REVERT).user,
+            self.user,
+        )
 
     def test_revert_user_edits_task_invalid_old_state(self) -> None:
         self.project.add_user(self.user, "Administration")

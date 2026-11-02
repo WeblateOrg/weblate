@@ -29,6 +29,7 @@ from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
 from weblate.utils.html import is_auto_safe_html_source
+from weblate.utils.java import iter_java_message_matches
 
 if TYPE_CHECKING:
     from collections.abc import Iterator, Sequence
@@ -71,7 +72,15 @@ AUTO_JAVA_MESSAGEFORMAT_MATCH = re.compile(
 
 def is_auto_java_messageformat_source(source: str, flags: Flags) -> bool:
     del flags
-    return AUTO_JAVA_MESSAGEFORMAT_MATCH.search(source) is not None
+    return (
+        next(
+            iter_java_message_matches(
+                source, AUTO_JAVA_MESSAGEFORMAT_MATCH, leading_space=True
+            ),
+            None,
+        )
+        is not None
+    )
 
 
 AUTO_FLAG_HANDLERS = {

@@ -24,7 +24,6 @@ from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import F, Q
-from django.db.models.functions import Upper
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -60,6 +59,7 @@ from weblate.trans.models import Category, Change, ComponentList, Translation
 from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.email import email_key_expression
 from weblate.utils.fields import EmailField
 from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
@@ -86,6 +86,7 @@ from .types import ThemeChoices
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.contrib.auth.models import AnonymousUser
     from django.http.request import HttpRequest
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
@@ -154,8 +155,6 @@ class WeblateAccountsConf(AppConf):
     DEFAULT_AUTO_WATCH = defaults.DEFAULT_AUTO_WATCH
 
     CONTACT_FORM = defaults.DEFAULT_CONTACT_FORM
-    USER_DIRECTORY_VISIBILITY = defaults.DEFAULT_USER_DIRECTORY_VISIBILITY
-    USER_PROFILE_VISIBILITY = defaults.DEFAULT_USER_PROFILE_VISIBILITY
 
     PRIVATE_COMMIT_EMAIL_TEMPLATE = defaults.DEFAULT_PRIVATE_COMMIT_EMAIL_TEMPLATE
     PRIVATE_COMMIT_EMAIL_OPT_IN = defaults.DEFAULT_PRIVATE_COMMIT_EMAIL_OPT_IN
@@ -859,7 +858,7 @@ class VerifiedEmail(models.Model):
         verbose_name_plural = "Verified e-mails"
         indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
-                Upper("email"),
+                email_key_expression("email"),
                 name="accounts_verifiedemail_email",
             ),
         ]
@@ -1212,11 +1211,11 @@ class Profile(models.Model):
     def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()
 
-    def get_user_display(self):
-        return get_user_display(self.user)
+    def get_user_display(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, viewer=viewer)
 
-    def get_user_display_link(self):
-        return get_user_display(self.user, True, True)
+    def get_user_display_link(self, *, viewer: User | AnonymousUser | None = None):
+        return get_user_display(self.user, True, True, viewer=viewer)
 
     def get_user_name(self):
         return get_user_display(self.user, False)

@@ -323,6 +323,7 @@ nitpick_ignore = [
     ("py:class", "Form"),
     # Autodoc renders these type annotations from wlc signatures, but their
     # reference targets are not available in the configured inventories.
+    ("py:class", "HttpRequest"),
     ("py:class", "Path"),
     ("py:class", "JSONValue"),
     ("py:class", "RequestParams"),

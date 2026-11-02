@@ -62,7 +62,7 @@ class HgRepository(Repository):
         "--branch",
         ".",
     ]
-    _cmd_list_changed_files: ClassVar[list[str]] = ["status", "--rev"]
+    _cmd_list_changed_files: ClassVar[list[str]] = ["status"]
     name: ClassVar[StrOrPromise] = "Mercurial"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."
@@ -280,7 +280,7 @@ class HgRepository(Repository):
         {desc}
         """
         text = self.execute(
-            ["log", "--limit", "1", "--template", template, "--rev", revision],
+            ["log", "--limit", "1", "--template", template, f"--rev={revision}"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -314,7 +314,7 @@ class HgRepository(Repository):
     def log_revisions(self, refspec: str) -> list[str]:
         """Return revision log for given refspec."""
         return self.execute(
-            ["log", "--template", "{node}\n", "--rev", refspec],
+            ["log", "--template", "{node}\n", f"--rev={refspec}"],
             remote_op=self.get_revset_remote_op(refspec),
             needs_lock=False,
             merge_err=False,
@@ -355,12 +355,12 @@ class HgRepository(Repository):
         """Create new revision."""
         if files == []:
             return False
-        # Build the commit command
-        cmd = ["commit", "--message", message]
+        # Mercurial scans global options before parsing command option values.
+        cmd = ["commit", f"--message={message}"]
         if author is not None:
-            cmd.extend(["--user", author])
+            cmd.append(f"--user={author}")
         if timestamp is not None:
-            cmd.extend(["--date", timestamp.ctime()])
+            cmd.append(f"--date={timestamp.ctime()}")
 
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
@@ -468,7 +468,7 @@ class HgRepository(Repository):
     def get_file(self, path: str, revision: str) -> str:
         """Return content of file at given revision."""
         return self.execute(
-            ["cat", "--rev", revision, "--", path],
+            ["cat", f"--rev={revision}", "--", path],
             remote_op="none",
             needs_lock=False,
             merge_err=False,
@@ -495,7 +495,13 @@ class HgRepository(Repository):
 
     def list_changed_files(self, refspec: str) -> list[str]:
         try:
-            return super().list_changed_files(refspec)
+            lines = self.execute(
+                [*self._cmd_list_changed_files, f"--rev={refspec}"],
+                remote_op="none",
+                needs_lock=False,
+                merge_err=False,
+            ).splitlines()
+            return list(self.parse_changed_files(lines))
         except RepositoryError as error:
             if error.retcode == 255:
                 # Empty revision set
@@ -514,7 +520,7 @@ class HgRepository(Repository):
 
     def show(self, revision: str) -> str:
         return self.execute(
-            ["diff", "--change", revision],
+            ["diff", f"--change={revision}"],
             remote_op="none",
             needs_lock=False,
             merge_err=False,

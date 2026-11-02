@@ -12,13 +12,18 @@ from django import template
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 from social_core.backends.utils import get_backend
 from social_core.exceptions import AuthConfigurationError
 from social_django.utils import load_strategy
 
-from weblate.accounts.utils import get_key_name, get_totp_device_label
+from weblate.accounts.utils import (
+    get_key_name,
+    get_totp_device_label,
+    has_recent_second_factor,
+)
 
 if TYPE_CHECKING:
     from django.template import Context
@@ -27,8 +32,25 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.types import DeviceType
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 register = template.Library()
+
+
+@register.simple_tag
+def can_show_personal_api_key(request: AuthenticatedHttpRequest) -> bool:
+    return request.user.is_authenticated and has_recent_second_factor(request)
+
+
+@register.simple_tag
+def personal_api_key(request: AuthenticatedHttpRequest) -> str:
+    if can_show_personal_api_key(request):
+        try:
+            return request.user.auth_token.key
+        except ObjectDoesNotExist:
+            pass
+    return "TOKEN"
+
 
 # Local authentication methods.
 LOCAL_METHODS: dict[str, dict[str, StrOrPromise]] = {

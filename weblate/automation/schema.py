@@ -9,7 +9,7 @@ from typing import Any
 from django.utils.translation import override
 
 from weblate.addons.events import AddonEvent
-from weblate.automation.operations import OPERATIONS, object_schema
+from weblate.automation.operations import OPERATIONS, QUERY_STRING, object_schema
 from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.utils.state import StringState
 
@@ -132,10 +132,16 @@ SCHEMA = {
                                 "expression",
                                 "component_category",
                                 "language",
-                                "matching_strings",
                             ]
                         },
                         "value": STRING,
+                    },
+                    ["condition", "value"],
+                ),
+                object_schema(
+                    {
+                        "condition": {"const": "matching_strings"},
+                        "value": QUERY_STRING,
                     },
                     ["condition", "value"],
                 ),

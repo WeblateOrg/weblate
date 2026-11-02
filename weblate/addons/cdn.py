@@ -19,6 +19,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
+from weblate_schemas import validate_schema
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import (
@@ -35,6 +36,8 @@ CDN_JS_FILENAME = "weblate.js"
 CDN_MANIFEST_FILENAME = "manifest.json"
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
+
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.trans.models import Category, Component, Project, Translation
@@ -115,16 +118,15 @@ class CDNBaseAddon(BaseAddon):
             )
 
     def write_manifest(self, locales: dict[str, list[CDNFileMetadata]]) -> None:
-        self.write_cdn_json(
-            CDN_MANIFEST_FILENAME,
-            {
-                "schemaVersion": 1,
-                "locales": {
-                    language: sorted(files, key=itemgetter("url"))
-                    for language, files in locales.items()
-                },
+        manifest = {
+            "schemaVersion": 1,
+            "locales": {
+                language: sorted(files, key=itemgetter("url"))
+                for language, files in locales.items()
             },
-        )
+        }
+        validate_schema(manifest, "weblate-cdn-manifest.schema.json")
+        self.write_cdn_json(CDN_MANIFEST_FILENAME, manifest)
 
     def write_cdn_text(self, filename: str, content: str) -> None:
         self.write_cdn_bytes(filename, content.encode("utf-8"))
@@ -195,7 +197,9 @@ class CDNJSAddon(CDNBaseAddon):
 
     settings_form = CDNJSForm
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         if not self.instance.pk:
             return ""
         return render_to_string(
@@ -324,7 +328,9 @@ class CDNFilesAddon(CDNBaseAddon):
     )
     needs_component = True
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         if not self.instance.pk:
             return ""
         return render_to_string(

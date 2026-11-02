@@ -69,8 +69,8 @@ from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
-from weblate.screenshots.models import Screenshot
-from weblate.screenshots.views import ensure_tesseract_language
+from weblate.screenshots.models import Screenshot, ScreenshotOCR
+from weblate.screenshots.ocr import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
@@ -110,8 +110,9 @@ from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
-from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.utils.stats import GlobalStats, ProjectLanguage, WorkspaceLanguage
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
@@ -521,6 +522,79 @@ class SeleniumTests(
         if cls._driver is not None:
             cls._driver.quit()
             cls._driver = None
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CHALLENGE_AGE=300,
+        CACHES={
+            "default": {
+                "BACKEND": "django.core.cache.backends.redis.RedisCache",
+                "LOCATION": "redis://localhost:6379/0",
+            }
+        },
+        BOT_PROTECTION_CRAWLER_RULES={},
+        BOT_PROTECTION_UNWANTED_AGENTS=[],
+        BOT_PROTECTION_EXEMPT_PATHS=[],
+        LANGUAGE_CODE="en",
+    )
+    def test_bot_protection(self) -> None:
+        """Capture the anonymous challenge with a stable feature tip and status."""
+        tip = "Press ? in the translation editor to discover keyboard shortcuts."
+        self.driver.delete_all_cookies()
+        # The live server starts before method-level settings overrides. Rebuild
+        # its middleware so bot protection observes this test's configuration.
+        handler = self.server_thread.httpd.get_app()
+        original_chains = []
+        while True:
+            original_chains.append((handler, handler._middleware_chain))  # ruff: ignore[private-member-access]
+            handler.load_middleware()
+            if not hasattr(handler, "application"):
+                break
+            handler = handler.application
+        self.driver.execute_cdp_cmd(
+            "Emulation.setEmulatedMedia",
+            {"features": [{"name": "prefers-color-scheme", "value": "light"}]},
+        )
+        # Hold only the proof worker pending so real verification cannot navigate
+        # away or update the attempt count while the screenshot is captured.
+        script = self.driver.execute_cdp_cmd(
+            "Page.addScriptToEvaluateOnNewDocument",
+            {
+                "source": """
+                const OriginalWorker = window.Worker;
+                window.Worker = class extends OriginalWorker {
+                    constructor(url, options) {
+                        if (new URL(url, location.href).pathname.endsWith('/js/bot-worker.js')) {
+                            return { postMessage() {}, terminate() {} };
+                        }
+                        super(url, options);
+                    }
+                };
+                """
+            },
+        )
+        try:
+            with patch("weblate.utils.bot_protection.random.choice", return_value=tip):
+                self.driver.get(f"{self.live_server_url}/?language=en")
+                self.wait_for_screenshot_ready()
+                self.assert_text_contains("h1", "Checking your browser")
+                self.assert_text_contains("#pow-tip", tip)
+                self.assert_text_contains("#pow-status", "Working…")
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "pow-retry").is_displayed()
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.LINK_TEXT, "Sign in").is_displayed()
+                )
+                self.screenshot("bot-protection.png")
+        finally:
+            for handler, chain in original_chains:
+                handler._middleware_chain = chain  # ruff: ignore[private-member-access]
+            self.driver.execute_cdp_cmd(
+                "Page.removeScriptToEvaluateOnNewDocument",
+                {"identifier": script["identifier"]},
+            )
+            self.driver.execute_cdp_cmd("Emulation.setEmulatedMedia", {"features": []})
 
     def scroll_top(self) -> None:
         self.driver.execute_script(
@@ -2435,6 +2509,67 @@ class SeleniumTests(
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_FUZZY)
 
+    @override_settings(RATELIMIT_TRANSLATE_ATTEMPTS=1)
+    def test_zen_rate_limit_retry(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Zen rate limit", slug="zen-rate-limit")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login()
+        user.groups.add(Group.objects.get(name="Users"))
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.has_perm("unit.edit", unit))
+        reset_rate_limit("translate", user=user)
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{zen_url}")
+
+        row = self.driver.find_element(By.ID, f"row-edit-{unit.checksum}")
+        editor = row.find_element(By.CSS_SELECTOR, ".translation-editor")
+        editor.send_keys("First Zen translation", Keys.TAB)
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: "translation-saved" in (row.get_attribute("class") or "")
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        editor.clear()
+        editor.send_keys("Pending Zen translation", Keys.TAB)
+        rejection = WebDriverWait(self.driver, 15).until(
+            lambda driver: next(
+                (
+                    toast
+                    for toast in driver.find_elements(
+                        By.CSS_SELECTOR, "#popup-toasts .toast-body"
+                    )
+                    if "Your request was rejected" in toast.text
+                ),
+                None,
+            )
+        )
+        self.assertEqual(
+            rejection.text,
+            "Your request was rejected because you have performed too many "
+            "operations recently. Please try again later.",
+        )
+        self.assertEqual(editor.get_attribute("value"), "Pending Zen translation")
+        self.assertIn("has-changes", editor.get_attribute("class") or "")
+        self.assertNotIn("translation-saved", row.get_attribute("class") or "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "First Zen translation\n")
+
+        reset_rate_limit("translate", user=user)
+        editor.click()
+        editor.send_keys(Keys.TAB)
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: "translation-saved" in (row.get_attribute("class") or "")
+        )
+        self.assertNotIn("has-changes", editor.get_attribute("class") or "")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Pending Zen translation\n")
+
     def test_zen_queued_review_change(self) -> None:
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
@@ -3853,6 +3988,66 @@ class SeleniumTests(
             self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
         )
 
+    def test_string_details_stay_open(self) -> None:
+        """The string details panel keeps its open state across strings."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="String details", slug="string-details")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        first = translation.unit_set.get(source="Hello, world!\n")
+        second = translation.unit_set.get(source="Thank you for using Weblate.")
+        self.do_login(superuser=True)
+
+        def open_unit(unit: Unit) -> tuple[WebElement, WebElement]:
+            with self.wait_for_page_load():
+                self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+            button = self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'[data-bs-target="#string-info-details-{unit.id}"]',
+            )
+            panel = self.driver.find_element(By.ID, f"string-info-details-{unit.id}")
+            return button, panel
+
+        def stored() -> str | None:
+            return self.driver.execute_script(
+                "return localStorage.getItem('translate-details');"
+            )
+
+        def wait_settled(panel: WebElement) -> None:
+            WebDriverWait(self.driver, 15).until(
+                lambda _driver: "collapsing" not in (panel.get_attribute("class") or "")
+            )
+
+        # Collapsed by default
+        button, panel = open_unit(first)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+
+        # Opening is remembered on the next string, without animating
+        self.click(button)
+        wait_settled(panel)
+        self.assertTrue(panel.is_displayed())
+        self.assertEqual(stored(), "shown")
+
+        button, panel = open_unit(second)
+        self.assertIn("show", panel.get_attribute("class") or "")
+        self.assertNotIn("collapsing", panel.get_attribute("class") or "")
+        self.assertTrue(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "true")
+        self.assertNotIn("collapsed", button.get_attribute("class") or "")
+
+        # A panel restored open can be closed, and that is remembered too
+        self.click(button)
+        wait_settled(panel)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+        self.assertEqual(stored(), "hidden")
+
+        button, panel = open_unit(first)
+        self.assertFalse(panel.is_displayed())
+        self.assertEqual(button.get_attribute("aria-expanded"), "false")
+
     @reuse_demo_fixture
     @override_settings(
         WEBLATE_MACHINERY=(
@@ -4541,30 +4736,6 @@ class SeleniumTests(
             with self.wait_for_page_load():
                 self.click("Dashboard")
 
-        def wait_search(expected_pk: int | None = None) -> None:
-            time.sleep(0.1)
-            if expected_pk is None:
-                WebDriverWait(self.driver, 15).until(
-                    presence_of_element_located(
-                        (
-                            By.XPATH,
-                            (
-                                '//div[@id="search-results"]'
-                                '//tbody[@class="unit-listing-body"]//tr'
-                            ),
-                        )
-                    )
-                )
-            else:
-                WebDriverWait(self.driver, 15).until(
-                    presence_of_element_located(
-                        (
-                            By.CSS_SELECTOR,
-                            f'#search-results .add-string[data-pk="{expected_pk}"]',
-                        )
-                    )
-                )
-
         capture_unit("source-information.png", "toggle-nearby")
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
@@ -4618,9 +4789,23 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.click("Automatic translation")
 
-        # Perform OCR
-        self.click(htmlid="screenshots-auto")
-        wait_search()
+        # Image text suggestions load automatically, including an empty result.
+        WebDriverWait(self.driver, 30).until(
+            lambda driver: (
+                driver.find_element(
+                    By.CSS_SELECTOR, "#screenshot-image-text"
+                ).get_attribute("aria-busy")
+                == "false"
+                and driver.find_element(
+                    By.CSS_SELECTOR,
+                    "#screenshot-image-text .screenshots-search-summary",
+                ).text
+            )
+        )
+        self.assert_text_contains(
+            "#screenshot-image-text .screenshots-search-summary",
+            "matching source strings found",
+        )
 
         self.screenshot("screenshot-ocr.png")
 
@@ -4647,15 +4832,13 @@ class SeleniumTests(
 
         self.assertEqual(assigned_unit_ids(), [str(other.pk)])
 
-        # Add string manually
-        search_input = self.driver.find_element(By.ID, "search-input")
-        search_input.clear()
-        search_input.send_keys(f"{text!r}")
-        self.click(htmlid="screenshots-search")
-        wait_search(source.pk)
+        self.search_while_screenshot_recognition_pending(
+            uploaded_screenshot, source, text
+        )
         self.click(
             self.driver.find_element(
-                By.CSS_SELECTOR, f'#search-results .add-string[data-pk="{source.pk}"]'
+                By.CSS_SELECTOR,
+                f'#screenshot-search .add-string[data-pk="{source.pk}"]',
             )
         )
         WebDriverWait(self.driver, 15).until(
@@ -4668,6 +4851,13 @@ class SeleniumTests(
         # Newly added string is appended without reordering existing rows
         WebDriverWait(self.driver, 15).until(
             lambda _driver: assigned_unit_ids() == [str(other.pk), str(source.pk)]
+        )
+
+        self.assertFalse(
+            self.find_elements_now(
+                By.CSS_SELECTOR,
+                f'#search-results .screenshot-source-select[value="{source.pk}"]',
+            )
         )
 
         # Removing keeps the remaining rows in place without reloading the page
@@ -4686,8 +4876,118 @@ class SeleniumTests(
             .exists()
         )
 
+        self.check_screenshot_recognition_retry(uploaded_screenshot)
+
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
+
+    def search_while_screenshot_recognition_pending(
+        self, screenshot: Screenshot, source: Unit, text: str
+    ) -> None:
+        # Leave recognition pending while searching in the other tab.
+        ScreenshotOCR.objects.filter(screenshot=screenshot).update(data=None, error="")
+        with patch("weblate.api.views.AsyncResult") as task_result:
+            task = task_result.return_value
+            task.id = str(ScreenshotOCR.objects.get(screenshot=screenshot).task_id)
+            task.ready.return_value = False
+            task.result = None
+            task.state = "PENDING"
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    "Finding strings in image"
+                    in driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#screenshot-image-text .screenshots-search-summary",
+                    ).text
+                )
+            )
+            # Bootstrap tabs support arrow-key navigation.
+            image_tab = self.driver.find_element(By.ID, "screenshot-image-text-tab")
+            image_tab.send_keys(Keys.ARROW_RIGHT)
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-search-tab").get_attribute(
+                        "aria-selected"
+                    )
+                    == "true"
+                )
+            )
+            search_input = self.driver.find_element(By.ID, "search-input")
+            search_input.clear()
+            search_input.send_keys(f"{text!r}")
+            self.click(htmlid="screenshots-search")
+            selection = WebDriverWait(self.driver, 15).until(
+                presence_of_element_located(
+                    (
+                        By.CSS_SELECTOR,
+                        f'#screenshot-search .screenshot-source-select[value="{source.pk}"]',
+                    )
+                )
+            )
+            selection.click()
+            ScreenshotOCR.objects.filter(screenshot=screenshot).update(
+                data={"passes": [{"lines": [{"text": source.source}]}]}
+            )
+            task.result = {"status": "completed"}
+            task.state = "SUCCESS"
+            task.ready.return_value = True
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-image-text").get_attribute(
+                        "aria-busy"
+                    )
+                    == "false"
+                )
+            )
+            self.assertTrue(selection.is_selected())
+            self.assertEqual(
+                self.driver.find_element(By.ID, "screenshot-search-tab").get_attribute(
+                    "aria-selected"
+                ),
+                "true",
+            )
+
+    def check_screenshot_recognition_retry(self, screenshot: Screenshot) -> None:
+        ScreenshotOCR.objects.filter(screenshot=screenshot).update(
+            data=None, error="download"
+        )
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{screenshot.get_absolute_url()}")
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: driver.find_element(
+                By.ID, "screenshots-recognition-retry"
+            ).is_displayed()
+        )
+        self.assert_text_contains(
+            "#screenshot-image-text", "Text recognition data could not be downloaded"
+        )
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
+        ):
+            self.driver.find_element(By.ID, "screenshots-recognition-retry").send_keys(
+                Keys.ENTER
+            )
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    driver.find_element(By.ID, "screenshot-image-text").get_attribute(
+                        "aria-busy"
+                    )
+                    == "false"
+                    and "matching source strings found"
+                    in driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#screenshot-image-text .screenshots-search-summary",
+                    ).text
+                )
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.ID, "screenshots-recognition-retry"
+            ).is_displayed()
+        )
 
     @reuse_demo_fixture
     def test_admin(self) -> None:
@@ -4787,6 +5087,110 @@ class SeleniumTests(
         self.assert_text_contains("table.table-striped", "Owners")
         self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
+
+    def test_workspace_navigation_keyboard_and_mobile(self) -> None:
+        user = self.do_login()
+        first = Workspace.objects.create(name="Alpha workspace")
+        second = Workspace.objects.create(name="Beta workspace")
+        first.add_owner(user)
+        second.add_owner(user)
+
+        for width in (1200, 390):
+            with self.subTest(width=width):
+                self.driver.set_window_size(width, 844)
+                with self.wait_for_page_load():
+                    self.driver.get(f"{self.live_server_url}{reverse('about')}")
+                if width == 390:
+                    self.driver.find_element(By.ID, "navbar-toggle").send_keys(
+                        Keys.ENTER
+                    )
+                    WebDriverWait(self.driver, 5).until(
+                        lambda driver: driver.find_element(
+                            By.ID, "workspaces-menu"
+                        ).is_displayed()
+                    )
+
+                toggle = self.driver.find_element(By.ID, "workspaces-menu")
+                toggle.send_keys(Keys.ARROW_DOWN)
+                self.assertEqual(toggle.get_attribute("aria-expanded"), "true")
+                links = self.driver.find_elements(
+                    By.CSS_SELECTOR, '[aria-labelledby="workspaces-menu"] a'
+                )
+                self.assertEqual(
+                    [link.text for link in links],
+                    [first.name, second.name, "My workspaces"],
+                )
+                self.assertEqual(self.driver.switch_to.active_element, links[0])
+                links[0].send_keys(Keys.ESCAPE)
+                self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+                self.assertEqual(self.driver.switch_to.active_element, toggle)
+                self.assertTrue(
+                    self.driver.execute_script(
+                        "return document.documentElement.scrollWidth <= window.innerWidth"
+                    )
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "projects-menu").is_displayed()
+                )
+                self.assertTrue(
+                    self.driver.find_element(By.ID, "languages-menu").is_displayed()
+                )
+
+                toggle.send_keys(Keys.ARROW_DOWN)
+                with self.wait_for_page_load():
+                    self.driver.switch_to.active_element.send_keys(Keys.ENTER)
+                self.assertEqual(
+                    self.driver.current_url,
+                    f"{self.live_server_url}{first.get_absolute_url()}",
+                )
+
+    @reuse_demo_fixture
+    def test_workspace_languages_keyboard_navigation(self) -> None:
+        project = self.create_component()
+        self.configure_screenshot_machinery(project, memory_only=True)
+        user = self.do_login(superuser=True)
+        with acting_user_context(user):
+            workspace = Workspace.objects.create(name="Review workspace")
+            project.workspace = workspace
+            project.save(update_fields=["workspace"])
+        scope = WorkspaceLanguage(workspace, Language.objects.get(code="cs"))
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{workspace.get_absolute_url()}")
+
+        projects_tab = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#projects"]'
+        )
+        languages_tab = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#languages"]'
+        )
+        projects_tab.send_keys(Keys.ARROW_RIGHT)
+        self.assertEqual(self.driver.switch_to.active_element, languages_tab)
+        languages_tab.send_keys(Keys.ENTER)
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: (
+                "active"
+                in (
+                    driver.find_element(By.ID, "languages").get_attribute("class") or ""
+                )
+            )
+        )
+        language_link = self.driver.find_element(
+            By.CSS_SELECTOR, f'#languages a[href="{scope.get_absolute_url()}"]'
+        )
+        with self.wait_for_page_load():
+            language_link.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.current_url, f"{self.live_server_url}{scope.get_absolute_url()}"
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#translation a.btn-primary"
+            ).send_keys(Keys.ENTER)
+        self.assertTrue(
+            self.driver.current_url.startswith(
+                f"{self.live_server_url}{scope.get_translate_url()}"
+            )
+        )
 
     @reuse_demo_fixture
     def test_project_operations(self) -> None:

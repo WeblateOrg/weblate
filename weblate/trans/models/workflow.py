@@ -56,7 +56,7 @@ class WorkflowSettingQuerySet(models.QuerySet):
             for project_id in sorted(affected_projects):
                 languages = refresh_source_workflows(project_id, using=self.db)
                 reconcile_project_parents(
-                    project_id, language_ids=languages, using=self.db
+                    project_id, language_ids=languages, using=self.db, batch_checks=True
                 )
             return result
 
@@ -188,7 +188,10 @@ class WorkflowSetting(models.Model):
                 for project_id in sorted(project_ids):
                     languages = refresh_source_workflows(project_id, using=database)
                     reconcile_project_parents(
-                        project_id, language_ids=languages, using=database
+                        project_id,
+                        language_ids=languages,
+                        using=database,
+                        batch_checks=True,
                     )
 
     def delete(

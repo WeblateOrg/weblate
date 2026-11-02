@@ -132,6 +132,17 @@ class UserNameCleanTest(SimpleTestCase):
 
 
 class EmailValidatorTestCase(SimpleTestCase):
+    @override_settings(
+        REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False, REGISTRATION_EMAIL_MATCH=".*"
+    )
+    def test_github_noreply(self) -> None:
+        for email in (
+            "octocat@users.noreply.github.com",
+            "12345+octocat@users.noreply.github.com",
+        ):
+            with self.subTest(email=email):
+                self.assertIsNone(EmailValidator()(email))
+
     def test_valid(self) -> None:
         validator = EmailValidator()
         self.assertIsNone(validator("noreply@example.com"))
@@ -352,7 +363,6 @@ class FedoraMessagingURLTest(SimpleTestCase):
         validate_fedora_messaging_url("amqp://broker.example/%2F")
         validate_fedora_messaging_url(
             "amqps://user:password@broker.example:5671/vhost"  # kingfisher:ignore
-            "?connection_attempts=3&retry_delay=5"
         )
 
     def test_invalid_scheme(self) -> None:

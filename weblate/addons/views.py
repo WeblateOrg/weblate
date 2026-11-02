@@ -365,7 +365,7 @@ class AddonList(PathViewMixin, ListView):
                 "form": form,
                 "object": self.path_object,
                 "integration_instructions": integration_addon.get_integration_instructions(
-                    request.user
+                    request.user, request=request
                 ),
             },
         )
@@ -448,7 +448,9 @@ class AddonDetail(BaseAddonView, UpdateView):
         result = super().get_context_data(**kwargs)
         if self.object.is_valid:
             result["integration_instructions"] = (
-                self.object.addon.get_integration_instructions(self.request.user)
+                self.object.addon.get_integration_instructions(
+                    self.request.user, request=self.request
+                )
             )
             execution_form = self.object.addon.get_execution_form()
             if execution_form is not None:

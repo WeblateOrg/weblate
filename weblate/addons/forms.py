@@ -2079,10 +2079,6 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         from .fedora_messaging import FedoraMessagingAddon
 
         result = dict(super().serialize_form())
-        if result.get("amqp_url"):
-            result["amqp_url"] = FedoraMessagingAddon.get_broker_amqp_url(
-                result["amqp_url"]
-            )
         result["topic_prefix"] = FedoraMessagingAddon.normalize_topic_prefix(
             result.get("topic_prefix")
         )
@@ -2116,11 +2112,9 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
 
     def clean(self) -> None:
         # ruff: ignore[import-outside-top-level]
-        from fedora_messaging.exceptions import ConfigurationException
-
-        # ruff: ignore[import-outside-top-level]
         from .fedora_messaging import (
             FedoraMessagingAddon,
+            FedoraMessagingConfigurationError,
         )
 
         amqp_url = self.cleaned_data.get("amqp_url")
@@ -2171,12 +2165,6 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
                     retry_delay=retry_delay,
                     force_update=True,
                 )
-                FedoraMessagingAddon.validate_broker_tls(
-                    FedoraMessagingAddon.get_configured_amqp_url(
-                        amqp_url,
-                        connection_attempts=connection_attempts,
-                        retry_delay=retry_delay,
-                    )
-                )
-            except ConfigurationException as error:
+                FedoraMessagingAddon.validate_broker_tls(amqp_url)
+            except FedoraMessagingConfigurationError as error:
                 raise forms.ValidationError(error.message) from error

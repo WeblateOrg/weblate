@@ -14,6 +14,7 @@ from django.urls import reverse
 from weblate.trans.forms import AutoForm, BulkEditForm, DownloadForm
 from weblate.trans.models import Project, SavedSearch
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -236,6 +237,14 @@ class SavedSearchCreateTest(SavedSearchTestCase):
         saved_search = SavedSearch.objects.get()
         self.assertEqual(saved_search.user, self.user)
         self.assertIsNone(saved_search.project)
+
+    def test_rejects_long_query(self) -> None:
+        response = self.client.post(
+            self.create_url,
+            {"name": "Long", "query": "x" * (MAX_SEARCH_QUERY_LENGTH + 1)},
+        )
+        self.assertContains(response, "Ensure this value has at most 2048 characters")
+        self.assertFalse(SavedSearch.objects.exists())
 
     def test_project_scope(self) -> None:
         self.make_manager()

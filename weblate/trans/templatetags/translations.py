@@ -21,6 +21,7 @@ from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
+from weblate.accounts.visibility import can_browse_users, can_search_scoped_users
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -433,7 +434,7 @@ def announcements(
                     "message.html",
                     {
                         "tags": f"{announcement.severity} announcement",
-                        "message": render_markdown(announcement.message),
+                        "message": render_markdown(announcement.message, viewer=user),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
                             "announcement.delete", announcement
@@ -779,14 +780,14 @@ def can_dismiss_alert(alert: Alert, user: User) -> bool:
 
 
 @register.filter
-def format_commit_author(commit) -> str:
+def format_commit_author(commit, *, viewer: User | AnonymousUser | None = None) -> str:
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
     user = users.first()
     if user is None:
         return commit["author_name"]
-    return get_user_display(user, True, True)
+    return get_user_display(user, True, True, viewer=viewer)
 
 
 @register.filter
@@ -1139,8 +1140,12 @@ def show_info(  # ruff: ignore[too-many-arguments]
 
     This merely exists to be able to pass default values to {% include %}.
     """
+    user = context["user"]
     return {
-        "user": context["user"],
+        "user": user,
+        "profile_viewer": user,
+        "can_browse_users": can_browse_users(user),
+        "can_search_scoped_users": can_search_scoped_users(user),
         "workspace": workspace,
         "project": project,
         "component": component,
@@ -1230,12 +1235,15 @@ def format_last_changes_content(
                 "origin": change.get_origin_display(),
                 "origin_description": change.get_origin_description(),
                 "history_data": get_change_history_context(
-                    change, include_private_details=bool(user.is_authenticated)
+                    change,
+                    include_private_details=bool(user.is_authenticated),
+                    viewer=None if in_email else user,
                 ),
             }
         )
     return {
         "changes_with_context": processed_changes,
+        "profile_viewer": None if in_email else user,
         "in_email": in_email,
         "debug": debug,
         "query_params": QueryDict(search_url or ""),

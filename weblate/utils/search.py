@@ -41,7 +41,7 @@ from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import RegexAnalysisLimitError, re_escape, validate_search_regex
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -69,6 +69,14 @@ SearchParser = Literal["unit", "user", "superuser", "screenshot"]
 class RegexExpr:
     def __init__(self, tokens) -> None:
         self.expr = tokens[1]
+        # Validate before a query reaches PostgreSQLRegexLookup, so search
+        # surfaces return their usual query error for excessive expressions.
+        try:
+            validate_search_regex(self.expr)
+        except RegexAnalysisLimitError as error:
+            raise SearchQueryError(
+                gettext("Regular expression is too complex.")
+            ) from error
 
 
 class RangeExpr:
@@ -87,6 +95,8 @@ OPERATOR_MAP = {
 }
 
 MAX_PARSED_QUERY_CLAUSES = 64
+MAX_SEARCH_QUERY_LENGTH = 2048
+MAX_SEARCH_QUERY_TERMS = 128
 
 
 @dataclass(slots=True)
@@ -1367,17 +1377,30 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=32)
 def parse_string(text: str, parser: SearchParser) -> ParseResults:
+    if len(text) > MAX_SEARCH_QUERY_LENGTH:
+        raise SearchQueryError(gettext("Search query is too long."))
     if "\x00" in text:
         raise SearchQueryError(gettext("Invalid character in the query string"))
     with PARSER_LOCK:
         try:
-            return PARSERS[parser].parse_string(text, parse_all=True)
+            parsed = PARSERS[parser].parse_string(text, parse_all=True)
         except ParseException as error:
             raise SearchQueryError(
                 gettext("Failed to parse the query string: {}").format(error)
             ) from error
+
+    remaining = [parsed]
+    term_count = 0
+    while remaining:
+        for item in remaining.pop():
+            if isinstance(item, BaseTermExpr):
+                term_count += 1
+                if term_count > MAX_SEARCH_QUERY_TERMS:
+                    raise SearchQueryError(gettext("Search query is too complex."))
+            elif isinstance(item, ParseResults):
+                remaining.append(item)
+    return parsed
 
 
 @lru_cache(maxsize=128)

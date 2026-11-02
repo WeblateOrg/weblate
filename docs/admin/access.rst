@@ -277,8 +277,13 @@ Blocking users
 .. versionadded:: 4.7
 
 If users misbehave in your project, you can block them from contributing.
-With the relevant permissions blocked, users can still see the project,
-but won't be able to contribute.
+Blocked users cannot access the project or use their project permissions,
+including project administration permissions. Site superusers are exempt.
+
+Blocking preserves team memberships. Permissions granted by those memberships
+apply again when the block expires or is removed. Blocking does not cancel
+background work that was already authorized or remove existing administrative
+configuration, such as add-ons.
 
 .. _cleanup-user-contributions:
 
@@ -384,9 +389,15 @@ You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
 the site-wide permissions provided by membership in the `Users` and `Reviewers` teams
 won’t have any effect.
 
-You may also grant some additional permissions of your choice to the default
-teams. For example, you may want to give a permission to manage screenshots to all
-the `Users`.
+You may also grant additional permissions to the default teams. To change a
+built-in role for every team using it, customize its permissions as described in
+:ref:`default-roles`. For example, adding screenshot permissions to `Power user`
+affects the `Users` team and any other teams assigned that role.
+
+To change permissions for only one team, create a custom role and assign it to
+that team. Custom roles remain independent of upstream defaults. To reduce a
+team's permissions, replace or remove its existing roles as needed; adding a
+narrower role does not revoke permissions granted by another role.
 
 You can define some new custom teams as well. If you want to
 keep managing your permissions site-wide for these teams, choose an
@@ -667,15 +678,46 @@ be accomplished with an expression like ``^.*@mycompany.com``.
     Bulk inviting through the user interface creates invitations. Existing
     users still have to confirm the invitation before they become team members.
 
+.. _default-roles:
+
 Default teams and roles
 -----------------------
 
 After installation, a default set of teams is created (see :ref:`default-teams`).
 
-These roles and teams are created upon installation. The built-in roles are
-always kept up to date by the database migration when upgrading. You can’t
-actually change them, please define a new role if you want to define your own
-set of permissions.
+These roles and teams are created upon installation. Administrators can edit
+built-in role permissions in the management interface or through the REST API.
+Built-in roles have fixed names and cannot be deleted. The role list identifies
+built-in roles and indicates whether their permissions are customized. Editing a
+role affects every team assigned that role. You no longer need to create a custom
+role solely to change built-in defaults; use a custom role when you need an
+independent permission set for selected teams.
+
+During upgrades, database migrations merge changes to the built-in defaults with
+your assigned permissions. Locally added permissions remain assigned, and locally
+removed permissions remain excluded. New upstream permissions are added, and
+permissions removed from upstream defaults are removed. Custom roles are unchanged.
+The merge compares permission sets, not editing history: keeping an existing
+default permission does not record a separate local addition. If an upstream
+permission is removed and later reintroduced, it is treated as a new upstream
+addition. A previous local removal does not survive the permission's intervening
+absence from upstream defaults.
+
+To discard customizations, select built-in roles and use :guilabel:`Reset built-in
+roles to defaults` in the management interface, then confirm the reset. Resetting
+applies the current upstream defaults to all teams using those roles.
+
+.. versionchanged:: 2026.11
+
+   Built-in role permissions became editable. On the first upgrade to this
+   version, existing built-in roles are assumed to be synchronized and receive
+   the current defaults. Earlier changes made through the API or database are
+   replaced. Subsequent upgrades preserve local customizations.
+
+   Existing custom roles named `Discover users` or `View user profiles` are
+   renamed with a ``(custom)`` suffix before the new built-in roles are created.
+   A numbered suffix is used if that name is already taken. Their permissions
+   and team assignments are preserved.
 
 .. _privileges:
 
@@ -689,9 +731,9 @@ set of permissions.
    instance when assigned through a site-wide team. The team's project
    selection does not narrow these permissions.
 
-   Site-wide privileges are not granted to any default role. Treat custom roles
-   containing them as trusted administrative access because some are
-   effectively equivalent to superuser status. For example, ``group.edit``
+   Site-wide privileges are not granted to any default role. Treat any roles
+   containing them, including customized built-in roles, as trusted administrative
+   access because some are effectively equivalent to superuser status. For example, ``group.edit``
    allows changing team scope to grant access to private projects, and
    ``user.edit`` allows users to change their own team memberships and grant
    themselves superuser status. See :ref:`site-wide-team-management` and
@@ -716,7 +758,7 @@ however, re-create them if you delete or rename them.
     Remove roles from this team to limit permissions for
     non-authenticated users.
 
-    Default roles: `Add suggestion`, `Access repository`
+    Default roles: `Add suggestion`, `Access repository`, `View user profiles`
 
 `Viewers`
     This role ensures the visibility of public projects to all users.
@@ -733,7 +775,7 @@ however, re-create them if you delete or rename them.
     By default, :ref:`automatic team assignment <autoteam>` makes all new
     accounts members of this team when they join.
 
-    Default roles: `Power user`
+    Default roles: `Power user`, `Discover users`, `View user profiles`
 
 `Reviewers`
     Group for reviewers (see :ref:`workflows`).
@@ -783,3 +825,5 @@ Expiration of user accounts
 Each account can have an expiry set. After the expiration, the account will be
 automatically disabled. This is used for :ref:`project-api`, but can be
 utilized for regular users as well.
+
+See :doc:`privacy` to configure user discovery and profile access through roles.

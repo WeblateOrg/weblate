@@ -6,9 +6,13 @@
   SPDX-License-Identifier: FSFAP
 -->
 <its:rules xmlns:its="http://www.w3.org/2005/11/its"
+           xmlns:mi="https://specifications.freedesktop.org/metainfo/1.0"
            version="2.0">
 
-  <its:translateRule selector="/component" translate="no"/>
+  <!-- MetaInfo files should not have an XML namespace, but the spec permits
+       one, so every rule must also match the namespaced variant -->
+
+  <its:translateRule selector="/component | /mi:component" translate="no"/>
   <its:translateRule selector="/component/name |
                                /component/summary |
                                /component/description |
@@ -19,35 +23,34 @@
                                /component/screenshots/screenshot/caption |
                                /component/releases/release/description |
                                /component/agreement/agreement_section/name |
-                               /component/agreement/agreement_section/description"
+                               /component/agreement/agreement_section/description |
+                               /mi:component/mi:name |
+                               /mi:component/mi:summary |
+                               /mi:component/mi:description |
+                               /mi:component/mi:developer_name |
+                               /mi:component/mi:developer/mi:name |
+                               /mi:component/mi:name_variant_suffix |
+                               /mi:component/mi:keywords/mi:keyword |
+                               /mi:component/mi:screenshots/mi:screenshot/mi:caption |
+                               /mi:component/mi:releases/mi:release/mi:description |
+                               /mi:component/mi:agreement/mi:agreement_section/mi:name |
+                               /mi:component/mi:agreement/mi:agreement_section/mi:description"
                      translate="yes"/>
-
-  <its:withinTextRule withinText="yes" selector="/component//description//em   |
-                                                 /component//description//code |
-                                                 /releases/release/description//em |
-                                                 /releases/release/description//code"/>
-
-  <its:translateRule selector="/component/name[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/developer_name[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/developer/name[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/name_variant_suffix[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/keywords/keyword[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/releases/release/description[@translate = 'no']"
-                     translate="no"/>
-  <its:translateRule selector="/component/agreement/agreement_section/name[@translate = 'no'] |
-                               /component/agreement/agreement_section/description[@translate = 'no']"
-                     translate="no"/>
 
   <!-- Release metadata -->
-  <its:translateRule selector="/releases" translate="no"/>
-  <its:translateRule selector="/releases/release/description"
+  <its:translateRule selector="/releases | /mi:releases" translate="no"/>
+  <its:translateRule selector="/releases/release/description |
+                               /mi:releases/mi:release/mi:description"
                      translate="yes"/>
-  <its:translateRule selector="/releases/release/description[@translate = 'no']"
+
+  <its:withinTextRule withinText="yes" selector="//description//em |
+                                                 //description//code |
+                                                 //mi:description//mi:em |
+                                                 //mi:description//mi:code"/>
+
+  <!-- Anything explicitly marked as untranslatable will not be translated. We allow this for all elements,
+       except for elements within a description, which can only be excluded as a whole. -->
+  <its:translateRule selector="//*[@translate = 'no'][not(ancestor::description or ancestor::mi:description)]"
                      translate="no"/>
 
 </its:rules>

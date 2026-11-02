@@ -327,13 +327,10 @@ Users
     username, and full name of matching non-bot users. Users with either
     permission can list all users and receive detailed information.
 
-    :setting:`USER_DIRECTORY_VISIBILITY` can restrict discovery to accessible
-    resources. In ``scoped`` and ``disabled`` modes, ordinary users must supply
-    a resource-bounded ``q`` query or an accessible ``unit`` context to discover
-    other users. Generic filters cannot expand that scope; blocked searches
-    return no results. Self access and global administrative access remain
-    available. Basic contributor discovery is independent of
-    :setting:`USER_PROFILE_VISIBILITY`.
+    Without ``user.browse``, discovery requires a resource-bounded ``q`` query
+    or accessible ``unit`` context. Generic filters cannot expand that scope.
+    Scoped REST discovery does not require ``user.search`` or ``user.profile``.
+    Self and administrative access remain available. See :doc:`admin/privacy`.
 
     :query string q: User search query, such as ``contributes:project`` or ``contributes:project/component``. Every matching Boolean branch must have a positive resource scope in restricted directory modes.
     :query int unit: Rank contributors to this string first. In restricted directory modes, results are limited to contributors to its translation.
@@ -370,7 +367,7 @@ Users
 
 .. http:get:: /api/users/(str:username)/
 
-    Access follows :setting:`USER_PROFILE_VISIBILITY`. Restricted profiles
+    Access follows the global ``user.profile`` permission. Restricted profiles
     return HTTP 404; self access and global administrative access are retained.
 
     Returns information about users.
@@ -873,6 +870,8 @@ Roles
     :type id: int
     :>json string name: Role name
     :>json array permissions: list of codenames of permissions
+    :>json boolean is_builtin: whether this is a built-in role (read-only)
+    :>json boolean is_customized: whether a built-in role differs from current defaults (read-only)
 
     **Example JSON data:**
 
@@ -889,7 +888,7 @@ Roles
 
 .. http:put:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     :param id: Role's ID
     :type id: int
@@ -898,7 +897,7 @@ Roles
 
 .. http:patch:: /api/roles/(int:id)/
 
-    Changes the role parameters.
+    Changes the role parameters. Built-in role names cannot be changed.
 
     When supplied, ``permissions`` replaces the role's complete permission set.
     Omit it to keep the existing permissions unchanged, or pass an empty list to
@@ -911,7 +910,17 @@ Roles
 
 .. http:delete:: /api/roles/(int:id)/
 
-    Deletes the role.
+    Deletes a custom role. Built-in roles cannot be deleted.
+
+    :param id: Role's ID
+    :type id: int
+
+
+.. http:post:: /api/roles/(int:id)/reset/
+
+    Resets a built-in role to current upstream permission defaults and returns
+    the updated role. Requires the same role-management permission as editing.
+    Custom roles cannot be reset.
 
     :param id: Role's ID
     :type id: int
@@ -3946,12 +3955,27 @@ Metrics
     :>json int configuration_errors: Number of configuration errors
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json object bot_protection: Best-effort hourly bot protection counts, or null when disabled or unavailable
     :>json string name: Configured server name
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
     when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
     exposed as gauges.
+
+    ``bot_protection`` contains ``current_hour`` and ``previous_24_hours``
+    objects. The latter covers the previous 24 completed hours, excluding the
+    current hour. Each contains integer counts for ``issued``, ``pow_required``, ``success``,
+    ``expired_challenge``, ``invalid_solution``, ``replayed_challenge``,
+    ``csrf_failed``, and ``verification_unavailable``. Hours are UTC-aligned;
+    counts can be lost through cache eviction or outages. The ``pow_required``
+    count covers requests rejected without issuing a challenge because of their
+    method or Accept header. It excludes explicit ``bot_denied`` policy denials
+    and exempt requests, and counts requests rather than unique clients.
+
+    CSV responses flatten these objects into columns. OpenMetrics exposes
+    ``bot_protection_events`` gauges with ``window`` and ``event`` labels,
+    omitting these samples when protection is disabled or counters are unavailable.
 
 Project metrics expose translation statistics for each visible component and
 language at :http:get:`/api/projects/(string:project)/metrics/`. They include

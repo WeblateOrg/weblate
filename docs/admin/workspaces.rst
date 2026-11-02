@@ -20,8 +20,14 @@ workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`.
 
 Signed-in users can open :guilabel:`Projects` ↓ :guilabel:`My workspaces` to
 list workspaces where they have an explicit workspace-team assignment. This
-list does not include workspaces merely because the user has site-wide
-management access.
+list also includes workspaces containing a watched project when the workspace
+contains more than one project in total. Public project access or site-wide
+management access alone does not add workspaces to this list.
+
+When at least two workspaces match these rules, a :guilabel:`Workspaces` menu
+appears in the global navigation. It shows up to ten workspaces ordered by name,
+with a :guilabel:`My workspaces` link to the full listing. Workspace navigation
+does not grant additional access to projects.
 
 Site managers can list all workspaces in the management interface at
 :guilabel:`Manage` ↓ :guilabel:`Workspaces`.
@@ -32,6 +38,18 @@ Workspace statistics aggregate all owned and shared content, including projects
 and restricted components that you cannot access. Project listings and actions
 remain permission-filtered. See
 :ref:`statistics access filtering <statistics-access-filtering>`.
+
+The :guilabel:`Languages` tab lists language statistics across workspace
+projects. Select a language to open its translation overview, then use
+:guilabel:`Translate`, :guilabel:`Zen`, or a review status link to work across
+projects while keeping the workspace and language selected. Each translation
+uses its project's workflow and permissions.
+
+As on project pages, language statistics and component listings include shared
+components. Workspace language search, translation, and review actions cover
+owned components only. Open a shared component's translation individually to
+work on it. Aggregate statistics retain the visibility rules described above;
+translation listings and actions remain permission-filtered.
 
 The workspace :guilabel:`Files` menu downloads a ZIP archive of owned
 components that you can access and have permission to download. Workspace

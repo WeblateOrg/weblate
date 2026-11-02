@@ -776,7 +776,7 @@ can point to the metadata screenshot folder, for example
 ``fastlane/metadata/android/en-US/images/phoneScreenshots/*.png``. Weblate will
 discover matching screenshots on repository update. The discovered screenshots
 still need to be associated with source strings in the screenshot management
-interface; use OCR or source string search there to assign them in bulk.
+interface; use image text recognition or source string search there to assign them in bulk.
 
 .. _component-template:
 

@@ -14,11 +14,14 @@ from django.test import TestCase as DjangoTestCase
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.db import (
+    RegexAnalysisLimitError,
     adjust_similarity_threshold,
     get_database_disk_usage,
     get_database_size,
     get_invalid_database_statistics,
     re_escape,
+    regex_needs_trgm_fallback,
+    validate_search_regex,
 )
 
 if TYPE_CHECKING:
@@ -29,6 +32,36 @@ BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
 
 class DbTest(TestCase):
+    def test_regex_fallback(self) -> None:
+        for pattern in (
+            "[a-z]",
+            "(a|b|c){30}",
+            "hello|.",
+            "(hello)?",
+            ".{100}",
+            "hello?",
+            r"\whello",
+        ):
+            with self.subTest(pattern=pattern):
+                self.assertTrue(regex_needs_trgm_fallback(pattern))
+        for pattern in ("hello", "^hello.*world$", "(?i).*hello.*"):
+            with self.subTest(pattern=pattern):
+                self.assertFalse(regex_needs_trgm_fallback(pattern))
+
+    def test_regex_limits(self) -> None:
+        for pattern in (
+            "a" * 257,
+            "(" * 33 + "a" + ")" * 33,
+            "(a){30000000}",
+            "(a){30000000,}",
+        ):
+            with (
+                self.subTest(pattern=pattern),
+                self.assertRaises(RegexAnalysisLimitError),
+            ):
+                validate_search_regex(pattern)
+        validate_search_regex(r"\{30000000\}")
+
     def test_re_escape(self) -> None:
         self.assertEqual(re_escape("[a-z]"), "\\[a\\-z\\]")
         self.assertEqual(re_escape("a{1,4}"), "a\\{1,4\\}")
@@ -183,6 +216,16 @@ class DatabaseStatisticsTest(DjangoTestCase):
 
 
 class PostgreSQLOperatorTest(TestCase):
+    def test_regex(self) -> None:
+        for pattern in ("a", "(a|b|c){30}", "hello|.", "(hello)?", ".{100}"):
+            with self.subTest(pattern=pattern):
+                queryset = Unit.objects.filter(source__trgm_regex=pattern).only("id")
+                self.assertIn("|| ''", str(queryset.query))
+        queryset = Unit.objects.filter(source__trgm_regex="hello.*world").only("id")
+        self.assertNotIn("|| ''", str(queryset.query))
+        with self.assertRaises(RegexAnalysisLimitError):
+            Unit.objects.filter(source__trgm_regex="(a){30000000}")
+
     def test_search(self) -> None:
         queryset = Unit.objects.filter(source__trgm_search="test").only("id")
         self.assertEqual(

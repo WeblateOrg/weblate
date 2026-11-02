@@ -1422,6 +1422,55 @@ class AlertTest(ReusableViewTestCase):
         self.component.save(update_fields=["vcs_params"])
         self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
 
+    def set_pull_request_customization(self, **vcs_params) -> None:
+        self.component.vcs = "github"
+        self.component.vcs_params = vcs_params
+        self.component.save(update_fields=["vcs", "vcs_params"])
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert(self) -> None:
+        self.set_pull_request_customization(merge_request_labels="translations")
+        self.component.handle_pull_request_update_failure(
+            "GitHub API request failed while customizing a pull request (403): "
+            "Resource not accessible by integration"
+        )
+        alert = self.component.alert_set.get(name="PullRequestUpdateFailure")
+
+        rendered = alert.render(self.user)
+        self.assertIn("Resource not accessible", rendered)
+        self.assertIn("could not apply the configured labels or assignees", rendered)
+
+        self.component.handle_pull_request_update_success()
+        self.assertFalse(
+            self.component.alert_set.filter(name="PullRequestUpdateFailure").exists()
+        )
+
+    def assert_pull_request_update_failure_cleared(self, **vcs_params) -> None:
+        self.set_pull_request_customization(merge_request_assignee="octocat")
+        self.component.handle_pull_request_update_failure("boom")
+        self.assertIn("PullRequestUpdateFailure", self.get_problem_alert_names())
+
+        self.set_pull_request_customization(**vcs_params)
+        self.assertNotIn("PullRequestUpdateFailure", self.get_problem_alert_names())
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert_cleared_when_turned_off(self) -> None:
+        self.assert_pull_request_update_failure_cleared()
+
+    @override_settings(
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
+    )
+    def test_pull_request_update_failure_alert_cleared_without_merge_request(
+        self,
+    ) -> None:
+        self.assert_pull_request_update_failure_cleared(
+            merge_request_assignee="octocat", create_merge_request=False
+        )
+
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Duplicated translation")

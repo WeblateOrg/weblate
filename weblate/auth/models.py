@@ -38,6 +38,7 @@ from weblate.auth.data import (
     ACL_GROUPS,
     GLOBAL_PERM_NAMES,
     PERMISSION_NAMES,
+    ROLES,
     SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
@@ -65,6 +66,7 @@ from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.regex import regex_match
 from weblate.utils.search import parse_query
@@ -201,6 +203,27 @@ class Role(models.Model):
 
     def __str__(self) -> str:
         return pgettext("Access-control role", self.name)
+
+    @property
+    def is_builtin(self) -> bool:
+        return self.name in dict(ROLES)
+
+    @property
+    def is_customized(self) -> bool:
+        defaults = dict(ROLES).get(self.name)
+        return defaults is not None and {
+            permission.codename for permission in self.permissions.all()
+        } != set(defaults)
+
+    def reset_permissions(self) -> None:
+        defaults = dict(ROLES).get(self.name)
+        if defaults is None:
+            msg = "Only built-in roles can be reset."
+            raise ValueError(msg)
+        with transaction.atomic(using=self._state.db):
+            self.permissions.set(
+                Permission.objects.using(self._state.db).filter(codename__in=defaults)
+            )
 
 
 def _fetch_relation_ids(
@@ -924,7 +947,9 @@ class User(AbstractBaseUser):
         # ruff: ignore[mutable-class-default]
         constraints = [
             UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
-            UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
+            UniqueConstraint(
+                email_key_expression("email"), name="weblate_auth_user_email_ci"
+            ),
         ]
 
     def __str__(self) -> str:
@@ -1560,6 +1585,14 @@ class User(AbstractBaseUser):
                         condition = Q()
                         break
                     condition |= Q(access_control=access)
+        if not self.is_superuser:
+            blocked_ids = {
+                project_id
+                for project_id, permissions in self.project_permissions.items()
+                if permissions == [(None, None)]
+            }
+            if blocked_ids:
+                condition &= ~Q(pk__in=blocked_ids)
         return Project.objects.filter(condition).distinct().order()
 
     def workspace_ids_with_perm(self, perm: str) -> set[uuid.UUID]:
@@ -1795,7 +1828,7 @@ class User(AbstractBaseUser):
         if not email:
             return False
         return (
-            bool(self.email and self.email.casefold() == email.casefold())
+            bool(self.email and email_key(self.email) == email_key(email))
             or User.objects.filter(
                 pk=self.pk, social_auth__verifiedemail__email__iexact=email
             ).exists()
@@ -2189,7 +2222,7 @@ class Invitation(models.Model):
         )
 
     def matches_email(self, email: str) -> bool:
-        return bool(self.email and email and self.email.casefold() == email.casefold())
+        return bool(self.email and email and email_key(self.email) == email_key(email))
 
     def matches_user(self, user: User) -> bool:
         if self.user_id is not None:

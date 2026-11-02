@@ -74,6 +74,7 @@ from weblate.utils.stats import (
     GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     ProjectLanguage,
+    WorkspaceLanguage,
     get_non_glossary_stats,
     prefetch_stats,
 )
@@ -257,8 +258,13 @@ def show(request: AuthenticatedHttpRequest, path):
             ProjectLanguage,
             Category,
             CategoryLanguage,
+            WorkspaceLanguage,
         ),
     )
+    if isinstance(obj, WorkspaceLanguage):
+        from weblate.workspaces.views import show_workspace_language  # ruff: ignore[import-outside-top-level]
+
+        return show_workspace_language(request, obj)
     if isinstance(obj, Project):
         return show_project(request, obj)
     if isinstance(obj, Component):
@@ -833,6 +839,7 @@ def show_translation(
             language=obj.language,
         )
         .exclude(component__is_glossary=True)
+        .filter_access(user)
         .order_by("component__name")
         .exclude(pk=obj.pk)[:10]
     )
@@ -852,7 +859,7 @@ def show_translation(
 
         # Figure out missing components
         available_components = [
-            c for c in project.child_components if not c.is_glossary
+            c for c in project.get_child_components_access(user) if not c.is_glossary
         ]
 
         all_components = {c.id for c in available_components}

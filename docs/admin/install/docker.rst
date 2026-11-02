@@ -732,18 +732,6 @@ Generic settings
 
    Configures :setting:`ADMINS_CONTACT`.
 
-.. envvar:: WEBLATE_USER_DIRECTORY_VISIBILITY
-
-   Controls user discovery: ``all`` (default), ``scoped``, or ``disabled``.
-   Resource-scoped API searches and autocomplete remain available in both
-   restricted modes. See :setting:`USER_DIRECTORY_VISIBILITY`.
-
-.. envvar:: WEBLATE_USER_PROFILE_VISIBILITY
-
-   Controls profile access: ``public`` (default), ``authenticated``, or ``admins``.
-   Self access and administrative access remain available. This is independent
-   of directory visibility. See :setting:`USER_PROFILE_VISIBILITY`.
-
 .. envvar:: WEBLATE_CONTACT_FORM
 
      Configures contact form behavior, see :setting:`CONTACT_FORM`.
@@ -1280,6 +1268,9 @@ Generic settings
 .. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_LOCKOUT
 .. envvar:: WEBLATE_RATELIMIT_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_OCR_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_OCR_LOCKOUT
 
    .. versionadded:: 4.6
 
@@ -1296,6 +1287,9 @@ Generic settings
       * :setting:`RATELIMIT_ATTEMPTS`
       * :setting:`RATELIMIT_WINDOW`
       * :setting:`RATELIMIT_LOCKOUT`
+      * :setting:`RATELIMIT_OCR_ATTEMPTS`
+      * :setting:`RATELIMIT_OCR_WINDOW`
+      * :setting:`RATELIMIT_OCR_LOCKOUT`
 
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER
@@ -1428,6 +1422,8 @@ Generic settings
    .. versionadded:: 5.16
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
+
+See :doc:`/admin/privacy` for privacy configuration examples.
 
    To use private commit e-mails and names by default, set both opt-in variables
    to ``False`` in :file:`docker-compose.override.yml`:
@@ -3297,6 +3293,58 @@ You can then turn on the Anubis usage in Weblate using:
 .. seealso::
 
    :envvar:`WEBLATE_ANUBIS_URL`
+
+Application-aware proof of work
++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2026.11
+
+This integration is a technology preview. See :ref:`bot-protection` for its
+stability and maintenance policy.
+
+.. envvar:: WEBLATE_BOT_PROTECTION_ENABLED
+.. envvar:: WEBLATE_BOT_PROTECTION_DIFFICULTY
+.. envvar:: WEBLATE_BOT_PROTECTION_CHALLENGE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_COOKIE_AGE
+.. envvar:: WEBLATE_BOT_PROTECTION_CACHE_ALIAS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_PATHS
+.. envvar:: WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_FILE
+.. envvar:: WEBLATE_BOT_PROTECTION_CRAWLER_RULES
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_AGENTS
+.. envvar:: WEBLATE_BOT_PROTECTION_UNWANTED_ACTION
+
+Enable :ref:`bot-protection` with :envvar:`WEBLATE_BOT_PROTECTION_ENABLED` set to
+``1``. The Django gate works without an Anubis container. During migration,
+remove ``WEBLATE_ANUBIS_URL`` from the container environment and recreate the
+container to remove the NGINX Anubis subrequest gate. Keeping both enabled can
+produce two challenges; application authentication cannot bypass an upstream
+Anubis challenge. Existing Anubis configuration and cookies are not modified or
+trusted by the application gate.
+
+Every ``BOT_PROTECTION_*`` setting has a matching ``WEBLATE_BOT_PROTECTION_*``
+environment variable: ``DIFFICULTY`` (4), ``CHALLENGE_AGE`` (300), ``COOKIE_AGE``
+(3600), ``CACHE_ALIAS`` (default), ``EXEMPT_PATHS`` (empty list),
+``EXEMPT_AGENTS`` (empty list), ``CRAWLER_FILE`` (empty), ``CRAWLER_RULES`` (empty
+JSON object), ``UNWANTED_AGENTS`` (empty list), and ``UNWANTED_ACTION`` (challenge). Lists use the standard comma-separated
+Docker setting syntax. Configure a persistent writable crawler snapshot and run
+``weblate update_crawler_ranges`` daily from an external scheduler; application
+workers do not perform refreshes. Restart application workers after updating
+the snapshot; ranges are loaded only at startup and do not expire by age. Use
+the existing shared cache for replay protection and best-effort verification
+counters, shown in the management overview.
+
+Set :envvar:`WEBLATE_BOT_PROTECTION_EXEMPT_AGENTS` to comma-separated,
+case-insensitive User-Agent regular expressions for monitoring exemptions.
+For example, ``^Weblate-Uptime/1\.0$`` exempts a monitor using that exact agent.
+Matching requests bypass bot protection for all methods and paths, including
+unwanted-agent denial. This trusts a spoofable header and does not grant
+application access; see :setting:`BOT_PROTECTION_EXEMPT_AGENTS`.
+
+HTTPS, trusted proxy IP handling, same-origin challenge assets, and bypassing
+shared proxy caches for protected application routes are required. Deployments
+with CDN-hosted static files must provide these challenge assets at the same
+origin as Weblate.
 
 Configuring PostgreSQL server
 -----------------------------

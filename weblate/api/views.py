@@ -247,7 +247,11 @@ from weblate.utils.stats import (
     prefetch_stats,
 )
 from weblate.utils.task_log import get_visible_task_log
-from weblate.utils.views import download_translation_file, zip_download
+from weblate.utils.views import (
+    download_translation_file,
+    snapshot_file_response,
+    zip_download,
+)
 from weblate.workspaces.models import Workspace
 
 from .renderers import (
@@ -715,16 +719,24 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def download_file(
         self, filename: str, content_type: str, component: Component | None = None
     ) -> HttpResponseBase:
-        """Download file."""
+        """Download file; component callers must hold the repository lock."""
+        repository = (
+            component.effective_repo_component.repository if component else None
+        )
         if os.path.isdir(filename):
             return zip_download(
                 filename,
                 [filename],
                 name=component.slug if component else "weblate",
+                refresh_lock=repository.lock.reacquire if repository else None,
             )
         if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
             raise Http404(msg)
+        if repository is not None:
+            return snapshot_file_response(
+                filename, content_type, repository.lock.reacquire, as_attachment=True
+            )
         return FileResponse(
             open(filename, "rb"),
             content_type=content_type,
@@ -1171,7 +1183,7 @@ def get_delete_memory_option(request: Request) -> bool:
             "after trimming surrounding whitespace; "
             "such searches return basic information about matching non-bot users. "
             "Users with either permission can list all users and receive detailed "
-            "information. USER_DIRECTORY_VISIBILITY can require resource-scoped "
+            "information. Without user.browse, searches require resource-scoped "
             "discovery; a positive contributes scope or accessible unit context is "
             "then required to discover other users."
         ),
@@ -1221,7 +1233,7 @@ def get_delete_memory_option(request: Request) -> bool:
     ),
     retrieve=extend_schema(
         description=(
-            "Return information about users, subject to USER_PROFILE_VISIBILITY. "
+            "Return information about users, subject to user.profile permission. "
             "Restricted profiles return HTTP 404; self and administrative access "
             "are retained."
         ),
@@ -1281,8 +1293,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
-        if settings.USER_PROFILE_VISIBILITY != "public":
-            add_never_cache_headers(response)
+        add_never_cache_headers(response)
         return response
 
     @cached_property
@@ -1339,6 +1350,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 ).distinct()
                 bounded = True
             if not bounded:
+                # Directory restrictions never hide the caller's own account.
+                if "username" in self.request.GET and not scoped:
+                    return queryset.filter(pk=user.pk)
                 return User.objects.none()
         if (
             not privileged
@@ -2051,9 +2065,12 @@ class RoleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.has_perm("role.edit") or user.has_perm("role.view"):
-            return Role.objects.order_by("id").all()
+            return Role.objects.order_by("id").prefetch_related("permissions")
         return (
-            Role.objects.filter(group__in=user.groups.all()).order_by("id").distinct()
+            Role.objects.filter(group__in=user.groups.all())
+            .order_by("id")
+            .distinct()
+            .prefetch_related("permissions")
         )
 
     def perm_check(self, request: Request) -> None:
@@ -2073,7 +2090,21 @@ class RoleViewSet(viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a role."""
         self.perm_check(request)
+        if self.get_object().is_builtin:
+            self.permission_denied(request, "Built-in roles cannot be deleted")
         return super().destroy(request, *args, **kwargs)
+
+    @extend_schema(request=None, responses=RoleSerializer)
+    @action(detail=True, methods=["post"])
+    def reset(self, request: Request, **kwargs):
+        """Reset a built-in role to its current default permissions."""
+        self.perm_check(request)
+        role = self.get_object()
+        if not role.is_builtin:
+            msg = "Only built-in roles can be reset."
+            raise ValidationError(msg)
+        role.reset_permissions()
+        return Response(self.get_serializer(role).data)
 
 
 def validate_report_scope_access(user, scope) -> None:
@@ -3329,13 +3360,16 @@ class ComponentViewSet(
         if not request.user.has_perm("translation.download", obj):
             raise PermissionDenied
 
-        if not obj.has_template():
-            msg = "No template found!"
-            raise Http404(msg)
+        with obj.effective_repo_component.repository.lock:
+            if not obj.has_template():
+                msg = "No template found!"
+                raise Http404(msg)
 
-        return self.download_file(
-            obj.get_template_filename(), obj.template_store.mimetype(), component=obj
-        )
+            return self.download_file(
+                obj.get_template_filename(),
+                obj.template_store.mimetype(),
+                component=obj,
+            )
 
     @extend_schema(
         description="Download template file for new translations.",
@@ -3355,7 +3389,10 @@ class ComponentViewSet(
             msg = "No file found!"
             raise Http404(msg)
 
-        return self.download_file(obj.get_new_base_filename(), "application/binary")
+        with obj.effective_repo_component.repository.lock:
+            return self.download_file(
+                obj.get_new_base_filename(), "application/binary", component=obj
+            )
 
     @extend_schema(
         description="Return a list of translation objects in the given component.",

@@ -102,9 +102,11 @@ from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
 )
+from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
+from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
@@ -202,7 +204,11 @@ class ReportCreateSerializer(serializers.Serializer):
     counting_mode = serializers.ChoiceField(
         choices=("unique", "all"), required=False, default="unique"
     )
-    q = serializers.CharField(required=False, default="state:<translated")
+    q = serializers.CharField(
+        required=False,
+        default="state:<translated",
+        max_length=MAX_SEARCH_QUERY_LENGTH,
+    )
     base_rate = serializers.DecimalField(
         required=False,
         default=Decimal(1),
@@ -788,6 +794,11 @@ class ProfileEmailChoiceField(serializers.ChoiceField):
         kwargs.setdefault("choices", [])
         super().__init__(**kwargs)
 
+    def run_validators(self, value: str) -> None:
+        # Empty choices clear the preference, just as blank model fields do.
+        if value:
+            super().run_validators(value)
+
 
 @extend_schema_field(serializers.ChoiceField(choices=Profile.CommitNameChoices.choices))
 class ProfileCommitNameChoiceField(serializers.ChoiceField):
@@ -895,8 +906,12 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
     dashboard_component_list = AllowedComponentListField(
         read_only=True, allow_null=True
     )
-    commit_email = ProfileEmailChoiceField()
-    public_email = ProfileEmailChoiceField()
+    commit_email = ProfileEmailChoiceField(
+        validators=Profile._meta.get_field("commit_email").validators,  # ruff: ignore[private-member-access]
+    )
+    public_email = ProfileEmailChoiceField(
+        validators=Profile._meta.get_field("public_email").validators,  # ruff: ignore[private-member-access]
+    )
     commit_name = ProfileCommitNameChoiceField()
     listing_columns = ListingColumnsField(
         required=False,
@@ -1340,6 +1355,8 @@ class DefiningWorkspaceField(serializers.PrimaryKeyRelatedField):
 
 class RoleSerializer(serializers.ModelSerializer[Role]):
     permissions = PermissionSerializer(many=True)
+    is_builtin = serializers.BooleanField(read_only=True)
+    is_customized = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Role
@@ -1348,10 +1365,18 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
             "name",
             "permissions",
             "url",
+            "is_builtin",
+            "is_customized",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:role-detail", "lookup_field": "id"},
         }
+
+    def validate_name(self, value):
+        if self.instance and self.instance.is_builtin and value != self.instance.name:
+            msg = "Built-in roles cannot be renamed."
+            raise serializers.ValidationError(msg)
+        return value
 
     def create(self, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
@@ -2502,12 +2527,26 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
         result = super().to_representation(instance)
-        if instance.linked_component_id is not None:
-            linked_component = instance.linked_component
+        linked_component = (
+            instance.linked_component
+            if instance.linked_component_id is not None
+            else None
+        )
+        if linked_component is not None:
             for field in self.linked_repository_setting_fields:
                 result[field] = getattr(linked_component, field)
         user = self.context["request"].user
-        if not user.has_perm("vcs.view", instance):
+        can_view_repository = user.has_perm("vcs.view", instance)
+        if linked_component is not None:
+            can_view_repository = (
+                can_view_repository
+                and user.can_access_component(linked_component)
+                and user.has_perm("vcs.view", linked_component)
+            )
+            if not can_view_repository:
+                for field in self.linked_repository_setting_fields:
+                    result[field] = None
+        if not can_view_repository:
             result["vcs"] = None
             result["vcs_params"] = None
             result["repo"] = None
@@ -3807,6 +3846,10 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
 
 
 class SavedSearchSerializer(serializers.ModelSerializer[SavedSearch]):
+    query = serializers.CharField(
+        label=gettext_lazy("Search query"), max_length=MAX_SEARCH_QUERY_LENGTH
+    )
+
     class Meta:
         model = SavedSearch
         fields = ("id", "name", "query", "description")
@@ -4369,6 +4412,40 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
         }
 
 
+def filter_alert_details(
+    name: str, details: dict[str, Any], user: User | None
+) -> dict[str, Any]:
+    """Keep cross-component alert references within the requester's view scope."""
+    if name != "ConflictingRepositorySetup":
+        return details
+
+    stored_ids = details.get("component_ids")
+    if not isinstance(stored_ids, list):
+        return {**details, "component_ids": []}
+    component_ids = [
+        component_id
+        for component_id in stored_ids
+        if isinstance(component_id, int) and not isinstance(component_id, bool)
+    ]
+    visible_ids = (
+        set(
+            Component.objects.filter_access(user)
+            .filter(pk__in=component_ids)
+            .values_list("pk", flat=True)
+        )
+        if user is not None
+        else set()
+    )
+    return {
+        **details,
+        "component_ids": [
+            component_id
+            for component_id in component_ids
+            if component_id in visible_ids
+        ],
+    }
+
+
 class AlertSerializer(serializers.ModelSerializer[Alert]):
     category = serializers.ChoiceField(
         choices=("addons", "community", "configuration", "files", "vcs"),
@@ -4382,6 +4459,16 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
             lookup_field="username",
         )
     )
+
+    def to_representation(self, instance: Alert) -> dict[str, Any]:
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        details = data.get("details")
+        if isinstance(details, dict):
+            data["details"] = filter_alert_details(
+                instance.name, details, getattr(request, "user", None)
+            )
+        return data
 
     class Meta:
         model = Alert
@@ -4514,6 +4601,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if not self.can_view_alert_details():
             data["details"] = {}
             data["dismissal_reason"] = ""
+        elif isinstance(data.get("details"), dict):
+            request = self.context.get("request")
+            data["details"] = filter_alert_details(
+                data["name"], data["details"], getattr(request, "user", None)
+            )
         return data
 
     def to_representation(self, instance):
@@ -4531,6 +4623,27 @@ class ChangeSerializer(RemovableSerializer[Change]):
                     else {}
                 )
             return data
+        if isinstance(details, dict) and instance.action in {
+            ActionEvents.ALERT,
+            ActionEvents.ALERT_DISMISSED,
+        }:
+            alert_name = (
+                instance.alert.name
+                if instance.alert_id is not None
+                else details.get("alert")
+            )
+            if alert_name == "ConflictingRepositorySetup":
+                details = deepcopy(details)
+                data["details"] = details
+                details.pop("fingerprint", None)
+                snapshot = details.get("alert_snapshot")
+                if isinstance(snapshot, dict) and isinstance(
+                    snapshot.get("details"), dict
+                ):
+                    request = self.context.get("request")
+                    snapshot["details"] = filter_alert_details(
+                        alert_name, snapshot["details"], getattr(request, "user", None)
+                    )
         if self.can_view_alert_details():
             return data
         details = data.get("details")
@@ -4776,7 +4889,29 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         return result
 
 
+class BotProtectionCountsSerializer(ReadOnlySerializer):
+    issued = serializers.IntegerField()
+    pow_required = serializers.IntegerField()
+    success = serializers.IntegerField()
+    expired_challenge = serializers.IntegerField()
+    invalid_solution = serializers.IntegerField()
+    replayed_challenge = serializers.IntegerField()
+    csrf_failed = serializers.IntegerField()
+    verification_unavailable = serializers.IntegerField()
+
+
+class BotProtectionStatsSerializer(ReadOnlySerializer):
+    current_hour = BotProtectionCountsSerializer()
+    previous_24_hours = BotProtectionCountsSerializer()
+
+
 class MetricsSerializer(ReadOnlySerializer):
+    bot_protection = serializers.SerializerMethodField()
+
+    @extend_schema_field(BotProtectionStatsSerializer(allow_null=True))
+    def get_bot_protection(self, instance) -> dict[str, dict[str, int]] | None:
+        return verification_stats() if option("ENABLED", False) else None
+
     units = serializers.IntegerField(source="all")
     units_translated = serializers.IntegerField(source="translated")
     users = serializers.IntegerField(source="get_users")

@@ -8,14 +8,15 @@ from typing import TYPE_CHECKING, TypeGuard, cast
 
 from django import forms
 from django.contrib import admin
+from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.template.response import TemplateResponse
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
-from weblate.auth.data import ROLES
 from weblate.auth.models import AutoGroup, Group, Role, TeamMembership, User
 from weblate.wladmin.models import WeblateModelAdmin
 
@@ -23,8 +24,6 @@ if TYPE_CHECKING:
     from django.http import HttpRequest
 
     from weblate.auth.models import AuthenticatedHttpRequest
-
-BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 
 def is_authenticated_request(
@@ -36,10 +35,6 @@ def is_authenticated_request(
 def block_group_edit(obj: Group):
     """Whether to allow user editing of a group."""
     return obj and obj.internal
-
-
-def block_role_edit(obj: Role):
-    return obj and obj.name in BUILT_IN_ROLES
 
 
 class AutoGroupChangeForm(forms.ModelForm):
@@ -88,18 +83,62 @@ class UserTeamMembershipInline(admin.TabularInline):
 
 @admin.register(Role)
 class RoleAdmin(WeblateModelAdmin):
-    list_display = ("name",)
+    list_display = ("name", "builtin_status", "customized_status")
     filter_horizontal = ("permissions",)
 
-    def has_change_permission(self, request: HttpRequest, obj=None):
-        if block_role_edit(obj):
-            return False
-        return super().has_change_permission(request, obj)
+    @admin.display(boolean=True, description=gettext_lazy("Built-in"))
+    def builtin_status(self, obj):
+        return obj.is_builtin
+
+    @admin.display(boolean=True, description=gettext_lazy("Customized"))
+    def customized_status(self, obj):
+        return obj.is_customized
+
+    actions = ("reset_permissions",)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("permissions")
+
+    def get_readonly_fields(self, request, obj=None):
+        return ("name",) if obj and obj.is_builtin else ()
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
-        if block_role_edit(obj):
+        if obj and obj.is_builtin:
             return False
         return super().has_delete_permission(request, obj)
+
+    def get_deleted_objects(self, objs, request):
+        deleted, counts, permissions, protected = super().get_deleted_objects(
+            objs, request
+        )
+        protected.extend(str(obj) for obj in objs if obj.is_builtin)
+        return deleted, counts, permissions, protected
+
+    @admin.action(
+        description=gettext_lazy("Reset built-in roles to defaults"),
+        permissions=["change"],
+    )
+    def reset_permissions(self, request, queryset):
+        roles = [role for role in queryset if role.is_builtin]
+        if request.POST.get("confirm"):
+            for role in roles:
+                role.reset_permissions()
+                self.log_change(
+                    request, role, "Reset permissions to upstream defaults."
+                )
+            self.message_user(request, gettext("Built-in role permissions reset."))
+            return None
+        return TemplateResponse(
+            request,
+            "admin/auth/role/reset.html",
+            {
+                **self.admin_site.each_context(request),
+                "title": gettext("Reset built-in roles to defaults"),
+                "roles": roles,
+                "opts": self.opts,
+                "action_checkbox_name": ACTION_CHECKBOX_NAME,
+            },
+        )
 
 
 class WeblateUserChangeForm(UserChangeForm):

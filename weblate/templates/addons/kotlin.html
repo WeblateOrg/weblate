@@ -1,6 +1,18 @@
 {% load i18n icons permissions %}
 
 <p>{% blocktranslate with url="https://github.com/WeblateOrg/kotlin-sdk/" %}See the <a href="{{ url }}">Kotlin SDK repository</a> for Gradle plugin and library setup.{% endblocktranslate %}</p>
+{% if files_addon_missing %}
+  <p>{% translate "Install Translation files CDN to let the SDK download original XML translation files. These files are published publicly, including files from private components." %}</p>
+  {% if can_install_files %}
+    <form method="post" action="{% url 'addons' path=component.get_url_path %}">
+      {% csrf_token %}
+      <input type="hidden" name="name" value="weblate.cdn.files" />
+      <button type="submit" class="btn btn-primary">{% translate "Install Translation files CDN" %}</button>
+    </form>
+    <p>{% translate "After installation, return to this page to copy the updated Gradle configuration." %}</p>
+  {% endif %}
+{% endif %}
+
 <p>{% translate "Configure the Kotlin SDK Gradle plugin with these values:" %}</p>
 <pre class="text-break"><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ snippet }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>{{ snippet }}</code></pre>
 

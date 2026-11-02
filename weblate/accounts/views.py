@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import time
 from base64 import b32encode
@@ -11,6 +12,7 @@ from binascii import unhexlify
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import timedelta
+from functools import wraps
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
@@ -22,6 +24,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
+from django.contrib.messages import ERROR, get_messages
+from django.contrib.messages.storage.base import BaseStorage
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
@@ -36,6 +40,7 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
+    HttpResponseBase,
     HttpResponseRedirect,
     JsonResponse,
     QueryDict,
@@ -43,7 +48,7 @@ from django.http import (
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import constant_time_compare
@@ -55,7 +60,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     DetailView,
     FormView,
@@ -73,7 +78,9 @@ from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
+    BeginCredentialRegistrationView,
     CompleteCredentialAuthenticationView,
+    CompleteCredentialRegistrationView,
 )
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
@@ -104,6 +111,7 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    FirstFactorPasswordForm,
     GroupAddForm,
     GroupRemoveForm,
     LanguagesForm,
@@ -138,8 +146,12 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
-    SECOND_FACTOR_VERIFY_SECONDS,
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_FIRST_FACTOR_GRANT,
+    SESSION_FIRST_FACTOR_SSO,
+    SESSION_FIRST_WEBAUTHN_NAME,
     SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
@@ -148,13 +160,19 @@ from weblate.accounts.utils import (
     SESSION_WEBAUTHN_AUDIT,
     TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
+    clear_pending_first_factor,
     clear_second_factor_session,
     cycle_session_keys,
     get_key_name,
+    grant_first_factor,
+    has_first_factor_grant,
+    has_recent_second_factor,
     invalidate_reset_codes,
     lock_user,
     remove_user,
+    require_recent_second_factor,
     reset_api_token,
+    second_factor_verification_redirect,
     set_second_factor_session,
 )
 from weblate.accounts.visibility import (
@@ -1335,7 +1353,13 @@ class WeblateLoginView(BaseLoginView):
         # Redirect if there is only one backend
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
-            return redirect_single(request, auth_backends.pop())
+            storage = get_messages(request)
+            has_error = any(message.level >= ERROR for message in storage)
+            # Leave messages available for rendering or a subsequent redirect.
+            if isinstance(storage, BaseStorage):
+                storage.used = False
+            if not has_error:
+                return redirect_single(request, auth_backends.pop())
 
         if request.method == "POST" and not self.show_login_form:
             return redirect("login")
@@ -1460,6 +1484,7 @@ def register(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_recent_second_factor
 @never_cache
 def email_login(request: AuthenticatedHttpRequest):
     """Connect e-mail."""
@@ -1484,7 +1509,34 @@ def email_login(request: AuthenticatedHttpRequest):
     )
 
 
+@require_GET
 @login_required
+@never_cache
+def verify_second_factor(request: AuthenticatedHttpRequest):
+    """Return to a local page after a fresh second-factor challenge."""
+    next_url = reverse("profile")
+    requested_url = request.GET.get("next", "")
+    if requested_url.startswith("/") and not requested_url.startswith("//"):
+        try:
+            match = resolve(requested_url)
+        except Resolver404:
+            pass
+        else:
+            if match.view_name == "data_project":
+                next_url = reverse(
+                    "data_project", kwargs={"project": match.kwargs["project"]}
+                )
+            elif match.view_name == "manage-access":
+                next_url = reverse(
+                    "manage-access", kwargs={"project": match.kwargs["project"]}
+                )
+    if has_recent_second_factor(request):
+        return HttpResponseRedirect(next_url)
+    return second_factor_verification_redirect(request, next_url)
+
+
+@login_required
+@require_recent_second_factor
 @session_ratelimit_post("password")
 @never_cache
 def password(request: AuthenticatedHttpRequest):
@@ -1493,29 +1545,6 @@ def password(request: AuthenticatedHttpRequest):
     change_form = None
     user = request.user
     usable = user.has_usable_password()
-
-    if user.profile.has_2fa and (
-        SESSION_SECOND_FACTOR_TIMESTAMP not in request.session
-        or request.session[SESSION_SECOND_FACTOR_TIMESTAMP]
-        + SECOND_FACTOR_VERIFY_SECONDS
-        < int(time.time())
-    ):
-        messages.info(
-            request,
-            gettext(
-                "Please confirm your identity using a second factor before proceeding."
-            ),
-        )
-        set_second_factor_session(
-            request,
-            user,
-            "weblate.accounts.auth.WeblateUserBackend",
-        )
-        login_params: dict[str, str] = {"next": reverse("password")}
-        login_url = reverse(
-            "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
-        )
-        return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
@@ -1641,12 +1670,13 @@ def reset_password(request: AuthenticatedHttpRequest):
             if not check_rate_limit("password_reset", request):
                 return fake_email_sent(request, True)
             email = form.cleaned_data["email"]
-            email_user = form.get_email_user(email)
-            if email_user:
+            email_owner = form.get_email_owner(email)
+            if email_owner:
+                email_user, stored_email = email_owner
                 response = send_password_reset_email(
                     request,
                     email_user,
-                    email=email,
+                    email=stored_email,
                     scope=get_password_reset_scope(request, email),
                 )
                 if response is not None:
@@ -1682,6 +1712,8 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(request, f"{reverse('profile')}#api")
     with transaction.atomic():
         reset_api_token(request.user)
 
@@ -1886,6 +1918,10 @@ def social_disconnect(
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting the last identity or verified e-mail
     """
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     try:
         get_backend(settings.AUTHENTICATION_BACKENDS, backend)
     except AuthConfigurationError as error:
@@ -1966,6 +2002,10 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    if request.user.is_authenticated and not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, f"{reverse('profile')}#security"
+        )
     if response := prepare_oidc_login(
         request,
         request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)),
@@ -1985,6 +2025,12 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
             return handle_auth_error(request, backend, error)
         msg = "Backend not found"
         raise Http404(msg) from error
+
+    if not request.user.is_authenticated:
+        # A new sign-in supersedes any unfinished second-factor challenge.
+        clear_second_factor_session(request)
+        request.session.pop(DEVICE_ID_SESSION_KEY, None)
+        request.session.pop(SESSION_SECOND_FACTOR_TIMESTAMP, None)
 
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
@@ -2355,6 +2401,7 @@ def saml_metadata(request: AuthenticatedHttpRequest):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(profile_response, name="dispatch")
 class UserList(ListView):
     paginate_by = 50
     model = User
@@ -2421,6 +2468,7 @@ class UserList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class RecoveryCodesView(TemplateView):
     template_name = "accounts/recovery-codes.html"
 
@@ -2459,9 +2507,158 @@ class RecoveryCodesView(TemplateView):
         return result
 
 
+FIRST_FACTOR_TARGETS = {"totp": "totp", "webauthn": "webauthn-register"}
+
+
+def first_factor_redirect(request: AuthenticatedHttpRequest, target: str):
+    return redirect(f"{reverse('first-factor-verify')}?{urlencode({'target': target})}")
+
+
+@login_required
+@session_ratelimit_post("confirm", logout_user=False)
+@never_cache
+def first_factor_verify(request: AuthenticatedHttpRequest):
+    """Verify an existing credential before binding the first authenticator."""
+    target = request.POST.get("target", request.GET.get("target", "totp"))
+    if target not in FIRST_FACTOR_TARGETS:
+        return HttpResponseBadRequest("Invalid enrollment target")
+    if request.user.profile.has_2fa:
+        return redirect(FIRST_FACTOR_TARGETS[target])
+    if has_first_factor_grant(request):
+        return redirect(FIRST_FACTOR_TARGETS[target])
+
+    user = request.user
+    form = FirstFactorPasswordForm(
+        request, request.POST if request.method == "POST" else None
+    )
+    associations = [
+        (association, get_auth_name(association.provider))
+        for association in user.social_auth.filter(provider__in=get_auth_keys())
+        if association.provider != "email"
+    ]
+    if request.method == "POST":
+        if user.has_usable_password() and "password" in request.POST:
+            if form.is_valid():
+                request.session.cycle_key()
+                rotate_token(request)
+                clear_pending_first_factor(request)
+                grant_first_factor(request)
+                return redirect(FIRST_FACTOR_TARGETS[target])
+            rotate_token(request)
+        elif not user.has_usable_password() and "association" in request.POST:
+            association = next(
+                (
+                    item
+                    for item, _name in associations
+                    if str(item.pk) == request.POST["association"]
+                ),
+                None,
+            )
+            if association is None:
+                return HttpResponseBadRequest("Invalid authentication provider")
+            request.session[SESSION_FIRST_FACTOR_SSO] = {
+                "user": user.pk,
+                "hash": user.get_session_auth_hash(),
+                "association": association.pk,
+                "provider": association.provider,
+                "target": target,
+                "time": int(time.time()),
+            }
+            return social_auth(request, association.provider)
+
+    return render(
+        request,
+        "accounts/first-factor-verify.html",
+        {
+            "target": target,
+            "confirm_form": form,
+            "has_password": user.has_usable_password(),
+            "associations": associations,
+        },
+    )
+
+
+def require_enrollment_verification(
+    target: str,
+) -> Callable[[Callable[..., HttpResponseBase]], Callable[..., HttpResponseBase]]:
+    """Require a fresh factor, or independent proof for the first one."""
+
+    def decorate(
+        view: Callable[..., HttpResponseBase],
+    ) -> Callable[..., HttpResponseBase]:
+        @wraps(view)
+        def wrapped(
+            request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+        ) -> HttpResponseBase:
+            if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+                return first_factor_redirect(request, target)
+            if not has_recent_second_factor(request):
+                return second_factor_verification_redirect(request, request.path)
+            return view(request, *args, **kwargs)
+
+        return wrapped
+
+    return decorate
+
+
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_enrollment_verification("webauthn"), name="dispatch")
 class WebAuthnRegistrationView(TemplateView):
     template_name = "accounts/webauthn-register.html"
+
+
+class RecentSecondFactorRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your identity with a second factor before registering a security key."
+    )
+    default_code = "recent_second_factor_required"
+
+
+class FirstFactorVerificationRequiredError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = (
+        "Verify your existing sign-in method before registering a security key."
+    )
+    default_code = "first_factor_verification_required"
+
+
+def check_webauthn_registration(request):
+    if not request.user.is_authenticated:
+        raise FirstFactorVerificationRequiredError
+    if not request.user.profile.has_2fa and not has_first_factor_grant(request):
+        raise FirstFactorVerificationRequiredError
+    if not has_recent_second_factor(request):
+        raise RecentSecondFactorRequiredError
+
+
+class WeblateBeginCredentialRegistrationView(BeginCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        check_webauthn_registration(request)
+        return super().initial(request, *args, **kwargs)
+
+
+class WeblateCompleteCredentialRegistrationView(CompleteCredentialRegistrationView):
+    def initial(self, request, *args, **kwargs):
+        check_webauthn_registration(request)
+        return super().initial(request, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        first_enrollment = not self.request.user.profile.has_2fa
+        response = super().post(*args, **kwargs)
+        if first_enrollment and response.status_code == 200:
+            credential_id = json.loads(response.content).get("id")
+            if WebAuthnCredential.objects.filter(
+                pk=credential_id, user=self.request.user
+            ).exists():
+                self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
+                self.request.session[SESSION_FIRST_WEBAUTHN_NAME] = {
+                    "user": self.request.user.pk,
+                    "hash": self.request.user.get_session_auth_hash(),
+                    "credential": credential_id,
+                    "time": int(time.time()),
+                }
+        return response
 
 
 @method_decorator(login_required, name="dispatch")
@@ -2475,10 +2672,27 @@ class WebAuthnCredentialView(DetailView):
         return super().get_queryset().filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
+        if not has_recent_second_factor(request):
+            return second_factor_verification_redirect(request, request.path)
         return redirect_profile("#security")
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        naming = request.session.get(SESSION_FIRST_WEBAUTHN_NAME)
+        first_name = (
+            isinstance(naming, dict)
+            and isinstance(naming.get("time"), int)
+            and not isinstance(naming.get("time"), bool)
+            and naming["time"] <= int(time.time())
+            and naming["time"] + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+            and naming.get("user") == request.user.pk
+            and naming.get("hash") == request.user.get_session_auth_hash()
+            and naming.get("credential") == obj.pk
+            and "name" in request.POST
+            and "delete" not in request.POST
+        )
+        if not has_recent_second_factor(request) and not first_name:
+            return second_factor_verification_redirect(request, request.path)
         if "delete" in request.POST:
             key_name = get_key_name(obj)
             obj.delete()
@@ -2489,6 +2703,8 @@ class WebAuthnCredentialView(DetailView):
         elif "name" in request.POST:
             obj.name = request.POST["name"]
             obj.save(update_fields=["name"])
+            if first_name:
+                request.session.pop(SESSION_FIRST_WEBAUTHN_NAME, None)
             key_name = get_key_name(obj)
             audit_pk = request.session.pop(SESSION_WEBAUTHN_AUDIT, None)
             if isinstance(obj, WebAuthnCredential) and audit_pk is not None:
@@ -2502,7 +2718,7 @@ class WebAuthnCredentialView(DetailView):
         return redirect_profile("#security")
 
 
-@method_decorator(login_required, name="dispatch")
+@method_decorator(require_recent_second_factor, name="dispatch")
 class TOTPDetailView(WebAuthnCredentialView):
     model = TOTPDevice
 
@@ -2519,6 +2735,7 @@ class TOTPDetailView(WebAuthnCredentialView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(require_enrollment_verification("totp"), name="dispatch")
 class TOTPView(FormView):
     template_name = "accounts/totp.html"
     form_class = TOTPDeviceForm
@@ -2648,6 +2865,7 @@ class TOTPView(FormView):
         device.name = form.cleaned_data["name"]
         device.confirmed = True
         device.save(update_fields=["name", "confirmed"])
+        self.request.session.pop(SESSION_FIRST_FACTOR_GRANT, None)
         AuditLog.objects.create(
             user,
             self.request,
@@ -2686,7 +2904,10 @@ class SecondFactorMixin(View):
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
         clear_second_factor_session(self.request, preserve_social=True)
-        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
+        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": user.pk,
+            "time": int(time.time()),
+        }
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
             # Keep login on social pipeline if we got here from it

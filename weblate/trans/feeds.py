@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext
 
+from weblate.accounts.visibility import public_profile_render
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.utils.site import get_site_url
@@ -20,6 +21,9 @@ from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
+    from django.utils.feedgenerator import SyndicationFeed
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
@@ -37,6 +41,10 @@ def get_change_feed_guid(change: Change) -> str:
 
 
 class BaseFeed(Feed):
+    @public_profile_render()
+    def get_feed(self, obj: object, request: HttpRequest) -> SyndicationFeed:
+        return super().get_feed(obj, request)
+
     def item_title(self, item):
         return item.get_action_display()
 

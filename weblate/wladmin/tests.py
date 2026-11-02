@@ -47,6 +47,7 @@ from weblate.trans.tests.test_views import ReusableViewTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
+from weblate.utils.bot_protection import OUTCOMES
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
@@ -596,6 +597,54 @@ class ManagementAccessControlTest(ViewTestCase):
         response = getattr(self.client, method)(reverse(url_name), **kwargs)
         self.assertEqual(response.status_code, 403)
 
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_counters(self) -> None:
+        self.grant_global_permissions("management.use")
+        with patch(
+            "weblate.wladmin.views.verification_stats",
+            return_value={
+                "current_hour": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 9,
+                    "success": 7,
+                },
+                "previous_24_hours": {
+                    **dict.fromkeys(OUTCOMES, 0),
+                    "issued": 19,
+                    "success": 17,
+                },
+            },
+        ):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "Bot protection")
+        self.assertEqual(
+            response.context["bot_protection_stats"]["current_hour"]["success"], 7
+        )
+        with patch("weblate.wladmin.views.verification_stats", return_value=None):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "Counters are unavailable.")
+        with (
+            override_settings(BOT_PROTECTION_ENABLED=False),
+            patch(
+                "weblate.wladmin.views.verification_stats", side_effect=AssertionError
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+        self.assertNotContains(response, "Bot protection")
+
+        with patch(
+            "weblate.wladmin.views.verification_stats", side_effect=AssertionError
+        ):
+            response = self.client.get(reverse("manage"))
+        self.assertNotContains(response, "Bot protection")
+
     def test_management_use_only_is_limited(self) -> None:
         self.grant_global_permissions("management.use")
         email = cast("str", self.user.email)
@@ -961,7 +1010,7 @@ class ManageMiddlewareTest(TestCase):
 
     def test_claim_configuration_health_check(self) -> None:
         with (
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch(
                 "weblate.wladmin.middleware.cache.add", return_value=True
             ) as cache_add,
@@ -986,8 +1035,8 @@ class ManageMiddlewareTest(TestCase):
         middleware = ManageMiddleware(Mock())
         with (
             patch(
-                "weblate.wladmin.middleware.time.monotonic",
-                side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL],
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL]),
             ),
             patch("weblate.wladmin.middleware.cache.get", return_value=None),
             patch.object(middleware, "trigger_check") as trigger_check,
@@ -1002,8 +1051,11 @@ class ManageMiddlewareTest(TestCase):
     def test_recent_check(self) -> None:
         middleware = ManageMiddleware(Mock())
         with (
-            patch("weblate.wladmin.middleware.time.monotonic", return_value=100),
-            patch("weblate.wladmin.middleware.time.time", return_value=1000),
+            patch(
+                "weblate.wladmin.middleware.time",
+                monotonic=Mock(return_value=100),
+                time=Mock(return_value=1000),
+            ),
             patch(
                 "weblate.wladmin.middleware.cache.get",
                 return_value=1000 - CHECK_INTERVAL + 1,
@@ -1070,7 +1122,7 @@ class ManageMiddlewareTest(TestCase):
             patch.object(
                 ConfigurationError.objects, "configuration_health_check"
             ) as health_check,
-            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.time", time=Mock(return_value=123)),
             patch("weblate.wladmin.middleware.cache.set") as cache_set,
         ):
             self.assertTrue(perform_configuration_health_check(checks))
@@ -1942,12 +1994,13 @@ class AdminTest(ReusableViewTestCase):
             response = self.client.get(reverse("manage-users"))
 
         self.assertContains(response, "User management workspace team 0")
+        # Check per-team primary-key lookups, allowing bulk navigation queries.
         workspace_fetches = [
             query["sql"]
             for query in queries
             if (
                 f'FROM "{workspace_table}"' in query["sql"]
-                and f'WHERE "{workspace_table}"."id"' in query["sql"]
+                and f'WHERE "{workspace_table}"."id" =' in query["sql"]
             )
         ]
         self.assertEqual(workspace_fetches, [])

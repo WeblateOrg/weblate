@@ -63,12 +63,15 @@ class QueryField(forms.CharField):
         parser: Literal["unit", "user", "superuser", "screenshot"] = "unit",
         **kwargs,
     ) -> None:
+        from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH  # ruff: ignore[import-outside-top-level]
+
         if "label" not in kwargs:
             kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:
             kwargs["required"] = False
         if "widget" not in kwargs:
             kwargs["widget"] = forms.Textarea(attrs={"cols": None, "rows": 1})
+        kwargs["max_length"] = MAX_SEARCH_QUERY_LENGTH
         self.parser = parser
         super().__init__(**kwargs)
 
@@ -86,6 +89,7 @@ class QueryField(forms.CharField):
             if self.required:
                 raise ValidationError(gettext("Missing query string."))
             return ""
+        value = super().clean(value)
         try:
             # Use anonymous user for parsing here, it is needed for some searches
             # and anonymous user will serve well for the validation.

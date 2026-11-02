@@ -824,11 +824,12 @@ class Translation(
             metadata_timestamp = timezone.now()
             for unit in metadata_updates.values():
                 unit.last_updated = metadata_timestamp
-            Unit.objects.bulk_update(
-                metadata_updates.values(),
-                UNIT_METADATA_UPDATE_FIELDS,
-                batch_size=500,
-            )
+            using = self._state.db or "default"
+            with transaction.atomic(using=using, savepoint=False):
+                for batch in batched(metadata_updates.values(), 500):
+                    Unit.objects.using(using)._bulk_update_values(  # ruff: ignore[private-member-access]
+                        list(batch), UNIT_METADATA_UPDATE_FIELDS
+                    )
             update_fields = frozenset(UNIT_METADATA_UPDATE_FIELDS)
             for unit in metadata_updates.values():
                 post_save.send(

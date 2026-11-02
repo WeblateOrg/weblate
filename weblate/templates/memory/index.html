@@ -11,9 +11,7 @@
       <a href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
     </li>
   {% elif project %}
-    <li class="breadcrumb-item">
-      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
-    </li>
+    {% path_object_breadcrumbs project %}
     <li class="breadcrumb-item">
       <a href="{% url 'memory' project=project.slug %}">{% translate "Translation memory" %}</a>
     </li>

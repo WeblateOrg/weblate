@@ -99,7 +99,7 @@ class GitExportTest(ReusableViewTestCase):
         kwargs = {"git_request": path, "path": component.get_url_path()}
         return reverse("git-export", kwargs=kwargs)
 
-    def test_update_all_components_prefetches_url_path(self) -> None:
+    def test_update_components_prefetches_url_path(self) -> None:
         parent_category = self.create_category(self.project)
         child_category = Category.objects.create(
             project=self.project,
@@ -112,17 +112,32 @@ class GitExportTest(ReusableViewTestCase):
         second = self.create_po(project=self.project, name="Second")
         second.category = child_category
         second.save(update_fields=["category"])
-        Component.objects.filter(pk__in=[self.component.pk, second.pk]).update(
-            git_export=""
-        )
-
-        with CaptureQueriesContext(connection) as queries:
-            update_all_components()
-
-        for query in queries:
-            sql = query["sql"]
-            self.assertNotIn('FROM "trans_category" WHERE "trans_category"."id" =', sql)
-            self.assertNotIn('FROM "trans_project" WHERE "trans_project"."id" =', sql)
+        expected = {
+            component.pk: get_export_url(component)
+            for component in (self.component, second)
+        }
+        for operation in (
+            update_all_components,
+            lambda: self.project.save(update_fields=["name"]),
+        ):
+            with self.subTest(operation=operation):
+                components = Component.objects.filter(pk__in=expected)
+                components.update(git_export="")
+                with CaptureQueriesContext(connection) as queries:
+                    operation()
+                for query in queries:
+                    sql = query["sql"]
+                    self.assertNotIn(
+                        'FROM "trans_category" WHERE "trans_category"."id" =', sql
+                    )
+                    # Project.save() itself loads its previous settings.
+                    if operation is update_all_components:
+                        self.assertNotIn(
+                            'FROM "trans_project" WHERE "trans_project"."id" =', sql
+                        )
+                self.assertEqual(
+                    dict(components.values_list("pk", "git_export")), expected
+                )
 
     def test_git_root(self) -> None:
         response = self.client.get(self.get_git_url().replace("info/refs", ""))
@@ -191,6 +206,60 @@ class GitExportTest(ReusableViewTestCase):
         self.assertEqual(404, response.status_code)
         self.assertNotIn("https://example.com/upstream.git", response.content.decode())
         self.assertNotIn("user:secret@", response.content.decode())
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_preserves_git_authentication(self) -> None:
+        self.enable_acl()
+        with patch("weblate.gitexport.views.GitHTTPBackendWrapper") as backend:
+            backend.return_value.get_response.return_value = HttpResponse(
+                "Git response"
+            )
+            response = self.git_receive()
+            self.assertEqual(response.status_code, 401)
+            self.assertIn("Basic", response["WWW-Authenticate"])
+            response = self.git_receive(
+                HTTP_AUTHORIZATION=self.get_auth_string("invalid")
+            )
+            self.assertEqual(response.status_code, 401)
+            backend.assert_not_called()
+            self.project.add_user(self.user, "VCS")
+            auth = self.get_auth_string(self.user.auth_token.key)
+            response = self.git_receive(HTTP_AUTHORIZATION=auth)
+            self.assertEqual(response.status_code, 200)
+            with patch(
+                "weblate.gitexport.views.is_shallow_checkout", return_value=False
+            ):
+                response = self.client.post(
+                    self.get_git_url(path="git-upload-pack"),
+                    data=b"0000",
+                    content_type="application/x-git-upload-pack-request",
+                    headers={"authorization": auth},
+                )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(backend.call_count, 2)
+            self.assertNotIn("weblate_pow", self.client.cookies)
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
+            "pow": {"BACKEND": "django.core.cache.backends.redis.RedisCache"},
+        },
+    )
+    def test_bot_protection_preserves_login_catalog(self) -> None:
+        response = self.client.get(reverse("js-catalog"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("javascript", response["Content-Type"])
+        self.assertContains(response, "django.gettext")
+        self.assertNotIn("weblate_pow", self.client.cookies)
 
     def test_wrong_auth(self) -> None:
         response = self.git_receive(HTTP_AUTHORIZATION="foo")

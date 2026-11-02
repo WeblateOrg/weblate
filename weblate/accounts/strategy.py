@@ -98,7 +98,6 @@ class WeblateStrategy(DjangoStrategy):
         if (
             self.session.get("password_reset")
             and self.session.get(PASSWORD_RESET_EMAIL_SESSION)
-            and "email" not in data
             and "partial_token" not in data
         ):
             data["email"] = self.session[PASSWORD_RESET_EMAIL_SESSION]

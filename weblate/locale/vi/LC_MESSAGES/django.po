@@ -23,8 +23,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-25 07:07+0000\n"
-"Last-Translator: CongBao <congbao1174@gmail.com>\n"
+"PO-Revision-Date: 2026-10-27 19:51+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -86,12 +86,14 @@ msgid ""
 "Your full name may appear in version control commits, depending on the "
 "commit name setting below."
 msgstr ""
+"Tên đầy đủ của bạn có thể xuất hiện trong commit kiểm soát phiên bản, tùy "
+"thuộc vào thiết lập tên commit bên dưới."
 
 msgid "User data file"
 msgstr "Tệp dữ liệu người dùng"
 
 msgid "Import general notification settings"
-msgstr "Nhập cài đặt thông báo"
+msgstr "Nhập cài đặt thông báo chung"
 
 msgid "Import commit identity choices"
 msgstr ""
@@ -161,8 +163,6 @@ msgstr ""
 "Dùng cho email thông báo và email bản ghi nhận nếu không được cấu hình bên "
 "dưới."
 
-#, fuzzy
-#| msgid "Personal info"
 msgid "Personal information"
 msgstr "Thông tin cá nhân"
 
@@ -423,8 +423,6 @@ msgstr "Nhập đường dẫn đối tượng hợp lệ."
 msgid "The target does not exist or you cannot access it."
 msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification setting"
 msgstr "Cài đặt thông báo"
 
@@ -1004,10 +1002,10 @@ msgid "Disabled by the effective subscription."
 msgstr "Bị vô hiệu hóa do gói đăng ký hiện hành."
 
 msgid "Eligible when the notification’s event conditions are met."
-msgstr ""
+msgstr "Đủ điều kiện khi các điều kiện sự kiện trong thông báo được đáp ứng."
 
 msgid "Requires a corresponding event on this target."
-msgstr ""
+msgstr "Cần có một sự kiện tương ứng trên mục tiêu này."
 
 #, python-format
 msgid "Instant delivery can be suppressed by: %(notification)s."
@@ -1320,7 +1318,7 @@ msgstr "Ứng dụng xác thực (%s)"
 
 #, python-format
 msgid "%(name)s (#%(id)s)"
-msgstr ""
+msgstr "%(name)s (#%(id)s)"
 
 msgid "Password reset"
 msgstr "Đặt lại mật khẩu"
@@ -1476,12 +1474,14 @@ msgid "The authentication response has expired. Please try signing in again."
 msgstr ""
 
 msgid "The authorization code was rejected. Please try signing in again."
-msgstr ""
+msgstr "Mã xác thực đã bị từ chối. Vui lòng thử đăng nhập lại."
 
 msgid ""
 "Authentication could not be completed. Please try signing in again. If the "
 "problem persists, contact the administrator."
 msgstr ""
+"Không thể hoàn tất xác thực. Vui lòng thử đăng nhập lại. Nếu sự cố vẫn tiếp "
+"diễn, vui lòng liên hệ với quản trị viên."
 
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
@@ -3489,10 +3489,8 @@ msgid "Manage translation memory"
 msgstr "Quản lý bộ nhớ dịch"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Manage translation services"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Quản lý dịch vụ dịch thuật"
 
 #. Translators: Permission name
 msgid "Manage component lists"
@@ -3774,10 +3772,8 @@ msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
 "Nhóm có thể được xác định phạm vi theo dự án hoặc theo không gian làm việc."
 
-#, fuzzy
-#| msgid "A team with this name already exists in this workspace."
 msgid "A team with this name already exists in this project."
-msgstr "Đã có một nhóm với tên này tồn tại trong không gian làm việc này."
+msgstr "Trong dự án này đã có một nhóm với tên gọi tương tự."
 
 msgid "Limit languages"
 msgstr "Giới hạn ngôn ngữ"
@@ -6323,11 +6319,12 @@ msgid ""
 "contact the site maintainer to provide it."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+#, python-format
 msgid ""
 "Please read the <a href=\"%(external_privacy_url)s\">Privacy Policy</a>."
-msgstr "Vui lòng đọc thêm <a href=\"%(privacy_url)s\">Chính Sách Bảo Mật</a>."
+msgstr ""
+"Vui lòng đọc <a href=\"%(external_privacy_url)s\">Chính Sách Quyền Riêng Tư</"
+"a>."
 
 msgid ""
 "This site has not defined a privacy policy, please contact the site "
@@ -6447,11 +6444,9 @@ msgstr ""
 msgid "Could not fetch eTranslation domains: %s"
 msgstr "Không thể tải bản dịch: %s"
 
-#, fuzzy, python-format
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
+#, python-format
 msgid "Unknown eTranslation domain: %s"
-msgstr "Thông báo bản dịch"
+msgstr "Miền eTranslation không xác định: %s"
 
 #, fuzzy
 #| msgid "Invalid translation flag: \"%s\""
@@ -8178,11 +8173,10 @@ msgstr "Khóa bảo mật (WebAuthn)"
 msgid "No WebAuthn keys registered yet."
 msgstr "Chưa có khóa WebAuthn nào được đăng ký."
 
-#, fuzzy, python-format
-#| msgid "The security key %s was registered."
+#, python-format
 msgid "%(count)s security key registered."
 msgid_plural "%(count)s security keys registered."
-msgstr[0] "Khóa bảo mật %s đã được đăng ký."
+msgstr[0] "Đã đăng ký %(count)s khóa bảo mật."
 
 msgid "Add security key"
 msgstr "Thêm khóa bảo mật"
@@ -8196,11 +8190,10 @@ msgstr "Ứng dụng xác thực (TOTP)"
 msgid "No authenticator apps registered yet."
 msgstr "Chưa có ứng dụng xác thực nào được đăng ký."
 
-#, fuzzy, python-format
-#| msgid "No authenticator apps registered yet."
+#, python-format
 msgid "%(count)s authenticator app registered."
 msgid_plural "%(count)s authenticator apps registered."
-msgstr[0] "Chưa có ứng dụng xác thực nào được đăng ký."
+msgstr[0] "%(count)s ứng dụng xác thực đã được đăng ký."
 
 msgid "Register new authenticator app"
 msgstr "Đăng ký ứng dụng xác thực mới"
@@ -10290,10 +10283,8 @@ msgstr ""
 msgid "Reset the configured branch to upstream."
 msgstr "Đặt lại nhánh đã cấu hình về nhánh chính."
 
-#, fuzzy
-#| msgid "Data exports"
 msgid "Data loss:"
-msgstr "Xuất dữ liệu"
+msgstr "Mất dữ liệu:"
 
 #, fuzzy
 #| msgid ""
@@ -12729,17 +12720,13 @@ msgstr ""
 msgid "Additional labels can be defined by project administrators."
 msgstr "Người quản trị dự án có thể định nghĩa thêm các nhãn khác."
 
-#, fuzzy
-#| msgid "Origin"
 msgctxt "Change metadata badge label"
 msgid "Origin:"
-msgstr "Gốc"
+msgstr "Nguồn gốc:"
 
-#, fuzzy
-#| msgid "Email addresses"
 msgctxt "Change metadata badge label"
 msgid "IP address:"
-msgstr "Địa chỉ email"
+msgstr "Địa chỉ IP:"
 
 #, fuzzy
 #| msgid "IP address copied to clipboard."
@@ -18215,7 +18202,7 @@ msgstr ""
 
 msgctxt "Change origin tooltip"
 msgid "Initiated through the web interface."
-msgstr ""
+msgstr "Được khởi tạo thông qua giao diện web."
 
 msgctxt "Change origin tooltip"
 msgid "Imported from translation files in the repository."
@@ -20379,10 +20366,8 @@ msgstr "Borg hoàn thành với cảnh báo mà không có bất kỳ đầu ra 
 msgid "Invalid host name given!"
 msgstr "Tên máy chủ không hợp lệ!"
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Automatic translation reported a warning."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Dịch tự động đã báo cảnh báo."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."

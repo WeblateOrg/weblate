@@ -56,5 +56,5 @@ The `MASH <https://github.com/mother-of-all-self-hosting/mash-playbook>`_ Ansibl
 playbook can install Weblate as a Docker container, together with the
 PostgreSQL, Valkey, and Traefik services it depends on. See the
 `Weblate page in the MASH documentation
-<https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/docs/services/weblate.md>`_
+<https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/components/weblate/README.md>`_
 for the configuration to add to your inventory.

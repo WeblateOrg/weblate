@@ -17,10 +17,16 @@ from typing import TYPE_CHECKING, cast
 from django.db import connections, transaction
 from django.db.models import Exists, OuterRef, Q, Value
 from django.db.models.functions import MD5, Lower
+from django.db.models.signals import post_save, pre_save
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
-from weblate.utils.state import STATE_NEEDS_REWRITING, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    FUZZY_STATES,
+    STATE_NEEDS_REWRITING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
@@ -30,6 +36,7 @@ if TYPE_CHECKING:
     from weblate.memory.tasks import MemoryUpdatePayload
     from weblate.trans.models.change import Change
     from weblate.trans.models.component import Component
+    from weblate.trans.models.pending import PendingUnitChange
     from weblate.trans.models.translation import Translation
     from weblate.trans.models.unit import Unit, UnitQuerySet
 
@@ -41,6 +48,7 @@ class DependencyWork:
     languages: set[int] = field(default_factory=set)
     full: bool = False
     force: bool = False
+    batch_checks: bool = False
     author: User | None = None
 
     def merge(self, other: DependencyWork) -> None:
@@ -49,6 +57,7 @@ class DependencyWork:
         self.languages.update(other.languages)
         self.full |= other.full
         self.force |= other.force
+        self.batch_checks |= other.batch_checks
         if other.author is not None:
             self.author = other.author
 
@@ -74,6 +83,7 @@ def source_project_gate(
     project_ids: Iterable[int], *, using: str = "default", exclusive: bool = False
 ) -> Generator[None, None, None]:
     """Lock before unit writes; workflow changes require an exclusive outer gate."""
+    from weblate.checks.tasks import coalesce_component_check_batches  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models.project import Project  # ruff: ignore[import-outside-top-level]
 
     active = _gates.get() or {}
@@ -94,7 +104,10 @@ def source_project_gate(
             return
         previous = {key: dict(gate.workflows) for key, gate in active.items()}
         try:
-            with transaction.atomic(using=using):
+            with (
+                transaction.atomic(using=using),
+                coalesce_component_check_batches(using=using),
+            ):
                 yield
         except BaseException:
             for key, workflows in previous.items():
@@ -119,7 +132,12 @@ def source_project_gate(
                 )
         token = _gates.set(gates)
         try:
-            yield
+            with (
+                coalesce_component_check_batches(using=using)
+                if exclusive
+                else nullcontext()
+            ):
+                yield
         except BaseException:
             Project.invalidate_translation_parent_cache()
             raise
@@ -235,11 +253,102 @@ class PreviousSourcePeers:
 
 @dataclass
 class ReconciliationEffects:
+    batch_checks: bool = False
+    batch_unit_updates: bool = False
     units: dict[int, Unit] = field(default_factory=dict)
     peer_groups: dict[tuple[int, str, int, int, str, str], PreviousSourcePeers] = field(
         default_factory=dict
     )
     memory: list[MemoryUpdatePayload] = field(default_factory=list)
+    pending_changes: list[PendingUnitChange] = field(default_factory=list)
+    unit_updates: list[Unit] = field(default_factory=list)
+    unit_depth: int | None = None
+
+    def start_unit_depth(self, depth: int, *, using: str) -> None:
+        if self.unit_depth != depth:
+            self.flush_unit_updates(using=using)
+            self.unit_depth = depth
+
+    def save_unit(self, unit: Unit) -> None:
+        from weblate.trans.models.unit import UNIT_SOURCE_UPDATE_FIELDS  # ruff: ignore[import-outside-top-level]
+
+        using = unit._state.db or "default"  # ruff: ignore[private-member-access]
+        if not self.batch_unit_updates or unit.is_source:
+            self.flush_unit_updates(using=using)
+            unit.save(
+                only_save=True,
+                same_content=False,
+                update_fields=[
+                    "translation_parent",
+                    "details",
+                    "state",
+                    "original_state",
+                ],
+            )
+            return
+        unit._prepare_save(  # ruff: ignore[private-member-access]
+            same_content=False,
+            was_created=False,
+            update_fields=list(UNIT_SOURCE_UPDATE_FIELDS),
+        )
+        unit.last_updated = unit._meta.get_field("last_updated").pre_save(  # ruff: ignore[private-member-access]
+            unit, add=False
+        )
+        self.unit_updates.append(unit)
+        if len(self.unit_updates) >= 500:
+            self.flush_unit_updates(using=using)
+
+    def flush_unit_updates(self, *, using: str) -> None:
+        from weblate.trans.models.unit import UNIT_SOURCE_UPDATE_FIELDS, Unit  # ruff: ignore[import-outside-top-level]
+
+        if not self.unit_updates:
+            return
+        units = self.unit_updates
+        Unit.objects.using(using).bulk_update_source_units(units)
+        self.unit_updates = []
+        for unit in units:
+            # Observers run after the batch is persisted. Components with
+            # unit-save add-ons retain individual saves instead.
+            post_save.send(
+                sender=Unit,
+                instance=unit,
+                created=False,
+                raw=False,
+                using=using,
+                update_fields=frozenset(UNIT_SOURCE_UPDATE_FIELDS),
+            )
+            unit._store_saved_parent_values()  # ruff: ignore[private-member-access]
+
+    def add_pending_change(self, change: PendingUnitChange) -> None:
+        self.pending_changes.append(change)
+        if len(self.pending_changes) >= 500:
+            self.flush_pending_changes(
+                using=change.unit._state.db or "default"  # ruff: ignore[private-member-access]
+            )
+
+    def flush_pending_changes(self, *, using: str) -> None:
+        from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
+
+        self.flush_unit_updates(using=using)
+        if self.pending_changes:
+            PendingUnitChange.objects.using(using).bulk_create(
+                self.pending_changes, batch_size=500
+            )
+            self.pending_changes = []
+
+    def propagate_checks(self, unit: Unit) -> None:
+        from weblate.checks.base import BatchCheckMixin  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
+
+        checks = {
+            name
+            for name, check in CHECKS.items()
+            if check.propagates
+            and not (self.batch_checks and isinstance(check, BatchCheckMixin))
+        }
+        if checks:
+            schedule_propagated_checks(unit, checks)
 
     def add_peers(self, unit: Unit, source: str, language_id: int) -> None:
         key = (
@@ -263,6 +372,15 @@ class ReconciliationEffects:
         from weblate.memory.tasks import schedule_memory_updates  # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
 
+        if self.batch_checks:
+            self.flush_batched_checks(using=using)
+            batched_translations = {
+                unit.translation_id: unit.translation for unit in self.units.values()
+            }
+            for translation in batched_translations.values():
+                translation.invalidate_cache()
+            schedule_memory_updates(self.memory)
+            return
         peers: set[int] = set()
         for group in self.peer_groups.values():
             peers.update(
@@ -289,6 +407,99 @@ class ReconciliationEffects:
             translation.invalidate_cache()
         schedule_memory_updates(self.memory)
 
+    def flush_batched_checks(self, *, using: str) -> None:
+        from weblate.checks.base import BatchCheckMixin  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.locks import check_project_read_lock  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
+        from weblate.checks.tasks import schedule_component_check_batch  # ruff: ignore[import-outside-top-level]
+
+        if not self.units:
+            return
+        component = next(iter(self.units.values())).translation.component
+        previous = (
+            component.batch_checks,
+            component.batched_checks,
+            component.updated_sources,
+        )
+        component.start_batched_checks()
+        component.updated_sources = set()
+        try:
+            # Hold the check boundary once while local checks retain the existing
+            # results of batch-capable peer checks. Workers evaluate those batches.
+            with check_project_read_lock(component) as changed:
+                for unit in self.units.values():
+                    unit.translation.component = component
+                    was_batch_update = unit.is_batch_update
+                    try:
+                        unit.is_batch_update = True
+                        if changed:
+                            unit.clear_checks_cache()
+                        unit.invalidate_checks_cache()
+                        unit._run_checks_unlocked()  # ruff: ignore[private-member-access]
+                    finally:
+                        unit.is_batch_update = was_batch_update
+            # Removed/blocked units can no longer register their old peer group.
+            # Rebuilding the boundary also removes warnings on those peers.
+            if component.allow_translation_propagation:
+                component.batched_checks.update(
+                    name for name in ("inconsistent", "reused") if name in CHECKS
+                )
+            component.batched_checks.update(
+                name
+                for name, check in CHECKS.source.items()
+                if isinstance(check, BatchCheckMixin)
+            )
+            if previous[0]:
+                previous[1].update(component.batched_checks)
+                previous[2].update(component.updated_sources)
+            schedule_component_check_batch(
+                component,
+                component.updated_sources,
+                component.batched_checks,
+                using=using,
+            )
+        finally:
+            (
+                component.batch_checks,
+                component.batched_checks,
+                component.updated_sources,
+            ) = previous
+
+
+def _update_previous_source(
+    unit: Unit, previous: SourceSnapshot, current: SourceSnapshot
+) -> None:
+    """Retain the first pending source without accepting an existing fuzzy target."""
+    metadata = unit.details["translation_parent"]
+    state = unit.original_state if unit.state == STATE_READONLY else unit.state
+    was_fuzzy = metadata.get("previous_state", STATE_TRANSLATED) in FUZZY_STATES
+    if (
+        "previous" in metadata
+        and SourceSnapshot.from_dict(metadata["previous"]).identity == current.identity
+        and metadata.get("canonical_source") == unit.source
+        and (was_fuzzy or (state == STATE_NEEDS_REWRITING and not unit.previous_source))
+    ):
+        if not was_fuzzy:
+            unit.original_state = STATE_TRANSLATED
+            if unit.state != STATE_READONLY:
+                unit.state = STATE_TRANSLATED
+        metadata.pop("previous", None)
+        metadata.pop("canonical_source", None)
+        metadata.pop("previous_state", None)
+    elif unit.target and (
+        STATE_TRANSLATED <= state < STATE_READONLY
+        or (state in FUZZY_STATES and "previous" not in metadata)
+    ):
+        metadata.update(
+            previous=previous.as_dict(),
+            canonical_source=unit.source,
+            previous_state=state,
+        )
+        if state >= STATE_TRANSLATED:
+            unit.original_state = STATE_NEEDS_REWRITING
+            if unit.state != STATE_READONLY:
+                unit.state = STATE_NEEDS_REWRITING
+
 
 def update_parent(
     unit: Unit,
@@ -299,6 +510,7 @@ def update_parent(
     force: bool = False,
     configured: bool | None = None,
     missing_sources: MissingSourceCache | None = None,
+    pending_author_id: int | None = None,
 ) -> Change | None:
     """Apply a dependency change without modifying canonical source data."""
     from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
@@ -322,29 +534,8 @@ def update_parent(
     changed = previous.identity != current.identity
     initializing = configured and "applied" not in metadata
     old_blocked = metadata.get("blocked", False)
-    state = unit.original_state if unit.state == STATE_READONLY else unit.state
     if changed:
-        if (
-            "previous" in metadata
-            and SourceSnapshot.from_dict(metadata["previous"]).identity
-            == current.identity
-            and metadata.get("canonical_source") == unit.source
-            and state == STATE_NEEDS_REWRITING
-            and not unit.previous_source
-        ):
-            unit.original_state = STATE_TRANSLATED
-            if unit.state != STATE_READONLY:
-                unit.state = STATE_TRANSLATED
-            metadata.pop("previous", None)
-            metadata.pop("canonical_source", None)
-        elif STATE_TRANSLATED <= state < STATE_READONLY and unit.target:
-            metadata.update(
-                previous=previous.as_dict(),
-                canonical_source=unit.source,
-            )
-            unit.original_state = STATE_NEEDS_REWRITING
-            if unit.state != STATE_READONLY:
-                unit.state = STATE_NEEDS_REWRITING
+        _update_previous_source(unit, previous, current)
 
     words_changed = unit.num_words != unit.effective_source_num_words
     blocked = unit.translation_parent_blocked
@@ -381,28 +572,33 @@ def update_parent(
         return None
     if keep_snapshot:
         metadata["applied"] = current.as_dict()
-    unit.save(
-        only_save=True,
-        same_content=False,
-        update_fields=["translation_parent", "details", "state", "original_state"],
-    )
+    pending_change_needed = unit.state != old_state or changed
+    if pending_change_needed:
+        unit.store_disk_state(save=False)
+    effects.save_unit(unit)
     effects.units[unit.pk] = unit
     if changed:
-        from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
-        from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
-
-        schedule_propagated_checks(
-            unit, {name for name, check in CHECKS.items() if check.propagates}
-        )
-    if changed or old_parent != unit.translation_parent_id or old_blocked != blocked:
+        effects.propagate_checks(unit)
+    if not effects.batch_checks and (
+        changed or old_parent != unit.translation_parent_id or old_blocked != blocked
+    ):
         effects.add_peers(unit, previous_source, previous_language_id)
     actor = (
         author
         if author is not None
         else unit.translation.component.get_update_user(None)
     )
-    if unit.state != old_state or changed:
-        PendingUnitChange.store_unit_change(unit=unit, author=author, user=actor)
+    if pending_change_needed:
+        effects.add_pending_change(
+            PendingUnitChange.store_unit_change(
+                unit=unit,
+                author=author,
+                author_id=pending_author_id,
+                user=actor,
+                store_disk_state=False,
+                save=False,
+            )
+        )
     change = None
     if changed:
         change = unit.generate_change(
@@ -477,6 +673,18 @@ def propagate_parent_change(
         )
 
 
+def can_batch_unit_updates(component: Component, *, using: str) -> bool:
+    """Keep per-unit database visibility for save hooks that can modify content."""
+    from weblate.addons.events import AddonEvent  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
+
+    return (
+        connections[using].vendor == "postgresql"
+        and not pre_save.has_listeners(Unit)
+        and not component.addons_cache.get_event(AddonEvent.EVENT_UNIT_POST_SAVE)
+    )
+
+
 def _reconcile(component: Component, work: DependencyWork) -> None:
     from weblate.trans.models.change import Change  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
@@ -512,6 +720,12 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         queryset = queryset.filter(
             Q(pk__in=affected) | Q(translation__language_id__in=work.languages)
         )
+    anonymous_id = None
+    if work.author is None:
+        from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
+
+        queryset = queryset.with_last_content_author()
+        anonymous_id = get_anonymous().pk
     units = list(
         queryset.select_for_update().prefetch().prefetch_source().prefetch_all_checks()
     )
@@ -564,9 +778,14 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         return len(visited)
 
     missing_sources: MissingSourceCache = {}
-    effects = ReconciliationEffects()
+    effects = ReconciliationEffects(
+        batch_checks=work.batch_checks,
+        batch_unit_updates=work.batch_checks
+        and can_batch_unit_updates(component, using=using),
+    )
     changes = []
     for unit in sorted(units, key=depth):
+        effects.start_unit_depth(depth(unit), using=using)
         change = update_parent(
             unit,
             parents[unit.pk],
@@ -574,6 +793,11 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
             effects=effects,
             force=work.force,
             missing_sources=missing_sources,
+            pending_author_id=(
+                unit.last_content_author_id or anonymous_id
+                if work.author is None
+                else None
+            ),
             configured=(
                 not unit.is_source
                 and settings.get(unit.translation.language_id)
@@ -584,13 +808,18 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         )
         if change is not None:
             changes.append(change)
+    effects.flush_pending_changes(using=using)
     effects.flush(using=using)
     if changes:
         Change.objects.using(using).bulk_create(changes, batch_size=500)
 
 
 def reconcile_component_parents(
-    component: Component, *, force: bool = False, language_ids: set[int] | None = None
+    component: Component,
+    *,
+    force: bool = False,
+    language_ids: set[int] | None = None,
+    batch_checks: bool = False,
 ) -> None:
     """Rebuild relationships, optionally restricted to affected languages."""
     if language_ids is not None and not language_ids:
@@ -598,7 +827,10 @@ def reconcile_component_parents(
     request_reconciliation(
         component,
         DependencyWork(
-            full=language_ids is None, languages=language_ids or set(), force=force
+            full=language_ids is None,
+            languages=language_ids or set(),
+            force=force,
+            batch_checks=batch_checks,
         ),
     )
 
@@ -609,6 +841,7 @@ def reconcile_project_parents(
     force: bool = False,
     language_ids: set[int] | None = None,
     using: str = "default",
+    batch_checks: bool = False,
 ) -> None:
     if project_id is None or language_ids == set():
         return
@@ -625,4 +858,6 @@ def reconcile_project_parents(
             )
         )
     for component in components.order_by("pk"):
-        reconcile_component_parents(component, force=force, language_ids=language_ids)
+        reconcile_component_parents(
+            component, force=force, language_ids=language_ids, batch_checks=batch_checks
+        )

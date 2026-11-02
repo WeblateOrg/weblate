@@ -11,6 +11,7 @@ from django.db import DatabaseError, connection
 from django.test import TestCase, TransactionTestCase
 
 from weblate.auth.models import User
+from weblate.lang.models import Plural
 from weblate.trans.models import Unit
 from weblate.utils.search_benchmark import (
     CASES,
@@ -25,6 +26,22 @@ from weblate.utils.search_benchmark import (
     set_source_scenario,
     write_summary,
 )
+
+
+class SearchBenchmarkSequenceTest(TestCase):
+    def test_stale_plural_sequence(self) -> None:
+        plural = Plural.objects.filter(language__code__in=("en", "pl", "cs")).latest(
+            "pk"
+        )
+        self.assertGreater(plural.pk, 1)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT setval(pg_get_serial_sequence('lang_plural', 'id')::regclass, %s)",
+                [plural.pk - 1],
+            )
+
+        seed_fixture(Profile(1, 1), rebuild_indexes=False)
+        self.assertTrue(Plural.objects.filter(pk=plural.pk).exists())
 
 
 class SearchBenchmarkTest(TestCase):

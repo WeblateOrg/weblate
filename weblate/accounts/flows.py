@@ -8,6 +8,8 @@ from django.conf import settings
 from django.core import signing
 from django.core.signing import BadSignature, SignatureExpired
 
+from weblate.utils.email import email_key
+
 # ruff: ignore[hardcoded-password-string]
 PASSWORD_RESET_EMAIL_SESSION = "password_reset_email"
 # ruff: ignore[hardcoded-password-string]
@@ -29,7 +31,7 @@ def sign_password_reset_scope(scope: str, email: str) -> str:
         msg = "Unsupported password reset scope"
         raise ValueError(msg)
     return signing.dumps(
-        {"scope": scope, "email": email.strip().casefold()},
+        {"scope": scope, "email": email_key(email.strip())},
         salt=PASSWORD_RESET_SCOPE_SIGNING_SALT,
     )
 
@@ -52,6 +54,6 @@ def get_signed_password_reset_scope(token: str, email: str | None = None) -> str
     token_email = data.get("email")
     if scope not in PASSWORD_RESET_SCOPES or not isinstance(token_email, str):
         return ""
-    if email is not None and token_email != email.strip().casefold():
+    if email is not None and token_email != email_key(email.strip()):
         return ""
     return scope

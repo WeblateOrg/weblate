@@ -5,8 +5,14 @@ Weblate 2026.11
 
 .. rubric:: New features
 
+* Built-in :ref:`roles <default-roles>` can be customized, with permission changes preserved across upgrades and a reset to upstream defaults.
+
+* Added optional self-hosted :ref:`bot-protection` as a technology preview, with proactive anonymous proof of work and verified crawler exemptions following the robots.txt crawl policy.
+
+* Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.
+
 * Unified :ref:`bulk-edit` with search and replace, adding regular expressions and clearing translations in manual runs, Automations, and the bulk-edit add-on. Manual bulk edits offer optional previews.
-* Added configurable :setting:`USER_DIRECTORY_VISIBILITY` and :setting:`USER_PROFILE_VISIBILITY` to restrict user discovery and profile access while preserving resource-scoped contributor discovery.
+* Added role permissions for user discovery and profile access and a :doc:`privacy configuration guide <admin/privacy>`.
 
 * Translation service installations have a :ref:`Logs tab <machinery-error-log>` showing provider errors, including rate limits.
 
@@ -22,10 +28,30 @@ Weblate 2026.11
 * Docker deployments can :ref:`trust custom CA certificates <docker-custom-ca>` for outgoing connections, including repository operations over HTTPS.
 * :ref:`Automations <automation-workflows>` can be edited visually, including condition groups and branches, with a toggle to the raw YAML.
 * Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
+* GitHub pull requests can be assigned to a configured user or the acting user's linked GitHub account, and can have configured labels added using :ref:`vcs_params`.
 
 .. rubric:: Improvements
 
-* Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and batching related updates.
+* :doc:`Kotlin SDK integration <devel/kotlin-sdk>` now offers Translation files CDN installation and Gradle configuration for original XML downloads.
+* Batched label, comment, and check restoration to reduce database queries during :ref:`project backup imports <projectbackup>`.
+
+* :ref:`fedora-messaging` now publishes using Kombu, removing the Twisted dependency. Broker URLs no longer accept query strings or fragments; configure delivery timing using the add-on fields.
+* Sped up source-string linking during :ref:`project backup restoration <projectbackup>`.
+* Sped up :ref:`Git export URL updates <git-export>` for projects with categorized components.
+
+* Reduced database processing overhead for metadata-only updates during :ref:`repository synchronization <update-vcs>`.
+
+* Reduced database writes when saving :ref:`custom source language workflows <workflow-source-language>` by batching unit and pending-change writes and avoiding duplicate unit updates.
+
+* Reduced author lookup queries when changing :ref:`custom source languages <workflow-source-language>` and restoring pending changes from older :ref:`project backups <projectbackup>`.
+* Added a contextual :ref:`Workspaces menu <workspaces>` for users with multiple relevant workspaces, and included watched multi-project workspaces in :guilabel:`My workspaces`.
+* :ref:`Screenshots <screenshots>` recognize image text in the background and cache results, with separate image text suggestions and source string search tabs.
+
+* Correct screenshot filename extensions during upgrades and :ref:`project backup import <projectbackup>` using validated image contents.
+
+* :ref:`Project backup restore <projectbackup>` validates stored parameter values and reports skipped unsupported version control and file format parameters.
+
+* Sped up saving :ref:`custom source language workflows <workflow-source-language>` by limiting reconciliation to affected translations and running expensive quality checks in background batches.
 * :ref:`Automatic translation <auto-translation>` reports translation service failures in task results, the API, and the user interface while preserving successful translations.
 
 * Improved project-wide :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` by restricting database searches to eligible peer translations.
@@ -33,6 +59,7 @@ Weblate 2026.11
 * Reduced database queries during stale repository cleanup by :wladmin:`cleanuptrans` and scheduled maintenance.
 * Translation services can override the :ref:`rate-limit cooldown window <machinery-rate-limit-window>`, with shorter defaults for services that document short-term throttling and support for provider-supplied retry delays.
 * Grouped related settings in :ref:`add-on configuration <addons>` and its generated documentation.
+* Reduced database expression overhead when updating :ref:`translation-memory` entry statuses.
 
 * Clarified :ref:`bulk-edit` by grouping flags and labels by scope and separating add and remove actions.
 
@@ -52,31 +79,63 @@ Weblate 2026.11
 * :ref:`Automation AI quality evaluation <automation-action-weblate.ai_quality>` now uses the effective add-on's service automatically, with an optional service assertion.
 * Require selecting an :ref:`authenticator app <2fa>` at sign-in when multiple apps are registered, so unsuccessful checks affect only the selected app.
 * Added recovery of missing Git checkouts or :file:`.git` directories, including local glossaries, through :ref:`manage-vcs-reset-reapply`, with clearer alert diagnostics and repository maintenance links.
+* Sped up disk-state snapshot writes during :ref:`file reapply <manage-vcs-reset-reapply>` on large repositories.
+* Sped up disk-state cleanup during :ref:`translation commits <lazy-commit>` and :ref:`repository resets <repository-maintenance>`.
 * SVG status badges now use a blurred text shadow to match the shields.io style, improving text contrast.
 * Separated :ref:`add-on integration instructions <addons>` from settings, and added setup guidance for webhooks, Slack, and Fedora Messaging.
+* The translation editor remembers whether the string details in the :ref:`translation context <source-context>` are expanded.
 
 .. rubric:: Security fixes
 
+* Signed-out third-party sign-ins can link to an existing account by matching e-mail only when :setting:`REGISTRATION_REBIND` is enabled.
+* Prevented linked components in the :doc:`REST API <api>` from revealing repository settings of inaccessible components.
+* Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.
+* Protected template downloads through the :doc:`REST API <api>` against symlink races during concurrent repository updates.
+
+* Prevented account takeover through Unicode lookalike e-mail addresses in password reset and account linking. See :doc:`user/profile`.
+* Prevented Mercurial commit messages and other option values from being interpreted as command-line options.
+* Require confirmation of an existing sign-in method before :ref:`registering the first second factor <2fa>`, and a separate second-factor check before creating a project token after enrollment.
+* Bounded screenshot image text matching to prevent excessive web worker CPU use on large components or dense images.
+* Prevented translation reverts from approving strings without review permission.
+* Require recent :ref:`two-factor verification <2fa>` before revealing personal API keys or changing account authentication credentials and project tokens.
+* Prevented translation merges from approving strings without review permission.
+* Prevented translation and Zen pages, conflict alert history, and single-project redirects from exposing restricted component details.
+* Rejected invalid revisions in :ref:`project backup imports <projectbackup>` and prevented Git revisions from being interpreted as command options.
+* Prevented excessive CPU use when checking malformed interpolation, markup, and Markdown links.
 * Prevented excessive CPU use when sanitizing translations containing many non-breaking spaces.
+* Prevented excessive CPU use when restoring translation service placeholders in strings with many syntax tokens.
 * Prevented excessive CPU use when the :ref:`AngularJS interpolation check <check-angularjs-format>` processes unterminated expressions.
+* Applied the :ref:`translation write rate limit <rate-limit>` to the Zen editor save endpoint.
 * Prevented the :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` from exposing restricted source component IDs in change history.
 * Prevented :ref:`reused <check-reused>` and :ref:`inconsistent <check-inconsistent>` translation checks from exposing restricted component strings or confirming matching translations across access boundaries.
+* Limited :ref:`search queries <search-strings>` to prevent excessive parsing time and memory use.
 * Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
 * Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
+* Excluded projects from component creation and management destinations for :ref:`blocked users <block-user>`, including users with project administration permissions.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
+* Bounded edit-distance calculations for large translations to prevent excessive CPU use in change history, CSV exports, and :doc:`reports <devel/reporting>`.
+* Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.
 * Bounded :ref:`component discovery preset <addon-weblate.discovery.discovery>` detection work for repositories with many translation layouts.
-* Prevented spreadsheet formulas in :ref:`translation-history` and :doc:`/api` CSV downloads.
+* Prevented spreadsheet formulas, including those hidden behind Unicode characters, in :ref:`translation-history`, :doc:`/api`, and :ref:`download` CSV files.
 * Prevented restricted glossary components from exposing terms through other components and translation services.
 * Prevented automatic translation from bypassing per-string edit permissions.
 * Prevented aggregate translation archives from bypassing restricted-component and language-scoped download permissions.
 * Prevented automatic suggestions from exposing private project or restricted component translations through a shared cache.
+* Prevented excessive CPU use in the :ref:`unchanged translation <check-same>`, AsciiDoc markup, and Java MessageFormat checks, including automatic Java format detection and syntax highlighting.
+* Require glossary editing permission when changing :ref:`glossary <glossary>` flags through the string context form.
 * Fixed role permission revocation through partial API updates.
 * Prevented component duplication from exposing repository credentials to users without repository access.
 * Prevented project-language and category-language pages from disclosing restricted component metadata.
+* Bound :ref:`two-factor verification <2fa>` to the signed-in account during third-party sign-in and sensitive account actions.
 
 .. rubric:: Bug fixes
 
+* Stopped automatic sign-in retries after :doc:`authentication provider <admin/auth>` errors when only one provider is configured.
+
+* Fixed missing :ref:`workspace <workspaces>` breadcrumbs on project administration and related pages.
+
+* Fixed source-change displays for :ref:`custom source language workflows <workflow-source-language>` and retained source history for strings already needing editing.
 * Fixed newly imported strings with a :ref:`custom source language <workflow-source-language>` remaining read-only when an :ref:`intermediate language file <component-intermediate>` is configured.
 * Fixed :ref:`projectbackup` imports rejecting strings with empty sources.
 * Fixed edits to existing :ref:`subtitle cues <subtitles>` being skipped when committing translation files.
@@ -94,6 +153,9 @@ Weblate 2026.11
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+The upgrade repairs stored screenshot filename extensions. Screenshot storage
+must be accessible during migration; see :ref:`projectbackup`.
 
 .. rubric:: Contributors
 
@@ -163,6 +225,11 @@ If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, add
 in this shared step, and Weblate no longer joins provider first and last names
 itself. Existing full names are preserved. The example configuration and Docker
 image already include the new step. See :doc:`admin/auth` for details.
+
+If you maintain a custom ``SOCIAL_AUTH_PIPELINE``, replace
+``social_core.pipeline.social_auth.associate_by_email`` with
+``weblate.accounts.pipeline.associate_by_email`` to apply the
+:setting:`REGISTRATION_REBIND` policy to third-party sign-ins.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

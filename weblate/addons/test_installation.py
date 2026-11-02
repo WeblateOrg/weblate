@@ -15,7 +15,6 @@ from unittest.mock import patch
 from django.db import transaction
 from django.http import QueryDict
 from django.test import SimpleTestCase, override_settings
-from fedora_messaging.config import LazyConfig
 
 from weblate.addons.defaults import DEFAULT_WEBLATE_ADDONS
 from weblate.addons.models import ADDONS, Addon
@@ -342,11 +341,6 @@ class AddonInstallationTest(ReusableComponentTestCase):
     def test_installations(self) -> None:
         with (
             patch("weblate.addons.tasks.postconfigure_addon"),
-            patch("fedora_messaging.config.conf", LazyConfig()),
-            patch(
-                "weblate.addons.fedora_messaging.FedoraMessagingAddon._reset_fedora_messaging_service",
-                return_value=True,
-            ),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],

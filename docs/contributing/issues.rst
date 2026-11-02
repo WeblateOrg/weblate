@@ -92,14 +92,14 @@ Issues lifecycle
       "Waiting for: Triage" -> "Waiting for: Community" [label="The issue is not clearly defined"];
       "Waiting for: Triage" -> "Issue closed as not planned" [label="The issue is out of scope"];
       "Waiting for: Triage" -> "Issue converted to a discussion" [label="The issue is merely a support request"];
-      "Waiting for: Triage" -> "Waiting for: Milestone" [label="Ready to to be worked on"];
+      "Waiting for: Triage" -> "Waiting for: Milestone" [label="Ready to be worked on"];
 
       "Waiting for: Community" -> "Waiting for: Triage" [label="Community feedback received"];
       "Waiting for: Community" -> "Issue closed as not planned" [label="Lack of response"];
 
-      "Waiting for: Community" -> "Waiting for: Milestone" [label="Ready to to be worked on"];
+      "Waiting for: Community" -> "Waiting for: Milestone" [label="Ready to be worked on"];
       "Waiting for: Community" -> "Waiting for: Demand" [label="Too narrow use case"];
-      "Waiting for: Demand" -> "Waiting for: Milestone" [label="Ready to to be worked on"];
+      "Waiting for: Demand" -> "Waiting for: Milestone" [label="Ready to be worked on"];
       "Waiting for: Demand" -> "Issue closed as not planned" [label="The issue is out of scope"];
       "Waiting for: Milestone" -> "Waiting for: Implementation" [label="Milestone assigned issue will be worked on"];
       "Waiting for: Implementation" -> "Waiting for: Release" [label="Issue implemented waiting for a release"];

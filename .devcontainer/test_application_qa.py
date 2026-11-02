@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import unittest
 from io import BytesIO
+from time import monotonic
 from unittest.mock import Mock, patch
 from zipfile import ZipFile
 
@@ -18,14 +19,13 @@ from translate.storage.pypo import pofile
 class ApplicationQATests(unittest.TestCase):
     def test_eventual_completion(self) -> None:
         probe = Mock(side_effect=[None, None, {"completed": True}])
-        with patch("application_qa.time.sleep") as sleep:
+        with patch("application_qa.time", monotonic=monotonic) as clock:
             self.assertEqual(wait_for("import", probe), {"completed": True})
-        self.assertEqual(sleep.call_count, 2)
+        self.assertEqual(clock.sleep.call_count, 2)
 
     def test_deadline(self) -> None:
         with (
-            patch("application_qa.time.monotonic", side_effect=[0, 1, 181]),
-            patch("application_qa.time.sleep"),
+            patch("application_qa.time", monotonic=Mock(side_effect=[0, 1, 181])),
             self.assertRaisesRegex(TimeoutError, "180s: notification"),
         ):
             wait_for("notification", lambda: False)

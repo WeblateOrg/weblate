@@ -76,7 +76,7 @@ DOCUTILS_PARSER_LOCK = threading.Lock()
 # Single tag token. Name stops at [, ], @, whitespace, or = so [url=…] and
 # [codeblock lang=…] pair on the tag name.
 BBCODE_TOKEN = re.compile(
-    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
+    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\[\]]*)?\]"
 )
 
 
@@ -145,7 +145,7 @@ HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
 HTML_ATTRIBUTE_WRAPPER_CHARS = frozenset("\"'`“”„‟‘’‚‛«»‹›")
 
 
-XML_MATCH = re.compile(r"<[^>]+>")
+XML_MATCH = re.compile(r"<[^<>]+>")
 XML_ENTITY_MATCH = re.compile(
     r"""
     # Initial &
@@ -168,16 +168,13 @@ XML_ENTITY_MATCH = re.compile(
     """,
     re.VERBOSE,
 )
-XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[(.*?)]]>")
+XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[((?:(?!<!\[CDATA\[).)*?)]]>")
 
 SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
 
 # Arabic letter Waw ("و", meaning "and") is a conjunction that commonly attaches
 # directly to the adjacent word without a space
 ARABIC_WAW = "\u0648"
-
-# Extracted from Sphinx sphinx/util/docutils.py
-RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
@@ -783,6 +780,25 @@ def get_rst_role_match(text: str) -> RSTRoleMatch | None:
     return None
 
 
+def parse_rst_explicit_title(inner: str) -> tuple[str, str] | None:
+    """Split a role title and target without retrying each opening angle bracket."""
+    if inner.endswith(">\n"):
+        inner = inner[:-1]
+    elif not inner.endswith(">"):
+        return None
+    opening = inner.find("<", 1)
+    while opening != -1:
+        if inner[opening - 1] != "\x00":
+            prefix = inner[:opening]
+            title = prefix.rstrip()
+            # The original expression requires at least one title character.
+            if not title:
+                title = prefix[:1]
+            return title, inner[opening + 1 : -1]
+        opening = inner.find("<", opening + 1)
+    return None
+
+
 def get_rst_role_reference(rawsource: str) -> tuple[str, RSTHighlightKind] | None:
     if (matched_role := get_rst_role_match(rawsource)) is None:
         return None
@@ -791,8 +807,8 @@ def get_rst_role_reference(rawsource: str) -> tuple[str, RSTHighlightKind] | Non
     if role in RST_TRANSLATABLE:
         return f":{role}:", RST_HIGHLIGHT_ROLE_SYNTAX
 
-    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
-        return f":{role}:`{matched.group(2)}`", RST_HIGHLIGHT_ROLE_TARGET
+    if (matched := parse_rst_explicit_title(matched_role.inner)) is not None:
+        return f":{role}:`{matched[1]}`", RST_HIGHLIGHT_ROLE_TARGET
 
     return f":{role}:`{matched_role.inner}`", RST_HIGHLIGHT_WHOLE
 
@@ -830,8 +846,8 @@ def get_rst_role_highlight(
             ),
         ]
 
-    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
-        suffix_start = prefix_end + len(matched.group(1))
+    if (matched := parse_rst_explicit_title(matched_role.inner)) is not None:
+        suffix_start = prefix_end + len(matched[0])
         forbidden_text = ("`", "<", ">")
         return [
             Highlight(
@@ -847,7 +863,7 @@ def get_rst_role_highlight(
             Highlight(
                 suffix_start,
                 end,
-                rawsource[len(matched_role.syntax_prefix) + len(matched.group(1)) :],
+                rawsource[len(matched_role.syntax_prefix) + len(matched[0]) :],
                 kind="markup",
                 group=group,
                 role=matched_role.role,
@@ -1164,6 +1180,41 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
 ASCIIDOC_MACRO = re.compile(
     r"(?<![a-z0-9])(?P<name>[a-z][a-z0-9]*?)(?P<sep>::?)(?P<target>[^\s\[]*+)\[(?P<attrs>(?:\\.|[^\]])*+)\]"
 )
+ASCIIDOC_MACRO_START = re.compile(r"(?<![a-z0-9])[a-z][a-z0-9]*?::?")
+
+
+def iter_asciidoc_macros(text: str) -> Iterable[re.Match[str]]:
+    """Cache target and attribute boundaries before trying macro openers."""
+    if "[" not in text or "]" not in text:
+        return
+    targets = [-1] * (len(text) + 1)
+    attrs = [-1] * (len(text) + 2)
+    for position in range(len(text) - 1, -1, -1):
+        char = text[position]
+        if char == "[":
+            targets[position] = position
+        elif not char.isspace():
+            targets[position] = targets[position + 1]
+        if char == "]":
+            attrs[position] = position
+        elif char == "\\" and position + 1 < len(text) and text[position + 1] != "\n":
+            attrs[position] = attrs[position + 2]
+        else:
+            attrs[position] = attrs[position + 1]
+
+    consumed = 0
+    for opener in ASCIIDOC_MACRO_START.finditer(text):
+        if opener.start() < consumed:
+            continue
+        bracket = targets[opener.end()]
+        if bracket == -1 or attrs[bracket + 1] == -1:
+            continue
+        match = ASCIIDOC_MACRO.match(text, opener.start(), attrs[bracket + 1] + 1)
+        if match is not None:
+            yield match
+            consumed = match.end()
+
+
 # cross references: <<id>> or <<id,text>>.
 ASCIIDOC_XREF = re.compile(r"(?<!<)<<(?P<id>[^,>]++)(?:,(?P<text>[^>]*+))?>>")
 # inline anchors: [[id]] or [[id,label]].
@@ -1235,7 +1286,7 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
 
 def extract_asciidoc_markup(text: str) -> Counter[str]:
     tokens: list[str] = []
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         if match.group("name") == "pass":
@@ -1264,7 +1315,7 @@ def extract_asciidoc_markup(text: str) -> Counter[str]:
 
 
 def iter_asciidoc_highlights(text: str) -> Iterable[Highlight]:
-    for match in ASCIIDOC_MACRO.finditer(text):
+    for match in iter_asciidoc_macros(text):
         if is_preceded_by_asciidoc_escape(text, match.start()):
             continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")

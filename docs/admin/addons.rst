@@ -98,6 +98,8 @@ threshold. Source-language inclusion follows each add-on's existing publication
 rules. The JavaScript loader and the manifest itself are not listed.
 When no translation files are published, ``locales`` is an empty object.
 The root filename :file:`manifest.json` is reserved for this manifest.
+Weblate validates each manifest against the :ref:`schema-cdn-manifest` before
+publishing it.
 
 Translation files are written before the manifest is replaced, and stale files
 are removed afterwards. File URLs remain mutable, and CDN caches can refresh
@@ -108,7 +110,7 @@ of removed files. Existing add-on installations publish a manifest on their
 next successful publication.
 
 The :ref:`addon-weblate.cdn.kotlin` add-on uses a separate build-specific
-manifest format.
+:ref:`manifest format <schema-kotlin-sdk-manifest>`.
 
 .. _component-discovery-limits:
 

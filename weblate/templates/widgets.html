@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% load i18n icons static %}
+{% load i18n icons static translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
+  {% path_object_breadcrumbs object %}
   <li class="breadcrumb-item">
     <a href="{% url "widgets" path=object.get_url_path %}">{% translate "Widgets" %}</a>
   </li>

@@ -1,4 +1,4 @@
-{% load crispy_forms_tags i18n icons permissions translations %}
+{% load crispy_forms_tags i18n icons permissions translations user_display %}
 
 {% for item in unitdata %}
   <tbody class="zen-unit">
@@ -53,7 +53,7 @@
           <label>{% translate "Explanation" %}</label>
           <div class="list-group">
             <div class="list-group-item">
-              <div class="list-group-item-text">{{ item.unit.source_unit.explanation|markdown }}</div>
+              <div class="list-group-item-text">{% user_markdown item.unit.source_unit.explanation %}</div>
             </div>
           </div>
         </td>

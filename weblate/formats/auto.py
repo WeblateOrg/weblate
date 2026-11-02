@@ -14,6 +14,10 @@ from translate.storage import factory
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+from weblate.formats.extraction_limits import (
+    MAX_EXTRACTED_BYTES,
+    MAX_EXTRACTED_UNITS,
+)
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import BaseTTKitFormat, CSVMetadataError, TTKitUnit
@@ -184,4 +188,10 @@ class AutodetectFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUni
 
     def parse_store(self, storefile) -> S:
         """Directly loads using translate-toolkit."""
-        return factory.getobject(storefile)  # type: ignore[return-value]
+        filename = str(getattr(storefile, "name", storefile)).lower()
+        compressed = filename.endswith((".gz", ".bz2"))
+        return factory.getobject(
+            storefile,
+            max_decompressed_bytes=MAX_EXTRACTED_BYTES if compressed else None,
+            max_units=MAX_EXTRACTED_UNITS if compressed else None,
+        )  # type: ignore[return-value]

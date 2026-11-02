@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n icons permissions translations %}
+{% load crispy_forms_tags i18n icons permissions translations user_display %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -56,21 +56,23 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>{% translate "Username" %}</th>
-            <th>{% translate "Full name" %}</th>
-            <th>{% translate "E-mail" %}</th>
-            <th>{% translate "Projects" %}</th>
-            <th>{% translate "Teams" %}</th>
-            {% if can_edit_users %}<th></th>{% endif %}
+            <th scope="col">{% translate "Username" %}</th>
+            <th scope="col">{% translate "Full name" %}</th>
+            <th scope="col">{% translate "E-mail" %}</th>
+            <th scope="col">{% translate "Projects" %}</th>
+            <th scope="col">{% translate "Teams" %}</th>
+            {% if can_edit_users %}
+              <th scope="col">
+                <span class="visually-hidden">{% translate "Actions" %}</span>
+              </th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
           {% for invitation in invitations %}
             <tr>
               {% if invitation.user %}
-                <td>
-                  <a href="{{ invitation.user.get_absolute_url }}">{{ invitation.user.username }}</a>
-                </td>
+                <td>{% user_display invitation.user icon=False %}</td>
                 <td>{{ invitation.user.full_name }}</td>
                 <td>{{ invitation.user.email }}</td>
               {% else %}

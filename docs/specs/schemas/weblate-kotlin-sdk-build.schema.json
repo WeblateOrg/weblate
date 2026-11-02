@@ -1,6 +1,6 @@
 {
   "$id": "https://weblate.org/schemas/weblate-kotlin-sdk-build.schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Kotlin SDK build registration",
   "description": "Resource IDs from a final Android build, submitted to the Kotlin SDK CDN add-on.",
   "type": "object",
@@ -27,11 +27,11 @@
       "maximum": 2100000000
     },
     "strings": {
-      "$ref": "#/definitions/resources",
+      "$ref": "#/$defs/resources",
       "default": {}
     },
     "plurals": {
-      "$ref": "#/definitions/resources",
+      "$ref": "#/$defs/resources",
       "default": {}
     }
   },
@@ -57,7 +57,7 @@
       }
     }
   ],
-  "definitions": {
+  "$defs": {
     "resources": {
       "type": "object",
       "propertyNames": {

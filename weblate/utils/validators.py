@@ -911,6 +911,10 @@ class FedoraMessagingURLValidator(WeblateServiceURLValidator):
 
 def validate_fedora_messaging_url(value: str) -> None:
     FedoraMessagingURLValidator()(value)
+    if "?" in value or "#" in value:
+        raise ValidationError(
+            gettext("AMQP broker URLs must not contain query strings or fragments.")
+        )
     validate_outbound_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,

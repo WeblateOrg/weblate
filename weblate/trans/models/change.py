@@ -20,7 +20,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
-from rapidfuzz.distance import DamerauLevenshtein
+from rapidfuzz.distance import DamerauLevenshtein, Hamming
 
 from weblate.automation.context import automation_origin
 from weblate.trans.actions import (
@@ -42,7 +42,7 @@ from weblate.utils.change_origin import get_change_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_message
-from weblate.utils.state import StringState
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED, StringState
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.task_log import get_log_user_label
 from weblate.utils.tracing import start_span
@@ -51,6 +51,7 @@ if TYPE_CHECKING:
     from collections.abc import Collection, Iterable
     from uuid import UUID
 
+    from django.contrib.auth.models import AnonymousUser
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -61,6 +62,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+MAX_EXACT_DISTANCE_PAIRS = 1_000_000
 
 PREFETCH_FIELDS = (
     "user",
@@ -1009,6 +1011,16 @@ class Change(models.Model, UserDisplayMixin):
     def get_revert_state(self) -> StringState | None:
         return self.parse_revert_state(self.details)
 
+    @staticmethod
+    def permitted_revert_state(
+        state: StringState, unit: Unit, user: User
+    ) -> StringState:
+        if state == STATE_APPROVED and (
+            not unit.translation.enable_review or not user.has_perm("unit.review", unit)
+        ):
+            return STATE_TRANSLATED
+        return state
+
     def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
         if self.unit_id is None or self.user_id is None:
             return None
@@ -1057,7 +1069,7 @@ class Change(models.Model, UserDisplayMixin):
         return locked_unit.translate(
             user,
             split_plural(target),
-            state,
+            self.permitted_revert_state(state, locked_unit, user),
             change_action=change_action,
             author=author,
             request=request,
@@ -1087,7 +1099,7 @@ class Change(models.Model, UserDisplayMixin):
         return locked_unit.translate(
             user,
             split_plural(self.old),
-            state,
+            self.permitted_revert_state(state, locked_unit, user),
             change_action=change_action,
             author=author,
             request=request,
@@ -1119,17 +1131,42 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self) -> StrOrPromise:
+    def get_details_display(
+        self, *, viewer: User | AnonymousUser | None = None
+    ) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.change_display import (
             ChangeDetailsRenderFactory,
         )
 
-        strategy = ChangeDetailsRenderFactory.get_strategy(self)
+        strategy = ChangeDetailsRenderFactory.get_strategy(self, viewer=viewer)
         return strategy.render_details(self)
 
     def get_distance(self) -> int:
-        return DamerauLevenshtein.distance(self.old, self.target)
+        """Return exact edit distance for small changes and an estimate for large ones."""
+        old, target = self.old, self.target
+        if not old:
+            return len(target)
+        if not target:
+            return len(old)
+        if len(old) * len(target) <= MAX_EXACT_DISTANCE_PAIRS:
+            return DamerauLevenshtein.distance(old, target)
+
+        # Bound quadratic work on stored, translator-controlled content. Trim
+        # shared affixes so isolated insertions and deletions count accurately.
+        start = 0
+        old_end, target_end = len(old), len(target)
+        prefix_end = min(old_end, target_end)
+        while start < prefix_end and old[start] == target[start]:
+            start += 1
+        while (
+            old_end > start
+            and target_end > start
+            and old[old_end - 1] == target[target_end - 1]
+        ):
+            old_end -= 1
+            target_end -= 1
+        return Hamming.distance(old[start:old_end], target[start:target_end], pad=True)
 
     def get_source(self) -> str:
         return self.details.get("source", cast("Unit", self.unit).source)

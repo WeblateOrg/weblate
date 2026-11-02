@@ -677,9 +677,8 @@ Security properties Weblate provides
      - Conditions
      - Violation symptom
      - Severity tier
-   * - User discovery and profile access respect installation visibility
-       policies. *(documented)* (source: :setting:`USER_DIRECTORY_VISIBILITY`,
-       :setting:`USER_PROFILE_VISIBILITY`)
+   * - User discovery and profile access respect global role permissions.
+       *(documented)* (source: :doc:`/admin/privacy`)
      - Operators configure the desired policy. Resource-scoped discovery and
        contribution attribution remain available; this does not provide
        contributor anonymity. *(documented)*
@@ -695,7 +694,11 @@ Security properties Weblate provides
        team-derived permissions apply. Pending authenticator app registrations
        do not satisfy 2FA requirements. Registration requires a valid,
        single-use TOTP code and cannot be completed more than once, including
-       under concurrent submissions. *(documented)* (source: :ref:`2fa`)
+       under concurrent submissions. First-factor registration also requires
+       recent confirmation of an existing password or an already-linked
+       authentication provider. Registration does not establish recent
+       second-factor verification for other sensitive actions. *(documented)*
+       (source: :ref:`2fa`)
        Component administrators are trusted to
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
@@ -763,7 +766,9 @@ Security properties Weblate provides
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source:
+       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
+       changes to authentication credentials require recent second-factor
+       verification for accounts with 2FA. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a
@@ -866,13 +871,15 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
-   * - Built-in translation quality checks must not permit user-controlled
-       content within configured size limits to monopolize synchronous request
-       workers through disproportionate resource consumption. *(maintainer)*
-     - The check is enabled and runs during a supported browser or API
-       translation write.
+   * - Built-in translation quality checks, history rendering, exports, and
+       reports must not permit user-controlled content within configured size
+       limits to monopolize request or background workers through
+       disproportionate resource consumption. *(maintainer)*
+     - Content is accepted through a supported browser or API translation write
+       and processed during the write or subsequently from stored history.
      - A single accepted translation causes CPU or memory consumption
-       disproportionate to its size and stalls a request worker.
+       disproportionate to its size and stalls a request or background worker
+       during a write or subsequent processing.
      - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,

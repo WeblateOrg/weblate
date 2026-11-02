@@ -294,6 +294,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",
+    "weblate.accounts.pipeline.verify_first_factor_sso",
     "weblate.accounts.pipeline.store_params",
     "weblate.accounts.pipeline.verify_open",
     "social_core.pipeline.user.get_username",
@@ -302,7 +303,8 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.revoke_mail_code",
     "weblate.accounts.pipeline.ensure_valid",
     "weblate.accounts.pipeline.remove_account",
-    "social_core.pipeline.social_auth.associate_by_email",
+    "weblate.accounts.pipeline.associate_by_email",
+    "weblate.accounts.pipeline.verify_recent_second_factor",
     "weblate.accounts.pipeline.reauthenticate",
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
@@ -412,12 +414,26 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 REQUIRE_LOGIN = False
 
 # Middleware
+
+# Optional anonymous proof of work; see BOT_PROTECTION_ENABLED documentation.
+BOT_PROTECTION_ENABLED = False
+BOT_PROTECTION_DIFFICULTY = 4
+BOT_PROTECTION_CHALLENGE_AGE = 300
+BOT_PROTECTION_COOKIE_AGE = 3600
+BOT_PROTECTION_CACHE_ALIAS = "default"
+BOT_PROTECTION_EXEMPT_PATHS = []
+BOT_PROTECTION_CRAWLER_RULES = {}
+BOT_PROTECTION_UNWANTED_AGENTS = []
+BOT_PROTECTION_UNWANTED_ACTION = "challenge"
+BOT_PROTECTION_CRAWLER_FILE = ""
+
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "weblate.utils.bot_protection.BotProtectionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",

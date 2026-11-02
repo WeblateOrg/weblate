@@ -1355,7 +1355,7 @@ class ExportTest(ViewTestCase):
         filename = translation.filenames[0]
         request = RequestFactory().head(reverse("download", kwargs=self.kw_translation))
 
-        with patch("weblate.utils.views._snapshot_file_response") as snapshot:
+        with patch("weblate.utils.views.snapshot_file_response") as snapshot:
             response = download_translation_file(request, translation)
 
         snapshot.assert_not_called()
@@ -1378,7 +1378,7 @@ class ExportTest(ViewTestCase):
             return response
 
         with patch(
-            "weblate.utils.views._snapshot_file_response",
+            "weblate.utils.views.snapshot_file_response",
             side_effect=streaming_response,
         ):
             for accept_encoding in ("identity", "gzip"):

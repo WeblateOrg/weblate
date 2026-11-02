@@ -33,6 +33,8 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from datetime import datetime
 
+    from django.http import HttpRequest
+
     from weblate.addons.models import AddonActivityLog
     from weblate.auth.models import User
     from weblate.trans.models import Change
@@ -178,7 +180,9 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
     settings_form = WebhooksAddonForm
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         return render_to_string(
             "addons/webhook_integration.html", {"addon": self, "user": user}
         )
@@ -291,7 +295,9 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     settings_form = BaseWebhooksAddonForm
     version_added = "5.12"
 
-    def get_integration_instructions(self, user: User) -> str:
+    def get_integration_instructions(
+        self, user: User, request: HttpRequest | None = None
+    ) -> str:
         return render_to_string(
             "addons/slack_integration.html", {"addon": self, "user": user}
         )

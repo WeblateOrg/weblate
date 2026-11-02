@@ -1,4 +1,4 @@
-{% load i18n icons translations %}
+{% load i18n icons translations user_display %}
 
 <tr class="{{ glossary_row_class }}">
   <td class="source">
@@ -54,7 +54,7 @@
     <div class="glossary-compact-badge">{% include "snippets/glossary-badge.html" with glossary=item.translation %}</div>
     {% for note in item.glossary_notes.concept %}<div class="glossary-explanation"><strong>{% translate "Note" %}:</strong> {{ note }}</div>{% endfor %}
     {% if item.glossary_note %}<div class="glossary-explanation"><strong>{% translate "Source string description" %}:</strong> {{ item.glossary_note }}</div>{% endif %}
-    {% if not item.is_source and item.explanation %}<div class="glossary-explanation"><strong>{% translate "Translation explanation" %}:</strong> {{ item.explanation|markdown }}</div>{% endif %}
-    {% if item.source_unit.explanation %}<div class="glossary-explanation"><strong>{% translate "Source explanation" %}:</strong> {{ item.source_unit.explanation|markdown }}</div>{% endif %}
+    {% if not item.is_source and item.explanation %}<div class="glossary-explanation"><strong>{% translate "Translation explanation" %}:</strong> {% user_markdown item.explanation %}</div>{% endif %}
+    {% if item.source_unit.explanation %}<div class="glossary-explanation"><strong>{% translate "Source explanation" %}:</strong> {% user_markdown item.source_unit.explanation %}</div>{% endif %}
   </td>
 </tr>

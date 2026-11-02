@@ -1,7 +1,7 @@
-{% load humanize i18n permissions translations urlformat %}
+{% load humanize i18n permissions translations urlformat user_display %}
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="{% if metrics %}col-md-6{% else %}col-md-12{% endif %}">
 
     {% if language or project or component or translation %}
       <div class="card">
@@ -23,7 +23,7 @@
             {% if project.instructions %}
               <tr>
                 <th>{% translate "Instructions for translators" %}</th>
-                <td colspan="2" class="full-cell">{{ project.instructions|markdown }}</td>
+                <td colspan="2" class="full-cell">{% user_markdown project.instructions %}</td>
               </tr>
             {% endif %}
 
@@ -83,7 +83,7 @@
                     <a class="btn btn-primary float-end"
                        href="{% url 'contributor-agreement' path=component.get_url_path %}">{% translate "View" %}</a>
                   {% endif %}
-                  {{ component.effective_agreement|markdown }}
+                  {% user_markdown component.effective_agreement %}
                 </td>
               </tr>
             {% endif %}
@@ -256,7 +256,7 @@
             {% for u in top_users %}
               <tr>
                 <td>{{ forloop.counter }}.</td>
-                <td>{{ u.get_user_display_link }}</td>
+                <td>{% user_display u.user %}</td>
                 <td class="full-cell">
                   <div class="progress chart-progress">
                     <div class="progress-bar progress-bar-success"
@@ -398,39 +398,169 @@
       </table>
     </div>
   </div>
-  <div class="col-md-6">
-    {% include "snippets/activity.html" %}
-    {% if show_global %}
+  {% if metrics %}
+    <div class="col-md-6">
+      {% include "snippets/activity.html" %}
+      {% if show_global %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Global numbers" %}</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.projects|number_format }}</div>
+                  <div class="metric-text">{% translate "Projects" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                  <div class="metric-text">{% translate "Languages" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.components|number_format }}</div>
+                  <div class="metric-text">{% translate "Components" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.users|number_format }}</div>
+                  <div class="metric-text">{% translate "Users" %}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="float-end">{% translate "and previous 30 days" %}</span>
+            <h4 class="card-title">{% translate "Trends of last 30 days" %}</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.trend_30_projects|trend_format }}</div>
+                  <div class="metric-text">{% translate "Projects" %}</div>
+                  <div class="metric-detail">{{ metrics.trend_60_projects|trend_format }}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.trend_30_languages|trend_format }}</div>
+                  <div class="metric-text">{% translate "Languages" %}</div>
+                  <div class="metric-detail">{{ metrics.trend_60_languages|trend_format }}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.trend_30_components|trend_format }}</div>
+                  <div class="metric-text">{% translate "Components" %}</div>
+                  <div class="metric-detail">{{ metrics.trend_60_components|trend_format }}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.trend_30_users|trend_format }}</div>
+                  <div class="metric-text">{% translate "Users" %}</div>
+                  <div class="metric-detail">{{ metrics.trend_60_users|trend_format }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">{% translate "Global numbers" %}</h4>
+          <h4 class="card-title">{% translate "Quick numbers" %}</h4>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.projects|number_format }}</div>
-                <div class="metric-text">{% translate "Projects" %}</div>
+                <div class="metric-number">{{ metrics.all_words|number_format }}</div>
+                <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.languages|number_format }}</div>
-                <div class="metric-text">{% translate "Languages" %}</div>
+                <div class="metric-number">{{ metrics.all|number_format }}</div>
+                <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.components|number_format }}</div>
-                <div class="metric-text">{% translate "Components" %}</div>
+                <div class="metric-number">{{ metrics.translated_percent|percent_format }}</div>
+                <div class="metric-text">{% translate "Translated" %}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.users|number_format }}</div>
-                <div class="metric-text">{% translate "Users" %}</div>
+                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
+                  <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                {% endif %}
+                <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
+                <div class="metric-text">{% translate "Contributors" %}</div>
+                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}</a>{% endif %}
               </div>
             </div>
+            {% if workspace %}
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.projects|number_format }}</div>
+                  <div class="metric-text">{% translate "Projects" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.components|number_format }}</div>
+                  <div class="metric-text">{% translate "Components" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                  <div class="metric-text">{% translate "Languages" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.translations|number_format }}</div>
+                  <div class="metric-text">{% translate "Translations" %}</div>
+                </div>
+              </div>
+            {% endif %}
+            {% if project and not language %}
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.components|number_format }}</div>
+                  <div class="metric-text">{% translate "Components" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                  <div class="metric-text">{% translate "Languages" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.translations|number_format }}</div>
+                  <div class="metric-text">{% translate "Translations" %}</div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="metric">
+                  <div class="metric-number">{{ metrics.screenshots|number_format }}</div>
+                  <div class="metric-text">{% translate "Screenshots" %}</div>
+                </div>
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -443,163 +573,35 @@
           <div class="row">
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.trend_30_projects|trend_format }}</div>
-                <div class="metric-text">{% translate "Projects" %}</div>
-                <div class="metric-detail">{{ metrics.trend_60_projects|trend_format }}</div>
+                <div class="metric-number">{{ metrics.trend_30_all_words|trend_format }}</div>
+                <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_all_words|trend_format }}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.trend_30_languages|trend_format }}</div>
-                <div class="metric-text">{% translate "Languages" %}</div>
-                <div class="metric-detail">{{ metrics.trend_60_languages|trend_format }}</div>
+                <div class="metric-number">{{ metrics.trend_30_all|trend_format }}</div>
+                <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_all|trend_format }}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.trend_30_components|trend_format }}</div>
-                <div class="metric-text">{% translate "Components" %}</div>
-                <div class="metric-detail">{{ metrics.trend_60_components|trend_format }}</div>
+                <div class="metric-number">{{ metrics.trend_30_translated_percent|trend_format }}</div>
+                <div class="metric-text">{% translate "Translated" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_translated_percent|trend_format }}</div>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.trend_30_users|trend_format }}</div>
-                <div class="metric-text">{% translate "Users" %}</div>
-                <div class="metric-detail">{{ metrics.trend_60_users|trend_format }}</div>
+                <div class="metric-number">{{ metrics.trend_30_contributors|trend_format }}</div>
+                <div class="metric-text">{% translate "Contributors" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_contributors|trend_format }}</div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Quick numbers" %}</h4>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.all_words|number_format }}</div>
-              <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.all|number_format }}</div>
-              <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.translated_percent|percent_format }}</div>
-              <div class="metric-text">{% translate "Translated" %}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
-                <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
-              {% endif %}
-              <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
-              <div class="metric-text">{% translate "Contributors" %}</div>
-              {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}</a>{% endif %}
-            </div>
-          </div>
-          {% if workspace %}
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.projects|number_format }}</div>
-                <div class="metric-text">{% translate "Projects" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.components|number_format }}</div>
-                <div class="metric-text">{% translate "Components" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.languages|number_format }}</div>
-                <div class="metric-text">{% translate "Languages" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.translations|number_format }}</div>
-                <div class="metric-text">{% translate "Translations" %}</div>
-              </div>
-            </div>
-          {% endif %}
-          {% if project and not language %}
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.components|number_format }}</div>
-                <div class="metric-text">{% translate "Components" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.languages|number_format }}</div>
-                <div class="metric-text">{% translate "Languages" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.translations|number_format }}</div>
-                <div class="metric-text">{% translate "Translations" %}</div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric">
-                <div class="metric-number">{{ metrics.screenshots|number_format }}</div>
-                <div class="metric-text">{% translate "Screenshots" %}</div>
-              </div>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <span class="float-end">{% translate "and previous 30 days" %}</span>
-        <h4 class="card-title">{% translate "Trends of last 30 days" %}</h4>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.trend_30_all_words|trend_format }}</div>
-              <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
-              <div class="metric-detail">{{ metrics.trend_60_all_words|trend_format }}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.trend_30_all|trend_format }}</div>
-              <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
-              <div class="metric-detail">{{ metrics.trend_60_all|trend_format }}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.trend_30_translated_percent|trend_format }}</div>
-              <div class="metric-text">{% translate "Translated" %}</div>
-              <div class="metric-detail">{{ metrics.trend_60_translated_percent|trend_format }}</div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="metric">
-              <div class="metric-number">{{ metrics.trend_30_contributors|trend_format }}</div>
-              <div class="metric-text">{% translate "Contributors" %}</div>
-              <div class="metric-detail">{{ metrics.trend_60_contributors|trend_format }}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 </div>

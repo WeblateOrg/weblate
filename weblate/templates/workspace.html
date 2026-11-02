@@ -10,6 +10,9 @@
          data-bs-toggle="tab"
          href="#">{% translate "Projects" %}</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#languages" data-bs-toggle="tab" href="#">{% translate "Languages" %}</a>
+    </li>
     {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link"
@@ -175,6 +178,10 @@
       {% endif %}
 
       {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="languages">
+      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") global_base=workspace.stats %}
     </div>
 
     <div class="tab-pane" id="information">

@@ -63,6 +63,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
+from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
@@ -731,6 +732,10 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "database_size": database_size,
         "database_disk_usage": database_disk_usage,
         "memory_migration_status": get_memory_migration_status(),
+        "bot_protection_enabled": option("ENABLED", False),
+        "bot_protection_stats": verification_stats()
+        if option("ENABLED", False)
+        else None,
     }
 
     return render(request, "manage/performance.html", context)

@@ -10,6 +10,7 @@ import hashlib
 import logging
 import os
 import os.path
+import re
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import contextmanager, suppress
@@ -65,6 +66,13 @@ LOGGER = logging.getLogger("weblate.vcs")
 SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
 # Bump when check_config() gains settings existing repositories must refresh.
 CONFIG_CHECK_CACHE_VERSION = 2
+
+REVISION_HASH_RE = re.compile(r"(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})\Z")
+
+
+def is_valid_revision_hash(revision: str) -> bool:
+    """Check a serialized VCS revision without interpreting it as a ref."""
+    return bool(REVISION_HASH_RE.fullmatch(revision))
 
 
 def get_config_check_cache_key(component_pk: int) -> str:
@@ -170,6 +178,11 @@ type RepositoryErrorCode = Literal[
     "gitlab_project_failed_unknown",
     "pull_request_listing_failed",
     "pull_request_listing_failed_retry",
+    "pull_request_update_failed",
+    "pull_request_update_failed_retry",
+    "pull_request_update_failed_with_error",
+    "pull_request_update_failed_with_error_retry",
+    "pull_request_assignees_ignored",
     "repository_fork_failed",
     "repository_fork_not_found",
     "repository_fork_failed_retry",
@@ -294,6 +307,21 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "pull_request_listing_failed_retry": gettext_noop(
         "Pull request listing failed: %(error)s Please retry later."
+    ),
+    "pull_request_update_failed": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s"
+    ),
+    "pull_request_update_failed_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request: %(status)s Please retry later."
+    ),
+    "pull_request_update_failed_with_error": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s"
+    ),
+    "pull_request_update_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while customizing a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "pull_request_assignees_ignored": gettext_noop(
+        "GitHub did not assign the requested users: %(assignees)s"
     ),
     "repository_fork_failed": gettext_noop("Could not fork repository at %(hostname)s"),
     "repository_fork_failed_retry": gettext_noop(

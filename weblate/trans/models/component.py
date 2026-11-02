@@ -39,7 +39,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator, URLValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import F, OuterRef, Q, Subquery, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -63,7 +63,7 @@ from weblate.memory.tasks import (
     schedule_memory_updates,
     update_memory_bulk,
 )
-from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import (
     get_alert_class,
@@ -151,6 +151,7 @@ from weblate.utils.celery import (
     store_task_metadata,
 )
 from weblate.utils.change_origin import (
+    acting_user_context,
     capture_change_origin,
     get_acting_user,
     get_change_origin,
@@ -212,6 +213,7 @@ from weblate.vcs.base import (
     is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
+    is_valid_revision_hash,
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
@@ -1259,6 +1261,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_progress = 0
         self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
+        self.refresh_peer_source_checks = False
         self.batched_checks: set[str] = set()
         self.batch_memory = False
         self.batched_memory: list[MemoryUpdatePayload] = []
@@ -2734,7 +2737,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def get_last_remote_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.remote_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.remote_revision):
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
@@ -2743,7 +2746,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def get_last_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
-        if self.is_repo_local or not self.local_revision:
+        if self.is_repo_local or not is_valid_revision_hash(self.local_revision):
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)
@@ -3570,7 +3573,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         user = self.get_push_user(request)
 
         # Do actual push
-        result = self.push_repo(request, user, retry=retry)
+        with acting_user_context(user):
+            result = self.push_repo(request, user, retry=retry)
         if not result:
             return False
 
@@ -4092,11 +4096,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         units_to_update: list[Unit] = []
         anonymous_id = get_anonymous().id
         actor_id = self.get_update_user(request).pk
-        last_author = (
-            Change.objects.filter(unit_id=OuterRef("pk"), action__in=ACTIONS_CONTENT)
-            .order_by("-timestamp")
-            .values("author_id")[:1]
-        )
         # Local repositories have no upstream source of truth. Reapply can use
         # the same unit-creation path as adding strings in Weblate.
         components = [self, *self.linked_children]
@@ -4117,8 +4116,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             for component in components
             if component.pk in local_components and component.has_template()
         }
+        # django-stubs cannot track annotations returned by queryset helpers.
         units = (
-            Unit.objects.filter(
+            Unit.objects.filter(  # type: ignore[misc]
                 Q(translation__component=self)
                 | Q(translation__component__linked_component=self)
             )
@@ -4131,7 +4131,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 & ~Q(translation__component_id__in=local_templates)
                 | Q(translation__filename="")
             )
-            .annotate(last_author_id=Subquery(last_author))
+            .with_last_content_author()
             .values(
                 "id",
                 "translation__component_id",
@@ -4142,7 +4142,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 "details",
                 "automatically_translated",
                 "source_unit__explanation",
-                "last_author_id",
+                "last_content_author_id",
             )
         )
         for unit in units.iterator(chunk_size=1000):
@@ -4158,15 +4158,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                             automatically_translated=unit["automatically_translated"],
                         ),
                     }
-                    units_to_update.append(Unit(id=unit["id"], details=details))
-                    if len(units_to_update) > 1000:
-                        Unit.objects.bulk_update(units_to_update, ["details"])
+                    # Mark the selected row as existing, leaving other fields deferred.
+                    units_to_update.append(
+                        Unit.from_db(units.db, ["id", "details"], [unit["id"], details])
+                    )
+                    if len(units_to_update) == 500:
+                        Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                            units_to_update, ("details",)
+                        )
                         units_to_update.clear()
 
             pending.append(
                 PendingUnitChange.build_unit_change(
                     unit_id=unit["id"],
-                    author_id=unit["last_author_id"] or anonymous_id,
+                    author_id=unit["last_content_author_id"] or anonymous_id,
                     user_id=actor_id,
                     target=unit["target"],
                     explanation=unit["explanation"],
@@ -4188,7 +4193,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 pending.clear()
 
         if units_to_update:
-            Unit.objects.bulk_update(units_to_update, ["details"])
+            Unit.objects.using(units.db)._bulk_update_values(  # ruff: ignore[private-member-access]
+                units_to_update, ("details",)
+            )
             units_to_update.clear()
 
         if pending:
@@ -4551,6 +4558,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self._state.adding:
             return
         self.delete_alert("AutomergeFailure")
+
+    def handle_pull_request_update_failure(
+        self, error: str | RepositoryStructuredError
+    ) -> None:
+        """Surface a failed pull request customization."""
+        if self._state.adding:
+            return
+        self.add_alert("PullRequestUpdateFailure", error=error)
+
+    def handle_pull_request_update_success(self) -> None:
+        """Clear a pull request customization failure."""
+        if self._state.adding:
+            return
+        self.delete_alert("PullRequestUpdateFailure")
 
     def handle_repository_recovery_failure(self, error: Exception) -> None:
         """Surface failed recovery from interrupted repository operations."""

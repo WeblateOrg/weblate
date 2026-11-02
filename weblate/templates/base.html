@@ -1,4 +1,4 @@
-{% load i18n icons permissions static translations %}
+{% load i18n icons permissions static translations user_display %}
 
 <!DOCTYPE html>
 
@@ -145,6 +145,29 @@
                   </li>
                 </ul>
               </li>
+              {% if navigation_workspaces|length > 1 %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"
+                     href="#"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"
+                     id="workspaces-menu">{% translate "Workspaces" %}</a>
+                  <ul class="dropdown-menu shadow" aria-labelledby="workspaces-menu">
+                    {% for workspace in navigation_workspaces %}
+                      <li>
+                        <a class="dropdown-item" href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+                      </li>
+                    {% endfor %}
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
               {% with languages=user.profile.all_languages.order_translated %}
                 <li class="nav-item dropdown">
                   <a href="#"
@@ -345,7 +368,7 @@
                       <span class="d-none d-sm-inline">
                         <img class="avatar"
                              alt="{% translate "User avatar" %}"
-                             src="{% url 'user_avatar' user=user.username size=24 %}" />
+                             src="{% user_avatar user size=24 %}" />
                       </span>
                       <span class="d-inline d-sm-none">{% translate "Your profile" %}</span>
                     {% else %}

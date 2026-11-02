@@ -5,11 +5,14 @@
 from __future__ import annotations
 
 import os.path
+import runpy
 import tempfile
-from difflib import get_close_matches
-from itertools import chain
+from datetime import timedelta
+from importlib import import_module
+from io import BytesIO
 from pathlib import Path
 from shutil import copyfile, rmtree
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import httpx2
@@ -17,34 +20,48 @@ from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import connection
+from django.db import connection, transaction
+from django.db.migrations.loader import MigrationLoader
+from django.http import StreamingHttpResponse
 from django.test import Client, SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from lxml import html
 from PIL import Image
+from rapidfuzz import fuzz, process
 from rest_framework.test import APITestCase
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
-from weblate.screenshots.models import Screenshot
-from weblate.screenshots.views import (
+from weblate.screenshots.models import Screenshot, ScreenshotOCR
+from weblate.screenshots.ocr import (
+    OCR_LINE_LIMIT,
+    OCR_TEXT_LENGTH_LIMIT,
     TESSERACT_DOWNLOAD_ATTEMPTS,
     TESSERACT_DOWNLOAD_TIMEOUT,
+    OCRLine,
     download_tesseract_data,
+    ensure_ocr,
     ensure_tesseract_language,
     get_tesseract,
-    ocr_get_strings,
+    ocr_get_lines,
 )
+from weblate.screenshots.tasks import cleanup_screenshot_files, recognize_screenshot
+from weblate.screenshots.utils import normalize_screenshot_filename
+from weblate.screenshots.views import OCR_MATCH_PART_LIMIT, ocr_match_parts
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Project, Translation
+from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
+from weblate.utils.celery import delete_task_metadata, get_task_metadata
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import calculate_hash
 from weblate.utils.tests import http_mock
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -55,6 +72,63 @@ PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
 
 
 class ScreenshotImageValidationTest(SimpleTestCase):
+    def test_normalize_filename(self) -> None:
+        for image_format, names in (
+            ("PNG", ("test.pngrawtrue", "test.html", "test", "test.jpg")),
+            ("JPEG", ("test.png", "test.html")),
+            ("GIF", ("test.png",)),
+            ("WEBP", ("test.png",)),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            extension = {"PNG": "png", "JPEG": "jpg", "GIF": "gif", "WEBP": "webp"}[
+                image_format
+            ]
+            for name in names:
+                with self.subTest(format=image_format, name=name):
+                    image = SimpleUploadedFile(name, content.getvalue())
+                    self.assertEqual(
+                        normalize_screenshot_filename(image), f"test.{extension}"
+                    )
+                    self.assertEqual(image.tell(), 0)
+
+    def test_preserve_matching_extensions(self) -> None:
+        for image_format, extensions in (
+            ("PNG", ("png", "PNG", "apng")),
+            ("JPEG", ("jpg", "jpeg", "jpe", "JPEG")),
+            ("GIF", ("gif",)),
+            ("WEBP", ("webp",)),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            for extension in extensions:
+                name = f"test.{extension}"
+                with self.subTest(name=name):
+                    image = SimpleUploadedFile(name, content.getvalue())
+                    self.assertEqual(normalize_screenshot_filename(image), name)
+
+    def test_normalize_rejects_invalid_images(self) -> None:
+        bitmap = BytesIO()
+        Image.new("RGB", (2, 2)).save(bitmap, format="BMP")
+        large = BytesIO()
+        Image.new("RGB", (2001, 1)).save(large, format="PNG")
+        for content in (
+            b"<html>not an image</html>",
+            bitmap.getvalue(),
+            large.getvalue(),
+        ):
+            with self.subTest(content=content[:20]), self.assertRaises(ValidationError):
+                normalize_screenshot_filename(SimpleUploadedFile("test.png", content))
+
+    @override_settings(ALLOWED_ASSET_SIZE=10)
+    def test_normalize_rejects_oversized_image(self) -> None:
+        with self.assertRaises(ValidationError):
+            normalize_screenshot_filename(
+                SimpleUploadedFile(
+                    "test.pngrawtrue", Path(TEST_SCREENSHOT).read_bytes()
+                )
+            )
+
     def test_rejects_invalid_extension(self) -> None:
         image = SimpleUploadedFile(
             "screenshot.html",
@@ -68,11 +142,203 @@ class ScreenshotImageValidationTest(SimpleTestCase):
         self.assertEqual(error.exception.error_list[0].code, "invalid_extension")
 
 
+class ScreenshotExtensionMigrationTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        media_root = self.enterContext(
+            tempfile.TemporaryDirectory()  # pylint: disable=consider-using-with
+        )
+        self.enterContext(override_settings(MEDIA_ROOT=media_root))
+        self.migration = import_module(
+            "weblate.screenshots.migrations.0002_repair_image_extensions"
+        )
+        self.migration_apps = (
+            MigrationLoader(connection)
+            .project_state([("screenshots", "0001_squashed_weblate_5")])
+            .apps
+        )
+        self.screenshot_model = self.migration_apps.get_model(
+            "screenshots", "Screenshot"
+        )
+
+    def create_screenshot(self, name: str, content: bytes | None = None) -> Screenshot:
+        screenshot = self.screenshot_model.objects.create(
+            name=name,
+            translation_id=self.component.source_translation.pk,
+            user_id=self.user.pk,
+        )
+        screenshot.image.save(
+            name,
+            File(
+                BytesIO(
+                    Path(TEST_SCREENSHOT).read_bytes() if content is None else content
+                )
+            ),
+        )
+        return screenshot
+
+    def migrate_images(self) -> None:
+        self.migration.repair_image_extensions(
+            self.migration_apps, SimpleNamespace(connection=connection)
+        )
+
+    def test_repair_and_cleanup(self) -> None:
+        originals = [
+            self.create_screenshot(name)
+            for name in (
+                "collision.png",
+                "collision.pngrawtrue",
+                "collision.html",
+                "missing-extension",
+                "wrong.jpg",
+                "matching.PNG",
+            )
+        ]
+        shared = self.screenshot_model.objects.create(
+            name="Shared image",
+            image=originals[1].image.name,
+            translation_id=self.component.source_translation.pk,
+        )
+        old_names = [screenshot.image.name or "" for screenshot in originals]
+        timestamps = [screenshot.timestamp for screenshot in originals]
+        self.migrate_images()
+        for index, screenshot in enumerate(originals):
+            screenshot.refresh_from_db()
+            assert screenshot.image.name is not None
+            self.assertEqual(screenshot.timestamp, timestamps[index])
+            self.assertEqual(screenshot.user_id, self.user.pk)
+            with screenshot.image.open("rb") as image:
+                self.assertEqual(image.read(), Path(TEST_SCREENSHOT).read_bytes())
+            if index in {0, 5}:
+                self.assertEqual(screenshot.image.name, old_names[index])
+            else:
+                self.assertTrue(screenshot.image.name.endswith(".png"))
+                self.assertNotEqual(screenshot.image.name, old_names[index])
+            self.assertTrue(screenshot.image.storage.exists(old_names[index]))
+        shared.refresh_from_db()
+        self.assertEqual(shared.image.name, originals[1].image.name)
+        names = [screenshot.image.name or "" for screenshot in originals]
+        self.assertEqual(len(set(names)), len(originals))
+        self.migrate_images()
+        self.assertEqual(
+            set(self.screenshot_model.objects.values_list("image", flat=True)),
+            set(names),
+        )
+        cleanup_screenshot_files()
+        for index, screenshot in enumerate(originals):
+            assert screenshot.image.name is not None
+            self.assertTrue(screenshot.image.storage.exists(screenshot.image.name))
+            self.assertEqual(
+                screenshot.image.storage.exists(old_names[index]), index in {0, 5}
+            )
+
+    def test_skip_missing_and_invalid_images(self) -> None:
+        invalid = self.create_screenshot("invalid.html", b"<html>not an image</html>")
+        missing = self.create_screenshot("missing.pngrawtrue")
+        assert missing.image.name is not None
+        missing.image.storage.delete(missing.image.name)
+        large = BytesIO()
+        Image.new("RGB", (2001, 1)).save(large, format="PNG")
+        oversized = self.create_screenshot("large.pngrawtrue", large.getvalue())
+        names = {
+            item.pk: item.image.name or "" for item in (invalid, missing, oversized)
+        }
+        with self.assertLogs("weblate.screenshots", level="WARNING") as logs:
+            self.migrate_images()
+        self.assertEqual(len(logs.output), 3)
+        for screenshot in (invalid, missing, oversized):
+            screenshot.refresh_from_db()
+            self.assertEqual(screenshot.image.name, names[screenshot.pk])
+            self.assertTrue(any(names[screenshot.pk] in line for line in logs.output))
+
+    def test_storage_failure_preserves_reference(self) -> None:
+        screenshot = self.create_screenshot("test.pngrawtrue")
+        old_name = screenshot.image.name
+        # ruff: ignore[private-member-access]
+        storage = self.screenshot_model._meta.get_field("image").storage
+        with (
+            patch.object(storage, "save", side_effect=OSError("Storage unavailable")),
+            self.assertRaisesMessage(OSError, "Storage unavailable"),
+        ):
+            self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, old_name)
+        self.assertTrue(storage.exists(old_name))
+
+    def test_populated_upgrade_scripts(self) -> None:
+        scripts = Path(__file__).resolve().parents[2] / "ci" / "migrate-scripts"
+        for name in ("MissingScreenshots", "UnusedScreenshot"):
+            Alert.objects.update_or_create(
+                component=self.component,
+                name=name,
+                defaults={"details": {"migration_test": True}},
+            )
+        runpy.run_path(str(scripts / "setup-screenshot-extensions.py"))
+        self.assertEqual(
+            set(
+                Alert.objects.filter(
+                    component=self.component, details__migration_test=True
+                ).values_list("name", flat=True)
+            ),
+            {"MissingScreenshots", "UnusedScreenshot"},
+        )
+        with self.assertLogs("weblate.screenshots", level="WARNING"):
+            self.migrate_images()
+        runpy.run_path(str(scripts / "assert-screenshot-extensions.py"))
+
+    def test_supported_formats_and_aliases(self) -> None:
+        screenshots = []
+        for image_format, extension in (
+            ("JPEG", "jpg"),
+            ("GIF", "gif"),
+            ("WEBP", "webp"),
+        ):
+            content = BytesIO()
+            Image.new("RGB", (2, 2)).save(content, format=image_format)
+            screenshot = self.create_screenshot(
+                f"test-{image_format}.html", content.getvalue()
+            )
+            screenshots.append((screenshot, extension))
+        content = BytesIO()
+        Image.new("RGB", (2, 2)).save(content, format="JPEG")
+        jpeg = self.create_screenshot("matching.jpeg", content.getvalue())
+        jpeg_name = jpeg.image.name
+        self.migrate_images()
+        for screenshot, extension in screenshots:
+            screenshot.refresh_from_db()
+            assert screenshot.image.name is not None
+            self.assertTrue(screenshot.image.name.endswith(f".{extension}"))
+        jpeg.refresh_from_db()
+        self.assertEqual(jpeg.image.name, jpeg_name)
+
+    def test_database_failure_preserves_original_file(self) -> None:
+        screenshot = self.create_screenshot("test.pngrawtrue")
+        old_name = screenshot.image.name
+        with (
+            patch(
+                "django.db.models.query.QuerySet.update",
+                side_effect=RuntimeError("Database unavailable"),
+            ),
+            self.assertRaisesMessage(RuntimeError, "Database unavailable"),
+        ):
+            self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, old_name)
+        assert old_name is not None
+        self.assertTrue(screenshot.image.storage.exists(old_name))
+        self.assertTrue(screenshot.image.storage.exists("screenshots/test.png"))
+        self.migrate_images()
+        screenshot.refresh_from_db()
+        self.assertNotEqual(screenshot.image.name, old_name)
+        with screenshot.image.open("rb") as image:
+            self.assertEqual(image.read(), Path(TEST_SCREENSHOT).read_bytes())
+
+
 class TesseractDataTest(SimpleTestCase):
     def test_norwegian_ocr_language(self) -> None:
         with (
             patch("tesserocr.PyTessBaseAPI") as api,
-            patch("weblate.screenshots.views.ensure_tesseract_language") as ensure,
+            patch("weblate.screenshots.ocr.ensure_tesseract_language") as ensure,
         ):
             for code in ("nb", "nb_NO"):
                 with self.subTest(code=code), get_tesseract(Language(code=code)):
@@ -98,8 +364,8 @@ class TesseractDataTest(SimpleTestCase):
 
             with (
                 override_settings(CACHE_DIR=cache_dir),
-                patch("weblate.screenshots.views.WeblateLock"),
-                patch("weblate.screenshots.views.fetch_url") as fetch_url,
+                patch("weblate.screenshots.ocr.WeblateLock"),
+                patch("weblate.screenshots.ocr.fetch_url") as fetch_url,
             ):
                 ensure_tesseract_language("eng")
 
@@ -110,9 +376,9 @@ class TesseractDataTest(SimpleTestCase):
             tessdata = Path(cache_dir) / "tesseract"
             with (
                 override_settings(CACHE_DIR=cache_dir),
-                patch("weblate.screenshots.views.WeblateLock"),
-                patch("weblate.screenshots.views.os.makedirs") as makedirs,
-                patch("weblate.screenshots.views.download_tesseract_data"),
+                patch("weblate.screenshots.ocr.WeblateLock"),
+                patch("weblate.screenshots.ocr.os.makedirs") as makedirs,
+                patch("weblate.screenshots.ocr.download_tesseract_data"),
             ):
                 ensure_tesseract_language("eng")
 
@@ -125,7 +391,7 @@ class TesseractDataTest(SimpleTestCase):
             target = Path(cache_dir) / "eng.traineddata"
             with (
                 patch(
-                    "weblate.screenshots.views.fetch_url",
+                    "weblate.screenshots.ocr.fetch_url",
                     side_effect=[
                         httpx2.ReadError("connection reset", request=request),
                         httpx2.RemoteProtocolError(
@@ -135,7 +401,7 @@ class TesseractDataTest(SimpleTestCase):
                         response,
                     ],
                 ) as fetch_url,
-                patch("weblate.screenshots.views.sleep") as sleep,
+                patch("weblate.screenshots.ocr.sleep") as sleep,
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -156,7 +422,7 @@ class TesseractDataTest(SimpleTestCase):
             target = Path(cache_dir) / "eng.traineddata"
             with (
                 patch(
-                    "weblate.screenshots.views.fetch_url",
+                    "weblate.screenshots.ocr.fetch_url",
                     side_effect=self.get_http_error(404),
                 ) as fetch_url,
                 self.assertRaises(httpx2.HTTPStatusError),
@@ -172,10 +438,10 @@ class TesseractDataTest(SimpleTestCase):
             target = Path(cache_dir) / "eng.traineddata"
             with (
                 patch(
-                    "weblate.screenshots.views.fetch_url",
+                    "weblate.screenshots.ocr.fetch_url",
                     side_effect=httpx2.TimeoutException("timed out"),
                 ) as fetch_url,
-                patch("weblate.screenshots.views.sleep"),
+                patch("weblate.screenshots.ocr.sleep"),
                 self.assertRaises(httpx2.TimeoutException),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
@@ -189,9 +455,9 @@ class TesseractDataTest(SimpleTestCase):
         with tempfile.TemporaryDirectory() as cache_dir:
             target = Path(cache_dir) / "eng.traineddata"
             with (
-                patch("weblate.screenshots.views.fetch_url", return_value=response),
+                patch("weblate.screenshots.ocr.fetch_url", return_value=response),
                 patch(
-                    "weblate.screenshots.views.os.replace",
+                    "weblate.screenshots.ocr.os.replace",
                     side_effect=OSError("No space left on device"),
                 ),
                 self.assertRaises(OSError),
@@ -415,7 +681,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
             response, get_doc_url("admin/translating", "screenshots", user=self.user)
         )
         self.assertContains(response, "Add selected")
-        self.assertContains(response, "Find strings in image")
+        self.assertContains(response, "Image text")
         self.assertContains(
             response,
             "Suggests source strings by recognizing text in this screenshot.",
@@ -436,7 +702,8 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         self.assertContains(
             response, get_doc_url("user/search", "search-boolean", user=self.user)
         )
-        self.assertContains(response, 'id="screenshots-toggle-selection"')
+        self.assertContains(response, 'id="screenshots-toggle-selection-search"')
+        self.assertContains(response, 'id="screenshots-toggle-selection-ocr"')
         self.assertContains(response, 'id="paste-screenshot-btn"')
         form = html.fromstring(response.content).get_element_by_id(
             "screenshot-form-container"
@@ -467,37 +734,55 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def test_view(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
+        screenshot = Screenshot.objects.get()
+        image_data = Path(TEST_SCREENSHOT).read_bytes()
         view_url = screenshot.get_view_url()
         self.assertRegex(view_url, r"/view/\?v=[0-9a-f]{16}$")
         self.assertEqual(screenshot.get_view_url(), view_url)
         response = self.client.get(view_url)
+        assert isinstance(response, StreamingHttpResponse)
+        # Drain the stream on assertion failures as well, using test-client cleanup.
+        self.addCleanup(list, response.streaming_content)
         # Admin can access this
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
         self.assertIn("max-age=3600", response["Cache-Control"])
         self.assertIn("private", response["Cache-Control"])
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Legacy unversioned URLs remain supported
         response = self.client.get(
             reverse("screenshot-view", kwargs={"pk": screenshot.pk})
         )
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
         self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Private admin access
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # User access
         self.user.groups.remove(Group.objects.get(name="Managers"))
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
         # Project privileges removed
         self.project.remove_user(self.user)
@@ -513,8 +798,12 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
         response = self.client.get(screenshot.get_view_url())
+        assert isinstance(response, StreamingHttpResponse)
+        self.addCleanup(list, response.streaming_content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertEqual(b"".join(response.streaming_content), image_data)
+        self.assertTrue(response.closed)
 
     def test_view_uses_image_content_type(self) -> None:
         self.make_manager()
@@ -691,7 +980,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
-        self.assertIn('<a class="add-string', data["results"])
+        self.assertIn('class="add-string', data["results"])
         self.assertIn("screenshot-source-select", data["results"])
         self.assertIn("screenshots-toggle-selection", data["results"])
 
@@ -1105,130 +1394,574 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
             Image.open(TEST_SCREENSHOT) as image,
             get_tesseract(Language.objects.get(code="en")) as api,
         ):
-            result = list(
-                ocr_get_strings(
-                    api, image=image, filename=TEST_SCREENSHOT, resolution=72
-                )
+            result, _ = ocr_get_lines(
+                api, image=image, filename=TEST_SCREENSHOT, resolution=72
             )
 
-        # Reverse logic would make sense here, but we want to use same order as in views.py
-        matches = list(
-            chain.from_iterable(
-                get_close_matches(part, ["Hello, world!\n"], cutoff=0.9)
-                for part in result
+        matches = [
+            match
+            for line in result
+            for match, _, _ in process.extract(
+                line["text"],
+                ["Hello, world!\n"],
+                scorer=fuzz.QRatio,
+                score_cutoff=90,
+                limit=3,
             )
-        )
+        ]
 
         self.assertTrue(
             matches, f"Could not find string in tesseract results: {result}"
         )
 
+    def test_ocr_caps_cached_text_length(self) -> None:
+        api = MagicMock()
+        word = MagicMock()
+        word.IsAtBeginningOf.return_value = True
+        word.GetUTF8Text.return_value = "x" * (OCR_TEXT_LENGTH_LIMIT + 100)
+        with patch("tesserocr.iterate_level", return_value=[word]):
+            lines, _ = ocr_get_lines(
+                api,
+                image=Image.new("RGB", (2, 2)),
+                filename="test.png",
+                resolution=72,
+            )
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(len(lines[0]["text"]), OCR_TEXT_LENGTH_LIMIT)
+        self.assertEqual(len(lines[0]["words"][0]["text"]), OCR_TEXT_LENGTH_LIMIT)
+
+    def test_ocr_marks_truncated_lines(self) -> None:
+        api = MagicMock()
+        word = MagicMock()
+        word.IsAtBeginningOf.return_value = True
+        word.GetUTF8Text.return_value = "test"
+        with patch(
+            "tesserocr.iterate_level", return_value=[word] * (OCR_LINE_LIMIT + 1)
+        ):
+            lines, truncated = ocr_get_lines(
+                api,
+                image=Image.new("RGB", (2, 2)),
+                filename="test.png",
+                resolution=72,
+            )
+        self.assertEqual(len(lines), OCR_LINE_LIMIT)
+        self.assertTrue(truncated)
+
+    def run_ocr(self, screenshot: Screenshot) -> ScreenshotOCR:
+        cache = ensure_ocr(screenshot.pk)
+        recognize_screenshot.run(screenshot.pk, str(cache.generation))
+        cache.refresh_from_db()
+        return cache
+
     def test_ocr(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = self.run_ocr(screenshot)
+        assert cache.data is not None
+        self.assertEqual(
+            [result["resolution"] for result in cache.data["passes"]], [72, 300]
+        )
+        self.assertTrue(
+            any(
+                line["words"]
+                for result in cache.data["passes"]
+                for line in result["lines"]
+            )
+        )
+        for result in cache.data["passes"]:
+            for line in result["lines"]:
+                for item in (line, *line["words"]):
+                    if item["box"] is not None:
+                        left, top, right, bottom = item["box"]
+                        self.assertLessEqual(0, left)
+                        self.assertLess(left, right)
+                        self.assertLessEqual(right, cache.data["width"])
+                        self.assertLessEqual(0, top)
+                        self.assertLess(top, bottom)
+                        self.assertLessEqual(bottom, cache.data["height"])
+        with patch("weblate.screenshots.tasks.get_tesseract") as recognizer:
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            )
+        recognizer.assert_not_called()
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertGreater(data["count"], 0)
+        self.assertIn('class="add-string', data["results"])
 
-        # Search for string
+    def test_ocr_pending(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        url = reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        with patch("weblate.screenshots.ocr.publish_ocr") as publish:
+            with self.captureOnCommitCallbacks(execute=True):
+                first = self.client.post(url).json()
+            with self.captureOnCommitCallbacks(execute=True):
+                second = self.client.post(url).json()
+        self.assertTrue(first["pending"])
+        self.assertEqual(first["count"], 0)
+        self.assertEqual(first["task_url"], second["task_url"])
+        publish.assert_called_once()
+
+    def test_ocr_queue_failure(self) -> None:
+        self.make_manager()
+        with (
+            patch(
+                "weblate.screenshots.tasks.recognize_screenshot.apply_async",
+                side_effect=RuntimeError("broker unavailable"),
+            ),
+            self.assertLogs("weblate", level="ERROR"),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        self.assertEqual(
+            ScreenshotOCR.objects.get(screenshot=screenshot).error, "failed"
+        )
         response = self.client.post(
             reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
         )
-        data = response.json()
+        self.assertEqual(response.json()["responseCode"], 503)
 
-        self.assertEqual(data["responseCode"], 200)
-        self.assertGreater(data["count"], 0)
-        self.assertIn("matching source string", data["summary"])
-        # We should find at least one string
-        self.assertIn(
-            '<a class="add-string',
-            data["results"],
-            "OCR recognition not working, no recognized strings found",
+    def test_ocr_retry_after_worker_termination(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        url = reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        with patch("weblate.screenshots.ocr.publish_ocr") as publish:
+            with self.captureOnCommitCallbacks(execute=True):
+                first = self.client.post(url).json()
+            original = ScreenshotOCR.objects.get(screenshot=screenshot)
+            # A killed worker cannot persist either a result or an error.
+            self.assertIsNone(original.data)
+            self.assertEqual(original.error, "")
+            with self.captureOnCommitCallbacks(execute=True):
+                retried = self.client.post(url, {"retry": "1"}).json()
+            current = ScreenshotOCR.objects.get(screenshot=screenshot)
+            self.assertTrue(retried["pending"])
+            self.assertNotEqual(retried["task_url"], first["task_url"])
+            self.assertNotEqual(current.generation, original.generation)
+            with self.captureOnCommitCallbacks(execute=True):
+                pending = self.client.post(url).json()
+            self.assertEqual(pending["task_url"], retried["task_url"])
+        self.assertEqual(publish.call_count, 2)
+        self.assertEqual(
+            recognize_screenshot.run(screenshot.pk, str(original.generation)),
+            {"status": "obsolete"},
         )
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
+        ):
+            self.assertEqual(
+                recognize_screenshot.run(screenshot.pk, str(current.generation)),
+                {"status": "completed"},
+            )
+        self.assertNotIn("pending", self.client.post(url).json())
 
     def test_ocr_truncated_image(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
-        image = MagicMock()
-        image.__enter__.return_value = image
-
-        def close_and_propagate(*_args) -> bool:
-            image.close()
-            return False
-
-        image.__exit__.side_effect = close_and_propagate
-        image.load.side_effect = OSError(
-            "image file is truncated (5 bytes not processed)"
-        )
-
+        screenshot = Screenshot.objects.get(name="Obrazek")
         with (
-            patch("weblate.screenshots.views.Image.open", return_value=image),
-            patch("weblate.screenshots.views.get_tesseract") as mocked_tesseract,
-            self.assertLogs("weblate", level="WARNING") as logs,
+            patch(
+                "weblate.screenshots.tasks.Image.open",
+                side_effect=OSError("truncated image"),
+            ),
+            patch("weblate.screenshots.tasks.get_tesseract") as recognizer,
+            self.assertLogs("weblate", level="ERROR"),
         ):
-            response = self.client.post(
-                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
-            )
-
-        data = response.json()
-        self.assertEqual(data["responseCode"], 200)
-        self.assertEqual(data["count"], 0)
-        self.assertEqual(data["empty"], "No new matching source strings found.")
-        self.assertNotIn('<a class="add-string', data["results"])
-        self.assertIn(
-            "Skipping OCR for unreadable screenshot",
-            "\n".join(logs.output),
+            cache = self.run_ocr(screenshot)
+        self.assertEqual(cache.error, "failed")
+        recognizer.assert_not_called()
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
         )
-        self.assertGreaterEqual(image.close.call_count, 1)
-        mocked_tesseract.assert_not_called()
+        self.assertEqual(response.json()["responseCode"], 503)
 
-    def test_ocr_tesseract_error_propagates(self) -> None:
+    def test_ocr_retry_discards_running_worker_result(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
-        image = MagicMock()
-        image.__enter__.return_value = image
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        original = ensure_ocr(screenshot.pk)
 
-        def close_and_propagate(*_args) -> bool:
-            image.close()
-            return False
-
-        image.__exit__.side_effect = close_and_propagate
+        def retry_recognition(*args, **kwargs):
+            ensure_ocr(screenshot.pk, retry=True)
+            return [], False
 
         with (
-            patch("weblate.screenshots.views.Image.open", return_value=image),
+            patch("weblate.screenshots.tasks.get_tesseract"),
             patch(
-                "weblate.screenshots.views.get_tesseract",
+                "weblate.screenshots.tasks.ocr_get_lines",
+                side_effect=retry_recognition,
+            ),
+        ):
+            result = recognize_screenshot.run(screenshot.pk, str(original.generation))
+        self.assertEqual(result, {"status": "obsolete"})
+        current = ScreenshotOCR.objects.get(screenshot=screenshot)
+        self.assertNotEqual(current.generation, original.generation)
+        self.assertIsNone(current.data)
+        self.assertEqual(current.error, "")
+
+    def test_ocr_tesseract_error(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        with (
+            patch(
+                "weblate.screenshots.tasks.get_tesseract",
                 side_effect=OSError("No space left on device"),
             ),
-            self.assertRaises(OSError),
+            self.assertLogs("weblate", level="ERROR"),
         ):
-            self.client.post(reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk}))
-
-        self.assertGreaterEqual(image.close.call_count, 1)
+            cache = self.run_ocr(screenshot)
+        self.assertEqual(cache.error, "failed")
 
     def test_ocr_tesseract_download_error(self) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
-
+        screenshot = Screenshot.objects.get(name="Obrazek")
         with (
             patch(
-                "weblate.screenshots.views.get_tesseract",
+                "weblate.screenshots.tasks.get_tesseract",
                 side_effect=httpx2.TimeoutException("timed out"),
             ),
-            self.assertLogs("weblate", level="WARNING") as logs,
+            self.assertLogs("weblate", level="WARNING"),
         ):
-            response = self.client.post(
-                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
-            )
-
-        data = response.json()
+            cache = self.run_ocr(screenshot)
+        self.assertEqual(cache.error, "download")
+        data = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        ).json()
         self.assertEqual(data["responseCode"], 503)
         self.assertEqual(
             data["error"],
-            "OCR data could not be downloaded. Please try again later.",
+            "Text recognition data could not be downloaded. Please try again later.",
         )
-        self.assertIn("Could not download Tesseract data", "\n".join(logs.output))
+
+    def test_ocr_empty_cache(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
+        ):
+            cache = self.run_ocr(screenshot)
+        self.assertEqual(cache.error, "")
+        with patch("weblate.screenshots.ocr.publish_ocr") as publish:
+            for payload in ({}, {"retry": "1"}):
+                with self.subTest(payload=payload):
+                    data = self.client.post(
+                        reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk}),
+                        payload,
+                    ).json()
+                    self.assertEqual(data["count"], 0)
+                    self.assertNotIn("pending", data)
+        publish.assert_not_called()
+
+    def test_ocr_signature_invalidation(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", return_value=([], False)),
+        ):
+            cache = self.run_ocr(screenshot)
+        for target, value in (
+            ("weblate.screenshots.ocr.OCR_ALGORITHM_VERSION", 99),
+            ("tesserocr.__version__", "new wrapper"),
+            ("tesserocr.tesseract_version", lambda: "new engine"),
+        ):
+            with self.subTest(target=target), patch(target, value):
+                refreshed = ensure_ocr(screenshot.pk)
+                self.assertNotEqual(refreshed.generation, cache.generation)
+                self.assertIsNone(refreshed.data)
+                self.assertNotEqual(refreshed.signature, cache.signature)
+        screenshot.translation = self.component.translation_set.get(language_code="cs")
+        screenshot.save(update_fields=["translation"])
+        self.assertEqual(ensure_ocr(screenshot.pk).signature["language"], "ces")
+
+    def test_ocr_replacement_and_metadata(self) -> None:
+        self.make_manager()
+        with patch("weblate.screenshots.ocr.publish_ocr") as publish:
+            with self.captureOnCommitCallbacks(execute=True):
+                self.do_upload()
+            publish.assert_called_once()
+            screenshot = Screenshot.objects.get(name="Obrazek")
+            old = ensure_ocr(screenshot.pk)
+            publish.reset_mock()
+            with self.captureOnCommitCallbacks(execute=True):
+                screenshot.name = "Renamed"
+                screenshot.save(update_fields=["name"])
+            publish.assert_not_called()
+            self.assertEqual(ensure_ocr(screenshot.pk).generation, old.generation)
+            with self.captureOnCommitCallbacks(execute=True):
+                screenshot.image = ContentFile(
+                    Path(TEST_SCREENSHOT).read_bytes(), name="replacement.png"
+                )
+                screenshot.save(update_fields=["image"])
+            publish.assert_called_once()
+        self.assertNotEqual(ensure_ocr(screenshot.pk).generation, old.generation)
+        self.assertEqual(
+            recognize_screenshot.run(screenshot.pk, str(old.generation)),
+            {"status": "obsolete"},
+        )
+
+    def test_ocr_rollback_does_not_publish(self) -> None:
+        self.make_manager()
+        with (
+            patch("weblate.screenshots.ocr.publish_ocr") as publish,
+            self.captureOnCommitCallbacks(execute=True),
+            transaction.atomic(),
+        ):
+            self.do_upload()
+            transaction.set_rollback(True)
+        publish.assert_not_called()
+        self.assertFalse(Screenshot.objects.filter(name="Obrazek").exists())
+
+    def test_ocr_worker_discards_replaced_image(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+
+        def replace_image(*args, **kwargs):
+            screenshot.image = ContentFile(
+                Path(TEST_SCREENSHOT).read_bytes(), name="new.png"
+            )
+            screenshot.save(update_fields=["image"])
+            return [], False
+
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch("weblate.screenshots.tasks.ocr_get_lines", side_effect=replace_image),
+        ):
+            result = recognize_screenshot.run(screenshot.pk, str(cache.generation))
+        self.assertEqual(result, {"status": "obsolete"})
+        self.assertFalse(
+            ScreenshotOCR.objects.filter(
+                screenshot=screenshot, generation=cache.generation
+            ).exists()
+        )
+
+    def test_ocr_deleted_screenshot(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+        pk = screenshot.pk
+        screenshot.delete()
+        self.assertEqual(
+            recognize_screenshot.run(pk, str(cache.generation)), {"status": "obsolete"}
+        )
+
+    def test_ocr_retry_and_expired_pending(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(error="download")
+        failed = ensure_ocr(screenshot.pk)
+        self.assertEqual(failed.generation, cache.generation)
+        retry = ensure_ocr(screenshot.pk, retry=True)
+        self.assertNotEqual(retry.generation, cache.generation)
+        self.assertEqual(retry.error, "")
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            requested_at=timezone.now() - timedelta(minutes=31)
+        )
+        expired = ensure_ocr(screenshot.pk)
+        self.assertNotEqual(expired.generation, retry.generation)
+
+    def test_ocr_matches_current_strings(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": source.source}]}]}
+        )
+        url = reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        self.assertEqual(self.client.post(url).json()["count"], 1)
+        screenshot.add_unit(source, self.user)
+        self.assertEqual(self.client.post(url).json()["count"], 0)
+        screenshot.remove_unit(source, self.user)
+        source.source = "Completely different text"
+        source.save(update_fields=["source"])
+        self.assertEqual(self.client.post(url).json()["count"], 0)
+        self.assertEqual(ensure_ocr(screenshot.pk).generation, cache.generation)
+
+    def test_ocr_fuzzy_match(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": "Hello, wor1d!\n"}]}]}
+        )
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT show_limit()")
+            previous_similarity = cursor.fetchone()[0]
+        try:
+            adjust_similarity_threshold(0.98, alias="default")
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT show_limit()")
+                self.assertAlmostEqual(cursor.fetchone()[0], 0.3)
+        finally:
+            adjust_similarity_threshold(previous_similarity, alias="default")
+        self.assertEqual(response["count"], 1)
+
+    def test_ocr_excludes_assigned_units_before_result_limit(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        units = list(
+            screenshot.translation.unit_set.filter(
+                source__in=["Hello, world!\n", "Thank you for using Weblate."]
+            ).order_by("pk")
+        )
+        self.assertEqual(len(units), 2)
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": unit.source} for unit in units]}]}
+        )
+        screenshot.add_unit(units[0], self.user)
+        with patch("weblate.screenshots.views.OCR_MATCH_RESULT_LIMIT", 1):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+        self.assertEqual(response["count"], 1)
+        self.assertEqual(self.extract_pk(response["results"]), units[1].pk)
+
+    def test_ocr_reports_truncated_unit_results(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        duplicates = [
+            Unit(
+                translation=screenshot.translation,
+                id_hash=calculate_hash(source.source, context),
+                source=source.source,
+                target=source.target,
+                context=context,
+                position=source.position + 100 + index,
+            )
+            for index, context in enumerate(("another context", "third context"))
+        ]
+        Unit.objects.bulk_create(duplicates)
+        for duplicate in duplicates:
+            duplicate.source_unit = duplicate
+        Unit.objects.bulk_update(duplicates, ["source_unit"])
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={"passes": [{"lines": [{"text": source.source}]}]}
+        )
+        with patch("weblate.screenshots.views.OCR_MATCH_RESULT_LIMIT", 2):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            ).json()
+        self.assertEqual(response["count"], 2)
+        self.assertIn("incomplete", response)
+
+    def test_ocr_truncated_cache_reports_partial_results(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        lines: list[OCRLine] = [{"text": source.source, "box": None, "words": []}]
+        with (
+            patch("weblate.screenshots.tasks.get_tesseract"),
+            patch(
+                "weblate.screenshots.tasks.ocr_get_lines",
+                return_value=(lines, True),
+            ),
+        ):
+            cache = self.run_ocr(screenshot)
+        assert cache.data is not None
+        self.assertTrue(all(result["truncated"] for result in cache.data["passes"]))
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        ).json()
+        self.assertEqual(response["count"], 1)
+        self.assertIn("incomplete", response)
+
+    def test_ocr_limits_cached_parts(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        source = screenshot.translation.unit_set.get(source="Hello, world!\n")
+        cache = ensure_ocr(screenshot.pk)
+        ScreenshotOCR.objects.filter(pk=cache.pk).update(
+            data={
+                "passes": [
+                    {"lines": [{"text": source.source}]},
+                    {
+                        "lines": [
+                            {
+                                "text": f"unmatched text {index} "
+                                + " ".join(f"word{index}_{word}" for word in range(20))
+                            }
+                            for index in range(165)
+                        ]
+                    },
+                ]
+            }
+        )
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        ).json()
+        self.assertEqual(response["responseCode"], 200)
+        self.assertEqual(response["count"], 1)
+        self.assertIn("incomplete", response)
+        data = ScreenshotOCR.objects.get(pk=cache.pk).data
+        assert data is not None
+        parts = list(ocr_match_parts(data))
+        self.assertEqual(len(parts), OCR_MATCH_PART_LIMIT)
+        self.assertIn(data["passes"][1]["lines"][-1]["text"], parts)
+
+    @override_settings(RATELIMIT_OCR_ATTEMPTS=1)
+    def test_ocr_rate_limit(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        url = reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        self.assertEqual(self.client.post(url).status_code, 200)
+        self.assertEqual(self.client.post(url).status_code, 429)
+
+    def test_ocr_task_access(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get(name="Obrazek")
+        cache = ensure_ocr(screenshot.pk)
+        metadata = get_task_metadata(str(cache.task_id))
+        assert metadata is not None
+        self.assertEqual(metadata["translation_id"], screenshot.translation_id)
+        self.assertFalse(metadata["cancellable"])
+        delete_task_metadata(str(cache.task_id))
+        self.assertIsNone(get_task_metadata(str(cache.task_id)))
+        self.assertEqual(ensure_ocr(screenshot.pk).task_id, cache.task_id)
+        self.assertIsNotNone(get_task_metadata(str(cache.task_id)))
+        task_url = reverse("api:task-detail", kwargs={"pk": cache.task_id})
+        with patch("weblate.api.views.AsyncResult") as result:
+            result.return_value.result = {"status": "completed"}
+            result.return_value.ready.return_value = True
+            result.return_value.id = str(cache.task_id)
+            result.return_value.state = "SUCCESS"
+            self.assertEqual(self.client.get(task_url).status_code, 200)
+            self.component.project.access_control = Project.ACCESS_PRIVATE
+            self.component.project.save()
+            self.user.groups.clear()
+            self.project.remove_user(self.user)
+            self.user.clear_permissions_cache()
+            self.assertEqual(self.client.get(task_url).status_code, 404)
 
     def test_translation_manipulations(self) -> None:
         self.make_manager()
@@ -1243,7 +1976,7 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
-        self.assertIn('<a class="add-string', data["results"])
+        self.assertIn('class="add-string', data["results"])
 
         source_pk = self.extract_pk(data["results"])
         self.assertEqual(source_pk, translation.unit_set.search("hello").get().pk)
@@ -1337,9 +2070,8 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def test_edit_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         self.make_manager()
         self.do_upload()
-        screenshot = Screenshot.objects.all()[0]
+        screenshot = Screenshot.objects.get()
         old_name = screenshot.image.name
-        old_filename = screenshot.image.file.name
         old_view_url = screenshot.get_view_url()
 
         data = Path(TEST_SCREENSHOT).read_bytes()
@@ -1360,7 +2092,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         )
         screenshot.refresh_from_db()
         self.assertNotEqual(screenshot.image.name, old_name)
-        self.assertNotEqual(screenshot.image.file.name, old_filename)
         self.assertNotEqual(screenshot.get_view_url(), old_view_url)
 
     @http_mock.activate
@@ -1715,7 +2446,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot = Screenshot.objects.get()
         old_name = screenshot.name
         old_image_name = screenshot.image.name
-        old_filename = screenshot.image.file.name
         http_mock.register(
             "GET",
             "https://private.example.com/test-image.png",
@@ -1736,7 +2466,6 @@ class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         screenshot.refresh_from_db()
         self.assertEqual(screenshot.name, old_name)
         self.assertEqual(screenshot.image.name, old_image_name)
-        self.assertEqual(screenshot.image.file.name, old_filename)
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
         self.assertEqual(len(http_mock.calls), 0)
 

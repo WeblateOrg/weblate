@@ -9,16 +9,19 @@ from __future__ import annotations
 import json
 from time import sleep
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest import mock
 
 from asgiref.sync import async_to_sync
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import connection
+from django.shortcuts import redirect
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -45,6 +48,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.defines import TRIAL_PLAN_SLUG
@@ -65,6 +69,9 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.zammad import ZammadError
 from weblate.wladmin.models import SupportStatus
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest, HttpResponseRedirect
 
 CONTACT_DATA = {
     "name": "Test",
@@ -343,12 +350,14 @@ class ViewTest(RepoTestCase):
         for mode in ("authenticated", "admins"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_PROFILE_VISIBILITY=mode),
+                VisibilityPermissions(profile=mode),
             ):
                 self.client.logout()
                 for url in urls:
                     with self.subTest(url=url):
-                        self.assertEqual(self.client.get(url).status_code, 404)
+                        response = self.client.get(url)
+                        self.assertEqual(response.status_code, 404)
+                        self.assertIn("no-store", response["Cache-Control"])
                 self.client.force_login(viewer)
                 with mock.patch(
                     "weblate.accounts.views.get_avatar_image", return_value=b"avatar"
@@ -374,7 +383,7 @@ class ViewTest(RepoTestCase):
                 viewer.is_superuser = False
                 viewer.save()
 
-    @override_settings(USER_PROFILE_VISIBILITY="admins")
+    @VisibilityPermissions(profile="admins")
     def test_restricted_notification_diagnostics(self) -> None:
         viewer = self.get_user()
         target = User.objects.create_user(
@@ -400,7 +409,7 @@ class ViewTest(RepoTestCase):
         for mode in ("scoped", "disabled"):
             with (
                 self.subTest(mode=mode),
-                override_settings(USER_DIRECTORY_VISIBILITY=mode),
+                VisibilityPermissions(directory=mode),
             ):
                 for query in (
                     "",
@@ -688,6 +697,90 @@ class ViewTest(RepoTestCase):
     def test_login_redirect(self) -> None:
         response = self.client.get(reverse("login"))
         self.assertContains(response, "Redirecting you to the authentication provider.")
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_single_provider_callback_error(self) -> None:
+        for error, text in (
+            (
+                AuthProviderError(self.get_backend(), status_code=401),
+                "Authentication could not be completed. Please contact the administrator.",
+            ),
+            (
+                AuthCanceled(self.get_backend(), code="authorization_declined"),
+                "Authentication cancelled.",
+            ),
+            (
+                AuthAssociationError(self.get_backend(), code="email_in_use"),
+                "Could not complete registration.",
+            ),
+        ):
+            with (
+                self.subTest(error=error),
+                mock.patch("weblate.accounts.views.complete", side_effect=error),
+                mock.patch("weblate.accounts.views.report_error"),
+            ):
+                response = self.client.get(
+                    reverse("social:complete", args=("github",)), follow=True
+                )
+                self.assertEqual(response.redirect_chain, [(reverse("login"), 302)])
+                self.assertContains(response, text)
+                self.assertTemplateUsed(response, "accounts/login.html")
+                self.assertContains(
+                    response, f'data-href="{reverse("social:begin", args=("github",))}"'
+                )
+                self.assertNotContains(response, "link-auto")
+                self.assertTemplateUsed(
+                    self.client.get(reverse("login")), "accounts/redirect.html"
+                )
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_single_provider_begin_error(self) -> None:
+        error = AuthConfigurationError(self.get_backend(), code="missing_setting")
+        with (
+            mock.patch("weblate.accounts.views.do_auth", side_effect=error),
+            mock.patch("weblate.accounts.views.report_error"),
+        ):
+            response = self.client.post(
+                reverse("social:begin", args=("github",)), follow=True
+            )
+        self.assertContains(
+            response,
+            "Authentication needs an administrator to check its configuration.",
+        )
+        self.assertTemplateUsed(response, "accounts/login.html")
+        self.assertNotContains(response, "link-auto")
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_single_provider_informational_message(self) -> None:
+        def complete_with_message(
+            request: HttpRequest, backend: str
+        ) -> HttpResponseRedirect:
+            messages.info(request, "Informational login message")
+            return redirect("login")
+
+        with mock.patch(
+            "weblate.accounts.views.complete", side_effect=complete_with_message
+        ):
+            response = self.client.get(
+                reverse("social:complete", args=("github",)), follow=True
+            )
+        self.assertContains(response, "Informational login message")
+        self.assertTemplateUsed(response, "accounts/redirect.html")
 
     def test_login_email(self) -> None:
         user = self.get_user()

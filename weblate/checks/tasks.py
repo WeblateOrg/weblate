@@ -4,9 +4,12 @@
 
 from __future__ import annotations
 
+import json
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError, OperationalError, transaction
 from django.db.models import Value
@@ -17,17 +20,151 @@ from weblate.checks.locks import check_project_session_read_lock
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.propagation import (
+    get_propagation_scope,
     propagation_filter,
     propagation_uses_custom_sources,
     workspace_propagation,
 )
 from weblate.trans.util import split_plural
 from weblate.utils.celery import app
+from weblate.utils.change_origin import (
+    capture_change_origin,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.lock import WeblateLockTimeoutError
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
+
     from weblate.trans.models import Translation
     from weblate.trans.models.unit import UnitQuerySet
+
+
+@dataclass
+class PendingComponentChecks:
+    """Component batches collected at a successful workflow transaction boundary."""
+
+    requests: dict[int, tuple[set[int], set[str]]]
+    inline: bool
+    publish: Callable[[], None] = field(init=False, repr=False)
+    context_key: tuple[bool, int | None, str] = field(init=False)
+
+    def __post_init__(self) -> None:
+        user = get_acting_user()
+        self.context_key = (
+            self.inline,
+            user.pk if user is not None else None,
+            json.dumps(get_change_origin(), sort_keys=True),
+        )
+        self.publish = capture_change_origin(self._publish)
+
+    def __call__(self) -> None:
+        self.publish()
+
+    def _publish(self) -> None:
+        scheduled = set()
+        for component in (
+            Component.objects.filter(pk__in=self.requests)
+            .select_related("project__workspace")
+            .order_by("pk")
+        ):
+            units, requested = self.requests[component.pk]
+            checks = []
+            project = component.project
+            scope = get_propagation_scope(project)
+            boundary = (
+                ("project", str(project.pk), None)
+                if scope == "project"
+                else (
+                    "workspace",
+                    str(project.workspace_id),
+                    component.name if scope == "component_name" else None,
+                )
+            )
+            for name in sorted(requested):
+                check = CHECKS.get(name)
+                if not isinstance(check, BatchCheckMixin):
+                    continue
+                if check.batch_project_wide and component.allow_translation_propagation:
+                    key = (boundary, name)
+                    if key in scheduled:
+                        continue
+                    scheduled.add(key)
+                checks.append(name)
+            if not units and not checks:
+                continue
+            if self.inline:
+                finalize_component_checks(
+                    component.pk,
+                    sorted(units),
+                    checks,
+                    batch_mode=True,
+                    refresh_source_checks=True,
+                )
+            else:
+                finalize_component_checks.delay(
+                    component.pk,
+                    sorted(units),
+                    checks,
+                    batch_mode=True,
+                    refresh_source_checks=True,
+                )
+
+
+def schedule_component_check_batch(
+    component: Component, source_ids: set[int], checks: set[str], *, using: str
+) -> None:
+    from weblate.automation.context import automation_origin  # ruff: ignore[import-outside-top-level]
+
+    transaction.on_commit(
+        PendingComponentChecks(
+            {component.pk: (set(source_ids), set(checks))},
+            bool(settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get()),
+        ),
+        using=using,
+    )
+
+
+@contextmanager
+def coalesce_component_check_batches(*, using: str) -> Generator[None]:
+    """Adopt successful child callbacks without merging across rollback boundaries."""
+    connection = transaction.get_connection(using)
+    start = len(connection.run_on_commit)
+    succeeded = False
+    try:
+        yield
+        succeeded = True
+    finally:
+        if succeeded:
+            _coalesce_component_check_batches(using=using, start=start)
+
+
+def _coalesce_component_check_batches(*, using: str, start: int) -> None:
+    connection = transaction.get_connection(using)
+    pending: dict[tuple[bool, int | None, str], PendingComponentChecks] = {}
+    keep = connection.run_on_commit[:start]
+    for entry in connection.run_on_commit[start:]:
+        callback = entry[1]
+        if not isinstance(callback, PendingComponentChecks):
+            keep.append(entry)
+            continue
+        if callback.context_key not in pending:
+            pending[callback.context_key] = callback
+            continue
+        batch = pending[callback.context_key]
+        for component_id, (units, checks) in callback.requests.items():
+            current_units, current_checks = batch.requests.setdefault(
+                component_id, (set(), set())
+            )
+            current_units.update(units)
+            current_checks.update(checks)
+    connection.run_on_commit = keep
+    for batch in pending.values():
+        if batch.inline:
+            batch()
+        else:
+            transaction.on_commit(batch, using=using)
 
 
 class PropagatedCheckGroup(TypedDict):
@@ -329,7 +466,9 @@ def finalize_component_checks(
     *,
     batch_mode: bool,
     component: Component | None = None,
+    refresh_source_checks: bool = False,
 ) -> None:
+    checks = [name for name in checks if isinstance(CHECKS.get(name), BatchCheckMixin)]
     if not unit_ids and not checks:
         return
     if component is None:
@@ -338,6 +477,8 @@ def finalize_component_checks(
         except Component.DoesNotExist:
             return
     with component.checks_lock:
+        previous_source_checks = component.refresh_peer_source_checks
+        component.refresh_peer_source_checks = refresh_source_checks
         component.batch_checks = batch_mode
         component.batched_checks = set(checks)
         try:
@@ -345,4 +486,5 @@ def finalize_component_checks(
         finally:
             component.batch_checks = False
             component.batched_checks = set()
+            component.refresh_peer_source_checks = previous_source_checks
         component.invalidate_cache()

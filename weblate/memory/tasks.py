@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from datetime import timedelta
+from itertools import batched
 from operator import itemgetter
 from typing import TYPE_CHECKING, Any, NotRequired, TypedDict
 from uuid import UUID
@@ -663,7 +664,7 @@ def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
 
 
 @app.task(trail=False)
-def update_memory(  # ruff: ignore[too-many-arguments, complex-structure]
+def update_memory(  # ruff: ignore[too-many-arguments]
     *,
     source_language_id: int,
     target_language_id: int,
@@ -833,8 +834,7 @@ def update_memory(  # ruff: ignore[too-many-arguments, complex-structure]
             memory_objects.bulk_create(to_create)
             memory_scope_objects.bulk_create_for_memories(to_create)
 
-    if to_update:
-        memory_objects.bulk_update(to_update, fields=["status"])
+    update_memory_statuses(to_update)
 
 
 @app.task(trail=False)
@@ -1095,6 +1095,22 @@ def collect_status_update(
         memory.status = status
         to_update.append(memory)
     return memory
+
+
+def update_memory_statuses(memories: list[Memory]) -> None:
+    """Persist prepared statuses for saved memories on the primary database."""
+    if not memories:
+        return
+
+    ids_by_status: dict[int, list[int]] = defaultdict(list)
+    for memory in memories:
+        ids_by_status[memory.status].append(memory.pk)
+
+    memory_objects = Memory.objects.using("default")
+    with transaction.atomic(using="default", savepoint=False):
+        for status, memory_ids in sorted(ids_by_status.items()):
+            for batch in batched(memory_ids, MEMORY_UPDATE_BATCH_SIZE):
+                memory_objects.filter(pk__in=batch).update(status=status)
 
 
 def normalize_compacted_memory_owner(memory: Memory) -> None:
@@ -1384,5 +1400,4 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
             memory_objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
             memory_scope_objects.bulk_create_for_memories(to_create)
 
-    if to_update:
-        memory_objects.bulk_update(to_update, fields=["status"])
+    update_memory_statuses(to_update)

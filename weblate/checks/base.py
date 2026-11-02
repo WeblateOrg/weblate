@@ -518,6 +518,18 @@ class BatchCheckMixin(BaseCheck):
 
         # Invalidate stats in case there were changes
         for current in components.values():
+            if component.refresh_peer_source_checks and self.check_id in {
+                "inconsistent",
+                "reused",
+            }:
+                from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
+
+                # Boundary-wide batches can change warnings on peers outside
+                # the initiating component. The propagation lock is already held,
+                # including for source checks using the same boundary.
+                for check in CHECKS.source.values():
+                    if isinstance(check, BatchCheckMixin):
+                        check._perform_batch(current)  # ruff: ignore[private-member-access]
             current.invalidate_cache()
 
 

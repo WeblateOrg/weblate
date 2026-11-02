@@ -1,10 +1,10 @@
-{% load i18n icons permissions translations %}
+{% load i18n icons permissions translations user_display %}
 
 <div class="container-fluid container-gapped">
   {% for suggestion in suggestions %}
     <div class="row history-row">
       <div class="col-sm-2 history-event">
-        <strong>{{ suggestion.get_user_display }}</strong>
+        <strong>{% user_display suggestion.user %}</strong>
         <p class="text-muted">{% translate "Suggestion added" %}</p>
         {% if user_can_vote_suggestion %}
           <p class="help-block">

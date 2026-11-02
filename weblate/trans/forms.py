@@ -139,7 +139,7 @@ from weblate.utils.state import (
     StringState,
     get_state_label,
 )
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
 from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
@@ -1116,6 +1116,7 @@ class SearchForm(forms.Form):
         | Category
         | CategoryLanguage
         | Workspace
+        | WorkspaceLanguage
         | Language
         | None = None,
         query_data: QueryDict | None = None,

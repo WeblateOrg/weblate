@@ -102,6 +102,7 @@ Learn more about :ref:`contributing`.
     admin/backup
     admin/auth
     admin/access
+    admin/privacy
     admin/workspaces
     admin/projects
     admin/languages

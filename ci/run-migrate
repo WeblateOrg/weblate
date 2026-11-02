@@ -102,6 +102,14 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Seed built-in role identity and custom roles before editable role synchronization.
+semver_compare "$1" "<" "2026.11"
+editable_roles_migrate=$?
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-editable-roles.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -219,6 +227,14 @@ if [ "$machinery_installations_migrate" -eq 0 ]; then
     check
 fi
 
+# Populate screenshot storage before the automatic extension repair migration.
+semver_compare "$1" "<" "2026.11"
+screenshot_extensions_migrate=$?
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-screenshot-extensions.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -286,6 +302,7 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+    check
 fi
 
 if [ "$workspace_migrate" -eq 0 ]; then
@@ -336,5 +353,14 @@ if [ "$autotranslate_audit_redaction_migrate" -eq 0 ]; then
 fi
 if [ "$machinery_installations_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-machinery-installations.py"
+    check
+fi
+if [ "$screenshot_extensions_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-screenshot-extensions.py"
+    check
+fi
+
+if [ "$editable_roles_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-editable-roles.py"
     check
 fi

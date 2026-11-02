@@ -19,7 +19,7 @@ from lxml.html.defs import tags as lxml_html_tags
 from turbohtml import Element, PlainText, Text, parse
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Callable, Iterable, Iterator
 
     from django.utils.safestring import SafeString
     from lxml.etree import ParserTarget
@@ -28,31 +28,7 @@ if TYPE_CHECKING:
 else:
     ParserTarget = object
 
-MD_LINK = re.compile(
-    r"""
-    (?:
-    !?                                                          # Exclamation for images
-    \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
-    \(
-        \s*(<)?([\s\S]*?)(?(2)>)                                # URL
-        (?:\s+(
-            "(?:\\.|[^"\\])*" | '(?:\\.|[^'\\])*' | \((?:\\.|[^()\\])*\)
-        ))?\s*                                                 # Title, including delimiters
-    \)
-    |
-    <(https?://[^>]+)>                                          # URL
-    |
-    <([^>]+@[^>]+\.[^>]+)>                                      # E-mail
-    )
-    """,
-    re.VERBOSE,
-)
 MD_BROKEN_LINK = re.compile(r"\] +\(")
-MD_REFLINK = re.compile(
-    r"!?\[("  # leading [
-    r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"  # link text
-    r")\]\s*\[([^^\]]*)\]"  # trailing ] with optional target
-)
 MD_SYNTAX = re.compile(
     r"""
     (_{2})(?:[\s\S]+?)_{2}(?!_)         # __word__
@@ -111,6 +87,296 @@ def iter_markdown_autolinks(text: str) -> Iterator[MarkdownSyntax]:
             if _is_markdown_autolink(text[opening + 1 : position]):
                 yield MarkdownSyntax(opening, position + 1, "<")
             opening = None
+
+
+class MarkdownLinkMatch:
+    """The match operations needed by checks and HTML sanitization."""
+
+    def __init__(self, text: str, spans: tuple[tuple[int, int], ...]) -> None:
+        self.text = text
+        self.spans = spans
+
+    def start(self, group: int = 0) -> int:
+        return self.spans[group][0]
+
+    def end(self, group: int = 0) -> int:
+        return self.spans[group][1]
+
+    def group(self, group: int = 0) -> str:
+        start, end = self.spans[group]
+        return self.text[start:end] if start >= 0 else ""
+
+    def __getitem__(self, group: int) -> str:
+        return self.group(group)
+
+    def groups(self) -> tuple[str, ...]:
+        return tuple(self.group(index) for index in range(1, len(self.spans)))
+
+
+def _next_markdown_quotes(text: str) -> dict[str, list[int]]:
+    """Cache unescaped closing delimiters for title candidates."""
+    quotes = "\"'\u201c)"
+    result = {quote: [-1] * (len(text) + 1) for quote in quotes}
+    escaped = bytearray(len(text))
+    backslashes = 0
+    for position, char in enumerate(text):
+        if char == "\\":
+            backslashes += 1
+        else:
+            escaped[position] = backslashes % 2
+            backslashes = 0
+    next_positions = dict.fromkeys(quotes, -1)
+    for position in range(len(text) - 1, -1, -1):
+        char = text[position]
+        if char in next_positions and not escaped[position]:
+            next_positions[char] = position
+        for quote in quotes:
+            result[quote][position] = next_positions[quote]
+    return result
+
+
+def _consume_markdown_quote(
+    start: int, quote: str, next_quotes: dict[str, list[int]]
+) -> tuple[int, int]:
+    """Return the end of a title candidate and its first unescaped parenthesis."""
+    closing = next_quotes[quote][start + 1]
+    first_closing = next_quotes[")"][start + 1]
+    if closing == -1:
+        return -1, first_closing
+    return closing + 1, first_closing if first_closing <= closing else -1
+
+
+def _after_markdown_angle_destination(
+    text: str, opening: int, next_angle_closing: list[int]
+) -> int:
+    position = opening + 1
+    while position < len(text) and text[position].isspace():
+        position += 1
+    if position < len(text) and text[position] == "<":
+        closing = next_angle_closing[position + 1]
+        if closing != -1:
+            return closing + 1
+    return opening + 1
+
+
+def _markdown_destination_ends(
+    text: str, next_quotes: dict[str, list[int]], next_nonspace: list[int]
+) -> list[tuple[int, int, int] | None]:
+    """Cache the closing parenthesis and optional title for every suffix."""
+    results: list[tuple[int, int, int] | None] = [None] * (len(text) + 1)
+    for position in range(len(text) - 1, -1, -1):
+        char = text[position]
+        if char == ")":
+            results[position] = (position, -1, -1)
+        elif char in "\"'(\u201c" and position > 0 and text[position - 1].isspace():
+            quote = ")" if char == "(" else char
+            after, first_closing = _consume_markdown_quote(position, quote, next_quotes)
+            suffix = next_nonspace[after] if after != -1 else -1
+            if suffix < len(text) and suffix != -1 and text[suffix] == ")":
+                results[position] = (suffix, position, after)
+            elif first_closing != -1:
+                results[position] = (first_closing, -1, -1)
+            elif after != -1:
+                results[position] = results[suffix]
+        else:
+            results[position] = results[position + 1]
+    return results
+
+
+def _parse_markdown_destination(
+    text: str,
+    opening: int,
+    last_closing: int,
+    next_angle_closing: list[int],
+    destination_ends: list[tuple[int, int, int] | None],
+) -> tuple[int, tuple[int, int], tuple[int, int], tuple[int, int]] | None:
+    """Return the closing position and spans for angle, URL, and title."""
+    if opening >= last_closing:
+        return None
+    position = _after_markdown_angle_destination(text, opening, next_angle_closing)
+    if position > last_closing:
+        return None
+    # The first URL character cannot be a title opener.
+    if position == opening + 1 and text[position] != ")":
+        position += 1
+    result = destination_ends[position]
+    if result is None:
+        return None
+    position, title_start, title_end = result
+
+    url_start = opening + 1
+    while url_start < position and text[url_start].isspace():
+        url_start += 1
+    url_end = title_start if title_start != -1 else position
+    while url_end > url_start and text[url_end - 1].isspace():
+        url_end -= 1
+    angle = (-1, -1)
+    if url_end - url_start >= 2 and text[url_start] == "<" and text[url_end - 1] == ">":
+        angle = (url_start, url_start + 1)
+        url_start += 1
+        url_end -= 1
+    return position + 1, angle, (url_start, url_end), (title_start, title_end)
+
+
+def _markdown_destination_boundaries(text: str) -> tuple[list[int], list[int]]:
+    next_angle_closing = [-1] * (len(text) + 1)
+    next_nonspace = [len(text)] * (len(text) + 1)
+    closing = -1
+    nonspace = len(text)
+    for index in range(len(text) - 1, -1, -1):
+        if text[index] == ">":
+            closing = index
+        next_angle_closing[index] = closing
+        if not text[index].isspace():
+            nonspace = index
+        next_nonspace[index] = nonspace
+    return next_angle_closing, next_nonspace
+
+
+def _iter_markdown_bracket_links(
+    text: str, *, reference: bool
+) -> Iterator[MarkdownLinkMatch]:
+    """Scan bracket pairs once, including malformed prefixes."""
+    openings: list[int] = []
+    candidates: list[MarkdownLinkMatch | None] = [None] * len(text)
+    # An unterminated destination can be rejected without scanning its tail.
+    last_closing = text.rfind(")") if not reference else -1
+    next_angle_closing: list[int] = []
+    next_nonspace: list[int] = []
+    next_quotes: dict[str, list[int]] = {}
+    destination_ends: list[tuple[int, int, int] | None] = []
+    if not reference:
+        next_quotes = _next_markdown_quotes(text)
+        next_angle_closing, next_nonspace = _markdown_destination_boundaries(text)
+        destination_ends = _markdown_destination_ends(text, next_quotes, next_nonspace)
+    position = 0
+    while position < len(text):
+        if text[position] == "[":
+            openings.append(position)
+        elif text[position] == "]" and openings:
+            after = position + 1
+            spans: tuple[tuple[int, int], ...]
+            if reference:
+                while after < len(text) and text[after].isspace():
+                    after += 1
+                marker = after < len(text) and text[after] == "["
+            else:
+                marker = after < len(text) and text[after] == "("
+            if not marker:
+                if len(openings) > 1:
+                    openings.pop()
+                position += 1
+                continue
+            opening = openings.pop()
+            if reference:
+                closing = text.find("]", after + 1)
+                if closing == -1:
+                    position += 1
+                    continue
+                end = closing + 1
+                spans = (
+                    (opening - (opening > 0 and text[opening - 1] == "!"), end),
+                    (opening + 1, position),
+                    (after + 1, closing),
+                )
+            else:
+                parsed = _parse_markdown_destination(
+                    text,
+                    after,
+                    last_closing,
+                    next_angle_closing,
+                    destination_ends,
+                )
+                if parsed is None:
+                    position += 1
+                    continue
+                end, angle, url, title = parsed
+                spans = (
+                    (opening - (opening > 0 and text[opening - 1] == "!"), end),
+                    (opening + 1, position),
+                    angle,
+                    url,
+                    title,
+                    (-1, -1),
+                    (-1, -1),
+                )
+            candidates[spans[0][0]] = MarkdownLinkMatch(text, spans)
+            position = end
+            continue
+        position += 1
+    end = 0
+    for match in candidates:
+        if match is not None and match.start() >= end:
+            yield match
+            end = match.end()
+
+
+class MarkdownLinkPattern:
+    """Expose the match operations used by existing Markdown callers."""
+
+    def __init__(self, *, reference: bool = False) -> None:
+        self.reference = reference
+
+    def finditer(self, text: str) -> Iterator[MarkdownLinkMatch]:
+        brackets = _iter_markdown_bracket_links(text, reference=self.reference)
+        if self.reference:
+            yield from brackets
+            return
+        autolinks = (
+            MarkdownLinkMatch(
+                text,
+                (
+                    (match.start, match.end),
+                    *((-1, -1),) * 4,
+                    (match.start + 1, match.end - 1)
+                    if text.startswith(("<http://", "<https://"), match.start)
+                    else (-1, -1),
+                    (match.start + 1, match.end - 1)
+                    if not text.startswith(("<http://", "<https://"), match.start)
+                    else (-1, -1),
+                ),
+            )
+            for match in iter_markdown_autolinks(text)
+        )
+        end = 0
+        for match in merge(brackets, autolinks, key=lambda item: item.start()):
+            if match.start() >= end:
+                yield match
+                end = match.end()
+
+    def findall(self, text: str) -> list[tuple[str, ...]]:
+        return [
+            tuple(group or "" for group in match.groups())
+            for match in self.finditer(text)
+        ]
+
+    def fullmatch(self, text: str) -> MarkdownLinkMatch | None:
+        match = next(self.finditer(text), None)
+        return (
+            match
+            if match is not None and match.start() == 0 and match.end() == len(text)
+            else None
+        )
+
+    def sub(
+        self, replacement: str | Callable[[MarkdownLinkMatch], str], text: str
+    ) -> str:
+        parts: list[str] = []
+        position = 0
+        for match in self.finditer(text):
+            parts.extend(
+                (
+                    text[position : match.start()],
+                    replacement(match) if callable(replacement) else replacement,
+                )
+            )
+            position = match.end()
+        parts.append(text[position:])
+        return "".join(parts)
+
+
+MD_LINK = MarkdownLinkPattern()
+MD_REFLINK = MarkdownLinkPattern(reference=True)
 
 
 def _iter_markdown_code_spans(
@@ -238,11 +504,11 @@ def iter_markdown_syntax(text: str) -> Iterator[MarkdownSyntax]:
 AUTO_SAFE_HTML_START = re.compile(r"<(?=[!/?A-Za-z])")
 AUTO_SAFE_HTML_SEGMENT = re.compile(
     r"""
-    <!--[\s\S]*?-->
+    <!--(?:(?!<!--)[\s\S])*?-->
     |
-    <!DOCTYPE(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?>
+    <!DOCTYPE(?:\s++|"[^"]*"|'[^']*'|[^<\s'">]++)*+\??>
     |
-    </?[A-Za-z](?:[^<>"']|"[^"]*"|'[^']*')*?>
+    </?[A-Za-z](?:[^<>"']++|"[^"]*"|'[^']*')*+>
     """,
     re.IGNORECASE | re.VERBOSE,
 )
@@ -549,7 +815,7 @@ class HTMLSanitizer:
 
         return self.add_back_special(text)
 
-    def handle_replace(self, match: re.Match) -> str:
+    def handle_replace(self, match: re.Match[str] | MarkdownLinkMatch) -> str:
         self.current += 1
         replacement = f"@@@@@weblate:{self.current}@@@@@"
         self.replacements[replacement] = match.group(0)

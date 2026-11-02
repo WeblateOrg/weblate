@@ -32,6 +32,7 @@ from django.utils.translation import (
 
 from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.accounts.tasks import EMAIL_BATCH_SIZE, queue_mails
+from weblate.accounts.visibility import public_profile_render
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -355,6 +356,7 @@ class Notification:
                 queue_mails(self.outgoing)
                 self.outgoing.clear()
 
+    @public_profile_render()
     def render_template(self, suffix: str, context: dict, digest: bool = False) -> str:
         """Render single mail template with given context."""
         base_name = self.digest_template if digest else self.template_name
@@ -1677,6 +1679,7 @@ class ToDoStringsNotification(SummaryNotification):
         return translation.stats.todo
 
 
+@public_profile_render()
 def get_notification_emails(
     language: str | None,
     recipients: list[str],

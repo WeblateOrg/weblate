@@ -645,6 +645,72 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
         self.user.userblock_set.all().delete()
 
+    def test_projects_with_perm_blocked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        other_project = Project.objects.create(slug="other", name="Other")
+        other_project.add_user(self.user, "Administration")
+
+        for expiry, blocked in (
+            (None, True),
+            (timezone.now() + timedelta(days=1), True),
+            (timezone.now() - timedelta(days=1), False),
+        ):
+            with self.subTest(expiry=expiry):
+                block = self.user.userblock_set.create(
+                    project=self.project, expiry=expiry
+                )
+                self.user.clear_permissions_cache()
+                for explicit in (False, True):
+                    projects = self.user.projects_with_perm(
+                        "project.edit", explicit=explicit
+                    )
+                    self.assertEqual(self.project in projects, not blocked)
+                    self.assertIn(other_project, projects)
+                self.assertEqual(
+                    self.project in self.user.managed_projects, not blocked
+                )
+                self.assertEqual(self.project in self.user.owned_projects, not blocked)
+                self.assertEqual(
+                    bool(self.user.has_perm("project.edit", self.project)), not blocked
+                )
+                block.delete()
+
+        self.user.clear_permissions_cache()
+        self.assertIn(self.project, self.user.managed_projects)
+
+    def test_projects_with_perm_blocked_sitewide(self) -> None:
+        role = Role.objects.create(name="Project manager")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project managers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.userblock_set.create(project=self.project)
+        other_project = Project.objects.create(slug="other", name="Other")
+
+        for selection, access in (
+            (SELECTION_ALL_PUBLIC, Project.ACCESS_PUBLIC),
+            (SELECTION_ALL_PROTECTED, Project.ACCESS_PROTECTED),
+            (SELECTION_ALL, Project.ACCESS_PRIVATE),
+        ):
+            with self.subTest(selection=selection):
+                group.project_selection = selection
+                group.save()
+                Project.objects.filter(
+                    pk__in=[self.project.pk, other_project.pk]
+                ).update(access_control=access)
+                self.user.clear_permissions_cache()
+                self.assertNotIn(self.project, self.user.managed_projects)
+                self.assertIn(other_project, self.user.managed_projects)
+                self.assertFalse(self.user.owned_projects.exists())
+
+    def test_projects_with_perm_blocked_superuser(self) -> None:
+        self.project.add_user(self.superuser, "Administration")
+        self.superuser.userblock_set.create(project=self.project)
+        self.superuser.clear_permissions_cache()
+        self.assertIn(self.project, self.superuser.managed_projects)
+        self.assertIn(self.project, self.superuser.owned_projects)
+        self.assertTrue(self.superuser.has_perm("project.edit", self.project))
+
     def test_projects_with_perm(self) -> None:
         group = Group.objects.get(name="Managers")
 

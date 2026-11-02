@@ -185,7 +185,7 @@ def migrate_permissions(model: type[Permission]) -> None:
 
 
 def migrate_roles(model: type[Role], perm_model: type[Permission]) -> set[str]:
-    """Create roles as defined in the data."""
+    """Create missing roles; existing roles are updated only by data migrations."""
     result = set()
     existing: dict[str, Role] = {obj.name: obj for obj in model.objects.all()}
     for role, permissions in ROLES:
@@ -194,9 +194,9 @@ def migrate_roles(model: type[Role], perm_model: type[Permission]) -> set[str]:
         else:
             instance = model.objects.create(name=role)
             result.add(role)
-        instance.permissions.set(
-            perm_model.objects.filter(codename__in=permissions), clear=True
-        )
+            instance.permissions.set(
+                perm_model.objects.filter(codename__in=permissions)
+            )
     return result
 
 

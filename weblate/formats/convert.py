@@ -44,6 +44,7 @@ from translate.storage.xml_extract.extract import (
 )
 
 from weblate.formats.base import TranslationFormat
+from weblate.formats.extraction_limits import make_extraction_budget
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import BasePoUnit, TTKitUnit, XliffUnit
 from weblate.trans.exceptions import is_expected_parse_error
@@ -679,10 +680,13 @@ class OpenDocumentFormat[S: Xliff1File, U: Xliff1Unit, T: ConvertXliffUnit](
     ) -> S:
         store: Xliff1File = Xliff1File()
         store.setfilename(store.getfilenode("NoName"), "odf")
-        contents = open_odf(storefile)
+        budget = make_extraction_budget()
+        contents = open_odf(storefile, budget=budget)
         for data in contents.values():
             parse_state = ParseState(no_translate_content_elements, inline_elements)
-            build_store(BytesIO(data), store, parse_state)
+            build_store(
+                BytesIO(data), store, parse_state, collect_ids=False, budget=budget
+            )
         return store  # type: ignore[return-value]
 
     def save_content(self, handle: IO[bytes]) -> None:
@@ -730,7 +734,8 @@ class IDMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
     ) -> S:
         store = pofile()
 
-        contents = open_idml(storefile)
+        budget = make_extraction_budget()
+        contents = open_idml(storefile, budget=budget)
 
         # Create it here to avoid having repeated ids.
         id_maker = IdMaker()
@@ -743,6 +748,7 @@ class IDMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
                 store,
                 parse_state,
                 store_adder=po_store_adder,
+                budget=budget,
             )
 
         return store  # type: ignore[return-value]

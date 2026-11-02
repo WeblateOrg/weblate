@@ -46,7 +46,12 @@ from weblate.utils.files import (
     is_path_within_resolved_directory,
     is_unsafe_path,
 )
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
+from weblate.utils.stats import (
+    CategoryLanguage,
+    ProjectLanguage,
+    WorkspaceLanguage,
+    prefetch_stats,
+)
 from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
@@ -265,7 +270,15 @@ def get_sort_name(
 ):
     """Get sort name."""
     if isinstance(
-        obj, (Project, Category, ProjectLanguage, CategoryLanguage, Workspace)
+        obj,
+        (
+            Project,
+            Category,
+            ProjectLanguage,
+            CategoryLanguage,
+            Workspace,
+            WorkspaceLanguage,
+        ),
     ):
         default = "component,-priority"
     elif hasattr(obj, "component") and obj.component.is_glossary:
@@ -306,8 +319,9 @@ def parse_path(
 
     # Workspace URL
     if path[:2] == ["-", "workspace"]:
-        check_type(Workspace)
-        if len(path) != 3:
+        language_scope = len(path) == 5 and path[3] == "-"
+        check_type(WorkspaceLanguage if language_scope else Workspace)
+        if len(path) != 3 and not language_scope:
             msg = "Invalid workspace path"
             raise UnsupportedPathObjectError(msg)
         try:
@@ -319,6 +333,9 @@ def parse_path(
         if request is not None and not workspace.can_view(request.user):
             msg = "Access denied"
             raise Http404(msg)
+        if language_scope:
+            language = get_object_or_404(Language, code=path[4])
+            return WorkspaceLanguage(workspace, language)
         return workspace
 
     # Language URL
@@ -480,8 +497,9 @@ async def aparse_path(
 
     # Workspace URL
     if path[:2] == ["-", "workspace"]:
-        check_type(Workspace)
-        if len(path) != 3:
+        language_scope = len(path) == 5 and path[3] == "-"
+        check_type(WorkspaceLanguage if language_scope else Workspace)
+        if len(path) != 3 and not language_scope:
             msg = "Invalid workspace path"
             raise UnsupportedPathObjectError(msg)
         try:
@@ -498,6 +516,9 @@ async def aparse_path(
         if request is not None and not await _workspace_can_view(request, workspace):
             msg = "Access denied"
             raise Http404(msg)
+        if language_scope:
+            language = await aget_object_or_404(Language, code=path[4])
+            return WorkspaceLanguage(workspace, language)
         return workspace
 
     # Language URL
@@ -623,6 +644,13 @@ def parse_path_units(
     elif isinstance(obj, Project):
         unit_set = access_units.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
+    elif isinstance(obj, WorkspaceLanguage):
+        unit_set = access_units.filter(
+            translation__component__project__workspace=obj.workspace,
+            translation__language=obj.language,
+        ).prefetch()
+        context["workspace"] = obj.workspace
+        context["language"] = obj.language
     elif isinstance(obj, Workspace):
         unit_set = access_units.filter(
             translation__component__project__workspace=obj
@@ -948,8 +976,12 @@ def repository_lock_timeout_response(error: WeblateLockTimeoutError) -> HttpResp
     )
 
 
-def _snapshot_file_response(
-    filename: str, content_type: str, refresh_lock: Callable[[], None]
+def snapshot_file_response(
+    filename: str,
+    content_type: str,
+    refresh_lock: Callable[[], None],
+    *,
+    as_attachment: bool = False,
 ) -> FileResponse:
     """Copy a file into a stable disk-backed download response."""
     refresh_repository_lock = _periodic_lock_refresher(refresh_lock)
@@ -958,7 +990,12 @@ def _snapshot_file_response(
         with open(filename, "rb") as source:
             _copy_file_with_refresh(source, snapshot, refresh_repository_lock)
         snapshot.seek(0)
-        return FileResponse(snapshot, content_type=content_type)
+        return FileResponse(
+            snapshot,
+            content_type=content_type,
+            as_attachment=as_attachment,
+            filename=os.path.basename(filename) if as_attachment else "",
+        )
     except Exception:
         snapshot.close()
         raise
@@ -1000,7 +1037,7 @@ def _download_translation_file_locked(
             else:
                 # Materialize the response while holding the lock. An open checkout
                 # file can still change when rewritten in place.
-                response = _snapshot_file_response(
+                response = snapshot_file_response(
                     filename,
                     content_type,
                     repository.lock.reacquire,

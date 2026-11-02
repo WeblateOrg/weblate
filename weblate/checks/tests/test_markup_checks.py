@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from time import monotonic
 from unittest.mock import patch
 
 from django.contrib.admindocs.utils import docutils_is_available
@@ -13,6 +14,8 @@ from docutils.nodes import Text, substitution_reference
 from docutils.nodes import target as docutils_target
 
 from weblate.checks.markup import (
+    BBCODE_TOKEN,
+    XML_MATCH,
     AsciiDocMarkupCheck,
     BBCodeCheck,
     MarkdownLinkCheck,
@@ -29,6 +32,8 @@ from weblate.checks.markup import (
     extract_bbcode_pairs,
     extract_rst_references,
     has_changed_placeholder_attributes,
+    parse_rst_explicit_title,
+    strip_entities,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
@@ -36,6 +41,12 @@ from weblate.trans.tests.factories import make_check, make_unit
 
 class BBCodeCheckTest(CheckTestCase):
     check = BBCodeCheck()
+
+    def test_unterminated_tags(self) -> None:
+        malformed = "[url=" * 5000
+        started = monotonic()
+        self.assertEqual(list(BBCODE_TOKEN.finditer(malformed)), [])
+        self.assertLess(monotonic() - started, 1)
 
     def setUp(self) -> None:
         super().setUp()
@@ -416,6 +427,26 @@ class MarkdownLinkCheckTest(CheckTestCase):
             (
                 "[translate]({{ site.baseurl }}/docs/Translation/) here",
                 "Die [übersetzen]({{ site.baseurl }}/docs/Translation/)",
+                "md-text",
+            ),
+        )
+
+    def test_nested_image_preserves_outer_relative_link(self) -> None:
+        self.do_test(
+            True,
+            (
+                "[![alt](image.png)](./page)",
+                "[![alt](image.png)](https://example.com/)",
+                "md-text",
+            ),
+        )
+
+    def test_angle_destination_with_parentheses(self) -> None:
+        self.do_test(
+            True,
+            (
+                '[Link](<./a(b)> "Title")',
+                '[Link](<https://example.com/> "Title")',
                 "md-text",
             ),
         )
@@ -900,6 +931,26 @@ class SafeHTMLCheckTest(CheckTestCase):
 
 class RSTReferencesCheckTest(CheckTestCase):
     check = RSTReferencesCheck()
+
+    def test_unterminated_explicit_title(self) -> None:
+        malformed = "a" * 10000 + "<" * 10000 + "a" * 10000
+        started = monotonic()
+        self.assertIsNone(parse_rst_explicit_title(malformed))
+        self.assertEqual(
+            parse_rst_explicit_title("title <target>"), ("title", "target")
+        )
+        self.assertEqual(
+            parse_rst_explicit_title("title <target>\n"), ("title", "target")
+        )
+        self.assertLess(monotonic() - started, 1)
+
+    def test_unterminated_cdata_and_xml_tags(self) -> None:
+        malformed = "<![CDATA[" * 3000
+        started = monotonic()
+        self.assertEqual(strip_entities(malformed), malformed)
+        self.assertEqual(strip_entities("<![CDATA[text]]>"), "text")
+        self.assertEqual(list(XML_MATCH.finditer("<" * 10000)), [])
+        self.assertLess(monotonic() - started, 1)
 
     def setUp(self) -> None:
         super().setUp()
@@ -1673,6 +1724,32 @@ class RSTSyntaxCheckTest(CheckTestCase):
 
 class AsciiDocMarkupCheckTest(CheckTestCase):
     check = AsciiDocMarkupCheck()
+
+    def test_repeated_macro_candidates_are_linear(self) -> None:
+        for text in (
+            "a:" * 40_000 + "[",
+            "a::" * 30_000 + "[",
+            "a:" * 40_000 + r"[\]",
+            "a:" * 40_000 + " missing[]",
+        ):
+            with self.subTest(ending=text[-20:]):
+                unit = make_unit(source=text, target=text, flags="asciidoc-text")
+                started = monotonic()
+                self.assertFalse(self.check.check_target([text], [text], unit))
+                self.assertEqual(list(self.check.check_highlight(text, unit)), [])
+                self.assertLess(monotonic() - started, 2)
+
+    def test_long_valid_macro(self) -> None:
+        text = "link:" + "a:" * 40_000 + "[Label]"
+        unit = make_unit(source=text, target=text, flags="asciidoc-text")
+        started = monotonic()
+        self.assertEqual(extract_asciidoc_markup(text), {text[:-7] + "[]": 1})
+        highlights = list(self.check.check_highlight(text, unit))
+        self.assertEqual(
+            [(item.start, item.end, item.text) for item in highlights],
+            [(0, len(text), text)],
+        )
+        self.assertLess(monotonic() - started, 2)
 
     def setUp(self) -> None:
         super().setUp()

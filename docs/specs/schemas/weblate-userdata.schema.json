@@ -1,8 +1,8 @@
 {
   "$id": "https://weblate.org/schemas/weblate-userdata.schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "definitions": {},
+  "$defs": {},
   "title": "Weblate user data export",
   "required": [
     "basic",
@@ -11,7 +11,6 @@
   ],
   "properties": {
     "basic": {
-      "$id": "#root/basic",
       "title": "Basic",
       "type": "object",
       "additionalProperties": false,
@@ -23,7 +22,6 @@
       ],
       "properties": {
         "username": {
-          "$id": "#root/basic/username",
           "title": "Username",
           "type": "string",
           "default": "",
@@ -32,7 +30,6 @@
           ]
         },
         "full_name": {
-          "$id": "#root/basic/full_name",
           "title": "Full name",
           "type": "string",
           "default": "",
@@ -41,7 +38,6 @@
           ]
         },
         "email": {
-          "$id": "#root/basic/email",
           "title": "E-mail",
           "type": "string",
           "format": "email",
@@ -51,7 +47,6 @@
           ]
         },
         "date_joined": {
-          "$id": "#root/basic/date_joined",
           "title": "Date joined",
           "type": "string",
           "format": "date-time",
@@ -63,7 +58,6 @@
       }
     },
     "profile": {
-      "$id": "#root/profile",
       "title": "Profile",
       "type": "object",
       "additionalProperties": false,
@@ -87,7 +81,6 @@
       ],
       "properties": {
         "language": {
-          "$id": "#root/profile/language",
           "title": "Language",
           "type": "string",
           "default": "",
@@ -97,7 +90,6 @@
           "pattern": "^[^ ]*$"
         },
         "suggested": {
-          "$id": "#root/profile/suggested",
           "title": "Number of suggested strings",
           "type": "integer",
           "examples": [
@@ -106,7 +98,6 @@
           "default": 0
         },
         "translated": {
-          "$id": "#root/profile/translated",
           "title": "Number of translated strings",
           "type": "integer",
           "examples": [
@@ -115,7 +106,6 @@
           "default": 0
         },
         "uploaded": {
-          "$id": "#root/profile/uploaded",
           "title": "Number of uploaded screenshots",
           "type": "integer",
           "examples": [
@@ -124,7 +114,6 @@
           "default": 0
         },
         "hide_completed": {
-          "$id": "#root/profile/hide_completed",
           "title": "Hide completed translations on the dashboard",
           "type": "boolean",
           "examples": [
@@ -133,7 +122,6 @@
           "default": true
         },
         "secondary_in_zen": {
-          "$id": "#root/profile/secondary_in_zen",
           "title": "Show secondary translations in the Zen mode",
           "type": "boolean",
           "examples": [
@@ -142,7 +130,6 @@
           "default": true
         },
         "hide_source_secondary": {
-          "$id": "#root/profile/hide_source_secondary",
           "title": "Hide source if a secondary translation exists",
           "type": "boolean",
           "examples": [
@@ -151,7 +138,6 @@
           "default": true
         },
         "wide_tables": {
-          "$id": "#root/profile/wide_tables",
           "title": "Show all columns in lists using horizontal scrolling",
           "type": "boolean",
           "examples": [
@@ -160,7 +146,6 @@
           "default": false
         },
         "listing_columns": {
-          "$id": "#root/profile/listing_columns",
           "title": "Visible columns in lists",
           "type": "array",
           "default": [
@@ -173,7 +158,6 @@
             "comments"
           ],
           "items": {
-            "$id": "#root/profile/listing_columns/items",
             "title": "Column",
             "type": "string",
             "enum": [
@@ -192,7 +176,6 @@
           }
         },
         "editor_link": {
-          "$id": "#root/profile/editor_link",
           "title": "Editor link",
           "type": "string",
           "default": "",
@@ -202,7 +185,6 @@
           "pattern": "^.*$"
         },
         "translate_mode": {
-          "$id": "#root/profile/translate_mode",
           "title": "Translation editor mode",
           "type": "integer",
           "examples": [
@@ -211,7 +193,6 @@
           "default": 0
         },
         "zen_mode": {
-          "$id": "#root/profile/zen_mode",
           "title": "Zen editor mode",
           "type": "integer",
           "examples": [
@@ -220,7 +201,6 @@
           "default": 0
         },
         "special_chars": {
-          "$id": "#root/profile/special_chars",
           "title": "Special characters",
           "type": "string",
           "default": "",
@@ -230,7 +210,6 @@
           "pattern": "^.*$"
         },
         "theme": {
-          "$id": "#root/profile/theme",
           "title": "Theme",
           "type": "string",
           "default": "auto",
@@ -240,7 +219,6 @@
           "pattern": "^(auto|dark|light)$"
         },
         "dashboard_view": {
-          "$id": "#root/profile/dashboard_view",
           "title": "Default dashboard view",
           "type": "integer",
           "examples": [
@@ -249,7 +227,6 @@
           "default": 0
         },
         "dashboard_component_list": {
-          "$id": "#root/profile/dashboard_component_list",
           "title": "Default component list",
           "anyOf": [
             {
@@ -262,12 +239,10 @@
           "default": null
         },
         "languages": {
-          "$id": "#root/profile/languages",
           "title": "Translated languages",
           "type": "array",
           "default": [],
           "items": {
-            "$id": "#root/profile/languages/items",
             "title": "Language code",
             "type": "string",
             "default": "",
@@ -278,12 +253,10 @@
           }
         },
         "secondary_languages": {
-          "$id": "#root/profile/secondary_languages",
           "title": "Secondary languages",
           "type": "array",
           "default": [],
           "items": {
-            "$id": "#root/profile/secondary_languages/items",
             "title": "Language code",
             "type": "string",
             "default": "",
@@ -294,12 +267,10 @@
           }
         },
         "watched": {
-          "$id": "#root/profile/watched",
           "title": "Watched projects",
           "type": "array",
           "default": [],
           "items": {
-            "$id": "#root/profile/watched/items",
             "title": "Project slug",
             "type": "string",
             "default": "",
@@ -384,12 +355,10 @@
       }
     },
     "auditlog": {
-      "$id": "#root/auditlog",
       "title": "Audit log",
       "type": "array",
       "default": [],
       "items": {
-        "$id": "#root/auditlog/items",
         "title": "Items",
         "type": "object",
         "required": [
@@ -401,7 +370,6 @@
         "additionalProperties": false,
         "properties": {
           "address": {
-            "$id": "#root/auditlog/items/address",
             "title": "IP address",
             "anyOf": [
               {
@@ -418,7 +386,6 @@
             ]
           },
           "user_agent": {
-            "$id": "#root/auditlog/items/user_agent",
             "title": "User agent",
             "type": "string",
             "default": "",
@@ -428,7 +395,6 @@
             "pattern": "^.*$"
           },
           "timestamp": {
-            "$id": "#root/auditlog/items/timestamp",
             "title": "Timestamp",
             "type": "string",
             "format": "date-time",
@@ -438,7 +404,6 @@
             ]
           },
           "activity": {
-            "$id": "#root/auditlog/items/activity",
             "title": "Activity",
             "type": "string",
             "default": "",

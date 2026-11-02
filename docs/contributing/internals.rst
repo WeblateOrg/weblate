@@ -126,6 +126,11 @@ language is retained, and its child is blocked. ``effective_source_unit`` is
 then ``None``. Only removing the workflow or selecting the canonical language
 restores the canonical source.
 
+Pending source snapshots retain the first source change until acceptance, including
+for targets already needing editing. Their ``previous_state`` metadata prevents
+source reversion from accepting a target that already needed editing. Without a
+previous snapshot, custom sources do not use the canonical ``previous_source``.
+
 Text-only accessors do not load language or plural metadata. For batch consumers
 that need the complete effective source, use
 ``UnitQuerySet.prefetch_translation_parent()`` alongside their existing unit
@@ -156,11 +161,18 @@ that need a complete rebuild, such as restoration and language maintenance, omit
 the language restriction.
 
 Within each component, reconciliation updates relationships before running
-checks. Previous-source peer groups and units requiring checks are deduplicated.
-Direct unit and previous-source peer checks finish before the transaction commits;
-propagated check refreshes retain their existing scheduling. Translation-memory
-payloads use bounded batches scheduled after commit. Nested operations merge
-dependency work, while rolled-back savepoints discard their work and commit callbacks.
+checks. Workflow changes run local checks with the existing component batching
+enabled, then schedule expensive checks through the component check finalizer
+after commit. Boundary-wide batches also clear stale warnings on old-source
+peers. Successful child batches are combined at the exclusive project gate,
+deduplicating shared project and workspace checks while preserving rollback
+boundaries and actor attribution. Eager tasks and automation contexts finalize
+their batches inline. Ordinary dependency reconciliation retains its synchronous
+unit and previous-source peer checks.
+
+Translation-memory payloads use bounded batches scheduled after commit. Nested
+operations merge dependency work, while rolled-back savepoints discard their
+work and commit callbacks.
 
 Acquire any required repository locks before project gates, then component and
 unit row locks. Reconciliation itself only changes database state and does not
@@ -208,3 +220,30 @@ workload:
    The backup tasks cannot be executed in parallel, and a single dedicated worker makes this easier.
 ``translate``
    Automatic translation tasks are known to take long because they hit external services.
+
+
+Built-in role defaults
+----------------------
+
+Changes to built-in roles in :file:`weblate/auth/data.py` require a data migration.
+Run the following after changing the definitions, then review and format the
+resulting migration::
+
+    ./manage.py generate_role_migration
+    ./manage.py generate_role_migration --check
+
+Each generated migration freezes the old and new permission codenames and merges
+them with assigned permissions using historical models. Keep these snapshots
+independent of runtime definitions so upgrades through skipped releases apply each
+change in order. The consistency test rejects definitions without a matching
+migration. Role-update migrations are irreversible because merging can discard
+information. The post-migration hook only creates missing roles.
+
+
+Built-in role names are persistent identifiers, not freely changeable labels.
+An upstream rename requires an explicit data migration that preserves the role's
+primary key, team assignments, and local permission differences. Rename the
+existing role and map its old upstream baseline to the new name before merging.
+Freeze the renamed upstream defaults in that migration so subsequent generation
+uses the correct baseline. A generated remove/add migration would create a new
+role and leave teams assigned to the old one.

@@ -65,6 +65,9 @@ from weblate.trans.views.changes import (
     show_change,
 )
 from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
+from weblate.utils.bot_protection import check_clearance
+from weblate.utils.bot_protection import verify as verify_pow
+from weblate.utils.crawl_policy import robots
 from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.version import VERSION
 
@@ -79,6 +82,7 @@ STATIC_ICON_REDIRECTS = {
 }
 
 
+@login_not_required
 def redirect_static(
     _request: django.http.HttpRequest | None,
     filename: str,
@@ -101,6 +105,8 @@ if URL_PREFIX:
     URL_PREFIX = f"{URL_PREFIX.strip('/')}/"
 
 real_patterns = [
+    path("-/pow/check/", login_not_required(check_clearance), name="check-pow"),
+    path("-/pow/verify/", login_not_required(verify_pow), name="verify-pow"),
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     path(
@@ -1221,15 +1227,15 @@ real_patterns = [
     ),
     path(
         "robots.txt",
-        cache_control(max_age=86400)(
-            TemplateView.as_view(template_name="robots.txt", content_type="text/plain")
-        ),
+        robots,
     ),
     path(
         "browserconfig.xml",
         cache_control(max_age=86400)(
-            TemplateView.as_view(
-                template_name="browserconfig.xml", content_type="application/xml"
+            login_not_required(
+                TemplateView.as_view(
+                    template_name="browserconfig.xml", content_type="application/xml"
+                )
             )
         ),
     ),
@@ -1342,12 +1348,18 @@ if "weblate.legal" in settings.INSTALLED_APPS:
             ),
             path(
                 "security.txt",
-                RedirectView.as_view(url="/.well-known/security.txt", permanent=True),
+                login_not_required(
+                    RedirectView.as_view(
+                        url=f"/{URL_PREFIX}.well-known/security.txt", permanent=True
+                    )
+                ),
             ),
             path(
                 ".well-known/security.txt",
-                TemplateView.as_view(
-                    template_name="security.txt", content_type="text/plain"
+                login_not_required(
+                    TemplateView.as_view(
+                        template_name="security.txt", content_type="text/plain"
+                    )
                 ),
             ),
         )
