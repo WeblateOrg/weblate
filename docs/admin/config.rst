@@ -2521,14 +2521,17 @@ REGISTRATION_REBIND
 
 .. versionadded:: 4.16
 
-Allow rebinding authentication backends for existing users. Turn this on when
-migrating between authentication providers.
+Allow signed-out users to link a new third-party authentication provider to an
+existing account when its e-mail address matches. Turn this on when migrating
+between trusted authentication providers. Existing users can add a provider
+while signed in regardless of this setting. E-mail registration and password
+reset use their own confirmation flow and are not affected.
 
 .. note::
 
-   Off by default to not allow adding other authentication backends to
-   an existing account. Rebinding can lead to account compromise when using
-   more third-party authentication backends.
+   Off by default. When enabled, Weblate trusts configured providers' e-mail
+   claims for account matching. Use only providers that verify these addresses;
+   otherwise another person could link an identity to an existing account.
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 

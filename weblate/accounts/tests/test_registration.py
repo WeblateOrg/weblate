@@ -380,6 +380,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         super().setUp()
         reset_rate_limit("registration", address="127.0.0.1")
         reset_rate_limit("login", address="127.0.0.1")
+        reset_rate_limit("confirm", address="127.0.0.1")
         reset_rate_limit("password_reset", address="127.0.0.1")
 
     def assert_registration(self, match=None, reset=False):
@@ -1780,7 +1781,7 @@ class RegistrationTest(BaseRegistrationTest):
 
     @responses.activate
     @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
-    def test_github(self, confirm=None, fail=False) -> None:
+    def test_github(self, confirm=None, fail=False, blocked=False) -> None:
         """Test GitHub integration."""
         responses.add(
             responses.POST,
@@ -1846,6 +1847,15 @@ class RegistrationTest(BaseRegistrationTest):
         responses.assert_call_count("https://api.github.com/user/emails", 1)
         if fail:
             self.assertContains(response, "is already in use for another account")
+            return
+        if blocked:
+            self.assertContains(response, "Could not complete registration.")
+            self.assertFalse(
+                User.objects.get(username="weblate")
+                .social_auth.filter(provider="github")
+                .exists()
+            )
+            self.assertNotIn(SESSION_KEY, self.client.session)
             return
         if confirm:
             self.assertContains(response, "Confirm adding user identity")
@@ -2014,9 +2024,48 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
     def test_github_existing(self) -> None:
-        """Adding GitHub association to existing account."""
+        """A signed-out GitHub login cannot rebind an existing account."""
+        User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
+        self.test_github(blocked=True)
+
+    def test_github_existing_passwordless_superuser(self) -> None:
+        """Missing verified e-mail and password do not permit rebinding."""
+        User.objects.create_user(
+            "weblate", "noreply-weblate@example.org", is_superuser=True
+        )
+        self.test_github(blocked=True)
+
+    @override_settings(REGISTRATION_REBIND=True)
+    def test_github_rebind_existing(self) -> None:
+        """Explicitly enabled rebinding still requires the account password."""
         User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
         self.test_github(confirm="x")
+
+    @override_settings(REGISTRATION_REBIND=True)
+    def test_github_rebind_existing_verified_email(self) -> None:
+        """Rebinding permits an address already verified by the account."""
+        user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
+        social = user.social_auth.create(
+            provider="email", uid=user.email, id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email=user.email)
+        self.test_github(confirm="x")
+
+    @override_settings(REGISTRATION_REBIND=True)
+    def test_github_rebind_passwordless(self) -> None:
+        """Explicitly enabled rebinding accepts a passwordless account."""
+        user = User.objects.create_user(
+            "weblate", "noreply-weblate@example.org", is_superuser=True
+        )
+        self.test_github()
+        self.assertEqual(int(self.client.session[SESSION_KEY]), user.pk)
+
+    def test_github_linked(self) -> None:
+        """An existing provider identity can still sign in."""
+        user = User.objects.create_user("weblate", "noreply-weblate@example.org")
+        user.social_auth.create(provider="github", uid="1", id_key="id")
+        self.test_github()
+        self.assertEqual(int(self.client.session[SESSION_KEY]), user.pk)
 
     def test_github_loggedin(self) -> None:
         """Adding GitHub association to existing account."""
