@@ -88,7 +88,6 @@ Weblate 2026.11
 .. rubric:: Security fixes
 
 * Prevented linked components in the :doc:`REST API <api>` from revealing repository settings of inaccessible components.
-
 * Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.
 * Protected template downloads through the :doc:`REST API <api>` against symlink races during concurrent repository updates.
 
@@ -114,6 +113,7 @@ Weblate 2026.11
 * Excluded projects from component creation and management destinations for :ref:`blocked users <block-user>`, including users with project administration permissions.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
+* Bounded edit-distance calculations for large translations to prevent excessive CPU use in change history, CSV exports, and :doc:`reports <devel/reporting>`.
 * Bounded :ref:`search regular expression <search-strings>` analysis to prevent excessive CPU use from complex queries.
 * Bounded :ref:`component discovery preset <addon-weblate.discovery.discovery>` detection work for repositories with many translation layouts.
 * Prevented spreadsheet formulas, including those hidden behind Unicode characters, in :ref:`translation-history`, :doc:`/api`, and :ref:`download` CSV files.

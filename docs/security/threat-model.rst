@@ -871,13 +871,15 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
-   * - Built-in translation quality checks must not permit user-controlled
-       content within configured size limits to monopolize synchronous request
-       workers through disproportionate resource consumption. *(maintainer)*
-     - The check is enabled and runs during a supported browser or API
-       translation write.
+   * - Built-in translation quality checks, history rendering, exports, and
+       reports must not permit user-controlled content within configured size
+       limits to monopolize request or background workers through
+       disproportionate resource consumption. *(maintainer)*
+     - Content is accepted through a supported browser or API translation write
+       and processed during the write or subsequently from stored history.
      - A single accepted translation causes CPU or memory consumption
-       disproportionate to its size and stalls a request worker.
+       disproportionate to its size and stalls a request or background worker
+       during a write or subsequent processing.
      - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
