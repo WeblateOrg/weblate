@@ -2828,6 +2828,26 @@ class UserAPITest(APIBaseTest):
                     original,
                 )
 
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="user-{user_id}@users.noreply.example.com"
+    )
+    def test_patch_profile_legacy_private_email(self) -> None:
+        email = "previous@users.noreply.example.com"
+        self.user.profile.commit_email = email
+        self.user.profile.save(update_fields=["commit_email"])
+        for submitted, code in ((email, 200), ("unverified@example.org", 400)):
+            with self.subTest(submitted=submitted):
+                self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=code,
+                    format="json",
+                    request={"profile": {"commit_email": submitted}},
+                )
+                self.user.profile.refresh_from_db()
+                self.assertEqual(self.user.profile.commit_email, email)
+
     def test_patch_profile_emails(self) -> None:
         self.do_request(
             "api:user-detail",

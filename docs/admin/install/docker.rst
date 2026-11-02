@@ -1405,11 +1405,19 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`.
 
+   .. seealso::
+
+      :doc:`/admin/privacy`
+
 .. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN
 
    .. versionadded:: 4.15
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
+   .. seealso::
+
+      :doc:`/admin/privacy`
 
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE
 
@@ -1417,13 +1425,19 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
 
+   .. seealso::
+
+      :doc:`/admin/privacy`
+
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN
 
    .. versionadded:: 5.16
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
 
-See :doc:`/admin/privacy` for privacy configuration examples.
+   .. seealso::
+
+      :doc:`/admin/privacy`
 
    To use private commit e-mails and names by default, set both opt-in variables
    to ``False`` in :file:`docker-compose.override.yml`:
@@ -1435,11 +1449,9 @@ See :doc:`/admin/privacy` for privacy configuration examples.
           environment:
             WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN: "False"
             WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN: "False"
-            WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE: "user-{user_id}@users.noreply.{site_domain}"
-            WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE: "{site_title} user {user_id}"
 
-   The template variables are optional customizations. This e-mail template uses
-   the user ID instead of the username included in the default template.
+   The default templates use the user ID for both the private e-mail and name.
+   The template variables are optional customizations.
    Setting the templates alone leaves private commit identities opt-in.
 
    These defaults apply to new and existing users without explicit commit

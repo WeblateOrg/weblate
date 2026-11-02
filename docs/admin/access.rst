@@ -745,23 +745,9 @@ the REST API. Built-in translation and review roles grant it by default,
 including :guilabel:`Administration`. History and attribution remain stored;
 hiding identities does not remove changes, timestamps, diffs, or revert actions.
 
-To hide attribution from translators, edit the built-in roles assigned to their
-teams and remove :guilabel:`View contributor identities`. Keep the permission in
-the roles assigned to project administrators. Editing a built-in role affects all
-teams using it; create a separate role when projects need different policies.
+.. seealso::
 
-Permissions are additive. Review every assigned team and role, including
-site-wide and guest teams: another role can independently grant the permission.
-Language and component restrictions apply to contributor attribution.
-
-Also remove independent identity access where it is unnecessary:
-
-* ``reports.view`` and ``change.download`` authorize identity-bearing reports
-  and downloads independently of ``contribution.view_author``.
-* Project and workspace access-management permissions expose membership data.
-* User discovery and profile permissions expose user information independently.
-  Review ``user.browse``, ``user.search``, ``user.profile``, ``user.view``, and
-  ``user.edit`` when configuring confidential collaboration.
+   :ref:`privacy-confidential-setup` for the combined role and team configuration.
 
 Regenerated translation exports require ``translation.download`` and remain
 available without contributor identity access when the exporter explicitly
@@ -785,6 +771,8 @@ The following inventory summarizes independent identity disclosure paths:
      - ``translation.download`` and an identity-safe exporter
    * - Original files and unclassified exports
      - Download permission and contributor identity access
+   * - :ref:`Git repository export <git-exporter>`
+     - Independent ``vcs.access`` permission; existing commit history is retained
    * - Full reports and change downloads
      - Independent ``reports.view`` and ``change.download`` permissions
    * - Own-data reports
@@ -825,7 +813,8 @@ systems.
 This feature hides system-provided attribution, not identifying text entered by
 users in translations, comments, announcements, filenames, or other content.
 It does not provide comprehensive anonymity or prevent correlation using timing
-and content. Git commit identity controls are configured separately.
+and content. See :doc:`privacy` for the separate Git commit identity, profile, and discovery
+controls.
 
 .. _privileges:
 

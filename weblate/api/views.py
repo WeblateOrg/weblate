@@ -1188,7 +1188,8 @@ def get_delete_memory_option(request: Request) -> bool:
             "Users with either permission can list all users and receive detailed "
             "information. Without user.browse, searches require resource-scoped "
             "discovery; a positive contributes scope or accessible unit context is "
-            "then required to discover other users."
+            "then required to discover other users. Unit contexts always require "
+            "contributor identity access, independently of directory privileges."
         ),
         parameters=[
             OpenApiParameter(
@@ -1227,7 +1228,9 @@ def get_delete_memory_option(request: Request) -> bool:
                 int,
                 OpenApiParameter.QUERY,
                 description=(
-                    "Rank contributors to the given unit first. In restricted directory "
+                    "Rank contributors to the given unit first. Requires contributor "
+                    "identity access to the unit, independently of directory privileges. "
+                    "In restricted directory "
                     "modes, limit results to contributors to its translation."
                 ),
             ),
@@ -1314,6 +1317,11 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             return User.objects.none()
+        unit = None
+        if "unit" in self.request.GET:
+            unit = self.discovery_unit
+            if unit is None or not can_view_contributor(user, unit):
+                return User.objects.none()
         privileged = can_manage_users(user)
         query = self.request.GET.get("q", "")
         scoped = "q" in self.request.GET or "unit" in self.request.GET
@@ -1344,10 +1352,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 queryset.annotate(**annotations).filter(search_filters).distinct()
             )
         if not can_browse_users(user):
-            if "unit" in self.request.GET:
-                unit = self.discovery_unit
-                if unit is None or not can_view_contributor(user, unit):
-                    return User.objects.none()
+            if unit is not None:
                 queryset = queryset.filter(
                     change__translation_id=unit.translation_id
                 ).distinct()

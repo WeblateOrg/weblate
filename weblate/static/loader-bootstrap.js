@@ -2699,8 +2699,8 @@ onReady(() => {
           const unitId = editor.closest("#comment-form")?.dataset.unitId;
           if (unitId) {
             url += `&unit=${encodeURIComponent(unitId)}`;
-          } else if (document.body.dataset.userSearchQuery) {
-            url += `&q=${encodeURIComponent(document.body.dataset.userSearchQuery)}`;
+          } else if (document.body.dataset.contributorSearchQuery) {
+            url += `&q=${encodeURIComponent(document.body.dataset.contributorSearchQuery)}`;
           }
           const response = await fetch(url);
           const data = await response.json();
@@ -2897,8 +2897,11 @@ onReady(() => {
             try {
               // Fetch Data from external Source
               let url = `/api/users/?username=${encodeURIComponent(query)}`;
-              if (document.body.dataset.userSearchQuery) {
-                url += `&q=${encodeURIComponent(document.body.dataset.userSearchQuery)}`;
+              const scope = autoCompleteInput.dataset.contributorAutocomplete
+                ? document.body.dataset.contributorSearchQuery
+                : document.body.dataset.userSearchQuery;
+              if (scope) {
+                url += `&q=${encodeURIComponent(scope)}`;
               }
               const source = await fetch(url);
               // Data should be an array of `Objects` or `Strings`

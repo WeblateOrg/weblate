@@ -271,6 +271,11 @@ a saved search with the same name is replaced.
 
 General notification settings and commit identity choices can be imported
 separately by selecting the corresponding options. Both are off by default.
+An imported commit e-mail unknown to this account is replaced with the current
+site's generated private address. If private addresses are disabled, the unknown
+address is skipped and your existing choice is preserved.
+Imported public e-mail addresses must be known to the current account. Both
+public and commit e-mail addresses must pass the current site's e-mail validation.
 Project- and component-specific and one-time notification rules are included
 in the export but not imported.
 
@@ -283,7 +288,9 @@ Administrators can make private identities the default by setting
 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` and :setting:`PRIVATE_COMMIT_NAME_OPT_IN`
 to ``False``. Your explicit choices override these defaults.
 
-See :doc:`/admin/privacy` for privacy configuration examples.
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 Changes to these settings affect future commits. Names and e-mail addresses
 already recorded in repository history remain unchanged.
@@ -316,6 +323,10 @@ should use common profile paths, such as ``/username``, ``/@username``,
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. _profile-security:
 

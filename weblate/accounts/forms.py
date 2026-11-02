@@ -64,6 +64,7 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
+from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
@@ -282,7 +283,10 @@ class LanguagesForm(ProfileBaseForm):
         activate(self.cleaned_data["language"])
 
 
-class CommitForm(ProfileBaseForm):
+class CommitForm(FieldDocsMixin, ProfileBaseForm):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
+        return ("admin/privacy", "private-version-control-identities")
+
     commit_email = forms.ChoiceField(
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
@@ -326,8 +330,13 @@ class CommitForm(ProfileBaseForm):
         )
 
 
-class ProfileForm(ProfileBaseForm):
+class ProfileForm(FieldDocsMixin, ProfileBaseForm):
     """User profile editing."""
+
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        if field.name == "public_email":
+            return ("admin/privacy", "public-profile-and-avatars")
+        return None
 
     public_email = forms.ChoiceField(
         label=gettext_lazy("Public e-mail"),

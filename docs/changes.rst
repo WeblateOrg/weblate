@@ -154,6 +154,8 @@ Weblate 2026.11
 
 .. rubric:: Compatibility
 
+* The default :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now uses ``user-{user_id}@users.noreply.{site_domain}`` instead of the username. This changes generated addresses for users following the private e-mail default; explicitly selected addresses are preserved. Set the template to ``{username}@users.noreply.{site_domain}`` to retain the previous behavior. See :doc:`admin/privacy`.
+
 * Custom integrations must use :ref:`acting-user-context` instead of transient model ``acting_user`` attributes. Stop task producers and schedulers, drain queued work and deferred repository follow-ups, and upgrade the application and workers together; redundant actor task arguments have been removed.
 * Removed the SAML identity provider integration and the ``saml2idp`` extra. Remove ``djangosaml2idp`` from ``INSTALLED_APPS`` and its configuration before upgrading. Use the :ref:`OpenID Connect identity provider <oidc-provider>` for signing in to other applications with Weblate accounts. SAML sign-in to Weblate remains supported.
 
