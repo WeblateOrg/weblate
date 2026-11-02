@@ -231,28 +231,35 @@ def _fetch_relation_ids(
     source_field: str,
     target_field: str,
     source_ids: Iterable[int],
+    using: str | None = None,
 ) -> defaultdict[int, set[int]]:
     source_ids = set(source_ids)
     result: defaultdict[int, set[int]] = defaultdict(set)
     if not source_ids:
         return result
 
-    for source_id, target_id in through.objects.filter(
-        **{f"{source_field}__in": source_ids}
-    ).values_list(source_field, target_field):
+    for source_id, target_id in (
+        through.objects.using(using)
+        .filter(**{f"{source_field}__in": source_ids})
+        .values_list(source_field, target_field)
+    ):
         result[source_id].add(target_id)
     return result
 
 
-def _fetch_role_permissions(role_ids: Iterable[int]) -> defaultdict[int, set[str]]:
+def _fetch_role_permissions(
+    role_ids: Iterable[int], using: str | None = None
+) -> defaultdict[int, set[str]]:
     role_ids = set(role_ids)
     result: defaultdict[int, set[str]] = defaultdict(set)
     if not role_ids:
         return result
 
-    for role_id, codename in Role.permissions.through.objects.filter(
-        role_id__in=role_ids
-    ).values_list("role_id", "permission__codename"):
+    for role_id, codename in (
+        Role.permissions.through.objects.using(using)
+        .filter(role_id__in=role_ids)
+        .values_list("role_id", "permission__codename")
+    ):
         result[role_id].add(codename)
     return result
 
@@ -261,15 +268,18 @@ def _fetch_component_values(
     through: type[models.Model],
     source_field: str,
     source_ids: Iterable[int],
+    using: str | None = None,
 ) -> defaultdict[int, set[tuple[int, int]]]:
     source_ids = set(source_ids)
     result: defaultdict[int, set[tuple[int, int]]] = defaultdict(set)
     if not source_ids:
         return result
 
-    for source_id, component_id, project_id in through.objects.filter(
-        **{f"{source_field}__in": source_ids}
-    ).values_list(source_field, "component_id", "component__project_id"):
+    for source_id, component_id, project_id in (
+        through.objects.using(using)
+        .filter(**{f"{source_field}__in": source_ids})
+        .values_list(source_field, "component_id", "component__project_id")
+    ):
         result[source_id].add((component_id, project_id))
     return result
 
@@ -1210,23 +1220,26 @@ class User(AbstractBaseUser):
             return Project.objects.order()
         return Project.objects.filter(self.get_project_access_query()).order()
 
-    def get_project_access_query(self, prefix: str = "") -> Q:
+    def get_project_access_query(
+        self, prefix: str = "", *, permissions: PermissionCacheType | None = None
+    ) -> Q:
         """Return direct project access filter for related objects."""
         if self.is_superuser:
             return Q()
 
+        if permissions is None:
+            permissions = self.project_permissions
+
         field_prefix = f"{prefix}__" if prefix else ""
         # All public and protected projects are accessible
         acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        if self.project_permissions[-SELECTION_ALL]:
+        if permissions[-SELECTION_ALL]:
             acls.add(Project.ACCESS_PRIVATE)
             acls.add(Project.ACCESS_CUSTOM)
         condition = Q(**{f"{field_prefix}access_control__in": acls})
 
         blocked_ids = {
-            key
-            for key, permissions in self.project_permissions.items()
-            if permissions == [(None, None)]
+            key for key, grants in permissions.items() if grants == [(None, None)]
         }
         if blocked_ids:
             condition &= ~Q(**{f"{field_prefix}pk__in": blocked_ids})
@@ -1235,8 +1248,8 @@ class User(AbstractBaseUser):
         restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
         project_ids = {
             key
-            for key, permissions in self.project_permissions.items()
-            if key not in restricted and key not in blocked_ids and permissions
+            for key, grants in permissions.items()
+            if key not in restricted and key not in blocked_ids and grants
         }
         if project_ids:
             condition |= Q(**{f"{field_prefix}pk__in": project_ids})
@@ -1362,18 +1375,21 @@ class User(AbstractBaseUser):
             "teammembership_id",
             "language_id",
             limited_membership_ids,
+            using=self._state.db,
         )
         group_language_ids = _fetch_relation_ids(
             Group.languages.through,
             "group_id",
             "language_id",
             manual_language_group_ids,
+            using=self._state.db,
         )
         group_role_ids = _fetch_relation_ids(
-            Group.roles.through, "group_id", "role_id", group_ids
+            Group.roles.through, "group_id", "role_id", group_ids, using=self._state.db
         )
         role_permissions = _fetch_role_permissions(
-            role_id for role_ids in group_role_ids.values() for role_id in role_ids
+            (role_id for role_ids in group_role_ids.values() for role_id in role_ids),
+            using=self._state.db,
         )
         group_permission_codenames: defaultdict[int, set[str]] = defaultdict(set)
         for group_id, role_ids in group_role_ids.items():
@@ -1385,6 +1401,7 @@ class User(AbstractBaseUser):
             "group_id",
             "componentlist_id",
             componentlist_group_ids,
+            using=self._state.db,
         )
         componentlist_component_values = _fetch_component_values(
             ComponentList.components.through,
@@ -1394,9 +1411,13 @@ class User(AbstractBaseUser):
                 for componentlist_ids in group_componentlist_ids.values()
                 for componentlist_id in componentlist_ids
             ),
+            using=self._state.db,
         )
         group_component_values = _fetch_component_values(
-            Group.components.through, "group_id", component_group_ids
+            Group.components.through,
+            "group_id",
+            component_group_ids,
+            using=self._state.db,
         )
 
         group_componentlist_component_values: defaultdict[int, set[tuple[int, int]]] = (
@@ -1409,7 +1430,11 @@ class User(AbstractBaseUser):
                 )
 
         group_project_ids = _fetch_relation_ids(
-            Group.projects.through, "group_id", "project_id", project_group_ids
+            Group.projects.through,
+            "group_id",
+            "project_id",
+            project_group_ids,
+            using=self._state.db,
         )
 
         return [
@@ -1457,6 +1482,12 @@ class User(AbstractBaseUser):
     @cached_property
     def _permissions(self) -> PermissionsDictType:
         """Fetch all user permissions into a dictionary."""
+        return self._build_permissions()
+
+    def _build_permissions(
+        self, *, ignore_temporary_restrictions: bool = False
+    ) -> PermissionsDictType:
+        """Build entitlements, optionally retaining temporarily unavailable grants."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
         workspaces: dict[uuid.UUID, set[str]] = defaultdict(set)
@@ -1464,7 +1495,11 @@ class User(AbstractBaseUser):
         with start_span(op="auth.permissions", name=self.username):
             for membership in self.cached_memberships:
                 # Skip permissions for not verified users
-                if membership.enforced_2fa and not self.profile.has_2fa:
+                if (
+                    not ignore_temporary_restrictions
+                    and membership.enforced_2fa
+                    and not self.profile.has_2fa
+                ):
                     continue
                 languages = self.get_membership_languages(membership)
                 if (
@@ -1514,21 +1549,62 @@ class User(AbstractBaseUser):
                     # Project specific permissions
                     for project_id in membership.project_ids:
                         projects[project_id].append((permissions, languages))
-        # Apply blocking
-        now = timezone.now()
-        for block in self.userblock_set.all():
-            if block.expiry is not None and block.expiry <= now:
-                # Delete expired blocks
-                block.delete()
-            else:
-                # Remove all permissions for blocked user
-                projects[block.project_id] = [(None, None)]
-
+        if not ignore_temporary_restrictions:
+            # Apply blocking
+            now = timezone.now()
+            for block in self.userblock_set.all():
+                if block.expiry is not None and block.expiry <= now:
+                    # Delete expired blocks
+                    block.delete()
+                else:
+                    # Remove all permissions for blocked user
+                    projects[block.project_id] = [(None, None)]
         return {
             "projects": projects,
             "components": components,
             "workspaces": workspaces,
         }
+
+    def get_subscription_retention_queries(self) -> tuple[Q, Q]:
+        """
+        Return project/component access ignoring blocks and two-factor gates.
+
+        These entitlements only decide which subscriptions to retain. They must
+        never authorize delivery or expose otherwise inaccessible objects.
+        """
+        if self.is_superuser:
+            return Q(), Q()
+        permissions = self._build_permissions(ignore_temporary_restrictions=True)
+        projects = permissions["projects"]
+        managed = Q(pk__in=())
+        for project_id, grants in projects.items():
+            if not any(
+                perms is not None
+                and "project.edit" in perms
+                and (languages is None or not languages.membership_limited)
+                for perms, languages in grants
+            ):
+                continue
+            if project_id == -SELECTION_ALL:
+                managed = Q()
+                break
+            if project_id == -SELECTION_ALL_PUBLIC:
+                managed |= Q(access_control=Project.ACCESS_PUBLIC)
+            elif project_id == -SELECTION_ALL_PROTECTED:
+                managed |= Q(access_control=Project.ACCESS_PROTECTED)
+            else:
+                managed |= Q(pk=project_id)
+        managed_projects = Project.objects.using(self._state.db).filter(managed)
+        component_access = (
+            Q(restricted=False)
+            | Q(pk__in=permissions["components"])
+            | Q(project__in=managed_projects)
+        )
+        return (
+            self.get_project_access_query(permissions=projects),
+            self.get_project_access_query("project", permissions=projects)
+            & component_access,
+        )
 
     @property
     def project_permissions(self) -> PermissionCacheType:

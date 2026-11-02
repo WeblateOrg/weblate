@@ -8,12 +8,9 @@ import datetime as dt
 import logging
 import re
 from datetime import timedelta
-from functools import partial
 from ipaddress import IPv6Network, ip_network
-from threading import Lock
 from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
-from weakref import WeakKeyDictionary
 
 from appconf import AppConf
 from django.conf import settings
@@ -22,9 +19,9 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
+from django.db import models
 from django.db.models import F, Q
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -51,8 +48,8 @@ from weblate.accounts.data import (
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
 )
-from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_auditlog
-from weblate.auth.models import TeamMembership, User
+from weblate.accounts.tasks import notify_auditlog
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Category, Change, ComponentList, Translation
@@ -96,9 +93,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Unit
 
 LOGGER = logging.getLogger("weblate.audit")
-
-SUBSCRIPTION_CLEANUP_BATCHES: WeakKeyDictionary[object, set[int]] = WeakKeyDictionary()
-SUBSCRIPTION_CLEANUP_BATCHES_LOCK = Lock()
 
 
 class WeblateAccountsConf(AppConf):
@@ -326,33 +320,6 @@ def load_subscription_categories(
                 parents.add(parent_id)
         pending = parents
     return categories
-
-
-def schedule_inaccessible_subscription_cleanup(user_ids: set[int], using: str) -> None:
-    """Schedule cleanup after collecting all users from the deletion origin."""
-    cleanup_inaccessible_subscriptions.delay(sorted(user_ids), using)
-
-
-@receiver(post_delete, sender=TeamMembership)
-def cleanup_subscriptions_after_membership_delete(
-    sender, instance: TeamMembership, using: str, origin=None, **kwargs
-) -> None:
-    """Recheck scoped subscriptions after the complete membership transaction."""
-    if origin is None:
-        origin = instance
-    schedule_cleanup = False
-    with SUBSCRIPTION_CLEANUP_BATCHES_LOCK:
-        user_ids = SUBSCRIPTION_CLEANUP_BATCHES.get(origin)
-        if user_ids is None:
-            user_ids = set()
-            SUBSCRIPTION_CLEANUP_BATCHES[origin] = user_ids
-            schedule_cleanup = True
-        user_ids.add(instance.user_id)
-    if schedule_cleanup:
-        transaction.on_commit(
-            partial(schedule_inaccessible_subscription_cleanup, user_ids, using),
-            using=using,
-        )
 
 
 EXTERNAL_CREATE_ACTIVITY = "external-create"

@@ -56,6 +56,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.accounts.tasks import cleanup_inaccessible_subscriptions
 from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
@@ -1946,6 +1947,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
         self.do_request(
             "api:user-notifications-details",
@@ -1993,6 +1995,13 @@ class UserAPITest(APIBaseTest):
                 None, self.project.defined_groups.get(name="Translate")
             )
 
+        self.assertEqual(
+            Subscription.objects.filter(
+                pk__in=(project_subscription.pk, component_subscription.pk)
+            ).count(),
+            2,
+        )
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertFalse(
             Subscription.objects.filter(
                 pk__in=(project_subscription.pk, component_subscription.pk)
@@ -2001,23 +2010,6 @@ class UserAPITest(APIBaseTest):
         self.assertTrue(
             Subscription.objects.filter(pk=unscoped_subscription.pk).exists()
         )
-
-    def test_bulk_team_removal_batches_subscription_cleanup(self) -> None:
-        group = Group.objects.create(name="Bulk removal")
-        other_user = User.objects.create_user("bulk-removal", "bulk@example.com")
-        self.user.add_team(None, group)
-        other_user.add_team(None, group)
-
-        with (
-            patch(
-                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
-            ) as cleanup,
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            TeamMembership.objects.filter(group=group).delete()
-
-        cleanup.assert_called_once()
-        self.assertEqual(cleanup.call_args.args[0], [self.user.pk, other_user.pk])
 
     def test_team_removal_preserves_still_accessible_subscriptions(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -2038,6 +2030,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_team_removal_cleans_restricted_component_subscription(self) -> None:
@@ -2066,6 +2059,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(
             Subscription.objects.filter(pk=project_subscription.pk).exists()
         )
@@ -2092,6 +2086,7 @@ class UserAPITest(APIBaseTest):
                 None, self.project.defined_groups.get(name="Administration")
             )
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_statistics(self) -> None:

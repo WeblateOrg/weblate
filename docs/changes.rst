@@ -136,6 +136,8 @@ Weblate 2026.11
 
 .. rubric:: Bug fixes
 
+* Removed stale :ref:`notification subscriptions <notifications>` through daily cleanup, including after project access changes and component moves.
+
 * Stopped automatic sign-in retries after :doc:`authentication provider <admin/auth>` errors when only one provider is configured.
 
 * Fixed missing :ref:`workspace <workspaces>` breadcrumbs on project administration and related pages.
