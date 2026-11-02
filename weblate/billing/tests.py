@@ -2405,6 +2405,83 @@ class BillingTest(BaseTestCase):
         )
 
 
+class BillingRemovalTest(RepoTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.owner = create_test_user()
+        self.admin = create_another_user()
+        self.component = self.create_component()
+        self.project = self.component.project
+        self.billing = create_test_billing(self.owner)
+        self.billing.add_project(self.project)
+        self.project.add_user(self.admin, "Administration")
+        self.client.force_login(self.admin)
+
+    def assert_no_workspace_access(self) -> None:
+        self.assertEqual(
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "pk", flat=True
+                )
+            ),
+            {self.owner.pk},
+        )
+        self.assertEqual(
+            self.client.get(self.billing.get_absolute_url()).status_code, 403
+        )
+        self.assertEqual(
+            self.client.get(
+                reverse("workspace-access", kwargs={"pk": self.billing.workspace_id})
+            ).status_code,
+            404,
+        )
+        self.assertFalse(
+            self.billing.billinglog_set.filter(
+                event=BillingEvent.ADMIN_ADDED_PROJECT
+            ).exists()
+        )
+
+    def test_remove_translation_preserves_workspace_access(self) -> None:
+        self.assert_no_workspace_access()
+        translation_instance = self.component.translation_set.get(language_code="cs")
+        translation_pk = translation_instance.pk
+        path = translation_instance.get_url_path()
+        response = self.client.post(
+            reverse("remove", kwargs={"path": path}), {"confirm": "/".join(path)}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Translation.objects.filter(pk=translation_pk).exists())
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        self.assert_no_workspace_access()
+
+    def test_remove_component_preserves_workspace_access(self) -> None:
+        self.assert_no_workspace_access()
+        component_pk = self.component.pk
+        self.component.delete()
+        self.assertFalse(Component.objects.filter(pk=component_pk).exists())
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+        self.assert_no_workspace_access()
+
+    def test_remove_one_of_two_projects_preserves_workspace_access(self) -> None:
+        Project.objects.create(
+            name="Other", slug="other", workspace=self.billing.workspace
+        )
+        self.project.delete()
+        self.assert_no_workspace_access()
+
+    def test_remove_last_project_keeps_billing_access(self) -> None:
+        self.project.delete()
+        self.assertFalse(self.billing.get_projects_queryset().exists())
+        self.assertTrue(
+            self.billing.workspace.get_owners_group()
+            .user_set.filter(pk=self.admin.pk)
+            .exists()
+        )
+        self.assertEqual(
+            self.client.get(self.billing.get_absolute_url()).status_code, 200
+        )
+
+
 class HostingTest(RepoTestCase):
     def get_user(self):
         user = User.objects.create_user(

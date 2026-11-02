@@ -111,6 +111,7 @@ Weblate 2026.11
 * Limited :ref:`search queries <search-strings>` to prevent excessive parsing time and memory use.
 * Prevented translation service credentials in request URLs from appearing in automatic suggestion errors.
 * Rejected invalid language codes from :ref:`project-language_aliases` and automatically created languages.
+* Prevented project administrators from gaining :ref:`workspace ownership <workspaces>` by removing a component or translation.
 * Excluded projects from component creation and management destinations for :ref:`blocked users <block-user>`, including users with project administration permissions.
 * Restricted sensitive :ref:`background task diagnostics <api-tasks>` to users with permission to view the source repository location, while retaining general progress and failure messages for component members.
 * Restricted contributor IP addresses in change API responses to superusers.
