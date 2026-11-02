@@ -1174,6 +1174,183 @@ class ReplaceTest(ReusableViewTestCase):
         )
 
 
+class BulkGlossaryFlagsTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        self.component.create_glossary()
+        self.glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = self.glossary.source_translation.add_unit(
+            None, "", source="bulk-glossary-term", author=self.user
+        )
+        assert source is not None
+        self.source = source
+        self.glossary.add_new_language(self.translation.language, None)
+        self.term = self.glossary.translation_set.get(
+            language=self.translation.language
+        ).unit_set.get(source_unit=source)
+        self.editor = User.objects.create_user(
+            "glossary-bulk", "glossary-bulk@example.com", "glossary-bulk"
+        )
+        self.group = Group.objects.create(
+            name="Glossary bulk sources", language_selection=SELECTION_ALL
+        )
+        self.group.projects.add(self.project)
+        self.group.roles.set(
+            Role.objects.filter(name__in=["Edit source", "Bulk editing"])
+        )
+        self.editor.groups.add(self.group)
+        self.editor.clear_permissions_cache()
+        self.assertTrue(self.editor.has_perm("source.edit", self.glossary))
+        self.assertTrue(self.editor.has_perm("unit.bulk_edit", self.glossary))
+        self.assertFalse(
+            self.editor.has_perm("meta:unit.flag", self.source.translation)
+        )
+        self.client.force_login(self.editor)
+        self.url = reverse("bulk-edit", kwargs={"path": self.project.get_url_path()})
+
+    def test_source_flags_require_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        for selected in (self.source, self.term):
+            for field, initial, expected in (
+                ("add_flags", "", "forbidden, read-only"),
+                ("remove_flags", "forbidden, read-only", ""),
+            ):
+                with self.subTest(selected=selected.pk, field=field):
+                    self.source.update_extra_flags(initial, self.user)
+                    data = {
+                        "q": f"id:{selected.pk}",
+                        "state": -1,
+                        field: "forbidden, read-only",
+                    }
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, no strings were updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, initial)
+
+                    self.group.roles.add(role)
+                    self.editor.clear_permissions_cache()
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, 1 string was updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.term.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, expected)
+                    self.assertEqual(self.term.readonly, bool(expected))
+                    self.group.roles.remove(role)
+                    self.editor.clear_permissions_cache()
+
+    def test_glossary_scope_requires_glossary_permission(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.glossary.get_url_path()}),
+            {"q": f"id:{self.source.pk}", "state": -1, "add_flags": "forbidden"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_mixed_preview_skips_glossary_flags(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{unit.pk},{self.term.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.assertEqual(
+            [edit.unit.pk for edit in response.context["matching"]], [unit.pk]
+        )
+        unit.source_unit.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "")
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "apply_all": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.source_unit.refresh_from_db()
+        self.source.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "read-only")
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_confirmation_rechecks_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        self.group.roles.add(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{self.source.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.group.roles.remove(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.source.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_labels_keep_source_permission(self) -> None:
+        label = self.project.label_set.create(name="Bulk glossary label", color="black")
+        for field, expected in (("add_labels", [label]), ("remove_labels", [])):
+            with self.subTest(field=field):
+                response = self.client.post(
+                    self.url,
+                    {
+                        "q": f"id:{self.term.pk}",
+                        "state": -1,
+                        "add_flags": "read-only",
+                        field: label.pk,
+                    },
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Bulk edit completed, 1 string was updated."
+                )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, "")
+                self.assertEqual(list(self.source.labels.all()), expected)
+
+    def test_trusted_bulk_edit_can_change_glossary_flags(self) -> None:
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            enforce_permissions=False,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "read-only")
+
+
 class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""
 
