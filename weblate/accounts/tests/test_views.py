@@ -1989,13 +1989,7 @@ class ProfileTest(FixtureTestCase):
             ),
         ]
 
-        with (
-            mock.patch(
-                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
-            ),
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            self.project.remove_user(self.user)
+        self.project.remove_user(self.user)
         self.user.clear_permissions_cache()
 
         self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())

@@ -197,6 +197,11 @@ You can toggle notifications for watched projects and administered projects and 
 can be further tweaked (or muted) per project and component. Visit the component
 overview page and select appropriate choice from the :guilabel:`Watching` menu.
 
+Project and component notification subscriptions are automatically removed when
+you lose access to their targets. Cleanup runs hourly for a different group of
+users, checking every user once daily. Subscriptions are retained during temporary
+project blocks or while two-factor authentication requirements are unmet.
+
 In case :guilabel:`Automatically watch projects on contribution` is enabled you
 will automatically start watching projects upon contributing to them. The
 default value depends on :setting:`DEFAULT_AUTO_WATCH`.

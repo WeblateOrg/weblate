@@ -46,6 +46,7 @@ LOGGER = logging.getLogger("weblate.smtp")
 
 # The batch size needs to be below exim's default connection_max_messages = 500.
 EMAIL_BATCH_SIZE = 200
+SUBSCRIPTION_CLEANUP_BATCH_SIZE = 200
 
 
 class OutgoingEmail(TypedDict):
@@ -86,16 +87,40 @@ def cleanup_social_auth() -> None:
 
 
 @app.task(trail=False)
+def schedule_subscription_cleanup(using: str = "default") -> None:
+    """Check one hourly user bucket, covering scoped subscriptions daily."""
+    from weblate.accounts.data import NotificationScope  # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import Subscription  # ruff: ignore[import-outside-top-level]
+
+    user_ids = (
+        Subscription.objects.using(using)
+        .filter(
+            scope__in=(
+                NotificationScope.SCOPE_PROJECT,
+                NotificationScope.SCOPE_COMPONENT,
+            )
+        )
+        .annotate(hourmod=models.F("user_id") % 24)
+        .filter(hourmod=now().hour)
+        .order_by("user_id")
+        .values_list("user_id", flat=True)
+        .distinct()
+        .iterator(chunk_size=SUBSCRIPTION_CLEANUP_BATCH_SIZE)
+    )
+    for batch in batched(user_ids, SUBSCRIPTION_CLEANUP_BATCH_SIZE):
+        cleanup_inaccessible_subscriptions.delay(list(batch), using)
+
+
+@app.task(trail=False)
 def cleanup_inaccessible_subscriptions(
     user_ids: list[int], using: str = "default"
 ) -> None:
     """Remove scoped subscriptions whose targets are no longer accessible."""
     # ruff: ignore[import-outside-top-level]
-    from weblate.accounts.models import Subscription
-    from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
-        NotificationScope,
-    )
+    from weblate.accounts.data import NotificationScope
+    from weblate.accounts.models import Subscription  # ruff: ignore[import-outside-top-level]
     from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Component, Project  # ruff: ignore[import-outside-top-level]
 
     for user in User.objects.using(using).filter(pk__in=user_ids).iterator():
         subscriptions = Subscription.objects.using(using).filter(
@@ -105,8 +130,18 @@ def cleanup_inaccessible_subscriptions(
                 NotificationScope.SCOPE_COMPONENT,
             ),
         )
-        accessible = subscriptions.filter_access(user)
-        subscriptions.exclude(pk__in=accessible).delete()
+        project_query, component_query = user.get_subscription_retention_queries()
+        projects = Project.objects.using(using).filter(project_query)
+        components = Component.objects.using(using).filter(component_query)
+        inaccessible = subscriptions.exclude(
+            models.Q(scope=NotificationScope.SCOPE_PROJECT, project__in=projects)
+            | models.Q(
+                scope=NotificationScope.SCOPE_COMPONENT, component__in=components
+            )
+        )
+        stale_ids = list(inaccessible.values_list("pk", flat=True))
+        if stale_ids:
+            subscriptions.filter(pk__in=stale_ids).delete()
 
 
 @app.task(trail=False)
@@ -518,6 +553,9 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
+    sender.add_periodic_task(
+        3600, schedule_subscription_cleanup.s(), name="subscription-cleanup"
+    )
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
     sender.add_periodic_task(
