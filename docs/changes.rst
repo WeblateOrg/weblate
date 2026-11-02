@@ -89,6 +89,8 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Bounded :ref:`bulk-edit` operations to 20,000 matching strings, processed browser edits in background batches, and added submission rate limiting.
+
 * Signed-out third-party sign-ins can link to an existing account by matching e-mail only when :setting:`REGISTRATION_REBIND` is enabled.
 * Prevented linked components in the :doc:`REST API <api>` from revealing repository settings of inaccessible components.
 * Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.

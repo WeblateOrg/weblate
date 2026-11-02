@@ -2379,6 +2379,30 @@ An amount of seconds defaulting to 600 (10 minutes).
    * :setting:`RATELIMIT_ATTEMPTS`
    * :setting:`RATELIMIT_WINDOW`
 
+.. setting:: RATELIMIT_BULK_EDIT_ATTEMPTS
+
+RATELIMIT_BULK_EDIT_ATTEMPTS
+----------------------------
+
+Maximum browser bulk-edit submissions per user during
+:setting:`RATELIMIT_BULK_EDIT_WINDOW`. Defaults to 10. Preview requests count
+toward this limit.
+
+.. setting:: RATELIMIT_BULK_EDIT_WINDOW
+
+RATELIMIT_BULK_EDIT_WINDOW
+--------------------------
+
+Window for browser bulk-edit rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_BULK_EDIT_LOCKOUT
+
+RATELIMIT_BULK_EDIT_LOCKOUT
+---------------------------
+
+Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
+to 60.
+
 .. setting:: RATELIMIT_OCR_ATTEMPTS
 
 RATELIMIT_OCR_ATTEMPTS
