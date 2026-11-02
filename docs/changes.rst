@@ -87,6 +87,7 @@ Weblate 2026.11
 
 .. rubric:: Security fixes
 
+* Prevented linked components in the :doc:`REST API <api>` from revealing repository settings of inaccessible components.
 
 * Enforced :setting:`REGISTRATION_EMAIL_MATCH` and disposable e-mail restrictions when importing authentication-provider addresses and selecting public or commit e-mail addresses through the API.
 * Protected template downloads through the :doc:`REST API <api>` against symlink races during concurrent repository updates.
