@@ -375,6 +375,29 @@
           "type": "boolean",
           "default": false
         },
+        "branch_discovery_component": {
+          "title": "Branch discovery source",
+          "description": "Path of the source component within the project, such as category/component.",
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "examples": [
+            "my-category/test-component"
+          ]
+        },
+        "branch_discovery_exclude": {
+          "title": "Excluded branches",
+          "type": "string",
+          "maxLength": 200,
+          "default": ""
+        },
         "check_flags": {
           "title": "Translation flags",
           "type": "string",
