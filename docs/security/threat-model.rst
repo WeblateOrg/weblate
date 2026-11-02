@@ -477,7 +477,7 @@ Build-time and configuration variants
        native regex compilation and matching can still exhaust memory because
        the address-space limit is unavailable. *(maintainer)*
      - Existing edit and add-on management permissions govern mutations. Resource
-       failures abort the current component; previously completed components can
+       failures abort the current batch; previously completed batches can
        remain changed. See :ref:`bulk-edit` for limits and execution boundaries.
        *(maintainer)*
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -197,15 +198,10 @@ def search(request: AuthenticatedHttpRequest, path=None):
 def bulk_edit(
     request: AuthenticatedHttpRequest, path, *, data: QueryDict | None = None
 ):
-    obj, unit_set, context = parse_path_units(request, path, BULK_EDIT_TYPES)
-
-    if isinstance(obj, Workspace):
-        unit_set = unit_set.filter_editable_scope(request.user)
-        can_edit = unit_set.exists()
-    else:
-        can_edit = request.user.has_perm("unit.edit", obj)
-    if not request.user.has_perm("unit.bulk_edit", obj) or not can_edit:
-        raise PermissionDenied
+    obj, unit_set, context = get_bulk_edit_scope(request, path)
+    if not check_rate_limit("bulk_edit", request):
+        messages.error(request, gettext("Too many bulk edits, please try again later."))
+        return redirect(obj)
 
     data = request.POST.copy() if data is None else data
     confirmation = None
@@ -240,26 +236,8 @@ def bulk_edit(
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
         return redirect_next(next_url, obj)
-    options = {
-        "query": form.get_query(),
-        "target_state": form.cleaned_data["state"],
-        **{
-            name: form.cleaned_data[name]
-            for name in (
-                "search",
-                "replacement",
-                "search_type",
-                "add_flags",
-                "remove_flags",
-                "add_translation_flags",
-                "remove_translation_flags",
-                "add_labels",
-                "remove_labels",
-            )
-        },
-        "project": context.get("project"),
-        "components": context["components"],
-    }
+    options = get_bulk_edit_options(form, context)
+    selected = None
     if confirmation is not None and request.POST.get("apply_all") != "1":
         try:
             selected = {int(pk) for pk in request.POST.getlist("preview_units")}
@@ -271,6 +249,29 @@ def bulk_edit(
     preview: list[BulkUnitEdit] | None = (
         [] if confirmation is None and form.cleaned_data["preview"] else None
     )
+    if preview is None and not settings.CELERY_TASK_ALWAYS_EAGER:
+        from weblate.trans.tasks import bulk_edit_task  # ruff: ignore[import-outside-top-level]
+
+        task_data = data.copy()
+        task_data["q"] = form.get_query()
+        task_data.pop("units", None)
+        task = bulk_edit_task.delay(
+            user_id=request.user.pk,
+            path=list(path),
+            data={
+                key: values
+                for key, values in task_data.lists()
+                if key not in {"csrfmiddlewaretoken", "bulk_confirmation", "next"}
+            },
+            selected_ids=sorted(selected) if selected is not None else None,
+        )
+        from weblate.utils.celery import store_task_metadata  # ruff: ignore[import-outside-top-level]
+
+        store_task_metadata(
+            task.id, user_id=request.user.pk, task_kind="bulk-edit", cancellable=False
+        )
+        messages.success(request, gettext("Bulk edit in progress."), f"task:{task.id}")
+        return redirect_next(next_url, obj)
     try:
         updated = bulk_perform(request.user, unit_set, preview=preview, **options)
     except ValidationError as error:
@@ -294,6 +295,41 @@ def bulk_edit(
     )
 
     return redirect_next(next_url, obj)
+
+
+def get_bulk_edit_scope(request: AuthenticatedHttpRequest, path):
+    obj, unit_set, context = parse_path_units(request, path, BULK_EDIT_TYPES)
+    if isinstance(obj, Workspace):
+        unit_set = unit_set.filter_editable_scope(request.user)
+        can_edit = unit_set.exists()
+    else:
+        can_edit = request.user.has_perm("unit.edit", obj)
+    if not request.user.has_perm("unit.bulk_edit", obj) or not can_edit:
+        raise PermissionDenied
+    return obj, unit_set, context
+
+
+def get_bulk_edit_options(form: BulkEditForm, context: dict):
+    return {
+        "query": form.get_query(),
+        "target_state": form.cleaned_data["state"],
+        **{
+            name: form.cleaned_data[name]
+            for name in (
+                "search",
+                "replacement",
+                "search_type",
+                "add_flags",
+                "remove_flags",
+                "add_translation_flags",
+                "remove_translation_flags",
+                "add_labels",
+                "remove_labels",
+            )
+        },
+        "project": context.get("project"),
+        "components": context["components"],
+    }
 
 
 def render_bulk_preview(

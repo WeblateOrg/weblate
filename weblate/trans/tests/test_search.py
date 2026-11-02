@@ -858,6 +858,7 @@ class ReplaceTest(ReusableViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
         self.make_manager()
@@ -1356,9 +1357,26 @@ class BulkEditTest(ReusableViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()
+
+    def create_extra_bulk_unit(self) -> Unit:
+        return Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    source="Another bulk string",
+                    target="Another target",
+                    id_hash=-99_000_000,
+                    source_unit=self.unit.source_unit,
+                    state=STATE_FUZZY,
+                    original_state=STATE_FUZZY,
+                    position=20_000,
+                )
+            ]
+        )[0]
 
     def test_preview_is_read_only_and_confirmation_applies(self) -> None:
         url = reverse("bulk-edit", kwargs=self.kw_translation)
@@ -1715,6 +1733,126 @@ class BulkEditTest(ReusableViewTestCase):
         self.assertEqual(
             Unit.objects.filter(pk__in=ids, state=STATE_TRANSLATED).count(), 251
         )
+
+    def test_bulk_edit_rejects_oversized_selection_before_writing(self) -> None:
+        source_id = self.unit.source_unit_id
+        before = self.unit.target
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_MAX_UNITS", 1),
+            self.assertRaisesMessage(ValidationError, "limited to 1 string"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, source_id]),
+                query="",
+                target_state=STATE_EMPTY,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, before)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_edit_queues_apply_and_preserves_actor(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        with patch("weblate.trans.tasks.bulk_edit_task.delay") as delay:
+            delay.return_value.id = "bulk-edit-task"
+            response = self.client.post(
+                url,
+                {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY},
+                follow=True,
+            )
+        self.assertContains(response, "Bulk edit in progress")
+        self.assertEqual(delay.call_args.kwargs["user_id"], self.user.pk)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_bulk_edit_task_applies_with_initiating_actor(self) -> None:
+        from weblate.trans.tasks import bulk_edit_task  # ruff: ignore[import-outside-top-level]
+
+        result = bulk_edit_task(
+            user_id=self.user.pk,
+            path=self.kw_translation["path"],
+            data={
+                "q": [f"id:{self.unit.pk}"],
+                "state": [str(STATE_EMPTY)],
+            },
+        )
+        self.assertEqual(result["updated"], 1)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "")
+        self.assertEqual(self.unit.change_set.latest("pk").user, self.user)
+
+    @override_settings(RATELIMIT_BULK_EDIT_ATTEMPTS=1)
+    def test_bulk_edit_rate_limit_blocks_repeated_preview(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        reset_rate_limit("bulk_edit", user=self.user)
+        data = {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY, "preview": "1"}
+        first = self.client.post(url, data)
+        self.assertEqual(first.status_code, 200)
+        second = self.client.post(url, data, follow=True)
+        self.assertContains(second, "Too many bulk edits")
+
+    def test_bulk_edit_reports_progress_after_each_batch(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        progress = []
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+                progress=lambda done, total, changed: progress.append(
+                    (done, total, changed)
+                ),
+            )
+        self.assertEqual(updated, 2)
+        self.assertEqual(progress, [(0, 2, 0), (1, 2, 1), (2, 2, 2)])
+
+    def test_bulk_edit_keeps_completed_batch_on_later_failure(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        updates = 0
+        original_bulk_update = Unit.objects.bulk_update
+
+        def fail_second(objs: list[Unit], fields: list[str], batch_size: int) -> int:
+            nonlocal updates
+            updates += 1
+            if updates == 2:
+                msg = "Second batch failed"
+                raise RuntimeError(msg)
+            return original_bulk_update(objs, fields, batch_size=batch_size)
+
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1),
+            patch.object(Unit.objects, "bulk_update", side_effect=fail_second),
+            self.assertRaisesMessage(RuntimeError, "Second batch failed"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        extra.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(extra.state, STATE_FUZZY)
 
     def test_regex_output_failure_does_not_write(self) -> None:
         self.unit.translate(self.user, "a" * 8000, STATE_TRANSLATED)
