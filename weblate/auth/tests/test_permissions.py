@@ -23,7 +23,7 @@ from weblate.auth.data import (
     SELECTION_COMPONENT_LIST,
     SELECTION_MANUAL,
 )
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.auth.permissions import check_permission
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
@@ -644,6 +644,133 @@ class PermissionsTest(FixtureComponentTestCase):
         )
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
         self.user.userblock_set.all().delete()
+
+    def test_team_admin_restrictions(self) -> None:
+        group = Group.objects.create(
+            name="Restricted administration", defining_project=self.project
+        )
+        group.admins.add(self.user)
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+
+        group.enforced_2fa = True
+        group.save(update_fields=["enforced_2fa"])
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+        group.enforced_2fa = False
+        group.save(update_fields=["enforced_2fa"])
+
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+        self.project.enforced_2fa = False
+        self.project.save(update_fields=["enforced_2fa"])
+
+        block = UserBlock.objects.create(user=self.user, project=self.project)
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+        block.expiry = timezone.now() - timedelta(seconds=1)
+        block.save(update_fields=["expiry"])
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+
+        group.enforced_2fa = True
+        group.save(update_fields=["enforced_2fa"])
+        device = TOTPDevice.objects.create(user=self.user, confirmed=False)
+        user = User.objects.get(pk=self.user.pk)
+        self.assertFalse(user.has_perm("meta:team.users", group))
+        device.confirmed = True
+        device.save(update_fields=["confirmed"])
+        user = User.objects.get(pk=self.user.pk)
+        self.assertTrue(user.has_perm("meta:team.users", group))
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        self.assertTrue(user.has_perm("meta:team.users", group))
+
+    def test_team_admin_blocked_in_broader_team(self) -> None:
+        other_project = Project.objects.create(name="Other", slug="other-team-admin")
+        group = Group.objects.create(
+            name="Broad administration", project_selection=SELECTION_ALL
+        )
+        group.admins.add(self.user)
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+
+        group.project_selection = SELECTION_MANUAL
+        group.save(update_fields=["project_selection"])
+        group.projects.add(other_project)
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+        group.projects.add(self.project)
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+
+        group.projects.remove(self.project)
+        group.components.add(self.component)
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+        group.components.clear()
+
+        component_list = ComponentList.objects.create(
+            name="Blocked project components", slug="blocked-project-components"
+        )
+        component_list.components.add(self.component)
+        group.componentlists.add(component_list)
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+        group.componentlists.clear()
+
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save(update_fields=["access_control"])
+        group.project_selection = SELECTION_ALL_PUBLIC
+        group.save(update_fields=["project_selection"])
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        group.project_selection = SELECTION_ALL_PROTECTED
+        group.save(update_fields=["project_selection"])
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+
+        workspace = Workspace.objects.create(name="Blocked project workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        workspace_group = Group.objects.create(
+            name="Workspace administration", defining_workspace=workspace
+        )
+        workspace_group.admins.add(self.user)
+        self.assertFalse(self.user.has_perm("meta:team.users", workspace_group))
+
+    def test_team_admin_component_scope_precedes_project_selection(self) -> None:
+        other_project = Project.objects.create(
+            name="Restricted", slug="restricted-other"
+        )
+        group = Group.objects.create(
+            name="Component administrators", project_selection=SELECTION_ALL
+        )
+        group.admins.add(self.user)
+        group.components.add(self.component)
+        block = UserBlock.objects.create(user=self.user, project=other_project)
+
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+        other_project.enforced_2fa = True
+        other_project.save(update_fields=["enforced_2fa"])
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+
+        block.project = self.project
+        block.save(update_fields=["project"])
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
+
+        group.components.clear()
+        block.project = other_project
+        block.save(update_fields=["project"])
+        component_list = ComponentList.objects.create(
+            name="Selected components", slug="selected-components"
+        )
+        component_list.components.add(self.component)
+        group.componentlists.add(component_list)
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+        component_list.components.clear()
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+        group.components.add(self.component)
+        block.project = self.project
+        block.save(update_fields=["project"])
+        self.assertTrue(self.user.has_perm("meta:team.users", group))
+
+        group.componentlists.clear()
+        self.assertFalse(self.user.has_perm("meta:team.users", group))
 
     def test_projects_with_perm_blocked(self) -> None:
         self.project.add_user(self.user, "Administration")

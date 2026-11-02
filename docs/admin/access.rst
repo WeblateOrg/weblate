@@ -190,6 +190,11 @@ Team administrators
 .. versionadded:: 4.15
 
 Each team can have team administrators, who can add and remove users within the team.
+Administrators relying on this designation must satisfy the team's enforced
+two-factor authentication. Their team management access is suspended while
+they are blocked in any project covered by the team, or while a covered project
+requires two-factor authentication they have not configured. For a team covering
+multiple projects, the restriction applies to the whole team.
 
 This is useful in case you want to build self-governed teams.
 
