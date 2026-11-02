@@ -20,7 +20,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
-from rapidfuzz.distance import DamerauLevenshtein
+from rapidfuzz.distance import DamerauLevenshtein, Hamming
 
 from weblate.automation.context import automation_origin
 from weblate.trans.actions import (
@@ -62,6 +62,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+MAX_EXACT_DISTANCE_PAIRS = 1_000_000
 
 PREFETCH_FIELDS = (
     "user",
@@ -1142,7 +1143,30 @@ class Change(models.Model, UserDisplayMixin):
         return strategy.render_details(self)
 
     def get_distance(self) -> int:
-        return DamerauLevenshtein.distance(self.old, self.target)
+        """Return exact edit distance for small changes and an estimate for large ones."""
+        old, target = self.old, self.target
+        if not old:
+            return len(target)
+        if not target:
+            return len(old)
+        if len(old) * len(target) <= MAX_EXACT_DISTANCE_PAIRS:
+            return DamerauLevenshtein.distance(old, target)
+
+        # Bound quadratic work on stored, translator-controlled content. Trim
+        # shared affixes so isolated insertions and deletions count accurately.
+        start = 0
+        old_end, target_end = len(old), len(target)
+        prefix_end = min(old_end, target_end)
+        while start < prefix_end and old[start] == target[start]:
+            start += 1
+        while (
+            old_end > start
+            and target_end > start
+            and old[old_end - 1] == target[target_end - 1]
+        ):
+            old_end -= 1
+            target_end -= 1
+        return Hamming.distance(old[start:old_end], target[start:target_end], pad=True)
 
     def get_source(self) -> str:
         return self.details.get("source", cast("Unit", self.unit).source)
