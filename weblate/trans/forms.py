@@ -2206,10 +2206,13 @@ class CleanRepoMixin:
         try:
             obj = Component.objects.get_linked(repo)
         except Component.DoesNotExist:
-            return repo
-        if not self.request.user.has_perm("component.edit", obj):
+            obj = None
+        if obj is None or not (
+            self.request.user.can_access_component(obj)
+            and self.request.user.has_perm("component.edit", obj)
+        ):
             raise ValidationError(
-                gettext("You do not have permission to access this component.")
+                gettext("This component does not exist or you cannot access it.")
             )
         return repo
 
@@ -2826,9 +2829,15 @@ class ComponentSettingsForm(
         if not repo:
             return None
         try:
-            return Component.objects.get_linked(repo)
+            component = Component.objects.get_linked(repo)
         except (Component.DoesNotExist, ValueError):
             return None
+        if component is None or not (
+            self.request.user.can_access_component(component)
+            and self.request.user.has_perm("vcs.view", component)
+        ):
+            return None
+        return component
 
     def patch_unlinking_linked_repository_settings(self) -> None:
         if not self.is_bound or not self.instance.is_repo_link:

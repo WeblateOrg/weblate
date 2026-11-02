@@ -105,6 +105,7 @@ Weblate 2026.11
 * Prevented translation merges from approving strings without review permission.
 * Prevented translation and Zen pages, conflict alert history, and single-project redirects from exposing restricted component details.
 * Rejected invalid revisions in :ref:`project backup imports <projectbackup>` and prevented Git revisions from being interpreted as command options.
+* Prevented component settings forms from revealing linked repository settings or confirming private component slugs.
 * Prevented excessive CPU use when checking malformed interpolation, markup, and Markdown links.
 * Prevented excessive CPU use when sanitizing translations containing many non-breaking spaces.
 * Prevented excessive CPU use when restoring translation service placeholders in strings with many syntax tokens.
