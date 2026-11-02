@@ -433,6 +433,10 @@ def delete_user(request: AuthenticatedHttpRequest, project):
         form_class=ProjectMemberManageForm,
         pass_project=True,
     )
+    if not has_recent_second_factor(request):
+        return second_factor_verification_redirect(
+            request, reverse("manage-access", kwargs={"project": obj.slug})
+        )
     redirect_url = ""
 
     if form is not None:

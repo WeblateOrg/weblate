@@ -1207,6 +1207,9 @@ When two-factor authentication is configured, viewing the personal API key or
 changing sign-in methods and recovery credentials requires a second-factor
 verification from the last 10 minutes. Weblate prompts for verification again
 when that period has passed.
+Removing project members or tokens and deleting your account also require a
+recent second-factor verification. Account deletion still requires confirmation
+through a link sent to your e-mail address.
 
 This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
 or team level. In site-wide deployments, this can also be used to enforce
