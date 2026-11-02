@@ -732,6 +732,17 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
         self.user.userblock_set.all().delete()
 
+    def test_having_perm_excludes_active_blocks(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.assertIn(self.user, User.objects.having_perm("project.edit", self.project))
+        block = UserBlock.objects.create(user=self.user, project=self.project)
+        self.assertNotIn(
+            self.user, User.objects.having_perm("project.edit", self.project)
+        )
+        block.expiry = timezone.now() - timedelta(seconds=1)
+        block.save(update_fields=["expiry"])
+        self.assertIn(self.user, User.objects.having_perm("project.edit", self.project))
+
     def test_team_admin_restrictions(self) -> None:
         group = Group.objects.create(
             name="Restricted administration", defining_project=self.project

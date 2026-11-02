@@ -36,6 +36,7 @@ from weblate.auth.forms import (
 from weblate.auth.models import Invitation, TeamMembership, User
 from weblate.auth.utils import (
     format_membership_limit_language_codes,
+    has_project_admin_grant,
     prefetch_membership_limit_languages,
 )
 from weblate.lang.forms import get_language_code_choices
@@ -294,6 +295,15 @@ def block_user(request: AuthenticatedHttpRequest, project):
 
     if form is not None and form.cleaned_data["user"].id == request.user.id:
         messages.error(request, gettext("You can not block yourself on this project."))
+    elif (
+        form is not None
+        and not form.cleaned_data["user"].userblock_set.filter(project=obj).exists()
+        and has_project_admin_grant(form.cleaned_data["user"], obj)
+    ):
+        messages.error(
+            request,
+            gettext("Remove project administration rights before blocking this user."),
+        )
     elif form is not None:
         user = form.cleaned_data["user"]
         cleanup_requested = is_contribution_cleanup_requested(form)

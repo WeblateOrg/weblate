@@ -24,7 +24,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
 from django.db import models, router, transaction
-from django.db.models import Count, F, Q, UniqueConstraint
+from django.db.models import Count, Exists, F, OuterRef, Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -728,20 +728,27 @@ class UserQuerySet(models.QuerySet["User", "User"]):
         Note: This intentionally does not list superusers or site-wide permissions
         given using project_selection.
         """
-        return self.filter(
-            team_memberships__in=TeamMembership.objects.unlimited()
-            .filter(
-                group__roles__permissions__codename=perm,
-                group__projects=project,
-                group__components__isnull=True,
-                group__componentlists__isnull=True,
-                group__defining_workspace__isnull=True,
+        active_blocks = UserBlock.objects.filter(
+            user_id=OuterRef("pk"), project=project
+        ).filter(Q(expiry__isnull=True) | Q(expiry__gt=timezone.now()))
+        return (
+            self.filter(
+                team_memberships__in=TeamMembership.objects.unlimited()
+                .filter(
+                    group__roles__permissions__codename=perm,
+                    group__projects=project,
+                    group__components__isnull=True,
+                    group__componentlists__isnull=True,
+                    group__defining_workspace__isnull=True,
+                )
+                .filter(
+                    Q(group__defining_project__isnull=True)
+                    | Q(group__defining_project=project)
+                )
             )
-            .filter(
-                Q(group__defining_project__isnull=True)
-                | Q(group__defining_project=project)
-            )
-        ).distinct()
+            .filter(Q(is_superuser=True) | ~Exists(active_blocks))
+            .distinct()
+        )
 
     def all_admins(self, project: Project) -> Self:
         """All admins in a project."""
@@ -2282,6 +2289,10 @@ class InvitationUserMismatchError(InvitationError):
     """Invitation can not be accepted by this user."""
 
 
+class InvitationBlockedAdminError(InvitationError):
+    """Invitation would grant project administration to a blocked user."""
+
+
 class Invitation(models.Model):
     """
     User invitation store.
@@ -2400,6 +2411,9 @@ class Invitation(models.Model):
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import AuditLog
 
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.utils import validate_admin_team_assignment
+
         if self.is_expired():
             msg = "Invitation expired on accept!"
             raise InvitationExpiredError(msg)
@@ -2407,6 +2421,14 @@ class Invitation(models.Model):
         if not self.matches_user(user):
             msg = "User mismatch on accept!"
             raise InvitationUserMismatchError(msg)
+
+        limit_languages = list(self.limit_languages.all())
+        try:
+            validate_admin_team_assignment(
+                user, self.group, limit_languages=limit_languages
+            )
+        except ValidationError as error:
+            raise InvitationBlockedAdminError from error
 
         if self.is_superuser:
             user.store_audit_state()
@@ -2425,7 +2447,6 @@ class Invitation(models.Model):
         user.add_team(request, self.group, user=self.author)
         # Accepting an invitation applies the invitation state even when the
         # user is already a member; an empty invitation limit clears old limits.
-        limit_languages = list(self.limit_languages.all())
         TeamMembership.objects.get(user=user, group=self.group).set_limit_languages(
             limit_languages,
             request,

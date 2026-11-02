@@ -13,6 +13,8 @@ from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.db.models import Q
+from django.utils import timezone
 from django.utils.translation import gettext
 from social_core.backends.utils import load_backends
 
@@ -24,12 +26,14 @@ from weblate.auth.data import (
     PERMISSIONS,
     ROLES,
     SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
 )
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from django.db.models import Prefetch
+    from django.db.models import Prefetch, QuerySet
     from django.utils.safestring import SafeString
 
     from weblate.auth.models import (
@@ -39,8 +43,103 @@ if TYPE_CHECKING:
         Role,
         TeamMembership,
         User,
+        UserBlock,
     )
     from weblate.lang.models import Language
+    from weblate.trans.models import Project
+
+
+PROJECT_ADMIN_PERMISSIONS = frozenset({"project.edit", "project.permissions"})
+
+
+def active_user_blocks(user: User) -> QuerySet[UserBlock]:
+    """Return blocks which still restrict access."""
+    return user.userblock_set.filter(
+        Q(expiry__isnull=True) | Q(expiry__gt=timezone.now())
+    )
+
+
+def team_covers_project(team: Group, project: Project) -> bool:
+    """Whether team administration extends to a project."""
+    if team.defining_workspace_id:
+        return team.defining_workspace_id == project.workspace_id
+    if team.defining_project_id and team.defining_project_id != project.pk:
+        return False
+    if team.componentlists.exists():
+        return team.componentlists.filter(components__project=project).exists()
+    if team.components.exists():
+        return team.components.filter(project=project).exists()
+    if team.defining_project_id:
+        return True
+    if team.project_selection == SELECTION_ALL:
+        return True
+    if team.project_selection == SELECTION_ALL_PUBLIC:
+        return project.access_control == project.ACCESS_PUBLIC
+    if team.project_selection == SELECTION_ALL_PROTECTED:
+        return project.access_control == project.ACCESS_PROTECTED
+    return team.projects.filter(pk=project.pk).exists()
+
+
+def has_project_admin_grant(user: User, project: Project) -> bool:
+    """Check administrative grants without temporary blocks or 2FA restrictions."""
+    if user.is_superuser:
+        return True
+    # ruff: ignore[private-member-access]
+    grants = user._build_permissions(ignore_temporary_restrictions=True)["projects"]
+    scopes = [project.pk, -SELECTION_ALL]
+    if project.access_control == project.ACCESS_PUBLIC:
+        scopes.append(-SELECTION_ALL_PUBLIC)
+    elif project.access_control == project.ACCESS_PROTECTED:
+        scopes.append(-SELECTION_ALL_PROTECTED)
+    if any(
+        permissions is not None
+        and not PROJECT_ADMIN_PERMISSIONS.isdisjoint(permissions)
+        and (languages is None or not languages.membership_limited)
+        for scope in scopes
+        for permissions, languages in grants[scope]
+    ):
+        return True
+    return any(
+        team_covers_project(team, project) for team in user.administered_group_set.all()
+    )
+
+
+def validate_admin_team_assignment(
+    user: User,
+    team: Group,
+    *,
+    team_admin: bool = False,
+    limit_languages: Iterable[Language] | None = None,
+) -> None:
+    """Reject direct administrative grants across an active project block."""
+    # An omitted limit preserves an existing membership. An explicit empty
+    # collection clears it and restores project-wide permissions.
+    if not team_admin:
+        if limit_languages is None:
+            membership = user.team_memberships.filter(group=team).first()
+            if membership is not None and membership.limit_languages.exists():
+                return
+        elif any(limit_languages):
+            return
+    if not team_admin and (
+        team.defining_workspace_id
+        or team.components.exists()
+        or team.componentlists.exists()
+        or not team.roles.filter(
+            permissions__codename__in=PROJECT_ADMIN_PERMISSIONS
+        ).exists()
+    ):
+        return
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project
+
+    blocked_projects = Project.objects.filter(
+        pk__in=active_user_blocks(user).values("project_id")
+    )
+    if any(team_covers_project(team, project) for project in blocked_projects):
+        raise ValidationError(
+            gettext("Blocked users cannot be granted project administration rights.")
+        )
 
 
 class TeamNameAllocator:

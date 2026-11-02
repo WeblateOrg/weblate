@@ -22,6 +22,7 @@ from weblate.auth.models import (
     AutoGroup,
     Group,
     Invitation,
+    InvitationBlockedAdminError,
     InvitationExpiredError,
     InvitationUserMismatchError,
 )
@@ -312,6 +313,12 @@ class InvitationView(DetailView):
         except InvitationExpiredError:
             messages.error(request, gettext("This invitation has expired."))
             return redirect_param("profile", "#account")
+        except InvitationBlockedAdminError:
+            messages.error(
+                request,
+                gettext("Remove the project block before accepting this invitation."),
+            )
+            return redirect_param("profile", "#account")
         except InvitationUserMismatchError as error:
             raise Http404 from error
 
@@ -334,6 +341,12 @@ def accept_invitation(
         invitation.accept(request, user)
     except InvitationExpiredError as error:
         messages.error(request, gettext("This invitation has expired."))
+        raise Http404 from error
+    except InvitationBlockedAdminError as error:
+        messages.error(
+            request,
+            gettext("Remove the project block before accepting this invitation."),
+        )
         raise Http404 from error
     except InvitationUserMismatchError as error:
         raise Http404 from error

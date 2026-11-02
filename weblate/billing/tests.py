@@ -25,7 +25,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
 
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.billing.admin import BillingAdmin
 from weblate.billing.defines import TRIAL_DAYS
 from weblate.billing.models import (
@@ -2480,6 +2480,12 @@ class BillingRemovalTest(RepoTestCase):
         self.assertEqual(
             self.client.get(self.billing.get_absolute_url()).status_code, 200
         )
+
+    def test_remove_last_project_does_not_promote_blocked_admin(self) -> None:
+        UserBlock.objects.create(user=self.admin, project=self.project)
+        self.assertFalse(self.admin.has_perm("project.edit", self.project))
+        self.project.delete()
+        self.assert_no_workspace_access()
 
 
 class HostingTest(RepoTestCase):

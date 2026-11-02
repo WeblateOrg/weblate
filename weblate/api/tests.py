@@ -1443,6 +1443,63 @@ class UserAPITest(APIBaseTest):
             )
             self.assertFalse(target.groups.filter(pk=group.pk).exists())
 
+    def test_add_group_rejects_blocked_project_admin(self) -> None:
+        target = User.objects.create_user(
+            "blocked-admin-target", "blocked-admin-target@example.org", "x"
+        )
+        UserBlock.objects.create(user=target, project=self.project)
+        group = self.project.defined_groups.get(name="Administration")
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.pk},
+        )
+        self.assertContains(
+            response,
+            "Blocked users cannot be granted project administration rights.",
+            status_code=400,
+        )
+        self.assertFalse(target.groups.filter(pk=group.pk).exists())
+
+    def test_blocked_admin_language_limit_api(self) -> None:
+        target = User.objects.create_user(
+            "blocked-limited-admin", "blocked-limited-admin@example.org", "x"
+        )
+        UserBlock.objects.create(user=target, project=self.project)
+        group = self.project.defined_groups.get(name="Administration")
+        kwargs = {"username": target.username}
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.pk, "limit_language_codes": ["cs"]},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.pk},
+        )
+        membership = TeamMembership.objects.get(user=target, group=group)
+        self.assertTrue(membership.limit_languages.filter(code="cs").exists())
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.pk, "limit_language_codes": []},
+            format="json",
+        )
+        self.assertTrue(membership.limit_languages.filter(code="cs").exists())
+
     def test_remove_group(self) -> None:
         group = Group.objects.get(name="Viewers")
         target = User.objects.create_user(
