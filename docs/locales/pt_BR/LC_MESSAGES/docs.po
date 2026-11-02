@@ -43,9 +43,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-30 05:01+0100\n"
-"PO-Revision-Date: 2026-10-30 05:06+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-11-02 06:16+0000\n"
+"Last-Translator: Kaya Abe <kaya.abe@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -57496,16 +57495,14 @@ msgid ""
 "uses the existing :ref:`addons-api` permissions and validation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Detecção automática"
+msgstr "Automação"
 
 msgid "Workflow"
 msgstr "Fluxo de trabalho"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "Insira uma definição de automação em YAML ou JSON."
 
 #, fuzzy
 #| msgid ""
@@ -57520,10 +57517,8 @@ msgstr ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 
-#, fuzzy
-#| msgid "Supporting translators with definitions and context."
 msgid "Runs ordered translation operations with conditions and branches."
-msgstr "Ajudar tradutores com definições e contexto."
+msgstr "Executa operações de tradução ordenadas com condições e ramificações."
 
 msgid ""
 "Install this add-on on a component, category, project, or site. Inherited "
@@ -58072,6 +58067,10 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
+"A expressão regular deve definir um grupo nomeado para o componente. Defina "
+"também um grupo nomeado para o idioma ao corresponder a arquivos de "
+"tradução. Quando a máscara de arquivo estiver definida, omita o idioma e "
+"corresponda ao arquivo base monolíngue ou ao novo arquivo base."
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -58113,10 +58112,8 @@ msgstr ""
 "arquivo de tradução fornecido por desenvolvedores e é usado ao criar textos "
 "fontes reais. Este modelo deve incluir {{ component }}."
 
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Define the file mask"
-msgstr "Máscara de arquivo da captura de tela"
+msgstr "Defina a máscara de arquivos"
 
 msgid ""
 "Leave empty to match translation files directly. When set, discovery matches "
@@ -58124,6 +58121,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Deixe em branco para que a tradução corresponda diretamente aos arquivos de "
+"tradução. Quando configurado, o recurso de descoberta corresponde ao arquivo "
+"base monolíngue ou ao novo arquivo base e usa este modelo como máscara de "
+"arquivo. Inclua um caractere curinga de idioma e {{ componente }}, por "
+"exemplo, localidade/*/{{ componente }}.po ou docs/{{ componente }}_*.md."
 
 #, fuzzy
 #| msgid "Component locked"
@@ -58411,81 +58413,73 @@ msgstr "Mensagens do Fedora"
 msgid "**Broker connection**"
 msgstr "Interface de usuário"
 
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Host do broker AMQP"
+msgstr "URL do broker AMQP"
 
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "O broker AMQP ao qual se conectar."
+msgstr "A URL do broker AMQP para se conectar."
 
-#, fuzzy
-#| msgid "String prefix"
 msgid "Topic prefix"
-msgstr "Prefixo do texto"
+msgstr "Prefixo do tema"
 
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "Prefixo opcional para adicionar aos temas das mensagens geradas."
 
 msgid "**Timeouts and retries**"
 msgstr ""
 
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Publish timeout"
-msgstr "Limpar arquivos de tradução"
+msgstr "Tempo limite de publicação"
 
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Por quantos segundos aguardar o reconhecimento de entrega do agente."
 
-#, fuzzy
-#| msgid "Allowed attempts"
 msgid "Connection attempts"
-msgstr "Tentativas permitidas"
+msgstr "Tentativas de conexão"
 
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Número de tentativas de conexão com o agente."
 
 msgid "Retry delay"
-msgstr ""
+msgstr "Tempo mínimo para uma nova tentativa"
 
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Quantos segundos aguardar entre tentativas de conexão."
 
 #, fuzzy
 #| msgid "Subversion credentials"
 msgid "**TLS credentials**"
 msgstr "Credenciais de Subversion"
 
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certificados CA"
+msgstr "Pacote de certificados CA (PEM)"
 
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Cole apenas blocos de certificado PEM, cada um começando com \"-----BEGIN "
+"CERTIFICATE-----\" e terminando com \"-----END CERTIFICATE-----\"."
 
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Chave privada do cliente (PEM)"
 
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Cole um único bloco de chave privada PEM não criptografado. Chaves privadas "
+"criptografadas não são suportadas."
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Certificados SSL do cliente"
+msgstr "Certificado do cliente (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Cole apenas o bloco do certificado PEM que começa com \"-----BEGIN "
+"CERTIFICATE-----\"; não cole a saída de \"openssl x509 -text\"."
 
 #, fuzzy
 #| msgid "Project selection"
@@ -58863,20 +58857,14 @@ msgstr "Preenche a tradução de textos somente leitura com o texto fonte."
 msgid "Statistics generator"
 msgstr "Gerador de estatísticas"
 
-#, fuzzy
-#| msgid "slug of component"
 msgid "Output scope"
-msgstr "slug do componente"
+msgstr "Escopo de saída"
 
-#, fuzzy
-#| msgid "Detailed per translation stats."
 msgid "One file per translation"
-msgstr "Estatísticas detalhadas por tradução."
+msgstr "Um arquivo por tradução"
 
-#, fuzzy
-#| msgid "name of component"
 msgid "One file per component"
-msgstr "nome do componente"
+msgstr "Um arquivo por componente"
 
 msgid "Name of generated file"
 msgstr "Nome do arquivo gerado"
@@ -59739,10 +59727,8 @@ msgstr "Por arquivo"
 msgid "Per author"
 msgstr "Por autor"
 
-#, fuzzy
-#| msgid "Per language"
 msgid "Per author and language"
-msgstr "Por idioma"
+msgstr "Por autor e idioma"
 
 msgid "Append trailers to squashed commit message"
 msgstr "Anexar linhas finalizadoras à mensagem do commit resultado de squash"
@@ -65794,10 +65780,8 @@ msgstr "Editar configurações do projeto"
 msgid "Manage project access"
 msgstr "Gerenciar acesso ao projeto"
 
-#, fuzzy
-#| msgid "Manage roles"
 msgid "Manage reports"
-msgstr "Gerenciar funções"
+msgstr "Gerenciar relatórios"
 
 #, fuzzy
 #| msgid ":guilabel:`Administration`"
@@ -65937,23 +65921,19 @@ msgstr "Publicar novidades"
 msgid "Delete announcements"
 msgstr "Excluir novidades"
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Editar textos fonte"
+msgstr "Editar configurações do espaço de trabalho"
 
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "Adicionar projetos ao espaço de trabalho"
 
 #, fuzzy
 #| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add workspace projects`"
 msgstr ":guilabel:`Adicionar novos projetos`"
 
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Gerenciar acesso ao projeto"
+msgstr "Gerenciar acesso ao espaço de trabalho"
 
 msgid "Site wide privileges"
 msgstr "Privilégios para todo o site"
@@ -65961,10 +65941,8 @@ msgstr "Privilégios para todo o site"
 msgid "Use management interface"
 msgstr "Usar interface de gerenciamento"
 
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Configuração do Weblate"
+msgstr "Gerenciar configuração do site"
 
 msgid "Add new projects"
 msgstr "Adicionar novos projetos"
@@ -65972,10 +65950,8 @@ msgstr "Adicionar novos projetos"
 msgid ":guilabel:`Add new projects`"
 msgstr ":guilabel:`Adicionar novos projetos`"
 
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Adicionar novos projetos"
+msgstr "Adicionar novos espaços de trabalho"
 
 msgid "Add language definitions"
 msgstr "Adicionar definições de idioma"
@@ -66007,10 +65983,8 @@ msgstr "Gerenciar novidades"
 msgid "Manage translation memory"
 msgstr "Gerenciar memória de tradução"
 
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "Manage translation services"
-msgstr "Mecanismos para tradução automática"
+msgstr "Gerenciar serviços de tradução"
 
 msgid "Manage component lists"
 msgstr "Gerenciar listas de componentes"
