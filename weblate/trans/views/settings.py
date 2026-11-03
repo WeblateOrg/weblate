@@ -22,6 +22,10 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.utils import get_team_rename_warnings
 from weblate.trans.backups import (
     PROJECTBACKUP_PREFIX,
@@ -142,6 +146,10 @@ def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
+            if {"access_control", "public_sharing", "enforced_2fa"} & set(
+                settings_form.changed_data
+            ) and not has_recent_sensitive_verification(request):
+                return sensitive_verification_redirect(request, request.path)
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
             for warning in get_team_rename_warnings(obj.renamed_teams):

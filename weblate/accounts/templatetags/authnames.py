@@ -22,7 +22,7 @@ from social_django.utils import load_strategy
 from weblate.accounts.utils import (
     get_key_name,
     get_totp_device_label,
-    has_recent_second_factor,
+    has_recent_sensitive_verification,
 )
 
 if TYPE_CHECKING:
@@ -39,7 +39,7 @@ register = template.Library()
 
 @register.simple_tag
 def can_show_personal_api_key(request: AuthenticatedHttpRequest) -> bool:
-    return request.user.is_authenticated and has_recent_second_factor(request)
+    return request.user.is_authenticated and has_recent_sensitive_verification(request)
 
 
 @register.simple_tag

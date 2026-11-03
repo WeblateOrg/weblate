@@ -48,6 +48,10 @@ from weblate.accounts.tasks import (
     cleanup_social_auth,
     get_registration_attempt_password_reset_url,
 )
+from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.auth.forms import bulk_lookup_invited_users, lookup_invited_user
 from weblate.auth.models import (
     Group,
@@ -505,6 +509,67 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             set(user.auditlog_set.values_list("activity", flat=True)),
             expected_audit,
         )
+
+    def verify_sensitive_password(self, password: str) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": password},
+        )
+        self.assertRedirects(response, reverse("profile"))
+
+
+class EmailRecoveryTest(BaseRegistrationTest):
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_expired_email_setup_completes_password_recovery(self) -> None:
+        user = User.objects.create_user("email-only", "email-only@example.com")
+        user.set_unusable_password()
+        user.save(update_fields=["password"])
+        self.client.force_login(user, backend="social_core.backends.email.EmailAuth")
+        session = self.client.session
+        original_session_key = session.session_key
+        if original_session_key is None:
+            self.fail("Email login did not create a session")
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= FIRST_FACTOR_VERIFY_SECONDS + 1
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+
+        response = self.client.get(reverse("password"))
+        self.assertIn("target=sensitive", response["Location"])
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "email_recovery": "1"},
+        )
+        self.assertRedirects(response, reverse("password_reset"))
+
+        stale_client = Client()
+        stale_client.cookies[settings.SESSION_COOKIE_NAME] = original_session_key
+        self.assertNotIn(SESSION_KEY, stale_client.session)
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, stale_client.session)
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+        response = self.client.post(reverse("password_reset"), {"email": user.email})
+        self.assertRedirects(response, reverse("email-sent"))
+        url = self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.confirm_registration_url(url, follow=True)
+        self.assertRedirects(response, reverse("password_reset"))
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("password_reset"),
+                {"new_password1": "2pa$$word!", "new_password2": "2pa$$word!"},
+            )
+        self.assertRedirects(response, reverse("login"))
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("2pa$$word!"))
+
+        response = self.client.post(
+            reverse("login"),
+            {"username": user.username, "password": "2pa$$word!"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.client.session[SESSION_KEY], str(user.pk))
+        self.assertNotIn("show_set_password", self.client.session)
 
 
 class RegistrationTest(BaseRegistrationTest):
@@ -1569,6 +1634,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Adding mail to existing account."""
         # Create user
         self.perform_registration()
+        self.verify_sensitive_password("1pa$$word!")
 
         # Check adding e-mail page
         response = self.client.post(
@@ -1731,6 +1797,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Test pipeline redirect using next parameter."""
         # Create user
         self.perform_registration()
+        self.verify_sensitive_password("1pa$$word!")
 
         # Valid next URL
         response = self.client.post(
@@ -1783,6 +1850,8 @@ class RegistrationTest(BaseRegistrationTest):
     @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False, blocked=False) -> None:
         """Test GitHub integration."""
+        if self.client.session.get(SESSION_KEY):
+            self.verify_sensitive_password("x")
         responses.add(
             responses.POST,
             "https://github.com/login/oauth/access_token",
@@ -2275,6 +2344,11 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertTrue(
             authenticated_client.login(username=user.username, password="old-password")
         )
+        response = authenticated_client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "old-password"},
+        )
+        self.assertRedirects(response, reverse("profile"))
         response = authenticated_client.post(
             reverse("password"),
             {

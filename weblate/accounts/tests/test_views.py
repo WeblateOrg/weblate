@@ -99,6 +99,13 @@ class ViewTest(RepoTestCase):
         user.save()
         return user
 
+    def confirm_sensitive_password(self) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
+
     @staticmethod
     def get_backend(name: str = "github") -> mock.Mock:
         backend = mock.Mock()
@@ -1099,6 +1106,7 @@ class ViewTest(RepoTestCase):
         old_token = user.auth_token.key
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         # Change without data
         response = self.client.post(reverse("password"))
         self.assertContains(response, "This field is required.")
@@ -1136,6 +1144,7 @@ class ViewTest(RepoTestCase):
         old_token = user.auth_token.key
 
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         response = self.client.post(
             reverse("password"),
             {
@@ -1155,6 +1164,7 @@ class ViewTest(RepoTestCase):
         user = self.get_user()
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
 
         # API key reset with GET should fail
         response = self.client.get(reverse("reset-api-key"))

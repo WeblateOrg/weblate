@@ -384,6 +384,12 @@ class ProjectTokenTest(FixtureTestCase):
         admin_group = attacker_project.defined_groups.get(name="Administration")
 
         response = attacker_client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        self.assertRedirects(response, reverse("profile"))
+
+        response = attacker_client.post(
             reverse("set-groups", kwargs={"project": attacker_project.slug}),
             {"user": token_user.username, "groups": [admin_group.pk]},
             follow=True,

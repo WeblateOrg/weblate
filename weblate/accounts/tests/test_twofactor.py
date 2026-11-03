@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 from datetime import timedelta
 from types import SimpleNamespace
@@ -13,10 +14,11 @@ from typing import TYPE_CHECKING, cast
 from unittest import mock
 
 from django.conf import settings
+from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.backends.db import SessionStore
 from django.core import mail
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.test import Client, override_settings
 from django.urls import reverse
 from django.utils.timezone import now
@@ -46,11 +48,13 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SECOND_FACTOR_USER,
+    SESSION_SENSITIVE_FACTOR_GRANT,
     SESSION_WEBAUTHN_AUDIT,
     has_first_factor_grant,
     has_recent_second_factor,
+    has_recent_sensitive_verification,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -58,10 +62,397 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+class ExternalPasswordBackend(BaseBackend):
+    """Exercise first-factor verification through Django's backend dispatch."""
+
+    def authenticate(
+        self, request: HttpRequest | None, **kwargs: object
+    ) -> User | None:
+        username = kwargs.get("username")
+        password = kwargs.get("password")
+        if password == "external-secret" and isinstance(username, str):
+            return User.objects.get(username=username)
+        if password == "other-secret":
+            return User.objects.get(username="jane")
+        return None
+
+    def get_user(self, user_id: int | str) -> User | None:
+        return User.objects.filter(pk=user_id).first()
+
+
 class TwoFactorTestCase(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
         reset_rate_limit("login", address="127.0.0.1")
+
+    def test_sensitive_action_requires_existing_password_without_2fa(self) -> None:
+        url = reverse("password")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("target=sensitive", response["Location"])
+
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": url, "password": "testpassword"},
+        )
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.assertContains(self.client.get(url), "Current password")
+
+        session = self.client.session
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= 601
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+        self.assertFalse(
+            has_recent_sensitive_verification(
+                cast("AuthenticatedHttpRequest", self.client.get(url).wsgi_request)
+            )
+        )
+        self.assertEqual(self.client.get(url).status_code, 302)
+
+    def test_password_setup_flag_does_not_bypass_stale_verification(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        self.assertTrue(self.client.session["show_set_password"])
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        response = self.client.get(reverse("password"))
+        self.assertIn("target=sensitive", response["Location"])
+
+        self.create_totp_device()
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1,
+        }
+        session.save()
+        response = self.client.get(reverse("password"))
+        self.assertIn("second-factor", response["Location"])
+
+    def test_email_login_proof_expires_and_other_login_clears_it(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        self.assertIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+        session = self.client.session
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= 601
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+        self.assertIn(
+            "target=sensitive", self.client.get(reverse("password"))["Location"]
+        )
+
+        self.client.force_login(
+            self.user, backend="weblate.accounts.auth.WeblateUserBackend"
+        )
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+    def test_initial_password_creation_clears_setup_flag(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("password"),
+            {"new_password1": "1pa$$word!", "new_password2": "1pa$$word!"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn("show_set_password", self.client.session)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("1pa$$word!"))
+
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            *settings.AUTHENTICATION_BACKENDS,
+            "weblate.accounts.tests.test_twofactor.ExternalPasswordBackend",
+        )
+    )
+    def test_passwordless_django_backend_can_verify_same_account(self) -> None:
+        backend = "weblate.accounts.tests.test_twofactor.ExternalPasswordBackend"
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user, backend=backend)
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        url = reverse("first-factor-verify")
+        self.assertContains(self.client.get(url), "Current password")
+        response = self.client.post(
+            url,
+            {
+                "target": "sensitive",
+                "next": reverse("password"),
+                "password": "external-secret",
+            },
+        )
+        self.assertRedirects(
+            response, reverse("password"), fetch_redirect_response=False
+        )
+        self.assertIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+        session = self.client.session
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= 601
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+        self.assertIn(
+            "target=sensitive", self.client.get(reverse("password"))["Location"]
+        )
+        for secret in ("wrong-secret", "other-secret"):
+            response = self.client.post(
+                url, {"target": "sensitive", "password": secret}
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertFalse(
+                has_recent_sensitive_verification(
+                    cast("AuthenticatedHttpRequest", response.wsgi_request)
+                )
+            )
+
+        response = self.client.post(
+            url, {"target": "totp", "password": "external-secret"}
+        )
+        self.assertRedirects(response, reverse("totp"), fetch_redirect_response=False)
+        self.assertIn(SESSION_FIRST_FACTOR_GRANT, self.client.session)
+        session = self.client.session
+        grant = session[SESSION_FIRST_FACTOR_GRANT]
+        grant["time"] -= 601
+        session[SESSION_FIRST_FACTOR_GRANT] = grant
+        session.save()
+        self.assertFalse(
+            has_first_factor_grant(
+                cast("AuthenticatedHttpRequest", self.client.get(url).wsgi_request)
+            )
+        )
+
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            *settings.AUTHENTICATION_BACKENDS,
+            "weblate.accounts.tests.test_twofactor.ExternalPasswordBackend",
+        )
+    )
+    def test_local_and_external_passwords_verify_same_account(self) -> None:
+        backend = "weblate.accounts.tests.test_twofactor.ExternalPasswordBackend"
+        self.client.force_login(self.user, backend=backend)
+        url = reverse("first-factor-verify")
+        destination = reverse("password")
+
+        for password in ("testpassword", "external-secret"):
+            with self.subTest(password=password):
+                session = self.client.session
+                session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+                session.save()
+                response = self.client.post(
+                    url,
+                    {"target": "sensitive", "next": destination, "password": password},
+                )
+                self.assertRedirects(
+                    response, destination, fetch_redirect_response=False
+                )
+                self.assertIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+        for password in ("wrong-secret", "other-secret"):
+            with self.subTest(password=password):
+                session = self.client.session
+                session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+                session.save()
+                response = self.client.post(
+                    url, {"target": "sensitive", "password": password}
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+    def test_project_access_post_verification_returns_to_get_page(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        destination = reverse("manage-access", kwargs={"project": self.project.slug})
+        for name in (
+            "set-groups",
+            "add-user",
+            "block-user",
+            "unblock-user",
+            "revert-blocked-user-edits",
+            "invite-user",
+            "create-project-group",
+        ):
+            with self.subTest(name=name):
+                response = self.client.post(
+                    reverse(name, kwargs={"project": self.project.slug}), {}
+                )
+                self.assertEqual(response.status_code, 302)
+                self.assertIn("target=sensitive", response["Location"])
+                self.assertIn("next=%2Faccess%2F", response["Location"])
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": destination, "password": "testpassword"},
+        )
+        self.assertRedirects(response, destination, fetch_redirect_response=False)
+        self.assertEqual(self.client.get(destination).status_code, 200)
+
+    def test_profile_tab_cannot_submit_account_fields_without_proof(self) -> None:
+        original_name = self.user.full_name
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#profile",
+                "website": "https://example.org/profile",
+                "full_name": "Stolen name",
+            },
+        )
+        self.assertRedirects(response, f"{reverse('profile')}#profile")
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.full_name, original_name)
+
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#account",
+                "username": self.user.username,
+                "full_name": "Stolen name",
+                "email": self.user.email,
+            },
+        )
+        self.assertIn("target=sensitive", response["Location"])
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.full_name, original_name)
+
+    def test_session_api_admin_grant_requires_recent_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        group = Group.objects.create(name="Sensitive grant test")
+        url = reverse("api:group-grant-admin", kwargs={"id": group.pk})
+        payload = {"user_id": self.anotheruser.pk}
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(group.admins.filter(pk=self.anotheruser.pk).exists())
+
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": url, "password": "testpassword"},
+        )
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(group.admins.filter(pk=self.anotheruser.pk).exists())
+
+    def test_api_token_takes_precedence_over_stale_session(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        group = Group.objects.create(name="Authentication path test")
+        url = reverse("api:group-grant-admin", kwargs={"id": group.pk})
+        payload = {"user_id": self.anotheruser.pk}
+
+        self.assertEqual(self.client.post(url, payload).status_code, 403)
+        token = self.user.auth_token.key
+        self.assertEqual(
+            self.client.post(
+                url, payload, headers={"authorization": f"Token {token}"}
+            ).status_code,
+            200,
+        )
+
+        self.client.delete(
+            reverse(
+                "api:group-revoke-admin",
+                kwargs={"id": group.pk, "user_pk": self.anotheruser.pk},
+            ),
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(
+            self.client.post(
+                url, payload, headers={"authorization": "Token invalid"}
+            ).status_code,
+            401,
+        )
+        self.assertFalse(group.admins.filter(pk=self.anotheruser.pk).exists())
+
+        token_client = Client()
+        self.assertEqual(
+            token_client.post(
+                url, payload, HTTP_AUTHORIZATION=f"Token {token}"
+            ).status_code,
+            200,
+        )
+
+    def test_stale_session_rejected_across_api_mutations(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        group = Group.objects.create(name="Guard matrix")
+        operations = (
+            ("post", reverse("api:group-list"), {"name": "New team"}),
+            ("post", reverse("api:role-list"), {"name": "New role"}),
+            (
+                "patch",
+                reverse(
+                    "api:user-detail", kwargs={"username": self.anotheruser.username}
+                ),
+                {"email": "changed@example.org"},
+            ),
+            (
+                "patch",
+                reverse("api:project-detail", kwargs={"slug": self.project.slug}),
+                {"access_control": self.project.access_control},
+            ),
+            (
+                "post",
+                reverse("api:group-grant-admin", kwargs={"id": group.pk}),
+                {"user_id": self.anotheruser.pk},
+            ),
+        )
+        for method, url, payload in operations:
+            with self.subTest(method=method, url=url):
+                response = (
+                    self.client.patch(
+                        url, json.dumps(payload), content_type="application/json"
+                    )
+                    if method == "patch"
+                    else self.client.post(url, payload)
+                )
+                self.assertEqual(response.status_code, 403)
+                token = self.user.auth_token.key
+                for client in (Client(), self.client):
+                    with self.subTest(has_cookie=client is self.client):
+                        if method == "patch":
+                            response = client.patch(
+                                url,
+                                json.dumps(payload),
+                                content_type="application/json",
+                                HTTP_AUTHORIZATION=f"Token {token}",
+                            )
+                        else:
+                            response = client.post(
+                                url, payload, HTTP_AUTHORIZATION=f"Token {token}"
+                            )
+                        self.assertNotEqual(response.status_code, 403)
+
+    def test_stale_second_factor_cannot_grant_team_admin(self) -> None:
+        self.create_totp_device()
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        group = Group.objects.create(name="Stale second factor test")
+        url = reverse("api:group-grant-admin", kwargs={"id": group.pk})
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()) - SECOND_FACTOR_VERIFY_SECONDS - 1,
+        }
+        session.save()
+
+        response = self.client.post(url, {"user_id": self.anotheruser.pk})
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(group.admins.filter(pk=self.anotheruser.pk).exists())
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP]["time"] = int(time.time())
+        session.save()
+        response = self.client.post(url, {"user_id": self.anotheruser.pk})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(group.admins.filter(pk=self.anotheruser.pk).exists())
 
     def test_webauthn_registration_page(self) -> None:
         url = reverse("webauthn-register")
@@ -284,11 +675,261 @@ class TwoFactorTestCase(FixtureTestCase):
             has_first_factor_grant(cast("AuthenticatedHttpRequest", request))
         )
 
+    def test_sso_proof_intents_start_all_supported_flows(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        association = self.user.social_auth.create(provider="github", uid="owner")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        with (
+            mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
+            mock.patch("weblate.accounts.views.load_strategy", return_value=object()),
+            mock.patch("weblate.accounts.views.load_backend", return_value=object()),
+            mock.patch(
+                "weblate.accounts.views.do_auth",
+                return_value=HttpResponseRedirect("/provider/"),
+            ),
+        ):
+            for target in ("totp", "webauthn", "sensitive"):
+                with self.subTest(target=target):
+                    response = self.client.post(
+                        reverse("first-factor-verify"),
+                        {"target": target, "association": association.pk},
+                    )
+                    self.assertEqual(response["Location"], "/provider/")
+
+            session = self.client.session
+            intent = session[SESSION_FIRST_FACTOR_SSO]
+            intent["time"] -= 601
+            session[SESSION_FIRST_FACTOR_SSO] = intent
+            session.save()
+            response = self.client.post(reverse("social:begin", args=("github",)))
+            self.assertIn("target=sensitive", response["Location"])
+            for invalid in (
+                {"hash": "changed-password"},
+                {"association": association.pk + 10_000},
+                {"provider": "other"},
+            ):
+                with self.subTest(invalid=invalid):
+                    session = self.client.session
+                    session[SESSION_FIRST_FACTOR_SSO] = {
+                        **intent,
+                        "time": int(time.time()),
+                        **invalid,
+                    }
+                    session.save()
+                    response = self.client.post(
+                        reverse("social:begin", args=("github",))
+                    )
+                    self.assertIn("target=sensitive", response["Location"])
+
+        session = self.client.session
+        session.pop(SESSION_FIRST_FACTOR_SSO, None)
+        session.save()
+        request = self.factory.get(reverse("first-factor-verify"))
+        request.user = self.user
+        request.session = session
+        result = verify_first_factor_sso(
+            SimpleNamespace(request=request),
+            SimpleNamespace(name="github"),
+            self.user,
+            association,
+        )
+        self.assertIsNone(result)
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, session)
+
+    def test_passwordless_sensitive_action_uses_linked_identity(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        association = self.user.social_auth.create(provider="github", uid="owner")
+        verify_url = reverse("first-factor-verify")
+        password_url = reverse("password")
+        with (
+            mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
+            mock.patch(
+                "weblate.accounts.views.social_auth",
+                return_value=HttpResponseRedirect("/provider/"),
+            ),
+        ):
+            response = self.client.post(
+                verify_url,
+                {
+                    "target": "sensitive",
+                    "next": password_url,
+                    "association": association.pk,
+                },
+            )
+        self.assertEqual(response["Location"], "/provider/")
+
+        request = self.factory.get(verify_url)
+        request.user = self.user
+        request.session = self.client.session
+        result = verify_first_factor_sso(
+            SimpleNamespace(request=request),
+            SimpleNamespace(name="github"),
+            self.user,
+            association,
+        )
+        self.assertEqual(result.url, password_url)
+        self.assertTrue(
+            has_recent_sensitive_verification(cast("AuthenticatedHttpRequest", request))
+        )
+        self.assertFalse(
+            has_first_factor_grant(cast("AuthenticatedHttpRequest", request))
+        )
+
+    def test_linked_provider_can_verify_account_with_local_password(self) -> None:
+        association = self.user.social_auth.create(provider="github", uid="owner")
+        verify_url = reverse("first-factor-verify")
+        password_url = reverse("password")
+        with (
+            mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
+            mock.patch(
+                "weblate.accounts.views.social_auth",
+                return_value=HttpResponseRedirect("/provider/"),
+            ),
+        ):
+            response = self.client.get(verify_url, {"target": "sensitive"})
+            self.assertContains(response, "Current password")
+            self.assertContains(response, "Sign in again using a connected provider")
+            response = self.client.post(
+                verify_url,
+                {
+                    "target": "sensitive",
+                    "next": password_url,
+                    "association": association.pk,
+                },
+            )
+        self.assertEqual(response["Location"], "/provider/")
+
+        request = self.factory.get(verify_url)
+        request.user = self.user
+        request.session = self.client.session
+        result = verify_first_factor_sso(
+            SimpleNamespace(request=request),
+            SimpleNamespace(name="github"),
+            self.user,
+            association,
+        )
+        self.assertEqual(result.url, password_url)
+        self.assertTrue(
+            has_recent_sensitive_verification(cast("AuthenticatedHttpRequest", request))
+        )
+
+    def test_sensitive_verification_rejects_unsafe_redirects(self) -> None:
+        verify_url = reverse("first-factor-verify")
+        for destination in (
+            "//evil.example/",
+            "/\\evil.example/",
+            "\\\\evil.example/",
+            "https://evil.example/",
+        ):
+            with self.subTest(destination=destination):
+                response = self.client.post(
+                    verify_url,
+                    {
+                        "target": "sensitive",
+                        "next": destination,
+                        "password": "testpassword",
+                    },
+                )
+                self.assertRedirects(response, reverse("profile"))
+
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        for encoded_destination in (
+            "%2F%2Fevil.example%2F",
+            "%2F%5Cevil.example%2F",
+            "%252F%252Fevil.example%2F",
+        ):
+            with self.subTest(encoded_destination=encoded_destination):
+                response = self.client.get(
+                    f"{verify_url}?target=sensitive&next={encoded_destination}"
+                )
+                self.assertEqual(response.context["next_url"], reverse("profile"))
+
+        response = self.client.post(
+            verify_url,
+            {
+                "target": "sensitive",
+                "next": "/%5Cevil.example/",
+                "password": "testpassword",
+            },
+        )
+        self.assertEqual(response["Location"], "/%5Cevil.example/")
+
+    def test_sso_completion_rejects_unsafe_redirect(self) -> None:
+        association = self.user.social_auth.create(provider="github", uid="owner")
+        verify_url = reverse("first-factor-verify")
+        with (
+            mock.patch("weblate.accounts.views.get_auth_keys", return_value={"github"}),
+            mock.patch(
+                "weblate.accounts.views.social_auth",
+                return_value=HttpResponseRedirect("/provider/"),
+            ),
+        ):
+            self.client.post(
+                verify_url,
+                {"target": "sensitive", "association": association.pk},
+            )
+        session = self.client.session
+        intent = session[SESSION_FIRST_FACTOR_SSO]
+        intent["next"] = "/\\evil.example/"
+        session[SESSION_FIRST_FACTOR_SSO] = intent
+        session.save()
+        request = self.factory.get(verify_url)
+        request.user = self.user
+        request.session = self.client.session
+        result = verify_first_factor_sso(
+            SimpleNamespace(request=request),
+            SimpleNamespace(name="github"),
+            self.user,
+            association,
+        )
+        self.assertEqual(result.url, reverse("profile"))
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_expired_email_only_setup_can_recover_by_email(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        session = self.client.session
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= 601
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+
+        verify_url = reverse("first-factor-verify")
+        with mock.patch("weblate.accounts.views.get_auth_keys", return_value={"email"}):
+            response = self.client.get(verify_url, {"target": "sensitive"})
+            self.assertContains(response, "Sign out and reset password by e-mail")
+            response = self.client.post(
+                verify_url, {"target": "sensitive", "email_recovery": "1"}
+            )
+        self.assertRedirects(response, reverse("password_reset"))
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.assertContains(
+            self.client.get(reverse("password_reset")), "Reset my password"
+        )
+        response = self.client.post(
+            reverse("password_reset"), {"email": self.user.email}
+        )
+        self.assertRedirects(response, reverse("email-sent"))
+        self.assertEqual(len(mail.outbox), 1)
+
     def test_passwordless_without_provider_cannot_enroll(self) -> None:
         self.user.set_unusable_password()
         self.user.save(update_fields=["password"])
         self.client.force_login(self.user)
-        response = self.client.get(reverse("first-factor-verify"))
+        with mock.patch("weblate.accounts.views.get_auth_keys", return_value=set()):
+            response = self.client.get(reverse("first-factor-verify"))
         self.assertContains(response, "Contact an administrator to recover access")
         response = self.client.post(
             reverse("first-factor-verify"),
@@ -1282,11 +1923,19 @@ class TwoFactorTestCase(FixtureTestCase):
         for url in urls:
             with self.subTest(url=url, second_factor=False):
                 response = self.client.get(url)
-                self.assertNotContains(
+                self.assertContains(
                     response, "Verify your identity to view your API key"
                 )
-                if url != urls[1]:
-                    self.assertContains(response, f'data-clipboard-value="{token}"')
+                self.assertNotIn(token, response.content.decode())
+
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        for url in urls:
+            with self.subTest(url=url, password_verified=True):
+                response = self.client.get(url)
+                self.assertContains(response, token)
 
         self.create_totp_device()
         for url in urls:

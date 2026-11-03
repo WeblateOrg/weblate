@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import re
-import time
 import unicodedata
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, NoReturn
@@ -16,7 +15,7 @@ from django.http import HttpResponseRedirect
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.http import urlencode
+from django.utils.http import url_has_allowed_host_and_scheme, urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.models import Device
@@ -37,15 +36,16 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
-    FIRST_FACTOR_VERIFY_SECONDS,
     SESSION_FIRST_FACTOR_SSO,
     adjust_session_expiry,
     clear_pending_first_factor,
     cycle_session_keys,
     grant_first_factor,
+    grant_sensitive_verification,
     has_recent_second_factor,
     invalidate_reset_codes,
     set_second_factor_session,
+    valid_first_factor_sso_intent,
 )
 from weblate.auth.models import (
     Invitation,
@@ -79,18 +79,9 @@ def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
     intent = request.session.pop(SESSION_FIRST_FACTOR_SSO, None)
     if intent is None:
         return None
-    timestamp = intent.get("time") if isinstance(intent, dict) else None
     if not (
-        request.user.is_authenticated
-        and isinstance(intent, dict)
-        and isinstance(timestamp, int)
-        and not isinstance(timestamp, bool)
-        and timestamp <= int(time.time())
-        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
-        and intent.get("user") == request.user.pk
-        and intent.get("hash") == request.user.get_session_auth_hash()
-        and intent.get("provider") == backend.name
-        and intent.get("target") in {"totp", "webauthn"}
+        isinstance(intent, dict)
+        and valid_first_factor_sso_intent(request, intent, backend.name)
         and social is not None
         and social.pk == intent.get("association")
         and social.user_id == request.user.pk
@@ -103,6 +94,18 @@ def verify_first_factor_sso(strategy, backend, user, social, **kwargs):
         )
     request.session.cycle_key()
     rotate_token(request)
+    if intent["target"] == "sensitive":
+        grant_sensitive_verification(request)
+        next_url = intent.get("next", "")
+        if (
+            isinstance(next_url, str)
+            and next_url.startswith("/")
+            and url_has_allowed_host_and_scheme(
+                next_url, allowed_hosts={request.get_host()}
+            )
+        ):
+            return redirect(next_url)
+        return redirect("profile")
     clear_pending_first_factor(request)
     grant_first_factor(request)
     return redirect("totp" if intent["target"] == "totp" else "webauthn-register")

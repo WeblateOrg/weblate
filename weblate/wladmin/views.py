@@ -32,6 +32,10 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.decorators import (
     management_access,
@@ -854,6 +858,8 @@ class AdminUserList(UserList):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         if "emails" in request.POST:
             bulk_invite_form = self.get_bulk_invite_form(request.POST)
             if bulk_invite_form.is_valid():
@@ -1064,6 +1070,8 @@ class TeamListView(FormMixin, ListView):
         return reverse("manage-teams")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
