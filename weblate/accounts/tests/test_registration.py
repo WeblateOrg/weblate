@@ -10,6 +10,7 @@ import os
 import re
 from datetime import timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse
@@ -17,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.contrib.messages import get_messages
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core import mail
 from django.http import HttpResponse
@@ -58,7 +60,7 @@ from weblate.auth.models import (
     TeamMembership,
     User,
 )
-from weblate.auth.views import accept_invitation
+from weblate.auth.views import InvitationView, accept_invitation
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -71,6 +73,7 @@ from weblate.utils.ratelimit import reset_rate_limit
 
 if TYPE_CHECKING:
     from altcha import ChallengeV1 as Challenge
+    from django.test.client import _MonkeyPatchedWSGIResponse
 
 REGISTRATION_DATA = {
     "username": "username",
@@ -2694,3 +2697,75 @@ class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
         audit = user.auditlog_set.get(activity="superuser-granted")
         self.assertEqual(audit.params["username"], author.username)
+
+
+class InvitationRaceTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.author = User.objects.create_user(
+            "author", "author@example.com", "x", is_superuser=True
+        )
+        self.invited_user = User.objects.create_user(
+            "invited", "invited@example.com", "x"
+        )
+        self.group = Group.objects.create(name="Invited")
+        self.invitation = Invitation.objects.create(
+            author=self.author,
+            user=self.invited_user,
+            group=self.group,
+            is_superuser=True,
+        )
+        # As loaded by a request before the competing transaction commits.
+        self.stale = Invitation.objects.get(pk=self.invitation.pk)
+
+    def post_with_stale_invitation(
+        self, data: dict[str, str]
+    ) -> _MonkeyPatchedWSGIResponse:
+        with patch.object(InvitationView, "get_object", return_value=self.stale):
+            return self.client.post(self.invitation.get_absolute_url(), data)
+
+    def assert_not_granted(self) -> None:
+        user = User.objects.get(pk=self.invited_user.pk)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.groups.filter(pk=self.group.pk).exists())
+
+    def test_accept_request_after_removal(self) -> None:
+        self.client.force_login(self.invited_user)
+        self.invitation.revoke()
+
+        response = self.post_with_stale_invitation({})
+
+        self.assertEqual(response.status_code, 404)
+        self.assert_not_granted()
+
+    def test_pipeline_accept_after_removal(self) -> None:
+        strategy = SimpleNamespace(
+            request=SimpleNamespace(
+                session={"invitation_link": str(self.invitation.pk)}
+            )
+        )
+
+        with patch.object(
+            Invitation,
+            "matches_user",
+            autospec=True,
+            side_effect=lambda _invitation, _user: self.invitation.revoke(),
+        ):
+            handle_invite(
+                strategy, None, self.invited_user, None, str(self.invitation.pk)
+            )
+
+        self.assertNotIn("invitation_link", strategy.request.session)
+        self.assert_not_granted()
+
+    def test_remove_request_after_accept(self) -> None:
+        self.client.force_login(self.author)
+        self.invitation.accept(None, self.invited_user)
+
+        response = self.post_with_stale_invitation({"action": "remove"})
+
+        self.assertEqual(
+            [str(message) for message in get_messages(response.wsgi_request)],
+            ["This invitation was already accepted or removed."],
+        )
+        self.assertTrue(User.objects.get(pk=self.invited_user.pk).is_superuser)

@@ -2293,6 +2293,10 @@ class InvitationBlockedAdminError(InvitationError):
     """Invitation would grant project administration to a blocked user."""
 
 
+class InvitationRemovedError(InvitationError):
+    """Invitation no longer exists, it was revoked or already accepted."""
+
+
 class Invitation(models.Model):
     """
     User invitation store.
@@ -2407,6 +2411,16 @@ class Invitation(models.Model):
             user=self.user,
         )
 
+    @transaction.atomic
+    def revoke(self) -> bool:
+        """Remove the invitation, returning False if it no longer exists."""
+        current = Invitation.objects.select_for_update().filter(pk=self.pk).first()
+        if current is None:
+            return False
+        current.delete()
+        return True
+
+    @transaction.atomic
     def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import AuditLog
@@ -2414,50 +2428,56 @@ class Invitation(models.Model):
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.utils import validate_admin_team_assignment
 
-        if self.is_expired():
+        # Only the locked row can authorize the grants, self might be stale.
+        current = Invitation.objects.select_for_update().filter(pk=self.pk).first()
+        if current is None:
+            msg = "Invitation removed before accept!"
+            raise InvitationRemovedError(msg)
+
+        if current.is_expired():
             msg = "Invitation expired on accept!"
             raise InvitationExpiredError(msg)
 
-        if not self.matches_user(user):
+        if not current.matches_user(user):
             msg = "User mismatch on accept!"
             raise InvitationUserMismatchError(msg)
 
-        limit_languages = list(self.limit_languages.all())
+        limit_languages = list(current.limit_languages.all())
         try:
             validate_admin_team_assignment(
-                user, self.group, limit_languages=limit_languages
+                user, current.group, limit_languages=limit_languages
             )
         except ValidationError as error:
             raise InvitationBlockedAdminError from error
 
-        if self.is_superuser:
+        if current.is_superuser:
             user.store_audit_state()
             user.is_superuser = True
             user.save(update_fields=["is_superuser"])
-            user.log_audit_state(request, actor=self.author)
+            user.log_audit_state(request, actor=current.author)
 
         AuditLog.objects.create(
             user=user,
             request=request,
             activity="accepted",
-            username=self.author.username,
+            username=current.author.username,
         )
 
-        had_membership = user.team_memberships.filter(group=self.group).exists()
-        user.add_team(request, self.group, user=self.author)
+        had_membership = user.team_memberships.filter(group=current.group).exists()
+        user.add_team(request, current.group, user=current.author)
         # Accepting an invitation applies the invitation state even when the
         # user is already a member; an empty invitation limit clears old limits.
-        TeamMembership.objects.get(user=user, group=self.group).set_limit_languages(
+        TeamMembership.objects.get(user=user, group=current.group).set_limit_languages(
             limit_languages,
             request,
-            actor=self.author,
+            actor=current.author,
             audit=had_membership,
         )
 
-        if self.group.defining_project:
-            user.profile.watched.add(self.group.defining_project)
+        if current.group.defining_project:
+            user.profile.watched.add(current.group.defining_project)
 
-        self.delete()
+        current.delete()
 
 
 class WeblateAuthConf(AppConf):

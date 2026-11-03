@@ -818,9 +818,12 @@ Configure the broker with a plain ``amqp://`` or ``amqps://`` URL, including
 its virtual host. URL query strings and fragments are not supported. Use the
 add-on's connection attempts, retry delay, and publish timeout fields instead.
 The publish timeout covers connection attempts, retry delays, and broker
-confirmation. Synchronous DNS resolution, including lookups during broker URL
-validation, cannot be interrupted by this timeout and can exceed it when the
-system resolver is slow or unavailable. Rejected messages are not retried.
+confirmation. Publishing resolves DNS when opening a connection and reuses the
+existing connection without further DNS lookups. Resolved addresses and the
+connected peer are checked against the configured private-network restrictions.
+Synchronous DNS resolution cannot be interrupted by the publish timeout and
+can exceed it when the system resolver is slow or unavailable. Rejected
+messages are not retried.
 
 Weblate reuses a publisher connection in each worker process, with AMQP
 heartbeats disabled. Failed connections are discarded and recreated on the

@@ -39,7 +39,7 @@ from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
 from rest_framework.request import Request
@@ -20804,6 +20804,107 @@ class ChangeAPITest(APIBaseTest):
             response.data["alert"]["dismissal_reason"], "Handled elsewhere"
         )
         self.assertEqual(response.data["details"]["reason"], "Handled elsewhere")
+
+
+class ActivityAPITest(APIBaseTest):
+    def test_requires_authentication(self) -> None:
+        response = self.client.get(reverse("api:activity"))
+        self.assertEqual(response.status_code, 401)
+
+    def test_activity(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:activity"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data["daily_activity"]), 52)
+        self.assertTrue(all(p["recent_changes"] > 0 for p in response.data["projects"]))
+        self.assertLessEqual(len(response.data["projects"]), 10)
+
+    def test_filters_before_limit(self) -> None:
+        self.authenticate()
+        now = datetime.now(UTC)
+        projects = [
+            SimpleNamespace(
+                pk=i,
+                stats=SimpleNamespace(
+                    last_changed=now - timedelta(hours=i),
+                    recent_changes=0 if i < 3 else i,
+                ),
+            )
+            for i in range(15)
+        ]
+        projects.append(
+            SimpleNamespace(
+                pk=99,
+                stats=SimpleNamespace(
+                    last_changed=None,
+                    recent_changes=10,
+                ),
+            )
+        )
+        with (
+            patch("weblate.api.views.iter_prefetch_stats", return_value=projects),
+            patch("weblate.api.views.ActivitySerializer") as serializer,
+        ):
+            serializer.return_value.data = {}
+            self.client.get(reverse("api:activity"))
+        selected = serializer.call_args.args[0]["projects"]
+        self.assertEqual([project.pk for project in selected], list(range(3, 13)))
+
+    def test_warm_statistics_queries_do_not_grow_with_projects(self) -> None:
+        self.authenticate()
+        projects = [self.project] + [
+            Project.objects.create(name=f"Activity {index}", slug=f"activity-{index}")
+            for index in range(12)
+        ]
+        for project in projects:
+            project.stats.ensure_loaded()
+            project.stats.calculate_basic()
+            project.stats.store("last_changed", datetime.now(UTC))
+            project.stats.store("recent_changes", 1)
+            project.stats.save()
+        counts = []
+        for selected in (projects[:1], projects):
+            user = SimpleNamespace(
+                allowed_projects=Project.objects.filter(
+                    pk__in=[project.pk for project in selected],
+                )
+            )
+            with patch("weblate.api.views.get_request_user", return_value=user):
+                self.client.get(reverse("api:activity"))
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(reverse("api:activity"))
+            self.assertEqual(len(response.data["projects"]), min(10, len(selected)))
+            counts.append(len(queries))
+        self.assertEqual(counts[0], counts[1])
+
+    def test_private_projects_excluded(self) -> None:
+        self.create_acl()
+        self.authenticate()
+        response = self.client.get(reverse("api:activity"))
+        self.assertTrue(
+            all(project["name"] != "ACL" for project in response.data["projects"])
+        )
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {
+                "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            },
+        },
+    )
+    def test_bot_protection(self) -> None:
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:activity"), headers={"accept": "application/json"}
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_legacy_route_removed(self) -> None:
+        with self.assertRaises(Resolver404):
+            resolve("/activity/month.json")
 
 
 class MetricsAPITest(APIBaseTest):

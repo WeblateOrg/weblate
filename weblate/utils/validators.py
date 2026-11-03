@@ -909,7 +909,8 @@ class FedoraMessagingURLValidator(WeblateServiceURLValidator):
     ]
 
 
-def validate_fedora_messaging_url(value: str) -> None:
+def validate_fedora_messaging_url(value: str, *, resolve: bool = True) -> None:
+    """Validate the broker URL, optionally deferring DNS checks to connection setup."""
     FedoraMessagingURLValidator()(value)
     if "?" in value or "#" in value:
         raise ValidationError(
@@ -920,12 +921,13 @@ def validate_fedora_messaging_url(value: str) -> None:
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
         private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
-    _validate_runtime_public_url(
-        value,
-        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-        allow_unresolved_hostname=False,
-        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
-    )
+    if resolve:
+        _validate_runtime_public_url(
+            value,
+            allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+            allow_unresolved_hostname=False,
+            private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        )
 
 
 @dataclass(frozen=True, slots=True)
