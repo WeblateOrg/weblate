@@ -83,6 +83,7 @@ from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_
 from weblate.api.pagination import LargePagination
 from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
+    ActivitySerializer,
     AddonSerializer,
     AnnouncementSerializer,
     AutomationExecutionRequestSerializer,
@@ -174,6 +175,8 @@ from weblate.machinery.api import InstallationSerializer
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MachineryInstallation
 from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
@@ -5623,6 +5626,35 @@ def get_project_openmetrics_data(
         )
     )
     return result
+
+
+class Activity(APIView):
+    """Daily global activity and recently active accessible projects."""
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ActivitySerializer
+
+    @extend_schema(responses=ActivitySerializer)
+    def get(self, request: Request):
+        projects = [
+            project
+            for project in iter_prefetch_stats(
+                get_request_user(request).allowed_projects.order_by("pk")
+            )
+            if project.stats.last_changed is not None
+            and project.stats.recent_changes > 0
+        ]
+        projects.sort(key=lambda project: project.stats.last_changed, reverse=True)
+        serializer = ActivitySerializer(
+            {
+                "daily_activity": MetricsWrapper(
+                    None, Metric.SCOPE_GLOBAL, 0
+                ).daily_activity,
+                "projects": projects[:10],
+            },
+            context={"request": request},
+        )
+        return Response(serializer.data)
 
 
 class Metrics(APIView):

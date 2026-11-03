@@ -3638,6 +3638,11 @@ class StatisticsSerializer(ReadOnlySerializer):
         return result
 
 
+class ActivitySerializer(ReadOnlySerializer):
+    daily_activity = serializers.ListField(child=serializers.IntegerField(min_value=0))
+    projects = StatisticsSerializer(many=True)
+
+
 class UserStatisticsSerializer(ReadOnlySerializer):
     translated = serializers.IntegerField()
     suggested = serializers.IntegerField()
