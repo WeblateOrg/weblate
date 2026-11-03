@@ -2258,9 +2258,7 @@ class Translation(
 
             # Add suggestion
             current_target = dbunit.get_target_plurals()
-            new_target = unit.target
-            if isinstance(new_target, str):
-                new_target = [new_target]
+            new_target = split_plural(unit.target)
             if current_target != new_target and not dbunit.readonly:
                 _, result = Suggestion.objects.add(
                     dbunit,

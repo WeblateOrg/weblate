@@ -16665,6 +16665,41 @@ class TranslationAPITest(APIBaseTest):
         )
         self.check_upload_changes(changes_start, 3)
 
+    def test_upload_suggest_plural(self) -> None:
+        self.authenticate()
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(
+            source=join_plural(
+                ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"]
+            )
+        )
+        original_target = unit.target
+        with (
+            open(get_test_file("cs-suggestions-plural.po"), "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "method": "suggest"},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["accepted"], 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+        suggestion = unit.suggestion_set.get()
+        response = self.client.get(
+            reverse("api:suggestion-detail", kwargs={"pk": suggestion.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data["target"],
+            [
+                "Orangutan má %d banán.\n",
+                "Orangutan má %d banány.\n",
+                "Orangutan má %d banánů.\n",
+            ],
+        )
+
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
         changes_start = self.component.change_set.count()

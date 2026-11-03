@@ -52,16 +52,18 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
-from weblate.trans.util import check_upload_method_permissions
+from weblate.trans.util import check_upload_method_permissions, join_plural
 from weblate.trans.views.files import can_download_workspace, download_multi
 from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.state import STATE_READONLY
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.views import download_translation_file, write_zip_files
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from typing import ClassVar
+
     from django.http import FileResponse
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
@@ -481,6 +483,65 @@ class ImportTest(ImportBaseTest):
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
+
+
+class PluralSuggestionImportTest(ImportBaseTest):
+    test_file = get_test_file("cs-suggestions-plural.po")
+    source: ClassVar[list[str]] = [
+        "Orangutan has %d banana.\n",
+        "Orangutan has %d bananas.\n",
+    ]
+    target: ClassVar[list[str]] = [
+        "Orangutan má %d banán.\n",
+        "Orangutan má %d banány.\n",
+        "Orangutan má %d banánů.\n",
+    ]
+
+    def test_import_suggest_plural(self) -> None:
+        unit = self.get_translation().unit_set.get(source=join_plural(self.source))
+        original_target = unit.target
+        original_state = unit.state
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+        self.assertEqual(unit.state, original_state)
+        suggestion = unit.suggestion_set.get()
+        self.assertEqual(suggestion.target_list, self.target)
+        self.assertEqual(suggestion.user, self.user)
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        self.assertEqual(unit.suggestion_set.get().pk, suggestion.pk)
+
+        suggestion.accept(self.get_request())
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), self.target)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_import_suggest_plural_unchanged(self) -> None:
+        unit = self.get_translation().unit_set.get(source=join_plural(self.source))
+        unit.translate(self.user, self.target, STATE_TRANSLATED)
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        self.assertFalse(unit.suggestion_set.exists())
+
+
+class AndroidPluralSuggestionImportTest(PluralSuggestionImportTest):
+    test_file = get_test_file("strings-cs-suggestions-plural.xml")
+
+    def create_component(self) -> Component:
+        return self.create_android()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component.source_translation.add_unit(
+            None, "suggestion_plural", self.source, author=self.user
+        )
+        self.component.commit_pending("test", self.user)
 
 
 class ImportErrorTest(ImportBaseTest):
