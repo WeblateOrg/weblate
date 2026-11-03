@@ -10,6 +10,7 @@ Weblate 2026.11.1
 .. rubric:: Improvements
 
 * Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
+* :ref:`Automation <automation-workflows>` condition groups and branching actions can now be edited in the visual editor.
 * Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
 
 .. rubric:: Security fixes
@@ -57,9 +58,6 @@ Weblate 2026.11
 * Added :ref:`string selection <automation-action-weblate.select>` for composing Automation actions with reusable result scopes.
 * Translation services support multiple installations at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 * Added personal and project :ref:`saved-searches` offered in the search filters.
-* Docker deployments can :ref:`trust custom CA certificates <docker-custom-ca>` for outgoing connections, including repository operations over HTTPS.
-* :ref:`Automations <automation-workflows>` can be edited visually, including condition groups and branches, with a toggle to the raw YAML.
-* Translation services support multiple installations of one service at site, workspace, and project scope, with optional slugs, inherited-installation exclusions, and reversible pause controls. See :ref:`machine-translation-setup`.
 * :ref:`Automations <automation-workflows>` offer visual and YAML editors, documented change-event identifiers, and a separate execution form with previews and change context for real runs.
 * GitHub pull requests can be assigned to a configured user or the acting user's linked GitHub account, and can have configured labels added using :ref:`vcs_params`.
 
