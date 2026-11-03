@@ -199,6 +199,7 @@ def prepare_node_form(
     properties: dict[str, Any],
     required: set[str],
     prefix: str,
+    component_required: set[str] | None = None,
 ) -> forms.Form:
     """Restrict a form to the keys of a node and annotate it for the editor."""
     names = [name for name in properties if name in form.fields]
@@ -216,6 +217,8 @@ def prepare_node_form(
             widget.attrs["data-workflow-default"] = str(form.fields[name].initial)
         if name in required:
             widget.attrs["data-workflow-required"] = "1"
+        if component_required is not None and name in component_required:
+            widget.attrs["data-workflow-component-required"] = "1"
     form.auto_id = f"id_{prefix}_%s"
     helper = FormHelper(form)
     helper.form_tag = False
@@ -334,8 +337,10 @@ def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
         operation = OPERATIONS[name]
         settings_schema = operation.settings_schema
         required = set(settings_schema.get("required", []))
+        component_required: set[str] = set()
         if operation.query_required_for_component:
             required.add("q")
+            component_required.add("q")
         slug = name.replace(".", "_")
         nodes.append(
             EditorNode(
@@ -348,6 +353,7 @@ def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
                     settings_schema["properties"],
                     required,
                     f"automation_settings_{slug}",
+                    component_required,
                 ),
                 chrome=prepare_node_form(
                     action_chrome_form(operation.supported_scopes),

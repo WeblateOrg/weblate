@@ -206,46 +206,69 @@
       return option;
     }
 
-    function refreshResultScopes(list = lists.get("actions"), completed = []) {
-      let seen = [...completed];
+    function offerResultScopes(controls, visible) {
+      const select = controls.find(
+        (element) =>
+          element.dataset.workflowKey === "scope" &&
+          element.dataset.automationResultScope,
+      );
+      if (select === undefined) {
+        return;
+      }
+      const current = select.value;
+      for (const option of Array.from(select.options)) {
+        if (RESULT_SCOPE.test(option.value)) {
+          option.remove();
+        }
+      }
+      const offered = [];
+      for (const id of visible) {
+        const scope = `result:${id}`;
+        if (!offered.includes(scope)) {
+          offered.push(scope);
+        }
+      }
+      if (RESULT_SCOPE.test(current) && !offered.includes(current)) {
+        offered.push(current);
+      }
+      select.append(...offered.map(resultScopeOption));
+      select.value = current;
+    }
+
+    function applyResultScopes(list, seen, isolated = false) {
+      const produced = [];
       for (const node of list.children) {
+        const visible = isolated ? seen : [...seen, ...produced];
         const controls = nodeControls(node);
-        const select = controls.find(
-          (element) =>
-            element.dataset.workflowKey === "scope" &&
-            element.dataset.automationResultScope,
-        );
-        if (select !== undefined) {
-          const current = select.value;
-          for (const option of Array.from(select.options)) {
-            if (RESULT_SCOPE.test(option.value)) {
-              option.remove();
-            }
-          }
-          const offered = seen.map((id) => `result:${id}`);
-          if (RESULT_SCOPE.test(current) && !offered.includes(current)) {
-            offered.push(current);
-          }
-          select.append(...offered.map(resultScopeOption));
-          select.value = current;
-        }
-        for (const slot of slotsOf(node)) {
-          if (slot.dataset.automationSlotKind === "condition") {
-            continue;
-          }
-          const inner = refreshResultScopes(slotList(slot), seen);
-          if (node.dataset.automationInstance === "action:sequence") {
-            seen = inner;
-          }
-        }
+        offerResultScopes(controls, visible);
+        const own = [];
         const id = controls
           .find((element) => element.dataset.workflowKey === "id")
           ?.value.trim();
-        if (id && RESULT_SCOPE.test(`result:${id}`) && !seen.includes(id)) {
-          seen.push(id);
+        if (id && RESULT_SCOPE.test(`result:${id}`)) {
+          own.push(id);
         }
+        const nested = [];
+        for (const slot of slotsOf(node)) {
+          const kind = slot.dataset.automationSlotKind;
+          if (kind === "condition") {
+            continue;
+          }
+          nested.push(
+            ...applyResultScopes(
+              slotList(slot),
+              [...visible, ...own],
+              kind === "branch",
+            ),
+          );
+        }
+        produced.push(...own, ...nested);
       }
-      return seen;
+      return produced;
+    }
+
+    function refreshResultScopes() {
+      applyResultScopes(lists.get("actions"), []);
     }
 
     /* Enhanced selects hide the original control, so focus their own input. */
@@ -765,6 +788,48 @@
         refreshResultScopes();
       }
     });
+
+    function missingComponentQuery() {
+      for (const node of nodePane.querySelectorAll(
+        "[data-automation-instance]",
+      )) {
+        const controls = nodeControls(node);
+        const control = controls.find(
+          (element) => element.dataset.workflowComponentRequired === "1",
+        );
+        if (control === undefined || control.value.trim() !== "") {
+          continue;
+        }
+        const scope = controls.find(
+          (element) => element.dataset.workflowKey === "scope",
+        )?.value;
+        if (scope === undefined || scope === "" || scope === "component") {
+          return control;
+        }
+      }
+      return null;
+    }
+
+    for (const control of form.querySelectorAll(
+      'input[type="submit"], button[type="submit"]',
+    )) {
+      control.addEventListener("click", (event) => {
+        if (nodePane.hidden) {
+          return;
+        }
+        const missing = missingComponentQuery();
+        if (missing === null) {
+          return;
+        }
+        event.preventDefault();
+        showAlert(
+          gettext(
+            "An action running on the whole component needs a query. Enter one or pick another scope.",
+          ),
+        );
+        focusControl(missing);
+      });
+    }
 
     form.addEventListener("submit", () => {
       if (!nodePane.hidden) {

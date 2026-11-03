@@ -3380,26 +3380,40 @@ class SeleniumTests(
                                     "action": "weblate.select",
                                     "id": "picked",
                                     "settings": {"q": "state:translated"},
-                                },
+                                }
+                            ],
+                        },
+                        {
+                            "conditions": [{"condition": "language", "value": "de"}],
+                            "sequence": [
                                 {
                                     "action": "weblate.select",
-                                    "scope": "result:picked",
-                                    "settings": {"q": ""},
-                                },
+                                    "settings": {"q": "state:needs-editing"},
+                                }
                             ],
-                        }
+                        },
                     ],
                     "default": [
                         {
                             "sequence": [
                                 {
                                     "action": "weblate.select",
-                                    "settings": {"q": "state:needs-editing"},
-                                }
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                },
+                                {
+                                    "action": "weblate.select",
+                                    "settings": {"q": "state:translated"},
+                                },
                             ]
                         }
                     ],
-                }
+                },
+                {
+                    "action": "weblate.bulk_edit",
+                    "scope": "result:picked",
+                    "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                },
             ],
         }
         with acting_user_context(user):
@@ -3449,9 +3463,16 @@ class SeleniumTests(
             'document.querySelectorAll("[data-automation-result-scope]"),'
             " (select) => Array.from(select.options, (o) => o.value));"
         )
-        self.assertEqual(scopes[0], ["", "component", "trigger"])
-        self.assertIn("result:picked", scopes[1])
-        self.assertEqual(scopes[2], ["", "component", "trigger"])
+        self.assertEqual(
+            scopes,
+            [
+                ["", "component", "trigger"],
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+            ],
+        )
 
         # Choose branches count towards the hundred nodes like on the server.
         self.driver.execute_script(
@@ -3471,22 +3492,131 @@ class SeleniumTests(
             ).get_attribute("disabled")
         )
 
-        # Eight nesting levels are allowed, a ninth one is not.
-        group = {"condition": "and", "conditions": []}
-        for _level in range(7):
-            group = {"condition": "and", "conditions": [group]}
-        self.driver.execute_script(
-            "automationEditor.buildTree(arguments[0]);",
-            {"version": 1, "triggers": [], "conditions": [group], "actions": []},
+    def test_automation_editor_nesting_depth(self) -> None:
+        """The automation editor offers every nesting level the backend takes."""
+        deep: dict[str, Any] = {"condition": "language", "value": "cs"}
+        for _ in range(7):
+            deep = {"condition": "and", "conditions": [deep]}
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={
+                "workflow": {
+                    "version": 1,
+                    "triggers": [],
+                    "conditions": [deep],
+                    "actions": [
+                        {
+                            "action": "weblate.select",
+                            "settings": {"q": "state:translated"},
+                        }
+                    ],
+                }
+            },
+            run=False,
+            component=component,
         )
-        depths = self.driver.execute_script(
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        blocked_depths = (
             "return Array.from("
             "document.querySelectorAll(\"[data-automation-slot='conditions']\"),"
             " (slot) => slot.querySelector("
-            '   ":scope > [data-automation-slot-controls] > [data-automation-add]"'
-            "  ).disabled);"
+            '  ":scope > [data-automation-slot-controls] > [data-automation-add]"'
+            " ).disabled);"
         )
-        self.assertEqual(depths, [False] * 8 + [True])
+        self.assertEqual(self.driver.execute_script(blocked_depths), [False] * 8)
+        deepest = self.driver.find_elements(
+            By.CSS_SELECTOR, "[data-automation-slot='conditions']"
+        )[-1]
+        Select(
+            deepest.find_element(By.CSS_SELECTOR, "[data-automation-picker]")
+        ).select_by_value("condition:and")
+        self.click(deepest.find_element(By.CSS_SELECTOR, "[data-automation-add]"))
+        self.assertEqual(
+            self.driver.execute_script(blocked_depths), [False] * 8 + [True]
+        )
+
+    def test_automation_editor_required_query(self) -> None:
+        """The editor reports a cleared query instead of saving it as empty."""
+        workflow: dict[str, Any] = {
+            "version": 1,
+            "triggers": [],
+            "actions": [
+                {
+                    "action": "weblate.select",
+                    "id": "picked",
+                    "settings": {"q": "state:translated"},
+                },
+                {
+                    "action": "weblate.select",
+                    "scope": "result:picked",
+                    "settings": {"q": ""},
+                },
+            ],
+        }
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={"workflow": deepcopy(workflow)},
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+
+        queries = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-root='actions'] [data-workflow-key='q']",
+        )
+        queries[0].clear()
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#addon-form input[type='submit']"
+            )
+        )
+        self.assertTrue(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-alert]"
+            ).is_displayed()
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                "const element = document.activeElement;"
+                " const node = element.closest('[data-automation-instance]');"
+                " return [element.dataset.workflowKey,"
+                "  Array.from(node.parentElement.children).indexOf(node)];"
+            ),
+            ["q", 0],
+        )
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration["workflow"], workflow)
+
+        # Entering a query saves the workflow, empty result-scoped query
+        # included.
+        queries[0].send_keys("state:approved")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#addon-form input[type='submit']"
+            )
+        )
+        saved = deepcopy(workflow)
+        saved["actions"][0]["settings"]["q"] = "state:approved"
+        for _unused in range(300):
+            addon.instance.refresh_from_db()
+            if addon.instance.configuration["workflow"] == saved:
+                break
+            time.sleep(0.1)
+        self.assertEqual(addon.instance.configuration["workflow"], saved)
+        WebDriverWait(self.driver, 30).until(self.is_page_loaded)
 
     def test_automation_editor_result_scopes_and_focus(self) -> None:
         """The automation editor shows result scopes and keeps keyboard focus."""

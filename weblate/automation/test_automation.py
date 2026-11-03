@@ -2057,6 +2057,18 @@ class AutomationTest(ReusableComponentTestCase):
             settings.xpath(".//*[@data-workflow-key='q']/@data-workflow-required"),
             ["1"],
         )
+        self.assertEqual(
+            settings.xpath(
+                ".//*[@data-workflow-key='q']/@data-workflow-component-required"
+            ),
+            ["1"],
+        )
+        self.assertEqual(
+            settings.xpath(
+                ".//*[@data-workflow-key='state']/@data-workflow-component-required"
+            ),
+            [],
+        )
 
     def test_editor_bulk_replacement_controls(self) -> None:
         addon = self.install(WORKFLOW | {"actions": [BULK]})
