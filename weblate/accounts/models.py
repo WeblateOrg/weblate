@@ -1667,8 +1667,19 @@ def post_login_handler(
     is_email_auth = backend_name.endswith((".EmailAuth", ".WeblateUserBackend"))
 
     # Warning about setting password
+    request.session.pop("show_set_password", None)
     if is_email_auth and not user.has_usable_password():
         request.session["show_set_password"] = True
+    # A fresh e-mail sign-in proves control of the existing method for setup.
+    # The UI flag above must never serve as an authorization grant.
+    from weblate.accounts.utils import (  # ruff: ignore[import-outside-top-level]
+        SESSION_SENSITIVE_FACTOR_GRANT,
+        grant_sensitive_verification,
+    )
+
+    request.session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+    if backend_name.endswith(".EmailAuth") and not user.has_usable_password():
+        grant_sensitive_verification(request, user=user)
 
     # Redirect superuser to donate page twice a year
     if (

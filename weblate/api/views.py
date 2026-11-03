@@ -45,6 +45,7 @@ from drf_spectacular.utils import (
 from drf_standardized_errors.handler import ExceptionHandler
 from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -68,7 +69,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
-from weblate.accounts.utils import remove_user
+from weblate.accounts.utils import has_recent_sensitive_verification, remove_user
 from weblate.accounts.visibility import (
     can_browse_users,
     can_manage_users,
@@ -1183,6 +1184,28 @@ def get_delete_memory_option(request: Request) -> bool:
     return body_value if body_value is not None else query_value or False
 
 
+class SensitiveSessionMutationMixin(APIView):
+    """Step up session authentication for credential and access mutations."""
+
+    sensitive_actions: frozenset[str] = frozenset()
+    action: str
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return self.action in self.sensitive_actions
+
+    def initial(self, request: Request, *args, **kwargs) -> None:
+        super().initial(request, *args, **kwargs)
+        if (
+            isinstance(request.successful_authenticator, SessionAuthentication)
+            and self.requires_sensitive_verification(request)
+            and not has_recent_sensitive_verification(
+                cast("AuthenticatedHttpRequest", request)
+            )
+        ):
+            msg = "Recent credential verification required."
+            raise PermissionDenied(msg)
+
+
 @extend_schema_view(
     list=extend_schema(
         description=(
@@ -1261,7 +1284,7 @@ def get_delete_memory_option(request: Request) -> bool:
         description="Change the user parameters.",
     ),
 )
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Users API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -1269,6 +1292,27 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
     filterset_class = UserFilter
     filter_backends = (UserFilterBackend,)
+    sensitive_actions = frozenset(
+        {"create", "update", "partial_update", "destroy", "groups"}
+    )
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        if self.action in {"update", "partial_update"}:
+            return bool(
+                request.user.has_perm("user.edit")
+                or (
+                    isinstance(request.data, Mapping)
+                    and {
+                        "email",
+                        "username",
+                        "is_superuser",
+                        "is_active",
+                        "date_expires",
+                    }
+                    & request.data.keys()
+                )
+            )
+        return super().requires_sensitive_verification(request)
 
     def get_serializer_class(self):
         if getattr(self, "swagger_fake_view", False):
@@ -1673,13 +1717,16 @@ class UserViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Groups API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Group.objects.none()
     serializer_class = GroupSerializer
     lookup_field = "id"
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return request.method not in {"GET", "HEAD", "OPTIONS"}
 
     def get_queryset(self):
         user = self.request.user
@@ -2088,13 +2135,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a role."),
     partial_update=extend_schema(description="Change the role parameters."),
 )
-class RoleViewSet(viewsets.ModelViewSet):
+class RoleViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Roles API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Role.objects.none()
     serializer_class = RoleSerializer
     lookup_field = "id"
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return request.method not in {"GET", "HEAD", "OPTIONS"}
 
     def get_queryset(self):
         user = self.request.user
@@ -2377,6 +2427,7 @@ class AnnouncementsMixin(APIViewSetMixin):
     ),
 )
 class ProjectViewSet(
+    SensitiveSessionMutationMixin,
     WeblateViewSet,
     UpdateModelMixin,
     CreateModelMixin,
@@ -2385,6 +2436,16 @@ class ProjectViewSet(
     AnnouncementsMixin,
 ):
     """Translation projects API."""
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return (
+            self.action in {"update", "partial_update"}
+            and isinstance(request.data, Mapping)
+            and bool(
+                {"access_control", "public_sharing", "enforced_2fa"}
+                & request.data.keys()
+            )
+        )
 
     raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))

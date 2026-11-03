@@ -978,6 +978,19 @@ class PasswordConfirmForm(EmptyConfirmForm):
 class FirstFactorPasswordForm(PasswordConfirmForm):
     password = PasswordField(label=gettext_lazy("Current password"))
 
+    def clean_password(self) -> None:
+        password = self.cleaned_data["password"]
+        if self.user.has_usable_password() and self.user.check_password(password):
+            return
+        authenticated = authenticate(
+            self.request, username=self.user.username, password=password
+        )
+        if authenticated is None or authenticated.pk != self.user.pk:
+            rotate_token(self.request)
+            raise forms.ValidationError(
+                gettext("You have entered an invalid password.")
+            )
+
 
 class ResetForm(EmailForm):
     def clean_email(self):

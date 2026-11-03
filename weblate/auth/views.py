@@ -16,6 +16,10 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
@@ -184,13 +188,19 @@ class TeamUpdateView(UpdateView):
             check_management_access(request, "group.edit")
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_add_user(request)
             if "remove_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_remove_user(request)
 
         form = self.get_form()
         if form is None:
             raise PermissionDenied
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
 
         if "delete" in request.POST:
             return self.handle_delete(request)
@@ -271,6 +281,8 @@ class InvitationView(DetailView):
         # Handle admin actions first
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
+            if action == "remove" and not has_recent_sensitive_verification(request):
+                return sensitive_verification_redirect(request, request.path)
             project = invitation.group.defining_project
             workspace = invitation.group.defining_workspace
             # Permission check

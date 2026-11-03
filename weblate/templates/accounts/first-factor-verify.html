@@ -14,27 +14,44 @@
       <h4 class="card-title">{% translate "Confirm your identity" %}</h4>
     </div>
     <div class="card-body">
-      <p>{% translate "Confirm your existing sign-in method before registering your first second factor." %}</p>
-      {% if has_password %}
+      {% if target == "sensitive" %}
+        <p>{% translate "Confirm your existing sign-in method before continuing." %}</p>
+      {% else %}
+        <p>{% translate "Confirm your existing sign-in method before registering your first second factor." %}</p>
+      {% endif %}
+      {% if has_password_method %}
         <form method="post" action="{% url 'first-factor-verify' %}">
           {% csrf_token %}
           <input type="hidden" name="target" value="{{ target }}" />
+          <input type="hidden" name="next" value="{{ next_url }}" />
           {{ confirm_form|crispy }}
           <button type="submit" class="btn btn-primary">{% translate "Confirm" %}</button>
         </form>
-      {% elif associations %}
+      {% endif %}
+      {% if associations %}
         <p>{% translate "Sign in again using a connected provider:" %}</p>
         {% for association, name in associations %}
           <form method="post" action="{% url 'first-factor-verify' %}">
             {% csrf_token %}
             <input type="hidden" name="target" value="{{ target }}" />
+            <input type="hidden" name="next" value="{{ next_url }}" />
             <button type="submit"
                     class="btn btn-outline-primary"
                     name="association"
                     value="{{ association.pk }}">{{ name }}</button>
           </form>
         {% endfor %}
-      {% else %}
+      {% elif can_recover_by_email %}
+        <p>{% translate "Your previous e-mail verification has expired. Reset your password to continue." %}</p>
+        <form method="post" action="{% url 'first-factor-verify' %}">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="{{ target }}" />
+          <button type="submit"
+                  class="btn btn-primary"
+                  name="email_recovery"
+                  value="1">{% translate "Sign out and reset password by e-mail" %}</button>
+        </form>
+      {% elif not has_password_method %}
         <p>{% translate "No sign-in method is available to confirm your identity. Contact an administrator to recover access." %}</p>
       {% endif %}
     </div>
