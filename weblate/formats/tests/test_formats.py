@@ -3717,20 +3717,14 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text(encoding="utf-8")
+        newdata = Path(testfile).read_bytes()
 
-        # Perform some general assertions about the copyright
-        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
-        self.assertIn(
-            "<!--\n * See the NOTICE file distributed with this work for additional",
-            newdata,
+        # Preserve the original XML declaration, copyright comment, and whitespace.
+        original = Path(self.FILE).read_bytes()
+        self.assertEqual(
+            newdata.partition(b"<xwikidoc")[0],
+            original.partition(b"<xwikidoc")[0],
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
-            newdata,
-        )
-        # Remove XML declaration so that etree doesn't complain for parsing
-        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
         self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
@@ -3843,20 +3837,14 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text(encoding="utf-8")
+        newdata = Path(testfile).read_bytes()
 
-        # Perform some general assertions about the copyright
-        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
-        self.assertIn(
-            "<!--\n * See the NOTICE file distributed with this work for additional",
-            newdata,
+        # Preserve the original XML declaration, copyright comment, and whitespace.
+        original = Path(self.FILE).read_bytes()
+        self.assertEqual(
+            newdata.partition(b"<xwikidoc")[0],
+            original.partition(b"<xwikidoc")[0],
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
-            newdata,
-        )
-        # Remove XML declaration so that etree doesn't complain for parsing
-        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
         self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
