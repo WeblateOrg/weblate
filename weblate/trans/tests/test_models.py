@@ -2220,7 +2220,8 @@ class ComponentListTest(RepoTestCase):
 class ModelTestCase(RepoTestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component = self.create_component()
 
 
 class SourceUnitTest(ModelTestCase):

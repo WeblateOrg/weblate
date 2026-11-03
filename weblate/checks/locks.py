@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from contextlib import ExitStack, contextmanager
+from contextvars import ContextVar
 from typing import TYPE_CHECKING
 
 from django.db import connection, transaction
@@ -18,6 +19,26 @@ if TYPE_CHECKING:
     from uuid import UUID
 
     from weblate.trans.models import Component, Project
+    from weblate.utils.lock import WeblateLock
+
+
+_boundary_locks: ContextVar[dict[str, WeblateLock] | None] = ContextVar(
+    "check_boundary_locks", default=None
+)
+
+
+@contextmanager
+def check_boundary_lock(project: Project) -> Generator[None, None, None]:
+    """Reuse boundary locks across model instances and eager task callbacks."""
+    lock = project.propagation_checks_lock
+    active = _boundary_locks.get() or {}
+    lock = active.get(lock.name, lock)
+    with lock:
+        token = _boundary_locks.set({**active, lock.name: lock})
+        try:
+            yield
+        finally:
+            _boundary_locks.reset(token)
 
 
 def lock_check_workspaces(workspace_ids: set[UUID], *, exclusive: bool) -> None:

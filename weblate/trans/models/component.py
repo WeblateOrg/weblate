@@ -5506,12 +5506,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         from weblate.checks.tasks import finalize_component_checks
 
         if settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get():
-            finalize_component_checks(
-                self.id,
-                source_unit_ids,
-                batched_checks,
-                batch_mode=batch_mode,
-                component=self,
+            transaction.on_commit(
+                capture_change_origin(
+                    partial(
+                        finalize_component_checks,
+                        self.id,
+                        source_unit_ids,
+                        batched_checks,
+                        batch_mode=batch_mode,
+                    )
+                ),
+                using=self._state.db,
             )
         else:
             finalize_component_checks.delay_on_commit(
