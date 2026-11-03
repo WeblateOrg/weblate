@@ -87,10 +87,10 @@ class XlsxFormat(CSVFormat):
         workbook.save(handle)
 
     @staticmethod
-    def serialize(store):
+    def serialize(store, file_format_params: FileFormatParams | None = None) -> bytes:
         # store is CSV (csvfile) here
         output = BytesIO()
-        XlsxFormat(store).save_content(output)
+        XlsxFormat(store, file_format_params=file_format_params).save_content(output)
         return output.getvalue()
 
     # pylint: disable-next=arguments-differ

@@ -229,6 +229,22 @@ File format parameters
 File format parameters provide a way to configure settings related to the file format.
 They are configured at component level and allow you to customize how file parsing and serialization are handled.
 
+For supported XML formats, ``xml_utf8_bom`` controls the UTF-8 byte order mark:
+``preserve`` keeps the input file's BOM, ``include`` always writes it, and
+``omit`` removes it. The default is ``preserve``; new files without a template
+omit the BOM. Other encodings are unchanged.
+
+The ``xml_encoding_case`` parameter selects ``uppercase`` or ``lowercase``
+encoding names in the XML declaration, such as ``UTF-8`` or ``utf-8``.
+The default, ``default``, uses the format's native casing.
+
+The ``xml_final_newline`` parameter controls the newline after the complete XML
+document, including any trailing comments or processing instructions. Choose
+``include`` for exactly one final line ending, or ``omit`` for none.
+The default, ``default``, leaves the format's behavior unchanged. Explicit
+inclusion uses the serializer's line-ending style, falling back to LF when the
+output contains no line endings. Translation-content whitespace is unchanged.
+
 
 List of file format parameters
 ++++++++++++++++++++++++++++++

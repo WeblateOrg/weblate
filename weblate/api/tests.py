@@ -9871,6 +9871,39 @@ class ProjectAPITest(APIBaseTest):
 
 
 class ComponentAPITest(APIBaseTest):
+    def test_xml_serialization_params(self) -> None:
+        component = self._create_component(
+            "xliff", "xliff/*/complex.xlf", project=self.project, name="XML"
+        )
+        kwargs = {"project__slug": component.project.slug, "slug": component.slug}
+        params = {
+            "xml_utf8_bom": "include",
+            "xml_encoding_case": "lowercase",
+            "xml_final_newline": "omit",
+        }
+        for key in params:
+            with self.subTest(key=key):
+                self.do_request(
+                    "api:component-detail",
+                    kwargs,
+                    method="patch",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={"file_format_params": {key: "invalid"}},
+                )
+        response = self.do_request(
+            "api:component-detail",
+            kwargs,
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"file_format_params": params},
+        )
+        self.assertEqual(response.data["file_format_params"], params)
+        component.refresh_from_db()
+        self.assertEqual(component.file_format_params, params)
+
     def setUp(self) -> None:
         super().setUp()
         shot = Screenshot.objects.create(
