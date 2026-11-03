@@ -11,33 +11,50 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from unittest.mock import MagicMock, patch
 
 from django.core.cache import cache
-from django.db import close_old_connections, transaction
+from django.db import close_old_connections, connection, transaction
 from django.test import SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils.html import format_html
 
+from weblate.automation.context import automation_origin
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
 from weblate.checks.locks import (
+    check_boundary_lock,
     check_component_session_read_lock,
     check_project_read_lock,
     check_project_session_read_lock,
     lock_check_projects,
 )
 from weblate.checks.models import CHECKS, Check
-from weblate.checks.tasks import finalize_component_checks
+from weblate.checks.tasks import (
+    coalesce_component_check_batches,
+    finalize_component_checks,
+    refresh_propagated_checks,
+    schedule_component_check_batch,
+)
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.trans.tests.utils import get_test_actor
+from weblate.trans.tests.utils import RepoTestMixin, get_test_actor
 from weblate.trans.util import join_plural
-from weblate.utils.change_origin import acting_user_context
+from weblate.utils.change_origin import (
+    acting_user_context,
+    change_origin,
+    get_acting_user,
+    get_change_origin,
+)
 from weblate.utils.lock import WeblateLock
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from types import TracebackType
+
+    from weblate.utils.change_origin import ChangeOrigin
 
 
 class CheckBoundaryLockTest(TransactionTestCase):
@@ -159,7 +176,399 @@ class CheckBoundaryLockTest(TransactionTestCase):
         self.assertTrue(acquired.is_set())
 
 
+class CheckFinalizationConcurrencyTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+        self.component = self.create_component()
+        self.other = self.create_po(name="Other", project=self.component.project)
+        self.unit = Unit.objects.get(
+            translation__component=self.component,
+            translation__language__code="cs",
+            source="Hello, world!\n",
+        )
+
+    def run_finalizer(self, component_id: int) -> None:
+        close_old_connections()
+        try:
+            finalize_component_checks(
+                component_id, [], ["inconsistent", "reused"], batch_mode=True
+            )
+        finally:
+            connection.close()
+
+    def test_inline_checks_run_outside_editing_transaction(self) -> None:
+        def finalize(*args: object, **kwargs: object) -> None:
+            self.assertFalse(connection.in_atomic_block)
+
+        with patch(
+            "weblate.checks.tasks.finalize_component_checks", side_effect=finalize
+        ) as callback:
+            with transaction.atomic():
+                self.component.start_batched_checks()
+                self.component.batched_checks.add("inconsistent")
+                self.component.run_batched_checks()
+                callback.assert_not_called()
+            callback.assert_called_once()
+
+    def test_batches_keep_boundary_locked_until_commit(self) -> None:
+        for workspace_scope in (False, True):
+            with self.subTest(workspace_scope=workspace_scope):
+                if workspace_scope:
+                    workspace = Workspace.objects.create(
+                        name="Concurrent checks", propagation_scope="workspace"
+                    )
+                    Project.objects.filter(pk=self.component.project_id).update(
+                        workspace=workspace
+                    )
+                    other_project = self.create_project(
+                        name="Other project", slug="other-project", workspace=workspace
+                    )
+                    Component.objects.filter(pk=self.other.pk).update(
+                        project=other_project
+                    )
+                self.assert_finalizers_serialize()
+
+    def assert_finalizers_serialize(self) -> None:
+        first_written = Event()
+        second_attempted = Event()
+        second_entered = Event()
+        first_committed = Event()
+        original_enter = WeblateLock.__enter__
+        original_exit = WeblateLock.__exit__
+        Check.objects.filter(unit=self.unit, name="inconsistent").delete()
+
+        def enter(lock) -> None:
+            if (
+                lock.scope in {"project:checks", "workspace:checks"}
+                and first_written.is_set()
+                and not first_committed.is_set()
+            ):
+                second_attempted.set()
+            original_enter(lock)
+
+        def exit_lock(
+            lock: WeblateLock,
+            exc_type: type[BaseException] | None,
+            exc_value: BaseException | None,
+            traceback: TracebackType | None,
+        ) -> None:
+            original_exit(lock, exc_type, exc_value, traceback)
+            if (
+                lock.scope in {"project:checks", "workspace:checks"}
+                and not lock.is_locked
+            ):
+                self.assertFalse(connection.in_atomic_block)
+
+        def perform(check, component) -> None:
+            if component.pk == self.component.pk:
+                if not first_written.is_set():
+                    Check.objects.create(unit_id=self.unit.pk, name="inconsistent")
+                    transaction.on_commit(first_committed.set)
+                    first_written.set()
+                    self.assertTrue(second_attempted.wait(10))
+                else:
+                    self.assertFalse(second_entered.wait(0.1))
+            else:
+                second_entered.set()
+                self.assertTrue(first_committed.is_set())
+                self.assertTrue(
+                    Check.objects.filter(
+                        unit_id=self.unit.pk, name="inconsistent"
+                    ).exists()
+                )
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(WeblateLock, "__enter__", enter),
+            patch.object(WeblateLock, "__exit__", exit_lock),
+            patch.object(BatchCheckMixin, "_perform_batch", perform),
+            ThreadPoolExecutor(max_workers=2) as pool,
+        ):
+            first = pool.submit(self.run_finalizer, self.component.pk)
+            self.assertTrue(first_written.wait(10))
+            second = pool.submit(self.run_finalizer, self.other.pk)
+            first.result(timeout=15)
+            second.result(timeout=15)
+        self.assertTrue(second_entered.is_set())
+
+    def test_boundary_wait_does_not_hold_component_lock(self) -> None:
+        attempted = Event()
+        original_enter = WeblateLock.__enter__
+
+        def enter(lock) -> None:
+            if lock.scope == "project:checks":
+                attempted.set()
+            original_enter(lock)
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(WeblateLock, "__enter__", enter),
+            patch.object(BatchCheckMixin, "_perform_batch"),
+            ThreadPoolExecutor(max_workers=1) as pool,
+        ):
+            with check_boundary_lock(self.component.project):
+                attempted.clear()
+                result = pool.submit(self.run_finalizer, self.component.pk)
+                self.assertTrue(attempted.wait(10))
+                with self.component.checks_lock:
+                    pass
+            result.result(timeout=10)
+
+    def test_eager_refresh_reuses_boundary_lock_after_commit(self) -> None:
+        def perform(check, component) -> None:
+            if check.check_id == "inconsistent":
+                transaction.on_commit(
+                    lambda: refresh_propagated_checks(component.project_id, [])
+                )
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(BatchCheckMixin, "_perform_batch", perform),
+            patch("weblate.checks.tasks._refresh_propagated_checks") as refresh,
+        ):
+            self.run_finalizer(self.component.pk)
+        refresh.assert_called_once()
+
+    def test_propagated_refresh_waits_for_finalization_boundary(self) -> None:
+        attempted = Event()
+        entered = Event()
+        original_enter = WeblateLock.__enter__
+
+        def enter(lock) -> None:
+            if lock.scope == "project:checks":
+                attempted.set()
+            original_enter(lock)
+
+        def refresh() -> None:
+            close_old_connections()
+            try:
+                refresh_propagated_checks(self.component.project_id, [])
+            finally:
+                connection.close()
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(WeblateLock, "__enter__", enter),
+            patch(
+                "weblate.checks.tasks._refresh_propagated_checks",
+                side_effect=lambda *_args: entered.set(),
+            ),
+            ThreadPoolExecutor(max_workers=1) as pool,
+        ):
+            with check_boundary_lock(self.component.project):
+                attempted.clear()
+                result = pool.submit(refresh)
+                self.assertTrue(attempted.wait(10))
+                self.assertFalse(entered.wait(0.1))
+            result.result(timeout=10)
+        self.assertTrue(entered.is_set())
+
+    def test_unrelated_project_proceeds_while_boundary_is_locked(self) -> None:
+        other_project = self.create_project(name="Independent", slug="independent")
+        Component.objects.filter(pk=self.other.pk).update(project=other_project)
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(BatchCheckMixin, "_perform_batch"),
+            ThreadPoolExecutor(max_workers=1) as pool,
+            check_boundary_lock(self.component.project),
+        ):
+            pool.submit(self.run_finalizer, self.other.pk).result(timeout=10)
+
+
 class CheckBoundaryRefreshTest(FixtureTestCase):
+    def test_finalizer_selects_boundary_lock_after_refresh(self) -> None:
+        for propagation, units, checks, expected in (
+            (True, [123], [], True),
+            (True, [], ["inconsistent"], True),
+            (True, [], ["long_untranslated"], False),
+            (False, [123], ["inconsistent"], False),
+        ):
+            with self.subTest(propagation=propagation, units=units, checks=checks):
+                Component.objects.filter(pk=self.component.pk).update(
+                    allow_translation_propagation=propagation
+                )
+
+                def run(
+                    component: Component,
+                    unit_ids: list[int],
+                    *,
+                    expected_lock: bool = expected,
+                    expected_units: tuple[int, ...] = tuple(units),
+                ) -> None:
+                    self.assertEqual(
+                        component.project.checks_lock.is_locked, expected_lock
+                    )
+                    self.assertEqual(tuple(unit_ids), expected_units)
+
+                with patch(
+                    "weblate.checks.tasks._run_component_checks", side_effect=run
+                ):
+                    finalize_component_checks(
+                        self.component.pk, units, checks, batch_mode=True
+                    )
+
+    def test_finalizer_restores_state_and_releases_locks_after_error(self) -> None:
+        self.component.refresh_peer_source_checks = False
+        with (
+            patch(
+                "weblate.checks.tasks._run_component_checks",
+                side_effect=ValueError("Failed"),
+            ),
+            self.assertRaisesMessage(ValueError, "Failed"),
+        ):
+            finalize_component_checks(
+                self.component.pk,
+                [],
+                ["inconsistent"],
+                batch_mode=True,
+                component=self.component,
+                refresh_source_checks=True,
+            )
+        self.assertFalse(self.component.batch_checks)
+        self.assertEqual(self.component.batched_checks, set())
+        self.assertFalse(self.component.refresh_peer_source_checks)
+        self.assertFalse(self.component.checks_lock.is_locked)
+        self.assertFalse(self.component.project.checks_lock.is_locked)
+
+    def test_finalizer_handles_component_deleted_before_guard(self) -> None:
+        with patch(
+            "weblate.checks.locks.check_project_session_read_lock",
+            side_effect=Component.DoesNotExist,
+        ):
+            finalize_component_checks(
+                self.component.pk, [], ["inconsistent"], batch_mode=True
+            )
+
+    def test_nested_workspace_lock_reuses_lock_across_projects(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Shared boundary", propagation_scope="workspace"
+        )
+        projects = [
+            Project(pk=identifier, workspace=workspace, name="Shared", slug="shared")
+            for identifier in (1, 2)
+        ]
+        with (
+            TemporaryDirectory() as directory,
+            self.settings(DATA_DIR=directory),
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            check_boundary_lock(projects[0]),
+            check_boundary_lock(projects[1]),
+        ):
+            pass
+        # A leaked registry entry would try to reuse the previous deleted file.
+        with (
+            TemporaryDirectory() as directory,
+            self.settings(DATA_DIR=directory),
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            check_boundary_lock(projects[1]),
+        ):
+            pass
+
+    def test_nested_redis_lock_released_after_error(self) -> None:
+        redis_lock = MagicMock()
+        redis_lock.owned.return_value = False
+        project = Project(pk=123, name="Shared", slug="shared")
+        other = Project(pk=123, name="Shared", slug="shared")
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=True),
+            patch(
+                "weblate.utils.lock.cache",
+                SimpleNamespace(lock=MagicMock(return_value=redis_lock)),
+            ),
+        ):
+            with (
+                self.assertRaisesMessage(ValueError, "Failed"),
+                check_boundary_lock(project),
+                check_boundary_lock(other),
+            ):
+                msg = "Failed"
+                raise ValueError(msg)
+            self.assertEqual(redis_lock.acquire.call_count, 1)
+            redis_lock.release.assert_called_once()
+            with check_boundary_lock(other):
+                pass
+            self.assertEqual(redis_lock.acquire.call_count, 2)
+            self.assertEqual(redis_lock.release.call_count, 2)
+
+    def test_inline_component_batch_waits_for_commit_and_preserves_context(
+        self,
+    ) -> None:
+        actor = get_test_actor(self)
+        origin: ChangeOrigin = {"scope": "repository"}
+        observed = []
+
+        def finalize(*args: object, **kwargs: object) -> None:
+            observed.append((get_acting_user(), get_change_origin()))
+
+        with (
+            patch(
+                "weblate.checks.tasks.finalize_component_checks", side_effect=finalize
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            with acting_user_context(actor):
+                token = change_origin.set(origin)
+                try:
+                    self.component.start_batched_checks()
+                    self.component.batched_checks.add("inconsistent")
+                    self.component.run_batched_checks()
+                finally:
+                    change_origin.reset(token)
+            self.assertEqual(observed, [])
+        self.assertEqual(observed, [(actor, origin)])
+
+    def test_automation_batch_preserves_automation_context_after_commit(self) -> None:
+        observed = []
+
+        def finalize(*args: object, **kwargs: object) -> None:
+            observed.append(automation_origin.get())
+
+        with (
+            self.settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.checks.tasks.finalize_component_checks", side_effect=finalize
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            token = automation_origin.set(123)
+            try:
+                self.component.start_batched_checks()
+                self.component.batched_checks.add("inconsistent")
+                self.component.run_batched_checks()
+            finally:
+                automation_origin.reset(token)
+            self.assertEqual(observed, [])
+        self.assertEqual(observed, [123])
+
+    def test_coalesced_inline_batches_preserve_rollback_boundaries(self) -> None:
+        with (
+            patch("weblate.checks.tasks.finalize_component_checks") as finalize,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            with (
+                transaction.atomic(),
+                coalesce_component_check_batches(using="default"),
+            ):
+                schedule_component_check_batch(
+                    self.component, set(), {"inconsistent"}, using="default"
+                )
+                with self.assertRaises(ValueError), transaction.atomic():
+                    with coalesce_component_check_batches(using="default"):
+                        schedule_component_check_batch(
+                            self.component, set(), {"reused"}, using="default"
+                        )
+                    msg = "Rolled back"
+                    raise ValueError(msg)
+                schedule_component_check_batch(
+                    self.component, set(), {"long_untranslated"}, using="default"
+                )
+            finalize.assert_not_called()
+        finalize.assert_called_once()
+        self.assertEqual(
+            set(finalize.call_args.args[2]), {"inconsistent", "long_untranslated"}
+        )
+
     def test_unchanged_boundary_preserves_shared_project(self) -> None:
         for lock in (check_project_read_lock, check_component_session_read_lock):
             with self.subTest(lock=lock.__name__):
@@ -583,7 +992,8 @@ class BatchUpdateTest(ViewTestCase):
         self.assertEqual(unit.all_checks_names, set())
 
         # Add linked project
-        other = self.create_link_existing()
+        with self.captureOnCommitCallbacks(execute=True):
+            other = self.create_link_existing()
 
         # Now the inconsistent check should be there
         unit = self.get_unit()
@@ -593,17 +1003,18 @@ class BatchUpdateTest(ViewTestCase):
     def test_autotranslate(self) -> None:
         other = self.do_base()
         translation = other.translation_set.get(language_code="cs")
-        auto_translate(
-            user_id=self.user.pk,
-            enforce_permissions=False,
-            mode="translate",
-            q="state:<translated",
-            auto_source="others",
-            source_component_id=self.component.pk,
-            engines=[],
-            threshold=99,
-            translation_id=translation.pk,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            auto_translate(
+                user_id=self.user.pk,
+                enforce_permissions=False,
+                mode="translate",
+                q="state:<translated",
+                auto_source="others",
+                source_component_id=self.component.pk,
+                engines=[],
+                threshold=99,
+                translation_id=translation.pk,
+            )
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())
 

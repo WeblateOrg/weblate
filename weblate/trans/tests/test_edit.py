@@ -2817,7 +2817,8 @@ class EditComplexTest(ReusableViewTestCase):
         self.assertEqual(
             set(units.values_list("target", flat=True)), {"Nazdar svete!\n"}
         )
-        self.create_link_existing()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.create_link_existing()
         self.assertEqual(
             set(units.values_list("target", flat=True)), {"Nazdar svete!\n", ""}
         )

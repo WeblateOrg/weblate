@@ -167,7 +167,11 @@ after commit. Boundary-wide batches also clear stale warnings on old-source
 peers. Successful child batches are combined at the exclusive project gate,
 deduplicating shared project and workspace checks while preserving rollback
 boundaries and actor attribution. Eager tasks and automation contexts finalize
-their batches inline. Ordinary dependency reconciliation retains its synchronous
+their batches synchronously after commit, retaining the initiating actor and
+change origin. A finalization failure does not roll back the committed edit.
+Finalization holds the project or workspace checks lock before acquiring the
+component checks lock and keeps it until the checks transaction commits.
+Ordinary dependency reconciliation retains its synchronous
 unit and previous-source peer checks.
 
 Translation-memory payloads use bounded batches scheduled after commit. Nested
