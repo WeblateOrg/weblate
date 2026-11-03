@@ -20,10 +20,13 @@ from pyparsing import ParseException
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+from translate.storage.lisa import LISAfile
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
 from weblate.trans.file_format_params import (
+    XMLUTF8BOM,
+    XMLEncodingCase,
     get_params_for_file_format,
 )
 from weblate.trans.util import get_string, join_plural, split_plural
@@ -1243,6 +1246,11 @@ class BaseExporter:
         return self.storage_class()
 
     def setup_storage(self, storage: TranslateToolkitStore) -> None:
+        # XML exporters can produce a different format from the component.
+        # Apply only the common XML serialization parameters to XML output.
+        if isinstance(storage, LISAfile):
+            for xml_param_class in (XMLUTF8BOM, XMLEncodingCase):
+                xml_param_class().setup_store(storage, **self.file_format_params)
         if self.translation is None or not self.file_format:
             return
 
@@ -1362,7 +1370,7 @@ class BaseExporter:
         # ruff: ignore[import-outside-top-level]
         from weblate.formats.ttkit import TTKitFormat
 
-        return TTKitFormat.serialize(self.storage)
+        return TTKitFormat.serialize(self.storage, self.file_format_params)
 
     def store_flags(self, output, flags) -> None:
         return

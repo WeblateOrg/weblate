@@ -12,6 +12,7 @@ import os.path
 import shutil
 import tempfile
 from abc import ABC, abstractmethod
+from codecs import BOM_UTF8
 from contextlib import contextmanager
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -31,6 +32,7 @@ from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
 from weblate.formats.convert import MDXFormat
+from weblate.formats.exporters import XliffExporter
 from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.management.commands.list_format_features import (
@@ -92,7 +94,12 @@ from weblate.formats.ttkit import (
 )
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
-from weblate.trans.file_format_params import get_encoding_param
+from weblate.trans.file_format_params import (
+    XMLUTF8BOM,
+    XMLEncodingCase,
+    XMLFinalNewline,
+    get_encoding_param,
+)
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.files import REPO_TEMP_DIRNAME
@@ -101,6 +108,165 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
+
+
+class XMLSerializationParamsTest(SimpleTestCase):
+    def test_supported_xml_formats(self) -> None:
+        params: FileFormatParams = {
+            "xml_utf8_bom": "include",
+            "xml_encoding_case": "uppercase",
+            "xml_final_newline": "include",
+        }
+        for name in XMLUTF8BOM.file_formats:
+            with self.subTest(format=name):
+                store = FILE_FORMATS[name].get_class()()
+                XMLUTF8BOM().setup_store(store, **params)
+                XMLEncodingCase().setup_store(store, **params)
+                result = TTKitFormat.serialize(store, params)
+                self.assertTrue(result.startswith(BOM_UTF8))
+                self.assertEqual(result.count(BOM_UTF8), 1)
+                self.assertIn(b'encoding="UTF-8"', result)
+                self.assertTrue(result.endswith(b"\n"))
+        self.assertFalse(XMLFinalNewline.supports_format("json"))
+
+    def test_xliff_serialization(self) -> None:
+        for format_class, filename in (
+            (XliffFormat, "cs.xliff"),
+            (Xliff2Format, "cs.xliff2"),
+        ):
+            data = Path(get_test_file(filename)).read_bytes()
+            for input_bom in (False, True):
+                for bom in ("preserve", "include", "omit"):
+                    with self.subTest(
+                        format=format_class, input_bom=input_bom, bom=bom
+                    ):
+                        params: FileFormatParams = {
+                            "xml_utf8_bom": bom,
+                            "xml_encoding_case": "lowercase",
+                            "xml_final_newline": "omit",
+                        }
+                        storage = format_class(
+                            BytesIO((BOM_UTF8 if input_bom else b"") + data),
+                            file_format_params=params,
+                        )
+                        outputs = []
+                        for _ in range(2):
+                            output = BytesIO()
+                            storage.save_content(output)
+                            outputs.append(output.getvalue())
+                        self.assertEqual(outputs[0], outputs[1])
+                        result = outputs[0]
+                        self.assertEqual(
+                            result.count(BOM_UTF8),
+                            int(input_bom if bom == "preserve" else bom == "include"),
+                        )
+                        self.assertIn(b'encoding="utf-8"', result)
+                        self.assertFalse(result.endswith((b"\n", b"\r")))
+                        restored = format_class(BytesIO(result))
+                        self.assertEqual(
+                            len(storage.all_units), len(restored.all_units)
+                        )
+                        self.assertEqual(
+                            storage.all_units[0].target, restored.all_units[0].target
+                        )
+            default = format_class(BytesIO(data))
+            self.assertTrue(bytes(default.store).startswith(b"<?xml"))
+            self.assertTrue(default.store.XMLuppercaseEncoding)
+
+    def test_newline_after_document(self) -> None:
+        data = (
+            '<resources><string name="hello">Příliš\n žluťoučký\n</string>'
+            "</resources><!-- end --><?end done?>"
+        ).encode()
+        for format_class in (AndroidFormat, RESXFormat):
+            # Both formats have a lowercase declaration by default; RESX
+            # converts the entire document to CRLF when serializing.
+            source = (
+                data
+                if format_class is AndroidFormat
+                else (
+                    '<root><data name="hello"><value>café</value></data>'
+                    "</root><!-- end --><?end done?>"
+                ).encode()
+            )
+            for newline in ("include", "omit"):
+                with self.subTest(format=format_class, newline=newline):
+                    storage = format_class(
+                        BytesIO(source),
+                        file_format_params={"xml_final_newline": newline},
+                    )
+                    original = bytes(storage.store)
+                    out = BytesIO()
+                    storage.save_content(out)
+                    result = out.getvalue()
+                    ending = b"\r\n" if format_class is RESXFormat else b"\n"
+                    self.assertEqual(
+                        result,
+                        original.rstrip(b"\r\n")
+                        + (ending if newline == "include" else b""),
+                    )
+                    self.assertIn(b'encoding="utf-8"', result)
+                    format_class(BytesIO(result))
+
+    def test_non_utf8_output(self) -> None:
+        for encoding in ("ISO-8859-1", "UTF-16LE", "UTF-16BE"):
+            with self.subTest(encoding=encoding):
+                data = (
+                    f'<?xml version="1.0" encoding="{encoding}"?>'
+                    '<resources><string name="hello">café</string></resources>'
+                ).encode(encoding)
+                storage = AndroidFormat(
+                    BytesIO(data),
+                    file_format_params={
+                        "xml_utf8_bom": "include",
+                        "xml_final_newline": "include",
+                    },
+                )
+                out = BytesIO()
+                storage.save_content(out)
+                result = out.getvalue()
+                self.assertFalse(result.startswith(BOM_UTF8))
+                self.assertTrue(result.endswith("\n".encode(encoding)))
+                self.assertIn("café".encode(encoding), result)
+                AndroidFormat(BytesIO(result))
+
+    def test_export(self) -> None:
+        exporter = XliffExporter(
+            source_language=SimpleNamespace(code="en"),
+            language=SimpleNamespace(code="cs", plural=None),
+        )
+        exporter.file_format_params = {
+            "xml_utf8_bom": "include",
+            "xml_encoding_case": "lowercase",
+            "xml_final_newline": "omit",
+        }
+        result = exporter.serialize()
+        self.assertTrue(result.startswith(BOM_UTF8 + b"<?xml"))
+        self.assertEqual(result.count(BOM_UTF8), 1)
+        self.assertIn(b'encoding="utf-8"', result)
+        self.assertFalse(result.endswith(b"\n"))
+        XliffFormat(BytesIO(result))
+
+    def test_new_file(self) -> None:
+        for base in ("", get_test_file("cs.xliff")):
+            with self.subTest(base=base), tempfile.TemporaryDirectory() as directory:
+                filename = Path(directory) / "new.xlf"
+                XliffFormat.create_new_file(
+                    str(filename),
+                    cast("Language", SimpleNamespace(code="cs")),
+                    base,
+                    file_format_params={
+                        "xml_utf8_bom": "include",
+                        "xml_encoding_case": "lowercase",
+                        "xml_final_newline": "omit",
+                    },
+                )
+                result = filename.read_bytes()
+                self.assertTrue(result.startswith(BOM_UTF8))
+                self.assertIn(b'encoding="utf-8"', result)
+                self.assertFalse(result.endswith(b"\n"))
+                XliffFormat(filename)
+
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
