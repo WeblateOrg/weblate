@@ -25,6 +25,7 @@ from django.utils.timezone import now
 from social_django.models import Association, Code, Partial
 
 from weblate.utils.celery import app
+from weblate.utils.email import email_key
 from weblate.utils.errors import report_error
 from weblate.utils.html import html_to_mail_text
 from weblate.utils.icons import load_icon
@@ -415,6 +416,26 @@ def notify_weekly() -> None:
 @app.task(trail=False)
 def notify_monthly() -> None:
     notify_digest("notify_monthly")
+
+
+@app.task(trail=False)
+def notify_email_conflict(log_id: int, email: str, primary_email: str | None) -> None:
+    """Guide the submitted mailbox owner while retaining the primary alert."""
+    from weblate.accounts.notifications import send_notification_email  # ruff: ignore[import-outside-top-level]
+
+    if primary_email and email_key(primary_email) != email_key(email):
+        notify_auditlog(log_id, primary_email)
+    send_notification_email(
+        None,
+        [email],
+        "email-conflict",
+        context={
+            "password_reset_url": get_registration_attempt_password_reset_url(
+                "connect"
+            ),
+            "contact_form": settings.CONTACT_FORM,
+        },
+    )
 
 
 @app.task(trail=False)

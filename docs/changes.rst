@@ -7,6 +7,8 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
+
 .. rubric:: Security fixes
 
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
