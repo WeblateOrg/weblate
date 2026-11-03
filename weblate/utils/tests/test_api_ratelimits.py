@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
@@ -13,6 +12,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseBase
 from django.test import SimpleTestCase, override_settings
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework.views import APIView
@@ -25,9 +25,6 @@ from weblate.api.throttling import AnonRateThrottle, UserRateThrottle
 from weblate.auth.models import User
 from weblate.middleware import ProxyMiddleware
 from weblate.utils.environment import get_env_json
-
-if TYPE_CHECKING:
-    from rest_framework.request import Request
 
 
 class RateLimitedView(APIView):
@@ -102,7 +99,9 @@ class ApiRateLimitTest(SimpleTestCase):
                     REMOTE_ADDR="192.0.2.42",
                     HTTP_X_FORWARDED_FOR=forwarded,
                 )
-                self.assertEqual(AnonRateThrottle().get_ident(request), "192.0.2.42")
+                self.assertEqual(
+                    AnonRateThrottle().get_ident(Request(request)), "192.0.2.42"
+                )
 
         self.assertEqual(self.request(forwarded="6.6.6.6").status_code, 200)
         self.assertEqual(self.request(forwarded="7.7.7.7").status_code, 429)
