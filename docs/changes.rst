@@ -7,6 +7,8 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
+
 .. rubric:: Security fixes
 
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
