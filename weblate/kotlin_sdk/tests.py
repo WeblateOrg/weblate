@@ -21,6 +21,7 @@ from django.test import Client, SimpleTestCase, TransactionTestCase, override_se
 from django.urls import reverse
 from django.utils import timezone
 from jsonschema.exceptions import ValidationError as SchemaValidationError
+from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory
 from translate.storage.base import ParseError as TranslateParseError
 
@@ -376,7 +377,7 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                                 self.assertEqual(
                                     register_build(
                                         current,
-                                        APIRequestFactory().post("/"),
+                                        Request(APIRequestFactory().post("/")),
                                         serializer.validated_data,
                                     ).status_code,
                                     202,
@@ -431,7 +432,9 @@ class RegistrationConcurrencyTest(RepoTestMixin, TransactionTestCase):
                 serializer.is_valid(raise_exception=True)
                 barrier.wait(timeout=10)
                 return register_build(
-                    instance, APIRequestFactory().post("/"), serializer.validated_data
+                    instance,
+                    Request(APIRequestFactory().post("/")),
+                    serializer.validated_data,
                 ).status_code
             finally:
                 connections.close_all()
@@ -987,7 +990,9 @@ class KotlinSDKTest(ReusableViewTestCase):
             patch("weblate.kotlin_sdk.tasks.publish_kotlin_sdk.delay_on_commit"),
         ):
             result = register_build(
-                addon.instance, APIRequestFactory().post("/"), serializer.validated_data
+                addon.instance,
+                Request(APIRequestFactory().post("/")),
+                serializer.validated_data,
             )
         self.assertEqual(result.status_code, 202)
         self.assertEqual(
@@ -1049,7 +1054,7 @@ class KotlinSDKTest(ReusableViewTestCase):
         serializer = BuildMetadataSerializer(data=metadata(2))
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        request = APIRequestFactory().post("/")
+        request = Request(APIRequestFactory().post("/"))
         with (
             patch("weblate.kotlin_sdk.api.build_status", return_value={}),
             patch("weblate.kotlin_sdk.tasks.publish_kotlin_sdk.delay_on_commit"),
@@ -1775,7 +1780,9 @@ class KotlinSDKTest(ReusableViewTestCase):
             self.captureOnCommitCallbacks(execute=True),
         ):
             response = register_build(
-                addon.instance, APIRequestFactory().post("/"), serializer.validated_data
+                addon.instance,
+                Request(APIRequestFactory().post("/")),
+                serializer.validated_data,
             )
             self.assertEqual(response.status_code, 202)
         enqueue.assert_called_once_with(addon.instance.pk)
