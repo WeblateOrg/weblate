@@ -11,6 +11,7 @@ Weblate 2026.11.1
 
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.
+* Prevented a removed invitation from granting access, including site-wide superuser status, when it was being accepted at the same time.
 
 .. rubric:: Bug fixes
 
