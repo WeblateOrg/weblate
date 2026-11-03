@@ -3933,6 +3933,18 @@ Statistics
 Metrics
 +++++++
 
+.. http:get:: /api/activity/
+
+    Returns global daily activity and up to ten recently active projects visible
+    to the authenticated user. Authentication is required.
+
+    ``daily_activity`` contains 52 daily translation-change counts, oldest first,
+    ending today. ``projects`` contains project statistics with positive
+    ``recent_changes`` and a non-null ``last_change``, ordered by newest change
+    first, with project ID breaking ties. Fewer than ten projects can be returned.
+    The global totals retain the same instance-wide scope as the former
+    ``/activity/month.json`` endpoint, which has been removed.
+
 .. http:get:: /api/metrics/
 
     Returns server metrics.

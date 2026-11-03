@@ -5,6 +5,8 @@ Weblate 2026.11.1
 
 .. rubric:: New features
 
+* Added authenticated :http:get:`/api/activity/` for daily activity and recently active projects.
+
 .. rubric:: Improvements
 
 .. rubric:: Security fixes
@@ -17,6 +19,8 @@ Weblate 2026.11.1
 * Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
 
 .. rubric:: Compatibility
+
+* Removed ``/activity/month.json``; use :http:get:`/api/activity/` instead.
 
 .. rubric:: Upgrading
 
