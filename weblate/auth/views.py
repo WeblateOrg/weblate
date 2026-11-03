@@ -274,6 +274,45 @@ class InvitationView(DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+    def handle_admin_action(
+        self, request: AuthenticatedHttpRequest, action: str
+    ) -> HttpResponse:
+        invitation = self.object
+        user = request.user
+        if action == "remove" and not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
+        project = invitation.group.defining_project
+        workspace = invitation.group.defining_workspace
+        # Permission check
+        if project:
+            allowed = user.has_perm("project.permissions", project)
+        elif workspace:
+            allowed = user.has_perm("workspace.edit_members", workspace)
+        else:
+            check_management_access(request, "user.edit")
+            allowed = True
+        if not allowed:
+            raise PermissionDenied
+
+        # Perform admin action
+        if action == "resend":
+            invitation.send_email()
+            messages.success(request, gettext("User invitation e-mail was sent."))
+        elif invitation.revoke():
+            messages.success(request, gettext("User invitation was removed."))
+        else:
+            messages.error(
+                request,
+                gettext("This invitation was already accepted or removed."),
+            )
+
+        # Redirect
+        if project:
+            return redirect("manage-access", project=project.slug)
+        if workspace:
+            return redirect(workspace)
+        return redirect("manage-users")
+
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
         self.object = invitation = self.get_object()
         user = request.user
@@ -281,39 +320,7 @@ class InvitationView(DetailView):
         # Handle admin actions first
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
-            if action == "remove" and not has_recent_sensitive_verification(request):
-                return sensitive_verification_redirect(request, request.path)
-            project = invitation.group.defining_project
-            workspace = invitation.group.defining_workspace
-            # Permission check
-            if project:
-                allowed = user.has_perm("project.permissions", project)
-            elif workspace:
-                allowed = user.has_perm("workspace.edit_members", workspace)
-            else:
-                check_management_access(request, "user.edit")
-                allowed = True
-            if not allowed:
-                raise PermissionDenied
-
-            # Perform admin action
-            if action == "resend":
-                invitation.send_email()
-                messages.success(request, gettext("User invitation e-mail was sent."))
-            elif invitation.revoke():
-                messages.success(request, gettext("User invitation was removed."))
-            else:
-                messages.error(
-                    request,
-                    gettext("This invitation was already accepted or removed."),
-                )
-
-            # Redirect
-            if project:
-                return redirect("manage-access", project=project.slug)
-            if workspace:
-                return redirect(workspace)
-            return redirect("manage-users")
+            return self.handle_admin_action(request, action)
 
         # Check if invitation can be accepted
         if not user.is_authenticated:
