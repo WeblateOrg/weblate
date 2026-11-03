@@ -25,10 +25,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-16 04:33+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"PO-Revision-Date: 2026-10-30 05:04+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1319,6 +1319,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "ダーク"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "続行するには、二要素認証による本人確認が必要です。"
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "セキュリティキー（%s）"
@@ -1434,9 +1437,6 @@ msgstr "サインアウトしました"
 
 msgid "Verify new e-mail address"
 msgstr "新しいメールアドレスの確認"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "続行するには、二要素認証による本人確認が必要です。"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "パスワードをリセットできません。メール認証の設定が無効です。"
@@ -1660,6 +1660,10 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr "機械翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
+
+#, python-format
+msgid "Error: %s"
+msgstr "エラー: %s"
 
 msgid "enabled"
 msgstr "有効"
@@ -1942,7 +1946,9 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "一括編集"
 
-msgid "Bulk edit flags, labels, or states of strings."
+#, fuzzy
+#| msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2081,6 +2087,24 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Comment extraction"
+msgstr "コンポーネントの警告"
+
+#, fuzzy
+#| msgid "words"
+msgid "Keywords"
+msgstr "単語"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update behavior"
+msgstr "査読を開始する"
+
 msgid "This field is required."
 msgstr "必須項目です."
 
@@ -2131,6 +2155,11 @@ msgstr ""
 "POTFILES または POTFILES.in へのリポジトリ相対パスを指定します。エントリはリ"
 "ポジトリのルートを基準に決定します。マニフェストと同じ場所に POTFILES.skip が"
 "存在する場合、記載されたファイルは抽出対象から除外します。"
+
+#, fuzzy
+#| msgid "Font file"
+msgid "Input files"
+msgstr "フォントファイル"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "リポジトリ内のシンボリックリンクが無効です。"
@@ -2370,6 +2399,22 @@ msgstr "存在しないファイルのコンポーネントの削除"
 msgid "I confirm the above matches look correct"
 msgstr "上記の一致が正しいかを確認する"
 
+#, fuzzy
+#| msgid "File encoding"
+msgid "File matching"
+msgstr "ファイルのエンコーディング"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Component source language"
+msgid "Component naming and file templates"
+msgstr "コンポーネントの原文の言語"
+
+#, fuzzy
+#| msgid "Component locked"
+msgid "Component lifecycle"
+msgstr "コンポーネントのロック"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "一般的なプリセット: %(name)s [%(details)s]"
@@ -2551,6 +2596,26 @@ msgstr "原文の文字列の長さに応じて、可変文言を繰り返す回
 msgid "Include read-only strings"
 msgstr "翻訳禁止の文字列を含める"
 
+#, fuzzy
+#| msgid "Source language"
+msgid "Source and target"
+msgstr "原文の言語"
+
+#, fuzzy
+#| msgid "Prepended static text"
+msgid "Prepended text"
+msgstr "先頭に追加する定型文"
+
+#, fuzzy
+#| msgid "Appended static text"
+msgid "Appended text"
+msgstr "末尾に追加する定型文"
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Text expansion"
+msgstr "テキストの方向"
+
 msgid "The source and target have to be different languages."
 msgstr "原文と翻訳先の言語は、異なる言語でなければなりません。"
 
@@ -2637,6 +2702,22 @@ msgstr "再試行の遅延"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Broker connection"
+msgstr "翻訳のホスティング"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Event selection"
+msgstr "プロジェクトの選択"
 
 #, fuzzy
 #| msgid "String contains control character: %s"
@@ -3184,6 +3265,9 @@ msgstr "翻訳文が長すぎます！"
 
 msgid "Your suggestion already exists!"
 msgstr "すでに提案済みです！"
+
+msgid "Search query"
+msgstr "検索クエリ"
 
 #, fuzzy
 #| msgid "Choose either a project or a workspace."
@@ -4225,6 +4309,134 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "最近の更新"
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change events"
+msgstr "すべての変更イベント"
+
+#, fuzzy
+#| msgid "The category does not belong to the selected project."
+msgid "The workflow runs for each of the selected events."
+msgstr "このカテゴリは、選択したプロジェクトに属していません。"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "CEL expression"
+msgstr "正規表現"
+
+#, fuzzy
+#| msgid "The translation has come to an end."
+msgid "The expression has to evaluate to a boolean."
+msgstr "翻訳が最後まで到達しました。"
+
+#, fuzzy
+#| msgid "Category name"
+msgid "Category path"
+msgstr "カテゴリー名"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Slash-separated category path inside the project."
+msgstr "親カテゴリーは同じプロジェクト内になければいけません！"
+
+msgid "Language code"
+msgstr "言語コード"
+
+#, fuzzy
+#| msgid "All change events"
+msgid "Change event"
+msgstr "すべての変更イベント"
+
+msgid "String state"
+msgstr "文字列の状態"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Action ID"
+msgstr "処理"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Move component"
+msgid "Whole component"
+msgstr "コンポーネントを移動"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Strings were changed"
+msgid "String affected by the change"
+msgstr "文字列が変更されました"
+
+#, fuzzy
+#| msgid "String state"
+msgid "String scope"
+msgstr "文字列の状態"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Default (whole component)"
+msgstr "デフォルトのコンポーネント リスト"
+
+#, fuzzy
+#| msgid "Delete string"
+msgid "Select strings"
+msgstr "文字列の削除"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "一括編集"
+
+msgid "Component update"
+msgstr "コンポーネントの更新"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Repository update"
+msgstr "リポジトリは最新の状態ではありません。"
+
+#, fuzzy
+#| msgid "Repository name"
+msgid "Repository commit"
+msgstr "リポジトリ名"
+
+#, fuzzy
+#| msgid "Repository push URL"
+msgid "Repository push"
+msgstr "リポジトリの送信先 URL"
+
+msgid "Manual run"
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Expression"
+msgstr "正規表現"
+
+#, fuzzy
+#| msgid "Component created"
+msgid "Component category"
+msgstr "コンポーネント作成"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching strings"
+msgstr "文字列の管理"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Note"
+msgid "Not"
+msgstr "備考"
+
 msgid "Additional message"
 msgstr "補足メッセージ"
 
@@ -4643,9 +4855,13 @@ msgstr "同じように翻訳されている複数形がある。"
 msgid "Inconsistent"
 msgstr "一貫性の欠如"
 
+#, fuzzy
+#| msgid ""
+#| "This string has more than one translation in this project or is "
+#| "untranslated in some components."
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 "この文字列は、このプロジェクトで複数の翻訳があるか、コンポーネントによっては"
 "翻訳されていないものもあります。"
@@ -6088,9 +6304,6 @@ msgstr "言語数の上限なし"
 msgid "Enter a valid language code."
 msgstr "正しい言語コードを入力してください。"
 
-msgid "Language code"
-msgstr "言語コード"
-
 msgid "Language name"
 msgstr "言語名"
 
@@ -6569,6 +6782,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "原文の言語を選択"
+
+msgid "disabled"
+msgstr "無効"
 
 #, fuzzy
 #| msgid ""
@@ -7152,6 +7368,11 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "プロジェクトまたはコンポーネントで設定された第二言語"
 
+#, fuzzy
+#| msgid "Update with rebase"
+msgid "Rate limit reset."
+msgstr "リベースして更新"
+
 msgid "File"
 msgstr "ファイル"
 
@@ -7477,8 +7698,23 @@ msgstr[0] "該当する原文が %(count)s 個見つかりました。"
 msgid "No new matching source strings found."
 msgstr "該当する新しい原文が見つかりませんでした。"
 
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "問い合わせ回数が多すぎます。時間をおいて実行してください。"
+
+#, fuzzy
+#| msgid "OCR data could not be downloaded. Please try again later."
+msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr "OCRデータをダウンロードできませんでした。後でもう一度お試しください。"
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not find strings in the image. Please try again."
+msgstr "チケットを起票できませんでした。後でもう一度お試しください。"
 
 #, fuzzy
 #| msgid "Delete screenshot"
@@ -8372,6 +8608,9 @@ msgstr "API キーの表示切り替え"
 msgid "API key copied to clipboard."
 msgstr "API キーをクリップボードにコピーしました。"
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr "API ルート URL:"
 
@@ -8973,6 +9212,9 @@ msgstr "ご利用いただけません"
 msgid "No components found."
 msgstr "コンポーネントが見つかりません。"
 
+msgid "Integration instructions"
+msgstr "連携の手順"
+
 msgid "Configure add-on"
 msgstr "アドオンの設定"
 
@@ -9096,8 +9338,88 @@ msgstr "前へ"
 msgid "Next"
 msgstr "次へ"
 
-msgid "Integration instructions"
-msgstr "連携の手順"
+#, fuzzy
+#| msgid "Workflow customization"
+msgid "Workflow editing mode"
+msgstr "ワークフローの設定"
+
+#, fuzzy
+#| msgid "Edit"
+msgid "Editor"
+msgstr "編集"
+
+#, fuzzy
+#| msgid "YAML file"
+msgid "YAML"
+msgstr "YAML ファイル"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr "トリガー"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+msgid "Trigger"
+msgstr "起動条件"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "警告が発生しました"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "設定"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "All conditions have to pass before any action runs."
+msgstr "全コンポーネントの翻訳の更新を許可しました。"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "設定"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "設定が正しくありません"
+
+msgid "Actions"
+msgstr "アクション"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "Operations performed in this order once the conditions pass."
+msgstr "リポジトリで操作が行われました"
+
+msgid "Action"
+msgstr "処理"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "処理"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move up"
+msgstr "移動"
+
+#, fuzzy
+#| msgid "Move"
+msgid "Move down"
+msgstr "移動"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
@@ -9161,6 +9483,24 @@ msgstr "以下のコンポーネントを作成できませんでした"
 
 msgid "No matching components were found!"
 msgstr "該当するコンポーネントは見つかりませんでした！"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9323,6 +9663,21 @@ msgstr "文字列の生成に使用されるパターン:"
 msgid "Source string"
 msgstr "原文"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+#, fuzzy
+#| msgid "Please see a documentation for more info."
+msgid "See the add-on documentation for more information."
+msgstr "詳細については、ドキュメントを確認してください。"
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9340,6 +9695,22 @@ msgid ""
 msgstr ""
 "元々のコミット メッセージは保持されますが、「翻訳者別に」を選択するか、コミッ"
 "ト メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
 
 msgid "HTTP Response"
 msgstr "HTTP レスポンス"
@@ -9435,6 +9806,11 @@ msgstr "監視中のプロジェクトの管理"
 #, fuzzy
 #| msgid "Spaces"
 msgid "My workspaces"
+msgstr "スペース"
+
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspaces"
 msgstr "スペース"
 
 msgid "Manage translated languages"
@@ -9628,9 +10004,6 @@ msgstr "表示"
 msgid "Event details"
 msgstr "イベントの詳細"
 
-msgid "Actions"
-msgstr "アクション"
-
 msgid "Download"
 msgstr "ダウンロード"
 
@@ -9737,6 +10110,114 @@ msgstr "プロジェクトのアクセス制御を変更するための権限が
 msgid "Check your billing status"
 msgstr "請求状況の確認"
 
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Checking your browser"
+msgstr "リポジトリ ブラウザー"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Working…"
+msgstr "読み込み中…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+#, fuzzy
+#| msgid "Retry delay"
+msgid "Retry"
+msgstr "再試行の遅延"
+
+msgid "Did you know?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please review and confirm the missing language changes."
+msgid "Review and confirm the bulk edit changes."
+msgstr "不足している言語の変更について、確認と査読をお願いします。"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "%(count)s 個の作業が必要な文字列"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Start review"
+msgid "Update preview"
+msgstr "査読を開始する"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr "選択"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "String"
+#| msgid_plural "Strings"
+msgid "String"
+msgstr "文字列"
+
+msgid "Changes"
+msgstr "変更"
+
+msgid "State"
+msgstr "状態"
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr "未翻訳"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags (all languages)"
+msgstr "すべての言語"
+
+msgid "Translation flags"
+msgstr "翻訳フラグ"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "Add label (all languages)"
+msgstr "すべての言語"
+
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Remove label (all languages)"
+msgstr "すべての言語を閲覧"
+
+msgid "Apply"
+msgstr "適用"
+
 msgid "Insights"
 msgstr "詳細"
 
@@ -9755,9 +10236,6 @@ msgstr "翻訳のアップロード"
 msgid "Operations"
 msgstr "操作"
 
-msgid "Search and replace"
-msgstr "検索と置換"
-
 msgid "Post announcement"
 msgstr "お知らせの投稿"
 
@@ -9766,14 +10244,6 @@ msgstr "整理または削除"
 
 msgid "Browse all changes for this language"
 msgstr "この言語のすべての変更箇所を表示"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Review changes"
-msgstr "最近の更新"
-
-msgid "Apply"
-msgstr "適用"
 
 msgid "Browse components"
 msgstr "コンポーネントの表示"
@@ -10582,9 +11052,6 @@ msgstr "査読待ち"
 msgid "Shortcut"
 msgstr "ショートカット"
 
-msgid "Action"
-msgstr "処理"
-
 msgid "Open available keyboard shortcuts."
 msgstr "利用可能なショートカットを表示する。"
 
@@ -10727,6 +11194,9 @@ msgstr "解決"
 msgid "Mark as spam"
 msgstr "迷惑と見なす"
 
+msgid "Service is no longer available"
+msgstr "サービスは利用できなくなりました"
+
 msgid "This service is installed site wide."
 msgstr "このサービスはサイト全体にインストールされています。"
 
@@ -10744,26 +11214,20 @@ msgid "workspace"
 msgstr "ワークスペース"
 
 #, fuzzy
+#| msgid "Languages limit"
+msgid "Rate limited"
+msgstr "言語数の上限"
+
+#, fuzzy
 #| msgid "This service is installed site wide."
 msgid "This service is disabled."
 msgstr "このサービスはサイト全体にインストールされています。"
-
-msgid "disabled"
-msgstr "無効"
-
-msgid "Service is no longer available"
-msgstr "サービスは利用できなくなりました"
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation explanation"
-msgid "Installation slug (optional)"
-msgstr "翻訳の説明"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10772,37 +11236,158 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Configured translation services"
-msgstr "翻訳ファイルのクリーンアップ"
+#| msgid "Hosted service"
+msgid "Inherited service"
+msgstr "ホスティング サービス"
 
 #, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
-msgid "Stop using this installation without removing its configuration."
-msgstr "文字列の追加はコンポーネントの設定で無効になっています。"
+#| msgid "This service is installed site wide."
+msgid "This service is managed at its installation scope."
+msgstr "このサービスはサイト全体にインストールされています。"
+
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Manage this installation"
+msgstr "この翻訳を使う"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "Installation slug (optional)"
+msgstr "翻訳の説明"
+
+#, fuzzy
+#| msgid "This add-on has no settings."
+msgid "This service has no settings."
+msgstr "このアドオンには設定項目がありません。"
+
+#, fuzzy
+#| msgid "Use automatic suggestions"
+msgid "Use in automations"
+msgstr "自動提案の使用"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+#, fuzzy
+#| msgid "You can now log in using password."
+msgid "You can also select it using its slug:"
+msgstr "今後、パスワードを使用してログインできるようになりました。"
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+msgid "Rate limit"
+msgstr "リクエスト数制限"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Reset rate limit"
+msgstr "リポジトリ数の上限"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "このコンポーネントは既に %s で共有されています。"
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Service control"
+msgstr "バージョン管理"
+
+#, fuzzy
+#| msgid "GitHub installation ID"
+msgid "Disable installation"
+msgstr "GitHub インストール ID"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
 
 msgid "Disable"
 msgstr "無効化"
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Enable machine translation"
+msgid "Enable installation"
+msgstr "機械翻訳の有効化"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr "有効化"
 
-#, fuzzy
-#| msgid "Remove this notification setting"
-msgid "Remove this installation and its configuration."
-msgstr "この通知設定の削除"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Exclude inherited service"
+msgstr "認証サービス URL"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
-msgstr "設定"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configured translation services"
+msgstr "翻訳ファイルのクリーンアップ"
 
 msgid "There are no services currently installed."
 msgstr "現在インストールされているサービスはありません。"
@@ -10824,6 +11409,17 @@ msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
 "サービスによっては、インストール中に追加の設定を求められるものがあります。"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation service errors"
+msgstr "翻訳のライセンス"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation domain"
+msgid "No translation service errors available."
+msgstr "翻訳のドメイン"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11889,11 +12485,6 @@ msgstr "招待状の削除"
 msgid "Check user access"
 msgstr "ユーザー アクセスの確認"
 
-#, fuzzy
-#| msgid "Spaces"
-msgid "Workspaces"
-msgstr "スペース"
-
 msgid "Add workspace"
 msgstr ""
 
@@ -12003,6 +12594,9 @@ msgstr "ON"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "OFF"
+
+msgid "Configure"
+msgstr "設定"
 
 msgid "Autoclean translation memory"
 msgstr "翻訳メモリの自動整理"
@@ -12218,24 +12812,6 @@ msgstr "%(translation)s 内での新しい貢献者"
 msgid "Donate to Weblate development"
 msgstr "Weblate に寄付をする"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "検索結果を確認してから置換してください。"
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"最初に見つかった 250 個のみを表示して置換します。さらに置換するには、再度置換"
-"を実行してください。"
-
-#, fuzzy
-#| msgid "Start review"
-msgid "Update preview"
-msgstr "査読を開始する"
-
-msgid "Replace"
-msgstr "置換"
-
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -12279,6 +12855,22 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "原文の割り当て"
 
+#, fuzzy
+#| msgid "Assigned source strings"
+msgid "Find source strings"
+msgstr "割り当てられた原文"
+
+#, fuzzy
+#| msgid "Image widgets"
+msgid "Image text"
+msgstr "画像ウィジェット"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+msgid "Add selected"
+msgstr "選択中の項目を追加"
+
 msgid "Source string search"
 msgstr "原文の検索"
 
@@ -12291,17 +12883,6 @@ msgstr ""
 #| msgid "View check documentation"
 msgid "Search query syntax documentation"
 msgstr "検査ドキュメントの表示"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-#, fuzzy
-#| msgid "Include strings needing editing"
-msgid "Find strings in image"
-msgstr "要修正な文字列を含める"
-
-msgid "Add selected"
-msgstr "選択中の項目を追加"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -12518,8 +13099,8 @@ msgstr "すべての原文を選択"
 msgid "Select string for bulk edit"
 msgstr "要修正マーク付きの文字列"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr "指定した種類に該当するすべての文字列の状態を、一括で変更できます。"
+msgid "Choose which strings to edit and the changes to apply."
+msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
@@ -12635,9 +13216,6 @@ msgstr "翻訳文の最大文字列長は、原文の長さまたはフラグに
 msgid "Clone to translation"
 msgstr "翻訳にコピー"
 
-msgid "Select"
-msgstr "選択"
-
 msgid "Target string"
 msgstr "翻訳文"
 
@@ -12687,7 +13265,6 @@ msgstr "リポジトリの URL をクリップボードにコピーしました�
 msgid "Last remote commit"
 msgstr "最後のリモート コミット"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(date)s %(author)s が記述しました"
@@ -13143,9 +13720,6 @@ msgstr "キー / コンテキスト文字列"
 msgid "Location strings"
 msgstr "原文の参照場所"
 
-msgid "String state"
-msgstr "文字列の状態"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "採用待ちの文字列"
@@ -13331,9 +13905,6 @@ msgstr "あなたの翻訳は foo になっています"
 #| msgid "SAP username"
 msgid "Saved search name"
 msgstr "SAP ユーザー名"
-
-msgid "Search query"
-msgstr "検索クエリ"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -14159,6 +14730,16 @@ msgid ""
 "translations."
 msgstr "Weblate は翻訳の更新中に翻訳ファイルを解析できませんでした。"
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
 
@@ -14295,9 +14876,6 @@ msgstr "ジャンプ先"
 msgid "Go"
 msgstr "問題なし"
 
-msgid "Changes"
-msgstr "変更"
-
 msgid "Download latest changes as CSV"
 msgstr "最新の変更点を CSV でダウンロード"
 
@@ -14370,11 +14948,6 @@ msgid ""
 msgstr ""
 "既存の翻訳コンポーネントの追加ブランチ用に、新しい翻訳コンポーネントを作成し"
 "ます。"
-
-#, fuzzy
-#| msgid "Retry delay"
-msgid "Retry"
-msgstr "再試行の遅延"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -16629,6 +17202,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "リポジトリをマージできません。"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not customize the pull request."
+msgstr "リポジトリをマージできません。"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "リポジトリは最新の状態ではありません。"
 
@@ -16653,6 +17232,19 @@ msgstr "Java MessageFormat のアポストロフィの扱い"
 
 msgid "Trailing and leading whitespace"
 msgstr "文頭と文末の空白"
+
+#, fuzzy
+#| msgid "Automatic translation completed, no strings were updated."
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "自動翻訳が完了しましたが、文字列は更新されませんでした。"
+
+#, fuzzy, python-format
+#| msgid "Automatic translation completed, %d string was updated."
+#| msgid_plural "Automatic translation completed, %d strings were updated."
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "自動翻訳が完了し、 %d 個の文字列が更新されました。"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自動翻訳が完了しましたが、文字列は更新されませんでした。"
@@ -16741,6 +17333,9 @@ msgstr "重複した翻訳。"
 msgid "Screenshot image is missing."
 msgstr "スクリーンショット画像がありません。"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 #, fuzzy
 #| msgid "Duplicated file mask."
 msgid "Duplicate check name."
@@ -16758,6 +17353,11 @@ msgstr ""
 #| msgid "Duplicate this component"
 msgid "Duplicate component slug."
 msgstr "コンポーネントの複製"
+
+#, fuzzy
+#| msgid "Translation reviews are not enabled."
+msgid "Translation revision has an invalid format."
+msgstr "翻訳の査読は無効になっています。"
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -16840,10 +17440,48 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "バージョンコントロールの設定"
+
+msgid "File format parameters"
+msgstr "ファイル形式パラメータ"
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "ローカルリポジトリは最新の状態です。"
+
+#, fuzzy
+#| msgid "Invalid search query!"
+msgid "Invalid search type."
+msgstr "検索文字列が無効です！"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid request."
+msgid "Invalid target state."
+msgstr "無効なリクエストです。"
+
+#, fuzzy
+#| msgid "How to handle requests for creating new translations."
+msgid "Choose either replacement or clearing translations."
+msgstr "新しい翻訳を作成する要求の処理方法。"
 
 msgid "The component was automatically locked because of an alert."
 msgstr "警告が発生したため、コンポーネントが自動的にロックされました。"
@@ -16982,9 +17620,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "バージョン管理"
-
-msgid "State"
-msgstr "状態"
 
 msgid "Severity"
 msgstr "重大度"
@@ -18007,18 +18642,6 @@ msgstr "プロジェクトのバックアップの読み込みに失敗しまし
 msgid "Could not load project backup."
 msgstr "プロジェクトのバックアップの読み込みに失敗しました: %s"
 
-msgid "Optional additional filter applied to the strings"
-msgstr "文字列に適用するオプションの追加フィルター"
-
-msgid "Search string"
-msgstr "検索文字列"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "大文字と小文字を区別して、検索および置換する。"
-
-msgid "Replacement string"
-msgstr "置換文字列"
-
 #, fuzzy
 #| msgid "Screenshot context"
 msgid "Key or context"
@@ -18075,45 +18698,108 @@ msgstr "用語集に固有の用語を作成する権限がありません。"
 msgid "Invalid string selection!"
 msgstr "無効な提案です！"
 
+msgid "Search type"
+msgstr "検索の種類"
+
+msgid "Text"
+msgstr "テキスト"
+
+msgid "Search string"
+msgstr "検索文字列"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr "置換文字列"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr "翻訳状態の設定"
 
 msgid "Do not change"
 msgstr "変更しない"
 
-msgid "Source flags to add — all languages"
-msgstr ""
+#, fuzzy
+#| msgid "Edit label"
+msgid "Add flags"
+msgstr "ラベルの編集"
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove flags"
+msgstr "削除"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
 #, fuzzy
-#| msgid "Translation flags to add"
-msgid "Translation flags to add — matching translations"
-msgstr "追加する翻訳フラグ"
+#| msgid "Add label"
+msgid "Add labels"
+msgstr "ラベルの追加"
+
+#, fuzzy
+#| msgid "Remove duplicates"
+msgid "Remove labels"
+msgstr "重複の削除"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview changes"
+msgstr "最近の更新"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Choose flags to remove…"
+msgstr "削除するコンポーネント"
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags"
+msgstr "原文の言語"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
+msgstr ""
+
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
 msgstr "初期値として原文を翻訳に代入する。"
 
-#, fuzzy
-#| msgid "Translation flags to remove"
-msgid "Translation flags to remove — matching translations"
-msgstr "削除する翻訳フラグ"
-
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
 msgstr ""
 
-#, fuzzy
-#| msgid "For all languages"
-msgid "Labels to add — all languages"
-msgstr "すべての言語"
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
 
-#, fuzzy
-#| msgid "Labels to remove"
-msgid "Labels to remove — all languages"
-msgstr "削除するラベル"
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
 
 msgid "Select strings to edit or enter a search query."
 msgstr ""
@@ -18364,9 +19050,6 @@ msgstr "カテゴリー名"
 
 msgid "Display name"
 msgstr "表示名"
-
-msgid "Translation flags"
-msgstr "翻訳フラグ"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Weblate の動作に影響を与える追加のコンマ区切りフラグ。"
@@ -18699,11 +19382,6 @@ msgstr ""
 "サードパーティのプロバイダーと連携して、プルリクエスト / マージリクエストを送"
 "信できます。"
 
-#, fuzzy
-#| msgid "Version control settings"
-msgid "Version control parameters"
-msgstr "バージョンコントロールの設定"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -18832,9 +19510,6 @@ msgid ""
 msgstr ""
 "新しい翻訳の作成に使用するファイルのファイル名。gettext では .pot ファイルを"
 "選択します。"
-
-msgid "File format parameters"
-msgstr "ファイル形式パラメータ"
 
 msgid "Locked component will not get any translation updates."
 msgstr "ロックしたコンポーネントは、翻訳を更新できません。"
@@ -20808,17 +21483,6 @@ msgstr "ユーザー データのダウンロード"
 msgid "Excluded user days"
 msgstr "作成者（ユーザー名）を除外"
 
-msgid "Could not process form!"
-msgstr "フォームの処理に失敗しました！"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "検索と置換が完了しました。文字列は更新されていません。"
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "検索と置換が完了しました。 %d 個の文字列を更新しました。"
-
 #, python-format
 msgid "Search for %s"
 msgstr "%s の検索"
@@ -20828,6 +21492,17 @@ msgstr "問い合わせ回数が多すぎます。時間をおいて実行して
 
 msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr "フォームの処理に失敗しました！"
+
+#, fuzzy, python-format
+#| msgid "Authentication failed: %s"
+msgid "Bulk edit failed: %s"
+msgstr "認証に失敗: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "一括編集が完了しましたが、1 文字も更新されていません。"
@@ -21000,6 +21675,129 @@ msgid "Invalid host name given!"
 msgstr "無効なホスト名です！"
 
 #, fuzzy
+#| msgid "JSX expressions in the translation do not match the source."
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "翻訳文のJSX 表現が原文と不一致。"
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use flags to indicate special strings in your translation."
+msgid "Use labels to organize strings and find related translation work."
+msgstr "フラグを使用して、翻訳内の特別な文字列を示します。"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestion removed during cleanup"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "クリーンアップ処理での提案の削除"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression to match translation files against"
+msgid "Regular expression evaluation timed out."
+msgstr "翻訳ファイルを照合する正規表現"
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid regular expression: {}"
+msgid "Invalid regular expression or replacement: %s"
+msgstr "正規表現が正しくありません: {}"
+
+#, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "自動翻訳の参照元"
@@ -21011,6 +21809,11 @@ msgstr "対象が存在しないため、自動翻訳されませんでした。
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "Automatic translation reported an error."
+msgstr "自動翻訳の参照元"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -21172,6 +21975,11 @@ msgid "Could not resolve the URL domain."
 msgstr "ドメインの解決に失敗した URL：%s"
 
 #, fuzzy
+#| msgid "Invalid parameters!"
+msgid "Invalid stored parameter value."
+msgstr "パラメータが正しくありません！"
+
+#, fuzzy
 #| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
@@ -21198,6 +22006,11 @@ msgid ""
 msgstr ""
 "指定された URL からアセットをダウンロードできませんでした（HTTP ステータス"
 "コード：%(code)s）。"
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression is too complex."
+msgstr "正規表現"
 
 msgid "Search query is too complex."
 msgstr ""
@@ -21229,6 +22042,12 @@ msgstr "正規表現が正しくありません: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "{field} に対する検索条件には対応していません: {value}"
 
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A concrete project or component is required."
+msgstr "新しい翻訳コンポーネントが作成されました"
+
 msgid "Could not parse IP address: {}"
 msgstr "解析できない IP アドレス：{}"
 
@@ -21244,6 +22063,11 @@ msgstr "{field} に対する検索条件には対応していません: {value}"
 
 msgid "Mixed operators!"
 msgstr "演算子が混在しています！"
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "Search query is too long."
+msgstr "原文の査読が必要です。"
 
 msgid "Invalid character in the query string"
 msgstr "クエリ文字列に無効な文字があります"
@@ -21618,6 +22442,37 @@ msgstr ""
 #| msgid "%(message)s Please retry later."
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "%(message)s 時間をおいてやり直してください。"
+
+#, fuzzy, python-format
+#| msgid "%(message)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr "%(message)s 時間をおいてやり直してください。"
+
+#, fuzzy, python-format
+#| msgid "%(message)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr "%(message)s 時間をおいてやり直してください。"
+
+#, fuzzy, python-format
+#| msgid "%(message)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr "%(message)s 時間をおいてやり直してください。"
+
+#, fuzzy, python-format
+#| msgid "%(message)s Please retry later."
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr "%(message)s 時間をおいてやり直してください。"
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Could not get repository status!"
@@ -22039,6 +22894,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request assignee"
+msgstr "Gitea プルリクエスト"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request labels"
+msgstr "Gitea プルリクエスト"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -22627,6 +23508,23 @@ msgid "Workspace name"
 msgstr "お名前"
 
 #, fuzzy
+#| msgid "Allow translation propagation"
+msgid "Translation propagation scope"
+msgstr "翻訳の自動反映の有効化"
+
+#, fuzzy
+#| msgid "Cannot change components on a workspace team."
+msgid "Matching component name within workspace"
+msgstr "ワークスペースのチームでは、コンポーネントを変更できません。"
+
+#, fuzzy
+#| msgid ""
+#| "Whether to overwrite existing translations if the string is already "
+#| "translated."
+msgid "Where translations of matching strings are propagated."
+msgstr "文字列がすでに翻訳済みの場合、既存の翻訳を上書きするかどうか。"
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "言語名"
@@ -22668,6 +23566,74 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "ワークスペースを削除しました。"
+
+#~ msgid "Search and replace"
+#~ msgstr "検索と置換"
+
+#, fuzzy
+#~| msgid "Adding strings is disabled in the component configuration."
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr "文字列の追加はコンポーネントの設定で無効になっています。"
+
+#, fuzzy
+#~| msgid "Remove this notification setting"
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "この通知設定の削除"
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "検索結果を確認してから置換してください。"
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "最初に見つかった 250 個のみを表示して置換します。さらに置換するには、再度"
+#~ "置換を実行してください。"
+
+#~ msgid "Replace"
+#~ msgstr "置換"
+
+#, fuzzy
+#~| msgid "Include strings needing editing"
+#~ msgid "Find strings in image"
+#~ msgstr "要修正な文字列を含める"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr "指定した種類に該当するすべての文字列の状態を、一括で変更できます。"
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "文字列に適用するオプションの追加フィルター"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "大文字と小文字を区別して、検索および置換する。"
+
+#, fuzzy
+#~| msgid "Translation flags to add"
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "追加する翻訳フラグ"
+
+#, fuzzy
+#~| msgid "Translation flags to remove"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "削除する翻訳フラグ"
+
+#, fuzzy
+#~| msgid "For all languages"
+#~ msgid "Labels to add — all languages"
+#~ msgstr "すべての言語"
+
+#, fuzzy
+#~| msgid "Labels to remove"
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "削除するラベル"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "検索と置換が完了しました。文字列は更新されていません。"
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "検索と置換が完了しました。 %d 個の文字列を更新しました。"
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "名前はバージョンコントロールシステムのコミットにも使われます。"
@@ -22809,10 +23775,6 @@ msgstr "ワークスペースを削除しました。"
 #~ "Could not authenticate, probably due to an expired token or connection "
 #~ "error."
 #~ msgstr "期限切れのトークンまたは接続エラーが原因で認証できません。"
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "認証に失敗: %s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "認証プロバイダに到達できません。"
@@ -23105,9 +24067,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Repository URL"
 #~ msgstr "リポジトリ URL"
 
-#~ msgid "Repository name"
-#~ msgstr "リポジトリ名"
-
 #~ msgid "Configure component"
 #~ msgstr "コンポーネントの設定"
 
@@ -23396,9 +24355,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "翻訳者に詳細内容を提供する"
-
-#~ msgid "Workflow customization"
-#~ msgstr "ワークフローの設定"
 
 #~ msgid "Add team"
 #~ msgstr "チームの追加"
@@ -23936,9 +24892,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "二要素認証の無効化"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "翻訳の査読は無効になっています。"
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "査読は無効になっています。"
 
@@ -24107,9 +25060,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Rename component"
 #~ msgstr "コンポーネントの名前を変更"
-
-#~ msgid "Move component"
-#~ msgstr "コンポーネントを移動"
 
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "コンポーネントを移動すると、その URL も変更されます。"
@@ -24557,9 +25507,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "source"
 #~ msgstr "原文"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "パラメータが正しくありません！"
-
 #~ msgid "Not translated strings"
 #~ msgstr "未翻訳の文字列"
 
@@ -24568,11 +25515,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Strings needing action"
 #~ msgstr "作業が必要な文字列"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s 個の作業が必要な文字列"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -25026,9 +25968,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Use this translation for all components"
 #~ msgstr "すべてのコンポーネントでこの翻訳を使う"
 
-#~ msgid "Use this translation"
-#~ msgstr "この翻訳を使う"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "この翻訳と比較した場合の差異:"
 
@@ -25300,9 +26239,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr ""
 #~ "今後、{method} ({name}) を使用してログインできないようになりました。"
-
-#~ msgid "You can now log in using password."
-#~ msgstr "今後、パスワードを使用してログインできるようになりました。"
 
 #~ msgid "New whiteboard message"
 #~ msgstr "新しいホワイトボード メッセージ"
@@ -25637,9 +26573,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Your languages"
 #~ msgstr "あなたの母国語"
 
-#~ msgid "Search type"
-#~ msgstr "検索の種類"
-
 #~ msgid "Fulltext"
 #~ msgstr "全文検索"
 
@@ -25676,9 +26609,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
-
-#~ msgid "Repositories limit"
-#~ msgstr "リポジトリ数の上限"
 
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr ""
@@ -27704,9 +28634,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "End date"
 #~ msgstr "終了日"
-
-#~ msgid "Text"
-#~ msgstr "テキスト"
 
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "場所にもよりますが、 HTML を利用することができます。"

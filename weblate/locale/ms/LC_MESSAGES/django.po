@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
 "PO-Revision-Date: 2026-10-16 04:39+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1360,6 +1360,9 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr ""
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
 #, python-format
 msgid "Security key (%s)"
 msgstr ""
@@ -1470,9 +1473,6 @@ msgstr ""
 #| msgid "Username or e-mail"
 msgid "Verify new e-mail address"
 msgstr "Nama pengguna atau e-mel"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1668,6 +1668,10 @@ msgstr "Terjemahan automatik"
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
+msgstr ""
+
+#, python-format
+msgid "Error: %s"
 msgstr ""
 
 msgid "enabled"
@@ -1936,7 +1940,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr ""
 
-msgid "Bulk edit flags, labels, or states of strings."
+msgid "Bulk edit text, flags, labels, or states of strings."
 msgstr ""
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
@@ -2070,6 +2074,23 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Comment extraction"
+msgstr "Komponen: {}"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Keywords"
+msgstr "Kata laluan"
+
+msgid "Checks and ITS data"
+msgstr ""
+
+#, fuzzy
+msgid "Update behavior"
+msgstr "Perlukan penyuntingan"
+
 msgid "This field is required."
 msgstr ""
 
@@ -2114,6 +2135,9 @@ msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
+msgstr ""
+
+msgid "Input files"
 msgstr ""
 
 msgid "Invalid symbolic link in a repository."
@@ -2322,6 +2346,21 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
+#, fuzzy
+#| msgid "Full name"
+msgid "File matching"
+msgstr "Nama penuh"
+
+#, fuzzy
+#| msgid "Component list: %s"
+msgid "Component naming and file templates"
+msgstr "Senarai komponen: %s"
+
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Component lifecycle"
+msgstr "Komponen: {}"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr ""
@@ -2498,6 +2537,22 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr ""
 
+#, fuzzy
+#| msgid "Current password"
+msgid "Source and target"
+msgstr "Kata laluan semasa"
+
+msgid "Prepended text"
+msgstr ""
+
+msgid "Appended text"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Text expansion"
+msgstr "Kata laluan semasa"
+
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -2586,6 +2641,21 @@ msgstr ""
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+
+#, fuzzy
+msgid "Broker connection"
+msgstr "Pentadbiran"
+
+msgid "Timeouts and retries"
+msgstr ""
+
+msgid "TLS credentials"
+msgstr ""
+
+#, fuzzy
+#| msgid "Accept suggestion"
+msgid "Event selection"
+msgstr "Terima cadangan"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr ""
@@ -3116,6 +3186,10 @@ msgstr "Teks terjemahan terlalu panjang!"
 
 msgid "Your suggestion already exists!"
 msgstr ""
+
+#, fuzzy
+msgid "Search query"
+msgstr "Penapis carian"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4199,6 +4273,124 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Perubahan terkini"
 
+#, fuzzy
+msgid "Change events"
+msgstr "Perubahan terkini"
+
+msgid "The workflow runs for each of the selected events."
+msgstr ""
+
+msgid "CEL expression"
+msgstr ""
+
+msgid "The expression has to evaluate to a boolean."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Category path"
+msgstr "Nama anda"
+
+msgid "Slash-separated category path inside the project."
+msgstr ""
+
+msgid "Language code"
+msgstr "Kod bahasa"
+
+#, fuzzy
+msgid "Change event"
+msgstr "Perubahan terkini"
+
+msgid "String state"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Action ID"
+msgstr "Nama anda"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Whole component"
+msgstr "Komen dibuat"
+
+#, fuzzy
+#| msgid "Password reset requested."
+msgid "String affected by the change"
+msgstr "Tetapan semula kata laluan diminta."
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "String scope"
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Default (whole component)"
+msgstr "Komen dibuat"
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Select strings"
+msgstr "Cadangan dibuat"
+
+msgid "Use the effective AI quality add-on"
+msgstr ""
+
+#, fuzzy
+msgid "Bulk editing"
+msgstr "Perlukan penyuntingan"
+
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Component update"
+msgstr "Komponen: {}"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Repository update"
+msgstr "Projek terurus"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Repository commit"
+msgstr "Projek terurus"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Repository push"
+msgstr "Projek terurus"
+
+msgid "Manual run"
+msgstr ""
+
+msgid "Expression"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Component category"
+msgstr "Komponen: {}"
+
+#, fuzzy
+msgid "Matching strings"
+msgstr "Perubahan terkini"
+
+msgid "All of"
+msgstr ""
+
+msgid "Any of"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Short name of month"
+#| msgid "Nov"
+msgid "Not"
+msgstr "Nov"
+
 msgid "Additional message"
 msgstr ""
 
@@ -4612,8 +4804,8 @@ msgid "Inconsistent"
 msgstr ""
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
 
 #, fuzzy
@@ -6023,9 +6215,6 @@ msgstr "Bahasa"
 msgid "Enter a valid language code."
 msgstr "Kod bahasa"
 
-msgid "Language code"
-msgstr "Kod bahasa"
-
 msgid "Language name"
 msgstr "Nama bahasa"
 
@@ -6482,6 +6671,9 @@ msgstr ""
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Kata laluan semasa"
+
+msgid "disabled"
+msgstr ""
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7056,6 +7248,9 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr ""
 
+msgid "Rate limit reset."
+msgstr ""
+
 msgid "File"
 msgstr "Fail"
 
@@ -7388,9 +7583,22 @@ msgstr[0] "Cadangan dibuat"
 msgid "No new matching source strings found."
 msgstr "Cadangan dibuat"
 
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+
 #, fuzzy
 #| msgid "That was not correct, please try again."
-msgid "OCR data could not be downloaded. Please try again later."
+msgid "Too many image text searches. Please try again later."
+msgstr "Salah, sila cuba lagi."
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr "Salah, sila cuba lagi."
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not find strings in the image. Please try again."
 msgstr "Salah, sila cuba lagi."
 
 msgid "Select a valid screenshot."
@@ -8195,6 +8403,9 @@ msgstr ""
 msgid "API key copied to clipboard."
 msgstr ""
 
+msgid "Verify your identity to view your API key"
+msgstr ""
+
 msgid "API root URL:"
 msgstr ""
 
@@ -8750,6 +8961,9 @@ msgstr ""
 msgid "No components found."
 msgstr "Cadangan dibuat"
 
+msgid "Integration instructions"
+msgstr ""
+
 msgid "Configure add-on"
 msgstr ""
 
@@ -8868,7 +9082,70 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-msgid "Integration instructions"
+msgid "Workflow editing mode"
+msgstr ""
+
+msgid "Editor"
+msgstr ""
+
+msgid "YAML"
+msgstr ""
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add group"
+msgid "Add trigger"
+msgstr "Tambah kumpulan"
+
+#, fuzzy
+msgid "Conditions"
+msgstr "Pentadbiran"
+
+msgid "All conditions have to pass before any action runs."
+msgstr ""
+
+#, fuzzy
+msgid "Condition"
+msgstr "Pentadbiran"
+
+msgid "Add condition"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Operations performed in this order once the conditions pass."
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Add action"
+msgstr "Terjemahan automatik"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Move up"
+msgstr "Projek terurus"
+
+msgid "Move down"
 msgstr ""
 
 msgid "Published translation files are available from the CDN base URL:"
@@ -8930,6 +9207,24 @@ msgid "The following components could not be created"
 msgstr ""
 
 msgid "No matching components were found!"
+msgstr ""
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr ""
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
 msgstr ""
 
 msgid ""
@@ -9076,6 +9371,19 @@ msgstr ""
 msgid "Source string"
 msgstr ""
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+
+msgid "See the add-on documentation for more information."
+msgstr ""
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9084,6 +9392,22 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" or \"Per author and language\" is selected, or the commit message "
 "is customized to include it."
+msgstr ""
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9184,6 +9508,9 @@ msgstr ""
 #| msgid "Managed projects"
 msgid "My workspaces"
 msgstr "Projek terurus"
+
+msgid "Workspaces"
+msgstr ""
 
 msgid "Manage translated languages"
 msgstr ""
@@ -9376,9 +9703,6 @@ msgstr ""
 msgid "Event details"
 msgstr ""
 
-msgid "Actions"
-msgstr ""
-
 msgid "Download"
 msgstr ""
 
@@ -9481,6 +9805,98 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
+msgid "Checking your browser"
+msgstr ""
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+
+msgid "Working…"
+msgstr ""
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Did you know?"
+msgstr ""
+
+msgid "Review and confirm the bulk edit changes."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Component list: %s"
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Senarai komponen: %s"
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+
+#, fuzzy
+msgid "Update preview"
+msgstr "Perlukan penyuntingan"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr ""
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "String"
+msgstr "Cadangan dibuat"
+
+msgid "Changes"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Before"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Source flags (all languages)"
+msgstr "Kata laluan semasa"
+
+msgid "Translation flags"
+msgstr ""
+
+msgid "Add label (all languages)"
+msgstr ""
+
+msgid "Remove label (all languages)"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
 msgid "Insights"
 msgstr ""
 
@@ -9499,9 +9915,6 @@ msgstr ""
 msgid "Operations"
 msgstr ""
 
-msgid "Search and replace"
-msgstr ""
-
 msgid "Post announcement"
 msgstr ""
 
@@ -9509,13 +9922,6 @@ msgid "Organize or remove"
 msgstr ""
 
 msgid "Browse all changes for this language"
-msgstr ""
-
-#, fuzzy
-msgid "Review changes"
-msgstr "Perubahan terkini"
-
-msgid "Apply"
 msgstr ""
 
 #, fuzzy
@@ -10274,9 +10680,6 @@ msgstr ""
 msgid "Shortcut"
 msgstr ""
 
-msgid "Action"
-msgstr ""
-
 msgid "Open available keyboard shortcuts."
 msgstr ""
 
@@ -10415,6 +10818,9 @@ msgstr ""
 msgid "Mark as spam"
 msgstr ""
 
+msgid "Service is no longer available"
+msgstr ""
+
 msgid "This service is installed site wide."
 msgstr ""
 
@@ -10430,26 +10836,20 @@ msgid "workspace"
 msgstr "Nama anda"
 
 #, fuzzy
+#| msgid "Language name"
+msgid "Rate limited"
+msgstr "Nama bahasa"
+
+#, fuzzy
 #| msgid "Suggestions made"
 msgid "This service is disabled."
 msgstr "Cadangan dibuat"
-
-msgid "disabled"
-msgstr ""
-
-msgid "Service is no longer available"
-msgstr ""
 
 msgid "ID"
 msgstr ""
 
 msgid "Slug"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Installation slug (optional)"
-msgstr "Pemberitahuan terjemahan"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10458,34 +10858,150 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Other projects"
+msgid "Inherited service"
+msgstr "Projek-projek lain"
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This service is managed at its installation scope."
+msgstr "Susunan dipilih tidak disokong."
+
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Manage this installation"
+msgstr "Pengesahan kata laluan baharu"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Installation slug (optional)"
+msgstr "Pemberitahuan terjemahan"
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "This service has no settings."
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Use in automations"
+msgstr "Terjemahan automatik"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+
+msgid "You can also select it using its slug:"
+msgstr ""
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language name"
+msgid "Rate limit"
+msgstr "Nama bahasa"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+
+#, fuzzy
 #| msgid "Managed projects"
-msgid "Configured translation services"
+msgid "Reset rate limit"
 msgstr "Projek terurus"
 
-msgid "Stop using this installation without removing its configuration."
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr ""
+
+msgid "Service control"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Disable installation"
+msgstr "Kata laluan semasa"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
 msgstr ""
 
 msgid "Disable"
 msgstr ""
 
-msgid "Stop using this inherited installation here."
+#, fuzzy
+#| msgid "Current password"
+msgid "Enable installation"
+msgstr "Kata laluan semasa"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
 msgstr ""
 
 msgid "Enable"
 msgstr ""
 
-#, fuzzy
-msgid "Remove this installation and its configuration."
-msgstr "Pentadbiran"
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
 
-msgid "Exclude all inherited installations of this service"
+msgid "Exclude inherited service"
+msgstr ""
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
 msgstr ""
 
 msgid "Exclude"
 msgstr ""
 
-msgid "Configure"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
 msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Configured translation services"
+msgstr "Projek terurus"
 
 msgid "There are no services currently installed."
 msgstr ""
@@ -10506,6 +11022,16 @@ msgstr ""
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation service errors"
+msgstr "Terjemahan dibuat"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "No translation service errors available."
+msgstr "Terjemahan dibuat"
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11488,9 +12014,6 @@ msgstr "Pentadbiran"
 msgid "Check user access"
 msgstr ""
 
-msgid "Workspaces"
-msgstr ""
-
 msgid "Add workspace"
 msgstr ""
 
@@ -11599,6 +12122,9 @@ msgstr ""
 
 #. Translators: Shared translation memory is disabled
 msgid "off"
+msgstr ""
+
+msgid "Configure"
 msgstr ""
 
 #, fuzzy
@@ -11799,21 +12325,6 @@ msgstr "Terjemahan automatik"
 msgid "Donate to Weblate development"
 msgstr ""
 
-msgid "Please review and confirm the search and replace results."
-msgstr ""
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-
-#, fuzzy
-msgid "Update preview"
-msgstr "Perlukan penyuntingan"
-
-msgid "Replace"
-msgstr ""
-
 msgid "Generated by"
 msgstr ""
 
@@ -11845,6 +12356,24 @@ msgstr ""
 msgid "Assign source strings"
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Find source strings"
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+#| msgid "Image"
+msgid "Image text"
+msgstr "Imej"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Add selected"
+msgstr "Projek terurus"
+
 msgid "Source string search"
 msgstr ""
 
@@ -11856,17 +12385,6 @@ msgstr ""
 #, fuzzy
 msgid "Search query syntax documentation"
 msgstr "Pentadbiran"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
-
-msgid "Find strings in image"
-msgstr ""
-
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Add selected"
-msgstr "Projek terurus"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
@@ -12056,7 +12574,7 @@ msgstr "Cadangan dibuat"
 msgid "Select string for bulk edit"
 msgstr ""
 
-msgid "You can change the state of all strings matching given type at once."
+msgid "Choose which strings to edit and the changes to apply."
 msgstr ""
 
 msgid "The operation is applied to the strings selected in the list above."
@@ -12169,9 +12687,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr ""
 
-msgid "Select"
-msgstr ""
-
 msgid "Target string"
 msgstr ""
 
@@ -12215,7 +12730,6 @@ msgstr ""
 msgid "Last remote commit"
 msgstr ""
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr ""
@@ -12663,9 +13177,6 @@ msgstr ""
 msgid "Location strings"
 msgstr ""
 
-msgid "String state"
-msgstr ""
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr ""
@@ -12834,10 +13345,6 @@ msgstr "Projek terurus"
 #| msgid "Username"
 msgid "Saved search name"
 msgstr "Nama pengguna"
-
-#, fuzzy
-msgid "Search query"
-msgstr "Penapis carian"
 
 msgid "No saved searches yet."
 msgstr ""
@@ -13581,6 +14088,16 @@ msgid ""
 "translations."
 msgstr ""
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
@@ -13699,9 +14216,6 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-msgid "Changes"
-msgstr ""
-
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -13764,9 +14278,6 @@ msgstr ""
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
-msgstr ""
-
-msgid "Retry"
 msgstr ""
 
 msgid ""
@@ -15974,6 +16485,12 @@ msgid "Could not merge the pull request automatically."
 msgstr "Kata laluan semasa"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Current password"
+msgid "Could not customize the pull request."
+msgstr "Kata laluan semasa"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr ""
 
@@ -15998,6 +16515,18 @@ msgstr ""
 
 msgid "Trailing and leading whitespace"
 msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Kata laluan semasa"
+
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Kata laluan semasa"
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
@@ -16068,6 +16597,9 @@ msgstr ""
 msgid "Screenshot image is missing."
 msgstr "Tangkapan skrin dimuat naik"
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr ""
+
 msgid "Duplicate check name."
 msgstr ""
 
@@ -16081,6 +16613,11 @@ msgstr ""
 #| msgid "Comments made"
 msgid "Duplicate component slug."
 msgstr "Komen dibuat"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation revision has an invalid format."
+msgstr "Terjemahan dibuat"
 
 #, fuzzy
 #| msgid "Current password"
@@ -16148,8 +16685,44 @@ msgid ""
 "unavailable."
 msgstr ""
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+
+msgid "Version control parameters"
+msgstr ""
+
+msgid "File format parameters"
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Invalid search type."
+msgstr "Projek terurus"
+
+msgid "Enter a search string to replace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Invalid target state."
+msgstr "Projek terurus"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Choose either replacement or clearing translations."
+msgstr "Projek terurus"
 
 msgid "The component was automatically locked because of an alert."
 msgstr ""
@@ -16281,9 +16854,6 @@ msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 
 msgid "Version control"
-msgstr ""
-
-msgid "State"
 msgstr ""
 
 msgid "Severity"
@@ -17219,18 +17789,6 @@ msgstr ""
 msgid "Could not load project backup."
 msgstr "Kata laluan semasa"
 
-msgid "Optional additional filter applied to the strings"
-msgstr ""
-
-msgid "Search string"
-msgstr ""
-
-msgid "Case-sensitive string to search for and replace."
-msgstr ""
-
-msgid "Replacement string"
-msgstr ""
-
 msgid "Key or context"
 msgstr ""
 
@@ -17283,36 +17841,99 @@ msgstr ""
 msgid "Invalid string selection!"
 msgstr "Senarai komponen: %s"
 
+#, fuzzy
+msgid "Search type"
+msgstr "Penapis carian"
+
+msgid "Text"
+msgstr ""
+
+msgid "Search string"
+msgstr ""
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+
+msgid "Replacement string"
+msgstr ""
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+
 msgid "State to set"
 msgstr ""
 
 msgid "Do not change"
 msgstr ""
 
-msgid "Source flags to add — all languages"
+msgid "Add flags"
 msgstr ""
 
-msgid "Source flags to remove — all languages"
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Remove flags"
+msgstr "Cadangan dibuat"
+
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
 
-msgid "Translation flags to add — matching translations"
+msgid "Add labels"
 msgstr ""
 
-msgid "Applies only to matching translations, excluding source strings."
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Remove labels"
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+msgid "Preview changes"
+msgstr "Perubahan terkini"
+
+msgid "Choose flags to add…"
+msgstr ""
+
+msgid "Choose flags to remove…"
 msgstr ""
 
 #, fuzzy
 #| msgid "Current password"
-msgid "Translation flags to remove — matching translations"
+msgid "Source flags"
 msgstr "Kata laluan semasa"
 
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
 msgstr ""
 
-msgid "Labels to add — all languages"
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
 msgstr ""
 
-msgid "Labels to remove — all languages"
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
 msgstr ""
 
 msgid "Select strings to edit or enter a search query."
@@ -17549,9 +18170,6 @@ msgid "Category name"
 msgstr "Nama anda"
 
 msgid "Display name"
-msgstr ""
-
-msgid "Translation flags"
 msgstr ""
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
@@ -17851,9 +18469,6 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
-msgid "Version control parameters"
-msgstr ""
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -17951,9 +18566,6 @@ msgstr ""
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr ""
-
-msgid "File format parameters"
 msgstr ""
 
 msgid "Locked component will not get any translation updates."
@@ -19601,17 +20213,6 @@ msgstr ""
 msgid "Excluded user days"
 msgstr ""
 
-msgid "Could not process form!"
-msgstr ""
-
-msgid "Search and replace completed, no strings were updated."
-msgstr ""
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] ""
-
 #, python-format
 msgid "Search for %s"
 msgstr ""
@@ -19621,6 +20222,16 @@ msgstr ""
 
 msgid "Invalid search query!"
 msgstr ""
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+
+msgid "Could not process form!"
+msgstr ""
+
+#, fuzzy, python-format
+msgid "Bulk edit failed: %s"
+msgstr "Perlukan penyuntingan"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
@@ -19798,6 +20409,124 @@ msgstr ""
 msgid "Invalid host name given!"
 msgstr ""
 
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr ""
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Use labels to organize strings and find related translation work."
+msgstr "Kata laluan semasa"
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr ""
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Cadangan dibuat"
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr ""
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+
+msgid "Cumulative regex time limit exceeded."
+msgstr ""
+
+msgid "Regex request exceeds its size limit."
+msgstr ""
+
+msgid "Regular expression evaluation timed out."
+msgstr ""
+
+msgid "Regex response exceeds its size limit."
+msgstr ""
+
+msgid "Regex output exceeds its size limit."
+msgstr ""
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr ""
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+
+#, python-format
+msgid "Invalid regular expression or replacement: %s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Current password"
 msgid "Automatic translation reported a warning."
@@ -19810,6 +20539,11 @@ msgstr "Kata laluan semasa"
 
 msgid "Task could not be completed. See the task log for details."
 msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Automatic translation reported an error."
+msgstr "Kata laluan semasa"
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -19969,6 +20703,9 @@ msgstr "Kata laluan semasa"
 msgid "Could not resolve the URL domain."
 msgstr "Kata laluan semasa"
 
+msgid "Invalid stored parameter value."
+msgstr ""
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
 
@@ -19987,6 +20724,9 @@ msgstr ""
 #, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
+msgstr ""
+
+msgid "Regular expression is too complex."
 msgstr ""
 
 msgid "Search query is too complex."
@@ -20024,6 +20764,11 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translations made"
+msgid "A concrete project or component is required."
+msgstr "Terjemahan dibuat"
+
+#, fuzzy
 #| msgid "Current password"
 msgid "Could not parse IP address: {}"
 msgstr "Kata laluan semasa"
@@ -20036,6 +20781,11 @@ msgstr ""
 
 msgid "Mixed operators!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Search query is too long."
+msgstr "Cadangan dibuat"
 
 msgid "Invalid character in the query string"
 msgstr ""
@@ -20396,6 +21146,33 @@ msgstr ""
 
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
 msgstr ""
 
 #, fuzzy, python-format
@@ -20779,6 +21556,32 @@ msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset requested."
+msgid "Pull request assignee"
+msgstr "Tetapan semula kata laluan diminta."
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+
+msgid "Assign pull requests to acting user"
+msgstr ""
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset requested."
+msgid "Pull request labels"
+msgstr "Tetapan semula kata laluan diminta."
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
 msgstr ""
 
 msgid "Merge pull requests automatically"
@@ -21303,6 +22106,21 @@ msgid "Workspace name"
 msgstr "Nama anda"
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation propagation scope"
+msgstr "Pemberitahuan terjemahan"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Matching component name within workspace"
+msgstr "Projek terurus"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Where translations of matching strings are propagated."
+msgstr "Terjemahan dibuat"
+
+#, fuzzy
 #| msgid "Language name"
 msgid "Managed name"
 msgstr "Nama bahasa"
@@ -21333,6 +22151,15 @@ msgstr ""
 #| msgid "Translations made"
 msgid "The workspace has been removed."
 msgstr "Terjemahan dibuat"
+
+#, fuzzy
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Pentadbiran"
+
+#, fuzzy
+#~| msgid "Current password"
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Kata laluan semasa"
 
 #, fuzzy
 #~| msgid "Comments made"
@@ -21408,11 +22235,6 @@ msgstr "Terjemahan dibuat"
 #~ msgstr "Projek terurus"
 
 #, fuzzy
-#~| msgid "Managed projects"
-#~ msgid "Repository name"
-#~ msgstr "Projek terurus"
-
-#, fuzzy
 #~| msgid "Your name"
 #~ msgid "category"
 #~ msgstr "Nama anda"
@@ -21430,11 +22252,6 @@ msgstr "Terjemahan dibuat"
 #, fuzzy
 #~ msgid "VCS integrations"
 #~ msgstr "Pentadbiran"
-
-#, fuzzy
-#~| msgid "New password confirmation"
-#~ msgid "Manage VCS integrations"
-#~ msgstr "Pengesahan kata laluan baharu"
 
 #, fuzzy
 #~ msgid "VCS Installations"
@@ -21471,9 +22288,6 @@ msgstr "Terjemahan dibuat"
 #, fuzzy
 #~ msgid "This year"
 #~ msgstr "Tahun ini"
-
-#~ msgid "Add group"
-#~ msgstr "Tambah kumpulan"
 
 #~ msgid "New announcement"
 #~ msgstr "Pengumuman baru"

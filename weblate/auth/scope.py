@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 
 from weblate.auth.data import (
     SELECTION_ALL,
@@ -115,3 +115,25 @@ def get_permission_scope_query(
         result &= Q(**{enforced_2fa_lookup: False})
 
     return result
+
+
+def get_project_language_permission_query(
+    user: User,
+    permission: str,
+    *,
+    project_path: str = "project_id",
+    language_path: str = "language_id",
+) -> Q:
+    """Require access to every action translation in a project-language scope."""
+    if user.is_superuser:
+        return Q()
+    from weblate.trans.models import Translation  # ruff: ignore[import-outside-top-level]
+
+    translations = Translation.objects.filter(
+        component__project_id=OuterRef(project_path),
+        language_id=OuterRef(language_path),
+    )
+    allowed = get_permission_scope_query(
+        user, permission, component_path="component", language_path="language_id"
+    )
+    return Q(Exists(translations)) & ~Q(Exists(translations.exclude(allowed)))

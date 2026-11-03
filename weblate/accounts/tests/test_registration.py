@@ -7,8 +7,10 @@
 from __future__ import annotations
 
 import os
+import re
 from datetime import timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse
@@ -16,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.contrib.messages import get_messages
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core import mail
 from django.http import HttpResponse
@@ -48,6 +51,10 @@ from weblate.accounts.tasks import (
     cleanup_social_auth,
     get_registration_attempt_password_reset_url,
 )
+from weblate.accounts.utils import (
+    FIRST_FACTOR_VERIFY_SECONDS,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.auth.forms import bulk_lookup_invited_users, lookup_invited_user
 from weblate.auth.models import (
     Group,
@@ -57,7 +64,7 @@ from weblate.auth.models import (
     TeamMembership,
     User,
 )
-from weblate.auth.views import accept_invitation
+from weblate.auth.views import InvitationView, accept_invitation
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -70,6 +77,7 @@ from weblate.utils.ratelimit import reset_rate_limit
 
 if TYPE_CHECKING:
     from altcha import ChallengeV1 as Challenge
+    from django.test.client import _MonkeyPatchedWSGIResponse
 
 REGISTRATION_DATA = {
     "username": "username",
@@ -505,6 +513,231 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             set(user.auditlog_set.values_list("activity", flat=True)),
             expected_audit,
         )
+
+    def verify_sensitive_password(self, password: str) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": password},
+        )
+        self.assertRedirects(response, reverse("profile"))
+
+
+class EmailRecoveryTest(BaseRegistrationTest):
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_expired_email_setup_completes_password_recovery(self) -> None:
+        user = User.objects.create_user("email-only", "email-only@example.com")
+        user.set_unusable_password()
+        user.save(update_fields=["password"])
+        self.client.force_login(user, backend="social_core.backends.email.EmailAuth")
+        session = self.client.session
+        original_session_key = session.session_key
+        if original_session_key is None:
+            self.fail("Email login did not create a session")
+        grant = session[SESSION_SENSITIVE_FACTOR_GRANT]
+        grant["time"] -= FIRST_FACTOR_VERIFY_SECONDS + 1
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = grant
+        session.save()
+
+        response = self.client.get(reverse("password"))
+        self.assertIn("target=sensitive", response["Location"])
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "email_recovery": "1"},
+        )
+        self.assertRedirects(response, reverse("password_reset"))
+
+        stale_client = Client()
+        stale_client.cookies[settings.SESSION_COOKIE_NAME] = original_session_key
+        self.assertNotIn(SESSION_KEY, stale_client.session)
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, stale_client.session)
+        self.assertNotIn(SESSION_SENSITIVE_FACTOR_GRANT, self.client.session)
+
+        response = self.client.post(reverse("password_reset"), {"email": user.email})
+        self.assertRedirects(response, reverse("email-sent"))
+        url = self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.confirm_registration_url(url, follow=True)
+        self.assertRedirects(response, reverse("password_reset"))
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("password_reset"),
+                {"new_password1": "2pa$$word!", "new_password2": "2pa$$word!"},
+            )
+        self.assertRedirects(response, reverse("login"))
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("2pa$$word!"))
+
+        response = self.client.post(
+            reverse("login"),
+            {"username": user.username, "password": "2pa$$word!"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.client.session[SESSION_KEY], str(user.pk))
+        self.assertNotIn("show_set_password", self.client.session)
+
+
+@override_settings(REGISTRATION_CAPTCHA=False)
+class EmailLinkingTest(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            "linking-user", "old-mailbox@example.org", "secret"
+        )
+        self.owner = User.objects.create_user(
+            "existing-owner", "primary-mailbox@example.org", "other-secret"
+        )
+        social = self.owner.social_auth.create(
+            provider="email", uid="secondary@example.net", id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.net")
+        self.client.force_login(self.user)
+        self.original_identities = set(
+            self.user.social_auth.values_list("pk", flat=True)
+        )
+
+    def submit_email(self, email: str):
+        self.client.post(reverse("social:begin", args=("email",)))
+        with self.captureOnCommitCallbacks(execute=True):
+            return self.client.post(
+                reverse("email_login"), {"email": email}, follow=True
+            )
+
+    def test_browser_response_does_not_disclose_ownership(self) -> None:
+        pages = []
+        for email in (
+            "unused@example.net",
+            self.owner.email,
+            "secondary@example.net",
+        ):
+            with self.subTest(email=email):
+                response = self.submit_email(email)
+                self.assertRedirects(response, reverse("email-sent"))
+                self.assertContains(response, "Check your e-mail")
+                self.assertContains(response, "If you receive a verification link")
+                self.assertNotContains(response, self.owner.username)
+                self.assertNotContains(response, email)
+                # Django masks CSRF tokens independently for each rendered page.
+                pages.append(
+                    re.sub(
+                        rb'name="csrfmiddlewaretoken" value="[^"]+"',
+                        b'name="csrfmiddlewaretoken" value="TOKEN"',
+                        response.content,
+                    )
+                )
+        self.assertEqual(pages[0], pages[1])
+        self.assertEqual(pages[0], pages[2])
+
+    def test_unused_email_receives_verification(self) -> None:
+        self.submit_email("unused@example.net")
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(message.to, ["unused@example.net"])
+        self.assertEqual(
+            message.subject, "[Weblate] Verify your e-mail address on Weblate"
+        )
+        for content in (message.body, message.alternatives[0].content):
+            self.assertIn("Verify e-mail address", content)
+            self.assertIn("verification_code=", content)
+            self.assertNotIn("Confirm registration", content)
+        self.assertEqual(
+            set(self.user.social_auth.values_list("pk", flat=True)),
+            self.original_identities,
+        )
+        self.assertFalse(
+            VerifiedEmail.objects.filter(email="unused@example.net").exists()
+        )
+
+    def test_conflict_delivery_and_privacy(self) -> None:
+        for email, expected_recipients in (
+            (self.owner.email, [[self.owner.email]]),
+            ("PRIMARY-MAILBOX@EXAMPLE.ORG", [["PRIMARY-MAILBOX@EXAMPLE.ORG"]]),
+            ("secondary@example.net", [[self.owner.email], ["secondary@example.net"]]),
+        ):
+            with self.subTest(email=email):
+                mail.outbox.clear()
+                self.submit_email(email)
+                self.assertEqual(
+                    [message.to for message in mail.outbox], expected_recipients
+                )
+                guidance = mail.outbox[-1]
+                self.assertEqual(
+                    guidance.extra_headers["X-Weblate-Notification"], "email-conflict"
+                )
+                for content in (
+                    guidance.body,
+                    guidance.alternatives[0].content,
+                    str(guidance.extra_headers),
+                ):
+                    self.assertNotIn(self.user.username, content)
+                    self.assertNotIn(self.owner.username, content)
+                    self.assertNotIn(self.owner.email, content)
+                    self.assertNotIn("verification_code", content)
+                    self.assertNotIn("partial_token", content)
+                self.assertIn(
+                    "sign out and use password recovery",
+                    " ".join(guidance.body.split()),
+                )
+                self.assertIn(
+                    f'href="http://example.com{reverse("password_reset")}"',
+                    guidance.alternatives[0].content,
+                )
+                if len(mail.outbox) == 2:
+                    self.assertEqual(
+                        mail.outbox[0].extra_headers["X-Weblate-Notification"],
+                        "account_activity",
+                    )
+        self.assertEqual(self.owner.auditlog_set.filter(activity="connect").count(), 3)
+        self.assertEqual(
+            set(self.user.social_auth.values_list("pk", flat=True)),
+            self.original_identities,
+        )
+        self.assertFalse(Code.objects.exists())
+        self.owner.refresh_from_db()
+        self.assertTrue(self.owner.check_password("other-secret"))
+
+    def test_conflict_delivery_waits_for_commit(self) -> None:
+        self.client.post(reverse("social:begin", args=("email",)))
+        with self.captureOnCommitCallbacks() as callbacks:
+            self.client.post(reverse("email_login"), {"email": self.owner.email})
+        self.assertEqual(len(callbacks), 1)
+        self.assertEqual(mail.outbox, [])
+
+    @override_settings(PASSWORD_RESET_URL="https://identity.example.org/recover")
+    def test_external_recovery(self) -> None:
+        self.submit_email(self.owner.email)
+        self.assertIn(
+            'href="https://identity.example.org/recover"',
+            mail.outbox[0].alternatives[0].content,
+        )
+
+    @override_settings(CONTACT_FORM="disabled")
+    def test_disabled_contact(self) -> None:
+        for email in (self.owner.email, "unused@example.net"):
+            with self.subTest(email=email):
+                mail.outbox.clear()
+                response = self.submit_email(email)
+                self.assertNotContains(response, reverse("contact"))
+                for content in (
+                    mail.outbox[0].body,
+                    mail.outbox[0].alternatives[0].content,
+                ):
+                    self.assertNotIn("Contact support", content)
+                    self.assertNotIn(reverse("contact"), content)
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        PASSWORD_RESET_URL=None,
+    )
+    def test_unavailable_recovery(self) -> None:
+        self.client.force_login(
+            self.user, backend="weblate.accounts.auth.WeblateUserBackend"
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(reverse("email_login"), {"email": self.owner.email})
+        self.assertNotIn("Open password recovery", mail.outbox[0].body)
+        self.assertIn("Contact support", mail.outbox[0].body)
 
 
 class RegistrationTest(BaseRegistrationTest):
@@ -1569,6 +1802,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Adding mail to existing account."""
         # Create user
         self.perform_registration()
+        self.verify_sensitive_password("1pa$$word!")
 
         # Check adding e-mail page
         response = self.client.post(
@@ -1589,17 +1823,21 @@ class RegistrationTest(BaseRegistrationTest):
                 reverse("email_login"), {"email": "second@example.net"}, follow=True
             )
         self.assertRedirects(response, reverse("email-sent"))
-        self.assertContains(response, "E-mail verification almost complete")
-        self.assertContains(response, "verify the address for your account")
+        self.assertContains(response, "Check your e-mail")
+        self.assertContains(response, "Check your e-mail for instructions.")
         self.assertNotContains(response, "Registration almost complete")
 
         if fails:
             self.assertEqual(len(mail.outbox), 1)
-            self.assert_notify_mailbox(mail.outbox[0])
+            self.assertEqual(
+                mail.outbox[0].extra_headers["X-Weblate-Notification"], "email-conflict"
+            )
             return
 
         # Verify confirmation mail
-        url = self.assert_registration_mailbox()
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
         with self.captureOnCommitCallbacks(execute=True):
             response = self.confirm_registration_url(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
@@ -1731,6 +1969,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Test pipeline redirect using next parameter."""
         # Create user
         self.perform_registration()
+        self.verify_sensitive_password("1pa$$word!")
 
         # Valid next URL
         response = self.client.post(
@@ -1743,7 +1982,9 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse("email-sent"))
 
         # Verify confirmation mail
-        url = self.assert_registration_mailbox()
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
         # Confirmation
         mail.outbox.pop()
         with self.captureOnCommitCallbacks(execute=True):
@@ -1768,7 +2009,9 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse("email-sent"))
 
         # Verify confirmation mail
-        url = self.assert_registration_mailbox()
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
         with self.captureOnCommitCallbacks(execute=True):
             response = self.confirm_registration_url(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
@@ -1783,6 +2026,8 @@ class RegistrationTest(BaseRegistrationTest):
     @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False, blocked=False) -> None:
         """Test GitHub integration."""
+        if self.client.session.get(SESSION_KEY):
+            self.verify_sensitive_password("x")
         responses.add(
             responses.POST,
             "https://github.com/login/oauth/access_token",
@@ -2276,6 +2521,11 @@ class CookieRegistrationTest(BaseRegistrationTest):
             authenticated_client.login(username=user.username, password="old-password")
         )
         response = authenticated_client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "old-password"},
+        )
+        self.assertRedirects(response, reverse("profile"))
+        response = authenticated_client.post(
             reverse("password"),
             {
                 "password": "old-password",
@@ -2521,3 +2771,75 @@ class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
         audit = user.auditlog_set.get(activity="superuser-granted")
         self.assertEqual(audit.params["username"], author.username)
+
+
+class InvitationRaceTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.author = User.objects.create_user(
+            "author", "author@example.com", "x", is_superuser=True
+        )
+        self.invited_user = User.objects.create_user(
+            "invited", "invited@example.com", "x"
+        )
+        self.group = Group.objects.create(name="Invited")
+        self.invitation = Invitation.objects.create(
+            author=self.author,
+            user=self.invited_user,
+            group=self.group,
+            is_superuser=True,
+        )
+        # As loaded by a request before the competing transaction commits.
+        self.stale = Invitation.objects.get(pk=self.invitation.pk)
+
+    def post_with_stale_invitation(
+        self, data: dict[str, str]
+    ) -> _MonkeyPatchedWSGIResponse:
+        with patch.object(InvitationView, "get_object", return_value=self.stale):
+            return self.client.post(self.invitation.get_absolute_url(), data)
+
+    def assert_not_granted(self) -> None:
+        user = User.objects.get(pk=self.invited_user.pk)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.groups.filter(pk=self.group.pk).exists())
+
+    def test_accept_request_after_removal(self) -> None:
+        self.client.force_login(self.invited_user)
+        self.invitation.revoke()
+
+        response = self.post_with_stale_invitation({})
+
+        self.assertEqual(response.status_code, 404)
+        self.assert_not_granted()
+
+    def test_pipeline_accept_after_removal(self) -> None:
+        strategy = SimpleNamespace(
+            request=SimpleNamespace(
+                session={"invitation_link": str(self.invitation.pk)}
+            )
+        )
+
+        with patch.object(
+            Invitation,
+            "matches_user",
+            autospec=True,
+            side_effect=lambda _invitation, _user: self.invitation.revoke(),
+        ):
+            handle_invite(
+                strategy, None, self.invited_user, None, str(self.invitation.pk)
+            )
+
+        self.assertNotIn("invitation_link", strategy.request.session)
+        self.assert_not_granted()
+
+    def test_remove_request_after_accept(self) -> None:
+        self.client.force_login(self.author)
+        self.invitation.accept(None, self.invited_user)
+
+        response = self.post_with_stale_invitation({"action": "remove"})
+
+        self.assertEqual(
+            [str(message) for message in get_messages(response.wsgi_request)],
+            ["This invitation was already accepted or removed."],
+        )
+        self.assertTrue(User.objects.get(pk=self.invited_user.pk).is_superuser)

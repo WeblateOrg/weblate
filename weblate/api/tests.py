@@ -39,7 +39,7 @@ from django.templatetags.static import static
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
 from rest_framework.request import Request
@@ -56,6 +56,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.accounts.tasks import cleanup_inaccessible_subscriptions
 from weblate.accounts.tests.visibility import VisibilityPermissions
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import build_addon_change_details
@@ -435,7 +436,11 @@ class APIBaseTest(APITestCase, ReusableComponentTestCase):
         if not membership_limit:
             group.languages.add(Language.objects.get(code="cs"))
         role = Role.objects.create(name="Project language downloads")
-        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        role.permissions.add(
+            *Permission.objects.filter(
+                codename__in=("translation.download", "contribution.view_author")
+            )
+        )
         group.roles.add(role)
         self.user.groups.add(group)
         if membership_limit:
@@ -705,6 +710,7 @@ class UserAPITest(APIBaseTest):
             name="Restricted discovery access", language_selection=SELECTION_ALL
         )
         group.components.add(restricted)
+        group.roles.add(Role.objects.get(name="Translate"))
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_component(restricted))
@@ -1437,6 +1443,63 @@ class UserAPITest(APIBaseTest):
             )
             self.assertFalse(target.groups.filter(pk=group.pk).exists())
 
+    def test_add_group_rejects_blocked_project_admin(self) -> None:
+        target = User.objects.create_user(
+            "blocked-admin-target", "blocked-admin-target@example.org", "x"
+        )
+        UserBlock.objects.create(user=target, project=self.project)
+        group = self.project.defined_groups.get(name="Administration")
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.pk},
+        )
+        self.assertContains(
+            response,
+            "Blocked users cannot be granted project administration rights.",
+            status_code=400,
+        )
+        self.assertFalse(target.groups.filter(pk=group.pk).exists())
+
+    def test_blocked_admin_language_limit_api(self) -> None:
+        target = User.objects.create_user(
+            "blocked-limited-admin", "blocked-limited-admin@example.org", "x"
+        )
+        UserBlock.objects.create(user=target, project=self.project)
+        group = self.project.defined_groups.get(name="Administration")
+        kwargs = {"username": target.username}
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.pk, "limit_language_codes": ["cs"]},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.pk},
+        )
+        membership = TeamMembership.objects.get(user=target, group=group)
+        self.assertTrue(membership.limit_languages.filter(code="cs").exists())
+        self.do_request(
+            "api:user-groups",
+            kwargs=kwargs,
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.pk, "limit_language_codes": []},
+            format="json",
+        )
+        self.assertTrue(membership.limit_languages.filter(code="cs").exists())
+
     def test_remove_group(self) -> None:
         group = Group.objects.get(name="Viewers")
         target = User.objects.create_user(
@@ -1941,6 +2004,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
         self.do_request(
             "api:user-notifications-details",
@@ -1988,6 +2052,13 @@ class UserAPITest(APIBaseTest):
                 None, self.project.defined_groups.get(name="Translate")
             )
 
+        self.assertEqual(
+            Subscription.objects.filter(
+                pk__in=(project_subscription.pk, component_subscription.pk)
+            ).count(),
+            2,
+        )
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertFalse(
             Subscription.objects.filter(
                 pk__in=(project_subscription.pk, component_subscription.pk)
@@ -1996,23 +2067,6 @@ class UserAPITest(APIBaseTest):
         self.assertTrue(
             Subscription.objects.filter(pk=unscoped_subscription.pk).exists()
         )
-
-    def test_bulk_team_removal_batches_subscription_cleanup(self) -> None:
-        group = Group.objects.create(name="Bulk removal")
-        other_user = User.objects.create_user("bulk-removal", "bulk@example.com")
-        self.user.add_team(None, group)
-        other_user.add_team(None, group)
-
-        with (
-            patch(
-                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
-            ) as cleanup,
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            TeamMembership.objects.filter(group=group).delete()
-
-        cleanup.assert_called_once()
-        self.assertEqual(cleanup.call_args.args[0], [self.user.pk, other_user.pk])
 
     def test_team_removal_preserves_still_accessible_subscriptions(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -2033,6 +2087,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_team_removal_cleans_restricted_component_subscription(self) -> None:
@@ -2061,6 +2116,7 @@ class UserAPITest(APIBaseTest):
         with self.captureOnCommitCallbacks(execute=True):
             self.project.remove_user(self.user)
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(
             Subscription.objects.filter(pk=project_subscription.pk).exists()
         )
@@ -2087,6 +2143,7 @@ class UserAPITest(APIBaseTest):
                 None, self.project.defined_groups.get(name="Administration")
             )
 
+        cleanup_inaccessible_subscriptions([self.user.pk])
         self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
 
     def test_statistics(self) -> None:
@@ -2828,6 +2885,26 @@ class UserAPITest(APIBaseTest):
                     original,
                 )
 
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="user-{user_id}@users.noreply.example.com"
+    )
+    def test_patch_profile_legacy_private_email(self) -> None:
+        email = "previous@users.noreply.example.com"
+        self.user.profile.commit_email = email
+        self.user.profile.save(update_fields=["commit_email"])
+        for submitted, code in ((email, 200), ("unverified@example.org", 400)):
+            with self.subTest(submitted=submitted):
+                self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=code,
+                    format="json",
+                    request={"profile": {"commit_email": submitted}},
+                )
+                self.user.profile.refresh_from_db()
+                self.assertEqual(self.user.profile.commit_email, email)
+
     def test_patch_profile_emails(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -2894,6 +2971,55 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_group_list_prefetches_component_links(self) -> None:
+        for index in range(3):
+            team = Group.objects.create(
+                name=f"Scoped component team {index}",
+                defining_project=self.component.project,
+            )
+            team.components.add(self.component)
+
+        with CaptureQueriesContext(connection) as queries:
+            self.do_request("api:group-list", method="get", superuser=True, code=200)
+
+        component_link_queries = [
+            query["sql"]
+            for query in queries
+            if '"weblate_auth_group_components"' in query["sql"]
+        ]
+        self.assertEqual(len(component_link_queries), 1, component_link_queries)
+
+    def test_remove_stale_project_team_component(self) -> None:
+        source = self.component.project
+        destination = Project.objects.create(name="Destination", slug="destination")
+        admin = User.objects.create_user("source-admin", "source-admin@example.com")
+        source.add_user(admin, "Administration")
+        team = Group.objects.create(name="Old component team", defining_project=source)
+        team.projects.add(source, destination)
+        team.components.add(self.component)
+        Component.objects.filter(pk=self.component.pk).update(project=destination)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="get",
+            authenticated=False,
+            code=200,
+        )
+        self.assertEqual(response.data["components"], [])
+        self.assertEqual(len(response.data["projects"]), 1)
+        self.assertNotIn(destination.slug, str(response.data))
+
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={"id": team.pk, "component_id": self.component.pk},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        self.assertFalse(team.components.exists())
+
     def test_update_legacy_duplicate_team(self) -> None:
         teams = Group.objects.bulk_create(
             [
@@ -4017,6 +4143,62 @@ class GroupAPITest(APIBaseTest):
             request={"user_id": user.id},
         )
         self.assertEqual(response.data["detail"], "Administration rights granted.")
+
+    def test_restricted_team_admin_cannot_grant_admin(self) -> None:
+        group = Group.objects.create(
+            name="Restricted API team", defining_project=self.component.project
+        )
+        group.admins.add(self.user)
+        self.user.groups.add(group)
+        target = User.objects.create_user("restricted-target", "restricted@example.org")
+        UserBlock.objects.create(user=self.user, project=self.component.project)
+
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.admins.filter(pk=target.pk).exists())
+        self.assertFalse(group.user_set.filter(pk=target.pk).exists())
+
+        UserBlock.objects.filter(
+            user=self.user, project=self.component.project
+        ).delete()
+        group.enforced_2fa = True
+        group.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.admins.filter(pk=target.pk).exists())
+
+        group.enforced_2fa = False
+        group.save(update_fields=["enforced_2fa"])
+        self.component.project.enforced_2fa = True
+        self.component.project.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+            code=403,
+        )
+        self.assertFalse(group.user_set.filter(pk=target.pk).exists())
+
+        self.component.project.enforced_2fa = False
+        self.component.project.save(update_fields=["enforced_2fa"])
+        self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.pk},
+            method="post",
+            request={"user_id": target.pk},
+        )
+        self.assertTrue(group.admins.filter(pk=target.pk).exists())
 
     def test_revoke_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
@@ -15839,6 +16021,9 @@ class TranslationAPITest(APIBaseTest):
                 self.user.groups.clear()
                 self.user.clear_permissions_cache()
                 self.grant_perm_to_user("translation.download", project=self.project)
+                self.grant_perm_to_user(
+                    "contribution.view_author", project=self.project
+                )
             get_response = self.client.get(url)
             self.assertEqual(
                 get_response.status_code, 200, getattr(get_response, "data", None)
@@ -16479,6 +16664,41 @@ class TranslationAPITest(APIBaseTest):
             },
         )
         self.check_upload_changes(changes_start, 3)
+
+    def test_upload_suggest_plural(self) -> None:
+        self.authenticate()
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(
+            source=join_plural(
+                ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"]
+            )
+        )
+        original_target = unit.target
+        with (
+            open(get_test_file("cs-suggestions-plural.po"), "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "method": "suggest"},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["accepted"], 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+        suggestion = unit.suggestion_set.get()
+        response = self.client.get(
+            reverse("api:suggestion-detail", kwargs={"pk": suggestion.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data["target"],
+            [
+                "Orangutan má %d banán.\n",
+                "Orangutan má %d banány.\n",
+                "Orangutan má %d banánů.\n",
+            ],
+        )
 
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
@@ -20198,6 +20418,13 @@ class ChangeAPITest(APIBaseTest):
             project_selection=SELECTION_ALL_PUBLIC,
             language_selection=SELECTION_ALL,
         )
+        reader_role = Role.objects.create(
+            name="Automatic translation attribution readers"
+        )
+        reader_role.permissions.add(
+            Permission.objects.get(codename="contribution.view_author")
+        )
+        reader_group.roles.add(reader_role)
         reader = User.objects.create_user("autotranslate_reader", "reader@example.com")
         reader.groups.set([reader_group])
         reader.clear_permissions_cache()
@@ -20253,6 +20480,48 @@ class ChangeAPITest(APIBaseTest):
                 self.assertIsNone(serialized["details"]["configuration"]["component"])
                 self.assertIn("component", serialized["details"]["redacted_fields"])
         self.assertEqual(self.client.get(restricted_url).status_code, 404)
+
+    def test_hidden_contributor_in_nested_changes(self) -> None:
+        actor = User.objects.create_user(
+            "hidden-actor", "hidden-actor@example.org", full_name="Hidden Actor"
+        )
+        change = self.translation.change_set.create(
+            user=actor,
+            author=actor,
+            action=ActionEvents.USER_REVERT,
+            details={"username": actor.username, "email": actor.email},
+        )
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        for url in (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:component-changes", kwargs=self.component_kwargs),
+            reverse("api:translation-changes", kwargs=self.translation_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                entries = response.data.get("results", [response.data])
+                item = next(entry for entry in entries if entry["id"] == change.pk)
+                self.assertIsNone(item["user"])
+                self.assertIsNone(item["author"])
+                self.assertEqual(item["details"], {})
+                for identity in (
+                    actor.username,
+                    actor.full_name,
+                    actor.email,
+                    actor.get_absolute_url(),
+                ):
+                    self.assertNotIn(identity, str(response.data))
+                filtered = self.client.get(url, {"user": actor.username})
+                self.assertNotIn(
+                    change.pk,
+                    [entry["id"] for entry in filtered.data.get("results", [])],
+                )
 
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
@@ -20535,6 +20804,107 @@ class ChangeAPITest(APIBaseTest):
             response.data["alert"]["dismissal_reason"], "Handled elsewhere"
         )
         self.assertEqual(response.data["details"]["reason"], "Handled elsewhere")
+
+
+class ActivityAPITest(APIBaseTest):
+    def test_requires_authentication(self) -> None:
+        response = self.client.get(reverse("api:activity"))
+        self.assertEqual(response.status_code, 401)
+
+    def test_activity(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:activity"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data["daily_activity"]), 52)
+        self.assertTrue(all(p["recent_changes"] > 0 for p in response.data["projects"]))
+        self.assertLessEqual(len(response.data["projects"]), 10)
+
+    def test_filters_before_limit(self) -> None:
+        self.authenticate()
+        now = datetime.now(UTC)
+        projects = [
+            SimpleNamespace(
+                pk=i,
+                stats=SimpleNamespace(
+                    last_changed=now - timedelta(hours=i),
+                    recent_changes=0 if i < 3 else i,
+                ),
+            )
+            for i in range(15)
+        ]
+        projects.append(
+            SimpleNamespace(
+                pk=99,
+                stats=SimpleNamespace(
+                    last_changed=None,
+                    recent_changes=10,
+                ),
+            )
+        )
+        with (
+            patch("weblate.api.views.iter_prefetch_stats", return_value=projects),
+            patch("weblate.api.views.ActivitySerializer") as serializer,
+        ):
+            serializer.return_value.data = {}
+            self.client.get(reverse("api:activity"))
+        selected = serializer.call_args.args[0]["projects"]
+        self.assertEqual([project.pk for project in selected], list(range(3, 13)))
+
+    def test_warm_statistics_queries_do_not_grow_with_projects(self) -> None:
+        self.authenticate()
+        projects = [self.project] + [
+            Project.objects.create(name=f"Activity {index}", slug=f"activity-{index}")
+            for index in range(12)
+        ]
+        for project in projects:
+            project.stats.ensure_loaded()
+            project.stats.calculate_basic()
+            project.stats.store("last_changed", datetime.now(UTC))
+            project.stats.store("recent_changes", 1)
+            project.stats.save()
+        counts = []
+        for selected in (projects[:1], projects):
+            user = SimpleNamespace(
+                allowed_projects=Project.objects.filter(
+                    pk__in=[project.pk for project in selected],
+                )
+            )
+            with patch("weblate.api.views.get_request_user", return_value=user):
+                self.client.get(reverse("api:activity"))
+                with CaptureQueriesContext(connection) as queries:
+                    response = self.client.get(reverse("api:activity"))
+            self.assertEqual(len(response.data["projects"]), min(10, len(selected)))
+            counts.append(len(queries))
+        self.assertEqual(counts[0], counts[1])
+
+    def test_private_projects_excluded(self) -> None:
+        self.create_acl()
+        self.authenticate()
+        response = self.client.get(reverse("api:activity"))
+        self.assertTrue(
+            all(project["name"] != "ACL" for project in response.data["projects"])
+        )
+
+    @override_settings(
+        BOT_PROTECTION_ENABLED=True,
+        BOT_PROTECTION_CACHE_ALIAS="pow",
+        CACHES={
+            **settings.CACHES,
+            "pow": {
+                "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            },
+        },
+    )
+    def test_bot_protection(self) -> None:
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:activity"), headers={"accept": "application/json"}
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_legacy_route_removed(self) -> None:
+        with self.assertRaises(Resolver404):
+            resolve("/activity/month.json")
 
 
 class MetricsAPITest(APIBaseTest):

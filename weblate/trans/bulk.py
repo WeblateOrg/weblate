@@ -41,6 +41,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.unit import UnitQuerySet
 
 BULK_EDIT_PREVIEW_LIMIT = 250
+BULK_EDIT_MAX_UNITS = 20_000
 
 EDITABLE_STATES = {
     STATE_FUZZY,
@@ -273,7 +274,10 @@ def plan_bulk_unit(
         and user.has_perm("unit.bulk_edit", component)
     ):
         source = unit.source_unit
-        edit.source_flags = changed_flags(source, add_flags, remove_flags)
+        if trusted or (
+            user is not None and user.has_perm("meta:unit.flag", source.translation)
+        ):
+            edit.source_flags = changed_flags(source, add_flags, remove_flags)
         if add_labels or remove_labels:
             current = {label.pk for label in source.labels.all()}
             # Removing wins, matching the existing add-then-remove behavior.
@@ -335,7 +339,7 @@ def apply_bulk_translation_flags(
 
 
 @regex_session()
-# ruff: ignore[complex-structure, too-many-arguments]
+# ruff: ignore[complex-structure, too-many-arguments, too-many-statements, too-many-locals, too-many-branches]
 def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
@@ -358,11 +362,17 @@ def bulk_perform(
     affected_source_unit_ids: set[int] | None = None,
     expected_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
     preview: list[BulkUnitEdit] | None = None,
+    progress: Callable[[int, int, int], None] | None = None,
 ) -> int:
     if user is None:
         msg = "Bulk edits require an explicit actor."
         raise ValueError(msg)
-    matching = unit_set.search(query, project=project)
+    matching = unit_set.search(
+        query,
+        project=project,
+        user=user,
+        enforce_contributor_permissions=enforce_permissions,
+    )
     target_state = int(target_state)
     if target_state not in EDITABLE_STATES | {-1, STATE_EMPTY}:
         raise ValidationError(gettext("Invalid target state."))
@@ -386,7 +396,19 @@ def bulk_perform(
     )
     # Keep the complete selection stable, and exclude it from propagation so
     # each selected target is transformed independently exactly once.
-    selected_ids = set(matching.values_list("pk", flat=True))
+    selected = list(
+        matching.order_by("pk")
+        .values_list("pk", flat=True)
+        .distinct()[: BULK_EDIT_MAX_UNITS + 1]
+    )
+    if len(selected) > BULK_EDIT_MAX_UNITS:
+        raise ValidationError(
+            gettext(
+                "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+            )
+            % {"limit": BULK_EDIT_MAX_UNITS}
+        )
+    selected_ids = set(selected)
     if components is None:
         components = Component.objects.filter(
             pk__in=Unit.objects.filter(pk__in=selected_ids).values_list(
@@ -396,150 +418,170 @@ def bulk_perform(
     preview_count = 0
     changed_ids: set[int] = set()
     changed_sources: set[int] = set()
+    processed_count = 0
+    if progress is not None:
+        progress(0, len(selected_ids), 0)
     for component in components:
-        with transaction.atomic(), source_operation(component):
-            component_units = Unit.objects.filter(
-                pk__in=selected_ids, translation__component=component
-            )
-            if preview is None and (
-                add_flags or remove_flags or add_labels or remove_labels
-            ):
-                lock_bulk_sources(component_units)
-            if target_state == STATE_APPROVED and expected_unit_snapshots is not None:
-                component_units = exclude_stale_evaluations(
-                    component_units, expected_unit_snapshots
-                )
-            units = component_units.order_by("pk").prefetch().prefetch_bulk()
-            if add_labels or remove_labels:
-                units = units.prefetch_related("source_unit__labels")
-            if preview is None and (
-                target_state != -1
-                or search
-                or add_translation_flags
-                or remove_translation_flags
-            ):
-                units = units.select_for_update()
-            planned = plan_bulk_units(
-                units.iterator(chunk_size=BULK_EDIT_PREVIEW_LIMIT),
-                planner,
-                text_edit,
-                user,
-                target_state,
-                enforce_permissions=enforce_permissions,
-            )
-            if preview is not None:
-                for edit in planned:
-                    if edit.changed:
-                        preview_count += 1
-                        if len(preview) < BULK_EDIT_PREVIEW_LIMIT:
-                            preview.append(edit)
-                continue
-            edits = list(planned)
+        component_ids = list(
+            Unit.objects.filter(pk__in=selected_ids, translation__component=component)
+            .order_by("pk")
+            .values_list("pk", flat=True)
+        )
+        component_changed = False
+        processed_sources: set[int] = set()
+        if preview is None:
             component.start_batched_checks()
-            state_updates = []
-            changes = []
-            component_changed = False
-            for edit in edits:
-                unit = edit.unit
-                unit.translation.component = component
-                if edit.state is None:
-                    continue
-                if edit.target is not None or target_state == STATE_EMPTY:
-                    saved = unit.translate(
-                        user,
-                        edit.target
-                        if edit.target is not None
-                        else unit.get_target_plurals(),
-                        StringState(edit.state),
-                        author=user,
-                        change_action=ActionEvents.REPLACE
-                        if search
-                        else ActionEvents.BULK_EDIT,
-                        select_for_update=False,
-                        propagation_exclude_ids=selected_ids,
+        try:
+            for batch_ids in batched(component_ids, BULK_EDIT_PREVIEW_LIMIT):
+                with transaction.atomic(), source_operation(component):
+                    component_units = Unit.objects.filter(
+                        pk__in=batch_ids, translation__component=component
                     )
-                    if not saved:
-                        continue
-                else:
-                    unit.state = edit.state
-                    unit.automatically_translated = False
-                    changes.append(
-                        unit.generate_change(
-                            user,
-                            user,
-                            ActionEvents.BULK_EDIT,
-                            check_new=False,
-                            save=False,
-                        )
-                    )
-                    state_updates.append(unit)
-                changed_ids.add(unit.pk)
-                changed_sources.add(unit.source_unit_id or unit.pk)
-                component_changed = True
-            Unit.objects.bulk_update(
-                state_updates, ["state", "automatically_translated"], batch_size=500
-            )
-            Change.objects.bulk_create(changes, batch_size=500)
-            PendingUnitChange.objects.bulk_create(
-                [
-                    PendingUnitChange.store_unit_change(
-                        unit=unit, author=user, user=user, save=False
-                    )
-                    for unit in state_updates
-                ],
-                batch_size=500,
-            )
-            for unit in state_updates:
-                propagate_parent_change(unit.translation, unit.pk, user)
-                if unit.is_source:
-                    unit.is_batch_update = True
-                    unit.source_unit_save()
-            processed_sources = set()
-            for edit in edits:
-                unit = edit.unit
-                source = unit.source_unit
-                if source.pk not in processed_sources:
-                    processed_sources.add(source.pk)
-                    source.translation.component = component
-                    source.is_batch_update = True
-                    changed = False
-                    if edit.source_flags is not None:
-                        source.update_extra_flags(edit.source_flags, user)
-                        changed = True
-                    for label_ids, action in (
-                        (edit.add_labels, ActionEvents.LABEL_ADD),
-                        (edit.remove_labels, ActionEvents.LABEL_REMOVE),
+                    if preview is None and (
+                        add_flags or remove_flags or add_labels or remove_labels
                     ):
-                        if not label_ids:
-                            continue
-                        labels = list(
-                            source.translation.component.project.label_set.filter(
-                                pk__in=label_ids
-                            )
+                        lock_bulk_sources(component_units)
+                    if (
+                        target_state == STATE_APPROVED
+                        and expected_unit_snapshots is not None
+                    ):
+                        component_units = exclude_stale_evaluations(
+                            component_units, expected_unit_snapshots
                         )
-                        if action == ActionEvents.LABEL_ADD:
-                            source.labels.add(*labels)
-                        else:
-                            source.labels.remove(*labels)
-                        for label in labels:
-                            source.change_set.create(
-                                action=action,
-                                user=user,
+                    units = component_units.order_by("pk").prefetch().prefetch_bulk()
+                    if add_labels or remove_labels:
+                        units = units.prefetch_related("source_unit__labels")
+                    if preview is None and (
+                        target_state != -1
+                        or search
+                        or add_translation_flags
+                        or remove_translation_flags
+                    ):
+                        units = units.select_for_update()
+                    planned = plan_bulk_units(
+                        units.iterator(chunk_size=BULK_EDIT_PREVIEW_LIMIT),
+                        planner,
+                        text_edit,
+                        user,
+                        target_state,
+                        enforce_permissions=enforce_permissions,
+                    )
+                    if preview is not None:
+                        for edit in planned:
+                            if edit.changed:
+                                preview_count += 1
+                                if len(preview) < BULK_EDIT_PREVIEW_LIMIT:
+                                    preview.append(edit)
+                        continue
+                    edits = list(planned)
+                    state_updates = []
+                    changes = []
+                    for edit in edits:
+                        unit = edit.unit
+                        unit.translation.component = component
+                        if edit.state is None:
+                            continue
+                        if edit.target is not None or target_state == STATE_EMPTY:
+                            saved = unit.translate(
+                                user,
+                                edit.target
+                                if edit.target is not None
+                                else unit.get_target_plurals(),
+                                StringState(edit.state),
                                 author=user,
-                                details={"label": label.name},
+                                change_action=ActionEvents.REPLACE
+                                if search
+                                else ActionEvents.BULK_EDIT,
+                                select_for_update=False,
+                                propagation_exclude_ids=selected_ids,
                             )
-                        changed = True
-                    if changed:
-                        changed_ids.add(source.pk)
-                        changed_sources.add(source.pk)
+                            if not saved:
+                                continue
+                        else:
+                            unit.state = edit.state
+                            unit.automatically_translated = False
+                            changes.append(
+                                unit.generate_change(
+                                    user,
+                                    user,
+                                    ActionEvents.BULK_EDIT,
+                                    check_new=False,
+                                    save=False,
+                                )
+                            )
+                            state_updates.append(unit)
+                        changed_ids.add(unit.pk)
+                        changed_sources.add(unit.source_unit_id or unit.pk)
                         component_changed = True
-            if apply_bulk_translation_flags(
-                user, component, edits, changed_ids, changed_sources
-            ):
-                component_changed = True
-        if preview is None and component_changed:
-            component.invalidate_cache()
-            component.run_batched_checks()
+                    Unit.objects.bulk_update(
+                        state_updates,
+                        ["state", "automatically_translated"],
+                        batch_size=500,
+                    )
+                    Change.objects.bulk_create(changes, batch_size=500)
+                    PendingUnitChange.objects.bulk_create(
+                        [
+                            PendingUnitChange.store_unit_change(
+                                unit=unit, author=user, user=user, save=False
+                            )
+                            for unit in state_updates
+                        ],
+                        batch_size=500,
+                    )
+                    for unit in state_updates:
+                        propagate_parent_change(unit.translation, unit.pk, user)
+                        if unit.is_source:
+                            unit.is_batch_update = True
+                            unit.source_unit_save()
+                    for edit in edits:
+                        unit = edit.unit
+                        source = unit.source_unit
+                        if source.pk not in processed_sources:
+                            processed_sources.add(source.pk)
+                            source.translation.component = component
+                            source.is_batch_update = True
+                            changed = False
+                            if edit.source_flags is not None:
+                                source.update_extra_flags(edit.source_flags, user)
+                                changed = True
+                            for label_ids, action in (
+                                (edit.add_labels, ActionEvents.LABEL_ADD),
+                                (edit.remove_labels, ActionEvents.LABEL_REMOVE),
+                            ):
+                                if not label_ids:
+                                    continue
+                                labels = list(
+                                    source.translation.component.project.label_set.filter(
+                                        pk__in=label_ids
+                                    )
+                                )
+                                if action == ActionEvents.LABEL_ADD:
+                                    source.labels.add(*labels)
+                                else:
+                                    source.labels.remove(*labels)
+                                for label in labels:
+                                    source.change_set.create(
+                                        action=action,
+                                        user=user,
+                                        author=user,
+                                        details={"label": label.name},
+                                    )
+                                changed = True
+                            if changed:
+                                changed_ids.add(source.pk)
+                                changed_sources.add(source.pk)
+                                component_changed = True
+                    if apply_bulk_translation_flags(
+                        user, component, edits, changed_ids, changed_sources
+                    ):
+                        component_changed = True
+                processed_count += len(batch_ids)
+                if progress is not None:
+                    progress(processed_count, len(selected_ids), len(changed_ids))
+        finally:
+            if preview is None and component_changed:
+                component.invalidate_cache()
+                component.run_batched_checks()
     if affected_unit_ids is not None:
         affected_unit_ids.update(changed_ids)
     if affected_source_unit_ids is not None:

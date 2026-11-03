@@ -44,7 +44,10 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
-from weblate.auth.utils import validate_team_assignable_user
+from weblate.auth.utils import (
+    validate_admin_team_assignment,
+    validate_team_assignable_user,
+)
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -1925,6 +1928,7 @@ class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
     limit_languages = LimitLanguagesField(Language.objects.none())
 
     def __init__(self, *args, team: Group | None = None, **kwargs) -> None:
+        self.team = team
         super().__init__(*args, **kwargs)
         limit_field = self.fields["limit_languages"]
         if team and team.defining_project_id:
@@ -1937,6 +1941,22 @@ class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
             languages = Language.objects.order()
         limit_field.queryset = languages
         limit_field.choices = get_language_code_choices(languages)
+
+    def clean(self):
+        cleaned_data = super().clean() or {}
+        if self.team and (user := cleaned_data.get("user")):
+            validate_admin_team_assignment(
+                user,
+                self.team,
+                team_admin=bool(cleaned_data.get("make_admin")),
+                limit_languages=(
+                    None
+                    if self.data.get("add_user") == "1"
+                    and "limit_languages" not in self.data
+                    else cleaned_data.get("limit_languages", [])
+                ),
+            )
+        return cleaned_data
 
 
 class UserBlockForm(UserContributionCleanupForm):
@@ -2206,10 +2226,13 @@ class CleanRepoMixin:
         try:
             obj = Component.objects.get_linked(repo)
         except Component.DoesNotExist:
-            return repo
-        if not self.request.user.has_perm("component.edit", obj):
+            obj = None
+        if obj is None or not (
+            self.request.user.can_access_component(obj)
+            and self.request.user.has_perm("component.edit", obj)
+        ):
             raise ValidationError(
-                gettext("You do not have permission to access this component.")
+                gettext("This component does not exist or you cannot access it.")
             )
         return repo
 
@@ -2826,9 +2849,15 @@ class ComponentSettingsForm(
         if not repo:
             return None
         try:
-            return Component.objects.get_linked(repo)
+            component = Component.objects.get_linked(repo)
         except (Component.DoesNotExist, ValueError):
             return None
+        if component is None or not (
+            self.request.user.can_access_component(component)
+            and self.request.user.has_perm("vcs.view", component)
+        ):
+            return None
+        return component
 
     def patch_unlinking_linked_repository_settings(self) -> None:
         if not self.is_bound or not self.instance.is_repo_link:
@@ -3557,6 +3586,18 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         super().__init__(request, *args, **kwargs)
         self.fields["project"].queryset = request.user.managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
+
+    def add_error(self, field: str | None, error) -> None:
+        """Surface model errors for settings outside the rename form."""
+        if not isinstance(error, ValidationError):
+            error = ValidationError(error)
+        if field is None and hasattr(error, "error_dict"):
+            mapped_errors: dict[str, list[ValidationError]] = defaultdict(list)
+            for name, field_errors in error.error_dict.items():
+                target = name if name in self.fields else NON_FIELD_ERRORS
+                mapped_errors[target].extend(field_errors)
+            error = ValidationError(mapped_errors)
+        super().add_error(field, error)
 
 
 class ComponentLinkAddForm(forms.Form):
@@ -4970,10 +5011,16 @@ class ChangesForm(forms.Form):
         choices=ActionEvents.choices,
     )
     user = UserField(
-        label=gettext_lazy("Author username"), required=False, help_text=None
+        label=gettext_lazy("Author username"),
+        required=False,
+        help_text=None,
+        widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     exclude_user = UserField(
-        label=gettext_lazy("Exclude author (username)"), required=False, help_text=None
+        label=gettext_lazy("Exclude author (username)"),
+        required=False,
+        help_text=None,
+        widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     period = DateRangeField(
         label=gettext_lazy("Date range"),
@@ -5251,6 +5298,15 @@ class ProjectUserGroupForm(ProjectMemberManageForm):
             added_group_ids = set(groups.values_list("id", flat=True))
             if added_group_ids - current_group_ids:
                 validate_team_assignable_user(user, allow_bot=True)
+            for group in groups:
+                limit_languages = cleaned_data.get(
+                    self.get_limit_languages_field(group)
+                )
+                if limit_languages is None:
+                    continue
+                validate_admin_team_assignment(
+                    user, group, limit_languages=list(limit_languages)
+                )
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a project token.")

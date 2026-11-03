@@ -40,8 +40,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-22 19:01-0500\n"
-"PO-Revision-Date: 2026-10-24 11:58+0000\n"
+"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"PO-Revision-Date: 2026-11-01 03:26+0000\n"
 "Last-Translator: Andrei Stepanov <adem@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1349,6 +1349,11 @@ msgctxt "Theme selection"
 msgid "Dark"
 msgstr "Тёмная"
 
+msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Пожалуйста, подтвердите свою личность с помощью второго фактора, прежде чем "
+"продолжить."
+
 #, python-format
 msgid "Security key (%s)"
 msgstr "Ключ безопасности (%s)"
@@ -1455,11 +1460,6 @@ msgstr "Выполнен выход"
 
 msgid "Verify new e-mail address"
 msgstr "Проверка нового адреса электронной почты"
-
-msgid "Please confirm your identity using a second factor before proceeding."
-msgstr ""
-"Пожалуйста, подтвердите свою личность с помощью второго фактора, прежде чем "
-"продолжить."
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1673,6 +1673,10 @@ msgid ""
 msgstr ""
 "Автоматически переводит строки при помощи машинного перевода или других "
 "компонентов."
+
+#, python-format
+msgid "Error: %s"
+msgstr "Ошибка: %s"
 
 msgid "enabled"
 msgstr "включено"
@@ -1963,8 +1967,8 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Массовая правка"
 
-msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Позволяет массово править флаги, метки или состояния строк."
+msgid "Bulk edit text, flags, labels, or states of strings."
+msgstr "Массово править текст, флаги, метки или состояния строк."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr "Пометка обновлённых переводов из репозитория «На перепись»"
@@ -2112,6 +2116,18 @@ msgstr ""
 "дополнительным ключевым словом, отключая все ключевые слова по умолчанию, "
 "так что распознаётся только указанное выше ключевое слово."
 
+msgid "Comment extraction"
+msgstr "Извлечение комментариев"
+
+msgid "Keywords"
+msgstr "Ключевые слова"
+
+msgid "Checks and ITS data"
+msgstr "Проверки и данные ITS"
+
+msgid "Update behavior"
+msgstr "Поведение при обновлении"
+
 msgid "This field is required."
 msgstr "Это поле обязательно к заполнению."
 
@@ -2166,6 +2182,9 @@ msgstr ""
 "определяются относительно корня репозитория. Если файл POTFILES.skip "
 "находится рядом с манифестом, он исключает указанные в нём файлы из "
 "извлечения."
+
+msgid "Input files"
+msgstr "Входные файлы"
 
 msgid "Invalid symbolic link in a repository."
 msgstr "Недопустимая символьная ссылка в репозитории."
@@ -2403,6 +2422,15 @@ msgstr "Удалить компоненты для несуществующих 
 msgid "I confirm the above matches look correct"
 msgstr "Я подтверждаю, что сопоставления выше выглядят правильно"
 
+msgid "File matching"
+msgstr "Сопоставление файлов"
+
+msgid "Component naming and file templates"
+msgstr "Именование компонентов и шаблоны файлов"
+
+msgid "Component lifecycle"
+msgstr "Жизненный цикл компонента"
+
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "Общая предустановка: %(name)s [%(details)s]"
@@ -2584,6 +2612,18 @@ msgstr ""
 msgid "Include read-only strings"
 msgstr "Включить строки только для чтения"
 
+msgid "Source and target"
+msgstr "Источник и цель"
+
+msgid "Prepended text"
+msgstr "Предваряющий текст"
+
+msgid "Appended text"
+msgstr "Добавляемый текст"
+
+msgid "Text expansion"
+msgstr "Расширение текста"
+
 msgid "The source and target have to be different languages."
 msgstr "«Исходные строки» и «целевой перевод» должны быть разными языками."
 
@@ -2673,6 +2713,18 @@ msgstr "Задержка повторной попытки"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr "Сколько секунд ждать между попытками подключения."
+
+msgid "Broker connection"
+msgstr "Подключение к брокеру"
+
+msgid "Timeouts and retries"
+msgstr "Тайм-ауты и повторные попытки"
+
+msgid "TLS credentials"
+msgstr "Учётные данные TLS"
+
+msgid "Event selection"
+msgstr "Выбор событий"
 
 msgid "Topic prefix can contain only ASCII characters."
 msgstr "Префикс темы может содержать только ASCII-символы."
@@ -3194,6 +3246,9 @@ msgstr "Перевод слишком длинный!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ваше предложение уже существует!"
+
+msgid "Search query"
+msgstr "Поисковый запрос"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
@@ -4238,6 +4293,95 @@ msgstr ""
 msgid "Preview without changes"
 msgstr "Предварительный просмотр без изменений"
 
+msgid "Change events"
+msgstr "События изменений"
+
+msgid "The workflow runs for each of the selected events."
+msgstr "Рабочий процесс выполняется для каждого из выбранных событий."
+
+msgid "CEL expression"
+msgstr "Выражение CEL"
+
+msgid "The expression has to evaluate to a boolean."
+msgstr "Выражение должно вычисляться в логическое значение."
+
+msgid "Category path"
+msgstr "Путь категории"
+
+msgid "Slash-separated category path inside the project."
+msgstr "Разделённый косой чертой путь категории внутри проекта."
+
+msgid "Language code"
+msgstr "Код языка"
+
+msgid "Change event"
+msgstr "Событие изменения"
+
+msgid "String state"
+msgstr "Состояние строки"
+
+msgid "Action ID"
+msgstr "Идентификатор действия"
+
+msgid "Optional identifier so that later actions can use its results."
+msgstr ""
+"Необязательный идентификатор, чтобы последующие действия могли использовать "
+"его результаты."
+
+msgid "Whole component"
+msgstr "Весь компонент"
+
+msgid "String affected by the change"
+msgstr "Строка, затронутая изменением"
+
+msgid "String scope"
+msgstr "Область действия строк"
+
+msgid "Default (whole component)"
+msgstr "По умолчанию (весь компонент)"
+
+msgid "Select strings"
+msgstr "Выбрать строки"
+
+msgid "Use the effective AI quality add-on"
+msgstr "Использовать действующее дополнение оценки качества ИИ"
+
+msgid "Bulk editing"
+msgstr "Массовая правка"
+
+msgid "Component update"
+msgstr "Обновление компонента"
+
+msgid "Repository update"
+msgstr "Обновление репозитория"
+
+msgid "Repository commit"
+msgstr "Коммит репозитория"
+
+msgid "Repository push"
+msgstr "Отправка репозитория"
+
+msgid "Manual run"
+msgstr "Ручной запуск"
+
+msgid "Expression"
+msgstr "Выражение"
+
+msgid "Component category"
+msgstr "Категория компонента"
+
+msgid "Matching strings"
+msgstr "Соответствующие строки"
+
+msgid "All of"
+msgstr "Все из"
+
+msgid "Any of"
+msgstr "Любое из"
+
+msgid "Not"
+msgstr "Не"
+
 msgid "Additional message"
 msgstr "Дополнительное сообщение"
 
@@ -4647,11 +4791,11 @@ msgid "Inconsistent"
 msgstr "Противоречия"
 
 msgid ""
-"This string has more than one translation in this project or is untranslated "
-"in some components."
+"This string has more than one translation in its propagation group or is "
+"untranslated in some components."
 msgstr ""
-"Эта строка имеет более одного перевода в этом проекте, либо же в некоторых "
-"компонентах она не переведена."
+"Эта строка имеет более одного перевода в своей группе распространения или не "
+"переведена в некоторых компонентах."
 
 msgid "Reused translation"
 msgstr "Повторно используемый перевод"
@@ -6106,9 +6250,6 @@ msgstr "Без ограничения языков"
 msgid "Enter a valid language code."
 msgstr "Введите действительный код языка."
 
-msgid "Language code"
-msgstr "Код языка"
-
 msgid "Language name"
 msgstr "Название языка"
 
@@ -6571,6 +6712,9 @@ msgstr "Оценка качества (QE)"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
 msgstr "Выбор исходного языка"
+
+msgid "disabled"
+msgstr "отключено"
 
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
@@ -7124,6 +7268,9 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Дополнительный язык, определенный в проекте или компоненте"
 
+msgid "Rate limit reset."
+msgstr "Лимит скорости сброшен."
+
 msgid "File"
 msgstr "Файл"
 
@@ -7439,8 +7586,23 @@ msgstr[2] "Найдено %(count)s соответствующих исходн�
 msgid "No new matching source strings found."
 msgstr "Новые соответствия исходным строкам не найдены."
 
-msgid "OCR data could not be downloaded. Please try again later."
-msgstr "Не удалось загрузить данные OCR. Пожалуйста, попробуйте позже."
+msgid "Only some matching strings are shown. Search for more strings manually."
+msgstr ""
+"Показаны только некоторые соответствующие строки. Найдите больше строк "
+"вручную."
+
+msgid "Too many image text searches. Please try again later."
+msgstr ""
+"Слишком много поисков текста на изображениях. Пожалуйста, повторите попытку "
+"позже."
+
+msgid "Text recognition data could not be downloaded. Please try again later."
+msgstr ""
+"Не удалось загрузить данные распознавания текста. Пожалуйста, повторите "
+"попытку позже."
+
+msgid "Could not find strings in the image. Please try again."
+msgstr "Не удалось найти строки на изображении. Пожалуйста, попробуйте снова."
 
 msgid "Select a valid screenshot."
 msgstr "Выберите допустимый снимок экрана."
@@ -8305,6 +8467,9 @@ msgstr "Переключить видимость ключа API"
 msgid "API key copied to clipboard."
 msgstr "API ключ скопирован в буфер обмена."
 
+msgid "Verify your identity to view your API key"
+msgstr "Подтвердите свою личность, чтобы просмотреть свой ключ API"
+
 msgid "API root URL:"
 msgstr "Корневой URL для API:"
 
@@ -8906,6 +9071,9 @@ msgstr "Несовместимо"
 msgid "No components found."
 msgstr "Компонентов не найдено."
 
+msgid "Integration instructions"
+msgstr "Инструкции по интеграции"
+
 msgid "Configure add-on"
 msgstr "Настроить дополнение"
 
@@ -9030,8 +9198,67 @@ msgstr "Пред."
 msgid "Next"
 msgstr "След."
 
-msgid "Integration instructions"
-msgstr "Инструкции по интеграции"
+msgid "Workflow editing mode"
+msgstr "Режим редактирования рабочего процесса"
+
+msgid "Editor"
+msgstr "Редактор"
+
+msgid "YAML"
+msgstr "YAML"
+
+msgid ""
+"Both modes edit the same workflow, and switching between them keeps unsaved "
+"changes."
+msgstr ""
+"Оба режима редактируют один и тот же рабочий процесс, а переключение между "
+"ними сохраняет несохранённые изменения."
+
+msgid "Triggers"
+msgstr "Запуск"
+
+msgid ""
+"Events starting the workflow. Without any trigger it can only be run "
+"manually."
+msgstr ""
+"События, запускающие рабочий процесс. Без какого-либо триггера его можно "
+"запустить только вручную."
+
+msgid "Trigger"
+msgstr "Триггер"
+
+msgid "Add trigger"
+msgstr "Добавить триггер"
+
+msgid "Conditions"
+msgstr "Условия"
+
+msgid "All conditions have to pass before any action runs."
+msgstr "Все условия должны быть выполнены до запуска любого действия."
+
+msgid "Condition"
+msgstr "Условие"
+
+msgid "Add condition"
+msgstr "Добавить условие"
+
+msgid "Actions"
+msgstr "Действия"
+
+msgid "Operations performed in this order once the conditions pass."
+msgstr "Операции, выполняемые в этом порядке после выполнения условий."
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Add action"
+msgstr "Добавить действие"
+
+msgid "Move up"
+msgstr "Переместить вверх"
+
+msgid "Move down"
+msgstr "Переместить вниз"
 
 msgid "Published translation files are available from the CDN base URL:"
 msgstr "Опубликованные файлы переводов доступны по базовому URL-адресу CDN:"
@@ -9094,6 +9321,30 @@ msgstr "Не удалось создать следующие компонент
 
 msgid "No matching components were found!"
 msgstr "Подходящие компоненты не найдены!"
+
+msgid ""
+"Configure the AMQP broker connection below, including any TLS certificates "
+"required by your broker, and select the events to publish."
+msgstr ""
+"Настройте подключение к брокеру AMQP ниже, включая любые сертификаты TLS, "
+"требуемые вашим брокером, и выберите события для публикации."
+
+msgid "Configure your consumer to subscribe to Weblate message topics:"
+msgstr "Настройте своего потребителя на подписку на темы сообщений Weblate:"
+
+msgid ""
+"Topics include only the path segments available for the event. If you "
+"configure a topic prefix, it is prepended with a dot separator."
+msgstr ""
+"Темы включают только сегменты пути, доступные для события. Если вы настроили "
+"префикс темы, он добавляется с разделителем-точкой."
+
+msgid ""
+"See the add-on documentation for topic examples, the message schema, and "
+"consumer configuration."
+msgstr ""
+"См. документацию дополнения для примеров тем, схемы сообщений и настройки "
+"потребителя."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9305,6 +9556,23 @@ msgstr "Строки будут генерироваться по следующ
 msgid "Source string"
 msgstr "Исходная строка"
 
+#, python-format
+msgid ""
+"Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
+"that should receive notifications."
+msgstr ""
+"Создайте <a href=\"%(url)s\">входящий веб-обработчик в Slack</a> для канала, "
+"который должен получать уведомления."
+
+msgid ""
+"Enter the webhook URL below and select the events to send to the channel."
+msgstr ""
+"Введите URL-адрес веб-обработчика ниже и выберите события для отправки в "
+"канал."
+
+msgid "See the add-on documentation for more information."
+msgstr "См. документацию дополнения для получения дополнительной информации."
+
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
@@ -9319,6 +9587,29 @@ msgstr ""
 "Исходные сообщения коммитов сохраняются, но информация об авторстве "
 "теряется, если не выбрано «По автору» или «По автору и языку», либо "
 "сообщение коммита не настроено на включение её."
+
+msgid ""
+"Configure your service to receive JSON POST requests, enter its URL below, "
+"and select the events to send."
+msgstr ""
+"Настройте свою службу на приём POST-запросов JSON, введите её URL-адрес ниже "
+"и выберите события для отправки."
+
+msgid ""
+"To verify request signatures, configure the same Standard Webhooks secret in "
+"Weblate and your receiver. Requests are signed only when a secret is "
+"configured."
+msgstr ""
+"Чтобы проверять подписи запросов, настройте одинаковый секрет Standard "
+"Webhooks в Weblate и вашем получателе. Запросы подписываются только при "
+"настроенном секрете."
+
+msgid ""
+"See the add-on documentation for the message payload and signature "
+"verification."
+msgstr ""
+"См. документацию дополнения для получения информации о полезной нагрузке "
+"сообщения и проверке подписи."
 
 msgid "HTTP Response"
 msgstr "HTTP-ответ"
@@ -9414,6 +9705,9 @@ msgstr "Управление отслеживаемыми проектами"
 
 msgid "My workspaces"
 msgstr "Мои рабочие пространства"
+
+msgid "Workspaces"
+msgstr "Рабочие пространства"
 
 msgid "Manage translated languages"
 msgstr "Управление языками перевода"
@@ -9601,9 +9895,6 @@ msgstr "Просмотреть"
 msgid "Event details"
 msgstr "О событии"
 
-msgid "Actions"
-msgstr "Действия"
-
 msgid "Download"
 msgstr "Скачать"
 
@@ -9708,6 +9999,104 @@ msgstr "У вас нет разрешения изменять управлен�
 msgid "Check your billing status"
 msgstr "Проверить статус вашего тарифного плана"
 
+msgid "Checking your browser"
+msgstr "Проверка вашего браузера"
+
+msgid ""
+"Your browser will calculate a short proof of work to protect this site "
+"against automated scraping."
+msgstr ""
+"Ваш браузер вычислит короткое доказательство работы для защиты этого сайта "
+"от автоматизированного сбора данных."
+
+msgid "Working…"
+msgstr "Выполняется…"
+
+msgid ""
+"Verification failed. Enable JavaScript, workers, and cookies, then retry. "
+"You can also sign in."
+msgstr ""
+"Проверка не удалась. Включите JavaScript, рабочие процессы и куки, затем "
+"повторите попытку. Вы также можете войти."
+
+msgid "JavaScript is required for anonymous access. You can sign in instead."
+msgstr ""
+"Для анонимного доступа требуется JavaScript. Вместо этого вы можете войти."
+
+msgid "Retry"
+msgstr "Повторить"
+
+msgid "Did you know?"
+msgstr "Знаете ли вы?"
+
+msgid "Review and confirm the bulk edit changes."
+msgstr "Просмотрите и подтвердите изменения массовой правки."
+
+#, python-format
+msgid "%(counter)s string would change."
+msgid_plural "%(counter)s strings would change."
+msgstr[0] "Изменится %(counter)s строка."
+msgstr[1] "Изменится %(counter)s строки."
+msgstr[2] "Изменится %(counter)s строк."
+
+msgid ""
+"Showing the first 250 changes. Only selected displayed strings will be "
+"processed unless you choose to apply all matching strings."
+msgstr ""
+"Показаны первые 250 изменений. Будут обработаны только выбранные "
+"отображаемые строки, если вы не выберете применение ко всем соответствующим "
+"строкам."
+
+msgid "Update preview"
+msgstr "Предварительный просмотр обновления"
+
+#, python-format
+msgid "Apply all matching strings (%(total)s)"
+msgstr "Применить ко всем соответствующим строкам (%(total)s)"
+
+msgid ""
+"Applies to all current matches, including those not displayed. The query and "
+"permissions are checked again when applying changes."
+msgstr ""
+"Применяется ко всем текущим совпадениям, включая неотображаемые. Запрос и "
+"разрешения проверяются повторно при применении изменений."
+
+msgid "Select"
+msgstr "Выбрать"
+
+msgid "String"
+msgstr "Строка"
+
+msgid "Changes"
+msgstr "Изменения"
+
+msgid "State"
+msgstr "Состояние"
+
+msgid "Before"
+msgstr "До"
+
+msgid "After"
+msgstr "После"
+
+msgid "Empty"
+msgstr "Пусто"
+
+msgid "Source flags (all languages)"
+msgstr "Флаги источника (все языки)"
+
+msgid "Translation flags"
+msgstr "Флаги перевода"
+
+msgid "Add label (all languages)"
+msgstr "Добавить метку (все языки)"
+
+msgid "Remove label (all languages)"
+msgstr "Удалить метку (все языки)"
+
+msgid "Apply"
+msgstr "Применить"
+
 msgid "Insights"
 msgstr "Аналитика"
 
@@ -9726,9 +10115,6 @@ msgstr "Отправить перевод"
 msgid "Operations"
 msgstr "Операции"
 
-msgid "Search and replace"
-msgstr "Поиск и замена"
-
 msgid "Post announcement"
 msgstr "Опубликовать объявление"
 
@@ -9737,12 +10123,6 @@ msgstr "Упорядочить или удалить"
 
 msgid "Browse all changes for this language"
 msgstr "Обзор по всем изменениям этого языка"
-
-msgid "Review changes"
-msgstr "Просмотр изменений"
-
-msgid "Apply"
-msgstr "Применить"
 
 msgid "Browse components"
 msgstr "Обзор компонентов"
@@ -10537,9 +10917,6 @@ msgstr "Нечего предварительно просматривать."
 msgid "Shortcut"
 msgstr "Горячая клавиша"
 
-msgid "Action"
-msgstr "Действие"
-
 msgid "Open available keyboard shortcuts."
 msgstr "Открыть доступные горячие клавиши."
 
@@ -10684,6 +11061,9 @@ msgstr "Проблема решена"
 msgid "Mark as spam"
 msgstr "Пометить как спам"
 
+msgid "Service is no longer available"
+msgstr "Служба больше не доступна"
+
 msgid "This service is installed site wide."
 msgstr "Этот сервис установлен на всём сайте."
 
@@ -10696,23 +11076,17 @@ msgstr "Эта служба установлена в рабочем прост�
 msgid "workspace"
 msgstr "рабочее пространство"
 
+msgid "Rate limited"
+msgstr "Ограничено по скорости"
+
 msgid "This service is disabled."
 msgstr "Эта служба отключена."
-
-msgid "disabled"
-msgstr "отключено"
-
-msgid "Service is no longer available"
-msgstr "Служба больше не доступна"
 
 msgid "ID"
 msgstr "ИД"
 
 msgid "Slug"
 msgstr "Плашка"
-
-msgid "Installation slug (optional)"
-msgstr "Плашка установки (необязательно)"
 
 msgid ""
 "This service can send source strings, translations, and related context to a "
@@ -10723,32 +11097,165 @@ msgstr ""
 "контекст стороннему поставщику. Прежде чем включить её, ознакомьтесь с "
 "условиями и политикой конфиденциальности поставщика."
 
-msgid "Configured translation services"
-msgstr "Настроенные службы перевода"
+msgid "Inherited service"
+msgstr "Унаследованная служба"
 
-msgid "Stop using this installation without removing its configuration."
-msgstr "Прекратить использование этой установки без удаления её конфигурации."
+msgid "This service is managed at its installation scope."
+msgstr "Эта служба управляется в своей области установки."
+
+msgid "Manage this installation"
+msgstr "Управлять этой установкой"
+
+msgid "Installation slug (optional)"
+msgstr "Плашка установки (необязательно)"
+
+msgid "This service has no settings."
+msgstr "У этой службы нет настроек."
+
+msgid "Use in automations"
+msgstr "Использовать в автоматизациях"
+
+msgid ""
+"Select this installation in the engines setting of an automatic translation "
+"action using its numeric ID:"
+msgstr ""
+"Выберите эту установку в настройке движков действия автоматического "
+"перевода, используя её числовой идентификатор:"
+
+msgid "You can also select it using its slug:"
+msgstr "Вы также можете выбрать её, используя её плашку:"
+
+msgid ""
+"The numeric ID always selects this installation. The slug selects the "
+"installation currently using that name in the project."
+msgstr ""
+"Числовой идентификатор всегда выбирает эту установку. Плашка выбирает "
+"установку, в настоящее время использующую это имя в проекте."
+
+msgid ""
+"Set an installation slug above to give this service a readable name in your "
+"automations."
+msgstr ""
+"Установите плашку установки выше, чтобы дать этой службе читаемое имя в "
+"ваших автоматизациях."
+
+msgid "Rate limit"
+msgstr "Ограничение частоты запросов"
+
+msgid ""
+"Requests to this service are temporarily paused after a provider error. "
+"Resetting the rate limit allows Weblate to try again; it does not reset the "
+"provider’s quota."
+msgstr ""
+"Запросы к этой службе временно приостановлены после ошибки поставщика. Сброс "
+"ограничения скорости позволяет Weblate повторить попытку; он не сбрасывает "
+"квоту поставщика."
+
+msgid "Reset rate limit"
+msgstr "Сбросить ограничение скорости"
+
+msgid "The rate limit can be reset at the service’s installation scope."
+msgstr "Ограничение скорости можно сбросить в области установки службы."
+
+msgid "Service control"
+msgstr "Управление службой"
+
+msgid "Disable installation"
+msgstr "Отключить установку"
+
+msgid ""
+"Stop using this installation here and in scopes inheriting it. Its settings "
+"are kept so you can enable it again later."
+msgstr ""
+"Прекратить использование этой установки здесь и в наследующих её областях. "
+"Её настройки сохраняются, чтобы вы могли включить её снова позже."
+
+msgid ""
+"Stop using this inherited installation in this workspace and its projects. "
+"Other installations of this service remain available."
+msgstr ""
+"Прекратить использование этой унаследованной установки в этом рабочем "
+"пространстве и его проектах. Другие установки этой службы остаются "
+"доступными."
+
+msgid ""
+"Stop using this inherited installation in this project. Other installations "
+"of this service and its use in other projects are unaffected."
+msgstr ""
+"Прекратить использование этой унаследованной установки в этом проекте. "
+"Другие установки этой службы и её использование в других проектах не "
+"затрагиваются."
 
 msgid "Disable"
 msgstr "Отключить"
 
-msgid "Stop using this inherited installation here."
-msgstr "Прекратить использование этой унаследованной установки здесь."
+msgid "Enable installation"
+msgstr "Включить установку"
+
+msgid ""
+"Resume using this installation with its saved settings here and in scopes "
+"inheriting it. Existing exclusions still apply."
+msgstr ""
+"Возобновить использование этой установки с её сохранёнными настройками здесь "
+"и в наследующих её областях. Существующие исключения по-прежнему применяются."
+
+msgid ""
+"Remove the local exclusion for this installation. It can provide suggestions "
+"here when it is enabled at its installation scope and is not excluded "
+"upstream. Other excluded installations remain excluded."
+msgstr ""
+"Удалить локальное исключение для этой установки. Она сможет предлагать "
+"варианты здесь, когда включена в области действия своей установки и не "
+"исключена вышестоящим репозиторием. Другие исключённые установки останутся "
+"исключёнными."
 
 msgid "Enable"
 msgstr "Включить"
 
-msgid "Remove this installation and its configuration."
-msgstr "Удалить эту установку и её конфигурацию."
+msgid ""
+"This installation is disabled at its installation scope or excluded by an "
+"upstream scope."
+msgstr ""
+"Эта установка отключена в своей области установки или исключена вышестоящей "
+"областью."
 
-msgid "Exclude all inherited installations of this service"
-msgstr "Исключить все унаследованные установки этой службы"
+msgid "Exclude inherited service"
+msgstr "Исключить унаследованную службу"
+
+msgid ""
+"Stop using all site-wide installations of this service in this workspace and "
+"its projects, including installations added later. Installations configured "
+"directly in this workspace or its projects remain available."
+msgstr ""
+"Прекратить использование всех общесайтовых установок этой службы в этом "
+"рабочем пространстве и его проектах, включая установки, добавленные позже. "
+"Установки, настроенные непосредственно в этом рабочем пространстве или его "
+"проектах, остаются доступными."
+
+msgid ""
+"Stop using all inherited installations of this service in this project, "
+"including installations added later. Installations configured directly in "
+"this project and use in other projects are unaffected."
+msgstr ""
+"Прекратить использование всех унаследованных установок этой службы в этом "
+"проекте, включая установки, добавленные позже. Установки, настроенные "
+"непосредственно в этом проекте, и использование в других проектах не "
+"затрагиваются."
 
 msgid "Exclude"
 msgstr "Исключить"
 
-msgid "Configure"
-msgstr "Настроить"
+msgid ""
+"Removing this installation stops it from being used here and in scopes "
+"inheriting it, and deletes its saved settings. You will need to install and "
+"configure it again to use it later."
+msgstr ""
+"Удаление этой установки прекращает её использование здесь и в наследующих её "
+"областях и удаляет её сохранённые настройки. Чтобы использовать её позже, "
+"вам потребуется установить и настроить её снова."
+
+msgid "Configured translation services"
+msgstr "Настроенные службы перевода"
 
 msgid "There are no services currently installed."
 msgstr "В настоящее время установленных сервисов нет."
@@ -10769,6 +11276,12 @@ msgstr "Не удалось найти ни одного дополнитель�
 msgid ""
 "Some services will ask for additional configuration during installation."
 msgstr "Некоторые сервисы потребуют дополнительной настройки при установке."
+
+msgid "Translation service errors"
+msgstr "Ошибки службы перевода"
+
+msgid "No translation service errors available."
+msgstr "Нет доступных ошибок службы перевода."
 
 #, python-format
 msgid "The following activity has occurred on your account at %(site_title)s:"
@@ -11807,9 +12320,6 @@ msgstr "Удалить приглашение"
 msgid "Check user access"
 msgstr "Проверка доступа пользователя"
 
-msgid "Workspaces"
-msgstr "Рабочие пространства"
-
 msgid "Add workspace"
 msgstr "Добавить рабочее пространство"
 
@@ -11928,6 +12438,9 @@ msgstr "вкл"
 #. Translators: Shared translation memory is disabled
 msgid "off"
 msgstr "откл."
+
+msgid "Configure"
+msgstr "Настроить"
 
 msgid "Autoclean translation memory"
 msgstr "Автоматическая очистка памяти переводов"
@@ -12134,22 +12647,6 @@ msgstr "Спасибо за ваш вклад в переводы."
 msgid "Donate to Weblate development"
 msgstr "Пожертвовать на развитие Weblate"
 
-msgid "Please review and confirm the search and replace results."
-msgstr "Просмотрите и подтвердите результаты поиска и замены."
-
-msgid ""
-"Showing and replacing only the first 250 matches. Perform the replacement "
-"again to replace more."
-msgstr ""
-"Отображаются и заменяются только первые 250 совпадений. Повторите действие, "
-"чтобы заменить больше."
-
-msgid "Update preview"
-msgstr "Предварительный просмотр обновления"
-
-msgid "Replace"
-msgstr "Заменить"
-
 msgid "Generated by"
 msgstr "Создано"
 
@@ -12183,6 +12680,18 @@ msgstr ""
 msgid "Assign source strings"
 msgstr "Прикрепить исходные строки"
 
+msgid "Find source strings"
+msgstr "Найти исходные строки"
+
+msgid "Image text"
+msgstr "Текст изображения"
+
+msgid "Suggests source strings by recognizing text in this screenshot."
+msgstr "Предлагает исходные строки, распознавая текст на этом снимке экрана."
+
+msgid "Add selected"
+msgstr "Добавить выбранные"
+
 msgid "Source string search"
 msgstr "Поиск по исходной строке"
 
@@ -12195,15 +12704,6 @@ msgstr ""
 
 msgid "Search query syntax documentation"
 msgstr "Документация по синтаксису поисковых запросов"
-
-msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr "Предлагает исходные строки, распознавая текст на этом снимке экрана."
-
-msgid "Find strings in image"
-msgstr "Найти строки на изображении"
-
-msgid "Add selected"
-msgstr "Добавить выбранные"
 
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "Удаление снимка экрана уберёт его из всех связанных исходных строк."
@@ -12393,9 +12893,8 @@ msgstr "Выбрать все строки на этой странице"
 msgid "Select string for bulk edit"
 msgstr "Выбрать строку для массовой правки"
 
-msgid "You can change the state of all strings matching given type at once."
-msgstr ""
-"Можно изменить состояние сразу всех строк, соответствующих указанному типу."
+msgid "Choose which strings to edit and the changes to apply."
+msgstr "Выберите, какие строки редактировать, и применяемые изменения."
 
 msgid "The operation is applied to the strings selected in the list above."
 msgstr "Операция применяется к строкам, выбранным в списке выше."
@@ -12513,9 +13012,6 @@ msgstr ""
 msgid "Clone to translation"
 msgstr "Дублировать в перевод"
 
-msgid "Select"
-msgstr "Выбрать"
-
 msgid "Target string"
 msgstr "Целевая строка"
 
@@ -12561,7 +13057,6 @@ msgstr "URL-адрес запроса на извлечение скопиров
 msgid "Last remote commit"
 msgstr "Последний внешний коммит"
 
-#. Translators: For example: "nijel authored five days ago"
 #, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "%(author)s создал %(date)s"
@@ -13016,9 +13511,6 @@ msgstr "Ключи/контекст строк"
 msgid "Location strings"
 msgstr "Расположение строки"
 
-msgid "String state"
-msgstr "Состояние строки"
-
 #. Translators: String pending for flushing to VCS.
 msgid "Pending string"
 msgstr "Ожидает обновления в СКВ"
@@ -13181,9 +13673,6 @@ msgstr "Настроить рабочий процесс перевода"
 
 msgid "Saved search name"
 msgstr "Имя сохранённого поиска"
-
-msgid "Search query"
-msgstr "Поисковый запрос"
 
 msgid "No saved searches yet."
 msgstr "Сохранённых поисков пока нет."
@@ -14069,6 +14558,21 @@ msgid ""
 "translations."
 msgstr "Weblate не смог разобрать файлы перевода при обновлении переводов."
 
+msgid ""
+"Weblate pushed the changes and created the pull request, but could not apply "
+"the configured labels or assignees."
+msgstr ""
+"Weblate отправил изменения и создал запрос на извлечение, но не смог "
+"применить настроенные метки или исполнителей."
+
+msgid ""
+"Check that the labels and assignees exist and that Weblate can write pull "
+"requests, or remove the customization from the version control parameters."
+msgstr ""
+"Проверьте, что метки и исполнители существуют и что Weblate может создавать "
+"запросы на извлечение, или удалите настройку из параметров системы контроля "
+"версий."
+
 msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate не смог отправить изменения в вышестоящий репозиторий."
 
@@ -14217,9 +14721,6 @@ msgstr "Перейти к дате"
 msgid "Go"
 msgstr "Перейти"
 
-msgid "Changes"
-msgstr "Изменения"
-
 msgid "Download latest changes as CSV"
 msgstr "Скачать последние изменения в CSV"
 
@@ -14289,9 +14790,6 @@ msgid ""
 msgstr ""
 "Создать новый компонент перевода для дополнительной ветки существующего "
 "компонента перевода."
-
-msgid "Retry"
-msgstr "Повторить"
 
 msgid ""
 "The new component will be created for the selected branch with the exact "
@@ -16415,6 +16913,10 @@ msgid "Could not merge the pull request automatically."
 msgstr "Не удалось автоматически объединить запрос на извлечение."
 
 #. Translators: Name of an alert
+msgid "Could not customize the pull request."
+msgstr "Не удалось настроить запрос на извлечение."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Репозиторий устарел."
 
@@ -16439,6 +16941,17 @@ msgstr "Апострофы в Java MessageFormat"
 
 msgid "Trailing and leading whitespace"
 msgstr "Пробелы в начале и конце"
+
+msgid "Automatic translation completed with errors, no strings were updated."
+msgstr "Автоматический перевод завершён с ошибками, строки не были обновлены."
+
+#, python-format
+msgid "Automatic translation completed with errors, %d string was updated."
+msgid_plural ""
+"Automatic translation completed with errors, %d strings were updated."
+msgstr[0] "Автоматический перевод завершён с ошибками, обновлена %d строка."
+msgstr[1] "Автоматический перевод завершён с ошибками, обновлено %d строки."
+msgstr[2] "Автоматический перевод завершён с ошибками, обновлено %d строк."
 
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Автоматический перевод завершён, строки не были обновлены."
@@ -16515,6 +17028,9 @@ msgstr "Повторяющееся имя сохранённого поиска.
 msgid "Screenshot image is missing."
 msgstr "Изображение снимка экрана отсутствует."
 
+msgid "Revision must be a complete hexadecimal object ID."
+msgstr "Ревизия должна быть полным шестнадцатеричным идентификатором объекта."
+
 msgid "Duplicate check name."
 msgstr "Повторяющееся имя проверки."
 
@@ -16526,6 +17042,9 @@ msgstr "Имя файла компонента не соответствует �
 
 msgid "Duplicate component slug."
 msgstr "Повторяющаяся плашка компонента."
+
+msgid "Translation revision has an invalid format."
+msgstr "Ревизия перевода имеет недействительный формат."
 
 msgid "Duplicate translation identifier."
 msgstr "Повторяющийся идентификатор перевода."
@@ -16585,8 +17104,42 @@ msgstr ""
 "Компонент %(component)s пропущен, так как его связанный репозиторий "
 "недоступен."
 
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is unknown."
+msgstr ""
+"Параметр %(parameter)s в %(family)s компонента %(component)s был пропущен, "
+"поскольку он неизвестен."
+
+#, python-format
+msgid ""
+"Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
+"it is not applicable."
+msgstr ""
+"Параметр %(parameter)s в %(family)s компонента %(component)s был пропущен, "
+"поскольку он неприменим."
+
+msgid "Version control parameters"
+msgstr "Параметры системы контроля версий"
+
+msgid "File format parameters"
+msgstr "Параметры формата файла"
+
 msgid "The project repository directory already exists."
 msgstr "Каталог репозитория проекта уже существует."
+
+msgid "Invalid search type."
+msgstr "Недействительный тип поиска."
+
+msgid "Enter a search string to replace."
+msgstr "Введите строку поиска для замены."
+
+msgid "Invalid target state."
+msgstr "Недействительное целевое состояние."
+
+msgid "Choose either replacement or clearing translations."
+msgstr "Выберите либо замену, либо очистку переводов."
 
 msgid "The component was automatically locked because of an alert."
 msgstr "Компонент был автоматически заблокирован из-за предупреждения."
@@ -16710,9 +17263,6 @@ msgstr ""
 
 msgid "Version control"
 msgstr "Контроль версий"
-
-msgid "State"
-msgstr "Состояние"
 
 msgid "Severity"
 msgstr "Уровень"
@@ -17684,18 +18234,6 @@ msgstr "Не удалось загрузить резервную копию п�
 msgid "Could not load project backup."
 msgstr "Не удалось загрузить резервную копию проекта."
 
-msgid "Optional additional filter applied to the strings"
-msgstr "Необязательный дополнительный фильтр применяемый к строкам"
-
-msgid "Search string"
-msgstr "Строка поиска"
-
-msgid "Case-sensitive string to search for and replace."
-msgstr "Строка с учётом регистра для поиска и замены."
-
-msgid "Replacement string"
-msgstr "Строка замены"
-
 msgid "Key or context"
 msgstr "Ключ или контекст"
 
@@ -17750,37 +18288,111 @@ msgstr "У вас нет прав для создания терминологи
 msgid "Invalid string selection!"
 msgstr "Недействительный выбор строк!"
 
+msgid "Search type"
+msgstr "Тип поиска"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Search string"
+msgstr "Строка поиска"
+
+msgid ""
+"Case-sensitive text or regular expression to replace in matching strings. "
+"Leave empty to disable replacement."
+msgstr ""
+"Чувствительный к регистру текст или регулярное выражение для замены в "
+"соответствующих строках. Оставьте пустым, чтобы отключить замену."
+
+msgid "Replacement string"
+msgstr "Строка замены"
+
+msgid ""
+"Leave empty to remove matching text. In regular expression mode, use \\1 for "
+"the first captured group. Named group references are also supported."
+msgstr ""
+"Оставьте пустым, чтобы удалить соответствующий текст. В режиме регулярных "
+"выражений используйте \\1 для первой захваченной группы. Именованные ссылки "
+"на группы также поддерживаются."
+
 msgid "State to set"
 msgstr "Задаваемое состояние"
 
 msgid "Do not change"
 msgstr "Не изменять"
 
-msgid "Source flags to add — all languages"
-msgstr "Добавляемые флаги источника — все языки"
+msgid "Add flags"
+msgstr "Добавить флаги"
 
-msgid "Source flags to remove — all languages"
-msgstr "Удаляемые флаги источника — все языки"
+msgid "Remove flags"
+msgstr "Удалить флаги"
 
-msgid "Translation flags to add — matching translations"
-msgstr "Добавляемые флаги перевода — соответствующие переводы"
-
-msgid "Applies only to matching translations, excluding source strings."
+msgid ""
+"Only flags set directly on these translations are removed. Inherited flags "
+"remain in effect."
 msgstr ""
-"Применяется только к соответствующим переводам, исключая исходные строки."
+"Удаляются только флаги, установленные непосредственно на этих переводах. "
+"Унаследованные флаги остаются в силе."
 
-msgid "Translation flags to remove — matching translations"
-msgstr "Удаляемые флаги перевода — соответствующие переводы"
+msgid "Add labels"
+msgstr "Добавить метки"
 
-msgid "Removes locally set flags. Inherited flags remain in effect."
+msgid "Remove labels"
+msgstr "Удалить метки"
+
+msgid "Preview changes"
+msgstr "Предварительный просмотр изменений"
+
+msgid "Choose flags to add…"
+msgstr "Выберите флаги для добавления…"
+
+msgid "Choose flags to remove…"
+msgstr "Выберите флаги для удаления…"
+
+msgid "Source flags"
+msgstr "Флаги источника"
+
+msgid ""
+"Flags are set on the source strings corresponding to your selection and "
+"apply to their translations in every language."
 msgstr ""
-"Удаляет локально установленные флаги. Унаследованные флаги остаются в силе."
+"Флаги устанавливаются на исходных строках, соответствующих вашей выборке, и "
+"применяются к их переводам на всех языках."
 
-msgid "Labels to add — all languages"
-msgstr "Добавляемые метки — все языки"
+msgid ""
+"Flags are set on the source strings corresponding to your filter results and "
+"apply to their translations in every language."
+msgstr ""
+"Флаги устанавливаются на исходных строках, соответствующих результатам "
+"вашего фильтра, и применяются к их переводам на всех языках."
 
-msgid "Labels to remove — all languages"
-msgstr "Удаляемые метки — все языки"
+msgid ""
+"Flags apply only to translations in your selection. Source strings are "
+"excluded."
+msgstr ""
+"Флаги применяются только к переводам в вашей выборке. Исходные строки "
+"исключаются."
+
+msgid ""
+"Flags apply only to translations matching your filter. Source strings are "
+"excluded."
+msgstr ""
+"Флаги применяются только к переводам, соответствующим вашему фильтру. "
+"Исходные строки исключаются."
+
+msgid ""
+"Labels apply to the source strings corresponding to your selection and are "
+"shared across all languages."
+msgstr ""
+"Метки применяются к исходным строкам, соответствующим вашей выборке, и "
+"являются общими для всех языков."
+
+msgid ""
+"Labels apply to the source strings corresponding to your filter results and "
+"are shared across all languages."
+msgstr ""
+"Метки применяются к исходным строкам, соответствующим результатам вашего "
+"фильтра, и являются общими для всех языков."
 
 msgid "Select strings to edit or enter a search query."
 msgstr "Выберите строки для правки или введите поисковый запрос."
@@ -18040,9 +18652,6 @@ msgstr "Название категории"
 
 msgid "Display name"
 msgstr "Отображаемое имя"
-
-msgid "Translation flags"
-msgstr "Флаги перевода"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -18342,9 +18951,6 @@ msgstr ""
 "содержащему переводы. Вы также можете выбрать дополнительную интеграцию со "
 "сторонними поставщиками для подачи запросов на слияние."
 
-msgid "Version control parameters"
-msgstr "Параметры системы контроля версий"
-
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -18470,9 +19076,6 @@ msgid ""
 msgstr ""
 "Имя файла, который используется для создания новых переводов. Для gettext "
 "выберите .pot файл."
-
-msgid "File format parameters"
-msgstr "Параметры формата файла"
 
 msgid "Locked component will not get any translation updates."
 msgstr "Заблокированный компонент не получит никаких обновлений перевода."
@@ -19471,9 +20074,9 @@ msgid ""
 "while you were editing it. Reload the editor and review your changes before "
 "saving."
 msgstr ""
-"Состояние рецензирования этой строки изменилось с %(previous)s на %(current)"
-"s во время вашего редактирования. Перезагрузите редактор и просмотрите свои "
-"изменения перед сохранением."
+"Состояние рецензирования этой строки изменилось с %(previous)s на "
+"%(current)s во время вашего редактирования. Перезагрузите редактор и "
+"просмотрите свои изменения перед сохранением."
 
 msgid "Unmark as untranslatable for all languages"
 msgstr "Снять метку «непереводимое» для всех языков"
@@ -20315,19 +20918,6 @@ msgstr "Включённые дни пользователей"
 msgid "Excluded user days"
 msgstr "Исключённые дни пользователей"
 
-msgid "Could not process form!"
-msgstr "Не удалось обработать форму!"
-
-msgid "Search and replace completed, no strings were updated."
-msgstr "Поиск и замена завершены, строки не были обновлены."
-
-#, python-format
-msgid "Search and replace completed, %d string was updated."
-msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Поиск и замена завершены, %d строка была обновлена."
-msgstr[1] "Поиск и замена завершены, %d строки были обновлены."
-msgstr[2] "Поиск и замена завершены, %d строк были обновлены."
-
 #, python-format
 msgid "Search for %s"
 msgstr "Поиск %s"
@@ -20337,6 +20927,18 @@ msgstr "Слишком много поисковых запросов, повт�
 
 msgid "Invalid search query!"
 msgstr "Неверный поисковый запрос!"
+
+msgid "The preview has expired or is invalid. Preview the changes again."
+msgstr ""
+"Предварительный просмотр истёк или недействителен. Просмотрите изменения "
+"снова."
+
+msgid "Could not process form!"
+msgstr "Не удалось обработать форму!"
+
+#, python-format
+msgid "Bulk edit failed: %s"
+msgstr "Массовая правка не удалась: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Массовая правка завершена, ни одна строка не была обновлена."
@@ -20497,6 +21099,156 @@ msgstr "Borg завершился с предупреждениями без к�
 msgid "Invalid host name given!"
 msgstr "Указано недопустимое имя узла!"
 
+msgid "Press ? in the translation editor to discover keyboard shortcuts."
+msgstr "Нажмите ? в редакторе перевода, чтобы узнать сочетания клавиш."
+
+msgid ""
+"Add secondary languages in your preferences to see translations you already "
+"understand alongside the source."
+msgstr ""
+"Добавьте дополнительные языки в своих предпочтениях, чтобы видеть переводы, "
+"которые вы уже понимаете, рядом с источником."
+
+msgid ""
+"Customize your special characters in your profile to keep frequently used "
+"characters within reach."
+msgstr ""
+"Настройте свои специальные символы в профиле, чтобы часто используемые "
+"символы были под рукой."
+
+msgid ""
+"Use the visual keyboard above the translation field to insert special "
+"characters."
+msgstr ""
+"Используйте визуальную клавиатуру над полем перевода для вставки специальных "
+"символов."
+
+msgid ""
+"Save searches you use often so you can return to them from the search "
+"filters."
+msgstr ""
+"Сохраняйте часто используемые поиски, чтобы возвращаться к ним из фильтров "
+"поиска."
+
+msgid ""
+"Combine search conditions with AND, OR, and NOT to find exactly the strings "
+"you need."
+msgstr ""
+"Комбинируйте условия поиска с помощью AND, OR и NOT, чтобы найти именно те "
+"строки, которые вам нужны."
+
+msgid ""
+"Search with regular expressions when a simple word search is not enough."
+msgstr ""
+"Используйте поиск с регулярными выражениями, когда простого поиска по слову "
+"недостаточно."
+
+msgid "Use labels to organize strings and find related translation work."
+msgstr ""
+"Используйте метки для организации строк и поиска связанной работы по "
+"переводу."
+
+msgid ""
+"Check a string’s screenshots to see where the text appears in the "
+"application."
+msgstr ""
+"Проверьте снимки экрана строки, чтобы увидеть, где текст появляется в "
+"приложении."
+
+msgid ""
+"Link an existing screenshot to a string to give translators more context."
+msgstr ""
+"Свяжите существующий снимок экрана со строкой, чтобы дать переводчикам "
+"больше контекста."
+
+msgid ""
+"Check nearby strings for context before translating a short or ambiguous "
+"message."
+msgstr ""
+"Проверьте соседние строки для контекста перед переводом короткого или "
+"неоднозначного сообщения."
+
+msgid "Explore a string’s history to see how its translation has changed."
+msgstr "Изучите историю строки, чтобы увидеть, как изменился её перевод."
+
+msgid ""
+"Leave a comment on a source string to ask for context that can help every "
+"language."
+msgstr ""
+"Оставьте комментарий к исходной строке, чтобы запросить контекст, который "
+"поможет каждому языку."
+
+msgid ""
+"Suggest a translation when you want others to review your wording before it "
+"is accepted."
+msgstr ""
+"Предложите перевод, когда хотите, чтобы другие просмотрели вашу формулировку "
+"перед её принятием."
+
+msgid "You can edit a translation suggestion before accepting it."
+msgstr "Вы можете отредактировать предложение перевода перед его принятием."
+
+msgid ""
+"Add terms to a project glossary to help translators use consistent wording."
+msgstr ""
+"Добавьте термины в словарь проекта, чтобы помочь переводчикам использовать "
+"последовательные формулировки."
+
+msgid ""
+"Glossaries can mark terms as forbidden to help translators avoid unwanted "
+"wording."
+msgstr ""
+"Словари могут помечать термины как запрещённые, чтобы помочь переводчикам "
+"избегать нежелательных формулировок."
+
+msgid "Glossaries can mark names and other terms as untranslatable."
+msgstr "Словари могут помечать имена и другие термины как непереводимые."
+
+msgid ""
+"Watch projects you care about and choose which translation events notify you."
+msgstr ""
+"Отслеживайте интересующие вас проекты и выбирайте, какие события перевода "
+"уведомляют вас."
+
+msgid ""
+"Choose notification digests to receive translation updates together instead "
+"of one email at a time."
+msgstr ""
+"Выберите дайджесты уведомлений, чтобы получать обновления перевода вместе, а "
+"не по одному письму за раз."
+
+msgid "Regular expression processing failed or exceeded its resource limit."
+msgstr ""
+"Обработка регулярного выражения завершилась ошибкой или превысила лимит "
+"ресурсов."
+
+msgid "Cumulative regex time limit exceeded."
+msgstr "Превышен совокупный лимит времени регулярных выражений."
+
+msgid "Regex request exceeds its size limit."
+msgstr "Запрос регулярного выражения превышает свой лимит размера."
+
+msgid "Regular expression evaluation timed out."
+msgstr "Истекло время ожидания вычисления регулярного выражения."
+
+msgid "Regex response exceeds its size limit."
+msgstr "Ответ регулярного выражения превышает свой лимит размера."
+
+msgid "Regex output exceeds its size limit."
+msgstr "Вывод регулярного выражения превышает свой лимит размера."
+
+msgid "Pattern and replacement must not exceed 4096 characters."
+msgstr "Шаблон и замена не должны превышать 4096 символов."
+
+msgid "Regex input exceeds 1 MiB per plural."
+msgstr ""
+"Входные данные регулярного выражения превышают 1 МиБ на форму множественного "
+"числа."
+
+#, python-format
+msgid "Invalid regular expression or replacement: %s"
+msgstr "Недействительное регулярное выражение или замена: %s"
+
 msgid "Automatic translation reported a warning."
 msgstr "Автоматический перевод сообщил предупреждение."
 
@@ -20506,6 +21258,9 @@ msgstr ""
 
 msgid "Task could not be completed. See the task log for details."
 msgstr "Задача не может быть выполнена. Подробности см. в журнале задачи."
+
+msgid "Automatic translation reported an error."
+msgstr "Автоматический перевод сообщил об ошибке."
 
 #. Translators: Name of a color
 msgid "Navy"
@@ -20663,6 +21418,9 @@ msgstr "Не удалось разрешить домен URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Не удалось разрешить домен URL."
 
+msgid "Invalid stored parameter value."
+msgstr "Недействительное сохранённое значение параметра."
+
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr "Параметры должны быть словарём пар ключ-значение."
 
@@ -20685,6 +21443,9 @@ msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
 "Невозможно скачать ресурс с указанного URL (код состояния HTTP: %(code)s)."
+
+msgid "Regular expression is too complex."
+msgstr "Регулярное выражение слишком сложное."
 
 msgid "Search query is too complex."
 msgstr "Поисковый запрос слишком сложный."
@@ -20714,6 +21475,9 @@ msgstr "Недопустимое регулярное выражение: {}"
 msgid "Unsupported lookup for {field}: {value}"
 msgstr "Неподдерживаемый поиск для {field}: {value}"
 
+msgid "A concrete project or component is required."
+msgstr "Требуется конкретный проект или компонент."
+
 msgid "Could not parse IP address: {}"
 msgstr "Не удалось разобрать IP-адрес: {}"
 
@@ -20725,6 +21489,9 @@ msgstr "Диапазон не поддерживается для поля {}"
 
 msgid "Mixed operators!"
 msgstr "Смешанные операторы!"
+
+msgid "Search query is too long."
+msgstr "Поисковый запрос слишком длинный."
 
 msgid "Invalid character in the query string"
 msgstr "Недопустимый символ в строке запроса"
@@ -21114,6 +21881,41 @@ msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr ""
 "Не удалось получить список запросов на извлечение: %(error)s. Пожалуйста, "
 "повторите позже."
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s"
+msgstr ""
+"Запрос к API %(service)s не удался при настройке запроса на извлечение: %"
+"(status)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"Запрос к API %(service)s не удался при настройке запроса на извлечение: %"
+"(status)s. Пожалуйста, повторите позже."
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s"
+msgstr ""
+"Запрос к API %(service)s не удался при настройке запроса на извлечение (%"
+"(status)s): %(error)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while customizing a pull request "
+"(%(status)s): %(error)s Please retry later."
+msgstr ""
+"Запрос к API %(service)s не удался при настройке запроса на извлечение (%"
+"(status)s): %(error)s. Пожалуйста, повторите позже."
+
+#, python-format
+msgid "GitHub did not assign the requested users: %(assignees)s"
+msgstr "GitHub не назначил запрошенных пользователей: %(assignees)s"
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -21510,6 +22312,34 @@ msgstr ""
 "Открывает запрос на извлечение или слияние для изменений перевода. Когда "
 "выключено, Weblate отправляет изменения непосредственно в переведённую "
 "ветку, что требует доступа на запись к ней."
+
+msgid "Pull request assignee"
+msgstr "Исполнитель запроса на извлечение"
+
+msgid "GitHub username to assign to pull requests created by Weblate."
+msgstr ""
+"Имя пользователя GitHub, которое нужно назначить исполнителем запросов на "
+"извлечение, создаваемых Weblate."
+
+msgid "Assign pull requests to acting user"
+msgstr "Назначать запросы на извлечение действующему пользователю"
+
+msgid ""
+"Also assign the GitHub account linked to the Weblate user who starts the "
+"push, when available."
+msgstr ""
+"Также назначать учётную запись GitHub, связанную с пользователем Weblate, "
+"запустившим отправку, если она доступна."
+
+msgid "Pull request labels"
+msgstr "Метки запросов на извлечение"
+
+msgid ""
+"Comma-separated names of labels to add to pull requests created by Weblate. "
+"Existing labels are kept."
+msgstr ""
+"Имена меток через запятую, которые нужно добавить к запросам на извлечение, "
+"создаваемым Weblate. Существующие метки сохраняются."
 
 msgid "Merge pull requests automatically"
 msgstr "Автоматически объединять запросы на извлечение"
@@ -22077,6 +22907,15 @@ msgstr "Унаследованные умолчания компонента"
 msgid "Workspace name"
 msgstr "Название рабочего пространства"
 
+msgid "Translation propagation scope"
+msgstr "Область распространения перевода"
+
+msgid "Matching component name within workspace"
+msgstr "Совпадающее имя компонента в пределах рабочего пространства"
+
+msgid "Where translations of matching strings are propagated."
+msgstr "Куда распространяются переводы совпадающих строк."
+
 msgid "Managed name"
 msgstr "Управляемое имя"
 
@@ -22106,6 +22945,74 @@ msgstr "Рабочее пространство нельзя удалить, т�
 
 msgid "The workspace has been removed."
 msgstr "Рабочее пространство удалено."
+
+#~ msgid "Search and replace"
+#~ msgstr "Поиск и замена"
+
+#~ msgid "Stop using this installation without removing its configuration."
+#~ msgstr ""
+#~ "Прекратить использование этой установки без удаления её конфигурации."
+
+#~ msgid "Stop using this inherited installation here."
+#~ msgstr "Прекратить использование этой унаследованной установки здесь."
+
+#~ msgid "Remove this installation and its configuration."
+#~ msgstr "Удалить эту установку и её конфигурацию."
+
+#~ msgid "Please review and confirm the search and replace results."
+#~ msgstr "Просмотрите и подтвердите результаты поиска и замены."
+
+#~ msgid ""
+#~ "Showing and replacing only the first 250 matches. Perform the replacement "
+#~ "again to replace more."
+#~ msgstr ""
+#~ "Отображаются и заменяются только первые 250 совпадений. Повторите "
+#~ "действие, чтобы заменить больше."
+
+#~ msgid "Replace"
+#~ msgstr "Заменить"
+
+#~ msgid "Find strings in image"
+#~ msgstr "Найти строки на изображении"
+
+#~ msgid "You can change the state of all strings matching given type at once."
+#~ msgstr ""
+#~ "Можно изменить состояние сразу всех строк, соответствующих указанному "
+#~ "типу."
+
+#~ msgid "Optional additional filter applied to the strings"
+#~ msgstr "Необязательный дополнительный фильтр применяемый к строкам"
+
+#~ msgid "Case-sensitive string to search for and replace."
+#~ msgstr "Строка с учётом регистра для поиска и замены."
+
+#~ msgid "Source flags to add — all languages"
+#~ msgstr "Добавляемые флаги источника — все языки"
+
+#~ msgid "Source flags to remove — all languages"
+#~ msgstr "Удаляемые флаги источника — все языки"
+
+#~ msgid "Translation flags to add — matching translations"
+#~ msgstr "Добавляемые флаги перевода — соответствующие переводы"
+
+#~ msgid "Translation flags to remove — matching translations"
+#~ msgstr "Удаляемые флаги перевода — соответствующие переводы"
+
+#~ msgid "Labels to add — all languages"
+#~ msgstr "Добавляемые метки — все языки"
+
+#~ msgid "Labels to remove — all languages"
+#~ msgstr "Удаляемые метки — все языки"
+
+#~ msgid "Search and replace completed, no strings were updated."
+#~ msgstr "Поиск и замена завершены, строки не были обновлены."
+
+#, python-format
+#~ msgid "Search and replace completed, %d string was updated."
+#~ msgid_plural "Search and replace completed, %d strings were updated."
+#~ msgstr[0] "Поиск и замена завершены, %d строка была обновлена."
+#~ msgstr[1] "Поиск и замена завершены, %d строки были обновлены."
+#~ msgstr[2] "Поиск и замена завершены, %d строк были обновлены."
 
 #~ msgid "Name is also used in version control commits."
 #~ msgstr "Имя также используется в коммитах системы управления версиями."
@@ -22276,10 +23183,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgstr ""
 #~ "Не удалось авторизоваться, вероятно, из-за истёкшего токена или ошибки "
 #~ "соединения."
-
-#, python-format
-#~ msgid "Authentication failed: %s"
-#~ msgstr "Авторизация неудачна: %s"
 
 #~ msgid "The authentication provider could not be reached."
 #~ msgstr "Поставщик авторизации недоступен."
@@ -22614,9 +23517,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgid "Repository URL"
 #~ msgstr "URL-адрес репозитория"
 
-#~ msgid "Repository name"
-#~ msgstr "Имя репозитория"
-
 #~ msgid "Configure component"
 #~ msgstr "Настроить компонент"
 
@@ -22925,9 +23825,6 @@ msgstr "Рабочее пространство удалено."
 
 #~ msgid "Provide context to the translators"
 #~ msgstr "Предоставить контекст для переводчиков"
-
-#~ msgid "Workflow customization"
-#~ msgstr "Настройка рабочего процесса"
 
 #~ msgid "Add team"
 #~ msgstr "Добавить команду"
@@ -23501,9 +24398,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgid "Disable two-factor authentication"
 #~ msgstr "Отключить двухфакторную авторизацию"
 
-#~ msgid "Translation reviews are not enabled."
-#~ msgstr "Проверка перевода не включена."
-
 #~ msgid "Reviews are not enabled."
 #~ msgstr "Проверки не включены."
 
@@ -23679,9 +24573,6 @@ msgstr "Рабочее пространство удалено."
 
 #~ msgid "Rename component"
 #~ msgstr "Переименовать компонент"
-
-#~ msgid "Move component"
-#~ msgstr "Переместить компонент"
 
 #~ msgid "Moving the component will also change its URLs."
 #~ msgstr "Перемещение компонента также приведет к изменению его URL адресов."
@@ -24139,9 +25030,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgid "source"
 #~ msgstr "источник"
 
-#~ msgid "Invalid parameters!"
-#~ msgstr "Недопустимые параметры!"
-
 #~ msgid "Not translated strings"
 #~ msgstr "Непереведённые строки"
 
@@ -24150,13 +25038,6 @@ msgstr "Рабочее пространство удалено."
 
 #~ msgid "Strings needing action"
 #~ msgstr "Строки, требующие действий"
-
-#, python-format
-#~ msgid "%(count)s string needing action"
-#~ msgid_plural "%(count)s strings needing action"
-#~ msgstr[0] "%(count)s строка, требующая действий"
-#~ msgstr[1] "%(count)s строки, требующие действий"
-#~ msgstr[2] "%(count)s строк, требующих действий"
 
 #~ msgid ""
 #~ "Strings needing action, converted files enriched with comments; suitable "
@@ -24630,9 +25511,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgid "Use this translation for all components"
 #~ msgstr "Использовать данный перевод для всех компонентов"
 
-#~ msgid "Use this translation"
-#~ msgstr "Использовать этот перевод"
-
 #~ msgid "Change compared to this translation:"
 #~ msgstr "Изменение сравнивалось с этим переводом:"
 
@@ -24897,9 +25775,6 @@ msgstr "Рабочее пространство удалено."
 
 #~ msgid "You can no longer log in using {method} ({name})."
 #~ msgstr "Вы больше не можете войти, используя {method} ({name})."
-
-#~ msgid "You can now log in using password."
-#~ msgstr "Вы можете теперь войти, используя пароль."
 
 #~ msgid "New whiteboard message"
 #~ msgstr "Новое сообщение на совместной доске"
@@ -25265,9 +26140,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgid "Your languages"
 #~ msgstr "Свои языки"
 
-#~ msgid "Search type"
-#~ msgstr "Тип поиска"
-
 #~ msgid "Fulltext"
 #~ msgstr "Полнотекстовый"
 
@@ -25304,9 +26176,6 @@ msgstr "Рабочее пространство удалено."
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
 #~ msgstr "{0}%"
-
-#~ msgid "Repositories limit"
-#~ msgstr "Лимит репозиториев"
 
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "У пользователя есть все разрешения без их присвоения."
@@ -27349,9 +28218,6 @@ msgstr "Рабочее пространство удалено."
 
 #~ msgid "End date"
 #~ msgstr "Дата окончания"
-
-#~ msgid "Text"
-#~ msgstr "Текст"
 
 #~ msgid "Depending on placement, HTML can be allowed."
 #~ msgstr "HTML может быть разрешён в зависимости от размещения."

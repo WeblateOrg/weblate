@@ -477,7 +477,7 @@ Build-time and configuration variants
        native regex compilation and matching can still exhaust memory because
        the address-space limit is unavailable. *(maintainer)*
      - Existing edit and add-on management permissions govern mutations. Resource
-       failures abort the current component; previously completed components can
+       failures abort the current batch; previously completed batches can
        remain changed. See :ref:`bulk-edit` for limits and execution boundaries.
        *(maintainer)*
 
@@ -680,8 +680,8 @@ Security properties Weblate provides
    * - User discovery and profile access respect global role permissions.
        *(documented)* (source: :doc:`/admin/privacy`)
      - Operators configure the desired policy. Resource-scoped discovery and
-       contribution attribution remain available; this does not provide
-       contributor anonymity. *(documented)*
+       contribution attribution have separate permission controls; this does
+       not provide contributor anonymity. *(documented)*
      - Generic user enumeration bypasses a restricted directory policy, or
        profile data is returned to a viewer excluded by the profile policy.
      - Authorization bypass; assess the exposed data and configured policy.
@@ -767,8 +767,11 @@ Security properties Weblate provides
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
        :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
-       changes to authentication credentials require recent second-factor
-       verification for accounts with 2FA. *(documented)* (source:
+       changes to authentication credentials, access permissions, project
+       visibility, account status, and bulk user-contribution cleanup require
+       recent credential verification for browser sessions. Accounts with 2FA
+       use a second factor; other accounts confirm their password or an existing
+       sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
      - Session fixation, credential bypass, cross-user session confusion, or a
@@ -1119,6 +1122,18 @@ Known non-findings
   a Weblate vulnerability unless Weblate itself violates a claimed property
   while storing, checking, reviewing, or displaying that translation.
   *(documented)* (source: :doc:`/security/localization-threat`)
+
+Contributor attribution is an authorization boundary within accessible projects.
+Confidential collaboration restricts system-provided attribution while retaining
+translation content and internal history. Resource-scoped attribution
+autocomplete follows this boundary independently of general directory access.
+Identity-safe regenerated translation exports remain available without attribution
+access; original files require
+attribution access. Identity-bearing reports, change downloads,
+repository access, access management, and administrator-configured integrations remain separately
+trusted disclosure paths. User-provided content and previously exported copies
+are outside this confidentiality guarantee. See :ref:`confidential-collaboration`
+for configuration and limitations. *(maintainer)*
 
 Conditions that change this model
 ---------------------------------

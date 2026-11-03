@@ -23,7 +23,7 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.cookie import CookieStorage
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
 from django.db.models import Exists, F, OuterRef, Prefetch, Q
 from django.utils import timezone
@@ -801,6 +801,106 @@ def report_bulk_accept_user_suggestions_progress(processed: int, total: int) -> 
             state="PROGRESS",
             meta={"progress": 100 * processed // total if total else 100},
         )
+
+
+@app.task(trail=False)
+def bulk_edit_task(
+    *,
+    user_id: int,
+    path: list[str],
+    data: dict[str, list[str]],
+    selected_ids: list[int] | None = None,
+) -> dict[str, Any]:
+    """Apply a browser bulk edit with fresh scope and permission checks."""
+    from django.http import Http404, QueryDict  # ruff: ignore[import-outside-top-level]
+
+    from weblate.trans.bulk import bulk_perform  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.forms import BulkEditForm  # ruff: ignore[import-outside-top-level]
+    from weblate.trans.views.search import (  # ruff: ignore[import-outside-top-level]
+        get_bulk_edit_options,
+        get_bulk_edit_scope,
+    )
+
+    user = User.objects.get(pk=user_id)
+    request = AuthenticatedHttpRequest()
+    request.user = user
+    payload = QueryDict(mutable=True)
+    for key, values in data.items():
+        payload.setlist(key, values)
+    processed = 0
+    updated_so_far = 0
+
+    def report_progress(done: int, total: int, updated: int) -> None:
+        nonlocal processed, updated_so_far
+        processed = done
+        updated_so_far = updated
+        if current_task and current_task.request.id:
+            current_task.update_state(
+                state="PROGRESS",
+                meta={"progress": 100 * done // total if total else 100},
+            )
+
+    with override(user.profile.language):
+        # ruff: ignore[too-many-statements-in-try-clause]
+        try:
+            obj, unit_set, context = get_bulk_edit_scope(request, path)
+            form = BulkEditForm(
+                user, obj, payload, project=context.get("project"), selection=True
+            )
+            if not form.is_valid():
+                # ruff: ignore[raise-within-try]
+                raise ValidationError(
+                    gettext("Bulk edit parameters are no longer valid.")
+                )
+            if selected_ids is not None:
+                unit_set = unit_set.filter(pk__in=selected_ids)
+            updated = bulk_perform(
+                user,
+                unit_set,
+                progress=report_progress,
+                **get_bulk_edit_options(form, context),
+            )
+        except (ValidationError, PermissionDenied, Http404) as error:
+            message = gettext(
+                "Bulk edit failed after processing %(count)d strings: %(error)s"
+            ) % {
+                "count": processed,
+                "error": "; ".join(error.messages)
+                if isinstance(error, ValidationError)
+                else gettext("The target or permissions changed."),
+            }
+            return {
+                "message": message,
+                "updated": updated_so_far,
+                "errors": [message],
+                "completion_message": {"text": message, "level": "error"},
+            }
+        except Exception:
+            LOGGER.exception(
+                "Bulk edit task failed after processing %d units", processed
+            )
+            message = gettext(
+                "Bulk edit failed after processing %(count)d strings. Earlier batches may have been applied."
+            ) % {"count": processed}
+            return {
+                "message": message,
+                "updated": updated_so_far,
+                "errors": [message],
+                "completion_message": {"text": message, "level": "error"},
+            }
+        message = (
+            ngettext(
+                "Bulk edit completed, %d string was updated.",
+                "Bulk edit completed, %d strings were updated.",
+                updated,
+            )
+            % updated
+        )
+        return {
+            "message": message,
+            "updated": updated,
+            "completion_message": {"text": message, "level": "success"},
+        }
 
 
 @app.task(trail=False)

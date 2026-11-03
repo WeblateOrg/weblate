@@ -858,6 +858,7 @@ class ReplaceTest(ReusableViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
         self.make_manager()
@@ -1174,14 +1175,208 @@ class ReplaceTest(ReusableViewTestCase):
         )
 
 
+class BulkGlossaryFlagsTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        self.component.create_glossary()
+        self.glossary = Component.objects.get(project=self.project, is_glossary=True)
+        source = self.glossary.source_translation.add_unit(
+            None, "", source="bulk-glossary-term", author=self.user
+        )
+        assert source is not None
+        self.source = source
+        self.glossary.add_new_language(self.translation.language, None)
+        self.term = self.glossary.translation_set.get(
+            language=self.translation.language
+        ).unit_set.get(source_unit=source)
+        self.editor = User.objects.create_user(
+            "glossary-bulk", "glossary-bulk@example.com", "glossary-bulk"
+        )
+        self.group = Group.objects.create(
+            name="Glossary bulk sources", language_selection=SELECTION_ALL
+        )
+        self.group.projects.add(self.project)
+        self.group.roles.set(
+            Role.objects.filter(name__in=["Edit source", "Bulk editing"])
+        )
+        self.editor.groups.add(self.group)
+        self.editor.clear_permissions_cache()
+        self.assertTrue(self.editor.has_perm("source.edit", self.glossary))
+        self.assertTrue(self.editor.has_perm("unit.bulk_edit", self.glossary))
+        self.assertFalse(
+            self.editor.has_perm("meta:unit.flag", self.source.translation)
+        )
+        self.client.force_login(self.editor)
+        self.url = reverse("bulk-edit", kwargs={"path": self.project.get_url_path()})
+
+    def test_source_flags_require_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        for selected in (self.source, self.term):
+            for field, initial, expected in (
+                ("add_flags", "", "forbidden, read-only"),
+                ("remove_flags", "forbidden, read-only", ""),
+            ):
+                with self.subTest(selected=selected.pk, field=field):
+                    self.source.update_extra_flags(initial, self.user)
+                    data = {
+                        "q": f"id:{selected.pk}",
+                        "state": -1,
+                        field: "forbidden, read-only",
+                    }
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, no strings were updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, initial)
+
+                    self.group.roles.add(role)
+                    self.editor.clear_permissions_cache()
+                    response = self.client.post(self.url, data, follow=True)
+                    self.assertContains(
+                        response, "Bulk edit completed, 1 string was updated."
+                    )
+                    self.source.refresh_from_db()
+                    self.term.refresh_from_db()
+                    self.assertEqual(self.source.extra_flags, expected)
+                    self.assertEqual(self.term.readonly, bool(expected))
+                    self.group.roles.remove(role)
+                    self.editor.clear_permissions_cache()
+
+    def test_glossary_scope_requires_glossary_permission(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.glossary.get_url_path()}),
+            {"q": f"id:{self.source.pk}", "state": -1, "add_flags": "forbidden"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_mixed_preview_skips_glossary_flags(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{unit.pk},{self.term.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.assertEqual(
+            [edit.unit.pk for edit in response.context["matching"]], [unit.pk]
+        )
+        unit.source_unit.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "")
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "apply_all": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit.source_unit.refresh_from_db()
+        self.source.refresh_from_db()
+        self.assertEqual(unit.source_unit.extra_flags, "read-only")
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_confirmation_rechecks_glossary_permission(self) -> None:
+        role = Role.objects.get(name="Manage glossary")
+        self.group.roles.add(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "q": f"id:{self.source.pk}",
+                "state": -1,
+                "add_flags": "read-only",
+                "preview": "1",
+            },
+        )
+        self.assertEqual(response.context["total"], 1)
+        self.group.roles.remove(role)
+        self.editor.clear_permissions_cache()
+        response = self.client.post(
+            self.url,
+            {
+                "bulk_confirmation": response.context["confirmation"],
+                "preview_units": [self.source.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+    def test_labels_keep_source_permission(self) -> None:
+        label = self.project.label_set.create(name="Bulk glossary label", color="black")
+        for field, expected in (("add_labels", [label]), ("remove_labels", [])):
+            with self.subTest(field=field):
+                response = self.client.post(
+                    self.url,
+                    {
+                        "q": f"id:{self.term.pk}",
+                        "state": -1,
+                        "add_flags": "read-only",
+                        field: label.pk,
+                    },
+                    follow=True,
+                )
+                self.assertContains(
+                    response, "Bulk edit completed, 1 string was updated."
+                )
+                self.source.refresh_from_db()
+                self.assertEqual(self.source.extra_flags, "")
+                self.assertEqual(list(self.source.labels.all()), expected)
+
+    def test_trusted_bulk_edit_can_change_glossary_flags(self) -> None:
+        updated = bulk_perform(
+            self.editor,
+            Unit.objects.filter(pk=self.source.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            enforce_permissions=False,
+        )
+        self.assertEqual(updated, 1)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "read-only")
+
+
 class BulkEditTest(ReusableViewTestCase):
     """Test for build edit functionality."""
 
     def setUp(self) -> None:
         super().setUp()
+        reset_rate_limit("bulk_edit", user=self.user)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()
+
+    def create_extra_bulk_unit(self) -> Unit:
+        return Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    source="Another bulk string",
+                    target="Another target",
+                    id_hash=-99_000_000,
+                    source_unit=self.unit.source_unit,
+                    state=STATE_FUZZY,
+                    original_state=STATE_FUZZY,
+                    position=20_000,
+                )
+            ]
+        )[0]
 
     def test_preview_is_read_only_and_confirmation_applies(self) -> None:
         url = reverse("bulk-edit", kwargs=self.kw_translation)
@@ -1538,6 +1733,126 @@ class BulkEditTest(ReusableViewTestCase):
         self.assertEqual(
             Unit.objects.filter(pk__in=ids, state=STATE_TRANSLATED).count(), 251
         )
+
+    def test_bulk_edit_rejects_oversized_selection_before_writing(self) -> None:
+        source_id = self.unit.source_unit_id
+        before = self.unit.target
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_MAX_UNITS", 1),
+            self.assertRaisesMessage(ValidationError, "limited to 1 string"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, source_id]),
+                query="",
+                target_state=STATE_EMPTY,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, before)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_edit_queues_apply_and_preserves_actor(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        with patch("weblate.trans.tasks.bulk_edit_task.delay") as delay:
+            delay.return_value.id = "bulk-edit-task"
+            response = self.client.post(
+                url,
+                {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY},
+                follow=True,
+            )
+        self.assertContains(response, "Bulk edit in progress")
+        self.assertEqual(delay.call_args.kwargs["user_id"], self.user.pk)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "Nazdar svete!\n")
+
+    def test_bulk_edit_task_applies_with_initiating_actor(self) -> None:
+        from weblate.trans.tasks import bulk_edit_task  # ruff: ignore[import-outside-top-level]
+
+        result = bulk_edit_task(
+            user_id=self.user.pk,
+            path=self.kw_translation["path"],
+            data={
+                "q": [f"id:{self.unit.pk}"],
+                "state": [str(STATE_EMPTY)],
+            },
+        )
+        self.assertEqual(result["updated"], 1)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.target, "")
+        self.assertEqual(self.unit.change_set.latest("pk").user, self.user)
+
+    @override_settings(RATELIMIT_BULK_EDIT_ATTEMPTS=1)
+    def test_bulk_edit_rate_limit_blocks_repeated_preview(self) -> None:
+        url = reverse("bulk-edit", kwargs=self.kw_translation)
+        reset_rate_limit("bulk_edit", user=self.user)
+        data = {"q": f"id:{self.unit.pk}", "state": STATE_EMPTY, "preview": "1"}
+        first = self.client.post(url, data)
+        self.assertEqual(first.status_code, 200)
+        second = self.client.post(url, data, follow=True)
+        self.assertContains(second, "Too many bulk edits")
+
+    def test_bulk_edit_reports_progress_after_each_batch(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        progress = []
+        with patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1):
+            updated = bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+                progress=lambda done, total, changed: progress.append(
+                    (done, total, changed)
+                ),
+            )
+        self.assertEqual(updated, 2)
+        self.assertEqual(progress, [(0, 2, 0), (1, 2, 1), (2, 2, 2)])
+
+    def test_bulk_edit_keeps_completed_batch_on_later_failure(self) -> None:
+        extra = self.create_extra_bulk_unit()
+        updates = 0
+        original_bulk_update = Unit.objects.bulk_update
+
+        def fail_second(objs: list[Unit], fields: list[str], batch_size: int) -> int:
+            nonlocal updates
+            updates += 1
+            if updates == 2:
+                msg = "Second batch failed"
+                raise RuntimeError(msg)
+            return original_bulk_update(objs, fields, batch_size=batch_size)
+
+        with (
+            patch("weblate.trans.bulk.BULK_EDIT_PREVIEW_LIMIT", 1),
+            patch.object(Unit.objects, "bulk_update", side_effect=fail_second),
+            self.assertRaisesMessage(RuntimeError, "Second batch failed"),
+        ):
+            bulk_perform(
+                self.user,
+                Unit.objects.filter(pk__in=[self.unit.pk, extra.pk]),
+                query="",
+                target_state=STATE_TRANSLATED,
+                add_flags="",
+                remove_flags="",
+                add_labels=self.project.label_set.none(),
+                remove_labels=self.project.label_set.none(),
+                project=self.project,
+                components=[self.component],
+            )
+        self.unit.refresh_from_db()
+        extra.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+        self.assertEqual(extra.state, STATE_FUZZY)
 
     def test_regex_output_failure_does_not_write(self) -> None:
         self.unit.translate(self.user, "a" * 8000, STATE_TRANSLATED)

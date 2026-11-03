@@ -1276,6 +1276,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
         previous_project = self.old_component_settings.get("project_id")
         previous_source = self.old_component_settings.get("source_language_id")
         update_fields = kwargs.get("update_fields")
+        if (
+            self.pk
+            and previous_project is not None
+            and previous_project != self.project_id
+            and (
+                update_fields is None or {"project", "project_id"} & set(update_fields)
+            )
+        ):
+            from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+            validate_component_project_move((self.pk,))
         source_changed = (
             previous_source is not None
             and previous_source != self.source_language_id
@@ -6219,6 +6230,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.drop_file_format_cache()
         if self.project_id is None:
             return
+        if (
+            self.pk
+            and Component.objects.filter(pk=self.pk)
+            .exclude(project_id=self.project_id)
+            .exists()
+        ):
+            from weblate.auth.models import validate_component_project_move  # ruff: ignore[import-outside-top-level]
+
+            validate_component_project_move((self.pk,))
         if settings.OFFER_HOSTING and self.project.use_shared_tm and self.restricted:
             raise ValidationError(
                 {

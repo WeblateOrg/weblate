@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import time
 from contextlib import ExitStack
 from io import BytesIO
 from pathlib import Path
@@ -34,6 +35,7 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import (
     Group,
@@ -373,6 +375,13 @@ class ComponentTestCase(RepoTestCase):
         self.anotheruser = create_another_user()
         self.user.groups.add(Group.objects.get(name="Users"))
         self.client.login(username="testuser", password="testpassword")
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT] = {
+            "user": self.user.pk,
+            "hash": self.user.get_session_auth_hash(),
+            "time": int(time.time()),
+        }
+        session.save()
 
     def get_request(self, user=None):
         """Get fake request object."""

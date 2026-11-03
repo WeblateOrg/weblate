@@ -52,6 +52,7 @@ SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
 SESSION_FIRST_FACTOR_GRANT = "weblate:first_factor:grant"
 SESSION_FIRST_FACTOR_SSO = "weblate:first_factor:sso"
+SESSION_SENSITIVE_FACTOR_GRANT = "weblate:sensitive:factor_grant"
 SESSION_FIRST_WEBAUTHN_NAME = "weblate:first_factor:webauthn_name"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
@@ -85,6 +86,61 @@ def has_recent_second_factor(
         isinstance(timestamp, int)
         and not isinstance(timestamp, bool)
         and timestamp + SECOND_FACTOR_VERIFY_SECONDS >= int(time.time())
+    )
+
+
+def has_recent_sensitive_verification(request: AuthenticatedHttpRequest) -> bool:
+    """Require fresh proof of an existing credential for a sensitive action."""
+    user = request.user
+    if not user.is_authenticated:
+        return False
+    if user.profile.has_2fa:
+        return has_recent_second_factor(request)
+    grant = request.session.get(SESSION_SENSITIVE_FACTOR_GRANT)
+    if not isinstance(grant, dict):
+        return False
+    timestamp = grant.get("time")
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= int(time.time())
+        and timestamp + FIRST_FACTOR_VERIFY_SECONDS >= int(time.time())
+        and grant.get("user") == user.pk
+        and grant.get("hash") == user.get_session_auth_hash()
+    )
+
+
+def grant_sensitive_verification(
+    request: AuthenticatedHttpRequest, *, user: User | None = None
+) -> None:
+    user = user or request.user
+    request.session[SESSION_SENSITIVE_FACTOR_GRANT] = {
+        "user": user.pk,
+        "hash": user.get_session_auth_hash(),
+        "time": int(time.time()),
+    }
+
+
+def valid_first_factor_sso_intent(
+    request: AuthenticatedHttpRequest, intent: object, provider: str
+) -> bool:
+    """Validate the session-bound intent before starting or completing SSO proof."""
+    if not request.user.is_authenticated or not isinstance(intent, dict):
+        return False
+    timestamp = intent.get("time")
+    association = intent.get("association")
+    now = int(time.time())
+    return (
+        isinstance(timestamp, int)
+        and not isinstance(timestamp, bool)
+        and timestamp <= now <= timestamp + FIRST_FACTOR_VERIFY_SECONDS
+        and intent.get("user") == request.user.pk
+        and intent.get("hash") == request.user.get_session_auth_hash()
+        and intent.get("provider") == provider
+        and intent.get("target") in {"totp", "webauthn", "sensitive"}
+        and isinstance(association, int)
+        and request.user.social_auth.filter(pk=association, provider=provider).exists()
+        and not request.user.profile.has_2fa
     )
 
 
@@ -139,6 +195,50 @@ def second_factor_verification_redirect(
         "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
     )
     return HttpResponseRedirect(f"{login_url}?{urlencode({'next': next_url})}")
+
+
+def sensitive_verification_redirect(
+    request: AuthenticatedHttpRequest, next_url: str
+) -> HttpResponseRedirect:
+    if request.user.profile.has_2fa:
+        return second_factor_verification_redirect(request, next_url)
+    messages.info(request, gettext("Please confirm your identity before proceeding."))
+    return HttpResponseRedirect(
+        f"{reverse('first-factor-verify')}?{urlencode({'target': 'sensitive', 'next': next_url})}"
+    )
+
+
+def require_sensitive_verification(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
+        return view(request, *args, **kwargs)
+
+    return wrapped
+
+
+def require_project_sensitive_verification(
+    view: Callable[..., HttpResponseBase],
+) -> Callable[..., HttpResponseBase]:
+    """Return project access POST actions to a GET page after verification."""
+
+    @wraps(view)
+    def wrapped(
+        request: AuthenticatedHttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponseBase:
+        if not has_recent_sensitive_verification(request):
+            project = kwargs["project"]
+            return sensitive_verification_redirect(
+                request, reverse("manage-access", kwargs={"project": project})
+            )
+        return view(request, *args, **kwargs)
+
+    return wrapped
 
 
 def require_recent_second_factor(

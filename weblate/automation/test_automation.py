@@ -635,6 +635,99 @@ class DefinitionTest(SimpleTestCase):
 
 
 class AutomationTest(ReusableComponentTestCase):
+    def test_author_queries_survive_creator_permission_changes(self) -> None:
+        from weblate.auth.models import Permission, Role, User, get_anonymous  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Comment, Project, Suggestion  # ruff: ignore[import-outside-top-level]
+
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        author = User.objects.create_user(
+            "automation-contributor", "automation-contributor@example.org"
+        )
+        Change.objects.create(
+            unit=unit,
+            user=author,
+            author=author,
+            action=ActionEvents.CHANGE,
+            target="Contributor edit",
+        )
+        Comment.objects.create(unit=unit, user=author, comment="Target comment")
+        Comment.objects.create(
+            unit=unit.source_unit, user=author, comment="Source comment"
+        )
+        Suggestion.objects.create(unit=unit, user=author, target="Suggestion")
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        addons = []
+        for field in (
+            "changed_by",
+            "suggestion_author",
+            "comment_author",
+            "source_comment_author",
+        ):
+            query = f"id:{unit.pk} {field}:{author.username}"
+            workflow = WORKFLOW | {
+                "conditions": [{"condition": "matching_strings", "value": query}],
+                "actions": [
+                    {
+                        "action": "weblate.select",
+                        "id": "chosen",
+                        "settings": {"q": query},
+                    },
+                    {
+                        "action": "weblate.bulk_edit",
+                        "scope": "result:chosen",
+                        "settings": {"state": STATE_FUZZY},
+                    },
+                ],
+            }
+            addons.append(self.install(workflow))
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        self.assertFalse(
+            self.user.has_perm("contribution.view_author", unit.translation)
+        )
+        self.assertFalse(
+            get_anonymous().has_perm("contribution.view_author", unit.translation)
+        )
+        for deleted in (False, True):
+            if deleted:
+                self.user.delete()
+            for addon in addons:
+                with self.subTest(
+                    deleted=deleted,
+                    query=addon.instance.configuration["workflow"]["conditions"],
+                ):
+                    Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+                    workflow = addon.instance.configuration["workflow"]
+                    result = addon.preview(workflow, self.component.pk)
+                    self.assertEqual(
+                        result["context"]["results"]["chosen"]["selected"], 1
+                    )
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.state, STATE_TRANSLATED)
+                    runner = Runner(
+                        validate_operations(deepcopy(workflow), self.component),
+                        execution_context(self.component, "manual"),
+                        self.component,
+                        addon.user,
+                    )
+                    self.assertEqual(
+                        runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace
+                    )
+                    self.assertEqual(runner.selections["chosen"].unit_ids, {unit.pk})
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.state, STATE_FUZZY)
+                    self.assertEqual(
+                        unit.change_set.filter(action=ActionEvents.BULK_EDIT)
+                        .latest("pk")
+                        .user,
+                        addon.user,
+                    )
+
     @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_changes_identify_automation_and_execution(self, task: Mock) -> None:
         units = self.component.translation_set.get(language_code="cs").unit_set
@@ -2386,6 +2479,35 @@ class AIQualityAutomationTest(ComponentTestCase):
             "id": "quality",
             "settings": {"q": query} if query else {},
         }
+
+    def test_author_query_uses_administrative_scope(self) -> None:
+        from weblate.auth.models import Permission, Role  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
+
+        unit = self.units[0]
+        Change.objects.create(
+            unit=unit,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.CHANGE,
+            target="Evaluated edit",
+        )
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        permission = Permission.objects.get(codename="contribution.view_author")
+        for role in Role.objects.filter(permissions=permission):
+            role.permissions.remove(permission)
+        self.user.clear_permissions_cache()
+        settings = AIQualityOperation.normalize(
+            {"q": f"id:{unit.pk} changed_by:{self.user.username}"}, self.component
+        )
+        for execution_user in (None, self.user):
+            with patch(
+                "weblate.automation.operations.evaluate_component",
+                return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+            ) as evaluate:
+                AIQualityOperation.execute(self.component, settings, execution_user)
+                self.assertEqual(list(evaluate.call_args.args[3]), [unit.pk])
 
     def test_omitted_service_uses_effective_evaluator(self) -> None:
         settings = AIQualityOperation.normalize({}, self.component)

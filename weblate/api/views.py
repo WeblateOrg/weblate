@@ -45,6 +45,7 @@ from drf_spectacular.utils import (
 from drf_standardized_errors.handler import ExceptionHandler
 from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -68,11 +69,14 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
-from weblate.accounts.utils import remove_user
+from weblate.accounts.utils import has_recent_sensitive_verification, remove_user
 from weblate.accounts.visibility import (
     can_browse_users,
     can_manage_users,
+    can_view_contributor,
     check_profile_access,
+    contributor_translation_ids,
+    filter_contributor_changes,
     is_resource_bounded,
 )
 from weblate.addons.models import Addon
@@ -80,6 +84,7 @@ from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_
 from weblate.api.pagination import LargePagination
 from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
+    ActivitySerializer,
     AddonSerializer,
     AnnouncementSerializer,
     AutomationExecutionRequestSerializer,
@@ -160,7 +165,10 @@ from weblate.auth.permissions import (
     get_project_repository_selection,
 )
 from weblate.auth.results import PermissionResult
-from weblate.auth.utils import validate_team_assignable_user
+from weblate.auth.utils import (
+    validate_admin_team_assignment,
+    validate_team_assignable_user,
+)
 from weblate.formats.models import EXPORTERS
 from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
@@ -168,6 +176,8 @@ from weblate.machinery.api import InstallationSerializer
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MachineryInstallation
 from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
@@ -1174,6 +1184,28 @@ def get_delete_memory_option(request: Request) -> bool:
     return body_value if body_value is not None else query_value or False
 
 
+class SensitiveSessionMutationMixin(APIView):
+    """Step up session authentication for credential and access mutations."""
+
+    sensitive_actions: frozenset[str] = frozenset()
+    action: str
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return self.action in self.sensitive_actions
+
+    def initial(self, request: Request, *args, **kwargs) -> None:
+        super().initial(request, *args, **kwargs)
+        if (
+            isinstance(request.successful_authenticator, SessionAuthentication)
+            and self.requires_sensitive_verification(request)
+            and not has_recent_sensitive_verification(
+                cast("AuthenticatedHttpRequest", request)
+            )
+        ):
+            msg = "Recent credential verification required."
+            raise PermissionDenied(msg)
+
+
 @extend_schema_view(
     list=extend_schema(
         description=(
@@ -1185,7 +1217,8 @@ def get_delete_memory_option(request: Request) -> bool:
             "Users with either permission can list all users and receive detailed "
             "information. Without user.browse, searches require resource-scoped "
             "discovery; a positive contributes scope or accessible unit context is "
-            "then required to discover other users."
+            "then required to discover other users. Unit contexts always require "
+            "contributor identity access, independently of directory privileges."
         ),
         parameters=[
             OpenApiParameter(
@@ -1224,7 +1257,9 @@ def get_delete_memory_option(request: Request) -> bool:
                 int,
                 OpenApiParameter.QUERY,
                 description=(
-                    "Rank contributors to the given unit first. In restricted directory "
+                    "Rank contributors to the given unit first. Requires contributor "
+                    "identity access to the unit, independently of directory privileges. "
+                    "In restricted directory "
                     "modes, limit results to contributors to its translation."
                 ),
             ),
@@ -1249,7 +1284,7 @@ def get_delete_memory_option(request: Request) -> bool:
         description="Change the user parameters.",
     ),
 )
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Users API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
@@ -1257,6 +1292,27 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
     filterset_class = UserFilter
     filter_backends = (UserFilterBackend,)
+    sensitive_actions = frozenset(
+        {"create", "update", "partial_update", "destroy", "groups"}
+    )
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        if self.action in {"update", "partial_update"}:
+            return bool(
+                request.user.has_perm("user.edit")
+                or (
+                    isinstance(request.data, Mapping)
+                    and {
+                        "email",
+                        "username",
+                        "is_superuser",
+                        "is_active",
+                        "date_expires",
+                    }
+                    & request.data.keys()
+                )
+            )
+        return super().requires_sensitive_verification(request)
 
     def get_serializer_class(self):
         if getattr(self, "swagger_fake_view", False):
@@ -1311,6 +1367,11 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             return User.objects.none()
+        unit = None
+        if "unit" in self.request.GET:
+            unit = self.discovery_unit
+            if unit is None or not can_view_contributor(user, unit):
+                return User.objects.none()
         privileged = can_manage_users(user)
         query = self.request.GET.get("q", "")
         scoped = "q" in self.request.GET or "unit" in self.request.GET
@@ -1341,10 +1402,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 queryset.annotate(**annotations).filter(search_filters).distinct()
             )
         if not can_browse_users(user):
-            if "unit" in self.request.GET:
-                unit = self.discovery_unit
-                if unit is None:
-                    return User.objects.none()
+            if unit is not None:
                 queryset = queryset.filter(
                     change__translation_id=unit.translation_id
                 ).distinct()
@@ -1473,6 +1531,12 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == "POST":
             limit_languages = parse_limit_language_codes(request.data)
             validate_api_team_assignable_user(obj, "username", allow_bot=True)
+            try:
+                validate_admin_team_assignment(
+                    obj, group, limit_languages=limit_languages
+                )
+            except DjangoValidationError as error:
+                raise ValidationError({"group_id": error.messages}) from error
             had_membership = obj.team_memberships.filter(group=group).exists()
             obj.add_team(request, group)
             if limit_languages is not None:
@@ -1624,7 +1688,9 @@ class UserViewSet(viewsets.ModelViewSet):
             Translation.objects.filter_access(get_request_user(request))
             .prefetch()
             .filter(
-                id__in=user_translation_ids,
+                id__in=set(user_translation_ids).intersection(
+                    contributor_translation_ids(get_request_user(request))
+                ),
             )
             .order()
         )
@@ -1651,13 +1717,16 @@ class UserViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Groups API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Group.objects.none()
     serializer_class = GroupSerializer
     lookup_field = "id"
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return request.method not in {"GET", "HEAD", "OPTIONS"}
 
     def get_queryset(self):
         user = self.request.user
@@ -1674,7 +1743,18 @@ class GroupViewSet(viewsets.ModelViewSet):
                     )
                 )
             ).distinct()
-        return queryset.order_by("id")
+        return (
+            queryset.select_related("defining_project", "defining_workspace")
+            .prefetch_related(
+                "roles",
+                "languages",
+                "projects",
+                "componentlists",
+                "components",
+                "admins",
+            )
+            .order_by("id")
+        )
 
     def perm_check(
         self,
@@ -1994,11 +2074,8 @@ class GroupViewSet(viewsets.ModelViewSet):
             gettext("Cannot change components on a workspace team."),
         )
 
-        components = obj.components
-        if obj.defining_project_id is not None:
-            components = components.filter(project_id=obj.defining_project_id)
         try:
-            component = components.get(pk=component_id)
+            component = obj.components.get(pk=component_id)
         except Component.DoesNotExist as error:
             msg = "Component"
             raise not_found_http404(msg) from error
@@ -2023,6 +2100,10 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "User not found"
             raise ValidationError({"user_id": msg}) from error
         validate_api_team_assignable_user(user, "user_id")
+        try:
+            validate_admin_team_assignment(user, group, team_admin=True)
+        except DjangoValidationError as error:
+            raise ValidationError({"user_id": error.messages}) from error
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response(
@@ -2054,13 +2135,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return information about a role."),
     partial_update=extend_schema(description="Change the role parameters."),
 )
-class RoleViewSet(viewsets.ModelViewSet):
+class RoleViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
     """Roles API."""
 
     request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Role.objects.none()
     serializer_class = RoleSerializer
     lookup_field = "id"
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return request.method not in {"GET", "HEAD", "OPTIONS"}
 
     def get_queryset(self):
         user = self.request.user
@@ -2343,6 +2427,7 @@ class AnnouncementsMixin(APIViewSetMixin):
     ),
 )
 class ProjectViewSet(
+    SensitiveSessionMutationMixin,
     WeblateViewSet,
     UpdateModelMixin,
     CreateModelMixin,
@@ -2351,6 +2436,16 @@ class ProjectViewSet(
     AnnouncementsMixin,
 ):
     """Translation projects API."""
+
+    def requires_sensitive_verification(self, request: Request) -> bool:
+        return (
+            self.action in {"update", "partial_update"}
+            and isinstance(request.data, Mapping)
+            and bool(
+                {"access_control", "public_sharing", "enforced_2fa"}
+                & request.data.keys()
+            )
+        )
 
     raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
@@ -2951,6 +3046,7 @@ class ProjectViewSet(
             user,
             candidates,
             instance,
+            fmt=request.GET.get("format"),
         )
 
         return download_multi(
@@ -3009,6 +3105,7 @@ class ProjectViewSet(
             user,
             Translation.objects.filter(language=language, component__project=instance),
             instance,
+            fmt=request.GET.get("format"),
         )
         filterset = ComponentSlugFilter(
             request.query_params, queryset=components, request=request
@@ -3693,7 +3790,10 @@ class ComponentViewSet(
         instance = self.get_object()
         try:
             translations, components = prepare_download_scope(
-                cast("User", request.user), instance.translation_set.all(), instance
+                cast("User", request.user),
+                instance.translation_set.all(),
+                instance,
+                fmt=request.GET.get("format"),
             )
         except PermissionDenied:
             self.permission_denied(
@@ -4307,7 +4407,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
-        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_api()
+        queryset = (
+            obj.unit_set.search(query_string, user=get_request_user(request))
+            .order_by("id")
+            .prefetch_api()
+        )
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -4559,7 +4663,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
         if query_string:
-            result = result.search(query_string)
+            result = result.search(query_string, user=get_request_user(self.request))
         return result
 
     @extend_schema(
@@ -5218,6 +5322,11 @@ class ChangeFilter(filters.FilterSet):
 
 
 class ChangesFilterBackend(filters.DjangoFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if request.query_params.get("user"):
+            queryset = filter_contributor_changes(queryset, request.user)
+        return super().filter_queryset(request, queryset, view)
+
     def get_filterset_class(self, view, queryset=None):
         return ChangeFilter
 
@@ -5578,6 +5687,35 @@ def get_project_openmetrics_data(
         )
     )
     return result
+
+
+class Activity(APIView):
+    """Daily global activity and recently active accessible projects."""
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ActivitySerializer
+
+    @extend_schema(responses=ActivitySerializer)
+    def get(self, request: Request):
+        projects = [
+            project
+            for project in iter_prefetch_stats(
+                get_request_user(request).allowed_projects.order_by("pk")
+            )
+            if project.stats.last_changed is not None
+            and project.stats.recent_changes > 0
+        ]
+        projects.sort(key=lambda project: project.stats.last_changed, reverse=True)
+        serializer = ActivitySerializer(
+            {
+                "daily_activity": MetricsWrapper(
+                    None, Metric.SCOPE_GLOBAL, 0
+                ).daily_activity,
+                "projects": projects[:10],
+            },
+            context={"request": request},
+        )
+        return Response(serializer.data)
 
 
 class Metrics(APIView):

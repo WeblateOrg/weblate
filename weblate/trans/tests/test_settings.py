@@ -1262,7 +1262,7 @@ class SettingsTest(ReusableViewTestCase):
         change = project.change_set.filter(action=ActionEvents.ACCESS_EDIT).get()
 
         # Check change details display
-        self.assertEqual(change.get_details_display(), "Protected")
+        self.assertEqual(change.get_details_display(trusted=True), "Protected")
 
     def test_change_public_sharing(self) -> None:
         self.project.add_user(self.user, "Administration")
@@ -1319,11 +1319,11 @@ class SettingsTest(ReusableViewTestCase):
         review_change = setting_changes.get(details__field="translation_review")
         policy_change = setting_changes.get(details__field="commit_policy")
         self.assertEqual(
-            review_change.get_details_display(),
+            review_change.get_details_display(trusted=True),
             'Enable reviews changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            policy_change.get_details_display(),
+            policy_change.get_details_display(trusted=True),
             'Translation quality filter changed from "Commit all translations '
             'regardless of quality" to "Skip translations marked as needing editing".',
         )
@@ -1352,7 +1352,7 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(self.project.workspace_id, target_workspace.pk)
         change = self.project.change_set.get(action=ActionEvents.MOVE_PROJECT)
         self.assertEqual(
-            change.get_details_display(),
+            change.get_details_display(trusted=True),
             'Project moved from "Current workspace" to "Target workspace".',
         )
 
@@ -1649,11 +1649,11 @@ class SettingsTest(ReusableViewTestCase):
         restricted_change = setting_changes.get(details__field="restricted")
         new_lang_change = setting_changes.get(details__field="new_lang")
         self.assertEqual(
-            restricted_change.get_details_display(),
+            restricted_change.get_details_display(trusted=True),
             'Restricted component changed from "disabled" to "enabled".',
         )
         self.assertEqual(
-            new_lang_change.get_details_display(),
+            new_lang_change.get_details_display(trusted=True),
             'Adding new translation changed from "Contact maintainers" to '
             '"Disable adding new translations".',
         )
@@ -1904,6 +1904,90 @@ class SettingsTest(ReusableViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
+
+    def test_component_settings_do_not_expose_private_link_target(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.commit_pending_age = 11
+        self.component.save(update_fields=["commit_pending_age"])
+        private_project = self.create_project(
+            name="Private settings",
+            slug="private-settings",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private settings"
+        )
+        private_component.commit_pending_age = 37
+        private_component.push_on_commit = True
+        private_component.auto_lock_error = True
+        private_component.vcs_params = {"merge_request_assignee": "private-assignee"}
+        private_component.save(
+            update_fields=[
+                "commit_pending_age",
+                "push_on_commit",
+                "auto_lock_error",
+                "vcs_params",
+            ]
+        )
+        self.assertFalse(self.user.can_access_component(private_component))
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        errors = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://private-settings/missing",
+        ):
+            with self.subTest(repo=repo):
+                data["repo"] = repo
+                response = self.client.post(url, data)
+                self.assertEqual(response.status_code, 200)
+                form = response.context["form"]
+                self.assertIn("repo", form.errors)
+                errors.append(form.errors)
+                self.assertEqual(form.initial["commit_pending_age"], 11)
+                self.assertFalse(form.fields["commit_pending_age"].disabled)
+                self.assertFalse(form.initial["push_on_commit"])
+                self.assertNotContains(response, "private-assignee")
+                self.assertNotContains(response, 'name="commit_pending_age" value="37"')
+
+        self.assertEqual(errors[0], errors[1])
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.commit_pending_age, 11)
+        self.assertFalse(self.component.push_on_commit)
+        self.assertIsNone(self.component.linked_component_id)
+
+    def test_component_settings_hide_inaccessible_existing_link_target(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        private_project = self.create_project(
+            name="Private linked settings",
+            slug="private-linked-settings",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private linked settings"
+        )
+        private_component.commit_pending_age = 37
+        private_component.vcs_params = {"merge_request_assignee": "private-assignee"}
+        private_component.save(update_fields=["commit_pending_age", "vcs_params"])
+        linked_component = self.create_link_existing(
+            name="Settings child", slug="settings-child"
+        )
+        Component.objects.filter(pk=linked_component.pk).update(
+            repo=private_component.get_repo_link_url(),
+            linked_component=private_component,
+            commit_pending_age=11,
+        )
+
+        url = reverse("settings", kwargs={"path": linked_component.get_url_path()})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        form = response.context["form"]
+        self.assertEqual(form.initial["commit_pending_age"], 11)
+        self.assertFalse(form.fields["commit_pending_age"].disabled)
+        self.assertNotContains(response, "private-assignee")
+        self.assertNotContains(response, 'name="commit_pending_age" value="37"')
 
     @mock_dns("github.com", "example.com")
     def test_github_app_component_settings_lock_push_settings(self) -> None:

@@ -182,6 +182,16 @@ the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
     You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
+Before moving a component to another project, remove it from teams defined in
+its current project. Moving a category requires removing its components from
+such teams as well. Removing the last component from a team grants its roles to
+the whole project, so review the team's membership and roles first.
+
+Teams left with moved components by an earlier release show those assignments
+by component ID. The assignments grant no access to the destination project.
+You can remove them through the :doc:`REST API </api>` after reviewing the
+effect of an empty component selection on the original project.
+
 .. _team-admins:
 
 Team administrators
@@ -190,6 +200,11 @@ Team administrators
 .. versionadded:: 4.15
 
 Each team can have team administrators, who can add and remove users within the team.
+Administrators relying on this designation must satisfy the team's enforced
+two-factor authentication. Their team management access is suspended while
+they are blocked in any project covered by the team, or while a covered project
+requires two-factor authentication they have not configured. For a team covering
+multiple projects, the restriction applies to the whole team.
 
 This is useful in case you want to build self-governed teams.
 
@@ -284,6 +299,13 @@ Blocking preserves team memberships. Permissions granted by those memberships
 apply again when the block expires or is removed. Blocking does not cancel
 background work that was already authorized or remove existing administrative
 configuration, such as add-ons.
+
+Remove a user's project administration or team administration rights before
+blocking them. Weblate rejects new blocks on administrators and direct
+administrative team assignments to users blocked in a covered project. Changes
+to broader team roles or project scope can still create such a combination;
+the block continues to suppress project permissions in that case. Project
+blocks do not revoke independent workspace permissions.
 
 .. _cleanup-user-contributions:
 
@@ -718,6 +740,88 @@ applies the current upstream defaults to all teams using those roles.
    renamed with a ``(custom)`` suffix before the new built-in roles are created.
    A numbered suffix is used if that name is already taken. Their permissions
    and team assignments are preserved.
+
+.. _confidential-collaboration:
+
+Confidential collaboration
+--------------------------
+
+The resource permission ``contribution.view_author`` controls contributor
+attribution in translation history, comments, suggestions, activity, feeds, and
+the REST API. Built-in translation and review roles grant it by default,
+including :guilabel:`Administration`. History and attribution remain stored;
+hiding identities does not remove changes, timestamps, diffs, or revert actions.
+
+.. seealso::
+
+   :ref:`privacy-confidential-setup` for the combined role and team configuration.
+
+Regenerated translation exports require ``translation.download`` and remain
+available without contributor identity access when the exporter explicitly
+supports identity-safe output. Original files, original-file archives, and
+unclassified exporters also require ``contribution.view_author`` because their
+metadata can contain contributor identities. The built-in :guilabel:`Access
+repository` and :guilabel:`Manage languages` roles grant contributor identity
+access to preserve their original-file download capability. Remove this grant
+from those roles too when configuring confidential collaboration.
+
+The following inventory summarizes independent identity disclosure paths:
+
+.. list-table:: Contributor identity disclosure
+   :header-rows: 1
+
+   * - Surface
+     - Authorization
+   * - Editor attribution, history, comments, suggestions, feeds, notifications
+     - ``contribution.view_author`` on the relevant resource and language
+   * - Regenerated content exports
+     - ``translation.download`` and an identity-safe exporter
+   * - Original files and unclassified exports
+     - Download permission and contributor identity access
+   * - :ref:`Git repository export <git-exporter>`
+     - Independent ``vcs.access`` permission; existing commit history is retained
+   * - Full reports and change downloads
+     - Independent ``reports.view`` and ``change.download`` permissions
+   * - Own-data reports
+     - The report creator, limited to their own contributions
+   * - Membership, directory, and profile information
+     - Existing access-management and user permissions
+   * - Workspace-only attribution
+     - ``workspace.edit`` or ``workspace.edit_members``
+   * - Unscoped global attribution
+     - Site administrators
+   * - Administrator-configured add-on searches
+     - Persistent administrative configuration, independent of direct contributor access
+   * - Administrator-configured integrations
+     - Trusted destinations; contributor identities are retained
+
+Author filters in full reports and change downloads use their independent
+``reports.view`` and ``change.download`` permissions, including when
+``contribution.view_author`` is removed.
+
+Workspace grants do not override project, component, or language restrictions
+when a history entry has a more specific resource scope.
+
+Original archives omit auxiliary files when their translation scope is not
+allowed. Auxiliary files without a translation scope require component-wide
+download and contributor identity permissions.
+
+Configured add-ons retain their administrative search scope, just as they do
+for restricted components. Removing a configuring user's contributor identity
+access does not disable the saved operation.
+
+Individual notifications use the recipient's permissions. Administrator-managed
+integrations, including webhooks and Slack, are trusted exports and can retain
+contributor identities. Configure their destinations for an appropriately
+restricted audience, or disable them. Weblate cannot control onward sharing or
+remove copies already delivered to mailboxes, downloaded files, or external
+systems.
+
+This feature hides system-provided attribution, not identifying text entered by
+users in translations, comments, announcements, filenames, or other content.
+It does not provide comprehensive anonymity or prevent correlation using timing
+and content. See :doc:`privacy` for the separate Git commit identity, profile, and discovery
+controls.
 
 .. _privileges:
 

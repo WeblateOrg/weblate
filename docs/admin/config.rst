@@ -226,6 +226,10 @@ about the account activity.
 
 Defaults to 180 days.
 
+.. seealso::
+
+   :doc:`/admin/privacy`
+
 .. setting:: AUTH_LOCK_ATTEMPTS
 
 AUTH_LOCK_ATTEMPTS
@@ -307,6 +311,7 @@ Libravatar, as per https://www.libravatar.org/
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`production-cache-avatar`
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
@@ -329,6 +334,7 @@ Codeberg's Forgejo-backed avatar service)::
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :setting:`AVATAR_URL_PREFIX`
    * :ref:`production-cache-avatar`
    * :setting:`ENABLE_AVATARS`
@@ -626,7 +632,8 @@ Choose a configuration that matches the configuration of your mail server.
 
 .. seealso::
 
-   :setting:`ADMINS_CONTACT`
+   * :doc:`/admin/privacy`
+   * :setting:`ADMINS_CONTACT`
 
 .. setting:: DATA_DIR
 
@@ -711,6 +718,7 @@ on the internal Weblate management.
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`acl`
    * :ref:`project-access_control`
 
@@ -965,6 +973,7 @@ leaking private info, speeding up the user experience.
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`production-cache-avatar`
    * :setting:`AVATAR_URL_PREFIX`
    * :ref:`avatars`
@@ -1821,8 +1830,6 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 Configures whether the private commit e-mail is opt-in or opt-out.
 
-See :doc:`/admin/privacy` for privacy configuration examples.
-
 With ``True`` (the default), users use their account e-mail unless they choose a
 private commit e-mail. Set to ``False`` to use
 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` by default.
@@ -1835,6 +1842,7 @@ private commit e-mail. Set to ``False`` to use
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`profile`
    * :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
 
@@ -1845,22 +1853,31 @@ PRIVATE_COMMIT_EMAIL_TEMPLATE
 
 .. versionadded:: 4.15
 
-Template to generate a private commit e-mail for a user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+Template to generate a private commit e-mail for a user. Defaults to ``"user-{user_id}@users.noreply.{site_domain}"``.
 
 It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
 Set to a blank string to disable private commit e-mails and use the account
 e-mail when no commit e-mail has been explicitly chosen.
 
-The default template includes the username. To avoid including it, use
-``"user-{user_id}@users.noreply.{site_domain}"`` instead. Changing the template
-alone does not make private commit e-mails the default.
+The default template uses the user ID rather than the username. Changing the
+template alone does not make private commit e-mails the default.
+
+.. versionchanged:: 2026.11
+
+   The default previously used ``"{username}@users.noreply.{site_domain}"``.
+   Configure that template explicitly to retain the previous generated addresses.
+   Explicitly selected commit e-mail addresses are not changed.
 
 .. note::
 
    Using a different commit e-mail is opt-in for users unless configured by
    :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit e-mail in
    the :ref:`profile`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: PRIVATE_COMMIT_NAME_OPT_IN
 
@@ -1883,6 +1900,7 @@ private commit name. Set to ``False`` to use
 
 .. seealso::
 
+   * :doc:`/admin/privacy`
    * :ref:`profile`
    * :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`
 
@@ -1905,6 +1923,10 @@ Changing the template alone does not make private commit names the default.
    Using a different commit name is opt-in for users unless configured by
    :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit name in
    the :ref:`profile`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: PROJECT_BACKUP_KEEP_COUNT
 
@@ -2379,6 +2401,30 @@ An amount of seconds defaulting to 600 (10 minutes).
    * :setting:`RATELIMIT_ATTEMPTS`
    * :setting:`RATELIMIT_WINDOW`
 
+.. setting:: RATELIMIT_BULK_EDIT_ATTEMPTS
+
+RATELIMIT_BULK_EDIT_ATTEMPTS
+----------------------------
+
+Maximum browser bulk-edit submissions per user during
+:setting:`RATELIMIT_BULK_EDIT_WINDOW`. Defaults to 10. Preview requests count
+toward this limit.
+
+.. setting:: RATELIMIT_BULK_EDIT_WINDOW
+
+RATELIMIT_BULK_EDIT_WINDOW
+--------------------------
+
+Window for browser bulk-edit rate limiting, in seconds. Defaults to 60.
+
+.. setting:: RATELIMIT_BULK_EDIT_LOCKOUT
+
+RATELIMIT_BULK_EDIT_LOCKOUT
+---------------------------
+
+Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
+to 60.
+
 .. setting:: RATELIMIT_OCR_ATTEMPTS
 
 RATELIMIT_OCR_ATTEMPTS
@@ -2611,6 +2657,10 @@ and configures REST framework to require authentication for all API endpoints.
 
     This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. setting:: GOOGLE_CLOUD_ERROR_REPORTING
 

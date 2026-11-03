@@ -16,13 +16,19 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
     AutoGroup,
     Group,
     Invitation,
+    InvitationBlockedAdminError,
     InvitationExpiredError,
+    InvitationRemovedError,
     InvitationUserMismatchError,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
@@ -182,13 +188,19 @@ class TeamUpdateView(UpdateView):
             check_management_access(request, "group.edit")
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_add_user(request)
             if "remove_user" in request.POST:
+                if not has_recent_sensitive_verification(request):
+                    return sensitive_verification_redirect(request, request.path)
                 return self.handle_remove_user(request)
 
         form = self.get_form()
         if form is None:
             raise PermissionDenied
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
 
         if "delete" in request.POST:
             return self.handle_delete(request)
@@ -269,6 +281,8 @@ class InvitationView(DetailView):
         # Handle admin actions first
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
+            if action == "remove" and not has_recent_sensitive_verification(request):
+                return sensitive_verification_redirect(request, request.path)
             project = invitation.group.defining_project
             workspace = invitation.group.defining_workspace
             # Permission check
@@ -286,9 +300,13 @@ class InvitationView(DetailView):
             if action == "resend":
                 invitation.send_email()
                 messages.success(request, gettext("User invitation e-mail was sent."))
-            else:
-                invitation.delete()
+            elif invitation.revoke():
                 messages.success(request, gettext("User invitation was removed."))
+            else:
+                messages.error(
+                    request,
+                    gettext("This invitation was already accepted or removed."),
+                )
 
             # Redirect
             if project:
@@ -312,7 +330,13 @@ class InvitationView(DetailView):
         except InvitationExpiredError:
             messages.error(request, gettext("This invitation has expired."))
             return redirect_param("profile", "#account")
-        except InvitationUserMismatchError as error:
+        except InvitationBlockedAdminError:
+            messages.error(
+                request,
+                gettext("Remove the project block before accepting this invitation."),
+            )
+            return redirect_param("profile", "#account")
+        except (InvitationRemovedError, InvitationUserMismatchError) as error:
             raise Http404 from error
 
         if invitation.group.defining_project:
@@ -335,7 +359,13 @@ def accept_invitation(
     except InvitationExpiredError as error:
         messages.error(request, gettext("This invitation has expired."))
         raise Http404 from error
-    except InvitationUserMismatchError as error:
+    except InvitationBlockedAdminError as error:
+        messages.error(
+            request,
+            gettext("Remove the project block before accepting this invitation."),
+        )
+        raise Http404 from error
+    except (InvitationRemovedError, InvitationUserMismatchError) as error:
         raise Http404 from error
 
     messages.success(

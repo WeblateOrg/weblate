@@ -13,6 +13,7 @@ from typing import ClassVar, Never
 from unittest.mock import patch
 
 from django.core import mail
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import connection, transaction
 from django.db.models.signals import post_save
 from django.test import TransactionTestCase, override_settings
@@ -418,6 +419,204 @@ class RenameTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
+
+    def test_move_linked_component_incompatible_inherited_settings(self) -> None:
+        self.make_manager()
+        self.project.new_lang = "none"
+        self.project.inherit_new_lang = False
+        self.project.save()
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_link_existing(
+            filemask="po/*.po", new_lang="none", inherit_new_lang=True
+        )
+        original_url = component.get_absolute_url()
+        original_repo = component.repo
+        original_path = component.full_path
+        translation_ids = set(component.translation_set.values_list("pk", flat=True))
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": component.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "slug": component.slug,
+                "name": component.name,
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, f"{original_url}#organize")
+        self.assertContains(
+            response,
+            "You have set up Weblate to add new translation "
+            "files, but did not provide a base file to do that.",
+        )
+        component.refresh_from_db()
+        self.assertEqual(component.project_id, self.project.pk)
+        self.assertEqual(component.new_lang, "none")
+        self.assertTrue(component.inherit_new_lang)
+        self.assertEqual(component.repo, original_repo)
+        self.assertEqual(component.full_path, original_path)
+        self.assertEqual(
+            set(component.translation_set.values_list("pk", flat=True)), translation_ids
+        )
+
+    def test_move_linked_component_explicit_settings(self) -> None:
+        self.assert_move_linked_component(inherit_new_lang=False)
+
+    def test_move_linked_component_compatible_inherited_settings(self) -> None:
+        self.assert_move_linked_component(inherit_new_lang=True)
+
+    def assert_move_linked_component(self, *, inherit_new_lang: bool) -> None:
+        self.make_manager()
+        self.project.new_lang = "none"
+        self.project.inherit_new_lang = False
+        self.project.save()
+        destination = Project.objects.create(
+            name="Destination",
+            slug="destination",
+            new_lang="none" if inherit_new_lang else "add",
+            inherit_new_lang=False,
+        )
+        component = self.create_link_existing(
+            filemask="po/*.po", new_lang="none", inherit_new_lang=inherit_new_lang
+        )
+        original_repo = component.repo
+        original_path = component.full_path
+        translation_ids = set(component.translation_set.values_list("pk", flat=True))
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": component.get_url_path()}),
+            {
+                "project": destination.pk,
+                "category": "",
+                "slug": component.slug,
+                "name": component.name,
+            },
+        )
+
+        component.refresh_from_db()
+        self.assertRedirects(response, component.get_absolute_url())
+        self.assertEqual(component.project_id, destination.pk)
+        self.assertEqual(component.inherit_new_lang, inherit_new_lang)
+        self.assertEqual(component.repo, original_repo)
+        self.assertEqual(component.full_path, original_path)
+        self.assertEqual(
+            set(component.translation_set.values_list("pk", flat=True)), translation_ids
+        )
+
+    def test_rename_form_model_errors(self) -> None:
+        self.make_manager()
+        field_error = ValidationError(
+            "Invalid %(value)s", code="invalid", params={"value": "name"}
+        )
+        missing_field_error = ValidationError(
+            "Invalid %(value)s", code="invalid_base", params={"value": "base"}
+        )
+        non_field_error = ValidationError("Invalid settings", code="invalid_settings")
+        form = ComponentRenameForm(
+            self.get_request(),
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "project": self.project.pk,
+                "category": "",
+            },
+            instance=self.component,
+        )
+        with patch.object(
+            Component,
+            "clean",
+            side_effect=ValidationError(
+                {
+                    "name": field_error,
+                    "new_base": missing_field_error,
+                    NON_FIELD_ERRORS: non_field_error,
+                }
+            ),
+        ):
+            self.assertFalse(form.is_valid())
+        errors = form.errors.as_data()
+        self.assertEqual(set(errors), {"name", NON_FIELD_ERRORS})
+        self.assertEqual(errors["name"], [field_error])
+        self.assertEqual(
+            errors[NON_FIELD_ERRORS], [missing_field_error, non_field_error]
+        )
+
+    def test_rename_form_non_field_model_error(self) -> None:
+        self.make_manager()
+        form = ComponentRenameForm(
+            self.get_request(),
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "project": self.project.pk,
+                "category": "",
+            },
+            instance=self.component,
+        )
+        error = ValidationError("Invalid settings", code="invalid_settings")
+        with patch.object(Component, "clean", side_effect=error):
+            self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors.as_data(), {NON_FIELD_ERRORS: [error]})
+
+    def test_move_component_assigned_to_project_team_is_rejected(self) -> None:
+        self.make_manager()
+        destination = Project.objects.create(name="Destination", slug="destination")
+        team = Group.objects.create(
+            name="Component team", defining_project=self.project
+        )
+        team.components.add(self.component)
+        old_path = self.component.full_path
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": destination.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
+            follow=True,
+        )
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#organize")
+        self.assertContains(
+            response,
+            "Remove the component from project teams before moving it to another project.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.project, self.project)
+        self.assertTrue(os.path.exists(old_path))
+
+        self.component.project = destination
+        with self.assertRaisesMessage(ValidationError, "Remove the component"):
+            self.component.save(update_fields=["project"])
+        self.assertEqual(
+            Component.objects.get(pk=self.component.pk).project, self.project
+        )
+
+    def test_move_component_assigned_to_sitewide_team_succeeds(self) -> None:
+        self.make_manager()
+        destination = Project.objects.create(name="Destination", slug="destination")
+        team = Group.objects.create(name="Sitewide component team")
+        team.components.add(self.component)
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": destination.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
+        )
+        self.assertRedirects(response, "/projects/destination/test/")
+        self.assertEqual(
+            Component.objects.get(pk=self.component.pk).project, destination
+        )
 
     def test_rename_invalid(self) -> None:
         url = self.component.get_absolute_url()
@@ -1081,6 +1280,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             language_selection=SELECTION_ALL,
         )
         group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.projects.add(self.project)
         group.components.add(self.component)
         self.user.groups.add(group)
 
@@ -1114,7 +1314,6 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             Announcement.objects.filter(pk=category_announcement.pk).count(), 1
         )
 
-        group.project_selection = SELECTION_ALL
         group.components.clear()
         group.save()
         self.user.clear_permissions_cache()
@@ -1262,14 +1461,24 @@ class CategoryLanguageAnnouncementTest(ViewTestCase):
         owned_category = self.create_category(self.project)
         self.component.category = owned_category
         self.component.save(update_fields=["category"])
-        self.group.projects.add(self.project)
-        membership = TeamMembership.objects.get(user=self.user, group=self.group)
+        owned_group = Group.objects.create(
+            name="Owned category announcement coordinators",
+            defining_project=self.project,
+            language_selection=SELECTION_MANUAL,
+        )
+        owned_group.roles.add(Role.objects.get(name="Translation coordinator"))
+        owned_group.projects.add(self.project)
+        owned_group.languages.add(self.czech)
+        owned_group.user_set.add(self.user)
+        groups = (self.group, owned_group)
 
         for limit in ("team", "membership"):
             if limit == "membership":
-                self.group.language_selection = SELECTION_ALL
-                self.group.save(update_fields=["language_selection"])
-                membership.limit_languages.add(self.czech)
+                for group in groups:
+                    group.language_selection = SELECTION_ALL
+                    group.save(update_fields=["language_selection"])
+                    membership = TeamMembership.objects.get(user=self.user, group=group)
+                    membership.limit_languages.add(self.czech)
             for category in (owned_category, self.category):
                 for language in (self.german, self.czech):
                     with self.subTest(

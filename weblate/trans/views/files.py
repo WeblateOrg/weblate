@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import DatabaseError
+from django.db.models import Exists, OuterRef
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import SimpleLazyObject
@@ -16,6 +17,7 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.auth.bots import InternalBot
+from weblate.formats.base import is_identity_safe_exporter
 from weblate.formats.models import EXPORTERS
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -87,9 +89,23 @@ def prepare_download_scope(
     user: User,
     translations: TranslationQuerySet,
     empty_permission_obj: Model | ProjectLanguage | CategoryLanguage | None = None,
+    *,
+    fmt: str | None = None,
 ) -> tuple[TranslationQuerySet, QuerySet[Component]]:
     """Apply download permission and validate an aggregate download scope."""
     downloadable = translations.filter_permission_scope(user, "translation.download")
+    from weblate.auth.scope import get_permission_scope_query  # ruff: ignore[import-outside-top-level]
+
+    exporter = EXPORTERS.get(fmt[4:]) if fmt and fmt.startswith("zip:") else None
+    if not is_identity_safe_exporter(exporter):
+        downloadable = downloadable.filter(
+            get_permission_scope_query(
+                user,
+                "contribution.view_author",
+                component_path="component",
+                language_path="language_id",
+            )
+        )
     if not downloadable.exists() and (
         translations.exists()
         or empty_permission_obj is None
@@ -134,10 +150,47 @@ def _group_download_translations(
     return repository_groups
 
 
+def get_auxiliary_download_permissions(
+    user: User, components: dict[int, Component]
+) -> dict[tuple[int, str], bool]:
+    """Authorize auxiliary paths; an empty path records component-wide access."""
+    # Resolve paths and component-wide fallbacks without lazy project queries.
+    components = {
+        component.pk: component
+        for component in Component.objects.filter(pk__in=components).select_related(
+            "project"
+        )
+    }
+    translations = Translation.objects.filter(component_id__in=components)
+    allowed = translations.filter_permission_scope(
+        user, "translation.download"
+    ).filter_permission_scope(user, "contribution.view_author")
+    result: dict[tuple[int, str], bool] = {
+        (component.pk, ""): bool(
+            user.has_perm("translation.download", component)
+            and user.has_perm("contribution.view_author", component)
+        )
+        for component in components.values()
+    }
+    for component_id, filename, authorized in translations.annotate(
+        authorized=Exists(allowed.filter(pk=OuterRef("pk")))
+    ).values_list("component_id", "filename", "authorized"):
+        if filename:
+            key = (
+                component_id,
+                os.path.realpath(
+                    os.path.join(components[component_id].full_path, filename)
+                ),
+            )
+            result[key] = result.get(key, True) and authorized
+    return result
+
+
 def _write_repository_download_files(
     zipfile: ZipFile,
     repo_component: Component,
     translations: Iterable[Translation],
+    auxiliary_permissions: dict[tuple[int, str], bool],
 ) -> None:
     with repo_component.repository.lock:
         filenames: set[str] = set()
@@ -162,7 +215,15 @@ def _write_repository_download_files(
                 except ValidationError:
                     continue
                 if fullname and os.path.exists(fullname):
-                    filenames.add(fullname)
+                    authorized = auxiliary_permissions.get(
+                        (translation.component_id, os.path.realpath(fullname))
+                    )
+                    if authorized is None:
+                        authorized = auxiliary_permissions.get(
+                            (translation.component_id, ""), False
+                        )
+                    if authorized:
+                        filenames.add(fullname)
 
         write_zip_files(
             zipfile,
@@ -218,13 +279,24 @@ def download_multi(
         return zip_download(data_dir("vcs"), [], name, extra=extra)
 
     repository_groups = _group_download_translations(translations)
+    auxiliary_permissions = get_auxiliary_download_permissions(
+        request.user,
+        {
+            translation.component_id: translation.component
+            for _repository, group in repository_groups.values()
+            for translation in group
+        },
+    )
 
     with zip_download_archive(name) as (response, zipfile):
         for _pk, (repo_component, group_translations) in sorted(
             repository_groups.items()
         ):
             _write_repository_download_files(
-                zipfile, repo_component, group_translations
+                zipfile,
+                repo_component,
+                group_translations,
+                auxiliary_permissions,
             )
 
     return response
@@ -239,6 +311,7 @@ def download_component_list(request: AuthenticatedHttpRequest, name):
         request.user,
         Translation.objects.filter(component__in=obj.components.all()),
         obj,
+        fmt=request.GET.get("format"),
     )
     return download_multi(
         request,
@@ -269,6 +342,7 @@ def download(request: AuthenticatedHttpRequest, path):
         translations, components = prepare_download_scope(
             request.user,
             Translation.objects.filter(component__project__workspace=obj),
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -300,6 +374,7 @@ def download(request: AuthenticatedHttpRequest, path):
                 component__project=obj.project, language=obj.language
             ),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -313,6 +388,7 @@ def download(request: AuthenticatedHttpRequest, path):
             request.user,
             Translation.objects.filter(component__project=obj),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -329,6 +405,7 @@ def download(request: AuthenticatedHttpRequest, path):
                 language=obj.language,
             ),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -342,6 +419,7 @@ def download(request: AuthenticatedHttpRequest, path):
             request.user,
             Translation.objects.filter(component_id__in=obj.all_component_ids),
             obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,
@@ -352,7 +430,10 @@ def download(request: AuthenticatedHttpRequest, path):
         )
     if isinstance(obj, Component):
         translations, components = prepare_download_scope(
-            request.user, obj.translation_set.all(), obj
+            request.user,
+            obj.translation_set.all(),
+            obj,
+            fmt=request.GET.get("format"),
         )
         return download_multi(
             request,

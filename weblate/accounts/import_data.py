@@ -150,6 +150,38 @@ def _import_saved_searches(
         )
 
 
+def _import_commit_identity(
+    profile: Profile, source: dict, skipped: list[str]
+) -> set[str]:
+    """Import known identities, mapping unknown e-mails to this site's private address."""
+    updates: set[str] = set()
+    for field, choices in (
+        ("commit_email", profile.get_commit_email_choices()),
+        ("commit_name", profile.get_commit_name_choices()),
+    ):
+        if field not in source:
+            continue
+        allowed = {choice for choice, _label in choices}
+        value = source[field]
+        if value not in allowed:
+            if field == "commit_email" and (
+                site_email := profile.get_site_commit_email()
+            ):
+                value = site_email
+            else:
+                skipped.append(_skipped_setting(field))
+                continue
+        try:
+            value = _valid_profile_value(profile, field, value)
+        except (ValidationError, ValueError, TypeError):
+            skipped.append(_skipped_setting(field))
+            continue
+        setattr(profile, field, value)
+        updates.add(field)
+
+    return updates
+
+
 @transaction.atomic
 # ruff: ignore[complex-structure]
 def import_user_settings(
@@ -191,19 +223,7 @@ def import_user_settings(
             user.save(update_fields=["full_name"])
 
     if commit_identity:
-        for field, choices in (
-            ("commit_email", profile.get_commit_email_choices()),
-            ("commit_name", profile.get_commit_name_choices()),
-        ):
-            if field not in source:
-                continue
-            allowed = {choice for choice, _label in choices}
-            value = source[field]
-            if value not in allowed:
-                skipped.append(_skipped_setting(field))
-                continue
-            setattr(profile, field, value)
-            updates.add(field)
+        updates.update(_import_commit_identity(profile, source, skipped))
 
     if "language" in source:
         try:

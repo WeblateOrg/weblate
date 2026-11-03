@@ -52,16 +52,18 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
-from weblate.trans.util import check_upload_method_permissions
+from weblate.trans.util import check_upload_method_permissions, join_plural
 from weblate.trans.views.files import can_download_workspace, download_multi
 from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.state import STATE_READONLY
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.views import download_translation_file, write_zip_files
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from typing import ClassVar
+
     from django.http import FileResponse
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
@@ -130,6 +132,58 @@ class UploadFormPermissionTest(ViewTestCase):
 
         choices = [choice[0] for choice in form.fields["conflicts"].choices]
         self.assertIn("replace-approved", choices)
+
+
+class ReplaceUploadReviewPermissionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        self.translation = glossary.translation_set.get(language__code="cs")
+
+    def test_glossary_replace_requires_review(self) -> None:
+        self.assertTrue(self.user.has_perm("upload.perform", self.translation))
+        self.assertTrue(self.user.has_perm("unit.add", self.translation))
+        self.assertTrue(self.user.has_perm("unit.delete", self.translation))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+        self.assertFalse(self.user.has_perm("unit.review", self.translation))
+        self.assertFalse(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+        form = get_upload_form(self.user, self.translation)
+        self.assertNotIn("replace", dict(form.fields["method"].choices))
+
+        with open(TEST_TBX, "rb") as handle:
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.translation.get_url_path()}),
+                {"file": handle, "method": "replace"},
+                follow=True,
+            )
+        self.assertContains(response, "Please fix errors in the form.")
+        self.assertFalse(
+            self.translation.change_set.filter(
+                action=ActionEvents.REPLACE_UPLOAD
+            ).exists()
+        )
+
+    def test_glossary_replace_allowed_for_reviewer(self) -> None:
+        self.project.add_user(self.user, "Review")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.review", self.translation))
+        self.assertTrue(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+    def test_glossary_replace_allowed_without_reviews(self) -> None:
+        self.project.translation_review = False
+        self.project.save(update_fields=["translation_review"])
+        self.translation = Translation.objects.get(pk=self.translation.pk)
+        self.assertTrue(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
 
 
 class RestrictedDirectEditingUploadTest(ViewTestCase):
@@ -429,6 +483,65 @@ class ImportTest(ImportBaseTest):
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
+
+
+class PluralSuggestionImportTest(ImportBaseTest):
+    test_file = get_test_file("cs-suggestions-plural.po")
+    source: ClassVar[list[str]] = [
+        "Orangutan has %d banana.\n",
+        "Orangutan has %d bananas.\n",
+    ]
+    target: ClassVar[list[str]] = [
+        "Orangutan má %d banán.\n",
+        "Orangutan má %d banány.\n",
+        "Orangutan má %d banánů.\n",
+    ]
+
+    def test_import_suggest_plural(self) -> None:
+        unit = self.get_translation().unit_set.get(source=join_plural(self.source))
+        original_target = unit.target
+        original_state = unit.state
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+        self.assertEqual(unit.state, original_state)
+        suggestion = unit.suggestion_set.get()
+        self.assertEqual(suggestion.target_list, self.target)
+        self.assertEqual(suggestion.user, self.user)
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        self.assertEqual(unit.suggestion_set.get().pk, suggestion.pk)
+
+        suggestion.accept(self.get_request())
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), self.target)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_import_suggest_plural_unchanged(self) -> None:
+        unit = self.get_translation().unit_set.get(source=join_plural(self.source))
+        unit.translate(self.user, self.target, STATE_TRANSLATED)
+
+        response = self.do_import(method="suggest")
+        self.assertRedirects(response, self.translation_url)
+        self.assertFalse(unit.suggestion_set.exists())
+
+
+class AndroidPluralSuggestionImportTest(PluralSuggestionImportTest):
+    test_file = get_test_file("strings-cs-suggestions-plural.xml")
+
+    def create_component(self) -> Component:
+        return self.create_android()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component.source_translation.add_unit(
+            None, "suggestion_plural", self.source, author=self.user
+        )
+        self.component.commit_pending("test", self.user)
 
 
 class ImportErrorTest(ImportBaseTest):
@@ -1298,6 +1411,7 @@ class ExportTest(ViewTestCase):
             self.skipTest("single-file download only")
         repository = translation.component.repository
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         from weblate.utils import views  # ruff: ignore[import-outside-top-level]
 
@@ -1326,6 +1440,7 @@ class ExportTest(ViewTestCase):
         filename = translation.filenames[0]
         original = Path(filename).read_bytes()
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         from weblate.utils import views  # ruff: ignore[import-outside-top-level]
 
@@ -1354,6 +1469,7 @@ class ExportTest(ViewTestCase):
             self.skipTest("single-file download only")
         filename = translation.filenames[0]
         request = RequestFactory().head(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
 
         with patch("weblate.utils.views.snapshot_file_response") as snapshot:
             response = download_translation_file(request, translation)
@@ -1383,18 +1499,15 @@ class ExportTest(ViewTestCase):
         ):
             for accept_encoding in ("identity", "gzip"):
                 with self.subTest(accept_encoding=accept_encoding):
-                    get_response = download_translation_file(
-                        RequestFactory().get(
-                            url, headers={"accept-encoding": accept_encoding}
-                        ),
-                        translation,
+                    get_request = RequestFactory().get(
+                        url, headers={"accept-encoding": accept_encoding}
                     )
-                    head_response = download_translation_file(
-                        RequestFactory().head(
-                            url, headers={"accept-encoding": accept_encoding}
-                        ),
-                        translation,
+                    head_request = RequestFactory().head(
+                        url, headers={"accept-encoding": accept_encoding}
                     )
+                    get_request.user = head_request.user = self.user
+                    get_response = download_translation_file(get_request, translation)
+                    head_response = download_translation_file(head_request, translation)
 
                     self.assertTrue(head_response.streaming)
                     for header in (
@@ -1412,6 +1525,7 @@ class ExportTest(ViewTestCase):
         translation = self.get_translation()
         repository = translation.component.repository
         request = RequestFactory().get(reverse("download", kwargs=self.kw_translation))
+        request.user = self.user
         error = WeblateLockTimeoutError(
             "repository locked", lock=repository.lock.lock_object
         )
@@ -1857,7 +1971,11 @@ class DownloadMultiTest(ViewTestCase):
         if not membership_limit:
             group.languages.add(language)
         role = Role.objects.create(name="Scoped download role")
-        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        role.permissions.add(
+            *Permission.objects.filter(
+                codename__in={"translation.download", "contribution.view_author"}
+            )
+        )
         group.roles.add(role)
         self.user.groups.add(group)
         if membership_limit:
@@ -1923,6 +2041,8 @@ class DownloadMultiTest(ViewTestCase):
             self.assertTrue(repository.lock.is_locked)
             return write_zip_files(*args, **kwargs)
 
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
         clock = count(step=301)
         with (
             patch("weblate.trans.views.files.write_zip_files", side_effect=check_lock),
@@ -1930,7 +2050,7 @@ class DownloadMultiTest(ViewTestCase):
             patch("weblate.utils.views.monotonic", side_effect=lambda: next(clock)),
         ):
             response = download_multi(
-                cast("AuthenticatedHttpRequest", RequestFactory().get("/download")),
+                request,
                 [translation],
                 [translation.component],
             )
@@ -1945,6 +2065,8 @@ class DownloadMultiTest(ViewTestCase):
             "repository locked", lock=repository.lock.lock_object
         )
 
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
         with (
             patch(
                 "weblate.trans.views.files._write_repository_download_files",
@@ -1953,7 +2075,7 @@ class DownloadMultiTest(ViewTestCase):
             self.assertRaises(WeblateLockTimeoutError),
         ):
             download_multi(
-                cast("AuthenticatedHttpRequest", RequestFactory().get("/download")),
+                request,
                 [translation],
                 [translation.component],
             )

@@ -683,6 +683,13 @@ again when applying changes. Source flag and label changes affect every language
 of the corresponding source, even when only one translation is selected.
 Uncheck :guilabel:`Preview changes` to apply directly.
 
+Each bulk edit is limited to 20,000 matching strings. Narrow the search query
+if it exceeds this limit. This limit also applies to Automations and the bulk-edit
+add-on. Browser bulk edits run in the background and show progress after submission.
+The query and permissions are checked again when the task starts. The selected
+strings are processed in batches; if a later batch fails, earlier batches remain
+applied and the result reports the partial progress.
+
 Regular expression replacement runs in a separate helper process with fixed
 resource limits shared across the bulk operation. Patterns and replacement
 strings are limited to 4096 characters each. Each plural form is limited to
@@ -698,8 +705,8 @@ replacement reuse the helper within one request, and components processed
 synchronously share its budget. A separate request or queued task gets a fresh
 budget.
 
-Exceeding a limit stops regex processing and rolls back the current component.
-Changes to components completed earlier remain applied. The preview and actual
+Exceeding a limit stops regex processing and rolls back the current batch.
+Changes to batches completed earlier remain applied. The preview and actual
 execution enforce the same limits. On macOS the helper enforces time and output
 limits but cannot enforce the address-space limit; native regex compilation or
 matching can still exhaust memory there.

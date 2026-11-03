@@ -23,9 +23,10 @@ from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import (
-    has_recent_second_factor,
+    has_recent_sensitive_verification,
     remove_user,
-    second_factor_verification_redirect,
+    require_project_sensitive_verification,
+    sensitive_verification_redirect,
 )
 from weblate.auth.forms import (
     BulkInviteForm,
@@ -36,6 +37,7 @@ from weblate.auth.forms import (
 from weblate.auth.models import Invitation, TeamMembership, User
 from weblate.auth.utils import (
     format_membership_limit_language_codes,
+    has_project_admin_grant,
     prefetch_membership_limit_languages,
 )
 from weblate.lang.forms import get_language_code_choices
@@ -133,6 +135,7 @@ def schedule_contribution_cleanup(
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 @transaction.atomic
 def set_groups(request: AuthenticatedHttpRequest, project):
     """Change group assignment for a user."""
@@ -274,6 +277,7 @@ def project_user_groups(request: AuthenticatedHttpRequest, project, user_id: int
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def add_user(request: AuthenticatedHttpRequest, project):
     """Add user to a project."""
     obj, form = check_user_form(
@@ -288,12 +292,22 @@ def add_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def block_user(request: AuthenticatedHttpRequest, project):
     """Block user from a project."""
     obj, form = check_user_form(request, project, form_class=UserBlockForm)
 
     if form is not None and form.cleaned_data["user"].id == request.user.id:
         messages.error(request, gettext("You can not block yourself on this project."))
+    elif (
+        form is not None
+        and not form.cleaned_data["user"].userblock_set.filter(project=obj).exists()
+        and has_project_admin_grant(form.cleaned_data["user"], obj)
+    ):
+        messages.error(
+            request,
+            gettext("Remove project administration rights before blocking this user."),
+        )
     elif form is not None:
         user = form.cleaned_data["user"]
         cleanup_requested = is_contribution_cleanup_requested(form)
@@ -342,6 +356,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def unblock_user(request: AuthenticatedHttpRequest, project):
     """Unblock user from a project."""
     obj, form = check_user_form(
@@ -358,6 +373,7 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
     """Revert edits for an already blocked user in a project."""
     obj, form = check_user_form(
@@ -407,6 +423,7 @@ def can_invite_users(request: AuthenticatedHttpRequest) -> bool:
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
     if not can_invite_users(request):
@@ -433,6 +450,10 @@ def delete_user(request: AuthenticatedHttpRequest, project):
         form_class=ProjectMemberManageForm,
         pass_project=True,
     )
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(
+            request, reverse("manage-access", kwargs={"project": obj.slug})
+        )
     redirect_url = ""
 
     if form is not None:
@@ -574,8 +595,8 @@ def create_token(request: AuthenticatedHttpRequest, project):
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
-    if not has_recent_second_factor(request):
-        return second_factor_verification_redirect(
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(
             request, f"{reverse('manage-access', kwargs={'project': obj.slug})}#api"
         )
 
@@ -597,6 +618,7 @@ def create_token(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@require_project_sensitive_verification
 def create_group(request: AuthenticatedHttpRequest, project):
     """Create project group."""
     obj = parse_path(request, [project], (Project,))

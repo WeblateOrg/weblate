@@ -1203,6 +1203,18 @@ class SeleniumTests(
             self.click(self.driver.find_element(By.XPATH, '//input[@value="Sign in"]'))
         return user
 
+    def confirm_sensitive_password(self) -> None:
+        """Complete the browser step-up before sensitive Selenium operations."""
+        url = reverse("first-factor-verify")
+        query = urlencode({"target": "sensitive", "next": reverse("home")})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{url}?{query}")
+        self.driver.find_element(By.ID, "id_password").send_keys("testpassword")
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+            )
+
     @overload
     def open_manage(self, *, login: Literal[True] = True) -> User: ...
     @overload
@@ -5369,6 +5381,8 @@ class SeleniumTests(
         self.open_project(project)
 
         self.screenshot("project-overview.png")
+        self.confirm_sensitive_password()
+        self.open_project(project)
 
         # User management
         self.click("Operations")
@@ -5978,6 +5992,7 @@ class SeleniumTests(
     def test_profile_validates_only_active_tab(self) -> None:
         """Save other tabs when a legacy account lacks its required full name."""
         user = self.do_login()
+        self.confirm_sensitive_password()
         user.full_name = ""
         user.save(update_fields=["full_name"])
 

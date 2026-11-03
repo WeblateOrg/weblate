@@ -44,6 +44,11 @@ from weblate.accounts.models import (
 )
 from weblate.accounts.notifications import NotificationScope
 from weblate.accounts.utils import get_all_user_mails
+from weblate.accounts.visibility import (
+    can_view_contributor,
+    prepare_contributor_visibility,
+    public_change_details,
+)
 from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -1398,6 +1403,13 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
 
 
 class CommentSerializer(serializers.Serializer[Comment]):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        if not can_view_contributor(getattr(request, "user", None), instance):
+            data["user"] = None
+        return data
+
     scope = serializers.ChoiceField(
         choices=["report", "global", "translation"],
         label=gettext_lazy("Scope"),
@@ -1430,7 +1442,10 @@ class CommentSerializer(serializers.Serializer[Comment]):
     id = serializers.IntegerField(read_only=True)
     user: serializers.HyperlinkedRelatedField[User] = (
         serializers.HyperlinkedRelatedField(
-            read_only=True, view_name="api:user-detail", lookup_field="username"
+            read_only=True,
+            view_name="api:user-detail",
+            lookup_field="username",
+            allow_null=True,
         )
     )
 
@@ -1573,6 +1588,27 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
         }
         validators = ()
+
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if instance.defining_project_id is not None:
+            components_field = cast(
+                "serializers.ManyRelatedField", self.fields["components"]
+            )
+            projects_field = cast(
+                "serializers.ManyRelatedField", self.fields["projects"]
+            )
+            result["components"] = [
+                components_field.child_relation.to_representation(component)
+                for component in instance.components.all()
+                if component.project_id == instance.defining_project_id
+            ]
+            result["projects"] = [
+                projects_field.child_relation.to_representation(project)
+                for project in instance.projects.all()
+                if project.pk == instance.defining_project_id
+            ]
+        return result
 
     def validate(self, attrs):
         defining_project = attrs.get(
@@ -3018,7 +3054,30 @@ class TranslationSerializer(RemovableSerializer[Translation]):
     )
     have_comment = serializers.IntegerField(source="stats.comments", read_only=True)
     last_change = serializers.DateTimeField(source="stats.last_changed", read_only=True)
-    last_author = serializers.CharField(source="get_last_author", read_only=True)
+    last_author = serializers.SerializerMethodField()
+
+    def get_last_author(self, translation: Translation) -> str | None:
+        request = self.context.get("request")
+        viewer = getattr(request, "user", None)
+        if not can_view_contributor(viewer, translation):
+            return None
+        if not hasattr(self, "translation_author_names"):
+            instances = (
+                self.parent.instance or (translation,)
+                if isinstance(self.parent, serializers.ListSerializer)
+                else (translation,)
+            )
+            author_ids = {
+                item.stats.last_author
+                for item in instances
+                if can_view_contributor(viewer, item)
+            }
+            self.translation_author_names = {
+                author.pk: author.get_visible_name()
+                for author in User.objects.filter(pk__in=author_ids - {None})
+            }
+        return self.translation_author_names.get(translation.stats.last_author)
+
     repository_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-repository",
         lookup_field=("component__project__slug", "component__slug", "language__code"),
@@ -3579,6 +3638,11 @@ class StatisticsSerializer(ReadOnlySerializer):
         return result
 
 
+class ActivitySerializer(ReadOnlySerializer):
+    daily_activity = serializers.ListField(child=serializers.IntegerField(min_value=0))
+    projects = StatisticsSerializer(many=True)
+
+
 class UserStatisticsSerializer(ReadOnlySerializer):
     translated = serializers.IntegerField()
     suggested = serializers.IntegerField()
@@ -3619,6 +3683,13 @@ class PluralField(serializers.ListField):
 
 
 class SuggestionSerializer(serializers.Serializer[Suggestion]):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        if not can_view_contributor(getattr(request, "user", None), instance):
+            data["user"] = None
+        return data
+
     add_result: SuggestionAddResult | None = None
 
     id = serializers.IntegerField(read_only=True)
@@ -4486,7 +4557,19 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
         read_only_fields = fields
 
 
+class ChangeListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        changes = list(data.all() if isinstance(data, models.Manager) else data)
+        request = self.context.get("request")
+        child = cast("ChangeSerializer", self.child)
+        child.contributor_viewer = prepare_contributor_visibility(
+            getattr(request, "user", None), changes
+        )
+        return super().to_representation(changes)
+
+
 class ChangeSerializer(RemovableSerializer[Change]):
+    contributor_viewer: User | None = None
     action_name = serializers.CharField(source="get_action_display", read_only=True)
     addon = serializers.SerializerMethodField()
     component = MultiFieldHyperlinkedIdentityField(
@@ -4508,12 +4591,18 @@ class ChangeSerializer(RemovableSerializer[Change]):
     )
     user: serializers.HyperlinkedRelatedField[User] = (
         serializers.HyperlinkedRelatedField(
-            read_only=True, view_name="api:user-detail", lookup_field="username"
+            read_only=True,
+            view_name="api:user-detail",
+            lookup_field="username",
+            allow_null=True,
         )
     )
     author: serializers.HyperlinkedRelatedField[User] = (
         serializers.HyperlinkedRelatedField(
-            read_only=True, view_name="api:user-detail", lookup_field="username"
+            read_only=True,
+            view_name="api:user-detail",
+            lookup_field="username",
+            allow_null=True,
         )
     )
     alert = serializers.SerializerMethodField()
@@ -4610,6 +4699,13 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        request = self.context.get("request")
+        viewer = self.contributor_viewer or getattr(request, "user", None)
+        if not can_view_contributor(viewer, instance):
+            data["user"] = data["author"] = None
+            data["details"] = public_change_details(instance, viewer)
+            data["alert"] = None
+            return data
         details = data.get("details")
         if isinstance(details, dict) and not self.can_view_ip_address():
             details = deepcopy(details)
@@ -4659,6 +4755,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     class Meta:
         model = Change
+        list_serializer_class = ChangeListSerializer
         fields = (
             "unit",
             "component",

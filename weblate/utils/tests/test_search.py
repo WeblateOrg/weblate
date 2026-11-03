@@ -63,7 +63,9 @@ class SearchTestCase(TestCase):
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
 
     def assert_related_query(self, string: str, expected: Q) -> None:
-        filters, annotations = parse_query(string)
+        # These comparisons test parser structure; scoped authorization has its
+        # own behavioral tests in test_contributor_visibility.
+        filters, annotations = parse_query(string, user=User(is_superuser=True))
         self.assertEqual(annotations, {})
         expected_filter = Q(Exists(Unit.objects.filter(expected, pk=OuterRef("pk"))))
         self.assertEqual(
@@ -103,6 +105,7 @@ class SearchTestCase(TestCase):
         exists: bool = False,
         **context,
     ) -> tuple[str, tuple[object, ...]]:
+        context.setdefault("user", User(is_superuser=True))
         filters, annotations = parse_query(string, parser=self.parser, **context)
         self.assertEqual(annotations, {})
         query = self.object_class.objects.annotate(**annotations).filter(filters)
@@ -551,9 +554,9 @@ class UnitQueryParserTest(SearchTestCase):
                 self.assert_query(query, Q(translation__language_id__in=[]))
 
     def test_language_case_collisions(self) -> None:
-        # Fixture loading can leave the sequence behind the restored language IDs.
-        lower = Language.objects.get(code="cs")
-        upper = Language.objects.get(code="en")
+        # Cached language objects can outlive a fixture reload and its IDs.
+        lower = Language.objects.get(code="cs", skip_cache=True)
+        upper = Language.objects.get(code="en", skip_cache=True)
         Language.objects.filter(pk=lower.pk).update(code="qaa_search")
         Language.objects.filter(pk=upper.pk).update(code="QAA_SEARCH")
         self.assert_query_sql(

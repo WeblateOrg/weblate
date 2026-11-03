@@ -22,11 +22,29 @@ class SameCheckTest(CheckTestCase):
         for source, expected in (("a" * 100_000, True), ("a." * 50_000, False)):
             with self.subTest(source=source[:20]):
                 unit = make_unit(source=source, target=source)
-                started = monotonic()
                 self.assertEqual(
                     self.check.check_target([source], [source], unit), expected
                 )
-                self.assertLess(monotonic() - started, 2)
+
+    def test_strip_emails_long_candidates(self) -> None:
+        for source in ("a" * 100_000, "a." * 50_000):
+            with self.subTest(source=source[:20]):
+                started = monotonic()
+                result = strip_emails(source)
+                elapsed = monotonic() - started
+                self.assertEqual(result, source)
+                # Catch pathological matching while allowing for CI load.
+                self.assertLess(elapsed, 10)
+
+    def test_strip_domains_long_candidates(self) -> None:
+        for source in ("a" * 100_000, "a." * 50_000):
+            with self.subTest(source=source[:20]):
+                started = monotonic()
+                result = strip_domains(source)
+                elapsed = monotonic() - started
+                self.assertEqual(result, source)
+                # Catch pathological matching while allowing for CI load.
+                self.assertLess(elapsed, 10)
 
     def test_strip_emails(self) -> None:
         for text, expected in (

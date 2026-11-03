@@ -41,8 +41,8 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
-from weblate.accounts.forms import ProfileForm, UserSettingsForm
-from weblate.accounts.models import Profile, Subscription
+from weblate.accounts.forms import CommitForm, ProfileForm, UserSettingsForm
+from weblate.accounts.models import Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
@@ -64,6 +64,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
+from weblate.utils.docs import get_doc_url
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.zammad import ZammadError
@@ -97,6 +98,13 @@ class ViewTest(RepoTestCase):
         user.email = "noreply@example.com"
         user.save()
         return user
+
+    def confirm_sensitive_password(self) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
 
     @staticmethod
     def get_backend(name: str = "github") -> mock.Mock:
@@ -1098,6 +1106,7 @@ class ViewTest(RepoTestCase):
         old_token = user.auth_token.key
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         # Change without data
         response = self.client.post(reverse("password"))
         self.assertContains(response, "This field is required.")
@@ -1135,6 +1144,7 @@ class ViewTest(RepoTestCase):
         old_token = user.auth_token.key
 
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
         response = self.client.post(
             reverse("password"),
             {
@@ -1154,6 +1164,7 @@ class ViewTest(RepoTestCase):
         user = self.get_user()
         # Login
         self.client.login(username="testuser", password="testpassword")
+        self.confirm_sensitive_password()
 
         # API key reset with GET should fail
         response = self.client.get(reverse("reset-api-key"))
@@ -1245,6 +1256,17 @@ class ProfileTest(FixtureTestCase):
         account = content.split('id="account"', 1)[1].split('id="profile"', 1)[0]
         security = content.split('id="security"', 1)[1].split('id="api"', 1)[0]
         developer = content.split('id="api"', 1)[1].split('id="teams"', 1)[0]
+        for field, anchor in (
+            ("commit_name", "private-version-control-identities"),
+            ("commit_email", "private-version-control-identities"),
+            ("public_email", "public-profile-and-avatars"),
+        ):
+            field_html = content.split(f'id="div_id_{field}"', 1)[1].split(
+                "</label>", 1
+            )[0]
+            self.assertIn(
+                get_doc_url("admin/privacy", anchor, user=self.user), field_html
+            )
         self.assertIn("Personal information", account)
         self.assertIn("Version control identity", account)
         self.assertIn("Commit e-mail", account)
@@ -1276,6 +1298,47 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.full_name, "Updated name")
         self.assertEqual(self.user.profile.theme, original_theme)
         self.assertEqual(self.user.profile.website, "")
+
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_OPT_IN=True,
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="user-{user_id}@users.noreply.example.com",
+    )
+    def test_profile_preserves_legacy_private_email(self) -> None:
+        with override_settings(
+            PRIVATE_COMMIT_EMAIL_TEMPLATE="{username}@users.noreply.example.com"
+        ):
+            email = self.user.profile.get_site_commit_email()
+            form = CommitForm(
+                {
+                    "commit_email": email,
+                    "commit_name": Profile.CommitNameChoices.DEFAULT,
+                },
+                instance=self.user.profile,
+            )
+            self.assertTrue(form.is_valid(), form.errors)
+            form.save()
+
+        response = self.client.get(reverse("profile"))
+        self.assertContains(
+            response, f'<option value="{email}" selected>{email}</option>', html=True
+        )
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "activetab": "#account",
+                "username": self.user.username,
+                "full_name": "Updated name",
+                "email": self.user.email,
+                "commit_email": email,
+                "commit_name": Profile.CommitNameChoices.DEFAULT,
+            },
+        )
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Updated name")
+        self.assertEqual(self.user.profile.commit_email, email)
+        self.assertEqual(self.user.profile.get_commit_email(), email)
 
     def test_profile_ignores_other_tabs_on_public_profile_save(self) -> None:
         original_name = self.user.full_name
@@ -1905,6 +1968,141 @@ class ProfileTest(FixtureTestCase):
             rule["frequency"],
         )
 
+    def test_import_userdata_commit_emails(self) -> None:
+        email = "previous@users.noreply.example.com"
+        for opt_in in (True, False):
+            for template in ("user-{user_id}@users.noreply.example.com", ""):
+                with override_settings(
+                    PRIVATE_COMMIT_EMAIL_OPT_IN=opt_in,
+                    PRIVATE_COMMIT_EMAIL_TEMPLATE=template,
+                ):
+                    current_email = self.user.profile.get_site_commit_email()
+                    for imported in (
+                        email,
+                        self.user.email,
+                        current_email,
+                        "other-user@users.noreply.example.com",
+                        "",
+                    ):
+                        with self.subTest(
+                            opt_in=opt_in, template=template, imported=imported
+                        ):
+                            self.user.profile.commit_email = email
+                            self.user.profile.language = "en"
+                            self.user.profile.save(
+                                update_fields=["commit_email", "language"]
+                            )
+                            data = self.user.profile.dump_data()
+                            data["profile"]["commit_email"] = imported
+                            reset_rate_limit("userdata", user=self.user)
+                            response = self.client.post(
+                                reverse("import-userdata"),
+                                {
+                                    "file": SimpleUploadedFile(
+                                        "user.json",
+                                        json.dumps(
+                                            data, cls=DjangoJSONEncoder
+                                        ).encode(),
+                                    ),
+                                    "commit_identity": "on",
+                                },
+                                follow=True,
+                            )
+                            imported_messages = [
+                                str(message)
+                                for message in get_messages(response.wsgi_request)
+                            ]
+                            expected = imported
+                            if imported == "other-user@users.noreply.example.com":
+                                expected = current_email or email
+                            if (
+                                not current_email
+                                and imported == "other-user@users.noreply.example.com"
+                            ):
+                                self.assertIn(
+                                    "Some settings could not be imported: Commit e-mail",
+                                    imported_messages,
+                                )
+                            else:
+                                self.assertIn(
+                                    "Your settings have been imported.",
+                                    imported_messages,
+                                )
+                            self.user.profile.refresh_from_db()
+                            self.assertEqual(self.user.profile.commit_email, expected)
+                            if imported and current_email:
+                                self.assertEqual(
+                                    self.user.profile.get_commit_email(), expected
+                                )
+
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False)
+    def test_import_userdata_email_validation(self) -> None:
+        social = self.user.social_auth.create(
+            provider="email", uid="import-test", id_key="email"
+        )
+        self.user.profile.language = "en"
+        self.user.profile.save(update_fields=["language"])
+        for email, pattern in (
+            ("imported@outside.example", r"^.*@example\.org$"),
+            ("imported@disposablemails.com", ".*"),
+        ):
+            VerifiedEmail.objects.create(social=social, email=email)
+            with (
+                self.subTest(email=email),
+                override_settings(REGISTRATION_EMAIL_MATCH=pattern),
+            ):
+                data = self.user.profile.dump_data()
+                data["profile"].update(commit_email=email, public_email=email)
+                response = self.client.post(
+                    reverse("import-userdata"),
+                    {
+                        "file": SimpleUploadedFile(
+                            "user.json",
+                            json.dumps(data, cls=DjangoJSONEncoder).encode(),
+                        ),
+                        "commit_identity": "on",
+                    },
+                    follow=True,
+                )
+                imported_messages = [
+                    str(message) for message in get_messages(response.wsgi_request)
+                ]
+                self.assertIn(
+                    "Some settings could not be imported: Public e-mail, Commit e-mail",
+                    imported_messages,
+                )
+                self.user.profile.refresh_from_db()
+                self.assertEqual(self.user.profile.commit_email, "")
+                self.assertEqual(self.user.profile.public_email, "")
+
+    @override_settings(
+        REGISTRATION_EMAIL_MATCH=r"^.*@example\.org$",
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="private@outside.example",
+    )
+    def test_import_userdata_rejects_disallowed_private_email_fallback(self) -> None:
+        self.user.profile.language = "en"
+        self.user.profile.save(update_fields=["language"])
+        data = self.user.profile.dump_data()
+        data["profile"]["commit_email"] = "other@another.example"
+        response = self.client.post(
+            reverse("import-userdata"),
+            {
+                "file": SimpleUploadedFile(
+                    "user.json", json.dumps(data, cls=DjangoJSONEncoder).encode()
+                ),
+                "commit_identity": "on",
+            },
+            follow=True,
+        )
+        imported_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertIn(
+            "Some settings could not be imported: Commit e-mail", imported_messages
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, "")
+
     def test_subscription(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
@@ -1989,13 +2187,7 @@ class ProfileTest(FixtureTestCase):
             ),
         ]
 
-        with (
-            mock.patch(
-                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
-            ),
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            self.project.remove_user(self.user)
+        self.project.remove_user(self.user)
         self.user.clear_permissions_cache()
 
         self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())

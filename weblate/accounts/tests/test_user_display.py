@@ -287,7 +287,7 @@ class UserDisplayTest(FixtureTestCase):
         )
         template = Template(
             "{% load translations metrics %}"
-            "{% show_info stats=project.stats metrics=project|metrics "
+            "{% show_info project=project stats=project.stats metrics=project|metrics "
             "top_users=top_users total_translations=1 %}"
         )
         for mode in ("all", "scoped", "disabled"):
@@ -299,7 +299,7 @@ class UserDisplayTest(FixtureTestCase):
                         self.user,
                         "has_perm",
                         side_effect=lambda name, _obj=None, expected=permission, mode=mode: (
-                            name == expected
+                            name in {expected, "contribution.view_author"}
                             or (name == "user.browse" and mode == "all")
                             or (name == "user.search" and mode in {"all", "scoped"})
                         ),
@@ -503,6 +503,8 @@ class UserDisplayTest(FixtureTestCase):
         for public in (True, False):
             if not public:
                 public_role.permissions.remove(profile_permission)
+            self.user.clear_permissions_cache()
+            _ = self.user.global_permissions
             for output in ("email", "feed"):
                 with self.subTest(public=public, output=output):
                     with CaptureQueriesContext(connection) as queries:
@@ -521,7 +523,9 @@ class UserDisplayTest(FixtureTestCase):
                         for query in queries.captured_queries
                         if 'SELECT "weblate_auth_permission"."codename"' in query["sql"]
                     ]
-                    self.assertEqual(len(permission_queries), 1)
+                    self.assertEqual(
+                        len(permission_queries), 1 if output == "email" else 0
+                    )
                     self.assertIn(self.target.username, rendered)
                     self.assertEqual(self.target.get_absolute_url() in rendered, public)
 

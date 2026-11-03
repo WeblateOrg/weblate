@@ -333,13 +333,16 @@ Users
     Self and administrative access remain available. See :doc:`admin/privacy`.
 
     :query string q: User search query, such as ``contributes:project`` or ``contributes:project/component``. Every matching Boolean branch must have a positive resource scope in restricted directory modes.
-    :query int unit: Rank contributors to this string first. In restricted directory modes, results are limited to contributors to its translation.
+    :query int unit: Rank contributors to this string first. Requires contributor identity access to the string, independently of directory privileges. In restricted directory modes, results are limited to contributors to its translation.
     :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     Username searches by users without the global ``user.view`` or ``user.edit``
     permission exclude bot accounts other than the caller's own account.
+    This restriction does not apply to direct lookups by exact username;
+    bot accounts follow the profile access rules at
+    :http:get:`/api/users/(str:username)/`.
 
     .. seealso::
 
@@ -3929,6 +3932,18 @@ Statistics
 
 Metrics
 +++++++
+
+.. http:get:: /api/activity/
+
+    Returns global daily activity and up to ten recently active projects visible
+    to the authenticated user. Authentication is required.
+
+    ``daily_activity`` contains 52 daily translation-change counts, oldest first,
+    ending today. ``projects`` contains project statistics with positive
+    ``recent_changes`` and a non-null ``last_change``, ordered by newest change
+    first, with project ID breaking ties. Fewer than ten projects can be returned.
+    The global totals retain the same instance-wide scope as the former
+    ``/activity/month.json`` endpoint, which has been removed.
 
 .. http:get:: /api/metrics/
 

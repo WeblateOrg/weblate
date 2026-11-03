@@ -55,7 +55,11 @@ from django.utils.crypto import constant_time_compare
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
-from django.utils.http import content_disposition_header, urlencode
+from django.utils.http import (
+    content_disposition_header,
+    url_has_allowed_host_and_scheme,
+    urlencode,
+)
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
@@ -146,6 +150,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.tasks import notify_email_conflict
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
     FIRST_FACTOR_VERIFY_SECONDS,
@@ -165,20 +170,27 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     get_key_name,
     grant_first_factor,
+    grant_sensitive_verification,
     has_first_factor_grant,
     has_recent_second_factor,
+    has_recent_sensitive_verification,
     invalidate_reset_codes,
     lock_user,
     remove_user,
     require_recent_second_factor,
+    require_sensitive_verification,
     reset_api_token,
     second_factor_verification_redirect,
+    sensitive_verification_redirect,
     set_second_factor_session,
+    valid_first_factor_sso_intent,
 )
 from weblate.accounts.visibility import (
     can_browse_users,
     can_search_scoped_users,
     check_profile_access,
+    contributor_translation_ids,
+    filter_contributor_changes,
     is_resource_bounded,
     profile_response,
 )
@@ -535,6 +547,10 @@ def user_profile(request: AuthenticatedHttpRequest):
     form_errors = False
 
     if request.method == "POST":
+        if any(
+            isinstance(form, (UserForm, CommitForm)) for form in submitted_forms
+        ) and not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         validation_results = [form.is_valid() for form in submitted_forms]
         form_errors = not all(validation_results)
         if not form_errors:
@@ -616,6 +632,7 @@ def user_profile(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@require_sensitive_verification
 @session_ratelimit_post("remove")
 @never_cache
 def user_remove(request: AuthenticatedHttpRequest):
@@ -953,6 +970,8 @@ class UserPage(UpdateView):
         user = self.object = self.get_object()
         if user.is_internal:
             raise PermissionDenied(gettext("This user can not be edited."))
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.path)
         if "add_group" in request.POST:
             response = self.handle_add_group(request, user)
             if response is not None:
@@ -1055,7 +1074,9 @@ class UserPage(UpdateView):
         allowed_projects = request.user.allowed_projects
 
         # Filter all user activity
-        all_changes = Change.objects.last_changes(request.user).filter(user=user)
+        all_changes = filter_contributor_changes(
+            Change.objects.last_changes(request.user), request.user
+        ).filter(user=user)
 
         # Filter where project is active
         user_translation_ids = set(
@@ -1147,7 +1168,9 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
         Translation.objects.filter_access(request.user)
         .prefetch()
         .filter(
-            id__in=user_translation_ids,
+            id__in=set(user_translation_ids).intersection(
+                contributor_translation_ids(request.user)
+            ),
         )
         .order()
     )
@@ -1484,7 +1507,7 @@ def register(request: AuthenticatedHttpRequest):
 
 
 @login_required
-@require_recent_second_factor
+@require_sensitive_verification
 @never_cache
 def email_login(request: AuthenticatedHttpRequest):
     """Connect e-mail."""
@@ -1493,8 +1516,11 @@ def email_login(request: AuthenticatedHttpRequest):
         if form.is_valid():
             email_user = form.cleaned_data["email_user"]
             if email_user and email_user != request.user:
-                AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "connect"
+                audit = AuditLog.objects.create(
+                    email_user, request, "connect", skip_notify=True
+                )
+                notify_email_conflict.delay_on_commit(
+                    audit.pk, form.cleaned_data["email"], email_user.email
                 )
                 return fake_email_sent(request)
             store_userid(request)
@@ -1530,13 +1556,12 @@ def verify_second_factor(request: AuthenticatedHttpRequest):
                 next_url = reverse(
                     "manage-access", kwargs={"project": match.kwargs["project"]}
                 )
-    if has_recent_second_factor(request):
+    if has_recent_sensitive_verification(request):
         return HttpResponseRedirect(next_url)
-    return second_factor_verification_redirect(request, next_url)
+    return sensitive_verification_redirect(request, next_url)
 
 
 @login_required
-@require_recent_second_factor
 @session_ratelimit_post("password")
 @never_cache
 def password(request: AuthenticatedHttpRequest):
@@ -1545,6 +1570,8 @@ def password(request: AuthenticatedHttpRequest):
     change_form = None
     user = request.user
     usable = user.has_usable_password()
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(request, request.path)
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
@@ -1712,8 +1739,8 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
-    if not has_recent_second_factor(request):
-        return second_factor_verification_redirect(request, f"{reverse('profile')}#api")
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(request, f"{reverse('profile')}#api")
     with transaction.atomic():
         reset_api_token(request.user)
 
@@ -1868,7 +1895,11 @@ class SuggestionView(ListView):
         )
         return (
             Suggestion.objects.filter_access(self.request.user)
-            .filter(user=user)
+            .filter(
+                user=user,
+                unit__translation_id__in=contributor_translation_ids(self.request.user),
+            )
+            .select_related("unit__translation__component__project", "user")
             .order()
         )
 
@@ -1918,8 +1949,8 @@ def social_disconnect(
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting the last identity or verified e-mail
     """
-    if not has_recent_second_factor(request):
-        return second_factor_verification_redirect(
+    if not has_recent_sensitive_verification(request):
+        return sensitive_verification_redirect(
             request, f"{reverse('profile')}#security"
         )
     try:
@@ -2002,8 +2033,14 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
-    if request.user.is_authenticated and not has_recent_second_factor(request):
-        return second_factor_verification_redirect(
+    pending_proof = request.session.get(SESSION_FIRST_FACTOR_SSO)
+    provider_proof = valid_first_factor_sso_intent(request, pending_proof, backend)
+    if (
+        request.user.is_authenticated
+        and not provider_proof
+        and not has_recent_sensitive_verification(request)
+    ):
+        return sensitive_verification_redirect(
             request, f"{reverse('profile')}#security"
         )
     if response := prepare_oidc_login(
@@ -2507,7 +2544,11 @@ class RecoveryCodesView(TemplateView):
         return result
 
 
-FIRST_FACTOR_TARGETS = {"totp": "totp", "webauthn": "webauthn-register"}
+FIRST_FACTOR_TARGETS = {
+    "totp": "totp",
+    "webauthn": "webauthn-register",
+    "sensitive": "profile",
+}
 
 
 def first_factor_redirect(request: AuthenticatedHttpRequest, target: str):
@@ -2522,9 +2563,21 @@ def first_factor_verify(request: AuthenticatedHttpRequest):
     target = request.POST.get("target", request.GET.get("target", "totp"))
     if target not in FIRST_FACTOR_TARGETS:
         return HttpResponseBadRequest("Invalid enrollment target")
-    if request.user.profile.has_2fa:
+    next_url = request.POST.get("next", request.GET.get("next", ""))
+    if not (
+        next_url.startswith("/")
+        and url_has_allowed_host_and_scheme(
+            next_url, allowed_hosts={request.get_host()}
+        )
+    ):
+        next_url = reverse("profile")
+    if target == "sensitive" and request.user.profile.has_2fa:
+        return second_factor_verification_redirect(request, next_url)
+    if target != "sensitive" and request.user.profile.has_2fa:
         return redirect(FIRST_FACTOR_TARGETS[target])
-    if has_first_factor_grant(request):
+    if target == "sensitive" and has_recent_sensitive_verification(request):
+        return HttpResponseRedirect(next_url)
+    if target != "sensitive" and has_first_factor_grant(request):
         return redirect(FIRST_FACTOR_TARGETS[target])
 
     user = request.user
@@ -2536,16 +2589,29 @@ def first_factor_verify(request: AuthenticatedHttpRequest):
         for association in user.social_auth.filter(provider__in=get_auth_keys())
         if association.provider != "email"
     ]
+    backend_path = request.session.get("_auth_user_backend")
+    has_password_method = user.has_usable_password() or (
+        isinstance(backend_path, str)
+        and backend_path in settings.AUTHENTICATION_BACKENDS
+        and not backend_path.startswith("social_core.")
+        and backend_path != "weblate.accounts.auth.WeblateUserBackend"
+    )
+    can_recover_by_email = (
+        not has_password_method and not associations and "email" in get_auth_keys()
+    )
     if request.method == "POST":
-        if user.has_usable_password() and "password" in request.POST:
+        if "password" in request.POST:
             if form.is_valid():
                 request.session.cycle_key()
                 rotate_token(request)
+                if target == "sensitive":
+                    grant_sensitive_verification(request)
+                    return HttpResponseRedirect(next_url)
                 clear_pending_first_factor(request)
                 grant_first_factor(request)
                 return redirect(FIRST_FACTOR_TARGETS[target])
             rotate_token(request)
-        elif not user.has_usable_password() and "association" in request.POST:
+        elif "association" in request.POST:
             association = next(
                 (
                     item
@@ -2562,18 +2628,24 @@ def first_factor_verify(request: AuthenticatedHttpRequest):
                 "association": association.pk,
                 "provider": association.provider,
                 "target": target,
+                "next": next_url,
                 "time": int(time.time()),
             }
             return social_auth(request, association.provider)
+        elif "email_recovery" in request.POST and can_recover_by_email:
+            auth_logout(request)
+            return redirect("password_reset")
 
     return render(
         request,
         "accounts/first-factor-verify.html",
         {
             "target": target,
+            "next_url": next_url,
             "confirm_form": form,
-            "has_password": user.has_usable_password(),
+            "has_password_method": has_password_method,
             "associations": associations,
+            "can_recover_by_email": can_recover_by_email,
         },
     )
 

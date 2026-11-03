@@ -12,7 +12,7 @@
           {% if in_email %}style="clear:both"{% endif %}>
         <td class="history-event col-md-3">
           <div class="history-author ms-2">
-            <strong>{% user_display item.change.user %}</strong>
+            <strong>{% user_display item.change.user resource=item.change %}</strong>
             {% if item.origin %}
               {% include "snippets/history-badge.html" with label=item.origin description=item.origin_description prefix=origin_prefix in_email=in_email only %}
             {% endif %}

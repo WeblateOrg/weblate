@@ -1,7 +1,11 @@
 {% load i18n %}
 
 {% for component in group.components.all %}
-  <span class="badge text-bg-secondary">{{ component }}</span>
+  {% if group.defining_project_id and component.project_id != group.defining_project_id %}
+    <span class="badge text-bg-secondary">{% translate "Moved component" %} #{{ component.pk }}</span>
+  {% else %}
+    <span class="badge text-bg-secondary">{{ component }}</span>
+  {% endif %}
 {% empty %}
   <em>{% translate "All components" %}</em>
 {% endfor %}

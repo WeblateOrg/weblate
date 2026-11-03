@@ -197,6 +197,11 @@ You can toggle notifications for watched projects and administered projects and 
 can be further tweaked (or muted) per project and component. Visit the component
 overview page and select appropriate choice from the :guilabel:`Watching` menu.
 
+Project and component notification subscriptions are automatically removed when
+you lose access to their targets. Cleanup runs hourly for a different group of
+users, checking every user once daily. Subscriptions are retained during temporary
+project blocks or while two-factor authentication requirements are unmet.
+
 In case :guilabel:`Automatically watch projects on contribution` is enabled you
 will automatically start watching projects upon contributing to them. The
 default value depends on :setting:`DEFAULT_AUTO_WATCH`.
@@ -251,6 +256,14 @@ commit identity. You can verify another e-mail address here. The account
 management section at the bottom lets you export your user data (see
 :ref:`schema-userdata`), import settings, or remove your account.
 
+When you add an e-mail address, verification instructions are sent to the new
+address. If the new address already belongs to another account, that mailbox
+receives guidance on recovering access instead of a verification link. Sign out
+before recovering the other account.
+Contact support, when available, for help moving an address between accounts.
+The browser displays the same confirmation page in both cases to avoid
+disclosing whether an account exists.
+
 Account e-mail addresses match without regard to ASCII letter case. Non-ASCII
 characters must match exactly when signing in or resetting a password.
 
@@ -266,6 +279,11 @@ a saved search with the same name is replaced.
 
 General notification settings and commit identity choices can be imported
 separately by selecting the corresponding options. Both are off by default.
+An imported commit e-mail unknown to this account is replaced with the current
+site's generated private address. If private addresses are disabled, the unknown
+address is skipped and your existing choice is preserved.
+Imported public e-mail addresses must be known to the current account. Both
+public and commit e-mail addresses must pass the current site's e-mail validation.
 Project- and component-specific and one-time notification rules are included
 in the export but not imported.
 
@@ -278,7 +296,9 @@ Administrators can make private identities the default by setting
 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` and :setting:`PRIVATE_COMMIT_NAME_OPT_IN`
 to ``False``. Your explicit choices override these defaults.
 
-See :doc:`/admin/privacy` for privacy configuration examples.
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 Changes to these settings affect future commits. Names and e-mail addresses
 already recorded in repository history remain unchanged.
@@ -311,6 +331,10 @@ should use common profile paths, such as ``/username``, ``/@username``,
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
 
 .. _profile-security:
 

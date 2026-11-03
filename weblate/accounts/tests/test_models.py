@@ -16,6 +16,7 @@ from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils.translation import override
 
+from weblate.accounts import defaults
 from weblate.accounts.admin import AuditLogAdmin
 from weblate.accounts.models import (
     AUDIT_WARNING,
@@ -297,6 +298,81 @@ class ProfileCommitNameTestCase(TestCase):
             email="test@example.com",
         )
         self.profile = self.user.profile
+
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_TEMPLATE=defaults.DEFAULT_PRIVATE_COMMIT_EMAIL_TEMPLATE,
+        PRIVATE_COMMIT_NAME_TEMPLATE=defaults.DEFAULT_PRIVATE_COMMIT_NAME_TEMPLATE,
+        PRIVATE_COMMIT_EMAIL_OPT_IN=False,
+        PRIVATE_COMMIT_NAME_OPT_IN=False,
+        SITE_TITLE="WeblateTest",
+        SITE_DOMAIN="weblate.test",
+    )
+    def test_default_private_identities(self) -> None:
+        email = f"user-{self.user.pk}@users.noreply.weblate.test"
+        name = f"WeblateTest user {self.user.pk}"
+        for username in ("testuser", "renamed-user"):
+            with self.subTest(username=username):
+                self.user.username = username
+                self.assertEqual(self.profile.get_commit_email(), email)
+                self.assertEqual(self.profile.get_commit_name(), name)
+        other = User.objects.create_user(username="other-user")
+        self.assertNotEqual(other.profile.get_commit_email(), email)
+        self.assertNotEqual(other.profile.get_commit_name(), name)
+
+    @override_settings(PRIVATE_COMMIT_EMAIL_OPT_IN=True)
+    def test_default_public_email(self) -> None:
+        self.assertEqual(self.profile.get_commit_email(), self.user.email)
+
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="user-{user_id}@users.noreply.example.com",
+        PRIVATE_COMMIT_EMAIL_OPT_IN=False,
+    )
+    def test_explicit_commit_email_preserved(self) -> None:
+        self.profile.commit_email = "previous@users.noreply.example.com"
+        self.assertEqual(
+            self.profile.get_commit_email(), "previous@users.noreply.example.com"
+        )
+
+    def test_saved_commit_email_choices(self) -> None:
+        for opt_in in (True, False):
+            for template in ("user-{user_id}@users.noreply.example.com", ""):
+                for saved in (
+                    "previous@users.noreply.example.com",
+                    self.user.email,
+                    "",
+                ):
+                    with (
+                        self.subTest(opt_in=opt_in, template=template, saved=saved),
+                        override_settings(
+                            PRIVATE_COMMIT_EMAIL_OPT_IN=opt_in,
+                            PRIVATE_COMMIT_EMAIL_TEMPLATE=template,
+                        ),
+                    ):
+                        self.profile.commit_email = saved
+                        choices = self.profile.get_commit_email_choices()
+                        values = [value for value, _label in choices]
+                        self.assertEqual(values.count(saved), 1)
+                        self.assertEqual(values[0], "")
+                        self.assertEqual(values[1:], sorted(set(values[1:])))
+                        if template and not opt_in:
+                            self.assertEqual(
+                                choices[0][1], self.profile.get_site_commit_email()
+                            )
+                        else:
+                            self.assertEqual(
+                                choices[0][1], "Use account e-mail address"
+                            )
+
+    @override_settings(
+        PRIVATE_COMMIT_EMAIL_TEMPLATE="", PRIVATE_COMMIT_EMAIL_OPT_IN=False
+    )
+    def test_blank_private_email_fallback(self) -> None:
+        self.assertEqual(self.profile.get_commit_email(), self.user.email)
+
+    @override_settings(PRIVATE_COMMIT_EMAIL_OPT_IN=False)
+    def test_bot_email_remains_public(self) -> None:
+        self.user.is_bot = True
+        self.assertEqual(self.profile.get_commit_email(), self.user.email)
 
     @override_settings(
         PRIVATE_COMMIT_NAME_TEMPLATE="{site_title} user {user_id} from {site_domain}",

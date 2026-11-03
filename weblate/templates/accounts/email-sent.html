@@ -25,7 +25,7 @@
       {% elif is_remove %}
         {% translate "Account removal almost complete" %}
       {% elif is_email_verification %}
-        {% translate "E-mail verification almost complete" %}
+        {% translate "Check your e-mail" %}
       {% else %}
         {% translate "Registration almost complete" %}
       {% endif %}
@@ -37,7 +37,7 @@
       {% elif is_remove %}
         {% blocktranslate %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktranslate %}
       {% elif is_email_verification %}
-        {% blocktranslate %}Click the confirmation link sent to your e-mail inbox to verify the address for your account.{% endblocktranslate %}
+        {% translate "Check your e-mail for instructions. If this address is already associated with an account, you may receive account recovery guidance instead of a verification link." %}
       {% else %}
         {% blocktranslate %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktranslate %}
       {% endif %}
@@ -48,7 +48,11 @@
     </p>
 
     <p>
-      {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% if is_email_verification %}
+        {% blocktranslate count count=validity %}If you receive a verification link, it will expire after {{ count }} hour.{% plural %}If you receive a verification link, it will expire after {{ count }} hours.{% endblocktranslate %}
+      {% else %}
+        {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% endif %}
       {% if is_reset or is_remove %}
         {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}
       {% elif is_email_verification %}

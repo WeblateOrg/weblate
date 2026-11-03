@@ -14,7 +14,8 @@ from unittest.mock import MagicMock, call, patch
 from amqp import Message, spec
 from amqp.exceptions import AccessRefused, MessageNacked
 from amqp.method_framing import frame_handler
-from django.test import SimpleTestCase
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase, override_settings
 
 from weblate.addons import fedora_messaging as messaging
 from weblate.utils.validators import validate_fedora_messaging_url
@@ -37,6 +38,10 @@ class PublisherTest(SimpleTestCase):
         self.connection_patch = patch.object(messaging, "Connection")
         self.connection = self.connection_patch.start().return_value
         self.addCleanup(self.connection_patch.stop)
+        self.connection.connection.transport.sock.getpeername.return_value = (
+            "93.184.216.34",
+            5672,
+        )
         self.producer_patch = patch.object(messaging, "Producer")
         self.producer = self.producer_patch.start().return_value
         self.addCleanup(self.producer_patch.stop)
@@ -82,6 +87,75 @@ class PublisherTest(SimpleTestCase):
         self.assertEqual(properties["exchange"], "amq.topic")
         self.assertFalse(properties["retry"])
 
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_reuse_avoids_dns_and_reconnect_revalidates(self) -> None:
+        self.connection_patch.stop()
+        self.validation.stop()
+        public_entry = (
+            messaging.socket.AF_INET,
+            messaging.socket.SOCK_STREAM,
+            6,
+            "",
+            ("93.184.216.34", 5672),
+        )
+        private_entry = (*public_entry[:4], ("127.0.0.1", 5672))
+        sock = MagicMock()
+        sock.getpeername.return_value = ("93.184.216.34", 5672)
+
+        def establish_connection(adapter: messaging.PublisherTransport) -> MagicMock:
+            transport = messaging.DeadlineTCPTransport("broker.example:5672")
+            transport.connect()
+            connection = MagicMock(connected=True)
+            connection.transport = transport
+            connection.collect.side_effect = transport.close
+            return connection
+
+        with (
+            patch.object(
+                messaging.socket, "getaddrinfo", return_value=[public_entry]
+            ) as resolve,
+            patch.object(
+                messaging.socket, "socket", return_value=sock
+            ) as create_socket,
+            patch.object(
+                messaging.PublisherTransport,
+                "establish_connection",
+                autospec=True,
+                side_effect=establish_connection,
+            ),
+        ):
+            self.configure()
+            resolve.assert_not_called()
+            self.publish()
+            self.configure()
+            self.publish()
+            resolve.assert_called_once()
+            self.assertEqual(self.producer.publish.call_count, 2)
+            self.state.disconnect()
+            resolve.return_value = [private_entry]
+            with self.assertRaises(messaging.FedoraMessagingPublishError):
+                self.publish()
+            self.assertEqual(resolve.call_count, 2)
+            create_socket.assert_called_once()
+            self.assertIsNone(self.state.connection)
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_reused_peer_obeys_changed_restrictions_without_dns(self) -> None:
+        self.validation.stop()
+        sock = self.connection.connection.transport.sock
+        sock.getpeername.return_value = ("127.0.0.1", 5672)
+        with patch.object(messaging.socket, "getaddrinfo") as resolve:
+            self.publish()
+            with (
+                override_settings(WEBHOOK_RESTRICT_PRIVATE=True),
+                self.assertRaises(messaging.FedoraMessagingPublishError),
+            ):
+                self.publish(connection_attempts=3, retry_delay=0)
+            resolve.assert_not_called()
+        self.assertEqual(self.producer.publish.call_count, 1)
+        self.connection.ensure_connection.assert_called_once()
+        self.assertIsNone(self.state.connection)
+
     def test_changed_configuration_discards_connection(self) -> None:
         self.publish()
         self.configure(retry_delay=3)
@@ -106,6 +180,40 @@ class PublisherTest(SimpleTestCase):
             },
             {self.message.id},
         )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_stale_peer_lookup_reconnects_before_publishing(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        sock = self.connection.connection.transport.sock
+        sock.getpeername.side_effect = [
+            OSError(errno.ENOTCONN, "not connected"),
+            ("93.184.216.34", 5672),
+        ]
+        self.publish(connection_attempts=2, retry_delay=0)
+        self.connection.collect.assert_called_once()
+        self.assertEqual(self.connection.ensure_connection.call_count, 2)
+        self.producer.publish.assert_called_once()
+        self.assertEqual(
+            self.producer.publish.call_args.kwargs["message_id"], self.message.id
+        )
+        self.report.assert_not_called()
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_peer_lookup_failures_exhaust_retries_without_publishing(self) -> None:
+        self.publish()
+        self.producer.publish.reset_mock()
+        sock = self.connection.connection.transport.sock
+        sock.getpeername.reset_mock()
+        sock.getpeername.side_effect = OSError(errno.ENOTCONN, "not connected")
+        with self.assertRaises(messaging.FedoraMessagingPublishError) as error:
+            self.publish(connection_attempts=2, retry_delay=0)
+        self.assertIsInstance(error.exception.__cause__, OSError)
+        self.assertEqual(sock.getpeername.call_count, 2)
+        self.assertEqual(self.connection.ensure_connection.call_count, 2)
+        self.producer.publish.assert_not_called()
+        self.report.assert_called_once()
+        self.assertIsNone(self.state.connection)
 
     def test_rejections_are_not_retried(self) -> None:
         for error in (AccessRefused("forbidden"), MessageNacked()):
@@ -232,8 +340,6 @@ class PublisherTest(SimpleTestCase):
         self.assertFalse(path.exists())
 
     def test_query_and_fragment_rejected(self) -> None:
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
-
         for suffix in ("?heartbeat=10", "#fragment", "?", "#"):
             with self.subTest(suffix=suffix), self.assertRaises(ValidationError):
                 validate_fedora_messaging_url("amqp://broker.example" + suffix)
@@ -323,8 +429,6 @@ class PublisherTest(SimpleTestCase):
         self.assertIsNone(self.state.configuration)
 
     def test_tls_probe_checks_peer_before_handshake(self) -> None:
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
-
         with (
             patch.object(messaging.FedoraMessagingAddon, "_tls_context") as context,
             patch.object(messaging.socket, "create_connection"),
@@ -337,6 +441,20 @@ class PublisherTest(SimpleTestCase):
                 messaging.FedoraMessagingConfigurationError, "private peer"
             ),
         ):
+            messaging.FedoraMessagingAddon.validate_broker_tls("amqps://broker.example")
+        context.return_value.wrap_socket.assert_not_called()
+
+    def test_tls_probe_reports_peer_lookup_socket_error(self) -> None:
+        with (
+            patch.object(messaging.FedoraMessagingAddon, "_tls_context") as context,
+            patch.object(messaging.socket, "create_connection") as create,
+            self.assertRaisesMessage(
+                messaging.FedoraMessagingConfigurationError, "not connected"
+            ),
+        ):
+            create.return_value.__enter__.return_value.getpeername.side_effect = (
+                OSError(errno.ENOTCONN, "not connected")
+            )
             messaging.FedoraMessagingAddon.validate_broker_tls("amqps://broker.example")
         context.return_value.wrap_socket.assert_not_called()
 
@@ -387,7 +505,7 @@ class PublisherSocketTest(SimpleTestCase):
                 messaging.socket.SOCK_STREAM,
                 6,
                 "",
-                ("192.0.2.1", 5672),
+                ("93.184.216.34", 5672),
             )
         ] * 3
         with (
@@ -405,6 +523,44 @@ class PublisherSocketTest(SimpleTestCase):
         self.assertEqual(create_socket.return_value.close.call_count, 2)
         self.assertIsNone(transport.sock)
 
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=[])
+    def test_mixed_dns_answers_rejected_before_connect(self) -> None:
+        transport = messaging.DeadlineTCPTransport("broker.example:5672")
+        entries = [
+            (messaging.socket.AF_INET, messaging.socket.SOCK_STREAM, 6, "", (ip, 5672))
+            for ip in ("93.184.216.34", "127.0.0.1")
+        ]
+        with (
+            patch.object(messaging.socket, "getaddrinfo", return_value=entries),
+            patch.object(messaging.socket, "socket") as create_socket,
+            self.assertRaises(ValidationError),
+        ):
+            transport.connect()
+        create_socket.assert_not_called()
+
+    @override_settings(
+        WEBHOOK_RESTRICT_PRIVATE=True, WEBHOOK_PRIVATE_ALLOWLIST=["broker.example"]
+    )
+    def test_allowlisted_private_dns_answer_connects(self) -> None:
+        transport = messaging.DeadlineTCPTransport("broker.example:5672")
+        self.state.deadline = time.monotonic() + 5
+        entries = [
+            (
+                messaging.socket.AF_INET,
+                messaging.socket.SOCK_STREAM,
+                6,
+                "",
+                ("127.0.0.1", 5672),
+            )
+        ]
+        with (
+            patch.object(messaging.socket, "getaddrinfo", return_value=entries),
+            patch.object(messaging.socket, "socket") as create_socket,
+        ):
+            transport.connect()
+        create_socket.return_value.connect.assert_called_once_with(("127.0.0.1", 5672))
+        transport.close()
+
     def test_resolution_exhausts_budget_before_socket_creation(self) -> None:
         connection = messaging.DeadlineConnection(
             host="broker.example:5672", connect_timeout=5
@@ -419,7 +575,7 @@ class PublisherSocketTest(SimpleTestCase):
                         messaging.socket.SOCK_STREAM,
                         6,
                         "",
-                        ("192.0.2.1", 5672),
+                        ("93.184.216.34", 5672),
                     )
                 ],
             ),
@@ -459,7 +615,7 @@ class PublisherSocketTest(SimpleTestCase):
                         messaging.socket.SOCK_STREAM,
                         6,
                         "",
-                        ("192.0.2.1", 5671),
+                        ("93.184.216.34", 5671),
                     )
                 ],
             ),

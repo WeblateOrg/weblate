@@ -62,7 +62,7 @@ command-line client, see :ref:`wlc-security`. Direct API consumers remain
 responsible for safely rendering and storing returned values.
 
 .. autoclass:: Weblate
-   :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
+   :members: get, post, request, raw_request, invoke_request, get_object, get_project, get_component, get_translation, get_unit, get_activity, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
 
 
 Exceptions
@@ -137,6 +137,17 @@ Projects, components, and translations share repository operations:
 
 .. autoclass:: Repository
    :members: get_data, commit, push, pull, reset, cleanup
+
+
+:class:`Activity`
+-----------------
+
+.. autoclass:: wlc.Activity
+
+``client.get_activity()`` returns a :class:`wlc.Activity` with
+``daily_activity`` (a list of daily counts) and ``projects`` (a list of
+:class:`wlc.Statistics` objects). Project timestamps are parsed as datetimes.
+This requires a server providing :http:get:`/api/activity/`.
 
 
 :mod:`wlc.config`

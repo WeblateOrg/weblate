@@ -98,6 +98,10 @@ Data retention and deletion
 Security and confidentiality
 ----------------------------
 
+.. seealso::
+
+   :doc:`/admin/privacy`
+
 - Weblate supports HTTPS deployments and secure cookie settings; operators
   should configure TLS and trusted proxy headers correctly.
 - Failed sign-ins, permission changes, two-factor changes, account removal

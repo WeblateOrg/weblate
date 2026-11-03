@@ -1196,17 +1196,22 @@ Each user can configure this in :ref:`profile-security` and second factor will
 be required to sign in addition to the existing authentication method.
 
 Before registering the first authenticator app or security key, confirm your
-existing sign-in method. Enter your current Weblate password if you have one.
-Accounts without a Weblate password must sign in again through an already
-connected authentication provider. If neither method is available, contact an
-administrator to recover access. Registering a new factor does not count as a
+existing sign-in method. Enter your current password, including one verified
+by a configured Django authentication backend such as LDAP, or sign in again
+through an already connected provider. If neither method is available, contact
+an administrator to recover access. Registering a new factor does not count as a
 recent second-factor verification for other sensitive actions, such as creating
 a project token; complete a separate second-factor challenge for those actions.
 
-When two-factor authentication is configured, viewing the personal API key or
-changing sign-in methods and recovery credentials requires a second-factor
-verification from the last 10 minutes. Weblate prompts for verification again
-when that period has passed.
+Viewing the personal API key and changing credentials, access permissions, or
+account status requires credential verification from the last 10 minutes in a
+browser session. This includes managing project members and tokens, teams,
+roles, user accounts, and project visibility. Weblate prompts for a second
+factor when one is configured. Otherwise, enter your current password, verify
+through a configured Django authentication backend, or sign in again through
+an already connected provider. Account deletion still
+requires confirmation through a link sent to your e-mail address. API token
+requests continue to use token authentication.
 
 This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
 or team level. In site-wide deployments, this can also be used to enforce
