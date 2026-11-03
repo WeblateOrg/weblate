@@ -37,6 +37,7 @@ from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
 from translate.storage.csvl10n import csvfile, csvunit
+from translate.storage.fluent import FluentContentError
 from translate.storage.jsonl10n import (
     ARBJsonFile,
     BaseJsonUnit,
@@ -108,6 +109,7 @@ from weblate.utils.commands import get_clean_env
 from weblate.utils.csv import csv_starts_with_formula
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.fluent import fluent_ast_is_too_complex
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -3884,13 +3886,23 @@ class FluentUnit(MonolingualSimpleUnit):
         super().set_target(target)
         self.unit.source = target
         try:
-            # This triggers serialization discovering any syntax issues
-            self.unit.to_entry()
+            self._validate_entry()
         except Exception:
             # Restore previous content
             self.unit.target = old_target
             self.unit.source = old_source
             raise
+
+    def _validate_entry(self) -> None:
+        """Ensure the content can be written and read back."""
+        msg = "The value is too complex or nested too deeply"
+        try:
+            # This triggers serialization discovering any syntax issues
+            entry = self.unit.to_entry()
+        except RecursionError as error:
+            raise FluentContentError(msg) from error
+        if entry is not None and fluent_ast_is_too_complex(entry):
+            raise FluentContentError(msg)
 
     @cached_property
     def flags(self):

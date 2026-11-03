@@ -18,6 +18,7 @@ Weblate 2026.11.1
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.
 * Require recent credential verification for browser changes to access rights, user accounts, and project visibility; use a password or linked sign-in provider when two-factor authentication is absent. See :ref:`2fa`.
 * Prevented a removed invitation from granting access, including site-wide superuser status, when it was being accepted at the same time.
+* Prevented excessive CPU and memory use and failed saves in the :ref:`Fluent checks <check-fluent-references>` caused by strings with many variants or deep nesting. Strings exceeding the limits now fail the check.
 
 .. rubric:: Bug fixes
 
