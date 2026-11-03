@@ -7,6 +7,7 @@ from django.urls import include, path
 from weblate.addons.api import api_patterns
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
+    Activity,
     AddonViewSet,
     CategoryViewSet,
     ChangeViewSet,
@@ -57,6 +58,7 @@ router.register("reports", ReportViewSet, "report")
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     *api_patterns(),
+    path("activity/", Activity.as_view(), name="activity"),
     path("metrics/", Metrics.as_view(), name="metrics"),
     path("search/", Search.as_view(), name="search"),
     path("", include(router.urls)),

@@ -28,6 +28,7 @@ from weblate.auth.models import (
     Invitation,
     InvitationBlockedAdminError,
     InvitationExpiredError,
+    InvitationRemovedError,
     InvitationUserMismatchError,
 )
 from weblate.auth.utils import prefetch_membership_limit_languages
@@ -299,9 +300,13 @@ class InvitationView(DetailView):
             if action == "resend":
                 invitation.send_email()
                 messages.success(request, gettext("User invitation e-mail was sent."))
-            else:
-                invitation.delete()
+            elif invitation.revoke():
                 messages.success(request, gettext("User invitation was removed."))
+            else:
+                messages.error(
+                    request,
+                    gettext("This invitation was already accepted or removed."),
+                )
 
             # Redirect
             if project:
@@ -331,7 +336,7 @@ class InvitationView(DetailView):
                 gettext("Remove the project block before accepting this invitation."),
             )
             return redirect_param("profile", "#account")
-        except InvitationUserMismatchError as error:
+        except (InvitationRemovedError, InvitationUserMismatchError) as error:
             raise Http404 from error
 
         if invitation.group.defining_project:
@@ -360,7 +365,7 @@ def accept_invitation(
             gettext("Remove the project block before accepting this invitation."),
         )
         raise Http404 from error
-    except InvitationUserMismatchError as error:
+    except (InvitationRemovedError, InvitationUserMismatchError) as error:
         raise Http404 from error
 
     messages.success(

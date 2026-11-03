@@ -126,6 +126,10 @@ class DeadlineTCPTransport(TCPTransport):
         if not entries:
             msg = "Broker hostname resolved to no addresses"
             raise OSError(msg)
+        # Validate every result before using any address, including mixed
+        # public/private answers. This is the only DNS lookup needed to connect.
+        for _family, _kind, _protocol, _name, address in entries:
+            FedoraMessagingAddon.validate_broker_peer(host, str(address[0]))
         for index, (family, kind, protocol, _name, address) in enumerate(entries):
             remaining = FedoraMessagingAddon.remaining(PUBLISHER.deadline)
             self.sock = socket.socket(family, kind, protocol)
@@ -413,7 +417,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         connection_attempts: int,
         retry_delay: int,
     ) -> None:
-        validate_fedora_messaging_url(amqp_url)
+        validate_fedora_messaging_url(amqp_url, resolve=False)
         message.validate()
         for attempt in range(connection_attempts):
             try:
@@ -463,7 +467,12 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             )
             PUBLISHER.producer = Producer(PUBLISHER.connection, auto_declare=False)
         remaining = FedoraMessagingAddon.remaining(deadline)
-        PUBLISHER.connection.connection.transport.sock.settimeout(remaining)
+        sock = PUBLISHER.connection.connection.transport.sock
+        FedoraMessagingAddon.validate_broker_peer(
+            PUBLISHER.connection.hostname or "",
+            FedoraMessagingAddon._get_socket_peer_ip(sock),
+        )
+        sock.settimeout(remaining)
         assert PUBLISHER.producer is not None  # ruff: ignore[assert]
         PUBLISHER.producer.publish(
             json.dumps(message.body),
@@ -647,7 +656,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         force_update: bool = False,
     ) -> None:
         """Configure Fedora Messaging."""
-        validate_fedora_messaging_url(amqp_url)
+        validate_fedora_messaging_url(amqp_url, resolve=False)
 
         configuration = (
             amqp_url,
@@ -752,6 +761,16 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         )
 
     @staticmethod
+    def validate_broker_peer(hostname: str, peer_ip: str | None) -> None:
+        """Check broker addresses against the current policy without resolving DNS."""
+        validate_connected_peer(
+            hostname,
+            peer_ip,
+            allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+            private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        )
+
+    @staticmethod
     def validate_broker_tls(
         amqp_url: str,
         timeout: float = TLS_PROBE_TIMEOUT,
@@ -766,11 +785,9 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             with socket.create_connection(
                 (parsed.hostname, parsed.port or 5671), timeout=timeout
             ) as connection:
-                validate_connected_peer(
+                FedoraMessagingAddon.validate_broker_peer(
                     parsed.hostname,
                     FedoraMessagingAddon._get_socket_peer_ip(connection),
-                    allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-                    private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
                 )
                 with context.wrap_socket(connection, server_hostname=parsed.hostname):
                     pass
@@ -784,10 +801,9 @@ class FedoraMessagingAddon(ChangeBaseAddon):
 
     @staticmethod
     def _get_socket_peer_ip(connection: socket.socket) -> str | None:
-        try:
-            peer = connection.getpeername()
-        except OSError:
-            return None
+        # Preserve socket errors so publishing can discard stale connections
+        # and retry. The TLS configuration probe reports these as form errors.
+        peer = connection.getpeername()
 
         if isinstance(peer, tuple) and peer:
             return str(peer[0])

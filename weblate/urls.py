@@ -34,7 +34,6 @@ import weblate.trans.views.about
 import weblate.trans.views.acl
 import weblate.trans.views.agreement
 import weblate.trans.views.basic
-import weblate.trans.views.charts
 import weblate.trans.views.create
 import weblate.trans.views.dashboard
 import weblate.trans.views.edit
@@ -462,12 +461,6 @@ real_patterns = [
         "token/<name:project>/create/",
         weblate.trans.views.acl.create_token,
         name="create-project-token",
-    ),
-    # Used by weblate.org to render own activity chart on homepage
-    path(
-        "activity/month.json",
-        weblate.trans.views.charts.monthly_activity_json,
-        name="monthly_activity_json",
     ),
     # Comments
     path("comment/<int:pk>/", weblate.trans.views.edit.comment, name="comment"),

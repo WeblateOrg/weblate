@@ -5,19 +5,26 @@ Weblate 2026.11.1
 
 .. rubric:: New features
 
+* Added authenticated :http:get:`/api/activity/` for daily activity and recently active projects.
+
 .. rubric:: Improvements
+
+* Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
 
 .. rubric:: Security fixes
 
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.
 * Require recent credential verification for browser changes to access rights, user accounts, and project visibility; use a password or linked sign-in provider when two-factor authentication is absent. See :ref:`2fa`.
+* Prevented a removed invitation from granting access, including site-wide superuser status, when it was being accepted at the same time.
 
 .. rubric:: Bug fixes
 
 * Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
 
 .. rubric:: Compatibility
+
+* Removed ``/activity/month.json``; use :http:get:`/api/activity/` instead.
 
 .. rubric:: Upgrading
 
