@@ -51,6 +51,7 @@ from weblate.auth.models import (
     Invitation,
     InvitationError,
     InvitationExpiredError,
+    InvitationRemovedError,
     User,
     get_anonymous,
 )
@@ -614,6 +615,8 @@ def handle_invite(
         elif invitation.matches_user(user):
             try:
                 invitation.accept(strategy.request, user)
+            except InvitationRemovedError:
+                strategy.request.session.pop("invitation_link", None)
             except InvitationExpiredError as error:
                 invalid_invitation(
                     strategy,
