@@ -6,14 +6,18 @@ from __future__ import annotations
 
 import html
 import re
+from bisect import bisect_right
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import Highlight, SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import (
+    FLUENT_COMPLEXITY_ERRORS,
     FluentPatterns,
     FluentUnitConverter,
+    bounded_branch_paths,
+    fluent_complexity_description,
     format_html_code,
     format_html_error_list,
     translation_from_check,
@@ -47,6 +51,7 @@ _VOID_ELEMENTS = [
     "track",
     "wbr",
 ]
+_MAX_HTML_DEPTH = 32
 
 
 class _HTMLNode:
@@ -58,6 +63,7 @@ class _HTMLNode:
         self.tag = tag
         # Keep attributes as a list to keep duplicates.
         self.attributes: dict[str, str] = {}
+        self._key: tuple | None = None
         if parent:
             parent.children.append(self)
 
@@ -67,18 +73,20 @@ class _HTMLNode:
             yield child
             yield from child.descendants()
 
+    @property
+    def key(self) -> tuple:
+        """Identity including ancestors, only valid once the node is parsed."""
+        if self._key is None:
+            self._key = (
+                self.tag,
+                frozenset(self.attributes.items()),
+                self.parent.key if self.parent else None,
+            )
+        return self._key
+
     def matches(self, other: _HTMLNode) -> bool:
         """Whether the two nodes match."""
-        if self.tag != other.tag:
-            return False
-        if self.attributes != other.attributes:
-            return False
-        # Two nodes are only match if their ancestors match.
-        if self.parent is None:
-            return other.parent is None
-        if other.parent is None:
-            return False
-        return self.parent.matches(other.parent)
+        return self.key == other.key
 
     def tags(self) -> tuple[str, str]:
         """Get the start and end tags for this node."""
@@ -330,6 +338,17 @@ class _HTMLMissingEndTagError(_HTMLParseError):
         )
 
 
+class _HTMLTooDeeplyNestedError(_HTMLParseError):
+    def __init__(self, tag: str) -> None:
+        self.tag = tag
+
+    def description(self) -> SafeString:
+        return format_html_code(
+            gettext("The HTML {tag} tag is nested too deeply."),
+            tag=f"<{self.tag}>",
+        )
+
+
 class _HTMLUnexpectedCharacterReferenceError(_HTMLParseError):
     def __init__(self, sequence: str) -> None:
         self.sequence = sequence
@@ -368,8 +387,10 @@ class _HTMLSourcePosition:
 
     def __init__(self, serialized: str) -> None:
         self.pos = 0
-        self.source = ""
-        self._start_end_literals: list[tuple[int, int]] = []
+        chunks: list[str] = []
+        length = 0
+        self._literal_starts: list[int] = []
+        self._literal_ends: list[int] = []
 
         # Since FluentPatternVariants correspond to flat Patterns, we
         # don't expect any SelectExpressions, but it might contain other
@@ -378,11 +399,14 @@ class _HTMLSourcePosition:
         #
         # We need this to be valid HTML *after* expanding the literals.
         for _pos, text, literal in FluentPatterns.split_literal_expressions(serialized):
-            self.source += text
+            chunks.append(text)
+            length += len(text)
             if literal:
-                start = len(self.source)
-                self._start_end_literals.append((start, start + len(literal)))
-                self.source += literal
+                chunks.append(literal)
+                self._literal_starts.append(length)
+                length += len(literal)
+                self._literal_ends.append(length)
+        self.source = "".join(chunks)
 
     def reset(self) -> None:
         """Reset the position back to the start."""
@@ -390,7 +414,8 @@ class _HTMLSourcePosition:
 
     def at_literal(self) -> bool:
         """Whether the current position is within a Fluent literal or not."""
-        return any(end > self.pos >= start for start, end in self._start_end_literals)
+        index = bisect_right(self._literal_starts, self.pos) - 1
+        return index >= 0 and self.pos < self._literal_ends[index]
 
     def match(self, regex: re.Pattern) -> re.Match | None:
         """
@@ -442,18 +467,15 @@ class _CountedNodes:
     """
 
     def __init__(self, node_list: Iterable[_HTMLNode]) -> None:
+        self._nodes_by_key: dict[tuple, list[_HTMLNode]] = {}
+        for node in node_list:
+            self._nodes_by_key.setdefault(node.key, []).append(node)
         # Each entry in matching_nodes is a list of nodes that all match. The
         # length of this list is the count.
-        self.matching_nodes: list[list[_HTMLNode]] = []
-        for node in node_list:
-            add = True
-            for other_nodes in self.matching_nodes:
-                if other_nodes[0].matches(node):
-                    add = False
-                    other_nodes.append(node)
-                    break
-            if add:
-                self.matching_nodes.append([node])
+        self.matching_nodes = list(self._nodes_by_key.values())
+        self.signature = frozenset(
+            (key, len(nodes)) for key, nodes in self._nodes_by_key.items()
+        )
 
     def matches(self, other: _CountedNodes) -> bool:
         """
@@ -462,28 +484,11 @@ class _CountedNodes:
         This will match if the two instances have matching _HTMLNodes with the
         same count in both.
         """
-        if len(self.matching_nodes) != len(other.matching_nodes):
-            return False
-        for nodes in self.matching_nodes:
-            has_match = False
-            for _index, other_nodes in enumerate(other.matching_nodes):
-                if nodes[0].matches(other_nodes[0]):
-                    if len(nodes) != len(other_nodes):
-                        return False
-                    has_match = True
-                    break
-            if not has_match:
-                return False
-        # Both are the same length and each node in self was matched, so there
-        # shouldn't be any nodes in other that were not matched once.
-        return True
+        return self.signature == other.signature
 
     def count(self, node: _HTMLNode) -> int:
         """Count how many nodes match the given node."""
-        for other_nodes in self.matching_nodes:
-            if node.matches(other_nodes[0]):
-                return len(other_nodes)
-        return 0
+        return len(self._nodes_by_key.get(node.key, ()))
 
 
 class _VariantNodes:
@@ -749,6 +754,8 @@ class _FluentInnerHTMLCheck:
                     # Non-void elements should not be self-closing.
                     if closing_part == "/>":
                         raise _HTMLNonVoidSelfClosedError(tag)
+                    if len(open_nodes) > _MAX_HTML_DEPTH:
+                        raise _HTMLTooDeeplyNestedError(tag)
                     open_nodes.append(node)
                 return
 
@@ -815,7 +822,11 @@ class _FluentInnerHTMLCheck:
                     sequence + source.get(cls._FLUENT_REF_REGEX)
                 )
 
-            expanded = html.unescape(sequence)
+            try:
+                expanded = html.unescape(sequence)
+            except ValueError as error:
+                # Too many digits to convert to an integer.
+                raise _HTMLInvalidCharacterReferenceError(sequence) from error
             if not closes_with_semicolon and expanded != sequence:
                 # Roughly corresponds to the parse error
                 # missing-semicolon-after-character-reference
@@ -883,14 +894,13 @@ class _FluentInnerHTMLCheck:
             if not part.name:
                 # We only want to process the Fluent value part as HTML since
                 # the attributes will not likely become inner HTML.
+                top_branch = part.top_branch
                 return [
                     _VariantNodes(
                         path,
-                        cls._parse_basic_inner_html(
-                            part.top_branch.to_flat_string(path)
-                        ),
+                        cls._parse_basic_inner_html(top_branch.to_flat_string(path)),
                     )
-                    for path in part.top_branch.branch_paths()
+                    for path in bounded_branch_paths(top_branch, len(unit_source))
                 ]
         # No value part.
         return None
@@ -953,7 +963,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
         try:
             self.get_fluent_inner_html(unit, sources[0])
-        except _HTMLParseError:
+        except (_HTMLParseError, *FLUENT_COMPLEXITY_ERRORS):
             return True
         return False
 
@@ -963,6 +973,8 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
             self.get_fluent_inner_html(unit, source)
         except _HTMLParseError as err:
             return err.description()
+        except FLUENT_COMPLEXITY_ERRORS:
+            return fluent_complexity_description()
         return super().get_description(check_obj)
 
 
@@ -988,25 +1000,22 @@ class _VariantNodesDifference:
         self._source_variants = source_variant_nodes
         self._target_variants = target_variant_nodes
 
+        source_signatures = {
+            variant.counted_nodes.signature for variant in self._source_variants
+        }
+        target_signatures = {
+            variant.counted_nodes.signature for variant in self._target_variants
+        }
         self._missing_variants = [
             variant
             for variant in self._source_variants
-            if not self._has_match(variant, self._target_variants)
+            if variant.counted_nodes.signature not in target_signatures
         ]
         self._extra_variants = [
             variant
             for variant in self._target_variants
-            if not self._has_match(variant, self._source_variants)
+            if variant.counted_nodes.signature not in source_signatures
         ]
-
-    @staticmethod
-    def _has_match(
-        variant: _VariantNodes,
-        search_list: list[_VariantNodes],
-    ) -> bool:
-        return any(
-            variant.counted_nodes.matches(other.counted_nodes) for other in search_list
-        )
 
     def __bool__(self) -> bool:
         return bool(self._missing_variants or self._extra_variants)
@@ -1060,16 +1069,11 @@ class _VariantNodesDifference:
         )
 
     def _unique_target_nodes(self) -> Iterator[_HTMLNode]:
-        unique_nodes: list[_HTMLNode] = []
+        unique_keys: set[tuple] = set()
         for variant in self._target_variants:
             for node in variant.nodes:
-                add = True
-                for other in unique_nodes:
-                    if other.matches(node):
-                        add = False
-                        break
-                if add:
-                    unique_nodes.append(node)
+                if node.key not in unique_keys:
+                    unique_keys.add(node.key)
                     yield node
 
     def _errors_relative_to(
@@ -1268,7 +1272,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
     ) -> bool:
         try:
             difference = self._compare_inner_html(unit, source, target)
-        except _HTMLParseError:
+        except (_HTMLParseError, *FLUENT_COMPLEXITY_ERRORS):
             return True
         return bool(difference)
 
@@ -1278,6 +1282,8 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             difference = self._compare_inner_html(unit, source, target)
         except _HTMLParseError as err:
             return err.description()
+        except FLUENT_COMPLEXITY_ERRORS:
+            return fluent_complexity_description()
 
         if not difference:
             return super().get_description(check_obj)

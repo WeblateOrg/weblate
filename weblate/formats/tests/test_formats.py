@@ -24,6 +24,7 @@ from django.test import SimpleTestCase
 from lxml import etree
 from openpyxl import Workbook
 from translate.storage.base import ParseError
+from translate.storage.fluent import FluentContentError
 from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
@@ -4070,6 +4071,19 @@ class FluentFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b"\nkey = Source string"
     MONOLINGUAL = True
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "fluent-type:Message"
+
+    def test_too_complex_target_rejected(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.find_unit(self.FIND_CONTEXT, "")[0]
+        original = unit.target
+        # Below and above the recursion limit of the parser.
+        for depth in (40, 300):
+            payload = "{" * depth + '"x"' + "}" * depth
+            with self.assertRaises(FluentContentError):
+                unit.set_target(payload)
+            self.assertEqual(unit.target, original)
+        unit.set_target("Ahoj { $name }")
+        self.assertEqual(unit.target, "Ahoj { $name }")
 
 
 class Xliff2FormatTestCase(BaseFormatTest):
