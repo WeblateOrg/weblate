@@ -13,6 +13,8 @@ Weblate 2026.11.1
 
 .. rubric:: Bug fixes
 
+* Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
