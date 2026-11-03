@@ -150,6 +150,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.oidc import prepare_oidc_login
 from weblate.accounts.pipeline import adjust_primary_mail
+from weblate.accounts.tasks import notify_email_conflict
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
     FIRST_FACTOR_VERIFY_SECONDS,
@@ -1515,8 +1516,11 @@ def email_login(request: AuthenticatedHttpRequest):
         if form.is_valid():
             email_user = form.cleaned_data["email_user"]
             if email_user and email_user != request.user:
-                AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "connect"
+                audit = AuditLog.objects.create(
+                    email_user, request, "connect", skip_notify=True
+                )
+                notify_email_conflict.delay_on_commit(
+                    audit.pk, form.cleaned_data["email"], email_user.email
                 )
                 return fake_email_sent(request)
             store_userid(request)

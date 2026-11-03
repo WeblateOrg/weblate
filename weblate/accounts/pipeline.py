@@ -277,6 +277,9 @@ def send_validation(strategy, backend, code, partial_token) -> None:
         template = "reset"
     elif session.get("account_remove"):
         template = "remove"
+    elif strategy.request.user.is_authenticated:
+        template = "verify-email"
+        context["contact_form"] = settings.CONTACT_FORM
 
     # Use None for user to enable linking by e-mail later for the registration
     AuditLog.objects.create(

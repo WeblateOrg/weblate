@@ -9,6 +9,7 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
 * Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
 
 .. rubric:: Security fixes
