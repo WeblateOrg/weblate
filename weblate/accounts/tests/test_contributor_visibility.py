@@ -6,18 +6,83 @@
 
 from __future__ import annotations
 
+import csv
+from copy import copy
+from io import BytesIO, StringIO
+from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import PropertyMock, patch
+from zipfile import ZipFile
 
+from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
+from django.core.files.base import ContentFile
+from django.db import connection
 from django.template import Context, Template
+from django.template.loader import render_to_string
 from django.test import RequestFactory
+from django.test.utils import CaptureQueriesContext
+from django.urls import reverse
+from django.utils import timezone
+from lxml import etree
+from PIL import Image
 
-from weblate.accounts.visibility import can_view_contributor, public_change_details
-from weblate.api.serializers import ChangeSerializer
-from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Permission, Role, User, get_anonymous
+from weblate.accounts.models import Profile
+from weblate.accounts.notifications import (
+    LicenseNotification,
+    NewAnnouncementNotificaton,
+)
+from weblate.accounts.visibility import (
+    can_view_contributor,
+    contributor_translations,
+    filter_contributor_changes,
+    prepare_contributor_visibility,
+    public_change_details,
+)
+from weblate.addons.ai import evaluation_units
+from weblate.addons.models import Addon
+from weblate.addons.webhooks import WebhookAddon
+from weblate.api.serializers import ChangeSerializer, TranslationSerializer
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    User,
+    get_anonymous,
+)
+from weblate.fonts.models import Font
+from weblate.fonts.tests.utils import FONT
+from weblate.formats.base import is_identity_safe_exporter
+from weblate.formats.exporters import PoExporter
+from weblate.formats.models import EXPORTERS
+from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
+from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.bulk import bulk_perform
+from weblate.trans.change_display import get_change_history_context
+from weblate.trans.feeds import ChangeFeedScope, ChangesFeed, ObjectChangesFeed
+from weblate.trans.models import (
+    Alert,
+    Change,
+    Comment,
+    Component,
+    Project,
+    Report,
+    Suggestion,
+    Translation,
+    Unit,
+)
+from weblate.trans.source_snapshot import SourceSnapshot
+from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.views.files import get_auxiliary_download_permissions
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.views import download_translation_file
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from typing import Any
@@ -102,7 +167,6 @@ class ContributorVisibilityTest(FixtureTestCase):
                 self.assertFalse(can_view_contributor(self.user, self.change))
 
     def test_language_scoped_additive_grant(self) -> None:
-        from weblate.auth.models import Group, TeamMembership  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         role = Role.objects.create(name="Scoped author visibility")
@@ -139,9 +203,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_notification_recipient_controls_attribution(self) -> None:
-        from types import SimpleNamespace  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.notifications import NewAnnouncementNotificaton  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         notification = NewAnnouncementNotificaton([])
@@ -178,7 +239,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertTrue(self.user.has_perm("suggestion.add", self.translation))
 
     def test_project_administrator_and_unrelated_project(self) -> None:
-        from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         Role.objects.get(name="Administration").permissions.add(
@@ -193,7 +253,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertFalse(can_view_contributor(self.user, unrelated))
 
     def test_translation_preserves_actor_without_visibility(self) -> None:
-        from weblate.utils.state import STATE_TRANSLATED  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         unit = self.translation.unit_set.get(source="Hello, world!\n")
@@ -207,7 +266,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertEqual(change.author, self.user)
 
     def test_last_author_names_are_loaded_together(self) -> None:
-        from weblate.api.serializers import TranslationSerializer  # ruff: ignore[import-outside-top-level]
 
         unit = self.translation.unit_set.get(source="Hello, world!\n")
         unit.change_set.create(
@@ -247,8 +305,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_role_and_membership_cache_invalidation(self) -> None:
-        from weblate.accounts.visibility import contributor_translation_ids  # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import Group  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         role = Role.objects.create(name="Cached attribution")
@@ -261,15 +317,21 @@ class ContributorVisibilityTest(FixtureTestCase):
         group.projects.add(self.project)
         group.roles.add(role)
         self.assertFalse(can_view_contributor(self.user, self.translation))
-        self.assertNotIn(self.translation.pk, contributor_translation_ids(self.user))
+        self.assertFalse(
+            contributor_translations(self.user).filter(pk=self.translation.pk).exists()
+        )
         self.user.groups.add(group)
         self.user.clear_permissions_cache()
         self.assertTrue(can_view_contributor(self.user, self.translation))
-        self.assertIn(self.translation.pk, contributor_translation_ids(self.user))
+        self.assertTrue(
+            contributor_translations(self.user).filter(pk=self.translation.pk).exists()
+        )
         role.permissions.clear()
         self.user.clear_permissions_cache()
         self.assertFalse(can_view_contributor(self.user, self.translation))
-        self.assertNotIn(self.translation.pk, contributor_translation_ids(self.user))
+        self.assertFalse(
+            contributor_translations(self.user).filter(pk=self.translation.pk).exists()
+        )
         role.permissions.add(
             Permission.objects.get(codename="contribution.view_author")
         )
@@ -279,9 +341,119 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.user.clear_permissions_cache()
         self.assertFalse(can_view_contributor(self.user, self.translation))
 
+    def test_translation_scopes_remain_in_subquery(self) -> None:
+
+        # Warm permission caches without evaluating the translation queryset.
+        contributor_translations(self.user)
+        with self.assertNumQueries(0):
+            translations = contributor_translations(self.user)
+            changes = filter_contributor_changes(
+                Change.objects.filter(pk=self.change.pk), self.user
+            )
+            _sql, original_params = changes.query.sql_with_params()
+        with self.assertNumQueries(1):
+            self.assertEqual(
+                list(changes.values_list("pk", flat=True)), [self.change.pk]
+            )
+
+        before_count = translations.count()
+        languages = Language.objects.bulk_create(
+            [
+                Language(name=f"Attribution {index}", code=f"attribution-{index}")
+                for index in range(20)
+            ]
+        )
+        additional_translations = []
+        for language in languages:
+            translation = copy(self.translation)
+            translation.pk = None
+            translation.language = language
+            translation.language_code = language.code
+            additional_translations.append(translation)
+        Translation.objects.bulk_create(additional_translations)
+        self.assertEqual(translations.count(), before_count + len(languages))
+        with self.assertNumQueries(0):
+            changes = filter_contributor_changes(
+                Change.objects.filter(pk=self.change.pk), self.user
+            )
+            _sql, expanded_params = changes.query.sql_with_params()
+        self.assertEqual(original_params, expanded_params)
+
+    def test_translation_scopes_resolve_anonymous_viewer(self) -> None:
+
+        self.assertEqual(
+            set(contributor_translations(AnonymousUser()).values_list("pk", flat=True)),
+            set(contributor_translations(get_anonymous()).values_list("pk", flat=True)),
+        )
+
+    def test_contribution_lists_filter_and_paginate(self) -> None:
+
+        self.hide_authors()
+        german = self.component.translation_set.get(language_code="de")
+        denied = self.component.translation_set.get(language_code="it")
+        role = Role.objects.create(name="Contribution list attribution")
+        role.permissions.add(
+            Permission.objects.get(codename="contribution.view_author")
+        )
+        group = Group.objects.create(name="Contribution list viewers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        group.languages.add(self.translation.language, german.language)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        for translation in (self.translation, self.translation, german, denied):
+            Change.objects.create(
+                translation=translation,
+                user=self.author,
+                action=ActionEvents.CHANGE,
+            )
+
+        expected = list(
+            self.component.translation_set.filter(
+                pk__in=(self.translation.pk, german.pk)
+            ).order()
+        )
+        self.client.force_login(self.user)
+        response = self.client.get(
+            reverse("user_contributions", kwargs={"user": self.author.username}),
+        )
+        self.assertEqual(response.status_code, 200)
+        paginator_page = response.context["page_user_translations"]
+        self.assertEqual(paginator_page.paginator.count, 2)
+        self.assertEqual(list(paginator_page), expected)
+        for page, translation in enumerate(expected, start=1):
+            with self.subTest(page=page):
+                response = self.client.get(
+                    reverse(
+                        "api:user-contributions",
+                        kwargs={"username": self.author.username},
+                    ),
+                    {"page_size": 1, "page": page},
+                )
+                self.assertEqual(response.status_code, 200)
+                data = response.json()
+                self.assertEqual(data["count"], 2)
+                self.assertEqual(
+                    [row["language_code"] for row in data["results"]],
+                    [translation.language_code],
+                )
+
+    def test_suggestion_list_filters_contributors(self) -> None:
+
+        unit = self.translation.unit_set.get(source="Hello, world!\n")
+        suggestion = Suggestion.objects.create(
+            unit=unit, user=self.author, target="Attributed suggestion"
+        )
+        url = reverse("user_suggestions", kwargs={"user": self.author.username})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(suggestion, response.context["object_list"])
+        self.hide_authors()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(suggestion, response.context["object_list"])
+
     def test_workspace_and_global_scopes(self) -> None:
-        from weblate.auth.models import Group  # ruff: ignore[import-outside-top-level]
-        from weblate.workspaces.models import Workspace  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         workspace = Workspace.objects.create(name="Attribution workspace")
@@ -301,8 +473,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.user.clear_permissions_cache()
         self.assertTrue(can_view_contributor(self.user, change))
         change.save()
-        from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
-
         self.assertTrue(
             filter_contributor_changes(
                 Change.objects.filter(pk=change.pk), self.user
@@ -321,9 +491,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertTrue(can_view_contributor(self.user, Change(user=self.author)))
 
     def test_original_download_denied_and_content_export_allowed(self) -> None:
-        from django.core.exceptions import PermissionDenied  # ruff: ignore[import-outside-top-level]
-
-        from weblate.utils.views import download_translation_file  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         for method in ("get", "head"):
@@ -348,8 +515,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_history_preserves_source_snapshot_rendering(self) -> None:
-        from weblate.trans.change_display import get_change_history_context  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.source_snapshot import SourceSnapshot  # ruff: ignore[import-outside-top-level]
 
         unit = self.translation.unit_set.get(source="Hello, world!\n")
         snapshot = SourceSnapshot.from_unit(unit).as_dict()
@@ -377,9 +542,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_private_project_author_searches_use_request_user(self) -> None:
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
 
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
@@ -434,20 +596,11 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertContains(response, "This string was translated automatically.")
 
     def test_exporters_require_explicit_safety_declaration(self) -> None:
-        from weblate.formats.base import is_identity_safe_exporter  # ruff: ignore[import-outside-top-level]
-        from weblate.formats.exporters import PoExporter  # ruff: ignore[import-outside-top-level]
-        from weblate.formats.models import EXPORTERS  # ruff: ignore[import-outside-top-level]
 
         class UnclassifiedExporter(PoExporter):
             pass
 
         self.assertFalse(is_identity_safe_exporter(UnclassifiedExporter))
-        from io import BytesIO  # ruff: ignore[import-outside-top-level]
-        from zipfile import ZipFile  # ruff: ignore[import-outside-top-level]
-
-        from lxml import etree  # ruff: ignore[import-outside-top-level]
-
-        from weblate.trans.models import Comment, Suggestion  # ruff: ignore[import-outside-top-level]
 
         mono = self.create_po_mono(
             name="identity-export-template", project=self.project
@@ -532,9 +685,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertEqual(exercised, set(EXPORTERS))
 
     def test_independent_reports_and_trusted_webhooks(self) -> None:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
-        from weblate.addons.webhooks import WebhookAddon  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Report  # ruff: ignore[import-outside-top-level]
 
         self.project.add_user(self.user, "Administration")
         self.hide_authors()
@@ -551,9 +701,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertEqual(payload["author"], self.author.username)
 
     def test_alert_dismissal_attribution(self) -> None:
-        from django.utils import timezone  # ruff: ignore[import-outside-top-level]
-
-        from weblate.trans.models import Alert  # ruff: ignore[import-outside-top-level]
 
         Alert.objects.create(
             component=self.component,
@@ -572,12 +719,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         self.assertContains(response, "Dismissed")
 
     def test_private_license_email_uses_recipient(self) -> None:
-        from types import SimpleNamespace  # ruff: ignore[import-outside-top-level]
-
-        from django.template.loader import render_to_string  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.notifications import LicenseNotification  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
 
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
@@ -607,11 +748,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_project_language_author_filters_match_display(self) -> None:
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
-        from weblate.auth.data import SELECTION_MANUAL  # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import Group, TeamMembership  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         role = Role.objects.create(name="Language identity viewers")
@@ -681,8 +817,6 @@ class ContributorVisibilityTest(FixtureTestCase):
                 )
             )
 
-        from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
-
         Component.objects.filter(pk=self.component.pk).update(restricted=True)
         self.component.refresh_from_db()
         self.user.clear_permissions_cache()
@@ -719,12 +853,6 @@ class ContributorVisibilityTest(FixtureTestCase):
         )
 
     def test_project_author_filters_enforce_2fa(self) -> None:
-        from unittest.mock import PropertyMock, patch  # ruff: ignore[import-outside-top-level]
-
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.models import Profile  # ruff: ignore[import-outside-top-level]
-        from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
 
         change = Change.objects.create(
             project=self.project,
@@ -774,15 +902,6 @@ class ContributorVisibilityTest(FixtureTestCase):
                 setattr(self.user, attribute, False)
 
     def test_distinct_project_language_scopes_are_batched(self) -> None:
-        from unittest.mock import patch  # ruff: ignore[import-outside-top-level]
-
-        from django.contrib.auth.models import AnonymousUser  # ruff: ignore[import-outside-top-level]
-        from django.db import connection  # ruff: ignore[import-outside-top-level]
-        from django.test.utils import CaptureQueriesContext  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.visibility import prepare_contributor_visibility  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.feeds import ChangeFeedScope, ChangesFeed, ObjectChangesFeed  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.templatetags.translations import format_last_changes_content  # ruff: ignore[import-outside-top-level]
 
         translations = list(self.component.translation_set.select_related("language"))
         self.assertGreaterEqual(len(translations), 2)
@@ -855,14 +974,6 @@ class ContributorVisibilityTest(FixtureTestCase):
             self.assertTrue(all(bool(row["user"]) == visible for row in rows))
 
     def test_asset_uploader_attribution(self) -> None:
-        from io import BytesIO  # ruff: ignore[import-outside-top-level]
-
-        from django.core.files.base import ContentFile  # ruff: ignore[import-outside-top-level]
-        from PIL import Image  # ruff: ignore[import-outside-top-level]
-
-        from weblate.fonts.models import Font  # ruff: ignore[import-outside-top-level]
-        from weblate.fonts.tests.utils import FONT  # ruff: ignore[import-outside-top-level]
-        from weblate.screenshots.models import Screenshot  # ruff: ignore[import-outside-top-level]
 
         image = BytesIO()
         Image.new("RGB", (10, 10)).save(image, format="PNG")
@@ -898,11 +1009,6 @@ class ContributorVisibilityTest(FixtureTestCase):
                         self.assertNotContains(response, identity)
 
     def test_bulk_author_search_and_trusted_automation(self) -> None:
-        from weblate.addons.ai import evaluation_units  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.autotranslate import AutoTranslate  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.bulk import bulk_perform  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Project, Unit  # ruff: ignore[import-outside-top-level]
-        from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED  # ruff: ignore[import-outside-top-level]
 
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
@@ -966,15 +1072,6 @@ class ContributorVisibilityTest(FixtureTestCase):
                 Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
 
     def test_original_archive_auxiliary_language_scope(self) -> None:
-        from io import BytesIO  # ruff: ignore[import-outside-top-level]
-        from pathlib import Path  # ruff: ignore[import-outside-top-level]
-        from zipfile import ZipFile  # ruff: ignore[import-outside-top-level]
-
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.auth.models import Group, TeamMembership  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Component  # ruff: ignore[import-outside-top-level]
-        from weblate.trans.views.files import get_auxiliary_download_permissions  # ruff: ignore[import-outside-top-level]
 
         self.component = self.create_po_mono(
             name="auxiliary-privacy", project=self.project
@@ -1059,11 +1156,6 @@ class ContributorVisibilityTest(FixtureTestCase):
             self.assertTrue(any(name.endswith(filename) for name in names))
 
     def test_component_wide_author_filters_match_display(self) -> None:
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
-        from weblate.auth.data import SELECTION_MANUAL  # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import Group, TeamMembership  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         changes = [
@@ -1148,12 +1240,6 @@ class ContributorVisibilityTest(FixtureTestCase):
             self.assertEqual(list(filter_contributor_changes(queryset, self.user)), [])
 
     def test_csv_author_filters_use_download_authorization(self) -> None:
-        import csv  # ruff: ignore[import-outside-top-level]
-        from io import StringIO  # ruff: ignore[import-outside-top-level]
-
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
-
-        from weblate.auth.models import Group  # ruff: ignore[import-outside-top-level]
 
         self.hide_authors()
         permission = Permission.objects.get(codename="change.download")
