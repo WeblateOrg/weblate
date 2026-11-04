@@ -36,6 +36,11 @@ class PageLimitTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # These direct helper calls have no request or database lifecycle to finish.
+        self.enterContext(patch("django.http.response.signals.request_finished.send"))
+
     def test_completed_archive_headers_and_contents(self) -> None:
         content = b"translation content" * 1000
         response = zip_download("", [], name="translations", extra={"cs.txt": content})

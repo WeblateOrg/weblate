@@ -1130,7 +1130,7 @@ class ContributorVisibilityTest(FixtureTestCase):
         ):
             response = self.client.get(url, {"format": "zip"})
             self.assertEqual(response.status_code, 200)
-            with ZipFile(BytesIO(response.content)) as archive:
+            with ZipFile(BytesIO(b"".join(response))) as archive:
                 names = archive.namelist()
                 for name in names:
                     self.assertNotIn(self.author.email.encode(), archive.read(name))
@@ -1150,7 +1150,7 @@ class ContributorVisibilityTest(FixtureTestCase):
             reverse("download", kwargs={"path": self.component.get_url_path()})
         )
         self.assertEqual(response.status_code, 200)
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             names = archive.namelist()
         for filename in (source.filename, "private-base.po", "private-intermediate.po"):
             self.assertTrue(any(name.endswith(filename) for name in names))

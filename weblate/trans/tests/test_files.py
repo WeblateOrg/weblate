@@ -53,7 +53,12 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.trans.util import check_upload_method_permissions, join_plural
-from weblate.trans.views.files import can_download_workspace, download_multi
+from weblate.trans.views.files import (
+    _get_download_commit_repositories,
+    can_download_workspace,
+    download_multi,
+    get_download_components,
+)
 from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1960,6 +1965,111 @@ class ImportSourceBrokenTest(ImportSourceTest):
 
 
 class DownloadMultiTest(ViewTestCase):
+    def test_commit_repositories_are_sorted_and_deduplicated(self) -> None:
+        other = self.create_po(project=self.project, name="Other")
+        linked = self.create_link_existing()
+        second_link = self.create_link_existing(name="Third", slug="third")
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
+
+        for fmt in (None, "zip:csv"):
+            for include_owner in (False, True):
+                with self.subTest(fmt=fmt, include_owner=include_owner):
+                    components = [other, second_link, linked, other]
+                    if include_owner:
+                        components.append(self.component)
+                    with patch.object(
+                        Component, "commit_pending", autospec=True
+                    ) as commit:
+                        response = download_multi(
+                            request, [], iter(components), fmt=fmt
+                        )
+
+                    assert response.file_to_stream is not None
+                    self.addCleanup(response.file_to_stream.close)
+                    self.assertEqual(
+                        [call.args[0].pk for call in commit.call_args_list],
+                        [self.component.pk, other.pk],
+                    )
+                    for call in commit.call_args_list:
+                        self.assertEqual(call.args[1], "download")
+                    self.assert_zip(response)
+
+    def test_commit_repository_failure_is_not_retried_through_links(self) -> None:
+        other = self.create_po(project=self.project, name="Other")
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with (
+            patch.object(
+                Component, "commit_pending", autospec=True, side_effect=[error, True]
+            ) as commit,
+            patch("weblate.trans.views.files.report_error") as report,
+        ):
+            response = download_multi(request, [], [other, linked, self.component])
+
+        assert response.file_to_stream is not None
+        self.addCleanup(response.file_to_stream.close)
+        self.assertEqual(
+            [call.args[0].pk for call in commit.call_args_list],
+            [self.component.pk, other.pk],
+        )
+        report.assert_called_once_with("Download commit", project=self.project)
+        self.assert_zip(response)
+
+    def test_linked_download_commits_owner_without_expanding_archive(self) -> None:
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+
+        with patch.object(Component, "commit_pending", autospec=True) as commit:
+            response = self.client.get(
+                reverse("download", kwargs={"path": project.get_url_path()})
+            )
+
+        self.addCleanup(list, response)
+        commit.assert_called_once_with(self.component, "download", ANY)
+        self.assertEqual(response.status_code, 200)
+        root = data_dir("vcs")
+        expected = {
+            os.path.relpath(filename, root)
+            for translation in linked.translation_set.all()
+            for filename in translation.filenames
+        }
+        self.assertTrue(expected)
+        with ZipFile(BytesIO(b"".join(response))) as archive:
+            self.assertEqual(set(archive.namelist()), expected)
+
+    def test_commit_repository_loading_has_constant_query_count(self) -> None:
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        second_link = self.create_link_existing(name="Third", slug="third")
+
+        for components in ([linked], [self.component, linked, second_link]):
+            with self.subTest(components=[component.pk for component in components]):
+                translations = Translation.objects.filter(component__in=components)
+                with self.assertNumQueries(1):
+                    repositories = _get_download_commit_repositories(
+                        get_download_components(translations)
+                    )
+                    projects = [repository.project for repository in repositories]
+
+                self.assertEqual(repositories, [self.component])
+                self.assertEqual(projects, [self.project])
+
     def grant_language_download(self, *, membership_limit: bool = False) -> Group:
         self.user.groups.clear()
         group = Group.objects.create(

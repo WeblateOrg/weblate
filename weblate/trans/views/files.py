@@ -82,7 +82,21 @@ def get_download_components(
     """Return components represented by a translation queryset."""
     return Component.objects.filter(
         pk__in=translations.order_by().values("component_id")
-    ).select_related("project")
+    ).select_related("project", "linked_component__project")
+
+
+def _get_download_commit_repositories(
+    components: Iterable[Component],
+) -> list[Component]:
+    """Return unique repository owners in a consistent commit order."""
+    repositories: dict[int, Component] = {}
+    for component in components:
+        repo_component = component.effective_repo_component
+        if repo_component.pk is None:
+            msg = "Can not commit downloads from an unsaved component"
+            raise ValueError(msg)
+        repositories.setdefault(repo_component.pk, repo_component)
+    return [component for _pk, component in sorted(repositories.items())]
 
 
 def prepare_download_scope(
@@ -237,7 +251,7 @@ def _write_repository_download_files(
 def download_multi(
     request: AuthenticatedHttpRequest,
     translations,
-    commit_objs,
+    commit_objs: Iterable[Component],
     fmt=None,
     name="translations",
 ):
@@ -245,14 +259,11 @@ def download_multi(
     # Resolve the commit bot only when needed, once for the whole download.
     commit_user = SimpleLazyObject(InternalBot.COMMIT.get_user)
 
-    for obj in commit_objs:
+    for obj in _get_download_commit_repositories(commit_objs):
         try:
             obj.commit_pending("download", commit_user)
         except Exception:
-            if isinstance(obj, Project):
-                report_error("Download commit", project=obj)
-            else:
-                report_error("Download commit", project=obj.project)
+            report_error("Download commit", project=obj.project)
 
     if fmt and fmt.startswith("zip:"):
         exporter_format = fmt[4:]
