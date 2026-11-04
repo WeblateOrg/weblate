@@ -28,6 +28,7 @@ from django.test import (
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.utils.formats import date_format
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from lxml import html
 from social_django.models import UserSocialAuth
@@ -334,6 +335,35 @@ class AccountSecurityTest(TestCase):
         self.assertEqual(scan.state, "completed")
         self.assertEqual(scan.filename, "synthetic.csv")
 
+    def test_account_timestamps(self) -> None:
+        self.user.date_joined = timezone.now() - timedelta(days=730)
+        self.user.save(update_fields=["date_joined"])
+        scan = self.scan()
+        urls = [reverse("manage-security"), scan.get_absolute_url()]
+        for last_login in (None, timezone.now() - timedelta(days=365)):
+            self.user.last_login = last_login
+            self.user.save(update_fields=["last_login"])
+            for url in urls:
+                with self.subTest(url=url, last_login=last_login):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    tree = html.fromstring(response.content)
+                    account = tree.xpath(
+                        "//td[a[@href=$url]]", url=self.user.get_absolute_url()
+                    )[0].text_content()
+                    joined = date_format(
+                        timezone.localtime(self.user.date_joined), "DATETIME_FORMAT"
+                    )
+                    self.assertIn(f"Date joined: {joined}", account)
+                    if last_login is None:
+                        self.assertIn("Last sign-in: Not yet signed in", account)
+                    else:
+                        login = date_format(
+                            timezone.localtime(last_login), "DATETIME_FORMAT"
+                        )
+                        self.assertIn(f"Last sign-in: {login}", account)
+                        self.assertNotIn("Not yet signed in", account)
+
     def test_report_query_count_and_pagination_selection(self) -> None:
         SecurityFinding.objects.bulk_create(
             [
@@ -347,6 +377,8 @@ class AccountSecurityTest(TestCase):
             findings, *_ = filtered_findings(RequestFactory().get("/"))
             for finding in findings[:50]:
                 str(finding.user.username)
+                self.assertEqual(finding.user.date_joined, self.user.date_joined)
+                self.assertEqual(finding.user.last_login, self.user.last_login)
                 list(finding.events.all())
         response = self.client.get(reverse("manage-security"))
         self.assertEqual(len(response.context["page"]), 50)
