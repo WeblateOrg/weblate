@@ -1716,14 +1716,71 @@ onReady(() => {
       if (el.tomselect) {
         return;
       }
-      new TomSelect(el, {
+      const options = {
         placeholder: gettext("Search…"),
         hidePlaceholder: true,
         persist: false,
         create: false,
         allowEmptyOption: true,
         maxOptions: null,
-      });
+      };
+      if (el.dataset.searchUrl) {
+        let searchController;
+        Object.assign(options, {
+          plugins: ["virtual_scroll"],
+          valueField: "id",
+          labelField: "text",
+          searchField: [],
+          preload: "focus",
+          loadThrottle: 300,
+          firstUrl(query) {
+            const url = new URL(el.dataset.searchUrl, window.location.origin);
+            url.searchParams.set("q", query);
+            return url.href;
+          },
+          async load(query, callback) {
+            searchController?.abort();
+            const controller = new AbortController();
+            searchController = controller;
+            const url = this.getUrl(query);
+            try {
+              const response = await fetch(url, { signal: controller.signal });
+              if (!response.ok) {
+                throw new Error("Team lookup failed");
+              }
+              const data = await response.json();
+              if (data.more) {
+                const next = new URL(url);
+                next.searchParams.set(
+                  "page",
+                  Number(next.searchParams.get("page") || 1) + 1,
+                );
+                this.setNextUrl(query, next.href);
+              }
+              callback(data.results);
+            } catch (_error) {
+              if (!controller.signal.aborted) {
+                this.setNextUrl(query, url);
+                addAlert(
+                  gettext("Could not load teams. Please try again."),
+                  "danger",
+                );
+              }
+              callback([]);
+              delete this.loadedSearches[query];
+            }
+          },
+          render: {
+            loading_more(_data, escapeText) {
+              return `<div class="loading-more-results">${escapeText(gettext("Loading…"))}</div>`;
+            },
+            no_more_results(_data, escapeText) {
+              return `<div class="no-more-results">${escapeText(gettext("No more results."))}</div>`;
+            },
+          },
+        });
+      }
+      new TomSelect(el, options);
     });
   };
 

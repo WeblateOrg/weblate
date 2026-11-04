@@ -86,6 +86,12 @@ The Django admin interface
 Here you can manage objects stored in the database, such as users, translations
 and other settings.
 
+Use the search box to find users by team name or by the name or slug of the
+team's defining project, or by the workspace name. Team searches also match
+their defining project or workspace. Project, component, and workspace relations
+use search instead of listing every object in sidebar filters; large editable
+relations provide autocomplete controls.
+
 In the :guilabel:`Reports` section, you can check the status of your site, tweak
 it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-repos`.
 
