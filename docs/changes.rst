@@ -15,6 +15,7 @@ Weblate 2026.11.1
 
 .. rubric:: Security fixes
 
+* Restrict :ref:`font uploads <fonts>` to TrueType and OpenType content.
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.
 * Require recent credential verification for browser changes to access rights, user accounts, and project visibility; use a password or linked sign-in provider when two-factor authentication is absent. See :ref:`2fa`.

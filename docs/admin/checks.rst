@@ -150,6 +150,10 @@ menu of your translation project provides interface to upload and manage fonts.
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those in
 the check.
 
+Uploads must contain a single TrueType or OpenType font with a ``.ttf`` or
+``.otf`` extension. WOFF, WOFF2, font collections, and legacy font formats are
+not supported, even when renamed to use one of these extensions.
+
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
 

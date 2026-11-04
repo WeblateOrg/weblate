@@ -4,6 +4,9 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import override_settings
 from django.urls import reverse
 
@@ -23,6 +26,56 @@ class FontViewTest(FontTestCase):
         response = self.client.get(self.fonts_url)
         self.assertContains(response, font.family)
         self.assertNotContains(response, "Add font")
+
+    def test_upload_rejects_renamed_web_fonts(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        for signature in (b"wOF2", b"wOFF"):
+            for extension in ("ttf", "otf"):
+                with (
+                    self.subTest(signature=signature, extension=extension),
+                    patch("weblate.fonts.utils.ImageFont.truetype") as parser,
+                ):
+                    uploaded = SimpleUploadedFile(
+                        f"font.{extension}", signature + bytes(44)
+                    )
+                    response = self.client.post(self.fonts_url, {"font": uploaded})
+
+                    self.assertContains(response, "Unsupported file format.")
+                    self.assertEqual(Font.objects.count(), 0)
+                    parser.assert_not_called()
+
+    def test_edit_rejects_renamed_web_fonts(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        font = self.add_font()
+        original_name = font.font.name
+        with font.font.open("rb") as handle:
+            original_content = handle.read()
+        original_metadata = (font.family, font.style)
+
+        for signature in (b"wOF2", b"wOFF"):
+            for extension in ("ttf", "otf"):
+                with (
+                    self.subTest(signature=signature, extension=extension),
+                    patch("weblate.fonts.utils.ImageFont.truetype") as parser,
+                ):
+                    uploaded = SimpleUploadedFile(
+                        f"font.{extension}", signature + bytes(44)
+                    )
+                    response = self.client.post(
+                        font.get_absolute_url(), {"font": uploaded}
+                    )
+
+                    self.assertContains(response, "Unsupported file format.")
+                    font.refresh_from_db()
+                    self.assertEqual(font.font.name, original_name)
+                    self.assertEqual((font.family, font.style), original_metadata)
+                    with font.font.open("rb") as handle:
+                        self.assertEqual(handle.read(), original_content)
+                    self.assertEqual(Font.objects.count(), 1)
+                    parser.assert_not_called()
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_upload_too_big(self) -> None:
