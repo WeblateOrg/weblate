@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
@@ -50,10 +50,90 @@ CONDITION_TITLES: dict[str, StrOrPromise] = {
     "not": gettext_lazy("Not"),
 }
 
-# Node kinds whose editing support is still to come; workflows using them are
-# edited as YAML.
+ACTION_TITLES: dict[str, StrOrPromise] = {
+    "sequence": gettext_lazy("Sequence"),
+    "choose": gettext_lazy("Choose"),
+}
+
 NESTING_CONDITIONS = frozenset({"and", "or", "not"})
-NESTING_ACTIONS = frozenset({"sequence", "choose"})
+NESTING_ACTIONS = frozenset(ACTION_TITLES)
+
+BRANCH_KIND = "branch"
+
+
+@dataclass(frozen=True)
+class EditorSlot:
+    """A container inside a node holding child nodes of one kind."""
+
+    key: str
+    kind: str
+    label: StrOrPromise
+    add_label: StrOrPromise
+    root: bool = False
+
+    @property
+    def pickable(self) -> bool:
+        """Branch slots accept exactly one kind, so they need no picker."""
+        return self.kind != BRANCH_KIND
+
+    @property
+    def picker_id(self) -> str:
+        """Nested pickers are renamed per node, root ones are unique."""
+        if self.root:
+            return f"automation-add-{self.kind}"
+        return f"automation-add-nested-{self.kind}"
+
+
+TRIGGERS_SLOT = EditorSlot(
+    key="triggers",
+    kind="trigger",
+    label=gettext_lazy("Trigger"),
+    add_label=gettext_lazy("Add trigger"),
+    root=True,
+)
+ROOT_CONDITIONS_SLOT = EditorSlot(
+    key="conditions",
+    kind="condition",
+    label=gettext_lazy("Condition"),
+    add_label=gettext_lazy("Add condition"),
+    root=True,
+)
+ROOT_ACTIONS_SLOT = EditorSlot(
+    key="actions",
+    kind="action",
+    label=gettext_lazy("Action"),
+    add_label=gettext_lazy("Add action"),
+    root=True,
+)
+CONDITIONS_SLOT = EditorSlot(
+    key="conditions",
+    kind="condition",
+    label=gettext_lazy("Conditions"),
+    add_label=gettext_lazy("Add condition"),
+)
+SEQUENCE_SLOT = EditorSlot(
+    key="sequence",
+    kind="action",
+    label=gettext_lazy("Actions"),
+    add_label=gettext_lazy("Add action"),
+)
+CHOOSE_SLOT = EditorSlot(
+    key="choose",
+    kind=BRANCH_KIND,
+    label=gettext_lazy("Branches"),
+    add_label=gettext_lazy("Add branch"),
+)
+DEFAULT_SLOT = EditorSlot(
+    key="default",
+    kind="action",
+    label=gettext_lazy("Otherwise"),
+    add_label=gettext_lazy("Add action to run otherwise"),
+)
+
+STRUCTURAL_ACTION_SLOTS: dict[str, list[EditorSlot]] = {
+    "sequence": [SEQUENCE_SLOT],
+    "choose": [CHOOSE_SLOT, DEFAULT_SLOT],
+}
 
 
 @dataclass
@@ -65,6 +145,7 @@ class EditorNode:
     form: forms.Form | None = None
     chrome: forms.Form | None = None
     group: str | None = None
+    slots: list[EditorSlot] = field(default_factory=list)
 
     @property
     def emit_json(self) -> str:
@@ -76,6 +157,20 @@ class EditorContext:
     triggers: list[EditorNode] = field(default_factory=list)
     conditions: list[EditorNode] = field(default_factory=list)
     actions: list[EditorNode] = field(default_factory=list)
+    branch: EditorNode | None = None
+
+    trigger_slot: ClassVar[EditorSlot] = TRIGGERS_SLOT
+    condition_slot: ClassVar[EditorSlot] = ROOT_CONDITIONS_SLOT
+    action_slot: ClassVar[EditorSlot] = ROOT_ACTIONS_SLOT
+
+    @property
+    def choices(self) -> dict[str, list[EditorNode]]:
+        """Nodes a slot picker offers, by the slot kind."""
+        return {
+            "trigger": self.triggers,
+            "condition": self.conditions,
+            "action": self.actions,
+        }
 
 
 def workflow_type(schema: dict[str, Any]) -> str:
@@ -104,6 +199,7 @@ def prepare_node_form(
     properties: dict[str, Any],
     required: set[str],
     prefix: str,
+    component_required: set[str] | None = None,
 ) -> forms.Form:
     """Restrict a form to the keys of a node and annotate it for the editor."""
     names = [name for name in properties if name in form.fields]
@@ -121,6 +217,8 @@ def prepare_node_form(
             widget.attrs["data-workflow-default"] = str(form.fields[name].initial)
         if name in required:
             widget.attrs["data-workflow-required"] = "1"
+        if component_required is not None and name in component_required:
+            widget.attrs["data-workflow-component-required"] = "1"
     form.auto_id = f"id_{prefix}_%s"
     helper = FormHelper(form)
     helper.form_tag = False
@@ -180,6 +278,15 @@ def condition_nodes() -> list[EditorNode]:
     nodes = []
     for name, variant in schema_variants("conditions", "condition"):
         if name in NESTING_CONDITIONS:
+            nodes.append(
+                EditorNode(
+                    kind=f"condition:{name}",
+                    name=name,
+                    title=CONDITION_TITLES[name],
+                    emit={"condition": name},
+                    slots=[CONDITIONS_SLOT],
+                )
+            )
             continue
         nodes.append(
             EditorNode(
@@ -202,16 +309,38 @@ def condition_nodes() -> list[EditorNode]:
     return sorted(nodes, key=lambda node: str(node.title).casefold())
 
 
+def branch_node() -> EditorNode:
+    """One branch of a choose action: its conditions and what it then runs."""
+    return EditorNode(
+        kind=BRANCH_KIND,
+        name=BRANCH_KIND,
+        title=gettext_lazy("Branch"),
+        emit={},
+        slots=[CONDITIONS_SLOT, SEQUENCE_SLOT],
+    )
+
+
 def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
     nodes = []
     for name, variant in schema_variants("actions", "action"):
         if name in NESTING_ACTIONS:
+            nodes.append(
+                EditorNode(
+                    kind=f"action:{name}",
+                    name=name,
+                    title=ACTION_TITLES[name],
+                    emit={},
+                    slots=STRUCTURAL_ACTION_SLOTS[name],
+                )
+            )
             continue
         operation = OPERATIONS[name]
         settings_schema = operation.settings_schema
         required = set(settings_schema.get("required", []))
+        component_required: set[str] = set()
         if operation.query_required_for_component:
             required.add("q")
+            component_required.add("q")
         slug = name.replace(".", "_")
         nodes.append(
             EditorNode(
@@ -224,6 +353,7 @@ def action_nodes(obj: Component | Project | None) -> list[EditorNode]:
                     settings_schema["properties"],
                     required,
                     f"automation_settings_{slug}",
+                    component_required,
                 ),
                 chrome=prepare_node_form(
                     action_chrome_form(operation.supported_scopes),
@@ -248,5 +378,6 @@ def editor_context(obj: Component | Project | None) -> dict[str, Any]:
             triggers=trigger_nodes(),
             conditions=condition_nodes(),
             actions=action_nodes(obj),
+            branch=branch_node(),
         )
     }

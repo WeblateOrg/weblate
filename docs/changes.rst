@@ -11,6 +11,7 @@ Weblate 2026.11.1
 
 * Added XML :ref:`file format parameters <file_format_params>` for UTF-8 byte order marks, declaration encoding case, and final newlines.
 * Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
+* :ref:`Automation <automation-workflows>` condition groups and branching actions can now be edited in the visual editor.
 * Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
 
 .. rubric:: Security fixes

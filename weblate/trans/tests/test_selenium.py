@@ -3279,7 +3279,7 @@ class SeleniumTests(
         field = self.driver.find_element(By.ID, "id_workflow")
         field.clear()
         field.send_keys(
-            "version: 1\ntriggers: []\nactions:\n- choose:\n  - conditions: []\n    sequence: []\n"
+            "version: 1\ntriggers: []\nactions:\n- action: weblate.from_the_future\n  settings: {}\n"
         )
         self.click(
             self.driver.find_element(
@@ -3288,10 +3288,29 @@ class SeleniumTests(
         )
         alert = editor.find_element(By.CSS_SELECTOR, "[data-automation-alert]")
         self.assertTrue(alert.is_displayed())
-        self.assertIn("does not handle yet", alert.text)
+        self.assertIn("cannot show", alert.text)
         self.assertFalse(pane.is_displayed())
         self.assertTrue(
             self.driver.find_element(By.ID, "automation-mode-yaml").is_selected()
+        )
+
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys(
+            "version: 1\ntriggers: []\nconditions:\n- condition: and\n"
+            "  conditions:\n    condition: language\n    value: cs\nactions: []\n"
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        self.assertTrue(alert.is_displayed())
+        self.assertIn("cannot show", alert.text)
+        self.assertFalse(pane.is_displayed())
+        self.assertIn(
+            "condition: language",
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value"),
         )
 
         # A rejected workflow reopens in the YAML pane, where its message is.
@@ -3357,6 +3376,279 @@ class SeleniumTests(
         self.assertEqual(added["q"], "state:<translated")
         self.assertEqual(added["threshold"], MACHINERY_DEFAULT_THRESHOLD)
 
+        # Condition groups and branches nest, and survive a round trip through
+        # both panes unchanged.
+        nested = {
+            "version": 1,
+            "triggers": [],
+            "conditions": [
+                {
+                    "condition": "and",
+                    "conditions": [
+                        {"condition": "language", "value": "cs"},
+                        {
+                            "condition": "or",
+                            "conditions": [
+                                {"condition": "unit_state", "value": STATE_TRANSLATED},
+                                {
+                                    "condition": "not",
+                                    "conditions": [
+                                        {"condition": "language", "value": "de"}
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                }
+            ],
+            "actions": [
+                {
+                    "choose": [
+                        {
+                            "conditions": [{"condition": "language", "value": "cs"}],
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "id": "picked",
+                                    "settings": {"q": "state:translated"},
+                                }
+                            ],
+                        },
+                        {
+                            "conditions": [{"condition": "language", "value": "de"}],
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "settings": {"q": "state:needs-editing"},
+                                }
+                            ],
+                        },
+                    ],
+                    "default": [
+                        {
+                            "sequence": [
+                                {
+                                    "action": "weblate.select",
+                                    "scope": "result:picked",
+                                    "settings": {"q": ""},
+                                },
+                                {
+                                    "action": "weblate.select",
+                                    "settings": {"q": "state:translated"},
+                                },
+                            ]
+                        }
+                    ],
+                },
+                {
+                    "action": "weblate.bulk_edit",
+                    "scope": "result:picked",
+                    "settings": {"q": "state:translated", "state": STATE_FUZZY},
+                },
+            ],
+        }
+        with acting_user_context(user):
+            addon.configure({"workflow": deepcopy(nested)})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        self.assertFalse(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-alert]"
+            ).is_displayed()
+        )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            nested,
+        )
+        # Round trip through the YAML pane and back.
+        for mode in ("yaml", "editor"):
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, f"label[for='automation-mode-{mode}']"
+                )
+            )
+        self.assertEqual(
+            self.driver.execute_script("return automationEditor.serializeWorkflow();"),
+            nested,
+        )
+
+        # A not holds exactly one condition, so its add control is blocked
+        # while the hundred-node and eight-level limits leave others open.
+        blocked = self.driver.execute_script(
+            "return Array.from("
+            'document.querySelectorAll("[data-automation-slot]"),'
+            " (slot) => [slot.dataset.automationSlot,"
+            '  slot.closest("[data-automation-instance]")?.dataset'
+            "    .automationInstance ?? null,"
+            "  slot.querySelector("
+            '   ":scope > [data-automation-slot-controls] > [data-automation-add]"'
+            "  ).disabled]);"
+        )
+        self.assertIn(["conditions", "condition:not", True], blocked)
+        self.assertIn(["conditions", "condition:and", False], blocked)
+
+        scopes = self.driver.execute_script(
+            "return Array.from("
+            'document.querySelectorAll("[data-automation-result-scope]"),'
+            " (select) => Array.from(select.options, (o) => o.value));"
+        )
+        self.assertEqual(
+            scopes,
+            [
+                ["", "component", "trigger"],
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+                ["", "component", "trigger"],
+                ["", "component", "trigger", "result:picked"],
+            ],
+        )
+
+        # Choose branches count towards the hundred nodes like on the server.
+        self.driver.execute_script(
+            "automationEditor.buildTree(arguments[0]);",
+            {
+                "version": 1,
+                "triggers": [],
+                "conditions": [{"condition": "language", "value": "cs"}] * 90,
+                "actions": [
+                    {"choose": [{"conditions": [], "sequence": []}] * 9},
+                ],
+            },
+        )
+        self.assertTrue(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-add='conditions']"
+            ).get_attribute("disabled")
+        )
+
+    def test_automation_editor_nesting_depth(self) -> None:
+        """The automation editor offers every nesting level the backend takes."""
+        deep: dict[str, Any] = {"condition": "language", "value": "cs"}
+        for _ in range(7):
+            deep = {"condition": "and", "conditions": [deep]}
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={
+                "workflow": {
+                    "version": 1,
+                    "triggers": [],
+                    "conditions": [deep],
+                    "actions": [
+                        {
+                            "action": "weblate.select",
+                            "settings": {"q": "state:translated"},
+                        }
+                    ],
+                }
+            },
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+        blocked_depths = (
+            "return Array.from("
+            "document.querySelectorAll(\"[data-automation-slot='conditions']\"),"
+            " (slot) => slot.querySelector("
+            '  ":scope > [data-automation-slot-controls] > [data-automation-add]"'
+            " ).disabled);"
+        )
+        self.assertEqual(self.driver.execute_script(blocked_depths), [False] * 8)
+        deepest = self.driver.find_elements(
+            By.CSS_SELECTOR, "[data-automation-slot='conditions']"
+        )[-1]
+        Select(
+            deepest.find_element(By.CSS_SELECTOR, "[data-automation-picker]")
+        ).select_by_value("condition:and")
+        self.click(deepest.find_element(By.CSS_SELECTOR, "[data-automation-add]"))
+        self.assertEqual(
+            self.driver.execute_script(blocked_depths), [False] * 8 + [True]
+        )
+
+    def test_automation_editor_required_query(self) -> None:
+        """The editor reports a cleared query instead of saving it as empty."""
+        workflow: dict[str, Any] = {
+            "version": 1,
+            "triggers": [],
+            "actions": [
+                {
+                    "action": "weblate.select",
+                    "id": "picked",
+                    "settings": {"q": "state:translated"},
+                },
+                {
+                    "action": "weblate.select",
+                    "scope": "result:picked",
+                    "settings": {"q": ""},
+                },
+            ],
+        }
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        user = self.do_login(superuser=True)
+        addon = AutomationAddon.create(
+            acting_user=user,
+            configuration={"workflow": deepcopy(workflow)},
+            run=False,
+            component=component,
+        )
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{addon.instance.get_absolute_url()}"
+            )
+
+        queries = self.driver.find_elements(
+            By.CSS_SELECTOR,
+            "[data-automation-root='actions'] [data-workflow-key='q']",
+        )
+        queries[0].clear()
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#addon-form input[type='submit']"
+            )
+        )
+        self.assertTrue(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "[data-automation-alert]"
+            ).is_displayed()
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                "const element = document.activeElement;"
+                " const node = element.closest('[data-automation-instance]');"
+                " return [element.dataset.workflowKey,"
+                "  Array.from(node.parentElement.children).indexOf(node)];"
+            ),
+            ["q", 0],
+        )
+        addon.instance.refresh_from_db()
+        self.assertEqual(addon.instance.configuration["workflow"], workflow)
+
+        # Entering a query saves the workflow, empty result-scoped query
+        # included.
+        queries[0].send_keys("state:approved")
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "#addon-form input[type='submit']"
+            )
+        )
+        saved = deepcopy(workflow)
+        saved["actions"][0]["settings"]["q"] = "state:approved"
+        for _unused in range(300):
+            addon.instance.refresh_from_db()
+            if addon.instance.configuration["workflow"] == saved:
+                break
+            time.sleep(0.1)
+        self.assertEqual(addon.instance.configuration["workflow"], saved)
+        WebDriverWait(self.driver, 30).until(self.is_page_loaded)
+
     def test_automation_editor_result_scopes_and_focus(self) -> None:
         """The automation editor shows result scopes and keeps keyboard focus."""
         project = self.create_component()
@@ -3407,7 +3699,7 @@ class SeleniumTests(
         # into the editor.
         scope_options = (
             "return Array.from(document.querySelectorAll("
-            "\"[data-automation-list='actions'] [data-workflow-key='scope']\"),"
+            "\"[data-automation-root='actions'] [data-workflow-key='scope']\"),"
             " (el) => Array.from(el.options, (option) => option.value));"
         )
         self.assertEqual(
@@ -3420,7 +3712,7 @@ class SeleniumTests(
         )
         self.driver.find_elements(
             By.CSS_SELECTOR,
-            "[data-automation-list='actions'] [data-workflow-key='id']",
+            "[data-automation-root='actions'] [data-workflow-key='id']",
         )[1].send_keys("edited")
         self.assertEqual(
             self.driver.execute_script(scope_options)[2],
@@ -3430,7 +3722,7 @@ class SeleniumTests(
         # Removing a node moves focus to its neighbor instead of the page.
         remove = self.driver.find_elements(
             By.CSS_SELECTOR,
-            "[data-automation-list='actions'] [data-automation-remove]",
+            "[data-automation-root='actions'] [data-automation-remove]",
         )[2]
         remove.send_keys(Keys.ENTER)
         self.assertEqual(
@@ -3440,6 +3732,36 @@ class SeleniumTests(
                 " return node && node.dataset.automationInstance;"
             ),
             "action:weblate.bulk_edit",
+        )
+
+        self.driver.execute_script(
+            "automationEditor.buildTree(arguments[0]);",
+            {
+                "version": 1,
+                "triggers": [],
+                "conditions": [
+                    {
+                        "condition": "not",
+                        "conditions": [{"condition": "language", "value": "cs"}],
+                    }
+                ],
+                "actions": [
+                    {"action": "weblate.select", "settings": {"q": "state:translated"}}
+                ],
+            },
+        )
+        self.driver.find_element(
+            By.CSS_SELECTOR,
+            "[data-automation-instance='condition:language'] [data-automation-remove]",
+        ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const active = document.activeElement;"
+                " return [active.dataset.automationAdd ?? null,"
+                " active.closest('[data-automation-instance]')?.dataset"
+                "   .automationInstance ?? null];"
+            ),
+            ["conditions", "condition:not"],
         )
 
         # Adding a node with an enhanced select focuses its visible control.
@@ -3452,7 +3774,7 @@ class SeleniumTests(
         self.assertTrue(
             self.driver.execute_script(
                 "const active = document.activeElement;"
-                " return active.closest(\"[data-automation-list='triggers']\")"
+                " return active.closest(\"[data-automation-root='triggers']\")"
                 " !== null && active.closest('.ts-wrapper') !== null;"
             )
         )
