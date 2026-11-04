@@ -12,13 +12,13 @@ from typing import TYPE_CHECKING
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
-from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
-from weblate.accounts.models import AuditLog, VerifiedEmail
+from weblate.accounts.models import VerifiedEmail
 from weblate.auth.data import SELECTION_ALL, SELECTION_COMPONENT_LIST, SELECTION_MANUAL
+from weblate.auth.invitations import create_team_invitation
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -27,8 +27,6 @@ from weblate.auth.models import (
 )
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
-from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.forms import EmailField, UserField, WeblateDateInput
@@ -188,43 +186,18 @@ def create_invitation(
     if resolved_user is not None:
         resolved_email = ""
 
-    with transaction.atomic():
-        invitation = Invitation.objects.create(
-            author=author,
-            user=resolved_user,
-            username=username,
-            full_name=full_name,
-            group=group,
-            email=resolved_email,
-            is_superuser=is_superuser,
-        )
-        if limit_languages is not None:
-            invitation.limit_languages.set(limit_languages)
-
-    if invitation.user:
-        details = {"username": invitation.user.username}
-    else:
-        details = {"email": invitation.email}
-
-    Change.objects.create(
+    invitation = create_team_invitation(
+        author=author,
+        request=request,
+        group=group,
         project=project,
-        action=ActionEvents.INVITE_USER,
-        user=author,
-        details=details,
+        user=resolved_user,
+        email=resolved_email,
+        username=username,
+        full_name=full_name,
+        is_superuser=is_superuser,
+        limit_languages=limit_languages,
     )
-    if invitation.user:
-        audit_details = {"username": request.user.username}
-        if project:
-            audit_details["project"] = project.name
-            audit_details["method"] = "project"
-        AuditLog.objects.create(
-            user=invitation.user,
-            request=request,
-            activity="invited",
-            **audit_details,
-        )
-
-    invitation.send_email()
     if success_message:
         messages.success(request, gettext("User invitation e-mail was sent."))
 

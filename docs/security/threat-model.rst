@@ -762,6 +762,14 @@ Security properties Weblate provides
      - Token is created and stored by a trusted actor.
      - Token can act outside project or team scope.
      - Security-critical.
+   * - Automatic team assignments to project and workspace teams require the
+       recipient to accept an invitation before membership is granted.
+       Site-defined teams can assign users directly. *(documented)* (source:
+       :ref:`autoteam`)
+     - Rules are evaluated for newly created accounts.
+     - A scoped automatic assignment grants membership without acceptance.
+     - Security-critical. Pending invitations remain visible to team managers,
+       and matching rules can send unsolicited invitation e-mails.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected

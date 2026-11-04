@@ -743,7 +743,17 @@ Automatic team assignments
 While editing the :guilabel:`Team`, you can specify
 :guilabel:`Automatic assignments`, which is a list of regular expressions
 used to automatically assign newly created users to a team based on their
-e-mail addresses. This assignment only happens upon account creation.
+e-mail addresses. Rules are evaluated only upon account creation, for every
+new user on the instance.
+
+For project and workspace teams, matching rules create invitations. Users
+receive an e-mail identifying automatic team assignment as the source and must
+accept the invitation before joining. Pending invitations are also available
+in account settings. Accounts without an e-mail address see the invitation
+only in account settings. Team managers can see pending invitations.
+
+For site-defined teams, matching users are added directly. This includes the
+default teams. Existing memberships are not changed by this behavior.
 
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams

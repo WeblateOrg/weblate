@@ -2118,13 +2118,42 @@ def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
     if user.is_anonymous or user.is_bot:
         return
-    # Add user to automatic groups
-    for auto in AutoGroup.objects.prefetch_related("group"):
+    # Import here because invitations also depend on these models.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.bots import InternalBot
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.invitations import create_team_invitation
+
+    assigned = set(user.groups.values_list("pk", flat=True))
+    pending = Invitation.objects.filter(user=user)
+    if user.email:
+        pending = Invitation.objects.filter(Q(user=user) | Q(email__iexact=user.email))
+    invited = set(pending.values_list("group_id", flat=True))
+    for auto in AutoGroup.objects.select_related("group", "group__defining_project"):
+        if auto.group_id in assigned:
+            continue
         try:
-            if regex_match(auto.match, user.email or ""):
-                user.add_team(None, auto.group)
+            matches = regex_match(auto.match, user.email or "")
         except (regex.error, TimeoutError):
             LOGGER.error("Invalid automatic group rule %s", auto.pk)
+            continue
+        if not matches:
+            continue
+        if auto.group.defining_project_id or auto.group.defining_workspace_id:
+            if auto.group_id in invited:
+                continue
+            create_team_invitation(
+                author=InternalBot.TEAM_ASSIGNMENT.get_user(),
+                group=auto.group,
+                project=auto.group.defining_project,
+                user=user,
+                automatic=True,
+            )
+            invited.add(auto.group_id)
+        else:
+            user.add_team(None, auto.group)
+        assigned.add(auto.group_id)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
@@ -2385,6 +2414,8 @@ class Invitation(models.Model):
         gettext_lazy("E-mail"),
         blank=True,
     )
+    # Internal provenance, never accepted from invitation forms or API inputs.
+    automatic = models.BooleanField(default=False, editable=False)
     is_superuser = models.BooleanField(
         gettext_lazy("Superuser status"),
         default=False,
