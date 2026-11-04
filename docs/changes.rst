@@ -27,6 +27,7 @@ Weblate 2026.11.1
 
 .. rubric:: Bug fixes
 
+* Prevent overlapping :ref:`automatic translation <auto-translation>` operations for the same component and language.
 * Fixed lock contention when updating :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` concurrently.
 * Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
 
