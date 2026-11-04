@@ -18,7 +18,7 @@ from appconf import AppConf
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, verify_password
 from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
@@ -1096,6 +1096,43 @@ class User(AbstractBaseUser):
     def has_usable_password(self):
         # For some reason Django says that empty string is a valid password
         return self.password and super().has_usable_password()
+
+    def check_password(self, raw_password: str | None) -> bool:
+        """Keep leaked-password findings valid when Django upgrades a hash."""
+        old_password = self.password
+        correct, must_update = verify_password(raw_password, old_password)
+        if not correct or not must_update:
+            return correct
+
+        from weblate.wladmin.security import (  # ruff: ignore[import-outside-top-level]
+            upgrade_password_finding_fingerprints,
+        )
+
+        database = router.db_for_write(type(self), instance=self)
+        with transaction.atomic(using=database):
+            current_password = (
+                type(self)
+                .objects.using(database)
+                .select_for_update()
+                .values_list("password", flat=True)
+                .get(pk=self.pk)
+            )
+            if current_password != old_password:
+                # A reset or another login won the race. Verify the current hash
+                # rather than restoring a stale password over that change.
+                self.password = current_password
+                return self.check_password(raw_password)
+            self.set_password(raw_password)
+            # Match Django: a hash upgrade is not a password change.
+            self._password = None
+            self.save(using=database, update_fields=["password"])
+            upgrade_password_finding_fingerprints(self, old_password, using=database)
+        return True
+
+    async def acheck_password(self, raw_password: str | None) -> bool:
+        return await sync_to_async(self.check_password, thread_sensitive=True)(
+            raw_password
+        )
 
     @cached_property
     def is_anonymous(self):

@@ -21,7 +21,7 @@ from django.contrib.auth.hashers import check_password
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Case, Q, Value, When
 from django.utils import timezone
 from django.utils.crypto import constant_time_compare, salted_hmac
 from django.utils.translation import gettext, gettext_lazy, gettext_noop
@@ -65,6 +65,26 @@ def password_fingerprints(encoded: str) -> list[str]:
         fingerprint(encoded, secret=secret)
         for secret in [settings.SECRET_KEY, *settings.SECRET_KEY_FALLBACKS]
     ]
+
+
+def upgrade_password_finding_fingerprints(
+    user: User, old_password: str, *, using: str
+) -> None:
+    """Carry findings through a hash upgrade while holding the account lock."""
+    fingerprints = dict(
+        zip(
+            password_fingerprints(old_password),
+            password_fingerprints(user.password),
+            strict=True,
+        )
+    )
+    SecurityFinding.objects.using(using).filter(
+        user=user,
+        finding_type=LEAKED_PASSWORD,
+        key__in=fingerprints,
+    ).update(
+        key=Case(*[When(key=old, then=Value(new)) for old, new in fingerprints.items()])
+    )
 
 
 def cipher() -> Fernet:

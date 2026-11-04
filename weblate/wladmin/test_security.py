@@ -10,7 +10,9 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
+from asgiref.sync import async_to_sync
 from django.conf import settings
+from django.contrib.auth.hashers import PBKDF2PasswordHasher, verify_password
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -106,6 +108,12 @@ class SecurityCSVTest(SimpleTestCase):
         )
 
 
+@override_settings(
+    PASSWORD_HASHERS=[
+        "django.contrib.auth.hashers.MD5PasswordHasher",
+        "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    ]
+)
 class AccountSecurityTest(TestCase):
     admin: User
     user: User
@@ -982,3 +990,131 @@ class AccountSecurityTest(TestCase):
                     for child in listing:
                         self.assertIn(child.tag, allowed)
                         self.assertFalse((child.tail or "").strip())
+
+    def prepare_legacy_password_finding(self) -> str:
+        encoded = PBKDF2PasswordHasher().encode(
+            "synthetic-secret", "security-salt", iterations=1
+        )
+        self.user.password = encoded
+        self.user.save(update_fields=["password"])
+        self.scan()
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.password, encoded)
+        return encoded
+
+    def test_login_hash_upgrade_keeps_leak_finding_actionable(self) -> None:
+        original = self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        token = reset_api_token(self.user)
+        self.assertTrue(
+            self.client.login(
+                username=self.user.username,
+                password="synthetic-secret",  # ruff: ignore[hardcoded-password-func-arg]
+            )
+        )
+        self.user.refresh_from_db()
+        finding.refresh_from_db()
+        self.assertNotEqual(self.user.password, original)
+        self.assertEqual(finding.status, "open")
+        self.assertEqual(finding.events.filter(action="detected").count(), 1)
+        operation = SecurityScan.objects.create(actor=self.admin, operation="reset")
+        self.assertEqual(handle_finding(operation, finding.pk), "password-reset")
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.has_usable_password())
+        self.assertFalse(type(token).objects.filter(pk=token.pk).exists())
+        with self.assertRaises(ValidationError):
+            PastPasswordsValidator().validate("synthetic-secret", self.user)
+
+    @override_settings(
+        PASSWORD_HASHERS=[
+            "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+            "django.contrib.auth.hashers.MD5PasswordHasher",
+        ]
+    )
+    def test_work_factor_upgrade_preserves_fallback_key_finding(self) -> None:
+        original = self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        original_key = settings.SECRET_KEY
+        with override_settings(
+            SECRET_KEY=get_random_string(50), SECRET_KEY_FALLBACKS=[original_key]
+        ):
+            self.assertTrue(self.user.check_password("synthetic-secret"))
+            self.user.refresh_from_db()
+            self.assertTrue(self.user.password.startswith("pbkdf2_sha256$"))
+            self.assertNotEqual(self.user.password, original)
+            operation = SecurityScan.objects.create(actor=self.admin, operation="reset")
+            self.assertEqual(handle_finding(operation, finding.pk), "password-reset")
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.has_usable_password())
+
+    def test_async_hash_upgrade_keeps_leak_finding_actionable(self) -> None:
+        original = self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        self.assertTrue(async_to_sync(self.user.acheck_password)("synthetic-secret"))
+        self.user.refresh_from_db()
+        self.assertNotEqual(self.user.password, original)
+        operation = SecurityScan.objects.create(actor=self.admin, operation="reset")
+        self.assertEqual(handle_finding(operation, finding.pk), "password-reset")
+
+    def test_incorrect_password_does_not_upgrade_finding(self) -> None:
+        original = self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        original_fingerprint = finding.key
+        self.assertFalse(self.user.check_password("incorrect-secret"))
+        self.user.refresh_from_db()
+        finding.refresh_from_db()
+        self.assertEqual(self.user.password, original)
+        self.assertEqual(finding.key, original_fingerprint)
+        self.assertEqual(finding.status, "open")
+
+    def test_hash_upgrade_does_not_reopen_dismissed_finding(self) -> None:
+        self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        operation = SecurityScan.objects.create(actor=self.admin, operation="dismiss")
+        handle_finding(operation, finding.pk)
+        self.assertTrue(self.user.check_password("synthetic-secret"))
+        finding.refresh_from_db()
+        self.assertEqual(finding.status, "dismissed")
+        self.assertEqual(finding.events.filter(action="detected").count(), 1)
+        self.scan()
+        finding.refresh_from_db()
+        self.assertEqual(finding.status, "open")
+        self.assertEqual(SecurityFinding.objects.filter(user=self.user).count(), 1)
+
+    def test_actual_password_change_after_upgrade_is_still_skipped(self) -> None:
+        self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        self.assertTrue(self.user.check_password("synthetic-secret"))
+        self.user.set_password("new-unique-password")
+        self.user.save(update_fields=["password"])
+        token = reset_api_token(self.user)
+        operation = SecurityScan.objects.create(actor=self.admin, operation="reset")
+        self.assertEqual(handle_finding(operation, finding.pk), "password-changed")
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("new-unique-password"))
+        self.assertTrue(type(token).objects.filter(pk=token.pk).exists())
+
+    def test_hash_upgrade_does_not_restore_concurrently_reset_password(self) -> None:
+        original = self.prepare_legacy_password_finding()
+        finding = SecurityFinding.objects.get(user=self.user)
+        operation = SecurityScan.objects.create(actor=self.admin, operation="reset")
+
+        def verify_then_reset(
+            raw_password: str | None, encoded: str
+        ) -> tuple[bool, bool]:
+            result = verify_password(raw_password, encoded)
+            if encoded == original and result[0]:
+                self.assertEqual(
+                    handle_finding(operation, finding.pk), "password-reset"
+                )
+                self.user.refresh_from_db()
+            return result
+
+        with patch(
+            "weblate.auth.models.verify_password", side_effect=verify_then_reset
+        ):
+            self.assertFalse(self.user.check_password("synthetic-secret"))
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.has_usable_password())
+        finding.refresh_from_db()
+        self.assertEqual(finding.status, "resolved")
