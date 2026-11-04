@@ -1,0 +1,23 @@
+{% load crispy_forms_tags i18n %}
+
+<p>{% translate "Upload a CSV containing usernames or e-mail addresses and passwords. Passwords are checked in the background and never displayed in the report." %}</p>
+<p>{% translate "Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the delimiter and column numbers blank for automatic detection." %}</p>
+{% if scan %}
+  <p>{% translate "The uploaded file is available for one hour. Adjust the CSV settings below to try again." %}</p>
+{% endif %}
+<form method="post"
+      action="{% url 'manage-security-upload' %}"
+      enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if scan %}<input type="hidden" name="scan" value="{{ scan.pk }}">{% endif %}
+  {{ form|as_crispy_errors }}
+  {{ form.report|as_crispy_field }}
+  <details {% if scan or form.errors %}open{% endif %}>
+    <summary>{% translate "CSV format (detected automatically)" %}</summary>
+    {{ form.delimiter|as_crispy_field }}
+    {{ form.header|as_crispy_field }}
+    {{ form.identifier_column|as_crispy_field }}
+    {{ form.password_column|as_crispy_field }}
+  </details>
+  <button type="submit" class="btn btn-primary">{% translate "Validate passwords" %}</button>
+</form>

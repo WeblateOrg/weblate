@@ -1,0 +1,54 @@
+{% extends "manage/security-base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">{% translate "Validation reports" %}</h1>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Review previous credential validation reports, including reports with no matching passwords." %}</p>
+      <p><a class="btn btn-primary" href="{% url 'manage-security-upload' %}">{% translate "Upload report" %}</a></p>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">{% translate "Report" %}</th>
+              <th scope="col">{% translate "Filename" %}</th>
+              <th scope="col">{% translate "Submitted by" %}</th>
+              <th scope="col">{% translate "Status" %}</th>
+              <th scope="col">{% translate "Processed rows" %}</th>
+              <th scope="col">{% translate "Matching rows" %}</th>
+              <th scope="col">{% translate "Affected accounts" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for report in page %}
+              <tr>
+                <td><a href="{{ report.get_absolute_url }}">{{ report.created }}</a></td>
+                <td>{% if report.filename %}{{ report.filename }}{% else %}{% translate "Not recorded" %}{% endif %}</td>
+                <td>{% if report.actor %}{{ report.actor.username }}{% else %}{% translate "Deleted administrator" %}{% endif %}</td>
+                <td>{{ report.get_state_display }}</td>
+                <td>{% blocktranslate with processed=report.processed total=report.total %}{{ processed }} of {{ total }}{% endblocktranslate %}</td>
+                <td>{{ report.matching_rows|default_if_none:'—' }}</td>
+                <td>{{ report.affected_accounts|default_if_none:'—' }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7">{% translate "No validation reports yet." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p>{% blocktranslate with number=page.number total=page.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}</p>
+      {% if page.has_previous %}
+        <a class="btn btn-default" href="?page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      {% if page.has_next %}
+        <a class="btn btn-default" href="?page={{ page.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

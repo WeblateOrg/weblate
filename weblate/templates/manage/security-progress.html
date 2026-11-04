@@ -1,0 +1,39 @@
+{% extends "manage/security-base.html" %}
+
+{% load i18n static %}
+
+{% block extra_script %}
+  <script defer src="{% static 'js/account-security.js' %}"></script>
+{% endblock extra_script %}
+
+{% block content %}
+  <div class="card" data-security-progress="{{ progress_url }}">
+    <div class="card-header">
+      <h1 class="card-title">{% translate "Account security operation" %}</h1>
+    </div>
+    <div class="card-body" role="status" aria-live="polite">
+      {% if scan.state == "failed" %}
+        <p class="alert alert-danger">{{ error }}</p>
+      {% else %}
+        <p data-security-count>{% blocktranslate with processed=scan.processed total=scan.total %}Processed {{ processed }} of {{ total }} entries.{% endblocktranslate %}</p>
+        <p data-security-error class="alert alert-danger" hidden></p>
+        <div class="progress">
+          <div class="progress-bar"
+               role="progressbar"
+               aria-label="{% translate 'Processing progress' %}"
+               aria-valuenow="{{ scan.progress }}"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               style="width: {{ scan.progress }}%">{{ scan.progress }}%</div>
+        </div>
+      {% endif %}
+      <p>
+        <label>
+          <input type="checkbox" data-security-follow checked>
+          {% translate "Continue after completion" %}
+        </label>
+      </p>
+      <p><a href="{{ request.get_full_path }}">{% translate "Refresh progress" %}</a></p>
+    </div>
+  </div>
+{% endblock content %}

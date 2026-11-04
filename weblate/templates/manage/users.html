@@ -132,4 +132,17 @@
     </form>
   {% endif %}
 
+  {% if can_edit_users %}
+    <div class="card" id="account-security">
+      <div class="card-header">
+        <h2 class="card-title">{% translate "Account security" %}</h2>
+      </div>
+      <div class="card-body">
+        {% if security_report_available %}<p><a href="{% url 'manage-security' %}">{% blocktranslate %}Security report ({{ security_findings_open }} open findings){% endblocktranslate %}</a></p>{% endif %}
+        <p>{% translate "Validate a CSV report of leaked credentials against current account passwords." %}</p>
+        <a class="btn btn-primary"
+           href="{% url 'manage-security-upload' %}">{% translate "Validate leaked passwords" %}</a>
+      </div>
+    </div>
+  {% endif %}
 {% endblock content %}

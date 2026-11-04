@@ -37,6 +37,7 @@ from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTa
 from lxml import html
 
 from weblate.accounts.models import AuditLog
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Invitation, Permission, Role
 from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.metrics.models import Metric
@@ -703,6 +704,60 @@ class ManagementAccessControlTest(ViewTestCase):
 
         response = self.client.get(reverse("manage-users-check"), {"q": email})
         self.assertEqual(response.status_code, 403)
+
+    def test_user_list_verifies_before_rendering_and_preserves_query(self) -> None:
+        self.grant_global_permissions("management.use", "user.view")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT)
+        session.save()
+        url = f"{reverse('manage-users')}?q=testuser&page=1"
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            urlparse(response["Location"]).path, reverse("first-factor-verify")
+        )
+        self.assertEqual(parse_qs(urlparse(response["Location"]).query)["next"], [url])
+        self.assertNotContains(response, "Manage users", status_code=302)
+        response = self.client.post(
+            response["Location"],
+            {"target": "sensitive", "next": url, "password": "testpassword"},
+        )
+        self.assertRedirects(response, url)
+        response = self.client.get(url)
+        self.assertContains(response, "Manage users")
+        self.assertNotContains(response, "Add new user")
+
+    def test_user_list_checks_permission_before_verification(self) -> None:
+        self.grant_global_permissions("management.use")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT)
+        session.save()
+
+        self.assert_forbidden("manage-users")
+
+    def test_user_invitations_require_unexpired_verification(self) -> None:
+        self.grant_global_permissions("management.use", "user.edit")
+        self.assertContains(self.client.get(reverse("manage-users")), "Add new user")
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
+        session.save()
+        count = Invitation.objects.count()
+        group = Group.objects.get(name="Users")
+
+        for data in (
+            {"email": "expired-single@example.net", "group": group.pk},
+            {"emails": "expired-bulk@example.net", "group": group.pk},
+        ):
+            with self.subTest(data=data):
+                response = self.client.post(reverse("manage-users"), data)
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(
+                    urlparse(response["Location"]).path, reverse("first-factor-verify")
+                )
+                self.assertEqual(Invitation.objects.count(), count)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_user_edit_allows_user_changes(self) -> None:
         self.grant_global_permissions("management.use", "user.view", "user.edit")

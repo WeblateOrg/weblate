@@ -5,8 +5,9 @@
 from __future__ import annotations
 
 import json
+import uuid
 from typing import TYPE_CHECKING, ClassVar, TypedDict
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin
 
 import dateutil.parser
 from appconf import AppConf
@@ -15,6 +16,7 @@ from django.contrib.admin import ModelAdmin
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -44,6 +46,130 @@ if TYPE_CHECKING:
     from weblate.utils.backup import (
         BorgResult,
     )
+
+
+class SecurityScan(models.Model):
+    """Credential-free state of an account security operation."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    actor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    filename = models.CharField(max_length=255, blank=True, default="")
+    operation = models.CharField(max_length=20, default="validate")
+    finding_type = models.CharField(max_length=50, default="leaked-password")
+    state = models.CharField(max_length=20, default="pending", db_index=True)
+    created = models.DateTimeField(default=timezone.now)
+    completed = models.DateTimeField(null=True)
+    processed = models.PositiveIntegerField(default=0)
+    total = models.PositiveIntegerField(default=0)
+    summary = models.JSONField(default=dict)
+    error = models.TextField(default="")
+
+    def __str__(self) -> str:
+        return f"{self.operation}: {self.pk}"
+
+    def get_absolute_url(self) -> str:
+        parameter = "scan" if self.operation == "validate" else "operation"
+        return f"{reverse('manage-security')}?{urlencode({parameter: self.pk})}"
+
+    def get_state_display(self) -> str:
+        return str(
+            {
+                "configuring": gettext_lazy("Configuring"),
+                "pending": gettext_lazy("Pending"),
+                "running": gettext_lazy("Running"),
+                "completed": gettext_lazy("Completed"),
+                "failed": gettext_lazy("Failed"),
+            }.get(self.state, self.state)
+        )
+
+    @property
+    def matching_rows(self) -> int | None:
+        return self.summary.get("matched", 0 if self.state == "completed" else None)
+
+    @property
+    def affected_accounts(self) -> int | None:
+        return self.summary.get("accounts", 0 if self.state == "completed" else None)
+
+    @property
+    def progress(self) -> int:
+        if self.state == "completed":
+            return 100
+        return min(99, self.processed * 100 // self.total) if self.total else 0
+
+
+class SecurityFinding(models.Model):
+    """A typed account security issue, without authentication secrets."""
+
+    if TYPE_CHECKING:
+        type_label: object
+        display_matches: list[dict]
+        match_count: int
+
+    class Status(models.TextChoices):
+        OPEN = "open", gettext_lazy("Open")
+        RESOLVED = "resolved", gettext_lazy("Resolved")
+        DISMISSED = "dismissed", gettext_lazy("Dismissed")
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    finding_type = models.CharField(max_length=50)
+    key = models.CharField(max_length=64)
+    evidence = models.JSONField(default=dict)
+    status = models.CharField(max_length=10, choices=Status, default=Status.OPEN)
+    first_seen = models.DateTimeField(default=timezone.now)
+    last_seen = models.DateTimeField(default=timezone.now)
+    handled_at = models.DateTimeField(null=True)
+
+    class Meta:
+        constraints: ClassVar = [
+            models.UniqueConstraint(
+                fields=["user", "finding_type", "key"], name="security_finding_identity"
+            ),
+        ]
+        indexes: ClassVar = [models.Index(fields=["status", "finding_type"])]
+
+    def __str__(self) -> str:
+        return f"{self.finding_type}: {self.user_id}"
+
+
+class SecurityFindingEvent(models.Model):
+    finding = models.ForeignKey(
+        SecurityFinding, on_delete=models.CASCADE, related_name="events"
+    )
+    scan = models.ForeignKey(SecurityScan, on_delete=models.CASCADE)
+    actor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    action = models.CharField(max_length=20)
+    timestamp = models.DateTimeField(default=timezone.now)
+    reason = models.CharField(max_length=50, default="")
+    evidence = models.JSONField(default=dict)
+
+    class Meta:
+        constraints: ClassVar = [
+            models.UniqueConstraint(
+                fields=["finding", "scan", "action"],
+                name="security_finding_event_identity",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.action}: {self.finding_id}"
+
+    def get_action_display(self) -> str:
+        return str(
+            {
+                "detected": gettext_lazy("Detected"),
+                "resolved": gettext_lazy("Resolved"),
+                "dismissed": gettext_lazy("Dismissed"),
+            }.get(self.action, self.action)
+        )
+
+    def get_reason_display(self) -> str:
+        return str(
+            {
+                "dismissed": gettext_lazy("Dismissed by administrator"),
+                "password-reset": gettext_lazy("Password reset"),
+                "password-changed": gettext_lazy("Password already changed"),
+            }.get(self.reason, self.reason)
+        )
 
 
 class WeblateConf(AppConf):
@@ -99,6 +225,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C045",
             "weblate.C047",
             "weblate.C051",
+            "weblate.W052",
         }
         retired_checks = {
             "weblate.C046",
