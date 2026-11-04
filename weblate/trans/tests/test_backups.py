@@ -2720,6 +2720,30 @@ class BackupsTest(ReusableViewTestCase):
         ):
             ProjectBackup(temp_name).validate()
 
+    def test_restored_autogroup_invites_new_user(self) -> None:
+        team = Group.objects.create(
+            name="Automatic backup team", defining_project=self.project
+        )
+        team.roles.add(Role.objects.get(name="Administration"))
+        AutoGroup.objects.create(group=team, match="^.*$")
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored-auto", user=self.user
+        )
+        restored_team = restored.defined_groups.get(name=team.name)
+        with (
+            self.captureOnCommitCallbacks(execute=True),
+            patch("weblate.auth.models.Invitation.send_email"),
+        ):
+            user = User.objects.create_user("backup-new-user", "backup-new@example.com")
+        self.assertFalse(user.groups.filter(pk=restored_team.pk).exists())
+        invitation = user.invitation_set.get(group=restored_team)
+        self.assertTrue(invitation.automatic)
+        self.assertFalse(user.has_perm("project.permissions", restored))
+
     def test_restore_duplicate_teams_preserves_settings(self) -> None:
         teams = Group.objects.bulk_create(
             [
