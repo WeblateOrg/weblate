@@ -73,6 +73,9 @@ CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
+# Fail tests when crispy layouts reference missing or duplicate form fields.
+CRISPY_FAIL_SILENTLY = False
+
 # Enable lazy stats for testing
 STATS_LAZY = True
 
