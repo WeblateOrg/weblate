@@ -15,7 +15,9 @@ from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.core.files.base import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase
 from PIL import Image
 
@@ -48,6 +50,7 @@ from weblate.fonts.utils import (
     get_font_name,
     get_font_weight,
 )
+from weblate.fonts.validators import validate_font
 
 if TYPE_CHECKING:
     from matplotlib.font_manager import FontProperties
@@ -614,6 +617,59 @@ class RenderTest(SimpleTestCase):
         self.assertEqual(image.size[1], pixel_size.height)
         self.assertGreater(image.size[0], 50)
         self.assertGreater(image.size[1], 10)
+
+
+class FontContentTest(SimpleTestCase):
+    def test_unsupported_content_does_not_reach_parser(self) -> None:
+        for content in (
+            b"",
+            b"\x00\x01\x00",
+            b"OTT",
+            b"wOF2" + bytes(44),
+            b"wOFF" + bytes(40),
+            b"ttcf" + bytes(12),
+            b"true" + bytes(12),
+            b"typ1" + bytes(12),
+            b"invalid font",
+        ):
+            for extension in ("ttf", "otf"):
+                with (
+                    self.subTest(content=content, extension=extension),
+                    patch("weblate.fonts.utils.ImageFont.truetype") as parser,
+                ):
+                    uploaded = SimpleUploadedFile(f"font.{extension}", content)
+                    with self.assertRaises(OSError):
+                        get_font_name(uploaded)
+                    with self.assertRaisesMessage(
+                        ValidationError, "Unsupported file format."
+                    ):
+                        validate_font(uploaded)
+                    parser.assert_not_called()
+                    self.assertEqual(uploaded.tell(), 0)
+
+    def test_supported_signatures_reach_parser(self) -> None:
+        for signature in (b"\x00\x01\x00\x00", b"OTTO"):
+            with (
+                self.subTest(signature=signature),
+                patch("weblate.fonts.utils.ImageFont.truetype") as parser,
+            ):
+                content = signature + b"font data"
+                uploaded = SimpleUploadedFile("font.ttf", content)
+                parser.return_value.getname.return_value = ("Family", "Regular")
+
+                self.assertEqual(get_font_name(uploaded), ("Family", "Regular"))
+                parser.assert_called_once()
+                self.assertEqual(parser.call_args.args[0].getvalue(), content)
+                self.assertEqual(uploaded.tell(), 0)
+
+    def test_malformed_supported_content_is_rejected(self) -> None:
+        for signature in (b"\x00\x01\x00\x00", b"OTTO"):
+            with self.subTest(signature=signature):
+                uploaded = SimpleUploadedFile("font.ttf", signature)
+                with self.assertRaisesMessage(
+                    ValidationError, "Unsupported file format."
+                ):
+                    validate_font(uploaded)
 
 
 class FontNameTest(FontComponentTestCase):
