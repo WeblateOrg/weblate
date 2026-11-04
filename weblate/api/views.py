@@ -75,7 +75,7 @@ from weblate.accounts.visibility import (
     can_manage_users,
     can_view_contributor,
     check_profile_access,
-    contributor_translation_ids,
+    contributor_translations,
     filter_contributor_changes,
     is_resource_bounded,
 )
@@ -1679,19 +1679,16 @@ class UserViewSet(SensitiveSessionMutationMixin, viewsets.ModelViewSet):
         renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
     )
     def contributions(self, request: Request, **kwargs):
-        user_translation_ids = set(
+        user_translation_ids = (
             Change.objects.content()
             .filter(user=self.get_object())
-            .values_list("translation", flat=True)
+            .order_by()
+            .values("translation")
         )
         user_translations = (
-            Translation.objects.filter_access(get_request_user(request))
+            contributor_translations(get_request_user(request))
             .prefetch()
-            .filter(
-                id__in=set(user_translation_ids).intersection(
-                    contributor_translation_ids(get_request_user(request))
-                ),
-            )
+            .filter(id__in=user_translation_ids)
             .order()
         )
 
