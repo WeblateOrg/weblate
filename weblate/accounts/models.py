@@ -501,7 +501,7 @@ ACCOUNT_ACTIVITY_METHOD = {
 
 EXTRA_MESSAGES = {
     "password-leak": gettext_lazy(
-        "Reset your password to restore password access. Choose a unique password and review your account activity. This report does not establish where the credential was exposed."
+        "Reset your password to restore password access. Choose a unique password and review your account activity. The report didn't disclose the source of the leak."
     ),
     # Translators: Audit log hint
     "locked": gettext_lazy(
