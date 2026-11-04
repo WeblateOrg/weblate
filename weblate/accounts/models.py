@@ -326,7 +326,7 @@ EXTERNAL_CREATE_ACTIVITY = "external-create"
 
 ACCOUNT_ACTIVITY = {
     "password-leak": gettext_lazy(
-        "Password disabled and API tokens revoked because a reported leaked credential matched your password."
+        "Password disabled as reported leaked credential matched the password; API tokens revoked."
     ),
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
