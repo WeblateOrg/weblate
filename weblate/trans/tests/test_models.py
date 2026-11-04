@@ -11,6 +11,7 @@ import os
 from contextlib import ExitStack
 from datetime import timedelta
 from itertools import product
+from time import monotonic
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
@@ -2050,6 +2051,37 @@ class TranslationTest(RepoTestCase):
             .target,
         )
 
+    def test_fluent_hostile_translation_is_handled(self) -> None:
+        """Hostile content must not stall or fail a save or a commit."""
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+
+        select = "{ $x ->\n    [a] A\n   *[b] B\n} "
+        started = monotonic()
+        unit.translate(user, select * 38, STATE_APPROVED)
+        self.assertLess(monotonic() - started, 30)
+        self.assertIn("fluent-references", unit.all_checks_names)
+
+        # Exceeds the recursion limit of the parser.
+        payload = "{" * 300 + '"x"' + "}" * 300
+        unit = translation.unit_set.get(pk=unit.pk)
+        unit.translate(user, payload, STATE_APPROVED)
+        self.assertIn("fluent-target-syntax", unit.all_checks_names)
+
+        for check in unit.all_checks:
+            self.assertTrue(check.get_description())
+
+        with (
+            patch("weblate.trans.models.translation.log_handled_exception") as mock_log,
+            patch("weblate.trans.models.translation.report_error") as mock_report,
+        ):
+            component.commit_pending("test", None)
+        mock_log.assert_called_once()
+        mock_report.assert_not_called()
+        self.assertIsNotNone(translation.store)
+
     def test_commit_retry_unit_unexpected_error_reports(self) -> None:
         """Unexpected unit update errors should continue to go through report_error."""
         user = create_test_user()
@@ -2220,7 +2252,8 @@ class ComponentListTest(RepoTestCase):
 class ModelTestCase(RepoTestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component = self.create_component()
 
 
 class SourceUnitTest(ModelTestCase):

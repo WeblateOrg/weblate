@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager, nullcontext
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 
@@ -16,7 +16,11 @@ from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.checks.base import BatchCheckMixin
-from weblate.checks.locks import check_project_session_read_lock
+from weblate.checks.locks import (
+    check_boundary_lock,
+    check_component_session_read_lock,
+    check_project_session_read_lock,
+)
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.propagation import (
@@ -161,10 +165,7 @@ def _coalesce_component_check_batches(*, using: str, start: int) -> None:
             current_checks.update(checks)
     connection.run_on_commit = keep
     for batch in pending.values():
-        if batch.inline:
-            batch()
-        else:
-            transaction.on_commit(batch, using=using)
+        transaction.on_commit(batch, using=using)
 
 
 class PropagatedCheckGroup(TypedDict):
@@ -351,7 +352,7 @@ def refresh_propagated_checks(
         )
         if project is None:
             return
-        with project.propagation_checks_lock:
+        with check_boundary_lock(project):
             _refresh_propagated_checks(project, groups, unit_ids)
 
 
@@ -473,18 +474,48 @@ def finalize_component_checks(
         return
     if component is None:
         try:
-            component = Component.objects.get(pk=component_id)
+            component = Component.objects.select_related("project__workspace").get(
+                pk=component_id
+            )
         except Component.DoesNotExist:
             return
-    with component.checks_lock:
-        previous_source_checks = component.refresh_peer_source_checks
-        component.refresh_peer_source_checks = refresh_source_checks
-        component.batch_checks = batch_mode
-        component.batched_checks = set(checks)
+    with ExitStack() as stack:
         try:
-            _run_component_checks(component, unit_ids)
-        finally:
-            component.batch_checks = False
-            component.batched_checks = set()
-            component.refresh_peer_source_checks = previous_source_checks
-        component.invalidate_cache()
+            stack.enter_context(check_component_session_read_lock(component))
+        except Component.DoesNotExist:
+            return
+        boundary_lock = (
+            check_boundary_lock(component.project)
+            if component.allow_translation_propagation
+            and (unit_ids or any(CHECKS[name].batch_project_wide for name in checks))
+            else nullcontext()
+        )
+        with boundary_lock, component.checks_lock:
+            _finalize_component_checks(
+                component,
+                unit_ids,
+                checks,
+                batch_mode=batch_mode,
+                refresh_source_checks=refresh_source_checks,
+            )
+
+
+def _finalize_component_checks(
+    component: Component,
+    unit_ids: list[int],
+    checks: list[str],
+    *,
+    batch_mode: bool,
+    refresh_source_checks: bool,
+) -> None:
+    previous_source_checks = component.refresh_peer_source_checks
+    component.refresh_peer_source_checks = refresh_source_checks
+    component.batch_checks = batch_mode
+    component.batched_checks = set(checks)
+    try:
+        _run_component_checks(component, unit_ids)
+    finally:
+        component.batch_checks = False
+        component.batched_checks = set()
+        component.refresh_peer_source_checks = previous_source_checks
+    component.invalidate_cache()

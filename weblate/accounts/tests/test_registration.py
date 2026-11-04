@@ -590,6 +590,10 @@ class EmailLinkingTest(TestCase):
         )
         VerifiedEmail.objects.create(social=social, email="secondary@example.net")
         self.client.force_login(self.user)
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "secret"},
+        )
         self.original_identities = set(
             self.user.social_auth.values_list("pk", flat=True)
         )
@@ -733,6 +737,10 @@ class EmailLinkingTest(TestCase):
     def test_unavailable_recovery(self) -> None:
         self.client.force_login(
             self.user, backend="weblate.accounts.auth.WeblateUserBackend"
+        )
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "secret"},
         )
         with self.captureOnCommitCallbacks(execute=True):
             self.client.post(reverse("email_login"), {"email": self.owner.email})
@@ -2834,6 +2842,10 @@ class InvitationRaceTest(TestCase):
 
     def test_remove_request_after_accept(self) -> None:
         self.client.force_login(self.author)
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "x"},
+        )
         self.invitation.accept(None, self.invited_user)
 
         response = self.post_with_stale_invitation({"action": "remove"})

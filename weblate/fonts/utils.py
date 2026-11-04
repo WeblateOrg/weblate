@@ -219,9 +219,15 @@ def check_render_size(
 
 def get_font_name(filelike: FieldFile | File) -> tuple[str, str]:
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
+    content = read_file_bytes(filelike)
+    # Check the content before native parsing: a renamed WOFF2 file would
+    # otherwise reach FreeType's Brotli decoder through Pillow.
+    if content[:4] not in {b"\x00\x01\x00\x00", b"OTTO"}:
+        msg = "Unsupported font file signature"
+        raise OSError(msg)
     # Parse fonts from in-memory bytes so Pillow does not keep the original
     # file descriptor alive after validation.
-    family, style = ImageFont.truetype(BytesIO(read_file_bytes(filelike))).getname()
+    family, style = ImageFont.truetype(BytesIO(content)).getname()
     if family is None or style is None:
         msg = "Font does not provide family and style names"
         raise OSError(msg)

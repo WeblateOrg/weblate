@@ -14,8 +14,9 @@ import inspect
 import os
 import re
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
+from codecs import BOM_UTF16_LE, BOM_UTF32_LE, lookup
 from copy import copy, deepcopy
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
@@ -37,6 +38,7 @@ from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
 from translate.storage.csvl10n import csvfile, csvunit
+from translate.storage.fluent import FluentContentError
 from translate.storage.jsonl10n import (
     ARBJsonFile,
     BaseJsonUnit,
@@ -93,6 +95,7 @@ from weblate.trans.file_format_params import (
     GettextRemoveObsolete,
     GettextXGenerator,
     XliffPlaceables,
+    XMLFinalNewline,
     XMLWhitespaceHandling,
     get_effective_params_for_file_format,
     get_encoding_param,
@@ -108,6 +111,7 @@ from weblate.utils.commands import get_clean_env
 from weblate.utils.csv import csv_starts_with_formula
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.fluent import fluent_ast_is_too_complex
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -498,9 +502,33 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
     plural_preference: tuple[int, ...] | None = (Plural.SOURCE_CLDR,)
 
     @staticmethod
-    def serialize(store):
+    def serialize(
+        store: TranslationStore, file_format_params: FileFormatParams | None = None
+    ) -> bytes:
         """Serialize given Translate Toolkit store."""
-        return bytes(store)
+        result = bytes(store)
+        newline = XMLFinalNewline.get_value(file_format_params)
+        if not isinstance(store, LISAfile) or newline == "default":
+            return result
+
+        # Change only the encoded suffix, preserving the rest of the output,
+        # including its BOM and the byte order of UTF-16 and UTF-32 files.
+        encoding = lookup(store.encoding).name
+        if encoding == "utf-16":
+            encoding = "utf-16-le" if result.startswith(BOM_UTF16_LE) else "utf-16-be"
+        elif encoding == "utf-32":
+            encoding = "utf-32-le" if result.startswith(BOM_UTF32_LE) else "utf-32-be"
+        elif encoding == "utf-8-sig":
+            encoding = "utf-8"
+        text = result.decode(encoding)
+        stripped = text.rstrip("\r\n")
+        suffix_length = len(text[len(stripped) :].encode(encoding))
+        if suffix_length:
+            result = result[:-suffix_length]
+        if newline == "include":
+            endings = re.findall(r"\r\n|\r|\n", text)
+            result += (endings[-1] if endings else "\n").encode(encoding)
+        return result
 
     def fixup(self, store) -> None:
         """Perform optional fixups on store."""
@@ -578,7 +606,13 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        self.store.serialize(handle)
+        if (
+            isinstance(self.store, LISAfile)
+            and XMLFinalNewline.get_value(self.file_format_params) != "default"
+        ):
+            handle.write(self.serialize(self.store, self.file_format_params))
+        else:
+            self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -720,13 +754,21 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             if callback:
                 callback(store)
             store.untranslate_store(language, file_format_params=file_format_params)
-            store.store.savefile(filename)
+            if isinstance(store.store, LISAfile):
+                with open(filename, "wb") as handle:
+                    store.save_content(handle)
+            else:
+                store.store.savefile(filename)
         elif cls.empty_file_template is not None:
-            Path(filename).write_bytes(
-                cls.get_new_file_content(
-                    get_encoding_param(cls.format_id, file_format_params)
-                )
+            content = cls.get_new_file_content(
+                get_encoding_param(cls.format_id, file_format_params)
             )
+            if issubclass(cls, TTKitFormat) and issubclass(cls.get_class(), LISAfile):
+                store = cls(BytesIO(content), file_format_params=file_format_params)
+                with open(filename, "wb") as handle:
+                    store.save_content(handle)
+            else:
+                Path(filename).write_bytes(content)
         else:
             msg = "Not supported"
             raise ValueError(msg)
@@ -3884,13 +3926,23 @@ class FluentUnit(MonolingualSimpleUnit):
         super().set_target(target)
         self.unit.source = target
         try:
-            # This triggers serialization discovering any syntax issues
-            self.unit.to_entry()
+            self._validate_entry()
         except Exception:
             # Restore previous content
             self.unit.target = old_target
             self.unit.source = old_source
             raise
+
+    def _validate_entry(self) -> None:
+        """Ensure the content can be written and read back."""
+        msg = "The value is too complex or nested too deeply"
+        try:
+            # This triggers serialization discovering any syntax issues
+            entry = self.unit.to_entry()
+        except RecursionError as error:
+            raise FluentContentError(msg) from error
+        if entry is not None and fluent_ast_is_too_complex(entry):
+            raise FluentContentError(msg)
 
     @cached_property
     def flags(self):

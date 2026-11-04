@@ -6,9 +6,11 @@ from __future__ import annotations
 
 import itertools
 import re
+from time import monotonic
 from typing import TYPE_CHECKING, ClassVar
 
 from django.test import SimpleTestCase
+from translate.storage.fluent import FluentUnit
 
 from weblate.checks.flags import Flags
 from weblate.checks.fluent.inner_html import (
@@ -21,9 +23,22 @@ from weblate.checks.fluent.syntax import (
     FluentSourceSyntaxCheck,
     FluentTargetSyntaxCheck,
 )
+from weblate.checks.fluent.utils import (
+    MAX_FLUENT_DESCRIPTION_ERRORS,
+    MAX_FLUENT_HIGHLIGHT_PATTERNS,
+    MAX_FLUENT_VARIANTS,
+    MAX_FLUENT_VARIANTS_LENGTH,
+    FluentComplexityError,
+    FluentPatterns,
+    _count_variants,
+    bounded_branch_paths,
+)
 from weblate.trans.tests.factories import make_check, make_unit
+from weblate.utils.fluent import MAX_FLUENT_AST_DEPTH, MAX_FLUENT_SELECT_EXPRESSIONS
 
 if TYPE_CHECKING:
+    from translate.storage.fluent import FluentSelectorBranch
+
     from weblate.checks.base import BaseCheck, SourceCheck, TargetCheck
     from weblate.trans.models import Unit
 
@@ -2941,3 +2956,225 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                     (80, "<br\t/>"),
                 ],
             )
+
+
+def fluent_select() -> str:
+    return "{ $x ->\n    [a] A\n   *[b] B\n} "
+
+
+def nested_select(depth: int) -> str:
+    value = "x"
+    for _level in range(depth):
+        value = f"{{ $x ->\n    [a] {value}\n   *[b] y\n}}"
+    return value
+
+
+class FluentResourceLimitsTest(SimpleTestCase):
+    """Ensure hostile strings can neither stall nor crash the Fluent checks."""
+
+    SOURCE_CHECKS: ClassVar[list[SourceCheck]] = [
+        FluentSourceSyntaxCheck(),
+        FluentSourceInnerHTMLCheck(),
+    ]
+    TARGET_CHECKS: ClassVar[list[TargetCheck]] = [
+        FluentTargetSyntaxCheck(),
+        FluentPartsCheck(),
+        FluentReferencesCheck(),
+        FluentTargetInnerHTMLCheck(),
+    ]
+
+    def run_all_checks(self, source: str, target: str) -> set[str]:
+        """Run the checks the way saving and viewing a string does."""
+        unit = make_fluent_unit(source, target)
+        failing = set()
+        for source_check in self.SOURCE_CHECKS:
+            if source_check.check_source_unit([source], unit):
+                failing.add(source_check.check_id)
+                source_check.get_description(make_check(unit, source_check))
+        for target_check in self.TARGET_CHECKS:
+            if target_check.check_single(source, target, unit):
+                failing.add(target_check.check_id)
+                target_check.get_description(make_check(unit, target_check))
+            target_check.check_highlight(source, unit)
+            target_check.check_highlight(target, unit)
+        return failing
+
+    def test_variant_count(self) -> None:
+        for source in (
+            "plain",
+            fluent_select(),
+            fluent_select() * 3,
+            nested_select(3),
+            nested_select(2) + fluent_select() * 2,
+            "{ $x ->\n    [a] A\n    [b] B\n   *[c] { $y ->\n"
+            "        [d] D\n       *[e] E\n    }\n} " + fluent_select(),
+        ):
+            parts = FluentUnit(source=source).get_parts()
+            assert parts is not None
+            branch = parts[0].top_branch
+            self.assertEqual(
+                _count_variants(branch), sum(1 for _path in branch.branch_paths())
+            )
+
+    def test_bounded_paths(self) -> None:
+        def get_branch(source: str) -> FluentSelectorBranch:
+            parts = FluentUnit(source=source).get_parts()
+            assert parts is not None
+            return parts[0].top_branch
+
+        self.assertEqual(
+            len(list(bounded_branch_paths(get_branch(fluent_select() * 8), 200))),
+            MAX_FLUENT_VARIANTS,
+        )
+        with self.assertRaises(FluentComplexityError):
+            bounded_branch_paths(get_branch(fluent_select() * 9), 200)
+        with self.assertRaises(FluentComplexityError):
+            bounded_branch_paths(
+                get_branch(fluent_select()), MAX_FLUENT_VARIANTS_LENGTH
+            )
+        # Long strings without variants are not multiplied.
+        self.assertEqual(
+            len(list(bounded_branch_paths(get_branch("x"), 10 * 1000 * 1000))), 1
+        )
+
+    def test_exponential_variants(self) -> None:
+        # Would be 2^38 variants when enumerated.
+        for count in (9, 16, 20, 38):
+            payload = fluent_select() * count
+            started = monotonic()
+            failing = self.run_all_checks("hello", payload)
+            self.assertLess(monotonic() - started, 5)
+            self.assertIn("fluent-references", failing)
+            self.assertIn("fluent-target-inner-html", failing)
+            self.assertNotIn("fluent-target-syntax", failing)
+
+            started = monotonic()
+            failing = self.run_all_checks(payload, "hello")
+            self.assertLess(monotonic() - started, 5)
+            self.assertIn("fluent-source-inner-html", failing)
+            self.assertIn("fluent-references", failing)
+
+    def test_complexity_description(self) -> None:
+        payload = fluent_select() * 16
+        unit = make_fluent_unit("hello", payload)
+        for check in (FluentReferencesCheck(), FluentTargetInnerHTMLCheck()):
+            self.assertIn(
+                "too complex", str(check.get_description(make_check(unit, check)))
+            )
+        unit = make_fluent_unit(payload, "hello", is_source=True)
+        source_check = FluentSourceInnerHTMLCheck()
+        self.assertIn(
+            "too complex",
+            str(source_check.get_description(make_check(unit, source_check))),
+        )
+
+    def test_too_many_selectors(self) -> None:
+        # Each of these has a single variant.
+        select = "{ $x ->\n   *[a] A\n} "
+        allowed = select * MAX_FLUENT_SELECT_EXPRESSIONS
+        self.assertEqual(self.run_all_checks(allowed, allowed), set())
+        self.assertIn(
+            "fluent-target-syntax",
+            self.run_all_checks(allowed, select * (MAX_FLUENT_SELECT_EXPRESSIONS + 1)),
+        )
+
+    def test_deep_nesting_never_raises(self) -> None:
+        for depth in (*range(10, 260, 10), 300, 1000):
+            with self.subTest(depth=depth):
+                for payload in (
+                    "{" * depth + '"x"' + "}" * depth,
+                    "{ " + "A(" * depth + "$x" + ")" * depth + " }",
+                    "{ " + "A({ " * depth + "$x" + " })" * depth + " }",
+                    nested_select(depth),
+                ):
+                    self.run_all_checks("hello", payload)
+                    self.run_all_checks(payload, "hello")
+                    self.run_all_checks(payload, payload)
+
+    def test_nesting_is_syntax_error(self) -> None:
+        check = FluentTargetSyntaxCheck()
+        allowed = (
+            "{" * (MAX_FLUENT_AST_DEPTH - 3) + '"x"' + "}" * (MAX_FLUENT_AST_DEPTH - 3)
+        )
+        self.assertFalse(check.check_single("hello", allowed, make_fluent_unit("h")))
+        for depth in (MAX_FLUENT_AST_DEPTH + 1, 300):
+            payload = "{" * depth + '"x"' + "}" * depth
+            unit = make_fluent_unit("hello", payload)
+            self.assertTrue(check.check_single("hello", payload, unit))
+            self.assertIn(
+                "nested too deeply", str(check.get_description(make_check(unit, check)))
+            )
+
+    def test_seven_nested_selects_allowed(self) -> None:
+        source = nested_select(7)
+        self.assertEqual(self.run_all_checks(source, source), set())
+
+    def test_huge_character_reference(self) -> None:
+        for payload in ("&#" + "1" * 5000 + ";", "&#" + "1" * 5000):
+            check = FluentTargetInnerHTMLCheck()
+            unit = make_fluent_unit("hello", payload)
+            self.assertTrue(check.check_single("hello", payload, unit))
+            self.assertIn(
+                "character reference",
+                str(check.get_description(make_check(unit, check))),
+            )
+
+    def test_html_depth(self) -> None:
+        check = FluentTargetInnerHTMLCheck()
+        allowed = "<a>" * 32 + "</a>" * 32
+        self.assertFalse(check.check_single(allowed, allowed, make_fluent_unit("h")))
+        for depth in (33, 40000):
+            payload = "<a>" * depth + "</a>" * depth
+            unit = make_fluent_unit("hello", payload)
+            self.assertTrue(check.check_single("hello", payload, unit))
+            self.assertIn(
+                "nested too deeply", str(check.get_description(make_check(unit, check)))
+            )
+
+    def test_large_strings(self) -> None:
+        count = 3000
+        for payload in (
+            "".join(f'<a x="{i}"></a>' for i in range(count)),
+            "".join(f"{{ $a{i} }} " for i in range(count)),
+            "".join(f"{{ -a{i} }} " for i in range(count)),
+            "x\n" + "\n".join(f".a{i} = x" for i in range(count)),
+            '{ "a" }<b>x</b>' * count,
+        ):
+            started = monotonic()
+            self.run_all_checks("hello", payload)
+            self.run_all_checks(payload, "hello")
+            self.assertLess(monotonic() - started, 30)
+
+    def test_description_is_bounded(self) -> None:
+        count = 2 * MAX_FLUENT_DESCRIPTION_ERRORS
+        payload = "".join(f"{{ $a{i} }} " for i in range(count))
+        check = FluentReferencesCheck()
+        unit = make_fluent_unit("hello", payload)
+        description = str(check.get_description(make_check(unit, check)))
+        self.assertEqual(description.count("<br"), MAX_FLUENT_DESCRIPTION_ERRORS - 1)
+
+    def test_highlight_is_bounded(self) -> None:
+        count = 5000
+        source = "".join(f"{{ $a{i} }} " for i in range(count))
+        check = FluentReferencesCheck()
+        started = monotonic()
+        highlights = check.check_highlight(source, make_fluent_unit(source))
+        self.assertLess(monotonic() - started, 10)
+        self.assertEqual(len(highlights), MAX_FLUENT_HIGHLIGHT_PATTERNS)
+        self.assertEqual(highlights[0].text, "{ $a0 }")
+        self.assertEqual(highlights[-1].text, f"{{ $a{len(highlights) - 1} }}")
+
+    def test_split_literal_expressions(self) -> None:
+        self.assertEqual(
+            list(
+                FluentPatterns.split_literal_expressions(
+                    'one { "abc" } two { "de" }{ 12 } three'
+                )
+            ),
+            [
+                (0, "one ", "abc"),
+                (13, " two ", "de"),
+                (26, "", "12"),
+                (32, " three", None),
+            ],
+        )

@@ -9,19 +9,23 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Added XML :ref:`file format parameters <file_format_params>` for UTF-8 byte order marks, declaration encoding case, and final newlines.
 * Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
 * :ref:`Automation <automation-workflows>` condition groups and branching actions can now be edited in the visual editor.
 * Removed per-event DNS lookups when reusing :ref:`fedora-messaging` publisher connections.
 
 .. rubric:: Security fixes
 
+* Restrict :ref:`font uploads <fonts>` to TrueType and OpenType content.
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.
 * Require recent credential verification for browser changes to access rights, user accounts, and project visibility; use a password or linked sign-in provider when two-factor authentication is absent. See :ref:`2fa`.
 * Prevented a removed invitation from granting access, including site-wide superuser status, when it was being accepted at the same time.
+* Prevented excessive CPU and memory use and failed saves in the :ref:`Fluent checks <check-fluent-references>` caused by strings with many variants or deep nesting. Strings exceeding the limits now fail the check.
 
 .. rubric:: Bug fixes
 
+* Fixed lock contention when updating :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` concurrently.
 * Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
 
 .. rubric:: Compatibility
