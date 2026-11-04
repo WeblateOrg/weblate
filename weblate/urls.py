@@ -49,6 +49,7 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
+import weblate.wladmin.security_views
 import weblate.wladmin.views
 import weblate.workspaces.views
 from weblate.auth.decorators import management_permission_required
@@ -1058,6 +1059,36 @@ real_patterns = [
         name="manage-addons",
     ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
+    path(
+        "manage/users/security/",
+        weblate.wladmin.security_views.security_findings,
+        name="manage-security",
+    ),
+    path(
+        "manage/users/security/reports/",
+        weblate.wladmin.security_views.security_reports,
+        name="manage-security-reports",
+    ),
+    path(
+        "manage/users/security/finding/<int:pk>/",
+        weblate.wladmin.security_views.security_finding_detail,
+        name="manage-security-detail",
+    ),
+    path(
+        "manage/users/security/upload/",
+        weblate.wladmin.security_views.security_upload,
+        name="manage-security-upload",
+    ),
+    path(
+        "manage/users/security/progress/<uuid:pk>/",
+        weblate.wladmin.security_views.security_progress,
+        name="manage-security-progress",
+    ),
+    path(
+        "manage/users/security/confirm/",
+        weblate.wladmin.security_views.security_confirm,
+        name="manage-security-confirm",
+    ),
     path(
         "manage/users/",
         weblate.wladmin.views.AdminUserList.as_view(),

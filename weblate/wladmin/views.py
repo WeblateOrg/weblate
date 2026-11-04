@@ -112,6 +112,8 @@ from weblate.wladmin.middleware import (
 from weblate.wladmin.models import (
     BackupService,
     ConfigurationError,
+    SecurityFinding,
+    SecurityScan,
     SupportStatus,
     get_support_url,
 )
@@ -855,11 +857,11 @@ class AdminUserList(UserList):
             request.user.has_perm("user.view") or request.user.has_perm("user.edit")
         ):
             raise PermissionDenied
+        if not has_recent_sensitive_verification(request):
+            return sensitive_verification_redirect(request, request.get_full_path())
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
-        if not has_recent_sensitive_verification(request):
-            return sensitive_verification_redirect(request, request.path)
         if "emails" in request.POST:
             bulk_invite_form = self.get_bulk_invite_form(request.POST)
             if bulk_invite_form.is_valid():
@@ -900,6 +902,17 @@ class AdminUserList(UserList):
 
         result["menu_items"] = MENU
         result["menu_page"] = "users"
+        result["security_report_available"] = can_edit_users and (
+            SecurityFinding.objects.exists()
+            or SecurityScan.objects.filter(operation="validate", total__gt=0)
+            .exclude(state="configuring")
+            .exists()
+        )
+        result["security_findings_open"] = (
+            SecurityFinding.objects.filter(status="open").count()
+            if can_edit_users
+            else 0
+        )
         result["can_edit_users"] = can_edit_users
         result["invite_form"] = invite_form
         result["bulk_invite_form"] = bulk_invite_form

@@ -59,7 +59,7 @@ class OutgoingEmail(TypedDict):
 
 def get_registration_attempt_password_reset_url(activity: str) -> str | None:
     """Return a password reset URL suitable for registration-attempt e-mails."""
-    if activity not in {"connect", "register"}:
+    if activity not in {"connect", "register", "password-leak"}:
         return None
     if settings.PASSWORD_RESET_URL:
         return settings.PASSWORD_RESET_URL

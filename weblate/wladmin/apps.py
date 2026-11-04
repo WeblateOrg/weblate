@@ -84,3 +84,25 @@ def check_support(
             f"Your support subscription has expired on {support_status.expiry.date().isoformat()}. Please renew it at https://weblate.org/user/ or contact Weblate care.",
         )
     ]
+
+
+@register(deploy=True)
+def check_account_security(**kwargs: object) -> Iterable[CheckMessage]:
+    from django.core.checks import Warning as DjangoWarning  # ruff: ignore[import-outside-top-level]
+    from django.db import connection  # ruff: ignore[import-outside-top-level]
+
+    from weblate.wladmin.models import SecurityFinding  # ruff: ignore[import-outside-top-level]
+
+    # Deployment checks can run before an upgrade has created the table.
+    if "wladmin_securityfinding" not in connection.introspection.table_names():
+        return []
+    count = SecurityFinding.objects.filter(status="open").count()
+    if not count:
+        return []
+    return [
+        weblate_check(
+            "weblate.W052",
+            f"There are {count} open account security findings. Review /manage/users/security/.",
+            DjangoWarning,
+        )
+    ]

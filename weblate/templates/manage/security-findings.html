@@ -1,0 +1,142 @@
+{% extends "manage/security-base.html" %}
+
+{% load i18n static %}
+
+{% block extra_script %}
+  <script defer src="{% static 'js/account-security.js' %}"></script>
+{% endblock extra_script %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">{% if source_report %}{{ report_title }}{% else %}{% translate "Account security findings" %}{% endif %}</h1>
+    </div>
+    <div class="card-body">
+      {% if not source_report %}
+        <p><a href="{% url 'manage-security-reports' %}">{% translate "Validation reports" %}</a></p>
+      {% endif %}
+      {% if source_report %}
+        <dl class="row">
+          <dt class="col-sm-3">{% translate "Filename" %}</dt>
+          <dd class="col-sm-9">{% if source_report.filename %}{{ source_report.filename }}{% else %}{% translate "Not recorded" %}{% endif %}</dd>
+          <dt class="col-sm-3">{% translate "Submitted by" %}</dt>
+          <dd class="col-sm-9">{% if source_report.actor %}{{ source_report.actor.username }}{% else %}{% translate "Deleted administrator" %}{% endif %}</dd>
+        </dl>
+      {% endif %}
+      {% if report %}
+        <h2>{% translate "Processing summary" %}</h2>
+        {% if report.state == "completed" %}
+          <p class="alert alert-success">
+            {% if report.operation == "validate" %}
+              {% translate "Password validation completed." %}
+            {% else %}
+              {% translate "Security action completed." %}
+            {% endif %}
+          </p>
+        {% elif report.state == "failed" %}
+          <p class="alert alert-danger">{% translate "Processing failed." %} {{ report_error }}</p>
+        {% else %}
+          <p class="alert alert-info">{% translate "Processing is not complete. Findings may still be added." %} <a href="{% url 'manage-security-progress' pk=report.pk %}">{% translate "View progress" %}</a></p>
+        {% endif %}
+        <p>{% blocktranslate with processed=report.processed total=report.total %}Processed {{ processed }} of {{ total }} entries.{% endblocktranslate %}</p>
+        {% if summary %}<dl class="row">{% for label, value in summary %}<dt class="col-sm-6">{{ label }}</dt><dd class="col-sm-6">{{ value }}</dd>{% endfor %}</dl>{% endif %}
+      {% endif %}
+      <form method="get" class="row g-3 align-items-end">
+        {% if scan %}<input type="hidden" name="scan" value="{{ scan.pk }}">{% endif %}
+        <div class="col-sm-5">
+          <label for="security-status">{% translate "Status" %}</label>
+          <select name="status" id="security-status" class="form-select">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>{% translate "All" %}</option>
+            {% for value, label in statuses %}<option value="{{ value }}"
+                                                      {% if status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <label for="security-type">{% translate "Finding type" %}</label>
+          <select name="type" id="security-type" class="form-select">
+            <option value="">{% translate "All" %}</option>
+            {% for value, handler in types.items %}<option value="{{ value }}"
+                                                           {% if kind == value %}selected{% endif %}>{{ handler.label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary">{% translate "Filter" %}</button>
+        </div>
+      </form>
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <div class="card-body">
+        {% if has_open_findings %}
+          <p>{% translate "Actions apply only to checked findings on this page." %}</p>
+
+          <button type="button"
+                  data-security-select="all"
+                  class="btn btn-default">{% translate "Select all on this page" %}</button>
+          <button type="button"
+                  data-security-select="none"
+                  class="btn btn-default">{% translate "Clear selection" %}</button>
+        {% endif %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">{% translate "Select" %}</th>
+                <th scope="col">{% translate "Account" %}</th>
+                <th scope="col">{% translate "Finding" %}</th>
+                <th scope="col">{% translate "Details" %}</th>
+                <th scope="col">{% translate "Status" %}</th>
+                <th scope="col">{% translate "Detected" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for finding in page %}
+                <tr>
+                  <td>{% if finding.status == "open" %}<input type="checkbox"
+                                                              name="selected"
+                                                              value="{{ finding.pk }}"
+                                                              id="finding-{{ finding.pk }}"
+                                                              checked><label class="visually-hidden" for="finding-{{ finding.pk }}">{% blocktranslate with username=finding.user.username %}Select finding for {{ username }}{% endblocktranslate %}</label>{% endif %}</td>
+                  <td><a href="{{ finding.user.get_absolute_url }}">{{ finding.user.username }}</a><br>{{ finding.user.email|default_if_none:'' }}{% if not finding.user.is_active %}<br>{% translate "Inactive" %}{% endif %}{% if finding.user.is_bot %}<br>{% translate "Bot" %}{% endif %}{% if not finding.user.email %}<br>{% translate "No e-mail address: notification unavailable" %}{% endif %}</td>
+                  <td>{{ finding.type_label }}</td>
+                  <td>{% for match in finding.display_matches %}{% blocktranslate with row=match.row identifier=match.identifier method=match.method %}Row {{ row }}: {{ identifier }} ({{ method }}){% endblocktranslate %}<br>{% endfor %}<a href="{% url 'manage-security-detail' pk=finding.pk %}{% if scan %}?scan={{ scan.pk }}{% endif %}">{% blocktranslate count count=finding.match_count %}View details ({{ count }} match){% plural %}View details ({{ count }} matches){% endblocktranslate %}</a></td>
+                  <td>{{ finding.get_status_display }}</td>
+                  <td>
+                    {% translate "First detected:" %} {{ finding.first_seen }}
+                    <br>
+                    {% translate "Last detected:" %} {{ finding.last_seen }}
+                    <details><summary>{% translate "History" %}</summary><ul>{% for event in finding.events.all %}<li>{% if event.action == "detected" and event.scan.operation == "validate" %}<a href="{{ event.scan.get_absolute_url }}">{{ event.timestamp }}</a>{% else %}{{ event.timestamp }}{% endif %}: {{ event.get_action_display }}{% if event.actor %} — {{ event.actor.username }}{% endif %}{% if event.reason %} ({{ event.get_reason_display }}){% endif %}</li>{% endfor %}</ul></details>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6">{% translate "No security findings match these filters." %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p>{% blocktranslate with number=page.number total=page.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}</p>
+        {% if page.has_previous %}
+          <a class="btn btn-default"
+             href="?{{ query }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+        {% endif %}
+        {% if page.has_next %}
+          <a class="btn btn-default"
+             href="?{{ query }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+        {% endif %}
+        {% if has_open_findings %}
+          <button type="submit"
+                  name="action"
+                  value="reset"
+                  class="btn btn-danger">{% translate "Reset passwords for selected accounts" %}</button>
+          <button type="submit"
+                  name="action"
+                  value="dismiss"
+                  class="btn btn-default">{% translate "Dismiss selected findings" %}</button>
+          <p class="form-text">{% translate "Dismissing findings marks them as reviewed without changing passwords or notifying users." %}</p>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+{% endblock content %}

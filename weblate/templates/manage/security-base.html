@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+  {% for label, url in security_breadcrumbs %}
+    {% if url %}
+      <li class="breadcrumb-item"><a href="{{ url }}">{{ label }}</a></li>
+    {% else %}
+      <li class="breadcrumb-item active" aria-current="page">{{ label }}</li>
+    {% endif %}
+  {% endfor %}
+{% endblock breadcrumbs %}

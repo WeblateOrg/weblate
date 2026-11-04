@@ -257,6 +257,11 @@ bulk invites also apply the selected superuser flag.
 
 .. _site-wide-user-management:
 
+Opening the :guilabel:`Users` page requires recent identity verification, including
+for users with read-only access. Weblate requests a second factor when configured,
+or an existing sign-in credential otherwise. Verification remains valid for ten
+minutes and is checked again when submitting changes.
+
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
 permission which allows editing user accounts across the whole instance. It
@@ -283,6 +288,68 @@ still created and sent.
 
    Weblate now does not automatically create accounts or add users to the
    teams. This is only done after confirmation from the user.
+
+.. _account-security-findings:
+
+Account security findings
++++++++++++++++++++++++++
+
+In :guilabel:`Manage` → :guilabel:`Users`, select :guilabel:`Validate leaked
+passwords` to upload a CSV report containing usernames or e-mail addresses and
+passwords. This requires the global ``user.edit`` permission and recent identity
+verification. Reports and findings are shared with other administrators who have
+this permission. Opening the security report or an individual finding also
+requires recent identity verification.
+
+The CSV upload form opens on a separate page after identity verification. If
+verification expires before the upload is submitted, confirm your identity again
+and select the file for another upload. Weblate does not retain uploads rejected
+because verification expired.
+
+Weblate detects common delimiters and credential column names automatically.
+If detection fails, configure the delimiter, whether the file has a header, and
+the column numbers, starting from one. Use UTF-8 files of at most 10 MiB and
+50,000 data rows. The uploaded file remains available for configuration for one
+hour. Validation runs in the background and redirects to stored findings when
+complete. The summary counts unknown or ambiguous accounts, unusable passwords,
+malformed or duplicate entries, and matching or nonmatching passwords.
+
+Identifiers are matched against exact usernames, primary e-mail addresses, and
+verified secondary e-mail addresses. E-mail matching uses the same normalization
+as account recovery. Inactive users and bot accounts are included. Ambiguous
+identifiers are not used for password resets. Only confirmed matches become
+findings. Passwords are never displayed or stored in findings; the uploaded
+credentials are temporarily encrypted and deleted after processing or expiry.
+
+The :guilabel:`Security report` link appears once findings or validation reports
+exist. Findings remain
+available with their history after handling them. Filter by status, type, or
+scan. Select :guilabel:`Validation reports` to return to previous uploads,
+including reports with no matches and reports still running or that failed.
+Reports record the uploaded filename and the administrator who submitted it.
+Individual reports include resolved and dismissed findings by default. Finding
+history links to each report that detected the issue, and finding details list
+these reports under :guilabel:`Detected in reports`. Use the breadcrumbs to move
+between user management, the security report, validation reports, and findings.
+
+Open findings on the current page are selected by default. Select or clear
+checkboxes in the browser, then submit an action. Actions apply only to checked
+findings shown on that page; selections do not carry across pages. Bulk actions
+require confirmation:
+
+* :guilabel:`Reset passwords for selected accounts` disables matching local
+  passwords, invalidates
+  sessions, revokes all API tokens, and notifies accounts with an e-mail address.
+  Single sign-on and two-factor authentication settings are preserved. Passwords
+  changed since validation are skipped and their obsolete findings resolved.
+* :guilabel:`Dismiss selected findings` records the administrator's decision
+  without changing credentials or notifying the account. A later upload confirming the exposure
+  reopens the finding; retrying the same scan does not.
+
+The deployment check ``weblate.W052`` warns while open findings exist. Resolve or
+dismiss them in the report to clear the warning. A matching credential establishes
+that the current password was present in the report; it does not establish where
+it was exposed.
 
 .. _block-user:
 

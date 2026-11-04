@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.forms.widgets import MultiWidget
@@ -173,3 +175,39 @@ class AppearanceForm(forms.Form):
 class ChangedCharField(forms.CharField):
     def has_changed(self, initial, data) -> bool:
         return True
+
+
+class SecurityUploadForm(forms.Form):
+    report = forms.FileField(label=gettext_lazy("CSV report"), required=False)
+    delimiter = forms.CharField(
+        label=gettext_lazy("Delimiter"),
+        required=False,
+        max_length=2,
+        strip=False,
+        help_text=gettext_lazy(
+            "Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t for a tab."
+        ),
+    )
+    header = forms.BooleanField(
+        label=gettext_lazy("First row contains column names"),
+        required=False,
+        initial=True,
+    )
+    identifier_column = forms.IntegerField(
+        label=gettext_lazy("Username or e-mail column"), required=False, min_value=1
+    )
+    password_column = forms.IntegerField(
+        label=gettext_lazy("Password column"), required=False, min_value=1
+    )
+
+    def clean(self):
+        cleaned = super().clean() or {}
+        if bool(cleaned.get("identifier_column")) != bool(
+            cleaned.get("password_column")
+        ):
+            raise forms.ValidationError(
+                gettext_lazy(
+                    "Specify both column numbers, or leave both blank for automatic detection."
+                )
+            )
+        return cleaned

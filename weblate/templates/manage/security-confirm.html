@@ -1,0 +1,33 @@
+{% extends "manage/security-base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">{% translate "Confirm security action" %}</h1>
+    </div>
+    <div class="card-body">
+      <p>{% blocktranslate %}Selected {{ count }} findings affecting {{ accounts }} accounts.{% endblocktranslate %}</p>
+      {% if action == "reset" %}
+        <p>{% translate "Disable the matching passwords, invalidate signed-in sessions, and revoke all API tokens. Users with an e-mail address will be notified. Single sign-on and two-factor settings are preserved. Accounts whose passwords have changed will be skipped." %}</p>
+      {% else %}
+        <p>{% translate "Dismiss the selected findings without changing credentials or notifying users. A new report confirming the same exposure can reopen them." %}</p>
+      {% endif %}
+      <form method="post" action="{% url 'manage-security-confirm' %}">
+        {% csrf_token %}
+        <input type="hidden" name="token" value="{{ token }}">
+        {% if count %}
+          <button type="submit" class="btn btn-danger">
+            {% if action == "reset" %}
+              {% translate "Reset passwords" %}
+            {% else %}
+              {% translate "Dismiss findings" %}
+            {% endif %}
+          </button>
+        {% endif %}
+        <a href="{{ cancel_url }}" class="btn btn-default">{% translate "Cancel" %}</a>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

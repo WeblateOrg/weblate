@@ -325,6 +325,9 @@ def load_subscription_categories(
 EXTERNAL_CREATE_ACTIVITY = "external-create"
 
 ACCOUNT_ACTIVITY = {
+    "password-leak": gettext_lazy(
+        "Password disabled as reported leaked credential matched the password; API tokens revoked."
+    ),
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
     # Translators: Audit log entry
@@ -497,6 +500,9 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
+    "password-leak": gettext_lazy(
+        "Reset your password to restore password access. Choose a unique password and review your account activity. The report didn't disclose the source of the leak."
+    ),
     # Translators: Audit log hint
     "locked": gettext_lazy(
         "To restore access to your account, please reset your password."
@@ -516,6 +522,7 @@ EXTRA_MESSAGES = {
 }
 
 NOTIFY_ACTIVITY = {
+    "password-leak",
     "password",
     "reset",
     "auth-connect",
@@ -627,7 +634,9 @@ class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
         """Get user activities with password change."""
         start = timezone.now() - dt.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
-            user=user, activity__in=("reset", "password"), timestamp__gt=start
+            user=user,
+            activity__in=("reset", "password", "password-leak"),
+            timestamp__gt=start,
         )
 
     def order(self):
@@ -755,9 +764,11 @@ class AuditLog(models.Model):
     def should_notify(self) -> bool:
         return (
             self.user is not None
-            and not self.user.is_bot
-            and self.user.is_active
-            and self.user.email
+            and (
+                self.activity == "password-leak"
+                or (not self.user.is_bot and self.user.is_active)
+            )
+            and bool(self.user.email)
             and self.activity in NOTIFY_ACTIVITY
             and not self.params.get("skip_notify")
         )
