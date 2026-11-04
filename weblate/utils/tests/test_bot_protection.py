@@ -11,6 +11,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from inspect import isawaitable
 from ipaddress import ip_network
+from itertools import product
 from typing import TYPE_CHECKING
 from unittest import skipUnless
 from unittest.mock import Mock, patch
@@ -556,6 +557,45 @@ class ProofTest(SimpleTestCase):
                         ).status_code,
                         403,
                     )
+
+    def test_hosted_api_routes_are_exempt_only_with_integration(self) -> None:
+        for installed, deployment_prefix in product((False, True), ("", "/hosted")):
+            with (
+                patch(
+                    "weblate.utils.bot_protection.settings.INSTALLED_APPS",
+                    ["wlhosted.integrations"] if installed else [],
+                ),
+                override_settings(URL_PREFIX=deployment_prefix),
+            ):
+                middleware = self.middleware()
+                for (route, hosted_api), accept in product(
+                    (
+                        ("/hosted/api/users/", True),
+                        ("/hosted/api/users/ensure/", True),
+                        ("/hosted/api-other/", False),
+                        ("/hosted/api", False),
+                        ("/hosted/", False),
+                        ("/create/billing/", False),
+                    ),
+                    ("*/*", "application/json", "text/html"),
+                ):
+                    with self.subTest(
+                        installed=installed,
+                        prefix=deployment_prefix,
+                        route=route,
+                        accept=accept,
+                    ):
+                        request = self.factory.post(
+                            deployment_prefix + route, HTTP_ACCEPT=accept
+                        )
+                        with patch.object(
+                            middleware, "classify", return_value="challenge"
+                        ):
+                            response = self.middleware_response(middleware, request)
+                        self.assertEqual(
+                            response.status_code,
+                            200 if installed and hosted_api else 403,
+                        )
 
     def test_clearance_endpoint(self) -> None:
         request = self.request("/-/pow/check/")
