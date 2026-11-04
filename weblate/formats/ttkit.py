@@ -754,21 +754,20 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             if callback:
                 callback(store)
             store.untranslate_store(language, file_format_params=file_format_params)
-            if isinstance(store.store, LISAfile):
-                with open(filename, "wb") as handle:
-                    store.save_content(handle)
-            else:
-                store.store.savefile(filename)
+            cls.save_atomic(filename, store.save_content)
         elif cls.empty_file_template is not None:
             content = cls.get_new_file_content(
                 get_encoding_param(cls.format_id, file_format_params)
             )
             if issubclass(cls, TTKitFormat) and issubclass(cls.get_class(), LISAfile):
                 store = cls(BytesIO(content), file_format_params=file_format_params)
-                with open(filename, "wb") as handle:
-                    store.save_content(handle)
+                cls.save_atomic(filename, store.save_content)
             else:
-                Path(filename).write_bytes(content)
+
+                def write_content(handle: IO[bytes]) -> None:
+                    handle.write(content)
+
+                cls.save_atomic(filename, write_content)
         else:
             msg = "Not supported"
             raise ValueError(msg)
@@ -2261,7 +2260,7 @@ class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
             callback(storage)
         for unit in storage.content_units:
             unit.untranslate(language)
-        Path(filename).write_bytes(storage.store.serialize())
+        cls.save_atomic(filename, storage.save_content)
 
     @classmethod
     # ruff: ignore[unused-class-method-argument]

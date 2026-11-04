@@ -137,8 +137,7 @@ def format_file(filename: str, case_sensitive: bool) -> bool:
     result = filter_lines(result)
 
     if lines != result:
-        with open(filename, "w", encoding="utf-8") as handle:
-            handle.writelines(result)
+        BaseAddon.write_repo_file(filename, "".join(result))
         return True
     return False
 

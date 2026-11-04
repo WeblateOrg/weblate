@@ -168,5 +168,4 @@ class XlsxFormat(CSVFormat):
         if callback:
             callback(store)
         store.untranslate_store(language, file_format_params=file_format_params)
-        with open(filename, "wb") as handle:
-            XlsxFormat(store.store).save_content(handle)
+        cls.save_atomic(filename, XlsxFormat(store.store).save_content)
