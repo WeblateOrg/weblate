@@ -463,7 +463,10 @@
       node.dataset.automationExtra = JSON.stringify(extra);
       for (const slot of slotsOf(node)) {
         const items = data[slot.dataset.automationSlot];
-        if (!fillSlot(slot, Array.isArray(items) ? items : [])) {
+        if (items !== undefined && !Array.isArray(items)) {
+          return null;
+        }
+        if (!fillSlot(slot, items ?? [])) {
           return null;
         }
       }
@@ -746,13 +749,16 @@
         ).textContent;
         const slot = node.closest("[data-automation-slot]");
         const neighbor = node.nextElementSibling ?? node.previousElementSibling;
-        const target =
-          (neighbor && chromeButton(neighbor, "[data-automation-move]")) ??
-          slotAddButton(slot);
-        target.focus();
+        const parent = slot.closest("[data-automation-instance]");
         node.remove();
         refreshResultScopes();
         refreshGuards();
+        const target = [
+          neighbor && chromeButton(neighbor, "[data-automation-move]"),
+          slotAddButton(slot),
+          parent && chromeButton(parent, "[data-automation-move]"),
+        ].find((element) => element != null && !element.disabled);
+        target?.focus();
         announce(interpolate(gettext("Removed %s."), [label]));
         return;
       }

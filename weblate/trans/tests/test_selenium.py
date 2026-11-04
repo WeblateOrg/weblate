@@ -3294,6 +3294,25 @@ class SeleniumTests(
             self.driver.find_element(By.ID, "automation-mode-yaml").is_selected()
         )
 
+        field = self.driver.find_element(By.ID, "id_workflow")
+        field.clear()
+        field.send_keys(
+            "version: 1\ntriggers: []\nconditions:\n- condition: and\n"
+            "  conditions:\n    condition: language\n    value: cs\nactions: []\n"
+        )
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, "label[for='automation-mode-editor']"
+            )
+        )
+        self.assertTrue(alert.is_displayed())
+        self.assertIn("cannot show", alert.text)
+        self.assertFalse(pane.is_displayed())
+        self.assertIn(
+            "condition: language",
+            self.driver.find_element(By.ID, "id_workflow").get_attribute("value"),
+        )
+
         # A rejected workflow reopens in the YAML pane, where its message is.
         field = self.driver.find_element(By.ID, "id_workflow")
         field.clear()
@@ -3713,6 +3732,36 @@ class SeleniumTests(
                 " return node && node.dataset.automationInstance;"
             ),
             "action:weblate.bulk_edit",
+        )
+
+        self.driver.execute_script(
+            "automationEditor.buildTree(arguments[0]);",
+            {
+                "version": 1,
+                "triggers": [],
+                "conditions": [
+                    {
+                        "condition": "not",
+                        "conditions": [{"condition": "language", "value": "cs"}],
+                    }
+                ],
+                "actions": [
+                    {"action": "weblate.select", "settings": {"q": "state:translated"}}
+                ],
+            },
+        )
+        self.driver.find_element(
+            By.CSS_SELECTOR,
+            "[data-automation-instance='condition:language'] [data-automation-remove]",
+        ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.execute_script(
+                "const active = document.activeElement;"
+                " return [active.dataset.automationAdd ?? null,"
+                " active.closest('[data-automation-instance]')?.dataset"
+                "   .automationInstance ?? null];"
+            ),
+            ["conditions", "condition:not"],
         )
 
         # Adding a node with an enhanced select focuses its visible control.
