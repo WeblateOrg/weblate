@@ -884,6 +884,14 @@ Security properties Weblate provides
        disproportionate to its size and stalls a request or background worker
        during a write or subsequent processing.
      - Security-critical for single-request DoS; otherwise availability bug.
+   * - Component file masks must not let a single path match monopolize request
+       or background workers through disproportionate CPU consumption.
+       *(maintainer)*
+     - A user with component management permission configures a file mask, and
+       validation or repository processing matches it against repository paths.
+     - A crafted mask and path stall a worker during component validation or
+       subsequent repository processing.
+     - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
        including documented URL variants. Components managed through an

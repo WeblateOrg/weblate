@@ -367,6 +367,10 @@ def prefetch_glossary_terms(components) -> None:
         component.__dict__[attribute] = value
 
 
+class FileMaskTimeoutError(TimeoutError):
+    """A component file mask took too long to match a path."""
+
+
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
@@ -2643,7 +2647,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raw.append(char)
         append(None)
         expression = "".join(result)
-        return re.compile(f"^{expression}$")
+        return compile_regex(f"^{expression}$")
+
+    def _match_filemask(self, path: str) -> regex.Match | None:
+        try:
+            return regex_match(self.filemask_re, path)
+        except TimeoutError as error:
+            raise FileMaskTimeoutError from error
 
     def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
@@ -3248,7 +3258,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
                 return True
-        return any(self.filemask_re.match(path) for path in changed)
+        try:
+            return any(self._match_filemask(path) for path in changed)
+        except FileMaskTimeoutError:
+            report_error("Component file mask timed out", project=self.project)
+            self.log_warning("file mask timed out while checking changed files")
+            return True
 
     def needs_commit_upstream(self) -> bool:
         """
@@ -4788,22 +4803,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
         language_re = compile_regex(self.language_regex)
-        timeout_reported = False
+        language_timeout_reported = False
 
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, "")
-            code = self.get_lang_code(path)
+            try:
+                code = self.get_lang_code(path)
+            except FileMaskTimeoutError:
+                if not raise_on_timeout:
+                    report_error("Component file mask timed out", project=self.project)
+                    self.log_warning("file mask timed out for [%s]", path)
+                raise
             try:
                 language_match = regex_match(language_re, code)
             except TimeoutError:
                 if raise_on_timeout:
                     raise
-                if not timeout_reported:
+                if not language_timeout_reported:
                     report_error(
                         "Component language regex timed out", project=self.project
                     )
                     self.log_warning("language regex timed out for %s [%s]", code, path)
-                    timeout_reported = True
+                    language_timeout_reported = True
                 continue
             if language_match and code != "source":
                 matches.add(path)
@@ -5595,7 +5616,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if not validate and path == self.template:
             return self.source_language.code
         # Parse filename
-        matches = self.filemask_re.match(path)
+        matches = self._match_filemask(path)
 
         if not matches or not matches.lastindex:
             if path == self.template:
@@ -6211,7 +6232,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         - it tries to find translation files and checks that they are valid
         """
         self.clean_model_settings()
-        self._clean_repository_settings()
+        try:
+            self._clean_repository_settings()
+        except FileMaskTimeoutError as error:
+            report_error(
+                "Component file mask validation timed out", project=self.project
+            )
+            raise ValidationError(
+                {
+                    "filemask": gettext(
+                        "The file mask is too complex and took too long to evaluate."
+                    )
+                }
+            ) from error
 
     def can_validate_repository_compatibility(self, old: Component | None) -> bool:
         """Check whether repository validation can avoid worktree updates."""
@@ -6368,6 +6401,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     "Can not validate file matches due to invalid regular expression."
                 )
             ) from error
+        except FileMaskTimeoutError:
+            raise
         except TimeoutError as error:
             report_error(
                 "Component language regex validation timed out",

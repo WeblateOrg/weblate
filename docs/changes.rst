@@ -17,6 +17,7 @@ Weblate 2026.11.1
 
 .. rubric:: Security fixes
 
+* Bound file-mask matching during component validation and repository updates to prevent crafted masks from exhausting workers.
 * Restrict :ref:`font uploads <fonts>` to TrueType and OpenType content.
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
 * Prevented :ref:`blocked project administrators <block-user>` from gaining workspace ownership when the last billed project is removed, and restricted new blocks and direct administrative grants that would combine those states.

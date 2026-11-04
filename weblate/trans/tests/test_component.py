@@ -16,6 +16,7 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import Mock, call, patch
 
+import regex
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -44,7 +45,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
-from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.component import FileMaskTimeoutError, prefetch_tasks
 from weblate.trans.repository_context import (
     RepositoryFollowupLockError,
     inline_repository_followups,
@@ -1956,6 +1957,54 @@ class ComponentValidationTest(RepoTestCase):
         ):
             self.component.full_clean()
 
+    def test_filemask_timeout(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The file mask is too complex and took too long to evaluate.",
+            ),
+        ):
+            self.component.full_clean()
+
+    def test_filemask_match_timeout(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.regex_match", side_effect=TimeoutError
+            ),
+            self.assertRaises(FileMaskTimeoutError),
+        ):
+            self.component.get_lang_code("po/cs.po", validate=True)
+
+    def test_filemask_timeout_during_scan(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.glob",
+                return_value=[os.path.join(self.component.full_path, "po/cs.po")],
+            ),
+            patch.object(
+                self.component, "get_lang_code", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches()
+            with self.assertRaises(FileMaskTimeoutError):
+                self.component.get_mask_matches(raise_on_timeout=True)
+        report_error.assert_called_once()
+
+    def test_filemask_timeout_during_changed_file_check(self) -> None:
+        with (
+            patch.object(
+                self.component, "_match_filemask", side_effect=FileMaskTimeoutError
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+        ):
+            self.assertTrue(self.component.uses_changed_files(["other.po"]))
+        report_error.assert_called_once()
+
     def test_screenshot_filemask(self) -> None:
         """Invalid screenshot filemask."""
         self.component.screenshot_filemask = "foo/x.png"
@@ -2302,6 +2351,7 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_validation_language_re_timeout(self) -> None:
         with (
+            patch.object(self.component, "get_lang_code", return_value="cs"),
             patch(
                 "weblate.trans.models.component.regex_match",
                 side_effect=TimeoutError,
@@ -2421,6 +2471,7 @@ class ComponentValidationTest(RepoTestCase):
     def test_lang_code_double(self) -> None:
         component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
+        self.assertIsInstance(component.filemask_re, regex.Pattern)
         self.assertEqual(
             component.get_lang_code(
                 "path/pt/resources/MessagesBundle_pt_BR.properties"
