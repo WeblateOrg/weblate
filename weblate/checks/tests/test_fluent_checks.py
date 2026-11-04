@@ -10,7 +10,7 @@ from time import monotonic
 from typing import TYPE_CHECKING, ClassVar
 
 from django.test import SimpleTestCase
-from translate.storage.fluent import FluentPart, FluentUnit
+from translate.storage.fluent import FluentUnit
 
 from weblate.checks.flags import Flags
 from weblate.checks.fluent.inner_html import (
@@ -37,6 +37,8 @@ from weblate.trans.tests.factories import make_check, make_unit
 from weblate.utils.fluent import MAX_FLUENT_AST_DEPTH, MAX_FLUENT_SELECT_EXPRESSIONS
 
 if TYPE_CHECKING:
+    from translate.storage.fluent import FluentSelectorBranch
+
     from weblate.checks.base import BaseCheck, SourceCheck, TargetCheck
     from weblate.trans.models import Unit
 
@@ -3008,16 +3010,16 @@ class FluentResourceLimitsTest(SimpleTestCase):
             "        [d] D\n       *[e] E\n    }\n} " + fluent_select(),
         ):
             parts = FluentUnit(source=source).get_parts()
-            self.assertIsNotNone(parts)
+            assert parts is not None
             branch = parts[0].top_branch
             self.assertEqual(
                 _count_variants(branch), sum(1 for _path in branch.branch_paths())
             )
 
     def test_bounded_paths(self) -> None:
-        def get_branch(source: str) -> FluentPart:
+        def get_branch(source: str) -> FluentSelectorBranch:
             parts = FluentUnit(source=source).get_parts()
-            self.assertIsNotNone(parts)
+            assert parts is not None
             return parts[0].top_branch
 
         self.assertEqual(
@@ -3060,9 +3062,10 @@ class FluentResourceLimitsTest(SimpleTestCase):
                 "too complex", str(check.get_description(make_check(unit, check)))
             )
         unit = make_fluent_unit(payload, "hello", is_source=True)
-        check = FluentSourceInnerHTMLCheck()
+        source_check = FluentSourceInnerHTMLCheck()
         self.assertIn(
-            "too complex", str(check.get_description(make_check(unit, check)))
+            "too complex",
+            str(source_check.get_description(make_check(unit, source_check))),
         )
 
     def test_too_many_selectors(self) -> None:
