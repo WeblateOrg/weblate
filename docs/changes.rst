@@ -6,6 +6,7 @@ Weblate 2026.11.1
 .. rubric:: New features
 
 * Added :ref:`account security findings <account-security-findings>` with CSV leaked-password validation, persistent reports, and bulk password resets or dismissal.
+* Added an upgrade check for legacy lookalike verified e-mail identities, with administrator cleanup in :ref:`account security findings <account-security-findings>`.
 * Added authenticated :http:get:`/api/activity/` for daily activity and recently active projects.
 
 .. rubric:: Improvements

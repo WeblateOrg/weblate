@@ -189,6 +189,9 @@ class RoleMergeTest(TestCase):
                         MIGRATION_MODULES={
                             **settings.MIGRATION_MODULES,
                             "weblate_auth": package,
+                            # These migrations depend on newer auth migrations
+                            # deliberately excluded from this upgrade fixture.
+                            "wladmin": None,
                         }
                     ),
                 ):

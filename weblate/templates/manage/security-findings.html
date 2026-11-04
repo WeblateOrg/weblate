@@ -29,6 +29,8 @@
           <p class="alert alert-success">
             {% if report.operation == "validate" %}
               {% translate "Password validation completed." %}
+            {% elif report.operation == "legacy-email-check" %}
+              {% translate "Legacy e-mail identity check completed." %}
             {% else %}
               {% translate "Security action completed." %}
             {% endif %}
@@ -99,13 +101,13 @@
                                                               checked><label class="visually-hidden" for="finding-{{ finding.pk }}">{% blocktranslate with username=finding.user.username %}Select finding for {{ username }}{% endblocktranslate %}</label>{% endif %}</td>
                   <td><a href="{{ finding.user.get_absolute_url }}">{{ finding.user.username }}</a><br>{{ finding.user.email|default_if_none:'' }}{% if not finding.user.is_active %}<br>{% translate "Inactive" %}{% endif %}{% if finding.user.is_bot %}<br>{% translate "Bot" %}{% endif %}{% if not finding.user.email %}<br>{% translate "No e-mail address: notification unavailable" %}{% endif %}</td>
                   <td>{{ finding.type_label }}</td>
-                  <td>{% for match in finding.display_matches %}{% blocktranslate with row=match.row identifier=match.identifier method=match.method %}Row {{ row }}: {{ identifier }} ({{ method }}){% endblocktranslate %}<br>{% endfor %}<a href="{% url 'manage-security-detail' pk=finding.pk %}{% if scan %}?scan={{ scan.pk }}{% endif %}">{% blocktranslate count count=finding.match_count %}View details ({{ count }} match){% plural %}View details ({{ count }} matches){% endblocktranslate %}</a></td>
+                  <td>{% for match in finding.display_matches %}{% if finding.finding_type == "legacy-email-alias" %}{{ match.identifier }} ({{ match.method }}){% else %}{% blocktranslate with row=match.row identifier=match.identifier method=match.method %}Row {{ row }}: {{ identifier }} ({{ method }}){% endblocktranslate %}{% endif %}<br>{% endfor %}<a href="{% url 'manage-security-detail' pk=finding.pk %}{% if scan %}?scan={{ scan.pk }}{% endif %}">{% blocktranslate count count=finding.match_count %}View details ({{ count }} match){% plural %}View details ({{ count }} matches){% endblocktranslate %}</a></td>
                   <td>{{ finding.get_status_display }}</td>
                   <td>
                     {% translate "First detected:" %} {{ finding.first_seen }}
                     <br>
                     {% translate "Last detected:" %} {{ finding.last_seen }}
-                    <details><summary>{% translate "History" %}</summary><ul>{% for event in finding.events.all %}<li>{% if event.action == "detected" and event.scan.operation == "validate" %}<a href="{{ event.scan.get_absolute_url }}">{{ event.timestamp }}</a>{% else %}{{ event.timestamp }}{% endif %}: {{ event.get_action_display }}{% if event.actor %} — {{ event.actor.username }}{% endif %}{% if event.reason %} ({{ event.get_reason_display }}){% endif %}</li>{% endfor %}</ul></details>
+                    <details><summary>{% translate "History" %}</summary><ul>{% for event in finding.events.all %}<li>{% if event.action == "detected" %}<a href="{{ event.scan.get_absolute_url }}">{{ event.timestamp }}</a>{% else %}{{ event.timestamp }}{% endif %}: {{ event.get_action_display }}{% if event.actor %} — {{ event.actor.username }}{% endif %}{% if event.reason %} ({{ event.get_reason_display }}){% endif %}</li>{% endfor %}</ul></details>
                   </td>
                 </tr>
               {% empty %}
@@ -126,10 +128,18 @@
              href="?{{ query }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
         {% endif %}
         {% if has_open_findings %}
-          <button type="submit"
-                  name="action"
-                  value="reset"
-                  class="btn btn-danger">{% translate "Reset passwords for selected accounts" %}</button>
+          {% if has_cleanup_findings %}
+            <button type="submit"
+                    name="action"
+                    value="cleanup"
+                    class="btn btn-danger">{% translate "Remove lookalike e-mail identities and reset selected accounts" %}</button>
+          {% endif %}
+          {% if has_reset_findings %}
+            <button type="submit"
+                    name="action"
+                    value="reset"
+                    class="btn btn-danger">{% translate "Reset passwords for selected accounts" %}</button>
+          {% endif %}
           <button type="submit"
                   name="action"
                   value="dismiss"

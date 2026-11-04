@@ -351,6 +351,16 @@ dismiss them in the report to clear the warning. A matching credential establish
 that the current password was present in the report; it does not establish where
 it was exposed.
 
+An upgrade check also reports verified e-mail addresses that match their
+account's primary address only under the database's former locale-sensitive
+comparison. These findings indicate a possible earlier account compromise.
+The address remains usable until an administrator reviews the finding. The
+:guilabel:`Remove lookalike e-mail identities and reset selected accounts`
+action removes the suspect verified address and associated sign-in identity,
+disables the account password, invalidates sessions, revokes API tokens, and
+notifies the primary address. Dismiss a finding only after confirming that the
+address is intentionally linked to the account.
+
 .. _block-user:
 
 Blocking users
