@@ -93,6 +93,11 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # These direct helper calls have no request or database lifecycle to finish.
+        self.enterContext(patch("django.http.response.signals.request_finished.send"))
+
     def test_content_disposition(self) -> None:
         test_cases = (
             ("translations", 'attachment; filename="translations.zip"'),
