@@ -14,7 +14,7 @@ from pathlib import Path
 from time import monotonic
 
 # pylint: disable-next=unused-import
-from typing import IO, TYPE_CHECKING, BinaryIO, cast
+from typing import IO, TYPE_CHECKING, cast
 from uuid import UUID
 from zipfile import ZipFile, ZipInfo
 
@@ -869,7 +869,7 @@ def zip_download(
     extra: dict[str, bytes | str] | None = None,
     allowed_roots: list[str] | None = None,
     refresh_lock: Callable[[], None] | None = None,
-) -> HttpResponse:
+) -> FileResponse:
     with zip_download_archive(name) as (response, zipfile):
         write_zip_files(zipfile, root, filenames, allowed_roots, refresh_lock)
         if extra:
@@ -880,14 +880,24 @@ def zip_download(
 
 
 @contextmanager
-def zip_download_archive(name: str) -> Generator[tuple[HttpResponse, ZipFile]]:
-    """Create a ZIP download response which can be populated incrementally."""
-    response = HttpResponse(content_type="application/zip")
-    with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
-        yield response, zipfile
-    response["Content-Disposition"] = content_disposition_header(
-        as_attachment=True, filename=f"{name}.zip"
-    )
+def zip_download_archive(name: str) -> Generator[tuple[FileResponse, ZipFile]]:
+    """Build a disk-backed ZIP before streaming the completed archive."""
+    snapshot = tempfile.TemporaryFile()  # ruff: ignore[open-file-with-context-handler]
+    try:
+        response = FileResponse(
+            snapshot,
+            content_type="application/zip",
+            as_attachment=True,
+            filename=f"{name}.zip",
+        )
+        with ZipFile(snapshot, "w", strict_timestamps=False) as zipfile:
+            yield response, zipfile
+        # FileResponse initially saw an empty file. Update the completed size.
+        response["Content-Length"] = str(snapshot.tell())
+        snapshot.seek(0)
+    except BaseException:
+        snapshot.close()
+        raise
 
 
 def write_zip_files(
