@@ -97,7 +97,13 @@
                                                               value="{{ finding.pk }}"
                                                               id="finding-{{ finding.pk }}"
                                                               checked><label class="visually-hidden" for="finding-{{ finding.pk }}">{% blocktranslate with username=finding.user.username %}Select finding for {{ username }}{% endblocktranslate %}</label>{% endif %}</td>
-                  <td><a href="{{ finding.user.get_absolute_url }}">{{ finding.user.username }}</a><br>{{ finding.user.email|default_if_none:'' }}{% if not finding.user.is_active %}<br>{% translate "Inactive" %}{% endif %}{% if finding.user.is_bot %}<br>{% translate "Bot" %}{% endif %}{% if not finding.user.email %}<br>{% translate "No e-mail address: notification unavailable" %}{% endif %}</td>
+                  <td>
+                    <a href="{{ finding.user.get_absolute_url }}">{{ finding.user.username }}</a><br>{{ finding.user.email|default_if_none:'' }}{% if not finding.user.is_active %}<br>{% translate "Inactive" %}{% endif %}{% if finding.user.is_bot %}<br>{% translate "Bot" %}{% endif %}{% if not finding.user.email %}<br>{% translate "No e-mail address: notification unavailable" %}{% endif %}
+                    <br>
+                    {% translate "Date joined:" %} {{ finding.user.date_joined|date:"DATETIME_FORMAT" }}
+                    <br>
+                    {% translate "Last sign-in:" %} {% if finding.user.last_login %}{{ finding.user.last_login|date:"DATETIME_FORMAT" }}{% else %}{% translate "Not yet signed in" %}{% endif %}
+                  </td>
                   <td>{{ finding.type_label }}</td>
                   <td>{% for match in finding.display_matches %}{% blocktranslate with row=match.row identifier=match.identifier method=match.method %}Row {{ row }}: {{ identifier }} ({{ method }}){% endblocktranslate %}<br>{% endfor %}<a href="{% url 'manage-security-detail' pk=finding.pk %}{% if scan %}?scan={{ scan.pk }}{% endif %}">{% blocktranslate count count=finding.match_count %}View details ({{ count }} match){% plural %}View details ({{ count }} matches){% endblocktranslate %}</a></td>
                   <td>{{ finding.get_status_display }}</td>

@@ -1510,6 +1510,7 @@ class TOTPTokenForm(OTPTokenForm):
                 "autocomplete": "one-time-code",
             }
         )
+        self.helper.layout = self.helper.build_default_layout(self)
 
     def clean(self):
         self.cleaned_data = forms.Form.clean(self)
