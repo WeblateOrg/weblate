@@ -11,6 +11,7 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Reduced database queries when :ref:`committing pending translations <lazy-commit>`.
 * Improved performance of :doc:`user profiles <user/profile>`, contribution lists, and author-filtered changes on large installations.
 * Added XML :ref:`file format parameters <file_format_params>` for UTF-8 byte order marks, declaration encoding case, and final newlines.
 * Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
