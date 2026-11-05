@@ -178,6 +178,16 @@ Translation-memory payloads use bounded batches scheduled after commit. Nested
 operations merge dependency work, while rolled-back savepoints discard their
 work and commit callbacks.
 
+Automatic translation uses a nonblocking PostgreSQL session advisory lock per
+translation, acquired before selecting units and fetching provider results.
+Calls inside an editing transaction also retain a transaction advisory lock
+until commit or rollback. Provider results are discarded if the owning database
+session is lost. Background translation tasks carry completed target IDs and
+accumulated results through retries, deferring busy targets for 30–60 seconds.
+These deferrals do not consume the retry budget for other lock failures.
+Synchronous callers report busy translations immediately. Worker queues and
+concurrency are unchanged.
+
 Acquire any required repository locks before project gates, then component and
 unit row locks. Reconciliation itself only changes database state and does not
 acquire repository locks. Apply this boundary to bulk imports, automatic

@@ -565,6 +565,11 @@ the :guilabel:`Operations` menu, once you have selected a component and a langua
 A similar operation :guilabel:`Batch automatic translation` is available if you have
 selected a project language, a component or a category.
 
+Only one automatic translation operation can process a component and language at
+a time. Background operations defer busy translations and resume them later,
+without repeating languages they have already completed. Synchronous API and
+command-line requests report an error immediately if the translation is busy.
+
 Two modes of operation are possible:
 
 - Using other Weblate components as a source for translations.

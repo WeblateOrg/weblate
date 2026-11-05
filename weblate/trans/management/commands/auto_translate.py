@@ -121,6 +121,8 @@ class Command(WeblateTranslationCommand):
             engines=options["mt"],
             threshold=options["threshold"],
         )
+        if auto.busy:
+            raise CommandError(auto.failure_message)
         self.stdout.write(message)
         for warning in auto.get_warnings():
             self.stdout.write(warning)

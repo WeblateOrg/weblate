@@ -14039,6 +14039,7 @@ class TasksAPITest(APIBaseTest):
                     patch("weblate.trans.models.component.current_task", task),
                     patch("weblate.trans.component_copy.BatchAutoTranslate") as batch,
                 ):
+                    batch.return_value.busy = False
                     batch.return_value.get_warnings.return_value = (
                         [] if permission_error else [detail]
                     )

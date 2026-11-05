@@ -31,6 +31,7 @@ Weblate 2026.11.1
 
 .. rubric:: Bug fixes
 
+* Prevent overlapping :ref:`automatic translation <auto-translation>` operations for the same component and language.
 * Use :ref:`atomic file replacement <atomic-repository-writes>` when creating translation files and updating supporting files in add-ons.
 * Reduced memory use when building ZIP :ref:`downloads <download>` by storing completed archives in temporary files.
 * Fixed lock contention when updating :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` concurrently.

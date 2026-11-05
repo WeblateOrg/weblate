@@ -40,6 +40,7 @@ from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.component_copy import copy_component_addons
+from weblate.trans.coordination import translation_task
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import (
@@ -1711,12 +1712,8 @@ def get_auto_translate_target(
     raise ValueError(msg)
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
+@app.task(trail=False, max_retries=None)
+@translation_task
 # ruff: ignore[too-many-arguments]
 def auto_translate(
     *,
@@ -1842,12 +1839,8 @@ def auto_translate(
         )
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
+@app.task(trail=False, max_retries=None)
+@translation_task
 def auto_translate_component(
     component_id: int,
     *,

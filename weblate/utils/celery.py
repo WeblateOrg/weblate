@@ -279,6 +279,12 @@ def sanitize_task_result(
     task_id: str, result: object, user: User | None = None
 ) -> object:
     """Keep component task failure details in the permission-filtered log."""
+    from weblate.trans.coordination import AutomaticTranslationBusyError  # ruff: ignore[import-outside-top-level]
+
+    if isinstance(result, AutomaticTranslationBusyError):
+        return gettext(
+            "Automatic translation is waiting for another operation to finish."
+        )
     if not isinstance(result, (Exception, dict)):
         return result
     metadata = get_task_metadata(task_id) or {}
@@ -557,6 +563,12 @@ def get_task_progress(task):
     result = task.result
     if task.state == "PROGRESS" and result is not None:
         return result["progress"]
+
+    if task.state == "RETRY":
+        from weblate.trans.coordination import AutomaticTranslationBusyError  # ruff: ignore[import-outside-top-level]
+
+        if isinstance(result, AutomaticTranslationBusyError):
+            return result.progress
 
     # Not yet started
     return 0
