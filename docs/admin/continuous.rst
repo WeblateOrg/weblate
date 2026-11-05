@@ -106,6 +106,8 @@ Matching webhook targets
 Forge webhooks update components whose :ref:`component-repo` exactly matches a
 repository URL from the payload (HTTPS or SSH as reported by the forge, plus
 common variants such as a trailing slash).
+Webhook deliveries containing more than 64 repository URLs are rejected before
+matching components.
 
 Generic forge webhook endpoints are compatibility interfaces, and ordinary
 repository deliveries are not cryptographically authenticated. Legacy GitHub

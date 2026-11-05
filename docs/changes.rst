@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes
