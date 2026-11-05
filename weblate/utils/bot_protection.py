@@ -652,6 +652,10 @@ class BotProtectionMiddleware(MiddlewareMixin):
             or is_git_protocol(request, path)
             or is_legacy_widget(request, path)
             or path.startswith(EXEMPT)
+            or (
+                "wlhosted.integrations" in settings.INSTALLED_APPS
+                and path.startswith("/hosted/api/")
+            )
             or any(
                 path == item or (item.endswith("/") and path.startswith(item))
                 for item in option("EXEMPT_PATHS", list[str]())

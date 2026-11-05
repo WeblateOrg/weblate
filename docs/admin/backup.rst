@@ -29,7 +29,9 @@ The backup can be restored when creating a project (see
    :ref:`api` since version 2026.7;
 
 The backups include project-scoped teams and their memberships, and project
-:ref:`saved-searches`, but do not include history.
+:ref:`saved-searches`, but do not include history. Restored
+:ref:`automatic team assignment rules <autoteam>` invite matching new users
+to project teams and require acceptance before granting membership.
 
 When restoring backups with duplicate team names, all teams are preserved.
 Additional teams with the same name receive a numeric suffix, and the import

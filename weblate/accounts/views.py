@@ -189,7 +189,7 @@ from weblate.accounts.visibility import (
     can_browse_users,
     can_search_scoped_users,
     check_profile_access,
-    contributor_translation_ids,
+    contributor_translations,
     filter_contributor_changes,
     is_resource_bounded,
     profile_response,
@@ -1159,19 +1159,13 @@ class UserPage(UpdateView):
 def user_contributions(request: AuthenticatedHttpRequest, user: str):
     page_user = get_object_or_404(User, username=user)
     check_profile_access(request.user, page_user)
-    user_translation_ids = set(
-        Change.objects.content()
-        .filter(user=page_user)
-        .values_list("translation", flat=True)
+    user_translation_ids = (
+        Change.objects.content().filter(user=page_user).order_by().values("translation")
     )
     user_translations = (
-        Translation.objects.filter_access(request.user)
+        contributor_translations(request.user)
         .prefetch()
-        .filter(
-            id__in=set(user_translation_ids).intersection(
-                contributor_translation_ids(request.user)
-            ),
-        )
+        .filter(id__in=user_translation_ids)
         .order()
     )
     return render(
@@ -1897,7 +1891,9 @@ class SuggestionView(ListView):
             Suggestion.objects.filter_access(self.request.user)
             .filter(
                 user=user,
-                unit__translation_id__in=contributor_translation_ids(self.request.user),
+                unit__translation_id__in=contributor_translations(
+                    self.request.user
+                ).values("pk"),
             )
             .select_related("unit__translation__component__project", "user")
             .order()

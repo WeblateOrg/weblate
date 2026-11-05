@@ -95,7 +95,12 @@
       {% if form %}
         <div class="tab-pane" id="auto">
           <p>
-            {% translate "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+            {% if object.defining_project_id or object.defining_workspace_id %}
+              {% translate "Automatically invite newly created users to this team based on their e-mail address. Users join only after accepting the invitation." %}
+            {% else %}
+              {% translate "Automatically add newly created users to this team based on their e-mail address." %}
+            {% endif %}
+            {% documentation_icon 'admin/access' 'autoteam' %}
             {% translate "This is checked for every new user on the site, regardless of which project they use." %}
           </p>
           {{ auto_formset|crispy }}

@@ -53,7 +53,12 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.trans.util import check_upload_method_permissions, join_plural
-from weblate.trans.views.files import can_download_workspace, download_multi
+from weblate.trans.views.files import (
+    _get_download_commit_repositories,
+    can_download_workspace,
+    download_multi,
+    get_download_components,
+)
 from weblate.utils.change_origin import change_origin_context, get_change_origin
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1960,6 +1965,111 @@ class ImportSourceBrokenTest(ImportSourceTest):
 
 
 class DownloadMultiTest(ViewTestCase):
+    def test_commit_repositories_are_sorted_and_deduplicated(self) -> None:
+        other = self.create_po(project=self.project, name="Other")
+        linked = self.create_link_existing()
+        second_link = self.create_link_existing(name="Third", slug="third")
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
+
+        for fmt in (None, "zip:csv"):
+            for include_owner in (False, True):
+                with self.subTest(fmt=fmt, include_owner=include_owner):
+                    components = [other, second_link, linked, other]
+                    if include_owner:
+                        components.append(self.component)
+                    with patch.object(
+                        Component, "commit_pending", autospec=True
+                    ) as commit:
+                        response = download_multi(
+                            request, [], iter(components), fmt=fmt
+                        )
+
+                    assert response.file_to_stream is not None
+                    self.addCleanup(response.file_to_stream.close)
+                    self.assertEqual(
+                        [call.args[0].pk for call in commit.call_args_list],
+                        [self.component.pk, other.pk],
+                    )
+                    for call in commit.call_args_list:
+                        self.assertEqual(call.args[1], "download")
+                    self.assert_zip(response)
+
+    def test_commit_repository_failure_is_not_retried_through_links(self) -> None:
+        other = self.create_po(project=self.project, name="Other")
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with (
+            patch.object(
+                Component, "commit_pending", autospec=True, side_effect=[error, True]
+            ) as commit,
+            patch("weblate.trans.views.files.report_error") as report,
+        ):
+            response = download_multi(request, [], [other, linked, self.component])
+
+        assert response.file_to_stream is not None
+        self.addCleanup(response.file_to_stream.close)
+        self.assertEqual(
+            [call.args[0].pk for call in commit.call_args_list],
+            [self.component.pk, other.pk],
+        )
+        report.assert_called_once_with("Download commit", project=self.project)
+        self.assert_zip(response)
+
+    def test_linked_download_commits_owner_without_expanding_archive(self) -> None:
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+
+        with patch.object(Component, "commit_pending", autospec=True) as commit:
+            response = self.client.get(
+                reverse("download", kwargs={"path": project.get_url_path()})
+            )
+
+        self.addCleanup(list, response)
+        commit.assert_called_once_with(self.component, "download", ANY)
+        self.assertEqual(response.status_code, 200)
+        root = data_dir("vcs")
+        expected = {
+            os.path.relpath(filename, root)
+            for translation in linked.translation_set.all()
+            for filename in translation.filenames
+        }
+        self.assertTrue(expected)
+        with ZipFile(BytesIO(b"".join(response))) as archive:
+            self.assertEqual(set(archive.namelist()), expected)
+
+    def test_commit_repository_loading_has_constant_query_count(self) -> None:
+        project = Project.objects.create(
+            name="Linked downloads", slug="linked-downloads"
+        )
+        linked = self.create_link_existing(project=project)
+        second_link = self.create_link_existing(name="Third", slug="third")
+
+        for components in ([linked], [self.component, linked, second_link]):
+            with self.subTest(components=[component.pk for component in components]):
+                translations = Translation.objects.filter(component__in=components)
+                with self.assertNumQueries(1):
+                    repositories = _get_download_commit_repositories(
+                        get_download_components(translations)
+                    )
+                    projects = [repository.project for repository in repositories]
+
+                self.assertEqual(repositories, [self.component])
+                self.assertEqual(projects, [self.project])
+
     def grant_language_download(self, *, membership_limit: bool = False) -> Group:
         self.user.groups.clear()
         group = Group.objects.create(
@@ -1990,7 +2100,7 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs=self.kw_component), {"format": fmt}
         )
         self.assertEqual(response.status_code, 200)
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             names = archive.namelist()
         suffix = ".csv" if fmt == "zip:csv" else ".po"
         self.assertTrue(any(name.endswith(f"cs{suffix}") for name in names))
@@ -2055,6 +2165,10 @@ class DownloadMultiTest(ViewTestCase):
                 [translation.component],
             )
 
+        assert response.file_to_stream is not None
+        self.addCleanup(response.file_to_stream.close)
+        self.assertTrue(response.streaming)
+        self.assertFalse(repository.lock.is_locked)
         self.assert_zip(response, "test/test/po/cs.po")
         reacquire.assert_called()
 
@@ -2088,6 +2202,38 @@ class DownloadMultiTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 423)
         self.assertIn(b"Could not obtain the repository lock", response.content)
+
+    def test_later_repository_timeout_releases_archive_and_locks(self) -> None:
+        other = self.create_po(project=self.project, name="Other download repository")
+        translation = self.get_translation()
+        other_translation = other.translation_set.get(language__code="cs")
+        repository = translation.component.repository
+        other_repository = other.repository
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=other_repository.lock.lock_object
+        )
+        lock_class = type(repository.lock)
+        enter_lock = lock_class.__enter__
+
+        def enter(lock) -> None:
+            if lock.name == other_repository.lock.name:
+                self.assertFalse(repository.lock.is_locked)
+                raise error
+            enter_lock(lock)
+
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/download"))
+        request.user = self.user
+        with (
+            tempfile.TemporaryFile() as snapshot,
+            patch("weblate.utils.views.tempfile.TemporaryFile", return_value=snapshot),
+            patch.object(lock_class, "__enter__", autospec=True, side_effect=enter),
+        ):
+            with self.assertRaises(WeblateLockTimeoutError):
+                download_multi(request, [translation, other_translation], [])
+
+            self.assertTrue(snapshot.closed)
+            self.assertFalse(repository.lock.is_locked)
+            self.assertFalse(other_repository.lock.is_locked)
 
     def test_project(self) -> None:
         response = self.client.get(
@@ -2129,6 +2275,7 @@ class DownloadMultiTest(ViewTestCase):
             )
 
         self.assertEqual(response.status_code, 200)
+        self.addCleanup(list, response)
         component_commit.assert_called_once_with(self.component, "download", ANY)
         commit_user = component_commit.call_args.args[2]
         self.assertEqual(commit_user.username, "weblate:commit")
@@ -2237,7 +2384,7 @@ class DownloadMultiTest(ViewTestCase):
             with self.subTest(path=path):
                 response = self.client.get(reverse("download", kwargs={"path": path}))
                 self.assertEqual(response.status_code, 200)
-                with ZipFile(BytesIO(response.content)) as archive:
+                with ZipFile(BytesIO(b"".join(response))) as archive:
                     names = archive.namelist()
                 self.assertIn(regular_archive_name, names)
                 self.assertFalse(
@@ -2251,7 +2398,7 @@ class DownloadMultiTest(ViewTestCase):
             )
         )
         self.assertEqual(response.status_code, 200)
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             names = archive.namelist()
         self.assertIn(regular_archive_name, names)
         self.assertFalse(
@@ -2281,7 +2428,7 @@ class DownloadMultiTest(ViewTestCase):
             {"format": "zip:mo"},
         )
 
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             self.assertEqual(response.status_code, 200)
             self.assertIn("test-test-cs.mo", archive.namelist())
             self.assertEqual(
@@ -2332,7 +2479,7 @@ class DownloadMultiTest(ViewTestCase):
         response = self.client.get(reverse("download", kwargs=self.kw_component))
         self.assertEqual(response.status_code, 200)
 
-        with ZipFile(BytesIO(response.content), "r") as zipfile:
+        with ZipFile(BytesIO(b"".join(response)), "r") as zipfile:
             zip_names = set(zipfile.namelist())
 
         root = data_dir("vcs")

@@ -449,6 +449,53 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def test_pending_commit_reuses_unit_addon_cache(self) -> None:
+        self.check_pending_commit_unit_addon_cache(self.component)
+
+    def test_pending_linked_commit_reuses_unit_addon_cache(self) -> None:
+        self.check_pending_commit_unit_addon_cache(self.create_link_existing())
+
+    def check_pending_commit_unit_addon_cache(self, component: Component) -> None:
+        callback = self.enterContext(
+            patch.object(NoOpAddon, "unit_post_save", create=True)
+        )
+        with patch.object(NoOpAddon, "events", {AddonEvent.EVENT_UNIT_POST_SAVE}):
+            NoOpAddon.create(acting_user=self.user, component=component, run=False)
+        translation = component.translation_set.get(language_code="cs")
+        units = list(translation.unit_set.order_by("pk"))
+        for unit in units:
+            unit.translate(self.user, "Pending add-on test", STATE_TRANSLATED)
+
+        translation = Translation.objects.get(pk=translation.pk)
+        callback.reset_mock()
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(translation.commit_pending("test", self.user))
+
+        self.assertEqual(callback.call_count, len(units))
+        self.assertCountEqual(
+            [call.args[0].pk for call in callback.call_args_list],
+            [unit.pk for unit in units],
+        )
+        commit_translation = callback.call_args_list[0].args[0].translation
+        self.assertEqual(commit_translation, translation)
+        for call in callback.call_args_list:
+            self.assertIs(call.args[0].translation, commit_translation)
+            self.assertEqual(call.args[0].translation.component_id, component.pk)
+            self.assertFalse(call.args[1])
+        self.assertEqual(
+            sum(
+                query["sql"].startswith("SELECT")
+                and 'FROM "addons_addon"' in query["sql"]
+                for query in queries.captured_queries
+            ),
+            2 if component.linked_component_id else 1,
+        )
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(
+                translation, apply_filters=False
+            ).exists()
+        )
+
     def test_postconfigure_task_preserves_actor(self) -> None:
         from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 

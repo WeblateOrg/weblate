@@ -486,6 +486,8 @@ class APIBaseTest(APITestCase, ReusableComponentTestCase):
         response = getattr(self.client, method)(
             url, request, format=format, headers=headers
         )
+        if response.streaming:
+            self.addCleanup(list, response)
         content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
@@ -8898,7 +8900,7 @@ class ProjectAPITest(APIBaseTest):
                     code=200,
                     request=request,
                 )
-                with zipfile.ZipFile(BytesIO(response.content)) as archive:
+                with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
                     names = archive.namelist()
                 self.assertTrue(names)
                 self.assertFalse(
@@ -8957,7 +8959,7 @@ class ProjectAPITest(APIBaseTest):
             code=200,
             request={"format": "zip"},
         )
-        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
             names = archive.namelist()
         self.assertTrue(any(name.endswith("/cs.po") for name in names))
         self.assertFalse(any(name.endswith("/de.po") for name in names))
@@ -8976,7 +8978,7 @@ class ProjectAPITest(APIBaseTest):
         disp = response.headers.get("content-disposition", "")
         self.assertIn("attachment;", disp)
         self.assertIn("test-cs.zip", disp)
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             # Ensure archive contains at least one file
             self.assertGreater(len(zf.namelist()), 0)
 
@@ -9014,7 +9016,7 @@ class ProjectAPITest(APIBaseTest):
                     request=request,
                 )
                 self.assertEqual(response.headers["content-type"], "application/zip")
-                with zipfile.ZipFile(BytesIO(response.content)) as zf:
+                with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
                     self.assertEqual(len(zf.namelist()), 0)
 
     def test_download_project_translations_language_unknown(self) -> None:
@@ -9093,7 +9095,7 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={"format": "zip"},
         )
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             zip_names = set(zf.namelist())
 
         root = data_dir("vcs")
@@ -9135,7 +9137,7 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={"format": "zip"},
         )
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             zip_names = set(zf.namelist())
 
         root = data_dir("vcs")
@@ -9163,7 +9165,7 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={"format": "zip", "filter": "test"},
         )
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             zip_names = set(zf.namelist())
 
         root = data_dir("vcs")
@@ -10622,7 +10624,7 @@ class ComponentAPITest(APIBaseTest):
                 reads.assert_called()
                 reacquire.assert_called()
                 self.assertFalse(repository.lock.is_locked)
-                with zipfile.ZipFile(BytesIO(response.content)) as archive:
+                with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
                     self.assertIn("title.txt", archive.namelist())
 
     def test_template_download_snapshots_linked_repository_file(self) -> None:
@@ -10786,7 +10788,7 @@ class ComponentAPITest(APIBaseTest):
         )
 
         self.assertEqual(response.headers["content-type"], "application/zip")
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             self.assertNotIn("leak_host.bin", zf.namelist())
             for filename in (*metadata_paths, "cvs_link"):
                 self.assertIn(filename, zf.namelist())
@@ -12939,7 +12941,7 @@ class ComponentAPITest(APIBaseTest):
         )
 
         self.assertEqual(response.headers["content-type"], "application/zip")
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as zf:
             self.assertFalse(
                 any(name.endswith("leak_host.bin") for name in zf.namelist())
             )
@@ -12966,7 +12968,7 @@ class ComponentAPITest(APIBaseTest):
             code=200,
             request={"format": fmt},
         )
-        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        with zipfile.ZipFile(BytesIO(b"".join(response))) as archive:
             names = archive.namelist()
         suffix = ".csv" if fmt == "zip:csv" else ".po"
         self.assertTrue(any(name.endswith(f"cs{suffix}") for name in names))
