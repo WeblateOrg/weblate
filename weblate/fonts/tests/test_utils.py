@@ -20,7 +20,9 @@ from django.core.files.base import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase
 from PIL import Image
+from redis.exceptions import ResponseError
 
+from weblate.fonts.apps import check_fonts
 from weblate.fonts.render import (
     _get_layout_font,
     _layout_item_cluster_indices,
@@ -49,6 +51,7 @@ from weblate.fonts.utils import (
     check_render_size,
     get_font_name,
     get_font_weight,
+    render_size,
 )
 from weblate.fonts.validators import validate_font
 
@@ -57,6 +60,68 @@ if TYPE_CHECKING:
 
 
 class RenderTest(SimpleTestCase):
+    def test_font_check_without_cache(self) -> None:
+        _render_size.cache_clear()
+        self.addCleanup(_render_size.cache_clear)
+        with (
+            patch(
+                "weblate.fonts.utils.django_cache.get",
+                side_effect=ResponseError("unknown command HELLO"),
+            ) as cache_get,
+            patch(
+                "weblate.fonts.utils.django_cache.set",
+                side_effect=ResponseError("unknown command HELLO"),
+            ) as cache_set,
+        ):
+            self.assertEqual(check_fonts(app_configs=None, databases=None), [])
+        cache_get.assert_not_called()
+        cache_set.assert_not_called()
+
+    def test_font_check_rendering_error(self) -> None:
+        with patch(
+            "weblate.fonts.utils._render_size",
+            side_effect=RuntimeError("render failed"),
+        ):
+            errors = list(check_fonts(app_configs=None, databases=None))
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0].id, "weblate.C024")
+        self.assertIn("render failed", errors[0].msg)
+
+    def test_render_without_cache_with_output(self) -> None:
+        with (
+            patch(
+                "weblate.fonts.utils.django_cache.get",
+                side_effect=ResponseError("unknown command HELLO"),
+            ) as cache_get,
+            patch(
+                "weblate.fonts.utils.django_cache.set",
+                side_effect=ResponseError("unknown command HELLO"),
+            ) as cache_set,
+        ):
+            dimensions, lines = render_size(
+                "uncached output", cache_key="test-uncached-render", use_cache=False
+            )
+        self.assertGreater(dimensions.width, 0)
+        self.assertEqual(lines, 1)
+        cache_get.assert_not_called()
+        cache_set.assert_not_called()
+
+    def test_render_caches_output_and_dimensions(self) -> None:
+        cache_key = "test-cached-render"
+        cache.delete(cache_key)
+        dimensions, lines = render_size("cached output", cache_key=cache_key)
+        self.assertGreater(dimensions.width, 0)
+        self.assertEqual(lines, 1)
+        with Image.open(BytesIO(cache.get(cache_key))) as image:
+            self.assertEqual(image.format, "PNG")
+        with patch(
+            "weblate.fonts.utils._render_size",
+            side_effect=AssertionError("Expected cached dimensions"),
+        ):
+            self.assertEqual(
+                render_size("cached output", cache_key=cache_key), (dimensions, lines)
+            )
+
     def test_uploaded_font_caches_are_bounded(self) -> None:
         self.assertEqual(
             _load_uploaded_font_files.cache_parameters()["maxsize"],
