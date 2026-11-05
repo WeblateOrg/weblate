@@ -10,9 +10,10 @@ from urllib.parse import urlparse
 from django.conf import settings
 from django.db import transaction
 from django.urls import reverse
+from django.utils.crypto import constant_time_compare
 from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
-from social_core.exceptions import AuthConfigurationError
+from social_core.exceptions import AuthConfigurationError, AuthSessionError
 from social_core.groups import group_sync_targets
 from social_django.strategy import DjangoStrategy
 
@@ -24,11 +25,34 @@ if TYPE_CHECKING:
     from typing import Any
 
     from social_core.backends.base import BaseAuth
+    from social_core.storage import PartialMixin
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class WeblateStrategy(DjangoStrategy):
+    def partial_load(self, token: str) -> PartialMixin | None:
+        partial = super().partial_load(token)
+        # Keep pre-upgrade flows valid until their normal expiry.
+        if partial is None or "weblate_email_auth_hash" not in partial.kwargs:
+            return partial
+        saved_hash = partial.kwargs["weblate_email_auth_hash"]
+        user = partial.kwargs.get("user")
+        if (
+            isinstance(saved_hash, str)
+            and user is not None
+            and constant_time_compare(saved_hash, user.get_session_auth_hash())
+        ):
+            return partial
+        self.clean_partial_pipeline(token)
+        self.session_pop("reauthenticate")
+        self.session_pop("reauthenticate_done")
+        raise AuthSessionError(
+            self.get_backend(partial.backend),
+            code="weblate.confirmation_expired",
+            stage="pipeline",
+        )
+
     def sync_user_groups(
         self,
         user: User,

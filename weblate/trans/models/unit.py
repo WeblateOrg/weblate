@@ -38,7 +38,7 @@ from weblate.auth.results import PermissionResult
 from weblate.auth.scope import get_permission_scope_query
 from weblate.checks.flags import Flags, FlagsValidator
 from weblate.checks.models import CHECKS, Check
-from weblate.formats.helpers import CONTROLCHARS
+from weblate.formats.helpers import CONTROLCHARS, CONTROLCHARS_TRANS
 from weblate.memory.tasks import (
     get_unit_memory_update,
     schedule_memory_update,
@@ -3265,6 +3265,11 @@ class Unit(models.Model, LoggerMixin):
         # Apply autofixes
         if not self.translation.is_template:
             new_target_list, self.fixups = fix_target(new_target_list, self)
+
+        # Files containing these characters would fail validation on reload.
+        new_target_list = [
+            text.translate(CONTROLCHARS_TRANS) for text in new_target_list
+        ]
 
         # Update unit and save it
         if "tbx_terms" in self.details:

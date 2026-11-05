@@ -21,6 +21,7 @@ from weblate.trans.hooks.repository import validate_full_name
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
+    HOOK_MAX_REPOSITORY_URLS,
     HookPayloadError,
     HookRequestSerializer,
     extract_payload,
@@ -1584,6 +1585,17 @@ class HooksViewTest(ReusableViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_github_trailing_slash(self) -> None:
+        self.component.repo = "git://github.com/defunkt/github.git/"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": GITHUB_PAYLOAD},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(response, "Update triggered")
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_disabled(self) -> None:
         # Adjust matching repo
         self.component.repo = "git://github.com/defunkt/github.git"
@@ -1640,6 +1652,45 @@ class HooksViewTest(ReusableViewTestCase):
         self.assertContains(
             response, "No matching repositories found!", status_code=202
         )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_bitbucket_rejects_excess_clone_links(self) -> None:
+        payload = json.loads(BITBUCKET_PAYLOAD_SERVER)
+        payload["repository"]["links"]["clone"] = [
+            {"href": f"https://example.invalid/{index}", "name": "http"}
+            for index in range(HOOK_MAX_REPOSITORY_URLS + 1)
+        ]
+        with patch("weblate.trans.views.hooks.get_hook_components") as components:
+            response = self.client.post(
+                reverse("webhook", kwargs={"service": "bitbucket"}),
+                {"payload": json.dumps(payload)},
+                headers={"x-event-key": "repo:refs_changed"},
+            )
+        self.assertContains(response, "Too many repository URLs", status_code=400)
+        components.assert_not_called()
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_rejects_excess_repository_urls_from_handler(self) -> None:
+        service_data = {
+            "service_long_name": "Test",
+            "repo_url": "https://example.invalid/repository",
+            "repos": [
+                f"https://example.invalid/{index}"
+                for index in range(HOOK_MAX_REPOSITORY_URLS + 1)
+            ],
+            "branch": "main",
+            "full_name": "example/repository",
+        }
+        with (
+            patch.dict(HOOK_HANDLERS, {"github": lambda _data, _request: service_data}),
+            patch("weblate.trans.views.hooks.get_hook_components") as components,
+        ):
+            response = self.client.post(
+                reverse("webhook", kwargs={"service": "github"}),
+                {"payload": GITHUB_PAYLOAD},
+            )
+        self.assertContains(response, "Too many repository URLs", status_code=400)
+        components.assert_not_called()
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg(self) -> None:

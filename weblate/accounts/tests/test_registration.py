@@ -11,7 +11,7 @@ import re
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse
 
@@ -26,10 +26,11 @@ from django.test import Client, RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 from social_core.backends.email import EmailAuth
 from social_core.pipeline.social_auth import social_names
-from social_django.models import Code, DjangoStorage, UserSocialAuth
+from social_django.models import Code, DjangoStorage, Partial, UserSocialAuth
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.flows import (
@@ -54,6 +55,8 @@ from weblate.accounts.tasks import (
 from weblate.accounts.utils import (
     FIRST_FACTOR_VERIFY_SECONDS,
     SESSION_SENSITIVE_FACTOR_GRANT,
+    grant_sensitive_verification,
+    lock_user,
 )
 from weblate.auth.forms import bulk_lookup_invited_users, lookup_invited_user
 from weblate.auth.models import (
@@ -78,6 +81,8 @@ from weblate.utils.ratelimit import reset_rate_limit
 if TYPE_CHECKING:
     from altcha import ChallengeV1 as Challenge
     from django.test.client import _MonkeyPatchedWSGIResponse
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 REGISTRATION_DATA = {
     "username": "username",
@@ -577,11 +582,15 @@ class EmailRecoveryTest(BaseRegistrationTest):
 
 
 @override_settings(REGISTRATION_CAPTCHA=False)
-class EmailLinkingTest(TestCase):
+class EmailLinkingTest(TestCase, RegistrationTestMixin):
     def setUp(self) -> None:
         self.user = User.objects.create_user(
             "linking-user", "old-mailbox@example.org", "secret"
         )
+        social = self.user.social_auth.create(
+            provider="email", uid=self.user.email, id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email=self.user.email)
         self.owner = User.objects.create_user(
             "existing-owner", "primary-mailbox@example.org", "other-secret"
         )
@@ -604,6 +613,193 @@ class EmailLinkingTest(TestCase):
             return self.client.post(
                 reverse("email_login"), {"email": email}, follow=True
             )
+
+    def start_addition(self) -> str:
+        mail.outbox.clear()
+        response = self.submit_email("unused@example.net")
+        self.assertRedirects(response, reverse("email-sent"))
+        return self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
+
+    def assert_addition_rejected(self, url: str) -> None:
+        token = parse_qs(urlparse(url).query)["partial_token"][0]
+        response = self.confirm_registration_url(url)
+        self.assertContains(response, "confirmation link probably expired")
+        self.assertNotIn("reauthenticate", self.client.session)
+        self.assertNotIn("reauthenticate_done", self.client.session)
+        self.assertFalse(Partial.objects.filter(token=token).exists())
+        self.assertFalse(
+            VerifiedEmail.objects.filter(email="unused@example.net").exists()
+        )
+        self.assertEqual(
+            set(self.user.social_auth.values_list("pk", flat=True)),
+            self.original_identities,
+        )
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "old-mailbox@example.org")
+
+    def change_password(self) -> None:
+        response = self.client.post(
+            reverse("password"),
+            {
+                "password": "secret",
+                "new_password1": "1new-pa$$word!",
+                "new_password2": "1new-pa$$word!",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("1new-pa$$word!"))
+
+    def test_password_change_revokes_pending_addition(self) -> None:
+        url = self.start_addition()
+        self.change_password()
+        self.client.logout()
+        self.assertTrue(
+            self.client.login(username=self.user.username, password="1new-pa$$word!")
+        )
+        self.assert_addition_rejected(url)
+
+    def test_password_change_revokes_pending_password_confirmation(self) -> None:
+        url = self.start_addition()
+        response = self.confirm_registration_url(url)
+        self.assertRedirects(response, reverse("confirm"))
+        self.change_password()
+        response = self.client.post(
+            reverse("confirm"), {"password": "1new-pa$$word!"}, follow=True
+        )
+        self.assertContains(response, "confirmation link probably expired")
+        self.assertNotIn("reauthenticate", self.client.session)
+        self.assertNotIn("reauthenticate_done", self.client.session)
+        self.assertFalse(
+            VerifiedEmail.objects.filter(email="unused@example.net").exists()
+        )
+        self.assertEqual(
+            set(self.user.social_auth.values_list("pk", flat=True)),
+            self.original_identities,
+        )
+
+    def test_password_change_revokes_pending_second_factor(self) -> None:
+        url = self.start_addition()
+        TOTPDevice.objects.create(user=self.user, name="test", confirmed=True)
+        response = self.confirm_registration_url(url)
+        self.assertIn("/second-factor/totp/", response.redirect_chain[-1][0])
+        continuation = parse_qs(urlparse(response.redirect_chain[-1][0]).query)["next"][
+            0
+        ]
+        self.user.set_password("1new-pa$$word!")
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        self.assert_addition_rejected(continuation)
+
+    def test_password_reset_revokes_pending_addition(self) -> None:
+        url = self.start_addition()
+        self.client.logout()
+        mail.outbox.clear()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(reverse("password_reset"), {"email": self.user.email})
+        reset_url = self.assert_registration_mailbox(
+            "[Weblate] Password reset on Weblate"
+        )
+        # Open the password reset link in a fresh browser session.
+        self.client = Client()
+        response = self.confirm_registration_url(reset_url)
+        self.assertRedirects(response, reverse("password_reset"))
+        response = self.client.post(
+            reverse("password_reset"),
+            {
+                "new_password1": "1new-pa$$word!",
+                "new_password2": "1new-pa$$word!",
+            },
+        )
+        self.assertRedirects(response, reverse("login"))
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("1new-pa$$word!"))
+        self.client.force_login(self.user)
+        self.assert_addition_rejected(url)
+
+    def test_password_setup_revokes_pending_addition(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(self.user)
+        # Model recent proof from an already-linked sign-in provider.
+        request = cast("AuthenticatedHttpRequest", RequestFactory().get("/"))
+        request.user = self.user
+        request.session = self.client.session
+        grant_sensitive_verification(request)
+        request.session.save()
+        url = self.start_addition()
+        self.client.post(
+            reverse("password"),
+            {
+                "new_password1": "1new-pa$$word!",
+                "new_password2": "1new-pa$$word!",
+            },
+        )
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("1new-pa$$word!"))
+        self.assert_addition_rejected(url)
+
+    def test_account_lock_revokes_pending_addition(self) -> None:
+        url = self.start_addition()
+        lock_user(self.user, "admin-locked")
+        self.assert_addition_rejected(url)
+
+    def test_fresh_addition_after_password_change(self) -> None:
+        old_url = self.start_addition()
+        self.change_password()
+        self.assert_addition_rejected(old_url)
+        self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "password": "1new-pa$$word!"},
+        )
+        url = self.start_addition()
+        self.confirm_registration_url(url)
+        self.client.post(
+            reverse("confirm"), {"password": "1new-pa$$word!"}, follow=True
+        )
+        self.assertTrue(
+            VerifiedEmail.objects.filter(
+                social__user=self.user, email="unused@example.net"
+            ).exists()
+        )
+
+    def test_legacy_addition_survives_password_change(self) -> None:
+        url = self.start_addition()
+        token = parse_qs(urlparse(url).query)["partial_token"][0]
+        partial = cast("Partial", Partial.objects.get(token=token))
+        del partial.data["kwargs"]["weblate_email_auth_hash"]
+        partial.save(update_fields=["data"])
+        self.change_password()
+        self.confirm_registration_url(url)
+        self.client.post(
+            reverse("confirm"), {"password": "1new-pa$$word!"}, follow=True
+        )
+        self.assertTrue(
+            VerifiedEmail.objects.filter(
+                social__user=self.user, email="unused@example.net"
+            ).exists()
+        )
+
+    def test_malformed_binding_rejected(self) -> None:
+        bindings: tuple[object, ...] = (None, "", 1, [], {})
+        for binding in bindings:
+            with self.subTest(binding=binding):
+                url = self.start_addition()
+                token = parse_qs(urlparse(url).query)["partial_token"][0]
+                partial = cast("Partial", Partial.objects.get(token=token))
+                partial.data["kwargs"]["weblate_email_auth_hash"] = binding
+                partial.save(update_fields=["data"])
+                self.assert_addition_rejected(url)
+
+    def test_missing_user_rejected(self) -> None:
+        url = self.start_addition()
+        token = parse_qs(urlparse(url).query)["partial_token"][0]
+        partial = cast("Partial", Partial.objects.get(token=token))
+        partial.data["kwargs"]["user"] = None
+        partial.save(update_fields=["data"])
+        self.assert_addition_rejected(url)
 
     def test_browser_response_does_not_disclose_ownership(self) -> None:
         pages = []
