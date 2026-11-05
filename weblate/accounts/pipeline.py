@@ -67,6 +67,11 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from typing import Any
+
+    from social_core.backends.base import BaseAuth
+
+    from weblate.accounts.strategy import WeblateStrategy
 
     from social_core.backends.base import BaseAuth
 
@@ -232,16 +237,27 @@ def reauthenticate(
 
 
 @partial
-def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
+def require_email(
+    strategy: WeblateStrategy,
+    backend: BaseAuth,
+    details: dict[str, Any],
+    weblate_action: str,
+    user: User | None = None,
+    is_new: bool = False,
+    **kwargs: object,
+) -> dict[str, bool] | None:
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github" and "emails" in kwargs["response"]:
-        email, emails = parse_github_emails(kwargs["response"]["emails"])
-        details["verified_emails"] = emails
-        if email is not None:
-            details["email"] = email
+    if backend.name == "github":
+        response = cast("Mapping[str, Any]", kwargs["response"])
+        if "emails" in response:
+            email, emails = parse_github_emails(response["emails"])
+            details["verified_emails"] = emails
+            if email is not None:
+                details["email"] = email
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
+        verify_email_confirmation(strategy, backend)
         invalidate_reset_codes(emails=(details["email"],))
         # Remove all account reset codes
         if user and weblate_action == "reset":
@@ -261,8 +277,23 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
     return None
 
 
+def verify_email_confirmation(strategy: WeblateStrategy, backend: BaseAuth) -> None:
+    """Allow e-mail confirmation only from a checked Weblate form request."""
+    if backend.name == "email" and not getattr(
+        strategy.request, "weblate_email_confirmation", False
+    ):
+        raise AuthPolicyError(
+            backend,
+            code="weblate.confirmation_not_requested",
+            stage="pipeline",
+            recovery="restart_login",
+        )
+
+
 def send_validation(strategy, backend, code, partial_token) -> None:
     """Send verification e-mail."""
+    verify_email_confirmation(strategy, backend)
+
     # We need to have existing session
     session = strategy.request.session
     if not session.session_key:

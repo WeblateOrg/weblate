@@ -2578,6 +2578,9 @@ class AuthenticatedHttpRequest(HttpRequest):
     # type hint for auth
     backend: BaseAuth | None
 
+    # Set by checked account forms before starting e-mail confirmation.
+    weblate_email_confirmation: bool
+
     # type hint for accounts middleware
     weblate_cached_user: User
 
