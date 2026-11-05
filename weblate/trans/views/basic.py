@@ -5,7 +5,15 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    cast,
+    overload,
+)
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -90,6 +98,7 @@ from weblate.utils.views import (
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.component import ComponentQuerySet
+    from weblate.utils.forms import UserField
 
 
 class LanguageChangeKwargs(TypedDict):
@@ -111,6 +120,9 @@ def list_projects(request: AuthenticatedHttpRequest):
     query_params = QueryDict(mutable=True)
     projects = request.user.allowed_projects
     form = ProjectFilterForm(request.GET)
+    if request.user.has_perm("user.view") or request.user.has_perm("user.edit"):
+        cast("UserField", form.fields["owned"]).allow_email = True
+        cast("UserField", form.fields["watched"]).allow_email = True
     if form.is_valid():
         if form.cleaned_data["owned"]:
             user = form.cleaned_data["owned"]
