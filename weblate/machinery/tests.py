@@ -10886,6 +10886,58 @@ class ViewsTest(FixtureTestCase):
         "to a third-party provider."
     )
 
+    def test_translate_rate_limit(self) -> None:
+        from weblate.utils.ratelimit import reset_rate_limit  # ruff: ignore[import-outside-top-level]
+
+        # Restore overrides in the same cleanup order as ensure_dummy_mt().
+        self.enterContext(override_settings(RATELIMIT_MACHINERY_ATTEMPTS=1))
+        reset_rate_limit("machinery", user=self.user)
+        self.addCleanup(reset_rate_limit, "machinery", user=self.user)
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        url = reverse("js-translate", kwargs={"unit_id": unit.pk, "service": "dummy"})
+        self.assertEqual(self.client.post(url).status_code, 200)
+        self.assertEqual(self.client.post(url).status_code, 429)
+
+    def test_translate_concurrency_is_per_installation(self) -> None:
+        from weblate.machinery.admission import machinery_slot  # ruff: ignore[import-outside-top-level]
+
+        self.ensure_dummy_mt()
+        installation = MachineryInstallation.objects.get(engine="dummy")
+        self.enterContext(
+            patch.object(DummyTranslation, "settings_form", BaseMachineryForm)
+        )
+        other = MachineryInstallation.objects.create(engine="dummy", slug="other")
+        unit = self.get_unit()
+        self.async_client.force_login(self.user)
+
+        async def request() -> None:
+            async with (
+                machinery_slot(self.user.pk, installation.pk) as first,
+                machinery_slot(self.user.pk, installation.pk) as second,
+            ):
+                self.assertTrue(first)
+                self.assertTrue(second)
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": installation.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 429)
+                response = await self.async_client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={"unit_id": unit.pk, "service": other.selector},
+                    )
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    response.json()["responseStatus"], 200, response.json()
+                )
+
+        async_to_sync(request)()
+
     def ensure_dummy_mt(self):
         """Ensure we have dummy mt installed."""
         machinery_override = override_settings(
