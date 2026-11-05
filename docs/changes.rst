@@ -23,7 +23,11 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+
 .. rubric:: Compatibility
+
+* Clarified the :ref:`RESP3 datastore requirement <production-cache>` introduced in Weblate 2026.11.1, including errors from incompatible Redis servers or proxies.
 
 .. rubric:: Upgrading
 
@@ -80,8 +84,11 @@ Weblate 2026.11.1
 .. rubric:: Compatibility
 
 * Removed ``/activity/month.json``; use :http:get:`/api/activity/` instead.
+* The updated redis-py dependency requires a :ref:`datastore supporting RESP3 <production-cache>`: Valkey or Redis 6.0 or later, including compatible proxies.
 
 .. rubric:: Upgrading
+
+* Upgrade incompatible Redis servers or proxies before upgrading Weblate. An ``unknown command HELLO`` error, including one reported as ``weblate.C024: Could not use Matplotlib``, indicates this compatibility issue; see :ref:`production-cache`.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

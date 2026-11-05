@@ -163,6 +163,7 @@ def render_size(
     surface_width: int | None = None,
     use_cache: bool = True,
 ) -> tuple[Dimensions, int]:
+    """Measure text, skipping Django cache reads and writes if use_cache is false."""
     font_hash = calculate_hash("\0".join((font, *font_siblings)))
     render_cache_key = f"render:{calculate_hash(text)}:{font_hash}:{int(weight) if weight is not None else ''}:{size}:{spacing}:{width}:{lines}:{cache_key}:{surface_height}:{surface_width}"
     if use_cache:
@@ -182,11 +183,12 @@ def render_size(
         surface_height=surface_height,
         surface_width=surface_width,
     )
-    if cache_key:
-        # Longer expiry for rendered results so that it can be recalculated
-        django_cache.set(cache_key, buffer, timeout=4200)
     result = pixel_size, line_count
-    django_cache.set(render_cache_key, result, timeout=3600)
+    if use_cache:
+        if cache_key:
+            # Longer expiry for rendered results so that it can be recalculated
+            django_cache.set(cache_key, buffer, timeout=4200)
+        django_cache.set(render_cache_key, result, timeout=3600)
     return result
 
 

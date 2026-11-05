@@ -2283,9 +2283,12 @@ Datastore server setup
 Using Valkey or Redis is required by the Weblate container and you have to
 provide a connection parameters when running Weblate in Docker.
 
+The datastore and any proxy must support RESP3.
+
 .. seealso::
 
-   :ref:`production-cache`
+   :ref:`production-cache` for version requirements and troubleshooting
+   ``unknown command HELLO`` errors.
 
 .. envvar:: REDIS_HOST
 
