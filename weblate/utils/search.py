@@ -55,7 +55,9 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from django.db.models import Expression, Model
+    from django.db.models import Expression, Model, QuerySet
+
+    from weblate.trans.models import Change
 
 
 class SearchQueryError(Exception):
@@ -63,6 +65,10 @@ class SearchQueryError(Exception):
 
 
 SearchParser = Literal["unit", "user", "superuser", "screenshot"]
+
+
+class ContributionScopeExists(Exists):
+    """Mark a positive, concrete contribution scope for user discovery."""
 
 
 # Helper parsing objects
@@ -103,17 +109,22 @@ MAX_SEARCH_QUERY_TERMS = 128
 class ParsedQueryClause:
     query: Q
     change_query: Q | None = None
+    changes: QuerySet[Change] | None = None
+    resource_bounded: bool = False
 
     def materialize(self) -> Q:
         if self.change_query is None:
             return self.query
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Change
+        if self.changes is None:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Change
 
-        return self.query & Q(
-            Exists(Change.objects.filter(self.change_query, unit_id=OuterRef("pk")))
-        )
+            changes: QuerySet[Change] = Change.objects.filter(unit_id=OuterRef("pk"))
+        else:
+            changes = self.changes
+        expression = ContributionScopeExists if self.resource_bounded else Exists
+        return self.query & Q(expression(changes.filter(self.change_query)))
 
     def combine_and(self, other: ParsedQueryClause) -> ParsedQueryClause:
         change_query: Q | None
@@ -124,7 +135,12 @@ class ParsedQueryClause:
         else:
             change_query = self.change_query & other.change_query
 
-        return ParsedQueryClause(self.query & other.query, change_query)
+        return ParsedQueryClause(
+            self.query & other.query,
+            change_query,
+            self.changes if self.changes is not None else other.changes,
+            self.resource_bounded or other.resource_bounded,
+        )
 
 
 @dataclass(slots=True)
@@ -136,8 +152,14 @@ class ParsedQuery:
         return cls([ParsedQueryClause(query)])
 
     @classmethod
-    def from_change_query(cls, change_query: Q) -> ParsedQuery:
-        return cls([ParsedQueryClause(Q(), change_query)])
+    def from_change_query(
+        cls,
+        change_query: Q,
+        changes: QuerySet[Change] | None = None,
+        *,
+        resource_bounded: bool = False,
+    ) -> ParsedQuery:
+        return cls([ParsedQueryClause(Q(), change_query, changes, resource_bounded)])
 
     def materialize(self) -> Q:
         if not self.clauses:
@@ -1141,15 +1163,23 @@ class UnitTermExpr(BaseTermExpr):
 
 
 class UserTermExpr(BaseTermExpr):
+    CHANGE_FIELDS: ClassVar[set[str]] = {
+        "change_action",
+        "change_time",
+        "contributes",
+        "translates",
+    }
+    CHANGE_FIELD_MAP: ClassVar[dict[str, str]] = {
+        "change_action": "action",
+        "change_time": "timestamp",
+        "translates": "language__code",
+    }
     PLAIN_FIELDS: ClassVar[set[str]] = {"username", "full_name"}
     NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "joined": "date_joined",
-        "change_time": "change__timestamp",
-        "change_action": "change__action",
     }
     EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "language": "profile__languages__code",
-        "translates": "change__language__code",
     }
     enable_fulltext: ClassVar[bool] = False
 
@@ -1159,7 +1189,28 @@ class UserTermExpr(BaseTermExpr):
     def convert_non_field(self, context: dict) -> Q:
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
-    def contributes_field(self, text: str, context: dict) -> Q:
+    def change_field_name(self, field: str, suffix: str | None = None) -> str:
+        if suffix is None:
+            suffix = OPERATOR_MAP[self.operator]
+        if field == "translates" and suffix == "substring":
+            suffix = "iexact"
+        if field == "translates":
+            return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+        if suffix in {"substring", "iexact"}:
+            return self.CHANGE_FIELD_MAP[field]
+        return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+
+    def as_change_query(self, context: dict) -> Q:
+        field = cast("str", self.field)
+        if field == "contributes":
+            return self.contributes_query(self.match)
+        match = self.match
+        convert_method = getattr(self, f"convert_{field}", None)
+        if convert_method is not None:
+            match = convert_method(match)
+        return self.build_field_query(field, match, self.change_field_name)
+
+    def contributes_query(self, text: str) -> Q:
         if (
             not isinstance(text, str)
             or not text.strip()
@@ -1169,32 +1220,37 @@ class UserTermExpr(BaseTermExpr):
             raise SearchQueryError(
                 gettext("A concrete project or component is required.")
             )
-        user = context["user"]
         if "/" not in text:
-            slug_filter = Q(change__project__slug__iexact=text)
-            if user.needs_component_restrictions_filter:
-                slug_filter &= Q(
-                    change__component__isnull=True
-                ) | user.get_component_access_query("change__component")
-        else:
-            slug_filter = Q(
-                change__component_id__in=list(
-                    Component.objects.filter_access(user)
-                    .filter_by_path(text)
-                    .values_list("id", flat=True)
-                )
-            )
-        result = slug_filter & Q(change__project__in=user.allowed_projects)
+            return Q(project__slug__iexact=text)
+        return Q(component_id__in=Component.objects.filter_by_path(text).values("pk"))
+
+    def change_queryset(self, context: dict) -> QuerySet[Change]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change
+
+        user = context["user"]
+        result: QuerySet[Change] = Change.objects.filter_projects(
+            user
+        ).filter_components(user)
         if not user.is_superuser:
             from weblate.accounts.visibility import filter_contributor_changes  # ruff: ignore[import-outside-top-level]
-            from weblate.trans.models import Change  # ruff: ignore[import-outside-top-level]
 
-            result &= Q(
-                change__pk__in=filter_contributor_changes(
-                    Change.objects.all(), user
-                ).values("pk")
+            result = filter_contributor_changes(result, user)
+        return result.filter(user_id=OuterRef("pk"))
+
+    def as_parsed_query(self, context: dict) -> ParsedQuery:
+        if self.field in self.CHANGE_FIELDS:
+            return ParsedQuery.from_change_query(
+                self.as_change_query(context),
+                self.change_queryset(context),
+                resource_bounded=self.field == "contributes",
             )
-        return result
+        return super().as_parsed_query(context)
+
+    def as_query(self, context: dict) -> Q:
+        if self.field in self.CHANGE_FIELDS:
+            return self.as_parsed_query(context).materialize()
+        return super().as_query(context)
 
 
 class SuperuserUserTermExpr(UserTermExpr):

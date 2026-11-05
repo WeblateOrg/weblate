@@ -49,6 +49,8 @@ AUTO_ACTIONS = {
     ),
 }
 
+HISTORY_LIST_TEXT_LIMIT = 4096
+
 
 class ChangeDetailsRenderFactory:
     @staticmethod
@@ -490,6 +492,7 @@ def get_change_history_context(
     *,
     include_private_details: bool = True,
     viewer: User | AnonymousUser | None = None,
+    list_preview: bool = False,
 ) -> dict[str, Any]:
     """
     Get context for rendering change history.
@@ -512,6 +515,24 @@ def get_change_history_context(
             or change.show_removed_string()
         ):
             return ShowChangeAction(change).get_context()
+    if list_preview and (
+        len(change.old) > HISTORY_LIST_TEXT_LIMIT
+        or len(change.target) > HISTORY_LIST_TEXT_LIMIT
+        or any(
+            isinstance(value, str) and len(value) > HISTORY_LIST_TEXT_LIMIT
+            for value in change.details.values()
+        )
+        or (
+            (change.show_content() or change.show_source())
+            and change.unit is not None
+            and len(change.get_source()) > HISTORY_LIST_TEXT_LIMIT
+        )
+    ):
+        return {
+            "description": gettext("Content is too long to show in the change list."),
+            "change_details_fields": [],
+            "preview_truncated": True,
+        }
     if not include_private_details and change.action == ActionEvents.ALERT_DISMISSED:
         details = RenderAlert.render_alert(change)
     else:

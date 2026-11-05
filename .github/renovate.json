@@ -46,21 +46,6 @@
       "groupSlug": "opentelemetry"
     },
     {
-      "description": "Update pinned macOS Homebrew snapshot monthly",
-      "matchPackageNames": [
-        "https://github.com/Homebrew/brew",
-        "https://github.com/Homebrew/homebrew-core",
-        "https://github.com/Homebrew/homebrew-cask"
-      ],
-      "groupName": "macOS Homebrew snapshot",
-      "groupSlug": "macos-homebrew",
-      "schedule": [
-        "* 0 1 * *"
-      ],
-      "updateNotScheduled": false,
-      "automerge": false
-    },
-    {
       "description": "Allow OpenTelemetry instrumentation beta releases",
       "matchPackageNames": [
         "opentelemetry-instrumentation-celery",
@@ -178,51 +163,6 @@
       "datasourceTemplate": "custom.github-release-asset-digest",
       "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-cyclonedx-cli\n{{{indentation}}}CYCLONEDX_CLI_VERSION: {{{newValue}}}\n{{{indentation}}}CYCLONEDX_CLI_DIGEST: {{{newDigest}}}"
-    },
-    {
-      "customType": "regex",
-      "description": "Update pinned Homebrew Git revision for macOS CI",
-      "managerFilePatterns": [
-        "/^\\.github\\/workflows\\/macos\\.yml$/"
-      ],
-      "matchStrings": [
-        "(?<indentation>[ \\t]*)# renovate-homebrew-brew\\r?\\n[ \\t]*HOMEBREW_BREW_REF: (?<currentDigest>[a-f0-9]{40})"
-      ],
-      "currentValueTemplate": "main",
-      "depNameTemplate": "Homebrew/brew",
-      "packageNameTemplate": "https://github.com/Homebrew/brew",
-      "datasourceTemplate": "git-refs",
-      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-brew\n{{{indentation}}}HOMEBREW_BREW_REF: {{{newDigest}}}"
-    },
-    {
-      "customType": "regex",
-      "description": "Update pinned Homebrew core Git revision for macOS CI",
-      "managerFilePatterns": [
-        "/^\\.github\\/workflows\\/macos\\.yml$/"
-      ],
-      "matchStrings": [
-        "(?<indentation>[ \\t]*)# renovate-homebrew-core\\r?\\n[ \\t]*HOMEBREW_CORE_REF: (?<currentDigest>[a-f0-9]{40})"
-      ],
-      "currentValueTemplate": "main",
-      "depNameTemplate": "Homebrew/homebrew-core",
-      "packageNameTemplate": "https://github.com/Homebrew/homebrew-core",
-      "datasourceTemplate": "git-refs",
-      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-core\n{{{indentation}}}HOMEBREW_CORE_REF: {{{newDigest}}}"
-    },
-    {
-      "customType": "regex",
-      "description": "Update pinned Homebrew cask Git revision for macOS CI",
-      "managerFilePatterns": [
-        "/^\\.github\\/workflows\\/macos\\.yml$/"
-      ],
-      "matchStrings": [
-        "(?<indentation>[ \\t]*)# renovate-homebrew-cask\\r?\\n[ \\t]*HOMEBREW_CASK_REF: (?<currentDigest>[a-f0-9]{40})"
-      ],
-      "currentValueTemplate": "main",
-      "depNameTemplate": "Homebrew/homebrew-cask",
-      "packageNameTemplate": "https://github.com/Homebrew/homebrew-cask",
-      "datasourceTemplate": "git-refs",
-      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-cask\n{{{indentation}}}HOMEBREW_CASK_REF: {{{newDigest}}}"
     },
     {
       "customType": "regex",
