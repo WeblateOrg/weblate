@@ -11,6 +11,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Restricted propagated check dismissals to components where the user may dismiss the check.
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
