@@ -275,6 +275,21 @@ class GitExportTest(ReusableViewTestCase):
         response = self.git_receive()
         self.assertContains(response, "refs/heads/main")
 
+    @override_settings(REQUIRE_LOGIN=True)
+    def test_git_receive_requires_login(self) -> None:
+        with patch("weblate.gitexport.views.GitHTTPBackendWrapper") as backend:
+            response = self.git_receive()
+        self.assertEqual(response.status_code, 401)
+        self.assertIn("Basic", response["WWW-Authenticate"])
+        backend.assert_not_called()
+
+    @override_settings(REQUIRE_LOGIN=True)
+    def test_git_receive_accepts_basic_authentication(self) -> None:
+        response = self.git_receive(
+            HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
+        )
+        self.assertContains(response, "refs/heads/main")
+
     def test_git_receive_error(self) -> None:
         response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
         self.assertEqual(404, response.status_code)
