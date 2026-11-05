@@ -2618,6 +2618,19 @@ class ProjectViewSet(
             created = False
             try:
                 with transaction.atomic():
+                    if (
+                        "weblate.billing" in settings.INSTALLED_APPS
+                        and obj.workspace_id is not None
+                        and not request.user.is_superuser
+                    ):
+                        from weblate.billing.models import Billing  # ruff: ignore[import-outside-top-level]
+
+                        try:
+                            Billing.objects.lock_component_creation(obj.workspace_id)
+                        except DjangoValidationError:
+                            self.permission_denied(
+                                request, "No valid billing found or limit exceeded."
+                            )
                     serializer.is_valid(raise_exception=True)
                     serializer.save()
                     component = serializer.instance
