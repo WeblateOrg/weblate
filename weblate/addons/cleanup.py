@@ -145,6 +145,8 @@ class ResetAddon(BaseAddon):
     repo_scope = True
     icon = "eraser.svg"
     version_added = "5.17"
+    user_name = "reset"
+    user_verbose = "Repository reset add-on"
 
     @classmethod
     def can_install(
