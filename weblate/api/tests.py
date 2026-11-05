@@ -22147,6 +22147,20 @@ class AddonAPITest(APIBaseTest):
         # Existing
         self.create_project_addon(code=400)
 
+    def test_project_addon_install_checks_eligibility(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        response = self.create_project_addon(
+            name="weblate.fedora_messaging.publish",
+            superuser=False,
+            code=400,
+        )
+        self.assertIn("not compatible", response.data["errors"][0]["detail"])
+        self.assertFalse(
+            self.project.addon_set.filter(
+                name="weblate.fedora_messaging.publish"
+            ).exists()
+        )
+
     def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()
         self.do_request(

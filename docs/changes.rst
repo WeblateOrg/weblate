@@ -11,6 +11,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
