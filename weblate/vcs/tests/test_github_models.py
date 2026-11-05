@@ -167,6 +167,20 @@ class TestGitHubInstallationManager(TestCase):
         component = self._make_component(repo)
         return GithubAppRepository(".", branch="main", component=component, local=True)
 
+    def test_app_credentials_reject_other_host(self) -> None:
+        repository = self._make_app_repository()
+        with patch.object(
+            GithubAppRepository, "_resolve_github_app_credentials_for_repo"
+        ) as resolve:
+            with self.assertRaises(RepositoryError):
+                repository.get_credentials_by_hostname("attacker.example")
+            resolve.assert_not_called()
+            resolve.return_value = {"username": "x-access-token", "token": "test-token"}
+            self.assertEqual(
+                repository.get_credentials_by_hostname("GITHUB.COM"),
+                resolve.return_value,
+            )
+
     def test_get_for_repo(self) -> None:
         self.assertEqual(
             GitHubInstallation.objects.get_for_repo("github.com", "test-org/repo1"),

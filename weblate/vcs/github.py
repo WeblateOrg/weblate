@@ -1495,10 +1495,15 @@ class GithubAppRepository(GithubRepository):
     def get_remote_branch(cls, _repo: str) -> str:
         raise RepositoryInternalError(0, "github_app_branch_required")
 
-    def _resolve_github_app_token(self, _hostname: str) -> dict[str, str] | None:
+    def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
         """Resolve an installation access token for the parsed repository."""
         if self.component is None:
             raise RepositoryInternalError(0, "github_app_workspace_required")
+        if (
+            normalize_github_app_hostname(hostname)
+            != urlparse(self.component.repo).hostname
+        ):
+            return None
         workspace = self._get_component_workspace()
         return GithubAppRepository._resolve_github_app_credentials_for_repo(
             self.component.repo, workspace=workspace
