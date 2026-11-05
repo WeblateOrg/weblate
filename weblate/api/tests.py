@@ -6953,6 +6953,61 @@ class ProjectAPITest(APIBaseTest):
         self.assertIsNone(component.linked_component_id)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_admin_cannot_create_component_with_invalid_billing(
+        self,
+    ) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        request = {
+            "name": "Extra component",
+            "slug": "extra-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+
+        for state, paid, in_limits in (
+            (billing.STATE_TRIAL, True, False),
+            (billing.STATE_ACTIVE, False, True),
+            (billing.STATE_TERMINATED, True, True),
+        ):
+            with self.subTest(state=state, paid=paid, in_limits=in_limits):
+                billing.state = state
+                billing.paid = paid
+                billing.in_limits = in_limits
+                billing.save(skip_limits=True)
+                response = self.do_request(
+                    "api:project-components",
+                    self.project_kwargs,
+                    method="post",
+                    code=403,
+                    request=request,
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "No valid billing found or limit exceeded.",
+                )
+                self.assertFalse(
+                    Component.objects.filter(slug="extra-component").exists()
+                )
+
+        billing.state = billing.STATE_TRIAL
+        billing.in_limits = True
+        billing.save(skip_limits=True)
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            request=request,
+        )
+        self.assertTrue(Component.objects.filter(slug="extra-component").exists())
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     @override_settings(OFFER_HOSTING=True)
     def test_project_admin_can_create_restricted_component(self) -> None:
         billing = create_test_billing(self.user)

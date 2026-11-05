@@ -25,6 +25,8 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
+
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 
 .. rubric:: Compatibility
