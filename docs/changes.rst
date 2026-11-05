@@ -11,6 +11,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes
