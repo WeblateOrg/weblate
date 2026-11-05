@@ -7,6 +7,8 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
+
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
@@ -14,6 +16,8 @@ Weblate 2026.11.2
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
+
+* Pending e-mail additions started before this upgrade retain their existing validity and expiry behavior.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
