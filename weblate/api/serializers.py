@@ -112,6 +112,7 @@ from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
+from weblate.utils.pii import mask_email
 from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -4729,6 +4730,14 @@ class ChangeSerializer(RemovableSerializer[Change]):
             data["alert"] = None
             return data
         details = data.get("details")
+        if (
+            instance.action == ActionEvents.INVITE_USER
+            and isinstance(details, dict)
+            and isinstance(details.get("email"), str)
+        ):
+            details = deepcopy(details)
+            details["email"] = mask_email(details["email"])
+            data["details"] = details
         if isinstance(details, dict) and not self.can_view_ip_address():
             details = deepcopy(details)
             details.pop("ip_address", None)
