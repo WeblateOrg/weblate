@@ -9,12 +9,18 @@ import json
 from datetime import UTC, datetime
 
 from django.test import SimpleTestCase
+from django.utils.html import conditional_escape
 from django.utils.translation import override
 
 from weblate.utils.render import render_template
 
 
 class RenderTest(SimpleTestCase):
+    def test_output_is_plain_text(self) -> None:
+        rendered = render_template("<b>{{ value }}</b>", value="text")
+        self.assertEqual(rendered, "<b>text</b>")
+        self.assertEqual(conditional_escape(rendered), "&lt;b&gt;text&lt;/b&gt;")
+
     def test_float(self) -> None:
         self.assertEqual(render_template("{{ number }}", number=1.1), "1.1")
 

@@ -303,6 +303,17 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_repoweb_template_markup_is_escaped(self) -> None:
+        self.unit.translation.component.repoweb = (
+            'http://example.net/"><b>{{filename}}#L{{line}}'
+        )
+        self.unit.location = "foo.bar:123"
+        result = get_location_links(self.user, self.unit)
+        self.assertNotIn("<b>", result)
+        self.assertIn(
+            'href="http://example.net/&quot;&gt;&lt;b&gt;foo.bar#L123"', result
+        )
+
     def test_default_github_repoweb(self) -> None:
         component = self.unit.translation.component
         component.vcs = "github-app"
