@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import csv
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -41,6 +41,7 @@ if TYPE_CHECKING:
     from django.db.models import Model
 
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.utils.forms import UserField
 
 
 class ChangesView(PathViewMixin, ListView):
@@ -139,6 +140,13 @@ class ChangesView(PathViewMixin, ListView):
     def setup(self, *args, **kwargs) -> None:
         super().setup(*args, **kwargs)
         self.changes_form = ChangesForm(data=self.request.GET)
+        if self.request.user.has_perm("user.view") or self.request.user.has_perm(
+            "user.edit"
+        ):
+            cast("UserField", self.changes_form.fields["user"]).allow_email = True
+            cast(
+                "UserField", self.changes_form.fields["exclude_user"]
+            ).allow_email = True
         self.date_form = ChangesDateForm(data=self.request.GET)
         self.older_cursor: dict[str, str | int] | None = None
         self.newer_cursor: dict[str, str | int] | None = None

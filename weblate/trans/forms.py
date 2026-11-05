@@ -5013,12 +5013,14 @@ class ChangesForm(forms.Form):
     user = UserField(
         label=gettext_lazy("Author username"),
         required=False,
+        allow_email=False,
         help_text=None,
         widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
     exclude_user = UserField(
         label=gettext_lazy("Exclude author (username)"),
         required=False,
+        allow_email=False,
         help_text=None,
         widget=forms.TextInput(attrs={"data-contributor-autocomplete": "1"}),
     )
@@ -5315,8 +5317,8 @@ class ProjectUserGroupForm(ProjectMemberManageForm):
 
 
 class ProjectFilterForm(forms.Form):
-    owned = UserField(required=False)
-    watched = UserField(required=False)
+    owned = UserField(required=False, allow_email=False)
+    watched = UserField(required=False, allow_email=False)
 
 
 class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
