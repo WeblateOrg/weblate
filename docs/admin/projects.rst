@@ -1433,6 +1433,9 @@ default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
+Changing this setting in a browser session requires recent credential
+verification, see :ref:`2fa`.
+
 Restricted access controls visibility of component pages, translations, API
 reads, and translation memory for users without component access or
 :guilabel:`Edit project settings` permission. Project administrators with that
