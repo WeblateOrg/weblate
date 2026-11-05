@@ -39,7 +39,7 @@ class RestrictedEngine(Engine):
         super().__init__(*args, **kwargs)
 
 
-def render_template(template: str, **kwargs):
+def render_template(template: str, **kwargs: object) -> str:
     """Render string template with Weblate context."""
     from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
         Component,
@@ -101,9 +101,12 @@ def render_template(template: str, **kwargs):
     kwargs["site_url"] = get_site_url()
 
     with override("en"):
-        return Template(template, engine=RestrictedEngine()).render(
+        rendered = Template(template, engine=RestrictedEngine()).render(
             Context(kwargs, autoescape=False)
         )
+    # Django marks this result safe even though its source was not HTML-escaped.
+    # These templates produce plain text; a plain str lets HTML sinks escape it.
+    return "" + rendered
 
 
 def validate_render(value: str, **kwargs) -> str:

@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes
