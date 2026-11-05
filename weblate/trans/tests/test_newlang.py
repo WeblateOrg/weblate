@@ -16,8 +16,11 @@ from django.core import mail
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.auth.models import Permission, Role
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import ContributorAgreement
 from weblate.trans.tasks import perform_load
 from weblate.trans.views.basic import add_languages_to_component
 from weblate.utils.ratelimit import reset_rate_limit
@@ -60,6 +63,63 @@ class NewLangTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.assertFalse(
             self.component.translation_set.filter(language__code="af").exists()
+        )
+
+    def test_team_language_scope_for_creation(self) -> None:
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Language scoped", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.languages.add(Language.objects.get(code="af"))
+        group.roles.add(Role.objects.get(name="Manage languages"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        url = reverse("new-language", kwargs=self.kw_component)
+        response = self.client.post(url, {"lang": "nl"}, follow=True)
+        self.assertContains(
+            response, "You do not have permission to add this language."
+        )
+        self.assertNotContains(response, "View contributor license agreement")
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="nl").exists()
+        )
+        self.reset_rate()
+        self.client.post(url, {"lang": "af"})
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="af").exists()
+        )
+
+        self.component.new_lang = "contact"
+        self.component.save(update_fields=["new_lang"])
+        self.reset_rate()
+        self.client.post(url, {"lang": "nl"})
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.REQUESTED_LANGUAGE, details__language="nl"
+            ).exists()
+        )
+
+    def test_contributor_agreement_for_creation(self) -> None:
+        self.component.agreement = "CLA"
+        self.component.save(update_fields=["agreement"])
+        url = reverse("new-language", kwargs=self.kw_component)
+        response = self.client.post(url, {"lang": "af"}, follow=True)
+        self.assertContains(response, "contributor license agreement")
+        agreement_url = reverse(
+            "contributor-agreement", kwargs={"path": self.component.get_url_path()}
+        )
+        self.assertContains(response, f"{agreement_url}?next={url}")
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="af").exists()
+        )
+
+        ContributorAgreement.objects.create(self.user, self.component)
+        self.reset_rate()
+        self.client.post(url, {"lang": "af"})
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="af").exists()
         )
 
     def test_none(self) -> None:

@@ -131,6 +131,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     ComponentList,
+    ContributorAgreement,
     PendingUnitChange,
     Project,
     SavedSearch,
@@ -12426,6 +12427,67 @@ class ComponentAPITest(APIBaseTest):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_team_language_scope(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Language scoped", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.languages.add(Language.objects.get(code="fa"))
+        group.roles.add(Role.objects.get(name="Manage languages"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "nl"},
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="nl").exists()
+        )
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_contributor_agreement(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.agreement = "CLA"
+        self.component.save(update_fields=["new_lang", "new_base", "agreement"])
+
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        self.assertIn(
+            "contributor license agreement", response.data["errors"][0]["detail"]
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+
+        ContributorAgreement.objects.create(self.user, self.component)
         self.do_request(
             "api:component-translations",
             self.component_kwargs,

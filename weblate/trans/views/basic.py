@@ -19,6 +19,7 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
+from weblate.auth.results import ContributorAgreementDenied
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -1128,8 +1129,46 @@ def add_languages_to_component(
             action = component.get_new_language_action(
                 user, language, existing_language_ids=existing_language_ids
             )
-            if component.can_add_new_language(
-                user, language=language, existing_language_ids=existing_language_ids
+            creation_permission = (
+                user.has_perm(
+                    "translation.add",
+                    Translation(component=component, language=language),
+                )
+                if action == "add"
+                else True
+            )
+            if action == "add" and not creation_permission and show_messages:
+                reason = getattr(creation_permission, "reason", "")
+                if isinstance(creation_permission, ContributorAgreementDenied):
+                    agreement_url = reverse(
+                        "contributor-agreement",
+                        kwargs={"path": component.get_url_path()},
+                    )
+                    new_language_url = reverse(
+                        "new-language", kwargs={"path": component.get_url_path()}
+                    )
+                    messages.error(
+                        request,
+                        format_html(
+                            '{} <a href="{}?next={}">{}</a>',
+                            reason,
+                            agreement_url,
+                            new_language_url,
+                            gettext("View contributor license agreement"),
+                        ),
+                    )
+                else:
+                    messages.error(
+                        request,
+                        reason
+                        or gettext("You do not have permission to add this language."),
+                    )
+            if (
+                action == "add"
+                and creation_permission
+                and component.can_add_new_language(
+                    user, language=language, existing_language_ids=existing_language_ids
+                )
             ):
                 translation = component.add_new_language(
                     language,

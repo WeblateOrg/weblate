@@ -12,6 +12,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
@@ -24,6 +25,7 @@ Weblate 2026.11.2
 .. rubric:: Bug fixes
 
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+* Required contributor agreement acceptance before creating a translation file.
 
 .. rubric:: Compatibility
 
