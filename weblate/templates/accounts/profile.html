@@ -580,7 +580,13 @@
                       {% for name in new_backends %}
                         <a href=""
                            class="btn btn-outline-primary link-post link-auth"
-                           data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23security">{% auth_name name only="icon" %} {% auth_name name only="name" %}</a>
+                           data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23{% if name == 'email' %}account{% else %}security{% endif %}">{% auth_name name only="icon" %}
+                          {% if name == "email" %}
+                            {% translate "Add and verify e-mail address" %}
+                          {% else %}
+                            {% auth_name name only="name" %}
+                          {% endif %}
+                        </a>
                       {% endfor %}
                     </div>
                   </details>

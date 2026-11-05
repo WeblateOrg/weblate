@@ -6108,6 +6108,68 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), corrected)
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_add_email_with_keyboard(self) -> None:
+        """Add an address using keyboard controls through both confirmations."""
+        user = self.do_login()
+        self.confirm_sensitive_password()
+        original_email = user.email
+        mail.outbox.clear()
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}#account")
+        link = self.driver.find_element(By.CSS_SELECTOR, "#account .link-auth")
+        with self.wait_for_page_load():
+            link.send_keys(Keys.ENTER)
+        email = self.driver.find_element(By.ID, "id_email")
+        email.send_keys("keyboard@example.net", Keys.TAB)
+        submit = self.driver.find_element(By.CSS_SELECTOR, 'form input[type="submit"]')
+        self.assertEqual(self.driver.switch_to.active_element, submit)
+        with self.wait_for_page_load():
+            submit.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Check your e-mail",
+        )
+        WebDriverWait(self.driver, 10).until(lambda _driver: bool(mail.outbox))
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
+        with self.wait_for_page_load():
+            self.driver.get(url)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Verify e-mail address",
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, 'form button[type="submit"]'
+            ).send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.find_element(By.CSS_SELECTOR, '[aria-current="page"]').text,
+            "Confirm adding e-mail address",
+        )
+        self.driver.find_element(By.ID, "id_password").send_keys("testpassword")
+        submit = self.driver.find_element(By.CSS_SELECTOR, 'form button[type="submit"]')
+        for _attempt in range(10):
+            if self.driver.switch_to.active_element == submit:
+                break
+            self.driver.switch_to.active_element.send_keys(Keys.TAB)
+        self.assertEqual(self.driver.switch_to.active_element, submit)
+        with self.wait_for_page_load():
+            submit.send_keys(Keys.ENTER)
+        self.assertTrue(self.driver.current_url.endswith("/accounts/profile/#account"))
+        self.assertIn(
+            "Your e-mail address has been added.",
+            self.driver.find_element(By.TAG_NAME, "body").text,
+        )
+        user.refresh_from_db()
+        self.assertEqual(user.email, original_email)
+        self.assertTrue(
+            user.social_auth.filter(
+                provider="email", verifiedemail__email="keyboard@example.net"
+            ).exists()
+        )
+
     def test_profile_validates_only_active_tab(self) -> None:
         """Save other tabs when a legacy account lacks its required full name."""
         user = self.do_login()

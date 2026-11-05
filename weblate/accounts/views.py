@@ -1573,7 +1573,7 @@ def email_login(request: AuthenticatedHttpRequest):
     return render(
         request,
         "accounts/email.html",
-        {"title": gettext("Verify new e-mail address"), "form": form},
+        {"title": gettext("Add and verify e-mail address"), "form": form},
     )
 
 
@@ -1649,7 +1649,11 @@ def password(request: AuthenticatedHttpRequest):
     return render(
         request,
         "accounts/password.html",
-        {"title": gettext("Change password"), "change_form": change_form, "form": form},
+        {
+            "title": gettext("Change password") if usable else gettext("Set password"),
+            "change_form": change_form,
+            "form": form,
+        },
     )
 
 
