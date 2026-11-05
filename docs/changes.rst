@@ -12,6 +12,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Restricted project-wide component locking to components the actor may manage.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
@@ -22,6 +23,8 @@ Weblate 2026.11.2
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 
 .. rubric:: Bug fixes
+
+* Prevented removal of translations from locked components, including project and category language removal.
 
 .. rubric:: Compatibility
 
