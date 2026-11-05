@@ -560,6 +560,41 @@ class ConsistencyCheckTest(ConsistencyUnitsMixin, ReusableComponentTestCase):
         hidden_check.refresh_from_db()
         self.assertFalse(hidden_check.dismissed)
 
+    def test_dismissal_does_not_propagate_without_permission(self) -> None:
+        allowed = self.add_unit(self.translation_1, "same", "Same", "First")
+        denied = self.add_unit(
+            self.translation_2, "same", "Same", "Second", increment=False
+        )
+        allowed_check, _ = Check.objects.get_or_create(
+            unit=allowed, name="inconsistent"
+        )
+        denied_check, _ = Check.objects.get_or_create(unit=denied, name="inconsistent")
+        Check.objects.filter(pk__in=[allowed_check.pk, denied_check.pk]).update(
+            dismissed=False
+        )
+
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Component scoped checks", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component)
+        group.roles.add(Role.objects.get(name="Translate"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.check", allowed_check))
+        self.assertFalse(self.user.has_perm("unit.check", denied_check))
+
+        allowed_check.set_dismiss(user=self.user)
+        allowed_check.refresh_from_db()
+        denied_check.refresh_from_db()
+        self.assertTrue(allowed_check.dismissed)
+        self.assertFalse(denied_check.dismissed)
+
+        Check.objects.filter(pk=denied_check.pk).update(dismissed=True)
+        allowed_check.set_dismiss(state=False, user=self.user)
+        denied_check.refresh_from_db()
+        self.assertTrue(denied_check.dismissed)
+
     def test_reuse_limit_counts_visible_matches(self) -> None:
         third = self.create_link_existing(name="Third", slug="third")
         third_translation = third.translation_set.get(language__code="cs")

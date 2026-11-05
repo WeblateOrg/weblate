@@ -153,7 +153,9 @@ class Check(models.Model):
             return self.check_obj.get_doc_url(user=user)
         return ""
 
-    def set_dismiss(self, *, state: bool = True, recurse: bool = True) -> None:
+    def set_dismiss(
+        self, *, state: bool = True, recurse: bool = True, user: User | None = None
+    ) -> None:
         """Set ignore flag."""
         if self.dismissed != state:
             self.dismissed = state
@@ -165,6 +167,8 @@ class Check(models.Model):
                 unit__in=self.unit.propagated_units.filter_restricted_peers(self.unit),
                 dismissed=not state,
             ).select_for_update():
+                if user is not None and not user.has_perm("unit.check", child):
+                    continue
                 child.set_dismiss(state=state, recurse=False)
 
 

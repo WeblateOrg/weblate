@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Restricted propagated check dismissals to components where the user may dismiss the check.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes
