@@ -2874,7 +2874,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             )
             raise serializers.ValidationError({"restricted": reason})
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         # Handle non-component args
         disable_autoshare = attrs.pop("disable_autoshare", False)
         docfile = attrs.pop("docfile", None)
@@ -2951,6 +2951,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
             # Call model validation here, DRF does not do that
             self.validate_component_instance(instance, source_component)
+            for field in instance.repository_class.component_clear_fields:
+                attrs[field] = getattr(instance, field)
             self.apply_autoshare(attrs, instance, source_component, disable_autoshare)
             if source_component is not None:
                 attrs["from_component"] = source_component

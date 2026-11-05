@@ -12,6 +12,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.

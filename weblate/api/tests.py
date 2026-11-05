@@ -10035,6 +10035,51 @@ class ComponentAPITest(APIBaseTest):
         )
         self.component.refresh_from_db()
 
+    @mock_dns("github.com", "example.com")
+    def test_github_app_api_clears_push_settings(self) -> None:
+        self.configure_github_app_component()
+        Component.objects.filter(pk=self.component.pk).update(vcs="git")
+        for create in (False, True):
+            with (
+                self.subTest(create=create),
+                patch.object(Component, "after_save"),
+                patch.object(Component, "validate_repository_access"),
+                patch.object(Component, "clean_files"),
+                patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
+            ):
+                data = {
+                    "vcs": "github-app",
+                    "repo": "https://github.com/test-org/repo.git",
+                    "branch": "main",
+                    "push": "https://example.com/attacker/repo.git",
+                    "push_branch": "translations",
+                }
+                if create:
+                    data.update(
+                        name="GitHub App cleared",
+                        slug="github-app-cleared",
+                        file_format="po",
+                        filemask="po/*.po",
+                        disable_autoshare=True,
+                        new_lang="none",
+                    )
+                response = self.do_request(
+                    "api:project-components" if create else "api:component-detail",
+                    self.project_kwargs if create else self.component_kwargs,
+                    method="post" if create else "patch",
+                    request=data,
+                    format="json",
+                    superuser=True,
+                    code=201 if create else 200,
+                )
+                self.assertEqual(response.data["push"], "")
+                self.assertEqual(response.data["push_branch"], "")
+                component = Component.objects.get(
+                    project=self.project,
+                    slug="github-app-cleared" if create else self.component.slug,
+                )
+                self.assertEqual((component.push, component.push_branch), ("", ""))
+
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 2)
