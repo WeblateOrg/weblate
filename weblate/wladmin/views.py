@@ -941,7 +941,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
         parser = cast(
             "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "user")
         )
-        user_list = User.objects.search(query, parser=parser)[:2]
+        user_list = User.objects.search(query, parser=parser, user=request.user)[:2]
         if user_list.count() != 1:
             return redirect_param("manage-users", f"?q={quote(form.cleaned_data['q'])}")
         return redirect(user_list[0])

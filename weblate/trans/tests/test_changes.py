@@ -830,6 +830,22 @@ class FeedQueriesTest(FixtureTestCase):
 
 
 class ChangesTest(ReusableViewTestCase):
+    def test_email_author_filter_requires_account_lookup_permission(self) -> None:
+        author = User.objects.create_user("hidden-author", "hidden@example.org", "x")
+        self.client.logout()
+        url = reverse("changes")
+
+        response = self.client.get(url, {"user": author.email})
+        self.assertContains(response, "Could not find any such user.")
+        response = self.client.get(url, {"user": author.username})
+        self.assertNotContains(response, "Could not find any such user.")
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        response = self.client.get(url, {"user": author.email})
+        self.assertNotContains(response, "Could not find any such user.")
+
     def test_anonymous_history_skips_large_diffs(self) -> None:
         Change.objects.all().delete()
         unit = self.get_unit()

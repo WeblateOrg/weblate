@@ -144,9 +144,11 @@ class UserField(forms.CharField):
         to_field_name=None,
         limit_choices_to=None,
         blank=None,
+        allow_email: bool = True,
         **kwargs,
     ) -> None:
         # This swallows some parameters to mimic ModelChoiceField API
+        self.allow_email = allow_email
         super().__init__(**kwargs)
 
     def widget_attrs(self, widget):
@@ -159,7 +161,7 @@ class UserField(forms.CharField):
         attrs["autocapitalize"] = "off"
         return attrs
 
-    def clean(self, value):
+    def clean(self, value: str | None) -> User | None:
         from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not value:
@@ -171,7 +173,10 @@ class UserField(forms.CharField):
                 gettext("String contains control character: %s") % repr(value)
             )
         try:
-            return User.objects.get(Q(username=value) | Q(email=value))
+            lookup = Q(username=value)
+            if self.allow_email:
+                lookup |= Q(email=value)
+            return User.objects.get(lookup)
         except User.DoesNotExist as error:
             raise ValidationError(gettext("Could not find any such user.")) from error
         except User.MultipleObjectsReturned as error:

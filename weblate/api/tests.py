@@ -2321,6 +2321,48 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["email"], verified_email.lower())
         self.assertEqual(self.user.email, verified_email.lower())
 
+    def test_patch_self_email_does_not_reveal_accounts(self) -> None:
+        User.objects.create_user("victim", "victim@example.org", "x")
+        former = User.objects.create_user("former", "former@example.org", "x")
+        former.is_active = False
+        former.save(update_fields=["is_active"])
+
+        for email in (
+            "nobody@example.org",
+            "victim@example.org",
+            "former@example.org",
+        ):
+            with self.subTest(email=email):
+                response = self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=400,
+                    request={"email": email},
+                )
+                self.assertEqual(response.data["errors"][0]["code"], "invalid")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "This e-mail address has not been verified.",
+                )
+
+    def test_patch_self_email_verified_but_taken(self) -> None:
+        taken_email = "victim@example.org"
+        User.objects.create_user("victim", taken_email, "x")
+        social = self.user.social_auth.create(
+            provider="email", uid=taken_email, id_key="email"
+        )
+        VerifiedEmail.objects.create(social=social, email=taken_email)
+
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            request={"email": taken_email},
+        )
+        self.assertEqual(response.data["errors"][0]["code"], "unique")
+
     def test_patch(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -22146,6 +22188,20 @@ class AddonAPITest(APIBaseTest):
         )
         # Existing
         self.create_project_addon(code=400)
+
+    def test_project_addon_install_checks_eligibility(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        response = self.create_project_addon(
+            name="weblate.fedora_messaging.publish",
+            superuser=False,
+            code=400,
+        )
+        self.assertIn("not compatible", response.data["errors"][0]["detail"])
+        self.assertFalse(
+            self.project.addon_set.filter(
+                name="weblate.fedora_messaging.publish"
+            ).exists()
+        )
 
     def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()

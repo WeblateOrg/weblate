@@ -112,11 +112,17 @@ def is_resource_bounded(query: Q) -> bool:
     """
     if query.negated or not query.children:
         return False
+    from weblate.utils.search import ContributionScopeExists  # ruff: ignore[import-outside-top-level]
+
     bounded = [
         is_resource_bounded(child)
         if isinstance(child, Q)
-        else isinstance(child, tuple)
-        and child[0] in {"change__project__slug__iexact", "change__component_id__in"}
+        else isinstance(child, ContributionScopeExists)
+        or (
+            isinstance(child, tuple)
+            and child[0]
+            in {"change__project__slug__iexact", "change__component_id__in"}
+        )
         for child in query.children
     ]
     return all(bounded) if query.connector == "OR" else any(bounded)

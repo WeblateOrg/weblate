@@ -34,6 +34,7 @@ from drf_standardized_errors.openapi_serializers import (
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.reverse import reverse
+from rest_framework.validators import UniqueValidator
 
 from weblate.accounts.models import (
     LISTING_COLUMN_CHOICES,
@@ -1258,6 +1259,17 @@ class UserUpdateRequestSerializer(FullUserSerializer):
 class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
     profile = ProfileSerializer(read_only=True)
 
+    def get_fields(self) -> dict[str, serializers.Field]:
+        fields = super().get_fields()
+        # Check uniqueness only after the address is verified, otherwise this
+        # validator reveals whether an unrelated account has the address.
+        fields["email"].validators = [
+            validator
+            for validator in fields["email"].validators
+            if not isinstance(validator, UniqueValidator)
+        ]
+        return fields
+
     def validate_email(self, value: str | None) -> str | None:
         if self.instance is not None:
             if value is None and self.instance.email is None:
@@ -1266,6 +1278,16 @@ class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
                 value.casefold() == email.casefold()
                 for email in get_all_user_mails(self.instance)
             ):
+                if (
+                    User.objects.filter(email=value)
+                    .exclude(pk=self.instance.pk)
+                    .exists()
+                ):
+                    raise serializers.ValidationError(
+                        # ruff: ignore[private-member-access]
+                        User._meta.get_field("email").error_messages["unique"],
+                        code="unique",
+                    )
                 return value
         raise serializers.ValidationError(
             gettext_lazy("This e-mail address has not been verified.")
@@ -4931,12 +4953,16 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 {"component": "This add-on can only be installed on the component."}
             )
         if not instance:
+            if not addon.can_install(
+                component=component,
+                category=self._context.get("category"),
+                project=project,
+            ):
+                raise serializers.ValidationError(
+                    {"name": f"could not enable add-on {name}, not compatible"}
+                )
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))
-                if not addon.can_install(component=component):
-                    raise serializers.ValidationError(
-                        {"name": f"could not enable add-on {name}, not compatible"}
-                    )
             if project:
                 self.check_addon(name, Addon.objects.filter_project(project))
 

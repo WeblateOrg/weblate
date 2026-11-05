@@ -16,6 +16,7 @@ class VisibilityQueryTest(SimpleTestCase):
     def test_boolean_scopes(self) -> None:
         user = SimpleNamespace(
             allowed_projects=[],
+            needs_project_filter=False,
             needs_component_restrictions_filter=False,
             is_superuser=True,
         )
