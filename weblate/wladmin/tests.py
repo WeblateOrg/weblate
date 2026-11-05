@@ -2060,6 +2060,57 @@ class AdminTest(ReusableViewTestCase):
         ]
         self.assertEqual(workspace_fetches, [])
 
+    def test_invite_forms_only_offer_sitewide_teams(self) -> None:
+        sitewide_group = Group.objects.create(
+            name="Management invitation site-wide team"
+        )
+        workspace = Workspace.objects.create(name="Management invitation workspace")
+        workspace_group = Group.objects.create(
+            name="Management invitation workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management invitation project team", defining_project=self.project
+        )
+
+        response = self.client.get(reverse("manage-users"))
+
+        self.assertEqual(response.status_code, 200)
+        for context_name in ("invite_form", "bulk_invite_form"):
+            with self.subTest(form=context_name):
+                field = response.context[context_name]["group"]
+                self.assertIn(sitewide_group.name, str(field))
+                self.assertNotIn(workspace_group.name, str(field))
+                self.assertNotIn(project_group.name, str(field))
+
+    def test_invite_forms_reject_scoped_teams(self) -> None:
+        workspace = Workspace.objects.create(name="Management invitation workspace")
+        workspace_group = Group.objects.create(
+            name="Management invitation workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management invitation project team", defining_project=self.project
+        )
+
+        for group in (workspace_group, project_group):
+            for email_field, context_name in (
+                ("email", "invite_form"),
+                ("emails", "bulk_invite_form"),
+            ):
+                with self.subTest(group=group, form=context_name):
+                    response = self.client.post(
+                        reverse("manage-users"),
+                        {email_field: "scoped-invite@example.com", "group": group.pk},
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(
+                        response.context[context_name]
+                        .errors.as_data()["group"][0]
+                        .code,
+                        "invalid_choice",
+                    )
+                    self.assertFalse(Invitation.objects.exists())
+                    self.assertEqual(len(mail.outbox), 0)
+
     def test_bulk_invite_user(self) -> None:
         response = self.client.post(
             reverse("manage-users"),
@@ -3019,6 +3070,28 @@ class AdminTest(ReusableViewTestCase):
         response = self.client.get(url)
         self.assertContains(response, "Automatic team assignment")
         self.assertContains(response, name)
+
+    def test_groups_only_list_sitewide_teams(self) -> None:
+        sitewide_group = Group.objects.create(name="Management site-wide team")
+        workspace = Workspace.objects.create(name="Management teams workspace")
+        workspace_group = Group.objects.create(
+            name="Management workspace team", defining_workspace=workspace
+        )
+        project_group = Group.objects.create(
+            name="Management project team", defining_project=self.project
+        )
+
+        response = self.client.get(reverse("manage-teams"))
+
+        self.assertContains(response, sitewide_group.name)
+        self.assertNotContains(response, workspace_group.name)
+        self.assertNotContains(response, project_group.name)
+        self.assertEqual(
+            response.context["paginator"].count,
+            Group.objects.filter(
+                defining_project=None, defining_workspace=None
+            ).count(),
+        )
 
     def test_groups(self) -> None:
         name = "Test group"

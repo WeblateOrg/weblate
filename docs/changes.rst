@@ -7,16 +7,26 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
+
 .. rubric:: Security fixes
 
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
+* Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
+* Limited repository URLs in webhook deliveries to prevent excessive matching work.
+* Removed control characters from base-file edits before writing translation files.
+* Restricted propagated check dismissals to components where the user may dismiss the check.
+* Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
+* Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
+
+* Pending e-mail additions started before this upgrade retain their existing validity and expiry behavior.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

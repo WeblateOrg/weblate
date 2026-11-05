@@ -15,6 +15,7 @@ from selectors import EVENT_READ, DefaultSelector
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
@@ -298,6 +299,9 @@ def git_export(
     auth = request.headers.get("authorization", "")
 
     if auth and not authenticate(request, auth):
+        return response_authenticate()
+
+    if settings.REQUIRE_LOGIN and not request.user.is_authenticated:
         return response_authenticate()
 
     try:

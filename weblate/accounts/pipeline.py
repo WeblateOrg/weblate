@@ -6,7 +6,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, NoReturn
+from typing import TYPE_CHECKING, NoReturn, cast
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
@@ -67,6 +67,12 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from typing import Any
+
+    from social_core.backends.base import BaseAuth
+
+    from weblate.accounts.strategy import WeblateStrategy
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
@@ -227,16 +233,27 @@ def reauthenticate(
 
 
 @partial
-def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
+def require_email(
+    strategy: WeblateStrategy,
+    backend: BaseAuth,
+    details: dict[str, Any],
+    weblate_action: str,
+    user: User | None = None,
+    is_new: bool = False,
+    **kwargs: object,
+) -> dict[str, bool] | None:
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github" and "emails" in kwargs["response"]:
-        email, emails = parse_github_emails(kwargs["response"]["emails"])
-        details["verified_emails"] = emails
-        if email is not None:
-            details["email"] = email
+    if backend.name == "github":
+        response = cast("Mapping[str, Any]", kwargs["response"])
+        if "emails" in response:
+            email, emails = parse_github_emails(response["emails"])
+            details["verified_emails"] = emails
+            if email is not None:
+                details["email"] = email
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
+        verify_email_confirmation(strategy, backend)
         invalidate_reset_codes(emails=(details["email"],))
         # Remove all account reset codes
         if user and weblate_action == "reset":
@@ -256,8 +273,23 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
     return None
 
 
+def verify_email_confirmation(strategy: WeblateStrategy, backend: BaseAuth) -> None:
+    """Allow e-mail confirmation only from a checked Weblate form request."""
+    if backend.name == "email" and not getattr(
+        strategy.request, "weblate_email_confirmation", False
+    ):
+        raise AuthPolicyError(
+            backend,
+            code="weblate.confirmation_not_requested",
+            stage="pipeline",
+            recovery="restart_login",
+        )
+
+
 def send_validation(strategy, backend, code, partial_token) -> None:
     """Send verification e-mail."""
+    verify_email_confirmation(strategy, backend)
+
     # We need to have existing session
     session = strategy.request.session
     if not session.session_key:
@@ -386,16 +418,22 @@ def verify_open(
         )
 
 
-def store_params(strategy, user: User, **kwargs):
+def store_params(
+    strategy: WeblateStrategy,
+    backend: BaseAuth,
+    user: User | None,
+    **kwargs: object,
+) -> dict[str, object]:
     """Store Weblate specific parameters in the pipeline."""
-    # Map standard Django anonymuos user to Weblate database backed one
-    if isinstance(strategy.request.user, AnonymousUser):
-        strategy.request.user = get_anonymous()
+    # Map standard Django anonymous user to Weblate database backed one
+    request = cast("AuthenticatedHttpRequest", strategy.request)
+    if isinstance(request.user, AnonymousUser):
+        request.user = get_anonymous()
     # Registering user
     registering_user = user.pk if user and user.is_authenticated else None
 
     # Pipeline action
-    session = strategy.request.session
+    session = request.session
     if session.get("password_reset"):
         action = "reset"
     elif session.get("account_remove"):
@@ -416,12 +454,21 @@ def store_params(strategy, user: User, **kwargs):
                 invitation = None
                 invitation_pk = None
 
-    return {
+    params: dict[str, object] = {
         "weblate_action": action,
         "registering_user": registering_user,
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
+    if (
+        backend.name == "email"
+        and user is not None
+        and user.is_authenticated
+        and action == "activation"
+        and kwargs.get("social") is None
+    ):
+        params["weblate_email_auth_hash"] = user.get_session_auth_hash()
+    return params
 
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs) -> None:

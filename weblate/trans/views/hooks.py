@@ -103,6 +103,8 @@ AZURE_REPOS = (
     "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",
 )
 
+HOOK_MAX_REPOSITORY_URLS = 64
+
 type JSONScalar = str | int | float | bool | None
 type JSONValue = JSONScalar | list[JSONValue] | dict[str, JSONValue]
 type JSONDict = dict[str, JSONValue]
@@ -137,17 +139,23 @@ def exact_repositories_filter(repos: list[str], *, include_variants: bool = True
     spfilter = Q(repo__in=repos)
     if not include_variants:
         return spfilter
+    variants = []
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
-            spfilter |= Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
-        elif repo.startswith("https://"):
-            spfilter |= Q(repo__startswith="https://") & Q(
-                repo__endswith=f"@{repo[8:]}"
+            variants.append(
+                Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
             )
-        # Include URLs with trailing slash
-        spfilter |= Q(repo=f"{repo}/")
-    return spfilter
+        elif repo.startswith("https://"):
+            variants.append(
+                Q(repo__startswith="https://") & Q(repo__endswith=f"@{repo[8:]}")
+            )
+    # Build the OR once; repeatedly combining Q objects copies prior conditions.
+    return (
+        spfilter
+        | Q(repo__in=[f"{repo}/" for repo in repos])
+        | Q(*variants, _connector=Q.OR)
+    )
 
 
 def get_hook_components(
@@ -395,7 +403,11 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
 
     # Extract repository links
     if "links" in repository and "clone" in repository["links"]:
-        repos = [val["href"] for val in repository["links"]["clone"]]
+        clone_links = repository["links"]["clone"]
+        if len(clone_links) > HOOK_MAX_REPOSITORY_URLS:
+            msg = "Too many repository URLs in payload"
+            raise HookPayloadError(msg)
+        repos = [val["href"] for val in clone_links]
     else:
         repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
@@ -1255,6 +1267,10 @@ class BaseHookView(APIView):
         # This happens on ping request upon installation
         if service_data is None:
             return self.hook_response("Hook working", status=201)
+
+        if len(service_data["repos"]) > HOOK_MAX_REPOSITORY_URLS:
+            msg = "Invalid data in json payload: Too many repository URLs in payload"
+            raise ValidationError(msg)
 
         if self.default_exclude_component_vcs and "component_vcs" not in service_data:
             service_data = {
