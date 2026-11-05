@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Removed control characters from base-file edits before writing translation files.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes

@@ -2444,6 +2444,15 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
+    @override_settings(AUTOFIX_LIST=[])
+    def test_base_file_edit_removes_control_characters(self) -> None:
+        component = self.create_json_mono(
+            project=self.component.project, name="Control characters"
+        )
+        unit = component.source_translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(create_test_user(), "Safe\ufffe\x01 text", STATE_TRANSLATED)
+        self.assertEqual(unit.target, "Safe text")
+
     def test_all_comments_prefetch(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         source = unit.source_unit
