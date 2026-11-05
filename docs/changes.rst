@@ -20,6 +20,7 @@ Weblate 2026.11.2
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 * Require recent credential verification for browser changes to :ref:`restricted component access <component-restricted>`.
+* Require recent credential verification for form-encoded project API updates and access settings in the Django admin.
 
 .. rubric:: Bug fixes
 

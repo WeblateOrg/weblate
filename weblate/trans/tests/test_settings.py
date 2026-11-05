@@ -248,6 +248,90 @@ class ComponentRestrictedVerificationTest(ReusableViewTestCase):
         self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
         self.assert_restricted(False)
 
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_browser_repo_link_requires_verification(self) -> None:
+        url = reverse("create-component-vcs")
+        params = {
+            "name": "Copy",
+            "slug": "copy",
+            "project": self.project.pk,
+            "vcs": self.component.vcs,
+            "repo": self.component.get_repo_link_url(),
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "new_base": "po/project.pot",
+            "new_lang": "add",
+            "language_regex": "^[^.]+$",
+            "source_language": self.component.source_language.pk,
+        }
+
+        response = self.client.post(url, params)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+        self.verify_credentials(url)
+        response = self.client.post(url, params)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(self.project.component_set.filter(slug="copy").exists())
+
+    def get_admin_form(self, url: str) -> dict:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        response = self.client.get(url)
+        return {**get_form_data(response.context["adminform"].form.initial), "_save": 1}
+
+    def test_admin_component_requires_verification(self) -> None:
+        url = reverse("admin:trans_component_change", args=(self.component.pk,))
+        data = self.get_admin_form(url)
+        data.pop("restricted")
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assert_restricted(True)
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assert_restricted(False)
+
+    def test_admin_project_requires_verification(self) -> None:
+        url = reverse("admin:trans_project_change", args=(self.project.pk,))
+        data = self.get_admin_form(url)
+        data["access_control"] = Project.ACCESS_PRIVATE
+
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    def test_api_project_form_put_requires_verification(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        Project.objects.filter(pk=self.project.pk).update(public_sharing=True)
+        url = reverse("api:project-detail", kwargs={"slug": self.project.slug})
+        payload = urlencode(
+            {
+                "name": self.project.name,
+                "slug": self.project.slug,
+                "web": self.project.web,
+            }
+        )
+        content_type = "application/x-www-form-urlencoded"
+
+        response = self.client.put(url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 403, response.content)
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
+        self.verify_credentials(url)
+        response = self.client.put(url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
     def test_settings_removal_requires_verification(self) -> None:
         response = self.client.get(self.settings_url)
         data = get_form_data(response.context["form"].initial)

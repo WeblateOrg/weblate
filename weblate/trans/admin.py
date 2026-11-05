@@ -10,6 +10,10 @@ from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
+from weblate.accounts.utils import (
+    has_recent_sensitive_verification,
+    sensitive_verification_redirect,
+)
 from weblate.auth.models import User
 from weblate.trans.models import (
     Announcement,
@@ -70,8 +74,34 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
+class SensitiveVerificationRequiredError(Exception):
+    pass
+
+
+class SensitiveFieldsAdmin(WeblateModelAdmin):
+    """Require recent credential verification for changing listed fields."""
+
+    sensitive_fields: frozenset[str] = frozenset()
+
+    def save_model(self, request, obj, form, change) -> None:
+        if (
+            change
+            and self.sensitive_fields & set(form.changed_data)
+            and not has_recent_sensitive_verification(request)
+        ):
+            raise SensitiveVerificationRequiredError
+        super().save_model(request, obj, form, change)
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        try:
+            return super().changeform_view(request, object_id, form_url, extra_context)
+        except SensitiveVerificationRequiredError:
+            return sensitive_verification_redirect(request, request.path)
+
+
 @admin.register(Project)
-class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
+class ProjectAdmin(SensitiveFieldsAdmin, RepoAdminMixin):
+    sensitive_fields = frozenset({"access_control", "public_sharing", "enforced_2fa"})
     list_display = (
         "name",
         "slug",
@@ -122,7 +152,8 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
 
 
 @admin.register(Component)
-class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
+class ComponentAdmin(SensitiveFieldsAdmin, RepoAdminMixin):
+    sensitive_fields = frozenset({"restricted"})
     list_display = ("name", "slug", "project", "repo", "branch", "vcs", "file_format")
     # ruff: ignore[mutable-class-default]
     prepopulated_fields = {
