@@ -8,6 +8,7 @@ Weblate 2026.11.2
 .. rubric:: Improvements
 
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
+* Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
 .. rubric:: Security fixes
 
