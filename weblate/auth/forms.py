@@ -215,7 +215,7 @@ class BaseInviteForm:
             ).order()
         else:
             self.fields["group"].queryset = (
-                Group.objects.filter(defining_project=None)
+                Group.objects.filter(defining_project=None, defining_workspace=None)
                 .select_related("defining_project", "defining_workspace")
                 .order()
             )

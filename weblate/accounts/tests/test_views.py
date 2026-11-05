@@ -1110,6 +1110,32 @@ class ViewTest(RepoTestCase):
     def test_login_ratelimit_login(self) -> None:
         self.test_login_ratelimit(True)
 
+    @override_settings(RATELIMIT_ATTEMPTS=5, AUTH_LOCK_ATTEMPTS=10)
+    def test_successful_login_does_not_clear_other_failures(self) -> None:
+        self.get_user()
+        User.objects.create_user(username="ownuser", password="ownpassword")
+        login_url = reverse("login")
+        for _index in range(4):
+            response = self.client.post(
+                login_url, {"username": "testuser", "password": "invalid"}
+            )
+            self.assertContains(response, "Please enter the correct username")
+
+        response = self.client.post(
+            login_url, {"username": "ownuser", "password": "ownpassword"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.client.logout()
+
+        response = self.client.post(
+            login_url, {"username": "testuser", "password": "invalid"}
+        )
+        self.assertContains(response, "Please enter the correct username")
+        response = self.client.post(
+            login_url, {"username": "testuser", "password": "invalid"}
+        )
+        self.assertContains(response, "Too many authentication attempts")
+
     def test_password(self) -> None:
         # Create user
         user = self.get_user()

@@ -264,6 +264,9 @@ Contact support, when available, for help moving an address between accounts.
 The browser displays the same confirmation page in both cases to avoid
 disclosing whether an account exists.
 
+Changing or resetting your password invalidates pending e-mail additions.
+Request a new verification link to continue adding an address.
+
 Account e-mail addresses match without regard to ASCII letter case. Non-ASCII
 characters must match exactly when signing in or resetting a password.
 
