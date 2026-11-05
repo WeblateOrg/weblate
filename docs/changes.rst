@@ -12,6 +12,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
 * Enforced add-on compatibility checks for project installations through the API.
@@ -30,6 +31,7 @@ Weblate 2026.11.2
 
 * Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+* Required contributor agreement acceptance before creating a translation file.
 
 .. rubric:: Compatibility
 
