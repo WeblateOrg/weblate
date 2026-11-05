@@ -165,6 +165,30 @@ def changed_flags(unit: Unit, add: str | Flags, remove: str | Flags) -> str | No
     return value if value != unit.extra_flags else None
 
 
+def allowed_changed_flags(
+    unit: Unit,
+    user: User | None,
+    add: str | Flags,
+    remove: str | Flags,
+    *,
+    enforce_permissions: bool,
+) -> str | None:
+    """Apply permitted flag changes without dropping unrelated bulk edits."""
+    value = changed_flags(unit, add, remove)
+    if (
+        value is not None
+        and enforce_permissions
+        and user is not None
+        and not unit.can_set_extra_flags(user, value)
+    ):
+        flags = Flags(value)
+        flags.remove("terminology")
+        value = flags.format()
+        if value == unit.extra_flags:
+            return None
+    return value
+
+
 def can_bulk_edit_target(
     unit: Unit, user: User | None, target_state: int, *, enforce_permissions: bool
 ) -> bool:
@@ -270,14 +294,20 @@ def plan_bulk_unit(
 
     if trusted or (
         user is not None
-        and user.has_perm("source.edit", component)
+        and user.has_perm("source.edit", unit.source_unit.translation)
         and user.has_perm("unit.bulk_edit", component)
     ):
         source = unit.source_unit
         if trusted or (
             user is not None and user.has_perm("meta:unit.flag", source.translation)
         ):
-            edit.source_flags = changed_flags(source, add_flags, remove_flags)
+            edit.source_flags = allowed_changed_flags(
+                source,
+                user,
+                add_flags,
+                remove_flags,
+                enforce_permissions=enforce_permissions,
+            )
         if add_labels or remove_labels:
             current = {label.pk for label in source.labels.all()}
             # Removing wins, matching the existing add-then-remove behavior.
@@ -291,8 +321,12 @@ def plan_bulk_unit(
             and user.has_perm("unit.bulk_edit", unit)
         )
     ):
-        edit.translation_flags = changed_flags(
-            unit, add_translation_flags, remove_translation_flags
+        edit.translation_flags = allowed_changed_flags(
+            unit,
+            user,
+            add_translation_flags,
+            remove_translation_flags,
+            enforce_permissions=enforce_permissions,
         )
     return edit
 
@@ -313,6 +347,8 @@ def apply_bulk_translation_flags(
     edits: list[BulkUnitEdit],
     changed_ids: set[int],
     changed_sources: set[int],
+    *,
+    enforce_permissions: bool,
 ) -> bool:
     """Read current source flags and unit state after all source metadata edits."""
     flags = {
@@ -331,7 +367,9 @@ def apply_bulk_translation_flags(
     ):
         unit.translation.component = component
         unit.is_batch_update = True
-        unit.update_extra_flags(flags[unit.pk], user)
+        unit.update_extra_flags(
+            flags[unit.pk], user, enforce_permissions=enforce_permissions
+        )
         changed_ids.add(unit.pk)
         changed_sources.add(unit.source_unit_id or unit.pk)
         updated = True
@@ -542,7 +580,11 @@ def bulk_perform(
                             source.is_batch_update = True
                             changed = False
                             if edit.source_flags is not None:
-                                source.update_extra_flags(edit.source_flags, user)
+                                source.update_extra_flags(
+                                    edit.source_flags,
+                                    user,
+                                    enforce_permissions=enforce_permissions,
+                                )
                                 changed = True
                             for label_ids, action in (
                                 (edit.add_labels, ActionEvents.LABEL_ADD),
@@ -572,7 +614,12 @@ def bulk_perform(
                                 changed_sources.add(source.pk)
                                 component_changed = True
                     if apply_bulk_translation_flags(
-                        user, component, edits, changed_ids, changed_sources
+                        user,
+                        component,
+                        edits,
+                        changed_ids,
+                        changed_sources,
+                        enforce_permissions=enforce_permissions,
                     ):
                         component_changed = True
                 processed_count += len(batch_ids)

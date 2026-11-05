@@ -9,8 +9,10 @@ from unittest.mock import patch
 from django.db import transaction
 from django.urls import reverse
 
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import Group, Role, User
 from weblate.checks.flags import Flags
+from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import UnitFlagsForm
@@ -344,6 +346,45 @@ class UnitFlagsTest(ViewTestCase):
         self.assertEqual(updated, 0)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.extra_flags, "")
+
+    def test_bulk_source_metadata_requires_source_language(self) -> None:
+        editor = User.objects.create_user("limited-source", "limited@example.org")
+        group = Group.objects.create(
+            name="Limited source editors", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.roles.set(Role.objects.filter(name__in=["Edit source", "Bulk editing"]))
+        editor.groups.add(group)
+        group.languages.set([self.unit.translation.language])
+        editor.clear_permissions_cache()
+        self.assertTrue(editor.has_perm("source.edit", self.component))
+        self.assertFalse(editor.has_perm("source.edit", self.source.translation))
+        label = self.project.label_set.create(name="Protected label", color="black")
+        updated = bulk_perform(
+            editor,
+            Unit.objects.filter(pk=self.unit.pk),
+            query="",
+            target_state=-1,
+            add_flags="read-only",
+            remove_flags="",
+            add_labels=self.project.label_set.filter(pk=label.pk),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+        )
+        self.assertEqual(updated, 0)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+        self.assertFalse(self.source.labels.exists())
+        check, _created = Check.objects.get_or_create(
+            unit=self.unit, name="python_format"
+        )
+        self.client.force_login(editor)
+        response = self.client.post(
+            reverse("js-ignore-check-source", kwargs={"check_id": check.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
 
     def test_disabled_source_field_rejects_forged_edit(self) -> None:
         with patch.object(User, "has_perm", return_value=False):
