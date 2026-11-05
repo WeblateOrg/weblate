@@ -12,22 +12,27 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Enforced team language selection when creating translations and required project authority for language workflow settings.
+* Restricted project-wide component locking to components the actor may manage.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
 * Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
+* Limited user activity searches to visible :ref:`translation history <translation-history>`.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Removed control characters from base-file edits before writing translation files.
 * Restricted propagated check dismissals to components where the user may dismiss the check.
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
+* Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 
 .. rubric:: Bug fixes
 
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
-
+* Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+* Required contributor agreement acceptance before creating a translation file.
 
 .. rubric:: Compatibility
 
