@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-11-04 12:51+0000\n"
+"PO-Revision-Date: 2026-11-05 07:38+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -4068,7 +4068,7 @@ msgid "Active"
 msgstr "Attivo"
 
 msgid "Mark user as inactive instead of removing."
-msgstr "Segna utente come inattivo invece di rimuoverlo."
+msgstr "Contrassegna l'utente come inattivo anziché rimuoverlo."
 
 msgid "Expires"
 msgstr "Scade"
@@ -11299,7 +11299,7 @@ msgstr ""
 "modifica della traduzione."
 
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Deseleziona la traduzione come Necessita di modifica e inviala."
+msgstr "Rimuovi il contrassegno \"Traduzione da modificare\" e inviala."
 
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
@@ -11419,7 +11419,7 @@ msgid "Resolve"
 msgstr "Risolvi"
 
 msgid "Mark as spam"
-msgstr "Segna come spam"
+msgstr "Contrassegna come spam"
 
 msgid "Service is no longer available"
 msgstr "Il servizio non è più disponibile"
@@ -14847,6 +14847,9 @@ msgid ""
 "disabled. Weblate will not automatically add these terms to missing glossary "
 "languages."
 msgstr ""
+"Questo glossario contiene termini contrassegnati come terminologia, ma "
+"l'opzione \"Gestisci stringhe\" è disabilitata. Weblate non aggiungerà "
+"automaticamente questi termini alle lingue mancanti nel glossario."
 
 msgid ""
 "Enable ‘Manage strings’ in the component settings to add terms and "
@@ -15918,6 +15921,10 @@ msgid ""
 "existing translations as needing editing. Renamed keys may require changes "
 "in your application code."
 msgstr ""
+"Le modifiche si applicano a tutte le lingue di questo componente. La "
+"modifica del testo sorgente contrassegna le traduzioni esistenti come "
+"bisognose di modifica. La ridenominazione delle chiavi potrebbe richiedere "
+"modifiche al codice dell'applicazione."
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -16684,7 +16691,7 @@ msgid "A translation was marked as needing editing."
 msgstr "Una traduzione è stata contrassegnata come bisognosa di modifica."
 
 msgid "Marked for edit"
-msgstr "Contrassegnate per la modifica"
+msgstr "Contrassegnata per la modifica"
 
 msgid "A translation component was removed."
 msgstr "Un componente di traduzione è stato rimosso."
@@ -16854,10 +16861,8 @@ msgstr "La stringa è stata rimossa."
 msgid "Comment removed"
 msgstr "Commento rimosso"
 
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "A string comment was marked as resolved."
-msgstr "Il commento è stato risolto."
+msgstr "Un commento sulla stringa è stato contrassegnato come risolto."
 
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
@@ -16930,10 +16935,10 @@ msgstr ""
 msgid "Component translation completed"
 msgstr "Traduzione del componente completata"
 
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing by an enforced check."
-msgstr "Salta traduzioni contrassegnate come bisognose di modifica"
+msgstr ""
+"Una traduzione è stata contrassegnata come bisognosa di revisione a seguito "
+"di un controllo forzato."
 
 msgid "Applied enforced check"
 msgstr "Controllo forzato applicato"
@@ -20431,8 +20436,8 @@ msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
 msgstr ""
-"Le traduzioni marcate come \"richiede modifica\" non vengono scritte nel "
-"file della traduzione."
+"Le traduzioni contrassegnate come bisognose di revisione non vengono scritte "
+"nel file di traduzione."
 
 #, fuzzy
 #| msgid "Only approved translations are written to the translation file."
@@ -20588,25 +20593,17 @@ msgid ""
 "saving."
 msgstr ""
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
-msgstr "Deseleziona come non traducibile"
+msgstr "Rimuovi il contrassegno come non traducibile per tutte le lingue"
 
-#, fuzzy
-#| msgid "Unmark as read-only"
 msgid "Unmark as read-only for all languages"
-msgstr "Deseleziona come sola lettura"
+msgstr "Rimuovi il contrassegno di sola lettura per tutte le lingue"
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark this translation as untranslatable"
-msgstr "Deseleziona come non traducibile"
+msgstr "Rimuovi il contrassegno di questa traduzione come non traducibile"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Unmark this translation as read-only"
-msgstr "La traduzione è di sola lettura."
+msgstr "Rimuovi il contrassegno di sola lettura da questa traduzione"
 
 #, fuzzy
 #| msgid "Manage translated languages"
@@ -20618,41 +20615,29 @@ msgstr "Gestisci lingue tradotte"
 msgid "Make read-only apply to all languages"
 msgstr "Gestisci lingue tradotte"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark this translation as untranslatable"
-msgstr "Contrassegna come non traducibile"
+msgstr "Contrassegna questa traduzione come intraducibile"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Mark this translation as read-only"
-msgstr "La traduzione è di sola lettura."
+msgstr "Contrassegna questa traduzione come di sola lettura"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark as untranslatable for all languages"
-msgstr "Contrassegna come non traducibile"
+msgstr "Contrassegna come non traducibile per tutte le lingue"
 
-#, fuzzy
-#| msgid "Mark as read-only"
 msgid "Mark as read-only for all languages"
-msgstr "Contrassegna come di sola lettura"
+msgstr "Contrassegna come di sola lettura per tutte le lingue"
 
 msgid "Mark as forbidden translation"
-msgstr "Seleziona come traduzione vietata"
+msgstr "Contrassegna come traduzione vietata"
 
 msgid "Unmark as forbidden translation"
-msgstr "Deseleziona come traduzione vietata"
+msgstr "Rimuovi il contrassegno come traduzione vietata"
 
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as terminology for all languages"
-msgstr "Seleziona come terminologia"
+msgstr "Contrassegna come terminologia per tutte le lingue"
 
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as terminology for all languages"
-msgstr "Deseleziona come terminologia"
+msgstr "Rimuovi il contrassegno come terminologia per tutte le lingue"
 
 msgid ""
 "Translate from this language. Leave empty to use the component source "
@@ -21814,9 +21799,12 @@ msgid ""
 "Glossaries can mark terms as forbidden to help translators avoid unwanted "
 "wording."
 msgstr ""
+"I glossari possono contrassegnare i termini come proibiti per aiutare i "
+"traduttori a evitare formulazioni indesiderate."
 
 msgid "Glossaries can mark names and other terms as untranslatable."
 msgstr ""
+"I glossari possono contrassegnare nomi e altri termini come intraducibili."
 
 msgid ""
 "Watch projects you care about and choose which translation events notify you."
