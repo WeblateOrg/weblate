@@ -89,9 +89,7 @@ def copy_component_addons(
     for addon in addons:
         if component.addon_set.filter(name=addon.name).exists():
             continue
-        if not addon.addon.can_install(
-            component=component
-        ) or not addon.addon.api_available(component):
+        if not addon.addon.can_install(component=component):
             continue
         try:
             addon.addon.create(

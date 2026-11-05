@@ -307,14 +307,18 @@ class Addon(models.Model):
                 msg = gettext("This add-on is already installed on this component.")
                 raise ValidationError(msg, code="addon_already_installed")
         self.repo_scope = cls.repo_scope
-
-        # Reallocate to repository
-        original_component = None
-        if cls.repo_scope and self.component and self.component.linked_component:
-            original_component = self.component
-            self.component = self.component.linked_component
-
         creating = self._state.adding or force_insert
+        if (
+            creating
+            and cls.repo_scope
+            and self.component
+            and self.component.linked_component_id
+        ):
+            raise ValidationError(
+                gettext(
+                    "Repository add-ons must be installed on the component owning the repository."
+                )
+            )
         compared_configuration = (
             {}
             if creating
@@ -337,8 +341,6 @@ class Addon(models.Model):
 
         # Clear add-on cache after save so the DB state is consistent
         if update_fields != ["state"]:
-            if original_component:
-                original_component.drop_addons_cache()
             self._drop_addons_cache()
             self._clear_pot_guidance_alert()
             self._clear_recommendation_guidance_alerts()
@@ -378,11 +380,7 @@ class Addon(models.Model):
     @property
     def api_name(self) -> str | None:
         provider = ADDONS.get(self.name)
-        if (
-            provider is None
-            or self.component is None
-            or not provider.can_process(component=self.component)
-        ):
+        if provider is None or not provider.api_available(self.component):
             return None
         return provider.api_name
 

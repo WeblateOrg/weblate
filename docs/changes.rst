@@ -26,6 +26,8 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
+
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 
 .. rubric:: Compatibility

@@ -2045,9 +2045,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                     continue
 
-            if not addon.can_install(component=component) or not addon.api_available(
-                component
-            ):
+            if not addon.can_install(component=component):
                 component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
