@@ -16,6 +16,7 @@ Weblate 2026.11.2
 * Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
+* Limited user activity searches to visible :ref:`translation history <translation-history>`.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Removed control characters from base-file edits before writing translation files.
 * Restricted propagated check dismissals to components where the user may dismiss the check.
