@@ -1067,7 +1067,7 @@ class TeamListView(FormMixin, ListView):
         return (
             cast("GroupQuerySet", super().get_queryset())
             .prefetch_related("languages", "projects", "components")
-            .filter(defining_project=None)
+            .filter(defining_project=None, defining_workspace=None)
             .annotate(Count("user"), Count("autogroup"))
             .order()
         )
