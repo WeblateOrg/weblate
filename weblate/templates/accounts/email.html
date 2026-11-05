@@ -8,9 +8,7 @@
   <li class="breadcrumb-item">
     <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
   </li>
-  <li class="breadcrumb-item">
-    <a href="{% url 'email_login' %}">{% translate "Verify new e-mail address" %}</a>
-  </li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Add and verify e-mail address" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -25,10 +23,12 @@
 
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{% translate "Verify new e-mail address" %}</h4>
+        <h4 class="card-title">{% translate "Add and verify e-mail address" %}</h4>
       </div>
       <div class="card-body">
 
+        <p>{% translate "Verification instructions will be sent to the new e-mail address. You do not need access to your old mailbox." %}</p>
+        <p>{% translate "Adding an address does not change your account e-mail address. After verification, you can select the new address in Account settings." %}</p>
         {% csrf_token %}
         {{ form|crispy }}
       </div>

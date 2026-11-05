@@ -8,10 +8,12 @@ Weblate 2026.11.2
 .. rubric:: Improvements
 
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
+* Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
 .. rubric:: Security fixes
 
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
+* Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
 * Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
@@ -23,7 +25,11 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
+
 .. rubric:: Compatibility
+
+* Clarified the :ref:`RESP3 datastore requirement <production-cache>` introduced in Weblate 2026.11.1, including errors from incompatible Redis servers or proxies.
 
 .. rubric:: Upgrading
 
@@ -80,8 +86,11 @@ Weblate 2026.11.1
 .. rubric:: Compatibility
 
 * Removed ``/activity/month.json``; use :http:get:`/api/activity/` instead.
+* The updated redis-py dependency requires a :ref:`datastore supporting RESP3 <production-cache>`: Valkey or Redis 6.0 or later, including compatible proxies.
 
 .. rubric:: Upgrading
+
+* Upgrade incompatible Redis servers or proxies before upgrading Weblate. An ``unknown command HELLO`` error, including one reported as ``weblate.C024: Could not use Matplotlib``, indicates this compatibility issue; see :ref:`production-cache`.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

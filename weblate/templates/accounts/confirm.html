@@ -4,7 +4,14 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+    <a href="{% url 'profile' %}#{% if backend == 'email' %}account{% else %}security{% endif %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    {% if backend == "email" %}
+      {% translate "Confirm adding e-mail address" %}
+    {% else %}
+      {% translate "Confirm adding user identity" %}
+    {% endif %}
   </li>
 {% endblock breadcrumbs %}
 
@@ -13,18 +20,34 @@
   <form method="post" action="{% url 'confirm' %}">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{% translate "Confirm adding user identity" %}</h4>
+        <h4 class="card-title">
+          {% if backend == "email" %}
+            {% translate "Confirm adding e-mail address" %}
+          {% else %}
+            {% translate "Confirm adding user identity" %}
+          {% endif %}
+        </h4>
       </div>
       <div class="card-body">
-        <p>
-          {% comment %}Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL{% endcomment %}
-          {% blocktranslate %}After confirming this, you will be able to authenticate to Weblate using {{ backend_verbose }} ({{ uid }}).{% endblocktranslate %}
-        </p>
+        {% if backend == "email" %}
+          <p>{% blocktranslate %}Confirm adding {{ uid }} to your existing Weblate account by entering your current password.{% endblocktranslate %}</p>
+        {% else %}
+          <p>
+            {% comment %}Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL{% endcomment %}
+            {% blocktranslate %}After confirming this, you will be able to authenticate to Weblate using {{ backend_verbose }} ({{ uid }}).{% endblocktranslate %}
+          </p>
+        {% endif %}
         {{ confirm_form|crispy }}
         {% csrf_token %}
       </div>
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary">{% translate "Confirm" %}</button>
+        <button type="submit" class="btn btn-primary">
+          {% if backend == "email" %}
+            {% translate "Add e-mail address" %}
+          {% else %}
+            {% translate "Confirm" %}
+          {% endif %}
+        </button>
       </div>
     </div>
   </form>

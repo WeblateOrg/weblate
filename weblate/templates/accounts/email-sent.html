@@ -4,15 +4,17 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    {% if is_email_verification %}
+    {% if is_reset %}
+      <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>
+    {% elif is_remove %}
+      <a href="{% url 'remove' %}">{% translate "Remove account" %}</a>
+    {% elif is_email_verification %}
       <a href="{% url 'profile' %}#account">{% translate "Your profile" %}</a>
     {% else %}
       <a href="{% url 'register' %}">{% translate "Registration" %}</a>
     {% endif %}
   </li>
-  <li class="breadcrumb-item">
-    <a>{{ title }}</a>
-  </li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Check your e-mail" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -61,6 +63,11 @@
         {% blocktranslate %}Register again if the confirmation link expires.{% endblocktranslate %}
       {% endif %}
     </p>
+
+    {% if is_email_verification %}
+      <p>{% translate "If you receive a verification link, open it while signed in to this account and follow the confirmation steps. You may be asked for your current password." %}</p>
+      <p><a href="{% url 'profile' %}#account">{% translate "Back to account settings" %}</a></p>
+    {% endif %}
 
     <p>
       {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}

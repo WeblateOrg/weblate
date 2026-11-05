@@ -34,6 +34,18 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
 
         # Get confirmation URL
         url = self.assert_registration_mailbox("[Weblate] Account removal on Weblate")
+        self.assertContains(
+            response, f'<a href="{reverse("remove")}">Remove account</a>', html=True
+        )
+        response = self.client.get(url)
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Confirm account removal</li>',
+            html=True,
+        )
+        self.assertContains(
+            response, f'<a href="{reverse("remove")}">Remove account</a>', html=True
+        )
         # Verify confirmation URL
         response = self.confirm_registration_url(url, follow=True)
         self.assertContains(

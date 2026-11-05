@@ -978,6 +978,25 @@ Use a powerful database engine
 Configure cache
 +++++++++++++++
 
+Weblate requires a datastore supporting RESP3: Valkey or Redis 6.0 or later.
+Use a maintained server release. Any proxy between Weblate and the datastore
+must also support RESP3 and the ``HELLO`` command. This requirement applies to
+both caching and the :ref:`Celery task queue <celery>`.
+
+.. versionchanged:: 2026.11.1
+
+   The redis-py dependency now uses RESP3 by default. Older Redis servers and
+   incompatible proxies fail with an error such as
+   ``unknown command HELLO, with args beginning with: 3,``.
+   Upgrade the datastore or proxy to a compatible version.
+
+   In Weblate 2026.11.1, this error can appear as
+   ``weblate.C024: Could not use Matplotlib`` during startup because the font
+   rendering check accesses the datastore. The cause is Redis compatibility;
+   reinstalling Matplotlib does not resolve it. From Weblate 2026.11.2, the
+   font rendering check no longer accesses the datastore, but other operations
+   that require the datastore still fail with an incompatible server or proxy.
+
 If possible, use Valkey or Redis from Django by adjusting the ``CACHES``
 configuration variable, for example:
 

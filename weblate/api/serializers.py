@@ -4953,12 +4953,16 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 {"component": "This add-on can only be installed on the component."}
             )
         if not instance:
+            if not addon.can_install(
+                component=component,
+                category=self._context.get("category"),
+                project=project,
+            ):
+                raise serializers.ValidationError(
+                    {"name": f"could not enable add-on {name}, not compatible"}
+                )
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))
-                if not addon.can_install(component=component):
-                    raise serializers.ValidationError(
-                        {"name": f"could not enable add-on {name}, not compatible"}
-                    )
             if project:
                 self.check_addon(name, Addon.objects.filter_project(project))
 

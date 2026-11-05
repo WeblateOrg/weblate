@@ -16,6 +16,7 @@ from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse
 
 import responses
+from bs4 import BeautifulSoup, Tag
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.contrib.messages import get_messages
@@ -846,6 +847,110 @@ class EmailLinkingTest(TestCase, RegistrationTestMixin):
             VerifiedEmail.objects.filter(email="unused@example.net").exists()
         )
 
+    def test_add_email_confirmation(self) -> None:
+        self.check_add_email_confirmation(has_password=True)
+
+    def test_add_email_without_password(self) -> None:
+        self.user.set_unusable_password()
+        self.user.save(update_fields=["password"])
+        self.client.force_login(
+            self.user, backend="social_core.backends.email.EmailAuth"
+        )
+        session = self.client.session
+        session.pop("show_set_password", None)
+        session.save()
+        self.check_add_email_confirmation(has_password=False)
+
+    def check_add_email_confirmation(self, *, has_password: bool) -> None:
+        response = self.submit_email("unused@example.net")
+        self.assert_breadcrumbs(response, "Check your e-mail")
+        url = self.assert_registration_mailbox(
+            "[Weblate] Verify your e-mail address on Weblate"
+        )
+        query = parse_qs(urlparse(url).query)
+        user_count = User.objects.count()
+
+        response = self.client.get(url)
+        self.assert_breadcrumbs(response, "Verify e-mail address")
+        self.assertContains(response, "Continue e-mail verification")
+        self.assertNotContains(response, "create a Weblate account")
+        self.assertNotContains(response, "Create account")
+        self.assertIsNotNone(DjangoStorage.partial.load(query["partial_token"][0]))
+        code = DjangoStorage.code.get_code(query["verification_code"][0])
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertFalse(
+            VerifiedEmail.objects.filter(email="unused@example.net").exists()
+        )
+        self.assertEqual(User.objects.count(), user_count)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.confirm_registration_url(url)
+        if has_password:
+            self.assertRedirects(response, reverse("confirm"))
+            self.assert_breadcrumbs(response, "Confirm adding e-mail address")
+            self.assertContains(response, "unused@example.net")
+            self.assertContains(response, "current password")
+            response = self.client.post(reverse("confirm"), {"password": "wrong"})
+            self.assertContains(response, "You have entered an invalid password.")
+            self.assertFalse(
+                VerifiedEmail.objects.filter(email="unused@example.net").exists()
+            )
+            self.assertNotContains(response, "Your e-mail address has been added.")
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.client.post(
+                    reverse("confirm"), {"password": "secret"}, follow=True
+                )
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertContains(response, "Your e-mail address has been added.")
+        self.assertTrue(
+            VerifiedEmail.objects.filter(
+                social__user=self.user, email="unused@example.net"
+            ).exists()
+        )
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "old-mailbox@example.org")
+        self.assertEqual(User.objects.count(), user_count)
+
+    def assert_breadcrumbs(
+        self, response: _MonkeyPatchedWSGIResponse, current: str
+    ) -> None:
+        breadcrumbs = BeautifulSoup(response.content, "html.parser").select_one(
+            "ol.breadcrumb"
+        )
+        assert isinstance(breadcrumbs, Tag)
+        self.assertEqual(
+            [
+                " ".join(item.stripped_strings)
+                for item in breadcrumbs.select("li.breadcrumb-item")
+            ],
+            ["Your profile", current],
+        )
+        ancestor = breadcrumbs.select_one("a")
+        assert isinstance(ancestor, Tag)
+        self.assertEqual(ancestor["href"], f"{reverse('profile')}#account")
+        current_item = breadcrumbs.select_one('[aria-current="page"]')
+        assert isinstance(current_item, Tag)
+        self.assertEqual(current_item.get_text(strip=True), current)
+        self.assertIsNone(current_item.find("a"))
+        self.assertIsNone(breadcrumbs.find("a", href=reverse("register")))
+
+    def test_add_email_entry_points(self) -> None:
+        response = self.client.get(reverse("profile"))
+        document = BeautifulSoup(response.content, "html.parser")
+        for tab in ("account", "security"):
+            with self.subTest(tab=tab):
+                link = document.select_one(
+                    f'#{tab} [data-href="{reverse("social:begin", args=("email",))}?next={reverse("profile")}%23account"]'
+                )
+                assert isinstance(link, Tag)
+                self.assertIn("Add and verify e-mail address", link.get_text())
+        response = self.client.post(
+            reverse("social:begin", args=("email",)), follow=True
+        )
+        self.assert_breadcrumbs(response, "Add and verify e-mail address")
+        self.assertContains(response, "You do not need access to your old mailbox.")
+
     def test_conflict_delivery_and_privacy(self) -> None:
         for email, expected_recipients in (
             (self.owner.email, [[self.owner.email]]),
@@ -1250,6 +1355,15 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register()
 
         self.assertContains(response, REGISTRATION_SUCCESS)
+        response = self.client.get(self.assert_registration_mailbox())
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Confirm invitation</li>',
+            html=True,
+        )
+        self.assertContains(
+            response, f'<a href="{reverse("register")}">Registration</a>', html=True
+        )
         self.assert_registration()
         user = User.objects.get(username=REGISTRATION_DATA["username"])
         self.assertTrue(user.groups.filter(pk=invited_group.pk).exists())
@@ -1821,11 +1935,27 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
         self.assertContains(response, "Password reset almost complete")
-        self.assertEqual(mail.outbox[-1].to, ["secondary@example.net"])
-        response = self.confirm_registration_url(
-            self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
-            follow=True,
+        breadcrumbs = BeautifulSoup(response.content, "html.parser").select_one(
+            "ol.breadcrumb"
         )
+        assert isinstance(breadcrumbs, Tag)
+        self.assertIsNone(breadcrumbs.find("a", href=reverse("register")))
+        self.assertIsNotNone(breadcrumbs.find("a", href=reverse("password_reset")))
+        self.assertEqual(mail.outbox[-1].to, ["secondary@example.net"])
+        url = self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        response = self.client.get(url)
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Confirm password reset</li>',
+            html=True,
+        )
+        self.assertContains(
+            response,
+            f'<a href="{reverse("password_reset")}">Password reset</a>',
+            html=True,
+        )
+        response = self.confirm_registration_url(url, follow=True)
+        self.assertNotContains(response, "Your e-mail address has been added.")
         self.assertRedirects(response, reverse("password_reset"))
         self.assertContains(response, "You can now set new one")
 
@@ -2054,7 +2184,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("social:begin", args=("email",)), follow=True
         )
-        self.assertContains(response, "Verify new e-mail address")
+        self.assertContains(response, "Add and verify e-mail address")
         self.assertContains(response, "Send verification e-mail")
         self.assertContains(response, f"{reverse('profile')}#account")
         self.assertContains(response, "Back to account settings")
@@ -2678,8 +2808,19 @@ class CookieRegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirmation_link_requires_post(self) -> None:
         """Test that verification link GET does not finish registration."""
+        response = self.client.get(reverse("register"))
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Registration</li>',
+            html=True,
+        )
         response = self.do_register()
         self.assertContains(response, REGISTRATION_SUCCESS)
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Check your e-mail</li>',
+            html=True,
+        )
         url = self.assert_registration_mailbox()
         query = parse_qs(urlparse(url).query)
         partial_token = query["partial_token"][0]
@@ -2690,7 +2831,14 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertTemplateUsed(
             response, "social_django/partial_pipeline_external_resume.html"
         )
-        self.assertContains(response, "Confirm registration")
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Confirm registration</li>',
+            html=True,
+        )
+        self.assertContains(
+            response, f'<a href="{reverse("register")}">Registration</a>', html=True
+        )
         self.assertFalse(
             User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
         )
@@ -2713,6 +2861,15 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse("password"))
         self.assertIsNone(DjangoStorage.partial.load(partial_token))
         self.assertIsNone(DjangoStorage.code.get_code(verification_code))
+        self.assertContains(
+            response,
+            '<li class="breadcrumb-item active" aria-current="page">Set password</li>',
+            html=True,
+        )
+        self.assertContains(
+            response, '<h4 class="card-title">Set password</h4>', html=True
+        )
+        self.assertNotContains(response, "Your e-mail address has been added.")
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_authenticated_user_cannot_confirm_anonymous_registration(self) -> None:
