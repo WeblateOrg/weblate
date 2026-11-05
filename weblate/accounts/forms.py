@@ -77,7 +77,11 @@ from weblate.utils.forms import (
     SortedSelectMultiple,
     UsernameField,
 )
-from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    get_rate_setting,
+    revert_rate_limit,
+)
 from weblate.utils.validators import validate_fullname
 from weblate.utils.views import parse_path
 
@@ -1068,7 +1072,8 @@ class LoginForm(forms.Form):
                 user, self.request, "login", method="password", name=username
             )
             adjust_session_expiry(request=self.request, user=user)
-            reset_rate_limit("login", self.request)
+            # Keep failures from other accounts on this IP in the shared bucket.
+            revert_rate_limit("login", self.request)
         return self.cleaned_data
 
     def get_user(self):
