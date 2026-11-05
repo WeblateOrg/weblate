@@ -129,7 +129,22 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
         "slug": ("name",),
     }
     search_fields = ("name", "slug", "repo", "branch", "project__name", "project__slug")
-    list_filter = ("project", "vcs", "file_format")
+    list_filter = ("vcs", "file_format")
+    autocomplete_fields = ("project",)
+
+    def get_queryset(self, request):
+        # Component labels include their category ancestry and project.
+        return (
+            super()
+            .get_queryset(request)
+            .select_related(
+                "project",
+                "category__project",
+                "category__category__project",
+                "category__category__category__project",
+            )
+        )
+
     actions = ("update_from_git", "update_checks", "force_commit")
     ordering = ("project__name", "name")
 
@@ -151,14 +166,29 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
 
 class TranslationAdmin(WeblateModelAdmin):
     list_display = ("component", "language", "revision", "filename")
-    search_fields = ("component__name", "language__code", "revision", "filename")
-    list_filter = ("component__project", "component", "language")
+    search_fields = (
+        "component__name",
+        "component__slug",
+        "component__project__name",
+        "component__project__slug",
+        "language__code",
+        "revision",
+        "filename",
+    )
+    list_filter = ("language",)
 
 
 class UnitAdmin(WeblateModelAdmin):
     list_display = ("source", "target", "position", "state")
-    search_fields = ("source", "target")
-    list_filter = ("translation__component", "translation__language", "state")
+    search_fields = (
+        "source",
+        "target",
+        "translation__component__name",
+        "translation__component__slug",
+        "translation__component__project__name",
+        "translation__component__project__slug",
+    )
+    list_filter = ("translation__language", "state")
 
 
 class SuggestionAdmin(WeblateModelAdmin):
@@ -174,15 +204,21 @@ class CommentAdmin(WeblateModelAdmin):
 class ChangeAdmin(WeblateModelAdmin):
     list_display = ("unit", "user", "timestamp")
     date_hierarchy = "timestamp"
-    list_filter = ("component", "project", "language")
+    list_filter = ("language",)
+    search_fields = (
+        "component__name",
+        "component__slug",
+        "project__name",
+        "project__slug",
+    )
     raw_id_fields = ("unit",)
 
 
 @admin.register(Announcement)
 class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ("message", "project", "component", "language")
-    search_fields = ("message",)
-    list_filter = ("project", "language")
+    search_fields = ("message", "project__name", "project__slug")
+    list_filter = ("language",)
 
 
 class AutoComponentListAdmin(admin.TabularInline):
@@ -192,12 +228,25 @@ class AutoComponentListAdmin(admin.TabularInline):
 
 @admin.register(ComponentList)
 class ComponentListAdmin(WeblateModelAdmin):
+    search_fields = ("name", "slug")
     list_display = ("name", "show_dashboard")
     list_filter = ("show_dashboard",)
     # ruff: ignore[mutable-class-default]
     prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ("components",)
     inlines = (AutoComponentListAdmin,)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        field = super().formfield_for_manytomany(db_field, request, **kwargs)
+        if db_field.name == "components" and field is not None:
+            field.queryset = field.queryset.select_related(
+                "project",
+                "category__project",
+                "category__category__project",
+                "category__category__category__project",
+            )
+        return field
+
     ordering = ("name",)
 
 

@@ -35,7 +35,7 @@ from django.core.exceptions import (
 from django.core.mail.message import EmailMessage
 from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
 from django.http import (
     Http404,
     HttpResponse,
@@ -196,7 +196,7 @@ from weblate.accounts.visibility import (
 )
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import Invitation, User, get_anonymous
+from weblate.auth.models import Group, Invitation, User, get_anonymous
 from weblate.auth.utils import (
     format_address,
     format_membership_limit_language_codes,
@@ -930,6 +930,41 @@ class UserNotifications(DetailView):
         return context
 
 
+@require_GET
+@never_cache
+def team_search(request: AuthenticatedHttpRequest) -> JsonResponse:
+    """Look up teams without loading the site's complete team list."""
+    check_management_access(request, "user.edit")
+    try:
+        page = int(request.GET.get("page", "1"))
+    except ValueError:
+        return JsonResponse({"error": "Invalid page."}, status=400)
+    if page < 1 or page > 10000:
+        return JsonResponse({"error": "Invalid page."}, status=400)
+    query = request.GET.get("q", "").strip()[:200]
+    groups = Group.objects.select_related("defining_project", "defining_workspace")
+    if query:
+        groups = groups.filter(
+            Q(name__icontains=query)
+            | Q(defining_project__name__icontains=query)
+            | Q(defining_workspace__name__icontains=query)
+        )
+    offset = (page - 1) * 25
+    matches = list(
+        groups.order_by(
+            "defining_project__name", "defining_workspace__name", "name", "pk"
+        )[offset : offset + 26]
+    )
+    return JsonResponse(
+        {
+            "results": [
+                {"id": group.pk, "text": group.long_name()} for group in matches[:25]
+            ],
+            "more": len(matches) > 25,
+        }
+    )
+
+
 @method_decorator(profile_response, name="dispatch")
 class UserPage(UpdateView):
     model = User
@@ -1079,15 +1114,23 @@ class UserPage(UpdateView):
         ).filter(user=user)
 
         # Filter where project is active
-        user_translation_ids = set(
+        user_translation_ids = (
             all_changes.content()
-            .filter(timestamp__gte=timezone.now() - timedelta(days=90))
-            .values_list("translation", flat=True)
+            .filter(
+                timestamp__gte=timezone.now() - timedelta(days=90),
+                translation__component__project__in=allowed_projects,
+            )
+            .exclude(translation=None)
+            .order_by()
+            .values("translation")
+            .annotate(last_contribution=Max("timestamp"))
+            .order_by("-last_contribution", "translation")
+            .values("translation")[:10]
         )
         user_translations = (
             Translation.objects.prefetch()
             .filter(
-                id__in=list(user_translation_ids)[:10],
+                id__in=user_translation_ids,
                 component__project__in=allowed_projects,
             )
             .order()
@@ -1112,6 +1155,12 @@ class UserPage(UpdateView):
             prefetch_stats(watched[:10])
         )
         context["user_languages"] = user.profile.all_languages[:7]
+        context["page_user_billings"] = []
+        if not request.user.has_perm("user.edit"):
+            return context
+        context["page_user_blocks"] = user.userblock_set.select_related(
+            "project", "user"
+        )
         context["group_form"] = self.group_form or GroupAddForm()
         memberships = (
             user.team_memberships.select_related(
@@ -1138,7 +1187,6 @@ class UserPage(UpdateView):
         for group in page_user_groups:
             group.team_membership = memberships_by_group_id.get(group.pk)
         context["page_user_groups"] = page_user_groups
-        context["page_user_billings"] = []
         if "weblate.billing" in settings.INSTALLED_APPS:
             # ruff: ignore[import-outside-top-level]
             from weblate.billing.models import Billing

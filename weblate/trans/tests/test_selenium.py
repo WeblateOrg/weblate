@@ -4364,6 +4364,76 @@ class SeleniumTests(
         self.assertNotIn("Error in parameter component", body)
         self.assertNotIn("Could not process form!", body)
 
+    def test_profile_team_search(self) -> None:
+        user = self.do_login(superuser=True)
+        groups = [
+            Group.objects.create(name=f"Remote team {index:02}") for index in range(30)
+        ]
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{user.get_absolute_url()}#groups")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, '[data-bs-target="#groups"]')
+        )
+        select = self.driver.find_element(By.ID, "id_add_group")
+        self.assertEqual(len(Select(select).options), 1)
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, "#div_id_add_group .ts-control")
+        )
+        control = self.driver.find_element(By.ID, "id_add_group-ts-control")
+        self.driver.execute_script("""
+            const originalFetch = window.fetch;
+            let failLookup = true;
+            window.fetch = (url, ...options) => {
+                if (failLookup && new URL(url, location.origin).searchParams.get("q") === "Remote team") {
+                    failLookup = false;
+                    return Promise.reject(new Error("Test lookup failure"));
+                }
+                return originalFetch(url, ...options);
+            };
+        """)
+        control.send_keys("Remote team")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                "Could not load teams"
+                in self.driver.find_element(By.ID, "popup-toasts").text
+            )
+        )
+        # Retrying the same search after a failure must remain possible.
+        control.clear()
+        control.send_keys("Remote team")
+        self.assertEqual(control.get_attribute("value"), "Remote team")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: self.driver.execute_script(
+                "const ts = document.getElementById('id_add_group').tomselect;"
+                "return ts.loading === 0 && !!ts.options[arguments[0]];",
+                str(groups[24].pk),
+            )
+        )
+        # Keyboard navigation must be able to reach results beyond the first page.
+        for _index in range(27):
+            control.send_keys(Keys.ARROW_DOWN)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: self.driver.execute_script(
+                "return !!document.getElementById('id_add_group').tomselect.options[arguments[0]];",
+                str(groups[-1].pk),
+            )
+        )
+        control.send_keys(Keys.ESCAPE)
+        control.clear()
+        control.send_keys("Remote team 29")
+        self.assertEqual(control.get_attribute("value"), "Remote team 29")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'#id_add_group-ts-dropdown [data-value="{groups[-1].pk}"]',
+            ).is_displayed()
+        )
+        control.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
+        self.assertEqual(
+            Select(select).first_selected_option.get_attribute("value"),
+            str(groups[-1].pk),
+        )
+
     def test_login(self) -> None:
         # Do proper login with new user
         self.do_login()

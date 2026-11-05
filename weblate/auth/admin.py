@@ -225,7 +225,15 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         "is_bot",
         "is_superuser",
     )
-    search_fields = ("username", "full_name", "email")
+    search_fields = (
+        "username",
+        "full_name",
+        "email",
+        "groups__name",
+        "groups__defining_project__name",
+        "groups__defining_project__slug",
+        "groups__defining_workspace__name",
+    )
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
     inlines = (UserTeamMembershipInline,)
@@ -246,12 +254,15 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             {"fields": ("last_login", "date_joined", "date_expires")},
         ),
     )
-    list_filter = ("is_superuser", "is_active", "is_bot", "groups")
+    list_filter = ("is_superuser", "is_active", "is_bot")
     filter_horizontal = ()
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("groups")
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
-        return ",".join(obj.groups.values_list("name", flat=True))
+        return ",".join(group.name for group in obj.groups.all())
 
     def action_checkbox(self, obj):
         if obj.is_internal:
@@ -307,7 +318,12 @@ class GroupChangeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if "components" in self.fields:
             components = self.fields["components"]
-            components.queryset = components.queryset.select_related("project")
+            components.queryset = components.queryset.select_related(
+                "project",
+                "category__project",
+                "category__category__project",
+                "category__category__category__project",
+            )
 
     def clean(self) -> None:
         super().clean()
@@ -341,15 +357,26 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     model = Group
     form = GroupChangeForm
     inlines = (InlineAutoGroupAdmin,)
-    search_fields = ("name", "defining_project__name", "defining_workspace__name")
+    search_fields = (
+        "name",
+        "defining_project__name",
+        "defining_project__slug",
+        "defining_workspace__name",
+    )
+    list_select_related = ("defining_project", "defining_workspace")
+    autocomplete_fields = (
+        "defining_project",
+        "defining_workspace",
+        "projects",
+        "components",
+        "componentlists",
+        "admins",
+    )
     ordering = ("defining_project__name", "defining_workspace__name", "name")
     list_filter = ("internal", "project_selection", "language_selection")
     filter_horizontal = (
         "roles",
-        "projects",
         "languages",
-        "components",
-        "componentlists",
     )
     list_display = ("name", "defining_project", "defining_workspace")
 

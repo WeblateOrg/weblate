@@ -11,6 +11,7 @@ Weblate 2026.11.1
 
 .. rubric:: Improvements
 
+* Improved user profiles and :doc:`administration <admin/admin>` on large installations by loading team choices on demand and using search for large admin relations.
 * Reduced database queries when :ref:`committing pending translations <lazy-commit>`.
 * Improved performance of :doc:`user profiles <user/profile>`, contribution lists, and author-filtered changes on large installations.
 * Added XML :ref:`file format parameters <file_format_params>` for UTF-8 byte order marks, declaration encoding case, and final newlines.

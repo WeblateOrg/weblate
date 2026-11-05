@@ -51,7 +51,8 @@ class ProfileAdmin(WeblateModelAdmin):
     list_display = ("user", "full_name", "language", "suggested", "translated")
     search_fields = ("user__username", "user__email", "user__full_name")
     list_filter = ("language",)
-    filter_horizontal = ("languages", "secondary_languages", "watched")
+    filter_horizontal = ("languages", "secondary_languages")
+    autocomplete_fields = ("watched",)
 
     def has_delete_permission(
         self, request: AuthenticatedHttpRequest, obj: Model | None = None

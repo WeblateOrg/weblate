@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+from datetime import timedelta
 from time import sleep
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
@@ -41,7 +42,12 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
-from weblate.accounts.forms import CommitForm, ProfileForm, UserSettingsForm
+from weblate.accounts.forms import (
+    CommitForm,
+    GroupAddForm,
+    ProfileForm,
+    UserSettingsForm,
+)
 from weblate.accounts.models import Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
@@ -49,13 +55,17 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.tests.visibility import VisibilityPermissions
-from weblate.accounts.views import auth_token_error_message, log_handled_auth_failure
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.accounts.views import (
+    auth_token_error_message,
+    log_handled_auth_failure,
+    team_search,
+)
+from weblate.auth.models import Group, Permission, Role, User, UserBlock
 from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, SavedSearch
+from weblate.trans.models import Category, Change, SavedSearch, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
@@ -2360,6 +2370,168 @@ class EditUserTest(FixtureTestCase):
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
+
+    def test_team_choices_are_loaded_on_demand(self) -> None:
+        groups = [
+            Group.objects.create(name=f"Large site team {index:02}")
+            for index in range(30)
+        ]
+        with self.assertNumQueries(1):
+            form = GroupAddForm()
+            self.assertNotIn(groups[0].name, str(form["add_group"]))
+        with self.assertNumQueries(2):
+            form = GroupAddForm(
+                {"add_group": groups[0].pk, "limit_languages": ["invalid"]}
+            )
+        self.assertFalse(form.is_valid())
+        with self.assertNumQueries(0):
+            self.assertIn(groups[0].name, str(form["add_group"]))
+            self.assertNotIn(groups[1].name, str(form["add_group"]))
+        self.assertEqual(form.cleaned_data["add_group"], groups[0])
+        for value in ("invalid", "9" * 100, str(groups[-1].pk + 1000)):
+            form = GroupAddForm({"add_group": value})
+            self.assertFalse(form.is_valid())
+            self.assertNotIn(groups[0].name, str(form["add_group"]))
+        response = self.client.get(self.user.get_absolute_url())
+        self.assertNotContains(response, groups[1].name)
+
+    def test_team_search(self) -> None:
+        workspace = Workspace.objects.create(name="Lookup workspace")
+        groups = [
+            Group.objects.create(
+                name=f"Lookup {index:02}", defining_workspace=workspace
+            )
+            for index in range(30)
+        ]
+        url = reverse("team-search")
+        self.assertEqual(url, "/js/teams/")
+        response = self.client.get(url, {"q": workspace.name})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["more"])
+        self.assertEqual(len(data["results"]), 25)
+        self.assertEqual(
+            data["results"][0], {"id": groups[0].pk, "text": groups[0].long_name()}
+        )
+        data = self.client.get(url, {"q": workspace.name, "page": "2"}).json()
+        self.assertFalse(data["more"])
+        self.assertEqual(
+            [item["id"] for item in data["results"]],
+            [group.pk for group in groups[25:]]
+            + list(
+                workspace.defined_groups.exclude(pk__in=[group.pk for group in groups])
+                .order()
+                .values_list("pk", flat=True)
+            ),
+        )
+        for page in ("invalid", "0", "-1", "10001"):
+            self.assertEqual(self.client.get(url, {"page": page}).status_code, 400)
+        self.assertEqual(self.client.post(url).status_code, 405)
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.assertEqual(self.client.get(url).status_code, 403)
+        self.client.logout()
+        self.assertEqual(self.client.get(url).status_code, 403)
+
+    def test_team_search_query_count(self) -> None:
+        workspace = Workspace.objects.create(name="Query workspace")
+        for index in range(3):
+            Group.objects.create(
+                name=f"Query team {index}", defining_workspace=workspace
+            )
+        request = self.get_request()
+        request.GET = {"q": workspace.name}
+        # Warm permission caches before measuring relation loading.
+        request.user.has_perm("management.use")
+        request.user.has_perm("user.edit")
+        with self.assertNumQueries(1):
+            response = team_search(request)
+        self.assertEqual(
+            len(json.loads(response.content)["results"]),
+            workspace.defined_groups.count(),
+        )
+
+    def test_recent_contributions_are_distinct_and_limited(self) -> None:
+        source = self.component.source_translation
+        languages = Language.objects.exclude(
+            pk__in=self.component.translation_set.values("language_id")
+        ).order_by("code")[:13]
+        translations = Translation.objects.bulk_create(
+            [
+                Translation(
+                    component=self.component,
+                    language=language,
+                    plural=source.plural,
+                    language_code=language.code,
+                    filename=f"preview-{language.code}.po",
+                )
+                for language in languages
+            ]
+        )
+        now = timezone.now()
+        for index, translation in enumerate(translations):
+            change = Change.objects.create(
+                translation=translation,
+                component=self.component,
+                project=self.project,
+                user=self.user,
+                author=self.user,
+                action=ActionEvents.USER_REVERT,
+                details={"username": self.user.username, "email": self.user.email},
+            )
+            Change.objects.filter(pk=change.pk).update(
+                timestamp=now - timedelta(hours=index)
+            )
+        # Many changes on one translation must not crowd out distinct results.
+        for _index in range(12):
+            Change.objects.create(
+                translation=translations[0],
+                component=self.component,
+                project=self.project,
+                user=self.user,
+                author=self.user,
+                action=ActionEvents.USER_REVERT,
+                details={"username": self.user.username, "email": self.user.email},
+            )
+        # An old contribution is excluded even when its translation ID is small.
+        old = Change.objects.create(
+            translation=source,
+            component=self.component,
+            project=self.project,
+            user=self.user,
+            author=self.user,
+            action=ActionEvents.USER_REVERT,
+            details={"username": self.user.username, "email": self.user.email},
+        )
+        Change.objects.filter(pk=old.pk).update(timestamp=now - timedelta(days=91))
+        response = self.client.get(self.user.get_absolute_url())
+        selected = response.context["page_user_translations"]
+        self.assertCountEqual(
+            [translation.pk for translation in selected],
+            [translation.pk for translation in translations[:10]],
+        )
+        # With a tied latest timestamp, the translation ID determines selection.
+        Change.objects.filter(translation__in=translations).update(timestamp=now)
+        response = self.client.get(self.user.get_absolute_url())
+        self.assertCountEqual(
+            [
+                translation.pk
+                for translation in response.context["page_user_translations"]
+            ],
+            sorted(translation.pk for translation in translations)[:10],
+        )
+
+    def test_profile_blocks_load_related_objects(self) -> None:
+        UserBlock.objects.create(user=self.user, project=self.project)
+        response = self.client.get(self.user.get_absolute_url())
+        blocks = list(response.context["page_user_blocks"])
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                [block.project.name for block in blocks], [self.project.name]
+            )
+            self.assertEqual(
+                [block.user.username for block in blocks], [self.user.username]
+            )
 
     def test_edit(self) -> None:
         # Change user as superuser

@@ -23,6 +23,7 @@ from django.forms import Script
 from django.forms.utils import ErrorDict
 from django.http import Http404
 from django.middleware.csrf import rotate_token
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
 from django.utils.translation import (
@@ -71,6 +72,7 @@ from weblate.utils.forms import (
     ContextDiv,
     EmailField,
     QueryField,
+    SearchableSelect,
     SortedSelect,
     SortedSelectMultiple,
     UsernameField,
@@ -1324,7 +1326,10 @@ class GroupChoiceField(forms.ModelChoiceField):
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
         label=gettext_lazy("Team"),
-        queryset=Group.objects.prefetch_related("defining_project").order(),
+        queryset=Group.objects.select_related(
+            "defining_project", "defining_workspace"
+        ).order(),
+        widget=SearchableSelect,
         required=True,
     )
     limit_languages = LimitLanguagesField(
@@ -1333,6 +1338,25 @@ class GroupAddForm(forms.Form):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        field = cast("GroupChoiceField", self.fields["add_group"])
+        field.widget.attrs["data-search-url"] = reverse("team-search")
+        # Keep validation against the full queryset, but render only the selected
+        # option. Other choices are fetched when searching the control.
+        value = self["add_group"].value()
+        try:
+            selected_id = int(value) if value else None
+        except (TypeError, ValueError):
+            selected_id = None
+        if selected_id is not None and not 0 < selected_id <= 2**63 - 1:
+            selected_id = None
+        selected = (
+            field.queryset.filter(pk=selected_id)
+            if selected_id
+            else field.queryset.none()
+        )
+        field.widget.choices = [("", field.empty_label)] + [
+            (group.pk, field.label_from_instance(group)) for group in selected
+        ]
         self.fields["limit_languages"].choices = get_language_code_choices(
             self.fields["limit_languages"].queryset
         )
