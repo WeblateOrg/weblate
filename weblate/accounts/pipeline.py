@@ -72,10 +72,6 @@ if TYPE_CHECKING:
     from social_core.backends.base import BaseAuth
 
     from weblate.accounts.strategy import WeblateStrategy
-
-    from social_core.backends.base import BaseAuth
-
-    from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.models import AuthenticatedHttpRequest
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
