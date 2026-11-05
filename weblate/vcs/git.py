@@ -2493,6 +2493,22 @@ class GitMergeRequestBase(GitRepository):
     def get_credentials_configuration(cls):
         return getattr(settings, cls.get_credentials_name())
 
+    @classmethod
+    def validate_fork_remote_name(cls, name: str | None) -> str:
+        """Validate a forge username before using it as a Git remote name."""
+        if not isinstance(name, str) or not name or name.startswith("-"):
+            raise RepositoryError(0, f"{name!r} is not a valid fork remote name")
+        try:
+            cls._popen(
+                ["check-ref-format", f"refs/remotes/{name}/weblate"],
+                merge_err=False,
+            )
+        except RepositoryError as error:
+            raise RepositoryError(
+                0, f"{name!r} is not a valid fork remote name"
+            ) from error
+        return name
+
     def get_credentials(self) -> GitCredentials:
         scheme, username, password, host, owner, slug = self.parse_repo_url()
         hostname = self.format_api_host(host).lower()
@@ -2513,6 +2529,7 @@ class GitMergeRequestBase(GitRepository):
             push_scheme = "ssh"
             username = credentials["username"]
             password = credentials["token"]
+        username = self.validate_fork_remote_name(username)
 
         result: GitCredentials = {
             "url": self.format_url(scheme, hostname, owner, slug),

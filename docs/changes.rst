@@ -9,6 +9,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

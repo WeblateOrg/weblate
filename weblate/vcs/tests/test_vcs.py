@@ -3108,6 +3108,42 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     _sets_push = False
     _repo_override = "https://try.gitea.io/WeblateOrg/test.git"
 
+    def test_fork_remote_name_from_url_credentials(self) -> None:
+        url = "https://--output=.:token@try.gitea.io/WeblateOrg/test.git"
+        for field in ("push", "repo"):
+            with self.subTest(field=field):
+                self.repo.component.repo = self._repo_override
+                self.repo.component.push = ""
+                setattr(self.repo.component, field, url)
+                with self.assertRaisesRegex(
+                    RepositoryError, "not a valid fork remote name"
+                ):
+                    self.repo.get_credentials()
+
+    def test_fork_remote_name_from_configuration(self) -> None:
+        with (
+            override_settings(
+                GITEA_CREDENTIALS={
+                    "try.gitea.io": {"username": "--force", "token": "token"}
+                }
+            ),
+            self.assertRaisesRegex(RepositoryError, "not a valid fork remote name"),
+        ):
+            self.repo.get_credentials()
+
+    def test_fork_remote_name_must_be_valid_ref_component(self) -> None:
+        self.repo.component.push = (
+            "https://bad name:token@try.gitea.io/WeblateOrg/test.git"
+        )
+        with self.assertRaisesRegex(RepositoryError, "not a valid fork remote name"):
+            self.repo.get_credentials()
+
+    def test_fork_remote_name_accepts_valid_url_credentials(self) -> None:
+        self.repo.component.push = (
+            "https://alice:token@try.gitea.io/WeblateOrg/test.git"
+        )
+        self.assertEqual(self.repo.get_credentials()["username"], "alice")
+
     @http_mock.activate
     def test_pull_request_returns_browser_url(self) -> None:
         url = "https://example.com/team/repo/pull/1"
