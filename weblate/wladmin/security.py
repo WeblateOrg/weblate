@@ -21,14 +21,15 @@ from django.contrib.auth.hashers import check_password
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.db.models import Case, Q, Value, When
+from django.db.models import Case, CharField, F, Q, Value, When
+from django.db.models.functions import Cast, Upper
 from django.utils import timezone
 from django.utils.crypto import constant_time_compare, salted_hmac
 from django.utils.translation import gettext, gettext_lazy, gettext_noop
 from django.views.decorators.debug import sensitive_variables
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.accounts.utils import delete_api_tokens
+from weblate.accounts.utils import delete_api_tokens, invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.utils.email import email_key, email_key_expression
 from weblate.wladmin.models import SecurityFinding, SecurityFindingEvent, SecurityScan
@@ -40,17 +41,38 @@ MAX_UPLOAD = 10 * 1024 * 1024
 MAX_ROWS = 50000
 INPUT_TTL = 3600
 LEAKED_PASSWORD = "leaked-password"  # ruff: ignore[hardcoded-password-string]
+LEGACY_EMAIL_ALIAS = "legacy-email-alias"
 
 
 @dataclass(frozen=True)
 class FindingHandler:
     label: object
     can_reset: bool = False
+    can_cleanup: bool = False
 
 
 FINDING_HANDLERS = {
     LEAKED_PASSWORD: FindingHandler(gettext_lazy("Leaked password"), can_reset=True),
+    LEGACY_EMAIL_ALIAS: FindingHandler(
+        gettext_lazy("Lookalike verified e-mail address"), can_cleanup=True
+    ),
 }
+
+
+def is_legacy_email_alias(entry: VerifiedEmail) -> bool:
+    """Check the old locale-sensitive match against the current owner."""
+    primary = entry.social.user.email
+    if not primary or email_key(entry.email) == email_key(primary):
+        return False
+    return (
+        VerifiedEmail.objects.filter(pk=entry.pk)
+        .annotate(
+            old_email=Upper(Cast(F("email"), CharField())),
+            old_primary=Upper(Cast(F("social__user__email"), CharField())),
+        )
+        .filter(old_email=F("old_primary"))
+        .exists()
+    )
 
 
 def fingerprint(encoded: str, *, secret: str | bytes | None = None) -> str:
@@ -212,17 +234,32 @@ def parse_report(data: bytes, config: dict) -> list[tuple[int, str, str]]:
     return result
 
 
+@sensitive_variables()
 @transaction.atomic
-def record_detection(scan: SecurityScan, user: User, evidence: dict) -> None:
+def record_detection(
+    scan: SecurityScan,
+    user: User,
+    evidence: dict,
+    passwords: list[str] | None = None,
+) -> None:
     # Lock the account first, the same order used by remediation.
     current = User.objects.select_for_update().get(pk=user.pk)
     if current.password != user.password:
-        return
+        if passwords is None:
+            return
+        matches = [
+            match
+            for password, match in zip(passwords, evidence["matches"], strict=True)
+            if check_password(password, current.password)
+        ]
+        if not matches:
+            return
+        evidence = {"matches": matches}
     finding = (
         SecurityFinding.objects.filter(
             user=current,
             finding_type=LEAKED_PASSWORD,
-            key__in=password_fingerprints(user.password),
+            key__in=password_fingerprints(current.password),
         )
         .order_by("first_seen", "pk")
         .first()
@@ -231,7 +268,7 @@ def record_detection(scan: SecurityScan, user: User, evidence: dict) -> None:
         finding = SecurityFinding.objects.create(
             user=current,
             finding_type=LEAKED_PASSWORD,
-            key=fingerprint(user.password),
+            key=fingerprint(current.password),
         )
     event, created = SecurityFindingEvent.objects.get_or_create(
         finding=finding,
@@ -240,6 +277,10 @@ def record_detection(scan: SecurityScan, user: User, evidence: dict) -> None:
         defaults={"actor_id": scan.actor_id, "evidence": evidence},
     )
     if not created:
+        event.evidence["matches"].extend(evidence["matches"])
+        event.save(update_fields=["evidence"])
+        finding.evidence = event.evidence
+        finding.save(update_fields=["evidence"])
         return
     # An older in-flight scan must not undo a later administrative decision.
     if finding.handled_at is None or scan.created > finding.handled_at:
@@ -292,7 +333,7 @@ def validate_credentials(scan: SecurityScan, rows: list[tuple[int, str, str]]) -
     for batch in batched(rows, 250):
         check_deadline(scan)
         matches = match_accounts(batch)
-        evidence: dict[int, tuple[User, list[dict]]] = {}
+        evidence: dict[int, tuple[User, list[dict], list[str]]] = {}
         for number, identifier, password in batch:
             if not identifier:
                 counts["malformed"] += 1
@@ -314,7 +355,10 @@ def validate_credentials(scan: SecurityScan, rows: list[tuple[int, str, str]]) -
                         if check_password(password, user.password):
                             counts["matched"] += 1
                             affected.add(user.pk)
-                            evidence.setdefault(user.pk, (user, []))[1].append(
+                            evidence.setdefault(user.pk, (user, [], []))[2].append(
+                                password
+                            )
+                            evidence[user.pk][1].append(
                                 {
                                     "row": number,
                                     "identifier": identifier,
@@ -324,19 +368,8 @@ def validate_credentials(scan: SecurityScan, rows: list[tuple[int, str, str]]) -
                         else:
                             counts["mismatch"] += 1
             scan.processed += 1
-        for user, details in evidence.values():
-            # Merge row details when the same account occurs in multiple batches.
-            previous = SecurityFindingEvent.objects.filter(
-                scan=scan, finding__user=user, action="detected"
-            ).first()
-            if previous:
-                previous.evidence["matches"].extend(details)
-                previous.save(update_fields=["evidence"])
-                SecurityFinding.objects.filter(pk=previous.finding_id).update(
-                    evidence=previous.evidence
-                )
-            else:
-                record_detection(scan, user, {"matches": details})
+        for user, details, passwords in evidence.values():
+            record_detection(scan, user, {"matches": details}, passwords)
         counts["accounts"] = len(affected)
         scan.summary = dict(counts)
         scan.save(update_fields=["processed", "summary"])
@@ -357,9 +390,37 @@ def handle_finding(scan: SecurityScan, finding_id: int) -> str:
         return "skipped"
     if scan.operation == "dismiss":
         status, reason = SecurityFinding.Status.DISMISSED, "dismissed"
+    elif scan.operation == "cleanup" and finding.finding_type == LEGACY_EMAIL_ALIAS:
+        status = SecurityFinding.Status.RESOLVED
+        entry = (
+            VerifiedEmail.objects.select_for_update()
+            .select_related("social__user")
+            .filter(pk=finding.evidence.get("verified_email_id"), social__user=user)
+            .first()
+        )
+        if (
+            entry is None
+            or entry.email != finding.evidence.get("email")
+            or entry.social_id != finding.evidence.get("social_id")
+        ):
+            reason = "email-already-changed"
+        else:
+            alias = entry.email
+            social = entry.social
+            invalidate_reset_codes(emails=[alias])
+            entry.delete()
+            social.delete()
+            old_password = user.password
+            user.set_unusable_password()
+            user.save(update_fields=["password"])
+            delete_api_tokens(user)
+            AuditLog.objects.create(
+                user, None, "email-cleanup", actor=scan.actor, password=old_password
+            )
+            reason = "email-cleanup"
     else:
         handler = FINDING_HANDLERS.get(finding.finding_type)
-        if handler is None or not handler.can_reset:
+        if scan.operation != "reset" or handler is None or not handler.can_reset:
             return "unsupported"
         status = SecurityFinding.Status.RESOLVED
         if not any(

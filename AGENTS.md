@@ -141,6 +141,13 @@ For application-developer workflows and broader product integration guidance, us
 - Be careful with repository, webhook, and file-handling code; validate inputs
   and avoid introducing path traversal, command injection, or script injection
   risks.
+- Create and update repository files atomically using existing interfaces:
+  `TranslationFormat.save_atomic()` for format writers and
+  `BaseAddon.write_repo_file()` for add-ons. Stage external-tool output before
+  installation; never truncate or copy over repository files in place. Preserve
+  repository locks, path validation, and existing file permissions, including
+  executable bits. See the atomic repository writes guidance in
+  `docs/contributing/code.rst`.
 - Handle VCS operations defensively and surface failures cleanly.
 - Mock external VCS operations and API calls in tests.
 - Review `docs/security/threat-model.rst` when changing public endpoints,

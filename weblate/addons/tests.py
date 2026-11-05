@@ -14,6 +14,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -183,7 +184,7 @@ from .models import (
     handle_addon_event,
     handle_daily_addon_event,
 )
-from .properties import PropertiesSortAddon, format_unicode
+from .properties import PropertiesSortAddon, format_file, format_unicode
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import (
@@ -230,6 +231,63 @@ class GettextUtilityTest(SimpleTestCase):
         self.assertFalse(
             is_xgettext_placeholder_comment("# Copyright (C) 2026 Example Corp.\n")
         )
+
+
+class AddonRepoFileTest(SimpleTestCase):
+    def test_existing_permissions_are_preserved_before_replacement(self) -> None:
+        replace = os.replace
+        for content in ("updated", b"updated"):
+            for mode in (0o640, 0o644, 0o755):
+                with (
+                    self.subTest(content=content, mode=mode),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    filename = Path(directory) / "configure"
+                    filename.write_bytes(b"original")
+                    filename.chmod(mode)
+
+                    def replace_file(source, destination, filename=filename, mode=mode):
+                        self.assertEqual(filename.read_bytes(), b"original")
+                        self.assertEqual(
+                            stat.S_IMODE(Path(source).stat().st_mode), mode
+                        )
+                        return replace(source, destination)
+
+                    with patch(
+                        "weblate.addons.base.os.replace", side_effect=replace_file
+                    ):
+                        BaseAddon.write_repo_file(str(filename), content)
+
+                    self.assertEqual(filename.read_bytes(), b"updated")
+                    self.assertEqual(stat.S_IMODE(filename.stat().st_mode), mode)
+                    self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_permission_copy_failure_preserves_destination(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory) / "configure"
+            filename.write_bytes(b"original")
+            filename.chmod(0o755)
+
+            with (
+                patch(
+                    "weblate.addons.base.shutil.copymode", side_effect=PermissionError
+                ),
+                patch("weblate.addons.base.os.replace") as replace,
+                self.assertRaises(PermissionError),
+            ):
+                BaseAddon.write_repo_file(str(filename), "updated")
+
+            replace.assert_not_called()
+            self.assertEqual(filename.read_bytes(), b"original")
+            self.assertEqual(stat.S_IMODE(filename.stat().st_mode), 0o755)
+            self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_new_file_keeps_private_permissions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory) / "generated"
+            BaseAddon.write_repo_file(str(filename), "new content")
+            self.assertEqual(filename.read_text(encoding="utf-8"), "new content")
+            self.assertEqual(stat.S_IMODE(filename.stat().st_mode), 0o600)
 
 
 class PropertiesUtilityTest(SimpleTestCase):
@@ -391,6 +449,53 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def test_pending_commit_reuses_unit_addon_cache(self) -> None:
+        self.check_pending_commit_unit_addon_cache(self.component)
+
+    def test_pending_linked_commit_reuses_unit_addon_cache(self) -> None:
+        self.check_pending_commit_unit_addon_cache(self.create_link_existing())
+
+    def check_pending_commit_unit_addon_cache(self, component: Component) -> None:
+        callback = self.enterContext(
+            patch.object(NoOpAddon, "unit_post_save", create=True)
+        )
+        with patch.object(NoOpAddon, "events", {AddonEvent.EVENT_UNIT_POST_SAVE}):
+            NoOpAddon.create(acting_user=self.user, component=component, run=False)
+        translation = component.translation_set.get(language_code="cs")
+        units = list(translation.unit_set.order_by("pk"))
+        for unit in units:
+            unit.translate(self.user, "Pending add-on test", STATE_TRANSLATED)
+
+        translation = Translation.objects.get(pk=translation.pk)
+        callback.reset_mock()
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(translation.commit_pending("test", self.user))
+
+        self.assertEqual(callback.call_count, len(units))
+        self.assertCountEqual(
+            [call.args[0].pk for call in callback.call_args_list],
+            [unit.pk for unit in units],
+        )
+        commit_translation = callback.call_args_list[0].args[0].translation
+        self.assertEqual(commit_translation, translation)
+        for call in callback.call_args_list:
+            self.assertIs(call.args[0].translation, commit_translation)
+            self.assertEqual(call.args[0].translation.component_id, component.pk)
+            self.assertFalse(call.args[1])
+        self.assertEqual(
+            sum(
+                query["sql"].startswith("SELECT")
+                and 'FROM "addons_addon"' in query["sql"]
+                for query in queries.captured_queries
+            ),
+            2 if component.linked_component_id else 1,
+        )
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(
+                translation, apply_filters=False
+            ).exists()
+        )
+
     def test_postconfigure_task_preserves_actor(self) -> None:
         from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 
@@ -937,6 +1042,159 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon.alerts = []
         addon.extra_files = []
         return addon
+
+    def test_text_updates_preserve_destination_on_failure(self) -> None:
+        for kind, original in (
+            ("properties", "z=last\na=first\n"),
+            ("linguas", "de\n"),
+            ("configure", 'ALL_LINGUAS="de"\n'),
+        ):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                filename = Path(directory) / "metadata"
+                filename.write_text(original, encoding="utf-8")
+                component = MagicMock()
+                component.translation_set.exclude.return_value.values_list.return_value = MagicMock(
+                    __iter__=lambda _self: iter(["cs"]),
+                    order_by=lambda *_args: ["cs"],
+                )
+                addon_class = (
+                    UpdateLinguasAddon if kind == "linguas" else UpdateConfigureAddon
+                )
+                addon = self.build_fake_addon(addon_class, component)
+
+                def fail_replace(
+                    source, destination, filename=filename, original=original
+                ) -> None:
+                    self.assertEqual(Path(destination), filename)
+                    self.assertNotEqual(
+                        Path(source).read_text(encoding="utf-8"), original
+                    )
+                    self.assertEqual(filename.read_text(encoding="utf-8"), original)
+                    msg = "replacement failed"
+                    raise OSError(msg)
+
+                with (
+                    patch("weblate.addons.base.os.replace", side_effect=fail_replace),
+                    self.assertRaisesMessage(OSError, "replacement failed"),
+                ):
+                    if kind == "properties":
+                        format_file(str(filename), case_sensitive=True)
+                    elif kind == "linguas":
+                        addon.sync_linguas(component, str(filename))
+                    else:
+                        addon.sync_linguas(component, [str(filename)])
+                self.assertEqual(filename.read_text(encoding="utf-8"), original)
+                self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_xgettext_stages_output(self) -> None:
+        for result in ("success", "failure", "no output"):
+            with (
+                self.subTest(result=result),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                component = self.build_fake_component(
+                    directory, new_base="messages.pot"
+                )
+                template = Path(directory) / "messages.pot"
+                template.write_bytes(b"original")
+                addon = self.build_fake_addon(XgettextAddon, component)
+                generated = None
+
+                def run_process(
+                    component, command, *, template=template, result=result, **kwargs
+                ):
+                    nonlocal generated
+                    generated = Path(command[command.index("--output") + 1])
+                    self.assertNotEqual(generated, template)
+                    if result != "no output":
+                        generated.write_bytes(b"generated")
+                    self.assertEqual(template.read_bytes(), b"original")
+                    return None if result == "failure" else ""
+
+                with (
+                    patch.object(
+                        XgettextAddon, "has_relevant_changes", return_value=True
+                    ),
+                    patch.object(
+                        XgettextAddon, "resolve_input_files", return_value=["source.py"]
+                    ),
+                    patch.object(
+                        XgettextAddon, "get_gettext_format_args", return_value=[]
+                    ),
+                    patch.object(XgettextAddon, "run_process", side_effect=run_process),
+                ):
+                    self.assertEqual(
+                        addon.execute_update(component, "", []), result != "failure"
+                    )
+                assert generated is not None
+                self.assertFalse(generated.parent.exists())
+                self.assertEqual(
+                    template.read_bytes(),
+                    b"generated" if result == "success" else b"original",
+                )
+                self.assertEqual(list(Path(directory).iterdir()), [template])
+
+    def test_generated_templates_preserve_destination_on_replace_failure(self) -> None:
+        for addon_class in (DjangoAddon, SphinxAddon):
+            with (
+                self.subTest(addon=addon_class.name),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                component = self.build_fake_component(
+                    directory, new_base="locale/django.pot"
+                )
+                template_filename = component.get_new_base_filename()
+                assert template_filename is not None
+                template = Path(template_filename)
+                template.parent.mkdir(parents=True)
+                template.write_bytes(b"original")
+                addon = self.build_fake_addon(addon_class, component)
+
+                def run_process(component, command, env=None, **kwargs):
+                    output = (
+                        Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+                        if env
+                        else Path(command[-1])
+                    )
+                    output.mkdir(parents=True, exist_ok=True)
+                    (output / "django.pot").write_bytes(b"generated")
+                    return ""
+
+                def fail_replace(source, destination, template=template) -> None:
+                    self.assertEqual(Path(destination), template)
+                    self.assertEqual(Path(source).read_bytes(), b"generated")
+                    self.assertEqual(template.read_bytes(), b"original")
+                    msg = "replacement failed"
+                    raise OSError(msg)
+
+                with (
+                    patch.object(
+                        DjangoAddon, "get_source_dir", return_value=Path(directory)
+                    ),
+                    patch.object(
+                        DjangoAddon,
+                        "validate_django_repository_tree",
+                        return_value=True,
+                    ),
+                    patch.object(
+                        SphinxAddon,
+                        "get_sphinx_source_dir",
+                        return_value=Path(directory),
+                    ),
+                    patch.object(
+                        SphinxAddon, "validate_repository_tree", return_value=True
+                    ),
+                    patch.object(SphinxAddon, "postprocess_sphinx_template"),
+                    patch.object(
+                        addon_class, "get_gettext_format_args", return_value=[]
+                    ),
+                    patch.object(addon_class, "run_process", side_effect=run_process),
+                    patch("weblate.addons.base.os.replace", side_effect=fail_replace),
+                    self.assertRaisesMessage(OSError, "replacement failed"),
+                ):
+                    addon.execute_update(component, "", [])
+                self.assertEqual(template.read_bytes(), b"original")
+                self.assertEqual(list(template.parent.iterdir()), [template])
 
     def test_render_repo_filename_rejects_broken_leaf_symlink_outside_repository(
         self,
@@ -1545,12 +1803,16 @@ class GettextAddonTest(ReusableViewTestCase):
 
     def test_update_configure(self) -> None:
         translation = self.get_translation()
+        configure = Path(self.component.full_path) / "configure"
+        configure.chmod(0o755)
         self.assertTrue(
             UpdateConfigureAddon.can_install(component=translation.component)
         )
         addon = UpdateConfigureAddon.create(
             acting_user=get_test_actor(self), component=translation.component
         )
+        self.assertEqual(stat.S_IMODE(configure.stat().st_mode), 0o755)
+        self.assertIn('ALL_LINGUAS="cs de it"', configure.read_text(encoding="utf-8"))
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
 
@@ -2301,10 +2563,12 @@ class GettextAddonTest(ReusableViewTestCase):
 
         mocked.assert_called_once()
         command = mocked.call_args.args[1]
-        self.assertEqual(
-            command[:5],
-            ["xgettext", "--output", "po/hello.pot", "--language", "Python"],
+        self.assertEqual(command[:2], ["xgettext", "--output"])
+        self.assertEqual(Path(command[2]).name, "hello.pot")
+        self.assertNotEqual(
+            Path(command[2]).parent, Path(self.component.full_path) / "po"
         )
+        self.assertEqual(command[3:5], ["--language", "Python"])
         self.assertIn("--from-code=UTF-8", command)
         self.assertIn("src/messages.py", command)
         self.assertIn("--", command)
@@ -2352,7 +2616,8 @@ class GettextAddonTest(ReusableViewTestCase):
 
                 mocked.assert_called_once()
                 command = mocked.call_args.args[1]
-                self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
+                self.assertEqual(command[:2], ["xgettext", "--output"])
+                self.assertEqual(Path(command[2]).name, "hello.pot")
                 self.assertNotIn("--language", command)
                 self.assertIn("--from-code=UTF-8", command)
                 self.assertIn("src/messages.py", command)
@@ -2927,7 +3192,8 @@ class GettextAddonTest(ReusableViewTestCase):
             addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
-        self.assertEqual(command[:3], ["xgettext", "--output", "po/messages.pot"])
+        self.assertEqual(command[:2], ["xgettext", "--output"])
+        self.assertEqual(Path(command[2]).name, "messages.pot")
         self.assertNotIn("--language", command)
         self.assertIn("--keyword=g_dcgettext:2", command)
         self.assertIn("--keyword=g_dpgettext2:2c,3", command)
@@ -3667,7 +3933,7 @@ class GettextAddonTest(ReusableViewTestCase):
         revision_before = self.component.repository.last_revision
 
         def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
-            template = Path(component.full_path) / "po" / "hello.pot"
+            template = Path(command[command.index("--output") + 1])
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
             return ""
@@ -3703,7 +3969,7 @@ class GettextAddonTest(ReusableViewTestCase):
         revision_before = self.component.repository.last_revision
 
         def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
-            template = Path(component.full_path) / "po" / "hello.pot"
+            template = Path(command[command.index("--output") + 1])
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
             return ""

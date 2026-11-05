@@ -93,6 +93,11 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # These direct helper calls have no request or database lifecycle to finish.
+        self.enterContext(patch("django.http.response.signals.request_finished.send"))
+
     def test_content_disposition(self) -> None:
         test_cases = (
             ("translations", 'attachment; filename="translations.zip"'),
@@ -109,6 +114,7 @@ class ZipDownloadTest(TestCase):
         for name, expected in test_cases:
             with self.subTest(name=name):
                 response = zip_download("", [], name=name)
+                self.addCleanup(response.close)
                 self.assertEqual(response["Content-Disposition"], expected)
 
     def test_zip_download_refreshes_lock_while_walking_directories(self) -> None:
@@ -123,8 +129,9 @@ class ZipDownloadTest(TestCase):
                 response = zip_download(
                     str(root), [str(root)], refresh_lock=refresh_lock
                 )
+                self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content)) as archive:
+        with ZipFile(BytesIO(b"".join(response))) as archive:
             self.assertEqual(archive.namelist(), [])
         refresh_lock.assert_called_once_with()
 
@@ -148,8 +155,9 @@ class ZipDownloadTest(TestCase):
                 [str(component)],
                 allowed_roots=[str(component), str(other_component)],
             )
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("component/regular.txt", archive.namelist())
             self.assertEqual(
                 archive.read("component/safe_link.txt"), b"shared translation"
@@ -202,8 +210,9 @@ class ZipDownloadTest(TestCase):
             response = zip_download(
                 str(root), [str(root), str(outside / "outside_link.txt")]
             )
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("regular.txt", archive.namelist())
             self.assertIn("build/translation.txt", archive.namelist())
             self.assertIn("node_modules/translation.txt", archive.namelist())
@@ -228,8 +237,9 @@ class ZipDownloadTest(TestCase):
             (root / ".SVN" / "entries").write_bytes(b"mixed case metadata")
             (root / "regular.txt").write_bytes(b"inside repository")
             response = zip_download(str(root), [str(root)])
+            self.addCleanup(response.close)
 
-        with ZipFile(BytesIO(response.content), "r") as archive:
+        with ZipFile(BytesIO(b"".join(response)), "r") as archive:
             self.assertIn("regular.txt", archive.namelist())
             self.assertIn(".SVN/entries", archive.namelist())
 
@@ -446,7 +456,7 @@ class ComponentTestCase(RepoTestCase):
     def assert_zip(self, response, filename: str | None = None):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/zip")
-        with ZipFile(BytesIO(response.content), "r") as zipfile:
+        with ZipFile(BytesIO(b"".join(response)), "r") as zipfile:
             self.assertIsNone(zipfile.testzip())
             if filename is not None:
                 self.assertIn(filename, zipfile.namelist())

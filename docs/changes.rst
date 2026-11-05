@@ -6,10 +6,13 @@ Weblate 2026.11.1
 .. rubric:: New features
 
 * Added :ref:`account security findings <account-security-findings>` with CSV leaked-password validation, persistent reports, and bulk password resets or dismissal.
+* Added an upgrade check for legacy lookalike verified e-mail identities, with administrator cleanup in :ref:`account security findings <account-security-findings>`.
 * Added authenticated :http:get:`/api/activity/` for daily activity and recently active projects.
 
 .. rubric:: Improvements
 
+* Reduced database queries when :ref:`committing pending translations <lazy-commit>`.
+* Improved performance of :doc:`user profiles <user/profile>`, contribution lists, and author-filtered changes on large installations.
 * Added XML :ref:`file format parameters <file_format_params>` for UTF-8 byte order marks, declaration encoding case, and final newlines.
 * Clarified verification and account recovery guidance when adding an e-mail address in :ref:`account settings <user-profile>`.
 * :ref:`Automation <automation-workflows>` condition groups and branching actions can now be edited in the visual editor.
@@ -17,6 +20,7 @@ Weblate 2026.11.1
 
 .. rubric:: Security fixes
 
+* Require acceptance of invitations from :ref:`automatic team assignments <autoteam>` to project and workspace teams, including rules restored from project backups.
 * Bound file-mask matching during component validation and repository updates to prevent crafted masks from exhausting workers.
 * Restrict :ref:`font uploads <fonts>` to TrueType and OpenType content.
 * Require review permission to replace translation or :ref:`glossary` files when reviews are enabled.
@@ -28,6 +32,8 @@ Weblate 2026.11.1
 .. rubric:: Bug fixes
 
 * Prevent overlapping :ref:`automatic translation <auto-translation>` operations for the same component and language.
+* Use :ref:`atomic file replacement <atomic-repository-writes>` when creating translation files and updating supporting files in add-ons.
+* Reduced memory use when building ZIP :ref:`downloads <download>` by storing completed archives in temporary files.
 * Fixed lock contention when updating :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` concurrently.
 * Preserve plural forms when :ref:`uploading translations as suggestions <upload-method>`.
 

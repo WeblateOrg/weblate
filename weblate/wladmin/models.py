@@ -68,7 +68,11 @@ class SecurityScan(models.Model):
         return f"{self.operation}: {self.pk}"
 
     def get_absolute_url(self) -> str:
-        parameter = "scan" if self.operation == "validate" else "operation"
+        parameter = (
+            "scan"
+            if self.operation in {"validate", "legacy-email-check"}
+            else "operation"
+        )
         return f"{reverse('manage-security')}?{urlencode({parameter: self.pk})}"
 
     def get_state_display(self) -> str:
@@ -166,6 +170,10 @@ class SecurityFindingEvent(models.Model):
         return str(
             {
                 "dismissed": gettext_lazy("Dismissed by administrator"),
+                "email-cleanup": gettext_lazy("Lookalike e-mail identity removed"),
+                "email-already-changed": gettext_lazy(
+                    "E-mail identity already changed"
+                ),
                 "password-reset": gettext_lazy("Password reset"),
                 "password-changed": gettext_lazy("Password already changed"),
             }.get(self.reason, self.reason)

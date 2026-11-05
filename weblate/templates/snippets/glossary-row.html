@@ -24,11 +24,16 @@
       {% format_unit_target unit value=item.target simple=True %}
     </td>
   {% endif %}
-  <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
+  <td class="glossary-badge-cell">{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
   <td>
     <a href="{{ item.get_absolute_url }}"
        class="btn btn-link btn-xs"
        title="{% translate "Edit glossary term" %}">{% icon "pencil.svg" %}</a>
+  </td>
+</tr>
+<tr class="{{ glossary_row_class }} glossary-details">
+  <td colspan="4">
+    <div class="glossary-compact-badge">{% include "snippets/glossary-badge.html" with glossary=item.translation %}</div>
   </td>
 </tr>
 {% if item.note %}

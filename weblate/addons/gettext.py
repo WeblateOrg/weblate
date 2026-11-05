@@ -7,7 +7,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -243,8 +242,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         changed, lines = self.update_linguas(lines, codes)
 
         if changed:
-            with open(path, "w", encoding="utf-8") as handle:
-                handle.writelines(lines)
+            self.write_repo_file(path, "".join(lines))
 
         return changed
 
@@ -358,8 +356,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, "w", encoding="utf-8") as handle:
-                    handle.writelines(lines)
+                self.write_repo_file(path, "".join(lines))
 
         return added
 
@@ -1495,28 +1492,32 @@ class XgettextAddon(ExtractPotBaseAddon):
         Path(template).parent.mkdir(parents=True, exist_ok=True)
         language = self.get_language()
         language_args = ["--language", language] if language else []
-        if (
-            self.run_process(
-                component,
-                [
-                    "xgettext",
-                    "--output",
-                    component.new_base,
-                    *language_args,
-                    *self.get_extra_xgettext_args(component),
-                    *self.get_gettext_format_args(component),
-                    "--",
-                    *files,
-                ],
-                env={
-                    "GETTEXTDATADIRS": os.pathsep.join(
-                        str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
-                    )
-                },
-            )
-            is None
-        ):
-            return False
+        with tempfile.TemporaryDirectory(prefix="weblate-xgettext-") as tempdir:
+            generated = Path(tempdir) / Path(template).name
+            if (
+                self.run_process(
+                    component,
+                    [
+                        "xgettext",
+                        "--output",
+                        str(generated),
+                        *language_args,
+                        *self.get_extra_xgettext_args(component),
+                        *self.get_gettext_format_args(component),
+                        "--",
+                        *files,
+                    ],
+                    env={
+                        "GETTEXTDATADIRS": os.pathsep.join(
+                            str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
+                        )
+                    },
+                )
+                is None
+            ):
+                return False
+            if generated.exists():
+                self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
 
@@ -1827,7 +1828,7 @@ class DjangoAddon(ExtractPotBaseAddon):
                 )
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component, template)
 
     def validate_django_repository_tree(
@@ -2028,7 +2029,7 @@ class SphinxAddon(ExtractPotBaseAddon):
             if template is None:
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(generated, template)
+            self.write_repo_file(template, generated.read_bytes())
         return self.finalize_template(component)
 
     def postprocess_sphinx_template(

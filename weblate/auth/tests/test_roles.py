@@ -173,13 +173,17 @@ class RoleMergeTest(TestCase):
             **defaults_b,
             role_name: defaults_b[role_name] | {"vcs.view", "suggestion.add"},
         }
+        migration_directory = Path(source_file).parent
+        later_migrations = [
+            path.name
+            for path in migration_directory.glob("[0-9]*.py")
+            if path.name > Path(source_file).name
+        ]
         with TemporaryDirectory() as directory:
             copytree(
-                Path(source_file).parent,
+                migration_directory,
                 Path(directory) / package,
-                ignore=ignore_patterns(
-                    "__pycache__", "0015_*", "0016_*", "0017_*", "0018_*"
-                ),
+                ignore=ignore_patterns("__pycache__", *later_migrations),
             )
             try:
                 with (
@@ -189,6 +193,9 @@ class RoleMergeTest(TestCase):
                         MIGRATION_MODULES={
                             **settings.MIGRATION_MODULES,
                             "weblate_auth": package,
+                            # These migrations depend on newer auth migrations
+                            # deliberately excluded from this upgrade fixture.
+                            "wladmin": None,
                         }
                     ),
                 ):

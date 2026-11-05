@@ -1333,6 +1333,11 @@ class Translation(
         if not pending_changes:
             return False
 
+        # The query restricts units to this translation. Reuse its relations
+        # and component add-on cache for per-unit saves and signals.
+        for change in pending_changes:
+            change.unit.translation = self
+
         self.log_info(
             "committing %d pending changes (%s)", len(pending_changes), reason
         )

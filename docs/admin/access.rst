@@ -351,6 +351,16 @@ dismiss them in the report to clear the warning. A matching credential establish
 that the current password was present in the report; it does not establish where
 it was exposed.
 
+An upgrade check also reports verified e-mail addresses that match their
+account's primary address only under the database's former locale-sensitive
+comparison. These findings indicate a possible earlier account compromise.
+The address remains usable until an administrator reviews the finding. The
+:guilabel:`Remove lookalike e-mail identities and reset selected accounts`
+action removes the suspect verified address and associated sign-in identity,
+disables the account password, invalidates sessions, revokes API tokens, and
+notifies the primary address. Dismiss a finding only after confirming that the
+address is intentionally linked to the account.
+
 .. _block-user:
 
 Blocking users
@@ -743,7 +753,17 @@ Automatic team assignments
 While editing the :guilabel:`Team`, you can specify
 :guilabel:`Automatic assignments`, which is a list of regular expressions
 used to automatically assign newly created users to a team based on their
-e-mail addresses. This assignment only happens upon account creation.
+e-mail addresses. Rules are evaluated only upon account creation, for every
+new user on the instance.
+
+For project and workspace teams, matching rules create invitations. Users
+receive an e-mail identifying automatic team assignment as the source and must
+accept the invitation before joining. Pending invitations are also available
+in account settings. Accounts without an e-mail address see the invitation
+only in account settings. Team managers can see pending invitations.
+
+For site-defined teams, matching users are added directly. This includes the
+default teams. Existing memberships are not changed by this behavior.
 
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams
