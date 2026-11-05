@@ -209,11 +209,17 @@ def protected_security_upload(request: AuthenticatedHttpRequest) -> HttpResponse
 @management_permission_required("user.edit")
 def security_progress(request: AuthenticatedHttpRequest, pk: UUID) -> HttpResponse:
     scan = get_object_or_404(SecurityScan, pk=pk)
-    source_report = scan if scan.operation == "validate" else None
+    source_report = (
+        scan if scan.operation in {"validate", "legacy-email-check"} else None
+    )
     target = scan.get_absolute_url()
-    if scan.operation != "validate" and request.GET.get("scan"):
+    if scan.operation not in {"validate", "legacy-email-check"} and request.GET.get(
+        "scan"
+    ):
         source_report = get_object_or_404(
-            SecurityScan, pk=parse_scan_id(request.GET["scan"]), operation="validate"
+            SecurityScan,
+            pk=parse_scan_id(request.GET["scan"]),
+            operation__in=("validate", "legacy-email-check"),
         )
         target += f"&scan={source_report.pk}"
     if request.GET.get("format") == "json":
@@ -246,7 +252,9 @@ def security_progress(request: AuthenticatedHttpRequest, pk: UUID) -> HttpRespon
 
 def validation_reports() -> QuerySet[SecurityScan]:
     return (
-        SecurityScan.objects.filter(operation="validate", total__gt=0)
+        SecurityScan.objects.filter(
+            operation__in=("validate", "legacy-email-check"), total__gt=0
+        )
         .exclude(
             state="configuring",
         )
@@ -295,7 +303,7 @@ def filtered_findings(
         scan = get_object_or_404(
             SecurityScan.objects.select_related("actor"),
             pk=parse_scan_id(request.GET["scan"]),
-            operation="validate",
+            operation__in=("validate", "legacy-email-check"),
         )
         findings = findings.filter(events__scan=scan, events__action="detected")
     return findings, status, kind, scan
@@ -309,7 +317,7 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
     page = Paginator(findings, 50).get_page(request.GET.get("page"))
     if request.method == "POST":
         action = request.POST.get("action")
-        if action not in {"reset", "dismiss"}:
+        if action not in {"reset", "cleanup", "dismiss"}:
             return HttpResponse(status=400)
         selected = set(request.POST.getlist("selected"))
         visible_ids = [finding.pk for finding in page if str(finding.pk) in selected]
@@ -320,6 +328,14 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
                     key
                     for key, handler in FINDING_HANDLERS.items()
                     if handler.can_reset
+                ]
+            )
+        elif action == "cleanup":
+            chosen = chosen.filter(
+                finding_type__in=[
+                    key
+                    for key, handler in FINDING_HANDLERS.items()
+                    if handler.can_cleanup
                 ]
             )
         ids = list(chosen.values_list("pk", flat=True))
@@ -348,6 +364,9 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
                 accounts=chosen.order_by().values("user_id").distinct().count(),
             ),
         )
+    has_open_findings = False
+    has_reset_findings = False
+    has_cleanup_findings = False
     for finding in page:
         evidence = finding.evidence
         if scan:
@@ -360,13 +379,17 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
         finding.display_matches = display_matches(matches[:5])
         handler = FINDING_HANDLERS.get(finding.finding_type)
         finding.type_label = handler.label if handler else finding.finding_type
+        if finding.status == SecurityFinding.Status.OPEN:
+            has_open_findings = True
+            if handler is not None:
+                has_reset_findings |= handler.can_reset
+                has_cleanup_findings |= handler.can_cleanup
     operation = None
     if request.GET.get("operation"):
         operation = get_object_or_404(
             SecurityScan, pk=parse_scan_id(request.GET["operation"])
         )
     report = operation or scan
-    has_open_findings = any(finding.status == "open" for finding in page)
     query = request.GET.copy()
     query.pop("page", None)
     summary_labels = {
@@ -380,6 +403,8 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
         "unusable": gettext("Unusable passwords"),
         "mismatch": gettext("Passwords that did not match"),
         "password-reset": gettext("Passwords reset"),
+        "email-cleanup": gettext("Lookalike e-mail identities removed"),
+        "email-already-changed": gettext("E-mail identities already changed"),
         "password-changed": gettext("Passwords already changed"),
         "dismissed": gettext("Dismissed findings"),
         "skipped": gettext("Skipped findings"),
@@ -400,6 +425,8 @@ def security_findings(request: AuthenticatedHttpRequest) -> HttpResponse:
             report=report,
             report_error=gettext(report.error) if report else "",
             has_open_findings=has_open_findings,
+            has_reset_findings=has_reset_findings,
+            has_cleanup_findings=has_cleanup_findings,
             query=query.urlencode(),
             status=status,
             kind=kind,
@@ -467,7 +494,7 @@ def security_finding_detail(request: AuthenticatedHttpRequest, pk: int) -> HttpR
             finding=finding,
             action="detected",
             scan_id=parse_scan_id(request.GET["scan"]),
-            scan__operation="validate",
+            scan__operation__in=("validate", "legacy-email-check"),
         )
         evidence = event.evidence
         source_report = event.scan
@@ -475,7 +502,7 @@ def security_finding_detail(request: AuthenticatedHttpRequest, pk: int) -> HttpR
         SecurityFindingEvent.objects.filter(
             finding=finding,
             action="detected",
-            scan__operation="validate",
+            scan__operation__in=("validate", "legacy-email-check"),
         )
         .select_related("scan", "actor")
         .defer("scan__summary", "scan__error")

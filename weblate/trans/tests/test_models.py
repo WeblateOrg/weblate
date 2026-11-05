@@ -78,6 +78,7 @@ from weblate.trans.tests.utils import (
     get_optional_path,
     get_test_actor,
 )
+from weblate.trans.util import join_plural
 from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
@@ -99,6 +100,7 @@ from weblate.utils.version import GIT_VERSION
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from weblate.formats.base import TranslationFormat
     from weblate.utils.stats import UnitSnapshot
 
 
@@ -917,6 +919,140 @@ class ProjectTest(RepoTestCase):
 class TranslationTest(RepoTestCase):
     """Translation testing."""
 
+    def test_pending_commit_reuses_translation(self) -> None:
+        component = self.create_component()
+        self.check_pending_commit_queries(component, "cs")
+
+    def test_pending_source_commit_reuses_translation(self) -> None:
+        component = self.create_po_mono()
+        self.check_pending_commit_queries(component, "en")
+
+    def test_pending_plural_commit_reuses_translation(self) -> None:
+        component = self.create_po_mono()
+        translation = component.translation_set.get(language_code="cs")
+        self.assertTrue(any(unit.is_plural for unit in translation.unit_set.all()))
+        self.check_pending_commit_queries(component, "cs")
+
+    def test_pending_linked_commit_reuses_translation(self) -> None:
+        component = self.create_link()
+        self.assertIsNotNone(component.linked_component_id)
+        self.check_pending_commit_queries(component, "cs")
+
+    def check_pending_commit_queries(
+        self, component: Component, language_code: str
+    ) -> None:
+        translation = component.translation_set.get(language_code=language_code)
+        user = create_test_user()
+        units = list(translation.unit_set.order_by("pk"))
+        self.assertGreater(len(units), 1)
+        original_update_units = Translation.update_units
+        queries: list[str] = []
+        saved = Mock()
+        translation_id = translation.pk
+
+        def update_units(
+            current: Translation,
+            changes: list[PendingUnitChange],
+            store: TranslationFormat,
+            author_name: str,
+            *,
+            recovery_changes: list[PendingUnitChange] | None = None,
+        ) -> tuple[dict[int, bool], bool]:
+            if current.pk != translation_id:
+                return original_update_units(
+                    current,
+                    changes,
+                    store,
+                    author_name,
+                    recovery_changes=recovery_changes,
+                )
+            post_save.connect(saved, sender=Unit, weak=False)
+            try:
+                with CaptureQueriesContext(connection) as captured:
+                    result = original_update_units(
+                        current,
+                        changes,
+                        store,
+                        author_name,
+                        recovery_changes=recovery_changes,
+                    )
+            finally:
+                post_save.disconnect(saved, sender=Unit)
+            queries.extend(query["sql"] for query in captured.captured_queries)
+            return result
+
+        for count in (1, len(units)):
+            with self.subTest(count=count):
+                expected = {}
+                for unit in units[:count]:
+                    target = f"Pending {count} {unit.pk}"
+                    if unit.is_plural:
+                        target = join_plural(
+                            [
+                                f"{target} {index}"
+                                for index in range(translation.plural.number)
+                            ]
+                        )
+                    unit.translate(user, target, STATE_TRANSLATED)
+                    expected[unit.pk] = unit.target
+                    if translation.is_source:
+                        # Source PO files store the source language's plural forms.
+                        expected[unit.pk] = join_plural(
+                            unit.get_target_plurals(
+                                plurals=component.get_source_plural().number
+                            )
+                        )
+
+                # Reload to exercise the commit path without fixture relation caches.
+                translation = Translation.objects.get(pk=translation.pk)
+                saved.reset_mock()
+                queries.clear()
+
+                with patch.object(Translation, "update_units", update_units):
+                    self.assertTrue(translation.commit_pending("test", user))
+
+                self.assertEqual(
+                    sum(sql.startswith('UPDATE "trans_unit"') for sql in queries),
+                    count,
+                )
+                for table in (
+                    "trans_translation",
+                    "trans_component",
+                    "trans_project",
+                    "lang_language",
+                    "lang_plural",
+                    "addons_addon",
+                ):
+                    self.assertLessEqual(
+                        sum(
+                            sql.startswith("SELECT") and f'FROM "{table}"' in sql
+                            for sql in queries
+                        ),
+                        1,
+                        table,
+                    )
+                self.assertEqual(saved.call_count, count)
+                commit_translation = (
+                    saved.call_args_list[0].kwargs["instance"].translation
+                )
+                for call in saved.call_args_list:
+                    self.assertFalse(call.kwargs["created"])
+                    self.assertEqual(call.kwargs["instance"].translation, translation)
+                    self.assertIs(
+                        call.kwargs["instance"].translation, commit_translation
+                    )
+                self.assertFalse(
+                    PendingUnitChange.objects.for_translation(
+                        translation, apply_filters=False
+                    ).exists()
+                )
+                translation.drop_store_cache()
+                for unit in units[:count]:
+                    stored, _ = translation.store.find_unit(unit.context, unit.source)
+                    self.assertEqual(stored.target, expected[unit.pk])
+                    unit.refresh_from_db()
+                    self.assertNotIn("disk_state", unit.details)
+
     def test_store_translate_parse_error_is_not_reported(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
@@ -1635,7 +1771,7 @@ class TranslationTest(RepoTestCase):
         user1 = create_test_user()
         user2 = create_another_user()
 
-        units = list(translation.unit_set.all())
+        units = list(translation.unit_set.order_by("pk"))
         units[0].translate(user1, "test1", STATE_TRANSLATED)
         units[1].translate(user2, "test2", STATE_TRANSLATED)
         units[2].translate(user1, "test3", STATE_TRANSLATED)
@@ -1666,6 +1802,23 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(author, user2)
         self.assertEqual(len(changes), 1)
         self.assertEqual([c.unit for c in changes], [units[3]])
+
+        self.assertTrue(translation.commit_pending("test", user1))
+        self.assertEqual(component.repository.count_outgoing(), 3)
+        self.assertCountEqual(
+            [
+                component.repository.get_revision_info(revision)["author"]
+                for revision in component.repository.get_outgoing_revisions()
+            ],
+            [user1.get_author_name(), user2.get_author_name(), user2.get_author_name()],
+        )
+        self.assertFalse(
+            PendingUnitChange.objects.for_translation(translation).exists()
+        )
+        translation.drop_store_cache()
+        for unit in units:
+            stored, _ = translation.store.find_unit(unit.context, unit.source)
+            self.assertEqual(stored.target, unit.target)
 
     def test_group_changes_by_author_single_author(self) -> None:
         """Test that multiple changes to a unit by single author are grouped."""

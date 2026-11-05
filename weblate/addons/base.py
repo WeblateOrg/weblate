@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from collections.abc import Mapping, Sequence
@@ -1053,6 +1054,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         temp_dir = get_repo_temp_dir(dirname)
         temp_filename = BaseAddon.write_repo_temp_file(basename, temp_dir, content)
         try:
+            with suppress(FileNotFoundError):
+                shutil.copymode(filename, temp_filename)
             os.replace(temp_filename, filename)
             temp_filename = ""
         finally:

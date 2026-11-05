@@ -28,6 +28,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.auth.permissions import PermissionObject
     from weblate.trans.models import Change
+    from weblate.trans.models.translation import TranslationQuerySet
 
 
 _public_viewer: ContextVar[Callable[[], User] | None] = ContextVar(
@@ -288,8 +289,8 @@ def public_change_details(
     return result
 
 
-def contributor_translation_ids(viewer: User | AnonymousUser) -> list[int]:
-    """Compute authorized translation scopes once per permission cache lifetime."""
+def contributor_translations(viewer: User | AnonymousUser) -> TranslationQuerySet:
+    """Keep authorized translation scopes lazy for use in database subqueries."""
     from weblate.trans.models import Translation  # ruff: ignore[import-outside-top-level]
 
     if viewer.pk is None:
@@ -297,13 +298,11 @@ def contributor_translation_ids(viewer: User | AnonymousUser) -> list[int]:
 
         viewer = get_anonymous()
     viewer = cast("User", viewer)
-    if not hasattr(viewer, "contributor_translations"):
-        viewer.contributor_translations = list(
-            Translation.objects.filter_access(viewer)
-            .filter_permission_scope(viewer, "contribution.view_author")
-            .values_list("pk", flat=True)
-        )
-    return viewer.contributor_translations
+    return (
+        Translation.objects.filter_access(viewer)
+        .filter_permission_scope(viewer, "contribution.view_author")
+        .order_by()
+    )
 
 
 def filter_contributor_changes[QuerySetT: QuerySet](
@@ -327,7 +326,7 @@ def filter_contributor_changes[QuerySetT: QuerySet](
     if not viewer.is_bot and not viewer.profile.has_2fa:
         projects = projects.filter(enforced_2fa=False)
     return queryset.filter(
-        Q(translation_id__in=contributor_translation_ids(viewer))
+        Q(translation_id__in=contributor_translations(viewer).values("pk"))
         | (
             Q(translation__isnull=True, component__isnull=False, language__isnull=False)
             & component_scope

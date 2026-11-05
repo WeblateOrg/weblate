@@ -325,6 +325,9 @@ def load_subscription_categories(
 EXTERNAL_CREATE_ACTIVITY = "external-create"
 
 ACCOUNT_ACTIVITY = {
+    "email-cleanup": gettext_lazy(
+        "A lookalike e-mail identity was removed, the password was disabled, and API tokens were revoked."
+    ),
     "password-leak": gettext_lazy(
         "Password disabled as reported leaked credential matched the password; API tokens revoked."
     ),
@@ -500,6 +503,9 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
+    "email-cleanup": gettext_lazy(
+        "Reset your password to restore password access and review your account activity."
+    ),
     "password-leak": gettext_lazy(
         "Reset your password to restore password access. Choose a unique password and review your account activity. The report didn't disclose the source of the leak."
     ),
@@ -522,6 +528,7 @@ EXTRA_MESSAGES = {
 }
 
 NOTIFY_ACTIVITY = {
+    "email-cleanup",
     "password-leak",
     "password",
     "reset",
@@ -635,7 +642,7 @@ class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
         start = timezone.now() - dt.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
             user=user,
-            activity__in=("reset", "password", "password-leak"),
+            activity__in=("reset", "password", "password-leak", "email-cleanup"),
             timestamp__gt=start,
         )
 

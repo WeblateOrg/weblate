@@ -7,10 +7,13 @@ from __future__ import annotations
 import json
 import time
 from datetime import timedelta
+from importlib import import_module
+from types import SimpleNamespace
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
 from asgiref.sync import async_to_sync
+from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, verify_password
 from django.contrib.messages import get_messages
@@ -18,6 +21,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
+from django.db import connection
 from django.test import (
     Client,
     RequestFactory,
@@ -49,6 +53,7 @@ from weblate.wladmin.security import (
     fingerprint,
     handle_finding,
     input_key,
+    is_legacy_email_alias,
     parse_report,
     record_detection,
     run_security_scan,
@@ -146,6 +151,157 @@ class AccountSecurityTest(TestCase):
         scan.refresh_from_db()
         self.assertEqual(scan.state, "completed", scan.error)
         return scan
+
+    def test_legacy_email_upgrade_finding_and_cleanup(self) -> None:
+        victim = User.objects.create_user(
+            "legacy-victim", "victim@github.com", "secret"
+        )
+        social = UserSocialAuth.objects.create(
+            user=victim, provider="email", uid="victim@gıthub.com", id_key="email"
+        )
+        entry = VerifiedEmail.objects.create(social=social, email="victim@gıthub.com")
+        self.assertTrue(is_legacy_email_alias(entry))
+        migration = import_module(
+            "weblate.wladmin.migrations.0010_detect_legacy_email_aliases"
+        )
+        migration.detect_legacy_email_aliases(
+            apps, SimpleNamespace(connection=connection)
+        )
+
+        finding = SecurityFinding.objects.get(user=victim)
+        self.assertEqual(finding.finding_type, "legacy-email-alias")
+        self.assertEqual(finding.evidence["email"], "victim@gıthub.com")
+        self.assertEqual(
+            finding.events.get(action="detected").actor_id,
+            User.objects.get(username="weblate:alerts").pk,
+        )
+        self.assertTrue(VerifiedEmail.objects.filter(pk=entry.pk).exists())
+
+        confirmation = self.client.post(
+            reverse("manage-security"),
+            {"selected": [finding.pk], "action": "cleanup"},
+        )
+        self.assertEqual(confirmation.status_code, 200)
+        self.assertEqual(confirmation.context["action"], "cleanup")
+
+        token = reset_api_token(victim)
+        original_hash = victim.get_session_auth_hash()
+        scan = SecurityScan.objects.create(actor=self.admin, operation="cleanup")
+        with patch("weblate.accounts.models.notify_auditlog.delay_on_commit") as notify:
+            self.assertEqual(handle_finding(scan, finding.pk), "email-cleanup")
+        victim.refresh_from_db()
+        self.assertFalse(victim.has_usable_password())
+        self.assertNotEqual(victim.get_session_auth_hash(), original_hash)
+        self.assertFalse(type(token).objects.filter(pk=token.pk).exists())
+        self.assertFalse(VerifiedEmail.objects.filter(pk=entry.pk).exists())
+        self.assertFalse(UserSocialAuth.objects.filter(pk=social.pk).exists())
+        audit = AuditLog.objects.get(user=victim, activity="email-cleanup")
+        self.assertEqual(audit.params["username"], self.admin.username)
+        notify.assert_called_once_with(audit.pk, victim.email)
+
+    def test_legacy_cleanup_after_primary_change(self) -> None:
+        for provider in ("email", "github"):
+            with self.subTest(provider=provider):
+                social = UserSocialAuth.objects.create(
+                    user=self.user, provider=provider, uid=f"suspect-{provider}"
+                )
+                entry = VerifiedEmail.objects.create(
+                    social=social, email="victim@gıthub.com"
+                )
+                finding = SecurityFinding.objects.create(
+                    user=self.user,
+                    finding_type="legacy-email-alias",
+                    key=str(entry.pk),
+                    evidence={
+                        "verified_email_id": entry.pk,
+                        "social_id": social.pk,
+                        "email": entry.email,
+                        "primary_email": "victim@github.com",
+                    },
+                )
+                self.user.email = "new@example.net"
+                self.user.set_password("secret")
+                self.user.save()
+                token = reset_api_token(self.user)
+                scan = SecurityScan.objects.create(
+                    actor=self.admin, operation="cleanup"
+                )
+                with patch("weblate.accounts.models.notify_auditlog.delay_on_commit"):
+                    self.assertEqual(handle_finding(scan, finding.pk), "email-cleanup")
+                self.user.refresh_from_db()
+                finding.refresh_from_db()
+                self.assertFalse(self.user.has_usable_password())
+                self.assertEqual(finding.status, "resolved")
+                self.assertFalse(VerifiedEmail.objects.filter(pk=entry.pk).exists())
+                self.assertFalse(UserSocialAuth.objects.filter(pk=social.pk).exists())
+                self.assertFalse(type(token).objects.filter(pk=token.pk).exists())
+
+    def test_detection_rechecks_concurrent_password_changes(self) -> None:
+        for changed in (False, True):
+            with self.subTest(password_changed=changed):
+                self.user.set_password("synthetic-secret")
+                self.user.save(update_fields=["password"])
+
+                def record_after_change(
+                    scan: SecurityScan,
+                    user: User,
+                    evidence: dict,
+                    passwords: list[str],
+                    *,
+                    changed: bool = changed,
+                ) -> None:
+                    self.user.set_password(
+                        "changed-secret" if changed else "synthetic-secret"
+                    )
+                    self.user.save(update_fields=["password"])
+                    record_detection(scan, user, evidence, passwords)
+
+                with patch(
+                    "weblate.wladmin.security.record_detection",
+                    side_effect=record_after_change,
+                ):
+                    scan = self.scan()
+                findings = SecurityFinding.objects.filter(events__scan=scan)
+                if not changed:
+                    finding = findings.get()
+                    self.assertEqual(finding.key, fingerprint(self.user.password))
+                    serialized = json.dumps(
+                        [
+                            finding.evidence,
+                            list(finding.events.values("evidence")),
+                            scan.summary,
+                        ]
+                    )
+                    self.assertNotIn("synthetic-secret", serialized)
+                    self.assertNotIn(self.user.password, serialized)
+                else:
+                    self.assertFalse(findings.exists())
+                self.assertEqual(scan.summary["matched"], 1)
+
+    def test_legacy_email_cleanup_skips_changed_association(self) -> None:
+        victim = User.objects.create_user("legacy-stale", "victim@github.com", "secret")
+        social = UserSocialAuth.objects.create(
+            user=victim, provider="email", uid="victim@gıthub.com"
+        )
+        entry = VerifiedEmail.objects.create(social=social, email="victim@gıthub.com")
+        finding = SecurityFinding.objects.create(
+            user=victim,
+            finding_type="legacy-email-alias",
+            key=str(entry.pk),
+            evidence={
+                "verified_email_id": entry.pk,
+                "social_id": social.pk,
+                "email": entry.email,
+            },
+        )
+        entry.email = "other@example.net"
+        entry.save(update_fields=["email"])
+        scan = SecurityScan.objects.create(actor=self.admin, operation="cleanup")
+
+        self.assertEqual(handle_finding(scan, finding.pk), "email-already-changed")
+        victim.refresh_from_db()
+        self.assertTrue(victim.check_password("secret"))
+        self.assertTrue(VerifiedEmail.objects.filter(pk=entry.pk).exists())
 
     def test_validation_and_secret_storage(self) -> None:
         original = self.user.password
@@ -407,6 +563,57 @@ class AccountSecurityTest(TestCase):
             ).status_code,
             404,
         )
+
+    def test_action_buttons_match_open_findings_on_page(self) -> None:
+        self.scan()
+        url = reverse("manage-security")
+        response = self.client.get(url)
+        self.assertContains(response, 'value="reset"')
+        self.assertNotContains(response, 'value="cleanup"')
+        self.assertContains(response, 'value="dismiss"')
+
+        SecurityFinding.objects.create(
+            user=self.user, finding_type="legacy-email-alias", key="alias"
+        )
+        response = self.client.get(url)
+        self.assertContains(response, 'value="reset"')
+        self.assertContains(response, 'value="cleanup"')
+
+        response = self.client.get(url, {"type": "legacy-email-alias"})
+        self.assertNotContains(response, 'value="reset"')
+        self.assertContains(response, 'value="cleanup"')
+        self.assertContains(response, 'value="dismiss"')
+
+        response = self.client.get(url, {"type": "leaked-password"})
+        self.assertContains(response, 'value="reset"')
+        self.assertNotContains(response, 'value="cleanup"')
+
+        SecurityFinding.objects.bulk_create(
+            [
+                SecurityFinding(
+                    user=self.user,
+                    finding_type="future-type",
+                    key=str(index),
+                    last_seen=timezone.now() + timedelta(days=1),
+                )
+                for index in range(50)
+            ]
+        )
+        response = self.client.get(url)
+        self.assertNotContains(response, 'value="reset"')
+        self.assertNotContains(response, 'value="cleanup"')
+        self.assertContains(response, 'value="dismiss"')
+        response = self.client.get(url, {"page": 2})
+        self.assertContains(response, 'value="reset"')
+        self.assertContains(response, 'value="cleanup"')
+
+        SecurityFinding.objects.filter(finding_type="leaked-password").update(
+            status="resolved"
+        )
+        response = self.client.get(url, {"type": "leaked-password", "status": "all"})
+        self.assertNotContains(response, 'value="reset"')
+        self.assertNotContains(response, 'value="cleanup"')
+        self.assertNotContains(response, 'value="dismiss"')
 
     def test_permissions_verification_and_csrf(self) -> None:
         self.verification.stop()

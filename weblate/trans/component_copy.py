@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, cast
 from django.core.exceptions import PermissionDenied, ValidationError
 
 from weblate.addons.models import Addon
+from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.utils.change_origin import get_acting_user
@@ -184,6 +185,9 @@ def auto_translate_component_copy(
         component.log_warning(
             "automatic translation skipped: %s", error, dependencies=(source_component,)
         )
+
+    if auto.busy:
+        raise MachineTranslationError(auto.failure_message)
 
     for warning in auto.get_warnings():
         component.log_warning(

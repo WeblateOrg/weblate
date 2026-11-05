@@ -3467,6 +3467,9 @@ page route does not exempt it. Account routes under ``/accounts/`` are exempt so
 sign-in flows and redirects to login work without verification. Hooks, widget
 images (including legacy image redirects), feeds, OIDC provider routes under
 ``/oidc/``, static files, health, robots, and well-known routes are exempt.
+Hosted integration API routes under ``/hosted/api/`` are exempt when
+``wlhosted.integrations`` is installed; their signed-payload authentication
+remains in effect.
 Widget configuration pages remain protected. Public assets, including custom
 CSS, manifests, icons, and Open Graph images, are exempt. The JavaScript
 translation catalog and :ref:`git-exporter` protocol routes, including clone

@@ -74,15 +74,18 @@ def automatic_translation(
         enforce_permissions=enforce_permissions,
         unit_ids=unit_ids,
     )
-    message = auto.perform(
-        auto_source=settings["auto_source"],
-        engines=settings["engines"],
-        threshold=settings["threshold"],
-        source_component_ids=(
-            [settings["component"]] if settings.get("component") else None
-        ),
-    )
-    component.run_batched_checks()
+    try:
+        message = auto.perform(
+            auto_source=settings["auto_source"],
+            engines=settings["engines"],
+            threshold=settings["threshold"],
+            source_component_ids=(
+                [settings["component"]] if settings.get("component") else None
+            ),
+        )
+    finally:
+        # Completed languages can have committed before another language defers.
+        component.run_batched_checks()
     if auto.failure_message:
         raise MachineTranslationError(auto.failure_message)
     if affected is not None:
