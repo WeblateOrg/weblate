@@ -47,6 +47,7 @@ from weblate.auth.models import (
     get_anonymous,
 )
 from weblate.checks.models import Check
+from weblate.formats.base import UnitNotFoundError
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
@@ -79,6 +80,7 @@ from weblate.trans.models import (
     Project,
     SavedSearch,
     Suggestion,
+    Translation,
     Unit,
     Vote,
     WorkflowSetting,
@@ -494,7 +496,7 @@ class BackupsTest(ReusableViewTestCase):
             transaction.atomic(),
             patch.object(Comment.objects, "bulk_create", side_effect=fail_later_chunk),
         ):
-            backup.restore_source_unit_batch(units, {}, None, {})
+            backup.restore_source_unit_batch(units, {}, None, {}, actor=self.user)
         self.assertEqual(calls, 2)
         self.assertEqual(
             (
@@ -550,7 +552,7 @@ class BackupsTest(ReusableViewTestCase):
             patch.object(backup, "restore_unit_metadata", side_effect=check_links),
             CaptureQueriesContext(connection) as queries,
         ):
-            backup.restore_source_unit_batch(units, {}, None, lookup)
+            backup.restore_source_unit_batch(units, {}, None, lookup, actor=self.user)
         updates = [
             query["sql"] for query in queries if query["sql"].startswith("UPDATE ")
         ]
@@ -574,6 +576,7 @@ class BackupsTest(ReusableViewTestCase):
             pending = PendingUnitChange.objects.get(unit=unit)
             self.assertEqual(pending.source_unit_explanation, unit.explanation)
             self.assertEqual(pending.author_id, get_anonymous().pk)
+            self.assertEqual(pending.get_actor(), self.user)
 
     def test_restore_source_units_flushes_partial_batch(self) -> None:
         source = self.component.source_translation
@@ -590,6 +593,7 @@ class BackupsTest(ReusableViewTestCase):
                 "comments": [],
                 "checks": [],
                 "suggestions": [],
+                "pending": True,
             }
             for index in range(5)
         ]
@@ -600,6 +604,7 @@ class BackupsTest(ReusableViewTestCase):
         ) as restore_batch:
             lookup = backup.restore_source_units(
                 {"units": items},
+                actor=self.user,
                 translation_lookup={source.pk: source},
                 source_translation_id=source.pk,
                 pending_unit_change_map=None,
@@ -610,11 +615,14 @@ class BackupsTest(ReusableViewTestCase):
         self.assertEqual(set(lookup), {item["id_hash"] for item in items})
         for unit in Unit.objects.filter(pk__in=lookup.values()):
             self.assertEqual(unit.source_unit_id, unit.pk)
+            self.assertEqual(unit.pending_changes.get().get_actor(), self.user)
 
     def test_restore_empty_source_batch(self) -> None:
         lookup = {123: 456}
         with self.assertNumQueries(0):
-            ProjectBackup().restore_source_unit_batch([], {}, None, lookup)
+            ProjectBackup().restore_source_unit_batch(
+                [], {}, None, lookup, actor=self.user
+            )
         self.assertEqual(lookup, {123: 456})
 
     def test_restore_legacy_pending_batches_authors(self) -> None:
@@ -634,7 +642,9 @@ class BackupsTest(ReusableViewTestCase):
         backup = ProjectBackup()
         for size in (1, len(units)):
             with self.subTest(size=size), self.assertNumQueries(2):
-                backup.restore_pending_unit_changes({}, units=units[:size])
+                backup.restore_pending_unit_changes(
+                    {}, units=units[:size], actor=self.user
+                )
         for index, unit in enumerate(units):
             pending = unit.pending_changes.order_by("-timestamp", "-pk").first()
             assert pending is not None
@@ -642,6 +652,7 @@ class BackupsTest(ReusableViewTestCase):
                 pending.author_id, author.pk if index == 0 else anonymous_id
             )
             self.assertEqual(pending.target, unit.target)
+            self.assertEqual(pending.get_actor(), self.user)
             self.assertEqual(unit.import_data, {"pending": True})
 
     def test_restore_legacy_pending_skips_nonpending_units(self) -> None:
@@ -650,7 +661,9 @@ class BackupsTest(ReusableViewTestCase):
         )
         unit.import_data = {"pending": False}
         with self.assertNumQueries(0):
-            ProjectBackup().restore_pending_unit_changes({}, units=[unit])
+            ProjectBackup().restore_pending_unit_changes(
+                {}, units=[unit], actor=self.user
+            )
 
     def test_restore_explicit_pending_author_is_authoritative(self) -> None:
         unit = (
@@ -683,13 +696,14 @@ class BackupsTest(ReusableViewTestCase):
             side_effect=AssertionError("Modern backup must use stored authors"),
         ):
             backup.restore_pending_unit_changes(
-                {"pending_unit_changes": [item]}, units=[unit]
+                {"pending_unit_changes": [item]}, units=[unit], actor=self.anotheruser
             )
             backup.restore_pending_unit_changes(
-                {"pending_unit_changes": []}, units=[unit]
+                {"pending_unit_changes": []}, units=[unit], actor=self.anotheruser
             )
         pending = unit.pending_changes.get(target="Restored pending target")
         self.assertEqual(pending.author_id, self.user.pk)
+        self.assertEqual(pending.get_actor(), self.anotheruser)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_restore_rechecks_full_billing_workspace(self) -> None:
@@ -1391,6 +1405,41 @@ class BackupsTest(ReusableViewTestCase):
                 source_component__isnull=True
             ).exists()
         )
+
+    def test_restored_pending_failure_preserves_actor_and_author(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Restored pending target", STATE_TRANSLATED)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        restore.IMPORT_BATCH_SIZE = 2
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.anotheruser
+        )
+        component = restored.component_set.get(slug=self.component.slug)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        pending = unit.pending_changes.get()
+        self.assertEqual(pending.get_actor(), self.anotheruser)
+        self.assertEqual(pending.author, self.user)
+
+        with (
+            acting_user_context(None),
+            patch.object(
+                Translation,
+                "find_or_restore_pending_store_unit",
+                side_effect=UnitNotFoundError,
+            ),
+            patch("weblate.trans.models.change.report_message") as report,
+        ):
+            component.commit_pending("test", None)
+        report.assert_not_called()
+        failure = unit.change_set.get(action=ActionEvents.SAVE_FAILED)
+        self.assertEqual(failure.user, self.anotheruser)
+        self.assertEqual(failure.author, self.user)
 
     def test_restore_creates_history_entries(self) -> None:
         backup = ProjectBackup()
