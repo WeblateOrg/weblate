@@ -21,7 +21,7 @@ from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import Mock, patch
 
 from django.core.exceptions import ValidationError
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from lxml import etree
 from openpyxl import Workbook
 from translate.storage.base import ParseError
@@ -31,7 +31,7 @@ from translate.storage.pypo import pofile
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
-from weblate.formats.convert import MDXFormat
+from weblate.formats.convert import HTMLFormat, MDXFormat
 from weblate.formats.exporters import XliffExporter
 from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
@@ -324,6 +324,132 @@ class DummyBilingualUpdate(BilingualUpdateMixin):
         **kwargs,
     ) -> None:
         return
+
+
+class AtomicNewFileTest(TestCase):
+    def test_create_new_file_replacement_failure(self) -> None:
+        language = Language.objects.get(code="cs")
+        cases = (
+            (PoFormat, "cs.po"),
+            (XliffFormat, "cs.xliff"),
+            (XliffFormat, ""),
+            (JSONFormat, ""),
+            (TS1Format, "cs-ts1.ts"),
+            (HTMLFormat, "cs.html"),
+            (XlsxFormat, "cs.xlsx"),
+        )
+        for format_class, base in cases:
+            for existing in (False, True):
+                with (
+                    self.subTest(
+                        format=format_class.format_id, base=base, existing=existing
+                    ),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    filename = Path(directory) / "translation"
+                    if existing:
+                        filename.write_bytes(b"original")
+                    callback = Mock()
+
+                    def fail_replace(
+                        source, destination, filename=filename, existing=existing
+                    ) -> NoReturn:
+                        self.assertEqual(Path(destination), filename)
+                        self.assertTrue(Path(source).read_bytes())
+                        if existing:
+                            self.assertEqual(filename.read_bytes(), b"original")
+                        else:
+                            self.assertFalse(filename.exists())
+                        msg = "replacement failed"
+                        raise OSError(msg)
+
+                    with (
+                        patch(
+                            "weblate.formats.base.os.replace", side_effect=fail_replace
+                        ),
+                        self.assertRaisesMessage(OSError, "replacement failed"),
+                    ):
+                        format_class.create_new_file(
+                            str(filename),
+                            language,
+                            get_test_file(base) if base else "",
+                            callback,
+                        )
+                    self.assertEqual(
+                        set(Path(directory).iterdir()),
+                        {filename} if existing else set(),
+                    )
+                    if base and format_class is not HTMLFormat:
+                        callback.assert_called_once()
+
+    def test_serialization_failure(self) -> None:
+        language = Language.objects.get(code="cs")
+        for format_class, base in (
+            (PoFormat, "cs.po"),
+            (XliffFormat, "cs.xliff"),
+            (XliffFormat, ""),
+            (TS1Format, "cs-ts1.ts"),
+            (XlsxFormat, "cs.xlsx"),
+        ):
+            with (
+                self.subTest(format=format_class.format_id, base=base),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                filename = Path(directory) / "translation"
+                filename.write_bytes(b"original")
+
+                def fail_serialize(handle) -> NoReturn:
+                    handle.write(b"partial")
+                    msg = "serialization failed"
+                    raise OSError(msg)
+
+                with (
+                    patch.object(
+                        format_class, "save_content", side_effect=fail_serialize
+                    ),
+                    self.assertRaisesMessage(OSError, "serialization failed"),
+                ):
+                    format_class.create_new_file(
+                        str(filename), language, get_test_file(base) if base else ""
+                    )
+                self.assertEqual(filename.read_bytes(), b"original")
+                self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_conversion_copy_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            filename = Path(directory) / "translation.html"
+            filename.write_bytes(b"original")
+
+            def fail_copy(source, destination) -> NoReturn:
+                destination.write(b"partial")
+                msg = "copy failed"
+                raise OSError(msg)
+
+            with (
+                patch(
+                    "weblate.formats.convert.shutil.copyfileobj", side_effect=fail_copy
+                ),
+                self.assertRaisesMessage(OSError, "copy failed"),
+            ):
+                HTMLFormat.create_new_file(
+                    str(filename),
+                    Language.objects.get(code="cs"),
+                    get_test_file("cs.html"),
+                )
+            self.assertEqual(filename.read_bytes(), b"original")
+            self.assertEqual(list(Path(directory).iterdir()), [filename])
+
+    def test_conversion_copy_permissions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.html"
+            source.write_bytes(b"<p>Hello</p>")
+            source.chmod(0o755)
+            filename = Path(directory) / "translation.html"
+            HTMLFormat.create_new_file(
+                str(filename), Language.objects.get(code="cs"), str(source)
+            )
+            self.assertEqual(filename.read_bytes(), source.read_bytes())
+            self.assertEqual(filename.stat().st_mode, source.stat().st_mode)
 
 
 class AtomicWriteTempDirTest(SimpleTestCase):

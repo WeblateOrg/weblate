@@ -222,8 +222,13 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         if not base:
             msg = "Not supported"
             raise ValueError(msg)
-        # Copy file
-        shutil.copy(base, filename)
+
+        def copy_content(handle: IO[bytes]) -> None:
+            with open(base, "rb") as source:
+                shutil.copyfileobj(source, handle)
+            shutil.copymode(base, handle.name)
+
+        cls.save_atomic(filename, copy_content)
 
     @classmethod
     def is_valid_base_for_new(
