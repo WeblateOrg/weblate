@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, TypedDict, cast
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import DatabaseError, connections, models, transaction
 from django.db import Error as DjangoDatabaseError
 from django.db.models import (
@@ -3415,6 +3415,15 @@ class Unit(models.Model, LoggerMixin):
     def get_unit_flags(self) -> Flags:
         return FlagsValidator(self.extra_flags)
 
+    def can_set_extra_flags(self, user: User, extra_flags: str) -> bool:
+        """Check permission when adding terminology to a glossary string."""
+        return bool(
+            not self.translation.component.is_glossary
+            or "terminology" not in Flags(extra_flags)
+            or "terminology" in Flags(self.extra_flags)
+            or user.has_perm("glossary.terminology", self.translation)
+        )
+
     @cached_property
     def edit_mode(self) -> str:
         """Return syntax highlighting mode for Prismjs."""
@@ -3604,6 +3613,13 @@ class Unit(models.Model, LoggerMixin):
                 and "read-only" in self.translation.component.all_flags
             ):
                 return
+            if (
+                action == "addflag"
+                and flag == "terminology"
+                and user is not None
+                and not source.can_set_extra_flags(user, "terminology")
+            ):
+                return
             if user is None or all(
                 user.has_perm("meta:unit.flag", unit.translation) for unit in targets
             ):
@@ -3741,13 +3757,20 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_extra_flags(
-        self, extra_flags: str, user: User, save: bool = True
+        self,
+        extra_flags: str,
+        user: User,
+        save: bool = True,
+        *,
+        enforce_permissions: bool = True,
     ) -> None:
         """Update unit extra flags."""
         verify_in_transaction()
         old = self.old_unit["extra_flags"]
         if old == extra_flags:
             return
+        if enforce_permissions and not self.can_set_extra_flags(user, extra_flags):
+            raise PermissionDenied
         self.extra_flags = extra_flags
         self.__dict__.pop("all_flags", None)
         self.__dict__.pop("untranslatable", None)

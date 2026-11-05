@@ -1771,8 +1771,8 @@ class UnitFlagsForm(FieldDocsMixin, forms.Form):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
         return ("admin/translating", "additional-flags")
 
-    def clean(self):
-        cleaned = super().clean()
+    def clean(self) -> dict[str, Any]:
+        cleaned = super().clean() or {}
         for name, target in self.targets.items():
             if (
                 self.fields[name].disabled
@@ -1781,6 +1781,12 @@ class UnitFlagsForm(FieldDocsMixin, forms.Form):
             ):
                 raise ValidationError(
                     gettext("You do not have permission to edit these flags.")
+                )
+            if name in cleaned and not target.can_set_extra_flags(
+                self.user, cleaned[name]
+            ):
+                self.add_error(
+                    name, gettext("You do not have permission to create terminology.")
                 )
         return cleaned
 
@@ -1818,6 +1824,14 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
 
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return self.doc_links[field.name]
+
+    def clean_extra_flags(self) -> str:
+        flags = self.cleaned_data["extra_flags"]
+        if not self.instance.can_set_extra_flags(self.user, flags):
+            raise ValidationError(
+                gettext("You do not have permission to create terminology.")
+            )
+        return flags
 
     def __init__(
         self, data=None, instance=None, user=None, *, include_flags=True, **kwargs
@@ -4479,10 +4493,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
     )
 
     def can_edit_terminology(self) -> bool:
-        return bool(
-            self.user.has_perm("glossary.terminology", self.translation)
-            or self.translation.is_source
-        )
+        return bool(self.user.has_perm("glossary.terminology", self.translation))
 
     def patch_fields(self) -> None:
         super().patch_fields()
@@ -4510,7 +4521,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
     def patch_fields(self) -> None:
         super().patch_fields()
-        self.fields["terminology"].initial = True
+        self.fields["terminology"].initial = self.can_edit_terminology()
 
 
 class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):

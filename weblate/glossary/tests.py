@@ -22,6 +22,7 @@ from django.urls import reverse
 from django.utils.translation import override as translation_override
 from lxml import etree
 
+from weblate.auth.models import Group, Role
 from weblate.checks.glossary import GlossaryCheck
 from weblate.formats.ttkit import TBXFormat, TBXUnit
 from weblate.glossary.models import (
@@ -42,6 +43,7 @@ from weblate.trans.alerts.config import (
     RestrictedGlossary,
 )
 from weblate.trans.alerts.registry import update_alerts
+from weblate.trans.forms import ContextForm, UnitFlagsForm
 from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -881,6 +883,66 @@ class GlossaryTest(ReusableViewTestCase):
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
+
+    def test_terminology_flag_writes_require_permission(self) -> None:
+        team = Group.objects.create(name="Glossary source editors")
+        team.projects.add(self.project)
+        team.roles.set(Role.objects.filter(name__in=["Edit source", "Power user"]))
+        self.user.groups.add(team)
+        self.user.clear_permissions_cache()
+        self.add_term("Permission term", "Term")
+        source = self.glossary_component.source_translation.unit_set.get(
+            source="Permission term"
+        )
+        self.assertFalse(self.user.has_perm("glossary.terminology", source.translation))
+        url = reverse("edit_context", kwargs={"pk": source.pk})
+        response = self.client.post(url, {"addflag": "terminology", "scope": "source"})
+        self.assertEqual(response.status_code, 403)
+        for form in (
+            UnitFlagsForm({"source_flags": "terminology"}, unit=source, user=self.user),
+            ContextForm(
+                {"explanation": "", "extra_flags": "terminology"},
+                instance=source,
+                user=self.user,
+            ),
+        ):
+            self.assertFalse(form.is_valid())
+            self.assertIn(
+                "You do not have permission to create terminology.", str(form.errors)
+            )
+        response = self.client.patch(
+            reverse("api:unit-detail", kwargs={"pk": source.pk}),
+            json.dumps({"extra_flags": "terminology"}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "")
+        self.make_manager()
+        response = self.client.post(url, {"addflag": "terminology", "scope": "source"})
+        self.assertEqual(response.status_code, 302)
+        source.refresh_from_db()
+        self.assertEqual(source.extra_flags, "terminology")
+
+    def test_terminology_upload_requires_permission(self) -> None:
+        content = b"""<martif type="TBX"><text><body>
+<termEntry id="permission-term" weblate-flags="terminology"><langSet xml:lang="en"><tig><term>Protected terminology</term></tig></langSet><langSet xml:lang="cs"><tig><term>Terminologie</term></tig></langSet></termEntry>
+</body></text></martif>"""
+        with BytesIO(content) as handle:
+            handle.name = "terminology.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+                follow=True,
+            )
+        self.assertContains(
+            response, "You do not have permission to create terminology."
+        )
+        self.assertFalse(
+            self.glossary_component.source_translation.unit_set.filter(
+                source="Protected terminology"
+            ).exists()
+        )
 
     def test_add_untranslatable(self) -> None:
         start = Unit.objects.count()
