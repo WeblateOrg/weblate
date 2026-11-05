@@ -329,14 +329,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     )
     use_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Use workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Uses the pool of shared translations between projects in the workspace."
         ),
     )
     contribute_workspace_tm = models.BooleanField(
         verbose_name=gettext_lazy("Contribute to workspace translation memory"),
-        default=False,
+        default=settings.DEFAULT_WORKSPACE_TM,
         help_text=gettext_lazy(
             "Contributes translations to the pool shared between projects in the workspace."
         ),
@@ -1887,7 +1887,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
         data["contribute_workspace_tm"] = data.get(
             "use_workspace_tm",
-            defaults.use_workspace_tm if defaults is not None else False,
+            defaults.use_workspace_tm
+            if defaults is not None
+            else settings.DEFAULT_WORKSPACE_TM,
         )
 
     def get_access_control_license(

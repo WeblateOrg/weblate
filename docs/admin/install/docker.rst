@@ -1172,6 +1172,10 @@ Generic settings
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
+.. envvar:: WEBLATE_DEFAULT_WORKSPACE_TM
+
+   Configures :setting:`DEFAULT_WORKSPACE_TM`.
+
 .. envvar:: WEBLATE_DEFAULT_AUTOCLEAN_TM
 
    Configures :setting:`DEFAULT_AUTOCLEAN_TM`.

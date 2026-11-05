@@ -910,6 +910,16 @@ DEFAULT_SHARED_TM
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
 
+.. setting:: DEFAULT_WORKSPACE_TM
+
+DEFAULT_WORKSPACE_TM
+--------------------
+
+.. versionadded:: 2026.12
+
+Configures the default value of :ref:`project-use-workspace-tm` and :ref:`project-contribute-workspace-tm`.
+
+
 .. setting:: DEFAULT_TRANSLATION_REVIEW
 
 DEFAULT_TRANSLATION_REVIEW
