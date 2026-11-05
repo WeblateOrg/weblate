@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 from django import template
 from django.contrib.auth.models import AnonymousUser
@@ -1206,7 +1206,8 @@ def format_last_changes_content(
     search_url: str | None = None,
     offset: int | None = None,
     translate_url: str | None = None,
-):
+    full_content: bool = False,
+) -> dict[str, Any]:
     """
     Format last changes content for display.
 
@@ -1252,6 +1253,7 @@ def format_last_changes_content(
                     change,
                     include_private_details=bool(user.is_authenticated),
                     viewer=user,
+                    list_preview=not full_content,
                 ),
             }
         )

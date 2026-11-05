@@ -12,8 +12,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.http import Http404, HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404, redirect
+from django.http import Http404, HttpRequest, HttpResponse, QueryDict
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils import feedgenerator, timezone
@@ -457,6 +457,12 @@ class ChangesRSSView(ChangesView):
         response = HttpResponse(content_type=feed.content_type)
         feed.write(response, "utf-8")
         return response
+
+
+def change_detail(request: HttpRequest, pk: int) -> HttpResponse:
+    """Show the full content of one visible history change."""
+    change = get_object_or_404(Change.objects.last_changes(request.user), pk=pk)
+    return render(request, "trans/change_detail.html", {"changes": [change]})
 
 
 @login_required

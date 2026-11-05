@@ -834,7 +834,7 @@ class ChangesTest(ReusableViewTestCase):
         Change.objects.all().delete()
         unit = self.get_unit()
         target = "B" * 10_000
-        Change.objects.bulk_create(
+        changes = Change.objects.bulk_create(
             [
                 Change(
                     unit=unit,
@@ -855,7 +855,13 @@ class ChangesTest(ReusableViewTestCase):
             response = self.client.get(reverse("changes"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, target, count=20)
+        self.assertNotContains(response, target)
+        self.assertContains(response, "View full change", count=20)
+
+        detail_url = reverse("change-detail", kwargs={"pk": changes[0].pk})
+        self.assertContains(response, detail_url)
+        detail_response = self.client.get(detail_url)
+        self.assertContains(detail_response, target)
 
     def assert_rss_response(self, response) -> None:
         self.assertEqual(response.status_code, 200)
@@ -1015,8 +1021,11 @@ class ChangesTest(ReusableViewTestCase):
                 format_last_changes_content([change], self.user),
             )
             self.assertIn(
-                "100000 characters edited", html.fromstring(rendered).text_content()
+                "Content is too long to show in the change list.",
+                html.fromstring(rendered).text_content(),
             )
+            detail = self.client.get(reverse("change-detail", kwargs={"pk": change.pk}))
+            self.assertContains(detail, "100000 characters edited")
 
     def test_csv_escapes_formula_cells(self) -> None:
         self.user.is_superuser = True
@@ -1136,6 +1145,12 @@ class ChangesTest(ReusableViewTestCase):
             reverse("show_change", kwargs={"pk": hidden_change.pk})
         )
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(
+            self.client.get(
+                reverse("change-detail", kwargs={"pk": hidden_change.pk})
+            ).status_code,
+            404,
+        )
 
         response = self.client.get(reverse("show_change", kwargs={"pk": 999999}))
         self.assertEqual(response.status_code, 404)

@@ -61,6 +61,9 @@
           {% endif %}
           <div class="comment-content">
             {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
+            {% if item.history_data.preview_truncated %}
+              <a href="{% url 'change-detail' pk=item.change.pk %}">{% translate "View full change" %}</a>
+            {% endif %}
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
