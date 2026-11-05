@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Prevented bypassing confirmation and password-reset form checks through direct e-mail authentication completion requests.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 
 .. rubric:: Bug fixes

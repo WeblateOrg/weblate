@@ -749,6 +749,48 @@ class EmailLinkingTest(TestCase):
 
 
 class RegistrationTest(BaseRegistrationTest):
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=True)
+    def test_direct_email_completion_does_not_send_registration_mail(self) -> None:
+        self.client.post(reverse("social:begin", args=("email",)))
+        response = self.client.post(
+            reverse("social:complete", args=("email",)),
+            {"email": REGISTRATION_DATA["email"]},
+            follow=True,
+        )
+        self.assertRedirects(response, reverse("login"))
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertFalse(Code.objects.exists())
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_direct_email_completion_does_not_resend_pending_mail(self) -> None:
+        response = self.client.post(reverse("register"), REGISTRATION_DATA)
+        self.assertRedirects(
+            response, reverse("email-sent"), fetch_redirect_response=False
+        )
+        self.assertEqual(len(mail.outbox), 1)
+
+        response = self.client.get(
+            reverse("social:complete", args=("email",)), follow=True
+        )
+        self.assertRedirects(response, reverse("login"))
+        self.assert_registration()
+
+    @override_settings(REGISTRATION_CAPTCHA=True)
+    def test_direct_email_completion_does_not_send_reset_mail(self) -> None:
+        User.objects.create_user("testuser", "test@example.com", "x")
+        self.client.post(reverse("social:begin", args=("email",)))
+        session = self.client.session
+        session["password_reset"] = True
+        session.save()
+        for email in ("test@example.com", "test@EXAMPLE.COM"):
+            response = self.client.post(
+                reverse("social:complete", args=("email",)),
+                {"email": email},
+                follow=True,
+            )
+            self.assertRedirects(response, reverse("login"))
+        self.assertEqual(len(mail.outbox), 0)
+
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_unicode_lookalike_domain(self) -> None:
         user = User.objects.create_user("victim", "victim@github.com", "secret")
