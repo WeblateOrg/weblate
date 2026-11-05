@@ -6,16 +6,21 @@
 
 from __future__ import annotations
 
+import json
 from importlib import import_module
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
+from urllib.parse import urlencode
 
 from django.apps import apps
 from django.core.exceptions import ValidationError
+from django.test import Client
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from filelock import FileLock
 
+from weblate.accounts.utils import SESSION_SENSITIVE_FACTOR_GRANT
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.machinery.models import MachineryInstallation
@@ -55,6 +60,219 @@ from weblate.vcs.base import RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from django.http import HttpResponse
+
+
+class ComponentRestrictedVerificationTest(ReusableViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
+        session.save()
+        self.project.add_user(self.user, "Administration")
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.api_url = reverse(
+            "api:component-detail",
+            kwargs={"project__slug": self.project.slug, "slug": self.component.slug},
+        )
+        self.settings_url = reverse(
+            "settings", kwargs={"path": self.component.get_url_path()}
+        )
+
+    def assert_restricted(self, restricted: bool) -> None:
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.restricted, restricted)
+        self.assertEqual(
+            Client().get(self.component.get_absolute_url()).status_code,
+            404 if restricted else 200,
+        )
+
+    def verify_credentials(self, next_url: str) -> None:
+        response = self.client.post(
+            reverse("first-factor-verify"),
+            {"target": "sensitive", "next": next_url, "password": "testpassword"},
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def api_patch(self, payload: dict, **kwargs) -> HttpResponse:
+        return self.client.patch(
+            self.api_url,
+            json.dumps(payload),
+            content_type="application/json",
+            **kwargs,
+        )
+
+    def test_api_removal_requires_verification(self) -> None:
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.api_url)
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def test_api_enabling_requires_verification(self) -> None:
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        response = self.api_patch({"restricted": True})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(False)
+
+    def test_api_form_put_requires_verification(self) -> None:
+        """Omitting a boolean from a form-encoded PUT clears it."""
+        payload = urlencode(
+            {
+                "name": self.component.name,
+                "slug": self.component.slug,
+                "vcs": self.component.vcs,
+                "repo": self.component.repo,
+                "branch": self.component.branch,
+                "filemask": self.component.filemask,
+                "file_format": self.component.file_format,
+                "new_lang": self.component.new_lang,
+                "new_base": self.component.new_base,
+            }
+        )
+        content_type = "application/x-www-form-urlencoded"
+
+        response = self.client.put(self.api_url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.api_url)
+        response = self.client.put(self.api_url, payload, content_type=content_type)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def test_api_unchanged_value_skips_verification(self) -> None:
+        response = self.api_patch({"restricted": True, "priority": 80})
+        self.assertEqual(response.status_code, 200, response.content)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.priority, 80)
+        self.assert_restricted(True)
+
+    def test_api_token_skips_verification(self) -> None:
+        response = self.api_patch(
+            {"restricted": False},
+            HTTP_AUTHORIZATION=f"Token {self.user.auth_token.key}",
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assert_restricted(False)
+
+    def assert_create_requires_verification(self, payload: dict) -> None:
+        url = reverse("api:project-components", kwargs={"slug": self.project.slug})
+        payload = {"name": "Copy", "slug": "copy", "restricted": False, **payload}
+        data = json.dumps(payload)
+
+        response = self.client.post(url, data, content_type="application/json")
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assertFalse(self.project.component_set.filter(slug="copy").exists())
+
+        self.verify_credentials(url)
+        response = self.client.post(url, data, content_type="application/json")
+        self.assertEqual(response.status_code, 201, response.content)
+
+    def test_api_from_component_requires_verification(self) -> None:
+        self.assert_create_requires_verification(
+            {"from_component": f"{self.project.slug}/{self.component.slug}"}
+        )
+
+    def test_api_repo_link_requires_verification(self) -> None:
+        self.assert_create_requires_verification(
+            {
+                "repo": self.component.get_repo_link_url(),
+                "vcs": self.component.vcs,
+                "filemask": self.component.filemask,
+                "file_format": self.component.file_format,
+                "new_lang": "none",
+            }
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_api_restricted_copy_skips_verification(self) -> None:
+        response = self.client.post(
+            reverse("api:project-components", kwargs={"slug": self.project.slug}),
+            json.dumps(
+                {
+                    "name": "Copy",
+                    "slug": "copy",
+                    "repo": self.component.get_repo_link_url(),
+                    "vcs": self.component.vcs,
+                    "filemask": self.component.filemask,
+                    "file_format": self.component.file_format,
+                    "new_lang": "none",
+                    "restricted": True,
+                }
+            ),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 201, response.content)
+
+    def test_two_factor_account_requires_second_factor(self) -> None:
+        TOTPDevice.objects.create(user=self.user, name="Test")
+
+        response = self.api_patch({"restricted": False})
+        self.assertEqual(response.status_code, 403, response.content)
+        self.assert_restricted(True)
+
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response.url.startswith(
+                reverse("2fa-login", kwargs={"backend": "totp"}),
+            )
+        )
+        self.assert_restricted(True)
+
+    def test_settings_enabling_requires_verification(self) -> None:
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data["restricted"] = True
+
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assert_restricted(False)
+
+    def test_settings_removal_requires_verification(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data.pop("restricted")
+
+        response = self.client.post(self.settings_url, data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("first-factor-verify")))
+        self.assert_restricted(True)
+
+        self.verify_credentials(self.settings_url)
+        response = self.client.post(self.settings_url, data)
+        self.assertRedirects(response, self.settings_url)
+        self.assert_restricted(False)
+
+    def test_settings_unchanged_value_skips_verification(self) -> None:
+        response = self.client.get(self.settings_url)
+        data = get_form_data(response.context["form"].initial)
+        data["priority"] = 80
+
+        response = self.client.post(self.settings_url, data)
+        self.assertRedirects(response, self.settings_url)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.priority, 80)
+        self.assert_restricted(True)
 
 
 class SettingsTest(ReusableViewTestCase):

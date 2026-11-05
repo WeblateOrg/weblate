@@ -2822,6 +2822,22 @@ class ComponentSerializer(RemovableSerializer[Component]):
             preserve_existing=preserve_existing,
         )
 
+    def exposes_restricted_source(self) -> bool:
+        """Return whether saving would publish a restricted component's content."""
+        data = self.validated_data
+        restricted = data.get(
+            "restricted", self.instance.restricted if self.instance else False
+        )
+        if restricted:
+            return False
+        source = data.get("from_component")
+        if source is None:
+            repo = data.get("repo")
+            if self.instance and repo == self.instance.repo:
+                return False
+            source = self.get_linked_component_or_none(repo)
+        return source is not None and source.restricted
+
     def check_restricted_permission(self, attrs) -> None:
         if self.instance:
             if (

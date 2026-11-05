@@ -231,6 +231,11 @@ def change_component(request: AuthenticatedHttpRequest, obj):
         with obj.locked_for_update() as locked_obj:
             form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
             if form.is_valid():
+                if (
+                    "restricted" in form.changed_data
+                    and not has_recent_sensitive_verification(request)
+                ):
+                    return sensitive_verification_redirect(request, request.path)
                 form.save()
                 messages.success(request, gettext("Settings saved"))
                 return redirect("settings", path=locked_obj.get_url_path())

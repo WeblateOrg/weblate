@@ -19,6 +19,7 @@ Weblate 2026.11.2
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
 * Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
+* Require recent credential verification for browser changes to :ref:`restricted component access <component-restricted>`.
 
 .. rubric:: Bug fixes
 

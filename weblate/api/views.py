@@ -1193,17 +1193,21 @@ class SensitiveSessionMutationMixin(APIView):
     def requires_sensitive_verification(self, request: Request) -> bool:
         return self.action in self.sensitive_actions
 
-    def initial(self, request: Request, *args, **kwargs) -> None:
-        super().initial(request, *args, **kwargs)
-        if (
-            isinstance(request.successful_authenticator, SessionAuthentication)
-            and self.requires_sensitive_verification(request)
-            and not has_recent_sensitive_verification(
-                cast("AuthenticatedHttpRequest", request)
-            )
+    def check_sensitive_verification(self, request: Request) -> None:
+        if isinstance(
+            request.successful_authenticator, SessionAuthentication
+        ) and not has_recent_sensitive_verification(
+            cast("AuthenticatedHttpRequest", request)
         ):
             msg = "Recent credential verification required."
             raise PermissionDenied(msg)
+
+    def initial(self, request: Request, *args, **kwargs) -> None:
+        super().initial(request, *args, **kwargs)
+        if isinstance(
+            request.successful_authenticator, SessionAuthentication
+        ) and self.requires_sensitive_verification(request):
+            self.check_sensitive_verification(request)
 
 
 @extend_schema_view(
@@ -2619,6 +2623,8 @@ class ProjectViewSet(
             try:
                 with transaction.atomic():
                     serializer.is_valid(raise_exception=True)
+                    if serializer.exposes_restricted_source():
+                        self.check_sensitive_verification(request)
                     serializer.save()
                     component = serializer.instance
                     if component is None:
@@ -3343,6 +3349,7 @@ class ProjectViewSet(
     ),
 )
 class ComponentViewSet(
+    SensitiveSessionMutationMixin,
     MultipleFieldViewSet,
     UpdateModelMixin,
     DestroyModelMixin,
@@ -3389,6 +3396,15 @@ class ComponentViewSet(
                 self.__dict__.pop("_locked_component_instance", None)
 
     def perform_update(self, serializer) -> None:
+        # Compare validated values rather than request keys: omitting a boolean
+        # from a form-encoded PUT clears it.
+        instance = serializer.instance
+        if (
+            serializer.validated_data.get("restricted", instance.restricted)
+            != instance.restricted
+            or serializer.exposes_restricted_source()
+        ):
+            self.check_sensitive_verification(self.request)
         serializer.save()
 
     @extend_schema(
