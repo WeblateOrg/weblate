@@ -344,9 +344,19 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         return changes
 
     def filter_components(self, user: User) -> Self:
+        if not user.is_superuser:
+            # The former visibility of older removed components cannot be recovered.
+            # Only project administrators may see removal records without a flag.
+            result = self.filter(
+                ~Q(action=ActionEvents.REMOVE_COMPONENT)
+                | Q(project__in=user.accessible_managed_projects)
+                | Q(details__restricted=False)
+            )
+        else:
+            result = self
         if not user.needs_component_restrictions_filter:
-            return self
-        return self.filter(
+            return result
+        return result.filter(
             Q(component__isnull=True) | user.get_component_access_query("component")
         )
 

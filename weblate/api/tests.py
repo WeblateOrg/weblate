@@ -171,6 +171,7 @@ from weblate.utils.celery import (
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.pii import mask_email
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -20413,6 +20414,84 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_invitation_email_masked_in_history(self) -> None:
+        email = "victim.person@corp.example"
+        change = self.project.change_set.create(
+            action=ActionEvents.INVITE_USER,
+            user=self.user,
+            author=self.user,
+            details={"email": email},
+        )
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        for viewer in ("anonymous", "member", "superuser"):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    entries = response.data.get("results", [response.data])
+                    entry = next(item for item in entries if item["id"] == change.pk)
+                    self.assertNotIn(email, str(entry))
+                    self.assertEqual(entry["details"]["email"], mask_email(email))
+
+    def test_removed_component_history_respects_former_visibility(self) -> None:
+        changes = {
+            slug: self.project.change_set.create(
+                action=ActionEvents.REMOVE_COMPONENT,
+                target=slug,
+                details=details,
+                user=self.user,
+                author=self.user,
+            )
+            for slug, details in (
+                ("removed-public", {"restricted": False}),
+                ("removed-private", {"restricted": True}),
+                ("removed-legacy", {}),
+            )
+        }
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+        )
+        for viewer, expected in (
+            ("anonymous", {"removed-public"}),
+            ("member", {"removed-public"}),
+            ("project_admin", set(changes)),
+            ("superuser", set(changes)),
+        ):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                if viewer == "project_admin":
+                    self.grant_perm_to_user("project.edit", project=self.project)
+                    self.user.clear_permissions_cache()
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    visible = {
+                        entry["target"]
+                        for entry in response.data["results"]
+                        if entry["id"] in {change.pk for change in changes.values()}
+                    }
+                    self.assertEqual(visible, expected)
+            for slug, change in changes.items():
+                with self.subTest(viewer=viewer, slug=slug):
+                    response = self.client.get(
+                        reverse("api:change-detail", kwargs={"pk": change.pk})
+                    )
+                    self.assertEqual(
+                        response.status_code, 200 if slug in expected else 404
+                    )
+
     def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
         visible = self.create_po(project=self.project, name="Visible conflict peer")
         hidden = self.create_acl()

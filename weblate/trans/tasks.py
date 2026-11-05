@@ -1405,6 +1405,7 @@ def _component_removal(
             component.project.change_set.create(
                 action=ActionEvents.REMOVE_COMPONENT,
                 target=component.slug,
+                details={"restricted": component.restricted},
                 user=user,
                 author=user,
             )

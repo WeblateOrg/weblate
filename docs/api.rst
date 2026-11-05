@@ -3399,6 +3399,7 @@ Changes
 
     When an IP address is recorded for an anonymous change, the ``ip_address``
     attribute in ``details`` is included only for superusers.
+    Invitation e-mail addresses in ``details`` are masked for all users.
 
     New changes include a ``change_origin`` object in ``details``, for example
     ``{"change_origin": {"scope": "api"}}``. The scope is ``ui`` for browser sessions,
