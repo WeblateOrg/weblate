@@ -12,6 +12,7 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Restricted project-wide component locking to components the actor may manage.
 * Prevented account e-mail discovery through self-service API updates and public history or project filters.
 * Enforced add-on compatibility checks for project installations through the API.
 * Escaped rendered plain-text templates when displaying repository browser links in HTML.
@@ -26,6 +27,7 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
 
 .. rubric:: Compatibility

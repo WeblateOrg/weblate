@@ -1333,13 +1333,23 @@ def check_machinery(
 
 @register_perm("translation.delete")
 def check_translation_delete(
-    user: User, permission: str, obj: Translation | CategoryLanguage | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Translation | CategoryLanguage | ProjectLanguage | Component,
 ) -> bool | PermissionResult:
     if (
         isinstance(obj, (Translation, CategoryLanguage, ProjectLanguage))
         and obj.is_source
     ):
         return False
+    if isinstance(obj, Translation):
+        locked = obj.component.locked
+    elif isinstance(obj, (CategoryLanguage, ProjectLanguage)):
+        locked = obj.action_translation_set.filter(component__locked=True).exists()
+    else:
+        locked = obj.locked
+    if locked:
+        return Denied(gettext("This component is currently locked."))
     return check_permission(user, permission, obj)
 
 
