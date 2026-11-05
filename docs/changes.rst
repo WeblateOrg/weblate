@@ -10,6 +10,7 @@ Weblate 2026.11.2
 .. rubric:: Security fixes
 
 * Rejected unsafe fork remote names from merge-request repository credentials before running Git commands.
+* Preserved previous IP login failures after a successful sign-in to prevent rate-limit bypasses.
 
 .. rubric:: Bug fixes
 
