@@ -915,7 +915,7 @@ Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-c
 DEFAULT_WORKSPACE_TM
 --------------------
 
-.. versionadded:: 2026.12
+.. versionadded:: 2026.11.2
 
 Configures the default value of :ref:`project-use-workspace-tm` and :ref:`project-contribute-workspace-tm`.
 
