@@ -47,7 +47,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-11-06 04:29+0000\n"
-"PO-Revision-Date: 2026-11-01 14:10+0000\n"
+"PO-Revision-Date: 2026-11-06 13:44+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -57,7 +57,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 msgid "Access control"
@@ -586,18 +586,13 @@ msgstr ""
 msgid "Blocking users"
 msgstr "阻止用户"
 
-#, fuzzy
-#| msgid ""
-#| "If users misbehave in your project, you can block them from contributing. "
-#| "With the relevant permissions blocked, users can still see the project, "
-#| "but won't be able to contribute."
 msgid ""
 "If users misbehave in your project, you can block them from contributing. "
 "Blocked users cannot access the project or use their project permissions, "
 "including project administration permissions. Site superusers are exempt."
 msgstr ""
-"如果用户在您的项目中行为不佳，您可以阻止其进行贡献。如果相关权限被封禁，这些"
-"用户仍可以看到项目，但无法做贡献。"
+"如果用户在您的项目中行为不佳，您可以阻止其进行贡献。被封禁的用户无法访问该项"
+"目或使用其项目权限，包括项目管理权限。站点超级用户被豁免。"
 
 msgid ""
 "Blocking preserves team memberships. Permissions granted by those "
@@ -1001,13 +996,6 @@ msgstr ""
 "用于所有项目，这有效地授予访问所有项目的相同权限 :ref:`unrestricted "
 "components <component-restricted>`。"
 
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has access to perform certain "
@@ -1017,9 +1005,10 @@ msgid ""
 "maintainers does not create a translation and remains available outside the "
 "team's language selection."
 msgstr ""
-"当验证用户是否有权限执行某些操作时，由团队的 :guilabel:`语言` 施加的限制将单"
-"独应用。也就是说，它仅适用于与翻译流程本身直接相关的操作，例如审核、保存翻"
-"译、添加建议等。"
+"当验证用户是否有权限执行某些操作时，将单独应用由团队的 :guilabel:`语言` 施加"
+"的限制。也就是说，它仅适用于与翻译流程本身直接相关的操作，例如审核、保存翻译"
+"、添加建议，及创建新翻译。从维护者处请求一种语言不会创建该语言的翻译且其仍不"
+"在该团队的语言选择之中。"
 
 msgid ""
 "Individual team memberships can further limit these permissions to selected "
@@ -1189,13 +1178,6 @@ msgstr ""
 msgid "Automatic team assignments"
 msgstr "自动团队分配"
 
-#, fuzzy
-#| msgid ""
-#| "While editing the :guilabel:`Team`, you can "
-#| "specify :guilabel:`Automatic assignments`, which is a list of regular "
-#| "expressions used to automatically assign newly created users to a team "
-#| "based on their e-mail addresses. This assignment only happens upon "
-#| "account creation."
 msgid ""
 "While editing the :guilabel:`Team`, you can "
 "specify :guilabel:`Automatic assignments`, which is a list of regular "
@@ -1204,8 +1186,8 @@ msgid ""
 "for every new user on the instance."
 msgstr ""
 "编辑 :guilabel:`团队` 时，你可以指定 :guilabel:`自动分配`，这是一个正则表达式"
-"列表，用于根据他们的电子邮箱地址自动将新创建的用户分配到团队。此分配仅在创建"
-"账户时发生。"
+"列表，用于根据他们的电子邮箱地址自动将新创建的用户分配到团队。对于实例上的每"
+"一名新用户，仅在账户创建时对规则进行求值。"
 
 msgid ""
 "For project and workspace teams, matching rules create invitations. Users "
@@ -1307,10 +1289,8 @@ msgid ""
 "permissions and team assignments are preserved."
 msgstr ""
 
-#, fuzzy
-#| msgid "Component configuration"
 msgid "Confidential collaboration"
-msgstr "部件配置"
+msgstr "机密协作"
 
 msgid ""
 "The resource permission ``contribution.view_author`` controls contributor "
@@ -1342,25 +1322,18 @@ msgid ""
 "The following inventory summarizes independent identity disclosure paths:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor identity disclosure"
-msgstr "在注释中添加贡献信息"
+msgstr "贡献者身份披露"
 
 msgid "Surface"
 msgstr ""
 
-#, fuzzy
-#| msgid "Automation"
 msgid "Authorization"
-msgstr "自动化"
+msgstr "授权"
 
-#, fuzzy
-#| msgid ""
-#| "Source strings, translations, comments, suggestions, glossary entries"
 msgid ""
 "Editor attribution, history, comments, suggestions, feeds, notifications"
-msgstr "源字符串、翻译、评论、建议、术语表条目"
+msgstr "编辑者身份归属、历史记录、评论、建议、源、通知"
 
 msgid "``contribution.view_author`` on the relevant resource and language"
 msgstr ""
@@ -1390,10 +1363,8 @@ msgstr ""
 msgid "Independent ``reports.view`` and ``change.download`` permissions"
 msgstr ""
 
-#, fuzzy
-#| msgid "Download reports"
 msgid "Own-data reports"
-msgstr "下载报告"
+msgstr "Own-data 报告"
 
 msgid "The report creator, limited to their own contributions"
 msgstr ""
@@ -1401,43 +1372,31 @@ msgstr ""
 msgid "Membership, directory, and profile information"
 msgstr ""
 
-#, fuzzy
-#| msgid "Execution identity and permissions"
 msgid "Existing access-management and user permissions"
-msgstr "执行身份和权限"
+msgstr "现有的访问管理和用户权限"
 
-#, fuzzy
-#| msgid "User attribution"
 msgid "Workspace-only attribution"
-msgstr "用户归因"
+msgstr "仅工作区的属性"
 
 msgid "``workspace.edit`` or ``workspace.edit_members``"
 msgstr ""
 
-#, fuzzy
-#| msgid "User attribution"
 msgid "Unscoped global attribution"
-msgstr "用户归因"
+msgstr "无作用域限制的全局属性"
 
-#, fuzzy
-#| msgid "Team administrators"
 msgid "Site administrators"
-msgstr "团队管理员"
+msgstr "站点管理员"
 
-#, fuzzy
-#| msgid "Administrator docs"
 msgid "Administrator-configured add-on searches"
-msgstr "管理员文档"
+msgstr "管理员配置的附加组件搜索"
 
 msgid ""
 "Persistent administrative configuration, independent of direct contributor "
 "access"
 msgstr ""
 
-#, fuzzy
-#| msgid "Anubis Docker container integration"
 msgid "Administrator-configured integrations"
-msgstr "Anubis Docker 容器集成"
+msgstr "管理员配置的集成"
 
 msgid "Trusted destinations; contributor identities are retained"
 msgstr ""
@@ -1493,16 +1452,6 @@ msgstr ""
 "限` 下列出的权限的角色，通过站点范围团队分配时，会在整个 Weblate 实例中授予该"
 "权限。团队的项目选择不会缩小这些权限。"
 
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. Treat custom "
-#| "roles containing them as trusted administrative access because some are "
-#| "effectively equivalent to superuser status. For example, ``group.edit`` "
-#| "allows changing team scope to grant access to private projects, and "
-#| "``user.edit`` allows users to change their own team memberships and grant "
-#| "themselves superuser status. See :ref:`site-wide-team-management` "
-#| "and :ref:`site-wide user management <site-wide-user-management>` for "
-#| "details."
 msgid ""
 "Site-wide privileges are not granted to any default role. Treat any roles "
 "containing them, including customized built-in roles, as trusted "
@@ -1513,11 +1462,12 @@ msgid ""
 "wide-team-management` and :ref:`site-wide user management <site-wide-user-"
 "management>` for details."
 msgstr ""
-"网站范围的权限不会授予任何默认角色。将包含这些权限的自定义角色视为受信任的管"
-"理访问，因为其中某些权限实际上等同于超级用户权限。例如，``group.edit`` 允许更"
-"改团队作用域来授予对私密项目的访问权，``user.edit`` 允许用户更改自己的团队成"
-"员身份并赋予自己超级用户权限。详见 :ref:`site-wide-team-management` "
-"和 :ref:`site-wide user management <site-wide-user-management>`。"
+"站点范围的权限不授予任何默认角色。将任何包含这些权限的角色，包括自定义的内置"
+"角色，视为受信任的管理访问，因为其中某些权限实际上等同于超级用户权限。例如"
+"，``group.edit`` 允许更改团队作用域来授予对私密项目的访问权，``user.edit`` 允"
+"许用户更改自己的团队成员身份并赋予自己超级用户权限。详见 :ref:`site-wide-"
+"team-management` 和 :ref:`site-wide user management <site-wide-user-"
+"management>`。"
 
 msgid "List of teams"
 msgstr "团队列表"
@@ -1544,11 +1494,9 @@ msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr "从这个团队中去掉角色，来限制非认证用户的权限。"
 
-#, fuzzy
-#| msgid "Default roles: `Add suggestion`, `Access repository`"
 msgid ""
 "Default roles: `Add suggestion`, `Access repository`, `View user profiles`"
-msgstr "默认角色：`添加建议`、`访问仓库`"
+msgstr "默认角色： `添加建议`, `访问仓库`, `查看用户资料`"
 
 msgid "`Viewers`"
 msgstr "`查看者`"
@@ -8159,15 +8107,11 @@ msgid ""
 "default."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Template to generate a private commit e-mail for a user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"user-{user_id}@users.noreply.{site_domain}\"``."
 msgstr ""
-"为用户生成私密提交邮箱的模板。默认为 ``\"{username}@users.noreply."
+"为用户生成私密提交邮箱的模板。默认为 ``\"user-{user_id}@users.noreply."
 "{site_domain}\"`` 。"
 
 msgid ""
@@ -9730,11 +9674,6 @@ msgstr ""
 msgid "Matching webhook targets"
 msgstr "匹配的网络钩子目标"
 
-#, fuzzy
-#| msgid ""
-#| "Forge webhooks update components whose :ref:`component-repo` exactly "
-#| "matches a repository URL from the payload (HTTPS or SSH as reported by "
-#| "the forge, plus common variants such as a trailing slash)."
 msgid ""
 "Forge webhooks update components whose :ref:`component-repo` exactly matches "
 "a repository URL from the payload (HTTPS or SSH as reported by the forge, "
@@ -9743,7 +9682,8 @@ msgid ""
 "components."
 msgstr ""
 "Forge webhooks 会更新其 :ref:`component-repo` 与有效负载中的仓库 URL 完全匹配"
-"的组件（HTTPS 或 SSH，由 forge 报告的 URL，以及常见变体，例如尾随斜杠）。"
+"的组件（HTTPS 或 SSH，由 forge 报告的 URL，以及常见变体，例如尾随斜杠）。包含"
+"超过 64 条仓库 URL 的 Webhook 传输内容在匹配部件之前会被拒绝。"
 
 msgid ""
 "Generic forge webhook endpoints are compatibility interfaces, and ordinary "
@@ -18266,10 +18206,8 @@ msgstr ""
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr "API 具有另外的速率限制设置，请参见 :ref:`api-rate`。"
 
-#, fuzzy
-#| msgid "Legacy configuration"
 msgid "Privacy configuration"
-msgstr "旧式设定"
+msgstr "隐私设定"
 
 msgid ""
 "Administrators can combine user discovery, profile access, contributor "
@@ -18277,10 +18215,8 @@ msgid ""
 "between contributors. These controls address different kinds of exposure."
 msgstr ""
 
-#, fuzzy
-#| msgid "Discovered file masks:"
 msgid "User discovery and profile access"
-msgstr "发现的文件掩码："
+msgstr "用户发现和个人资料访问"
 
 msgid ""
 "The following global permissions can be assigned through editable roles:"
@@ -18356,20 +18292,16 @@ msgid ""
 "identities without granting profile access. See :doc:`/api`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Configuring version control credentials"
 msgid "Private version control identities"
-msgstr "配置版本控制凭证"
+msgstr "私密版本控制身份"
 
 msgid ""
 "To use private commit identities by default, set both opt-in settings to "
 "``False``. The templates shown below are the defaults and can be customized:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Configuration beyond environment variables"
 msgid "For Docker installations, use the corresponding environment variables:"
-msgstr "修改未暴露为 Docker 环境变量的设置项"
+msgstr "对于 Docker 安装，使用相应的环境变量："
 
 msgid ""
 "Both opt-in settings default to ``True``. Changing a template alone does not "
@@ -18404,10 +18336,8 @@ msgid ""
 "template placeholders."
 msgstr ""
 
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributor attribution"
-msgstr "贡献者统计数据"
+msgstr "贡献者归属"
 
 msgid ""
 "The resource permission ``contribution.view_author`` controls system-"
@@ -18439,18 +18369,14 @@ msgid ""
 "separate roles if only selected projects need this policy."
 msgstr ""
 
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Role and team configuration"
-msgstr "Weblate 配置"
+msgstr "角色和团队配置"
 
 msgid "Team or role"
 msgstr ""
 
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Guests`"
-msgstr ":guilabel:`自定义`"
+msgstr ":guilabel:`来宾`"
 
 msgid ""
 "Remove :guilabel:`View user profiles`. Remove ``contribution.view_author`` "
@@ -18458,10 +18384,8 @@ msgid ""
 "or remove those roles if guests should not have their remaining capabilities."
 msgstr ""
 
-#, fuzzy
-#| msgid "Use :guilabel:`Add user` to invite translators"
 msgid ":guilabel:`Users` and other site-wide translator teams"
-msgstr "用 :guilabel:`Add user` 邀请译者"
+msgstr ":guilabel:`用户` 和其他全站级译者团队"
 
 msgid ""
 "Remove :guilabel:`Discover users` and :guilabel:`View user profiles`. Remove "
@@ -18470,10 +18394,8 @@ msgid ""
 "``user.profile``, ``user.view``, or ``user.edit`` to ordinary translators."
 msgstr ""
 
-#, fuzzy
-#| msgid "Project translation metrics"
 msgid "Project translation and review roles"
-msgstr "项目翻译指标"
+msgstr "项目翻译和审核角色"
 
 msgid ""
 "Remove ``contribution.view_author`` "
@@ -18483,10 +18405,8 @@ msgid ""
 "suggestion, comment, and review permissions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Added language management views."
 msgid "Repository and language-management roles"
-msgstr "添加了语言管理视图。"
+msgstr "仓库和语言管理角色"
 
 msgid ""
 "Remove ``contribution.view_author`` from :guilabel:`Access repository` "
@@ -18497,10 +18417,8 @@ msgid ""
 "prevent Git repository export from exposing existing commit history."
 msgstr ""
 
-#, fuzzy
-#| msgid "Team administrators"
 msgid "Trusted project administrators"
-msgstr "团队管理员"
+msgstr "信任的项目管理员"
 
 msgid ""
 "Retain ``contribution.view_author`` in their :guilabel:`Administration` "
