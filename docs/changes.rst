@@ -14,6 +14,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
+
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.

@@ -702,6 +702,9 @@ SESSION_COOKIE_SAMESITE = "Lax"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Maximum allowed uploaded translation file size
 TRANSLATION_UPLOAD_MAX_SIZE = 50000000
+# Maximum size of translation files before parsing, including repository files.
+# None follows TRANSLATION_UPLOAD_MAX_SIZE.
+TRANSLATION_MAX_SIZE = None
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
 # Maximum allowed uploaded project backup ZIP file size

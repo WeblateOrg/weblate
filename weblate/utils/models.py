@@ -162,6 +162,7 @@ class WeblateConf(AppConf):
     TRANSLATION_UPLOAD_MAX_SIZE: ClassVar[int] = (
         defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE
     )
+    TRANSLATION_MAX_SIZE: ClassVar[int | None] = None
     COMPONENT_ZIP_UPLOAD_MAX_SIZE: ClassVar[int] = (
         defaults.DEFAULT_COMPONENT_ZIP_UPLOAD_MAX_SIZE
     )

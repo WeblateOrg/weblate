@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from translate.storage.base import ParseError as TranslateParseError
 
+from weblate.formats.limits import TranslationLimitError
+
 
 class WeblateError(Exception):
     """Base class for Weblate errors."""
@@ -44,7 +46,7 @@ class SuggestionTooLongError(WeblateError):
     """Target of the Suggestion is too long."""
 
 
-EXPECTED_PARSE_ERRORS = (FileNotFoundError, TranslateParseError)
+EXPECTED_PARSE_ERRORS = (FileNotFoundError, TranslateParseError, TranslationLimitError)
 
 
 def is_expected_parse_error(error: BaseException | None) -> bool:
