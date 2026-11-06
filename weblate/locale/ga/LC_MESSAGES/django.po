@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-06 10:03+0000\n"
+"PO-Revision-Date: 2026-11-06 11:06+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin "
 "<aindriu80@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -436,11 +436,15 @@ msgid ""
 "A lookalike e-mail identity was removed, the password was disabled, and API "
 "tokens were revoked."
 msgstr ""
+"Baineadh céannacht ríomhphoist a bhí cosúil le ceann eile, díchumasaíodh an "
+"focal faire, agus cúlghaireadh comharthaí API."
 
 msgid ""
 "Password disabled as reported leaked credential matched the password; API "
 "tokens revoked."
 msgstr ""
+"Tá an focal faire díchumasaithe toisc gur tháinig an focal faire leis an "
+"dintiúr a tuairiscíodh a bheith sceite; tá na comharthaí API curtha ar ceal."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -682,20 +686,21 @@ msgstr "Tugadh cuireadh go {project} ag {username}."
 msgid "Password configured."
 msgstr "Pasfhocal cumraithe."
 
-#, fuzzy
-#| msgid "If it was you, reset your password to regain access to your account."
 msgid ""
 "Reset your password to restore password access and review your account "
 "activity."
 msgstr ""
-"Más tusa a bhí ann, athshocraigh do phasfhocal chun rochtain a fháil ar do "
-"chuntas arís."
+"Athshocraigh do phasfhocal chun rochtain trí phasfhocal a athbhunú agus chun "
+"athbhreithniú a dhéanamh ar ghníomhaíocht do chuntais."
 
 msgid ""
 "Reset your password to restore password access. Choose a unique password and "
 "review your account activity. The report didn't disclose the source of the "
 "leak."
 msgstr ""
+"Athshocraigh do phasfhocal chun rochtain trí phasfhocal a athbhunú. "
+"Roghnaigh pasfhocal uathúil agus déan athbhreithniú ar ghníomhaíocht do "
+"chuntais. Níor nocht an tuarascáil foinse na sceite."
 
 msgid "To restore access to your account, please reset your password."
 msgstr "Le rochtain ar do chuntas a fháil ar ais, athshocraigh do phasfhocal."
@@ -1062,10 +1067,8 @@ msgstr ""
 "Tá an raon feidhme seo ró-mhór le seiceáil. Roghnaigh catagóir níos lú, "
 "comhpháirt, nó aistriúchán."
 
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributor"
-msgstr "Rannpháirtithe"
+msgstr "Rannpháirtí"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1359,6 +1362,8 @@ msgid ""
 "Your e-mail address has been added. You can now select it as your account e-"
 "mail address in Account settings."
 msgstr ""
+"Tá do sheoladh ríomhphoist curtha leis. Is féidir leat é a roghnú anois mar "
+"sheoladh ríomhphoist do chuntais i socruithe an chuntais."
 
 #, python-brace-format
 msgid ""
@@ -1394,13 +1399,8 @@ msgstr ""
 "Deimhnigh d’aitheantas le do thoil ag baint úsáide as an dara fachtóir sula "
 "leanann tú ar aghaidh."
 
-#, fuzzy
-#| msgid ""
-#| "Please confirm your identity using a second factor before proceeding."
 msgid "Please confirm your identity before proceeding."
-msgstr ""
-"Deimhnigh d’aitheantas le do thoil ag baint úsáide as an dara fachtóir sula "
-"leanann tú ar aghaidh."
+msgstr "Deimhnigh d’aitheantas, le do thoil, sula rachaidh tú ar aghaidh."
 
 #, python-format
 msgid "Security key (%s)"
@@ -3410,22 +3410,22 @@ msgid ""
 "changes, Manage reports, and access-management permissions. Permissions from "
 "all assigned roles are additive."
 msgstr ""
+"Nochtar céannachtaí rannpháirtithe trí na ceadúnais seo a leanas: 'Féach ar "
+"chéannachtaí rannpháirtithe', 'Íoslódáil athruithe', 'Bainistigh tuairiscí', "
+"agus ceadúnais a bhaineann le bainistíocht rochtana. Cuirtear na ceadúnais ó "
+"gach ról atá sannta le chéile."
 
 msgid "Built-in"
-msgstr ""
+msgstr "Tógtha isteach"
 
-#, fuzzy
-#| msgid "Customer"
 msgid "Customized"
-msgstr "Custaiméir"
+msgstr "Saincheaptha"
 
-#, fuzzy
-#| msgid "Restore site default"
 msgid "Reset built-in roles to defaults"
-msgstr "Athchóirigh réamhshocrú an tsuímh"
+msgstr "Athshocraigh róil ionsuite go dtí na réamhshocruithe"
 
 msgid "Built-in role permissions reset."
-msgstr ""
+msgstr "Athshocraíodh ceadanna rólanna ionsuite."
 
 msgid "Personal info"
 msgstr "Eolas pearsanta"
@@ -3446,10 +3446,8 @@ msgid "This is not used when a component is selected."
 msgstr "Ní úsáidtear é seo nuair a roghnaítear comhpháirt."
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "View contributor license agreement"
 msgid "View contributor identities"
-msgstr "Féach ar chomhaontú ceadúnais ranníocóra"
+msgstr "Féach ar chéannachtaí na rannpháirtithe"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3660,22 +3658,16 @@ msgid "Manage workspace access"
 msgstr "Bainistigh rochtain ar an spás oibre"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Browse all users"
 msgid "Browse users"
-msgstr "Brabhsáil gach úsáideoir"
+msgstr "Brabhsáil úsáideoirí"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "Clean up selected contributions"
 msgid "Search resource contributors"
-msgstr "Glan suas na ranníocaíochtaí roghnaithe"
+msgstr "Cuardaigh rannpháirtithe acmhainní"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgid "User profile"
 msgid "View user profiles"
-msgstr "Próifíl an úsáideora"
+msgstr "Féach ar phróifílí úsáideoirí"
 
 #. Translators: Permission name
 msgid "Use management interface"
@@ -3749,17 +3741,13 @@ msgstr "Bainistigh billeáil"
 msgid "Manage site-wide add-ons"
 msgstr "Bainistigh breiseáin ar fud an tsuímh"
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgctxt "Access-control role"
 msgid "Discover users"
-msgstr "Faigh amach faoi Weblate"
+msgstr "Faigh úsáideoirí"
 
-#, fuzzy
-#| msgid "User profile"
 msgctxt "Access-control role"
 msgid "View user profiles"
-msgstr "Próifíl an úsáideora"
+msgstr "Féach ar phróifílí úsáideoirí"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3977,6 +3965,8 @@ msgstr "Roghnaigh ceadanna a tugadh don ról seo."
 msgid ""
 "Remove the component from project teams before moving it to another project."
 msgstr ""
+"Bain an comhpháirt ó fhoirne tionscadail sula n-aistríonn tú chuig "
+"tionscadal eile í."
 
 msgid "Roles"
 msgstr "Róil"
@@ -4295,10 +4285,10 @@ msgstr ""
 "Ní mór duit rochtain shoiléir a bheith agat ar an gcomhpháirt seo sula "
 "gcumasóidh tú rochtain shrianta; nó cuirfidh tú bac ort féin."
 
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrators."
 msgid "Blocked users cannot be granted project administration rights."
-msgstr "Is féidir le riarthóirí tionscadail lipéid bhreise a shainiú."
+msgstr ""
+"Ní féidir cearta riaracháin tionscadail a thabhairt d’úsáideoirí atá "
+"blocáilte."
 
 #, python-format
 msgid ""
@@ -4323,15 +4313,11 @@ msgstr "Ní féidir an fhoireann ionsuite a bhaint!"
 msgid "User invitation was removed."
 msgstr "Baineadh cuireadh úsáideora."
 
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation was already accepted or removed."
-msgstr "Baineadh cuireadh úsáideora."
+msgstr "Glacadh leis an gcuireadh seo cheana féin, nó baineadh é."
 
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
 msgid "Remove the project block before accepting this invitation."
-msgstr "Comhlánaigh an clárú chun glacadh leis an gcuireadh."
+msgstr "Bain an bloc tionscadail sula nglacann tú leis an gcuireadh seo."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4536,10 +4522,8 @@ msgstr "Ceachtar de"
 msgid "Not"
 msgstr "Ní"
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "Sequence"
-msgstr "Minicíocht"
+msgstr "Seicheamh"
 
 msgid "Choose"
 msgstr "Roghnaigh"
@@ -4568,23 +4552,17 @@ msgstr "Coinníollacha"
 msgid "Actions"
 msgstr "Gníomhartha"
 
-#, fuzzy
-#| msgid "Branch"
 msgid "Branches"
-msgstr "Brainse"
+msgstr "Brainsí"
 
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Add branch"
-msgstr "Brainse breise"
+msgstr "Cuir brainse leis"
 
-#, fuzzy
-#| msgid "Other"
 msgid "Otherwise"
-msgstr "Eile"
+msgstr "Seachas sin"
 
 msgid "Add action to run otherwise"
-msgstr ""
+msgstr "Cuir gníomh leis chun rith i gcás eile"
 
 msgid "Branch"
 msgstr "Brainse"
@@ -5273,10 +5251,9 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Tá clib deiridh meaitseáilte in easnamh ar an gclib {tag} HTML: {end}."
 
-#, fuzzy, python-brace-format
-#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+#, python-brace-format
 msgid "The HTML {tag} tag is nested too deeply."
-msgstr "Tá clib deiridh meaitseáilte in easnamh ar an gclib {tag} HTML: {end}."
+msgstr "Tá an clibe HTML {tag} neadaithe ró-dhomhain."
 
 #, python-brace-format
 msgid ""
@@ -5503,10 +5480,10 @@ msgid "Fluent syntax error in the translation."
 msgstr "Earráid chomhréire líofa san aistriúchán."
 
 msgid "The Fluent value could not be checked because it is too complex."
-msgstr ""
+msgstr "Níorbh fhéidir an luach Fluent a sheiceáil toisc go bhfuil sé róchasta."
 
 msgid "the value is too complex or nested too deeply"
-msgstr ""
+msgstr "tá an luach róchasta nó neadaithe ró-dhomhain"
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Tá na teaghráin fhormáide seo a leanas san ord mícheart:"
@@ -6429,15 +6406,15 @@ msgstr ""
 "Cuirtear deireadh le tógáil nuair a shroichtear an teorainn seo nó an t-"
 "uasaois."
 
-#, fuzzy
-#| msgid "Translation files CDN"
 msgid "Install Translation files CDN"
-msgstr "Comhaid aistriúcháin CDN"
+msgstr "Suiteáil comhaid aistriúcháin ar CDN"
 
 msgid ""
 "Publishes original translation files publicly, including files from private "
 "components."
 msgstr ""
+"Foilsíonn sé comhaid aistriúcháin bhunaidh go poiblí, lena n-áirítear "
+"comhaid ó chomhpháirteanna príobháideacha."
 
 msgid "Kotlin SDK CDN"
 msgstr "CDN SDK Kotlin"
@@ -6449,10 +6426,9 @@ msgstr ""
 "Foilsíonn sé acmhainní teaghráin agus iolra Android do thógálacha cláraithe "
 "de chuid Kotlin SDK."
 
-#, fuzzy
-#| msgid "This add-on is already installed on this component."
 msgid "Translation files CDN cannot be installed on this component."
-msgstr "Tá an breiseán seo suiteáilte cheana féin ar an gcomhpháirt seo."
+msgstr ""
+"Ní féidir CDN do chomhaid aistriúcháin a shuiteáil ar an gcomhpháirt seo."
 
 msgid "Weblate languages"
 msgstr "Teangacha gréasáin"
@@ -8106,10 +8082,8 @@ msgstr ""
 msgid "Your profile"
 msgstr "Do phróifíl"
 
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Confirm adding e-mail address"
-msgstr "Cuir isteach seoladh r-phoist bailí."
+msgstr "Deimhnigh cur leis an seoladh ríomhphoist"
 
 msgid "Confirm adding user identity"
 msgstr "Deimhnigh aitheantas úsáideora a chur leis"
@@ -8119,6 +8093,8 @@ msgid ""
 "Confirm adding %(uid)s to your existing Weblate account by entering your "
 "current password."
 msgstr ""
+"Deimhnigh go gcuirfear %(uid)s le do chuntas Weblate atá ann cheana féin trí "
+"do phasfhocal reatha a chur isteach."
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8129,10 +8105,8 @@ msgstr ""
 "Tar éis é seo a dheimhniú, beidh tú in ann fíordheimhniú go Weblate le "
 "%(backend_verbose)s (%(uid)s)."
 
-#, fuzzy
-#| msgid "Add and verify e-mail address"
 msgid "Add e-mail address"
-msgstr "Cuir seoladh ríomhphoist leis agus fíoraigh é"
+msgstr "Cuir seoladh ríomhphoist leis"
 
 msgid "Confirm"
 msgstr "Deimhnigh"
@@ -8238,10 +8212,8 @@ msgstr "Oscail an fhoirm teagmhála"
 msgid "Registration"
 msgstr "Clárú"
 
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Check your e-mail"
-msgstr "Do r-phost"
+msgstr "Seiceáil do ríomhphost"
 
 msgid "Password reset almost complete"
 msgstr "Tá athshocrú pasfhocail beagnach críochnaithe"
@@ -8269,6 +8241,9 @@ msgid ""
 "with an account, you may receive account recovery guidance instead of a "
 "verification link."
 msgstr ""
+"Seiceáil do ríomhphost le haghaidh treoracha. Má tá an seoladh seo nasctha "
+"le cuntas cheana féin, d’fhéadfadh sé go bhfaighfeá treoracha maidir le "
+"cuntas a aisghabháil, in áit nasc fíoraithe."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8282,23 +8257,26 @@ msgstr ""
 "Féach ar d'fhillteán turscair mura féidir leat é a fheiceáil i do bhosca "
 "isteach."
 
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid ""
 "If you receive a verification link, it will expire after %(count)s hour."
 msgid_plural ""
 "If you receive a verification link, it will expire after %(count)s hours."
 msgstr[0] ""
-"Rachaidh an nasc deimhnithe in éag tar éis %(count)s uair an chloig."
+"Má fhaigheann tú nasc fíoraithe, rachaidh sé in éag tar éis %(count)s uair "
+"an chloig."
 msgstr[1] ""
-"Rachaidh an nasc deimhnithe in éag tar éis %(count)s uair an chloig."
+"Má fhaigheann tú nasc fíoraithe, rachaidh sé in éag tar éis %(count)s uair "
+"an chloig."
 msgstr[2] ""
-"Rachaidh an nasc deimhnithe in éag tar éis %(count)s uair an chloig."
+"Má fhaigheann tú nasc fíoraithe, rachaidh sé in éag tar éis %(count)s uair "
+"an chloig."
 msgstr[3] ""
-"achaidh an nasc deimhnithe in éag tar éis %(count)s n-uaireanta an chloig."
+"Má fhaigheann tú nasc fíoraithe, rachaidh sé in éag tar éis %(count)s uair "
+"an chloig."
 msgstr[4] ""
-"achaidh an nasc deimhnithe in éag tar éis %(count)s n-uaireanta an chloig."
+"Má fhaigheann tú nasc fíoraithe, rachaidh sé in éag tar éis %(count)s uair "
+"an chloig."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8332,6 +8310,9 @@ msgid ""
 "and follow the confirmation steps. You may be asked for your current "
 "password."
 msgstr ""
+"Má fhaigheann tú nasc fíoraithe, oscail é agus tú sínithe isteach sa chuntas "
+"seo, agus lean na céimeanna deimhnithe. D’fhéadfaí do phasfhocal reatha a "
+"iarraidh ort."
 
 msgid "Back to account settings"
 msgstr "Ar ais go socruithe cuntais"
@@ -8359,43 +8340,53 @@ msgid ""
 "Verification instructions will be sent to the new e-mail address. You do not "
 "need access to your old mailbox."
 msgstr ""
+"Seolfar treoracha fíoraithe chuig an seoladh ríomhphoist nua. Ní gá duit "
+"rochtain a bheith agat ar do sheanbhosca poist."
 
 msgid ""
 "Adding an address does not change your account e-mail address. After "
 "verification, you can select the new address in Account settings."
 msgstr ""
+"Ní athraíonn cur seoladh leis an gcuntas do sheoladh ríomhphoist cuntais. "
+"Tar éis fíoraithe, is féidir leat an seoladh nua a roghnú i socruithe an "
+"chuntais."
 
 msgid "Send verification e-mail"
 msgstr "Seol ríomhphost fíoraithe"
 
-#, fuzzy
-#| msgid "Confirm adding user identity"
 msgid "Confirm your identity"
-msgstr "Deimhnigh aitheantas úsáideora a chur leis"
+msgstr "Deimhnigh do chéannacht"
 
 msgid "Confirm your existing sign-in method before continuing."
 msgstr ""
+"Deimhnigh an modh sínithe isteach atá agat cheana sula leanann tú ar aghaidh."
 
 msgid ""
 "Confirm your existing sign-in method before registering your first second "
 "factor."
 msgstr ""
+"Deimhnigh an modh logáil isteach atá agat cheana sula gcláraíonn tú do chéad "
+"dara fachtóir."
 
 msgid "Sign in again using a connected provider:"
-msgstr ""
+msgstr "Logáil isteach arís ag baint úsáide as soláthraí nasctha:"
 
 msgid ""
 "Your previous e-mail verification has expired. Reset your password to "
 "continue."
 msgstr ""
+"Tá do fhíorú ríomhphoist roimhe seo imithe in éag. Athshocraigh do "
+"phasfhocal chun leanúint ar aghaidh."
 
 msgid "Sign out and reset password by e-mail"
-msgstr ""
+msgstr "Log amach agus athshocraigh an focal faire trí ríomhphost"
 
 msgid ""
 "No sign-in method is available to confirm your identity. Contact an "
 "administrator to recover access."
 msgstr ""
+"Níl aon mhodh logáil isteach ar fáil chun d’aitheantas a dhearbhú. Déan "
+"teagmháil le riarthóir chun rochtain a fháil ar ais."
 
 msgid "Trial subscriptions"
 msgstr "Síntiúis trialacha"
@@ -9796,11 +9787,16 @@ msgid ""
 "translation files. These files are published publicly, including files from "
 "private components."
 msgstr ""
+"Socraigh CDN do chomhaid aistriúcháin chun ligean don SDK comhaid "
+"aistriúcháin bhunaidh XML a íoslódáil. Foilsítear na comhaid seo go poiblí, "
+"lena n-áirítear comhaid ó chomhpháirteanna príobháideacha."
 
 msgid ""
 "After installation, return to this page to copy the updated Gradle "
 "configuration."
 msgstr ""
+"Tar éis an tsuiteála, fill ar an leathanach seo chun an chumraíocht "
+"nuashonraithe Gradle a chóipeáil."
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr "Cumraigh breiseán Gradle an SDK Kotlin leis na luachanna seo:"
@@ -10080,11 +10076,11 @@ msgid ""
 "Reset these built-in roles to the current default permissions? This discards "
 "their customizations."
 msgstr ""
+"An athshocróidh tú na róil ionsuite seo go dtí na ceadanna réamhshocraithe "
+"reatha? Scriosfaidh sé seo aon saincheaptha a rinneadh orthu."
 
-#, fuzzy
-#| msgid "Permissions"
 msgid "Reset permissions"
-msgstr "Ceadanna"
+msgstr "Athshocraigh ceadanna"
 
 msgid "Cancel"
 msgstr "Cealaigh"
@@ -10098,16 +10094,13 @@ msgstr "Tascanna uathoibríocha"
 msgid "Access control"
 msgstr "Rialú rochtana"
 
-#, fuzzy
-#| msgid ""
-#| "Automatically add newly created users to this team based on their e-mail "
-#| "address."
 msgid ""
 "Automatically invite newly created users to this team based on their e-mail "
 "address. Users join only after accepting the invitation."
 msgstr ""
-"Cuir úsáideoirí nuachruthaithe leis an bhfoireann seo go huathoibríoch "
-"bunaithe ar a seoladh r-phoist."
+"Tabhair cuireadh go huathoibríoch d’úsáideoirí nua-chruthaithe chuig an "
+"bhfoireann seo, bunaithe ar a seoladh ríomhphoist. Ní théann úsáideoirí "
+"isteach sa bhfoireann ach amháin tar éis dóibh an cuireadh a ghlacadh."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10495,28 +10488,31 @@ msgstr ""
 
 msgid "The challenge expired. Retry to start a new challenge."
 msgstr ""
+"Tá an dúshlán imithe in éag. Bain triail as arís chun dúshlán nua a thosú."
 
 msgid "This challenge was already used. Retry to start a new challenge."
 msgstr ""
+"Tá an dúshlán seo in úsáid cheana féin. Bain triail as arís chun dúshlán nua "
+"a thosú."
 
 msgid "Browser verification was unsuccessful. Please retry."
-msgstr ""
+msgstr "Theip ar fhíorú an bhrabhsálaí. Bain triail as arís, le do thoil."
 
 msgid "Browser verification could not be confirmed. Enable cookies and retry."
 msgstr ""
+"Níorbh fhéidir fíorú an bhrabhsálaí a dheimhniú. Cumasaigh fianáin agus bain "
+"triail as arís."
 
-#, fuzzy
-#| msgid ""
-#| "The authentication provider is temporarily unavailable. Please try again "
-#| "later."
 msgid ""
 "The verification service is temporarily unavailable. Please retry later."
 msgstr ""
-"Níl an soláthraí fíordheimhnithe ar fáil go sealadach. Déan iarracht arís "
-"níos déanaí, le do thoil."
+"Tá an tseirbhís fíoraithe do-fhála go sealadach. Bain triail as arís níos "
+"déanaí, le do thoil."
 
 msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
+"Níorbh fhéidir fianáin fíoraithe a dheimhniú. Cumasaigh fianáin agus bain "
+"triail as arís."
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
@@ -12092,30 +12088,40 @@ msgid ""
 "%(site_title)s. This address is already associated with an account and "
 "cannot be added to another."
 msgstr ""
+"Rinne duine éigin iarratas an seoladh ríomhphoist seo a chur le cuntas eile "
+"ag %(site_title)s. Tá an seoladh seo nasctha le cuntas cheana féin agus ní "
+"féidir é a chur le cuntas eile."
 
 msgid ""
 "If you intended to access the existing account, sign out and use password "
 "recovery. The button below opens the password reset form; it does not reset "
 "your password."
 msgstr ""
+"Má bhí sé i gceist agat rochtain a fháil ar an gcuntas atá ann cheana, "
+"logáil amach agus bain úsáid as an ngné chun pasfhocal a aisghabháil. "
+"Osclaíonn an cnaipe thíos an fhoirm chun pasfhocal a athshocrú; ní "
+"athshocraíonn sé do phasfhocal féin."
 
-#, fuzzy
-#| msgid "Confirm password reset"
 msgid "Open password recovery"
-msgstr "Deimhnigh athshocrú pasfhocail"
+msgstr "Oscail aisghabháil pasfhocail"
 
 msgid "Contact support for help moving this address between accounts."
 msgstr ""
+"Déan teagmháil leis an tacaíocht chun cabhair a fháil maidir leis an seoladh "
+"seo a aistriú idir cuntais."
 
 msgid ""
 "If you did not request this, you can ignore this e-mail. Your account has "
 "not been changed."
 msgstr ""
+"Mura ndearna tú iarratas air seo, is féidir leat neamhaird a dhéanamh den "
+"ríomhphost seo. Ní dhearnadh aon athrú ar do chuntas."
 
 #. Translators: e-mail subject
 #, python-format
 msgid "E-mail address already associated with an account on %(site_title)s"
 msgstr ""
+"Tá an seoladh ríomhphoist nasctha cheana féin le cuntas ar %(site_title)s"
 
 msgid "View invitation"
 msgstr "Féach ar chuireadh"
@@ -12131,7 +12137,7 @@ msgstr[4] "UaireantaRachaidh an cuireadh in éag tar éis %(count)s uaireanta."
 
 #, python-format
 msgid "Automatic team assignment: invitation to join %(team_name)s"
-msgstr ""
+msgstr "Sannadh uathoibríoch foirne: cuireadh chun dul isteach i %(team_name)s"
 
 #. Translators: e-mail subject
 #, python-format
@@ -12377,10 +12383,8 @@ msgstr "Deimhnigh baint an chuntais"
 msgid "Confirm invitation"
 msgstr "Deimhnigh cuireadh"
 
-#, fuzzy
-#| msgid "Verify new e-mail address"
 msgid "Verify e-mail address"
-msgstr "Fíoraigh seoladh ríomhphoist nua"
+msgstr "Deimhnigh an seoladh ríomhphoist"
 
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
@@ -12448,16 +12452,14 @@ msgstr "Neamhchríochnaithe"
 msgid "Translation activity summary"
 msgstr "Achoimre ar ghníomhaíocht aistriúcháin"
 
-#, fuzzy, python-format
-#| msgid "Activity on your account at %(site_title)s"
+#, python-format
 msgid "Verify this e-mail address for your account at %(site_title)s."
-msgstr "Gníomhaíocht ar do chuntas ag %(site_title)s"
+msgstr "Deimhnigh an seoladh ríomhphoist seo chun do chuntas ag %(site_title)s."
 
 #. Translators: e-mail subject
-#, fuzzy, python-format
-#| msgid "Account removal on %(site_title)s"
+#, python-format
 msgid "Verify your e-mail address on %(site_title)s"
-msgstr "Baint an chuntais ar %(site_title)s"
+msgstr "Deimhnigh do sheoladh ríomhphoist ar %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Diagnóisic chomhpháirteanna"
@@ -12660,67 +12662,51 @@ msgstr "Brabhsáil fionnachtain"
 msgid "Performance report"
 msgstr "Tuarascáil feidhmíochta"
 
-#, fuzzy
-#| msgid "Broker connection"
 msgid "Bot protection"
-msgstr "Nasc bróicéara"
+msgstr "Cosaint bot"
 
 msgid ""
 "Issued challenges, requests requiring proof of work, and verification "
 "outcomes in hourly buckets. Counts are best-effort and can be lost during "
 "cache outages or eviction."
 msgstr ""
+"Dúshláin eisithe, iarratais a éilíonn cruthúnas oibre, agus torthaí "
+"fíoraithe i mbuicéid uair an chloig. Déantar comhaireamh de réir na "
+"hiarrachta is fearr agus is féidir iad a chailleadh le linn briseadh taisce "
+"nó díbirt."
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "Counters are unavailable."
-msgstr "Níl aon fhoirne ar fáil."
+msgstr "Níl cuntair ar fáil."
 
 msgid "Outcome"
-msgstr ""
+msgstr "Toradh"
 
-#, fuzzy
-#| msgid "Current password"
 msgid "Current hour"
-msgstr "Pasfhocal reatha"
+msgstr "An uair reatha"
 
-#, fuzzy
-#| msgid "Previously generated reports"
 msgid "Previous 24 completed hours"
-msgstr "Tuarascálacha a gineadh roimhe seo"
+msgstr "Na 24 uair an chloig roimhe seo curtha i gcrích"
 
-#, fuzzy
-#| msgid "Suggested change"
 msgid "Issued challenges"
-msgstr "Athrú molta"
+msgstr "Dúshláin eisithe"
 
 msgid "Requests requiring proof of work"
-msgstr ""
+msgstr "Iarratais a dteastaíonn cruthúnas oibre uathu"
 
-#, fuzzy
-#| msgid "Source change"
 msgid "Expired challenge"
-msgstr "Athrú foinse"
+msgstr "Dúshlán imithe in éag"
 
-#, fuzzy
-#| msgid "Invalid suggestion!"
 msgid "Invalid solution"
-msgstr "Moladh neamhbhailí!"
+msgstr "Réiteach neamhbhailí"
 
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Recent change"
-#| msgid_plural "Recent changes"
 msgid "Replayed challenge"
-msgstr "Athrú le déanaí"
+msgstr "Dúshlán athimeartha"
 
 msgid "CSRF failure"
-msgstr ""
+msgstr "Teip CSRF"
 
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "Service unavailable"
-msgstr "Níl an tseirbhís ar fáil a thuilleadh"
+msgstr "Seirbhís gan fáil"
 
 msgid "Last occurrence"
 msgstr "Tarlú deiridh"
@@ -12874,14 +12860,12 @@ msgstr "Taispeáin comhpháirteanna gan VCS iargúlta"
 msgid "This repository is linked to:"
 msgstr "Tá an stór seo nasctha le:"
 
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm security action"
-msgstr "Deimhnigh clárú"
+msgstr "Deimhnigh gníomh slándála"
 
 #, python-format
 msgid "Selected %(count)s findings affecting %(accounts)s accounts."
-msgstr ""
+msgstr "Roghnaíodh %(count)s toradh a théann i bhfeidhm ar %(accounts)s cuntas."
 
 msgid ""
 "Disable the matching passwords, invalidate signed-in sessions, and revoke "
@@ -12889,324 +12873,266 @@ msgid ""
 "on and two-factor settings are preserved. Accounts whose passwords have "
 "changed will be skipped."
 msgstr ""
+"Díchumasaigh na pasfhocail chomhfhreagracha, cuir seisiúin logáilte isteach "
+"ar neamhní, agus cúlghairm gach comhartha API. Cuirfear úsáideoirí a bhfuil "
+"seoladh ríomhphoist acu ar an eolas. Coinnítear socruithe logáil isteach "
+"aonair agus fíordheimhnithe dhá fhachtóir. Fágfar cuntais ar athraíodh a "
+"bpasfhocail ar lár."
 
 msgid ""
 "Remove the selected lookalike verified e-mail addresses and associated sign-"
 "in identities, disable account passwords, invalidate sessions, and revoke "
 "API tokens. Account owners will be notified at their primary e-mail address."
 msgstr ""
+"Bain na seoltaí ríomhphoist fíoraithe atá cosúil le chéile agus na "
+"céannachtaí logáil isteach gaolmhara, díchumasaigh pasfhocail chuntais, cuir "
+"seisiúin ar neamhní, agus cúlghairm comharthaí API. Cuirfear úinéirí cuntas "
+"ar an eolas ag a bpríomhsheoladh ríomhphoist."
 
 msgid ""
 "Dismiss the selected findings without changing credentials or notifying "
 "users. A new report confirming the same exposure can reopen them."
 msgstr ""
+"Dún na torthaí roghnaithe gan dintiúir a athrú ná fógra a thabhairt "
+"d’úsáideoirí. Is féidir iad a athoscailt má thagann tuairisc nua chun cinn a "
+"dheimhníonn an nochtadh céanna."
 
-#, fuzzy
-#| msgid "Reset my password"
 msgid "Reset passwords"
-msgstr "Athshocraigh mo phasfhocal"
+msgstr "Athshocraigh pasfhocail"
 
-#, fuzzy
-#| msgid "Remove connected account?"
 msgid "Remove identities and reset accounts"
-msgstr "Bain an cuntas ceangailte?"
+msgstr "Bain céannachtaí agus athshocraigh cuntais"
 
-#, fuzzy
-#| msgid "Dismiss failing check"
 msgid "Dismiss findings"
-msgstr "Ruaig seiceáil theip"
+msgstr "Diúltaigh do thorthaí"
 
-#, fuzzy, python-format
-#| msgid "Edit team membership for %(username)s"
+#, python-format
 msgid "Security finding for %(username)s"
-msgstr "Cuir ballraíocht foirne in eagar le haghaidh %(username)s"
+msgstr "Aimsigh slándála do %(username)s"
 
 msgid "CSV row"
-msgstr ""
+msgstr "Sraith CSV"
 
 msgid "Identifier"
 msgstr "Aitheantóir"
 
-#, fuzzy
-#| msgid "Matching multiple paths"
 msgid "Matching method"
-msgstr "Cosáin iolracha a mheaitseáil"
+msgstr "Modh meaitseála"
 
-#, fuzzy
-#| msgid "No matching screenshots available."
 msgid "No matching row details."
-msgstr "Níl aon scáthghabháil mheaitseála ar fáil."
+msgstr "Níl aon sonraí sraithe comhoiriúnacha ann."
 
-#, fuzzy, python-format
-#| msgid "Page %(current)s of %(total)s"
+#, python-format
 msgid "Page %(number)s of %(total)s"
-msgstr "Leathanach %(current)s as %(total)s"
+msgstr "Leathanach %(number)s de %(total)s"
 
-#, fuzzy
-#| msgid "Detected from repository"
 msgid "Detected in reports"
-msgstr "Braite ón stórlann"
+msgstr "Braite i dtuairiscí"
 
-#, fuzzy
-#| msgid "Administrators"
 msgid "Administrator"
-msgstr "Riarthóirí"
+msgstr "Riarthóir"
 
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Deleted administrator"
-msgstr "Riarachán gréasáin"
+msgstr "Riarthóir scriosta"
 
 msgid "No validation reports for this finding."
-msgstr ""
+msgstr "Níl aon tuairiscí bailíochtaithe ann don fhionnachtain seo."
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Reports page %(number)s of %(total)s"
-msgstr "Úsáideadh %(used)s as %(total)s"
+msgstr "Leathanach tuairiscí %(number)s as %(total)s"
 
-#, fuzzy
-#| msgid "Previously generated reports"
 msgid "Previous reports"
-msgstr "Tuarascálacha a gineadh roimhe seo"
+msgstr "Tuairiscí roimhe seo"
 
-#, fuzzy
-#| msgid "Past reports"
 msgid "Next reports"
-msgstr "Tuairiscí san am atá thart"
+msgstr "Tuairiscí eile"
 
-#, fuzzy
-#| msgid "Back to security settings"
 msgid "Account security findings"
-msgstr "Ar ais chuig socruithe slándála"
+msgstr "Torthaí maidir le slándáil cuntais"
 
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Validation reports"
-msgstr "Tuarascálacha aistriúcháin"
+msgstr "Tuairiscí bailíochtaithe"
 
 msgid "Filename"
 msgstr "Ainm comhaid"
 
-#, fuzzy
-#| msgid "Not needed"
 msgid "Not recorded"
-msgstr "Ní gá"
+msgstr "Gan taifeadadh"
 
-#, fuzzy
-#| msgid "Submit"
 msgid "Submitted by"
-msgstr "Cuir isteach"
+msgstr "Curtha isteach ag"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Processing summary"
-msgstr "Tacaíocht ghairmiúil"
+msgstr "Achoimre ar an bpróiseáil"
 
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Password validation completed."
-msgstr "Aistriúchán críochnaithe"
+msgstr "Tá bailíochtú an phasfhocail críochnaithe."
 
 msgid "Legacy e-mail identity check completed."
-msgstr ""
+msgstr "Seiceáil ar chéannacht ríomhphoist dhílis críochnaithe."
 
-#, fuzzy
-#| msgid "Activation completed."
 msgid "Security action completed."
-msgstr "Cuireadh an ghníomhachtú i gcrích."
+msgstr "Gníomh slándála curtha i gcrích."
 
-#, fuzzy
-#| msgid "Parsing failed"
 msgid "Processing failed."
-msgstr "Theip ar pharsáil"
+msgstr "Theip ar an bpróiseáil."
 
 msgid "Processing is not complete. Findings may still be added."
-msgstr ""
+msgstr "Níl an próiseáil críochnaithe. D’fhéadfaí torthaí a chur leis fós."
 
-#, fuzzy
-#| msgid "Progress"
 msgid "View progress"
-msgstr "Dul chun cinn"
+msgstr "Féach ar an dul chun cinn"
 
 #, python-format
 msgid "Processed %(processed)s of %(total)s entries."
 msgstr "Próiseáladh %(processed)s as %(total)s iontráil."
 
-#, fuzzy
-#| msgid "Ending date"
 msgid "Finding type"
-msgstr "Dáta deiridh"
+msgstr "Cineál an chinnidh"
 
 msgid "Filter"
 msgstr "Scagaire"
 
-#, fuzzy
-#| msgid "Select all strings on this page"
 msgid "Actions apply only to checked findings on this page."
-msgstr "Roghnaigh gach teaghrán ar an leathanach seo"
+msgstr ""
+"Ní bhaineann gníomhartha ach leis na torthaí atá marcáilte ar an leathanach "
+"seo."
 
-#, fuzzy
-#| msgid "Select all strings on this page"
 msgid "Select all on this page"
-msgstr "Roghnaigh gach teaghrán ar an leathanach seo"
+msgstr "Roghnaigh gach rud ar an leathanach seo"
 
-#, fuzzy
-#| msgid "Event selection"
 msgid "Clear selection"
-msgstr "Roghnú imeachtaí"
+msgstr "Glan an roghnú"
 
-#, fuzzy
-#| msgid "Pending"
 msgid "Finding"
-msgstr "Ar feitheamh"
+msgstr "Teacht ar"
 
 #, python-format
 msgid "Select finding for %(username)s"
-msgstr ""
+msgstr "Roghnaigh cuardach le haghaidh %(username)s"
 
-#, fuzzy
-#| msgid "Active"
 msgid "Inactive"
-msgstr "Gníomhach"
+msgstr "Neamhghníomhach"
 
-#, fuzzy
-#| msgid "Not"
 msgid "Bot"
-msgstr "Ní"
+msgstr "Bota"
 
 msgid "No e-mail address: notification unavailable"
-msgstr ""
+msgstr "Gan seoladh ríomhphoist: fógra ar fáil"
 
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date joined:"
-msgstr "Dáta a cláraíodh"
+msgstr "Dáta an chláraithe:"
 
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Last sign-in:"
-msgstr "Sínigh isteach go deireanach"
+msgstr "An logáil isteach deireanach:"
 
 #, python-format
 msgid "Row %(row)s: %(identifier)s (%(method)s)"
-msgstr ""
+msgstr "Sraith %(row)s: %(identifier)s (%(method)s)"
 
 #, python-format
 msgid "View details (%(count)s match)"
 msgid_plural "View details (%(count)s matches)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Féach ar shonraí (%(count)s meaitseáil)"
+msgstr[1] "Féach ar shonraí (%(count)s meaitse)"
+msgstr[2] "Féach ar shonraí (%(count)s meaitse)"
+msgstr[3] "Féach ar shonraí (%(count)s meaitse)"
+msgstr[4] "Féach ar shonraí (%(count)s meaitse)"
 
-#, fuzzy
-#| msgid "Font deleted."
 msgid "First detected:"
-msgstr "Cló scriosta."
+msgstr "Aimsíodh ar dtús:"
 
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last detected:"
-msgstr "Nuashonraithe is déanaí"
+msgstr "Braite go deireanach:"
 
-#, fuzzy
-#| msgid "No diagnostics match the selected filters."
 msgid "No security findings match these filters."
-msgstr "Ní thagann aon diagnóisic leis na scagairí roghnaithe."
+msgstr "Níl aon torthaí slándála ann a mheaitseálann na scagairí seo."
 
 msgid "Remove lookalike e-mail identities and reset selected accounts"
 msgstr ""
+"Bain céannachtaí ríomhphoist atá cosúil le cinn eile agus athshocraigh "
+"cuntais roghnaithe"
 
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid "Reset passwords for selected accounts"
-msgstr "Socraigh pasfhocal chun do chuntas Weblate"
+msgstr "Athshocraigh pasfhocail do chuntais roghnaithe"
 
 msgid "Dismiss selected findings"
-msgstr ""
+msgstr "Diúltaigh do thorthaí roghnaithe"
 
 msgid ""
 "Dismissing findings marks them as reviewed without changing passwords or "
 "notifying users."
 msgstr ""
+"Má dhiúltaítear do na torthaí, marcálann siad iad mar athbhreithnithe gan "
+"pasfhocail a athrú ná úsáideoirí a chur ar an eolas."
 
-#, fuzzy
-#| msgid "Back to security settings"
 msgid "Account security operation"
-msgstr "Ar ais chuig socruithe slándála"
+msgstr "Oibríocht slándála cuntais"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Processing progress"
-msgstr "Tacaíocht ghairmiúil"
+msgstr "Dul chun cinn na próiseála"
 
-#, fuzzy
-#| msgid "Refresh results"
 msgid "Refresh progress"
-msgstr "Athnuaigh na torthaí"
+msgstr "Athnuaigh an dul chun cinn"
 
 msgid ""
 "Review previous credential validation reports, including reports with no "
 "matching passwords."
 msgstr ""
+"Déan athbhreithniú ar thuairiscí bailíochtaithe dintiúir roimhe seo, lena n-"
+"áirítear tuairiscí nach bhfuil pasfhocail mheaitseála acu."
 
-#, fuzzy
-#| msgid "Download reports"
 msgid "Upload report"
-msgstr "Íoslódáil tuairiscí"
+msgstr "Uaslódáil tuairisc"
 
 msgid "Processed rows"
-msgstr ""
+msgstr "Sraitheanna próiseáilte"
 
-#, fuzzy
-#| msgid "Matching strings"
 msgid "Matching rows"
-msgstr "Teaghráin a mheaitseáil"
+msgstr "Sraitheanna comhoiriúnacha"
 
-#, fuzzy
-#| msgid "Connected accounts"
 msgid "Affected accounts"
-msgstr "Cuntais nasctha"
+msgstr "Cuntais a bhfuil tionchar orthu"
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "%(processed)s of %(total)s"
-msgstr "Úsáideadh %(used)s as %(total)s"
+msgstr "%(processed)s as %(total)s"
 
-#, fuzzy
-#| msgid "Translation reports"
 msgid "No validation reports yet."
-msgstr "Tuarascálacha aistriúcháin"
+msgstr "Níl aon tuairiscí bailíochtaithe ann go fóill."
 
 msgid ""
 "Upload a CSV containing usernames or e-mail addresses and passwords. "
 "Passwords are checked in the background and never displayed in the report."
 msgstr ""
+"Uaslódáil comhad CSV ina bhfuil ainmneacha úsáideora nó seoltaí ríomhphoist "
+"agus pasfhocail. Déantar na pasfhocail a sheiceáil sa chúlra agus ní "
+"thaispeántar iad sa tuairisc riamh."
 
 msgid ""
 "Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
 "delimiter and column numbers blank for automatic detection."
 msgstr ""
+"Caithfidh tuairiscí a bheith i bhformáid UTF-8, agus ní mór nach mbeadh níos "
+"mó ná 50,000 ró ná 10 MiB iontu. Fág an deighilteoir agus uimhreacha na "
+"gcolún bán chun go mbraithfear go huathoibríoch iad."
 
 msgid ""
 "The uploaded file is available for one hour. Adjust the CSV settings below "
 "to try again."
 msgstr ""
+"Tá an comhad uaslódáilte ar fáil ar feadh uair an chloig. Coigeartaigh na "
+"socruithe CSV thíos chun triail a bhaint as arís."
 
 msgid "CSV format (detected automatically)"
-msgstr ""
+msgstr "Formáid CSV (braite go huathoibríoch)"
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Validate passwords"
-msgstr "Díchumasaigh pasfhocal"
+msgstr "Bailíochtaigh pasfhocail"
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Validate leaked passwords"
-msgstr "Díchumasaigh pasfhocal"
+msgstr "Bailíochtaigh pasfhocail a sceitheadh"
 
 msgid "Activate support package"
 msgstr "Gníomhachtaigh pacáiste tacaíochta"
@@ -13361,19 +13287,19 @@ msgstr "Bain cuireadh"
 msgid "Check user access"
 msgstr "Seiceáil rochtain úsáideora"
 
-#, fuzzy
-#| msgid "Account activity"
 msgid "Account security"
-msgstr "Gníomhaíocht an chuntais"
+msgstr "Slándáil chuntais"
 
 #, python-format
 msgid "Security report (%(security_findings_open)s open findings)"
-msgstr ""
+msgstr "Tuairisc slándála (%(security_findings_open)s torthaí oscailte)"
 
 msgid ""
 "Validate a CSV report of leaked credentials against current account "
 "passwords."
 msgstr ""
+"Déan tuairisc CSV de dhintiúir a sceitheadh a bhailíochtú i gcoinne "
+"pasfhocail chuntais reatha."
 
 msgid "Add workspace"
 msgstr "Cuir spás oibre leis"
@@ -14391,23 +14317,24 @@ msgstr "Rannpháirtithe"
 msgid "Translations"
 msgstr "Aistriúcháin"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "You were invited to %(site_title)s by %(invitation_author)s to "
-#| "collaborate on %(project_name)s and join the %(team_name)s team."
+#, python-format
 msgid ""
 "An automatic team assignment rule invited you to collaborate on "
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"Thug %(invitation_author)s cuireadh do %(site_title)s comhoibriú ar "
-"%(project_name)s agus dul isteach san fhoireann %(team_name)s."
+"Thug riail uathoibríoch um shannadh foirne cuireadh duit comhoibriú ar %"
+"(project_name)s agus a bheith páirteach san fhoireann %(team_name)s. Ní "
+"bheidh tú páirteach ann ach amháin má ghlacann tú leis an gcuireadh seo."
 
 #, python-format
 msgid ""
 "An automatic team assignment rule invited you to join the %(team_name)s team "
 "in %(workspace_name)s. You will join only if you accept this invitation."
 msgstr ""
+"Thug riail um shannadh uathoibríoch foirne cuireadh duit a bheith páirteach "
+"san fhoireann %(team_name)s i %(workspace_name)s. Ní bheidh tú páirteach ann "
+"ach amháin má ghlacann tú leis an gcuireadh seo."
 
 #, python-format
 msgid ""
@@ -14457,10 +14384,8 @@ msgstr "Cuir bac ar úsáideoir"
 msgid "View notification"
 msgstr "Féach ar fhógra"
 
-#, fuzzy
-#| msgid "All changes"
 msgid "View full change"
-msgstr "Gach athrú"
+msgstr "Féach ar an athrú iomlán"
 
 msgid "No matching activity found."
 msgstr "Níor aimsíodh aon ghníomhaíocht mheaitseála."
@@ -15085,15 +15010,12 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr "Tá tú ar tí leanúint ar aghaidh le do chuntas Weblate a bhaint."
 
-#, fuzzy
-#| msgid ""
-#| "You are about to continue resetting the password for your Weblate account."
 msgid ""
 "You are about to continue adding this e-mail address to your existing "
 "Weblate account."
 msgstr ""
-"Tá tú ar tí leanúint ar aghaidh ag athshocrú an phasfhocail chun do chuntas "
-"Weblate."
+"Tá tú ar tí leanúint ar aghaidh ag cur an seoladh ríomhphoist seo le do "
+"chuntas Weblate atá ann cheana."
 
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "Tá tú ar tí cuireadh a ghlacadh agus cuntas Weblate a chruthú."
@@ -15111,10 +15033,8 @@ msgstr "Lean ar aghaidh le hathshocrú pasfhocail"
 msgid "Continue account removal"
 msgstr "Lean ar aghaidh le baint an chuntais"
 
-#, fuzzy
-#| msgid "E-mail verification"
 msgid "Continue e-mail verification"
-msgstr "Fíorú ríomhphoist"
+msgstr "Lean ar aghaidh le fíorú ríomhphoist"
 
 msgid "Accept invitation"
 msgstr "Glac le cuireadh"
@@ -15921,10 +15841,8 @@ msgstr "Léim go dtí an dáta"
 msgid "Go"
 msgstr "Téigh"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change details"
-msgstr "Imeachtaí athraithe"
+msgstr "Athraigh sonraí"
 
 msgid "Download latest changes as CSV"
 msgstr "Íoslódáil na hathruithe is déanaí mar CSV"
@@ -16803,6 +16721,9 @@ msgid ""
 "Original files can contain contributor identities and require additional "
 "permission. Use a generated export below for offline translation."
 msgstr ""
+"D’fhéadfadh céannachtaí rannpháirtí a bheith i gcomhaid bhunaidh agus cead "
+"breise a bheith ag teastáil. Bain úsáid as easpórtáil ghinte thíos le "
+"haghaidh aistriúcháin as líne."
 
 msgid "File in original format as translated in the repository"
 msgstr "Comhad sa bhunfhormáid mar a aistríodh é sa stór"
@@ -18255,19 +18176,18 @@ msgstr ""
 "shreanga a bhí san iolra, agus níor phróiseáil sé ach na cinn a bhí san "
 "fhoirm uatha."
 
-#, fuzzy
-#| msgid ""
-#| "Automatic translation cannot be started because the target is locked."
 msgid ""
 "Automatic translation lost its database connection. Please try again later."
 msgstr ""
-"Ní féidir aistriúchán uathoibríoch a thosú mar go bhfuil an sprioc faoi "
-"ghlas."
+"Chaill an t-aistriúchán uathoibríoch an nasc leis an mbunachar sonraí. Bain "
+"triail as arís níos déanaí, le do thoil."
 
 msgid ""
 "Automatic translation is already running for this translation. Please try "
 "again later."
 msgstr ""
+"Tá aistriúchán uathoibríoch ar siúl cheana féin don aistriúchán seo. Bain "
+"triail as arís níos déanaí, le do thoil."
 
 #, python-format
 msgid "Automatic translation failed: %s"
@@ -18434,6 +18354,8 @@ msgstr "Roghnaigh aistriúcháin athsholáthair nó aistriúcháin ghlanta."
 #, python-format
 msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
 msgstr ""
+"Tá eagarthóireacht bhaisc teoranta do %(limit)d teaghrán. Déan an cuardach "
+"níos sainiúla."
 
 msgid "The component was automatically locked because of an alert."
 msgstr ""
@@ -18494,7 +18416,7 @@ msgid "New revision: {}"
 msgstr "Leasú nua: {}"
 
 msgid "Content is too long to show in the change list."
-msgstr ""
+msgstr "Tá an t-ábhar rófhada le taispeáint sa liosta athruithe."
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -18793,56 +18715,52 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Cuir clib deiridh san áireamh le haghaidh clibeanna bána XML"
 
 msgid "UTF-8 byte order mark"
-msgstr ""
+msgstr "Marc ordaithe beart UTF-8"
 
 msgid "Preserve input"
-msgstr ""
+msgstr "Caomhnaigh an t-ionchur"
 
-#, fuzzy
-#| msgid "Always normalize"
 msgid "Always include"
-msgstr "Déan normalú i gcónaí"
+msgstr "Cuir san áireamh i gcónaí"
 
-#, fuzzy
-#| msgid "Always normalize"
 msgid "Always omit"
-msgstr "Déan normalú i gcónaí"
+msgstr "Fág ar lár i gcónaí"
 
 msgid ""
 "Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
 "without a template omit the mark when preserving input."
 msgstr ""
+"Rialaíonn sé an marc orduithe beart UTF-8. Ní dhéantar athrú ar ionchóduithe "
+"eile. I gcás comhad nua nach bhfuil teimpléad ag baint leo, fágtar an marc "
+"ar lár nuair a chaomhnaítear an t-ionchur."
 
 msgid "XML declaration encoding case"
-msgstr ""
+msgstr "Cás ionchódaithe an dearbhaithe XML"
 
-#, fuzzy
-#| msgid "Restore site default"
 msgid "Format default"
-msgstr "Athchóirigh réamhshocrú an tsuímh"
+msgstr "Formáid réamhshocraithe"
 
 msgid "Uppercase"
-msgstr ""
+msgstr "Cás uachtair"
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "Lowercase"
-msgstr "Úsáideoir cumhachta"
+msgstr "Cás íochtarach"
 
 msgid ""
 "Controls encoding names in the XML declaration, for example \"UTF-8\" or "
 "\"utf-8\"."
 msgstr ""
+"Rialaíonn sé ainmneacha an ionchódaithe san fhógra XML, mar shampla \"UTF-"
+"8\" nó \"utf-8\"."
 
-#, fuzzy
-#| msgid "Starting newline"
 msgid "XML final newline"
-msgstr "Líne nua a thosú"
+msgstr "Líne nua deiridh XML"
 
 msgid ""
 "Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
+"Rialaíonn sé an líne nua ag deireadh an chomhaid, ag baint úsáide as críocha "
+"línte an fhormáidithe."
 
 msgid "Whitespace handling"
 msgstr "Láimhseáil spásanna bána"
@@ -19451,10 +19369,8 @@ msgstr "Uasmhéid athruithe in aghaidh an lae"
 msgid "Maximum source words per day"
 msgstr "Uasmhéid focal foinse in aghaidh an lae"
 
-#, fuzzy
-#| msgid "The target does not exist or you cannot access it."
 msgid "This component does not exist or you cannot access it."
-msgstr "Níl an sprioc ann nó ní féidir leat rochtain a fháil air."
+msgstr "Níl an comhpháirt seo ann, nó ní féidir leat rochtain a fháil uirthi."
 
 msgid "Inherit from workspace"
 msgstr "Oidhreacht ón spás oibre"
@@ -21117,14 +21033,8 @@ msgstr ""
 "stórlann a bheith agat. Cumraigh URL brú le dintiúir, nó bain úsáid as URL "
 "stórlainne SSH."
 
-#, fuzzy
-#| msgid ""
-#| "The file mask used for discovery is too complex and took too long to "
-#| "evaluate."
 msgid "The file mask is too complex and took too long to evaluate."
-msgstr ""
-"Tá an masc comhaid a úsáidtear le haghaidh fionnachtana ró-chasta, agus thóg "
-"sé an iomarca ama é a mheasúnú."
+msgstr "Tá an masc comhaid róchasta agus thóg sé an iomarca ama é a mheas."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -21767,25 +21677,25 @@ msgstr[4] ""
 "Glacadh le %(accepted)d as %(total)d moltaí ó %(user)s. Theip ar %(failed)d "
 "mar gheall ar cheadanna nó seiceálacha."
 
-#, fuzzy
-#| msgid "Bulk edit completed, no strings were updated."
 msgid "Bulk edit parameters are no longer valid."
-msgstr "Cuireadh an mór-eagar i gcrích, níor nuashonraíodh aon teaghráin."
+msgstr "Níl paraiméadair eagarthóireachta mórchóir bailí a thuilleadh."
 
 #, python-format
 msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
 msgstr ""
+"Theip ar an mór-eagar tar éis próiseáil a dhéanamh ar %(count)d teaghrán: %"
+"(error)s"
 
-#, fuzzy
-#| msgid "A user's access permissions were changed."
 msgid "The target or permissions changed."
-msgstr "Athraíodh ceadanna rochtana úsáideora."
+msgstr "Athraíodh an sprioc nó na ceadanna."
 
 #, python-format
 msgid ""
 "Bulk edit failed after processing %(count)d strings. Earlier batches may "
 "have been applied."
 msgstr ""
+"Theip ar an mmór-eagar tar éis próiseáil a dhéanamh ar %(count)d teaghrán. "
+"D’fhéadfadh sé gur cuireadh baisceanna roimhe seo i bhfeidhm."
 
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
@@ -22100,6 +22010,7 @@ msgstr "Ní féidir leat bac a chur ort féin ar an tionscadal seo."
 
 msgid "Remove project administration rights before blocking this user."
 msgstr ""
+"Bain cearta riaracháin tionscadail sula gcuirfidh tú bac ar an úsáideoir seo."
 
 msgid "User has been blocked on this project."
 msgstr "Cuireadh bac ar an úsáideoir ar an tionscadal seo."
@@ -22170,10 +22081,8 @@ msgstr[4] ""
 "Níorbh fhéidir teanga %(language)s a chur le %(count)d comhpháirteanna. "
 "Seiceáil cumraíocht na gcomhpháirteanna le do thoil."
 
-#, fuzzy
-#| msgid "You do not have permission to edit these flags."
 msgid "You do not have permission to add this language."
-msgstr "Níl cead agat na bratacha seo a chur in eagar."
+msgstr "Níl cead agat an teanga seo a chur leis."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -22457,11 +22366,10 @@ msgid "All components are now locked for translation updates!"
 msgstr ""
 "Tá gach comhpháirt faoi ghlas anois le haghaidh nuashonruithe aistriúcháin!"
 
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "Allowed components are now locked for translation updates!"
 msgstr ""
-"Tá gach comhpháirt faoi ghlas anois le haghaidh nuashonruithe aistriúcháin!"
+"Tá comhpháirteanna ceadaithe faoi ghlas anois i gcomhair nuashonruithe "
+"aistriúcháin!"
 
 msgid "Component is now open for translation updates."
 msgstr ""
@@ -22472,11 +22380,9 @@ msgstr ""
 "Tá na comhpháirteanna uile oscailte anois le haghaidh nuashonruithe "
 "aistriúcháin."
 
-#, fuzzy
-#| msgid "All components are now open for translation updates."
 msgid "Allowed components are now open for translation updates."
 msgstr ""
-"Tá na comhpháirteanna uile oscailte anois le haghaidh nuashonruithe "
+"Tá comhpháirteanna ceadaithe oscailte anois le haghaidh nuashonruithe "
 "aistriúcháin."
 
 msgid "Generating report…"
@@ -22537,10 +22443,10 @@ msgstr "An iomarca ceisteanna cuardaigh, bain triail eile as ar ball."
 msgid "Invalid search query!"
 msgstr "Iarratas cuardaigh neamhbhailí!"
 
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Too many bulk edits, please try again later."
-msgstr "An iomarca ceisteanna cuardaigh, bain triail eile as ar ball."
+msgstr ""
+"An iomarca mionathruithe mórchóir; déan iarracht arís níos déanaí, le do "
+"thoil."
 
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
@@ -22550,10 +22456,8 @@ msgstr ""
 msgid "Could not process form!"
 msgstr "Níorbh fhéidir an fhoirm a phróiseáil!"
 
-#, fuzzy
-#| msgid "Bulk edit strings"
 msgid "Bulk edit in progress."
-msgstr "Teaghráin eagarthóireachta mórchóir"
+msgstr "Tá mór-eagar ar siúl."
 
 #, python-format
 msgid "Bulk edit failed: %s"
@@ -22868,14 +22772,9 @@ msgstr "Slonn rialta nó ionadú neamhbhailí: %s"
 msgid "Automatic translation reported a warning."
 msgstr "Thuairiscigh an t-aistriúchán uathoibríoch rabhadh."
 
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Automatic translation is waiting for another operation to finish."
 msgstr ""
-"Aistrítear teaghráin go huathoibríoch ag baint úsáide as aistriúchán meaisín "
-"nó comhpháirteanna eile."
+"Tá an t-aistriúchán uathoibríoch ag fanacht le hoibríocht eile a chríochnú."
 
 msgid "Automatic translation failed. See the task log for details."
 msgstr ""
@@ -23330,6 +23229,7 @@ msgstr "Ní cheadaítear fearann URL."
 
 msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
+"Ní ceadmhach sreanga ceiste ná blúirí a bheith i URLanna bróicéirí AMQP."
 
 msgid "Repository URL contains unsafe characters."
 msgstr "Tá carachtair neamhshábháilte i URL an stórais."
@@ -24345,69 +24245,57 @@ msgstr ""
 "Roghchlár anuas loingseoireachta marthanach sa chúinne uachtarach ar dheis, "
 "fiú má tá spás ann do roghchlár iomlán."
 
-#, fuzzy
-#| msgid "Past reports"
 msgid "CSV report"
-msgstr "Tuairiscí san am atá thart"
+msgstr "Tuairisc CSV"
 
-#, fuzzy
-#| msgid "Rate limited"
 msgid "Delimiter"
-msgstr "Teorainn ráta i bhfeidhm"
+msgstr "Teorainneoir"
 
 msgid ""
 "Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
 "for a tab."
 msgstr ""
+"Fág bán chun brath go huathoibríoch. Úsáid camóg, leathstad, barra "
+"ingearach, nó \\t le haghaidh cluaisín."
 
 msgid "First row contains column names"
-msgstr ""
+msgstr "Tá ainmneacha na gcolún sa chéad ró"
 
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or e-mail column"
-msgstr "Ainm úsáideora nó r-phost"
+msgstr "Colún an ainm úsáideora nó an ríomhphoist"
 
-#, fuzzy
-#| msgid "Password"
 msgid "Password column"
-msgstr "Pasfhocal"
+msgstr "Colún an phasfhocail"
 
 msgid ""
 "Specify both column numbers, or leave both blank for automatic detection."
 msgstr ""
+"Sonraigh uimhreacha an dá cholún, nó fág an dá cheann bán chun go "
+"mbraithfear go huathoibríoch iad."
 
-#, fuzzy
-#| msgid "Configuration"
 msgid "Configuring"
-msgstr "Cumraíocht"
+msgstr "Ag cumrú"
 
 msgid "Running"
-msgstr ""
+msgstr "Ag rith"
 
 msgid "Open"
 msgstr "Oscail"
 
-#, fuzzy
-#| msgid "Resolve"
 msgid "Resolved"
-msgstr "Réitigh"
+msgstr "Réitithe"
 
-#, fuzzy
-#| msgid "User was disabled by administrator."
 msgid "Dismissed by administrator"
-msgstr "Dhíchumasaigh an riarthóir an t-úsáideoir."
+msgstr "Curtha ar ceal ag riarthóir"
 
 msgid "Lookalike e-mail identity removed"
-msgstr ""
+msgstr "Aitheantas ríomhphoist a bhí cosúil le ceann eile, bainte amach"
 
 msgid "E-mail identity already changed"
-msgstr ""
+msgstr "Tá an céannacht ríomhphoist athraithe cheana féin"
 
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password already changed"
-msgstr "Athraíodh an pasfhocal."
+msgstr "Tá an focal faire athraithe cheana féin"
 
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
@@ -24470,190 +24358,145 @@ msgstr "Stóráil chúltaca glanta"
 msgid "Repository initialization"
 msgstr "Túsú stórais"
 
-#, fuzzy
-#| msgid "New password"
 msgid "Leaked password"
-msgstr "Pasfhocal nua"
+msgstr "Pasfhocal sceite"
 
-#, fuzzy
-#| msgid "Add and verify e-mail address"
 msgid "Lookalike verified e-mail address"
-msgstr "Cuir seoladh ríomhphoist leis agus fíoraigh é"
+msgstr "Seoladh ríomhphoist fíoraithe atá cosúil le ceann eile"
 
-#, fuzzy
-#| msgid ""
-#| "The authentication response has expired. Please try signing in again."
 msgid "The uploaded report has expired. Upload it again."
-msgstr ""
-"Tá an freagra fíordheimhnithe imithe in éag. Déan iarracht logáil isteach "
-"arís, le do thoil."
+msgstr "Tá an tuairisc uaslódáilte imithe in éag. Uaslódáil arís í."
 
 msgid ""
 "Could not detect the credential columns. Configure their column numbers."
 msgstr ""
+"Níorbh fhéidir na colúin dheimhniúcháin a bhrath. Cumraigh uimhreacha na "
+"gcolún sin."
 
 msgid "Choose different identifier and password columns."
-msgstr ""
+msgstr "Roghnaigh colúin éagsúla don aitheantóir agus don phasfhocal."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "The report exceeds the 10 MiB limit."
-msgstr "Sáraíonn freagra an léirithe rialta (regex) a theorainn méide."
+msgstr "Sáraíonn an tuarascáil an teorainn 10 MiB."
 
 msgid "Upload a UTF-8 encoded CSV file."
-msgstr ""
+msgstr "Uaslódáil comhad CSV atá ionchódaithe i UTF-8."
 
 msgid ""
 "Could not detect the delimiter. Configure the CSV columns and delimiter."
 msgstr ""
+"Níorbh fhéidir an deighilteoir a bhrath. Cumraigh na colúin CSV agus an "
+"deighilteoir."
 
 msgid "Choose a single delimiter character."
-msgstr ""
+msgstr "Roghnaigh carachtar deighilte amháin."
 
-#, fuzzy
-#| msgid "The uploaded file contains too many settings."
 msgid "The file contains malformed CSV quoting."
-msgstr "Tá an iomarca socruithe sa chomhad uaslódáilte."
+msgstr "Tá comharthaí athfhriotail mífhoirmithe i gcomhad CSV."
 
-#, fuzzy
-#| msgid "The resource is locked."
 msgid "The report is empty."
-msgstr "Tá an acmhainn faoi ghlas."
+msgstr "Tá an tuairisc folamh."
 
-#, fuzzy
-#| msgid "Regex response exceeds its size limit."
 msgid "The report exceeds the 50,000 row limit."
-msgstr "Sáraíonn freagra an léirithe rialta (regex) a theorainn méide."
+msgstr "Sáraíonn an tuairisc an teorainn de 50,000 sraith."
 
-#, fuzzy
-#| msgid "The repository HTTP redirect contains credentials and was rejected."
 msgid "The report contains no credential rows."
-msgstr "Tá dintiúir san atreorú HTTP stórtha agus diúltaíodh dó."
+msgstr "Níl aon sraitheanna dintiúir sa tuarascáil."
 
-#, fuzzy
-#| msgid "The authenticated user does not have permission for this operation."
 msgid ""
 "The initiating administrator no longer has permission to perform this "
 "operation."
-msgstr "Níl cead ag an úsáideoir fíordheimhnithe don oibríocht seo."
+msgstr ""
+"Níl cead ag an riarthóir a chuir tús leis an oibríocht seo a thuilleadh chun "
+"an oibríocht sin a dhéanamh."
 
 msgid ""
 "The security operation failed. Review any findings already recorded and "
 "start a new operation."
 msgstr ""
+"Theip ar an oibríocht slándála. Déan athbhreithniú ar aon torthaí atá "
+"taifeadta cheana féin agus cuir tús le hoibríocht nua."
 
-#, fuzzy
-#| msgid "Security"
 msgid "Security report"
-msgstr "Slándáil"
+msgstr "Tuairisc slándála"
 
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Report from %(date)s"
-msgstr "Glacadh leis ar %(date)s"
+msgstr "Tuairisc ón %(date)s"
 
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "%(filename)s — %(report)s"
-msgstr "%(filename)s, teaghrán %(position)s"
+msgstr "%(filename)s — %(report)s"
 
 msgid ""
 "Your identity verification has expired. Confirm your identity, then select "
 "and upload the CSV report again."
 msgstr ""
+"Tá do fhíorú céannachta imithe in éag. Deimhnigh do chéannacht, ansin "
+"roghnaigh agus uaslódáil an tuairisc CSV arís."
 
-#, fuzzy
-#| msgid "Could not find strings in the image. Please try again."
 msgid "Could not store the encrypted upload. Try again."
 msgstr ""
-"Níorbh fhéidir teaghráin a aimsiú san íomhá. Bain triail as arís, le do "
-"thoil."
+"Níorbh fhéidir an t-ábhar uaslódáilte criptithe a stóráil. Bain triail as "
+"arís."
 
 msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
+msgstr "Roghnaigh tuairisc CSV nach mó ná 10 MiB."
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not read the uploaded report. Upload it again."
-msgstr ""
-"Níorbh fhéidir brainsí an stórtha a luchtú. Bain triail as arís, le do thoil."
+msgstr "Níorbh fhéidir an tuairisc uaslódáilte a léamh. Uaslódáil arís í."
 
-#, fuzzy
-#| msgid "Password changed."
 msgid "Passwords checked"
-msgstr "Athraíodh an pasfhocal."
+msgstr "Pasfhocail seiceáilte"
 
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate rows"
-msgstr "Aistriúchán dúblach."
+msgstr "Sraitheanna dúblacha"
 
-#, fuzzy
-#| msgid "Connect accounts"
 msgid "Unknown accounts"
-msgstr "Ceangail cuntais"
+msgstr "Cuntais anaithnide"
 
-#, fuzzy
-#| msgid "Remove account"
 msgid "Ambiguous accounts"
-msgstr "Scrios an cuntas"
+msgstr "Cuntais dhábhríocha"
 
 msgid "Malformed rows"
-msgstr ""
+msgstr "Sraitheanna mífhoirmithe"
 
-#, fuzzy
-#| msgid "Disable password"
 msgid "Unusable passwords"
-msgstr "Díchumasaigh pasfhocal"
+msgstr "Pasfhocail nach féidir a úsáid"
 
 msgid "Passwords that did not match"
-msgstr ""
+msgstr "Pasfhocail nach raibh ar comhréir"
 
-#, fuzzy
-#| msgid "Password reset"
 msgid "Passwords reset"
-msgstr "Athshocraigh an pasfhocal"
+msgstr "Pasfhocail athshocraithe"
 
 msgid "Lookalike e-mail identities removed"
-msgstr ""
+msgstr "Aitheantais ríomhphoist a bhreathnaíonn ar nós cinn eile, bainte amach"
 
 msgid "E-mail identities already changed"
-msgstr ""
+msgstr "Tá céannachtaí ríomhphoist athraithe cheana féin"
 
-#, fuzzy
-#| msgid "Password changed."
 msgid "Passwords already changed"
-msgstr "Athraíodh an pasfhocal."
+msgstr "Pasfhocail athraithe cheana féin"
 
-#, fuzzy
-#| msgid "Dismissed"
 msgid "Dismissed findings"
-msgstr "Briseadh as a post"
+msgstr "Torthaí a diúltaíodh"
 
-#, fuzzy
-#| msgid "Skipped additions"
 msgid "Skipped findings"
-msgstr "Breisithe scipeáilte"
+msgstr "Torthaí ar fágadh ar lár"
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported actions"
-msgstr "Comhad gan tacaíocht!"
+msgstr "Gníomhartha nach dtacaítear leo"
 
-#, fuzzy
-#| msgid "Verify new e-mail address"
 msgid "Primary e-mail address"
-msgstr "Fíoraigh seoladh ríomhphoist nua"
+msgstr "Príomhsheoladh ríomhphoist"
 
-#, fuzzy
-#| msgid "Verify new e-mail address"
 msgid "Verified e-mail address"
-msgstr "Fíoraigh seoladh ríomhphoist nua"
+msgstr "Seoladh ríomhphoist fíoraithe"
 
-#, fuzzy, python-format
-#| msgid "Edit team membership for %(username)s"
+#, python-format
 msgid "Finding for %(username)s"
-msgstr "Cuir ballraíocht foirne in eagar le haghaidh %(username)s"
+msgstr "Ag lorg do %(username)s"
 
 msgid "Weblate administration"
 msgstr "Riarachán gréasáin"
@@ -24661,14 +24504,8 @@ msgstr "Riarachán gréasáin"
 msgid "Object listing turned off"
 msgstr "Tá liostú réad múchta"
 
-#, fuzzy
-#| msgid ""
-#| "This authentication app registration is no longer valid. Start a new "
-#| "registration."
 msgid "The security operation expired. Start a new operation."
-msgstr ""
-"Níl an clárú seo don aip fíordheimhnithe bailí a thuilleadh. Tosaigh clárú "
-"nua."
+msgstr "Chuaigh an oibríocht slándála in éag. Cuir tús le hoibríocht nua."
 
 msgid "Return to Weblate"
 msgstr "Fill ar Weblate"
