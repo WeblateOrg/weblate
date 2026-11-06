@@ -203,6 +203,10 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         with source_operation(self.unit.translation.component):
             self.unit = Unit.objects.select_for_update().get(pk=self.unit_id)
+            # Keep the vote and suggestion pending when automatic acceptance
+            # encounters a string that became read-only.
+            if permission == "suggestion.vote" and self.unit.readonly:
+                return
             if not request.user.has_perm(permission, self.unit):
                 messages.error(request, gettext("Could not accept suggestion!"))
                 return

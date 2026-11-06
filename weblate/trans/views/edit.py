@@ -87,6 +87,7 @@ from weblate.utils.ratelimit import (
 )
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
@@ -1106,9 +1107,12 @@ def handle_merge(
 
         # Store unit
         state = merged.state
-        if state == STATE_APPROVED and (
-            not unit.translation.enable_review
-            or not request.user.has_perm("unit.review", unit)
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not request.user.has_perm("unit.review", unit)
+            )
         ):
             state = STATE_TRANSLATED
         unit.translate(request.user, merged.get_target_plurals(), state)

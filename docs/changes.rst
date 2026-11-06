@@ -14,6 +14,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
+
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.

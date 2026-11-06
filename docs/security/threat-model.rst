@@ -744,6 +744,9 @@ Security properties Weblate provides
        compare strings across projects only when both projects use Public or
        Protected access control, and preserve restricted-component boundaries
        for warning presence and descriptions.
+       Enabling :ref:`suggestion autoaccept <component-suggestion_autoaccept>`
+       delegates replacement of approved translations to voting users, including
+       users without review permission. Read-only strings remain protected.
        Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
