@@ -49,6 +49,7 @@ from weblate.utils.change_origin import (
     get_change_origin,
 )
 from weblate.utils.lock import WeblateLock
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -708,6 +709,84 @@ class CheckTargetFastPathTest(SimpleTestCase):
 
 
 class CheckModelTestCase(FixtureTestCase):
+    def test_wrapped_line_budget_is_visible_in_description(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.pk).update(
+            target="word " * 1000, state=STATE_TRANSLATED, extra_flags="max-size:10:2"
+        )
+        unit = Unit.objects.get(pk=unit.pk)
+        check, _created = Check.objects.get_or_create(unit=unit, name="max-size")
+        self.assertTrue(
+            check.check_obj.check_target_unit(
+                unit.get_source_plurals(), unit.get_target_plurals(), unit
+            )
+        )
+        description = str(check.get_description())
+        self.assertIn("Font rendering limits exceeded", description)
+        self.assertNotIn("<img", description)
+        cache.clear()
+        with patch("weblate.fonts.render.draw_text") as draw:
+            description = str(check.get_description())
+            self.assertIn("Font rendering limits exceeded", description)
+            self.assertNotIn("<img", description)
+            draw.assert_not_called()
+
+    def test_render_does_not_hide_internal_value_errors(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.pk).update(extra_flags="max-size:200")
+        Check.objects.get_or_create(unit=unit, name="max-size")
+        url = reverse(
+            "render-check", kwargs={"check_id": "max-size", "unit_id": unit.pk}
+        )
+        with (
+            patch(
+                "weblate.checks.render.check_render_size",
+                side_effect=ValueError("renderer failed"),
+            ),
+            self.assertRaisesMessage(ValueError, "renderer failed"),
+        ):
+            self.client.get(url)
+
+    def test_render_malformed_size_flag(self) -> None:
+        target = self.get_unit()
+        for unit in (target, target.source_unit):
+            with self.subTest(source=unit.is_source):
+                Unit.objects.filter(pk=unit.pk).update(extra_flags="max-size:invalid")
+                Check.objects.get_or_create(unit=unit, name="max-size")
+                url = reverse(
+                    "render-check", kwargs={"check_id": "max-size", "unit_id": unit.pk}
+                )
+                with patch("weblate.fonts.render.get_font_properties") as font:
+                    self.assertEqual(self.client.get(url).status_code, 404)
+                    font.assert_not_called()
+
+    def test_render_rejects_unattached_check(self) -> None:
+        unit = self.get_unit()
+        url = reverse(
+            "render-check", kwargs={"check_id": "max-size", "unit_id": unit.pk}
+        )
+        self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_render_budget_keeps_cached_previews(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.pk).update(extra_flags="max-size:24000:1000")
+        unit = Unit.objects.get(pk=unit.pk)
+        check = self.create_check("max-size")
+        renderer = check.check_obj
+        key = renderer.get_render_cache_key(unit, 0, unit.get_target_plurals()[0])
+        cache.set(key, b"existing-preview")
+        self.assertIn("<img", str(check.get_description()))
+        url = reverse(
+            "render-check", kwargs={"check_id": "max-size", "unit_id": unit.pk}
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"existing-preview")
+        cache.delete(key)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Font rendering limits exceeded", status_code=400)
+
     def create_check(self, name):
         return Check.objects.create(unit=self.get_unit(), name=name)
 
