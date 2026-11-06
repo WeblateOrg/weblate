@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-30 05:03+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -39,8 +39,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
-"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.11.dev0\n"
 
 msgctxt "No known user"
@@ -455,6 +455,16 @@ msgstr "Параметри сповіщень"
 msgid "Saved search"
 msgstr "Пошук"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Пароль змінено."
@@ -690,6 +700,21 @@ msgstr "Запрошено до {project} користувачем {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Пароль налаштовано."
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Якщо це сталося з вами, змініть пароль, щоб відновити доступ до свого "
+"облікового запису."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr "Для відновлення доступу до вашого профілю, спершу відновіть пароль."
@@ -1055,6 +1080,11 @@ msgstr ""
 "Цей обсяг надто великий для перевірки. Виберіть меншу категорію, компонент "
 "або переклад."
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Учасники"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Було виконано дію у репозиторії"
@@ -1315,6 +1345,11 @@ msgstr ""
 "Це запрошення може бути прийняте лише за адресою електронної пошти, обраною "
 "запрошувачем; його не можна використовувати для вашого облікового запису."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1347,6 +1382,14 @@ msgid "Dark"
 msgstr "Темна"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Будь ласка, підтвердьте свою особу за допомогою двофакторної аутентифікації, "
+"перш ніж продовжувати."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 "Будь ласка, підтвердьте свою особу за допомогою двофакторної аутентифікації, "
 "перш ніж продовжувати."
@@ -1463,7 +1506,9 @@ msgstr "Увійти"
 msgid "Signed out"
 msgstr "Здійснено вихід"
 
-msgid "Verify new e-mail address"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Підтвердити нову адресу е-пошти"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1472,6 +1517,9 @@ msgstr ""
 
 msgid "Change password"
 msgstr "Змінити пароль"
+
+msgid "Set password"
+msgstr "Установка паролю"
 
 msgid "Password reset has been already completed."
 msgstr "Скидання пароля вже завершено."
@@ -1901,14 +1949,6 @@ msgstr ""
 "з'єднання з обробником або підтвердження доставлення: %(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Недоступна служба оприлюднення Fedora Messaging; з'єднання буде повторно "
-"створено під час наступної спроби: %(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Обробник Fedora Messaging повернув повідомлення: %(error)s"
 
@@ -1923,9 +1963,8 @@ msgstr "Помилка оприлюднення Fedora Messaging: %(error)s"
 msgid "configured"
 msgstr "налаштовано"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr ""
-"Не вдалося відновити початковий стан служби оприлюднення Fedora Messaging."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Для SSL-з'єднання необхідно надати SSL-сертифікати."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
@@ -1940,10 +1979,6 @@ msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
 "Клієнтськими сертифікатами SSL мають бути коректні сертифікати X.509 у "
 "кодуванні PEM."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "Адреса обробника Fedora Messaging є некоректною: %(error)s"
 
 #, python-format
 msgid ""
@@ -2793,9 +2828,6 @@ msgstr "Префікс теми має складатися лише з симв
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "Довжина префікса теми не може перевищувати %(limit)d символів."
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Для SSL-з'єднання необхідно надати SSL-сертифікати."
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "SSL-сертифікати не використовуються без SSL-з'єднання."
 
@@ -3424,6 +3456,28 @@ msgstr "Користувач"
 msgid "Language"
 msgstr "Мова"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "Клієнт"
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Reset built-in roles to defaults"
+msgstr "Відновити типові параметри сайта"
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Особисті відомості"
 
@@ -3441,6 +3495,12 @@ msgstr "Не використовується, коли вибрано спис�
 
 msgid "This is not used when a component is selected."
 msgstr "Не використовується, коли вибрано складник."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "Переглянути ліцензійну угоду співавтора"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3654,6 +3714,24 @@ msgid "Manage workspace access"
 msgstr "Управління доступом до робочого простору"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Перегляд усіх користувачів"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Clean up selected contributions"
+msgid "Search resource contributors"
+msgstr "Очистити вибрані внески"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Профіль користувача"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Використовувати інтерфейс керування"
 
@@ -3726,6 +3804,18 @@ msgstr "Керування рахунками"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Керування додатками для усього сайта"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Виявлення Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Профіль користувача"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3935,6 +4025,10 @@ msgstr "Назва"
 
 msgid "Choose permissions granted to this role."
 msgstr "Вибрати дозволи, доступні для цієї ролі."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "Ролі"
@@ -4256,6 +4350,11 @@ msgstr ""
 "Вам потрібен явний доступ до цього складника, перш ніж можна буде вмикати "
 "обмежений доступ; якщо його не буде, ви просто заблокуєте його для себе."
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Додаткові мітки можуть бути визначені адміністраторами проєкту."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4276,6 +4375,16 @@ msgstr "Неможливо вилучити вбудовану команду!"
 
 msgid "User invitation was removed."
 msgstr "Запрошення користувача вилучено."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "Запрошення користувача вилучено."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "Будь ласка, завершіть реєстрацію, щоб прийняти запрошення."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4534,6 +4643,69 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "Примітка"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Частота"
+
+msgid "Choose"
+msgstr "Вибрати"
+
+msgid "Trigger"
+msgstr "Тригер"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Надіслано попередження"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Налаштування"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Помилкові налаштування"
+
+msgid "Action"
+msgstr "Дія"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Дія"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Налаштування"
+
+msgid "Actions"
+msgstr "Дії"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "Гілка"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Додаткове відділення"
+
+#, fuzzy
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Інше"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "Гілка"
 
 msgid "Additional message"
 msgstr "Додаткове повідомлення"
@@ -5230,6 +5402,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Теґ HTML {tag} не має відповідного завершального теґу: {end}."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Теґ HTML {tag} не має відповідного завершального теґу: {end}."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5455,6 +5632,12 @@ msgstr "Синтаксис перекладу Fluent"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Помилка вільного синтаксису в перекладі."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Вказані нижче рядки форматування вказано у помилковому порядку:"
@@ -6375,6 +6558,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "CDN файлів перекладу"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6382,6 +6575,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Додаток можна встановлювати лише на рівні складника."
 
 msgid "Weblate languages"
 msgstr "Мови Weblate"
@@ -8097,8 +8295,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Ваш профіль"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Введіть дійсну адресу електронної пошти."
+
 msgid "Confirm adding user identity"
 msgstr "Підтвердьте додавання профілю користувача"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8108,6 +8317,11 @@ msgid ""
 msgstr ""
 "Після підтвердження цього ви будете мати можливість автентифікуватися у "
 "Weblate за допомогою %(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Підтвердити нову адресу е-пошти"
 
 msgid "Confirm"
 msgstr "Підтвердити"
@@ -8213,16 +8427,16 @@ msgstr "Відкрити форму для зв'язку"
 msgid "Registration"
 msgstr "Реєстрація"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Ваша електронна пошта"
+
 msgid "Password reset almost complete"
 msgstr "Відновлення пароля майже завершено"
 
 msgid "Account removal almost complete"
 msgstr "Вилучення облікового запису майже завершено"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Реєстрацію майже завершено"
 
 msgid "Registration almost complete"
 msgstr "Реєстрацію майже завершено"
@@ -8239,16 +8453,11 @@ msgstr ""
 "Видаліть свій обліковий запис, натиснувши на посилання для підтвердження в "
 "надісланому вам електронному листі."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Натисніть на посилання підтвердження, надіслане на вашу електронну скриньку, "
-"і почніть користуватися своїм обліковим записом."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8261,6 +8470,18 @@ msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Будь ласка, зазирніть до теки небажаної кореспонденції, якщо не бачите "
 "повідомлення у теці вхідних повідомлень."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Строк дії посилання підтвердження завершується за %(count)s годину."
+msgstr[1] "Строк дії посилання підтвердження завершується за %(count)s години."
+msgstr[2] "Строк дії посилання підтвердження завершується за %(count)s годин."
+msgstr[3] "Строк дії посилання підтвердження завершується за %(count)s годину."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8288,6 +8509,15 @@ msgstr ""
 "завершиться."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Повернутися до параметрів облікового запису"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8306,13 +8536,49 @@ msgstr "Якщо є проблеми з реєстрацією, будь лас�
 msgid "Please fix errors in the form."
 msgstr "Будь ласка, виправте помилки у формі."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Надіслати перевіркову електронну пошту"
 
-msgid "Back to account settings"
-msgstr "Повернутися до параметрів облікового запису"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Підтвердьте додавання профілю користувача"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Тестові передплати"
@@ -8542,6 +8808,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Змінити мій пароль"
 
+msgid "Set my password"
+msgstr "Задати мій пароль"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8585,11 +8854,6 @@ msgstr "Діяльність"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Адреса електронної пошти може бути обрана лише з підтверджених адрес."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Підтвердити нову адресу е-пошти"
 
 msgid "Save"
 msgstr "Зберегти"
@@ -8689,9 +8953,6 @@ msgstr "Налаштувати"
 #| msgid "configured"
 msgid "Not configured"
 msgstr "налаштовано"
-
-msgid "Set password"
-msgstr "Установка паролю"
 
 msgid "Two-factor authentication"
 msgstr "Двофакторне розпізнавання"
@@ -9001,9 +9262,6 @@ msgid ""
 msgstr ""
 "Забули пароль? Уведіть свою електронну адресу внизу, і ми надішлемо вам "
 "вказівки щодо встановлення нового."
-
-msgid "Set my password"
-msgstr "Задати мій пароль"
 
 msgid "Reset my password"
 msgstr "Перевстановити пароль"
@@ -9582,50 +9840,16 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr "Тригер"
-
-#, fuzzy
-#| msgid "Alert triggered"
-msgid "Add trigger"
-msgstr "Надіслано попередження"
-
-#, fuzzy
-#| msgid "Configuration"
-msgid "Conditions"
-msgstr "Налаштування"
-
 #, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
 msgstr "Усі складники тепер відкрито для оновлення перекладів."
 
 #, fuzzy
-#| msgid "Configuration"
-msgid "Condition"
-msgstr "Налаштування"
-
-#, fuzzy
-#| msgid "Bad configuration"
-msgid "Add condition"
-msgstr "Помилкові налаштування"
-
-msgid "Actions"
-msgstr "Дії"
-
-#, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "Було виконано дію у репозиторії"
-
-msgid "Action"
-msgstr "Дія"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "Дія"
 
 #, fuzzy
 #| msgid "Move"
@@ -9768,6 +9992,17 @@ msgstr "Ідентифікатор адреси проєкту"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10015,6 +10250,19 @@ msgstr "Зміст відповіді"
 msgid "Request payload"
 msgstr "Запит корисного навантаження"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Дозволи"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
 msgid "Settings"
 msgstr "Налаштування"
 
@@ -10023,6 +10271,17 @@ msgstr "Автоматичні призначення"
 
 msgid "Access control"
 msgstr "Керування доступом"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Автоматично додавати новостворені записи користувачів до цієї команди на "
+"основі адреси електронної пошти."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10068,6 +10327,9 @@ msgstr "У результаті доступ <b>%(user)s</b> до цього п�
 
 msgid "Add"
 msgstr "Додати"
+
+msgid "Moved component"
+msgstr "Пересунуто складник"
 
 msgid "All components"
 msgstr "Усі складники"
@@ -10407,6 +10669,31 @@ msgstr "Завантаження…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"Тимчасово, не вдалося отримати доступ до основного сховища. Будь ласка, "
+"повторіть спробу пізніше."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -11999,6 +12286,37 @@ msgstr "Складник %(component)s розблоковано"
 msgid "Digest: %(notification_name)s"
 msgstr "Зведення: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Підтвердження відновлення пароля"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Переглянути запрошення"
 
@@ -12009,6 +12327,10 @@ msgstr[0] "Строк дії запрошення завершується за 
 msgstr[1] "Строк дії запрошення завершується за %(count)s години."
 msgstr[2] "Строк дії запрошення завершується за %(count)s годин."
 msgstr[3] "Строк дії запрошення завершується за %(count)s годину."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -12256,6 +12578,11 @@ msgid "Confirm invitation"
 msgstr "Підтвердити запрошення"
 
 #, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Підтвердити нову адресу е-пошти"
+
+#, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
@@ -12321,6 +12648,17 @@ msgstr "Незавершені"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "Звіт про перекладацьку діяльність"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Діяльність у вашому обліковому записі на %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Вилучення облікового запису на %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Діагностика компонентів"
@@ -12521,6 +12859,68 @@ msgstr "Навігаційний огляд"
 msgid "Performance report"
 msgstr "Звіт щодо швидкодії"
 
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Bot protection"
+msgstr "З'єднання із сховищами програмного коду"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "Команд немає."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Поточний пароль"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous 24 completed hours"
+msgstr "Раніше створені звіти"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Виконані зміни"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Зміна джерела"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Хибна пропозиція!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Остання зміна"
+
+msgid "CSRF failure"
+msgstr ""
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Служба більше не доступна"
+
 msgid "Last occurrence"
 msgstr "Останнє входження"
 
@@ -12673,6 +13073,342 @@ msgstr "Показати компоненти без віддаленої сис
 msgid "This repository is linked to:"
 msgstr "Цей репозиторій повʼязаний із:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Підтвердити реєстрацію"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Перевстановити пароль"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "Вилучити з'єднаний обліковий запис?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Відхилити невдалу перевірку"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Редагувати членство у командах %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "Ідентифікатор одиниці"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "Відповідність декільком шляхам"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching row details."
+msgstr "Команд немає."
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Використано %(used)s із %(total)s"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "Виявлено у репозиторії"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Адміністратори"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Управління Weblate"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Використано %(used)s із %(total)s"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous reports"
+msgstr "Раніше створені звіти"
+
+#, fuzzy
+#| msgid "Past reports"
+msgid "Next reports"
+msgstr "Минулі звіти"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "Повернутися до параметрів облікового запису"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Звіти про переклад"
+
+msgid "Filename"
+msgstr "Назва файлу"
+
+#, fuzzy
+#| msgid "Not needed"
+msgid "Not recorded"
+msgstr "Немає потреби"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Надіслати"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "Професійна підтримка"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Переклад завершено"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Активацію завершено."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Не вдалося обробити дані"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Поступ"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Використано %(used)s із %(total)s"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Дата закінчення"
+
+msgid "Filter"
+msgstr "Фільтр"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Вибрати всі вихідні рядки"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all on this page"
+msgstr "Вибрати всі вихідні рядки"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Вибір проєкту"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Очікує на розгляд"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "Активний"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Примітка"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Дата приєднання"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Останній вхід"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Шрифт видалено."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Останнє оновлення"
+
+#, fuzzy
+#| msgid "No diagnostics match the selected filters."
+msgid "No security findings match these filters."
+msgstr "Вибраним фільтрам не відповідає жодна діагностика."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "Встановіть пароль для свого облікового запису Weblate"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "Повернутися до параметрів облікового запису"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "Професійна підтримка"
+
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh progress"
+msgstr "Освіжити список репозиторіїв"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Завантажити звіти"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Керування рядками"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Affected accounts"
+msgstr "З'єднаний обліковий запис"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "Використано %(used)s із %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Звіти про переклад"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "Відключити пароль"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Відключити пароль"
+
 msgid "Activate support package"
 msgstr "Задіяти пакунок підтримки"
 
@@ -12821,6 +13557,20 @@ msgstr "Вилучити запрошення"
 msgid "Check user access"
 msgstr "Перевірити доступ користувачів"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Діяльність профілю"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr "Додати робочий простір"
 
@@ -12844,9 +13594,6 @@ msgstr "Матриця"
 
 msgid "Displayed languages"
 msgstr "Показані мови"
-
-msgid "Choose"
-msgstr "Вибрати"
 
 msgid "Translation memory status"
 msgstr "Стан памʼяті перекладу"
@@ -13516,9 +14263,6 @@ msgstr[1] "Переклад було автоматично заблокован
 msgstr[2] "Переклад було автоматично заблоковано через такі сповіщенням:"
 msgstr[3] "Переклад було автоматично заблоковано через такі сповіщень:"
 
-msgid "Filter"
-msgstr "Фільтр"
-
 msgid "Clear filters"
 msgstr "Зняти фільтрування"
 
@@ -13857,6 +14601,24 @@ msgstr "Учасники"
 msgid "Translations"
 msgstr "Переклади"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"%(invitation_author)s запрошує вас на %(site_title)s для співпраці у "
+"%(project_name)s і долучення до команди %(team_name)s."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13910,6 +14672,11 @@ msgstr "Заблокувати користувача"
 
 msgid "View notification"
 msgstr "Переглянути сповіщення"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "Усі зміни"
 
 msgid "No matching activity found."
 msgstr "Відповідної діяльності не виявлено."
@@ -14548,6 +15315,16 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr "Зараз ви можете продовжити вилучення вашого облікового запису Weblate."
 
+#, fuzzy
+#| msgid ""
+#| "You are about to continue resetting the password for your Weblate account."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+"Зараз ви можете продовжити скидання пароля до свого облікового запису "
+"Weblate."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 "Зараз ви можете прийняти запрошення і створити обліковий запис Weblate."
@@ -14566,6 +15343,11 @@ msgstr "Продовжити скидання пароля"
 
 msgid "Continue account removal"
 msgstr "Продовжити вилучення облікового запису"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Людська перевірка"
 
 msgid "Accept invitation"
 msgstr "Прийняти запрошення"
@@ -14660,9 +15442,6 @@ msgstr "Weblate не зміг перевірити URL-адресу веб-са�
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Додатку CDN Weblate не вдалося обробити файли HTML."
-
-msgid "Filename"
-msgstr "Назва файлу"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -15270,6 +16049,11 @@ msgstr "Перейти"
 msgid "Go"
 msgstr "Добре"
 
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Подробиці перевірки"
+
 msgid "Download latest changes as CSV"
 msgstr "Завантажити останні зміни як CSV"
 
@@ -15384,9 +16168,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "Додати або налаштувати обліковий запис"
-
-msgid "Branch"
-msgstr "Гілка"
 
 msgid "Visibility"
 msgstr "Видимість"
@@ -15742,9 +16523,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Редагувати початковий рядок"
-
-msgid "Cancel"
-msgstr "Скасувати"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Дізнатися більше про надсилання змін з Weblate."
@@ -16137,6 +16915,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Швидке завантаження"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Файл у початковому форматі, перекладено у репозиторії"
@@ -16940,9 +17723,6 @@ msgstr "Складник перейменовано"
 msgid "A component was moved within a project."
 msgstr "Складник було переміщено у межах проєкту."
 
-msgid "Moved component"
-msgstr "Пересунуто складник"
-
 msgid "A user made their first contribution to a translation."
 msgstr "Користувач зробив перший внесок до перекладу."
 
@@ -17586,6 +18366,20 @@ msgstr ""
 "Автоматичний переклад пропустив рядки у множині та обробив лише рядки в "
 "однині."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr ""
+"Автоматичний переклад не може бути розпочато, оскільки цільовий переклад "
+"заблоковано."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Не вдалося виконати автоматичний переклад: %s"
@@ -17759,6 +18553,10 @@ msgstr "Недійсний запит."
 msgid "Choose either replacement or clearing translations."
 msgstr "Обробка запитів на створення нових перекладів."
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr "Переклад було автоматично заблоковано через таке попередження."
 
@@ -17815,6 +18613,9 @@ msgstr "Оригінальна редакція: {}"
 
 msgid "New revision: {}"
 msgstr "Нова редакція: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -17943,6 +18744,11 @@ msgstr "Маска файлу відповідає головному склад
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) не існує."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s о %(time)s над %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -18120,6 +18926,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Включати завершальний теґ для порожніх теґів XML"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "Відновити типові параметри сайта"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Досвідчений користувач"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Перехід у новий рядок"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -18714,6 +19568,11 @@ msgstr "Максимальна кількість змін на день"
 
 msgid "Maximum source words per day"
 msgstr "Максимальна кількість рядків початкового тексту на день"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Ціль не існує або ви не маєте до неї доступу."
 
 msgid "Inherit from workspace"
 msgstr "Успадкувати з робочого простору"
@@ -19527,11 +20386,6 @@ msgstr "Складник створено вивантаженням докум�
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s о %(time)s над %(translation)s %(user)s"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s о %(time)s над %(translation)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -20358,6 +21212,13 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"Регулярний вираз занадто складний, і його обчислення зайняло занадто багато "
+"часу."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -21043,6 +21904,34 @@ msgstr[3] ""
 "Прийнято %(accepted)d з %(total)d пропозиції від %(user)s. %(failed)d не "
 "вдалося виконати через обмеження доступу або перевірки."
 
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Масове редагування завершено, жоден рядок не оновлено."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The target or permissions changed."
+msgstr "Змінено права доступу користувача."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Пакетне редагування завершено, оновлено %d рядок."
+msgstr[1] "Пакетне редагування завершено, оновлено %d рядки."
+msgstr[2] "Пакетне редагування завершено, оновлено %d рядків."
+msgstr[3] "Пакетне редагування завершено, оновлено один рядок."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr ""
 "Автоматичний переклад пропущено, оскільки цільова сторінка більше не існує."
@@ -21340,6 +22229,9 @@ msgstr "Ви не можете вилучити самі себе!"
 msgid "You can not block yourself on this project."
 msgstr "Ви не можете заблокувати себе у цьому проєкті."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "Користувача заблоковано в цьому проєкті."
 
@@ -21403,6 +22295,11 @@ msgstr[2] ""
 msgstr[3] ""
 "Мову %(language)s не вдалося додати до %(count)d компонента. Будь ласка, "
 "перевірте конфігурацію компонента."
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to add this language."
+msgstr "У вас немає прав доступу для редагування початкових рядків."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -21690,10 +22587,20 @@ msgstr "Складник наразі заблоковано для оновле
 msgid "All components are now locked for translation updates!"
 msgstr "Усі складники тепер заблоковані для оновлення перекладів!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Усі складники тепер заблоковані для оновлення перекладів!"
+
 msgid "Component is now open for translation updates."
 msgstr "Складник наразі відкрито для оновлення перекладів."
 
 msgid "All components are now open for translation updates."
+msgstr "Усі складники тепер відкрито для оновлення перекладів."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "Усі складники тепер відкрито для оновлення перекладів."
 
 msgid "Generating report…"
@@ -21754,11 +22661,21 @@ msgstr "Надіслано забагато запитів. Будь ласка,
 msgid "Invalid search query!"
 msgstr "Неправильний пошуковий запит!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Надіслано забагато запитів. Будь ласка, спробуйте знову пізніше."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr "Не вдалося обробити форму!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "Масове редагування рядків"
 
 #, fuzzy, python-format
 #| msgid "Authentication failed: %s"
@@ -21767,14 +22684,6 @@ msgstr "Помилка автентифікації: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Масове редагування завершено, жоден рядок не оновлено."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Пакетне редагування завершено, оновлено %d рядок."
-msgstr[1] "Пакетне редагування завершено, оновлено %d рядки."
-msgstr[2] "Пакетне редагування завершено, оновлено %d рядків."
-msgstr[3] "Пакетне редагування завершено, оновлено один рядок."
 
 msgid "Settings saved"
 msgstr "Параметри збережено"
@@ -22064,6 +22973,15 @@ msgstr "Нечинний регулярний вираз: {}"
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "Джерело автоматичного перекладу"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Автоматично перекладає рядки за допомогою машинного перекладу або інших "
+"складників."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -22526,6 +23444,9 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr "Домен URL не допускається."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -23579,6 +24500,70 @@ msgstr ""
 "Постійне навігаційне випадаюче меню у верхньому правому куті, навіть якщо є "
 "місце для повного меню."
 
+#, fuzzy
+#| msgid "Past reports"
+msgid "CSV report"
+msgstr "Минулі звіти"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Delimiter"
+msgstr "Обмеження щодо мови"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Імʼя користувача або електронна пошта"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Пароль"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Налаштування"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Вирішити"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Запис користувача було вимкнено адміністратором."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Пароль змінено."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Підтримка спільноти"
@@ -23645,11 +24630,199 @@ msgstr "Очищено сховище резервних копій"
 msgid "Repository initialization"
 msgstr "Репозиторій започатковано"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Новий пароль"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Підтвердити нову адресу е-пошти"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The file contains malformed CSV quoting."
+msgstr "У ZIP-файлі занадто багато записів."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "Ресурс заблоковано."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The repository HTTP redirect contains credentials and was rejected."
+msgid "The report contains no credential rows."
+msgstr ""
+"Переспрямування HTTP репозиторія містить реєстраційні дані — його було "
+"відкинуто."
+
+#, fuzzy
+#| msgid "The authenticated user does not have permission for this operation."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "У розпізнаного користувача немає прав доступу до виконання цієї дії."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "Безпека"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Долучення до проєкту %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, рядок %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr ""
+"Не вдалося створити відгалуження репозиторія у %(hostname)s. Будь ласка, "
+"повторіть спробу пізніше."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr ""
+"Не вдалося створити відгалуження репозиторія у %(hostname)s. Будь ласка, "
+"повторіть спробу пізніше."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Пароль змінено."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Дублікат перекладу."
+
+#, fuzzy
+#| msgid "Connect accounts"
+msgid "Unknown accounts"
+msgstr "З'єднані облікові записи"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Видалити обліковий запис"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Відключити пароль"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Перевстановити пароль"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Пароль змінено."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Пропущено"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "Пропущені доповнення"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Непідтримуваний файл!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Підтвердити нову адресу е-пошти"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Підтвердити нову адресу е-пошти"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Редагувати членство у командах %(username)s"
+
 msgid "Weblate administration"
 msgstr "Управління Weblate"
 
 msgid "Object listing turned off"
 msgstr "Список обʼєктів — вимкнено"
+
+#, fuzzy
+#| msgid ""
+#| "The GitHub App registration link is no longer valid. Start the "
+#| "registration again."
+msgid "The security operation expired. Start a new operation."
+msgstr ""
+"Посилання на реєстрацію програми GitHub втратило чинність. Розпочніть "
+"реєстрацію з початку."
 
 msgid "Return to Weblate"
 msgstr "Повернутися до Weblate"
@@ -23860,6 +25033,38 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "Робочий простір було вилучено."
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Недоступна служба оприлюднення Fedora Messaging; з'єднання буде повторно "
+#~ "створено під час наступної спроби: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr ""
+#~ "Не вдалося відновити початковий стан служби оприлюднення Fedora Messaging."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "Адреса обробника Fedora Messaging є некоректною: %(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Реєстрацію майже завершено"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Натисніть на посилання підтвердження, надіслане на вашу електронну "
+#~ "скриньку, і почніть користуватися своїм обліковим записом."
 
 #~ msgid "Search and replace"
 #~ msgstr "Пошук та заміна"
@@ -24209,9 +25414,6 @@ msgstr "Робочий простір було вилучено."
 #~ "Долучайтеся до формування майбутнього локалізації та робіть свій внесок "
 #~ "уже сьогодні!"
 
-#~ msgid "Download reports"
-#~ msgstr "Завантажити звіти"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "Підтримку програмного інтерфейсу DeepL версії 1 припинено."
 
@@ -24373,9 +25575,6 @@ msgstr "Робочий простір було вилучено."
 #~ "Не переймайтеся тим, що можете щось наплутати із рядками. Це двокрокова "
 #~ "процедура, протягом якої вам буде показано редаговані рядки, перш ніж "
 #~ "буде внесено справжні зміни."
-
-#~ msgid "Activation completed."
-#~ msgstr "Активацію завершено."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -25354,9 +26553,6 @@ msgstr "Робочий простір було вилучено."
 #~ msgid "Starting date"
 #~ msgstr "Дата початку"
 
-#~ msgid "Ending date"
-#~ msgstr "Дата закінчення"
-
 #~ msgid "Last 30 days"
 #~ msgstr "Останні 30 днів"
 
@@ -25513,9 +26709,6 @@ msgstr "Робочий простір було вилучено."
 #~ msgid "Committed changes"
 #~ msgstr "Подані зміни"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Виконані зміни"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Не вдалося обʼєднати репозиторій"
 
@@ -25646,9 +26839,6 @@ msgstr "Робочий простір було вилучено."
 
 #~ msgid "New language"
 #~ msgstr "Нова мова"
-
-#~ msgid "Check details"
-#~ msgstr "Подробиці перевірки"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
