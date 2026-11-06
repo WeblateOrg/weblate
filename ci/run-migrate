@@ -195,6 +195,14 @@ if [ "$xliff_params_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed duplicate zero plurals before their cleanup and uniqueness migrations.
+semver_compare "$1" "<" "2026.11.2"
+zero_plurals_migrate=$?
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-zero-plurals.py"
+    check
+fi
+
 # Seed invalid GitHub App push settings before the cleanup migration.
 semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.11.2"
 github_app_push_migrate=$?
@@ -360,6 +368,11 @@ fi
 
 if [ "$github_app_push_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-github-app-push.py"
+    check
+fi
+
+if [ "$zero_plurals_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-zero-plurals.py"
     check
 fi
 

@@ -1002,8 +1002,10 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             setting.save()
 
         for plural in source.plural_set.iterator():
+            # Zero plurals are shared per language even when their formulas differ.
             formulas = target.plural_set.filter(
-                source=plural.source, formula=plural.formula
+                Q(source=Plural.SOURCE_CLDR_ZERO) | Q(formula=plural.formula),
+                source=plural.source,
             )
             try:
                 # Use matching plural if it exists
@@ -1500,6 +1502,13 @@ class Plural(models.Model):
         required_db_vendor = "postgresql"
         verbose_name = "Plural form"
         verbose_name_plural = "Plural forms"
+        constraints = (
+            models.UniqueConstraint(
+                fields=("language",),
+                condition=Q(source=3),
+                name="lang_plural_unique_cldr_zero",
+            ),
+        )
 
     def __str__(self) -> str:
         return self.get_type_display()
