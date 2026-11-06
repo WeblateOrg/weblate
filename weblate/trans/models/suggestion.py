@@ -24,7 +24,10 @@ from weblate.trans.exceptions import (
 )
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.util import join_plural, split_plural
-from weblate.trans.validators import get_translation_text_max_length
+from weblate.trans.validators import (
+    TranslationTextTooLongError,
+    get_translation_text_max_length,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
@@ -270,7 +273,15 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = self.unit.translation.suggestion_autoaccept
         if required_votes and self.get_num_votes(override=True) >= required_votes:
-            self.accept(request, "suggestion.vote")
+            try:
+                self.accept(request, "suggestion.vote")
+            except TranslationTextTooLongError as error:
+                # The suggestion stays available for manual review
+                messages.warning(
+                    request,
+                    gettext("The suggestion could not be accepted automatically: %s")
+                    % error.messages[0],
+                )
 
     def get_checks(self):
         # Build fake unit to run checks

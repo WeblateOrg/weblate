@@ -1075,6 +1075,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     @transaction.atomic
@@ -1105,6 +1107,8 @@ class Change(models.Model, UserDisplayMixin):
             request=request,
             select_for_update=False,
             change_details=change_details,
+            # The text was stored before, possibly with a different limit
+            validate_length=False,
         )
 
     def show_source(self) -> bool:

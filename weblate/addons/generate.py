@@ -14,11 +14,13 @@ from weblate.addons.events import (
     AddonActivityLogReason,
     AddonEvent,
     AddonEventOutcome,
+    AddonEventResult,
 )
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
 from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Translation
+from weblate.trans.validators import TranslationTextTooLongError
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
@@ -198,6 +200,13 @@ class LocaleGenerateAddonBase(BaseAddon):
     multiple = True
     icon = "language.svg"
 
+    @staticmethod
+    def get_too_long_result(too_long_unit_ids: set[int]) -> AddonEventResult:
+        """Report strings left unchanged in the add-on activity log."""
+        if not too_long_unit_ids:
+            return None
+        return {"skipped_too_long": len(too_long_unit_ids)}
+
     def map_strings(self, units: Iterable[Unit]) -> dict[int, Unit]:
         return {cast("int", unit.source_unit_id): unit for unit in units}
 
@@ -218,6 +227,7 @@ class LocaleGenerateAddonBase(BaseAddon):
         target_state: StringState = STATE_TRANSLATED,
         sources: dict[int, Unit] | None = None,
         targets: dict[int, Unit] | None = None,
+        too_long_unit_ids: set[int] | None = None,
     ) -> int:
         updated = 0
         if sources is None:
@@ -246,13 +256,18 @@ class LocaleGenerateAddonBase(BaseAddon):
                 )
             target_strings = unit.get_target_plurals()
             if new_strings != target_strings or unit.state < STATE_TRANSLATED:
-                unit.translate(
-                    self.user,
-                    new_strings,
-                    target_state,
-                    change_action=ActionEvents.AUTO,
-                    propagate=False,
-                )
+                try:
+                    unit.translate(
+                        self.user,
+                        new_strings,
+                        target_state,
+                        change_action=ActionEvents.AUTO,
+                        propagate=False,
+                    )
+                except TranslationTextTooLongError:
+                    if too_long_unit_ids is not None:
+                        too_long_unit_ids.add(unit.pk)
+                    continue
                 updated += 1
         if updated > 0:
             target_translation.invalidate_cache()
@@ -262,12 +277,12 @@ class LocaleGenerateAddonBase(BaseAddon):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventResult:
         raise NotImplementedError
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
+    ) -> AddonEventResult:
         raise NotImplementedError
 
 
@@ -287,23 +302,23 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventResult:
         # Check all strings
         query = Q(state__lte=STATE_TRANSLATED)
         if self.instance.configuration.get("include_readonly", False):
             query |= Q(state=STATE_READONLY)
-        self.do_update(component, query)
+        return self.do_update(component, query)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
+    ) -> AddonEventResult:
         # Update only untranslated strings
-        self.do_update(component, Q(state__lt=STATE_TRANSLATED))
+        return self.do_update(component, Q(state__lt=STATE_TRANSLATED))
 
     def get_target_translation(self, component: Component) -> Translation:
         return component.translation_set.get(pk=self.instance.configuration["target"])
 
-    def do_update(self, component: Component, query: Q) -> None:
+    def do_update(self, component: Component, query: Q) -> AddonEventResult:
         try:
             source_translation = component.translation_set.get(
                 pk=self.instance.configuration["source"]
@@ -313,11 +328,12 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             # Uninstall misconfigured add-on
             report_error("add-on error", project=component.project)
             self.instance.disable(user=self.user)
-            return
+            return None
         var_multiplier = self.instance.configuration.get("var_multiplier")
         # As it is optional, it can be stored as None
         if var_multiplier is None:
             var_multiplier = 0.1
+        too_long: set[int] = set()
         self.generate_translation(
             source_translation,
             target_translation,
@@ -327,7 +343,9 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             var_suffix=self.instance.configuration.get("var_suffix", ""),
             var_multiplier=var_multiplier,
             query=query,
+            too_long_unit_ids=too_long,
         )
+        return self.get_too_long_result(too_long)
 
     def post_uninstall(self) -> None:
         if self.instance.component:
@@ -372,19 +390,20 @@ class PrefillAddon(LocaleGenerateAddonBase):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventResult:
         # Check all strings
-        self.do_update(component)
+        return self.do_update(component)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
+    ) -> AddonEventResult:
         # Update only untranslated strings
-        self.do_update(component)
+        return self.do_update(component)
 
-    def do_update(self, component: Component) -> None:
+    def do_update(self, component: Component) -> AddonEventResult:
         source_translation = component.source_translation
         updated = 0
+        too_long: set[int] = set()
         for translation in component.translation_set.prefetch():
             if translation.is_source:
                 continue
@@ -393,10 +412,12 @@ class PrefillAddon(LocaleGenerateAddonBase):
                 translation,
                 target_state=STATE_NEEDS_REWRITING,
                 query=Q(state=STATE_EMPTY),
+                too_long_unit_ids=too_long,
             )
         if updated:
             # Commit generated changes to the files
             component.commit_pending("add-on", None)
+        return self.get_too_long_result(too_long)
 
 
 class FillReadOnlyAddon(LocaleGenerateAddonBase):
@@ -413,15 +434,15 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
-        self.do_update(component)
+    ) -> AddonEventResult:
+        return self.do_update(component)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
-        self.do_update(component)
+    ) -> AddonEventResult:
+        return self.do_update(component)
 
-    def do_update(self, component: Component) -> None:
+    def do_update(self, component: Component) -> AddonEventResult:
         query = Q(state=STATE_READONLY) & ~Q(target=F("source"))
         source_translation = component.source_translation
         unit_prefetch = Prefetch(
@@ -439,6 +460,7 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
         )
         sources = self.fetch_strings(source_translation, Q(state__gte=STATE_TRANSLATED))
         updated = 0
+        too_long: set[int] = set()
         for translation in translations:
             if translation.is_source:
                 continue
@@ -449,7 +471,9 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
                 query=query,
                 sources=sources,
                 targets=self.map_strings(translation.fill_read_only_units),
+                too_long_unit_ids=too_long,
             )
         if updated:
             # Commit generated changes to the files
             component.commit_pending("add-on", None)
+        return self.get_too_long_result(too_long)

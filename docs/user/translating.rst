@@ -659,7 +659,9 @@ Choose :guilabel:`Text` for case-sensitive literal replacement, or
 :guilabel:`Regular expression` for a pattern. Leave :guilabel:`Search string`
 empty to disable replacement. An empty :guilabel:`Replacement string` removes
 matching text. Spaces and newlines in the fields are preserved, and each plural form is
-processed separately. The usual translation autofixes still apply.
+processed separately. The usual translation autofixes still apply. Strings
+where the replaced text would exceed the length limit of the translation editor
+are left unchanged, and the preview and result report how many were skipped.
 
 Regular expression replacements use Python syntax: ``\g<1>`` inserts the first
 captured group, ``\g<name>`` inserts a named group, and ``\g<0>`` inserts the

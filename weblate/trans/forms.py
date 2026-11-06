@@ -100,6 +100,7 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
     MAX_TRANSLATION_ALTERNATIVES,
+    validate_changed_text_length,
     validate_check_flags,
     validate_translation_text_length,
 )
@@ -890,6 +891,7 @@ class TranslationForm(UnitForm):
             unit,
             self.cleaned_data["target"],
             add_alternative="add_alternative" in self.data,
+            allow_stored=True,
         )
         if self.user.has_perm(
             "unit.review", unit.translation
@@ -1842,6 +1844,11 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         else:
             del self.fields["extra_flags"]
         self.user = user
+
+    def clean_explanation(self) -> str:
+        explanation = self.cleaned_data["explanation"]
+        validate_changed_text_length([explanation], [self.instance.explanation])
+        return explanation
 
     def save(self, commit=True):
         self.instance.update_explanation(

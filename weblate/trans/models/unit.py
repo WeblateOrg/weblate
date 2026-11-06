@@ -73,7 +73,11 @@ from weblate.trans.util import (
     join_plural,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import (
+    is_translation_text_change_too_long,
+    validate_check_flags,
+    validate_translation_text_change,
+)
 from weblate.utils import messages
 from weblate.utils.db import verify_in_transaction
 from weblate.utils.errors import report_error
@@ -2373,6 +2377,56 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
+    @staticmethod
+    def can_propagate_text(
+        unit: Unit,
+        target_plurals: list[str],
+        user: User | None,
+        request: AuthenticatedHttpRequest | None,
+        warnings: list[str],
+    ) -> bool:
+        """
+        Check that propagated text fits the limit of the target string.
+
+        Components can have different limits, for example by the max-length flag.
+        """
+        if not is_translation_text_change_too_long(
+            unit, target_plurals, unit.get_target_plurals()
+        ):
+            return True
+        component = unit.translation.component
+        if request and user is not None and user.can_access_component(component):
+            warnings.append(
+                gettext("String could not be propagated to %(component)s: %(reason)s")
+                % {
+                    "component": component,
+                    "reason": gettext("Translation text too long!"),
+                },
+            )
+        return False
+
+    def show_propagation_warnings(
+        self, request: AuthenticatedHttpRequest | None, warnings: list[str]
+    ) -> None:
+        if not warnings:
+            return
+        if self.is_batch_update:
+            # Summarized once for the whole batch, see merge_translations
+            self.translation.batch_propagation_failures += 1
+        elif len(warnings) > 10:
+            messages.warning(
+                request,
+                ngettext(
+                    "String could not be propagated to %d component.",
+                    "String could not be propagated to %d components.",
+                    len(warnings),
+                )
+                % len(warnings),
+            )
+        else:
+            for warning in warnings:
+                messages.warning(request, warning)
+
     @source_operation_method
     def propagate(
         self,
@@ -2388,6 +2442,7 @@ class Unit(models.Model, LoggerMixin):
 
         with start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
+            target_plurals = split_plural(self.target)
             units = self.propagated_units
             if self.state != STATE_APPROVED:
                 units = units.exclude(target=self.target, state=self.state)
@@ -2422,6 +2477,10 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_TRANSLATED
                 if unit.target == self.target and unit.state == state:
                     continue
+                if not self.can_propagate_text(
+                    unit, target_plurals, user, request, warnings
+                ):
+                    continue
 
                 # Update unit attributes for the current instance, the database is bulk updated later
                 unit.store_old_unit(unit)
@@ -2439,20 +2498,7 @@ class Unit(models.Model, LoggerMixin):
 
                 unit.update_translation_memory(user)
 
-            if warnings:
-                if len(warnings) > 10:
-                    messages.warning(
-                        request,
-                        ngettext(
-                            "String could not be propagated to %d component.",
-                            "String could not be propagated to %d components.",
-                            len(warnings),
-                        )
-                        % len(warnings),
-                    )
-                else:
-                    for warning in warnings:
-                        messages.warning(request, warning)
+            self.show_propagation_warnings(request, warnings)
             if not to_update:
                 return False
 
@@ -3231,11 +3277,15 @@ class Unit(models.Model, LoggerMixin):
         change_details: dict[str, Any] | None = None,
         expected_source_hash: int | None = None,
         expected_state: int | None = None,
+        validate_length: bool = True,
     ) -> bool:
         """
         Store new translation of a unit.
 
         Propagation is currently disabled on import.
+
+        The length validation can be skipped only for text which was already
+        stored, such as when reverting a change.
         """
         component = self.translation.component
 
@@ -3261,6 +3311,12 @@ class Unit(models.Model, LoggerMixin):
 
         if not component.is_multivalue:
             new_target_list = self.adjust_plurals(new_target_list)
+
+        # Validated before autofixes to match the editor form validation
+        if validate_length:
+            validate_translation_text_change(
+                self, new_target_list, split_plural(self.old_unit["target"])
+            )
 
         # Apply autofixes
         if not self.translation.is_template:

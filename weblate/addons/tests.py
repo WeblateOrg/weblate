@@ -94,6 +94,7 @@ from weblate.trans.tests.utils import (
     get_optional_path,
     get_test_actor,
 )
+from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
@@ -10872,6 +10873,46 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertEqual(
             alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
         )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_reports_oversized_string(self) -> None:
+        addon = self.create_addon(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://cdn.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+            run=False,
+        )
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        response = httpx2.Response(
+            200,
+            stream=httpx2.ByteStream(
+                f"<html><body><div class='l10n'>Remote string</div>"
+                f"<div class='l10n'>{oversized}</div></body></html>".encode()
+            ),
+        )
+
+        with patch(
+            "weblate.addons.tasks.open_restricted_asset_url",
+            return_value=contextlib.nullcontext(response),
+        ):
+            errors = parse_cdn_html(addon.instance, self.component)
+
+        self.assertEqual(
+            [(error["filename"], error["error"]) for error in errors],
+            [("https://cdn.example.com/messages.html", "Translation text too long")],
+        )
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
+        )
+        units = self.component.source_translation.unit_set
+        self.assertTrue(units.filter(source="Remote string").exists())
+        self.assertFalse(units.filter(source=oversized).exists())
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")

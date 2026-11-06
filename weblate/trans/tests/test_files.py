@@ -7,8 +7,10 @@
 from __future__ import annotations
 
 import csv
+import json
 import os
 import tempfile
+from functools import partial
 from io import BytesIO, StringIO
 from itertools import count
 from pathlib import Path
@@ -26,6 +28,7 @@ from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
+from weblate.api.serializers import UploadRequestSerializer
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, TeamMembership
 from weblate.auth.results import Denied
@@ -47,12 +50,17 @@ from weblate.trans.models import (
     ComponentList,
     PendingUnitChange,
     Project,
+    Suggestion,
     Translation,
     WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.trans.util import check_upload_method_permissions, join_plural
+from weblate.trans.validators import (
+    MAX_NEW_TEXT_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.trans.views.files import (
     _get_download_commit_repositories,
     can_download_workspace,
@@ -67,12 +75,18 @@ from weblate.utils.views import download_translation_file, write_zip_files
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from typing import ClassVar
+    from typing import ClassVar, Literal
 
     from django.http import FileResponse
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
+    from rest_framework.fields import ChoiceField
 
     from weblate.auth.models import AuthenticatedHttpRequest
+
+    UploadMethod = Literal[
+        "fuzzy", "approve", "translate", "suggest", "add", "replace", "source"
+    ]
+    UploadConflicts = Literal["", "replace-approved", "replace-translated"]
 
 TEST_PO = get_test_file("cs.po")
 TEST_PO_PLURAL = get_test_file("cs-plural.po")
@@ -579,6 +593,208 @@ class ImportErrorTest(ImportBaseTest):
         self.assertIn(
             "Plural forms in the uploaded file do not match", messages[0].message
         )
+
+
+class UploadStringLengthTest(ImportBaseTest):
+    """Oversized strings must be rejected without storing anything."""
+
+    def create_component(self) -> Component:
+        return self.create_json_mono()
+
+    def upload(
+        self,
+        payload: dict[str, str],
+        method: UploadMethod,
+        conflicts: UploadConflicts = "",
+    ):
+        return self.get_translation().handle_upload(
+            self.get_request(),
+            NamedBytesIO("upload.json", json.dumps(payload).encode()),
+            conflicts,
+            method=method,
+            ignore_language=True,
+        )
+
+    def assert_rejected(self, payload: dict[str, str], method: UploadMethod) -> None:
+        translation = self.get_translation()
+        filename = Path(cast("str", translation.get_filename()))
+        file_content = filename.read_bytes()
+        units = list(
+            translation.unit_set.order_by("pk").values_list("target", flat=True)
+        )
+
+        with self.assertRaisesMessage(FileParseError, "string that is too long"):
+            self.upload(payload, method, "replace-translated")
+
+        self.assertEqual(
+            list(translation.unit_set.order_by("pk").values_list("target", flat=True)),
+            units,
+        )
+        self.assertEqual(filename.read_bytes(), file_content)
+
+    def test_merge_uses_unit_limit(self) -> None:
+        """Merged translations use the stricter limit of the editor."""
+        unit = self.get_unit(source="Hello, world!\n")
+        limit = get_translation_text_max_length(unit)
+        self.assertLess(limit, MAX_NEW_TEXT_LENGTH)
+        merge_methods: tuple[UploadMethod, ...] = ("translate", "fuzzy", "approve")
+        for method in merge_methods:
+            with self.subTest(method=method):
+                self.assert_rejected({unit.context: "B" * (limit + 1)}, method)
+
+        result = self.upload({unit.context: "B" * limit}, "translate")
+        self.assertEqual(result[2], 1)
+        unit.refresh_from_db()
+        # The trailing newline is added by an autofix from the source string
+        self.assertEqual(unit.target, "B" * limit + "\n")
+
+    def test_merge_rolls_back_earlier_units(self) -> None:
+        first = self.get_unit(source="Hello, world!\n")
+        second = self.get_unit(source="Try Weblate at https://demo.weblate.org/!\n")
+        limit = get_translation_text_max_length(second)
+        self.assert_rejected(
+            {first.context: "Valid", second.context: "B" * (limit + 1)}, "translate"
+        )
+        first.refresh_from_db()
+        self.assertEqual(first.target, "")
+
+    def test_merge_ignores_skipped_unit(self) -> None:
+        """A string which would not be stored does not fail the upload."""
+        unit = self.get_unit(source="Hello, world!\n")
+        unit.translate(self.user, "Ahoj", STATE_TRANSLATED)
+        limit = get_translation_text_max_length(unit)
+
+        result = self.upload({unit.context: "B" * (limit + 1)}, "translate")
+
+        self.assertEqual(result[1:3], (1, 0))
+
+    def test_template_text_is_not_limited(self) -> None:
+        """Text from the template in the repository does not fail an upload."""
+        unit = self.get_unit(source="Hello, world!\n")
+        translation = self.get_translation()
+        component = translation.component
+        template = Path(component.full_path) / component.template
+        data = json.loads(template.read_text())
+        data[unit.context] = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        template.write_text(json.dumps(data))
+        component.drop_template_store_cache()
+
+        payload = {unit.context: "Ahoj"}
+        self.upload(payload, "replace")
+        self.upload(payload, "translate", "replace-translated")
+
+    def test_new_text_limit(self) -> None:
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        context = self.get_unit(source="Hello, world!\n").context
+        cases: tuple[tuple[str, dict[str, str], UploadMethod], ...] = (
+            ("add target", {"new": oversized}, "add"),
+            ("add key", {oversized: "value"}, "add"),
+            ("replace target", {context: oversized}, "replace"),
+        )
+        for name, payload, method in cases:
+            with self.subTest(name):
+                self.assert_rejected(payload, method)
+
+    def test_new_text_at_limit(self) -> None:
+        result = self.upload({"new": "B" * MAX_NEW_TEXT_LENGTH}, "add")
+        self.assertEqual(result[2], 1)
+
+    def test_error_message_is_truncated(self) -> None:
+        with self.assertRaises(FileParseError) as context:
+            self.upload({"K" * (MAX_NEW_TEXT_LENGTH + 1): "value"}, "add")
+        self.assertLess(len(str(context.exception)), 200)
+
+
+class UploadStringLengthMetadataTest(ImportBaseTest):
+    """The limit can not be avoided by using another stored field."""
+
+    def upload(self, content: str, method: UploadMethod):
+        return self.get_translation().handle_upload(
+            self.get_request(),
+            NamedBytesIO("upload.po", content.encode()),
+            "replace-translated",
+            method=method,
+            ignore_language=True,
+        )
+
+    def test_oversized_fields(self) -> None:
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        method: UploadMethod
+        for name, entry, method in (
+            ("source", f'msgid "{oversized}"\nmsgstr "value"\n', "add"),
+            (
+                "context",
+                f'msgctxt "{oversized}"\nmsgid "new"\nmsgstr "value"\n',
+                "add",
+            ),
+            ("note", f'#. {oversized}\nmsgid "new"\nmsgstr "value"\n', "add"),
+            ("location", f'#: {oversized}\nmsgid "new"\nmsgstr "value"\n', "add"),
+            # Adding does not store the previous source, replacing the file does
+            (
+                "previous",
+                f'#, fuzzy\n#| msgid "{oversized}"\nmsgid "new"\nmsgstr "v"\n',
+                "replace",
+            ),
+        ):
+            with self.subTest(name):
+                count = self.get_translation().unit_set.count()
+                with self.assertRaisesMessage(
+                    FileParseError, "string that is too long"
+                ):
+                    self.upload(entry, method)
+                self.assertEqual(self.get_translation().unit_set.count(), count)
+
+    def test_every_upload_method(self) -> None:
+        """New upload methods must not skip the length validation."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        method_field = cast("ChoiceField", UploadRequestSerializer().fields["method"])
+        methods = cast("dict[UploadMethod, str]", method_field.choices)
+        self.assertIn("source", methods)
+        for method in methods:
+            translation = (
+                self.component.source_translation
+                if method == "source"
+                else self.get_translation()
+            )
+            # Adding skips existing strings, the others merge into them
+            msgid = "New string" if method == "add" else "Hello, world!\\n"
+            content = f'msgid "{msgid}"\nmsgstr "{oversized}"\n'
+            with self.subTest(method=method):
+                upload = partial(
+                    translation.handle_upload,
+                    self.get_request(),
+                    NamedBytesIO("upload.po", content.encode()),
+                    "replace-translated",
+                    method=method,
+                    ignore_language=True,
+                )
+                if method == "suggest":
+                    # Suggestions that are too long are skipped
+                    self.assertEqual(upload()[1:3], (1, 0))
+                    self.assertFalse(Suggestion.objects.exists())
+                    continue
+                with self.assertRaisesMessage(
+                    FileParseError, "string that is too long"
+                ):
+                    upload()
+
+    def test_merge_ignores_metadata(self) -> None:
+        """Merging stores only the translation, other fields are not limited."""
+        oversized = "B" * (MAX_NEW_TEXT_LENGTH + 1)
+        content = f'#: {oversized}\nmsgid "Hello, world!\\n"\nmsgstr "Ahoj!\\n"\n'
+        result = self.upload(content, "translate")
+        self.assertEqual(result[2], 1)
+
+    def test_source_upload(self) -> None:
+        translation = self.component.source_translation
+        content = f'msgid "{"B" * (MAX_NEW_TEXT_LENGTH + 1)}"\nmsgstr ""\n'
+        with self.assertRaisesMessage(FileParseError, "string that is too long"):
+            translation.handle_source(
+                self.get_request(),
+                self.user,
+                NamedBytesIO("upload.pot", content.encode()),
+                ignore_language=True,
+            )
 
 
 class LanguageUploadValidationTest(ImportBaseTest):

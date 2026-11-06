@@ -158,6 +158,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.trans.util import join_plural
 from weblate.trans.validators import (
+    MAX_NEW_TEXT_LENGTH,
     SUGGESTION_REJECTION_REASON_LENGTH,
     get_translation_text_max_length,
 )
@@ -173,6 +174,7 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
+    STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
@@ -16383,6 +16385,31 @@ class TranslationAPITest(APIBaseTest):
                         status_code=400,
                     )
 
+    def test_upload_string_too_long(self) -> None:
+        self.authenticate(True)
+        unit = Unit.objects.get(
+            translation__language_code="cs",
+            translation__component=self.component,
+            source="Hello, world!\n",
+        )
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+        content = f'msgid "Hello, world!\\n"\nmsgstr "{target}"\n'.encode()
+
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {
+                "file": SimpleUploadedFile("upload.po", content),
+                "method": "translate",
+                "conflicts": "replace-translated",
+            },
+        )
+
+        self.assertContains(
+            response, "contains a string that is too long", status_code=400
+        )
+        unit.refresh_from_db()
+        self.assertNotEqual(unit.target, target)
+
     def test_upload_parse_error(self) -> None:
         self.authenticate()
         with (
@@ -17505,6 +17532,35 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
 
+    def test_add_monolingual_too_long(self) -> None:
+        component = self.create_acl()
+        unit_count = component.source_translation.unit_set.count()
+        oversized = "x" * (MAX_NEW_TEXT_LENGTH + 1)
+        for payload in (
+            {"key": "new", "value": [oversized]},
+            {"key": oversized, "value": ["value"]},
+        ):
+            with self.subTest(payload["key"][:3]):
+                response = self.do_request(
+                    "api:translation-units",
+                    kwargs={
+                        "language__code": "en",
+                        "component__slug": "test",
+                        "component__project__slug": "acl",
+                    },
+                    method="post",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request=payload,
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["detail"], "Translation text too long!"
+                )
+                self.assertEqual(
+                    component.source_translation.unit_set.count(), unit_count
+                )
+
     def test_add_monolingual_parse_error(self) -> None:
         component = self._create_component(
             "json-nested",
@@ -18553,6 +18609,51 @@ class UnitAPITest(APIBaseTest):
             superuser=True,
             request={"explanation": "This is rejected explanation"},
         )
+
+    def test_unit_flags_lower_text_limit(self) -> None:
+        """A limit lowered by the submitted flags rejects the target cleanly."""
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        target = "x" * 1500
+        self.assertLess(len(target), get_translation_text_max_length(unit))
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            format="json",
+            request={"target": [target], "state": 20, "extra_flags": "max-length:5"},
+        )
+
+        self.assertIn("target", str(response.data))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+        # The flags are not stored when the translation is rejected
+        self.assertEqual(unit.extra_flags, "")
+
+    def test_unit_keeps_stored_oversized_target(self) -> None:
+        """Stored text, for example extended by autofixes, can be saved again."""
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+        Unit.objects.filter(pk=unit.pk).update(target=target, state=STATE_TRANSLATED)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            format="json",
+            request={"target": [target], "state": STATE_FUZZY},
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_FUZZY)
 
     def test_unit_flags(self) -> None:
         unit = Unit.objects.get(
