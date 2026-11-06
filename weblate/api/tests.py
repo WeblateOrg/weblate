@@ -131,6 +131,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     ComponentList,
+    ContributorAgreement,
     PendingUnitChange,
     Project,
     SavedSearch,
@@ -170,6 +171,7 @@ from weblate.utils.celery import (
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.pii import mask_email
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -6953,6 +6955,61 @@ class ProjectAPITest(APIBaseTest):
         self.assertIsNone(component.linked_component_id)
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_admin_cannot_create_component_with_invalid_billing(
+        self,
+    ) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        request = {
+            "name": "Extra component",
+            "slug": "extra-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+        }
+
+        for state, paid, in_limits in (
+            (billing.STATE_TRIAL, True, False),
+            (billing.STATE_ACTIVE, False, True),
+            (billing.STATE_TERMINATED, True, True),
+        ):
+            with self.subTest(state=state, paid=paid, in_limits=in_limits):
+                billing.state = state
+                billing.paid = paid
+                billing.in_limits = in_limits
+                billing.save(skip_limits=True)
+                response = self.do_request(
+                    "api:project-components",
+                    self.project_kwargs,
+                    method="post",
+                    code=403,
+                    request=request,
+                )
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "No valid billing found or limit exceeded.",
+                )
+                self.assertFalse(
+                    Component.objects.filter(slug="extra-component").exists()
+                )
+
+        billing.state = billing.STATE_TRIAL
+        billing.in_limits = True
+        billing.save(skip_limits=True)
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            request=request,
+        )
+        self.assertTrue(Component.objects.filter(slug="extra-component").exists())
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     @override_settings(OFFER_HOSTING=True)
     def test_project_admin_can_create_restricted_component(self) -> None:
         billing = create_test_billing(self.user)
@@ -9979,6 +10036,51 @@ class ComponentAPITest(APIBaseTest):
         )
         self.component.refresh_from_db()
 
+    @mock_dns("github.com", "example.com")
+    def test_github_app_api_clears_push_settings(self) -> None:
+        self.configure_github_app_component()
+        Component.objects.filter(pk=self.component.pk).update(vcs="git")
+        for create in (False, True):
+            with (
+                self.subTest(create=create),
+                patch.object(Component, "after_save"),
+                patch.object(Component, "validate_repository_access"),
+                patch.object(Component, "clean_files"),
+                patch.object(Component, "get_mask_matches", return_value=["po/cs.po"]),
+            ):
+                data = {
+                    "vcs": "github-app",
+                    "repo": "https://github.com/test-org/repo.git",
+                    "branch": "main",
+                    "push": "https://example.com/attacker/repo.git",
+                    "push_branch": "translations",
+                }
+                if create:
+                    data.update(
+                        name="GitHub App cleared",
+                        slug="github-app-cleared",
+                        file_format="po",
+                        filemask="po/*.po",
+                        disable_autoshare=True,
+                        new_lang="none",
+                    )
+                response = self.do_request(
+                    "api:project-components" if create else "api:component-detail",
+                    self.project_kwargs if create else self.component_kwargs,
+                    method="post" if create else "patch",
+                    request=data,
+                    format="json",
+                    superuser=True,
+                    code=201 if create else 200,
+                )
+                self.assertEqual(response.data["push"], "")
+                self.assertEqual(response.data["push_branch"], "")
+                component = Component.objects.get(
+                    project=self.project,
+                    slug="github-app-cleared" if create else self.component.slug,
+                )
+                self.assertEqual((component.push, component.push_branch), ("", ""))
+
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 2)
@@ -12468,6 +12570,67 @@ class ComponentAPITest(APIBaseTest):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_team_language_scope(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Language scoped", language_selection=SELECTION_MANUAL
+        )
+        group.projects.add(self.project)
+        group.languages.add(Language.objects.get(code="fa"))
+        group.roles.add(Role.objects.get(name="Manage languages"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "nl"},
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="nl").exists()
+        )
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_contributor_agreement(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.agreement = "CLA"
+        self.component.save(update_fields=["new_lang", "new_base", "agreement"])
+
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        self.assertIn(
+            "contributor license agreement", response.data["errors"][0]["detail"]
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+
+        ContributorAgreement.objects.create(self.user, self.component)
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
@@ -20351,6 +20514,84 @@ class ScreenshotAPITest(APIBaseTest):
 
 
 class ChangeAPITest(APIBaseTest):
+    def test_invitation_email_masked_in_history(self) -> None:
+        email = "victim.person@corp.example"
+        change = self.project.change_set.create(
+            action=ActionEvents.INVITE_USER,
+            user=self.user,
+            author=self.user,
+            details={"email": email},
+        )
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+            reverse("api:change-detail", kwargs={"pk": change.pk}),
+        )
+        for viewer in ("anonymous", "member", "superuser"):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    entries = response.data.get("results", [response.data])
+                    entry = next(item for item in entries if item["id"] == change.pk)
+                    self.assertNotIn(email, str(entry))
+                    self.assertEqual(entry["details"]["email"], mask_email(email))
+
+    def test_removed_component_history_respects_former_visibility(self) -> None:
+        changes = {
+            slug: self.project.change_set.create(
+                action=ActionEvents.REMOVE_COMPONENT,
+                target=slug,
+                details=details,
+                user=self.user,
+                author=self.user,
+            )
+            for slug, details in (
+                ("removed-public", {"restricted": False}),
+                ("removed-private", {"restricted": True}),
+                ("removed-legacy", {}),
+            )
+        }
+        endpoints = (
+            reverse("api:change-list"),
+            reverse("api:project-changes", kwargs=self.project_kwargs),
+        )
+        for viewer, expected in (
+            ("anonymous", {"removed-public"}),
+            ("member", {"removed-public"}),
+            ("project_admin", set(changes)),
+            ("superuser", set(changes)),
+        ):
+            if viewer == "anonymous":
+                self.client.credentials()
+            else:
+                if viewer == "project_admin":
+                    self.grant_perm_to_user("project.edit", project=self.project)
+                    self.user.clear_permissions_cache()
+                self.authenticate(superuser=viewer == "superuser")
+            for url in endpoints:
+                with self.subTest(viewer=viewer, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200, response.data)
+                    visible = {
+                        entry["target"]
+                        for entry in response.data["results"]
+                        if entry["id"] in {change.pk for change in changes.values()}
+                    }
+                    self.assertEqual(visible, expected)
+            for slug, change in changes.items():
+                with self.subTest(viewer=viewer, slug=slug):
+                    response = self.client.get(
+                        reverse("api:change-detail", kwargs={"pk": change.pk})
+                    )
+                    self.assertEqual(
+                        response.status_code, 200 if slug in expected else 404
+                    )
+
     def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
         visible = self.create_po(project=self.project, name="Visible conflict peer")
         hidden = self.create_acl()

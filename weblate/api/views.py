@@ -2618,6 +2618,19 @@ class ProjectViewSet(
             created = False
             try:
                 with transaction.atomic():
+                    if (
+                        "weblate.billing" in settings.INSTALLED_APPS
+                        and obj.workspace_id is not None
+                        and not request.user.is_superuser
+                    ):
+                        from weblate.billing.models import Billing  # ruff: ignore[import-outside-top-level]
+
+                        try:
+                            Billing.objects.lock_component_creation(obj.workspace_id)
+                        except DjangoValidationError:
+                            self.permission_denied(
+                                request, "No valid billing found or limit exceeded."
+                            )
                     serializer.is_valid(raise_exception=True)
                     serializer.save()
                     component = serializer.instance
@@ -3502,6 +3515,7 @@ class ComponentViewSet(
         },
     )
     @action(detail=True, methods=["get", "post"])
+    # ruff: ignore[complex-structure]
     def translations(self, request: Request, **kwargs):
         obj = self.get_object()
 
@@ -3537,6 +3551,16 @@ class ComponentViewSet(
                     request,
                     "This language requires maintainer approval. "
                     "Request it using the web interface.",
+                )
+            creation_permission = request.user.has_perm(
+                "translation.add", Translation(component=obj, language=language)
+            )
+            if not creation_permission:
+                self.permission_denied(
+                    request,
+                    getattr(
+                        creation_permission, "reason", "Can not create translation"
+                    ),
                 )
             if not obj.can_add_new_language(request.user, language=language):
                 self.permission_denied(request, message=obj.new_lang_error_message)

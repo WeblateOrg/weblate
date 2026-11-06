@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item"><a href="{% url 'changes' %}">{% translate "Changes" %}</a></li>
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Change details" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <h1>{% translate "Change details" %}</h1>
+  {% format_last_changes_content last_changes=changes user=user full_content=True %}
+{% endblock content %}

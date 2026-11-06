@@ -7160,14 +7160,41 @@ class ResetAddonTest(ComponentTestCase):
         self.assertFalse(ResetAddon.can_install(component=other))
 
     def test_daily(self) -> None:
-        ResetAddon.create(
+        addon = ResetAddon.create(
             acting_user=get_test_actor(self), component=self.component, run=False
         )
 
-        with patch.object(Component, "do_reset", autospec=True) as mocked_reset:
+        actors = []
+        with (
+            acting_user_context(self.user),
+            patch.object(
+                Component,
+                "do_reset",
+                autospec=True,
+                side_effect=lambda _component: actors.append(get_acting_user()),
+            ) as mocked_reset,
+        ):
             daily_addons(modulo=False)
+            self.assertEqual(get_acting_user(), self.user)
 
         mocked_reset.assert_called_once_with(self.component)
+        self.assertEqual(actors, [addon.user])
+
+    def test_daily_reset_history(self) -> None:
+        addon = ResetAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        with acting_user_context(None):
+            daily_addons(modulo=False)
+            self.assertIsNone(get_acting_user())
+
+        change = self.component.change_set.get(action=ActionEvents.RESET)
+        self.assertEqual(change.user, addon.user)
+        activity = AddonActivityLog.objects.get(
+            addon=addon.instance, event=AddonEvent.EVENT_DAILY
+        )
+        self.assertEqual(activity.status, AddonActivityLog.Status.SUCCESS)
 
 
 class CommandTest(ComponentTestCase):

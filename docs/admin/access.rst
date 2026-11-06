@@ -635,7 +635,9 @@ the following rules:
 - The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
   when it’s verified if a user has access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
-  reviewing, saving translations, adding suggestions, etc.
+  reviewing, saving translations, adding suggestions, and creating new
+  translations. Requesting a language from maintainers does not create a
+  translation and remains available outside the team's language selection.
 
   Individual team memberships can further limit these permissions to selected
   languages. Leaving the per-member language limit empty applies no additional

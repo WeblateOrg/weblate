@@ -429,6 +429,57 @@ class CreateTest(ViewTestCase):
 
         self.client_create_component(False, name="c3", slug="c3")
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_component_rechecks_billing_on_submission(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.project.add_user(self.user, "Administration")
+        billing.in_limits = False
+        billing.save(update_fields=["in_limits"], skip_limits=True)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, billing.workspace_id)
+        self.assertFalse(billing.in_limits)
+
+        response = self.client.post(
+            reverse("create-component-vcs"),
+            {
+                "name": "Create Component",
+                "slug": "create-component",
+                "project": self.project.pk,
+                "vcs": "git",
+                "repo": self.component.get_repo_link_url(),
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "new_base": "po/project.pot",
+                "new_lang": "add",
+                "language_regex": "^[^.]+$",
+                "source_language": get_default_lang(),
+            },
+        )
+        self.assertEqual(response.status_code, 200, response.headers.get("Location"))
+        self.assertIn(
+            "project",
+            response.context["form"].errors,
+            str(response.context["form"].errors),
+        )
+        self.assertIn(
+            "No valid billing found or limit exceeded.",
+            str(response.context["form"].errors),
+        )
+        self.assertContains(response, "No valid billing found or limit exceeded.")
+        self.assertFalse(Component.objects.filter(slug="create-component").exists())
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_component_rejects_unbilled_project_in_final_step(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        for workspace in (None, Workspace.objects.create(name="Unbilled workspace")):
+            with self.subTest(workspace=workspace):
+                self.project.workspace = workspace
+                self.project.save(update_fields=["workspace"])
+                response = self.client_create_component(False)
+                self.assertIn("project", response.context["form"].errors)
+        self.assertFalse(Component.objects.filter(slug="create-component").exists())
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_admin(self) -> None:
         # No permissions without superuser

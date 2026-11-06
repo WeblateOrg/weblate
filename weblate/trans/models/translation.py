@@ -3060,6 +3060,18 @@ class Translation(
             msg = "Can not add unit without an author!"
             raise ValueError(msg)
         component = self.component
+        if (
+            request is not None
+            and component.is_glossary
+            and (
+                "terminology" in parsed_flags
+                or (original_unit is not None and "terminology" in original_unit.flags)
+            )
+            and not user.has_perm("glossary.terminology", self)
+        ):
+            raise ValidationError(
+                gettext("You do not have permission to create terminology.")
+            )
         add_terminology = False
         if (
             is_plural(source)

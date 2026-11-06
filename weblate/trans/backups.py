@@ -2258,6 +2258,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         units: list[Unit],
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None = None,
     ) -> None:
@@ -2275,6 +2276,7 @@ class ProjectBackup:
                     (
                         PendingUnitChange(
                             unit=unit,
+                            metadata={"actor_id": actor.pk},
                             author=self.restore_user(item["author"]),
                             target=item["target"],
                             explanation=item["explanation"],
@@ -2303,6 +2305,7 @@ class ProjectBackup:
             pending_unit_changes = [
                 PendingUnitChange(
                     unit=unit,
+                    metadata={"actor_id": actor.pk},
                     author_id=authors[unit.pk] or anonymous_id,
                     target=unit.target,
                     explanation=unit.explanation,
@@ -2397,6 +2400,8 @@ class ProjectBackup:
         batch: list[Unit],
         data: dict,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
+        *,
+        actor: User,
     ) -> list[Unit]:
         if not batch:
             return []
@@ -2405,6 +2410,7 @@ class ProjectBackup:
         self.restore_unit_metadata(units)
         self.restore_pending_unit_changes(
             data,
+            actor=actor,
             units=units,
             pending_unit_change_map=pending_unit_change_map,
         )
@@ -2417,6 +2423,8 @@ class ProjectBackup:
         data: dict,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
         source_unit_lookup: dict[int, int],
+        *,
+        actor: User,
     ) -> None:
         if not batch:
             return
@@ -2435,6 +2443,7 @@ class ProjectBackup:
         self.restore_unit_metadata(source_units)
         self.restore_pending_unit_changes(
             data,
+            actor=actor,
             units=source_units,
             pending_unit_change_map=pending_unit_change_map,
         )
@@ -2444,6 +2453,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         translation_lookup: dict,
         source_translation_id: int,
         pending_unit_change_map: dict[tuple[int, int], list[dict]] | None,
@@ -2456,11 +2466,15 @@ class ProjectBackup:
             batch.append(self.restore_unit(item, translation_lookup))
             if len(batch) >= self.IMPORT_BATCH_SIZE:
                 self.restore_source_unit_batch(
-                    batch, data, pending_unit_change_map, source_unit_lookup
+                    batch,
+                    data,
+                    pending_unit_change_map,
+                    source_unit_lookup,
+                    actor=actor,
                 )
                 batch = []
         self.restore_source_unit_batch(
-            batch, data, pending_unit_change_map, source_unit_lookup
+            batch, data, pending_unit_change_map, source_unit_lookup, actor=actor
         )
         return source_unit_lookup
 
@@ -2468,6 +2482,7 @@ class ProjectBackup:
         self,
         data: dict,
         *,
+        actor: User,
         translation_lookup: dict,
         source_translation_id: int,
         source_unit_lookup: dict[int, int],
@@ -2481,9 +2496,11 @@ class ProjectBackup:
                 self.restore_unit(item, translation_lookup, source_unit_lookup)
             )
             if len(batch) >= self.IMPORT_BATCH_SIZE:
-                self.restore_unit_batch(batch, data, pending_unit_change_map)
+                self.restore_unit_batch(
+                    batch, data, pending_unit_change_map, actor=actor
+                )
                 batch = []
-        self.restore_unit_batch(batch, data, pending_unit_change_map)
+        self.restore_unit_batch(batch, data, pending_unit_change_map, actor=actor)
 
     def restore_memory(self, zipfile: ZipFile, project: Project) -> None:
         memory = self.load_memory(zipfile)
@@ -2681,6 +2698,7 @@ class ProjectBackup:
         # Create source units first so translation units can link to them.
         source_unit_lookup = self.restore_source_units(
             data,
+            actor=actor,
             translation_lookup=translation_lookup,
             source_translation_id=source_translation_id,
             pending_unit_change_map=pending_unit_change_map,
@@ -2690,6 +2708,7 @@ class ProjectBackup:
         # in memory for components with many languages.
         self.restore_translation_units(
             data,
+            actor=actor,
             translation_lookup=translation_lookup,
             source_translation_id=source_translation_id,
             source_unit_lookup=source_unit_lookup,

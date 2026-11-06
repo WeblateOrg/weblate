@@ -112,6 +112,7 @@ from weblate.utils.bot_protection import option, verification_stats
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.files import remove_tree
 from weblate.utils.forms import QueryField
+from weblate.utils.pii import mask_email
 from weblate.utils.search import MAX_SEARCH_QUERY_LENGTH
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -2874,7 +2875,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             )
             raise serializers.ValidationError({"restricted": reason})
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         # Handle non-component args
         disable_autoshare = attrs.pop("disable_autoshare", False)
         docfile = attrs.pop("docfile", None)
@@ -2951,6 +2952,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
             # Call model validation here, DRF does not do that
             self.validate_component_instance(instance, source_component)
+            for field in instance.repository_class.component_clear_fields:
+                attrs[field] = getattr(instance, field)
             self.apply_autoshare(attrs, instance, source_component, disable_autoshare)
             if source_component is not None:
                 attrs["from_component"] = source_component
@@ -4729,6 +4732,14 @@ class ChangeSerializer(RemovableSerializer[Change]):
             data["alert"] = None
             return data
         details = data.get("details")
+        if (
+            instance.action == ActionEvents.INVITE_USER
+            and isinstance(details, dict)
+            and isinstance(details.get("email"), str)
+        ):
+            details = deepcopy(details)
+            details["email"] = mask_email(details["email"])
+            data["details"] = details
         if isinstance(details, dict) and not self.can_view_ip_address():
             details = deepcopy(details)
             details.pop("ip_address", None)

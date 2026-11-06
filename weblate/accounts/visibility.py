@@ -247,6 +247,7 @@ def public_change_details(
     if can_view_contributor(viewer, change):
         return change.details
     from weblate.trans.actions import ActionEvents  # ruff: ignore[import-outside-top-level]
+    from weblate.utils.pii import mask_email  # ruff: ignore[import-outside-top-level]
 
     comment_actions = {
         ActionEvents.COMMENT,
@@ -272,6 +273,10 @@ def public_change_details(
             )
         )
     }
+    if change.action == ActionEvents.INVITE_USER and isinstance(
+        change.details.get("email"), str
+    ):
+        result["email"] = mask_email(change.details["email"])
     for key in ("source_snapshot", "previous_source_snapshot"):
         snapshot = change.details.get(key)
         if not isinstance(snapshot, dict):

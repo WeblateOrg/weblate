@@ -148,7 +148,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     unit = obj.unit.source_unit
 
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
-        "source.edit", unit.translation.component
+        "source.edit", unit.translation
     ):
         raise PermissionDenied
 

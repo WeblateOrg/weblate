@@ -1779,11 +1779,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return self.translation_review or self.source_review
 
     @transaction.atomic
-    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(
+        self,
+        user: User,
+        lock: bool = True,
+        auto: bool = False,
+        *,
+        components: ComponentQuerySet | None = None,
+    ) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.change import Change
 
-        actionable = self.component_set.exclude(locked=lock)
+        actionable = (
+            components if components is not None else self.component_set
+        ).exclude(locked=lock)
         changes = [
             component.get_lock_change(user=user, lock=lock, auto=auto)
             for component in actionable

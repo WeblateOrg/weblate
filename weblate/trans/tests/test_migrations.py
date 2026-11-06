@@ -69,3 +69,20 @@ class ContributorCommentsMigrationTest(TransactionTestCase):
             run_path(str(scripts / "assert-contributor-comments.py"))
         finally:
             MigrationExecutor(connection).migrate(latest)
+
+
+class GitHubAppPushMigrationTest(TransactionTestCase):
+    def test_cleanup_existing_push_settings(self) -> None:
+        executor = MigrationExecutor(connection)
+        latest = executor.loader.graph.leaf_nodes()
+        old = [("trans", "0120_change_addon_redact_autotranslate_component")]
+        scripts = Path(__file__).resolve().parents[3] / "ci" / "migrate-scripts"
+        try:
+            executor.migrate(old)
+            historical_apps = executor.loader.project_state(old).apps
+            with patch("django.apps.apps", historical_apps):
+                run_path(str(scripts / "setup-github-app-push.py"))
+            MigrationExecutor(connection).migrate(latest)
+            run_path(str(scripts / "assert-github-app-push.py"))
+        finally:
+            MigrationExecutor(connection).migrate(latest)

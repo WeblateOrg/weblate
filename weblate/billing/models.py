@@ -287,6 +287,17 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
             raise ValidationError(gettext("No valid billing found or limit exceeded."))
         return billing
 
+    def lock_component_creation(self, workspace_id: UUID) -> Billing | None:
+        """Check the current billing state while holding its row lock."""
+        billing = (
+            self.select_for_update(of=("self",))
+            .filter(workspace_id=workspace_id)
+            .first()
+        )
+        if billing is not None and not self.filter(pk=billing.pk).get_valid().exists():
+            raise ValidationError(gettext("No valid billing found or limit exceeded."))
+        return billing
+
     def active(self):
         return self.filter(state__in=Billing.ACTIVE_STATES)
 

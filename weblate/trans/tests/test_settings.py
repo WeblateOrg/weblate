@@ -16,6 +16,7 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
 
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.machinery.models import MachineryInstallation
@@ -1181,6 +1182,34 @@ class SettingsTest(ReusableViewTestCase):
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
+
+    def test_project_language_component_admin_denied(self) -> None:
+        group = Group.objects.create(
+            name="Component admins", language_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Administration"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        project_language = self.project.project_languages[self.translation.language]
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.has_perm("project.edit", project_language))
+
+        url = reverse("settings", kwargs={"path": project_language.get_url_path()})
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(
+            self.client.post(
+                url,
+                {"workflow-enable": 1, "workflow-restrict_direct_editing": 1},
+            ).status_code,
+            404,
+        )
+        self.assertFalse(
+            WorkflowSetting.objects.filter(
+                project=self.project, language=self.translation.language
+            ).exists()
+        )
 
     def test_project_language(self) -> None:
         projlang = self.project.project_languages[self.translation.language]
