@@ -100,6 +100,39 @@ If you wish to assign a billing plan to an existing project, this can also be do
 
 Lastly, the `Django admin interface` provides an `Invoice` option for logging your customer payments.
 
+Externally managed payments
++++++++++++++++++++++++++++
+
+Billing records use local invoices to determine paid validity by default.
+An integration can explicitly set ``Billing.payment_mode`` to
+``Billing.PaymentMode.EXTERNAL`` and supply an aware datetime in
+``external_paid_until``. In this mode, local invoices remain available as
+history but do not establish paid validity. An unset timestamp grants no paid
+validity. Free plans and trials retain their existing behavior.
+
+The timestamp can be extended, shortened, or cleared. Normal model saves
+recalculate the paid status; bulk database updates bypass this calculation.
+Payment validity includes ``BILLING_GRACE_PERIOD``, while
+``check_payment_status(now=True)`` checks validity without that grace period.
+Expired external billings use the existing unpaid notification and removal
+schedule. Restoring validity for an active external billing cancels scheduled
+removal, including removal work already queued before renewal.
+
+Changing payment mode does not change the plan, workspace, or billing lifecycle
+state. Switching back to ``Billing.PaymentMode.LOCAL`` uses local invoices again
+and ignores the retained external timestamp. These integration fields are not
+exposed in forms or REST APIs.
+
+Merging billings is supported only when both use local payment mode. A merge
+involving an externally managed billing is rejected without changing either
+billing. External entitlement transfers require coordination by the integration.
+
+Integrations must manage authentication, update ordering, and atomic entitlement
+updates. They must explicitly activate trials or reactivate terminated billings
+when appropriate, and exclude externally managed billings from local checkout
+and recurring payment processing. Local recurring payment inactivity assessment
+does not apply to externally managed billings.
+
 Usage
 +++++
 
