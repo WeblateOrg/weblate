@@ -11,6 +11,7 @@ from typing import cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -2200,3 +2201,27 @@ class SettingsTest(ReusableViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 17)
         self.assertTrue(linked_component.auto_lock_error)
+
+
+class WorkspaceTMDefaultsTest(ReusableViewTestCase):
+    """Workspace translation memory defaults taken from the settings."""
+
+    def test_project_field_defaults_follow_setting(self) -> None:
+        # ruff: ignore[private-member-access]
+        use_default = Project._meta.get_field("use_workspace_tm").default
+        # ruff: ignore[private-member-access]
+        contribute_default = Project._meta.get_field("contribute_workspace_tm").default
+        self.assertEqual(use_default, settings.DEFAULT_WORKSPACE_TM)
+        self.assertEqual(contribute_default, settings.DEFAULT_WORKSPACE_TM)
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_contribution_follows_enabled_default(self) -> None:
+        data: dict[str, bool] = {}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertTrue(data["contribute_workspace_tm"])
+
+    @override_settings(OFFER_HOSTING=True, DEFAULT_WORKSPACE_TM=True)
+    def test_hosted_explicit_setting_overrides_default(self) -> None:
+        data: dict[str, bool] = {"use_workspace_tm": False}
+        Project.apply_hosted_tm_contribution(data)
+        self.assertFalse(data["contribute_workspace_tm"])

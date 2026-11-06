@@ -5,6 +5,8 @@ Weblate 2026.11.2
 
 .. rubric:: New features
 
+* Added :setting:`DEFAULT_WORKSPACE_TM` to configure default workspace translation memory usage and contribution for projects.
+
 .. rubric:: Improvements
 
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.

@@ -235,6 +235,8 @@ Whether to use translation memory shared by projects in the same workspace,
 see :ref:`memory-scopes` for more details. The workspace has to allow workspace
 translation memory as well.
 
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
+
 .. _project-contribute-workspace-tm:
 
 Contribute to workspace translation memory
@@ -243,6 +245,8 @@ Contribute to workspace translation memory
 Whether to contribute translations to the translation memory shared by
 projects in the same workspace. The workspace has to allow contribution as
 well.
+
+The default value can be changed by :setting:`DEFAULT_WORKSPACE_TM`.
 
 .. note::
 
