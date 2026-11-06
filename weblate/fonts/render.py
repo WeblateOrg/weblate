@@ -24,6 +24,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from unicode_segmentation_rs import graphemes, line_break_units
 
+from weblate.fonts.limits import RenderLimitError
 from weblate.utils.data import data_path
 from weblate.utils.icons import find_static_file
 
@@ -537,11 +538,14 @@ def wrap_text(
     font_properties: FontProperties,
     *,
     spacing: float = 0,
+    max_lines: int | None = None,
 ) -> list[str]:
     """Wrap text at Unicode line-break opportunities, retaining explicit breaks."""
     renderer = get_renderer()
     result: list[str] = []
     for paragraph in split_explicit_lines(text):
+        if max_lines is not None and len(result) >= max_lines:
+            raise RenderLimitError
         if not paragraph:
             result.append("")
             continue
@@ -561,6 +565,8 @@ def wrap_text(
         units = _wrapping_units(paragraph)
         start_index = 0
         while start_index < len(units):
+            if max_lines is not None and len(result) >= max_lines:
+                raise RenderLimitError
             candidate_units: list[str] = []
             fitting_index = start_index
             fitting_line = ""
@@ -615,6 +621,22 @@ def wrap_text(
             result.append(fitting_line)
             start_index = fitting_index
     return result
+
+
+def clip_preview_line(
+    text: str, width: int, font_properties: FontProperties, *, spacing: float = 0
+) -> str:
+    """Bound native glyph bitmap allocation before drawing an overflowing line."""
+    if measure_line(text, font_properties, spacing=spacing)[0] <= width:
+        return text
+    low, high = 0, len(text)
+    while low < high:
+        middle = (low + high + 1) // 2
+        if measure_line(text[:middle], font_properties, spacing=spacing)[0] <= width:
+            low = middle
+        else:
+            high = middle - 1
+    return text[:low]
 
 
 def _wrapping_units(text: str) -> list[str]:

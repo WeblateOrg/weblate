@@ -2435,6 +2435,38 @@ RATELIMIT_BULK_EDIT_LOCKOUT
 Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
 to 60.
 
+.. setting:: RATELIMIT_MACHINERY_ATTEMPTS
+
+RATELIMIT_MACHINERY_ATTEMPTS
+----------------------------
+
+Maximum interactive machine-translation requests per user during
+:setting:`RATELIMIT_MACHINERY_WINDOW`. Defaults to 30. The usual superuser
+rate-limit exemption applies.
+
+Interactive requests also allow at most two concurrent calls per user per
+configured service installation. Other installations remain available. Excess
+requests return HTTP 429. Slots are released on completion or failure.
+Disconnected requests retain their slots until the provider work finishes,
+including synchronous calls already running in executor threads. Abandoned
+distributed locks expire after one hour.
+
+.. setting:: RATELIMIT_MACHINERY_WINDOW
+
+RATELIMIT_MACHINERY_WINDOW
+--------------------------
+
+Window for interactive machine-translation rate limiting, in seconds. Defaults
+to 60.
+
+.. setting:: RATELIMIT_MACHINERY_LOCKOUT
+
+RATELIMIT_MACHINERY_LOCKOUT
+---------------------------
+
+Lockout after exceeding the interactive machine-translation rate limit, in
+seconds. Defaults to 60.
+
 .. setting:: RATELIMIT_OCR_ATTEMPTS
 
 RATELIMIT_OCR_ATTEMPTS

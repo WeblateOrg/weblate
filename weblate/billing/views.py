@@ -274,6 +274,19 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @transaction.atomic
 def merge_billings(billing: Billing, other: Billing, user: User) -> None:
+    locked_billings = {
+        item.pk: item
+        for item in Billing.objects.filter(pk__in=(billing.pk, other.pk))
+        .order_by("pk")
+        .select_related("plan", "workspace")
+        .select_for_update(of=("self",))
+    }
+    billing = locked_billings[billing.pk]
+    other = locked_billings[other.pk]
+    if Billing.PaymentMode.EXTERNAL in {billing.payment_mode, other.payment_mode}:
+        msg = gettext("Externally managed billings cannot be merged.")
+        raise ValidationError(msg)
+
     source_details = {"id": billing.pk, "name": str(billing)}
     target_details = {"id": other.pk, "name": str(other)}
     moved_projects = billing.get_projects_queryset()

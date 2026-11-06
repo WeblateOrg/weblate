@@ -4719,6 +4719,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
         with source_operation(serializer.instance.translation.component):
+            serializer.instance = get_object_or_404(
+                Unit.objects.select_for_update(), pk=serializer.instance.pk
+            )
             self._perform_unit_update(serializer)
 
     # ruff: ignore[complex-structure]
@@ -5120,6 +5123,17 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     @action(detail=True, methods=["post"])
     def accept(self, request: Request, **kwargs):
         suggestion = self.get_object()
+        from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
+
+        with source_operation(suggestion.unit.translation.component):
+            suggestion.unit = get_object_or_404(
+                Unit.objects.select_for_update(), pk=suggestion.unit_id
+            )
+            return self.accept_locked_suggestion(request, suggestion)
+
+    def accept_locked_suggestion(
+        self, request: Request, suggestion: Suggestion
+    ) -> Response:
         unit = suggestion.unit
         user = request.user
 
