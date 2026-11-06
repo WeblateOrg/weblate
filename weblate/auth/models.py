@@ -2414,6 +2414,8 @@ class Invitation(models.Model):
     )
     # Internal provenance, never accepted from invitation forms or API inputs.
     automatic = models.BooleanField(default=False, editable=False)
+    # Internal pending grant, never accepted from invitation forms or API inputs.
+    team_admin = models.BooleanField(default=False, editable=False)
     is_superuser = models.BooleanField(
         gettext_lazy("Superuser status"),
         default=False,
@@ -2511,7 +2513,10 @@ class Invitation(models.Model):
         limit_languages = list(current.limit_languages.all())
         try:
             validate_admin_team_assignment(
-                user, current.group, limit_languages=limit_languages
+                user,
+                current.group,
+                team_admin=current.team_admin,
+                limit_languages=limit_languages,
             )
         except ValidationError as error:
             raise InvitationBlockedAdminError from error
@@ -2527,6 +2532,7 @@ class Invitation(models.Model):
             request=request,
             activity="accepted",
             username=current.author.username,
+            team_admin=current.team_admin,
         )
 
         had_membership = user.team_memberships.filter(group=current.group).exists()
@@ -2539,6 +2545,9 @@ class Invitation(models.Model):
             actor=current.author,
             audit=had_membership,
         )
+
+        if current.team_admin:
+            current.group.admins.add(user)
 
         if current.group.defining_project:
             user.profile.watched.add(current.group.defining_project)

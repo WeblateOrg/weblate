@@ -15,6 +15,9 @@ Weblate 2026.11.2
 .. rubric:: Security fixes
 
 * Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
+* Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
+
+* Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
 
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.

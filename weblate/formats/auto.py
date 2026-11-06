@@ -19,6 +19,7 @@ from weblate.formats.extraction_limits import (
     MAX_EXTRACTED_UNITS,
 )
 from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.limits import TranslationLimitError, check_translation_size
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import BaseTTKitFormat, CSVMetadataError, TTKitUnit
 
@@ -130,6 +131,7 @@ def try_load(
     file_format_params: FileFormatParams | None = None,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
+    check_translation_size(len(content))
     failure = None
 
     def get_existing_units() -> Iterable[Unit] | None:
@@ -159,7 +161,7 @@ def try_load(
                     **kwargs,
                 )
                 result.check_valid()
-            except CSVMetadataError:
+            except (CSVMetadataError, TranslationLimitError):
                 raise
             except Exception as error:
                 if failure is None:
