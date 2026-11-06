@@ -56,6 +56,7 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.automation.addon import AutomationAddon
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
@@ -7052,6 +7053,12 @@ class SeleniumTests(
     def test_glossary(self) -> None:
         user = self.do_login()
         project = self.create_component()
+        team = Group.objects.create(
+            name="Glossary", defining_project=project, language_selection=SELECTION_ALL
+        )
+        team.projects.add(project)
+        team.roles.add(Role.objects.get(name="Manage glossary"))
+        user.add_team(None, team, user=get_test_actor(self))
         language = Language.objects.get(code="cs")
         glossary = self.create_glossary(user, project, language)
 
@@ -7077,6 +7084,11 @@ class SeleniumTests(
         )
         self.assert_text_contains("details[open]", "Avoid this informal diminutive.")
         self.click(htmlid="unit_tools_dropdown")
+        self.assertTrue(
+            self.driver.find_element(
+                By.LINK_TEXT, "Mark as terminology for all languages"
+            ).is_displayed()
+        )
         self.screenshot("glossary-tools.png")
 
     def test_date_range_picker(self) -> None:
