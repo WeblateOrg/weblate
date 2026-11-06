@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from html import unescape
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.utils.html import escape, format_html, format_html_join, strip_tags
 from django.utils.safestring import SafeData, mark_safe
 from django.utils.translation import gettext
@@ -343,15 +343,24 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         return None
 
-    def render(self, request: AuthenticatedHttpRequest, unit: Unit) -> StrOrPromise:
+    def render(self, request: AuthenticatedHttpRequest, unit: Unit) -> HttpResponse:
         msg = "Not supported"
         raise Http404(msg)
 
     def get_cache_key(self, unit: Unit, pos: int) -> str:
         return f"check:{self.check_id}:{unit.pk}:{siphash('Weblate   Checks', unit.all_flags.format())}:{pos}"
 
-    def get_replacement_function(self, unit: Unit) -> Callable[[str], str]:
+    def get_replacement_function(
+        self, unit: Unit, *, max_length: int | None = None
+    ) -> Callable[[str], str]:
+        def validate_length(content: str) -> str:
+            if max_length is not None and len(content) > max_length:
+                msg = "Replacement expansion limit exceeded"
+                raise ValueError(msg)
+            return content
+
         def strip_xml(content: str) -> str:
+            validate_length(content)
             try:
                 tree = parse_xml(f"<x>{content}</x>")
             except etree.XMLSyntaxError:
@@ -359,7 +368,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             return etree.tostring(tree, encoding="unicode", method="text")
 
         def noop(content: str) -> str:
-            return content
+            return validate_length(content)
 
         flags = unit.all_flags
 
@@ -378,13 +387,39 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         replacements = dict(
             replacements[pos : pos + 2] for pos in range(0, len(replacements), 2)
         )
+        if (
+            max_length is not None
+            and sum(len(key) + len(value) for key, value in replacements.items())
+            > max_length
+        ):
+            msg = "Replacement expansion limit exceeded"
+            raise ValueError(msg)
 
         # Build regexp matcher
         pattern = re.compile("|".join(re.escape(key) for key in replacements))
 
-        return lambda text: pattern.sub(
-            lambda m: replacements[m.group(0)], replacement(text)
-        )
+        def replace_text(text: str) -> str:
+            content = validate_length(replacement(text))
+            if max_length is None:
+                return pattern.sub(lambda m: replacements[m.group(0)], content)
+            parts: list[str] = []
+            length = 0
+            previous = 0
+            for match in pattern.finditer(content):
+                value = replacements[match.group(0)]
+                length += match.start() - previous + len(value)
+                if length > max_length:
+                    msg = "Replacement expansion limit exceeded"
+                    raise ValueError(msg)
+                parts.extend((content[previous : match.start()], value))
+                previous = match.end()
+            if length + len(content) - previous > max_length:
+                msg = "Replacement expansion limit exceeded"
+                raise ValueError(msg)
+            parts.append(content[previous:])
+            return "".join(parts)
+
+        return replace_text
 
 
 class CodeDescriptionMixin(BaseCheck):

@@ -16,8 +16,10 @@ Weblate 2026.11.2
 
 * Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
 
+* Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
+* Limited interactive machine-translation request frequency and concurrent requests per service installation.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.
@@ -38,6 +40,7 @@ Weblate 2026.11.2
 
 * Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
 
+* Preserved concurrent approvals when saving through the API, accepting suggestions, merging translations, or reverting changes.
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
