@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import os.path
 import re
+import shutil
+import stat
 from configparser import RawConfigParser
 from pathlib import Path
 from shutil import which
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryError, RepositoryValidationError
@@ -25,7 +27,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.vcs.base import RawCommitInfo, RemoteOperation
+    from weblate.vcs.base import RawCommitInfo, RemoteOperation, RepositoryRecoveryEvent
 
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
@@ -46,6 +48,7 @@ class HgRepository(Repository):
     BACKUP_STORE_DIRS: ClassVar[frozenset[str]] = frozenset({"data", "dh", "meta"})
 
     _cmd: ClassVar[str] = "rhg" if which("rhg") is not None else "hg"
+    _cmd_options: ClassVar[tuple[str, ...]] = ("--config", "subrepos.allowed=false")
     _cmd_last_revision: ClassVar[list[str]] = [
         "log",
         "--limit",
@@ -83,6 +86,51 @@ class HgRepository(Repository):
     def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
+
+    def cleanup_nested_metadata(self) -> None:
+        """Remove nested VCS metadata without following checkout symlinks."""
+        if not self.lock.is_locked:
+            msg = "Repository operation without lock held!"
+            raise RuntimeError(msg)
+        try:
+            metadata = os.stat(os.path.join(self.path, ".hg"), follow_symlinks=False)
+        except (FileNotFoundError, NotADirectoryError):
+            return
+        if not stat.S_ISDIR(metadata.st_mode):
+            return
+
+        def raise_walk_error(error: OSError) -> None:
+            raise error
+
+        for folder, directories, filenames, directory_fd in os.fwalk(
+            self.path, follow_symlinks=False, onerror=raise_walk_error
+        ):
+            for name in directories.copy():
+                if name.casefold() not in {".hg", ".git"}:
+                    continue
+                directories.remove(name)
+                if folder == self.path and name == ".hg":
+                    continue
+                info = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
+                if stat.S_ISDIR(info.st_mode):
+                    shutil.rmtree(name, dir_fd=directory_fd)
+                else:
+                    os.unlink(name, dir_fd=directory_fd)
+            for name in filenames:
+                if name.casefold() in {".hg", ".git"} and not (
+                    folder == self.path and name == ".hg"
+                ):
+                    os.unlink(name, dir_fd=directory_fd)
+
+    def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
+        events = super().recover_lock_session()
+        try:
+            self.cleanup_nested_metadata()
+        except OSError as error:
+            raise RepositoryError(
+                1, gettext("Could not remove nested repository metadata.")
+            ) from error
+        return events
 
     @classmethod
     def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:

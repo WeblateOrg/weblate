@@ -1709,6 +1709,40 @@ class BackupsTest(ReusableViewTestCase):
 
         refresh_lock.assert_called_once_with()
 
+    def test_backup_omits_nested_vcs_metadata(self) -> None:
+        root = Path(self.component.full_path)
+        working = root / "nested" / "translation.po"
+        working.parent.mkdir()
+        working.write_bytes(b"working translation")
+        for metadata in (".git", ".hg"):
+            nested = working.parent / metadata / "store"
+            nested.mkdir(parents=True)
+            (nested / "private-history").write_bytes(b"private history")
+        pointer = root / "pointer"
+        pointer.mkdir()
+        (pointer / ".git").write_bytes(b"gitdir: elsewhere")
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        prefix = f"vcs/{self.component.slug}/"
+        with ZipFile(backup.filename) as archive:
+            names = archive.namelist()
+            self.assertIn(f"{prefix}.git/HEAD", names)
+            self.assertEqual(
+                archive.read(f"{prefix}nested/translation.po"), b"working translation"
+            )
+            self.assertFalse(
+                any(name.startswith(f"{prefix}nested/.git/") for name in names)
+            )
+            self.assertFalse(
+                any(name.startswith(f"{prefix}nested/.hg/") for name in names)
+            )
+            self.assertNotIn(f"{prefix}pointer/.git", names)
+        self.assertTrue(
+            (root / "nested" / ".hg" / "store" / "private-history").exists()
+        )
+
     def test_backup_dir_refreshes_repository_lock_for_empty_file(self) -> None:
         backup = ProjectBackup()
         refresh_lock = MagicMock()
@@ -3441,6 +3475,48 @@ class BackupsTest(ReusableViewTestCase):
                     ]
                 },
             )
+
+    @override_settings(VCS_RESTRICT_PRIVATE=True, VCS_ALLOW_HOSTS=[])
+    def test_restore_rejects_backend_disallowed_urls(self) -> None:
+        for field in ("repo", "push"):
+            with self.subTest(field=field):
+                filename = self.write_tampered_component_backup(
+                    component_updates={
+                        "vcs": "mercurial",
+                        field: "https://public.example/repo",
+                    },
+                )
+                with (
+                    remove_file_after(filename),
+                    patch(
+                        "weblate.utils.outbound.socket.getaddrinfo",
+                        side_effect=resolve_private_example,
+                    ),
+                    self.assertRaises(ValidationError) as error,
+                ):
+                    ProjectBackup(filename).validate()
+                self.assertIn(field, error.exception.message_dict)
+                self.assertIn(
+                    "This VCS backend cannot safely connect", str(error.exception)
+                )
+
+    def test_restore_allows_backend_trusted_hostname(self) -> None:
+        filename = self.write_tampered_component_backup(
+            component_updates={"vcs": "mercurial"},
+            repo="https://public.example/repo",
+            push="https://public.example/push",
+        )
+        with (
+            remove_file_after(filename),
+            override_settings(
+                VCS_RESTRICT_PRIVATE=True, VCS_ALLOW_HOSTS=["public.example"]
+            ),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                side_effect=resolve_private_example,
+            ),
+        ):
+            ProjectBackup(filename).validate()
 
     def test_restore_rejects_invalid_revision_before_project_creation(self) -> None:
         for field in ("local_revision", "remote_revision"):
