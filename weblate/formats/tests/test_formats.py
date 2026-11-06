@@ -510,6 +510,8 @@ class AtomicWriteTempDirTest(SimpleTestCase):
             template = repo / "messages.pot"
             (repo / ".git").mkdir(parents=True)
             filename.parent.mkdir(parents=True)
+            filename.write_bytes(b"")
+            template.write_bytes(b"")
 
             with (
                 patch(

@@ -1585,6 +1585,11 @@ Generic settings
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
 
+.. envvar:: WEBLATE_TRANSLATION_MAX_SIZE
+
+   Configures :setting:`TRANSLATION_MAX_SIZE` in bytes. When unset, follows
+   :envvar:`WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`.
+
 .. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
 
    Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`.

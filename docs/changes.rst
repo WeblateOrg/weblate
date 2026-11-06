@@ -14,6 +14,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
+
 * Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
 
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.

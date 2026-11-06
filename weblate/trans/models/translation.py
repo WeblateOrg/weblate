@@ -45,6 +45,7 @@ from weblate.formats.base import (
     UnitNotFoundError,
 )
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
+from weblate.formats.limits import translation_max_size
 from weblate.formats.source_edit import clone_for_edit, edit_identity, find_identity
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.trans.actions import ActionEvents
@@ -134,7 +135,7 @@ UploadResult = tuple[int, int, int, int]
 
 
 def read_translation_upload(fileobj: BinaryIO) -> bytes:
-    max_size = settings.TRANSLATION_UPLOAD_MAX_SIZE
+    max_size = min(settings.TRANSLATION_UPLOAD_MAX_SIZE, translation_max_size())
     size = getattr(fileobj, "size", None)
     if size is not None and size > max_size:
         raise ValidationError(gettext("Uploaded translation file is too big."))
