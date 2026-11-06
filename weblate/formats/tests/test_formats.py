@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import os.path
 import shutil
 import tempfile
@@ -4451,4 +4452,32 @@ class NextcloudJSONFormatTestCase(JSONFormatTest):
     FILE = TEST_NEXTJSON
     BASE = TEST_NEXTJSON
     NEW_UNIT_MATCH = b'"Source string":'
+    NEW_UNIT_TARGET = "Cílový řetězec"
     MATCH = '"translations":'
+
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
+        expected = json.loads(testdata)
+        # Nextcloud omits untranslated strings when saving.
+        expected["translations"] = {
+            source: target
+            for source, target in expected["translations"].items()
+            if target
+        }
+        self.assertEqual(json.loads(newdata), expected)
+
+    def test_new_untranslated_unit(self) -> None:
+        testfile = Path(self.tempdir) / "new.nextjson"
+        testfile.write_bytes(Path(self.FILE).read_bytes())
+        storage = self.parse_file(testfile.as_posix())
+        unit = storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        storage.save()
+        self.assertNotIn(
+            "Source string", json.loads(testfile.read_bytes())["translations"]
+        )
+
+        unit.set_target(self.NEW_UNIT_TARGET)
+        storage.save()
+        self.assertEqual(
+            json.loads(testfile.read_bytes())["translations"]["Source string"],
+            self.NEW_UNIT_TARGET,
+        )
