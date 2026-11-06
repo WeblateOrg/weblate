@@ -34,6 +34,8 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
+
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.
