@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-30 05:08+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -421,6 +421,16 @@ msgstr "ການຕັ້ງຄ່າການແຈ້ງເຕືອນ"
 msgid "Saved search"
 msgstr "ຄົ້ນຫາ"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "ປ່ຽນລະຫັດຜ່ານແລ້ວ."
@@ -648,6 +658,19 @@ msgstr "ຖືກເຊີນເຂົ້າຮ່ວມໂຄງການ {proj
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "ຕັ້ງຄ່າລະຫັດຜ່ານແລ້ວ."
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr "ຖ້າແມ່ນທ່ານເອງ, ໃຫ້ຕັ້ງລະຫັດຜ່ານໃໝ່ເພື່ອໃຫ້ສາມາດເຂົ້າເຖິງບັນຊີໄດ້ອີກຄັ້ງ."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr "ເພື່ອຄືນສິດການເຂົ້າເຖິງບັນຊີຂອງທ່ານ, ກະລຸນາຕັ້ງລະຫັດຜ່ານໃໝ່."
@@ -989,6 +1012,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "ຜູ້ມີສ່ວນຮ່ວມ"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "ມີການດຳເນີນການໃນບ່ອນເກັບຂໍ້ມູນ"
@@ -1236,6 +1264,11 @@ msgid ""
 msgstr ""
 "ຄຳເຊີນນີ້ສາມາດຕອບຮັບໄດ້ສະເພາະທີ່ຢູ່ອີເມວທີ່ຜູ້ເຊີນເລືອກໄວ້ເທົ່ານັ້ນ; ມັນບໍ່ສາມາດໃຊ້ກັບບັນຊີຂອງທ່ານໄດ້."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1266,6 +1299,12 @@ msgid "Dark"
 msgstr "ມືດ"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "ກະລຸນາຢືນຢັນຕົວຕົນຂອງທ່ານໂດຍໃຊ້ປັດໄຈທີສອງກ່ອນດຳເນີນການຕໍ່."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
 msgstr "ກະລຸນາຢືນຢັນຕົວຕົນຂອງທ່ານໂດຍໃຊ້ປັດໄຈທີສອງກ່ອນດຳເນີນການຕໍ່."
 
 #, python-format
@@ -1375,7 +1414,9 @@ msgstr "ເຂົ້າສູ່ລະບົບ"
 msgid "Signed out"
 msgstr "ອອກຈາກລະບົບແລ້ວ"
 
-msgid "Verify new e-mail address"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "ຢືນຢັນອີເມລໃໝ່"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1383,6 +1424,9 @@ msgstr "ບໍ່ສາມາດຕັ້ງລະຫັດຜ່ານໃໝ່
 
 msgid "Change password"
 msgstr "ປ່ຽນລະຫັດຜ່ານ"
+
+msgid "Set password"
+msgstr "ຕັ້ງລະຫັດຜ່ານ"
 
 msgid "Password reset has been already completed."
 msgstr "ການຕັ້ງລະຫັດຜ່ານໃໝ່ສຳເລັດແລ້ວ."
@@ -1776,14 +1820,6 @@ msgstr ""
 "%(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"ບໍລິການຜູ້ເຜີຍແຜ່ Fedora Messaging ບໍ່ພ້ອມໃຊ້ງານ; ການເຊື່ອມຕໍ່ຈະຖືກສ້າງໃໝ່ໃນການພະຍາຍາມຄັ້ງຕໍ່ໄປ: "
-"%(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "ໂບຣກເກີ Fedora Messaging ສົ່ງຂໍ້ຄວາມກັບຄືນ: %(error)s"
 
@@ -1798,8 +1834,8 @@ msgstr "ການເຜີຍແຜ່ Fedora Messaging ຜິດພາດ: %(er
 msgid "configured"
 msgstr "ຕັ້ງຄ່າແລ້ວ"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "ບໍ່ສາມາດຕັ້ງຄ່າບໍລິການຜູ້ເຜີຍແຜ່ Fedora Messaging ໃໝ່ໄດ້."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "ຕ້ອງສະໜອງໃບຢັ້ງຢືນ SSL ສຳລັບການເຊື່ອມຕໍ່ແບບ SSL."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "ໃບຢັ້ງຢືນ CA ຕ້ອງເປັນໃບຢັ້ງຢືນ X.509 ທີ່ເຂົ້າລະຫັດແບບ PEM ທີ່ຖືກຕ້ອງ."
@@ -1809,10 +1845,6 @@ msgstr "ຄີ SSL ຂອງຄລາຍແອນ (client) ຕ້ອງເປັ
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr "ໃບຢັ້ງຢືນ SSL ຂອງຄລາຍແອນ ຕ້ອງເປັນໃບຢັ້ງຢືນ X.509 ທີ່ເຂົ້າລະຫັດແບບ PEM ທີ່ຖືກຕ້ອງ."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "URL ໂບຣກເກີ Fedora Messaging ບໍ່ຖືກຕ້ອງ: %(error)s"
 
 #, python-format
 msgid ""
@@ -2603,9 +2635,6 @@ msgstr "ຄຳນຳໜ້າຫົວຂໍ້ສາມາດມີໄດ້ສ
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "ຄຳນຳໜ້າຫົວຂໍ້ຕ້ອງບໍ່ເກີນ %(limit)d ຕົວອັກສອນ."
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "ຕ້ອງສະໜອງໃບຢັ້ງຢືນ SSL ສຳລັບການເຊື່ອມຕໍ່ແບບ SSL."
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "ໃບຢັ້ງຢືນ SSL ຈະບໍ່ຖືກນຳໃຊ້ຫາກບໍ່ມີການເຊື່ອມຕໍ່ແບບ SSL."
 
@@ -3207,6 +3236,28 @@ msgstr "ຜູ້ໃຊ້"
 msgid "Language"
 msgstr "ພາສາ"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "ລູກຄ້າ"
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Reset built-in roles to defaults"
+msgstr "ຄືນຄ່າເລີ່ມຕົ້ນຂອງເວັບໄຊ"
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "ຂໍ້ມູນສ່ວນຕົວ"
 
@@ -3224,6 +3275,12 @@ msgstr "ສິ່ງນີ້ຈະບໍ່ຖືກນຳໃຊ້ເມື່
 
 msgid "This is not used when a component is selected."
 msgstr "ສິ່ງນີ້ຈະບໍ່ຖືກນຳໃຊ້ເມື່ອມີການເລືອກສ່ວນປະກອບ."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "ເບິ່ງຂໍ້ຕົກລົງໃບອະນຸຍາດຜູ້ມີສ່ວນຮ່ວມ"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3437,6 +3494,24 @@ msgid "Manage workspace access"
 msgstr "ຈັດການການເຂົ້າເຖິງພື້ນທີ່ເຮັດວຽກ"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "ເບິ່ງຜູ້ໃຊ້ທັງໝົດ"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Clean up selected contributions"
+msgid "Search resource contributors"
+msgstr "ລ້າງການປະກອບສ່ວນທີ່ເລືອກ"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "ໂປຣໄຟລ໌ຜູ້ໃຊ້"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "ນຳໃຊ້ສ່ວນຕິດຕໍ່ການຈັດການ"
 
@@ -3509,6 +3584,18 @@ msgstr "ຈັດການການຮຽກເກັບເງິນ"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "ຈັດການສ່ວນເສີມທົ່ວທັງເວັບໄຊ"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "ຄົ້ນພົບ Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "ໂປຣໄຟລ໌ຜູ້ໃຊ້"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3713,6 +3800,10 @@ msgstr "ຊື່"
 
 msgid "Choose permissions granted to this role."
 msgstr "ເລືອກສິດອະນຸຍາດທີ່ມອບໃຫ້ບົດບາດນີ້."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "ບົດບາດ"
@@ -4010,6 +4101,11 @@ msgstr ""
 "ທ່ານຕ້ອງການສິດເຂົ້າເຖິງສ່ວນປະກອບນີ້ຢ່າງຊັດເຈນກ່ອນທີ່ຈະເປີດໃຊ້ການເຂົ້າເຖິງແບບຈຳກັດ; ບໍ່ດັ່ງນັ້ນ, "
 "ທ່ານຈະລັອກຕົນເອງອອກ."
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "ຜູ້ດູແລໂຄງການສາມາດກຳນົດປ້າຍກຳກັບເພີ່ມເຕີມໄດ້."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4030,6 +4126,16 @@ msgstr "ບໍ່ສາມາດລຶບທີມທີ່ມີມາໃນຕ
 
 msgid "User invitation was removed."
 msgstr "ຄຳເຊີນຜູ້ໃຊ້ຖືກລຶບອອກແລ້ວ."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "ຄຳເຊີນຜູ້ໃຊ້ຖືກລຶບອອກແລ້ວ."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "ກະລຸນາລົງທະບຽນໃຫ້ສຳເລັດເພື່ອຮັບຄຳເຊີນ."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4288,6 +4394,67 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "ໝາຍເຫດ"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "ຄວາມຖີ່"
+
+msgid "Choose"
+msgstr "ເລືອກ"
+
+msgid "Trigger"
+msgstr "ຕົວປຸກ (Trigger)"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "ການແຈ້ງເຕືອນຖືກກະຕຸ້ນແລ້ວ"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "ການຕັ້ງຄ່າ"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "ການຕັ້ງຄ່າທີ່ບໍ່ດີ"
+
+msgid "Action"
+msgstr "ການດຳເນີນການ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "ການດຳເນີນການ"
+
+msgid "Conditions"
+msgstr "ເງື່ອນໄຂ"
+
+msgid "Actions"
+msgstr "ການດຳເນີນການ"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "ສາຂາ (Branch)"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "ສາຂາເພີ່ມເຕີມ"
+
+#, fuzzy
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "ອື່ນໆ"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "ສາຂາ (Branch)"
 
 msgid "Additional message"
 msgstr "ຂໍ້ຄວາມເພີ່ມເຕີມ"
@@ -4946,6 +5113,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML tag {tag} ຂາດ end tag ທີ່ເຂົ້າກັນ: {end}."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "HTML tag {tag} ຂາດ end tag ທີ່ເຂົ້າກັນ: {end}."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5152,6 +5324,12 @@ msgstr "ໄວຍາກອນ Fluent ໃນການແປ"
 
 msgid "Fluent syntax error in the translation."
 msgstr "ພົບຂໍ້ຜິດພາດທາງໄວຍາກອນ Fluent ໃນການແປ."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 msgid "The following format strings are in the wrong order:"
 msgstr "ຂໍ້ຄວາມຮູບແບບດັ່ງຕໍ່ໄປນີ້ວາງລຽງລຳດັບຜິດ:"
@@ -6049,6 +6227,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "CDN ສຳລັບໄຟລ໌ການແປ"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6056,6 +6244,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "ສ່ວນເສີມສາມາດຕິດຕັ້ງໄດ້ໃນລະດັບຄອມໂພເນນເທົ່ານັ້ນ."
 
 msgid "Weblate languages"
 msgstr "ພາສາໃນ Weblate"
@@ -7681,8 +7874,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "ໂປຣໄຟລ໌ຂອງທ່ານ"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "ກະລຸນາປ້ອນທີ່ຢູ່ວີເມລທີ່ຖືກຕ້ອງ."
+
 msgid "Confirm adding user identity"
 msgstr "ຢືນຢັນການເພີ່ມຕົວຕົນຜູ້ໃຊ້"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7692,6 +7896,11 @@ msgid ""
 msgstr ""
 "ຫຼັງຈາກຢືນຢັນສິ່ງນີ້, ທ່ານຈະສາມາດຢືນຢັນຕົວຕົນກັບ Weblate ໂດຍໃຊ້ %(backend_verbose)s "
 "(%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "ຢືນຢັນອີເມລໃໝ່"
 
 msgid "Confirm"
 msgstr "ຢືນຢັນ"
@@ -7786,16 +7995,16 @@ msgstr "ເປີດຟອມຕິດຕໍ່"
 msgid "Registration"
 msgstr "ການລົງທະບຽນ"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "ອີເມວຂອງທ່ານ"
+
 msgid "Password reset almost complete"
 msgstr "ການຕັ້ງຄ່າລະຫັດຜ່ານໃໝ່ເກືອບສຳເລັດແລ້ວ"
 
 msgid "Account removal almost complete"
 msgstr "ການລຶບບັນຊີເກືອບສຳເລັດແລ້ວ"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "ການລົງທະບຽນເກືອບສຳເລັດແລ້ວ"
 
 msgid "Registration almost complete"
 msgstr "ການລົງທະບຽນເກືອບສຳເລັດແລ້ວ"
@@ -7808,14 +8017,11 @@ msgid ""
 "inbox."
 msgstr "ລຶບບັນຊີຂອງທ່ານໂດຍການຄລິກລິ້ງຢືນຢັນທີ່ສົ່ງໄປຫາອິນບັອກອີເມລຂອງທ່ານ."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
-msgstr "ຄລິກລິ້ງຢືນຢັນທີ່ສົ່ງໄປຫາອິນບັອກອີເມລຂອງທ່ານເພື່ອເລີ່ມໃຊ້ງານບັນຊີ."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
+msgstr ""
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7824,6 +8030,15 @@ msgstr "ຄລິກລິ້ງຢືນຢັນທີ່ສົ່ງໄປຫ
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "ຖ້າທ່ານບໍ່ເຫັນອີເມລໃນອິນບັອກ, ກະລຸນາກວດເບິ່ງໃນໂຟນເດີອີເມລຂີ້ເຫຍື້ອ (Spam)."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "ລິ້ງຢືນຢັນຈະໝົດອາຍຸພາຍໃນ %(count)s ຊົ່ວໂມງ."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -7844,6 +8059,15 @@ msgid "Register again if the confirmation link expires."
 msgstr "ລົງທະບຽນໃໝ່ອີກຄັ້ງຖ້າລິ້ງຢືນຢັນໝົດອາຍຸ."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "ກັບຄືນໄປການຕັ້ງຄ່າບັນຊີ"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -7860,13 +8084,49 @@ msgstr "ຖ້າມີບັນຫາກ່ຽວກັບການລົງທ
 msgid "Please fix errors in the form."
 msgstr "ກະລຸນາແກ້ໄຂຂໍ້ຜິດພາດໃນແບບຟອມ."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "ສົ່ງອີເມລທົດສອບ"
 
-msgid "Back to account settings"
-msgstr "ກັບຄືນໄປການຕັ້ງຄ່າບັນຊີ"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "ຢືນຢັນການເພີ່ມຕົວຕົນຜູ້ໃຊ້"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "ການສະໝັກໃຊ້ແບບທົດລອງ"
@@ -8074,6 +8334,9 @@ msgstr "ກະລຸນາປ້ອນລະຫັດຜ່ານໃໝ່ຂອ
 msgid "Change my password"
 msgstr "ປ່ຽນລະຫັດຜ່ານຂອງຂ້ອຍ"
 
+msgid "Set my password"
+msgstr "ຕັ້ງລະຫັດຜ່ານຂອງຂ້ອຍ"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8117,11 +8380,6 @@ msgstr "ການເຄື່ອນໄຫວ"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "ສາມາດເລືອກທີ່ຢູ່ອີເມວຈາກທີ່ຢູ່ທີ່ໄດ້ຮັບການຢືນຢັນແລ້ວເທົ່ານັ້ນ."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "ຢືນຢັນອີເມລໃໝ່"
 
 msgid "Save"
 msgstr "ບັນທຶກ"
@@ -8217,9 +8475,6 @@ msgstr "ຕັ້ງຄ່າ"
 #| msgid "configured"
 msgid "Not configured"
 msgstr "ຕັ້ງຄ່າແລ້ວ"
-
-msgid "Set password"
-msgstr "ຕັ້ງລະຫັດຜ່ານ"
 
 msgid "Two-factor authentication"
 msgstr "ການຢືນຢັນຕົວຕົນສອງຊັ້ນ"
@@ -8496,9 +8751,6 @@ msgid ""
 "instructions for setting a new one."
 msgstr ""
 "ລືມລະຫັດຜ່ານບໍ? ປ້ອນທີ່ຢູ່ອີເມວຂອງທ່ານຂ້າງລຸ່ມນີ້, ແລ້ວພວກເຮົາຈະສົ່ງຄຳແນະນຳການຕັ້ງລະຫັດຜ່ານໃໝ່ໄປໃຫ້."
-
-msgid "Set my password"
-msgstr "ຕັ້ງລະຫັດຜ່ານຂອງຂ້ອຍ"
 
 msgid "Reset my password"
 msgstr "ຕັ້ງລະຫັດຜ່ານໃໝ່"
@@ -9028,48 +9280,16 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr "ຕົວປຸກ (Trigger)"
-
-#, fuzzy
-#| msgid "Alert triggered"
-msgid "Add trigger"
-msgstr "ການແຈ້ງເຕືອນຖືກກະຕຸ້ນແລ້ວ"
-
-msgid "Conditions"
-msgstr "ເງື່ອນໄຂ"
-
 #, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
 msgstr "ທຸກສ່ວນປະກອບເປີດໃຫ້ອັບເດດຄຳແປແລ້ວ."
 
 #, fuzzy
-#| msgid "Configuration"
-msgid "Condition"
-msgstr "ການຕັ້ງຄ່າ"
-
-#, fuzzy
-#| msgid "Bad configuration"
-msgid "Add condition"
-msgstr "ການຕັ້ງຄ່າທີ່ບໍ່ດີ"
-
-msgid "Actions"
-msgstr "ການດຳເນີນການ"
-
-#, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "ມີການດຳເນີນການໃນບ່ອນເກັບຂໍ້ມູນ"
-
-msgid "Action"
-msgstr "ການດຳເນີນການ"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "ການດຳເນີນການ"
 
 #, fuzzy
 #| msgid "Move"
@@ -9205,6 +9425,17 @@ msgstr "Project URL slug"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9381,6 +9612,19 @@ msgstr "ເນື້ອໃນການຕອບສະໜອງ"
 msgid "Request payload"
 msgstr "ຂໍ້ມູນການຮ້ອງຂໍ"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "ສິດອະນຸຍາດ"
+
+msgid "Cancel"
+msgstr "ຍົກເລີກ"
+
 msgid "Settings"
 msgstr "ການຕັ້ງຄ່າ"
 
@@ -9389,6 +9633,15 @@ msgstr "ການມອບໝາຍອັດຕະໂນມັດ"
 
 msgid "Access control"
 msgstr "ການຄວບຄຸມການເຂົ້າເຖິງ"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr "ເພີ່ມຜູ້ໃຊ້ທີ່ສ້າງໃໝ່ເຂົ້າໃນທີມນີ້ໂດຍອັດຕະໂນມັດ ໂດຍອີງຕາມທີ່ຢູ່ອີເມວຂອງພວກເຂົາ."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9430,6 +9683,9 @@ msgstr "ສິ່ງນີ້ຈະລຶບສິດການເຂົ້າເ
 
 msgid "Add"
 msgstr "ເພີ່ມ"
+
+msgid "Moved component"
+msgstr "ຍ້າຍສ່ວນປະກອບແລ້ວ"
 
 msgid "All components"
 msgstr "ທຸກຄອມໂພເນນ"
@@ -9765,6 +10021,29 @@ msgstr "ກຳລັງໂຫຼດ…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The upstream repository could not be temporarily accessed. Please try it "
+#| "again later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "ບໍ່ສາມາດເຂົ້າເຖິງຄັງເກັບຂໍ້ມູນຕົ້ນທາງໄດ້ຊົ່ວຄາວ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -11236,6 +11515,37 @@ msgstr "ອົງປະກອບ %(component)s ຖືກປົດລັອກແ
 msgid "Digest: %(notification_name)s"
 msgstr "ສະຫຼຸບ: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "ຢືນຢັນການຣີເຊັດລະຫັດຜ່ານ"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "ເບິ່ງຄຳເຊີນ"
 
@@ -11243,6 +11553,10 @@ msgstr "ເບິ່ງຄຳເຊີນ"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "ຄຳເຊີນຈະໝົດອາຍຸຫຼັງຈາກ %(count)s ຊົ່ວໂມງ."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11475,6 +11789,11 @@ msgid "Confirm invitation"
 msgstr "ຢືນຢັນຄຳເຊີນ"
 
 #, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "ຢືນຢັນອີເມລໃໝ່"
+
+#, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
@@ -11533,6 +11852,17 @@ msgstr "ຍັງບໍ່ທັນສຳເລັດ"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "ສະຫຼຸບກິດຈະກຳການແປ"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "ກິດຈະກຳໃນບັນຊີຂອງທ່ານທີ່ %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "ການລຶບບັນຊີໃນ %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "ການວິນິດໄສອົງປະກອບ"
@@ -11731,6 +12061,68 @@ msgstr "ເລືອກເບິ່ງການຄົ້ນພົບ"
 msgid "Performance report"
 msgstr "ລາຍງານປະສິດທິພາບ"
 
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Bot protection"
+msgstr "ການເຊື່ອມຕໍ່ກັບບ່ອນຝາກໂຄ້ດ"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "ບໍ່ມີທີມໃຫ້ເລືອກ."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "ລະຫັດຜ່ານປັດຈຸບັນ"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous 24 completed hours"
+msgstr "ລາຍງານທີ່ເຄີຍສ້າງກ່ອນໜ້ານີ້"
+
+#, fuzzy
+#| msgid "Suggested change"
+msgid "Issued challenges"
+msgstr "ການປ່ຽນແປງທີ່ແນະນຳ"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "ການປ່ຽນແປງຕົ້ນສະບັບ"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "ຄຳແນະນຳບໍ່ຖືກຕ້ອງ!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "ການປ່ຽນແປງຫຼ້າສຸດ"
+
+msgid "CSRF failure"
+msgstr ""
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "ບໍລິການບໍ່ພ້ອມໃຊ້ງານອີກຕໍ່ໄປ"
+
 msgid "Last occurrence"
 msgstr "ການເກີດຂຶ້ນຄັ້ງລ້າສຸດ"
 
@@ -11882,6 +12274,339 @@ msgstr "ສະແດງສ່ວນປະກອບທີ່ບໍ່ມີ VCS �
 msgid "This repository is linked to:"
 msgstr "ຄັງເກັບຂໍ້ມູນນີ້ເຊື່ອມຕໍ່ກັບ:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "ຢືນຢັນການລົງທະບຽນ"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "ຕັ້ງລະຫັດຜ່ານໃໝ່"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "ລຶບບັນຊີທີ່ເຊື່ອມຕໍ່ອອກບໍ່?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "ຍົກເລີກການກວດສອບທີ່ຜິດພາດ"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "ແກ້ໄຂການເປັນສະມາຊິກທີມສຳລັບ %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "ຕົວລະບຸໜ່ວຍ"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "ຈັບຄູ່ຫຼາຍເສັ້ນທາງ"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching row details."
+msgstr "ບໍ່ມີທີມໃຫ້ເລືອກ."
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "ໃຊ້ໄປ %(used)s ຈາກທັງໝົດ %(total)s"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "ກວດພົບຈາກຄັງເກັບລະຫັດ"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "ຜູ້ດູແລລະບົບ"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "ການດູແລລະບົບ Weblate"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "ໃຊ້ໄປ %(used)s ຈາກທັງໝົດ %(total)s"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous reports"
+msgstr "ລາຍງານທີ່ເຄີຍສ້າງກ່ອນໜ້ານີ້"
+
+#, fuzzy
+#| msgid "Past reports"
+msgid "Next reports"
+msgstr "ລາຍງານໃນອະດີດ"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "ກັບຄືນໄປການຕັ້ງຄ່າບັນຊີ"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "ລາຍງານການແປ"
+
+msgid "Filename"
+msgstr "ຊື່ໄຟລ໌"
+
+#, fuzzy
+#| msgid "Not needed"
+msgid "Not recorded"
+msgstr "ບໍ່ຈຳເປັນ"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "ສົ່ງ"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "ການຊ່ວຍເຫຼືອແບບມືອາຊີບ"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "ການແປສຳເລັດແລ້ວ"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "ການເປີດໃຊ້ງານສຳເລັດແລ້ວ."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "ການວິເຄາະລົ້ມເຫຼວ"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "ຄວາມຄືບໜ້າ"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "ໃຊ້ໄປ %(used)s ຈາກທັງໝົດ %(total)s"
+
+#, fuzzy
+#| msgid "Fluent type"
+msgid "Finding type"
+msgstr "ປະເພດ Fluent"
+
+msgid "Filter"
+msgstr "ກັ່ນຕອງ"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "ເລືອກຂໍ້ຄວາມຕົ້ນສະບັບທັງໝົດ"
+
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all on this page"
+msgstr "ເລືອກຂໍ້ຄວາມຕົ້ນສະບັບທັງໝົດ"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "ການເລືອກໂຄງການ"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "ກຳລັງລໍຖ້າ"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "ເປີດໃຊ້ງານ"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "ໝາຍເຫດ"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "ວັນທີເຂົ້າຮ່ວມ"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "ເຂົ້າສູ່ລະບົບລ່າສຸດ"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "ລຶບຟອນແລ້ວ."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "ອັບເດດຫຼ້າສຸດ"
+
+#, fuzzy
+#| msgid "No diagnostics match the selected filters."
+msgid "No security findings match these filters."
+msgstr "ບໍ່ມີການວິເຄາະທີ່ກົງກັບຕົວເຮົາກັ່ນຕອງທີ່ເລືອກ."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "ຕັ້ງລະຫັດຜ່ານສຳລັບບັນຊີ Weblate ຂອງທ່ານ"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "ກັບຄືນໄປການຕັ້ງຄ່າບັນຊີ"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "ການຊ່ວຍເຫຼືອແບບມືອາຊີບ"
+
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh progress"
+msgstr "ຣີເຟຣຊຄັງເກັບຂໍ້ມູນ"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "ດາວໂຫຼດລາຍງານ"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "ຈັດການຂໍ້ຄວາມ"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Affected accounts"
+msgstr "ບັນຊີທີ່ເຊື່ອມຕໍ່ແລ້ວ"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "ໃຊ້ໄປ %(used)s ຈາກທັງໝົດ %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "ລາຍງານການແປ"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "ປິດລະຫັດຜ່ານ"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "ປິດລະຫັດຜ່ານ"
+
 msgid "Activate support package"
 msgstr "ເປີດໃຊ້ງານແພັກເກັດສະໜັບສະໜູນ"
 
@@ -12012,6 +12737,20 @@ msgstr "ລຶບຄຳເຊີນ"
 msgid "Check user access"
 msgstr "ກວດສອບການເຂົ້າເຖິງຂອງຜູ້ໃຊ້"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "ກິດຈະກຳຂອງບັນຊີ"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr "ເພີ່ມພື້ນທີ່ເຮັດວຽກ"
 
@@ -12035,9 +12774,6 @@ msgstr "ເມທຣິກຊ໌"
 
 msgid "Displayed languages"
 msgstr "ພາສາທີ່ສະແດງ"
-
-msgid "Choose"
-msgstr "ເລືອກ"
 
 msgid "Translation memory status"
 msgstr "ສະຖານະໜ່ວຍຄວາມຈຳການແປ"
@@ -12637,9 +13373,6 @@ msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "ການແປຖືກລັອກອັດຕະໂນມັດເນື່ອງຈາກການແຈ້ງເຕືອນດັ່ງນີ້:"
 
-msgid "Filter"
-msgstr "ກັ່ນຕອງ"
-
 msgid "Clear filters"
 msgstr "ລ້າງຕົວເຮົາກັ່ນຕອງ"
 
@@ -12955,6 +13688,24 @@ msgstr "ຜູ້ມີສ່ວນຮ່ວມ"
 msgid "Translations"
 msgstr "ການແປ"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"ທ່ານໄດ້ຖືກເຊີນໃຫ້ເຂົ້າຮ່ວມ %(site_title)s ໂດຍ %(invitation_author)s ເພື່ອຮ່ວມແປໃນໂຄງການ "
+"%(project_name)s ແລະ ເຂົ້າຮ່ວມທີມ %(team_name)s."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13006,6 +13757,11 @@ msgstr "ບລັອກຜູ້ໃຊ້"
 
 msgid "View notification"
 msgstr "ເບິ່ງການແຈ້ງເຕືອນ"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "ການປ່ຽນແປງທັງໝົດ"
 
 msgid "No matching activity found."
 msgstr "ບໍ່ພົບກິດຈະກຳທີ່ກົງກັນ."
@@ -13604,6 +14360,14 @@ msgstr "ທ່ານກຳລັງຈະດຳເນີນການຕັ້ງ
 msgid "You are about to continue removing your Weblate account."
 msgstr "ທ່ານກຳລັງຈະດຳເນີນການລຶບບັນຊີ Weblate ຂອງທ່ານ."
 
+#, fuzzy
+#| msgid ""
+#| "You are about to continue resetting the password for your Weblate account."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "ທ່ານກຳລັງຈະດຳເນີນການຕັ້ງຄ່າລະຫັດຜ່ານໃໝ່ສຳລັບບັນຊີ Weblate ຂອງທ່ານ."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "ທ່ານກຳລັງຈະຍອມຮັບຄຳເຊີນ ແລະ ສ້າງບັນຊີ Weblate ໃໝ່."
 
@@ -13618,6 +14382,11 @@ msgstr "ສືບຕໍ່ການຕັ້ງລະຫັດຜ່ານໃໝ
 
 msgid "Continue account removal"
 msgstr "ສືບຕໍ່ການລຶບບັນຊີ"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "ການກວດສອບຄວາມເປັນມະນຸດ"
 
 msgid "Accept invitation"
 msgstr "ຮັບຄຳເຊີນ"
@@ -13715,9 +14484,6 @@ msgstr "Weblate ບໍ່ສາມາດກວດສອບ URL ເວັບໄ�
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "ສ່ວນເສີມ Weblate CDN ບໍ່ສາມາດວິເຄາະໄຟລ໌ HTML ໄດ້."
-
-msgid "Filename"
-msgstr "ຊື່ໄຟລ໌"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14303,6 +15069,11 @@ msgstr "ໄປຍັງ"
 msgid "Go"
 msgstr ""
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change details"
+msgstr "ເຫດການການປ່ຽນແປງທັງໝົດ"
+
 msgid "Download latest changes as CSV"
 msgstr "ດາວໂຫຼດການປ່ຽນແປງຫຼ້າສຸດເປັນ CSV"
 
@@ -14407,9 +15178,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "ເພີ່ມ ຫຼື ກຳນົດຄ່າບັນຊີ"
-
-msgid "Branch"
-msgstr "ສາຂາ (Branch)"
 
 msgid "Visibility"
 msgstr "ການເບິ່ງເຫັນ"
@@ -14718,9 +15486,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "ແກ້ໄຂຕົ້ນສະບັບ"
-
-msgid "Cancel"
-msgstr "ຍົກເລີກ"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "ຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບການສົ່ງ (push) ການປ່ຽນແປງຈາກ Weblate."
@@ -15089,6 +15854,11 @@ msgstr "ທ່ານສາມາດເພີ່ມຂໍ້ຄວາມການ
 
 msgid "Quick downloads"
 msgstr "ດາວໂຫຼດດ່ວນ"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "ໄຟລ໌ໃນຮູບແບບຕົ້ນສະບັບຕາມທີ່ແປໄວ້ໃນຄັງເກັບຂໍ້ມູນ"
@@ -15820,9 +16590,6 @@ msgstr "ປ່ຽນຊື່ສ່ວນປະກອບແລ້ວ"
 msgid "A component was moved within a project."
 msgstr "ສ່ວນປະກອບຖືກຍ້າຍພາຍໃນໂຄງການ."
 
-msgid "Moved component"
-msgstr "ຍ້າຍສ່ວນປະກອບແລ້ວ"
-
 msgid "A user made their first contribution to a translation."
 msgstr "ຜູ້ໃຊ້ໄດ້ປະກອບສ່ວນເຂົ້າໃນການແປເປັນຄັ້ງທຳອິດ."
 
@@ -16449,6 +17216,18 @@ msgstr ""
 "ຮູບແບບພະຫຸພົດໃນ %(component)s ບໍ່ກົງກັບພາສາປາຍທາງ. ການແປອັດຕະໂນມັດໄດ້ຂ້າມຂໍ້ຄວາມແບບພະຫຸພົດ "
 "ແລະ ປະມວນຜົນສະເພາະຂໍ້ຄວາມແບບຮູບແບບດຽວ."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "ບໍ່ສາມາດເລີ່ມການແປອັດຕະໂນມັດໄດ້ເນື່ອງຈາກປາຍທາງຖືກລັອກ."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "ການແປອັດຕະໂນມັດຫຼົ້ມເຫຼວ: %s"
@@ -16612,6 +17391,10 @@ msgstr "ຄຳຮ້ອງຂໍບໍ່ຖືກຕ້ອງ."
 msgid "Choose either replacement or clearing translations."
 msgstr "ວິທີຈັດການຄຳຮ້ອງຂໍເພື່ອສ້າງການແປໃໝ່."
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr "ສ່ວນປະກອບຖືກລັອກໂດຍອັດຕະໂນມັດເນື່ອງຈາກມີການແຈ້ງເຕືອນ."
 
@@ -16666,6 +17449,9 @@ msgstr "ສະບັບປັບປຸງເດີມ: {}"
 
 msgid "New revision: {}"
 msgstr "ສະບັບປັບປຸງໃໝ່: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -16776,6 +17562,11 @@ msgstr "File Mask ກົງກັບສ່ວນປະກອບຫຼັກ."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) ບໍ່ມີຢູ່."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s ເວລາ %(time)s ໃນ %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -16937,6 +17728,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "ໃສ່ Tag ປິດສຳລັບ Tag XML ທີ່ຫວ່າງເປົ່າ"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "ຄືນຄ່າເລີ່ມຕົ້ນຂອງເວັບໄຊ"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "ຜູ້ໃຊ້ລະດັບສູງ (Power user)"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "ຂຶ້ນແຖວໃໝ່ໃນຕອນເລີ່ມຕົ້ນ"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -17503,6 +18342,11 @@ msgstr "ການປ່ຽນແປງສູງສຸດຕໍ່ມື້"
 
 msgid "Maximum source words per day"
 msgstr "ຈຳນວນຄຳຕົ້ນສະບັບສູງສຸດຕໍ່ມື້"
+
+#, fuzzy
+#| msgid "The requested resource was not found or is not accessible."
+msgid "This component does not exist or you cannot access it."
+msgstr "ບໍ່ພົບຊັບພະຍາກອນທີ່ຮ້ອງຂໍ ຫຼື ບໍ່ສາມາດເຂົ້າເຖິງໄດ້."
 
 msgid "Inherit from workspace"
 msgstr "ສືບທອດຈາກພື້ນທີ່ເຮັດວຽກ"
@@ -18256,11 +19100,6 @@ msgstr "ສ່ວນປະກອບຖືກສ້າງຂຶ້ນຜ່ານ
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ເວລາ %(time)s ໃນ %(translation)s ໂດຍ %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s ເວລາ %(time)s ໃນ %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -18943,6 +19782,13 @@ msgstr ""
 "ການສົ່ງຂໍ້ມູນ (push) ໂດຍບໍ່ມີຄຳຂໍຮ່ວມ (merge request) ຕ້ອງມີສິດຂຽນລົງໃນຄັງເກັບຂໍ້ມູນ. ໃຫ້ຕັ້ງຄ່າ "
 "URL ການສົ່ງຂໍ້ມູນດ້ວຍຂໍ້ມູນປະຈຳຕົວ ຫຼື ໃຊ້ URL ຂອງຄັງເກັບຂໍ້ມູນແບບ SSH."
 
+#, fuzzy
+#| msgid ""
+#| "The file mask used for discovery is too complex and took too long to "
+#| "evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "ຮູບແບບຊື່ໄຟລ໌ທີ່ໃຊ້ໃນການຄົ້ນຫາແມ່ນຊັບຊ້ອນເກີນໄປ ແລະ ໃຊ້ເວລາໃນການປະມວນຜົນດົນເກີນໄປ."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -19539,6 +20385,31 @@ msgstr[0] ""
 "ຍອມຮັບ %(accepted)d ຈາກທັງໝົດ %(total)d ຄຳແນະນຳຈາກ %(user)s. %(failed)d "
 "ລາຍການບໍ່ສຳເລັດເນື່ອງຈາກສິດ ຫຼື ການກວດສອບ."
 
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "ການແກ້ໄຂແບບກຸ່ມສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The target or permissions changed."
+msgstr "ສິດການເຂົ້າເຖິງຂອງຜູ້ໃຊ້ຖືກປ່ຽນແປງ."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "ການແກ້ໄຂແບບກຸ່ມສຳເລັດແລ້ວ, %d ຂໍ້ຄວາມຖືກອັບເດດ."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "ຂ້າມການແປອັດຕະໂນມັດເນື່ອງຈາກປາຍທາງບໍ່ມີຢູ່ແລ້ວ."
 
@@ -19813,6 +20684,9 @@ msgstr "ທ່ານບໍ່ສາມາດລຶບຕົວທ່ານເອ
 msgid "You can not block yourself on this project."
 msgstr "ທ່ານບໍ່ສາມາດບລັອກ (Block) ຕົວທ່ານເອງໃນໂຄງການນີ້ໄດ້."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "ຜູ້ໃຊ້ຖືກບລັອກໃນໂຄງການນີ້ແລ້ວ."
 
@@ -19859,6 +20733,11 @@ msgid_plural ""
 msgstr[0] ""
 "ບໍ່ສາມາດເພີ່ມພາສາ %(language)s ເຂົ້າໃນ %(count)d ສ່ວນປະກອບ. "
 "ກະລຸນາກວດສອບການຕັ້ງຄ່າຂອງສ່ວນປະກອບ."
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to add this language."
+msgstr "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂຂໍ້ຄວາມຕົ້ນສະບັບ."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20103,10 +20982,20 @@ msgstr "ສ່ວນປະກອບຖືກລັອກສຳລັບການ
 msgid "All components are now locked for translation updates!"
 msgstr "ທຸກສ່ວນປະກອບຖືກລັອກສຳລັບການອັບເດດຄຳແປແລ້ວ!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "ທຸກສ່ວນປະກອບຖືກລັອກສຳລັບການອັບເດດຄຳແປແລ້ວ!"
+
 msgid "Component is now open for translation updates."
 msgstr "ສ່ວນປະກອບເປີດໃຫ້ອັບເດດຄຳແປແລ້ວ."
 
 msgid "All components are now open for translation updates."
+msgstr "ທຸກສ່ວນປະກອບເປີດໃຫ້ອັບເດດຄຳແປແລ້ວ."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "ທຸກສ່ວນປະກອບເປີດໃຫ້ອັບເດດຄຳແປແລ້ວ."
 
 msgid "Generating report…"
@@ -20167,11 +21056,21 @@ msgstr "ມີການຄົ້ນຫາຫຼາຍເກີນໄປ, ກະ�
 msgid "Invalid search query!"
 msgstr "ຄຳຄົ້ນຫາບໍ່ຖືກຕ້ອງ!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "ມີການຄົ້ນຫາຫຼາຍເກີນໄປ, ກະລຸນາລອງໃໝ່ພາຍຫຼັງ."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr "ບໍ່ສາມາດປະມວນຜົນແບບຟອມໄດ້!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "ແກ້ໄຂຂໍ້ຄວາມແບບກຸ່ມ"
 
 #, fuzzy, python-format
 #| msgid "Authentication failed: %s"
@@ -20180,11 +21079,6 @@ msgstr "ການຢືນຢັນຕົວຕົນຜິດພາດ: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "ການແກ້ໄຂແບບກຸ່ມສຳເລັດແລ້ວ, ບໍ່ມີຂໍ້ຄວາມໃດຖືກອັບເດດ."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "ການແກ້ໄຂແບບກຸ່ມສຳເລັດແລ້ວ, %d ຂໍ້ຄວາມຖືກອັບເດດ."
 
 msgid "Settings saved"
 msgstr "ບັນທຶກການຕັ້ງຄ່າແລ້ວ"
@@ -20465,6 +21359,13 @@ msgstr "ນິພົດເຣກູລາ (Regular expression) ບໍ່ຖື�
 #| msgid "Automatic translation mode"
 msgid "Automatic translation reported a warning."
 msgstr "ໂໝດການແປອັດຕະໂນມັດ"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "ແປຂໍ້ຄວາມໂດຍອັດຕະໂນມັດໂດຍໃຊ້ການແປດ້ວຍເຄື່ອງຈັກ ຫຼື ສ່ວນປະກອບອື່ນໆ."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -20882,6 +21783,9 @@ msgstr "URL ຂອງ Fediverse ຄວນເຊື່ອມຕໍ່ໄປຍັ
 
 msgid "URL domain is not allowed."
 msgstr "ໂດເມນຂອງ URL ບໍ່ໄດ້ຮັບອະນຸຍາດ."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -21841,6 +22745,70 @@ msgid ""
 msgstr ""
 "ສະແດງເມນູລົງມາ (Drop-down) ທີ່ມຸມຂວາເທິງຕະຫຼອດເວລາ ເຖິງວ່າຈະມີບ່ອນພໍສຳລັບເມນູເຕັມຮູບແບບກໍຕາມ."
 
+#, fuzzy
+#| msgid "Past reports"
+msgid "CSV report"
+msgstr "ລາຍງານໃນອະດີດ"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Delimiter"
+msgstr "ການຈຳກັດພາສາ"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "ຊື່ຜູ້ໃຊ້ ຫຼື ອີເມວ"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "ລະຫັດຜ່ານ"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "ການຕັ້ງຄ່າ"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "ແກ້ໄຂ"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "ຜູ້ໃຊ້ຖືກປິດໃຊ້ງານໂດຍຜູ້ດູແລ."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "ປ່ຽນລະຫັດຜ່ານແລ້ວ."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "ການສະໜັບສະໜູນຈາກຊຸມຊົນ"
@@ -21902,11 +22870,191 @@ msgstr "ທຳຄວາມສະອາດບ່ອນເກັບຂໍ້ມູ
 msgid "Repository initialization"
 msgstr "ການເລີ່ມຕົ້ນຄັງເກັບຂໍ້ມູນ"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "ລະຫັດຜ່ານໃໝ່"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "ຢືນຢັນອີເມລໃໝ່"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The file contains malformed CSV quoting."
+msgstr "ໄຟລ໌ ZIP ມີຈຳນວນລາຍການຫຼາຍເກີນໄປ."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "ຊັບພະຍາກອນຖືກລັອກ."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The repository HTTP redirect contains credentials and was rejected."
+msgid "The report contains no credential rows."
+msgstr "ການປ່ຽນເສັ້ນທາງ HTTP ຂອງຄັງເກັບຂໍ້ມູນມີຂໍ້ມູນການເຂົ້າສູ່ລະບົບ ແລະ ຖືກປະຕິເສດ."
+
+#, fuzzy
+#| msgid "The authenticated user does not have permission for this operation."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "ຜູ້ໃຊ້ທີ່ຢືນຢັນຕົວຕົນແລ້ວບໍ່ມີສິດອະນຸຍາດສຳລັບການດຳເນີນການນີ້."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "ຄວາມປອດໄພ"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "ເຂົ້າຮ່ວມເມື່ອ %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, ຂໍ້ຄວາມທີ %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "ບໍ່ສາມາດແຍກຄັງເກັບຂໍ້ມູນຢູ່ %(hostname)s. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "ບໍ່ສາມາດແຍກຄັງເກັບຂໍ້ມູນຢູ່ %(hostname)s. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "ປ່ຽນລະຫັດຜ່ານແລ້ວ."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "ການແປທີ່ຊ້ຳກັນ."
+
+#, fuzzy
+#| msgid "Connect accounts"
+msgid "Unknown accounts"
+msgstr "ເຊື່ອມຕໍ່ບັນຊີ"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "ລຶບບັນຊີ"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "ປິດລະຫັດຜ່ານ"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "ຕັ້ງລະຫັດຜ່ານໃໝ່"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "ປ່ຽນລະຫັດຜ່ານແລ້ວ."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "ຖືກລະເລີຍ"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "ຂ້າມການເພີ່ມ"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "ໄຟລ໌ບໍ່ຮອງຮັບ!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "ຢືນຢັນອີເມລໃໝ່"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "ຢືນຢັນອີເມລໃໝ່"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "ແກ້ໄຂການເປັນສະມາຊິກທີມສຳລັບ %(username)s"
+
 msgid "Weblate administration"
 msgstr "ການດູແລລະບົບ Weblate"
 
 msgid "Object listing turned off"
 msgstr "ປິດການສະແດງລາຍການວັດຖຸແລ້ວ"
+
+#, fuzzy
+#| msgid ""
+#| "The GitHub App registration link is no longer valid. Start the "
+#| "registration again."
+msgid "The security operation expired. Start a new operation."
+msgstr "ລິ້ງລົງທະບຽນ GitHub App ໃຊ້ງານບໍ່ໄດ້ແລ້ວ. ກະລຸນາເລີ່ມຕົ້ນການລົງທະບຽນໃໝ່."
 
 msgid "Return to Weblate"
 msgstr "ກັບຄືນສູ່ Weblate"
@@ -22077,6 +23225,35 @@ msgstr "ພື້ນທີ່ເຮັດວຽກບໍ່ສາມາດລຶ
 
 msgid "The workspace has been removed."
 msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແລ້ວ."
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "ບໍລິການຜູ້ເຜີຍແຜ່ Fedora Messaging ບໍ່ພ້ອມໃຊ້ງານ; "
+#~ "ການເຊື່ອມຕໍ່ຈະຖືກສ້າງໃໝ່ໃນການພະຍາຍາມຄັ້ງຕໍ່ໄປ: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "ບໍ່ສາມາດຕັ້ງຄ່າບໍລິການຜູ້ເຜີຍແຜ່ Fedora Messaging ໃໝ່ໄດ້."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "URL ໂບຣກເກີ Fedora Messaging ບໍ່ຖືກຕ້ອງ: %(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "ການລົງທະບຽນເກືອບສຳເລັດແລ້ວ"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr "ຄລິກລິ້ງຢືນຢັນທີ່ສົ່ງໄປຫາອິນບັອກອີເມລຂອງທ່ານເພື່ອເລີ່ມໃຊ້ງານບັນຊີ."
 
 #~ msgid "Search and replace"
 #~ msgstr "ຄົ້ນຫາ ແລະ ແທນທີ່"
@@ -22388,9 +23565,6 @@ msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແ
 #~ msgid "Join us in shaping the future of localization and contribute today!"
 #~ msgstr "ມາຮ່ວມກັບພວກເຮົາເພື່ອສ້າງອະນາຄົດຂອງການແປພາສາ ແລະ ເລີ່ມມີສ່ວນຮ່ວມໃນມື້ນີ້!"
 
-#~ msgid "Download reports"
-#~ msgstr "ດາວໂຫຼດລາຍງານ"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "ບໍ່ຮອງຮັບ DeepL API v1 ອີກຕໍ່ໄປ."
 
@@ -22417,9 +23591,6 @@ msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແ
 #~ msgctxt "Anthropic model selection"
 #~ msgid "Claude Fable 5"
 #~ msgstr "Claude Fable 5"
-
-#~ msgid "Suggested change"
-#~ msgstr "ການປ່ຽນແປງທີ່ແນະນຳ"
 
 #~ msgid "Similarity"
 #~ msgstr "ຄວາມຄ້າຍຄືກັນ"
@@ -22536,9 +23707,6 @@ msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແ
 #~ msgstr ""
 #~ "ບໍ່ຕ້ອງກັງວົນກ່ຽວກັບການເຮັດໃຫ້ຂໍ້ຄວາມເສຍຫາຍ. "
 #~ "ນີ້ແມ່ນຂະບວນການສອງຂັ້ນຕອນທີ່ຈະສະແດງຕົວຢ່າງຂອງຂໍ້ຄວາມທີ່ແກ້ໄຂກ່ອນທີ່ຈະຢືນຢັນການປ່ຽນແປງແທ້."
-
-#~ msgid "Activation completed."
-#~ msgstr "ການເປີດໃຊ້ງານສຳເລັດແລ້ວ."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"

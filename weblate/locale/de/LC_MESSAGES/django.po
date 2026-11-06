@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-11-02 17:36+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -440,6 +440,16 @@ msgstr "Benachrichtigungseinstellung"
 msgid "Saved search"
 msgstr "Gespeicherte Suche"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Passwort geändert."
@@ -680,6 +690,21 @@ msgstr "Eingeladen zu {project} von {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Passwort konfiguriert."
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Wenn Sie es waren, setzen Sie Ihr Passwort zurück, um wieder Zugriff auf Ihr "
+"Konto zu erhalten."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1050,6 +1075,11 @@ msgstr ""
 "Dieser Bereich ist zu groß, um ihn zu überprüfen. Wählen Sie eine kleinere "
 "Kategorie, Komponente oder Übersetzung aus."
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Mitwirkende"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operation im Repository wurde durchgeführt"
@@ -1324,6 +1354,11 @@ msgstr ""
 "Diese Einladung kann nur von der vom Einladenden gewählten E-Mail-Adresse "
 "angenommen werden; sie kann nicht von Ihrem Benutzerkonto verwendet werden."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1354,6 +1389,14 @@ msgid "Dark"
 msgstr "Dunkel"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Bitte bestätigen Sie Ihre Identität mithilfe eines zweiten Faktors, bevor "
+"Sie fortfahren."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 "Bitte bestätigen Sie Ihre Identität mithilfe eines zweiten Faktors, bevor "
 "Sie fortfahren."
@@ -1464,8 +1507,8 @@ msgstr "Anmelden"
 msgid "Signed out"
 msgstr "Abgemeldet"
 
-msgid "Verify new e-mail address"
-msgstr "Neue E-Mail-Adresse verifizieren"
+msgid "Add and verify e-mail address"
+msgstr "E-Mail-Adresse hinzufügen und bestätigen"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
@@ -1474,6 +1517,9 @@ msgstr ""
 
 msgid "Change password"
 msgstr "Passwort ändern"
+
+msgid "Set password"
+msgstr "Passwort"
 
 msgid "Password reset has been already completed."
 msgstr "Die Passwortzurücksetzung ist bereits abgeschlossen."
@@ -1900,14 +1946,6 @@ msgstr ""
 "Broker oder die Zustellungsbestätigung wurde nicht abgeschlossen: %(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Fedora-Messaging-Publisher-Dienst war nicht verfügbar; die Verbindung wird "
-"beim nächsten Versuch erneut hergestellt: %(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Fedora-Messaging-Broker hat folgende Meldung zurückgegeben: %(error)s"
 
@@ -1922,8 +1960,9 @@ msgstr "Fedora-Messaging-Veröffentlichung fehlgeschlagen: %(error)s"
 msgid "configured"
 msgstr "konfiguriert"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Fedora-Messaging-Publisher-Dienst konnte nicht zurückgesetzt werden."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr ""
+"Die SSL-Zertifikate müssen für die SSL-Verbindung bereitgestellt werden."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "CA-Zertifikate müssen gültige PEM-kodierte X.509-Zertifikate sein."
@@ -1936,10 +1975,6 @@ msgstr ""
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
 "Client-SSL-Zertifikate müssen gültige PEM-kodierte X.509-Zertifikate sein."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "Fedora-Messaging-Broker-URL ist ungültig: %(error)s"
 
 #, python-format
 msgid ""
@@ -2775,10 +2810,6 @@ msgstr "Themenpräfix darf nur ASCII-Zeichen enthalten."
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "Themenpräfix darf nicht länger als %(limit)d Zeichen sein."
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
-"Die SSL-Zertifikate müssen für die SSL-Verbindung bereitgestellt werden."
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Die SSL-Zertifikate werden ohne SSL-Verbindung nicht verwendet."
 
@@ -3397,6 +3428,28 @@ msgstr "Benutzer"
 msgid "Language"
 msgstr "Sprache"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "Kunde"
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Reset built-in roles to defaults"
+msgstr "Plattformstandard wiederherstellen"
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Persönliche Informationen"
 
@@ -3414,6 +3467,12 @@ msgstr "Dies wird nicht verwendet, wenn eine Komponentenliste ausgewählt ist."
 
 msgid "This is not used when a component is selected."
 msgstr "Dies wird nicht verwendet, wenn eine Komponente ausgewählt ist."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "Mitwirkungsvereinbarung ansehen"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3624,6 +3683,24 @@ msgid "Manage workspace access"
 msgstr "Arbeitsbereichszugriff verwalten"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Alle Benutzer durchsuchen"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Clean up selected contributions"
+msgid "Search resource contributors"
+msgstr "Ausgewählte Beiträge bereinigen"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Benutzerprofil"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Verwaltungsoberfläche verwenden"
 
@@ -3694,6 +3771,18 @@ msgstr "Abrechnung verwalten"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Plattformweite Erweiterungen verwalten"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Weblate entdecken"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Benutzerprofil"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3902,6 +3991,10 @@ msgstr "Bezeichnung"
 
 msgid "Choose permissions granted to this role."
 msgstr "Wählen Sie die Berechtigungen für diese Rolle aus."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "Rollen"
@@ -4242,6 +4335,11 @@ msgstr ""
 "eingeschränkten Zugriff aktivieren; andernfalls würden Sie sich selbst "
 "aussperren."
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Zusätzliche Labels können von Projektadministratoren definiert werden."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4264,6 +4362,16 @@ msgstr "Integriertes Team kann nicht entfernt werden!"
 
 msgid "User invitation was removed."
 msgstr "Benutzereinladung wurde entfernt."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "Benutzereinladung wurde entfernt."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "Bitte füllen Sie die Registrierung aus, um die Einladung anzunehmen."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4462,6 +4570,59 @@ msgstr "Beliebige von"
 
 msgid "Not"
 msgstr "Keine"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Häufigkeit"
+
+msgid "Choose"
+msgstr "Auswahl"
+
+msgid "Trigger"
+msgstr "Trigger"
+
+msgid "Add trigger"
+msgstr "Trigger hinzufügen"
+
+msgid "Condition"
+msgstr "Bedingung"
+
+msgid "Add condition"
+msgstr "Bedingung hinzufügen"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Add action"
+msgstr "Aktion hinzufügen"
+
+msgid "Conditions"
+msgstr "Bedingungen"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "Branch"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Zusätzlicher Branch"
+
+#, fuzzy
+#| msgid "Others"
+msgid "Otherwise"
+msgstr "Andere"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "Branch"
 
 msgid "Additional message"
 msgstr "Zusätzliche Nachricht"
@@ -5152,6 +5313,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Dem HTML-Tag {tag} fehlt ein passendes End-Tag: {end}."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Dem HTML-Tag {tag} fehlt ein passendes End-Tag: {end}."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5376,6 +5542,12 @@ msgstr "Fluent-Übersetzungssyntax"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Fluent-Syntaxfehler in der Übersetzung."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Die folgenden Formatzeichenketten sind falsch angeordnet:"
@@ -6311,6 +6483,16 @@ msgstr ""
 "Build wird gelöscht, sobald entweder diese Obergrenze oder das maximale "
 "Alter erreicht ist."
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "Übersetzungsdateien-CDN"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr "Kotlin-SDK-CDN"
 
@@ -6320,6 +6502,11 @@ msgid ""
 msgstr ""
 "Veröffentlicht Android-Zeichenketten- und Plural-Ressourcen für registrierte "
 "Kotlin-SDK-Builds."
+
+#, fuzzy
+#| msgid "This add-on is already installed on this component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Diese Erweiterung ist auf dieser Komponente bereits installiert."
 
 msgid "Weblate languages"
 msgstr "Weblate-Sprachen"
@@ -7978,8 +8165,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Ihr Profil"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Eine gültige E-Mail-Adresse eingeben."
+
 msgid "Confirm adding user identity"
 msgstr "Hinzufügen der Benutzeridentität bestätigen"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7989,6 +8187,11 @@ msgid ""
 msgstr ""
 "Nachdem Sie dies bestätigt haben, werden Sie sich mittels "
 "%(backend_verbose)s (%(uid)s) bei Weblate authentifizieren können."
+
+#, fuzzy
+#| msgid "Add and verify e-mail address"
+msgid "Add e-mail address"
+msgstr "E-Mail-Adresse hinzufügen und bestätigen"
 
 msgid "Confirm"
 msgstr "Bestätigen"
@@ -8096,14 +8299,16 @@ msgstr "Kontaktformular öffnen"
 msgid "Registration"
 msgstr "Registrierung"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Ihre E-Mail-Adresse"
+
 msgid "Password reset almost complete"
 msgstr "Die Passwortzurücksetzung ist fast abgeschlossen"
 
 msgid "Account removal almost complete"
 msgstr "Die Löschung des Benutzerkontos ist fast abgeschlossen"
-
-msgid "E-mail verification almost complete"
-msgstr "E-Mail-Verifizierung fast abgeschlossen"
 
 msgid "Registration almost complete"
 msgstr "Registrierung fast vollständig"
@@ -8121,11 +8326,10 @@ msgstr ""
 "Ihre E-Mail-Adresse gesendet wurde."
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Klicken Sie auf den Bestätigungslink, der an Ihre E-Mail-Adresse gesendet "
-"wurde, um die Adresse für Ihr Konto zu bestätigen."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -8138,6 +8342,16 @@ msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Bitte sehen Sie in Ihrem Spam-Ordner nach, wenn Sie die Nachricht nicht in "
 "Ihrem Posteingang finden."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Der Bestätigungslink wird nach %(count)s Stunde ablaufen."
+msgstr[1] "Der Bestätigungslink wird nach %(count)s Stunden ablaufen."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8160,6 +8374,15 @@ msgstr ""
 "Registrieren Sie sich erneut, wenn der Bestätigungslink abgelaufen ist."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Zurück zu den Kontoeinstellungen"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8180,11 +8403,47 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "Bitte Fehler im Formular beheben."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 msgid "Send verification e-mail"
 msgstr "Bestätigungs-E-Mail senden"
 
-msgid "Back to account settings"
-msgstr "Zurück zu den Kontoeinstellungen"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Hinzufügen der Benutzeridentität bestätigen"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Testabonnements"
@@ -8395,6 +8654,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Mein Passwort ändern"
 
+msgid "Set my password"
+msgstr "Passwort setzen"
+
 msgid "Back to security settings"
 msgstr "Zurück zu den Sicherheitseinstellungen"
 
@@ -8431,9 +8693,6 @@ msgstr "Aktivität"
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
 "Die E-Mail-Adresse kann nur aus verifizierten Adressen ausgewählt werden."
-
-msgid "Add and verify e-mail address"
-msgstr "E-Mail-Adresse hinzufügen und bestätigen"
 
 msgid "Save"
 msgstr "Speichern"
@@ -8529,9 +8788,6 @@ msgstr "Konfiguriert"
 
 msgid "Not configured"
 msgstr "Nicht konfiguriert"
-
-msgid "Set password"
-msgstr "Passwort"
 
 msgid "Two-factor authentication"
 msgstr "Zwei-Faktor-Authentifizierung"
@@ -8829,9 +9085,6 @@ msgid ""
 msgstr ""
 "Sie haben Ihr Passwort vergessen? Geben Sie Ihre E-Mail-Adresse unten ein, "
 "dann senden wir Ihnen Anweisungen zum Setzen eines neuen Passworts."
-
-msgid "Set my password"
-msgstr "Passwort setzen"
 
 msgid "Reset my password"
 msgstr "Mein Passwort zurücksetzen"
@@ -9399,38 +9652,14 @@ msgstr ""
 "Ereignisse, die den Arbeitsablauf starten. Ohne Auslöser kann er nur manuell "
 "ausgeführt werden."
 
-msgid "Trigger"
-msgstr "Trigger"
-
-msgid "Add trigger"
-msgstr "Trigger hinzufügen"
-
-msgid "Conditions"
-msgstr "Bedingungen"
-
 msgid "All conditions have to pass before any action runs."
 msgstr ""
 "Alle Bedingungen müssen erfüllt sein, bevor eine Aktion ausgeführt wird."
-
-msgid "Condition"
-msgstr "Bedingung"
-
-msgid "Add condition"
-msgstr "Bedingung hinzufügen"
-
-msgid "Actions"
-msgstr "Aktionen"
 
 msgid "Operations performed in this order once the conditions pass."
 msgstr ""
 "Operationen werden in dieser Reihenfolge ausgeführt, sobald die Bedingungen "
 "erfüllt sind."
-
-msgid "Action"
-msgstr "Aktion"
-
-msgid "Add action"
-msgstr "Aktion hinzufügen"
 
 msgid "Move up"
 msgstr "Nach oben"
@@ -9587,6 +9816,17 @@ msgid ""
 msgstr ""
 "Siehe das <a href=\"%(url)s\">Kotlin-SDK-Repository</a> zur Einrichtung des "
 "Gradle-Plugins und der Bibliothek."
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
+msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr "Konfigurieren Sie das Kotlin-SDK-Gradle-Plugin mit diesen Werten:"
@@ -9796,6 +10036,19 @@ msgstr "Inhalt der Antwort"
 msgid "Request payload"
 msgstr "Nutzdaten anfordern"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Berechtigungen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -9804,6 +10057,17 @@ msgstr "Automatische Zuweisungen"
 
 msgid "Access control"
 msgstr "Zugriffssteuerung"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Automatisches Hinzufügen neu erstellter Benutzer zu diesem Team auf der "
+"Grundlage ihrer E-Mail-Adresse."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9850,6 +10114,9 @@ msgstr ""
 
 msgid "Add"
 msgstr "Hinzufügen"
+
+msgid "Moved component"
+msgstr "Komponente verschoben"
 
 msgid "All components"
 msgstr "Alle Komponenten"
@@ -10187,6 +10454,31 @@ msgid ""
 msgstr ""
 "Überprüfung fehlgeschlagen. Aktivieren Sie JavaScript, Worker und Cookies "
 "und versuchen Sie es erneut. Sie können sich auch anmelden."
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The authentication provider is temporarily unavailable. Please try again "
+#| "later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr ""
+"Der Authentifizierungsanbieter ist vorübergehend nicht verfügbar. Bitte "
+"später erneut versuchen."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
+msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
 msgstr ""
@@ -11705,6 +11997,37 @@ msgstr "Komponente %(component)s wurde entsperrt"
 msgid "Digest: %(notification_name)s"
 msgstr "Zusammenfassung: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Passwortzurücksetzung bestätigen"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Einladung anzeigen"
 
@@ -11713,6 +12036,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Die Einladung wird nach %(count)s Stunde ablaufen."
 msgstr[1] "Die Einladung wird nach %(count)s Stunden ablaufen."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11961,6 +12288,11 @@ msgstr "Kontolöschung bestätigen"
 msgid "Confirm invitation"
 msgstr "Einladung bestätigen"
 
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Neue E-Mail-Adresse verifizieren"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -12021,6 +12353,17 @@ msgstr "Unvollständig"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "Zusammenfassung der Übersetzungstätigkeit"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Aktivitäten auf Ihrem Konto bei %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Löschen des Benutzerkontos auf %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Komponentendiagnose"
@@ -12226,6 +12569,70 @@ msgstr "Entdeckung durchsuchen"
 msgid "Performance report"
 msgstr "Leistungsbericht"
 
+#, fuzzy
+#| msgid "Broker connection"
+msgid "Bot protection"
+msgstr "Brokerverbindung"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "Es sind keine Teams verfügbar."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Aktuelles Passwort"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous 24 completed hours"
+msgstr "Zuvor erzeugte Berichte"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Änderungen per Push übertragen"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Geänderte Ausgangszeichenkette"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Ungültiger Vorschlag!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Letzte Änderung"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "Zusammenführungsfehler"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Der Dienst ist nicht mehr verfügbar"
+
 msgid "Last occurrence"
 msgstr "Letztes Vorkommnis"
 
@@ -12378,6 +12785,343 @@ msgstr "Komponenten ohne Remote-Repository anzeigen"
 msgid "This repository is linked to:"
 msgstr "Dieses Repository ist verlinkt mit:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Registrierung bestätigen"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Mein Passwort zurücksetzen"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "Verbundenes Konto entfernen?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Fehlerhafte Prüfung verwerfen"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Teamzugehörigkeit für %(username)s bearbeiten"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "Einheitenkennung"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "Mehrere Pfade abgleichen"
+
+#, fuzzy
+#| msgid "No matching screenshots available."
+msgid "No matching row details."
+msgstr "Keine passenden Bildschirmfotos verfügbar."
+
+#, fuzzy, python-format
+#| msgid "Page %(current)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Seite %(current)s von %(total)s"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "Vom Repository erkannt"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Administratoren"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Weblate-Administration"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "%(used)s von %(total)s verwendet"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous reports"
+msgstr "Zuvor erzeugte Berichte"
+
+#, fuzzy
+#| msgid "Past reports"
+msgid "Next reports"
+msgstr "Frühere Berichte"
+
+#, fuzzy
+#| msgid "Back to security settings"
+msgid "Account security findings"
+msgstr "Zurück zu den Sicherheitseinstellungen"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Übersetzungsberichte"
+
+msgid "Filename"
+msgstr "Dateiname"
+
+#, fuzzy
+#| msgid "Not needed"
+msgid "Not recorded"
+msgstr "Nicht erforderlich"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Absenden"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "Professioneller Support"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Übersetzung vollständig"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Aktivierung abgeschlossen."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Analyse fehlgeschlagen"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Fortschritt"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "%(used)s von %(total)s verwendet"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Enddatum"
+
+msgid "Filter"
+msgstr "Filter"
+
+#, fuzzy
+#| msgid "Select all strings on this page"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Alle Zeichenketten auf dieser Seite auswählen"
+
+#, fuzzy
+#| msgid "Select all strings on this page"
+msgid "Select all on this page"
+msgstr "Alle Zeichenketten auf dieser Seite auswählen"
+
+#, fuzzy
+#| msgid "Event selection"
+msgid "Clear selection"
+msgstr "Ereignisauswahl"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Ausstehend"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "active"
+msgid "Inactive"
+msgstr "Aktiv"
+
+#, fuzzy
+#| msgid "Not"
+msgid "Bot"
+msgstr "Keine"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Beitrittsdatum"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Letzte Anmeldung"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Comments (%(count)s)"
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] "Anmerkungen (%(count)s)"
+msgstr[1] "Anmerkungen (%(count)s)"
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Schriftart gelöscht."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Zuletzt aktualisiert"
+
+#, fuzzy
+#| msgid "No diagnostics match the selected filters."
+msgid "No security findings match these filters."
+msgstr "Keine Diagnose entspricht den ausgewählten Filtern."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "Legen Sie das Passwort für Ihr Weblate-Konto fest"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to security settings"
+msgid "Account security operation"
+msgstr "Zurück zu den Sicherheitseinstellungen"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "Professioneller Support"
+
+#, fuzzy
+#| msgid "Refresh results"
+msgid "Refresh progress"
+msgstr "Ergebnisse aktualisieren"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Berichte herunterladen"
+
+#, fuzzy
+#| msgid "Process"
+msgid "Processed rows"
+msgstr "Verarbeiten"
+
+#, fuzzy
+#| msgid "Matching strings"
+msgid "Matching rows"
+msgstr "Übereinstimmende Zeichenketten"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Affected accounts"
+msgstr "Verbundene Konten"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "%(used)s von %(total)s verwendet"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Übersetzungsberichte"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Old password"
+msgid "Validate passwords"
+msgstr "Altes Kennwort"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Passwort deaktivieren"
+
 msgid "Activate support package"
 msgstr "Supportpaket aktivieren"
 
@@ -12522,6 +13266,20 @@ msgstr "Einladung entfernen"
 msgid "Check user access"
 msgstr "Benutzerzugang prüfen"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Kontoaktivität"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr "Arbeitsbereich hinzufügen"
 
@@ -12545,9 +13303,6 @@ msgstr "Matrix"
 
 msgid "Displayed languages"
 msgstr "Angezeigte Sprachen"
-
-msgid "Choose"
-msgstr "Auswahl"
 
 msgid "Translation memory status"
 msgstr "Übersetzungsspeicherstatus"
@@ -13169,9 +13924,6 @@ msgstr[0] ""
 msgstr[1] ""
 "Die Übersetzung wurde aufgrund der folgenden Warnungen automatisch gesperrt:"
 
-msgid "Filter"
-msgstr "Filter"
-
 msgid "Clear filters"
 msgstr "Filter löschen"
 
@@ -13489,6 +14241,24 @@ msgstr "Mitwirkende"
 msgid "Translations"
 msgstr "Übersetzungen"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Sie wurden von %(invitation_author)s zu %(site_title)s eingeladen, um an "
+"%(project_name)s mitzuarbeiten und dem Team von %(team_name)s beizutreten."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13536,6 +14306,11 @@ msgstr "Benutzer sperren"
 
 msgid "View notification"
 msgstr "Benachrichtigung anzeigen"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "Alle Änderungen"
 
 msgid "No matching activity found."
 msgstr "Es wurden keine entsprechenden Aktivitäten aufgezeichnet."
@@ -14155,6 +14930,14 @@ msgstr "Sie sind dabei, das Passwort für Ihr Weblate-Konto zurückzusetzen."
 msgid "You are about to continue removing your Weblate account."
 msgstr "Sie sind dabei, Ihr Weblate-Konto zu löschen."
 
+#, fuzzy
+#| msgid ""
+#| "You are about to continue resetting the password for your Weblate account."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Sie sind dabei, das Passwort für Ihr Weblate-Konto zurückzusetzen."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 "Sie sind dabei, eine Einladung anzunehmen und ein Weblate-Konto zu erstellen."
@@ -14174,6 +14957,11 @@ msgstr "Weiter mit der Passwortzurücksetzung"
 
 msgid "Continue account removal"
 msgstr "Weiter mit der Kontolöschung"
+
+#, fuzzy
+#| msgid "E-mail verification"
+msgid "Continue e-mail verification"
+msgstr "E-Mail-Verifizierung"
 
 msgid "Accept invitation"
 msgstr "Einladung annehmen"
@@ -14279,9 +15067,6 @@ msgstr "Weblate konnte die Projektwebsite-URL nicht validieren:"
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Weblate-CDN-Erweiterung konnte die HTML-Dateien nicht analysieren."
-
-msgid "Filename"
-msgstr "Dateiname"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14974,6 +15759,11 @@ msgstr "Zu Datum springen"
 msgid "Go"
 msgstr "Los"
 
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Details überprüfen"
+
 msgid "Download latest changes as CSV"
 msgstr "Neueste Änderungen als CSV herunterladen"
 
@@ -15092,9 +15882,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "Konto hinzufügen oder konfigurieren"
-
-msgid "Branch"
-msgstr "Branch"
 
 msgid "Visibility"
 msgstr "Sichtbarkeit"
@@ -15446,9 +16233,6 @@ msgstr ""
 
 msgid "Edit source"
 msgstr "Quelle bearbeiten"
-
-msgid "Cancel"
-msgstr "Abbrechen"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Erfahren Sie mehr darüber, wie man Änderungen aus Weblate pusht."
@@ -15832,6 +16616,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Vorkonfigurierte Downloads"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Datei im Originalformat, wie sie im Repository übersetzt wurde"
@@ -16645,9 +17434,6 @@ msgstr "Komponente umbenannt"
 msgid "A component was moved within a project."
 msgstr "Eine Komponente wurde innerhalb eines Projekts verschoben."
 
-msgid "Moved component"
-msgstr "Komponente verschoben"
-
 msgid "A user made their first contribution to a translation."
 msgstr "Ein Benutzer hat seinen ersten Beitrag zu einer Übersetzung geleistet."
 
@@ -17299,6 +18085,20 @@ msgstr ""
 "überein. Die automatische Übersetzung übersprang Zeichenketten mit "
 "Pluralformen und verarbeitete nur Zeichenketten in einfacher Form."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr ""
+"Automatische Übersetzung kann nicht gestartet werden, da das Ziel gesperrt "
+"ist."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Automatische Übersetzung fehlgeschlagen: %s"
@@ -17460,6 +18260,10 @@ msgstr "Ungültiger Zielzustand."
 msgid "Choose either replacement or clearing translations."
 msgstr "Wählen Sie entweder das Ersetzen oder Entfernen von Übersetzungen aus."
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr "Die Komponente wurde aufgrund einer Warnung automatisch gesperrt."
 
@@ -17518,6 +18322,9 @@ msgstr "Ursprüngliche Revision: {}"
 
 msgid "New revision: {}"
 msgstr "Neue Revision: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -17637,6 +18444,11 @@ msgstr "Dateimaske entspricht der Hauptkomponente."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) nicht vorhanden."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s am %(time)s in %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17803,6 +18615,58 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Schließendes Tag für leere XML-Tags einschließen"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+#, fuzzy
+#| msgid "Always normalize"
+msgid "Always include"
+msgstr "Immer normalisieren"
+
+#, fuzzy
+#| msgid "Always normalize"
+msgid "Always omit"
+msgstr "Immer normalisieren"
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "Plattformstandard wiederherstellen"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Hauptbenutzer"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Zeilenumbruch am Anfang"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 msgid "Whitespace handling"
 msgstr "Leerzeichenbehandlung"
@@ -18406,6 +19270,11 @@ msgstr "Maximale Anzahl an Änderungen pro Tag"
 
 msgid "Maximum source words per day"
 msgstr "Maximale Anzahl an Ausgangswörtern pro Tag"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Das Ziel existiert nicht oder Sie können nicht darauf zugreifen."
 
 msgid "Inherit from workspace"
 msgstr "Von Arbeitsbereich übernehmen"
@@ -19223,11 +20092,6 @@ msgstr "Komponente per Dokumenten-Upload erstellt"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s am %(time)s in %(translation)s von %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s am %(time)s in %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr "API"
@@ -20024,6 +20888,15 @@ msgstr ""
 "erforderlich. Konfigurieren Sie eine Push-URL mit Zugangsdaten oder "
 "verwenden Sie eine SSH-Repository-URL."
 
+#, fuzzy
+#| msgid ""
+#| "The file mask used for discovery is too complex and took too long to "
+#| "evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"Die für die Erkennung verwendete Dateimaske ist zu komplex, und die "
+"Auswertung hat zu lange gedauert."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -20671,6 +21544,36 @@ msgstr[1] ""
 "%(accepted)d von %(total)d Vorschläge von %(user)s angenommen. %(failed)d "
 "aufgrund von Berechtigungen oder Qualitätsprüfungen fehlgeschlagen."
 
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+"Massenbearbeitung wurde abgeschlossen, es wurden keine Zeichenketten "
+"aktualisiert."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The target or permissions changed."
+msgstr "Die Zugriffsberechtigungen eines Benutzers wurden geändert."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+"Massenbearbeitung wurde abgeschlossen, %d Zeichenkette wurde aktualisiert."
+msgstr[1] ""
+"Massenbearbeitung wurde abgeschlossen, %d Zeichenketten wurden aktualisiert."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr ""
 "Automatische Übersetzung übersprungen, da das Ziel nicht mehr existiert."
@@ -20954,6 +21857,9 @@ msgstr "Sie können sich nicht selbst entfernen!"
 msgid "You can not block yourself on this project."
 msgstr "Sie können sich für dieses Projekt nicht selbst sperren."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "Benutzer wurde für dieses Projekt gesperrt."
 
@@ -21008,6 +21914,11 @@ msgstr[0] ""
 msgstr[1] ""
 "Sprache %(language)s kann nicht hinzugefügt werden zu %(count)d Komponenten. "
 "Bitte die Komponentenkonfiguration überprüfen."
+
+#, fuzzy
+#| msgid "You do not have permission to edit these flags."
+msgid "You do not have permission to add this language."
+msgstr "Sie haben keine Berechtigung, diese Markierungen zu bearbeiten."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -21279,10 +22190,22 @@ msgid "All components are now locked for translation updates!"
 msgstr ""
 "Alle Komponenten sind nun für Übersetzungen und deren Änderungen gesperrt!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr ""
+"Alle Komponenten sind nun für Übersetzungen und deren Änderungen gesperrt!"
+
 msgid "Component is now open for translation updates."
 msgstr "Komponente kann nun Übersetzungen und deren Änderungen annehmen."
 
 msgid "All components are now open for translation updates."
+msgstr ""
+"Alle Komponenten sind nun für Übersetzungen und deren Änderungen geöffnet."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr ""
 "Alle Komponenten sind nun für Übersetzungen und deren Änderungen geöffnet."
 
@@ -21344,6 +22267,11 @@ msgstr "Zu viele Suchanfragen. Bitte später erneut versuchen."
 msgid "Invalid search query!"
 msgstr "Ungültige Suche!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Zu viele Suchanfragen. Bitte später erneut versuchen."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 "Die Vorschau ist abgelaufen oder ungültig. Lassen Sie sich die Änderungen "
@@ -21351,6 +22279,11 @@ msgstr ""
 
 msgid "Could not process form!"
 msgstr "Das Formular konnte nicht verarbeitet werden!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "Massenbearbeitung von Zeichenketten"
 
 #, python-format
 msgid "Bulk edit failed: %s"
@@ -21360,14 +22293,6 @@ msgid "Bulk edit completed, no strings were updated."
 msgstr ""
 "Massenbearbeitung wurde abgeschlossen, es wurden keine Zeichenketten "
 "aktualisiert."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-"Massenbearbeitung wurde abgeschlossen, %d Zeichenkette wurde aktualisiert."
-msgstr[1] ""
-"Massenbearbeitung wurde abgeschlossen, %d Zeichenketten wurden aktualisiert."
 
 msgid "Settings saved"
 msgstr "Einstellungen gespeichert"
@@ -21667,7 +22592,8 @@ msgid "Pattern and replacement must not exceed 4096 characters."
 msgstr "Das Muster und der Ersatz dürfen 4096 Zeichen nicht überschreiten."
 
 msgid "Regex input exceeds 1 MiB per plural."
-msgstr "Die Eingabe des regulären Ausdrucks überschreitet 1 MiB pro Pluralform."
+msgstr ""
+"Die Eingabe des regulären Ausdrucks überschreitet 1 MiB pro Pluralform."
 
 #, python-format
 msgid "Invalid regular expression or replacement: %s"
@@ -21675,6 +22601,15 @@ msgstr "Ungültiger regulärer Ausdruck oder Ersatz: %s"
 
 msgid "Automatic translation reported a warning."
 msgstr "Die automatische Übersetzung hat eine Warnung gemeldet."
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Übersetzt automatisch Zeichenketten mithilfe maschineller Übersetzung oder "
+"Übersetzungen aus anderen Komponenten."
 
 msgid "Automatic translation failed. See the task log for details."
 msgstr ""
@@ -22126,6 +23061,9 @@ msgstr "Die Fediverse-URL sollte auf ein Fediverse-Benutzerprofil verweisen."
 msgid "URL domain is not allowed."
 msgstr "Die URL-Domain ist nicht zulässig."
 
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
+
 msgid "Repository URL contains unsafe characters."
 msgstr "Die Repository-URL enthält unsichere Zeichen."
 
@@ -22316,32 +23254,32 @@ msgstr ""
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s"
 msgstr ""
-"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen: %"
-"(status)s"
+"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen: %"
-"(status)s Bitte später erneut versuchen."
+"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen: "
+"%(status)s Bitte später erneut versuchen."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s"
 msgstr ""
-"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen (%"
-"(status)s): %(error)s"
+"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s Please retry later."
 msgstr ""
-"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen (%"
-"(status)s): %(error)s Bitte später erneut versuchen."
+"%(service)s-API-Anfrage beim Anpassen eines Pull Requests fehlgeschlagen "
+"(%(status)s): %(error)s Bitte später erneut versuchen."
 
 #, python-format
 msgid "GitHub did not assign the requested users: %(assignees)s"
@@ -23153,6 +24091,70 @@ msgstr ""
 "Dauerhaftes Navigations-Dropdown-Menü in der rechten oberen Ecke, auch wenn "
 "Platz für ein vollständiges Menü vorhanden ist."
 
+#, fuzzy
+#| msgid "Past reports"
+msgid "CSV report"
+msgstr "Frühere Berichte"
+
+#, fuzzy
+#| msgid "Rate limited"
+msgid "Delimiter"
+msgstr "Ratenbegrenzt"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Benutzername oder E-Mail-Adresse"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Passwort"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Konfiguration"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Klären"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Benutzer wurde vom Administrator deaktiviert."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Passwort geändert."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Unterstützung durch die Community"
@@ -23214,11 +24216,211 @@ msgstr "Sicherungsspeicher wurde aufgeräumt"
 msgid "Repository initialization"
 msgstr "Initialisierung des Repositorys"
 
+#, fuzzy
+#| msgid "Old password"
+msgid "Leaked password"
+msgstr "Altes Kennwort"
+
+#, fuzzy
+#| msgid "Add and verify e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "E-Mail-Adresse hinzufügen und bestätigen"
+
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+"Die Authentifizierungsantwort ist abgelaufen. Bitte versuchen Sie erneut, "
+"sich anzumelden."
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "The report exceeds the 10 MiB limit."
+msgstr "Die Antwort des regulären Ausdrucks überschreitet das Größenlimit."
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded file contains too many settings."
+msgid "The file contains malformed CSV quoting."
+msgstr "Die hochgeladene Datei enthält zu viele Einstellungen."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "Die Ressource ist gesperrt."
+
+#, fuzzy
+#| msgid "Regex response exceeds its size limit."
+msgid "The report exceeds the 50,000 row limit."
+msgstr "Die Antwort des regulären Ausdrucks überschreitet das Größenlimit."
+
+#, fuzzy
+#| msgid "The repository HTTP redirect contains credentials and was rejected."
+msgid "The report contains no credential rows."
+msgstr ""
+"Die HTTP-Weiterleitung des Repositorys enthält Zugangsdaten und wurde "
+"abgelehnt."
+
+#, fuzzy
+#| msgid "The authenticated user does not have permission for this operation."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr ""
+"Der angemeldete Benutzer verfügt nicht über die Berechtigung für diesen "
+"Vorgang."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "Sicherheit"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Beigetreten am %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, Zeichenkette %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not find strings in the image. Please try again."
+msgid "Could not store the encrypted upload. Try again."
+msgstr ""
+"Es konnten keine Zeichenfolgen im Bild gefunden werden. Bitte erneut "
+"versuchen."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not load repository branches. Please try again."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr ""
+"Repository-Branches konnten nicht geladen werden. Bitte erneut versuchen."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Passwort geändert."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Doppelte Übersetzung."
+
+#, fuzzy
+#| msgid "Connect accounts"
+msgid "Unknown accounts"
+msgstr "Konten verbinden"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Benutzerkonto löschen"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Passwort deaktivieren"
+
+#, fuzzy
+#| msgid "The two password fields didn't match."
+msgid "Passwords that did not match"
+msgstr "Die eingegebenen Kennwörter müssen übereinstimmen."
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Passwortzurücksetzung"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Passwort geändert."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Verworfen"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "Übersprungene Ergänzungen"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Nicht unterstützte Datei!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Neue E-Mail-Adresse verifizieren"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Neue E-Mail-Adresse verifizieren"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Teamzugehörigkeit für %(username)s bearbeiten"
+
 msgid "Weblate administration"
 msgstr "Weblate-Administration"
 
 msgid "Object listing turned off"
 msgstr "Objektliste deaktiviert"
+
+#, fuzzy
+#| msgid ""
+#| "This authentication app registration is no longer valid. Start a new "
+#| "registration."
+msgid "The security operation expired. Start a new operation."
+msgstr ""
+"Die Registrierung dieser Authentifizierungs-App ist nicht mehr gültig. "
+"Starten Sie eine neue Registrierung."
 
 msgid "Return to Weblate"
 msgstr "Zurück zu Weblate"
@@ -23409,6 +24611,32 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "Der Arbeitsbereich wurde entfernt."
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Fedora-Messaging-Publisher-Dienst war nicht verfügbar; die Verbindung "
+#~ "wird beim nächsten Versuch erneut hergestellt: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr ""
+#~ "Fedora-Messaging-Publisher-Dienst konnte nicht zurückgesetzt werden."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "Fedora-Messaging-Broker-URL ist ungültig: %(error)s"
+
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "E-Mail-Verifizierung fast abgeschlossen"
+
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Klicken Sie auf den Bestätigungslink, der an Ihre E-Mail-Adresse gesendet "
+#~ "wurde, um die Adresse für Ihr Konto zu bestätigen."
 
 #~ msgid "Search and replace"
 #~ msgstr "Suchen und Ersetzen"
@@ -23821,9 +25049,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Gestalten Sie gemeinsam mit uns die Zukunft der Lokalisierung und tragen "
 #~ "Sie noch heute dazu bei!"
 
-#~ msgid "Download reports"
-#~ msgstr "Berichte herunterladen"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "DeepL-API v1 wird nicht mehr unterstützt."
 
@@ -23971,9 +25196,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "durcheinanderbringen. Dies ist ein zweistufiger Prozess, bei dem eine "
 #~ "Vorschau der bearbeiteten Zeichenfolgen angezeigt wird, bevor die "
 #~ "eigentliche Änderung bestätigt wird."
-
-#~ msgid "Activation completed."
-#~ msgstr "Aktivierung abgeschlossen."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -24948,9 +26170,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Starting date"
 #~ msgstr "Startdatum"
 
-#~ msgid "Ending date"
-#~ msgstr "Enddatum"
-
 #~ msgid "Last 30 days"
 #~ msgstr "Letzten 30 Tage"
 
@@ -25110,9 +26329,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Committed changes"
 #~ msgstr "Commit für Änderungen"
 
-#~ msgid "Pushed changes"
-#~ msgstr "Änderungen per Push übertragen"
-
 #~ msgid "Failed merge on repository"
 #~ msgstr "Zusammenführen mit Repository ist fehlgeschlagen"
 
@@ -25242,9 +26458,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "New language"
 #~ msgstr "Neue Sprache"
-
-#~ msgid "Check details"
-#~ msgstr "Details überprüfen"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -26549,9 +27762,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Alt+F - Markierung zur Begutachtung umschalten"
 
-#~ msgid "Merge failure"
-#~ msgstr "Zusammenführungsfehler"
-
 #~ msgid "Standard user"
 #~ msgstr "Standardnutzer"
 
@@ -26713,9 +27923,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Dieser Benutzer hat alle Berechtigungen, ohne sie zugewiesen bekommen zu "
 #~ "haben."
 
-#~ msgid "active"
-#~ msgstr "Aktiv"
-
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
 #~ "projects that feature those languages here."
@@ -26783,9 +27990,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Host:"
 #~ msgstr "Host:"
-
-#~ msgid "Process"
-#~ msgstr "Verarbeiten"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Sprachdatei automatisch hinzufügen"
@@ -29172,9 +30376,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Messages"
 #~ msgstr "Nachrichten"
 
-#~ msgid "Others"
-#~ msgstr "Andere"
-
 #~ msgid "Subprojects"
 #~ msgstr "Unterprojekte"
 
@@ -29202,9 +30403,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "Aus Glossar extrahierte Wörter"
-
-#~ msgid "Comments (%(count)s)"
-#~ msgstr "Anmerkungen (%(count)s)"
 
 #~ msgid "Source string details and feedback"
 #~ msgstr "Details und Anmerkungen zur Ausgangs-Zeichenkette"
@@ -29267,12 +30465,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Your profile has been migrated, you might want to adjust preferences."
 #~ msgstr ""
 #~ "Ihr Profil wurde übertragen, eventuell möchten Sie Einstellungen anpassen."
-
-#~ msgid "Old password"
-#~ msgstr "Altes Kennwort"
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "Die eingegebenen Kennwörter müssen übereinstimmen."
 
 #~ msgid "Your account could not be activated"
 #~ msgstr "Ihr Konto konnte nicht aktiviert werden"
