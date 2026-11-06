@@ -921,6 +921,8 @@ class ProjectBackup:
         directory: str,
         target: str,
         refresh_lock: Callable[[], None],
+        *,
+        metadata_dir_name: str | None = None,
     ) -> None:
         """Backup single directory to specified target in zip."""
 
@@ -937,10 +939,19 @@ class ProjectBackup:
                 refresh_lock()
                 refresh_at = now + REPOSITORY_LOCK_REFRESH_INTERVAL
 
-        for folder, _subfolders, filenames in os.walk(directory, onerror=onerror):
+        for folder, subfolders, filenames in os.walk(directory, onerror=onerror):
             refresh_repository_lock()
+            is_root = folder == directory
+            subfolders[:] = [
+                name
+                for name in subfolders
+                if name.casefold() not in {".hg", ".git"}
+                or (is_root and name == metadata_dir_name)
+            ]
             for filename in filenames:
                 refresh_repository_lock()
+                if filename.casefold() in {".hg", ".git"}:
+                    continue
                 path = os.path.join(folder, filename)
                 # zipfile does not support storing symlinks, it dereferences them
                 if os.path.islink(path):
@@ -1167,6 +1178,7 @@ class ProjectBackup:
                 component.full_path,
                 f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
                 component.repository.lock.reacquire,
+                metadata_dir_name=component.repository.metadata_dir_name,
             )
 
     @transaction.atomic
@@ -1434,6 +1446,19 @@ class ProjectBackup:
                 "repo": component["repo"],
             },
         )
+        for field in ("repo", "push"):
+            url = getattr(component_object, field)
+            if not url:
+                continue
+            try:
+                component_object.repository_class.validate_remote_url(url)
+            except RepositoryError as error:
+                raise ValidationError(
+                    {
+                        field: gettext("Could not validate repository URL: %s")
+                        % component_object.error_text(error)
+                    }
+                ) from error
         source_language = self.validate_language(
             component["source_language"], f"{path}.component.source_language"
         )

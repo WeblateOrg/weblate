@@ -229,6 +229,7 @@ from weblate.vcs.ssh import add_host_key
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
+    from typing import BinaryIO
     from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
@@ -6837,7 +6838,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def load_intermediate_store(self) -> TranslationFormat:
         """Load translate-toolkit store for intermediate."""
-        return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
+        store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
@@ -6845,6 +6846,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             repo_temp_dir=self.repository.get_repo_temp_dir(),
             file_validator=self.check_file_is_valid,
         )
+        store.check_valid()
+        return store
 
     @cached_property
     def intermediate_store(self) -> TranslationFormat | None:
@@ -6859,10 +6862,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.handle_parse_error(exc, filename=self.intermediate)
             return None
 
-    def load_template_store(self, fileobj=None) -> TranslationFormat:
+    def load_template_store(self, fileobj: BinaryIO | None = None) -> TranslationFormat:
         """Load translate-toolkit store for template."""
         with self.start_tracing_span("load_template_store"):
-            return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
+            store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
@@ -6871,6 +6874,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 repo_temp_dir=self.repository.get_repo_temp_dir(),
                 file_validator=self.check_file_is_valid,
             )
+            store.check_valid()
+            return store
 
     @cached_property
     def template_store(self) -> TranslationFormat | None:
