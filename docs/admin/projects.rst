@@ -969,6 +969,14 @@ Automatically accept suggestions
 
 Automatically accept voted suggestions, see :ref:`voting`.
 
+When the vote threshold is reached, the suggestion can replace an approved
+translation even if the voters cannot review translations. A replacement
+returns to the waiting-for-review state when reviews are enabled.
+Use this setting only when voting should authorize this change.
+
+Read-only strings remain unchanged. Votes are recorded and the suggestion stays
+pending for a later permitted acceptance.
+
 .. seealso::
 
    :ref:`workflow-customization`
