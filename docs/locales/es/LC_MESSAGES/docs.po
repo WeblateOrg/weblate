@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-11-06 04:29+0000\n"
-"PO-Revision-Date: 2026-11-06 21:33+0000\n"
+"PO-Revision-Date: 2026-11-06 23:50+0000\n"
 "Last-Translator: fserrador <fserrador@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -4597,7 +4597,7 @@ msgid "Yes; clears translation text, skips source strings"
 msgstr "Completa las cadenas de traducción con las de origen."
 
 msgid "Needs editing"
-msgstr "Requiere edición"
+msgstr "Requiere editar"
 
 msgid "Needs editing (needs rewriting)"
 msgstr "Requiere trabajo (reescritura)"
@@ -52225,10 +52225,8 @@ msgstr ""
 "Translator``, ``X-Generator`` y ``Report-Msgid-Bugs-To`` utilizando "
 "el :ref:`file_format_params`."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor comments"
-msgstr "Colaboradores en comentario"
+msgstr "Comentarios del colaborador"
 
 msgid ""
 "Use the ``po_contributor_comments`` :ref:`file_format_params` parameter to "
@@ -56024,7 +56022,7 @@ msgid ""
 msgstr ""
 
 msgid "Report"
-msgstr "Informe"
+msgstr "Auditoría"
 
 msgid "Deadline"
 msgstr "Fecha límite"
@@ -62957,10 +62955,14 @@ msgstr "Texto"
 msgid "Search string"
 msgstr "Buscar cadena"
 
+#, fuzzy
 msgid ""
 "Case-sensitive text or regular expression to replace in matching strings. "
 "Leave empty to disable replacement."
 msgstr ""
+"Texto o expresión regular que distingue entre mayúsculas y minúsculas para "
+"reemplazar en las cadenas coincidentes. Déjelo en blanco para desactivar el "
+"reemplazo."
 
 msgid "Replacement string"
 msgstr "Cadena de reemplazo"
@@ -67617,7 +67619,7 @@ msgid "csv_simple_encoding"
 msgstr "csv_simple_encoding"
 
 msgid "Encoding used for simple CSV files"
-msgstr "Codificación utilizada para simples archivos CSV"
+msgstr "Codificación utilizada para archivos CSV simples"
 
 msgid "ISO-8859-1"
 msgstr "ISO-8859-1"
@@ -67741,7 +67743,7 @@ msgid "md_frontmatter_translate_values"
 msgstr "md_frontmatter_translate_values"
 
 msgid "Translate front matter values"
-msgstr "Traducir valores de materia inicial"
+msgstr "Traducir valores de materia frontal"
 
 msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
@@ -67788,6 +67790,9 @@ msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"Agrega nombres del colaborador y años de comentarios de la cabecera. SPDX "
+"además convierte comentarios existentes del colaborador reconocidos para "
+"apuntes en SPDX-FileCopyrightText."
 
 msgid "Gettext"
 msgstr "Gettext"
@@ -67879,7 +67884,7 @@ msgid "po_set_last_translator"
 msgstr "po_set_last_translator"
 
 msgid "Update last translator header"
-msgstr "Actualiza última cabecera del traductor"
+msgstr "Última actualización de cabecera del traductor"
 
 msgid "Lets Weblate update the \"Last-Translator\" file header."
 msgstr "Permite que Weblate actualice la cabecera de archivo «Language-Team»."
@@ -67913,25 +67918,26 @@ msgstr "Codificación utilizada para archivos con cadenas iOS"
 msgid "xliff_placeables"
 msgstr "``xliff2``, ``xliff2-situables``"
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Asistencia de Weblate"
+msgstr "Asistencia de reacondicionados"
 
+#, fuzzy
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
 "editable placeables. Plain text only escapes XML markup and treats the "
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
+"Controla si los elementos XML en línea dentro de las cadenas XLIFF se "
+"conservan como elementos editables. El texto plano solo escapa el marcado "
+"XML y trata el contenido como texto. Cuando se admiten elementos editables, "
+"las etiquetas como <x id=\"name\" \\=\"\"> o </x>"
 
 msgid "Plain text only"
 msgstr "Solo texto sin formato"
 
-#, fuzzy
-#| msgid "Supported features"
 msgid "Support placeables"
-msgstr "Características admitidas"
+msgstr "Asistencia de colocables"
 
 msgid "xml_closing_tags"
 msgstr "xml_closing_tags"
@@ -67945,63 +67951,60 @@ msgid "xml_encoding_case"
 msgstr "xml_closing_tags"
 
 msgid "XML declaration encoding case"
-msgstr ""
+msgstr "Declaración de codificación en XML para MAYÚS/minús"
 
 msgid ""
 "Controls encoding names in the XML declaration, for example \"UTF-8\" or "
 "\"utf-8\"."
 msgstr ""
+"Controla los nombres de codificación en la declaración de XML, por ejemplo "
+"\"UTF-8\" o \"utf-8\"."
 
-#, fuzzy
-#| msgid "Default font"
 msgid "Format default"
-msgstr "Tipo de letra predeterminado"
+msgstr "Formato predeterminado"
 
-#, fuzzy
-#| msgid "Use case"
 msgid "Uppercase"
-msgstr "Caso de uso"
+msgstr "Mayúsculas"
 
 msgid "Lowercase"
-msgstr ""
+msgstr "Minúsculas"
 
 #, fuzzy
 #| msgid "Trailing newline"
 msgid "xml_final_newline"
 msgstr "Salto de renglón al final"
 
-#, fuzzy
-#| msgid "Starting newline"
 msgid "XML final newline"
-msgstr "Salto de renglón al inicio"
+msgstr "Salto de línea nueva final en XML"
 
 msgid ""
 "Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
+"Controla la línea nueva al final del fichero, utilizando los finales de "
+"línea del formato."
 
-#, fuzzy
-#| msgid "Always normalize"
 msgid "Always include"
-msgstr "Siempre normalizar"
+msgstr "Siempre incluir"
 
-#, fuzzy
-#| msgid "Always normalize"
 msgid "Always omit"
-msgstr "Siempre normalizar"
+msgstr "Siempre omitir"
 
 msgid "xml_utf8_bom"
 msgstr ""
 
 msgid "UTF-8 byte order mark"
-msgstr ""
+msgstr "Marca de ordenación de byte en UTF-8"
 
 msgid ""
 "Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
 "without a template omit the mark when preserving input."
 msgstr ""
+"Controla la marca del orden de byte en UTF-8. Otra codificación no es "
+"cambiada. Los archivos nuevos sin una plantilla omiten la marca cuando "
+"preserven la entrada."
 
 msgid "Preserve input"
-msgstr ""
+msgstr "Entrada preservada"
 
 msgid "xml_whitespace_handling"
 msgstr ""
@@ -68014,12 +68017,16 @@ msgid ""
 "in the file. Always preserve keeps all whitespace. Always normalize "
 "collapses whitespace even when xml:space=\"preserve\" is set."
 msgstr ""
+"Controla como el espacio en blanco de XLIFF es manipulado. Siga xml:space "
+"honra atributos en el fichero. Siempre preserve mantener todos los espacios "
+"en blanco. Siempre normaliza colapsos de espacios en blanco incluso cuando "
+"esté puesto xml:space=\"preserve\"."
 
 msgid "Follow xml:space"
 msgstr "Seguir xml:space"
 
 msgid "Always preserve"
-msgstr "Siempre conservar"
+msgstr "Siempre preservar"
 
 msgid "Always normalize"
 msgstr "Siempre normalizar"
