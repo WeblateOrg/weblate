@@ -23,6 +23,7 @@ from PIL import Image
 from redis.exceptions import ResponseError
 
 from weblate.fonts.apps import check_fonts
+from weblate.fonts.limits import RenderLimitError
 from weblate.fonts.render import (
     _get_layout_font,
     _layout_item_cluster_indices,
@@ -47,6 +48,7 @@ from weblate.fonts.tests.utils import (
 )
 from weblate.fonts.utils import (
     MAX_RENDERED_TEXT_OVERFLOW,
+    Dimensions,
     _render_size,
     check_render_size,
     get_font_name,
@@ -60,6 +62,56 @@ if TYPE_CHECKING:
 
 
 class RenderTest(SimpleTestCase):
+    def test_render_limits_precede_font_work(self) -> None:
+        for kwargs in (
+            {"width": 24000, "lines": 1000},
+            {"size": 257},
+            {"lines": 65},
+            {"text": "a" * 16001},
+            {"text": "a\r" * 65},
+            {"surface_width": 2049},
+        ):
+            with (
+                self.subTest(kwargs=kwargs),
+                patch("weblate.fonts.render.get_font_properties") as font,
+            ):
+                with self.assertRaises(RenderLimitError):
+                    _render_size(**({"text": "short"} | kwargs))
+                font.assert_not_called()
+
+    def test_cached_render_can_exceed_new_limits(self) -> None:
+        cached = Dimensions(24000, 15000), 1000
+        with (
+            patch("weblate.fonts.utils.django_cache.get", return_value=cached),
+            patch("weblate.fonts.utils._render_size") as renderer,
+        ):
+            self.assertEqual(render_size("short", width=24000, lines=1000), cached)
+            renderer.assert_not_called()
+
+    def test_wrapping_stops_before_measuring_excess_lines(self) -> None:
+        with patch("weblate.fonts.render.measure_multiline") as measure:
+            with self.assertRaises(RenderLimitError):
+                _render_size("word " * 1000, width=10, lines=2)
+            measure.assert_not_called()
+
+    def test_preview_canvas_and_native_text_are_bounded(self) -> None:
+        from weblate.fonts import render  # ruff: ignore[import-outside-top-level]
+
+        with patch.object(render, "draw_text", wraps=render.draw_text) as draw:
+            measured, _lines, output = _render_size(
+                "W" * 1000, width=2048, size=256, needs_output=True
+            )
+        self.assertGreater(measured.width, 2048)
+        self.assertTrue(draw.called)
+        for call in draw.call_args_list:
+            self.assertLessEqual(
+                render.measure_line(call.args[3], call.kwargs["font_properties"])[0],
+                2048,
+            )
+        image = Image.open(BytesIO(output))
+        self.assertLessEqual(image.width, 2048)
+        self.assertLessEqual(image.height, 2048)
+
     def test_font_check_without_cache(self) -> None:
         _render_size.cache_clear()
         self.addCleanup(_render_size.cache_clear)
