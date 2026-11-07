@@ -35,7 +35,9 @@
                   <th>{% translate "Billing" %}</th>
                   <td colspan="2" class="full-cell">
                     {% for billing in project.billings %}
-                      <a href="{{ billing.get_absolute_url }}">{% include "billing/state-snippet.html" with object=billing %}</a>
+                      <a href="{{ billing.get_absolute_url }}">
+                        {% include "billing/state-snippet.html" with object=billing %}
+                      </a>
                     {% endfor %}
                   </td>
                 </tr>
@@ -509,7 +511,9 @@
                 {% endif %}
                 <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
                 <div class="metric-text">{% translate "Contributors" %}</div>
-                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}</a>{% endif %}
+                {% if not workspace and can_search_scoped_users and project or not workspace and can_browse_users %}
+                  </a>
+                {% endif %}
               </div>
             </div>
             {% if workspace %}

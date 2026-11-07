@@ -33,7 +33,9 @@
 </tr>
 <tr class="{{ glossary_row_class }} glossary-details">
   <td colspan="4">
-    <div class="glossary-compact-badge">{% include "snippets/glossary-badge.html" with glossary=item.translation %}</div>
+    <div class="glossary-compact-badge">
+      {% include "snippets/glossary-badge.html" with glossary=item.translation %}
+    </div>
   </td>
 </tr>
 {% if item.note %}
