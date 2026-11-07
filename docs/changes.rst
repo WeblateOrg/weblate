@@ -9,6 +9,7 @@ Weblate 2026.11.2
 
 .. rubric:: Improvements
 
+* Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
 * Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
