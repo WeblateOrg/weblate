@@ -51,7 +51,9 @@
 </tr>
 <tr class="{{ glossary_row_class }} glossary-details {% if item.glossary_notes.concept or item.glossary_note or item.source_unit.explanation or not item.is_source and item.explanation %}glossary-has-details{% endif %}">
   <td colspan="4">
-    <div class="glossary-compact-badge">{% include "snippets/glossary-badge.html" with glossary=item.translation %}</div>
+    <div class="glossary-compact-badge">
+      {% include "snippets/glossary-badge.html" with glossary=item.translation %}
+    </div>
     {% for note in item.glossary_notes.concept %}<div class="glossary-explanation"><strong>{% translate "Note" %}:</strong> {{ note }}</div>{% endfor %}
     {% if item.glossary_note %}<div class="glossary-explanation"><strong>{% translate "Source string description" %}:</strong> {{ item.glossary_note }}</div>{% endif %}
     {% if not item.is_source and item.explanation %}<div class="glossary-explanation"><strong>{% translate "Translation explanation" %}:</strong> {% user_markdown item.explanation %}</div>{% endif %}
