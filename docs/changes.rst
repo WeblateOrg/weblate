@@ -42,6 +42,8 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Generate valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
+
 * Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
 
 * Preserved concurrent approvals when saving through the API, accepting suggestions, merging translations, or reverting changes.

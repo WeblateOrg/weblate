@@ -50,6 +50,11 @@ Several file formats are available via the :guilabel:`Files` ↓
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
 
+Android String Resource exports preserve valid resource names. Empty keys and
+keys that are not valid Android resource names are replaced with identifiers
+based on the string checksum, with numeric suffixes added to avoid collisions.
+This changes only the exported identifiers, not the keys stored in Weblate.
+
 .. hint::
 
    The content available in the converted files differs based on file format
