@@ -50,6 +50,7 @@ class DependencyWork:
     force: bool = False
     batch_checks: bool = False
     author: User | None = None
+    actor: User | None = None
 
     def merge(self, other: DependencyWork) -> None:
         self.roots.update(other.roots)
@@ -60,6 +61,8 @@ class DependencyWork:
         self.batch_checks |= other.batch_checks
         if other.author is not None:
             self.author = other.author
+        if other.actor is not None:
+            self.actor = other.actor
 
 
 _operations: ContextVar[dict[tuple[str, int], DependencyWork] | None] = ContextVar(
@@ -233,6 +236,8 @@ def source_operation_method[**P, R](method: Callable[P, R]) -> Callable[P, R]:
 
 
 def request_reconciliation(component: Component, work: DependencyWork) -> None:
+    if work.actor is None:
+        work.actor = component.get_update_user(None)
     using = component._state.db or "default"  # ruff: ignore[private-member-access]
     key = (using, component.pk)
     active = _operations.get() or {}
@@ -510,12 +515,12 @@ def update_parent(
     force: bool = False,
     configured: bool | None = None,
     missing_sources: MissingSourceCache | None = None,
-    pending_author_id: int | None = None,
+    actor: User,
 ) -> Change | None:
     """Apply a dependency change without modifying canonical source data."""
     from weblate.trans.models.pending import PendingUnitChange  # ruff: ignore[import-outside-top-level]
 
-    old_state = unit.state
+    old_state = unit.file_state
     old_parent = unit.translation_parent_id
     metadata = unit.details.setdefault("translation_parent", {})
     old_missing = "missing" in metadata
@@ -572,7 +577,7 @@ def update_parent(
         return None
     if keep_snapshot:
         metadata["applied"] = current.as_dict()
-    pending_change_needed = unit.state != old_state or changed
+    pending_change_needed = unit.file_state != old_state
     if pending_change_needed:
         unit.store_disk_state(save=False)
     effects.save_unit(unit)
@@ -583,17 +588,11 @@ def update_parent(
         changed or old_parent != unit.translation_parent_id or old_blocked != blocked
     ):
         effects.add_peers(unit, previous_source, previous_language_id)
-    actor = (
-        author
-        if author is not None
-        else unit.translation.component.get_update_user(None)
-    )
     if pending_change_needed:
         effects.add_pending_change(
             PendingUnitChange.store_unit_change(
                 unit=unit,
-                author=author,
-                author_id=pending_author_id,
+                author=author if author is not None else actor,
                 user=actor,
                 store_disk_state=False,
                 save=False,
@@ -603,7 +602,7 @@ def update_parent(
     if changed:
         change = unit.generate_change(
             actor,
-            author,
+            author if author is not None else actor,
             ActionEvents.SOURCE_CHANGE,
             check_new=False,
             save=False,
@@ -669,7 +668,8 @@ def propagate_parent_change(
             propagate_parent_change(translation, unit_id, author, created=created)
     elif translation.language_id in workflows.values():
         request_reconciliation(
-            component, DependencyWork(roots={unit_id}, full=created, author=author)
+            component,
+            DependencyWork(roots={unit_id}, full=created, author=author, actor=author),
         )
 
 
@@ -720,12 +720,10 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
         queryset = queryset.filter(
             Q(pk__in=affected) | Q(translation__language_id__in=work.languages)
         )
-    anonymous_id = None
-    if work.author is None:
-        from weblate.auth.models import get_anonymous  # ruff: ignore[import-outside-top-level]
-
-        queryset = queryset.with_last_content_author()
-        anonymous_id = get_anonymous().pk
+    actor = work.actor
+    if actor is None:
+        msg = "Reconciliation requires an initiating actor."
+        raise ValueError(msg)
     units = list(
         queryset.select_for_update().prefetch().prefetch_source().prefetch_all_checks()
     )
@@ -793,11 +791,7 @@ def _reconcile(component: Component, work: DependencyWork) -> None:
             effects=effects,
             force=work.force,
             missing_sources=missing_sources,
-            pending_author_id=(
-                unit.last_content_author_id or anonymous_id
-                if work.author is None
-                else None
-            ),
+            actor=actor,
             configured=(
                 not unit.is_source
                 and settings.get(unit.translation.language_id)
