@@ -477,7 +477,9 @@ limited by team membership.
 
 Token keys use the ``wls_`` prefix. The secret is shown once after creation. To
 replace a leaked secret, delete the token and create another. Deleting the
-underlying user account also revokes the token.
+underlying user account also revokes the token. Once the expiry date passes, the
+scheduled background task removes the token the same way as deleting it from the
+management interface.
 
 .. seealso::
 

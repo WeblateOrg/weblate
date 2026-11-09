@@ -11,6 +11,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.utils import timezone
 
+from weblate.accounts.utils import is_site_api_token_user, remove_user
 from weblate.auth.models import Invitation, User
 from weblate.utils.celery import app
 
@@ -20,7 +21,13 @@ if TYPE_CHECKING:
 
 @app.task(trail=False)
 def disable_expired() -> None:
-    for user in User.objects.filter(date_expires__lte=timezone.now(), is_active=True):
+    expired_users = User.objects.filter(
+        date_expires__lte=timezone.now(), is_active=True
+    )
+    for user in expired_users:
+        if is_site_api_token_user(user):
+            remove_user(user, None, activity="token-removed", method="site")
+            continue
         # Use save() to create audit log entry
         user.is_active = False
         user.save()

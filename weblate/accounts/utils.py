@@ -263,6 +263,16 @@ BOT_NOREPLY_EMAIL_SUFFIX = "@bots.noreply.weblate.org"
 SITE_API_TOKEN_USERNAME_PREFIX = "sitebot-"
 
 
+def is_site_api_token_user(user: User) -> bool:
+    """Return whether the user is a site-wide API token bot."""
+    return bool(
+        user.is_bot
+        and user.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
+        and user.email
+        and user.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
+    )
+
+
 def create_api_token(user: User, *, prefix: str | None = None) -> Token:
     """Create an API token for a user."""
     if prefix is None:
@@ -282,10 +292,9 @@ def reset_api_token(user: User, *, prefix: str | None = None) -> Token:
 
 
 def get_site_api_tokens() -> QuerySet[User]:
-    """Return active site-wide API token bots."""
+    """Return site-wide API token bots."""
     return User.objects.filter(
         is_bot=True,
-        is_active=True,
         username__startswith=SITE_API_TOKEN_USERNAME_PREFIX,
         email__endswith=BOT_NOREPLY_EMAIL_SUFFIX,
     )

@@ -13,6 +13,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
+from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tasks import project_removal
@@ -248,6 +249,38 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertFalse(
             User.objects.filter(is_bot=True, full_name="Past Token").exists()
         )
+
+    def test_expired_site_token_removed_by_disable_expired(self) -> None:
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        self.assertTrue(token_user.groups.exists())
+
+        token_user.date_expires = timezone.now() - timedelta(hours=1)
+        token_user.save(update_fields=["date_expires"])
+
+        disable_expired()
+        token_user.refresh_from_db()
+
+        self.assertTrue(token_user.username.startswith("deleted-"))
+        self.assertFalse(token_user.groups.exists())
+        self.assertFalse(Token.objects.filter(key=token).exists())
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="disabled-expiry").exists()
+        )
+        audit = token_user.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params.get("method"), "site")
+
+        self.client.logout()
+        response = self.client.get(
+            reverse("api:metrics"),
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(response.status_code, 401)
+
+        self.client.login(username="testuser", password="testpassword")
+        self.make_site_admin()
+        response = self.client.get(reverse("manage-api-tokens"))
+        self.assertNotContains(response, token_user.full_name)
 
     def test_scope_across_projects(self) -> None:
         token = self.create_token(teams=[self.monitoring_group])
