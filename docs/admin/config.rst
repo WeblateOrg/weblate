@@ -117,6 +117,10 @@ ALLOWED_ASSET_SIZE
 
 Configures size limit in bytes for fetching or uploading assets into Weblate. Defaults to 10 MB.
 
+For screenshot URL uploads and remote CDN add-on HTML, the limit counts
+response bytes after decompression, before the complete body is buffered.
+See :ref:`outbound-http-limits` for other HTTP response limits.
+
 .. seealso::
 
    * :ref:`screenshots`

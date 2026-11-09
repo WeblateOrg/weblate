@@ -414,6 +414,7 @@ class TesseractDataTest(SimpleTestCase):
             "https://example.com/eng",
             follow_redirects=True,
             timeout=TESSERACT_DOWNLOAD_TIMEOUT,
+            max_response_size=64 * 1024 * 1024,
         )
         self.assertEqual([call.args for call in sleep.call_args_list], [(1,), (2,)])
 

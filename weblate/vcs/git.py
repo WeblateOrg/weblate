@@ -62,6 +62,7 @@ from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
+    VCS_RESPONSE_SIZE,
     RedirectValidators,
     create_http_client,
     fetch_url,
@@ -2909,6 +2910,7 @@ class GitMergeRequestBase(GitRepository):
                     json=json,
                     auth=self.get_auth(credentials),
                     timeout=settings.VCS_API_TIMEOUT,
+                    max_response_size=VCS_RESPONSE_SIZE,
                     raise_for_status=False,
                 )
             except (OSError, httpx2.HTTPError) as error:
