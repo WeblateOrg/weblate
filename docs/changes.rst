@@ -31,6 +31,8 @@ Weblate 2026.11.2
 * Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
 * Kept malformed :ref:`DTD files <dtd>` intact during saves and reported source-edit validation failures cleanly.
 * Bounded built-in :doc:`format checks and highlighting <user/checks>` with matching timeouts and made whitespace fixups linear on long input.
+* Applied project blocks and :ref:`enforced two-factor authentication <project-enforced_2fa>` to component creation and move targets, including GitHub App imports.
+* Made missing and inaccessible :ref:`repository links <internal-urls>` return the same validation error without exposing hidden repository settings.
 * Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.

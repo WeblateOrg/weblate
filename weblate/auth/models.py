@@ -89,6 +89,7 @@ if TYPE_CHECKING:
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
+    from weblate.trans.models.project import ProjectQuerySet
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
     from weblate.wladmin.models import SupportStatusDict
 
@@ -1381,10 +1382,10 @@ class User(AbstractBaseUser):
         return self.projects_with_perm("project.edit")
 
     @cached_property
-    def accessible_managed_projects(self):
+    def accessible_managed_projects(self) -> ProjectQuerySet:
         """Projects where project administration also grants component access."""
         result = self.managed_projects.filter(pk__in=self.allowed_projects)
-        if not self.is_bot and not self.profile.has_2fa:
+        if not self.is_superuser and not self.is_bot and not self.profile.has_2fa:
             result = result.filter(enforced_2fa=False)
         return result
 

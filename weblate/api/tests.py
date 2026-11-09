@@ -6940,20 +6940,21 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_ignores_missing_autoshare_target(self) -> None:
         repo = self.component.repo
         link_repo = self.component.get_repo_link_url()
-        original_get_linked = Component.objects.get_linked
+        original_get_linked = ComponentQuerySet.get_linked
 
-        def get_linked(candidate):
+        def get_linked(queryset: ComponentQuerySet, candidate: str) -> Component | None:
             if candidate == link_repo:
                 msg = "Component disappeared."
                 raise Component.DoesNotExist(msg)
-            return original_get_linked(candidate)
+            return original_get_linked(queryset, candidate)
 
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
 
         with patch.object(
-            Component.objects,
+            ComponentQuerySet,
             "get_linked",
+            autospec=True,
             side_effect=get_linked,
         ):
             self.do_request(
@@ -7257,31 +7258,81 @@ class ProjectAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
+        restricted = self.create_po(
+            project=self.create_project(name="Public target", slug="public-target"),
+            name="Restricted target",
+            restricted=True,
+        )
+        two_factor = self.create_po(
+            project=self.create_project(
+                name="Two factor target", slug="two-factor-target", enforced_2fa=True
+            ),
+            name="Two factor component",
+        )
+        for fields in (
+            {},
+            {"name": self.component.name, "slug": self.component.slug},
+            {
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        ):
+            responses = []
+            for repo in (
+                private_component.get_repo_link_url(),
+                restricted.get_repo_link_url(),
+                two_factor.get_repo_link_url(),
+                "weblate://acl/missing",
+                "weblate://missing-project/missing",
+            ):
+                with self.subTest(repo=repo, fields=fields):
+                    response = self.do_request(
+                        "api:project-components",
+                        self.project_kwargs,
+                        method="post",
+                        code=400,
+                        format="json",
+                        request={**fields, "repo": repo},
+                    )
+                    responses.append(response.data)
+                    self.assertEqual(response.data["errors"][0]["attr"], "repo")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "This component does not exist or you cannot access it.",
+                    )
+            self.assertTrue(all(response == responses[0] for response in responses))
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
+    def test_create_component_rejects_visible_repository_without_edit_permission(
+        self,
+    ) -> None:
+        visible = self.create_po(
+            project=self.create_project(name="Visible target", slug="visible-target"),
+            name="Visible component",
+        )
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(visible))
+        self.assertFalse(self.user.has_perm("component.edit", visible))
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=400,
             format="json",
-            request={
-                "name": "Inaccessible repository link",
-                "slug": "inaccessible-repository-link",
-                "repo": private_component.get_repo_link_url(),
-                "filemask": "po/*.po",
-                "file_format": "po",
-                "new_lang": "none",
-            },
+            request={"repo": visible.get_repo_link_url()},
         )
-
         self.assertEqual(response.data["errors"][0]["attr"], "repo")
         self.assertEqual(
             response.data["errors"][0]["detail"],
             "You do not have permission to access this component.",
-        )
-        self.assertFalse(
-            self.project.component_set.filter(
-                slug="inaccessible-repository-link"
-            ).exists()
         )
 
     def test_create_component_no_push(self) -> None:
@@ -11223,19 +11274,27 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.do_request(
-            "api:component-detail",
-            self.component_kwargs,
-            method="patch",
-            code=400,
-            format="json",
-            request={
-                "repo": private_component.get_repo_link_url(),
-                "branch": "",
-                "push": "",
-                "push_branch": "",
-            },
-        )
+        responses = []
+        for repo in (
+            private_component.get_repo_link_url(),
+            "weblate://acl/missing",
+            "weblate://missing-project/missing",
+        ):
+            with self.subTest(repo=repo):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"repo": repo, "branch": "", "push": "", "push_branch": ""},
+                )
+                responses.append(response.data)
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "This component does not exist or you cannot access it.",
+                )
+        self.assertTrue(all(response == responses[0] for response in responses))
         self.component.refresh_from_db()
         self.assertEqual(self.component.repo, original_repo)
         self.assertIsNone(self.component.linked_component_id)
