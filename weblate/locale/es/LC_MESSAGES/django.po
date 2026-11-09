@@ -42,7 +42,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-11-05 22:27-0600\n"
-"PO-Revision-Date: 2026-11-06 23:50+0000\n"
+"PO-Revision-Date: 2026-11-09 15:55+0000\n"
 "Last-Translator: fserrador <fserrador@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -6685,14 +6685,13 @@ msgstr ""
 "Rogamos que lea los <a href=\"%(terms_url)s\">Términos y Condiciones "
 "Generales</a>."
 
-#, fuzzy, python-format
-#| msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+#, python-format
 msgid ""
 "Please read the General Terms and Conditions below as well as the <a "
 "href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
-"Rogamos que también lea la <a href=\"%(privacy_url)s\">Normativa de "
-"privacidad</a>."
+"Rogamos que también lea los Términos y Condiciones Generales a continuación "
+"así como la <a href=\"%(privacy_url)s\">Normativa de Privacidad</a>."
 
 msgid "Please read the General Terms and Conditions below."
 msgstr "Rogamos que lea los Términos y Condiciones Generales a continuación."
@@ -6857,15 +6856,11 @@ msgstr "La estimación de calidad no está disponible"
 msgid "The translation backend failed"
 msgstr "El backend del la traducción es incorrecto"
 
-#, fuzzy
-#| msgid "This translation needs editing."
 msgid "The translation request timed out"
-msgstr "Esta traducción necesita editar."
+msgstr "Esta traducción requiere un vencimiento"
 
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal processing error"
-msgstr "Error interno del servidor"
+msgstr "Error de proceso interno"
 
 msgid "The language pair is not available for this domain"
 msgstr "El emparejado de idiomas no está disponible para este dominio"
@@ -6909,11 +6904,9 @@ msgctxt "eTranslation domain"
 msgid "General Text (GEN)"
 msgstr "Texto general (GEN)"
 
-#, fuzzy
-#| msgid "For all languages"
 msgctxt "eTranslation domain"
 msgid "EU Formal Language (SPD)"
-msgstr "Para todos los idiomas"
+msgstr "Lenguaje formal EU (SPD)"
 
 msgctxt "eTranslation domain"
 msgid "Finance (ECB)"
@@ -6979,11 +6972,9 @@ msgctxt "eTranslation configuration"
 msgid "Password"
 msgstr "Contraseña"
 
-#, fuzzy
-#| msgid "Repeated language code"
 msgctxt "eTranslation configuration"
 msgid "Default language domain"
-msgstr "Código lingüístico repetido"
+msgstr "Dominio del idioma por defecto"
 
 msgctxt "eTranslation domain"
 msgid "Other domain code"
@@ -7009,21 +7000,14 @@ msgstr ""
 "Objeto JSON relacionando rutas de componente completas para códigos de "
 "dominio, p. ej. {\"my-prject/privacy-policy\": \"SPD\"}."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation domain"
 msgid "Invalid eTranslation domain code."
-msgstr "Dominio de la traducción"
+msgstr "Código no válido del dominio eTranslation."
 
-#, fuzzy
-#| msgid "Language-specific instructions must be a JSON object."
 msgid "Component language domains must be a JSON object."
-msgstr "Instrucciones específicas del idioma debe ser un objeto JSON."
+msgstr "Los dominios del idioma del componente deben ser un objeto JSON."
 
-#, fuzzy
-#| msgid "Invalid component path."
 msgid "Invalid component path or eTranslation domain code."
-msgstr "Ruta de componente no válida."
+msgstr "Ruta de componente no válida o código del dominio de eTransaltion."
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
@@ -7259,29 +7243,22 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Persona Traductora"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the translator’s role or expertise. For example: “You are an "
 "experienced medical translator.”"
 msgstr ""
-"Describe la personalidad del traductor para mejorar la precisión de la "
-"traducción. Por ejemplo: \"Eres un criador de ardillas.\""
+"Describe el rol o experiencia del traductor. Por ejemplo: “Eres un traductor "
+"con experiencia médica.”"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Translation style"
 msgstr "Estilo de traducción"
 
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the desired translation style. For example: “Use informal language.”"
 msgstr ""
-"Describe el estilo de traducción. Por ejemplo: \"Utilice un lenguaje "
-"informal.\""
+"Describe el estilo de traducción deseado. Por ejemplo: “Utilizar un lenguaje "
+"informal.”"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
@@ -7448,10 +7425,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
 msgstr "Max. de vales"
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "Maximum number of tokens in the generated response."
-msgstr "Número máximo de vales para generar en la respuesta."
+msgstr "Número máximo de vales internos a respuesta generada."
 
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
@@ -7465,54 +7440,41 @@ msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
 msgstr "@@PH1@@ comprobaciones incorrectas"
 
-#, fuzzy
-#| msgid "Choose at most one report scope."
 msgid "Choose only one installation scope."
-msgstr "Elija como mucho uno de los ámbitos del parte."
+msgstr "Elija solamente un ámbito de instalación."
 
 msgid "A numeric slug is reserved for installation IDs."
 msgstr "Hay reservada una ruta amigable numérica para los ID de instalación."
 
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "This scope already has 20 service installations."
-msgstr "Este componente ya se compartió en %s."
+msgstr "Este ámbito ya tiene 20 instalaciones del servicio."
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is already installed here."
-msgstr "Este servicio se instaló para todo el sitio."
+msgstr "Este servicio ya está instalado aquí."
 
 msgid "Exclude the inherited installation before enabling this service."
 msgstr "Excluya la instalación heredada antes de habilitar este servicio."
 
-#, fuzzy
-#| msgid "User is already blocked on this project."
 msgid "This slug is already used in an affected project."
-msgstr "Ya se ha bloqueado la cuenta en este proyecto."
+msgstr ""
+"Esta ruta amigable ya está siendo utilizada dentro de un proyecto afectado."
 
-#, fuzzy
-#| msgid "Choose at most one report scope."
 msgid "Choose one exclusion scope."
-msgstr "Elija como mucho uno de los ámbitos del parte."
+msgstr "Elija un ámbito de exclusión."
 
 msgid "Choose an installation or a translation service."
 msgstr "Elija una instalación o un servicio de traducción."
 
-#, fuzzy
-#| msgid "Use the translation license configured in the workspace."
 msgid "Only site installations can be excluded by a workspace."
 msgstr ""
-"Utilice la licencia de traducción configurada en el espacio de trabajo."
+"Solo pueden ser excluidas las instalaciones del sitio en un espacio de "
+"trabajo."
 
 msgid "Only inherited installations can be excluded."
 msgstr "Solo pueden ser excluidas las instalaciones heredadas."
 
-#, fuzzy
-#| msgid "Use the translation license configured in the workspace."
 msgid "Translation services conflict with the new workspace."
-msgstr ""
-"Utilice la licencia de traducción configurada en el espacio de trabajo."
+msgstr "Servicios de traducción en conflicto con el espacio de trabajo nuevo."
 
 msgid "Service is currently not available."
 msgstr "El servicio no está disponible por ahora."
@@ -7659,16 +7621,12 @@ msgstr ""
 "las traducciones actuales y se regenerarán en segundo plano. Las entradas "
 "cargadas se conservaron."
 
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Las entradas se eliminaron y la memoria de traducción se reconstruirá en "
-"segundo plano."
+"Los apuntes de memoria de traducción creados desde traducciones actuales "
+"fueron borrados y serán reconstruido en segundo plano."
 
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
@@ -7745,10 +7703,8 @@ msgstr "Identifique su cuenta"
 msgid "Read your name and username"
 msgstr "Lea su nombre y nombre del usuario"
 
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Read your e-mail address"
-msgstr "Utilizar la dirección de correo electrónico de la cuenta"
+msgstr "Lea su dirección del correo-e"
 
 msgid "Read the version of the legal documents you accepted"
 msgstr "Lea la versión de los documentos legales aceptados"
@@ -7868,22 +7824,18 @@ msgstr ""
 "Solo se muestran algunos segmentos coincidentes. Busca más segmentos "
 "manualmente."
 
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Too many image text searches. Please try again later."
-msgstr "Se enviaron demasiadas consultas; inténtelo de nuevo más tarde."
+msgstr ""
+"Se enviaron demasiadas consultas del texto de imagen. Inténtelo de nuevo más "
+"tarde."
 
 msgid "Text recognition data could not be downloaded. Please try again later."
 msgstr ""
 "Texto con reconocimiento de datos no pudo ser descargado. Intente de nuevo "
 "más tarde."
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not find strings in the image. Please try again."
-msgstr ""
-"No se pudieron cargar las ramas del repositorio. Inténtelo de nuevo más "
-"tarde."
+msgstr "No se ha podido encontrar cadenas en la imagen. Inténtelo de nuevo."
 
 msgid "Select a valid screenshot."
 msgstr "Seleccione una captura de pantalla válida."
@@ -8103,10 +8055,8 @@ msgstr ""
 msgid "Your profile"
 msgstr "Su perfil"
 
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Confirm adding e-mail address"
-msgstr "Proporcione una dirección de correo electrónico válida."
+msgstr "Confirme añadir la dirección del correo-e"
 
 msgid "Confirm adding user identity"
 msgstr "Confirmar la adición de la identidad del usuario"
@@ -8128,10 +8078,8 @@ msgstr ""
 "Después de confirmarlo, podrá autenticarse en Weblate con "
 "%(backend_verbose)s (%(uid)s)."
 
-#, fuzzy
-#| msgid "Add and verify e-mail address"
 msgid "Add e-mail address"
-msgstr "Añadir y verificar dirección de correo electrónico"
+msgstr "Agregue la dirección del correo-e"
 
 msgid "Confirm"
 msgstr "Confirmar"
@@ -8238,10 +8186,8 @@ msgstr "Abra el formulario de contacto"
 msgid "Registration"
 msgstr "Registro"
 
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Check your e-mail"
-msgstr "Su correo electrónico"
+msgstr "Compruebe su correo-e"
 
 msgid "Password reset almost complete"
 msgstr "Restablecimiento de contraseña casi completa"
@@ -8284,15 +8230,13 @@ msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Por favor, mira en tu carpeta de spam si no lo ves en tu bandeja de entrada."
 
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid ""
 "If you receive a verification link, it will expire after %(count)s hour."
 msgid_plural ""
 "If you receive a verification link, it will expire after %(count)s hours."
-msgstr[0] "El enlace de confirmación caducará al cabo de %(count)s hora."
-msgstr[1] "El enlace de confirmación caducará al cabo de %(count)s horas."
+msgstr[0] "Si recibe un enlace verificativo, vencerá tras %(count)s hora."
+msgstr[1] "Si recibe un enlace verificativo, vencerá tras %(count)s horas."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8332,10 +8276,10 @@ msgstr ""
 "minutos a que le llegue el mensaje de confirmación antes de escribirnos para "
 "plantearnos cualquier problema."
 
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us."
 msgid "If there is a problem verifying your e-mail address, please contact us."
-msgstr "Si hay algún problema con su proceso de registro, contáctenos."
+msgstr ""
+"Si hay un problema con la verificación de su dirección de correo-e, conecte "
+"con nosotros."
 
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Si hay algún problema con su proceso de registro, contáctenos."
@@ -8361,10 +8305,8 @@ msgstr ""
 msgid "Send verification e-mail"
 msgstr "Enviar mensaje de verificación"
 
-#, fuzzy
-#| msgid "Confirm adding user identity"
 msgid "Confirm your identity"
-msgstr "Confirmar la adición de la identidad del usuario"
+msgstr "Confirme su identidad"
 
 msgid "Confirm your existing sign-in method before continuing."
 msgstr "Confirme su método de acceso existente antes de continuar."
@@ -8465,10 +8407,8 @@ msgstr ""
 "notificaciones; los detalles del suceso, el contenido del resumen y los "
 "límites de frecuencia de envío también pueden afectar al envío."
 
-#, fuzzy
-#| msgid "View notification"
 msgid "Check notifications"
-msgstr "Ver notificación"
+msgstr "Comprobar notificaciones"
 
 #, python-format
 msgid "Notification eligibility for %(target)s"
@@ -8506,10 +8446,8 @@ msgstr ""
 "No hay suscripciones heredadas. Los ajustes coincidentes son enumerados bajo "
 "excepciones del componente."
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Overridden subscriptions"
-msgstr "Suscripciones de prueba"
+msgstr "Suscripciones anuladas"
 
 #, python-format
 msgid "Different settings in %(count)s component."
@@ -8543,10 +8481,8 @@ msgstr "Ninguna"
 msgid "No accessible components or translations in this target."
 msgstr "No hay componentes accesibles ni traducciones en este destino."
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscriptions in this scope."
-msgstr "No se han encontrado cadenas que coincidan."
+msgstr "Sin suscripciones coincidentes en este ámbito."
 
 #, python-format
 msgid "%(count)s watched project."
@@ -8557,10 +8493,8 @@ msgstr[1] "%(count)s proyectos monitorizados."
 msgid "No watched projects."
 msgstr "No hay ningún proyecto monitorizado."
 
-#, fuzzy
-#| msgid "Notification on new language request"
 msgid "Notification languages"
-msgstr "Notificar las nuevas solicitudes de idioma"
+msgstr "Idiomas de notificación"
 
 #, python-format
 msgid "%(count)s notification language."
@@ -8734,10 +8668,8 @@ msgstr "Ajustes de notificación"
 msgid "Remove this notification setting"
 msgstr "Quita estos ajustes de notificación"
 
-#, fuzzy
-#| msgid "Password login"
 msgid "Password-based sign-in"
-msgstr "Acceso con contraseña"
+msgstr "Inicio de sesión basado en contraseña"
 
 msgid "Configured"
 msgstr "Configurado"
@@ -8862,14 +8794,13 @@ msgstr ""
 msgid "Code-hosting connections"
 msgstr "Conexiones de alojamiento de código"
 
-#, fuzzy
-#| msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgid ""
 "Manage code-hosting accounts connected to workspaces you administer. These "
 "connections are separate from sign-in identities."
 msgstr ""
 "Gestione las cuentas de alojamiento de código conectadas a los espacios de "
-"trabajo que administra."
+"trabajo que administra. Estas conexiones son independientes de las "
+"identidades de inicio de sesión."
 
 msgid "Manage code-hosting connections"
 msgstr "Gestiona conexiones de alojamiento de código"
@@ -9364,17 +9295,12 @@ msgstr "Continuar"
 msgid "Register new security key"
 msgstr "Registrar llave de seguridad nueva"
 
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate time-based one-time passwords that are used "
-#| "as a second factor to verify your identity when prompted during sign-in."
 msgid ""
 "Security keys can be used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
-"Las aplicaciones autenticadoras generan contraseñas de un solo uso que se "
-"utilizan como segundo factor para verificar su identidad cuando se le "
-"solicita durante el inicio de sesión."
+"Las claves de seguridad se pueden utilizar como segundo factor para "
+"verificar su identidad cuando se le solicite al iniciar sesión."
 
 msgid "Name your security key"
 msgstr "Dé un nombre a la llave de seguridad"
@@ -9391,10 +9317,8 @@ msgstr ""
 "su clave de seguridad registrada. Su clave de acceso quizá no está "
 "disponible en un equipo nuevo o en un explorador diferente."
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Acceder con la llave de seguridad"
+msgstr "Inicie la sesión utilizando una clave de acceso o llave de seguridad"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
@@ -9689,21 +9613,18 @@ msgstr "No se han podido crear los siguientes componentes"
 msgid "No matching components were found!"
 msgstr "¡No se han encontrado componentes iguales!"
 
-#, fuzzy
 msgid ""
 "Configure the AMQP broker connection below, including any TLS certificates "
 "required by your broker, and select the events to publish."
 msgstr ""
-"Configura a continuación la conexión con el broker AMQP, incluyendo los "
-"certificados TLS que requiera tu broker, y selecciona los eventos que deseas "
-"publicar."
+"Configura a continuación la conexión con el broker AMQP, incluyendo "
+"cualquiera de los certificados TLS que requiera tu broker, y seleccione los "
+"eventos para publicar."
 
-#, fuzzy
 msgid "Configure your consumer to subscribe to Weblate message topics:"
 msgstr ""
 "Configura tu cliente para que se suscriba a los temas de mensajes de Weblate:"
 
-#, fuzzy
 msgid ""
 "Topics include only the path segments available for the event. If you "
 "configure a topic prefix, it is prepended with a dot separator."
@@ -9712,16 +9633,12 @@ msgstr ""
 "evento. Si se configura un prefijo de tema, se le antepone un punto como "
 "separador."
 
-#, fuzzy
-#| msgid ""
-#| "Browse the Weblate documentation for guides on translating, "
-#| "administration, and configuration."
 msgid ""
 "See the add-on documentation for topic examples, the message schema, and "
 "consumer configuration."
 msgstr ""
-"Consulta la documentación del complemento para ver ejemplos de temas, el "
-"esquema de mensajes y la configuración del consumidor."
+"Consulte la documentación del complemento para ejemplos de temas, el esquema "
+"de mensajes y la configuración del cliente."
 
 msgid ""
 "You can use Django templates markup in both filename and content, for "
@@ -9933,13 +9850,13 @@ msgstr "Las cadenas se generarán acorde a la pauta siguiente:"
 msgid "Source string"
 msgstr "Cadena de origen"
 
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Create an <a href=\"%(url)s\">incoming webhook in Slack</a> for the channel "
 "that should receive notifications."
 msgstr ""
-"Crea un <a href=\"%(url)s\">webhook de entrada en Slack</a> para el canal en "
-"el que se deben recibir las notificaciones."
+"Crea un <a href=\"%(url)s\">gancho web en proceso al Slack</a> para el canal "
+"en el que se recibirían las notificaciones."
 
 msgid ""
 "Enter the webhook URL below and select the events to send to the channel."
@@ -9947,10 +9864,8 @@ msgstr ""
 "Introduzca la URL del gancho de web y seleccione los eventos a enviar al "
 "canal."
 
-#, fuzzy
-#| msgid "Please see a documentation for more info."
 msgid "See the add-on documentation for more information."
-msgstr "Consulte la documentación para obtener más información."
+msgstr "Consulte la documentación del componente para obtener más información."
 
 msgid ""
 "Weblate commits from components within this repository will be squashed."
@@ -9967,25 +9882,22 @@ msgstr ""
 "perderá, a menos que seleccione «Por autor» o «Por autor e idioma», o "
 "personalice el mensaje de consignación para incluirla."
 
-#, fuzzy
 msgid ""
 "Configure your service to receive JSON POST requests, enter its URL below, "
 "and select the events to send."
 msgstr ""
 "Configura tu servicio para que reciba solicitudes POST en formato JSON, "
-"introduce su URL a continuación y selecciona los eventos que deseas enviar."
+"introduce tu URL a continuación, y selecciona los eventos a enviar."
 
-#, fuzzy
 msgid ""
 "To verify request signatures, configure the same Standard Webhooks secret in "
 "Weblate and your receiver. Requests are signed only when a secret is "
 "configured."
 msgstr ""
-"Para verificar las firmas de las solicitudes, configura el mismo secreto de "
-"«Standard Webhooks» tanto en Weblate como en tu receptor. Las solicitudes "
+"Para verificar las firmas de las solicitudes, configura el mismo secreto de «"
+"Standard Webhooks» tanto en Weblate como en tu receptor. Las solicitudes "
 "solo se firman cuando se ha configurado un secreto."
 
-#, fuzzy
 msgid ""
 "See the add-on documentation for the message payload and signature "
 "verification."
@@ -10015,10 +9927,8 @@ msgstr ""
 "¿Restablezca estos roles embebidos para los permisos por defecto actuales? "
 "Esto descartas sus personalizaciones."
 
-#, fuzzy
-#| msgid "Permissions"
 msgid "Reset permissions"
-msgstr "Permisos"
+msgstr "Restablecimiento de permisos"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -10032,16 +9942,13 @@ msgstr "Asignaciones automáticas"
 msgid "Access control"
 msgstr "Control de acceso"
 
-#, fuzzy
-#| msgid ""
-#| "Automatically add newly created users to this team based on their e-mail "
-#| "address."
 msgid ""
 "Automatically invite newly created users to this team based on their e-mail "
 "address. Users join only after accepting the invitation."
 msgstr ""
-"Añada automáticamente a los usuarios recién creados a este equipo en función "
-"de su dirección de correo electrónico."
+"Invita automáticamente a los usuarios recién creados a este equipo en "
+"función de su dirección de correo-e. Los usuarios se unen solo tras aceptar "
+"la invitación."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10308,10 +10215,8 @@ msgstr "Detalles del suceso"
 msgid "Download"
 msgstr "Descargar"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No audit log entries found."
-msgstr "No se han encontrado cadenas que coincidan."
+msgstr "No se han encontrado apuntes de bitácora de auditoría."
 
 msgid "Audit log pagination"
 msgstr "Paginación del registro de auditoría"
@@ -10409,10 +10314,8 @@ msgstr "No tiene permiso para cambiar el control de acceso al proyecto."
 msgid "Check your billing status"
 msgstr "Comprobar estado de su facturación"
 
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Checking your browser"
-msgstr "Navegador del repositorio"
+msgstr "Compruebe su navegador"
 
 msgid ""
 "Your browser will calculate a short proof of work to protect this site "
@@ -10450,14 +10353,10 @@ msgstr ""
 "No se pudo confirmar la verificación del navegador. Habilite las cookies e "
 "inténtelo de nuevo."
 
-#, fuzzy
-#| msgid ""
-#| "The authentication provider is temporarily unavailable. Please try again "
-#| "later."
 msgid ""
 "The verification service is temporarily unavailable. Please retry later."
 msgstr ""
-"Temporalmente el proveedor de autenticación no está disponible. Intente de "
+"El servicios de verificación temporalmente no está disponible. Inténtelo de "
 "nuevo más tarde."
 
 msgid "Verification cookies could not be confirmed. Enable cookies and retry."
@@ -10475,18 +10374,14 @@ msgstr "Reintentar"
 msgid "Did you know?"
 msgstr "¿Lo sabía?"
 
-#, fuzzy
-#| msgid "Please review and confirm the missing language changes."
 msgid "Review and confirm the bulk edit changes."
-msgstr "Revise y confirme los cambios faltantes del idioma."
+msgstr "Revise y confirme los cambios editados en masa."
 
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(counter)s string would change."
 msgid_plural "%(counter)s strings would change."
-msgstr[0] "%(count)s cadena cambiaría"
-msgstr[1] "%(count)s cadenas cambiarían"
+msgstr[0] "Se cambiaría %(counter)s cadena."
+msgstr[1] "Se cambiarían %(counter)s cadenas."
 
 msgid ""
 "Showing the first 250 changes. Only selected displayed strings will be "
@@ -11153,11 +11048,8 @@ msgid_plural "%(errors_count)s skipped because of errors"
 msgstr[0] "%(errors_count)s omitida debido a errores"
 msgstr[1] "%(errors_count)s omitidas debido a errores"
 
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Write pending Weblate translations to the repository."
-msgstr ""
-"Forzar escritura de todas las traducciones en el repositorio de Weblate"
+msgstr "Escribe las traducciones de Weblate pendientes al repositorio."
 
 #, python-format
 msgid "%(count)s outgoing commit"
@@ -11182,10 +11074,8 @@ msgid_plural "%(count)s missing commits"
 msgstr[0] "Falta %(count)s consignación"
 msgstr[1] "Faltan las %(count)s consignaciones"
 
-#, fuzzy
-#| msgid "Allow changes to the Weblate repository"
 msgid "Pull upstream changes into the Weblate repository."
-msgstr "Permitir cambios en el repositorio de Weblate"
+msgstr "Sube los cambios en desarrollo dentro del repositorio de Weblate."
 
 msgid "Allow changes to the Weblate repository"
 msgstr "Permitir cambios en el repositorio de Weblate"
@@ -11224,66 +11114,49 @@ msgstr "Las traducciones de Weblate están bloqueadas"
 msgid "Lock to pause translation changes."
 msgstr "Bloquear para pausar modificaciones de traducción."
 
-#, fuzzy
-#| msgid "Choose translation files to import"
 msgid "Choose which translations to keep"
-msgstr "Elija los archivos de traducción que deben importarse"
+msgstr "Elija cuáles traducciones va a conservar"
 
 #. Translators: Discard means losing local commits and pending translation changes, not cancelling the operation. The repository is reset to upstream.
-#, fuzzy
-#| msgid "Discard flag"
 msgid "Discard local changes"
-msgstr "Descartar modificador"
+msgstr "Descarta modificaciones locales"
 
 msgid "Use when:"
 msgstr "Utilizar cuando:"
 
-#, fuzzy
-#| msgid "Use the translation license configured in the workspace."
 msgid "Upstream has the translations you want to keep."
-msgstr ""
-"Utilice la licencia de traducción configurada en el espacio de trabajo."
+msgstr "El desarrollo tiene las traducciones que desea conservar."
 
 msgid "Result:"
 msgstr "Resultado:"
 
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "Reset the configured branch to upstream."
-msgstr "Restablecer repositorio a originario"
+msgstr "Restablecer la rama configurada a desarrollo."
 
 msgid "Data loss:"
 msgstr "Pérdida de datos:"
 
-#, fuzzy
-#| msgid ""
-#| "Weblate has pending translation changes for these projects since %(date)s."
 msgid "Local commits and pending translation changes are discarded."
 msgstr ""
-"Weblate tiene cambios de traducción pendientes para estos proyectos desde %"
-"(date)s."
+"Se descartan las efectuaciones de cambios locales y cambios de traducción "
+"pendientes."
 
 #. Translators: Reapply means writing Weblate’s translations onto the repository after resetting it to upstream.
 msgid "Reset and reapply translations"
 msgstr "Restablecer y volver a aplicar traducciones"
 
-#, fuzzy
-#| msgid ""
-#| "Weblate has pending translation changes for these projects since %(date)s."
 msgid ""
 "Weblate has the translations you want to keep, or its checkout is missing."
 msgstr ""
-"Weblate tiene cambios de traducción pendientes para estos proyectos desde %"
-"(date)s."
+"Weblate tiene las traducciones que desea conservar, o su extracción está "
+"ausente."
 
-#, fuzzy
-#| msgid ""
-#| "Use these operations with caution, they rewrite the translation file."
 msgid ""
 "Reset the configured branch to upstream, then write Weblate translations "
 "again."
 msgstr ""
-"Ejerza precaución con estas operaciones: reescriben el archivo de traducción."
+"Restablezca la rama configurada a desarrollo, después escriba de nuevo las "
+"traducciones de Weblate"
 
 msgid ""
 "Supported Git checkouts can be rebuilt if missing; damaged Git metadata "
@@ -11310,10 +11183,8 @@ msgstr "Volver a escanear"
 msgid "Files contain strings Weblate has not loaded."
 msgstr "Los archivos contienen cadenas que Weblate no ha cargado."
 
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Load translations from the files into Weblate."
-msgstr "Carga las traducciones de los archivos en Weblate."
+msgstr "Carga las traducciones de los archivos a Weblate."
 
 msgid "Edits blocked by the commit policy may be discarded."
 msgstr ""
@@ -11341,19 +11212,11 @@ msgstr "Gestión de archivo"
 msgid "Remove duplicates"
 msgstr "Quitar duplicados"
 
-#, fuzzy
-#| msgid "A translation file was replaced by an uploaded file."
 msgid "A translation file has repeated strings absent from Weblate."
-msgstr "Se reemplazó un archivo de traducción con un archivo cargado."
+msgstr "Un archivo de traducción tiene cadenas repetidas ausentes de Weblate."
 
-#, fuzzy
-#| msgid ""
-#| "Removes repeated strings with the same identifier from the translation "
-#| "file."
 msgid "Remove repeated identifiers from the file."
-msgstr ""
-"Retira cadenas repetidas con el mismo identificador desde el archivo de "
-"traducción."
+msgstr "Retira identificadores repetidos desde el fichero."
 
 msgid "Cleanup unused"
 msgstr "Purgar no utilizados"
@@ -11371,10 +11234,8 @@ msgstr "Quitar obsoletas"
 msgid "Obsolete PO entries should be removed now."
 msgstr "Los apuntes PO obsoletos serían retirados ahora."
 
-#, fuzzy
-#| msgid "Removes obsolete strings from PO files."
 msgid "Remove obsolete strings from the PO file."
-msgstr "Quitar cadenas obsoletas desde los archivos PO."
+msgstr "Quita cadenas obsoletas desde el archivo PO."
 
 #, python-format
 msgid "Repository for %(component)s"
@@ -11463,7 +11324,7 @@ msgstr ""
 "Copia la traducción automática de un número dado a la traducción actual."
 
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignora un elemento en la lista de comprobaciones no superadas."
+msgstr "Descarta un elemento dentro del listado de comprobaciones no superadas."
 
 msgid "Shows the Nearby strings tab."
 msgstr "Muestra la pestaña Cadenas cercanas."
@@ -11515,7 +11376,7 @@ msgid "Please see a documentation for more info."
 msgstr "Consulte la documentación para obtener más información."
 
 msgid "Translation workflow"
-msgstr "Flujo de trabajo de traducción"
+msgstr "Flujo del trabajo de traducción"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -11558,10 +11419,8 @@ msgstr "Este servicio está instalado en el espacio de trabajo."
 msgid "workspace"
 msgstr "espacio de trabajo"
 
-#, fuzzy
-#| msgid "Language limit"
 msgid "Rate limited"
-msgstr "Límite del idioma"
+msgstr "Tipo limitado"
 
 msgid "This service is disabled."
 msgstr "Este servicio está desactivado."
@@ -11581,15 +11440,11 @@ msgstr ""
 "relacionado a un proveedor externo. Revise los términos y la normativa de "
 "privacidad del proveedor antes de activarlo."
 
-#, fuzzy
-#| msgid "Hosted service"
 msgid "Inherited service"
-msgstr "Servicio alojado"
+msgstr "Servicio heredado"
 
-#, fuzzy
-#| msgid "This service is installed site wide."
 msgid "This service is managed at its installation scope."
-msgstr "Este servicio se instaló para todo el sitio."
+msgstr "Este servicio está gestionado en su ámbito de instalación."
 
 msgid "Manage this installation"
 msgstr "Gestiona esta instalación"
@@ -11712,7 +11567,6 @@ msgstr ""
 msgid "Exclude inherited service"
 msgstr "Excluir servicio heredado"
 
-#, fuzzy
 msgid ""
 "Stop using all site-wide installations of this service in this workspace and "
 "its projects, including installations added later. Installations configured "
@@ -11723,14 +11577,13 @@ msgstr ""
 "añadidas posteriormente. Las instalaciones configuradas directamente en este "
 "espacio de trabajo o en sus proyectos seguirán estando disponibles."
 
-#, fuzzy
 msgid ""
 "Stop using all inherited installations of this service in this project, "
 "including installations added later. Installations configured directly in "
 "this project and use in other projects are unaffected."
 msgstr ""
 "Deje de utilizar todas las instalaciones heredadas de este servicio en este "
-"proyecto, incluidas las que se hayan añadido posteriormente. Las "
+"proyecto, incluyendo instalaciones que se hayan añadido posteriormente. Las "
 "instalaciones configuradas directamente en este proyecto y su uso en otros "
 "proyectos no se verán afectadas."
 
@@ -12787,38 +12640,35 @@ msgid "Selected %(count)s findings affecting %(accounts)s accounts."
 msgstr ""
 "Se seleccionaron %(count)s encontradas afectando a %(accounts)s cuentas."
 
-#, fuzzy
 msgid ""
 "Disable the matching passwords, invalidate signed-in sessions, and revoke "
 "all API tokens. Users with an e-mail address will be notified. Single sign-"
 "on and two-factor settings are preserved. Accounts whose passwords have "
 "changed will be skipped."
 msgstr ""
-"Deshabilita las contraseñas coincidentes, invalida las sesiones iniciadas y "
-"revoca todos los tokens de API. Se notificará a los usuarios con una "
-"dirección de correo electrónico. Se conservarán las configuraciones de "
-"inicio de sesión único y autenticación de dos factores. Se omitirán las "
-"cuentas cuyas contraseñas hayan cambiado."
+"Deshabilite las contraseñas coincidentes, invalide las sesiones iniciadas y "
+"revoque todos los vales del API. Se notificará a los usuarios con una "
+"dirección de correo-e. Se conservarán las opciones de inicio de sesión único "
+"y autenticación de dos factores. Se omitirán las cuentas cuyas contraseñas "
+"hayan cambiado."
 
-#, fuzzy
 msgid ""
 "Remove the selected lookalike verified e-mail addresses and associated sign-"
 "in identities, disable account passwords, invalidate sessions, and revoke "
 "API tokens. Account owners will be notified at their primary e-mail address."
 msgstr ""
-"Eliminar las direcciones de correo electrónico verificadas similares "
-"seleccionadas y las identidades de inicio de sesión asociadas, deshabilitar "
-"las contraseñas de las cuentas, invalidar las sesiones y revocar los vales "
-"del API. Los propietarios de las cuentas recibirán una notificación en su "
-"dirección de correo electrónico principal."
+"Retira las direcciones de correo-e verificadas similares seleccionadas y las "
+"identidades de inicio de sesión asociadas, inhabilita las contraseñas de las "
+"cuentas, invalida las sesiones y revoca los vales del API. Los propietarios "
+"de las cuentas recibirán una notificación en su dirección de correo-e "
+"principal."
 
-#, fuzzy
 msgid ""
 "Dismiss the selected findings without changing credentials or notifying "
 "users. A new report confirming the same exposure can reopen them."
 msgstr ""
-"Descarte los hallazgos seleccionados sin cambiar las credenciales ni "
-"notificar a los usuarios. Un nuevo informe que confirme la misma exposición "
+"Desestima los hallazgos seleccionados sin cambiar las credenciales ni "
+"notificar a los usuarios. Un informe nuevo que confirme la misma exposición "
 "puede reabrirlos."
 
 msgid "Reset passwords"
@@ -12979,18 +12829,15 @@ msgstr "Restablecer contraseñas para cuentas seleccionadas"
 msgid "Dismiss selected findings"
 msgstr "Descartar hallazgos seleccionados"
 
-#, fuzzy
 msgid ""
 "Dismissing findings marks them as reviewed without changing passwords or "
 "notifying users."
 msgstr ""
-"Descartar los hallazgos los marca como revisados sin cambiar las contraseñas "
-"ni notificar a los usuarios."
+"Desestima las marcas halladas como revisados sin cambiar contraseñas ni "
+"notificar a usuarios."
 
-#, fuzzy
-#| msgid "Back to security settings"
 msgid "Account security operation"
-msgstr "Volver a los ajustes de seguridad"
+msgstr "Operación de seguridad de la cuenta"
 
 msgid "Processing progress"
 msgstr "Progreso del proceso"
@@ -13005,60 +12852,47 @@ msgstr ""
 "Revisa informes de validación credencial previa, incluyendo informes sin "
 "contraseñas coincidentes."
 
-#, fuzzy
-#| msgid "Download reports"
 msgid "Upload report"
-msgstr "Descargar partes"
+msgstr "Subir informe"
 
-#, fuzzy
-#| msgid "Process"
 msgid "Processed rows"
-msgstr "Procesar"
+msgstr "Filas procesadas"
 
-#, fuzzy
-#| msgid "Matching strings"
 msgid "Matching rows"
-msgstr "Coincide con cadenas"
+msgstr "Filas coincidentes"
 
-#, fuzzy
-#| msgid "Connected accounts"
 msgid "Affected accounts"
-msgstr "Cuentas conectadas"
+msgstr "Cuentas afectadas"
 
 #, python-format
 msgid "%(processed)s of %(total)s"
 msgstr "%(processed)s de %(total)s"
 
-#, fuzzy
-#| msgid "Translation reports"
 msgid "No validation reports yet."
-msgstr "Informes de traducciones"
+msgstr "Aún sin informes de validación."
 
-#, fuzzy
 msgid ""
 "Upload a CSV containing usernames or e-mail addresses and passwords. "
 "Passwords are checked in the background and never displayed in the report."
 msgstr ""
-"Cargue un archivo CSV que contenga nombres de usuario o direcciones de "
-"correo electrónico y contraseñas. Las contraseñas se verifican en segundo "
-"plano y nunca se muestran en el informe."
+"Suba un archivo CSV que contenga nombres de usuario o direcciones de correo-"
+"e y contraseñas. Las contraseñas se verifican en segundo plano y nunca se "
+"exhiben en el informe."
 
-#, fuzzy
 msgid ""
 "Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
 "delimiter and column numbers blank for automatic detection."
 msgstr ""
-"Los informes deben usar UTF-8 y contener como máximo 50 000 filas y 10 MiB. "
+"Los informes deben usar UTF-8 y contener como máximo 50 000 filas y 10 MiB. "
 "Deje en blanco el delimitador y los números de columna para la detección "
 "automática."
 
-#, fuzzy
 msgid ""
 "The uploaded file is available for one hour. Adjust the CSV settings below "
 "to try again."
 msgstr ""
-"El archivo subido estará disponible durante una hora. Ajuste la "
-"configuración CSV a continuación para intentarlo de nuevo."
+"El archivo subido estará disponible durante una hora. A continuación ajuste "
+"las opciones de CSV para intentarlo otra vez."
 
 msgid "CSV format (detected automatically)"
 msgstr "Formato CSV (auto-detectado)"
@@ -13797,10 +13631,8 @@ msgstr ""
 msgid "Select all strings on this page"
 msgstr "Seleccione todas las cadenas en esta página"
 
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Select string for bulk edit"
-msgstr "Cadenas marcadas para edición"
+msgstr "Seleccione la cadena para edición a granel"
 
 msgid "Choose which strings to edit and the changes to apply."
 msgstr "Elija cuáles cadenas editar y los cambios a aplicar."
@@ -13958,10 +13790,8 @@ msgstr "Rama del repositorio"
 msgid "Pull request"
 msgstr "Solicitud de incorporación"
 
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Pull request URL copied to clipboard."
-msgstr "Se copió el URL del repositorio en el portapapeles."
+msgstr "La URL de solicitud de subida es copiada al portapapeles."
 
 msgid "Last remote commit"
 msgstr "Última consignación remota"
@@ -13997,10 +13827,8 @@ msgstr "Editar término del glosario"
 msgid "Translation explanation"
 msgstr "Explicación de la traducción"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "Explicación para la cadena de origen"
+msgstr "Explicación del origen"
 
 msgid "Glossary translation explanation"
 msgstr "Explicación de la traducción del glosario"
@@ -14035,10 +13863,10 @@ msgstr "Licencia de la traducción"
 msgid "Translation process"
 msgstr "Proceso de traducción"
 
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Una traducción fue restaurada a un valor anterior."
+msgstr ""
+"La edición de una traducción directa está restringida a los usuarios "
+"privilegiados."
 
 msgid "Translation suggestions can be made."
 msgstr "Es posible sugerir traducciones."
@@ -14184,19 +14012,17 @@ msgstr "Colaboradores"
 msgid "Translations"
 msgstr "Traducciones"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "You were invited to %(site_title)s by %(invitation_author)s to "
-#| "collaborate on %(project_name)s and join the %(team_name)s team."
+#, python-format
 msgid ""
 "An automatic team assignment rule invited you to collaborate on "
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"%(invitation_author)s le ha invitado a %(site_title)s para colaborar en "
-"%(project_name)s y formar parte del equipo de %(team_name)s."
+"Se le invita una regla de asignación de equipo automática para participar en "
+"%(project_name)s y unirse al equipo %(team_name)s. Solo se unirá si aceptar "
+"esta invitación."
 
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An automatic team assignment rule invited you to join the %(team_name)s team "
 "in %(workspace_name)s. You will join only if you accept this invitation."
@@ -14240,11 +14066,9 @@ msgctxt "Change metadata badge label"
 msgid "IP address:"
 msgstr "Dirección IP:"
 
-#, fuzzy
-#| msgid "IP address copied to clipboard."
 msgctxt "Change metadata tooltip"
 msgid "IP address recorded for this change."
-msgstr "Dirección IP copiada en el portapapeles."
+msgstr "Dirección IP registrara para esta modificación."
 
 msgid "Revert"
 msgstr "Revertir"
@@ -14255,10 +14079,8 @@ msgstr "Bloquear usuario"
 msgid "View notification"
 msgstr "Ver notificación"
 
-#, fuzzy
-#| msgid "All changes"
 msgid "View full change"
-msgstr "Todos los cambios"
+msgstr "Vista de todos los cambios"
 
 msgid "No matching activity found."
 msgstr "No se encontró la actividad buscada."
@@ -14742,15 +14564,11 @@ msgstr "¿Se usa Weblate en su organización?"
 msgid "Already purchased? Link your support package"
 msgstr "¿Ya lo ha comprado? Enlace su paquete de asistencia"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "Quitar cadenas no usadas del archivo de traducción"
+msgstr "Información de término desde el fichero de traducción"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "Cadenas de origen"
+msgstr "Términos de la fuente"
 
 msgid "Target terms"
 msgstr "Términos del destino"
@@ -14882,15 +14700,12 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr "Esto es para continuar la eliminación de tu cuenta de Weblate."
 
-#, fuzzy
-#| msgid ""
-#| "You are about to continue resetting the password for your Weblate account."
 msgid ""
 "You are about to continue adding this e-mail address to your existing "
 "Weblate account."
 msgstr ""
-"Esto es para continuar el restablecimiento de la contraseña en su cuenta de "
-"Weblate."
+"Esto es para continuar añadiendo esta dirección del correo-e a su cuenta "
+"existente de Weblate."
 
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "Esto es para aceptar una invitación y crear una cuenta en Weblate."
@@ -14908,10 +14723,8 @@ msgstr "Continuar restablecimiento de contraseña"
 msgid "Continue account removal"
 msgstr "Continúa la eliminación de cuenta"
 
-#, fuzzy
-#| msgid "E-mail verification"
 msgid "Continue e-mail verification"
-msgstr "Verificación de correo electrónico"
+msgstr "Continúe con la verificación del correo-e"
 
 msgid "Accept invitation"
 msgstr "Aceptar invitación"
@@ -15017,30 +14830,27 @@ msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr ""
 "El complemento de CDN de Weblate no pudo interpretar los archivos HTML."
 
-#, fuzzy
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
 "updates or pushes cannot reconstruct it."
 msgstr ""
-"No se encuentra la copia local del repositorio ni su directorio Git. Las "
-"actualizaciones o los envíos repetidos no pueden reconstruirlo."
+"La descarga del repositorio local o su directorio de Git está ausente. Las "
+"actualizaciones repetidas o subidas no pueden reconstruirlo."
 
-#, fuzzy
 msgid ""
 "Open repository maintenance and use Reset and reapply translations to "
 "recover the checkout and reapply translations stored in Weblate."
 msgstr ""
-"Abra el mantenimiento del repositorio y utilice Restablecer y volver a "
-"aplicar las traducciones para recuperar la copia y volver a aplicar las "
-"traducciones almacenadas en Weblate."
+"Abra el mantenimiento del repositorio y utilice Restablecer y re-aplique "
+"traducciones para recuperar la descarga y re-aplique traducciones "
+"almacenadas en Weblate."
 
-#, fuzzy
 msgid ""
 "Ask a maintainer with repository reset permission to reconstruct the "
 "checkout."
 msgstr ""
-"Solicite a un responsable del repositorio con permisos para restablecer el "
-"repositorio que reconstruya la copia local."
+"Pida a un mantenedor con permiso de restablecimiento del repositorio que "
+"reconstruya la extracción."
 
 #, fuzzy
 msgid ""
