@@ -76,16 +76,26 @@ Authentication tokens
 
    Project scoped tokens were introduced in the 4.10 release.
 
+.. versionchanged:: 2026.12
+
+   Site-wide API tokens were introduced in the 2026.12 release.
+
 Each user has a personal access token which can be obtained in the user
 profile. Newly generated user tokens have the ``wlu_`` prefix.
 
 It is possible to create project scoped tokens for API access to given project
 only. These tokens can be identified by the ``wlp_`` prefix.
 
+Site administrators can create site-wide tokens in the management interface.
+These tokens have the ``wls_`` prefix, must belong to at least one site-wide
+team, and are unavailable on Hosted Weblate. For metrics-only monitoring, assign
+the token to a site-wide team with no roles.
+
 .. seealso::
 
    * :doc:`/user/profile`
    * :ref:`project-api`
+   * :ref:`site-api-tokens`
    * :ref:`acl`
 
 Authentication examples
