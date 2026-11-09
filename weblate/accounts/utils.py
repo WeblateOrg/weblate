@@ -31,6 +31,7 @@ from social_django.models import Code
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
@@ -261,6 +262,13 @@ def require_recent_second_factor(
 BOT_NOREPLY_EMAIL_SUFFIX = "@bots.noreply.weblate.org"
 # ruff: ignore[hardcoded-password-string]
 SITE_API_TOKEN_USERNAME_PREFIX = "sitebot-"
+BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
+
+
+def bound_bot_basename(basename: str) -> str:
+    """Truncate a bot username base so collision suffixes still fit."""
+    limit = USERNAME_LENGTH - BOT_USERNAME_COLLISION_SUFFIX_LENGTH
+    return basename if len(basename) <= limit else basename[:limit]
 
 
 def is_site_api_token_user(user: User) -> bool:

@@ -22,6 +22,7 @@ from weblate.accounts.utils import (
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
 from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.models import Project
 from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -168,6 +169,15 @@ class SiteWideTokenTest(FixtureTestCase):
 
         # Normal user tokens stay wlu_
         self.assertTrue(self.user.auth_token.key.startswith("wlu_"))
+
+    def test_create_token_long_name_truncates_username(self) -> None:
+        long_name = "a" * 150
+        token = self.create_token(full_name=long_name, teams=[self.monitoring_group])
+        token_user = self.get_token_user(token)
+
+        self.assertEqual(token_user.full_name, long_name)
+        self.assertLessEqual(len(token_user.username), USERNAME_LENGTH)
+        self.assertTrue(token_user.username.startswith("sitebot-"))
 
     def test_site_token_mutations_require_unexpired_verification(self) -> None:
         token = self.create_token()
