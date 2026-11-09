@@ -527,8 +527,20 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "sub"
     )
+    SOCIAL_AUTH_KEYCLOAK_LEGACY_ID_KEYS = ["email"]
+    # Preserve first-login migration only for the historical Docker default.
+    SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION = get_env_bool(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION",
+        get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY") is None,
+    )
+    # Assume an explicit ID_KEY also created the historical associations.
+    # Otherwise backfill with the old Docker default, not the new sub default.
+    # Changing an explicit ID_KEY requires a settings override for this mapping.
+    SOCIAL_AUTH_OLD_ID_KEYS = {
+        "keycloak": get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email")
+    }
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect

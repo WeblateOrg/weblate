@@ -1977,14 +1977,18 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
-    Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
+    Enables :ref:`keycloak_auth`.
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY
 
     .. versionadded:: 5.17
 
     Configures which claim is used as the unique user identifier from Keycloak.
-    Defaults to ``email``.
+    Defaults to the stable subject claim, ``sub``. Explicit overrides remain
+    supported, but e-mail addresses and usernames can be reassigned and are
+    unsafe account identifiers. See :ref:`keycloak_auth` for migration and
+    historical-key backfill requirements when upgrading from the earlier
+    ``email`` default.
 
     .. hint::
 
@@ -1997,6 +2001,21 @@ Keycloak
           environment:
             WEBLATE_CSP_FORM_SRC: login.microsoftonline.com
 
+
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALLOW_UNVERIFIED_LEGACY_UID_MIGRATION
+
+    .. versionadded:: 2026.11.2
+
+    Allows migration of historical Keycloak associations without saved subject
+    evidence. Defaults to enabled only when
+    :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is unset; an explicit identifier,
+    including ``sub``, defaults to disabled. Set to ``1`` or ``0`` to override
+    this default. When disabled, matching saved subjects are required;
+    associations without this evidence then require account recovery
+    or verified administrative repair. Until migration, enabled fallback retains
+    the risk of historical e-mail address or username reassignment. See
+    :ref:`keycloak_auth` for upgrade guidance.
 
 
 Linux vendors

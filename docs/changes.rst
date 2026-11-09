@@ -18,7 +18,7 @@ Weblate 2026.11.2
 
 * Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
 * Enforced public-only billing plans on :ref:`project moves <workspace-project-creation>` and warned when :ref:`backup restores <projectbackup>` make restricted components public.
-
+* Used stable subjects for :ref:`Keycloak authentication <keycloak_auth>` in Docker, protecting new and migrated associations from e-mail reassignment.
 * Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
 * Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
 
@@ -69,6 +69,7 @@ Weblate 2026.11.2
 
 .. rubric:: Compatibility
 
+* Changed the Docker :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` default from ``email`` to ``sub``. When the identifier is unset, existing associations migrate on login, including those without saved subjects; historical identifier reassignment remains a risk until migration. See the :ref:`Keycloak upgrade guidance <keycloak_auth>` for backfill requirements and how to require subject evidence. Explicit identifier overrides remain supported.
 * Clarified the :ref:`RESP3 datastore requirement <production-cache>` introduced in Weblate 2026.11.1, including errors from incompatible Redis servers or proxies.
 
 .. rubric:: Upgrading
