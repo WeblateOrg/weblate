@@ -60,6 +60,12 @@ feature inventory. *(maintainer)*
      - Same application effects as the token permissions allow
      - In scope as authenticated actors with delegated project scope.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Site-wide API tokens
+     - Tokens created in management :guilabel:`API tokens`
+     - Same application effects as the token's site-wide team permissions allow
+     - In scope as authenticated actors with delegated site-wide team scope.
+       Unavailable on Hosted Weblate.
+       *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhooks
      - :ref:`hooks`, project :ref:`project-enable_hooks`,
        :ref:`code-hosting-github-app-webhook`
@@ -645,6 +651,12 @@ Adversary model
        :ref:`projectbackup`)
      - Access projects, components, or site-wide functions outside its scope.
        *(documented)* (source: :doc:`/admin/access`)
+   * - Site-wide API token holder
+     - Use API permissions assigned to its site-wide team memberships, including
+       authenticated endpoints such as :http:get:`/api/metrics/`.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Act outside assigned team permissions without exploiting a Weblate flaw.
+       *(documented)* (source: :doc:`/admin/access`)
    * - Webhook sender
      - Send forged, replayed, malformed, or high-volume webhook requests to
        enabled hook endpoints and observe documented matching diagnostics.
@@ -776,6 +788,14 @@ Security properties Weblate provides
        :ref:`autoteam`)
      - Rules are evaluated for newly created accounts.
      - A scoped automatic assignment grants membership without acceptance.
+     - Security-critical. Pending invitations remain visible to team managers,
+       and matching rules can send unsolicited invitation e-mails.
+   * - Site-wide API tokens are limited by assigned site-wide team permissions
+       and are managed only from the management interface.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Token is created by a site administrator with ``user.edit``.
+     - Token can act outside assigned team scope, or tokens can be managed
+       without ``user.edit``.
      - Security-critical. Pending invitations remain visible to team managers,
        and matching rules can send unsolicited invitation e-mails.
    * - Authentication and session controls protect browser sessions when HTTPS
