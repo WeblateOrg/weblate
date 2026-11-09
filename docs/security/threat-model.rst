@@ -793,18 +793,23 @@ Security properties Weblate provides
    * - Site-wide API tokens are limited by assigned site-wide team permissions
        and are managed only from the management interface.
        *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
-     - Token is created by a site administrator with ``user.edit``.
+     - Token is created, revoked, or has team membership changed from the
+       browser by a site administrator with ``user.edit`` after recent
+       credential verification. Accounts with 2FA use a second factor; other
+       accounts confirm their password or an existing sign-in provider.
      - Token can act outside assigned team scope, or tokens can be managed
-       without ``user.edit``.
+       without ``user.edit``, or a stale browser session can create, revoke, or
+       alter site-wide tokens without recent credential verification.
      - Security-critical.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
-       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens and
-       changes to authentication credentials, access permissions, project
-       visibility, account status, and bulk user-contribution cleanup require
-       recent credential verification for browser sessions. Accounts with 2FA
+       :setting:`AUTH_LOCK_ATTEMPTS`. Access to personal API tokens,
+       creation and revocation of site-wide API tokens, and changes to site-wide
+       token team membership, authentication credentials, access permissions,
+       project visibility, account status, and bulk user-contribution cleanup
+       require recent credential verification for browser sessions. Accounts with 2FA
        use a second factor; other accounts confirm their password or an existing
        sign-in provider. API tokens remain separate credentials. *(documented)* (source:
        :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)

@@ -19,7 +19,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import Count, Max, Prefetch
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -936,6 +936,14 @@ def check_site_token_view_access(request: AuthenticatedHttpRequest) -> None:
         raise PermissionDenied
 
 
+def site_token_verification_redirect(
+    request: AuthenticatedHttpRequest,
+) -> HttpResponseRedirect | None:
+    if has_recent_sensitive_verification(request):
+        return None
+    return sensitive_verification_redirect(request, reverse("manage-api-tokens"))
+
+
 def get_site_token_memberships_prefetch(groups):
     return Prefetch(
         "team_memberships",
@@ -1013,6 +1021,8 @@ def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
 def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Create a site-wide API token."""
     check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
     form = SiteTokenCreateForm(request.POST)
     if form.is_valid():
         token = form.save(acting_user=request.user, request=request)
@@ -1033,6 +1043,8 @@ def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Revoke a site-wide API token by deleting its bot user."""
     check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
     form = SiteTokenManageForm(request.POST)
     if form.is_valid():
         user = form.cleaned_data["user"]
@@ -1055,6 +1067,8 @@ def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 def set_site_token_groups(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Change team membership for a site-wide API token."""
     check_site_token_view_access(request)
+    if redirect_ := site_token_verification_redirect(request):
+        return redirect_
     form = SiteTokenGroupForm(request.POST)
     if form.is_valid():
         apply_site_token_groups(request, form.cleaned_data["user"], form)
