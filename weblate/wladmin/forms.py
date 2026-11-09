@@ -16,10 +16,10 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.accounts.forms import BaseTokenCreateForm, EmailField, UserManageForm
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import (
-    BOT_NOREPLY_EMAIL_SUFFIX,
     SITE_API_TOKEN_USERNAME_PREFIX,
     create_api_token,
     delete_api_tokens,
+    is_site_api_token_user,
 )
 from weblate.auth.models import Group, TeamMembership, User
 from weblate.auth.utils import prefetch_membership_limit_languages
@@ -284,14 +284,7 @@ class SiteTokenManageForm(UserManageForm):
     def clean_user(self) -> User:
         user = self.cleaned_data["user"]
 
-        is_site_api_token = bool(
-            user.is_bot
-            and user.is_active
-            and user.username.startswith(SITE_API_TOKEN_USERNAME_PREFIX)
-            and user.email.endswith(BOT_NOREPLY_EMAIL_SUFFIX)
-        )
-
-        if not is_site_api_token:
+        if not is_site_api_token_user(user):
             raise ValidationError(gettext("Could not find any such user."))
         return user
 
