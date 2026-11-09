@@ -122,6 +122,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    FieldDocsMixin,
     FormFieldGroup,
     InheritedSetting,
     NormalizedNewlineCharField,
@@ -292,11 +293,6 @@ TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
 MIN_COST_ESTIMATE_TM_THRESHOLD = 75
-
-
-class FieldDocsMixin(forms.Form):
-    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
-        raise NotImplementedError
 
 
 class MarkdownTextarea(forms.Textarea):
