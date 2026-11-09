@@ -3207,6 +3207,10 @@ redirects have to be configured manually. Mercurial, Subversion, custom VCS
 backends, and additional URL schemes are rejected unless the target host is
 trusted by :setting:`VCS_ALLOW_HOSTS` or :setting:`VCS_PRIVATE_ALLOWLIST`.
 
+Hosting API requests, including redirects and pagination URLs, apply the same
+private-target restrictions and trusted-host exemptions. Direct API connections
+are bound to validated addresses and their connected peers are checked.
+
 Network-level egress filtering which blocks internal, loopback, link-local,
 reserved, and cloud metadata address ranges is recommended as defense in depth,
 especially for custom integrations and administrator-installed extensions.
