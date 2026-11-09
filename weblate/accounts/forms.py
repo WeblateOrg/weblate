@@ -57,6 +57,7 @@ from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.accounts.utils import (
     BOT_NOREPLY_EMAIL_SUFFIX,
     adjust_session_expiry,
+    bound_bot_basename,
     cycle_session_keys,
     get_all_user_mails,
     get_totp_device_label,
@@ -1644,7 +1645,7 @@ class BaseTokenCreateForm(forms.ModelForm):
 
     def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
-        base_name = name = self.get_bot_basename()
+        base_name = name = bound_bot_basename(self.get_bot_basename())
         while User.objects.filter(
             Q(username=name) | Q(email=f"{name}{BOT_NOREPLY_EMAIL_SUFFIX}")
         ).exists():
