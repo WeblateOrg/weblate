@@ -14,7 +14,7 @@ import shutil
 import subprocess
 import tempfile
 from configparser import RawConfigParser
-from contextlib import ExitStack
+from contextlib import ExitStack, nullcontext
 from datetime import datetime
 from io import BytesIO
 from os import utime
@@ -2195,6 +2195,163 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             )
 
         get_remote_args.assert_not_called()
+
+
+@override_settings(
+    VCS_RESTRICT_PRIVATE=True,
+    VCS_ALLOW_HOSTS=[],
+    VCS_PRIVATE_ALLOWLIST=[],
+    VCS_API_DELAY=0,
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}},
+)
+class HostingAPIOutboundTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.repo = BitbucketCloudRepository(".", local=True)
+        self.credentials = git_module.GitCredentials(
+            url="https://forge.example/api",
+            owner="owner",
+            slug="repo",
+            hostname="forge.example",
+            username="bot",
+            token="secret",
+            scheme="https",
+            push_scheme="ssh",
+        )
+        self.enterContext(
+            patch("weblate.vcs.git.WeblateLock", return_value=nullcontext())
+        )
+        self.enterContext(
+            patch("weblate.utils.requests.get_environment_proxy", return_value=None)
+        )
+        self.resolve = self.enterContext(
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            )
+        )
+        cache.clear()
+
+    @http_mock.activate
+    def test_public_redirect_pins_each_request(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "https://other.example/api"},
+        )
+        http_mock.register("GET", "https://other.example/api", json={"values": []})
+        data, _response, error = self.repo.request(
+            "get", self.credentials, self.credentials["url"]
+        )
+        self.assertEqual(data, {"values": []})
+        self.assertEqual(error, "")
+        self.assertEqual(self.resolve.call_count, 2)
+        self.assertEqual(len(http_mock.calls), 2)
+        for request_call in http_mock.calls:
+            self.assertEqual(
+                http_mock.get_transport_url(request_call.request).host, "93.184.216.34"
+            )
+
+    @http_mock.activate
+    def test_private_initial_url_rejected(self) -> None:
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, "http://127.0.0.1/api")
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    def test_private_redirect_rejected(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "http://169.254.169.254/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_redirect_dns_rebinding_rejected(self) -> None:
+        self.resolve.side_effect = [
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("10.0.0.1", 443))],
+        ]
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "/next"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(self.resolve.call_count, 2)
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    @override_settings(VCS_PRIVATE_ALLOWLIST=["forge.example"])
+    def test_allowlisted_host_does_not_exempt_redirect_target(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            status_code=302,
+            headers={"Location": "http://127.0.0.1/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_pagination_rejected(self) -> None:
+        http_mock.register(
+            "GET",
+            self.credentials["url"],
+            json={"values": [], "next": "http://127.0.0.1/api"},
+        )
+        with self.assertRaises(RepositoryError):
+            self.repo.build_full_paginated_result(
+                self.credentials, self.credentials["url"], "Could not paginate"
+            )
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_dns_rejected(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        with self.assertRaises(RepositoryError):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 0)
+
+    @http_mock.activate
+    def test_private_peer_rejected(self) -> None:
+        http_mock.register("GET", self.credentials["url"], json={"values": []})
+        with (
+            patch(
+                "weblate.utils.requests._get_response_peer_ip", return_value="10.0.0.1"
+            ),
+            self.assertRaises(RepositoryError),
+        ):
+            self.repo.request("get", self.credentials, self.credentials["url"])
+        self.assertEqual(len(http_mock.calls), 1)
+
+    @http_mock.activate
+    def test_private_host_exemptions(self) -> None:
+        self.resolve.return_value = [(0, 0, 0, "", ("10.0.0.1", 443))]
+        http_mock.register("GET", self.credentials["url"], json={"values": []})
+        for configuration in (
+            {"VCS_RESTRICT_PRIVATE": False},
+            {"VCS_ALLOW_HOSTS": ["forge.example"]},
+            {"VCS_PRIVATE_ALLOWLIST": [".example"]},
+        ):
+            with (
+                self.subTest(configuration=configuration),
+                override_settings(**configuration),
+            ):
+                data, _response, error = self.repo.request(
+                    "get", self.credentials, self.credentials["url"]
+                )
+                self.assertEqual(data, {"values": []})
+                self.assertEqual(error, "")
+        self.assertEqual(len(http_mock.calls), 3)
 
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):

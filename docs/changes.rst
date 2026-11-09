@@ -44,6 +44,7 @@ Weblate 2026.11.2
 * Limited user activity searches to visible :ref:`translation history <translation-history>`.
 * Limited repository URLs in webhook deliveries to prevent excessive matching work.
 * Removed control characters from base-file edits before writing translation files.
+* Applied :setting:`VCS_RESTRICT_PRIVATE` to hosting API requests, including redirects and pagination URLs.
 * Restricted propagated check dismissals to components where the user may dismiss the check.
 * Enforced :setting:`REQUIRE_LOGIN` for Git repository exports, including anonymous clones.
 * Limited text shown in :ref:`translation history <translation-history>` lists and added a full change view for long entries.
