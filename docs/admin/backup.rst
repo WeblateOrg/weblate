@@ -28,6 +28,15 @@ The backup can be restored when creating a project (see
    Project backups can also be created, listed, and downloaded through the
    :ref:`api` since version 2026.7;
 
+The destination workspace's billing plan determines project access on restore.
+When the plan requires public content, restricted components in the backup
+are restored as public, including imports initiated by superusers. The import
+preview warns about this outcome and lists the affected component paths before
+you submit it. The completed import reports each component made public.
+Choose a workspace whose plan permits private content to preserve restrictions.
+Restoring without destination billing retains the backup's access settings.
+See :ref:`workspace-project-creation` for the rules when moving existing projects.
+
 The backups include project-scoped teams and their memberships, and project
 :ref:`saved-searches`, but do not include history. Restored
 :ref:`automatic team assignment rules <autoteam>` invite matching new users

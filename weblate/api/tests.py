@@ -7869,6 +7869,187 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(change.details["old_workspace_name"], "Current workspace")
         self.assertEqual(change.details["workspace_name"], "Target workspace")
 
+    def prepare_public_plan_move(self) -> tuple[Workspace, Workspace]:
+        source = create_test_billing(self.user)
+        source.plan.change_access_control = True
+        source.plan.name = "Source move plan"
+        source.plan.slug = "source-move-plan"
+        source.plan.save(update_fields=["change_access_control", "name", "slug"])
+        target = create_test_billing(self.user)
+        target.plan.change_access_control = False
+        target.plan.save(update_fields=["change_access_control"])
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=source.workspace, access_control=Project.ACCESS_PUBLIC
+        )
+        self.project.refresh_from_db()
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.grant_perm_to_user("project.permissions", project=self.project)
+        self.user.clear_permissions_cache()
+        assert source.workspace is not None
+        assert target.workspace is not None
+        return source.workspace, target.workspace
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rejects_nonpublic_project(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        for access_control, _label in Project.ACCESS_CHOICES:
+            if access_control == Project.ACCESS_PUBLIC:
+                continue
+            with self.subTest(access_control=access_control):
+                Project.objects.filter(pk=self.project.pk).update(
+                    access_control=access_control
+                )
+                response = self.do_request(
+                    "api:project-detail",
+                    self.project_kwargs,
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"workspace": str(target.pk)},
+                )
+                self.assertIn("only allows public projects", str(response.data))
+                self.project.refresh_from_db()
+                self.assertEqual(self.project.workspace_id, source.pk)
+                self.assertEqual(self.project.access_control, access_control)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_uses_submitted_access(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PRIVATE,
+            },
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PUBLIC,
+            },
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target.pk)
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rejects_restricted_component(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "workspace": str(target.pk),
+                "access_control": Project.ACCESS_PUBLIC,
+            },
+        )
+        self.assertIn("without restricted components", str(response.data))
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_keeps_superuser_exemption(self) -> None:
+        _source, target = self.prepare_public_plan_move()
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            superuser=True,
+            request={"workspace": str(target.pk)},
+        )
+        self.project.refresh_from_db()
+        self.component.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target.pk)
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+        self.assertTrue(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_keeps_existing_incompatible_project(self) -> None:
+        _source, target = self.prepare_public_plan_move()
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=target, access_control=Project.ACCESS_PRIVATE
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(target.pk), "name": "Existing private project"},
+        )
+        self.project.refresh_from_db()
+        self.component.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+        self.assertTrue(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_move_public_plan_rechecks_after_validation(self) -> None:
+        source, target = self.prepare_public_plan_move()
+        plan = target.billing.plan
+        plan.change_access_control = True
+        plan.save(update_fields=["change_access_control"])
+        Project.objects.filter(pk=self.project.pk).update(
+            access_control=Project.ACCESS_PRIVATE
+        )
+        original = ProjectSerializer.is_valid
+
+        def restrict_plan(
+            serializer: ProjectSerializer, *, raise_exception: bool = False
+        ) -> bool:
+            valid = original(serializer, raise_exception=raise_exception)
+            if valid:
+                plan.change_access_control = False
+                plan.save(update_fields=["change_access_control"])
+            return valid
+
+        with patch.object(ProjectSerializer, "is_valid", restrict_plan):
+            response = self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                code=400,
+                format="json",
+                request={"workspace": str(target.pk)},
+            )
+        self.assertIn("only allows public projects", str(response.data))
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, source.pk)
+        self.assertFalse(
+            self.project.change_set.filter(action=ActionEvents.MOVE_PROJECT).exists()
+        )
+
     def test_patch_workspace_move_reports_machinery_conflicts(self) -> None:
         target = Workspace.objects.create(name="Target workspace")
         MachineryInstallation.objects.filter(

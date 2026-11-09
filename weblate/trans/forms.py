@@ -4232,7 +4232,11 @@ class ProjectImportCreateForm(ProjectCreateForm):
         fields = ("name", "slug", "workspace")
 
     def __init__(
-        self, request: AuthenticatedHttpRequest, projectbackup, *args, **kwargs
+        self,
+        request: AuthenticatedHttpRequest,
+        projectbackup: ProjectBackup,
+        *args,
+        **kwargs,
     ) -> None:
         kwargs["initial"] = {
             "name": projectbackup.data["project"]["name"],
@@ -4243,7 +4247,14 @@ class ProjectImportCreateForm(ProjectCreateForm):
         self.helper.layout = Layout(
             ContextDiv(
                 template="trans/project_import_info.html",
-                context={"projectbackup": projectbackup},
+                context={
+                    "projectbackup": projectbackup,
+                    "restricted_components": (
+                        projectbackup.get_restricted_components()
+                        if "weblate.billing" in settings.INSTALLED_APPS
+                        else []
+                    ),
+                },
             ),
             Field("name"),
             Field("slug"),

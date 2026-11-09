@@ -335,6 +335,8 @@ class ProjectBackup:
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
+        self.components_made_public: list[str] = []
+        self.public_only_restore = False
         self.skipped_components: list[str] = []
         self.renamed_teams: list[tuple[str, str]] = []
         self.skipped_parameters: list[tuple[str, str, str, bool]] = []
@@ -2245,6 +2247,14 @@ class ProjectBackup:
             used_names.add(team["name"])
             self.restore_team(team, group)
 
+    def get_restricted_components(self) -> list[str]:
+        """List restricted component paths in the validated backup for preview."""
+        return sorted(
+            self.get_component_backup_slug(data["component"])
+            for data in self.component_data.values()
+            if data["component"]["restricted"]
+        )
+
     def get_restore_warnings(self) -> list[str]:
         """Return user-facing warnings for all changes made during import."""
         return (
@@ -2254,6 +2264,13 @@ class ProjectBackup:
                 )
                 % {"component": component}
                 for component in self.skipped_components
+            ]
+            + [
+                gettext(
+                    "Restricted component %(component)s was restored as public because the target workspace's billing plan requires public content."
+                )
+                % {"component": component}
+                for component in self.components_made_public
             ]
             + get_team_rename_warnings(self.renamed_teams)
             + [
@@ -2659,6 +2676,10 @@ class ProjectBackup:
         if "category" in kwargs:
             kwargs["category"] = self.categories_cache[kwargs["category"]]
 
+        if self.public_only_restore and kwargs["restricted"]:
+            kwargs["restricted"] = False
+            self.components_made_public.append(original_slug)
+
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
         pre_save.send(
@@ -2853,6 +2874,8 @@ class ProjectBackup:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
 
+        self.components_made_public.clear()
+        self.public_only_restore = False
         self.skipped_components.clear()
         self.renamed_teams.clear()
         self.created_media.clear()
@@ -2932,6 +2955,9 @@ class ProjectBackup:
             from weblate.billing.models import Billing
 
             billing = Billing.objects.lock_project_creation(workspace_id)
+        self.public_only_restore = (
+            billing is not None and not billing.plan.change_access_control
+        )
         restore_changes: list[Change] = []
 
         kwargs = self.data["project"].copy()
