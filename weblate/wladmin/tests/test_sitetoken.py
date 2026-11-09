@@ -5,13 +5,20 @@
 from __future__ import annotations
 
 import re
+import time
 from datetime import timedelta
+from urllib.parse import parse_qs, urlparse
 
 from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 
+from weblate.accounts.utils import (
+    SESSION_SECOND_FACTOR_TIMESTAMP,
+    SESSION_SENSITIVE_FACTOR_GRANT,
+)
 from weblate.auth.models import Group, Permission, Role, User, setup_project_groups
 from weblate.auth.tasks import disable_expired
 from weblate.lang.models import Language
@@ -54,6 +61,10 @@ class SiteWideTokenTest(FixtureTestCase):
 
     def make_site_admin(self) -> None:
         self.grant_global_permissions("management.use", "user.view", "user.edit")
+
+    def token_api_client(self):
+        """Client without a browser session for token-authenticated API calls."""
+        return self.client_class()
 
     def create_token(
         self,
@@ -157,6 +168,86 @@ class SiteWideTokenTest(FixtureTestCase):
 
         # Normal user tokens stay wlu_
         self.assertTrue(self.user.auth_token.key.startswith("wlu_"))
+
+    def test_site_token_mutations_require_unexpired_verification(self) -> None:
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        group_count = token_user.groups.count()
+        token_count = Token.objects.count()
+        manage_url = reverse("manage-api-tokens")
+
+        session = self.client.session
+        session[SESSION_SENSITIVE_FACTOR_GRANT]["time"] -= 601
+        session.save()
+
+        create_payload = {
+            "full_name": "Expired verification",
+            "date_expires": "2999-12-31",
+            "teams": [self.monitoring_group.pk],
+        }
+        url = reverse("create-site-token")
+        response = self.client.post(url, create_payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            urlparse(response["Location"]).path,
+            reverse("first-factor-verify"),
+        )
+        self.assertEqual(
+            parse_qs(urlparse(response["Location"]).query)["next"],
+            [manage_url],
+        )
+
+        self.assertEqual(Token.objects.count(), token_count)
+        token_user.refresh_from_db()
+        self.assertEqual(token_user.groups.count(), group_count)
+        self.assertTrue(Token.objects.filter(key=token).exists())
+
+    def test_create_site_token_requires_recent_second_factor(self) -> None:
+        self.make_site_admin()
+        TOTPDevice.objects.create(user=self.user, confirmed=True)
+        token_count = Token.objects.count()
+        url = reverse("create-site-token")
+        payload = {
+            "full_name": "Test Token",
+            "date_expires": "2999-12-31",
+            "teams": [self.monitoring_group.pk],
+        }
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(
+            reverse("2fa-login", kwargs={"backend": "totp"}),
+            response["Location"],
+        )
+        self.assertEqual(Token.objects.count(), token_count)
+
+        session = self.client.session
+        session[SESSION_SECOND_FACTOR_TIMESTAMP] = {
+            "user": self.user.pk,
+            "time": int(time.time()),
+        }
+        session.save()
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Token.objects.count(), token_count + 1)
+
+    def test_site_token_create_checks_permission_before_verification(self) -> None:
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.grant_global_permissions("management.use", "user.view")
+        session = self.client.session
+        session.pop(SESSION_SENSITIVE_FACTOR_GRANT)
+        session.save()
+
+        response = self.client.post(
+            reverse("create-site-token"),
+            {
+                "full_name": "Denied",
+                "date_expires": "2999-12-31",
+                "teams": [self.monitoring_group.pk],
+            },
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_create_requires_team(self) -> None:
         self.make_site_admin()
@@ -270,14 +361,12 @@ class SiteWideTokenTest(FixtureTestCase):
         audit = token_user.auditlog_set.get(activity="token-removed")
         self.assertEqual(audit.params.get("method"), "site")
 
-        self.client.logout()
-        response = self.client.get(
+        response = self.token_api_client().get(
             reverse("api:metrics"),
             headers={"authorization": f"Token {token}"},
         )
         self.assertEqual(response.status_code, 401)
 
-        self.client.login(username="testuser", password="testpassword")
         self.make_site_admin()
         response = self.client.get(reverse("manage-api-tokens"))
         self.assertNotContains(response, token_user.full_name)
@@ -288,15 +377,15 @@ class SiteWideTokenTest(FixtureTestCase):
         unit = self.get_unit()
         original_target = unit.target
 
-        self.client.logout()
+        token_client = self.token_api_client()
         for header in (f"Token {token}", f"Bearer {token}"):
-            response = self.client.get(
+            response = token_client.get(
                 reverse("api:metrics"),
                 headers={"authorization": header},
             )
             self.assertEqual(response.status_code, 200)
 
-        response = self.client.patch(
+        response = token_client.patch(
             reverse("api:unit-detail", kwargs={"pk": unit.pk}),
             {"state": "20", "target": ["Should fail"]},
             content_type="application/json",
@@ -322,7 +411,7 @@ class SiteWideTokenTest(FixtureTestCase):
             (unit, "first"),
             (second_unit, "second"),
         ):
-            response = self.client.patch(
+            response = token_client.patch(
                 reverse("api:unit-detail", kwargs={"pk": edit_unit.pk}),
                 {"state": "20", "target": [f"Edited {label}"]},
                 content_type="application/json",
@@ -330,11 +419,10 @@ class SiteWideTokenTest(FixtureTestCase):
             )
             self.assertEqual(response.status_code, 200, response.content)
 
-        self.client.login(username="testuser", password="testpassword")
         project_token = self.create_project_token()
         self.assertTrue(project_token.startswith("wlp_"))
-        self.client.logout()
-        response = self.client.patch(
+        project_client = self.token_api_client()
+        response = project_client.patch(
             reverse("api:unit-detail", kwargs={"pk": unit.pk}),
             {"state": "20", "target": ["Project token ok"]},
             content_type="application/json",
@@ -342,7 +430,7 @@ class SiteWideTokenTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.patch(
+        response = project_client.patch(
             reverse("api:unit-detail", kwargs={"pk": second_unit.pk}),
             {"state": "20", "target": ["Should fail"]},
             content_type="application/json",
@@ -352,7 +440,7 @@ class SiteWideTokenTest(FixtureTestCase):
 
         second.access_control = Project.ACCESS_PUBLIC
         second.save()
-        response = self.client.patch(
+        response = project_client.patch(
             reverse("api:unit-detail", kwargs={"pk": second_unit.pk}),
             {"state": "20", "target": ["Still denied"]},
             content_type="application/json",
@@ -484,15 +572,13 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertEqual(audit.params["username"], self.user.username)
         self.assertEqual(audit.get_message(), "Site-wide API token was removed.")
 
-        self.client.logout()
-        response = self.client.get(
+        response = self.token_api_client().get(
             reverse("api:metrics"),
             headers={"authorization": f"Token {token}"},
         )
         self.assertEqual(response.status_code, 401)
 
         # Deleting underlying user revokes a second token
-        self.client.login(username="testuser", password="testpassword")
         second = self.create_token(full_name="Second Token")
         second_user = self.get_token_user(second)
         self.user.is_superuser = True
@@ -603,11 +689,9 @@ class SiteWideTokenTest(FixtureTestCase):
         token = self.create_token()
         token_user = self.get_token_user(token)
 
-        self.client.logout()
-        response = self.client.get(reverse("manage-api-tokens"))
+        response = self.client_class().get(reverse("manage-api-tokens"))
         self.assertEqual(response.status_code, 403)
 
-        self.client.login(username="testuser", password="testpassword")
         # Drop previous site-admin groups for permission matrix
         self.user.groups.clear()
         self.user.clear_permissions_cache()
