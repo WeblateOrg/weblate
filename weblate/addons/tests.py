@@ -41,6 +41,7 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
+from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -5596,6 +5597,23 @@ msgstr ""
         self.assertIn("stats/cs.json", commit)
         self.assertIn('"translated": 25', commit)
 
+    def test_generate_render_failure_preserves_destination(self) -> None:
+        addon = GenerateFileAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": '{{ project_name|center:"1048577" }}',
+            },
+        )
+        output = Path(self.component.full_path) / "locales.json"
+        output.write_text("original", encoding="utf-8")
+        with self.assertRaisesMessage(TemplateSyntaxError, "padding"):
+            addon.generate_component(self.component)
+        self.assertEqual(output.read_text(encoding="utf-8"), "original")
+
     def test_generate_translation_scope_skips_component_events(self) -> None:
         addon = GenerateFileAddon.create(
             acting_user=get_test_actor(self),
@@ -10451,6 +10469,19 @@ class AddonConfigurationUnitTest(SimpleTestCase):
                 "template": "{{ language_code }}",
             },
         )
+
+    def test_generate_file_form_rejects_excessive_template(self) -> None:
+        addon = GenerateFileAddon(Addon(component=None, project=None))
+        form = GenerateForm(
+            None,
+            addon,
+            data={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": '{{ language_code|center:"1048577" }}',
+            },
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("padding", str(form.errors["template"]))
 
     def test_generate_file_runtime_configuration_is_normalized(self) -> None:
         addon = GenerateFileAddon(

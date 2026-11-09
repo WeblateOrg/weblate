@@ -467,6 +467,19 @@ Build-time and configuration variants
      - Existing add-on management authority governs mutations. Operation scopes,
        validation, and automation-origin suppression constrain declarative runs;
        custom Python add-ons retain their separate trust model. *(maintainer)*
+   * - Configurable text templates
+     - Component and add-on managers configure commit messages, generated files,
+       paths, and repository browser links. *(documented)* (source: :ref:`markup`)
+     - Templates use a fixed set of Django tags and filters with plain-data
+       context. Complex renders execute in a helper with source, context, loop,
+       intermediate-value, output, CPU, and wall-time limits. Supported platforms
+       also enforce an address-space limit. On macOS, the helper can exhaust
+       memory within its time limits because the address-space cap is unavailable.
+       Simple scalar substitutions use bounded in-process rendering. This bounds
+       template work, not arbitrary Python extensions. *(maintainer)*
+     - Existing component and add-on management permissions govern configuration.
+       Failed renders return no partial output; generated files are installed
+       only after rendering succeeds. See :ref:`markup` for limits. *(maintainer)*
    * - Bulk regular expression replacement
      - Users with bulk-edit permissions and add-on managers supply replacement
        patterns and templates. *(maintainer)* (source: :ref:`bulk-edit`)

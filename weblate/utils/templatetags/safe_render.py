@@ -6,16 +6,23 @@ from __future__ import annotations
 
 import json
 import os.path
+from typing import TYPE_CHECKING
 
 from django import template
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.defaulttags import do_for, do_if
+
+from weblate.utils.render_engine import BoundedForNode, check_replace
+
+if TYPE_CHECKING:
+    from django.template.base import Parser, Token
 
 register = template.Library()
 
 
 @register.simple_tag
 def replace(value: str, char: str, replace_char: str) -> str:
+    check_replace(value, char, replace_char)
     return value.replace(char, replace_char)
 
 
@@ -35,7 +42,18 @@ def parentdir(value: str) -> str:
 
 
 register.tag("if")(do_if)
-register.tag("for")(do_for)
+
+
+@register.tag("for")
+def bounded_for(parser: Parser, token: Token) -> BoundedForNode:
+    node = do_for(parser, token)
+    return BoundedForNode(
+        node.loopvars,
+        node.sequence,
+        node.is_reversed,
+        node.nodelist_loop,
+        node.nodelist_empty,
+    )
 
 
 @register.filter(name="json")
