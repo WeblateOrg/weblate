@@ -16,6 +16,7 @@ Weblate 2026.11.2
 .. rubric:: Security fixes
 
 * Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
+* Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
 
 * Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
 * Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
