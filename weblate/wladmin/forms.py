@@ -238,7 +238,7 @@ class SecurityUploadForm(forms.Form):
 
 
 def sitewide_teams_queryset() -> QuerySet[Group]:
-    return Group.objects.filter(defining_project=None).order()
+    return Group.objects.filter(defining_project=None, defining_workspace=None).order()
 
 
 class SiteTokenCreateForm(BaseTokenCreateForm):
@@ -387,7 +387,9 @@ def apply_site_token_groups(
     desired_groups = {group.id for group in form.cleaned_data["groups"]}
     site_groups = list(sitewide_teams_queryset())
     current_groups = set(
-        user.groups.filter(defining_project=None).values_list("id", flat=True)
+        user.groups.filter(defining_project=None, defining_workspace=None).values_list(
+            "id", flat=True
+        )
     )
     memberships = {
         membership.group_id: membership

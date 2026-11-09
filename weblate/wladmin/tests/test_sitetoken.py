@@ -19,7 +19,12 @@ from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.files import remove_tree
-from weblate.wladmin.forms import SiteTokenGroupForm
+from weblate.wladmin.forms import (
+    SiteTokenCreateForm,
+    SiteTokenGroupForm,
+    sitewide_teams_queryset,
+)
+from weblate.workspaces.models import WORKSPACE_OWNERS_GROUP, Workspace
 
 
 class SiteWideTokenTest(FixtureTestCase):
@@ -167,6 +172,48 @@ class SiteWideTokenTest(FixtureTestCase):
                 is_bot=True, username__startswith="sitebot-", full_name="No Team"
             ).exists()
         )
+
+    def test_workspace_teams_excluded(self) -> None:
+        workspace = Workspace.objects.create(name="Token workspace")
+        owners = workspace.setup_groups()[WORKSPACE_OWNERS_GROUP]
+
+        self.assertNotIn(owners, sitewide_teams_queryset())
+        self.assertIn(self.monitoring_group, sitewide_teams_queryset())
+
+        create_form = SiteTokenCreateForm()
+        self.assertNotIn(owners, create_form.fields["teams"].queryset)
+
+        self.make_site_admin()
+        response = self.client.post(
+            reverse("create-site-token"),
+            {
+                "full_name": "Workspace Team Token",
+                "date_expires": "2999-12-31",
+                "teams": [owners.pk],
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Select a valid choice")
+        self.assertFalse(
+            User.objects.filter(
+                is_bot=True,
+                username__startswith="sitebot-",
+                full_name="Workspace Team Token",
+            ).exists()
+        )
+
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        response = self.client.get(
+            reverse("js-site-token-groups", kwargs={"user_id": token_user.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, f'value="{owners.pk}"')
+
+        edit_form = SiteTokenGroupForm(
+            initial={"user": token_user.username, "groups": token_user.groups.all()}
+        )
+        self.assertNotIn(owners, edit_form.fields["groups"].queryset)
 
     def test_create_token_expiring_today(self) -> None:
         today = timezone.localdate()
