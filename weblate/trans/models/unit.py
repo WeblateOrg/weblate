@@ -3119,24 +3119,23 @@ class Unit(models.Model, LoggerMixin):
             if self.line_number is not None:
                 qs = self.translation.unit_set.exclude(line_number=None)
                 before = list(
-                    qs.filter(line_number__lt=self.line_number)
+                    qs.filter(
+                        Q(line_number__lt=self.line_number)
+                        | Q(line_number=self.line_number, position__lt=self.position)
+                    )
                     .order_by("-line_number", "-position")
                     .values_list("id", flat=True)[:count]
                 )
-                same = list(
-                    qs.filter(line_number=self.line_number)
-                    .order_by("position")
-                    .values_list("id", flat=True)[:count]
-                )
                 after = list(
-                    qs.filter(line_number__gt=self.line_number)
+                    qs.filter(
+                        Q(line_number__gt=self.line_number)
+                        | Q(line_number=self.line_number, position__gt=self.position)
+                    )
                     .order_by("line_number", "position")
                     .values_list("id", flat=True)[:count]
                 )
                 return (
-                    self.translation.unit_set.filter(
-                        id__in=[self.id, *before, *same, *after]
-                    )
+                    self.translation.unit_set.filter(id__in=[self.id, *before, *after])
                     .prefetch_embed()
                     .order_by("line_number", "position")
                     .fill_in_source_translation()

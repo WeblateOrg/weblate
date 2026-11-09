@@ -1247,6 +1247,20 @@ class TranslationTest(RepoTestCase):
             [item.pk for item in expected_position],
         )
 
+    def test_nearby_same_line_around_current(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        units = list(translation.unit_set.order_by("position")[:7])
+        self.assertGreaterEqual(len(units), 7)
+        for unit_item in units:
+            unit_item.line_number = 10
+            unit_item.save(update_fields=["line_number"])
+        current = units[3]
+        self.assertEqual(
+            [item.pk for item in current.nearby(2)],
+            [item.pk for item in units[1:6]],
+        )
+
     def test_metadata_only_updates_are_batched(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
