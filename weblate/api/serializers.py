@@ -2062,7 +2062,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                 }
             )
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         if self.instance is not None and "workspace" in attrs:
             workspace = attrs["workspace"]
             workspace_id = workspace.pk if workspace else None
@@ -2074,7 +2074,12 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     request.user, self.instance, workspace
                 ):
                     raise PermissionDenied(error)
-                if error := get_project_move_billing_error(workspace):
+                if error := get_project_move_billing_error(
+                    request.user,
+                    self.instance,
+                    workspace,
+                    access_control=attrs.get("access_control"),
+                ):
                     raise serializers.ValidationError({"workspace": error})
 
         Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)

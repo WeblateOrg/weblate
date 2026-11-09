@@ -848,6 +848,31 @@ class BillingTest(BaseTestCase):
                             not expected,
                         )
 
+    def test_libre_checklist_reports_existing_restricted_components(self) -> None:
+        project = self.add_project()
+        Project.objects.filter(pk=project.pk).update(
+            access_control=Project.ACCESS_PUBLIC, web="https://example.org/"
+        )
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False, restricted=True
+        )
+        self.plan.change_access_control = False
+        self.plan.save(update_fields=["change_access_control"])
+        self.refresh_from_db()
+        self.assertFalse(self.billing.valid_libre)
+        self.assertFalse(self.billing.valid_libre_without_alerts)
+        self.assertIn(
+            "Restricted components are not allowed by this billing plan.",
+            [str(check) for check in self.billing.libre_checklist],
+        )
+        component.refresh_from_db()
+        self.assertTrue(component.restricted)
+        self.plan.change_access_control = True
+        self.plan.save(update_fields=["change_access_control"])
+        self.refresh_from_db()
+        self.assertTrue(self.billing.valid_libre)
+
     def test_libre_checklist_translation_without_count_placeholder(self) -> None:
         project = self.add_project()
         self.add_component(project, "000000")

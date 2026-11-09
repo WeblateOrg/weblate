@@ -1164,6 +1164,13 @@ class Billing(models.Model):
         with suppress(TypeError):
             message %= component_count
         yield LibreCheck(component_count > 0, message)
+        if not self.plan.change_access_control and any(
+            component.restricted for component in components
+        ):
+            yield LibreCheck(
+                False,
+                gettext("Restricted components are not allowed by this billing plan."),
+            )
         for component in components:
             license_name = component.get_license_display()
             license_error = None

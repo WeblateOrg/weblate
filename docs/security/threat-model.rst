@@ -892,6 +892,19 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - New project moves enforce the destination billing plan's public-only
+       rule on both project access and component restrictions, except for
+       superusers. Existing incompatible data is retained for administrator
+       review. Backup restores apply the plan's access policy without a
+       superuser exception: restricted components become public on a public-only
+       plan, with preview and completion warnings. *(documented)*
+       (source: :ref:`workspace-project-creation`, :ref:`projectbackup`)
+     - Billing is enabled and the destination has a public-only plan.
+     - An ordinary user moves private content into the plan, or a restore
+       silently publishes restricted backup content without the documented notice.
+     - Commercial restriction bypass for incompatible moves; privacy-impacting
+       when an import omits the disclosure warning. The importer chooses the
+       destination's access policy. *(maintainer)*
    * - Self-service trial creation grants only the designated commercial trial
        plan or the Libre setup plan. *(maintainer)*
      - The deployment offers self-service hosting trials.
