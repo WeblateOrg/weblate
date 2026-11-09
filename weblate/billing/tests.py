@@ -24,6 +24,7 @@ from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
+from rest_framework.authtoken.models import Token
 
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.billing.admin import BillingAdmin
@@ -54,6 +55,7 @@ from weblate.machinery.models import MachineryInstallation
 from weblate.trans.alerts.community import (
     MissingTranslationInstructions,
 )
+from weblate.trans.forms import ProjectTokenCreateForm
 from weblate.trans.models import (
     Component,
     PendingUnitChange,
@@ -61,6 +63,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_models import BaseTestCase, RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -2862,6 +2865,74 @@ class BillingRemovalTest(RepoTestCase):
         self.assertFalse(self.admin.has_perm("project.edit", self.project))
         self.project.delete()
         self.assert_no_workspace_access()
+
+    def test_remove_last_project_does_not_promote_bot(self) -> None:
+        bot = User.objects.create_user(
+            username="custom-billing-bot", is_bot=True, full_name="Billing bot"
+        )
+        self.project.add_user(bot, "Administration", allow_bot=True)
+        self.assertTrue(bot.has_perm("project.edit", self.project))
+
+        # Bypass task cleanup to verify the billing boundary independently.
+        self.project.delete()
+
+        self.assertFalse(
+            self.billing.workspace.get_owners_group()
+            .user_set.filter(pk=bot.pk)
+            .exists()
+        )
+        self.assertFalse(
+            self.billing.billinglog_set.filter(
+                event=BillingEvent.ADMIN_ADDED_PROJECT, summary=bot.username
+            ).exists()
+        )
+
+    def test_token_deleting_last_project_is_revoked(self) -> None:
+        form = ProjectTokenCreateForm(
+            self.project, {"full_name": "Billing token", "date_expires": ""}
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        bot = form.save(acting_user=self.admin)
+        token = Token.objects.get(user=bot)
+        headers = {"authorization": f"Token {token.key}"}
+        original_username = bot.username
+        self.client.logout()
+        response = self.client.patch(
+            reverse("api:user-detail", kwargs={"username": bot.username}),
+            {"full_name": "Deleted User"},
+            content_type="application/json",
+            headers=headers,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        with patch("weblate.api.views.project_removal.delay") as removal:
+            removal.return_value.id = "token-project-removal"
+            response = self.client.delete(
+                reverse("api:project-detail", kwargs={"slug": self.project.slug}),
+                headers=headers,
+            )
+        self.assertEqual(response.status_code, 202)
+        removal.assert_called_once_with(self.project.pk, bot.pk)
+        project_removal.run(self.project.pk, bot.pk, backup=False)
+
+        self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
+        bot.refresh_from_db()
+        self.assertFalse(bot.is_active)
+        self.assertFalse(Token.objects.filter(pk=token.pk).exists())
+        self.assertFalse(bot.groups.exists())
+        self.assertEqual(
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "pk", flat=True
+                )
+            ),
+            {self.owner.pk, self.admin.pk},
+        )
+        audit = bot.auditlog_set.get(activity="token-removed")
+        self.assertEqual(audit.params["username"], original_username)
+        self.assertEqual(
+            self.client.get(reverse("api:user-list"), headers=headers).status_code, 401
+        )
 
 
 class HostingTest(RepoTestCase):

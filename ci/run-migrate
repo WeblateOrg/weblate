@@ -102,6 +102,14 @@ if [ "$bot_membership_cleanup" -eq 0 ]; then
     check
 fi
 
+# Exercise the repair after the previous token cleanup migrations already ran.
+semver_compare "$1" ">=" "2026.10" && semver_compare "$1" "<" "2026.11.2"
+project_token_repair=$?
+if [ "$project_token_repair" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-project-token-repair.py"
+    check
+fi
+
 # Seed built-in role identity and custom roles before editable role synchronization.
 semver_compare "$1" "<" "2026.11"
 editable_roles_migrate=$?
@@ -297,6 +305,12 @@ fi
 # Check automatic bot memberships were cleaned up
 if [ "$bot_membership_cleanup" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-bot-memberships.py"
+    check
+fi
+
+# Check project-token authority and orphaned credentials were repaired.
+if [ "$project_token_repair" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-project-token-repair.py"
     check
 fi
 

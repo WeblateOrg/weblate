@@ -9,12 +9,11 @@ from importlib import import_module, invalidate_caches
 from io import StringIO
 from pathlib import Path
 from runpy import run_path
-from shutil import copytree, ignore_patterns
+from shutil import copyfile
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from django.apps import apps
-from django.conf import settings
 from django.contrib.admin.sites import AdminSite
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -160,10 +159,9 @@ class RoleMergeTest(TestCase):
 
     def test_consecutive_generated_upgrades(self) -> None:
         command_module = "weblate.auth.management.commands.generate_role_migration"
-        source_file = migration.__file__
-        assert source_file is not None
         package = "role_upgrade_migrations"
         baseline = ("weblate_auth", "0014_editable_builtin_roles")
+        baseline_loader = MigrationLoader(None)
         first = ("weblate_auth", "0015_update_builtin_roles")
         second = ("weblate_auth", "0016_update_builtin_roles")
         role_name = "Access repository"
@@ -173,31 +171,31 @@ class RoleMergeTest(TestCase):
             **defaults_b,
             role_name: defaults_b[role_name] | {"vcs.view", "suggestion.add"},
         }
-        migration_directory = Path(source_file).parent
-        later_migrations = [
-            path.name
-            for path in migration_directory.glob("[0-9]*.py")
-            if path.name > Path(source_file).name
-        ]
         with TemporaryDirectory() as directory:
-            copytree(
-                migration_directory,
-                Path(directory) / package,
-                ignore=ignore_patterns("__pycache__", *later_migrations),
-            )
+            # Freeze the baseline's prerequisites too: newer migrations in other
+            # apps can depend on auth migrations excluded from this fixture.
+            migration_modules: dict[str, str | None] = {
+                app.label: None for app in apps.get_app_configs()
+            }
+            for app_label, name in baseline_loader.graph.forwards_plan(baseline):
+                module = import_module(
+                    baseline_loader.disk_migrations[app_label, name].__module__
+                )
+                source_file = module.__file__
+                assert source_file is not None
+                target_package = (
+                    package if app_label == "weblate_auth" else f"{package}_{app_label}"
+                )
+                target = Path(directory) / target_package
+                target.mkdir(exist_ok=True)
+                (target / "__init__.py").touch()
+                copyfile(source_file, target / f"{name}.py")
+                migration_modules[app_label] = target_package
             try:
                 with (
                     patch.object(sys, "path", [directory, *sys.path]),
                     patch.dict(sys.modules),
-                    self.settings(
-                        MIGRATION_MODULES={
-                            **settings.MIGRATION_MODULES,
-                            "weblate_auth": package,
-                            # These migrations depend on newer auth migrations
-                            # deliberately excluded from this upgrade fixture.
-                            "wladmin": None,
-                        }
-                    ),
+                    self.settings(MIGRATION_MODULES=migration_modules),
                 ):
                     for defaults in (defaults_b, defaults_c):
                         invalidate_caches()

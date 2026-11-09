@@ -1571,7 +1571,8 @@ def record_project_bill(
     # Use the original sender: component and translation removal also resolve to
     # their project above, but must not grant workspace ownership.
     if sender is Project:
-        users = User.objects.having_perm("project.edit", instance)
+        # Project tokens must never acquire workspace authority through deletion.
+        users = User.objects.having_perm("project.edit", instance).filter(is_bot=False)
         for billing in instance.billings:
             # Do the owners sync only for the last project
             if billing.get_projects_queryset().exclude(pk=instance.pk).exists():
