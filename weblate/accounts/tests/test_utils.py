@@ -248,7 +248,7 @@ class TasksTest(TestCase):
             )
         with (
             mock.patch("weblate.accounts.tasks.now", return_value=timestamp),
-            mock.patch("social_django.storage.time", time=mock.Mock(return_value=1060)),
+            mock.patch("social_django.storage._time", return_value=1060),
         ):
             cleanup_social_auth()
         self.assertEqual(
