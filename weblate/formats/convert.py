@@ -875,6 +875,7 @@ class PlainTextFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U
     format_id = "txt"
     autoload = ("*.txt",)
     flavour = "plain"
+    parse_version = 1
 
     @staticmethod
     def mimetype() -> str:

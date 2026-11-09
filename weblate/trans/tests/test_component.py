@@ -30,6 +30,7 @@ from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
+from weblate.formats.ttkit import PoFormat
 from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -666,6 +667,17 @@ class ComponentTest(RepoTestCase):
         component = self.create_appstore()
         translation = component.source_translation
         with patch.object(AppStoreFormat, "parse_version", 0):
+            translation.store_hash()
+
+        translation.refresh_from_db()
+        self.assertTrue(translation.check_sync())
+        translation.refresh_from_db()
+        self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
+
+    def test_po_parse_version(self) -> None:
+        component = self.create_component()
+        translation = component.source_translation
+        with patch.object(PoFormat, "parse_version", 0):
             translation.store_hash()
 
         translation.refresh_from_db()

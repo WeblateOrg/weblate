@@ -2024,6 +2024,7 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
 ):
     loader = pofile  # type: ignore[assignment]
     plural_preference: tuple[int, ...] | None = None
+    parse_version = 1
     supports_plural: bool = True
     supports_descriptions = True
     supports_context = True
@@ -2479,6 +2480,7 @@ class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
     TTKitFormat[S, U, T]
 ):
     unit_class = PropertiesUnit  # type: ignore[assignment]
+    parse_version = 1
 
     def is_valid(self):
         result = super().is_valid()
@@ -2923,6 +2925,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     loader = WeblateCSVFile
     unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
+    parse_version = 1
     supports_plural: bool = True
     can_add_plural_units = False
     supports_descriptions: bool = True
