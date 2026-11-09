@@ -1084,6 +1084,7 @@ class User(AbstractBaseUser):
             "owned_projects",
             "managed_projects",
             "accessible_managed_projects",
+            "visible_repository_conflict_ids",
             "global_permissions",
             "cached_memberships",
         )
@@ -1386,6 +1387,34 @@ class User(AbstractBaseUser):
         if not self.is_bot and not self.profile.has_2fa:
             result = result.filter(enforced_2fa=False)
         return result
+
+    @cached_property
+    def visible_repository_conflict_ids(self) -> set[int]:
+        """Batch accessible peers referenced by current repository conflict alerts."""
+        from weblate.trans.models import Alert, Component  # ruff: ignore[import-outside-top-level]
+
+        references = (
+            Alert.objects.filter(name="ConflictingRepositorySetup")
+            .annotate(
+                peer_id=models.Func(
+                    "details",
+                    models.Value("$.component_ids[*]"),
+                    function="jsonb_path_query",
+                    output_field=models.JSONField(),
+                )
+            )
+            .values("peer_id")
+        )
+        return set(
+            Component.objects.filter_access(self)
+            .alias(
+                json_pk=models.Func(
+                    F("pk"), function="to_jsonb", output_field=models.JSONField()
+                )
+            )
+            .filter(json_pk__in=models.Subquery(references))
+            .values_list("pk", flat=True)
+        )
 
     @cached_property
     def administered_group_ids(self):

@@ -65,6 +65,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.models.alert import filter_visible_alerts
 from weblate.trans.models.component import (
     ComponentLink,
     prefetch_tasks,
@@ -151,7 +152,8 @@ def list_projects(request: AuthenticatedHttpRequest):
                     projects,
                     stats=True,
                     sort_by=request.GET.get("sort_by"),
-                )
+                ),
+                user=request.user,
             ),
             "title": gettext("Projects"),
             "query_params": query_params,
@@ -495,7 +497,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
 
     user = request.user
 
-    all_changes = obj.change_set.filter_components(request.user).prefetch()
+    all_changes = (
+        obj.change_set.filter_components(request.user)
+        .filter_visible_alerts(request.user)
+        .prefetch()
+    )
     last_changes = all_changes.recent(skip_preload="project")
     last_announcements = all_changes.filter_announcements().recent(
         skip_preload="project"
@@ -697,9 +703,14 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
         if "alerts" not in request.GET
         else obj.all_alerts.values()
     )
-    problem_alerts = obj.all_problem_alerts
+    alerts = filter_visible_alerts(alerts, request.user)
+    problem_alerts = filter_visible_alerts(obj.all_problem_alerts, request.user)
 
-    last_changes = obj.change_set.prefetch().recent(skip_preload="component")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(user)
+        .prefetch()
+        .recent(skip_preload="component")
+    )
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
     if obj.project.translation_parent_language_ids:
@@ -830,7 +841,11 @@ def show_translation(
 ) -> HttpResponse:
     component = obj.component
     project = component.project
-    last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
+    last_changes = (
+        obj.change_set.filter_visible_alerts(request.user)
+        .prefetch()
+        .recent(skip_preload="translation")
+    )
     user = request.user
 
     # Get form

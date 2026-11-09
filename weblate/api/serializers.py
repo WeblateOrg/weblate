@@ -98,6 +98,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.alert import conflict_component_ids
 from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
@@ -4514,7 +4515,10 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
 
 
 def filter_alert_details(
-    name: str, details: dict[str, Any], user: User | None
+    name: str,
+    details: dict[str, Any],
+    user: User | None,
+    visible_ids: set[int] | None = None,
 ) -> dict[str, Any]:
     """Keep cross-component alert references within the requester's view scope."""
     if name != "ConflictingRepositorySetup":
@@ -4528,15 +4532,16 @@ def filter_alert_details(
         for component_id in stored_ids
         if isinstance(component_id, int) and not isinstance(component_id, bool)
     ]
-    visible_ids = (
-        set(
-            Component.objects.filter_access(user)
-            .filter(pk__in=component_ids)
-            .values_list("pk", flat=True)
+    if visible_ids is None:
+        visible_ids = (
+            set(
+                Component.objects.filter_access(user)
+                .filter(pk__in=component_ids)
+                .values_list("pk", flat=True)
+            )
+            if user is not None
+            else set()
         )
-        if user is not None
-        else set()
-    )
     return {
         **details,
         "component_ids": [
@@ -4567,7 +4572,10 @@ class AlertSerializer(serializers.ModelSerializer[Alert]):
         details = data.get("details")
         if isinstance(details, dict):
             data["details"] = filter_alert_details(
-                instance.name, details, getattr(request, "user", None)
+                instance.name,
+                details,
+                getattr(request, "user", None),
+                self.context.get("visible_conflict_ids"),
             )
         return data
 
@@ -4676,6 +4684,44 @@ class ChangeSerializer(RemovableSerializer[Change]):
             request=self.context.get("request"),
         )
 
+    def get_visible_conflict_ids(self, change: Change) -> set[int]:
+        """Resolve the entire page's conflict references with one access query."""
+        cache_key = "visible_conflict_ids"
+        if cache_key in self.context:
+            return self.context[cache_key]
+        instances = (
+            self.parent.instance
+            if isinstance(self.parent, serializers.ListSerializer)
+            else (change,)
+        )
+        component_ids: set[int] = set()
+        for item in instances:
+            if (
+                item.alert_id is not None
+                and item.alert.name == "ConflictingRepositorySetup"
+            ):
+                component_ids.update(conflict_component_ids(item.alert.details))
+            snapshot = item.details.get("alert_snapshot")
+            if item.details.get("alert") == "ConflictingRepositorySetup" and isinstance(
+                snapshot, dict
+            ):
+                component_ids.update(
+                    conflict_component_ids(snapshot.get("details", {}))
+                )
+        request = self.context.get("request")
+        if request is None or not component_ids:
+            result: set[int] = set()
+        elif request.user.is_superuser:
+            result = component_ids
+        else:
+            result = set(
+                Component.objects.filter_access(request.user)
+                .filter(pk__in=component_ids)
+                .values_list("pk", flat=True)
+            )
+        self.context[cache_key] = result
+        return result
+
     def can_view_alert_details(self) -> bool:
         request = self.context.get("request")
         return request is not None and bool(request.user.is_authenticated)
@@ -4686,6 +4732,11 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     @extend_schema_field(AlertSerializer(allow_null=True))
     def get_alert(self, change: Change) -> dict[str, Any] | None:
+        if (
+            change.alert_id is not None
+            and change.alert.name == "ConflictingRepositorySetup"
+        ) or change.details.get("alert") == "ConflictingRepositorySetup":
+            self.get_visible_conflict_ids(change)
         serializer = AlertSerializer(context=self.context)
         if change.alert_id is not None:
             data = dict(AlertSerializer(change.alert, context=self.context).data)
@@ -4720,10 +4771,15 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if not self.can_view_alert_details():
             data["details"] = {}
             data["dismissal_reason"] = ""
-        elif isinstance(data.get("details"), dict):
+        elif data.get("name") == "ConflictingRepositorySetup" and isinstance(
+            data.get("details"), dict
+        ):
             request = self.context.get("request")
             data["details"] = filter_alert_details(
-                data["name"], data["details"], getattr(request, "user", None)
+                data["name"],
+                data["details"],
+                getattr(request, "user", None),
+                self.get_visible_conflict_ids(change),
             )
         return data
 
@@ -4760,6 +4816,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
         if isinstance(details, dict) and instance.action in {
             ActionEvents.ALERT,
             ActionEvents.ALERT_DISMISSED,
+            ActionEvents.ALERT_REOPENED,
         }:
             alert_name = (
                 instance.alert.name
@@ -4776,7 +4833,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
                 ):
                     request = self.context.get("request")
                     snapshot["details"] = filter_alert_details(
-                        alert_name, snapshot["details"], getattr(request, "user", None)
+                        alert_name,
+                        snapshot["details"],
+                        getattr(request, "user", None),
+                        self.get_visible_conflict_ids(instance),
                     )
         if self.can_view_alert_details():
             return data

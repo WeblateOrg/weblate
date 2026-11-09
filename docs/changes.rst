@@ -25,7 +25,7 @@ Weblate 2026.11.2
 * Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
 * Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
 * Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
-
+* Hid repository conflict warnings, history signals, and counts when no conflicting component is visible to the viewer. See :ref:`diagnostics-overviews`.
 * Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
 * Kept malformed :ref:`DTD files <dtd>` intact during saves and reported source-edit validation failures cleanly.
 * Bounded built-in :doc:`format checks and highlighting <user/checks>` with matching timeouts and made whitespace fixups linear on long input.

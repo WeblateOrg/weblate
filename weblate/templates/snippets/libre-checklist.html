@@ -28,7 +28,7 @@
     </thead>
     <tbody>
       {% for check in libre_component_checklist %}
-        {% with component=check.component %}
+        {% with component=check.component alerts=check.alerts|visible_billing_alerts:user %}
           <tr>
             <td class="text-center">
               {% if check %}
@@ -47,17 +47,17 @@
             <td class="text-break">{{ check.repository_url }}</td>
             <td>{{ check.file_format }}</td>
           </tr>
-          {% if check.alerts or component.effective_agreement %}
+          {% if alerts or component.effective_agreement %}
             <tr>
               <td colspan="5" class="p-0 border-0">
                 <div class="p-2 text-break">
-                  {% if show_alerts and check.alerts %}
+                  {% if show_alerts and alerts %}
                     <p class="mb-2">
                       {% icon "comment.svg" %}
                       <a href="{{ component.get_absolute_url }}?alerts=1#alerts">{% translate "Diagnostics" %}</a>
                     </p>
                     <ul class="list-unstyled mb-2">
-                      {% for item in check.alerts %}
+                      {% for item in alerts %}
                         <li>
                           {{ item.message }}
                           <span class="badge {{ item.alert.severity_class }}">{{ item.alert.get_severity_display }}</span>

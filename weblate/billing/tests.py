@@ -775,7 +775,8 @@ class BillingTest(BaseTestCase):
         component.add_alert("BillingLimit")
 
         content = render_to_string(
-            "trans/alert/nolibreconditions.html", {"component": component}
+            "trans/alert/nolibreconditions.html",
+            {"component": component, "user": self.user},
         )
 
         self.assertIn(
