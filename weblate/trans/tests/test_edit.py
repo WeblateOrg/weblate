@@ -1759,19 +1759,15 @@ class EditJSONMonoTest(EditTest):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "New string has been added")
 
-    def test_new_unit_validation_flat_format_does_not_load_store(self) -> None:
-        self.translation.__dict__.pop("store", None)
-
-        with patch.object(
-            self.translation,
-            "load_store",
-            side_effect=AssertionError("store should not be loaded"),
-        ):
+    def test_new_unit_validation_flat_format_uses_store(self) -> None:
+        store = self.translation.store
+        with patch.object(store, "validate_new_context") as validate:
             self.translation.validate_new_unit_data(
                 "flat.key",
                 ["Added source string"],
                 ["Added target string"],
             )
+        validate.assert_called_once_with("flat.key", pending_contexts=None)
 
     def test_new_unit_validation_parse_error(self) -> None:
         self.make_manager()

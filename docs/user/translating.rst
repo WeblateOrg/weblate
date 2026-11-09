@@ -232,6 +232,9 @@ explanation. Existing translations, history, comments, labels, and suggestions
 are retained. Changing source text marks existing translations as needing
 editing. Changing only the key, context, or explanation preserves their states.
 Renaming a key may require corresponding changes in your application code.
+New and renamed keys must be representable in the file format and its encoding.
+For example, PHP keys must use supported variable or array syntax, properties
+keys cannot introduce additional entries, and DTD keys must be XML names.
 
 Changes are written to translation files through the normal pending-change
 queue and follow the project's commit policy. Keys used by pending edits remain
