@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0120_change_addon_redact_autotranslate_component"),
+        ("trans", "0121_clear_github_app_push"),
     ]
 
     operations = [

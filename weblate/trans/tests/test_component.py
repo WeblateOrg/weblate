@@ -676,7 +676,7 @@ class ComponentTest(RepoTestCase):
 
     def test_po_parse_version(self) -> None:
         component = self.create_component()
-        translation = component.source_translation
+        translation = component.translation_set.get(language_code="cs")
         with patch.object(PoFormat, "parse_version", 0):
             translation.store_hash()
 

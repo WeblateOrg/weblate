@@ -1699,6 +1699,8 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
 
+
+class LineNumberTest(SimpleTestCase):
     def test_line_number(self) -> None:
         storage = PoFormat(TEST_PO)
         self.assertEqual(storage.content_units[0].line_number, 16)

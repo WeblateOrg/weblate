@@ -1680,6 +1680,8 @@ class Translation(
         """
         if not self.filename:
             return
+        if not self.unit_set.exclude(line_number=None).exists():
+            return
         # The template cache still describes the file from before this save.
         if self.is_template:
             self.component.drop_template_store_cache()
