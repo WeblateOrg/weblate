@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from datetime import timedelta
 
+from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
@@ -477,6 +478,46 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertFalse(
             site_user.groups.filter(defining_project=self.project).exists()
         )
+
+    def test_unavailable_on_hosted_weblate(self) -> None:
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+
+        payloads = (
+            ("GET", reverse("manage-api-tokens"), {}),
+            (
+                "GET",
+                reverse("js-site-token-groups", kwargs={"user_id": token_user.pk}),
+                {},
+            ),
+            (
+                "POST",
+                reverse("create-site-token"),
+                {
+                    "full_name": "Denied",
+                    "date_expires": "2999-12-31",
+                    "teams": [self.monitoring_group.pk],
+                },
+            ),
+            ("POST", reverse("delete-site-token"), {"user": token_user.username}),
+            (
+                "POST",
+                reverse("set-site-token-groups"),
+                {
+                    "user": token_user.username,
+                    "groups": [self.monitoring_group.pk],
+                },
+            ),
+        )
+
+        with override_settings(OFFER_HOSTING=True):
+            for method, url, data in payloads:
+                response = self.client.generic(method, url, data)
+                self.assertEqual(response.status_code, 404)
+
+            response = self.client.get(reverse("manage"))
+            self.assertEqual(response.status_code, 200)
+            self.assertNotContains(response, reverse("manage-api-tokens"))
 
     def test_who_can_see_it(self) -> None:
         token = self.create_token()
