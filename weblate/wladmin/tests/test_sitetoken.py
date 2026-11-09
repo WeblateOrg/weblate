@@ -94,6 +94,7 @@ class SiteWideTokenTest(FixtureTestCase):
             content = response.content.decode("utf-8")
             result = re.search(r'data-clipboard-value="(\w+)"', content)
             self.assertIsNotNone(result)
+            assert result is not None
             return result.group(1)
         return response
 
@@ -135,6 +136,7 @@ class SiteWideTokenTest(FixtureTestCase):
         content = response.content.decode("utf-8")
         result = re.search(r'data-clipboard-value="(\w+)"', content)
         self.assertIsNotNone(result)
+        assert result is not None
         return result.group(1)
 
     def test_create_token(self) -> None:
@@ -471,7 +473,9 @@ class SiteWideTokenTest(FixtureTestCase):
         self.assertIn("Users", content)
         self.assertIn("Managers", content)
         self.assertIn("Monitoring", content)
-        self.assertNotIn(self.project.defined_groups.first().name, content)
+        project_group = self.project.defined_groups.first()
+        assert project_group is not None
+        self.assertNotIn(project_group.name, content)
 
         # Reject clearing all teams
         response = self.client.post(

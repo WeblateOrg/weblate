@@ -962,14 +962,16 @@ def setup_site_token_membership_badges(user) -> None:
         )
 
 
-def setup_site_token_group_edit_form(user, groups, limit_language_choices) -> None:
+def setup_site_token_group_edit_form(
+    user, groups, limit_language_choices
+) -> SiteTokenGroupForm:
     initial = {"user": user.username, "groups": user.site_groups}
     setup_site_token_membership_badges(user)
     for membership in user.site_group_memberships:
         initial[SiteTokenGroupForm.get_limit_languages_field(membership.group)] = (
             membership.limit_languages.all()
         )
-    user.group_edit_form = SiteTokenGroupForm(
+    return SiteTokenGroupForm(
         initial=initial,
         auto_id=f"id_site_token_{user.id}_%s",
         group_queryset=groups,
@@ -985,7 +987,7 @@ def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
     groups = sitewide_teams_queryset().prefetch_related("languages")
     site_tokens = list(
         get_site_api_tokens()
-        .order()
+        .order()  # type: ignore[attr-defined]
         .prefetch_related(
             Prefetch(
                 "groups",
@@ -1097,13 +1099,13 @@ def site_token_groups(request: AuthenticatedHttpRequest, user_id: int) -> HttpRe
             get_site_token_memberships_prefetch(groups),
         )
     )
-    setup_site_token_group_edit_form(
+    group_edit_form = setup_site_token_group_edit_form(
         user, groups, get_language_code_choices(Language.objects.order())
     )
     return render(
         request,
         "trans/project-access-team-form.html",
-        {"form": user.group_edit_form},
+        {"form": group_edit_form},
     )
 
 
