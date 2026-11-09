@@ -929,7 +929,9 @@ class AdminUserList(UserList):
 
 
 def check_site_token_view_access(request: AuthenticatedHttpRequest) -> None:
-    """Require management access plus user.view or user.edit."""
+    """Require site-wide tokens to be available and user.view or user.edit."""
+    if settings.OFFER_HOSTING:
+        raise Http404
     if not (request.user.has_perm("user.view") or request.user.has_perm("user.edit")):
         raise PermissionDenied
 
@@ -1010,6 +1012,7 @@ def api_tokens(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Create a site-wide API token."""
+    check_site_token_view_access(request)
     form = SiteTokenCreateForm(request.POST)
     if form.is_valid():
         token = form.save(acting_user=request.user, request=request)
@@ -1029,6 +1032,7 @@ def create_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Revoke a site-wide API token by deleting its bot user."""
+    check_site_token_view_access(request)
     form = SiteTokenManageForm(request.POST)
     if form.is_valid():
         user = form.cleaned_data["user"]
@@ -1050,6 +1054,7 @@ def delete_site_token(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def set_site_token_groups(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Change team membership for a site-wide API token."""
+    check_site_token_view_access(request)
     form = SiteTokenGroupForm(request.POST)
     if form.is_valid():
         apply_site_token_groups(request, form.cleaned_data["user"], form)

@@ -34,8 +34,6 @@ Weblate 2026.11.2
 
 * Added :setting:`DEFAULT_WORKSPACE_TM` to configure default workspace translation memory usage and contribution for projects.
 
-* Added a :guilabel:`Languages` tab to :ref:`workspaces`, with translation and review across projects in a selected language.
-
 .. rubric:: Improvements
 
 * Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.

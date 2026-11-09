@@ -796,8 +796,7 @@ Security properties Weblate provides
      - Token is created by a site administrator with ``user.edit``.
      - Token can act outside assigned team scope, or tokens can be managed
        without ``user.edit``.
-     - Security-critical. Pending invitations remain visible to team managers,
-       and matching rules can send unsolicited invitation e-mails.
+     - Security-critical.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
