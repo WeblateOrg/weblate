@@ -437,6 +437,7 @@ autodoc_mock_imports = [
     "weblate.lang.models",
     "weblate.vcs.git",
     "weblate.utils.files",
+    "weblate.utils.html",
     "weblate.utils.validators",
     "django_otp",
     "django_otp_webauthn",
