@@ -26,7 +26,9 @@
           <th>{% translate "Name" %}</th>
           <th>{% translate "Expires" %}</th>
           <th>{% translate "Teams" %}</th>
-          <th></th>
+          <th>
+            <span class="visually-hidden">{% translate "Actions" %}</span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -128,7 +130,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title" id="project-user-groups-modal-title"></h4>
+              <h4 class="modal-title" id="project-user-groups-modal-title">{% translate "Edit team membership" %}</h4>
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
