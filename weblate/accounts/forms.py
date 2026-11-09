@@ -68,12 +68,12 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
-from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
     ContextDiv,
     EmailField,
+    FieldDocsMixin,
     QueryField,
     SearchableSelect,
     SortedSelect,

@@ -42,7 +42,6 @@ from weblate.trans.formatting import (
     unit_state_class,
     unit_state_title,
 )
-from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import (
     Announcement,
     Component,
@@ -60,6 +59,7 @@ from weblate.utils.formatting import (
     number_format,
     render_documentation_icon,
 )
+from weblate.utils.forms import FieldDocsMixin
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
