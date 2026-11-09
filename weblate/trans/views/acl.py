@@ -21,6 +21,7 @@ from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
@@ -48,7 +49,6 @@ from weblate.trans.forms import (
     ProjectUserGroupForm,
     UserBlockForm,
     UserContributionCleanupForm,
-    UserManageForm,
 )
 from weblate.trans.models import Project
 from weblate.trans.tasks import (
