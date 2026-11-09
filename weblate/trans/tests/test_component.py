@@ -1490,7 +1490,10 @@ class ComponentChangeTest(RepoTestCase):
         current_revision = component.repository.last_revision
         self.assertNotEqual(initial_revision, current_revision)
         self.assertEqual(component.local_revision, current_revision)
-        self.assertEqual(component.processed_revision, current_revision)
+        expected_processed = current_revision
+        if version := component.file_format_cls.parse_version:
+            expected_processed = f"{current_revision}:{version}"
+        self.assertEqual(component.processed_revision, expected_processed)
 
     def test_changed_setup_preserves_check_settings(self) -> None:
         component = self.create_component()
