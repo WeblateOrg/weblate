@@ -73,6 +73,7 @@ from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.renderers import AutoCSVRenderer
 from weblate.api.serializers import (
     CategorySerializer,
+    ChangeSerializer,
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
@@ -140,6 +141,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.repository import (
     QueuedRepositoryOperation,
@@ -20791,6 +20793,105 @@ class ChangeAPITest(APIBaseTest):
                         response.status_code, 200 if slug in expected else 404
                     )
 
+    def test_conflict_visibility_preserves_unrelated_legacy_alerts(self) -> None:
+        self.authenticate()
+        for details in ({}, {"alert": "UnusedScreenshot"}):
+            with self.subTest(details=details):
+                change = self.component.change_set.create(
+                    action=ActionEvents.ALERT,
+                    user=self.user,
+                    details=details,
+                )
+                response = self.client.get(
+                    reverse("api:change-detail", kwargs={"pk": change.pk})
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["details"], change.details)
+
+    def test_conflict_history_visibility_and_count(self) -> None:
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [hidden.pk]},
+        )
+        created = self.component.change_set.get(alert=alert, action=ActionEvents.ALERT)
+        dismissed = self.component.change_set.create(
+            action=ActionEvents.ALERT_DISMISSED,
+            user=self.user,
+            alert=alert,
+            details={
+                "alert": alert.name,
+                "alert_snapshot": {
+                    "details": alert.details,
+                    "severity": alert.severity,
+                    "category": alert.category,
+                },
+            },
+        )
+        reopened = self.component.change_set.create(
+            action=ActionEvents.ALERT_REOPENED,
+            user=self.user,
+            alert=alert,
+            details={"alert": alert.name, "fingerprint": "private-fingerprint"},
+        )
+        for keep_alert in (True, False):
+            if not keep_alert:
+                alert.delete()
+            for admin in (False, True):
+                self.authenticate(superuser=admin)
+                with self.subTest(keep_alert=keep_alert, admin=admin):
+                    for change in (created, dismissed, reopened):
+                        response = self.client.get(
+                            reverse("api:change-detail", kwargs={"pk": change.pk})
+                        )
+                        self.assertEqual(response.status_code, 200 if admin else 404)
+                    response = self.client.get(
+                        reverse("api:component-changes", kwargs=self.component_kwargs)
+                    )
+                    expected = (
+                        self.component.change_set.count()
+                        if admin
+                        else self.component.change_set.count() - 3
+                    )
+                    self.assertEqual(response.data["count"], expected)
+
+    def test_conflict_history_serialization_batches_access_queries(self) -> None:
+        visible = self.create_po(project=self.project, name="Visible peer")
+        hidden = self.create_acl()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [visible.pk, hidden.pk]},
+        )
+        ids = [
+            self.component.change_set.create(
+                action=ActionEvents.ALERT,
+                user=self.user,
+                alert=alert,
+                details={"alert": alert.name},
+            ).pk
+            for _ in range(8)
+        ]
+        request = Request(APIRequestFactory().get("/api/changes/"))
+        request.user = self.user
+        counts = []
+        for selected in (ids[:1], ids):
+            changes = list(Change.objects.filter(pk__in=selected).prefetch_for_render())
+            Change.objects.preload_list(changes)
+            # Warm permission caches independently of the page size.
+            _ = ChangeSerializer(changes, many=True, context={"request": request}).data
+            with CaptureQueriesContext(connection) as queries:
+                data = ChangeSerializer(
+                    changes, many=True, context={"request": request}
+                ).data
+            counts.append(len(queries))
+            for entry in data:
+                self.assertEqual(
+                    entry["alert"]["details"]["component_ids"], [visible.pk]
+                )
+        self.assertEqual(counts, [1, 1])
+
     def test_conflicting_repository_alert_hides_inaccessible_components(self) -> None:
         visible = self.create_po(project=self.project, name="Visible conflict peer")
         hidden = self.create_acl()
@@ -20888,8 +20989,13 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": created.pk})
         )
-        self.assertEqual(response.data["alert"]["name"], alert.name)
-        self.assertEqual(response.data["alert"]["details"], {"component_ids": []})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(
+            reverse("api:component-changes", kwargs=self.component_kwargs)
+        )
+        self.assertNotIn(
+            created.pk, {entry["id"] for entry in response.data["results"]}
+        )
 
         self.component.delete_alert(alert.name)
         response = self.client.get(

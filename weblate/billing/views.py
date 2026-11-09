@@ -416,7 +416,7 @@ def detail(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
             to_attr="ordered_invoices",
         ),
     )
-    prefetch_project_flags(billing.all_projects)
+    prefetch_project_flags(billing.all_projects, user=request.user)
 
     user_can_manage_billing = request.user.has_perm("billing.manage")
     context: dict[str, object] = {

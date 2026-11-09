@@ -75,7 +75,8 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.models import Alert, Category
+    from weblate.trans.models import Category
+    from weblate.trans.models.alert import AlertQuerySet
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.workspaces.models import Workspace
@@ -210,7 +211,9 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
         return self
 
 
-def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
+def prefetch_project_flags(
+    projects: Iterable[Project], user: User | None = None
+) -> Iterable[Project]:
     id_lookup = {project.id: project for project in projects}
     if id_lookup:
         queryset = Project.objects.filter(id__in=id_lookup)
@@ -218,16 +221,24 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         for project in projects:
             project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
-        # Indicate alerts
+        # Indicate only diagnostics visible to the viewer, before aggregation.
+        from weblate.trans.models.alert import Alert  # ruff: ignore[import-outside-top-level]
+
+        alerts = Alert.objects.filter(
+            dismissed_at__isnull=True, severity__gte=AlertSeverity.ERROR
+        )
+        if user is not None:
+            alerts = alerts.filter_visible_conflicts(user)
+            for project in projects:
+                project.__dict__["visible_has_alerts"] = False
         for project_id in (
-            queryset.filter(
-                component__alert__dismissed_at__isnull=True,
-                component__alert__severity__gte=AlertSeverity.ERROR,
-            )
+            queryset.filter(component__alert__in=alerts)
             .values_list("id", flat=True)
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
+            if user is not None:
+                id_lookup[project_id].__dict__["visible_has_alerts"] = True
         # Indicate projects where all components are locked. Projects without
         # components are not locked.
         for project_id in (
@@ -1490,7 +1501,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
 
     @cached_property
-    def all_active_alerts(self) -> QuerySet[Alert]:
+    def all_active_alerts(self) -> AlertQuerySet:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Alert
 
@@ -1501,7 +1512,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def all_problem_alerts(self) -> QuerySet[Alert]:
+    def all_problem_alerts(self) -> AlertQuerySet:
         return self.all_active_alerts.filter(severity__gte=AlertSeverity.ERROR)
 
     @cached_property

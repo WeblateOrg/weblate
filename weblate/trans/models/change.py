@@ -14,7 +14,8 @@ from uuid import uuid5
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Count, F, OuterRef, Q, Subquery
+from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
+from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -35,6 +36,7 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.alert import visible_conflict_components
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
@@ -365,6 +367,36 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             Q(component__isnull=True) | user.get_component_access_query("component")
         )
 
+    def filter_visible_alerts(self, user: User) -> Self:
+        """Hide historical conflict signals with no accessible stored peer."""
+        if user.is_superuser:
+            return self
+        peers = visible_conflict_components(
+            user,
+            Coalesce(
+                OuterRef("details__alert_snapshot__details__component_ids"),
+                OuterRef("alert__details__component_ids"),
+                output_field=models.JSONField(),
+            ),
+        )
+        conflict = Q(
+            action__in=(
+                ActionEvents.ALERT,
+                ActionEvents.ALERT_DISMISSED,
+                ActionEvents.ALERT_REOPENED,
+            )
+        ) & (
+            Q(alert__name="ConflictingRepositorySetup")
+            | Q(details__alert="ConflictingRepositorySetup")
+        )
+        return self.alias(
+            repository_conflict=models.Case(
+                models.When(conflict, then=models.Value(True)),
+                default=models.Value(False),
+                output_field=models.BooleanField(),
+            )
+        ).filter(Q(repository_conflict=False) | Exists(peers))
+
     def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
             return self
@@ -483,7 +515,12 @@ class ChangeManager(models.Manager["Change"]):
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
             result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
-        return cast("ChangeQuerySet", result).prefetch_for_render().order()
+        return (
+            cast("ChangeQuerySet", result)
+            .filter_visible_alerts(user)
+            .prefetch_for_render()
+            .order()
+        )
 
     def latest_revertable_changes(
         self,

@@ -1147,12 +1147,12 @@ class UserPage(UpdateView):
         owned = (user.owned_projects & allowed_projects.distinct()).order()[:11]
         context["page_owned_projects_more"] = len(owned) == 11
         context["page_owned_projects"] = prefetch_project_flags(
-            prefetch_stats(owned[:10])
+            prefetch_stats(owned[:10]), user=request.user
         )
         watched = (user.watched_projects & allowed_projects).order()[:11]
         context["page_watched_projects_more"] = len(watched) == 11
         context["page_watched_projects"] = prefetch_project_flags(
-            prefetch_stats(watched[:10])
+            prefetch_stats(watched[:10]), user=request.user
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["page_user_billings"] = []

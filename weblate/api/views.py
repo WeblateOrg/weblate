@@ -2561,7 +2561,9 @@ class ProjectViewSet(
             return page
         if page is None:
             return None
-        return prefetch_project_flags(cast("list[Project]", page))
+        return prefetch_project_flags(
+            cast("list[Project]", page), user=self.request.user
+        )
 
     @extend_schema(
         description=(

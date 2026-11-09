@@ -31,6 +31,7 @@ from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, Permission, Role, get_anonymous
+from weblate.billing.models import LibreCheck, get_component_billing_alerts
 from weblate.lang.models import Language
 from weblate.machinery.models import MachineryInstallation
 from weblate.trans.actions import ActionEvents
@@ -43,6 +44,7 @@ from weblate.trans.alerts.vcs import PushFailure, RepositoryErrorAlert, UpdateFa
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
+    Change,
     Component,
     ComponentLink,
     Project,
@@ -659,8 +661,9 @@ class AlertTest(ReusableViewTestCase):
                 "process_occurrences",
                 side_effect=AssertionError("MultiAlert was constructed"),
             ),
-            # Includes loading the owner for repository alert permissions.
-            self.assertNumQueries(12),
+            # Includes repository-owner loading and two component-visibility
+            # scope checks for repository-conflict filtering.
+            self.assertNumQueries(14),
         ):
             context = get_diagnostics_context(
                 QueryDict("diagnostic_actionable=on"),
@@ -1782,6 +1785,110 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
+    def test_profile_project_indicators_use_batched_visibility(self) -> None:
+        counts = []
+        projects = []
+        for count in (1, 8):
+            for index in range(len(projects), count):
+                project = self.create_project(
+                    name=f"Profile {index}", slug=f"profile-{index}"
+                )
+                project.add_user(self.user, "Administration")
+                self.user.profile.watched.add(project)
+                projects.append(project)
+            self.client.get(self.user.get_absolute_url())
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(self.user.get_absolute_url())
+            self.assertEqual(response.status_code, 200)
+            for key in ("page_owned_projects", "page_watched_projects"):
+                self.assertEqual(len(response.context[key]), count)
+                self.assertTrue(
+                    all(
+                        "visible_has_alerts" in project.__dict__
+                        for project in response.context[key]
+                    )
+                )
+            counts.append(len(queries))
+        self.assertEqual(counts[0], counts[1])
+
+    def test_hidden_only_conflict_has_no_visible_signal(self) -> None:
+        hidden = self.create_po(
+            project=self.create_project(
+                name="Hidden peers",
+                slug="hidden-peers",
+                access_control=Project.ACCESS_PRIVATE,
+            ),
+            name="Hidden peer",
+        )
+        Alert.objects.filter(component__project=self.project).delete()
+        alert = Alert.objects.create(
+            component=self.component,
+            name="ConflictingRepositorySetup",
+            details={"component_ids": [hidden.pk]},
+        )
+        self.assertFalse(
+            Alert.objects.filter(pk=alert.pk)
+            .filter_visible_conflicts(self.user)
+            .exists()
+        )
+        self.assertEqual(alert.render(self.user), "")
+        self.assertNotIn(
+            alert.pk,
+            self.component.alert_set.filter_visible_conflicts(self.user).values_list(
+                "pk", flat=True
+            ),
+        )
+        self.assertFalse(
+            Change.objects.last_changes(self.user, component=self.component)
+            .filter(alert=alert)
+            .exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertEqual(response.context["problem_alerts_count"], 0)
+        self.assertNotContains(response, "Conflicting repository setup.")
+        context = get_diagnostics_context(
+            QueryDict(), self.user, Component.objects.filter(project=self.project)
+        )
+        self.assertFalse(
+            any(group.name == alert.name for group in context["diagnostics"])
+        )
+        response = self.client.get(reverse("projects"))
+        self.assertNotContains(
+            response, "Some of the components within this project have diagnostics."
+        )
+        self.component.__dict__.pop("all_alerts", None)
+        self.component.clear_prefetched_alerts()
+        checklist_context = {
+            "user": self.user,
+            "show_alerts": True,
+            "libre_component_checklist": [
+                LibreCheck(
+                    True,
+                    "",
+                    component=self.component,
+                    alerts=get_component_billing_alerts(self.component),
+                )
+            ],
+        }
+        self.assertNotIn(
+            "Conflicting repository setup.",
+            render_to_string("snippets/libre-checklist.html", checklist_context),
+        )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.assertTrue(
+            Alert.objects.filter(pk=alert.pk)
+            .filter_visible_conflicts(self.user)
+            .exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertEqual(response.context["problem_alerts_count"], 1)
+        self.assertContains(response, "Conflicting repository setup.")
+        self.assertIn(
+            "Conflicting repository setup.",
+            render_to_string("snippets/libre-checklist.html", checklist_context),
+        )
+
     def create_component(self):
         return self.create_po()
 
