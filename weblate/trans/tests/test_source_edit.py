@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from unittest.mock import patch
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -786,3 +787,51 @@ class GlossarySourceEditTest(ViewTestCase):
             self.assertEqual(backend.source_explanation, "Definition")
         source.refresh_from_db()
         self.assertEqual(source.explanation, "Definition")
+
+
+class DTDSourceEditValidationTest(ViewTestCase):
+    def create_component(self) -> Component:
+        return self.create_dtd()
+
+    def check_source_rejection(self, *, existing: bool) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+        source = self.component.source_translation.unit_set.get(context="hello")
+        # The fixture's raw printf percent needs escaping before serialization.
+        store = source.translation.store
+        for unit in store.all_units:
+            unit.set_target(unit.target)
+        store.save()
+        filename = source.translation.get_filename()
+        assert filename is not None
+        path = Path(filename)
+        if existing:
+            path.write_bytes(
+                path.read_bytes().replace(b"Hello, world!", b"Invalid &#; source")
+            )
+        original_file = path.read_bytes()
+        source.translation.drop_store_cache()
+        original_source = source.source
+        changes = source.change_set.count()
+        with self.assertWarnsRegex(UserWarning, "DTD parse error"):
+            response = self.client.post(
+                f"/api/units/{source.pk}/source/",
+                {
+                    "content_hash": source.content_hash,
+                    "source": ["Valid source" if existing else "Invalid &#; source"],
+                },
+                content_type="application/json",
+            )
+        self.assertContains(response, "does not validate", status_code=400)
+        source.refresh_from_db()
+        self.assertEqual(source.source, original_source)
+        self.assertEqual(source.change_set.count(), changes)
+        self.assertFalse(source.unit_set.filter(pending_changes__isnull=False).exists())
+        self.assertEqual(path.read_bytes(), original_file)
+
+    def test_invalid_source_returns_error_without_queueing(self) -> None:
+        self.check_source_rejection(existing=False)
+
+    def test_existing_invalid_source_returns_error_without_queueing(self) -> None:
+        self.check_source_rejection(existing=True)

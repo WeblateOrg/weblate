@@ -151,7 +151,10 @@ def _validate_backend(item: Unit, new: dict[str, str]) -> bool:
     if not item.translation.filename:
         return False
     physical = True
-    store = clone_for_edit(item.translation.store)
+    try:
+        store = clone_for_edit(item.translation.store)
+    except (ValueError, TypeError) as error:
+        raise ValidationError(str(error)) from error
     disk = item.details.get("disk_identity", identity(item))
     try:
         backend = find_identity(store, disk)
