@@ -8,14 +8,15 @@
 # Adam Havránek <adamhavra@seznam.cz>, 2026.
 # Michal Čihař <michal@weblate.org>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# Adam Havránek <helak@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-10-29 23:03-0500\n"
-"PO-Revision-Date: 2026-11-04 12:51+0000\n"
-"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-05 22:35-0600\n"
+"PO-Revision-Date: 2026-11-06 13:44+0000\n"
+"Last-Translator: Adam Havránek <helak@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/javascript/"
 "cs/>\n"
 "Language: cs\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.11.1.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Neuložené změny!"
@@ -120,19 +121,32 @@ msgstr "Skrýt návrhy"
 msgid "Show suggestions"
 msgstr "Zobrazit návrhy"
 
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Bylo zpracováno %(processed)s z %(total)s záznamů."
+
 #, javascript-format
 msgid "Results of action %s"
 msgstr "Důsledky akce %s"
+
+msgid "Not takes exactly one condition."
+msgstr "Funkce „not“ má přesně jednu podmínku."
+
+msgid "Automations can nest eight levels deep."
+msgstr "Automatizace lze vnořovat až do hloubky osmi úrovní."
+
+msgid "Automations can hold one hundred nodes."
+msgstr "Automatizace mohou obsahovat sto uzlů."
 
 msgid "This workflow is not valid YAML, so the editor cannot show it."
 msgstr "Tento workflow není platný YAML, takže jej editor nedokáže zobrazit."
 
 msgid ""
-"This workflow uses parts the editor does not handle yet, such as nested "
-"conditions or branches. Edit it as YAML."
+"This workflow has something the editor cannot show, such as an unknown "
+"action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
-"Tento workflow využívá prvky, které editor zatím nepodporuje, jako jsou "
-"vnořené podmínky nebo větvení. Upravujte jej ve formátu YAML."
+"Tento pracovní postup obsahuje prvky, které editor nedokáže zobrazit, "
+"například neznámou akci nebo nastavení, které již není k dispozici. Upravte "
+"jej ve formátu YAML."
 
 #, javascript-format
 msgid "Added %s."
@@ -145,6 +159,13 @@ msgstr "Odstraněno %s."
 #, javascript-format
 msgid "Moved %s."
 msgstr "Přesunuto %s."
+
+msgid ""
+"An action running on the whole component needs a query. Enter one or pick "
+"another scope."
+msgstr ""
+"Akce prováděná na celé komponentě vyžaduje dotaz. Zadejte jej nebo vyberte "
+"jiný rozsah."
 
 msgid "Security token missing. Please reload the page."
 msgstr "Chybí bezpečnostní token. Obnovte prosím stránku."
@@ -453,7 +474,8 @@ msgid "Error while loading page:"
 msgstr "Chyba při načítání stránky:"
 
 msgid "Could not load text recognition progress. Please try again."
-msgstr "Nepodařilo se načíst postup rozpoznávání textu. Zkuste to prosím znovu."
+msgstr ""
+"Nepodařilo se načíst postup rozpoznávání textu. Zkuste to prosím znovu."
 
 msgid "Could not load strings from the image. Please try again."
 msgstr "Nepodařilo se načíst řetězce z obrázku. Zkuste to prosím znovu."
@@ -472,8 +494,14 @@ msgstr "Pro zkopírování prosím stiskněte Ctrl+C."
 msgid "Search…"
 msgstr "Hledat…"
 
+msgid "Could not load teams. Please try again."
+msgstr "Nepodařilo se načíst týmy. Zkuste to prosím znovu."
+
 msgid "Loading…"
 msgstr "Načítání…"
+
+msgid "No more results."
+msgstr "Žádné další výsledky."
 
 msgid "Error while loading form:"
 msgstr "Chyba při načítání formuláře:"

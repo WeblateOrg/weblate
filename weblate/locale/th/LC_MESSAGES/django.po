@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-30 05:03+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -429,6 +429,16 @@ msgstr "การตั้งค่าการแจ้งเตือน"
 msgid "Saved search"
 msgstr "ค้นหา"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "เปลี่ยนรหัสผ่านแล้ว"
@@ -658,6 +668,19 @@ msgstr "ได้รับเชิญเข้าร่วม {project} โด�
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "กำหนดค่ารหัสผ่านแล้ว"
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr "หากเป็นคุณ, โปรดรีเซ็ตรหัสผ่านเพื่อเข้าถึงบัญชีของคุณอีกครั้ง"
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr "หากต้องการกู้คืนการเข้าถึงบัญชีของคุณ โปรดรีเซ็ตรหัสผ่าน"
@@ -1003,6 +1026,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributor stats"
+msgid "Contributor"
+msgstr "สถิติผู้มีส่วนร่วม"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "ดำเนินการในคลังโค้ดแล้ว"
@@ -1252,6 +1280,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr "คำเชิญนี้สามารถยอมรับได้โดยที่อยู่อีเมลที่ผู้เชิญเลือกไว้เท่านั้น ไม่สามารถใช้กับบัญชีของคุณได้"
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1282,6 +1315,12 @@ msgid "Dark"
 msgstr "มืด"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr "โปรดยืนยันตัวตนของคุณโดยใช้วิธียืนยันตัวตนสองขั้นตอนก่อนดำเนินการต่อ"
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
 msgstr "โปรดยืนยันตัวตนของคุณโดยใช้วิธียืนยันตัวตนสองขั้นตอนก่อนดำเนินการต่อ"
 
 #, python-format
@@ -1397,7 +1436,7 @@ msgstr "ออกจากระบบแล้ว"
 
 #, fuzzy
 #| msgid "Use account e-mail address"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "ใช้ที่อยู่อีเมลของบัญชี"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1405,6 +1444,9 @@ msgstr "ไม่สามารถรีเซ็ตรหัสผ่านไ
 
 msgid "Change password"
 msgstr "เปลี่ยนรหัสผ่าน"
+
+msgid "Set password"
+msgstr "ตั้งค่ารหัสผ่าน"
 
 msgid "Password reset has been already completed."
 msgstr "รีเซ็ตรหัสผ่านเรียบร้อยแล้ว"
@@ -1803,14 +1845,6 @@ msgstr ""
 "การเชื่อมต่อโบรกเกอร์หรือการยืนยันการส่งข้อมูลไม่สำเร็จ:%(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"บริการ Fedora Messaging publisher ไม่พร้อมใช้งาน; "
-"ระบบจะทำการเชื่อมต่อใหม่ในการพยายามครั้งถัดไป:%(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "โบรกเกอร์ Fedora Messaging แจ้งข้อผิดพลาดกลับมา: %(error)s"
 
@@ -1825,8 +1859,8 @@ msgstr "การเผยแพร่ Fedora Messaging ล้มเหลว:%(
 msgid "configured"
 msgstr "กำหนดค่าแล้ว"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "ไม่สามารถรีเซ็ตบริการเผยแพร่ Fedora Messaging ได้."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "ต้องระบุใบรับรอง SSL สำหรับการเชื่อมต่อ SSL"
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "ใบรับรอง CA ต้องเป็นใบรับรอง X.509 ที่เข้ารหัส PEM ซึ่งถูกต้อง"
@@ -1837,10 +1871,6 @@ msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr "ใบรับรอง Client SSL ต้องเป็นใบรับรอง X.509 ที่เข้ารหัส PEM ซึ่งถูกต้อง."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "URL ของโบรกเกอร์ Fedora Messaging ไม่ถูกต้อง:%(error)s"
 
 #, python-format
 msgid ""
@@ -2727,9 +2757,6 @@ msgstr "อักขระควบคุม"
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "ต้องระบุใบรับรอง SSL สำหรับการเชื่อมต่อ SSL"
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "ใบรับรอง SSL จะไม่ถูกใช้งานหากไม่มีการเชื่อมต่อ SSL"
 
@@ -3409,6 +3436,26 @@ msgstr "ผู้ใช้"
 msgid "Language"
 msgstr "ภาษา"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "กำหนดเอง"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "ข้อมูลส่วนตัว"
 
@@ -3426,6 +3473,12 @@ msgstr "รายการนี้จะไม่ถูกใช้เมื่
 
 msgid "This is not used when a component is selected."
 msgstr "รายการนี้จะไม่ถูกใช้เมื่อมีการเลือกคอมโพเนนต์"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Contributor agreement"
+msgid "View contributor identities"
+msgstr "ข้อตกลงสำหรับผู้มีส่วนร่วม"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3647,6 +3700,24 @@ msgid "Manage workspace access"
 msgstr "จัดการสิทธิ์การเข้าถึงโครงการ"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all languages"
+msgid "Browse users"
+msgstr "เรียกดูภาษาทั้งหมด"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Search resource contributors"
+msgstr "ข้อมูลเฉพาะตัวของผู้ใช้ปัจจุบัน"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "โปรไฟล์ผู้ใช้"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "ใช้อินเทอร์เฟซการจัดการ"
 
@@ -3723,6 +3794,18 @@ msgstr "จัดการการเรียกเก็บเงิน"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "จัดการส่วนเสริมระดับไซต์"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "ค้นพบ Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "โปรไฟล์ผู้ใช้"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3934,6 +4017,10 @@ msgstr "ชื่อ"
 
 msgid "Choose permissions granted to this role."
 msgstr "เลือกสิทธิ์ที่จะมอบให้กับบทบาทนี้"
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "บทบาท"
@@ -4241,6 +4328,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4263,6 +4353,14 @@ msgstr "ไม่สามารถลบทีมที่มีมาให้
 
 msgid "User invitation was removed."
 msgstr "ลบคำเชิญผู้ใช้แล้ว"
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "ลบคำเชิญผู้ใช้แล้ว"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4523,6 +4621,68 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "หมายเหตุ"
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr "เลือก"
+
+#, fuzzy
+#| msgid "Perform backup"
+msgid "Trigger"
+msgstr "สำรองข้อมูล"
+
+#, fuzzy
+#| msgid "Add new string"
+msgid "Add trigger"
+msgstr "เพิ่มข้อความใหม่"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Condition"
+msgstr "ข้อผิดพลาดการกำหนดค่า"
+
+#, fuzzy
+#| msgid "Add font"
+msgid "Add condition"
+msgstr "เพิ่มแบบอักษร"
+
+msgid "Action"
+msgstr "การกระทำ"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "การกระทำ"
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Conditions"
+msgstr "ข้อผิดพลาดการกำหนดค่า"
+
+msgid "Actions"
+msgstr "การดำเนินการ"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add branch"
+msgstr "เพิ่มทีม"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "อื่นๆ"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
 
 msgid "Additional message"
 msgstr "ข้อความเพิ่มเติม"
@@ -5249,6 +5409,11 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "แท็ก HTML {tag} ขาดแท็กปิดที่คู่กัน: {end}"
 
 #, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "แท็ก HTML {tag} ขาดแท็กปิดที่คู่กัน: {end}"
+
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The sequence {sequence} will begin a HTML character reference, but does "
 #| "not end with {semicolon}. If you do not want a character reference, use "
@@ -5467,6 +5632,12 @@ msgstr "ไวยากรณ์คำแปล Fluent"
 
 msgid "Fluent syntax error in the translation."
 msgstr "ข้อผิดพลาดทางไวยากรณ์ Fluent ในคำแปล"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 #, fuzzy
 #| msgid "The following format strings are in the wrong order: %s"
@@ -6490,6 +6661,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "CDN ไฟล์แปลภาษา"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6497,6 +6678,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "การดูแลระบบ"
 
 msgid "Weblate languages"
 msgstr "ภาษา Weblate"
@@ -8305,9 +8491,20 @@ msgid "Your profile"
 msgstr "โปรไฟล์ของคุณ"
 
 #, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "ป้อนที่อยู่อีเมลที่ถูกต้อง"
+
+#, fuzzy
 #| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
 msgstr "ไม่สามารถเอาข้อมูลประจำตัวของผู้ใช้ออกได้"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8317,6 +8514,11 @@ msgid ""
 msgstr ""
 "หลังจากที่ยืนยันแล้ว คุณจะสามารถรับรองความถูกต้องกับ Weblate โดยใช้ %(backend_verbose)s "
 "(%(uid)s) ได้"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Add e-mail address"
+msgstr "ใช้ที่อยู่อีเมลของบัญชี"
 
 #, fuzzy
 #| msgid "Configure"
@@ -8434,16 +8636,16 @@ msgstr ""
 msgid "Registration"
 msgstr "การลงทะเบียน"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "อีเมลของคุณ"
+
 msgid "Password reset almost complete"
 msgstr "การตั้งค่ารหัสผ่านใหม่เกือบเสร็จแล้ว"
 
 msgid "Account removal almost complete"
 msgstr "การเอาบัญชีออกเกือบเสร็จแล้ว"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "การลงทะเบียนเกือบเสร็จแล้ว"
 
 msgid "Registration almost complete"
 msgstr "การลงทะเบียนเกือบเสร็จแล้ว"
@@ -8457,8 +8659,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -8468,6 +8671,15 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid ""
+#| "If the confirmation link expires before you get to use it, register again."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "หากลิงก์ยืนยันหมดอายุก่อนที่คุณจะใช้ ให้ลงทะเบียนใหม่อีกครั้ง"
 
 #, fuzzy, python-format
 #| msgid ""
@@ -8488,6 +8700,17 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to account settings"
+msgstr "แก้ไขการตั้งค่าคอมโพเนนต์"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8501,15 +8724,49 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "โปรดแก้ไขข้อมูลที่ผิดพลาดในฟอร์ม"
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Human verification"
 msgid "Send verification e-mail"
 msgstr "การยืนยันความเป็นมนุษย์"
 
 #, fuzzy
-#| msgid "Edit component settings"
-msgid "Back to account settings"
-msgstr "แก้ไขการตั้งค่าคอมโพเนนต์"
+#| msgid "Could not remove user identity"
+msgid "Confirm your identity"
+msgstr "ไม่สามารถเอาข้อมูลประจำตัวของผู้ใช้ออกได้"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "การสมัครสมาชิกแบบทดลองใช้"
@@ -8725,6 +8982,9 @@ msgstr "โปรดป้อนรหัสผ่านใหม่ของค
 msgid "Change my password"
 msgstr "เปลี่ยนรหัสผ่านของฉัน"
 
+msgid "Set my password"
+msgstr "ตั้งค่ารหัสผ่านของฉัน"
+
 #, fuzzy
 #| msgid "Edit component settings"
 msgid "Back to security settings"
@@ -8774,11 +9034,6 @@ msgstr "กิจกรรม"
 #| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "เลือกส่งอีเมล์จากที่อยู่ของอีเมลที่ได้รับการยืนยันแล้ว."
-
-#, fuzzy
-#| msgid "Use account e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "ใช้ที่อยู่อีเมลของบัญชี"
 
 msgid "Save"
 msgstr "บันทึก"
@@ -8876,9 +9131,6 @@ msgstr "กำหนดค่า"
 #| msgid "configured"
 msgid "Not configured"
 msgstr "กำหนดค่าแล้ว"
-
-msgid "Set password"
-msgstr "ตั้งค่ารหัสผ่าน"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9182,9 +9434,6 @@ msgid ""
 msgstr ""
 "ลืมรหัสผ่านของคุณหรือไม่ ใส่ที่อยู่อีเมลของคุณด้านล่าง "
 "และเราจะส่งคำแนะนำสำหรับการตั้งค่ารหัสผ่านใหม่ผ่านทางอีเมล"
-
-msgid "Set my password"
-msgstr "ตั้งค่ารหัสผ่านของฉัน"
 
 msgid "Reset my password"
 msgstr "ตั้งค่ารหัสผ่านของฉันใหม่"
@@ -9807,51 +10056,15 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Perform backup"
-msgid "Trigger"
-msgstr "สำรองข้อมูล"
-
-#, fuzzy
-#| msgid "Add new string"
-msgid "Add trigger"
-msgstr "เพิ่มข้อความใหม่"
-
-#, fuzzy
-#| msgid "Configuration errors"
-msgid "Conditions"
-msgstr "ข้อผิดพลาดการกำหนดค่า"
-
-#, fuzzy
 #| msgid "Lock component, preventing translations"
 msgid "All conditions have to pass before any action runs."
 msgstr "ล็อกคอมโพเนนต์และป้องกันไม่ให้มีการแปล"
-
-#, fuzzy
-#| msgid "Configuration errors"
-msgid "Condition"
-msgstr "ข้อผิดพลาดการกำหนดค่า"
-
-#, fuzzy
-#| msgid "Add font"
-msgid "Add condition"
-msgstr "เพิ่มแบบอักษร"
-
-msgid "Actions"
-msgstr "การดำเนินการ"
 
 #, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "ดำเนินการในคลังโค้ดแล้ว"
-
-msgid "Action"
-msgstr "การกระทำ"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "การกระทำ"
 
 #, fuzzy
 #| msgid "Move"
@@ -10002,6 +10215,17 @@ msgstr "URL slug ของโครงการ"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10172,6 +10396,19 @@ msgstr "แก้ปัญหาจากข้อคิดเห็น"
 msgid "Request payload"
 msgstr "ภาษาที่ขอ"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "สิทธิ์"
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Settings"
 msgstr "การตั้งค่า"
 
@@ -10182,6 +10419,11 @@ msgstr "การกำหนดกลุ่มอัตโนมัติ"
 
 msgid "Access control"
 msgstr "การควบคุมการเข้าถึง"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10235,6 +10477,11 @@ msgstr "การดำเนินการนี้จะเอาสิทธ
 
 msgid "Add"
 msgstr "เพิ่ม"
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Moved component"
+msgstr "ลบ"
 
 msgid "All components"
 msgstr ""
@@ -10614,6 +10861,27 @@ msgstr "กำลังโหลด…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "The authentication provider could not be reached."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "ไม่สามารถติดต่อผู้ให้บริการยืนยันตัวตนได้"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -12223,6 +12491,37 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr "สรุปย่อ: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change password"
+msgid "Open password recovery"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Resend invitation"
 msgid "View invitation"
@@ -12234,6 +12533,10 @@ msgstr "ส่งคำเชิญซ้ำ"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "หากลิงก์ยืนยันหมดอายุก่อนที่คุณจะใช้ ให้ลงทะเบียนใหม่อีกครั้ง"
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -12473,6 +12776,11 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr "เปลี่ยนรหัสผ่าน"
 
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Verify e-mail address"
+msgstr "ใช้ที่อยู่อีเมลของบัญชี"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -12542,6 +12850,17 @@ msgstr "ยังไม่เสร็จ"
 #| msgid "Administration"
 msgid "Translation activity summary"
 msgstr "การดูแลระบบ"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "กิจกรรมบนบัญชีของคุณที่ %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "การเอาบัญชีออกบน %(site_title)s"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -12776,6 +13095,68 @@ msgstr "การค้นพบคอมโพเนนต์"
 msgid "Performance report"
 msgstr "รายงานประสิทธิภาพ"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "การโฮสต์การแปล"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "ไม่พร้อมใช้งาน"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "รหัสผ่านปัจจุบัน"
+
+#, fuzzy
+#| msgid "There are no addons currently installed."
+msgid "Previous 24 completed hours"
+msgstr "ไม่มีส่วนเสริมที่ติดตั้งในขณะนี้"
+
+#, fuzzy
+#| msgid "Suggested change"
+msgid "Issued challenges"
+msgstr "การเปลี่ยนแปลงที่เสนอแนะ"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "การเปลี่ยนแปลงต้นฉบับ"
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid solution"
+msgstr "ภาพไม่ถูกต้อง!"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Replayed challenge"
+msgstr "การเปลี่ยนแปลงล่าสุด"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "CSRF failure"
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Service unavailable"
+msgstr "การดูแลระบบ"
+
 msgid "Last occurrence"
 msgstr "ครั้งที่เกิดขึ้นล่าสุด"
 
@@ -12972,6 +13353,336 @@ msgstr "การดูแลระบบ"
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+#| msgid "Change password"
+msgid "Confirm security action"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "ตั้งค่ารหัสผ่านของฉันใหม่"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "เอาบัญชีของฉันออก"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "ละเว้นการตรวจสอบที่ไม่ผ่าน"
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Identifier"
+msgstr "ข้อมูลเฉพาะตัวของผู้ใช้ปัจจุบัน"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "จับคู่เส้นทางหลายเส้นทาง"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "ไม่พร้อมใช้งาน"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "ใช้ไปแล้ว %(used)s จาก %(total)s"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Detected in reports"
+msgstr "รุ่น"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "ผู้ดูแลระบบ"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Deleted administrator"
+msgstr "การดูแลระบบ"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "ใช้ไปแล้ว %(used)s จาก %(total)s"
+
+#, fuzzy
+#| msgid "There are no addons currently installed."
+msgid "Previous reports"
+msgstr "ไม่มีส่วนเสริมที่ติดตั้งในขณะนี้"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "การส่งออกข้อมูล"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security findings"
+msgstr "แก้ไขการตั้งค่าคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "รายงานเกี่ยวกับการแปล"
+
+#, fuzzy
+#| msgid "Vietnamese"
+msgid "Filename"
+msgstr "เวียดนาม"
+
+#, fuzzy
+#| msgid "Not yet signed in"
+msgid "Not recorded"
+msgstr "ยังไม่ได้ลงชื่อเข้า"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "ส่ง"
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset almost complete"
+msgid "Password validation completed."
+msgstr "การตั้งค่ารหัสผ่านใหม่เกือบเสร็จแล้ว"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Security action completed."
+msgstr "รับรองความถูกต้อง"
+
+#, fuzzy
+#| msgid "Failing file"
+msgid "Processing failed."
+msgstr "ไฟล์ที่ล้มเหลว"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "ความคืบหน้า"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "ใช้ไปแล้ว %(used)s จาก %(total)s"
+
+#, fuzzy
+#| msgid "Fluent type"
+msgid "Finding type"
+msgstr "ชนิด Fluent"
+
+#, fuzzy
+#| msgid "Fix string"
+msgid "Filter"
+msgstr "แก้ไขสตริง"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Actions apply only to checked findings on this page."
+msgstr "ค้นหา"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Select all on this page"
+msgstr "ค้นหา"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "การเลือกโครงการ"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "รอดำเนินการ"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Inactive"
+msgstr "กระทำการ"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "หมายเหตุ"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "วันที่เข้าร่วม"
+
+#, fuzzy
+#| msgid "Last login"
+msgid "Last sign-in:"
+msgstr "การเข้าสู่ระบบครั้งล่าสุด"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "ลบแบบอักษรแล้ว"
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Last detected:"
+msgstr "วันครบกำหนด"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "ลบบัญชี"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security operation"
+msgstr "แก้ไขการตั้งค่าคอมโพเนนต์"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Refresh progress"
+msgstr "รุ่น"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "ดาวน์โหลดรายงาน"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Matching rows"
+msgstr "ค้นหา"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "ลบบัญชี"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "ใช้ไปแล้ว %(used)s จาก %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "รายงานเกี่ยวกับการแปล"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "รหัสผ่านใหม่"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "รหัสผ่านใหม่"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -13121,6 +13832,20 @@ msgstr "ส่งคำเชิญซ้ำ"
 msgid "Check user access"
 msgstr "รายละเอียดการตรวจสอบ"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "กิจกรรมของบัญชี"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -13154,9 +13879,6 @@ msgstr "เมทริกซ์"
 
 msgid "Displayed languages"
 msgstr "ภาษาที่แสดง"
-
-msgid "Choose"
-msgstr "เลือก"
 
 msgid "Translation memory status"
 msgstr "สถานะของหน่วยความจำคำแปล"
@@ -13828,11 +14550,6 @@ msgid_plural ""
 msgstr[0] "การแปลถูกล็อคโดยอัตโนมัติเนื่องจากมีการแจ้งเตือนต่อไปนี้:"
 
 #, fuzzy
-#| msgid "Fix string"
-msgid "Filter"
-msgstr "แก้ไขสตริง"
-
-#, fuzzy
 #| msgid "Per file"
 msgid "Clear filters"
 msgstr "ต่อไฟล์"
@@ -14233,6 +14950,19 @@ msgstr "การแปล"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -14278,6 +15008,11 @@ msgstr ""
 #| msgid "Action"
 msgid "View notification"
 msgstr "กระทำการ"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "ทุกภาษา"
 
 msgid "No matching activity found."
 msgstr "ไม่พบกิจกรรมใดที่ตรงกัน"
@@ -14972,6 +15707,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "ไม่สามารถลงทะเบียนให้เสร็จสมบูรณ์ขณะเข้าสู่ระบบอยู่"
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -14992,6 +15734,11 @@ msgstr "เปลี่ยนรหัสผ่าน"
 #| msgid "Account removal"
 msgid "Continue account removal"
 msgstr "การเอาบัญชีออก"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "การยืนยันความเป็นมนุษย์"
 
 #, fuzzy
 #| msgid "Resend invitation"
@@ -15084,11 +15831,6 @@ msgstr ""
 #| msgid "Administration"
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "การดูแลระบบ"
-
-#, fuzzy
-#| msgid "Vietnamese"
-msgid "Filename"
-msgstr "เวียดนาม"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -15642,6 +16384,11 @@ msgstr "ข้ามไปยัง"
 msgid "Go"
 msgstr "ดี"
 
+#, fuzzy
+#| msgid "Change events"
+msgid "Change details"
+msgstr "เหตุการณ์การเปลี่ยนแปลง"
+
 msgid "Download latest changes as CSV"
 msgstr "ดาวน์โหลดการเปลี่ยนแปลงล่าสุดเป็น CSV"
 
@@ -15756,9 +16503,6 @@ msgstr ""
 #| msgid "Delete"
 msgid "Add or configure account"
 msgstr "ลบ"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Last change"
@@ -16074,9 +16818,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "แก้ไขต้นฉบับ"
-
-msgid "Cancel"
-msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -16510,6 +17251,11 @@ msgstr ""
 #| msgid "Download"
 msgid "Quick downloads"
 msgstr "ดาวน์โหลด"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 #, fuzzy
 #| msgid "Some plural forms are translated in the same way"
@@ -17423,11 +18169,6 @@ msgid "A component was moved within a project."
 msgstr "การดูแลระบบ"
 
 #, fuzzy
-#| msgid "Delete"
-msgid "Moved component"
-msgstr "ลบ"
-
-#, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Contributor made their first translation"
 msgid "A user made their first contribution to a translation."
@@ -18287,6 +19028,17 @@ msgid ""
 "form strings."
 msgstr ""
 
+#, fuzzy
+#| msgid "Administration"
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "การดูแลระบบ"
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Administration"
 msgid "Automatic translation failed: %s"
@@ -18498,6 +19250,10 @@ msgstr "คำขอผสานไม่ถูกต้อง!"
 msgid "Choose either replacement or clearing translations."
 msgstr "การดูแลระบบ"
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "This translation is currently locked for updates."
 msgid "The component was automatically locked because of an alert."
@@ -18568,6 +19324,9 @@ msgstr ""
 #| msgid "Personal: {}"
 msgid "New revision: {}"
 msgstr "ข้อมูลส่วนตัว: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Administration"
@@ -18712,6 +19471,13 @@ msgstr "ดูคอมโพเนนต์แปล"
 #| msgid "Administration"
 msgid "{filename} ({parameter}) does not exist."
 msgstr "การดูแลระบบ"
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "New string to translate in %(translation)s"
+#| msgid_plural "New strings to translate in %(translation)s"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "มีสตริงใหม่ให้แปลใน %(translation)s"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -18890,6 +19656,54 @@ msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use global default"
+msgid "Format default"
+msgstr "ใช้ค่าเริ่มต้น"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "ผู้ใช้ระดับสูง (Power user)"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "การขึ้นบรรทัดใหม่ที่จุดเริ่มต้น"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -19576,6 +20390,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 #, fuzzy
@@ -20457,13 +21274,6 @@ msgstr "ชื่อคอมโพเนนต์"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "มีสตริงใหม่ให้แปลใน %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -21173,6 +21983,11 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+#, fuzzy
+#| msgid "Administration"
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "การดูแลระบบ"
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -21861,6 +22676,30 @@ msgid_plural ""
 "failed due to permissions or checks."
 msgstr[0] ""
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "เปลี่ยนสัญญาอนุญาตแล้ว"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+
 #, fuzzy
 #| msgid "Administration"
 msgid "Automatic translation skipped because the target no longer exists."
@@ -22171,6 +23010,9 @@ msgstr "การดูแลระบบ"
 msgid "You can not block yourself on this project."
 msgstr "การดูแลระบบ"
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "Administration"
 msgid "User has been blocked on this project."
@@ -22226,6 +23068,11 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] "เพิ่มภาษาใหม่ไปยัง %(component)s แล้ว"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "You do not have permission to add this language."
+msgstr "การดูแลระบบ"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -22531,12 +23378,22 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "ล็อกคอมโพเนนต์และป้องกันไม่ให้มีการแปล"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 #, fuzzy
 #| msgid "Lock component, preventing translations"
 msgid "All components are now open for translation updates."
+msgstr "ล็อกคอมโพเนนต์และป้องกันไม่ให้มีการแปล"
+
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "Allowed components are now open for translation updates."
 msgstr "ล็อกคอมโพเนนต์และป้องกันไม่ให้มีการแปล"
 
 #, fuzzy
@@ -22621,11 +23478,21 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "ส่งข้อความมากเกินไป โปรดลองอีกครั้งภายหลัง"
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "แก้ไขข้อความจำนวนมาก"
 
 #, fuzzy, python-format
 #| msgid "Authentication failed: %s"
@@ -22634,11 +23501,6 @@ msgstr "การยืนยันตัวตนล้มเหลว: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
 
 msgid "Settings saved"
 msgstr ""
@@ -22965,6 +23827,13 @@ msgstr "นิพจน์ทั่วไปสำหรับที่อยู
 #| msgid "Administration"
 msgid "Automatic translation reported a warning."
 msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "แปลข้อความโดยอัตโนมัติด้วยระบบแปลภาษาหรือจากคอมโพเนนต์อื่น"
 
 #, fuzzy
 #| msgid "Administration"
@@ -23451,6 +24320,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 #, fuzzy
@@ -24487,6 +25359,70 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "การส่งออกข้อมูล"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "ขีดจำกัดภาษา"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "ชื่อผู้ใช้หรืออีเมล"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "รหัสผ่าน"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration errors"
+msgid "Configuring"
+msgstr "ข้อผิดพลาดการกำหนดค่า"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Resolved"
+msgstr "ลบ"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "ผู้ใช้ถูกปิดใช้งานโดยผู้ดูแลระบบ"
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "เปลี่ยนรหัสผ่านแล้ว"
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr ""
@@ -24555,12 +25491,187 @@ msgid "Repository initialization"
 msgstr "การดูแลระบบ"
 
 #, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "รหัสผ่านใหม่"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "ใช้ที่อยู่อีเมลของบัญชี"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "The file contains malformed CSV quoting."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The report is empty."
+msgstr "ไฟล์ทรัพยากร .NET"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "การดูแลระบบ"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security report"
+msgstr "คำถามที่พบบ่อยเกี่ยวกับความปลอดภัย"
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, สตริง %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "ไม่สามารถเปิดตั๋วงานได้ โปรดลองอีกครั้งภายหลัง"
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not open a ticket, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "ไม่สามารถเปิดตั๋วงานได้ โปรดลองอีกครั้งภายหลัง"
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "เปลี่ยนรหัสผ่านแล้ว"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Duplicate rows"
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "ลบบัญชี"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "ลบบัญชี"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "รหัสผ่านใหม่"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "การรีเซ็ตรหัสผ่าน"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "เปลี่ยนรหัสผ่านแล้ว"
+
+#, fuzzy
+#| msgid "Dismiss"
+msgid "Dismissed findings"
+msgstr "เพิกเฉย"
+
+#, fuzzy
+#| msgid "Recent additions"
+msgid "Skipped findings"
+msgstr "การเพิ่มเติมล่าสุด"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "ไม่รองรับไฟล์นี้!"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Primary e-mail address"
+msgstr "ใช้ที่อยู่อีเมลของบัญชี"
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Verified e-mail address"
+msgstr "ใช้ที่อยู่อีเมลของบัญชี"
+
+#, fuzzy, python-format
+#| msgid "Manage teams"
+msgid "Finding for %(username)s"
+msgstr "จัดการทีม"
+
+#, fuzzy
 #| msgid "Administration"
 msgid "Weblate administration"
 msgstr "การดูแลระบบ"
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "ลิงก์ลงทะเบียนใช้งานไม่ได้แล้ว"
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -24769,6 +25880,26 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "บริการ Fedora Messaging publisher ไม่พร้อมใช้งาน; "
+#~ "ระบบจะทำการเชื่อมต่อใหม่ในการพยายามครั้งถัดไป:%(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "ไม่สามารถรีเซ็ตบริการเผยแพร่ Fedora Messaging ได้."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr "URL ของโบรกเกอร์ Fedora Messaging ไม่ถูกต้อง:%(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "การลงทะเบียนเกือบเสร็จแล้ว"
+
 #~ msgid "Search and replace"
 #~ msgstr "ค้นหาและแทนที่"
 
@@ -24954,12 +26085,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgid "Permission required on:"
 #~ msgstr "สิทธิอนุญาตถูกปฏิเสธ"
 
-#~ msgid "Download reports"
-#~ msgstr "ดาวน์โหลดรายงาน"
-
-#~ msgid "Suggested change"
-#~ msgstr "การเปลี่ยนแปลงที่เสนอแนะ"
-
 #, fuzzy
 #~| msgid ""
 #~| "Ensures a consistent set of languages is used for all components within "
@@ -25033,11 +26158,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~| msgid "%(translation)s has been completed"
 #~ msgid "Pending translations in accessible repositories were committed."
 #~ msgstr "%(translation)s ถูกแปลสำเร็จแล้ว"
-
-#, fuzzy
-#~| msgid "Authentication"
-#~ msgid "Activation completed."
-#~ msgstr "รับรองความถูกต้อง"
 
 #, fuzzy, python-format
 #~| msgid "Administration"
@@ -25214,11 +26334,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~| msgid "Check details"
 #~ msgid "Revoke access"
 #~ msgstr "รายละเอียดการตรวจสอบ"
-
-#, fuzzy
-#~| msgid "Add team"
-#~ msgid "Add admin"
-#~ msgstr "เพิ่มทีม"
 
 #, fuzzy
 #~| msgid "No source strings are currently assigned!"
@@ -26573,11 +27688,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgstr "การดูแลระบบ"
 
 #, fuzzy
-#~| msgid "Administration"
-#~ msgid "Merge failure"
-#~ msgstr "การดูแลระบบ"
-
-#, fuzzy
 #~| msgid "Versions"
 #~ msgid "User with reviewer permissions"
 #~ msgstr "รุ่น"
@@ -26617,11 +27727,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgctxt "Translated percents"
 #~ msgid "%(translated)s%%"
 #~ msgstr "การดูแลระบบ"
-
-#, fuzzy
-#~| msgid "Action"
-#~ msgid "active"
-#~ msgstr "กระทำการ"
 
 #~ msgid "Copy"
 #~ msgstr "คัดลอก"

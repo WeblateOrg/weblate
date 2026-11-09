@@ -214,7 +214,9 @@
 
 
     {% if autoform %}
-      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=workspace autoform=autoform %}</div>
+      <div class="tab-pane" id="auto">
+        {% include "snippets/autoform.html" with object=workspace autoform=autoform %}
+      </div>
     {% endif %}
 
     {% if bulk_state_form %}

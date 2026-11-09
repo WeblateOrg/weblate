@@ -87,6 +87,7 @@ from weblate.utils.ratelimit import (
 )
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, WorkspaceLanguage
@@ -1084,52 +1085,67 @@ def handle_translate(
     return HttpResponseRedirect(this_unit_url)
 
 
-def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    """Handle unit merging."""
-    mergeform = MergeForm(request.user, unit, request.POST)
-    if not mergeform.is_valid():
-        show_form_errors(request, mergeform)
-        return None
+def handle_merge(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    """Handle unit merging against the current, locked destination."""
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    merged = mergeform.cleaned_data["merge_unit"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        mergeform = MergeForm(request.user, unit, request.POST)
+        if not mergeform.is_valid():
+            show_form_errors(request, mergeform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        merged = mergeform.cleaned_data["merge_unit"]
 
-    # Store unit
-    state = merged.state
-    if state == STATE_APPROVED and (
-        not unit.translation.enable_review
-        or not request.user.has_perm("unit.review", unit)
-    ):
-        state = STATE_TRANSLATED
-    unit.translate(request.user, merged.get_target_plurals(), state)
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        # Store unit
+        state = merged.state
+        if state == STATE_READONLY or (
+            state == STATE_APPROVED
+            and (
+                not unit.translation.enable_review
+                or not request.user.has_perm("unit.review", unit)
+            )
+        ):
+            state = STATE_TRANSLATED
+        unit.translate(request.user, merged.get_target_plurals(), state)
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
-def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    revertform = RevertForm(unit, request.POST)
-    if not revertform.is_valid():
-        show_form_errors(request, revertform)
-        return None
+def handle_revert(
+    unit: Unit, request: AuthenticatedHttpRequest, next_unit_url: str
+) -> HttpResponseRedirect | None:
+    from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
 
-    change = revertform.cleaned_data["revert_change"]
+    with source_operation(unit.translation.component):
+        unit = get_object_or_404(Unit.objects.select_for_update(), pk=unit.pk)
+        revertform = RevertForm(unit, request.POST)
+        if not revertform.is_valid():
+            show_form_errors(request, revertform)
+            return None
 
-    edit_permission = request.user.has_perm("unit.edit", unit)
-    if not edit_permission:
-        show_unit_edit_denied(request, edit_permission)
-        return None
+        change = revertform.cleaned_data["revert_change"]
 
-    if not change.revert(
-        request.user, change_action=ActionEvents.REVERT, request=request
-    ):
-        messages.error(request, gettext("Could not revert the selected change."))
-        return None
-    # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+        edit_permission = request.user.has_perm("unit.edit", unit)
+        if not edit_permission:
+            show_unit_edit_denied(request, edit_permission)
+            return None
+
+        if not change.revert(
+            request.user, change_action=ActionEvents.REVERT, request=request
+        ):
+            messages.error(request, gettext("Could not revert the selected change."))
+            return None
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
 def check_suggest_permissions(

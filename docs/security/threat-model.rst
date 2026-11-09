@@ -427,6 +427,8 @@ Build-time and configuration variants
        the shared trusted outbound routing. Git LFS object transfers are
        disabled and outside the supported VCS integration surface. VCS clients
        without connection binding require an explicit trusted-host exemption.
+       Mercurial subrepositories are disabled, so tracked subrepository sources
+       cannot introduce unchecked filesystem or network destinations.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. A non-empty :setting:`VCS_ALLOW_HOSTS` also restricts all
@@ -602,6 +604,9 @@ Size and rate assumptions:
   regular expressions, and screenshot content are validated before restore
   writes project state. Failed restores remove repository and media objects
   created by that attempt. *(documented)* (source: :ref:`projectbackup`)
+  Restored repository URLs also satisfy the selected VCS backend's outbound
+  restrictions. Backups omit nested VCS metadata. *(documented)*
+  (source: :ref:`vcs-mercurial`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
@@ -744,6 +749,9 @@ Security properties Weblate provides
        compare strings across projects only when both projects use Public or
        Protected access control, and preserve restricted-component boundaries
        for warning presence and descriptions.
+       Enabling :ref:`suggestion autoaccept <component-suggestion_autoaccept>`
+       delegates replacement of approved translations to voting users, including
+       users without review permission. Read-only strings remain protected.
        Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
@@ -929,8 +937,11 @@ Security properties Weblate provides
      - Security-critical.
 
 Resource thresholds in this model are the documented configuration defaults
-where they exist, especially backup import limits and rate limits. For
-repository size, project count, component count, and translation volume, Weblate
+where they exist, especially backup import limits and rate limits. Translation
+files have a pre-parse byte limit configured by :setting:`TRANSLATION_MAX_SIZE`
+and a 100,000-content-string acceptance limit before synchronization or import.
+These do not replace parser-specific expansion limits. For total repository
+size, project count, component count, and aggregate translation volume, Weblate
 does not claim a fixed universal resource ceiling independent of deployment
 capacity. *(maintainer)*
 

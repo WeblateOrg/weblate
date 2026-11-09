@@ -14,10 +14,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
-"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
-"javascript/\n"
-"POT-Creation-Date: 2026-10-29 23:03-0500\n"
-"PO-Revision-Date: 2026-10-17 05:32+0000\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
+"\n"
+"POT-Creation-Date: 2026-11-05 22:35-0600\n"
+"PO-Revision-Date: 2026-11-06 13:44+0000\n"
 "Last-Translator: Sup! 0_0 <sup-25498@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "javascript/ar/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "لم تحفظ التغييرات!"
@@ -73,7 +73,7 @@ msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "اضغط Ctrl+I ثم %s لاستبعاد هذه."
 
 msgid "Slug"
-msgstr ""
+msgstr "عنوان صفحة الرابط (Slug)"
 
 #, javascript-format
 msgid "%s more origin"
@@ -131,29 +131,50 @@ msgstr "إخفاء الاقتراحات"
 msgid "Show suggestions"
 msgstr "إظهار الاقتراحات"
 
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "تم معالجة %(processed)s من %(total)s إدخالات."
+
 #, javascript-format
 msgid "Results of action %s"
-msgstr ""
+msgstr "نتائج الإجراء %s"
+
+msgid "Not takes exactly one condition."
+msgstr "لا يتخذ شرطًا واحدًا بالضبط."
+
+msgid "Automations can nest eight levels deep."
+msgstr "يمكن أن تداخل عمليات الأتمتة لثمانية مستويات."
+
+msgid "Automations can hold one hundred nodes."
+msgstr "يمكن أن تحتوي عمليات الأتمتة على مائة عقدة."
 
 msgid "This workflow is not valid YAML, so the editor cannot show it."
-msgstr ""
+msgstr "سير العمل هذا ليس YAML صالحًا، لذلك لا يمكن للمحرّر عرضه."
 
 msgid ""
-"This workflow uses parts the editor does not handle yet, such as nested "
-"conditions or branches. Edit it as YAML."
+"This workflow has something the editor cannot show, such as an unknown "
+"action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
+"يحتوي سير العمل هذا على شيء ما لا يمكن للمحرر عرضه، مثل إجراء غير معروف أو "
+"إعداد لم يعد متاحًا. قم بتعديله كـ YAML."
 
 #, javascript-format
 msgid "Added %s."
-msgstr ""
+msgstr "تم إضافة %s."
 
 #, javascript-format
 msgid "Removed %s."
-msgstr ""
+msgstr "تم إزالة %s."
 
 #, javascript-format
 msgid "Moved %s."
+msgstr "تم نقل %s."
+
+msgid ""
+"An action running on the whole component needs a query. Enter one or pick "
+"another scope."
 msgstr ""
+"إجراء يتم تنفيذه على المكون بأكمله يحتاج استعلامًا (query). أدخل واحدة أو اختر "
+"نطاقًا آخر."
 
 msgid "Security token missing. Please reload the page."
 msgstr "رمز الأمان مفقود. يرجى إعادة تحميل الصفحة."
@@ -463,21 +484,18 @@ msgstr "رتب هذا العمود"
 msgid "Error while loading page:"
 msgstr "خطأ أثناء تحميل الصفحة:"
 
-#, fuzzy
-#| msgid "Could not load repository branches. Please try again."
 msgid "Could not load text recognition progress. Please try again."
-msgstr "تعذّر تحميل فروع المستودع. يُرجى المحاولة مرة أخرى."
+msgstr "تعذّر تحميل تقدم التعرف على النص. يُرجى المحاولة مرة أخرى."
 
-#, fuzzy
-#| msgid "Could not load screenshots. Please try again."
 msgid "Could not load strings from the image. Please try again."
-msgstr "تعذّر تحميل لقطات الشاشة. يُرجى المحاولة مرة أخرى."
+msgstr "تعذّر تحميل سلاسل من الصورة. يُرجى المحاولة مرة أخرى."
 
 msgid "Finding strings in image…"
-msgstr ""
+msgstr "جارٍ العثور عن سلاسل في الصورة…"
 
 msgid "Finding strings is taking longer than expected. Please try again later."
 msgstr ""
+"يستغرق العثور على السلاسل وقتًا أطول من المتوقع. يُرجى المحاولة مرة أخرى لاحقًا."
 
 msgid "Please press Ctrl+C to copy."
 msgstr "رجاءً اضغط Ctrl+C لتنسخ."
@@ -485,8 +503,14 @@ msgstr "رجاءً اضغط Ctrl+C لتنسخ."
 msgid "Search…"
 msgstr "بحث…"
 
+msgid "Could not load teams. Please try again."
+msgstr "تعذّر تحميل الفِرَق. يُرجى المحاولة مرة أخرى."
+
 msgid "Loading…"
 msgstr "جارٍ التحميل…"
+
+msgid "No more results."
+msgstr "لا مزيد من النتائج."
 
 msgid "Error while loading form:"
 msgstr "خطأ أثناء تحميل النموذج:"

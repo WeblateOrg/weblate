@@ -214,6 +214,13 @@ def schedule_removal() -> None:
 @transaction.atomic
 def remove_single_billing(billing_id: int) -> None:
     bill = Billing.objects.select_for_update().get(pk=billing_id)
+    if (
+        bill.payment_mode == Billing.PaymentMode.EXTERNAL
+        and bill.state == Billing.STATE_ACTIVE
+        and bill.check_payment_status()
+    ):
+        bill.check_limits()
+        return
     for user in bill.get_notify_users():
         bill.billinglog_set.create(
             event=BillingEvent.EMAIL, summary="Billing removed", user=user

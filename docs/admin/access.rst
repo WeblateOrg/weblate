@@ -239,6 +239,10 @@ Adding existing users will send them invitation to confirm. With
 e-mail. Invited users have to complete the registration process to get access
 to the project.
 
+An invitation can also include team administration. The invitation states this
+explicitly, and the user becomes a team administrator only after accepting it.
+Team administrators can add or remove team members.
+
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
 team) would be sufficient.

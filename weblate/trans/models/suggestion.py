@@ -28,7 +28,7 @@ from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_TRANSLATED, StringState
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -196,28 +196,37 @@ class Suggestion(models.Model, UserDisplayMixin):
         self,
         request: AuthenticatedHttpRequest,
         permission: str = "suggestion.accept",
-        state=STATE_TRANSLATED,
+        state: StringState = STATE_TRANSLATED,
     ) -> None:
-        if not request.user.has_perm(permission, self.unit):
-            messages.error(request, gettext("Could not accept suggestion!"))
-            return
+        from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.unit import Unit  # ruff: ignore[import-outside-top-level]
 
-        # Skip if there is no change
-        if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
-            if self.user and not self.user.is_anonymous:
-                author = self.user
-            else:
-                author = request.user
-            self.unit.translate(
-                request.user,
-                split_plural(self.target),
-                state,
-                author=author,
-                change_action=ActionEvents.ACCEPT,
-            )
+        with source_operation(self.unit.translation.component):
+            self.unit = Unit.objects.select_for_update().get(pk=self.unit_id)
+            # Keep the vote and suggestion pending when automatic acceptance
+            # encounters a string that became read-only.
+            if permission == "suggestion.vote" and self.unit.readonly:
+                return
+            if not request.user.has_perm(permission, self.unit):
+                messages.error(request, gettext("Could not accept suggestion!"))
+                return
 
-        # Delete the suggestion
-        self.delete()
+            # Skip if there is no change
+            if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
+                if self.user and not self.user.is_anonymous:
+                    author = self.user
+                else:
+                    author = request.user
+                self.unit.translate(
+                    request.user,
+                    split_plural(self.target),
+                    state,
+                    author=author,
+                    change_action=ActionEvents.ACCEPT,
+                )
+
+            # Delete the suggestion
+            self.delete()
 
     def delete_log(
         self,

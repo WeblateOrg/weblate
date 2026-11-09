@@ -86,6 +86,27 @@ completing an investigation does not postpone reporting deadlines.
 
    * :doc:`/contributing/issues`
 
+.. _security-research:
+
+Security research and testing
+-----------------------------
+
+When researching security issues in Weblate:
+
+* Use the `Sandbox translation project
+  <https://hosted.weblate.org/projects/sandbox/>`_ for testing on Hosted Weblate.
+* Only interact with accounts you own or have explicit permission from the
+  account holder to use.
+* Avoid privacy violations, data destruction, and service interruption or
+  degradation.
+* Do not perform denial-of-service attacks, spam, social engineering (including
+  phishing), or physical attacks.
+* Obtain explicit permission from the operator before testing other deployments.
+
+You may report availability vulnerabilities demonstrated safely in an
+environment you control. The prohibition on disruptive testing does not exclude
+these reports.
+
 Weblate-operated service incidents
 ----------------------------------
 

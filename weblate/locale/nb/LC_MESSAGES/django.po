@@ -19,10 +19,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-11-04 12:51+0000\n"
-"Last-Translator: Frank Paul Silye <frankps@users.noreply.hosted.weblate.org>"
-"\n"
+"Last-Translator: Frank Paul Silye "
+"<frankps@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb/>\n"
 "Language: nb\n"
@@ -457,6 +457,16 @@ msgstr "Varslingsinnstillinger"
 msgid "Saved search"
 msgstr "Søk"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Passord endret."
@@ -691,6 +701,20 @@ msgstr "Invitert til {project} av {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Passord stilt inn."
+
+#, fuzzy
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"I fall bekreftelsesnettadressen er utløpt, kan du bruke "
+"passordtilbakestillingen for å få tilgang til kontoen din."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1065,6 +1089,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Bidragsytere"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Operasjonen ble utført i kodelageret"
@@ -1377,6 +1406,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1414,6 +1448,11 @@ msgstr "Mørk"
 
 msgid "Please confirm your identity using a second factor before proceeding."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please confirm your logout."
+msgid "Please confirm your identity before proceeding."
+msgstr "Bekreft utlogging."
 
 #, python-format
 msgid "Security key (%s)"
@@ -1541,7 +1580,7 @@ msgstr "Logg ut"
 
 #, fuzzy
 #| msgid "User e-mail"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Bruker-e-post"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1549,6 +1588,9 @@ msgstr "Kan ikke nullstille passord, e-postbekreftelse er avskrudd."
 
 msgid "Change password"
 msgstr "Endre passord"
+
+msgid "Set password"
+msgstr "Sett passord"
 
 msgid "Password reset has been already completed."
 msgstr "Passordnullstillingen er allerede gjennomført."
@@ -2017,12 +2059,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -2039,7 +2075,7 @@ msgstr ""
 msgid "configured"
 msgstr "Sett opp"
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2049,10 +2085,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2963,9 +2995,6 @@ msgstr "Kontrolltegn"
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
@@ -3671,6 +3700,26 @@ msgstr "Bruker"
 msgid "Language"
 msgstr "Språk"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "Egendefinert"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Personlig info"
 
@@ -3688,6 +3737,12 @@ msgstr "Dette brukes ikke når en komponentliste er valgt."
 
 msgid "This is not used when a component is selected."
 msgstr "Dette brukes ikke når en komponent er valgt."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor agreement"
+msgid "View contributor identities"
+msgstr "Vis bidragsyteroverensstemmelse"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3915,6 +3970,24 @@ msgid "Manage workspace access"
 msgstr "Behandle prosjekttilgang"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Utforsk alle brukere"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Only chosen users can contribute."
+msgid "Search resource contributors"
+msgstr "Kun utvalgte brukere kan bidra."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Brukerprofil"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Bruk håndteringsgrensesnitt"
 
@@ -4001,6 +4074,18 @@ msgstr "Håndter fakturering"
 #| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
 msgstr "Installerte tillegg"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Oppdag Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Brukerprofil"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -4222,6 +4307,10 @@ msgstr "Navn"
 
 msgid "Choose permissions granted to this role."
 msgstr "Velg tilganger innvilget denne rollen."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "Roller"
@@ -4594,6 +4683,11 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Ytterligere etiketter kan defineres av prosjektadministratorer."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4619,6 +4713,15 @@ msgstr "Endring av %s tillates ikke for innebygde grupper."
 #| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
 msgstr "E-post med brukerinvitasjon ble sendt."
+
+#, fuzzy
+#| msgid "User invitation e-mail was sent."
+msgid "This invitation was already accepted or removed."
+msgstr "E-post med brukerinvitasjon ble sendt."
+
+#, fuzzy
+msgid "Remove the project block before accepting this invitation."
+msgstr "Fyll inn aktiveringssymbolet du fikk når du abonnerte."
 
 #, fuzzy, python-format
 #| msgid "Resend e-mail invitation to the user"
@@ -4879,6 +4982,68 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "Merknad"
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr "Velg"
+
+#, fuzzy
+#| msgid "Perform backup"
+msgid "Trigger"
+msgstr "Utfør sikkerhetskopi"
+
+#, fuzzy
+#| msgid "Add new string"
+msgid "Add trigger"
+msgstr "Legg til ny streng"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Oppsett"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Dårlig oppsett"
+
+msgid "Action"
+msgstr "Handling"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Handling"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Conditions"
+msgstr "Oppsett"
+
+msgid "Actions"
+msgstr "Handlinger"
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Ytterligere forgrening"
+
+#, fuzzy
+#| msgctxt "Plural form description"
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Andre"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
 
 msgid "Additional message"
 msgstr "Tilleggsmelding"
@@ -5655,6 +5820,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5856,6 +6025,12 @@ msgstr "Nåværende oversettelse"
 #| msgid "Comment on own translation"
 msgid "Fluent syntax error in the translation."
 msgstr "Kommentar på egen oversettelse"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 msgid "The following format strings are in the wrong order:"
 msgstr "De følgende formatstrengene er i feil rekkefølge:"
@@ -6932,6 +7107,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation files"
+msgid "Install Translation files CDN"
+msgstr "Oversettelsesfiler"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6939,6 +7124,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "There are some alerts on this component"
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Det er ingen oversettelser i denne komponenten."
 
 msgid "Weblate languages"
 msgstr "Weblate-språk"
@@ -8802,9 +8992,20 @@ msgid "Your profile"
 msgstr "Din profil"
 
 #, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Skriv inn en gyldig e-postadresse."
+
+#, fuzzy
 #| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
 msgstr "Kunne ikke fjerne brukeridentitet"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -8814,6 +9015,11 @@ msgid ""
 msgstr ""
 "Etter å ha bekreftet dette, vil du kunne bekrefte din identitet ovenfor "
 "Weblate ved bruk av %(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "User e-mail"
+msgid "Add e-mail address"
+msgstr "Bruker-e-post"
 
 #, fuzzy
 #| msgid "Configure"
@@ -8941,16 +9147,16 @@ msgstr ""
 msgid "Registration"
 msgstr "Registrering"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Din e-post"
+
 msgid "Password reset almost complete"
 msgstr "Passordnullstillingen er nesten fullført"
 
 msgid "Account removal almost complete"
 msgstr "Kontofjerning nesten fullført"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Registrering nesten fullført"
 
 msgid "Registration almost complete"
 msgstr "Registrering nesten fullført"
@@ -8966,13 +9172,11 @@ msgstr ""
 "Fjern kontoen din ved å klikk på bekreftelseslenken i e-posten som ble sendt "
 "til deg."
 
-#, fuzzy
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Klikk bekreftelseslenken i e-posten sendt til deg for å begynne å bruke "
-"kontoen din."
 
 #, fuzzy
 msgid ""
@@ -8985,6 +9189,16 @@ msgstr ""
 #, fuzzy
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr "Sjekk søppelposten hvis du ikke finner den i innboksen."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Bekreftelseslenken utløper etter %(count)s time."
+msgstr[1] "Bekreftelseslenken utløper etter %(count)s timer."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -9008,6 +9222,17 @@ msgid "Register again if the confirmation link expires."
 msgstr "Se etter bekreftelseslenken i innboksen din."
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to account settings"
+msgstr "Rediger komponentinnstillinger"
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -9023,15 +9248,49 @@ msgstr "Hvis det er et problem med registreringen, ta kontakt med oss."
 msgid "Please fix errors in the form."
 msgstr "Fiks feilene i skjemaet."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Send test-e-post"
 
 #, fuzzy
-#| msgid "Edit component settings"
-msgid "Back to account settings"
-msgstr "Rediger komponentinnstillinger"
+#| msgid "Could not remove user identity"
+msgid "Confirm your identity"
+msgstr "Kunne ikke fjerne brukeridentitet"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Prøveabonnement"
@@ -9251,6 +9510,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Bytt passord"
 
+msgid "Set my password"
+msgstr "Sett passordet mitt"
+
 #, fuzzy
 #| msgid "Edit component settings"
 msgid "Back to security settings"
@@ -9297,11 +9559,6 @@ msgstr "Aktivitet"
 #, fuzzy
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Velg bekreftet e-postadresse for innsendelser."
-
-#, fuzzy
-#| msgid "User e-mail"
-msgid "Add and verify e-mail address"
-msgstr "Bruker-e-post"
 
 msgid "Save"
 msgstr "Lagre"
@@ -9406,9 +9663,6 @@ msgstr "Sett opp"
 #| msgid "Configure"
 msgid "Not configured"
 msgstr "Sett opp"
-
-msgid "Set password"
-msgstr "Sett passord"
 
 #, fuzzy
 #| msgid "Authentication"
@@ -9728,9 +9982,6 @@ msgid ""
 msgstr ""
 "Glemt passordet ditt? Skriv inn e-postadressen din under, og vi vil sende "
 "deg instruksjoner for å sette et nytt."
-
-msgid "Set my password"
-msgstr "Sett passordet mitt"
 
 msgid "Reset my password"
 msgstr "Nullstill passordet mitt"
@@ -10358,51 +10609,15 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "Perform backup"
-msgid "Trigger"
-msgstr "Utfør sikkerhetskopi"
-
-#, fuzzy
-#| msgid "Add new string"
-msgid "Add trigger"
-msgstr "Legg til ny streng"
-
-#, fuzzy
-#| msgid "Configuration"
-msgid "Conditions"
-msgstr "Oppsett"
-
-#, fuzzy
 #| msgid "All components are now locked for translation updates!"
 msgid "All conditions have to pass before any action runs."
 msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
-
-#, fuzzy
-#| msgid "Configuration"
-msgid "Condition"
-msgstr "Oppsett"
-
-#, fuzzy
-#| msgid "Bad configuration"
-msgid "Add condition"
-msgstr "Dårlig oppsett"
-
-msgid "Actions"
-msgstr "Handlinger"
 
 #, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "Operasjonen ble utført i kodelageret"
-
-msgid "Action"
-msgstr "Handling"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "Handling"
 
 #, fuzzy
 #| msgid "Move"
@@ -10540,6 +10755,17 @@ msgstr "Prosjektnettadresse-betegnelse"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -10719,6 +10945,19 @@ msgstr "Løs kommentar"
 msgid "Request payload"
 msgstr "Forespurt av:"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Tillatelser"
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -10729,6 +10968,11 @@ msgstr "Automatiske gruppetilknytninger"
 
 msgid "Access control"
 msgstr "Tilgangskontroll"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -10782,6 +11026,9 @@ msgstr "Dette vil slette <b>%(user)s</b> tilgang til dette prosjektet."
 
 msgid "Add"
 msgstr "Legg til"
+
+msgid "Moved component"
+msgstr "Flyttet komponent"
 
 msgid "All components"
 msgstr "Alle komponenter"
@@ -11166,6 +11413,27 @@ msgstr "Laster …"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "User invitation e-mail was sent."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "E-post med brukerinvitasjon ble sendt."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -12847,6 +13115,37 @@ msgstr "Komponenten %(component)s ble opplåst"
 msgid "Digest: %(notification_name)s"
 msgstr "Sammendrag: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Bekreft passordstilbakestilling"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 #, fuzzy
 #| msgid "Resend invitation"
 msgid "View invitation"
@@ -12857,6 +13156,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Invitasjonen utløper etter %(count)s time."
 msgstr[1] "Invitasjonen utløper etter %(count)s timer."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, fuzzy, python-format
@@ -13116,6 +13419,11 @@ msgstr "Bekreft kontofjerning"
 msgid "Confirm invitation"
 msgstr "Bekreft invitasjon"
 
+#, fuzzy
+#| msgid "User e-mail"
+msgid "Verify e-mail address"
+msgstr "Bruker-e-post"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -13184,6 +13492,17 @@ msgstr "Uferdig"
 #| msgid "Translation summary"
 msgid "Translation activity summary"
 msgstr "Oversettelsesoversikt"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Aktivitet på din konto på %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Kontofjerning på %(site_title)s"
 
 #, fuzzy
 #| msgid "Component lists"
@@ -13399,6 +13718,68 @@ msgstr "Utforsk oppdagelsessiden"
 msgid "Performance report"
 msgstr "Ytelsesrapport"
 
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Bot protection"
+msgstr "Husing av oversettelser"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "Not available"
+msgid "Counters are unavailable."
+msgstr "Ikke tilgjengelig"
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Gjeldende passord"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous 24 completed hours"
+msgstr "Tidligere ikke oversatt"
+
+#, fuzzy
+#| msgid "Pushed changes"
+msgid "Issued challenges"
+msgstr "Sendte endringer"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Kildeendring"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Ugyldig forslag!"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Replayed challenge"
+msgstr "Nylige endringer"
+
+#, fuzzy
+#| msgid "Merge failure"
+msgid "CSRF failure"
+msgstr "Flettingsfeil"
+
+#, fuzzy
+#| msgid "Service is currently not available."
+msgid "Service unavailable"
+msgstr "Tjenesten er for øyeblikket ikke tilgjengelig."
+
 msgid "Last occurrence"
 msgstr "Siste forekomst"
 
@@ -13596,6 +13977,338 @@ msgstr "Komponenten er lenket til %(target)s-kodelageret."
 msgid "This repository is linked to:"
 msgstr "Dette kodelageret er tilknyttet:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Bekreft registrering"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Nullstill passordet mitt"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove identities and reset accounts"
+msgstr "Fjern min konto"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Avvis kontroll som feiler"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Rediger lagmedlemskap for %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "User identities"
+msgid "Identifier"
+msgstr "Brukeridentiteter"
+
+#, fuzzy
+#| msgid "Mismatching line breaks"
+msgid "Matching method"
+msgstr "Ikke samsvarende linjeskift"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching row details."
+msgstr "Ikke tilgjengelig"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Brukt %(used)s av %(total)s"
+
+#, fuzzy
+#| msgid "Merged repository"
+msgid "Detected in reports"
+msgstr "Flettet kodelager"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Administratorer"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Weblate-administrasjon"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Brukt %(used)s av %(total)s"
+
+#, fuzzy
+#| msgid "Previously not translated"
+msgid "Previous reports"
+msgstr "Tidligere ikke oversatt"
+
+#, fuzzy
+#| msgid "Data exports"
+msgid "Next reports"
+msgstr "Eksport av data"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security findings"
+msgstr "Rediger komponentinnstillinger"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Oversettelsesrapporter"
+
+msgid "Filename"
+msgstr "Filnavn"
+
+#, fuzzy
+#| msgid "Not yet signed in"
+msgid "Not recorded"
+msgstr "Ennå ikke logget inn"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Send"
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Oversettelse fullført"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Aktivering fullført."
+
+#, fuzzy
+#| msgid "Failing file"
+msgid "Processing failed."
+msgstr "Feilaktig fil"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Framdrift"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Brukt %(used)s av %(total)s"
+
+#, fuzzy
+#| msgid "Ending date"
+msgid "Finding type"
+msgstr "Sluttdato"
+
+#, fuzzy
+#| msgid "Filters"
+msgid "Filter"
+msgstr "Filtre"
+
+#, fuzzy
+#| msgid "Search in source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Søk i kildestrenger"
+
+#, fuzzy
+#| msgid "Search in source strings"
+msgid "Select all on this page"
+msgstr "Søk i kildestrenger"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Prosjektutvalg"
+
+#, fuzzy
+#| msgid "Browse pending"
+msgid "Finding"
+msgstr "utestående"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "active"
+msgid "Inactive"
+msgstr "aktiv"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Merknad"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Dato innmeldt"
+
+#, fuzzy
+#| msgid "Last login"
+msgid "Last sign-in:"
+msgstr "Siste innlogging"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Skrift slettet."
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Last detected:"
+msgstr "Forfalt"
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Reset passwords for selected accounts"
+msgstr "Fjern konto"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Account security operation"
+msgstr "Rediger komponentinnstillinger"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh progress"
+msgstr "Kodelager"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Last ned rapporter"
+
+#, fuzzy
+#| msgid "Process"
+msgid "Processed rows"
+msgstr "Prosess"
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Håndter strenger"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Affected accounts"
+msgstr "Fjern konto"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "Brukt %(used)s av %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Oversettelsesrapporter"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "Nytt passord"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "Nytt passord"
+
 msgid "Activate support package"
 msgstr "Aktiver støttepakke"
 
@@ -13756,6 +14469,20 @@ msgstr "Send invitasjon på ny"
 msgid "Check user access"
 msgstr "Sjekk brukertilgang"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Kontoaktivitet"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -13787,9 +14514,6 @@ msgstr "Matrise"
 
 msgid "Displayed languages"
 msgstr "Viste språk"
-
-msgid "Choose"
-msgstr "Velg"
 
 msgid "Translation memory status"
 msgstr "Oversettelsesminnestatus"
@@ -14519,11 +15243,6 @@ msgstr[0] "Oversettelsen ble automatisk låst på grunn av følgende varsler:"
 msgstr[1] "Oversettelsen ble automatisk låst på grunn av følgende varsler:"
 
 #, fuzzy
-#| msgid "Filters"
-msgid "Filter"
-msgstr "Filtre"
-
-#, fuzzy
 #| msgid "Search filter"
 msgid "Clear filters"
 msgstr "Søkefilter"
@@ -14882,6 +15601,24 @@ msgstr "Bidragsytere"
 msgid "Translations"
 msgstr "Oversettelser"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Du ble invitert til %(site_title)s av %(invitation_author)s for å samarbeide "
+"på %(project_name)s og ta del i %(team_name)s-laget."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -14935,6 +15672,11 @@ msgstr "Blokker bruker"
 
 msgid "View notification"
 msgstr "Vis varsel"
+
+#, fuzzy
+#| msgid "All languages"
+msgid "View full change"
+msgstr "Alle språk"
 
 msgid "No matching activity found."
 msgstr "Ingen tilsvarende aktivitet funnet."
@@ -15641,6 +16383,13 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+#, fuzzy
+#| msgid "You can not complete registration while signed in."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr "Du kan ikke fullføre registrering mens du er logget inn."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -15663,6 +16412,11 @@ msgstr "Bekreft passordstilbakestilling"
 #| msgid "Confirm account removal"
 msgid "Continue account removal"
 msgstr "Bekreft kontofjerning"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Menneskelig verifisering"
 
 #, fuzzy
 #| msgid "Resend invitation"
@@ -15761,9 +16515,6 @@ msgstr "Weblate klarte ikke å validere prosjektets nettstedsadresse:"
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr ""
 "Weblate innholdsleveransenettverk-programtillegg kunne tolke HTML-filer."
-
-msgid "Filename"
-msgstr "Filnavn"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -16385,6 +17136,11 @@ msgstr "Hopp til"
 msgid "Go"
 msgstr "Bra"
 
+#, fuzzy
+#| msgid "Check details"
+msgid "Change details"
+msgstr "Sjekk detaljer"
+
 msgid "Download latest changes as CSV"
 msgstr "Last ned siste endringer som CSV"
 
@@ -16502,9 +17258,6 @@ msgstr ""
 #| msgid "Bad configuration"
 msgid "Add or configure account"
 msgstr "Dårlig oppsett"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Last change"
@@ -16844,9 +17597,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Rediger kilde"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -17272,6 +18022,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Hurtignedlastinger"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Fil i opprinnelig format, som oversatt i kodelageret"
@@ -18192,9 +18947,6 @@ msgstr "Komponentnavn"
 msgid "A component was moved within a project."
 msgstr "Alle komponenter i gjeldende prosjekt"
 
-msgid "Moved component"
-msgstr "Flyttet komponent"
-
 #, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Contributor made their first translation"
@@ -19025,6 +19777,17 @@ msgid ""
 "form strings."
 msgstr ""
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Automatisk oversettelse hoppet over fordi målet ikke lenger finnes."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Automatic translation mode"
 msgid "Automatic translation failed: %s"
@@ -19238,6 +20001,10 @@ msgstr "Ugyldig fletteforespørsel!"
 msgid "Choose either replacement or clearing translations."
 msgstr "Hvordan håndtere forespørsler for opprettelse av nye oversettelser."
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr "Komponenten ble automatisk låst på grunn av et varsel."
 
@@ -19317,6 +20084,9 @@ msgstr "Opprinnelig revisjon: {}"
 #| msgid "Personal: {}"
 msgid "New revision: {}"
 msgstr "Personlig: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "%(count)s character edited"
@@ -19455,6 +20225,12 @@ msgstr "Vis oversettelseskomponent"
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) finnes ikke."
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s på %(time)s i %(translation)s av %(user)s"
 
 #. Translators: %s is site title here
 #, fuzzy, python-format
@@ -19657,6 +20433,54 @@ msgstr "MAC (\\r)"
 #, fuzzy
 msgid "Include closing tag for blank XML tags"
 msgstr "Inkluder avsluttende tagg for blanke XML-tagger"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Somali"
+msgid "Format default"
+msgstr "Somali"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Avansert bruker"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Starter linjeskift"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Conflict handling"
@@ -20322,6 +21146,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 #, fuzzy
@@ -21199,12 +22026,6 @@ msgstr "Komponent låst"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s på %(time)s i %(translation)s av %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s på %(time)s i %(translation)s av %(user)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -21985,6 +22806,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr "Regulært uttrykk kan ikke samsvare med en tom streng."
+
+#, fuzzy
 #| msgid ""
 #| "A request for a new translation has been sent to the project's "
 #| "maintainers."
@@ -22701,6 +23527,33 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Masseredigering fullført. Ingen strenger ble endret."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "Lisens ble endret"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Masseredigering fullført, %d streng ble oppdatert."
+msgstr[1] "Masseredigering fullført, %d strenger ble oppdatert."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Automatisk oversettelse hoppet over fordi målet ikke lenger finnes."
 
@@ -23027,6 +23880,9 @@ msgstr "Du kan ikke fjerne deg selv!"
 msgid "You can not block yourself on this project."
 msgstr "Du kan ikke blokkere deg selv i dette prosjektet."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
@@ -23083,6 +23939,11 @@ msgstr[0] ""
 msgstr[1] ""
 "Språket %(language)s kan ikke legges til i %(count)d komponenter. Sjekk "
 "komponentenes oppsett."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to add this language."
+msgstr "Du har ikke rettighet til å godta forslag!"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -23402,12 +24263,22 @@ msgstr "Komponenten er nå låst for oversettelseoppdateringer!"
 msgid "All components are now locked for translation updates!"
 msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
+
 msgid "Component is now open for translation updates."
 msgstr "Komponenten er nå åpen for oversettelseoppdateringer."
 
 #, fuzzy
 #| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
+msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
+
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now open for translation updates."
 msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
 
 #, fuzzy
@@ -23495,6 +24366,11 @@ msgstr "For mange søk sendt, prøv igjen senere."
 msgid "Invalid search query!"
 msgstr "Ugyldig søk!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "For mange søk sendt, prøv igjen senere."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
@@ -23503,6 +24379,11 @@ msgstr ""
 msgid "Could not process form!"
 msgstr "Kunne ikke behandle skjemaet!"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit in progress."
+msgstr "Rediger strenger"
+
 #, fuzzy, python-format
 #| msgid "Authentication failed: %s"
 msgid "Bulk edit failed: %s"
@@ -23510,12 +24391,6 @@ msgstr "Autentisering feilet: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Masseredigering fullført. Ingen strenger ble endret."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Masseredigering fullført, %d streng ble oppdatert."
-msgstr[1] "Masseredigering fullført, %d strenger ble oppdatert."
 
 msgid "Settings saved"
 msgstr "Oppsett lagret"
@@ -23846,6 +24721,15 @@ msgstr "Ugyldig regulært uttrykk: {}"
 #| msgid "Automatic translation source"
 msgid "Automatic translation reported a warning."
 msgstr "Automatisk oversettelseskilde"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr ""
+"Oversetter strenger automatisk ved hjelp av maskinoversettelse eller andre "
+"komponenter."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -24311,6 +25195,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 #, fuzzy
@@ -25389,6 +26276,70 @@ msgstr ""
 "Vedvarende navigasjonrullegardinsmeny i hjørnet øverst til høyre, selv om "
 "det er plass til full meny."
 
+#, fuzzy
+#| msgid "Data exports"
+msgid "CSV report"
+msgstr "Eksport av data"
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Grense for antall språk"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Brukernavn eller e-postadresse"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Passord"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Oppsett"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Løs"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Bruker ble deaktivert av administrator."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Passord endret."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Gemenskapsstøtte"
@@ -25457,11 +26408,187 @@ msgstr "Renset sikkerhetskopilager"
 msgid "Repository initialization"
 msgstr "Igangsetting av lager"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Nytt passord"
+
+#, fuzzy
+#| msgid "User e-mail"
+msgid "Lookalike verified e-mail address"
+msgstr "Bruker-e-post"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The file contains malformed CSV quoting."
+msgstr "ZIP-fil inneholdende oversettelser"
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The report is empty."
+msgstr ".NET-ressursfil"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to access this component!"
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Du har ikke tilgangsrettigheter til denne komponenten!"
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security FAQ"
+msgid "Security report"
+msgstr "Sikkerhets-O-S-S"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Registrerte seg %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, streng %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "For mange meldinger sendt, prøv igjen senere."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "For mange meldinger sendt, prøv igjen senere."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Passord endret."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Duplisert oversettelse."
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Unknown accounts"
+msgstr "Fjern konto"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Fjern konto"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "Nytt passord"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Nullstill passord"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Passord endret."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Avvist"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "Tillegg hoppet over"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Ustøttet fil!"
+
+#, fuzzy
+#| msgid "User e-mail"
+msgid "Primary e-mail address"
+msgstr "Bruker-e-post"
+
+#, fuzzy
+#| msgid "User e-mail"
+msgid "Verified e-mail address"
+msgstr "Bruker-e-post"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Rediger lagmedlemskap for %(username)s"
+
 msgid "Weblate administration"
 msgstr "Weblate-administrasjon"
 
 msgid "Object listing turned off"
 msgstr "Objektlisting skrudd av"
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid "The security operation expired. Start a new operation."
+msgstr "Registreringslenken er gjort ugyldig."
 
 msgid "Return to Weblate"
 msgstr "Returner til Weblate"
@@ -25716,6 +26843,19 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Kilden er blitt fjernet."
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Registrering nesten fullført"
+
+#, fuzzy
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Klikk bekreftelseslenken i e-posten sendt til deg for å begynne å bruke "
+#~ "kontoen din."
 
 #~ msgid "Search and replace"
 #~ msgstr "Søk og erstatt"
@@ -26035,9 +27175,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgstr ""
 #~ "Bli med oss å forme fremtidens oversettelsesplattform ved å bidra i dag."
 
-#~ msgid "Download reports"
-#~ msgstr "Last ned rapporter"
-
 #~ msgid "Suggested change"
 #~ msgstr "Foreslått endring"
 
@@ -26148,9 +27285,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgstr ""
 #~ "Ikke uroe deg for å ødelegge strengene. Dette er en to-stegsprosess som "
 #~ "forhåndsviser redigerte strenger før den faktiske endringen bekreftes."
-
-#~ msgid "Activation completed."
-#~ msgstr "Aktivering fullført."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -27073,9 +28207,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Starting date"
 #~ msgstr "Startdato"
 
-#~ msgid "Ending date"
-#~ msgstr "Sluttdato"
-
 #~ msgid "Last 30 days"
 #~ msgstr "Siste 30 dager"
 
@@ -27170,9 +28301,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Please provide valid component slug!"
 #~ msgstr "Analysefeil i %(component)s"
 
-#~ msgid "Please confirm your logout."
-#~ msgstr "Bekreft utlogging."
-
 #~ msgid "I confirm logout"
 #~ msgstr "Jeg bekrefter utlogging"
 
@@ -27228,9 +28356,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "Committed changes"
 #~ msgstr "Innsendte endringer"
-
-#~ msgid "Pushed changes"
-#~ msgstr "Sendte endringer"
 
 #~ msgid "Failed merge on repository"
 #~ msgstr "Manglende samsvar i kodelageret"
@@ -27376,9 +28501,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "New language"
 #~ msgstr "Nytt språk"
-
-#~ msgid "Check details"
-#~ msgstr "Sjekk detaljer"
 
 #~ msgid ""
 #~ "Customizable quality checks will help you improve the quality of "
@@ -28683,9 +29805,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Toggle edit needed flag"
 #~ msgstr "Avmerking av/på for trenger redigering"
 
-#~ msgid "Merge failure"
-#~ msgstr "Flettingsfeil"
-
 #~ msgid "Standard user"
 #~ msgstr "Standardbruker"
 
@@ -28841,9 +29960,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "User has all permissions without having been given them."
 #~ msgstr "Bruker har alle rettigheter uten å ha fått dem."
 
-#~ msgid "active"
-#~ msgstr "aktiv"
-
 #~ msgid ""
 #~ "Choose languages you speak in the preferences, to see an overview of all "
 #~ "projects that feature those languages here."
@@ -28911,9 +30027,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "Host:"
 #~ msgstr "Vertstjener:"
-
-#~ msgid "Process"
-#~ msgstr "Prosess"
 
 #~ msgid "Automatically add language file"
 #~ msgstr "Legg til språkfil automatisk"

@@ -1278,6 +1278,9 @@ Generic settings
 .. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_WINDOW
 .. envvar:: WEBLATE_RATELIMIT_BULK_EDIT_LOCKOUT
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_WINDOW
+.. envvar:: WEBLATE_RATELIMIT_MACHINERY_LOCKOUT
 
    .. versionadded:: 4.6
 
@@ -1300,6 +1303,9 @@ Generic settings
       * :setting:`RATELIMIT_BULK_EDIT_ATTEMPTS`
       * :setting:`RATELIMIT_BULK_EDIT_WINDOW`
       * :setting:`RATELIMIT_BULK_EDIT_LOCKOUT`
+      * :setting:`RATELIMIT_MACHINERY_ATTEMPTS`
+      * :setting:`RATELIMIT_MACHINERY_WINDOW`
+      * :setting:`RATELIMIT_MACHINERY_LOCKOUT`
 
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER
@@ -1578,6 +1584,11 @@ Generic settings
 
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
+
+.. envvar:: WEBLATE_TRANSLATION_MAX_SIZE
+
+   Configures :setting:`TRANSLATION_MAX_SIZE` in bytes. When unset, follows
+   :envvar:`WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`.
 
 .. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
 

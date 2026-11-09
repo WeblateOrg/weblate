@@ -5238,6 +5238,18 @@ class ProjectAPITest(APIBaseTest):
 
     def test_language_workflow_source_language(self) -> None:
         self.authenticate(True)
+        child = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "German source", STATE_TRANSLATED, propagate=False)
+        child.translate(
+            self.user, "Child translation", STATE_TRANSLATED, propagate=False
+        )
+        self.component.commit_pending("before workflow", self.user)
+        child.change_set.all().delete()
         url = reverse(
             "api:project-language-workflow",
             kwargs={"slug": self.project.slug, "language": "cs"},
@@ -5249,6 +5261,12 @@ class ProjectAPITest(APIBaseTest):
         response = self.client.patch(url, {"source_language": "de"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["source_language"], "de")
+        pending = child.pending_changes.get()
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.get_actor(), self.user)
+        change = child.change_set.get(action=ActionEvents.SOURCE_CHANGE)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
         self.assertEqual(
             self.project.workflowsetting_set.get(
                 language__code="cs"

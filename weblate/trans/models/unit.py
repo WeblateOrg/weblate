@@ -1361,6 +1361,15 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": automatically_translated,
         }
 
+    @property
+    def file_state(self) -> int:
+        """Stored state without dependency-only editor restrictions."""
+        if self.state == STATE_READONLY and self.details.get(
+            "translation_parent", {}
+        ).get("blocked"):
+            return self.original_state
+        return self.state
+
     def store_disk_state(self, *, save: bool = True) -> None:
         """
         Store a snapshot of unit state before pending changes are created.
@@ -2691,7 +2700,9 @@ class Unit(models.Model, LoggerMixin):
 
                 request_reconciliation(
                     self.translation.component,
-                    DependencyWork(children={unit.pk for unit in units}, author=author),
+                    DependencyWork(
+                        children={unit.pk for unit in units}, author=author, actor=user
+                    ),
                 )
                 delta_failed = True
             if changes:

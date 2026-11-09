@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
 "PO-Revision-Date: 2026-10-30 05:07+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -440,6 +440,16 @@ msgstr "Pagsalin na notifications"
 msgid "Saved search"
 msgstr "Maghanap"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Binago ang password."
@@ -676,6 +686,23 @@ msgstr "Inimbita ni/ng {username} sa {project}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Na-configure ang password."
+
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Kung ikaw ito, mangyaring gumamit ng password reset para makakuha muli ng "
+"access sa iyong account."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1055,6 +1082,11 @@ msgid ""
 "a translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contribute"
+msgid "Contributor"
+msgstr "Mag-ambag"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Ginawa ang operasyon sa repositoryo"
@@ -1327,6 +1359,11 @@ msgid ""
 "inviter; it can't be used by your account."
 msgstr ""
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1355,6 +1392,9 @@ msgid "Dark"
 msgstr "Madilim"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 
 #, python-format
@@ -1470,13 +1510,16 @@ msgstr "Mag-sign out"
 
 #, fuzzy
 #| msgid "Contact"
-msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Contact"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 msgid "Change password"
+msgstr ""
+
+msgid "Set password"
 msgstr ""
 
 msgid "Password reset has been already completed."
@@ -1867,12 +1910,6 @@ msgid ""
 msgstr ""
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
 
@@ -1889,7 +1926,7 @@ msgstr ""
 msgid "configured"
 msgstr "Na-configure ang password."
 
-msgid "Could not reset Fedora Messaging publisher service."
+msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -1899,10 +1936,6 @@ msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
 msgstr ""
 
 #, python-format
@@ -2687,9 +2720,6 @@ msgstr ""
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr ""
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
@@ -3300,6 +3330,26 @@ msgstr "Mga user"
 msgid "Language"
 msgstr ""
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom"
+msgid "Customized"
+msgstr "Custom"
+
+msgid "Reset built-in roles to defaults"
+msgstr ""
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr ""
 
@@ -3317,6 +3367,12 @@ msgstr "Hindi ito ginagamit kapag pinili ang isang listahan ng component."
 
 msgid "This is not used when a component is selected."
 msgstr ""
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "View contributor identities"
+msgstr "Mag-ambag sa Weblate"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3539,6 +3595,22 @@ msgid "Manage workspace access"
 msgstr ""
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Other projects"
+msgid "Browse users"
+msgstr "Ibang mga proyekto"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Search resource contributors"
+msgstr "Mga Screenshot"
+
+#. Translators: Permission name
+msgid "View user profiles"
+msgstr ""
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr ""
 
@@ -3614,6 +3686,16 @@ msgstr ""
 
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
+msgstr ""
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Tuklasin ang Weblate"
+
+msgctxt "Access-control role"
+msgid "View user profiles"
 msgstr ""
 
 msgctxt "Access-control role"
@@ -3836,6 +3918,10 @@ msgid "Name"
 msgstr ""
 
 msgid "Choose permissions granted to this role."
+msgstr ""
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
 msgstr ""
 
 msgid "Roles"
@@ -4144,6 +4230,9 @@ msgid ""
 "access; otherwise, you would lock yourself out."
 msgstr ""
 
+msgid "Blocked users cannot be granted project administration rights."
+msgstr ""
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4166,6 +4255,14 @@ msgstr ""
 #| msgid "Shared translation memory"
 msgid "User invitation was removed."
 msgstr "Ibinahaging translation memory"
+
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "This invitation was already accepted or removed."
+msgstr "Ibinahaging translation memory"
+
+msgid "Remove the project block before accepting this invitation."
+msgstr ""
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4407,6 +4504,61 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "Note"
+
+msgid "Sequence"
+msgstr ""
+
+msgid "Choose"
+msgstr ""
+
+msgid "Trigger"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add trigger"
+msgstr "Magdagdag ng koponan"
+
+#, fuzzy
+msgid "Condition"
+msgstr "Kumpermahin ang bagong password"
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add condition"
+msgstr "Magdagdag ng koponan"
+
+msgid "Action"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add action"
+msgstr "Magdagdag ng koponan"
+
+#, fuzzy
+msgid "Conditions"
+msgstr "Kumpermahin ang bagong password"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add team"
+msgid "Add branch"
+msgstr "Magdagdag ng koponan"
+
+msgid "Otherwise"
+msgstr ""
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr ""
 
 msgid "Additional message"
 msgstr ""
@@ -5083,6 +5235,10 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
 
 #, python-brace-format
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr ""
+
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5275,6 +5431,12 @@ msgstr "Kasalukuyang password"
 #| msgid "Current password"
 msgid "Fluent syntax error in the translation."
 msgstr "Kasalukuyang password"
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 #, fuzzy
 #| msgid "Shared translation memory"
@@ -6189,6 +6351,16 @@ msgid ""
 "either this limit or the maximum age is reached."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translations made"
+msgid "Install Translation files CDN"
+msgstr "Mga pagsasalin na ginawa"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6196,6 +6368,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Hindi sinusuportahan ang piniling pagaayos."
 
 msgid "Weblate languages"
 msgstr ""
@@ -7855,7 +8032,18 @@ msgstr ""
 msgid "Your profile"
 msgstr ""
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Maglagay ng valid na e-mail address."
+
 msgid "Confirm adding user identity"
+msgstr ""
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
 msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
@@ -7864,6 +8052,11 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+
+#, fuzzy
+#| msgid "Contact"
+msgid "Add e-mail address"
+msgstr "Contact"
 
 msgid "Confirm"
 msgstr ""
@@ -7966,16 +8159,16 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Iyong e-mail"
+
 msgid "Password reset almost complete"
 msgstr ""
 
 msgid "Account removal almost complete"
 msgstr ""
-
-#, fuzzy
-#| msgid "Verification completed"
-msgid "E-mail verification almost complete"
-msgstr "Tapos na ang pagpapatunay"
 
 msgid "Registration almost complete"
 msgstr ""
@@ -7989,8 +8182,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
 
 msgid ""
@@ -8000,6 +8194,14 @@ msgstr ""
 
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+
+#, python-format
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8019,6 +8221,15 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr ""
+
+msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
@@ -8032,12 +8243,46 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr ""
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Human verification"
 msgid "Send verification e-mail"
 msgstr "Pagpapatunay ng tao"
 
-msgid "Back to account settings"
+msgid "Confirm your identity"
+msgstr ""
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
 msgstr ""
 
 msgid "Trial subscriptions"
@@ -8245,6 +8490,9 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
+msgid "Set my password"
+msgstr ""
+
 #, fuzzy
 #| msgid "Project"
 msgid "Back to security settings"
@@ -8290,11 +8538,6 @@ msgstr ""
 #| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Mamili ng commit e-mail mula sa mga beripikadong addresses."
-
-#, fuzzy
-#| msgid "Contact"
-msgid "Add and verify e-mail address"
-msgstr "Contact"
 
 msgid "Save"
 msgstr "I-save"
@@ -8388,9 +8631,6 @@ msgstr "Na-configure ang password."
 #| msgid "Password configured."
 msgid "Not configured"
 msgstr "Na-configure ang password."
-
-msgid "Set password"
-msgstr ""
 
 msgid "Two-factor authentication"
 msgstr ""
@@ -8657,9 +8897,6 @@ msgstr ""
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr ""
-
-msgid "Set my password"
 msgstr ""
 
 msgid "Reset my password"
@@ -9188,31 +9425,7 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr ""
-
-#, fuzzy
-#| msgid "Add team"
-msgid "Add trigger"
-msgstr "Magdagdag ng koponan"
-
-#, fuzzy
-msgid "Conditions"
-msgstr "Kumpermahin ang bagong password"
-
 msgid "All conditions have to pass before any action runs."
-msgstr ""
-
-#, fuzzy
-msgid "Condition"
-msgstr "Kumpermahin ang bagong password"
-
-#, fuzzy
-#| msgid "Add team"
-msgid "Add condition"
-msgstr "Magdagdag ng koponan"
-
-msgid "Actions"
 msgstr ""
 
 #, fuzzy
@@ -9220,14 +9433,6 @@ msgstr ""
 #| msgid "Operation was performed in the repository"
 msgid "Operations performed in this order once the conditions pass."
 msgstr "Ginawa ang operasyon sa repositoryo"
-
-msgid "Action"
-msgstr ""
-
-#, fuzzy
-#| msgid "Add team"
-msgid "Add action"
-msgstr "Magdagdag ng koponan"
 
 #, fuzzy
 #| msgid "Other projects"
@@ -9360,6 +9565,17 @@ msgstr ""
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9521,6 +9737,19 @@ msgstr ""
 msgid "Request payload"
 msgstr ""
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Started trial period."
+msgid "Reset permissions"
+msgstr "Nasimulan ang trial period."
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Settings"
 msgstr ""
 
@@ -9531,6 +9760,11 @@ msgstr "Kasalukuyang password"
 
 msgid "Access control"
 msgstr "Kontrol sa pag-access"
+
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9575,6 +9809,9 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr ""
 
 msgid "Add"
+msgstr ""
+
+msgid "Moved component"
 msgstr ""
 
 msgid "All components"
@@ -9932,6 +10169,27 @@ msgstr "Pinapatunay…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "Ibinahaging translation memory"
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -11373,6 +11631,37 @@ msgstr ""
 msgid "Digest: %(notification_name)s"
 msgstr ""
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configured password to sign in."
+msgid "Open password recovery"
+msgstr "Na-configure ang password para mag-sign in."
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr ""
 
@@ -11381,6 +11670,10 @@ msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] ""
 msgstr[1] ""
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11606,6 +11899,11 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr ""
 
+#, fuzzy
+#| msgid "Contact"
+msgid "Verify e-mail address"
+msgstr "Contact"
+
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
@@ -11669,6 +11967,16 @@ msgstr ""
 #| msgid "Translation memory"
 msgid "Translation activity summary"
 msgstr "Translation memory"
+
+#, python-format
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr ""
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Contact"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Contact"
 
 #, fuzzy
 #| msgid "Component list"
@@ -11868,6 +12176,54 @@ msgstr ""
 msgid "Performance report"
 msgstr ""
 
+#, fuzzy
+#| msgid "Current password"
+msgid "Bot protection"
+msgstr "Kasalukuyang password"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+msgid "Counters are unavailable."
+msgstr ""
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Kasalukuyang password"
+
+msgid "Previous 24 completed hours"
+msgstr ""
+
+msgid "Issued challenges"
+msgstr ""
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+msgid "Expired challenge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid solution"
+msgstr "Invalid na larawan!"
+
+msgid "Replayed challenge"
+msgstr ""
+
+msgid "CSRF failure"
+msgstr ""
+
+msgid "Service unavailable"
+msgstr ""
+
 msgid "Last occurrence"
 msgstr ""
 
@@ -12033,6 +12389,312 @@ msgstr ""
 msgid "This repository is linked to:"
 msgstr ""
 
+#, fuzzy
+msgid "Confirm security action"
+msgstr "Kumpermahin ang bagong password"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Reset passwords"
+msgstr "Panibagong password"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Remove identities and reset accounts"
+msgstr "Kasalukuyang password"
+
+msgid "Dismiss findings"
+msgstr ""
+
+#, python-format
+msgid "Security finding for %(username)s"
+msgstr ""
+
+msgid "CSV row"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Matching method"
+msgstr "Mga source string"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No matching row details."
+msgstr "Mga source string"
+
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Detected in reports"
+msgstr "Backup repository"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Administrator"
+msgstr "Kasalukuyang password"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Deleted administrator"
+msgstr "Kasalukuyang password"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, python-format
+msgid "Reports page %(number)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Previous reports"
+msgstr "Kasalukuyang password"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Next reports"
+msgstr "Mga pinamamahalaan na proyekto"
+
+#, fuzzy
+#| msgid "Project"
+msgid "Account security findings"
+msgstr "Proyekto"
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Validation reports"
+msgstr "Mga pagsasalin na ginawa"
+
+msgid "Filename"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project"
+msgid "Not recorded"
+msgstr "Proyekto"
+
+msgid "Submitted by"
+msgstr ""
+
+msgid "Processing summary"
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Password validation completed."
+msgstr "Mga Screenshot"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Security action completed."
+msgstr "Mga Screenshot"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Processing failed."
+msgstr "Mga source string"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+msgid "View progress"
+msgstr ""
+
+#, python-format
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+msgid "Finding type"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Filter"
+msgstr "Mga source string"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Mga source string"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Select all on this page"
+msgstr "Mga source string"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Clear selection"
+msgstr "Kasalukuyang password"
+
+msgid "Finding"
+msgstr ""
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Active"
+msgid "Inactive"
+msgstr "Aktibo"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Note"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Petsa na sumali"
+
+msgid "Last sign-in:"
+msgstr ""
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "First detected:"
+msgstr ""
+
+msgid "Last detected:"
+msgstr ""
+
+msgid "No security findings match these filters."
+msgstr ""
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Reset passwords for selected accounts"
+msgstr "Kasalukuyang password"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project"
+msgid "Account security operation"
+msgstr "Proyekto"
+
+msgid "Processing progress"
+msgstr ""
+
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Refresh progress"
+msgstr "Backup repository"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload report"
+msgstr "Mga Screenshot"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Matching rows"
+msgstr "Mga source string"
+
+#, fuzzy
+#| msgid "Components"
+msgid "Affected accounts"
+msgstr "Mga component"
+
+#, python-format
+msgid "%(processed)s of %(total)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "No validation reports yet."
+msgstr "Ibinahaging translation memory"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate passwords"
+msgstr "Panibagong password"
+
+#, fuzzy
+#| msgid "New password"
+msgid "Validate leaked passwords"
+msgstr "Panibagong password"
+
 msgid "Activate support package"
 msgstr ""
 
@@ -12165,6 +12827,20 @@ msgstr "Mga source string"
 msgid "Check user access"
 msgstr ""
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Aktibidad sa account"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr ""
 
@@ -12195,9 +12871,6 @@ msgid "Matrix"
 msgstr ""
 
 msgid "Displayed languages"
-msgstr ""
-
-msgid "Choose"
 msgstr ""
 
 msgid "Translation memory status"
@@ -12806,11 +13479,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, fuzzy
-#| msgid "Source strings"
-msgid "Filter"
-msgstr "Mga source string"
-
-#, fuzzy
 #| msgid "Search"
 msgid "Clear filters"
 msgstr "Maghanap"
@@ -13142,6 +13810,19 @@ msgstr "Mga pagsasalin na ginawa"
 
 #, python-format
 msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
+#, python-format
+msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
@@ -13181,6 +13862,11 @@ msgstr ""
 
 msgid "View notification"
 msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "View full change"
+msgstr "Binago ang password."
 
 msgid "No matching activity found."
 msgstr ""
@@ -13783,6 +14469,11 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr ""
 
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
 
@@ -13801,6 +14492,11 @@ msgstr "Na-configure ang password para mag-sign in."
 #| msgid "Contact"
 msgid "Continue account removal"
 msgstr "Contact"
+
+#, fuzzy
+#| msgid "Human verification"
+msgid "Continue e-mail verification"
+msgstr "Pagpapatunay ng tao"
 
 #, fuzzy
 #| msgid "Activation token"
@@ -13884,9 +14580,6 @@ msgid "Weblate could not validate the project website URL:"
 msgstr ""
 
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr ""
-
-msgid "Filename"
 msgstr ""
 
 msgid ""
@@ -14412,6 +15105,11 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
+#, fuzzy
+#| msgid "Change plan"
+msgid "Change details"
+msgstr "Baguhin ang plan"
+
 msgid "Download latest changes as CSV"
 msgstr ""
 
@@ -14511,9 +15209,6 @@ msgstr ""
 #| msgid "Default component list"
 msgid "Add or configure account"
 msgstr "Default na listahan ng component"
-
-msgid "Branch"
-msgstr ""
 
 #, fuzzy
 #| msgid "Company"
@@ -14798,9 +15493,6 @@ msgstr ""
 #| msgid "Edit"
 msgid "Edit source"
 msgstr "I-edit"
-
-msgid "Cancel"
-msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -15177,6 +15869,11 @@ msgid ""
 msgstr ""
 
 msgid "Quick downloads"
+msgstr ""
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
 msgstr ""
 
 msgid "File in original format as translated in the repository"
@@ -16021,9 +16718,6 @@ msgstr "Mga component"
 msgid "A component was moved within a project."
 msgstr ""
 
-msgid "Moved component"
-msgstr ""
-
 #, fuzzy
 #| msgctxt "Notification name"
 #| msgid "Contributor made their first translation"
@@ -16817,6 +17511,17 @@ msgid ""
 "form strings."
 msgstr ""
 
+#, fuzzy
+#| msgid "Validation failed, please try again."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Nabigo ang pagpapatunay, paki-ulit muli."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Current password"
 msgid "Automatic translation failed: %s"
@@ -17000,6 +17705,10 @@ msgstr "Invalid na larawan!"
 msgid "Choose either replacement or clearing translations."
 msgstr "Kasalukuyang password"
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr ""
 
@@ -17055,6 +17764,9 @@ msgid "Original revision: {}"
 msgstr ""
 
 msgid "New revision: {}"
+msgstr ""
+
+msgid "Content is too long to show in the change list."
 msgstr ""
 
 #, python-format
@@ -17183,6 +17895,12 @@ msgstr ""
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr ""
+
+#. Translators: condensed rendering of a change action in history
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "Kasalukuyang password"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17348,6 +18066,49 @@ msgid "MAC (\\r)"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Company"
+msgid "Format default"
+msgstr "Kumpanya"
+
+msgid "Uppercase"
+msgstr ""
+
+msgid "Lowercase"
+msgstr ""
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+msgid "XML final newline"
+msgstr ""
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
 msgstr ""
 
 msgid "Whitespace handling"
@@ -17939,6 +18700,9 @@ msgid "Maximum changes per day"
 msgstr ""
 
 msgid "Maximum source words per day"
+msgstr ""
+
+msgid "This component does not exist or you cannot access it."
 msgstr ""
 
 #, fuzzy
@@ -18684,12 +19448,6 @@ msgstr "Mga component"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#. Translators: condensed rendering of a change action in history
-#, fuzzy, python-format
-#| msgid "Current password"
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "Kasalukuyang password"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19322,6 +20080,9 @@ msgid ""
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -19914,6 +20675,31 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Bulk edit parameters are no longer valid."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "License was changed"
+msgid "The target or permissions changed."
+msgstr "Binago ang lisensya"
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr ""
 
@@ -20175,6 +20961,9 @@ msgstr ""
 msgid "You can not block yourself on this project."
 msgstr ""
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr ""
 
@@ -20222,6 +21011,11 @@ msgid_plural ""
 "check the components' configuration."
 msgstr[0] ""
 msgstr[1] ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "You do not have permission to add this language."
+msgstr "Kasalukuyang password"
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20489,11 +21283,23 @@ msgstr ""
 msgid "All components are now locked for translation updates!"
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Component was locked or unlocked"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Na-lock o na-unlock ang component"
+
 msgid "Component is now open for translation updates."
 msgstr ""
 
 msgid "All components are now open for translation updates."
 msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Component was locked or unlocked"
+msgid "Allowed components are now open for translation updates."
+msgstr "Na-lock o na-unlock ang component"
 
 msgid "Generating report…"
 msgstr ""
@@ -20561,11 +21367,21 @@ msgstr ""
 msgid "Invalid search query!"
 msgstr ""
 
+#, fuzzy
+#| msgid "Validation failed, please try again."
+msgid "Too many bulk edits, please try again later."
+msgstr "Nabigo ang pagpapatunay, paki-ulit muli."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Bulk edit in progress."
+msgstr "Mga source string"
 
 #, fuzzy, python-format
 #| msgid "Source strings"
@@ -20574,12 +21390,6 @@ msgstr "Mga source string"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Settings saved"
 msgstr ""
@@ -20864,6 +21674,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Current password"
 msgid "Automatic translation reported a warning."
+msgstr "Kasalukuyang password"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Automatic translation is waiting for another operation to finish."
 msgstr "Kasalukuyang password"
 
 #, fuzzy
@@ -21302,6 +22117,9 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 msgid "URL domain is not allowed."
+msgstr ""
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
 msgstr ""
 
 #, fuzzy
@@ -22235,6 +23053,65 @@ msgid ""
 "there is room for a full menu."
 msgstr ""
 
+msgid "CSV report"
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Delimiter"
+msgstr "Limit sa mga wika"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Username o e-mail"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Password"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+msgid "Configuring"
+msgstr "Kumpermahin ang bagong password"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Resolved"
+msgstr ""
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Na-disable ng tagapangasiwa ang user."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Binago ang password."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr ""
@@ -22296,11 +23173,173 @@ msgstr ""
 msgid "Repository initialization"
 msgstr ""
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Panibagong password"
+
+#, fuzzy
+#| msgid "Contact"
+msgid "Lookalike verified e-mail address"
+msgstr "Contact"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+msgid "The file contains malformed CSV quoting."
+msgstr ""
+
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "The report is empty."
+msgstr "Ibinahaging translation memory"
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+msgid "The report contains no credential rows."
+msgstr ""
+
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr ""
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+msgid "Security report"
+msgstr ""
+
+#, python-format
+msgid "Report from %(date)s"
+msgstr ""
+
+#, python-format
+msgid "%(filename)s — %(report)s"
+msgstr ""
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Validation failed, please try again."
+msgid "Could not store the encrypted upload. Try again."
+msgstr "Nabigo ang pagpapatunay, paki-ulit muli."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Validation failed, please try again."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr "Nabigo ang pagpapatunay, paki-ulit muli."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Binago ang password."
+
+#, fuzzy
+msgid "Duplicate rows"
+msgstr "Iyong Pangalan"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Unknown accounts"
+msgstr "Kasalukuyang password"
+
+msgid "Ambiguous accounts"
+msgstr ""
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Unusable passwords"
+msgstr "Panibagong password"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset requested."
+msgid "Passwords reset"
+msgstr "Hiniling ang pag-reset ng password."
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Binago ang password."
+
+msgid "Dismissed findings"
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Skipped findings"
+msgstr "Mga component"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported actions"
+msgstr "Di-suportadong uri ng larawan: %s"
+
+#, fuzzy
+#| msgid "Contact"
+msgid "Primary e-mail address"
+msgstr "Contact"
+
+#, fuzzy
+#| msgid "Contact"
+msgid "Verified e-mail address"
+msgstr "Contact"
+
+#, python-format
+msgid "Finding for %(username)s"
+msgstr ""
+
 msgid "Weblate administration"
 msgstr ""
 
 msgid "Object listing turned off"
 msgstr ""
+
+#, fuzzy
+#| msgid "Entered token is not valid."
+msgid "The security operation expired. Start a new operation."
+msgstr "Hindi wasto ang inilagay na token."
 
 msgid "Return to Weblate"
 msgstr ""
@@ -22491,6 +23530,11 @@ msgstr ""
 #| msgid "Shared translation memory"
 msgid "The workspace has been removed."
 msgstr "Ibinahaging translation memory"
+
+#, fuzzy
+#~| msgid "Verification completed"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Tapos na ang pagpapatunay"
 
 #, fuzzy
 #~| msgid "Component wide notifications"

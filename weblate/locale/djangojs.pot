@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application: Javascript\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-10-29 23:03-0500\n"
+"POT-Creation-Date: 2026-11-05 22:35-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 #: weblate/static/editor/base.js:112
 msgid "Unsaved changes!"
@@ -104,59 +104,81 @@ msgstr ""
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr ""
 
-#: weblate/static/editor/zen.js:425
+#: weblate/static/editor/zen.js:430
 msgid "Save or discard your changes before accepting a suggestion."
 msgstr ""
 
-#: weblate/static/editor/zen.js:576
+#: weblate/static/editor/zen.js:581
 #, javascript-format
 msgid "%s suggestion"
 msgid_plural "%s suggestions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/editor/zen.js:619
+#: weblate/static/editor/zen.js:624
 msgid ""
 "The translation was changed while you were editing it, your unsaved changes "
 "were kept."
 msgstr ""
 
-#: weblate/static/editor/zen.js:749
+#: weblate/static/editor/zen.js:754
 msgid "Hide suggestions"
 msgstr ""
 
-#: weblate/static/editor/zen.js:750
+#: weblate/static/editor/zen.js:755
 msgid "Show suggestions"
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:174
+#: weblate/static/js/account-security.js:24
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr ""
+
+#: weblate/static/js/automation-editor.js:203
 #, javascript-format
 msgid "Results of action %s"
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:509
+#: weblate/static/js/automation-editor.js:617
+msgid "Not takes exactly one condition."
+msgstr ""
+
+#: weblate/static/js/automation-editor.js:619
+msgid "Automations can nest eight levels deep."
+msgstr ""
+
+#: weblate/static/js/automation-editor.js:621
+msgid "Automations can hold one hundred nodes."
+msgstr ""
+
+#: weblate/static/js/automation-editor.js:672
 msgid "This workflow is not valid YAML, so the editor cannot show it."
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:515
+#: weblate/static/js/automation-editor.js:678
 msgid ""
-"This workflow uses parts the editor does not handle yet, such as nested "
-"conditions or branches. Edit it as YAML."
+"This workflow has something the editor cannot show, such as an unknown "
+"action or a setting that is no longer available. Edit it as YAML."
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:550
+#: weblate/static/js/automation-editor.js:734
 #, javascript-format
 msgid "Added %s."
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:577
+#: weblate/static/js/automation-editor.js:762
 #, javascript-format
 msgid "Removed %s."
 msgstr ""
 
-#: weblate/static/js/automation-editor.js:598
+#: weblate/static/js/automation-editor.js:785
 #, javascript-format
 msgid "Moved %s."
+msgstr ""
+
+#: weblate/static/js/automation-editor.js:833
+msgid ""
+"An action running on the whole component needs a query. Enter one or pick "
+"another scope."
 msgstr ""
 
 #: weblate/static/js/bulk-accept-suggestions.js:27
@@ -183,7 +205,7 @@ msgstr ""
 
 #: weblate/static/js/bulk-accept-suggestions.js:86
 #: weblate/static/js/bulk-accept-suggestions.js:342
-#: weblate/static/loader-bootstrap.js:2084
+#: weblate/static/loader-bootstrap.js:2141
 #, javascript-format
 msgid "Error: %s"
 msgstr ""
@@ -529,7 +551,7 @@ msgid "Sort this column"
 msgstr ""
 
 #: weblate/static/loader-bootstrap.js:1010
-#: weblate/static/loader-bootstrap.js:2650
+#: weblate/static/loader-bootstrap.js:2707
 msgid "Error while loading page:"
 msgstr ""
 
@@ -559,94 +581,103 @@ msgstr ""
 msgid "Search…"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1880
+#: weblate/static/loader-bootstrap.js:1765
+msgid "Could not load teams. Please try again."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:1775
+#: weblate/static/loader-bootstrap.js:1937
 msgid "Loading…"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1906
+#: weblate/static/loader-bootstrap.js:1778
+msgid "No more results."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:1963
 msgid "Error while loading form:"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2180
+#: weblate/static/loader-bootstrap.js:2237
 msgid "Select a component to load repository branches."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2184
+#: weblate/static/loader-bootstrap.js:2241
 msgid "Loading repository branches…"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2223
+#: weblate/static/loader-bootstrap.js:2280
 msgid "Repository branches loaded."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2224
+#: weblate/static/loader-bootstrap.js:2281
 msgid "No additional repository branches are available."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2233
+#: weblate/static/loader-bootstrap.js:2290
 msgid "Could not load repository branches. Please try again."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2578
+#: weblate/static/loader-bootstrap.js:2635
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2607
+#: weblate/static/loader-bootstrap.js:2664
 msgid "Nothing to preview."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2629
+#: weblate/static/loader-bootstrap.js:2686
 msgid "Please sign in again."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2864
+#: weblate/static/loader-bootstrap.js:2921
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3156
+#: weblate/static/loader-bootstrap.js:3216
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3162
+#: weblate/static/loader-bootstrap.js:3222
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
 "account."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3168
+#: weblate/static/loader-bootstrap.js:3228
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3255
+#: weblate/static/loader-bootstrap.js:3315
 msgid "just now"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3260
+#: weblate/static/loader-bootstrap.js:3320
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:3266
+#: weblate/static/loader-bootstrap.js:3326
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3269
+#: weblate/static/loader-bootstrap.js:3329
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:3276
+#: weblate/static/loader-bootstrap.js:3336
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:3278
+#: weblate/static/loader-bootstrap.js:3338
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"

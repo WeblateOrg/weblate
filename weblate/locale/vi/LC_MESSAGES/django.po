@@ -22,9 +22,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-10-29 23:00-0500\n"
-"PO-Revision-Date: 2026-11-02 06:16+0000\n"
-"Last-Translator: hoanghuy309 <hoanghuy309@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-05 22:27-0600\n"
+"PO-Revision-Date: 2026-11-06 05:51+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -429,6 +430,16 @@ msgstr "Cài đặt thông báo"
 msgid "Saved search"
 msgstr "Tìm kiếm được lưu"
 
+msgid ""
+"A lookalike e-mail identity was removed, the password was disabled, and API "
+"tokens were revoked."
+msgstr ""
+
+msgid ""
+"Password disabled as reported leaked credential matched the password; API "
+"tokens revoked."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Mật khẩu đã được thay đổi."
@@ -663,6 +674,21 @@ msgstr "Được mời đến {project} bởi {username}."
 #. Translators: Audit log entry
 msgid "Password configured."
 msgstr "Mật khẩu đã được cấu hình."
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Reset your password to restore password access and review your account "
+"activity."
+msgstr ""
+"Nếu đó là bạn, hãy đặt lại mật khẩu để lấy lại quyền truy cập vào tài khoản "
+"của mình."
+
+msgid ""
+"Reset your password to restore password access. Choose a unique password and "
+"review your account activity. The report didn't disclose the source of the "
+"leak."
+msgstr ""
 
 msgid "To restore access to your account, please reset your password."
 msgstr ""
@@ -1024,6 +1050,11 @@ msgstr ""
 "Phạm vi này quá lớn để kiểm tra. Hãy chọn một danh mục nhỏ hơn, một thành "
 "phần hoặc một bản dịch."
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Contributor"
+msgstr "Người đóng góp"
+
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "Thao tác được thực hiện trong kho lưu trữ"
@@ -1280,6 +1311,11 @@ msgstr ""
 "Lời mời này chỉ có thể được chấp nhận bằng địa chỉ e-mail do người mời chọn; "
 "nó không thể được sử dụng bởi tài khoản của bạn."
 
+msgid ""
+"Your e-mail address has been added. You can now select it as your account e-"
+"mail address in Account settings."
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
@@ -1309,6 +1345,14 @@ msgid "Dark"
 msgstr "Tối"
 
 msgid "Please confirm your identity using a second factor before proceeding."
+msgstr ""
+"Vui lòng xác nhận danh tính của bạn bằng xác thực hai yếu tố trước khi tiếp "
+"tục."
+
+#, fuzzy
+#| msgid ""
+#| "Please confirm your identity using a second factor before proceeding."
+msgid "Please confirm your identity before proceeding."
 msgstr ""
 "Vui lòng xác nhận danh tính của bạn bằng xác thực hai yếu tố trước khi tiếp "
 "tục."
@@ -1421,7 +1465,9 @@ msgstr "Đăng nhập"
 msgid "Signed out"
 msgstr "Đã đăng xuất"
 
-msgid "Verify new e-mail address"
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add and verify e-mail address"
 msgstr "Xác minh địa chỉ email mới"
 
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1429,6 +1475,9 @@ msgstr "Không thể đặt lại mật khẩu, xác thực e-mail đã bị t�
 
 msgid "Change password"
 msgstr "Thay đổi mật khẩu"
+
+msgid "Set password"
+msgstr "Đặt mật khẩu"
 
 msgid "Password reset has been already completed."
 msgstr "Quá trình đặt lại mật khẩu đã hoàn tất."
@@ -1823,14 +1872,6 @@ msgstr ""
 "trung gian hoặc xác nhận gửi tin nhắn không hoàn tất: %(error)s"
 
 #, python-format
-msgid ""
-"Fedora Messaging publisher service was unavailable; the connection will be "
-"recreated on the next attempt: %(error)s"
-msgstr ""
-"Dịch vụ gửi tin nhắn Fedora không khả dụng; kết nối sẽ được tạo lại trong "
-"lần thử tiếp theo: %(error)s"
-
-#, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr "Dịch vụ Thông Báo Fedora trả về thông báo: %(error)s"
 
@@ -1845,8 +1886,8 @@ msgstr "Gửi thông báo đến Dịch vụ Thông Báo Fedora thất bại: %(
 msgid "configured"
 msgstr "đã cấu hình"
 
-msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Không thể đặt lại dịch vụ xuất bản tin nhắn Fedora."
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr "Cần phải cung cấp chứng chỉ SSL để thiết lập kết nối SSL."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr "Chứng chỉ CA phải là chứng chỉ X.509 được mã hóa PEM hợp lệ."
@@ -1859,10 +1900,6 @@ msgstr ""
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
 "Chứng chỉ SSL của máy khách phải là chứng chỉ X.509 được mã hóa PEM hợp lệ."
-
-#, python-format
-msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr "URL máy trung chuyển Dịch vụ Thông Báo Fedora không hợp lệ: %(error)s"
 
 #, python-format
 msgid ""
@@ -2696,9 +2733,6 @@ msgstr "Tiền tố chủ đề chỉ có thể chứa các ký tự ASCII."
 msgid "Topic prefix must not exceed %(limit)d characters."
 msgstr "Tiền tố chủ đề không được vượt quá %(limit)d ký tự."
 
-msgid "The SSL certificates have to be provided for SSL connection."
-msgstr "Cần phải cung cấp chứng chỉ SSL để thiết lập kết nối SSL."
-
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr "Chứng chỉ SSL sẽ không được sử dụng nếu không có kết nối SSL."
 
@@ -3293,6 +3327,28 @@ msgstr "Người dùng"
 msgid "Language"
 msgstr "Ngôn ngữ"
 
+msgid ""
+"Contributor identities are exposed by View contributor identities, Download "
+"changes, Manage reports, and access-management permissions. Permissions from "
+"all assigned roles are additive."
+msgstr ""
+
+msgid "Built-in"
+msgstr ""
+
+#, fuzzy
+#| msgid "Customer"
+msgid "Customized"
+msgstr "Khách hàng"
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Reset built-in roles to defaults"
+msgstr "Khôi phục trang mặc định"
+
+msgid "Built-in role permissions reset."
+msgstr ""
+
 msgid "Personal info"
 msgstr "Thông tin cá nhân"
 
@@ -3310,6 +3366,12 @@ msgstr "Điều này không được dùng khi chọn danh sách thành phần."
 
 msgid "This is not used when a component is selected."
 msgstr "Điều này không được dùng khi chọn một thành phần."
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "View contributor license agreement"
+msgid "View contributor identities"
+msgstr "Xem thỏa thuận cấp phép cho người đóng góp"
 
 #. Translators: Permission name
 msgid "Download changes"
@@ -3520,6 +3582,24 @@ msgid "Manage workspace access"
 msgstr "Quản lý quyền truy cập không gian làm việc"
 
 #. Translators: Permission name
+#, fuzzy
+#| msgid "Browse all users"
+msgid "Browse users"
+msgstr "Xem tất cả người dùng"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "Clean up selected contributions"
+msgid "Search resource contributors"
+msgstr "Dọn dẹp các đóng góp đã chọn"
+
+#. Translators: Permission name
+#, fuzzy
+#| msgid "User profile"
+msgid "View user profiles"
+msgstr "Hồ sơ người dùng"
+
+#. Translators: Permission name
 msgid "Use management interface"
 msgstr "Sử dụng giao diện quản lý"
 
@@ -3590,6 +3670,18 @@ msgstr "Quản lý thanh toán"
 #. Translators: Permission name
 msgid "Manage site-wide add-ons"
 msgstr "Quản lý add-on trên toàn trang"
+
+#, fuzzy
+#| msgid "Discover Weblate"
+msgctxt "Access-control role"
+msgid "Discover users"
+msgstr "Khám phá Weblate"
+
+#, fuzzy
+#| msgid "User profile"
+msgctxt "Access-control role"
+msgid "View user profiles"
+msgstr "Hồ sơ người dùng"
 
 msgctxt "Access-control role"
 msgid "Administration"
@@ -3795,6 +3887,10 @@ msgstr "Tên"
 
 msgid "Choose permissions granted to this role."
 msgstr "Chọn quyền được cấp cho vai trò này."
+
+msgid ""
+"Remove the component from project teams before moving it to another project."
+msgstr ""
 
 msgid "Roles"
 msgstr "Vai trò"
@@ -4109,6 +4205,11 @@ msgstr ""
 "Bạn cần có quyền truy cập rõ ràng vào thành phần này trước khi bật chế độ "
 "truy cập hạn chế; nếu không, bạn sẽ tự khóa mình khỏi hệ thống."
 
+#, fuzzy
+#| msgid "Additional labels can be defined by project administrators."
+msgid "Blocked users cannot be granted project administration rights."
+msgstr "Người quản trị dự án có thể định nghĩa thêm các nhãn khác."
+
 #, python-format
 msgid ""
 "Team %(name)s was renamed to %(new_name)s because its name was already in "
@@ -4129,6 +4230,16 @@ msgstr "Không thể xóa nhóm đã tích hợp sẵn!"
 
 msgid "User invitation was removed."
 msgstr "Lời mời của người dùng đã bị xóa."
+
+#, fuzzy
+#| msgid "User invitation was removed."
+msgid "This invitation was already accepted or removed."
+msgstr "Lời mời của người dùng đã bị xóa."
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid "Remove the project block before accepting this invitation."
+msgstr "Vui lòng hoàn tất quá trình đăng ký để chấp nhận lời mời."
 
 #, python-format
 msgid "Accepted invitation to the %s team."
@@ -4372,6 +4483,67 @@ msgstr ""
 #| msgid "Note"
 msgid "Not"
 msgstr "Ghi chú"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Sequence"
+msgstr "Tần suất"
+
+msgid "Choose"
+msgstr "Chọn"
+
+msgid "Trigger"
+msgstr "Kích hoạt"
+
+#, fuzzy
+#| msgid "Alert triggered"
+msgid "Add trigger"
+msgstr "Cảnh báo đã được kích hoạt"
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Condition"
+msgstr "Cấu hình"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add condition"
+msgstr "Cấu hình sai"
+
+msgid "Action"
+msgstr "Hành động"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Add action"
+msgstr "Hành động"
+
+msgid "Conditions"
+msgstr "Điều kiện"
+
+msgid "Actions"
+msgstr "Hành động"
+
+#, fuzzy
+#| msgid "Branch"
+msgid "Branches"
+msgstr "Nhánh"
+
+#, fuzzy
+#| msgid "Additional branch"
+msgid "Add branch"
+msgstr "Nhánh bổ sung"
+
+#, fuzzy
+#| msgid "Other"
+msgid "Otherwise"
+msgstr "Khác"
+
+msgid "Add action to run otherwise"
+msgstr ""
+
+msgid "Branch"
+msgstr "Nhánh"
 
 msgid "Additional message"
 msgstr "Tin nhắn bổ sung"
@@ -5036,6 +5208,11 @@ msgstr ""
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Thẻ HTML {tag} thiếu thẻ kết thúc phù hợp: {end}."
 
+#, fuzzy, python-brace-format
+#| msgid "The HTML {tag} tag is missing a matching end tag: {end}."
+msgid "The HTML {tag} tag is nested too deeply."
+msgstr "Thẻ HTML {tag} thiếu thẻ kết thúc phù hợp: {end}."
+
 #, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
@@ -5255,6 +5432,12 @@ msgstr "Cú pháp dịch Fluent"
 
 msgid "Fluent syntax error in the translation."
 msgstr "Lỗi cú pháp Fluent trong bản dịch."
+
+msgid "The Fluent value could not be checked because it is too complex."
+msgstr ""
+
+msgid "the value is too complex or nested too deeply"
+msgstr ""
 
 msgid "The following format strings are in the wrong order:"
 msgstr "Các chuỗi định dạng sau đây không đúng thứ tự:"
@@ -6168,6 +6351,16 @@ msgstr ""
 "Giới hạn số bản dựng được giữ lại trên tất cả tên gói. Một bản dựng sẽ bị "
 "loại bỏ khi đạt đến giới hạn này hoặc tuổi tối đa."
 
+#, fuzzy
+#| msgid "Translation files CDN"
+msgid "Install Translation files CDN"
+msgstr "CDN tập tin dịch thuật"
+
+msgid ""
+"Publishes original translation files publicly, including files from private "
+"components."
+msgstr ""
+
 msgid "Kotlin SDK CDN"
 msgstr ""
 
@@ -6175,6 +6368,11 @@ msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+
+#, fuzzy
+#| msgid "This add-on is already installed on this component."
+msgid "Translation files CDN cannot be installed on this component."
+msgstr "Tiện ích bổ sung này đã được cài đặt sẵn trên thành phần này."
 
 msgid "Weblate languages"
 msgstr "Ngôn ngữ Weblate"
@@ -7827,8 +8025,19 @@ msgstr ""
 msgid "Your profile"
 msgstr "Hồ sơ của bạn"
 
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Confirm adding e-mail address"
+msgstr "Nhập một địa chỉ email hợp lệ."
+
 msgid "Confirm adding user identity"
 msgstr "Xác nhận thêm thông tin người dùng"
+
+#, python-format
+msgid ""
+"Confirm adding %(uid)s to your existing Weblate account by entering your "
+"current password."
+msgstr ""
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #, python-format
@@ -7838,6 +8047,11 @@ msgid ""
 msgstr ""
 "Sau khi xác nhận, bạn sẽ có thể xác thực vào Weblate bằng cách sử dụng "
 "%(backend_verbose)s (%(uid)s)."
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Add e-mail address"
+msgstr "Xác minh địa chỉ email mới"
 
 msgid "Confirm"
 msgstr "Xác nhận"
@@ -7940,16 +8154,16 @@ msgstr "Mở biểu mẫu liên hệ"
 msgid "Registration"
 msgstr "Đăng ký"
 
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Check your e-mail"
+msgstr "Email của bạn"
+
 msgid "Password reset almost complete"
 msgstr "Quá trình đặt lại mật khẩu gần như hoàn tất"
 
 msgid "Account removal almost complete"
 msgstr "Quá trình xóa tài khoản gần như hoàn tất"
-
-#, fuzzy
-#| msgid "Registration almost complete"
-msgid "E-mail verification almost complete"
-msgstr "Quá trình đăng ký gần như hoàn tất"
 
 msgid "Registration almost complete"
 msgstr "Quá trình đăng ký gần như hoàn tất"
@@ -7965,16 +8179,11 @@ msgstr ""
 "Bạn có thể hủy tài khoản bằng cách nhấp vào liên kết xác nhận được gửi đến "
 "hộp thư email của mình."
 
-#, fuzzy
-#| msgid ""
-#| "Click the confirmation link sent to your e-mail inbox and start using "
-#| "your account."
 msgid ""
-"Click the confirmation link sent to your e-mail inbox to verify the address "
-"for your account."
+"Check your e-mail for instructions. If this address is already associated "
+"with an account, you may receive account recovery guidance instead of a "
+"verification link."
 msgstr ""
-"Hãy nhấp vào liên kết xác nhận được gửi đến hộp thư email của bạn và bắt đầu "
-"sử dụng tài khoản."
 
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
@@ -7986,6 +8195,15 @@ msgstr ""
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
 "Nếu không thấy email trong hộp thư đến, vui lòng kiểm tra thư mục thư rác."
+
+#, fuzzy, python-format
+#| msgid "The confirmation link will expire after %(count)s hour."
+#| msgid_plural "The confirmation link will expire after %(count)s hours."
+msgid ""
+"If you receive a verification link, it will expire after %(count)s hour."
+msgid_plural ""
+"If you receive a verification link, it will expire after %(count)s hours."
+msgstr[0] "Liên kết xác nhận sẽ hết hạn sau %(count)s giờ."
 
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
@@ -8004,6 +8222,15 @@ msgstr "Hãy yêu cầu liên kết xác nhận mới nếu liên kết hiện t
 
 msgid "Register again if the confirmation link expires."
 msgstr "Đăng ký lại nếu liên kết xác nhận hết hạn."
+
+msgid ""
+"If you receive a verification link, open it while signed in to this account "
+"and follow the confirmation steps. You may be asked for your current "
+"password."
+msgstr ""
+
+msgid "Back to account settings"
+msgstr "Quay lại cài đặt tài khoản"
 
 msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
@@ -8025,13 +8252,49 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "Vui lòng sửa lỗi trong biểu mẫu."
 
+msgid ""
+"Verification instructions will be sent to the new e-mail address. You do not "
+"need access to your old mailbox."
+msgstr ""
+
+msgid ""
+"Adding an address does not change your account e-mail address. After "
+"verification, you can select the new address in Account settings."
+msgstr ""
+
 #, fuzzy
 #| msgid "Send test e-mail"
 msgid "Send verification e-mail"
 msgstr "Gửi email thử nghiệm"
 
-msgid "Back to account settings"
-msgstr "Quay lại cài đặt tài khoản"
+#, fuzzy
+#| msgid "Confirm adding user identity"
+msgid "Confirm your identity"
+msgstr "Xác nhận thêm thông tin người dùng"
+
+msgid "Confirm your existing sign-in method before continuing."
+msgstr ""
+
+msgid ""
+"Confirm your existing sign-in method before registering your first second "
+"factor."
+msgstr ""
+
+msgid "Sign in again using a connected provider:"
+msgstr ""
+
+msgid ""
+"Your previous e-mail verification has expired. Reset your password to "
+"continue."
+msgstr ""
+
+msgid "Sign out and reset password by e-mail"
+msgstr ""
+
+msgid ""
+"No sign-in method is available to confirm your identity. Contact an "
+"administrator to recover access."
+msgstr ""
 
 msgid "Trial subscriptions"
 msgstr "Đăng ký dùng thử"
@@ -8237,6 +8500,9 @@ msgstr ""
 msgid "Change my password"
 msgstr "Đổi mật khẩu của tôi"
 
+msgid "Set my password"
+msgstr "Đặt mật khẩu của tôi"
+
 #, fuzzy
 #| msgid "Back to account settings"
 msgid "Back to security settings"
@@ -8280,11 +8546,6 @@ msgstr "Hoạt động"
 
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Bạn chỉ có thể chọn địa chỉ email từ các địa chỉ đã được xác minh."
-
-#, fuzzy
-#| msgid "Verify new e-mail address"
-msgid "Add and verify e-mail address"
-msgstr "Xác minh địa chỉ email mới"
 
 msgid "Save"
 msgstr "Lưu"
@@ -8383,9 +8644,6 @@ msgstr "Cấu hình"
 #| msgid "configured"
 msgid "Not configured"
 msgstr "đã cấu hình"
-
-msgid "Set password"
-msgstr "Đặt mật khẩu"
 
 msgid "Two-factor authentication"
 msgstr "Xác thực hai yếu tố"
@@ -8676,9 +8934,6 @@ msgid ""
 msgstr ""
 "Quên mật khẩu? Nhập địa chỉ email của bạn bên dưới, và chúng tôi sẽ gửi "
 "hướng dẫn thiết lập mật khẩu mới qua email."
-
-msgid "Set my password"
-msgstr "Đặt mật khẩu của tôi"
 
 msgid "Reset my password"
 msgstr "Đặt lại mật khẩu của tôi"
@@ -9231,47 +9486,15 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "Trigger"
-msgstr "Kích hoạt"
-
-#, fuzzy
-#| msgid "Alert triggered"
-msgid "Add trigger"
-msgstr "Cảnh báo đã được kích hoạt"
-
-msgid "Conditions"
-msgstr "Điều kiện"
-
 #, fuzzy
 #| msgid "All components are now open for translation updates."
 msgid "All conditions have to pass before any action runs."
 msgstr "Tất cả các thành phần hiện đã mở để cập nhật bản dịch."
 
-#, fuzzy
-#| msgid "Configuration"
-msgid "Condition"
-msgstr "Cấu hình"
-
-#, fuzzy
-#| msgid "Bad configuration"
-msgid "Add condition"
-msgstr "Cấu hình sai"
-
-msgid "Actions"
-msgstr "Hành động"
-
 msgid "Operations performed in this order once the conditions pass."
 msgstr ""
 "Các thao tác được thực hiện theo thứ tự này sau khi các điều kiện được đáp "
 "ứng."
-
-msgid "Action"
-msgstr "Hành động"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Add action"
-msgstr "Hành động"
 
 #, fuzzy
 #| msgid "Move"
@@ -9418,6 +9641,17 @@ msgstr "Slug URL dự án"
 msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
+msgstr ""
+
+msgid ""
+"Install Translation files CDN to let the SDK download original XML "
+"translation files. These files are published publicly, including files from "
+"private components."
+msgstr ""
+
+msgid ""
+"After installation, return to this page to copy the updated Gradle "
+"configuration."
 msgstr ""
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
@@ -9599,6 +9833,19 @@ msgstr "Nội dung phản hồi"
 msgid "Request payload"
 msgstr "Gói tin yêu cầu"
 
+msgid ""
+"Reset these built-in roles to the current default permissions? This discards "
+"their customizations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "Reset permissions"
+msgstr "Quyền hạn"
+
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -9607,6 +9854,16 @@ msgstr "Phân công tự động"
 
 msgid "Access control"
 msgstr "Kiểm soát truy cập"
+
+#, fuzzy
+#| msgid ""
+#| "Automatically add newly created users to this team based on their e-mail "
+#| "address."
+msgid ""
+"Automatically invite newly created users to this team based on their e-mail "
+"address. Users join only after accepting the invitation."
+msgstr ""
+"Tự động thêm người dùng mới tạo vào nhóm này dựa trên địa chỉ email của họ."
 
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
@@ -9652,6 +9909,9 @@ msgstr ""
 
 msgid "Add"
 msgstr "Thêm"
+
+msgid "Moved component"
+msgstr "Thành phần đã di chuyển"
 
 msgid "All components"
 msgstr "Tất cả các thành phần"
@@ -9992,6 +10252,29 @@ msgstr "Đang tải…"
 msgid ""
 "Verification failed. Enable JavaScript, workers, and cookies, then retry. "
 "You can also sign in."
+msgstr ""
+
+msgid "The challenge expired. Retry to start a new challenge."
+msgstr ""
+
+msgid "This challenge was already used. Retry to start a new challenge."
+msgstr ""
+
+msgid "Browser verification was unsuccessful. Please retry."
+msgstr ""
+
+msgid "Browser verification could not be confirmed. Enable cookies and retry."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "The authentication provider is temporarily unavailable. Please try again "
+#| "later."
+msgid ""
+"The verification service is temporarily unavailable. Please retry later."
+msgstr "Tạm thời không thể truy cập dịch vụ xác thực. Vui lòng thử lại sau."
+
+msgid "Verification cookies could not be confirmed. Enable cookies and retry."
 msgstr ""
 
 msgid "JavaScript is required for anonymous access. You can sign in instead."
@@ -11496,6 +11779,37 @@ msgstr "Thành phần %(component)s đã được mở khóa"
 msgid "Digest: %(notification_name)s"
 msgstr "Thông báo: %(notification_name)s"
 
+#, python-format
+msgid ""
+"Somebody requested to add this e-mail address to another account at "
+"%(site_title)s. This address is already associated with an account and "
+"cannot be added to another."
+msgstr ""
+
+msgid ""
+"If you intended to access the existing account, sign out and use password "
+"recovery. The button below opens the password reset form; it does not reset "
+"your password."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirm password reset"
+msgid "Open password recovery"
+msgstr "Xác nhận đặt lại mật khẩu"
+
+msgid "Contact support for help moving this address between accounts."
+msgstr ""
+
+msgid ""
+"If you did not request this, you can ignore this e-mail. Your account has "
+"not been changed."
+msgstr ""
+
+#. Translators: e-mail subject
+#, python-format
+msgid "E-mail address already associated with an account on %(site_title)s"
+msgstr ""
+
 msgid "View invitation"
 msgstr "Xem lời mời"
 
@@ -11503,6 +11817,10 @@ msgstr "Xem lời mời"
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Lời mời sẽ hết hạn sau %(count)s giờ."
+
+#, python-format
+msgid "Automatic team assignment: invitation to join %(team_name)s"
+msgstr ""
 
 #. Translators: e-mail subject
 #, python-format
@@ -11741,6 +12059,11 @@ msgid "Confirm invitation"
 msgstr "Xác nhận lời mời"
 
 #, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verify e-mail address"
+msgstr "Xác minh địa chỉ email mới"
+
+#, fuzzy
 #| msgid ""
 #| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
@@ -11800,6 +12123,17 @@ msgstr "Chưa xong"
 #. Translators: e-mail subject
 msgid "Translation activity summary"
 msgstr "Tóm tắt hoạt động dịch thuật"
+
+#, fuzzy, python-format
+#| msgid "Activity on your account at %(site_title)s"
+msgid "Verify this e-mail address for your account at %(site_title)s."
+msgstr "Hoạt động trên tài khoản của bạn tại %(site_title)s"
+
+#. Translators: e-mail subject
+#, fuzzy, python-format
+#| msgid "Account removal on %(site_title)s"
+msgid "Verify your e-mail address on %(site_title)s"
+msgstr "Xóa tài khoản trên %(site_title)s"
 
 msgid "Component diagnostics"
 msgstr "Chẩn đoán thành phần"
@@ -12002,6 +12336,70 @@ msgstr "Khám phá bằng cách duyệt tìm"
 msgid "Performance report"
 msgstr "Báo cáo hiệu suất"
 
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "Bot protection"
+msgstr "Kết nối lưu trữ mã"
+
+msgid ""
+"Issued challenges, requests requiring proof of work, and verification "
+"outcomes in hourly buckets. Counts are best-effort and can be lost during "
+"cache outages or eviction."
+msgstr ""
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "Counters are unavailable."
+msgstr "Hiện không có đội nào."
+
+msgid "Outcome"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Current hour"
+msgstr "Mật khẩu hiện tại"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous 24 completed hours"
+msgstr "Các báo cáo đã được tạo trước đó"
+
+#, fuzzy
+#| msgid "Password changed"
+msgid "Issued challenges"
+msgstr "Đã thay đổi mật khẩu"
+
+msgid "Requests requiring proof of work"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Expired challenge"
+msgstr "Thay đổi nguồn"
+
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid solution"
+msgstr "Đề xuất không hợp lệ!"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Replayed challenge"
+msgstr "Thay đổi gần đây"
+
+#, fuzzy
+#| msgid "XLIFF Translation File"
+msgid "CSRF failure"
+msgstr "Tập tin dịch kiểu XLIFF"
+
+#, fuzzy
+#| msgid "Service is no longer available"
+msgid "Service unavailable"
+msgstr "Dịch vụ hiện không còn khả dụng"
+
 msgid "Last occurrence"
 msgstr "Lần cuối sự việc xảy ra"
 
@@ -12153,6 +12551,339 @@ msgstr "Hiển thị các thành phần mà không cần VCS từ xa"
 msgid "This repository is linked to:"
 msgstr "Kho lưu trữ này được liên kết với:"
 
+#, fuzzy
+#| msgid "Confirm registration"
+msgid "Confirm security action"
+msgstr "Xác nhận đăng ký"
+
+#, python-format
+msgid "Selected %(count)s findings affecting %(accounts)s accounts."
+msgstr ""
+
+msgid ""
+"Disable the matching passwords, invalidate signed-in sessions, and revoke "
+"all API tokens. Users with an e-mail address will be notified. Single sign-"
+"on and two-factor settings are preserved. Accounts whose passwords have "
+"changed will be skipped."
+msgstr ""
+
+msgid ""
+"Remove the selected lookalike verified e-mail addresses and associated sign-"
+"in identities, disable account passwords, invalidate sessions, and revoke "
+"API tokens. Account owners will be notified at their primary e-mail address."
+msgstr ""
+
+msgid ""
+"Dismiss the selected findings without changing credentials or notifying "
+"users. A new report confirming the same exposure can reopen them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset my password"
+msgid "Reset passwords"
+msgstr "Đặt lại mật khẩu của tôi"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Remove identities and reset accounts"
+msgstr "Xóa tài khoản đã kết nối?"
+
+#, fuzzy
+#| msgid "Dismiss failing check"
+msgid "Dismiss findings"
+msgstr "Bỏ qua kiểm tra không đạt"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Security finding for %(username)s"
+msgstr "Chỉnh sửa tư cách thành viên nhóm cho %(username)s"
+
+msgid "CSV row"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unit identifier"
+msgid "Identifier"
+msgstr "Mã định danh đơn vị"
+
+#, fuzzy
+#| msgid "Matching multiple paths"
+msgid "Matching method"
+msgstr "Ghép nối nhiều đường dẫn"
+
+#, fuzzy
+#| msgid "No matching screenshots available."
+msgid "No matching row details."
+msgstr "Không có ảnh chụp màn hình phù hợp."
+
+#, fuzzy, python-format
+#| msgid "Page %(current)s of %(total)s"
+msgid "Page %(number)s of %(total)s"
+msgstr "Trang %(current)s trên %(total)s"
+
+#, fuzzy
+#| msgid "Detected from repository"
+msgid "Detected in reports"
+msgstr "Được phát hiện từ kho lưu trữ"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administrator"
+msgstr "Quản trị viên"
+
+#, fuzzy
+#| msgid "Weblate administration"
+msgid "Deleted administrator"
+msgstr "Quản trị Weblate"
+
+msgid "No validation reports for this finding."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Reports page %(number)s of %(total)s"
+msgstr "Đã sử dụng %(used)s trong số %(total)s"
+
+#, fuzzy
+#| msgid "Previously generated reports"
+msgid "Previous reports"
+msgstr "Các báo cáo đã được tạo trước đó"
+
+#, fuzzy
+#| msgid "Past reports"
+msgid "Next reports"
+msgstr "Các báo cáo trước đây"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security findings"
+msgstr "Quay lại cài đặt tài khoản"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "Validation reports"
+msgstr "Báo cáo dịch thuật"
+
+msgid "Filename"
+msgstr "Tên tệp"
+
+#, fuzzy
+#| msgid "Not needed"
+msgid "Not recorded"
+msgstr "Không cần thiết"
+
+#, fuzzy
+#| msgid "Submit"
+msgid "Submitted by"
+msgstr "Gửi"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing summary"
+msgstr "Hỗ trợ chuyên nghiệp"
+
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Password validation completed."
+msgstr "Bản dịch đã hoàn tất"
+
+msgid "Legacy e-mail identity check completed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Activation completed."
+msgid "Security action completed."
+msgstr "Kích hoạt hoàn tất."
+
+#, fuzzy
+#| msgid "Parsing failed"
+msgid "Processing failed."
+msgstr "Phân tích thất bại"
+
+msgid "Processing is not complete. Findings may still be added."
+msgstr ""
+
+#, fuzzy
+#| msgid "Progress"
+msgid "View progress"
+msgstr "Tiến trình"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Processed %(processed)s of %(total)s entries."
+msgstr "Đã sử dụng %(used)s trong số %(total)s"
+
+#, fuzzy
+#| msgid "Fluent type"
+msgid "Finding type"
+msgstr "Kiểu Fluent"
+
+msgid "Filter"
+msgstr "Bộ lọc"
+
+#, fuzzy
+#| msgid "Select all strings on this page"
+msgid "Actions apply only to checked findings on this page."
+msgstr "Chọn tất cả các chuỗi trên trang này"
+
+#, fuzzy
+#| msgid "Select all strings on this page"
+msgid "Select all on this page"
+msgstr "Chọn tất cả các chuỗi trên trang này"
+
+#, fuzzy
+#| msgid "Project selection"
+msgid "Clear selection"
+msgstr "Lựa chọn dự án"
+
+#, fuzzy
+#| msgid "Pending"
+msgid "Finding"
+msgstr "Đang chờ"
+
+#, python-format
+msgid "Select finding for %(username)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Inactive"
+msgstr "Hành động"
+
+#, fuzzy
+#| msgid "Note"
+msgid "Bot"
+msgstr "Ghi chú"
+
+msgid "No e-mail address: notification unavailable"
+msgstr ""
+
+#, fuzzy
+#| msgid "Date joined"
+msgid "Date joined:"
+msgstr "Ngày tham gia"
+
+#, fuzzy
+#| msgid "Last sign in"
+msgid "Last sign-in:"
+msgstr "Lần cuối đăng nhập"
+
+#, python-format
+msgid "Row %(row)s: %(identifier)s (%(method)s)"
+msgstr ""
+
+#, python-format
+msgid "View details (%(count)s match)"
+msgid_plural "View details (%(count)s matches)"
+msgstr[0] ""
+
+#, fuzzy
+#| msgid "Font deleted."
+msgid "First detected:"
+msgstr "Đã xóa phông chữ."
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last detected:"
+msgstr "Cập nhật lần cuối"
+
+#, fuzzy
+#| msgid "No diagnostics match the selected filters."
+msgid "No security findings match these filters."
+msgstr "Không có chẩn đoán nào khớp với các bộ lọc đã chọn."
+
+msgid "Remove lookalike e-mail identities and reset selected accounts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Set password for your Weblate account"
+msgid "Reset passwords for selected accounts"
+msgstr "Đặt mật khẩu cho tài khoản Weblate của bạn"
+
+msgid "Dismiss selected findings"
+msgstr ""
+
+msgid ""
+"Dismissing findings marks them as reviewed without changing passwords or "
+"notifying users."
+msgstr ""
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Account security operation"
+msgstr "Quay lại cài đặt tài khoản"
+
+#, fuzzy
+#| msgid "Professional support"
+msgid "Processing progress"
+msgstr "Hỗ trợ chuyên nghiệp"
+
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh progress"
+msgstr "Làm mới kho lưu trữ"
+
+msgid ""
+"Review previous credential validation reports, including reports with no "
+"matching passwords."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download reports"
+msgid "Upload report"
+msgstr "Tải xuống báo cáo"
+
+msgid "Processed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Manage strings"
+msgid "Matching rows"
+msgstr "Quản lý chuỗi"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Affected accounts"
+msgstr "Tài khoản được kết nối"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(processed)s of %(total)s"
+msgstr "Đã sử dụng %(used)s trong số %(total)s"
+
+#, fuzzy
+#| msgid "Translation reports"
+msgid "No validation reports yet."
+msgstr "Báo cáo dịch thuật"
+
+msgid ""
+"Upload a CSV containing usernames or e-mail addresses and passwords. "
+"Passwords are checked in the background and never displayed in the report."
+msgstr ""
+
+msgid ""
+"Reports must use UTF-8 and contain at most 50,000 rows and 10 MiB. Leave the "
+"delimiter and column numbers blank for automatic detection."
+msgstr ""
+
+msgid ""
+"The uploaded file is available for one hour. Adjust the CSV settings below "
+"to try again."
+msgstr ""
+
+msgid "CSV format (detected automatically)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate passwords"
+msgstr "Tắt mật khẩu"
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Validate leaked passwords"
+msgstr "Tắt mật khẩu"
+
 msgid "Activate support package"
 msgstr "Kích hoạt gói hỗ trợ"
 
@@ -12292,6 +13023,20 @@ msgstr "Xóa lời mời"
 msgid "Check user access"
 msgstr "Kiểm tra quyền truy cập của người dùng"
 
+#, fuzzy
+#| msgid "Account activity"
+msgid "Account security"
+msgstr "Hoạt động tài khoản"
+
+#, python-format
+msgid "Security report (%(security_findings_open)s open findings)"
+msgstr ""
+
+msgid ""
+"Validate a CSV report of leaked credentials against current account "
+"passwords."
+msgstr ""
+
 msgid "Add workspace"
 msgstr "Thêm không gian làm việc"
 
@@ -12315,9 +13060,6 @@ msgstr "Ma trận"
 
 msgid "Displayed languages"
 msgstr "Ngôn ngữ được hiển thị"
-
-msgid "Choose"
-msgstr "Chọn"
 
 msgid "Translation memory status"
 msgstr "Trạng thái bộ nhớ dịch"
@@ -12941,9 +13683,6 @@ msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] "Bản dịch đã tự động bị khóa do các cảnh báo sau:"
 
-msgid "Filter"
-msgstr "Bộ lọc"
-
 msgid "Clear filters"
 msgstr "Xóa bộ lọc"
 
@@ -13259,6 +13998,24 @@ msgstr "Người đóng góp"
 msgid "Translations"
 msgstr "Bản dịch"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "You were invited to %(site_title)s by %(invitation_author)s to "
+#| "collaborate on %(project_name)s and join the %(team_name)s team."
+msgid ""
+"An automatic team assignment rule invited you to collaborate on "
+"%(project_name)s and join the %(team_name)s team. You will join only if you "
+"accept this invitation."
+msgstr ""
+"Bạn được %(invitation_author)s mời đến %(site_title)s để cộng tác trong "
+"%(project_name)s và tham gia nhóm %(team_name)s."
+
+#, python-format
+msgid ""
+"An automatic team assignment rule invited you to join the %(team_name)s team "
+"in %(workspace_name)s. You will join only if you accept this invitation."
+msgstr ""
+
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
@@ -13308,6 +14065,11 @@ msgstr "Chặn người dùng"
 
 msgid "View notification"
 msgstr "Xem thông báo"
+
+#, fuzzy
+#| msgid "All changes"
+msgid "View full change"
+msgstr "Tất cả các thay đổi"
 
 msgid "No matching activity found."
 msgstr "Không tìm thấy hoạt động phù hợp."
@@ -13927,6 +14689,15 @@ msgstr ""
 msgid "You are about to continue removing your Weblate account."
 msgstr "Bạn sắp tiếp tục xóa tài khoản Weblate của mình."
 
+#, fuzzy
+#| msgid ""
+#| "You are about to continue resetting the password for your Weblate account."
+msgid ""
+"You are about to continue adding this e-mail address to your existing "
+"Weblate account."
+msgstr ""
+"Bạn sắp tiếp tục quá trình đặt lại mật khẩu cho tài khoản Weblate của mình."
+
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr "Bạn sắp chấp nhận lời mời và tạo tài khoản Weblate."
 
@@ -13941,6 +14712,11 @@ msgstr "Tiếp tục đặt lại mật khẩu"
 
 msgid "Continue account removal"
 msgstr "Tiếp tục xóa tài khoản"
+
+#, fuzzy
+#| msgid "E-mail verification"
+msgid "Continue e-mail verification"
+msgstr "Xác thực E-mail"
 
 msgid "Accept invitation"
 msgstr "Chấp nhận lời mời"
@@ -14048,9 +14824,6 @@ msgstr "Weblate không thể xác thực URL trang web dự án:"
 
 msgid "Weblate CDN add-on could not parse the HTML files."
 msgstr "Tiện ích bổ sung Weblate CDN không thể phân tích cú pháp các tệp HTML."
-
-msgid "Filename"
-msgstr "Tên tệp"
 
 msgid ""
 "The local repository checkout or its Git directory is missing. Repeated "
@@ -14694,6 +15467,11 @@ msgstr "Chuyển đến"
 msgid "Go"
 msgstr ""
 
+#, fuzzy
+#| msgid "All change events"
+msgid "Change details"
+msgstr "Tất cả các sự kiện thay đổi"
+
 msgid "Download latest changes as CSV"
 msgstr "Tải xuống các thay đổi mới nhất dưới dạng CSV"
 
@@ -14805,9 +15583,6 @@ msgstr ""
 
 msgid "Add or configure account"
 msgstr "Thêm hoặc cấu hình tài khoản"
-
-msgid "Branch"
-msgstr "Nhánh"
 
 msgid "Visibility"
 msgstr "Khả năng hiển thị"
@@ -15144,9 +15919,6 @@ msgstr ""
 #| msgid "Edit source"
 msgid "Edit source"
 msgstr "Chỉnh sửa nguồn"
-
-msgid "Cancel"
-msgstr "Hủy bỏ"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Tìm hiểu thêm về cách triển khai các thay đổi từ Weblate."
@@ -15518,6 +16290,11 @@ msgstr ""
 
 msgid "Quick downloads"
 msgstr "Tải về nhanh"
+
+msgid ""
+"Original files can contain contributor identities and require additional "
+"permission. Use a generated export below for offline translation."
+msgstr ""
 
 msgid "File in original format as translated in the repository"
 msgstr "Tệp ở định dạng gốc như đã được dịch trong kho lưu trữ"
@@ -16312,9 +17089,6 @@ msgstr "Thành phần đã được đổi tên"
 msgid "A component was moved within a project."
 msgstr "Một thành phần đã được di chuyển trong dự án."
 
-msgid "Moved component"
-msgstr "Thành phần đã di chuyển"
-
 msgid "A user made their first contribution to a translation."
 msgstr "Một người dùng đã đóng góp lần đầu tiên vào bản dịch."
 
@@ -16952,6 +17726,18 @@ msgstr ""
 "dịch tự động đã bỏ qua các chuỗi ở dạng số nhiều và chỉ xử lý các chuỗi ở "
 "dạng số ít."
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid ""
+"Automatic translation lost its database connection. Please try again later."
+msgstr "Không thể bắt đầu dịch tự động vì mục tiêu đã bị khóa."
+
+msgid ""
+"Automatic translation is already running for this translation. Please try "
+"again later."
+msgstr ""
+
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Bản dịch tự động thất bại: %s"
@@ -17115,6 +17901,10 @@ msgstr "Yêu cầu không hợp lệ."
 msgid "Choose either replacement or clearing translations."
 msgstr "Cách xử lý các yêu cầu tạo bản dịch mới."
 
+#, python-format
+msgid "Bulk edits are limited to %(limit)d strings. Narrow the search query."
+msgstr ""
+
 msgid "The component was automatically locked because of an alert."
 msgstr "Thành phần này đã tự động bị khóa do có cảnh báo."
 
@@ -17171,6 +17961,9 @@ msgstr "Bản sửa đổi gốc: {}"
 
 msgid "New revision: {}"
 msgstr "Phiên bản sửa đổi mới: {}"
+
+msgid "Content is too long to show in the change list."
+msgstr ""
 
 #, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
@@ -17291,6 +18084,11 @@ msgstr "Mặt nạ tệp khớp với thành phần chính."
 #, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
 msgstr "{filename} ({parameter}) không tồn tại."
+
+#. Translators: condensed rendering of a change action in history
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s"
+msgstr "%(action)s lúc %(time)s trên %(translation)s"
 
 #. Translators: %s is site title here
 #, python-format
@@ -17457,6 +18255,54 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Bao gồm thẻ đóng cho các thẻ XML trống"
+
+msgid "UTF-8 byte order mark"
+msgstr ""
+
+msgid "Preserve input"
+msgstr ""
+
+msgid "Always include"
+msgstr ""
+
+msgid "Always omit"
+msgstr ""
+
+msgid ""
+"Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
+"without a template omit the mark when preserving input."
+msgstr ""
+
+msgid "XML declaration encoding case"
+msgstr ""
+
+#, fuzzy
+#| msgid "Restore site default"
+msgid "Format default"
+msgstr "Khôi phục trang mặc định"
+
+msgid "Uppercase"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Power user"
+msgid "Lowercase"
+msgstr "Người dùng quyền lực"
+
+msgid ""
+"Controls encoding names in the XML declaration, for example \"UTF-8\" or "
+"\"utf-8\"."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting newline"
+msgid "XML final newline"
+msgstr "Bắt đầu dòng mới"
+
+msgid ""
+"Controls the newline at the end of the file, using the format's line endings."
+msgstr ""
 
 msgid "Whitespace handling"
 msgstr "Xử lý khoảng trắng"
@@ -18036,6 +18882,11 @@ msgstr "Số lần thay đổi tối đa mỗi ngày"
 
 msgid "Maximum source words per day"
 msgstr "Số từ nguồn tối đa mỗi ngày"
+
+#, fuzzy
+#| msgid "The target does not exist or you cannot access it."
+msgid "This component does not exist or you cannot access it."
+msgstr "Mục tiêu không tồn tại hoặc bạn không thể truy cập được."
 
 msgid "Inherit from workspace"
 msgstr "Kế thừa từ không gian làm việc"
@@ -18843,11 +19694,6 @@ msgstr "Thành phần được tạo bằng cách tải lên tài liệu"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s lúc %(time)s trên %(translation)s bởi %(user)s"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s lúc %(time)s trên %(translation)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr ""
@@ -19597,6 +20443,15 @@ msgstr ""
 "Việc đẩy mà không có yêu cầu hợp nhất cần có quyền ghi vào kho lưu trữ. Định "
 "cấu hình URL đẩy bằng thông tin xác thực hoặc sử dụng URL kho lưu trữ SSH."
 
+#, fuzzy
+#| msgid ""
+#| "The file mask used for discovery is too complex and took too long to "
+#| "evaluate."
+msgid "The file mask is too complex and took too long to evaluate."
+msgstr ""
+"Mặt nạ tệp được sử dụng để khám phá quá phức tạp và mất quá nhiều thời gian "
+"để đánh giá."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -20229,6 +21084,31 @@ msgstr[0] ""
 "Đã chấp nhận %(accepted)d trong tổng số %(total)d đề xuất từ %(user)s. "
 "%(failed)d đề xuất không thành công do thiếu quyền hoặc kiểm tra."
 
+#, fuzzy
+#| msgid "Bulk edit completed, no strings were updated."
+msgid "Bulk edit parameters are no longer valid."
+msgstr "Chỉnh sửa hàng loạt đã hoàn tất, không có chuỗi nào được cập nhật."
+
+#, python-format
+msgid "Bulk edit failed after processing %(count)d strings: %(error)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "A user's access permissions were changed."
+msgid "The target or permissions changed."
+msgstr "Quyền truy cập của người dùng đã được thay đổi."
+
+#, python-format
+msgid ""
+"Bulk edit failed after processing %(count)d strings. Earlier batches may "
+"have been applied."
+msgstr ""
+
+#, python-format
+msgid "Bulk edit completed, %d string was updated."
+msgid_plural "Bulk edit completed, %d strings were updated."
+msgstr[0] "Chỉnh sửa hàng loạt đã hoàn tất, %d chuỗi đã được cập nhật."
+
 msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Quá trình dịch tự động bị bỏ qua vì đích đến không còn tồn tại."
 
@@ -20510,6 +21390,9 @@ msgstr "Bạn không thể tự xóa chính mình!"
 msgid "You can not block yourself on this project."
 msgstr "Bạn không thể tự gây trở ngại cho mình trong dự án này."
 
+msgid "Remove project administration rights before blocking this user."
+msgstr ""
+
 msgid "User has been blocked on this project."
 msgstr "Người dùng đã bị chặn khỏi dự án này."
 
@@ -20558,6 +21441,11 @@ msgid_plural ""
 msgstr[0] ""
 "Không thể thêm ngôn ngữ %(language)s vào %(count)d thành phần. Vui lòng kiểm "
 "tra cấu hình của các thành phần."
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to add this language."
+msgstr "Bạn không có quyền chỉnh sửa chuỗi nguồn."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -20816,10 +21704,20 @@ msgstr "Thành phần hiện đã bị khóa để cập nhật bản dịch!"
 msgid "All components are now locked for translation updates!"
 msgstr "Tất cả các thành phần hiện đã bị khóa để cập nhật bản dịch!"
 
+#, fuzzy
+#| msgid "All components are now locked for translation updates!"
+msgid "Allowed components are now locked for translation updates!"
+msgstr "Tất cả các thành phần hiện đã bị khóa để cập nhật bản dịch!"
+
 msgid "Component is now open for translation updates."
 msgstr "Thành phần hiện đã mở để cập nhật bản dịch."
 
 msgid "All components are now open for translation updates."
+msgstr "Tất cả các thành phần hiện đã mở để cập nhật bản dịch."
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Allowed components are now open for translation updates."
 msgstr "Tất cả các thành phần hiện đã mở để cập nhật bản dịch."
 
 msgid "Generating report…"
@@ -20880,11 +21778,21 @@ msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
 msgid "Invalid search query!"
 msgstr "Chuỗi truy vấn tìm kiếm không hợp lệ!"
 
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many bulk edits, please try again later."
+msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
+
 msgid "The preview has expired or is invalid. Preview the changes again."
 msgstr ""
 
 msgid "Could not process form!"
 msgstr "Không thể xử lý biểu mẫu!"
+
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit in progress."
+msgstr "Chỉnh sửa hàng loạt chuỗi"
 
 #, fuzzy, python-format
 #| msgid "Authentication failed: %s"
@@ -20893,11 +21801,6 @@ msgstr "Xác thực thất bại: %s"
 
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Chỉnh sửa hàng loạt đã hoàn tất, không có chuỗi nào được cập nhật."
-
-#, python-format
-msgid "Bulk edit completed, %d string was updated."
-msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Chỉnh sửa hàng loạt đã hoàn tất, %d chuỗi đã được cập nhật."
 
 msgid "Settings saved"
 msgstr "Đã lưu cài đặt"
@@ -21171,6 +22074,13 @@ msgstr "Biểu thức chính quy hoặc biểu thức thay thế không hợp l�
 
 msgid "Automatic translation reported a warning."
 msgstr "Dịch tự động đã báo cảnh báo."
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid "Automatic translation is waiting for another operation to finish."
+msgstr "Tự động dịch các chuỗi sử dụng dịch máy hoặc các thành phần khác."
 
 #, fuzzy
 #| msgid "Automatic translation skipped because the target no longer exists."
@@ -21603,6 +22513,9 @@ msgstr "URL của Fediverse phải liên kết đến hồ sơ người dùng Fe
 
 msgid "URL domain is not allowed."
 msgstr "Tên miền URL không được phép."
+
+msgid "AMQP broker URLs must not contain query strings or fragments."
+msgstr ""
 
 #, fuzzy
 #| msgid "Name contains disallowed characters."
@@ -22629,6 +23542,70 @@ msgstr ""
 "Menu thả xuống điều hướng luôn hiển thị ở góc trên bên phải, ngay cả khi đã "
 "có đủ không gian cho một menu đầy đủ."
 
+#, fuzzy
+#| msgid "Past reports"
+msgid "CSV report"
+msgstr "Các báo cáo trước đây"
+
+#, fuzzy
+#| msgid "Language limit"
+msgid "Delimiter"
+msgstr "Giới hạn ngôn ngữ"
+
+msgid ""
+"Leave blank to detect automatically. Use a comma, semicolon, pipe, or \\t "
+"for a tab."
+msgstr ""
+
+msgid "First row contains column names"
+msgstr ""
+
+#, fuzzy
+#| msgid "Username or e-mail"
+msgid "Username or e-mail column"
+msgstr "Tên người dùng hoặc email"
+
+#, fuzzy
+#| msgid "Password"
+msgid "Password column"
+msgstr "Mật khẩu"
+
+msgid ""
+"Specify both column numbers, or leave both blank for automatic detection."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configuration"
+msgid "Configuring"
+msgstr "Cấu hình"
+
+msgid "Running"
+msgstr ""
+
+msgid "Open"
+msgstr "Mở"
+
+#, fuzzy
+#| msgid "Resolve"
+msgid "Resolved"
+msgstr "Giải quyết"
+
+#, fuzzy
+#| msgid "User was disabled by administrator."
+msgid "Dismissed by administrator"
+msgstr "Người dùng đã bị quản trị viên vô hiệu hóa."
+
+msgid "Lookalike e-mail identity removed"
+msgstr ""
+
+msgid "E-mail identity already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Password already changed"
+msgstr "Mật khẩu đã được thay đổi."
+
 #. Translators: The Weblate server has no paid support by the Weblate team
 msgid "Community support"
 msgstr "Hỗ trợ cộng đồng"
@@ -22690,11 +23667,197 @@ msgstr "Đã dọn dẹp bộ nhớ sao lưu"
 msgid "Repository initialization"
 msgstr "Khởi tạo kho lưu trữ"
 
+#, fuzzy
+#| msgid "New password"
+msgid "Leaked password"
+msgstr "Mật khẩu mới"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Lookalike verified e-mail address"
+msgstr "Xác minh địa chỉ email mới"
+
+msgid "The uploaded report has expired. Upload it again."
+msgstr ""
+
+msgid ""
+"Could not detect the credential columns. Configure their column numbers."
+msgstr ""
+
+msgid "Choose different identifier and password columns."
+msgstr ""
+
+msgid "The report exceeds the 10 MiB limit."
+msgstr ""
+
+msgid "Upload a UTF-8 encoded CSV file."
+msgstr ""
+
+msgid ""
+"Could not detect the delimiter. Configure the CSV columns and delimiter."
+msgstr ""
+
+msgid "Choose a single delimiter character."
+msgstr ""
+
+#, fuzzy
+#| msgid "The uploaded file contains too many settings."
+msgid "The file contains malformed CSV quoting."
+msgstr "Tệp đã tải lên chứa quá nhiều cài dặt."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The report is empty."
+msgstr "Tài nguyên đã bị khóa."
+
+msgid "The report exceeds the 50,000 row limit."
+msgstr ""
+
+#, fuzzy
+#| msgid "The repository HTTP redirect contains credentials and was rejected."
+msgid "The report contains no credential rows."
+msgstr ""
+"Yêu cầu chuyển hướng HTTP của kho lưu trữ chứa thông tin xác thực và đã bị "
+"từ chối."
+
+#, fuzzy
+#| msgid "The authenticated user does not have permission for this operation."
+msgid ""
+"The initiating administrator no longer has permission to perform this "
+"operation."
+msgstr "Người dùng đã xác thực không có quyền thực hiện thao tác này."
+
+msgid ""
+"The security operation failed. Review any findings already recorded and "
+"start a new operation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security"
+msgid "Security report"
+msgstr "Bảo mật"
+
+#, fuzzy, python-format
+#| msgid "Joined on %(date)s"
+msgid "Report from %(date)s"
+msgstr "Tham gia vào %(date)s"
+
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "%(filename)s — %(report)s"
+msgstr "%(filename)s, chuỗi %(position)s"
+
+msgid ""
+"Your identity verification has expired. Confirm your identity, then select "
+"and upload the CSV report again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not store the encrypted upload. Try again."
+msgstr ""
+"Không thể phân nhánh từ kho lưu trữ tại %(hostname)s. Vui lòng thử lại sau."
+
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fork repository at %(hostname)s. Please retry later."
+msgid "Could not read the uploaded report. Upload it again."
+msgstr ""
+"Không thể phân nhánh từ kho lưu trữ tại %(hostname)s. Vui lòng thử lại sau."
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords checked"
+msgstr "Mật khẩu đã được thay đổi."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Duplicate rows"
+msgstr "Bản dịch trùng lặp."
+
+#, fuzzy
+#| msgid "Connect accounts"
+msgid "Unknown accounts"
+msgstr "Kết nối tài khoản"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Ambiguous accounts"
+msgstr "Xoá tài khoản"
+
+msgid "Malformed rows"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable password"
+msgid "Unusable passwords"
+msgstr "Tắt mật khẩu"
+
+msgid "Passwords that did not match"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password reset"
+msgid "Passwords reset"
+msgstr "Đặt lại mật khẩu"
+
+msgid "Lookalike e-mail identities removed"
+msgstr ""
+
+msgid "E-mail identities already changed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Password changed."
+msgid "Passwords already changed"
+msgstr "Mật khẩu đã được thay đổi."
+
+#, fuzzy
+#| msgid "Dismissed"
+msgid "Dismissed findings"
+msgstr "Đã bỏ qua"
+
+#, fuzzy
+#| msgid "Skipped additions"
+msgid "Skipped findings"
+msgstr "Các bổ sung đã bỏ qua"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported actions"
+msgstr "Tệp không được hỗ trợ!"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Primary e-mail address"
+msgstr "Xác minh địa chỉ email mới"
+
+#, fuzzy
+#| msgid "Verify new e-mail address"
+msgid "Verified e-mail address"
+msgstr "Xác minh địa chỉ email mới"
+
+#, fuzzy, python-format
+#| msgid "Edit team membership for %(username)s"
+msgid "Finding for %(username)s"
+msgstr "Chỉnh sửa tư cách thành viên nhóm cho %(username)s"
+
 msgid "Weblate administration"
 msgstr "Quản trị Weblate"
 
 msgid "Object listing turned off"
 msgstr "Liệt kê đối tượng đã bị tắt"
+
+#, fuzzy
+#| msgid ""
+#| "This authentication app registration is no longer valid. Start a new "
+#| "registration."
+msgid "The security operation expired. Start a new operation."
+msgstr ""
+"Việc đăng ký ứng dụng xác thực này không còn hiệu lực. Hãy bắt đầu đăng ký "
+"mới."
 
 msgid "Return to Weblate"
 msgstr "Quay lại Weblate"
@@ -22869,6 +24032,38 @@ msgstr "Không thể xóa không gian làm việc vì nó vẫn đang được s
 
 msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
+
+#, python-format
+#~ msgid ""
+#~ "Fedora Messaging publisher service was unavailable; the connection will "
+#~ "be recreated on the next attempt: %(error)s"
+#~ msgstr ""
+#~ "Dịch vụ gửi tin nhắn Fedora không khả dụng; kết nối sẽ được tạo lại trong "
+#~ "lần thử tiếp theo: %(error)s"
+
+#~ msgid "Could not reset Fedora Messaging publisher service."
+#~ msgstr "Không thể đặt lại dịch vụ xuất bản tin nhắn Fedora."
+
+#, python-format
+#~ msgid "Fedora Messaging broker URL is invalid: %(error)s"
+#~ msgstr ""
+#~ "URL máy trung chuyển Dịch vụ Thông Báo Fedora không hợp lệ: %(error)s"
+
+#, fuzzy
+#~| msgid "Registration almost complete"
+#~ msgid "E-mail verification almost complete"
+#~ msgstr "Quá trình đăng ký gần như hoàn tất"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click the confirmation link sent to your e-mail inbox and start using "
+#~| "your account."
+#~ msgid ""
+#~ "Click the confirmation link sent to your e-mail inbox to verify the "
+#~ "address for your account."
+#~ msgstr ""
+#~ "Hãy nhấp vào liên kết xác nhận được gửi đến hộp thư email của bạn và bắt "
+#~ "đầu sử dụng tài khoản."
 
 #~ msgid "Search and replace"
 #~ msgstr "Tìm kiếm và thay thế"
@@ -23250,9 +24445,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ "Hãy cùng chúng tôi định hình tương lai của bản địa hóa và đóng góp ngay "
 #~ "hôm nay!"
 
-#~ msgid "Download reports"
-#~ msgstr "Tải xuống báo cáo"
-
 #~ msgid "DeepL API v1 is no longer supported."
 #~ msgstr "API DeepL phiên bản 1 không còn được hỗ trợ nữa."
 
@@ -23392,9 +24584,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ "Đừng lo lắng về việc làm hỏng chuỗi ký tự. Đây là quy trình hai bước, "
 #~ "hiển thị bản xem trước của chuỗi ký tự đã chỉnh sửa trước khi xác nhận "
 #~ "thay đổi thực sự."
-
-#~ msgid "Activation completed."
-#~ msgstr "Kích hoạt hoàn tất."
 
 #, python-format
 #~ msgid "Could not activate your installation: %s"
@@ -24025,11 +25214,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #, fuzzy
-#~| msgid "Password changed"
-#~ msgid "Pushed changes"
-#~ msgstr "Đã thay đổi mật khẩu"
-
-#, fuzzy
 #~| msgid "Failed to generate key: %s"
 #~ msgid "Failed merge on repository"
 #~ msgstr "Xảy ra lỗi khi tạo khóa: %s"
@@ -24651,11 +25835,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #, fuzzy
-#~| msgid "XLIFF Translation File"
-#~ msgid "Merge failure"
-#~ msgstr "Tập tin dịch kiểu XLIFF"
-
-#, fuzzy
 #~| msgid "Versions"
 #~ msgid "User with reviewer permissions"
 #~ msgstr "Phiên bản"
@@ -24720,11 +25899,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgctxt "Translated percents"
 #~ msgid "%(translated)s%%"
 #~ msgstr "PHP strings"
-
-#, fuzzy
-#~| msgid "Action"
-#~ msgid "active"
-#~ msgstr "Hành động"
 
 #~ msgid "Copy"
 #~ msgstr "Chép"

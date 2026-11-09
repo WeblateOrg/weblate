@@ -2435,6 +2435,38 @@ RATELIMIT_BULK_EDIT_LOCKOUT
 Lockout after exceeding the browser bulk-edit rate limit, in seconds. Defaults
 to 60.
 
+.. setting:: RATELIMIT_MACHINERY_ATTEMPTS
+
+RATELIMIT_MACHINERY_ATTEMPTS
+----------------------------
+
+Maximum interactive machine-translation requests per user during
+:setting:`RATELIMIT_MACHINERY_WINDOW`. Defaults to 30. The usual superuser
+rate-limit exemption applies.
+
+Interactive requests also allow at most two concurrent calls per user per
+configured service installation. Other installations remain available. Excess
+requests return HTTP 429. Slots are released on completion or failure.
+Disconnected requests retain their slots until the provider work finishes,
+including synchronous calls already running in executor threads. Abandoned
+distributed locks expire after one hour.
+
+.. setting:: RATELIMIT_MACHINERY_WINDOW
+
+RATELIMIT_MACHINERY_WINDOW
+--------------------------
+
+Window for interactive machine-translation rate limiting, in seconds. Defaults
+to 60.
+
+.. setting:: RATELIMIT_MACHINERY_LOCKOUT
+
+RATELIMIT_MACHINERY_LOCKOUT
+---------------------------
+
+Lockout after exceeding the interactive machine-translation rate limit, in
+seconds. Defaults to 60.
+
 .. setting:: RATELIMIT_OCR_ATTEMPTS
 
 RATELIMIT_OCR_ATTEMPTS
@@ -2980,6 +3012,29 @@ donation links elsewhere in the interface.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_MAX_SIZE
+
+TRANSLATION_MAX_SIZE
+--------------------
+
+.. versionadded:: 2026.11.2
+
+Maximum size, in bytes, of a translation file before parsing. Applies to all
+formats and to repository files as well as uploads, including source templates
+and intermediate files. For directory-based formats, the limit applies to each
+metadata file. When unset or ``None``, uses :setting:`TRANSLATION_UPLOAD_MAX_SIZE`
+(50 MB by default). An explicit value overrides this fallback.
+
+Uploads must also satisfy :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, even when
+``TRANSLATION_MAX_SIZE`` is higher. This byte limit does not bound decompression
+or other expansion performed by a parser.
+
+Translation files are also limited to 100,000 logical content strings per file
+before database synchronization or import. Existing tighter limits for
+compressed formats remain in effect.
+
+In Docker, configure this using :envvar:`WEBLATE_TRANSLATION_MAX_SIZE`.
+
 .. setting:: TRANSLATION_UPLOAD_MAX_SIZE
 
 TRANSLATION_UPLOAD_MAX_SIZE
@@ -2989,6 +3044,8 @@ TRANSLATION_UPLOAD_MAX_SIZE
 
 Configures the maximum size, in bytes, for uploaded translation files. Defaults
 to 50 MB.
+
+Uploads must also satisfy :setting:`TRANSLATION_MAX_SIZE`.
 
 In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
 environment variable.

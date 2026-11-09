@@ -85,6 +85,7 @@ from weblate.formats.helpers import (
     CSV_TARGET_PLURAL_FORM,
     format_csv_id_hash,
 )
+from weblate.formats.limits import MAX_TRANSLATION_UNITS, TranslationLimitError
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
@@ -1603,6 +1604,33 @@ class WeblateCSVUnit(csvunit):
 
 class WeblateCSVFile(csvfile):
     UnitClass = WeblateCSVUnit
+    _parsed_rows: int | None = None
+
+    def parse(
+        self,
+        csvsrc: bytes,
+        sample_length: int | None = 1024,
+        *,
+        dialect: str | None = None,
+    ) -> None:
+        """Bound data rows while the parser builds the store."""
+        self._parsed_rows = 0
+        try:
+            super().parse(csvsrc, sample_length=sample_length, dialect=dialect)
+        finally:
+            self._parsed_rows = None
+
+    def addunit(self, unit: WeblateCSVUnit) -> None:
+        if self._parsed_rows is not None:
+            self._parsed_rows += 1
+            if self._parsed_rows > MAX_TRANSLATION_UNITS:
+                raise TranslationLimitError(
+                    gettext(
+                        "CSV file exceeds the maximum allowed count of %d data rows."
+                    )
+                    % MAX_TRANSLATION_UNITS
+                )
+        super().addunit(unit)
 
 
 CSVPluralGroupKey = int
@@ -1821,7 +1849,7 @@ class PHPUnit[U: phpunit, F: "PhpFormat"](KeyValueUnit[U, F]):
     def target(self):
         if not self.has_unit():
             return ""
-        return get_string(self.unit.source)
+        return get_string(self.unit.target or self.unit.source)
 
 
 class INIUnit(TTKitUnit):
@@ -3533,19 +3561,6 @@ class XWikiUnit(PropertiesUnit):
     def source(self):
         # Need to decode property encoded string
         return get_string(quote.xwiki_properties_decode(super().source))
-
-    @cached_property
-    def target(self):
-        """Return target string from a Translate Toolkit unit."""
-        if not self.has_unit():
-            return ""
-        # Need to decode property encoded string
-        # This is basically stolen from
-        # translate.storage.properties.propunit.gettarget
-        # which for some reason does not return translation
-        value = quote.xwiki_properties_decode(self.unit.value)
-        value = re.sub(r"\\ ", " ", value)
-        return get_string(value)
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):

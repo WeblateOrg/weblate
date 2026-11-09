@@ -10,13 +10,25 @@ Weblate 2026.11.2
 .. rubric:: Improvements
 
 * Updated the :doc:`security reporting policy <security/issues>` to handle low and medium severity issues publicly on GitHub and reserve private handling and security advisories for high and critical severity vulnerabilities.
+* Avoided unnecessary file edits when changing :ref:`custom source languages <workflow-source-language>` and credited required writes to the initiating user.
 * Invalidate pending :ref:`e-mail additions <user-profile>` when the account password changes.
 * Clarified e-mail addition, confirmation steps, and registration breadcrumbs in :ref:`account settings <user-profile>`.
 
 .. rubric:: Security fixes
 
+* Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
+* Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
+
+* Prevented merge and revert actions from copying read-only state, and kept votes on read-only strings from accepting suggestions automatically. Clarified :ref:`suggestion autoaccept behavior <component-suggestion_autoaccept>` for approved translations.
+* Prevented concurrent language creation from breaking Apple XLIFF and Stringsdict plural handling and repaired existing duplicate plural definitions.
+* Added :setting:`TRANSLATION_MAX_SIZE` to limit translation file size before parsing and limited each file to 100,000 content strings before synchronization or import.
+
+* Disabled :ref:`Mercurial subrepositories <vcs-mercurial>`, removed nested repository metadata from managed Mercurial checkouts and project backups, and enforced backend URL restrictions when validating backups.
+
+* Bounded :ref:`font check <fonts>` measurement, replacement expansion, and preview rendering.
 * Cleared invalid GitHub App push settings and prevented installation credentials from being used for another host.
 * Enforced source-language permissions for bulk source metadata and source check dismissals, and terminology permissions across glossary flag edits and uploads.
+* Limited interactive machine-translation request frequency and concurrent requests per service installation.
 * Enforced team language selection when creating translations and required project authority for language workflow settings.
 * Restricted project-wide component locking to components the actor may manage.
 * Concealed invitation e-mail addresses and deleted restricted component names in public history.
@@ -35,6 +47,13 @@ Weblate 2026.11.2
 
 .. rubric:: Bug fixes
 
+* Restored pending translation writes for :ref:`text files <txt>` and other database-backed formats, PHP, and XWiki, and made output of translations needing editing consistent with cleanup rebuilds.
+
+* Generate valid resource names for incompatible keys when :doc:`exporting Android translations <user/files>`.
+
+* Limited repository add-on installation to repository-owning components and showed inherited add-ons on linked components.
+
+* Preserved concurrent approvals when saving through the API, accepting suggestions, merging translations, or reverting changes.
 * Rechecked :ref:`billing <billing>` status when creating components through the API or web wizard.
 * Prevented removal of translations from locked components, including project and category language removal.
 * Fixed the Matplotlib font rendering check to run without accessing the :ref:`cache <production-cache>`.

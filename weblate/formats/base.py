@@ -24,6 +24,10 @@ from translate.storage.lisa import LISAfile
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
+from weblate.formats.limits import (
+    check_translation_file_size,
+    check_translation_unit_count,
+)
 from weblate.trans.file_format_params import (
     XMLUTF8BOM,
     XMLEncodingCase,
@@ -450,6 +454,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
     needs_existing_units: ClassVar[bool] = False
+    # False when targets are reconstructed from the database rather than disk.
+    can_compare_stored_content: bool = True
     store: S
 
     @classmethod
@@ -512,6 +518,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Load store
         self.file_format_params = file_format_params or {}
+        if self.simple_filename and not isinstance(storefile, TranslateToolkitStore):
+            check_translation_file_size(storefile)
         self.store = self.load(storefile, template_store)
 
         filename = getattr(storefile, "filename", storefile)
@@ -728,10 +736,12 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @cached_property
     def template_units(self) -> list[T]:
-        return [
+        result = [
             self.get_unit_class(self.file_format_params)(self, None, unit)
             for unit in self.all_store_units
         ]
+        check_translation_unit_count(sum(unit.has_content() for unit in result))
+        return result
 
     def _get_all_bilingual_units(self) -> list[T]:
         return [
@@ -763,7 +773,18 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @property
     def content_units(self) -> list[T]:
-        return [unit for unit in self.all_units if unit.has_content()]
+        if self.has_template:
+            # Template-driven views can omit extra entries in the parsed file.
+            count = 0
+            for unit in self.all_store_units:
+                if self.get_unit_class(self.file_format_params)(
+                    self, unit
+                ).has_content():
+                    count += 1
+                    check_translation_unit_count(count)
+        result = [unit for unit in self.all_units if unit.has_content()]
+        check_translation_unit_count(len(result))
+        return result
 
     @staticmethod
     def mimetype() -> str:
@@ -1145,6 +1166,8 @@ class BilingualUpdateMixin:
         repo_temp_dir: str | Path | None = None,
         **kwargs,
     ) -> None:
+        check_translation_file_size(filename)
+        check_translation_file_size(template)
         temp_dir = get_repo_temp_dir(filename, temp_dir=repo_temp_dir)
         with tempfile.NamedTemporaryFile(
             prefix=os.path.basename(filename), dir=temp_dir, delete=False

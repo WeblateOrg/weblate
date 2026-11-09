@@ -65,6 +65,7 @@ from weblate.addons.forms import (
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.discovery import DetectedDiscoveryPresets
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -90,6 +91,7 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.tests.utils import (
     TEST_DATA,
     RepoTestMixin,
+    create_another_user,
     create_test_addon,
     get_optional_path,
     get_test_actor,
@@ -6873,6 +6875,124 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
 
         self.assertContains(response, "Repository")
+
+    def test_repository_addon_requires_repository_owner(self) -> None:
+        linked = self.create_link_existing(name="Linked", slug="linked")
+        self.assertFalse(DiscoveryAddon.can_install(component=linked))
+        self.assertTrue(GitSquashAddon.can_process(component=linked))
+        with self.assertRaises(ValidationError):
+            DiscoveryAddon.create(
+                acting_user=get_test_actor(self), component=linked, run=False
+            )
+
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertContains(response, "Component discovery")
+        self.assertContains(response, "Open repository add-ons")
+        self.assertContains(
+            response,
+            reverse("addons", kwargs={"path": self.component.get_url_path()}),
+        )
+        self.assertNotContains(response, 'data-addon="weblate.discovery.discovery"')
+
+        response = self.client.post(
+            reverse("addons", kwargs={"path": linked.get_url_path()}),
+            {"name": DiscoveryAddon.name},
+            follow=True,
+        )
+        self.assertContains(response, "Add-on cannot be installed")
+        self.assertFalse(Addon.objects.filter(name=DiscoveryAddon.name).exists())
+
+        api = APIClient()
+        api.force_authenticate(self.user)
+        response = api.post(
+            reverse(
+                "api:component-addons",
+                kwargs={"project__slug": linked.project.slug, "slug": linked.slug},
+            ),
+            {"name": DiscoveryAddon.name, "configuration": {}},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+        self.assertIn("not compatible", str(response.data))
+        self.assertFalse(Addon.objects.filter(name=DiscoveryAddon.name).exists())
+
+        installed = DiscoveryAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertContains(response, "Inherited from")
+        self.assertContains(response, str(self.component))
+        self.assertContains(response, installed.get_absolute_url())
+
+    def test_copy_component_addons_without_api(self) -> None:
+        target = self.create_link_existing(name="Linked", slug="linked")
+        NoOpAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        )
+
+        copy_component_addons(
+            target,
+            self.component,
+            same_project_only=True,
+            acting_user=get_test_actor(self),
+        )
+
+        self.assertTrue(
+            Addon.objects.filter(component=target, name=NoOpAddon.name).exists()
+        )
+
+    def test_component_editor_can_install_discovery_without_project_edit(self) -> None:
+        editor = create_another_user("-repository-editor")
+        team = Group.objects.create(name="Repository editor")
+        team.components.add(self.component)
+        team.roles.add(Role.objects.get(name="Administration"))
+        editor.groups.add(team)
+        editor.clear_permissions_cache()
+        self.assertTrue(editor.has_perm("component.edit", self.component))
+        self.assertFalse(editor.has_perm("project.edit", self.project))
+        self.client.force_login(editor)
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, 'data-addon="weblate.discovery.discovery"')
+
+    def test_inherited_repository_addon_hides_inaccessible_owner(self) -> None:
+        downstream = self.create_project(name="Downstream", slug="downstream")
+        linked = self.create_link_existing(
+            name="Linked", slug="linked", project=downstream
+        )
+        addon = DiscoveryAddon.create(
+            acting_user=get_test_actor(self), component=self.component, run=False
+        ).instance
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        limited_user = create_another_user("-downstream")
+        downstream.add_user(limited_user, "Administration")
+        self.client.force_login(limited_user)
+
+        response = self.client.get(
+            reverse("addons", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Component discovery")
+        self.assertContains(response, "Inherited from")
+        self.assertContains(response, "a component you cannot access")
+        self.assertNotContains(response, str(self.component))
+        self.assertNotContains(response, addon.get_absolute_url())
+        self.assertContains(response, "Open repository add-ons", count=0)
+        self.assertContains(response, "Unavailable")
+
+        response = self.client.post(
+            reverse("addons", kwargs={"path": linked.get_url_path()}),
+            {"name": DiscoveryAddon.name},
+            follow=True,
+        )
+        self.assertContains(response, "Add-on cannot be installed")
+        self.assertEqual(Addon.objects.filter(name=DiscoveryAddon.name).count(), 1)
 
     def test_repository_scope_addon_components_view(self) -> None:
         linked_component = self.create_link_existing(name="Linked", slug="linked")
