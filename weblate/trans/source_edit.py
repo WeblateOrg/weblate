@@ -149,6 +149,8 @@ def _validate_request(
 def _validate_backend(item: Unit, new: dict[str, str]) -> bool:
     component = item.translation.component
     if not item.translation.filename:
+        if new["context"] != item.context:
+            component.file_format_cls.validate_context(new["context"])
         return False
     physical = True
     store = clone_for_edit(item.translation.store)

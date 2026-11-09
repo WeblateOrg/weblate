@@ -16,6 +16,8 @@ Weblate 2026.11.2
 
 .. rubric:: Security fixes
 
+* Validated new and renamed :ref:`translation keys <edit-source>` against the file format, dialect, and encoding before queuing changes.
+
 * Limited :ref:`CSV files <csv>` to 100,000 data rows while parsing, including automatically detected CSV input.
 * Bounded :ref:`XLSX archive expansion and conversion <xlsx>` before loading shared strings or writing oversized CSV rows.
 

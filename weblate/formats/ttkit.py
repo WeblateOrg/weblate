@@ -822,6 +822,33 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     BaseTTKitFormat[S, U, T]
 ):
     @classmethod
+    def validate_context(cls, context: str) -> None:
+        """Validate keys using a new file when no existing store is available."""
+        content = cls.get_new_file_content()
+        if content is None:
+            content = bytes(cls.get_class()())
+        cls(BytesIO(content), is_template=True).validate_new_context(context)
+
+    def validate_new_context(
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: U | None = None,
+    ) -> None:
+        """Validate an identifier using the store's dialect and encoding."""
+        try:
+            if unit is None:
+                unit = self.construct_unit(context)
+                # Properties constructors need the store's effective encoding.
+                unit._store = self.store  # ruff: ignore[private-member-access]
+            unit.validate_id(context)
+        except (ValueError, TypeError) as error:
+            raise ValidationError(
+                gettext("The key cannot be represented in this file format.")
+            ) from error
+
+    @classmethod
     def get_class(cls, encoding: str | None = None) -> type[S]:
         """Return class for handling this module."""
         # Direct class
@@ -2711,8 +2738,14 @@ class ContextIdValidationMixin:
         cls.parse_new_context_id(context)
 
     def validate_new_context(
-        self, context: str, pending_contexts: Iterable[str] | None = None
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+        *,
+        unit: TranslateToolkitUnit | None = None,
     ) -> None:
+        ttkit_format = cast("TTKitFormat", self)
+        TTKitFormat.validate_new_context(ttkit_format, context, unit=unit)
         # Validate against parsed file UnitIds first. Database contexts are used
         # only for pending additions which are not yet present in the file.
         context_parts = self.parse_new_context_id(context).parts
@@ -2720,7 +2753,6 @@ class ContextIdValidationMixin:
         if not self.has_hierarchical_contexts:
             return
 
-        ttkit_format = cast("BaseTTKitFormat[Any, Any, Any]", self)
         parsed_store_contexts: set[str] | None = (
             set() if pending_contexts is not None else None
         )

@@ -118,7 +118,7 @@ def edit_identity(
             )
         )
     if context != unit.context:
-        store.validate_new_context(context)
+        store.validate_new_context(context, unit=unit.unit)
         if "context" not in fields:
             raise ValidationError(
                 {
