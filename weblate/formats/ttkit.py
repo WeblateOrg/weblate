@@ -1821,7 +1821,7 @@ class PHPUnit[U: phpunit, F: "PhpFormat"](KeyValueUnit[U, F]):
     def target(self):
         if not self.has_unit():
             return ""
-        return get_string(self.unit.source)
+        return get_string(self.unit.target or self.unit.source)
 
 
 class INIUnit(TTKitUnit):
@@ -3533,19 +3533,6 @@ class XWikiUnit(PropertiesUnit):
     def source(self):
         # Need to decode property encoded string
         return get_string(quote.xwiki_properties_decode(super().source))
-
-    @cached_property
-    def target(self):
-        """Return target string from a Translate Toolkit unit."""
-        if not self.has_unit():
-            return ""
-        # Need to decode property encoded string
-        # This is basically stolen from
-        # translate.storage.properties.propunit.gettarget
-        # which for some reason does not return translation
-        value = quote.xwiki_properties_decode(self.unit.value)
-        value = re.sub(r"\\ ", " ", value)
-        return get_string(value)
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):

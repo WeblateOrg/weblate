@@ -1932,10 +1932,13 @@ class Translation(
             unit.save(update_fields=["details"], only_save=True)
 
         if not updated:
-            updated = self.has_stored_content_changed(original_content)
+            if store.can_compare_stored_content:
+                updated = self.has_stored_content_changed(original_content)
+            else:
+                updated = any(changes_status.values())
 
-        # Unsupported state changes still succeed and must be cleared from the
-        # pending queue, but must not update headers or trigger a file write.
+        # For stores loaded from disk, unsupported state changes still succeed
+        # and must be cleared without updating headers or writing the file.
         if not updated:
             return changes_status, False
 
