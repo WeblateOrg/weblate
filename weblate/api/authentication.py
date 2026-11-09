@@ -98,10 +98,14 @@ class BearerScheme(OpenApiAuthenticationExtension):
         project_token = gettext(
             "It is possible to create project tokens whose access to the API is limited to operations to their associated project. These tokens have the `wlp_` prefix."
         )
+        site_token = gettext(
+            "Site administrators can create site-wide tokens in the management interface. These tokens have the `wls_` prefix."
+        )
         return f"""{intro}
 
 - {user_token}
 - {project_token}
+- {site_token}
         """
 
     def get_security_definition(self, auto_schema: AutoSchema) -> dict[str, str]:
