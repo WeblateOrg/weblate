@@ -656,21 +656,32 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         return None
 
 
-class MarkdownSyntaxCheck(MarkdownBaseCheck):
+class MarkdownSyntaxCheck(PluralResultDescriptionMixin, MarkdownBaseCheck):
     check_id = "md-syntax"
     name = gettext_lazy("Markdown syntax")
     description = gettext_lazy("Markdown syntax does not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        src_tags = {match.value for match in iter_markdown_syntax(source)}
-        tgt_tags = {match.value for match in iter_markdown_syntax(target)}
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
+        try:
+            src_tags = {match.value for match in iter_markdown_syntax(source)}
+            tgt_tags = {match.value for match in iter_markdown_syntax(target)}
+        except TimeoutError:
+            return {
+                "errors": [gettext("Markdown syntax matching exceeded its time limit.")]
+            }
 
         return src_tags != tgt_tags
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in iter_markdown_syntax(source):
+        try:
+            matches = list(iter_markdown_syntax(source))
+        except TimeoutError:
+            return
+        for match in matches:
             value = match.value
             start = match.start
             end = match.end

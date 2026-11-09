@@ -17,6 +17,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.checks.base import Highlight, SourceCheck, TargetCheck, merge_diagnostics
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.java import iter_java_message_matches
+from weblate.utils.regex import builtin_regex_finditer
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -25,6 +26,7 @@ if TYPE_CHECKING:
 
     from weblate.checks.base import MissingExtraDict
     from weblate.trans.models import Unit
+    from weblate.utils.regex import RegexMatch
 
     from .models import Check
 
@@ -390,11 +392,11 @@ def format_not_position_based(string: str) -> bool:
     return False
 
 
-def extract_string_simple(match: re.Match) -> str:
+def extract_string_simple(match: RegexMatch) -> str:
     return match.group(1)
 
 
-def extract_string_python_brace(match: re.Match) -> str:
+def extract_string_python_brace(match: RegexMatch) -> str:
     # 1 and 2 are escaped braces and 3 is the actual match of format string
     return match.group(1) or match.group(2) or match.group(3)
 
@@ -404,7 +406,7 @@ FLAG_RULES: dict[
     tuple[
         re.Pattern,
         Callable[[str], bool],
-        Callable[[re.Match], str],
+        Callable[[RegexMatch], str],
     ],
 ] = {
     "python-format": (
@@ -495,7 +497,23 @@ class BaseFormatCheck(TargetCheck):
         """Check single unit, handling plurals."""
         return any(self.check_generator(sources, targets, unit))
 
+    @staticmethod
+    def timeout_result() -> MissingExtraDict:
+        return {
+            "missing": [],
+            "extra": [],
+            "errors": [gettext("Format matching exceeded its time limit.")],
+        }
+
     def check_generator(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> Iterable[Literal[False] | MissingExtraDict]:
+        try:
+            yield from self._check_generator(sources, targets, unit)
+        except TimeoutError:
+            yield self.timeout_result()
+
+    def _check_generator(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Iterable[Literal[False] | MissingExtraDict]:
         if unit.has_multiple_values(sources, targets):
@@ -565,13 +583,13 @@ class BaseFormatCheck(TargetCheck):
             return matches
         return [m for m in matches if m not in self.normalize_remove]
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return extract_string_simple(match)
 
-    def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
+    def iter_matches(self, string: str) -> Iterable[RegexMatch]:
         if self.regexp is None:
             return ()
-        return self.regexp.finditer(string)
+        return builtin_regex_finditer(self.regexp, string)
 
     def extract_matches(self, string: str) -> list[str]:
         return [
@@ -580,6 +598,14 @@ class BaseFormatCheck(TargetCheck):
         ]
 
     def check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | MissingExtraDict:
+        try:
+            return self._check_format(source, target, ignore_missing, unit)
+        except TimeoutError:
+            return self.timeout_result()
+
+    def _check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
     ) -> Literal[False] | MissingExtraDict:
         """Check for format strings."""
@@ -629,7 +655,11 @@ class BaseFormatCheck(TargetCheck):
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in self.iter_matches(source):
+        try:
+            matches = list(self.iter_matches(source))
+        except TimeoutError:
+            return
+        for match in matches:
             yield Highlight(match.start(), match.end(), match.group(), kind="grammar")
 
     def format_result(self, result: MissingExtraDict) -> Iterable[StrOrPromise]:
@@ -712,7 +742,7 @@ class BasePrintfCheck(BaseFormatCheck):
     def is_position_based(self, string: str) -> bool:
         return self._is_position_based(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return self._extract_string(match)
 
     def format_string(self, string: str) -> str:
@@ -833,7 +863,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def iter_matches(self, string: str) -> Iterable[re.Match[str]]:
         return iter_python_brace_matches(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return extract_string_python_brace(match)
 
     def is_position_based(self, string: str) -> bool:
@@ -1078,7 +1108,7 @@ class AutomatticComponentsCheck(BaseFormatCheck):
     def is_position_based(self, string: str) -> bool:
         return self._is_position_based(string)
 
-    def extract_string(self, match: re.Match) -> str:
+    def extract_string(self, match: RegexMatch) -> str:
         return self._extract_string(match)
 
 
@@ -1091,19 +1121,34 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
     )
     version_added = "4.1"
 
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        unit = check_obj.unit
+        try:
+            self._check_source_formats(unit.get_effective_source_plurals(), unit)
+        except TimeoutError:
+            return gettext("Format matching exceeded its time limit.")
+        return super().get_description(check_obj)
+
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+        try:
+            return self._check_source_formats(sources, unit)
+        except TimeoutError:
+            return True
+
+    def _check_source_formats(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:
             return False
         found = set()
+        matches: Iterable[RegexMatch]
         for regexp, is_position_based, extract_string in rules:
             if regexp is PYTHON_BRACE_MATCH:
                 matches = iter_python_brace_matches(sources[0])
             elif regexp is PYTHON_PRINTF_MATCH:
                 matches = iter_python_printf_matches(sources[0])
             else:
-                matches = regexp.finditer(sources[0])
+                matches = builtin_regex_finditer(regexp, sources[0])
             for match in matches:
                 if is_position_based(extract_string(match)):
                     found.add((match.start(0), match.end(0)))
