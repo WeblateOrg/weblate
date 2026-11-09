@@ -446,6 +446,11 @@ You can define project-scoped access tokens in :guilabel:`API access` tab. The
 API tokens can have expiry date set, and their permissions can be customized by
 team memberships same as with users.
 
+Deleting a project revokes its tokens unless they still belong to a team defined
+by another project. Token display names do not affect revocation. Billing access
+preservation when deleting the last project never promotes bot accounts to
+workspace owners.
+
 .. seealso::
 
    * :ref:`api-tokens`
