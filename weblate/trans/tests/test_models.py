@@ -1159,6 +1159,53 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(unit.line_number, original_cs_line + 1)
         self.assertEqual(source_unit.line_number, original_source_line)
 
+    def _assert_commit_refreshes_shifted_line_numbers(
+        self, component: Component
+    ) -> None:
+        translation = component.translation_set.get(language_code="cs")
+        edited = translation.unit_set.get(source="Hello, world!\n")
+        shifted = translation.unit_set.get(source="Thank you for using Weblate.")
+        original_shifted_line = shifted.line_number
+        original_shifted_target = shifted.target
+        original_shifted_updated = shifted.last_updated
+        shifted_changes = Change.objects.filter(unit=shifted).count()
+        source_lines = dict(
+            component.source_translation.unit_set.values_list("pk", "line_number")
+        )
+        self.assertIsNotNone(original_shifted_line)
+
+        edited.translate(
+            create_test_user(),
+            f"{'wrapped ' * 30}\n",
+            STATE_TRANSLATED,
+        )
+        component.commit_pending("test", None)
+
+        translation.drop_store_cache()
+        parsed = {
+            unit.id_hash: unit.line_number for unit in translation.store.content_units
+        }
+        for unit in translation.unit_set.all():
+            self.assertEqual(unit.line_number, parsed[unit.id_hash])
+
+        shifted.refresh_from_db()
+        self.assertNotEqual(shifted.line_number, original_shifted_line)
+        self.assertEqual(shifted.target, original_shifted_target)
+        self.assertEqual(shifted.last_updated, original_shifted_updated)
+        self.assertEqual(Change.objects.filter(unit=shifted).count(), shifted_changes)
+        translation.refresh_from_db()
+        self.assertFalse(translation.check_sync())
+        for pk, line_number in component.source_translation.unit_set.values_list(
+            "pk", "line_number"
+        ):
+            self.assertEqual(line_number, source_lines[pk])
+
+    def test_commit_refreshes_shifted_line_numbers(self) -> None:
+        self._assert_commit_refreshes_shifted_line_numbers(self.create_component())
+
+    def test_commit_refreshes_monolingual_line_numbers(self) -> None:
+        self._assert_commit_refreshes_shifted_line_numbers(self.create_po_mono())
+
     def test_nearby_prefers_line_order(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")

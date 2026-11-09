@@ -1670,6 +1670,49 @@ class Translation(
             for filename in self.store.get_filenames()
         ]
 
+    def refresh_unit_line_numbers(self) -> None:
+        """
+        Update stored line numbers from the file that is about to be committed.
+
+        Saving can rewrap an entry, drop filtered units, or shift every following
+        entry. Units that were not edited move too. The commit then stores the
+        file hash, so a later sync will not parse the file again.
+        """
+        if not self.filename:
+            return
+        # The template cache still describes the file from before this save.
+        if self.is_template:
+            self.component.drop_template_store_cache()
+
+        try:
+            line_numbers: dict[int, int | None] = {}
+            for store_unit in self.load_store().content_units:
+                # Same first-match rule as import. A duplicate keeps the alert
+                # path there and does not get its own database row.
+                line_numbers.setdefault(store_unit.id_hash, store_unit.line_number)
+        except Exception as error:
+            if not is_expected_parse_error(error) and not isinstance(
+                error, FileParseError | ValueError
+            ):
+                raise
+            self.log_warning(
+                "skipping line number refresh due to parse error: %s", error
+            )
+            return
+
+        if not line_numbers or all(number is None for number in line_numbers.values()):
+            return
+
+        changed: list[Unit] = []
+        for pk, id_hash, current in self.unit_set.filter(
+            id_hash__in=line_numbers
+        ).values_list("pk", "id_hash", "line_number"):
+            new_line = line_numbers[id_hash]
+            if current != new_line:
+                changed.append(Unit(pk=pk, line_number=new_line))
+        if changed:
+            Unit.objects.bulk_update(changed, ["line_number"], batch_size=500)
+
     def git_commit(
         self,
         user: User | None,
@@ -1705,6 +1748,9 @@ class Translation(
 
             if files is None:
                 files = self.filenames
+            # Contributor headers and pre-commit add-ons can affect line numbers
+            if self.filename and repository.needs_commit(files):
+                self.refresh_unit_line_numbers()
             # Do actual commit with git lock
             committed = self.component.commit_files(
                 template=template,
